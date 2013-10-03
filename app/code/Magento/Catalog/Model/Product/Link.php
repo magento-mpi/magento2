@@ -12,20 +12,22 @@
 /**
  * Catalog product link model
  *
- * @method Magento_Catalog_Model_Resource_Product_Link _getResource()
- * @method Magento_Catalog_Model_Resource_Product_Link getResource()
+ * @method \Magento\Catalog\Model\Resource\Product\Link _getResource()
+ * @method \Magento\Catalog\Model\Resource\Product\Link getResource()
  * @method int getProductId()
- * @method Magento_Catalog_Model_Product_Link setProductId(int $value)
+ * @method \Magento\Catalog\Model\Product\Link setProductId(int $value)
  * @method int getLinkedProductId()
- * @method Magento_Catalog_Model_Product_Link setLinkedProductId(int $value)
+ * @method \Magento\Catalog\Model\Product\Link setLinkedProductId(int $value)
  * @method int getLinkTypeId()
- * @method Magento_Catalog_Model_Product_Link setLinkTypeId(int $value)
+ * @method \Magento\Catalog\Model\Product\Link setLinkTypeId(int $value)
  *
  * @category    Magento
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Link extends Magento_Core_Model_Abstract
+namespace Magento\Catalog\Model\Product;
+
+class Link extends \Magento\Core\Model\AbstractModel
 {
     const LINK_TYPE_RELATED     = 1;
     const LINK_TYPE_GROUPED     = 3;
@@ -37,35 +39,35 @@ class Magento_Catalog_Model_Product_Link extends Magento_Core_Model_Abstract
     /**
      * Product collection factory
      *
-     * @var Magento_Catalog_Model_Resource_Product_Link_Product_CollectionFactory
+     * @var \Magento\Catalog\Model\Resource\Product\Link\Product\CollectionFactory
      */
     protected $_productCollectionFactory;
 
     /**
      * Link collection factory
      *
-     * @var Magento_Catalog_Model_Resource_Product_Link_CollectionFactory
+     * @var \Magento\Catalog\Model\Resource\Product\Link\CollectionFactory
      */
     protected $_linkCollectionFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Catalog_Model_Resource_Product_Link_CollectionFactory $linkCollectionFactory
-     * @param Magento_Catalog_Model_Resource_Product_Link_Product_CollectionFactory $productCollectionFactory
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Catalog\Model\Resource\Product\Link\CollectionFactory $linkCollectionFactory
+     * @param \Magento\Catalog\Model\Resource\Product\Link\Product\CollectionFactory $productCollectionFactory
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Model_Resource_Product_Link_CollectionFactory $linkCollectionFactory,
-        Magento_Catalog_Model_Resource_Product_Link_Product_CollectionFactory $productCollectionFactory,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Catalog\Model\Resource\Product\Link\CollectionFactory $linkCollectionFactory,
+        \Magento\Catalog\Model\Resource\Product\Link\Product\CollectionFactory $productCollectionFactory,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_linkCollectionFactory = $linkCollectionFactory;
@@ -78,7 +80,7 @@ class Magento_Catalog_Model_Product_Link extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Catalog_Model_Resource_Product_Link');
+        $this->_init('Magento\Catalog\Model\Resource\Product\Link');
     }
 
     public function useRelatedLinks()
@@ -100,7 +102,7 @@ class Magento_Catalog_Model_Product_Link extends Magento_Core_Model_Abstract
     }
 
     /**
-     * @return Magento_Catalog_Model_Product_Link
+     * @return \Magento\Catalog\Model\Product\Link
      */
     public function useCrossSellLinks()
     {
@@ -150,8 +152,8 @@ class Magento_Catalog_Model_Product_Link extends Magento_Core_Model_Abstract
     /**
      * Save data for product relations
      *
-     * @param   Magento_Catalog_Model_Product $product
-     * @return  Magento_Catalog_Model_Product_Link
+     * @param   \Magento\Catalog\Model\Product $product
+     * @return  \Magento\Catalog\Model\Product\Link
      */
     public function saveProductRelations($product)
     {
@@ -173,8 +175,8 @@ class Magento_Catalog_Model_Product_Link extends Magento_Core_Model_Abstract
     /**
      * Save grouped product relation links
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_Catalog_Model_Product_Link
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\Catalog\Model\Product\Link
      */
     public function saveGroupedLinks($product)
     {

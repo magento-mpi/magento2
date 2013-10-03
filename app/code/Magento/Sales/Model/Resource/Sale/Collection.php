@@ -11,7 +11,9 @@
 /**
  * Sales Collection
  */
-class Magento_Sales_Model_Resource_Sale_Collection extends Magento_Data_Collection_Db
+namespace Magento\Sales\Model\Resource\Sale;
+
+class Collection extends \Magento\Data\Collection\Db
 {
     /**
      * Totals data
@@ -28,7 +30,7 @@ class Magento_Sales_Model_Resource_Sale_Collection extends Magento_Data_Collecti
     /**
      * Customer model
      *
-     * @var Magento_Customer_Model_Customer
+     * @var \Magento\Customer\Model\Customer
      */
     protected $_customer;
 
@@ -49,45 +51,45 @@ class Magento_Sales_Model_Resource_Sale_Collection extends Magento_Data_Collecti
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @var Magento_Sales_Model_Resource_Order
+     * @var \Magento\Sales\Model\Resource\Order
      */
     protected $_orderResource;
 
     /**
-     * @var Magento_Core_Model_Resource_Store_CollectionFactory
+     * @var \Magento\Core\Model\Resource\Store\CollectionFactory
      */
     protected $_storeCollFactory;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Set sales order entity and establish read connection
      *
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Sales_Model_Resource_Order $resource
-     * @param Magento_Core_Model_Resource_Store_CollectionFactory $storeCollFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Sales\Model\Resource\Order $resource
+     * @param \Magento\Core\Model\Resource\Store\CollectionFactory $storeCollFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @todo: incorrect constructor
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Sales_Model_Resource_Order $resource,
-        Magento_Core_Model_Resource_Store_CollectionFactory $storeCollFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Sales\Model\Resource\Order $resource,
+        \Magento\Core\Model\Resource\Store\CollectionFactory $storeCollFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_eventManager = $eventManager;
         $this->_orderResource = $resource;
@@ -99,10 +101,10 @@ class Magento_Sales_Model_Resource_Sale_Collection extends Magento_Data_Collecti
     /**
      * Set filter by customer
      *
-     * @param Magento_Customer_Model_Customer $customer
-     * @return Magento_Sales_Model_Resource_Sale_Collection
+     * @param \Magento\Customer\Model\Customer $customer
+     * @return \Magento\Sales\Model\Resource\Sale\Collection
      */
-    public function setCustomerFilter(Magento_Customer_Model_Customer $customer)
+    public function setCustomerFilter(\Magento\Customer\Model\Customer $customer)
     {
         $this->_customer = $customer;
         return $this;
@@ -112,7 +114,7 @@ class Magento_Sales_Model_Resource_Sale_Collection extends Magento_Data_Collecti
      * Add filter by stores
      *
      * @param array $storeIds
-     * @return Magento_Sales_Model_Resource_Sale_Collection
+     * @return \Magento\Sales\Model\Resource\Sale\Collection
      */
     public function addStoreFilter($storeIds)
     {
@@ -124,7 +126,7 @@ class Magento_Sales_Model_Resource_Sale_Collection extends Magento_Data_Collecti
      *
      * @param string|array $state
      * @param bool $exclude
-     * @return Magento_Sales_Model_Resource_Sale_Collection
+     * @return \Magento\Sales\Model\Resource\Sale\Collection
      */
     public function setOrderStateFilter($state, $exclude = false)
     {
@@ -136,7 +138,7 @@ class Magento_Sales_Model_Resource_Sale_Collection extends Magento_Data_Collecti
     /**
      * Before load action
      *
-     * @return Magento_Data_Collection_Db
+     * @return \Magento\Data\Collection\Db
      */
     protected function _beforeLoad()
     {
@@ -145,16 +147,16 @@ class Magento_Sales_Model_Resource_Sale_Collection extends Magento_Data_Collecti
                 array('sales' => $this->_orderResource->getMainTable()),
                 array(
                     'store_id',
-                    'lifetime'      => new Zend_Db_Expr('SUM(sales.base_grand_total)'),
-                    'base_lifetime' => new Zend_Db_Expr('SUM(sales.base_grand_total * sales.base_to_global_rate)'),
-                    'avgsale'       => new Zend_Db_Expr('AVG(sales.base_grand_total)'),
-                    'base_avgsale'  => new Zend_Db_Expr('AVG(sales.base_grand_total * sales.base_to_global_rate)'),
-                    'num_orders'    => new Zend_Db_Expr('COUNT(sales.base_grand_total)')
+                    'lifetime'      => new \Zend_Db_Expr('SUM(sales.base_grand_total)'),
+                    'base_lifetime' => new \Zend_Db_Expr('SUM(sales.base_grand_total * sales.base_to_global_rate)'),
+                    'avgsale'       => new \Zend_Db_Expr('AVG(sales.base_grand_total)'),
+                    'base_avgsale'  => new \Zend_Db_Expr('AVG(sales.base_grand_total * sales.base_to_global_rate)'),
+                    'num_orders'    => new \Zend_Db_Expr('COUNT(sales.base_grand_total)')
                 )
             )
             ->group('sales.store_id');
 
-        if ($this->_customer instanceof Magento_Customer_Model_Customer) {
+        if ($this->_customer instanceof \Magento\Customer\Model\Customer) {
             $this->addFieldToFilter('sales.customer_id', $this->_customer->getId());
         }
 
@@ -180,7 +182,7 @@ class Magento_Sales_Model_Resource_Sale_Collection extends Magento_Data_Collecti
      *
      * @param bool $printQuery
      * @param bool $logQuery
-     * @return  Magento_Data_Collection_Db
+     * @return  \Magento\Data\Collection\Db
      */
     public function load($printQuery = false, $logQuery = false)
     {
@@ -205,7 +207,7 @@ class Magento_Sales_Model_Resource_Sale_Collection extends Magento_Data_Collecti
             ->toOptionHash();
         $this->_items = array();
         foreach ($data as $v) {
-            $storeObject = new Magento_Object($v);
+            $storeObject = new \Magento\Object($v);
             $storeId     = $v['store_id'];
             $storeName   = isset($stores[$storeId]) ? $stores[$storeId] : null;
             $storeObject->setStoreName($storeName)
@@ -227,12 +229,12 @@ class Magento_Sales_Model_Resource_Sale_Collection extends Magento_Data_Collecti
     }
 
     /**
-     * Retrieve totals data converted into Magento_Object
+     * Retrieve totals data converted into \Magento\Object
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getTotals()
     {
-        return new Magento_Object($this->_totals);
+        return new \Magento\Object($this->_totals);
     }
 }

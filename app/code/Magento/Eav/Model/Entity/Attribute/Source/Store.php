@@ -15,24 +15,26 @@
  * @package    Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Entity_Attribute_Source_Store extends Magento_Eav_Model_Entity_Attribute_Source_Table
+namespace Magento\Eav\Model\Entity\Attribute\Source;
+
+class Store extends \Magento\Eav\Model\Entity\Attribute\Source\Table
 {
     /**
-     * @var Magento_Core_Model_Resource_Store_CollectionFactory
+     * @var \Magento\Core\Model\Resource\Store\CollectionFactory
      */
     protected $_storeCollFactory;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Eav_Model_Resource_Entity_Attribute_Option_CollectionFactory $attrOptCollFactory
-     * @param Magento_Eav_Model_Resource_Entity_Attribute_OptionFactory $attrOptionFactory
-     * @param Magento_Core_Model_Resource_Store_CollectionFactory $storeCollFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptCollFactory
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\OptionFactory $attrOptionFactory
+     * @param \Magento\Core\Model\Resource\Store\CollectionFactory $storeCollFactory
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Eav_Model_Resource_Entity_Attribute_Option_CollectionFactory $attrOptCollFactory,
-        Magento_Eav_Model_Resource_Entity_Attribute_OptionFactory $attrOptionFactory,
-        Magento_Core_Model_Resource_Store_CollectionFactory $storeCollFactory
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptCollFactory,
+        \Magento\Eav\Model\Resource\Entity\Attribute\OptionFactory $attrOptionFactory,
+        \Magento\Core\Model\Resource\Store\CollectionFactory $storeCollFactory
     ) {
         parent::__construct($coreData, $attrOptCollFactory, $attrOptionFactory);
         $this->_storeCollFactory = $storeCollFactory;

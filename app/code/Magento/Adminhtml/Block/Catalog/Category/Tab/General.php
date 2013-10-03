@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Category_Tab_General extends Magento_Adminhtml_Block_Catalog_Form
+namespace Magento\Adminhtml\Block\Catalog\Category\Tab;
+
+class General extends \Magento\Adminhtml\Block\Catalog\Form
 {
 
     protected $_category;
@@ -37,7 +39,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_General extends Magento_Admin
     public function _prepareLayout()
     {
         parent::_prepareLayout();
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('_general');
         $form->setDataObject($this->getCategory());
@@ -57,7 +59,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_General extends Magento_Admin
 //            );
             $parentId = $this->getRequest()->getParam('parent');
             if (!$parentId) {
-                $parentId = Magento_Catalog_Model_Category::TREE_ROOT_ID;
+                $parentId = \Magento\Catalog\Model\Category::TREE_ROOT_ID;
             }
             $fieldset->addField('path', 'hidden', array(
                 'name'  => 'path',
@@ -94,7 +96,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_General extends Magento_Admin
 
     protected function _getAdditionalElementTypes()
     {
-        return array('image' => 'Magento_Adminhtml_Block_Catalog_Category_Helper_Image');
+        return array('image' => 'Magento\Adminhtml\Block\Catalog\Category\Helper\Image');
     }
 
     protected function _getParentCategoryOptions($node=null, &$options=array())

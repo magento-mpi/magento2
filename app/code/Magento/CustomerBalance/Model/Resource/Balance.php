@@ -16,7 +16,9 @@
  * @package     Magento_CustomerBalance
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerBalance_Model_Resource_Balance extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\CustomerBalance\Model\Resource;
+
+class Balance extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize table name and primary key name
@@ -30,7 +32,7 @@ class Magento_CustomerBalance_Model_Resource_Balance extends Magento_Core_Model_
     /**
      * Load customer balance data by specified customer id and website id
      *
-     * @param Magento_CustomerBalance_Model_Balance $object
+     * @param \Magento\CustomerBalance\Model\Balance $object
      * @param int $customerId
      * @param int $websiteId
      */
@@ -51,7 +53,7 @@ class Magento_CustomerBalance_Model_Resource_Balance extends Magento_Core_Model_
      *
      * @param int $websiteId
      * @param string $currencyCode
-     * @return Magento_CustomerBalance_Model_Resource_Balance
+     * @return \Magento\CustomerBalance\Model\Resource\Balance
      */
     public function setCustomersBalanceCurrencyTo($websiteId, $currencyCode)
     {
@@ -67,7 +69,7 @@ class Magento_CustomerBalance_Model_Resource_Balance extends Magento_Core_Model_
      * Delete customer orphan balances
      *
      * @param int $customerId
-     * @return Magento_CustomerBalance_Model_Resource_Balance
+     * @return \Magento\CustomerBalance\Model\Resource\Balance
      */
     public function deleteBalancesByCustomerId($customerId)
     {
@@ -83,7 +85,7 @@ class Magento_CustomerBalance_Model_Resource_Balance extends Magento_Core_Model_
      * Get customer orphan balances count
      *
      * @param int $customerId
-     * @return Magento_CustomerBalance_Model_Resource_Balance
+     * @return \Magento\CustomerBalance\Model\Resource\Balance
      */
     public function getOrphanBalancesCount($customerId)
     {

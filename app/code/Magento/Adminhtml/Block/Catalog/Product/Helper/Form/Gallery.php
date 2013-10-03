@@ -16,32 +16,34 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery extends Magento_Data_Form_Element_Abstract
+namespace Magento\Adminhtml\Block\Catalog\Product\Helper\Form;
+
+class Gallery extends \Magento\Data\Form\Element\AbstractElement
 {
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Model_Layout
+     * @var \Magento\Core\Model\Layout
      */
     protected $_layout;
 
     /**
-     * @param Magento_Core_Model_Layout $layout
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Data_Form_Element_Factory $factoryElement
-     * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
+     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
      * @param array $attributes
      */
     public function __construct(
-        Magento_Core_Model_Layout $layout,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Data_Form_Element_Factory $factoryElement,
-        Magento_Data_Form_Element_CollectionFactory $factoryCollection,
+        \Magento\Core\Model\Layout $layout,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Data\Form\Element\Factory $factoryElement,
+        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
         $attributes = array()
     ) {
         $this->_layout = $layout;
@@ -63,8 +65,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery extends Magent
     public function getContentHtml()
     {
 
-        /* @var $content Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content */
-        $content = $this->_layout->createBlock('Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content');
+        /* @var $content \Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Gallery\Content */
+        $content = $this->_layout->createBlock('Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Gallery\Content');
         $content->setId($this->getHtmlId() . '_content')->setElement($this);
         $galleryJs = $content->getJsObjectName();
         $content->getUploader()->getConfig()->setMegiaGallery($galleryJs);
@@ -79,7 +81,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery extends Magent
     /**
      * Check "Use default" checkbox display availability
      *
-     * @param Magento_Eav_Model_Entity_Attribute $attribute
+     * @param \Magento\Eav\Model\Entity\Attribute $attribute
      * @return bool
      */
     public function canDisplayUseDefault($attribute)
@@ -94,7 +96,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery extends Magent
     /**
      * Check default value usage fact
      *
-     * @param Magento_Eav_Model_Entity_Attribute $attribute
+     * @param \Magento\Eav\Model\Entity\Attribute $attribute
      * @return bool
      */
     public function usedDefault($attribute)
@@ -119,7 +121,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery extends Magent
      *
      * GLOBAL | WEBSITE | STORE
      *
-     * @param Magento_Eav_Model_Entity_Attribute $attribute
+     * @param \Magento\Eav\Model\Entity\Attribute $attribute
      * @return string
      */
     public function getScopeLabel($attribute)
@@ -142,7 +144,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery extends Magent
     /**
      * Retrieve data object related with form
      *
-     * @return Magento_Catalog_Model_Product || Magento_Catalog_Model_Category
+     * @return \Magento\Catalog\Model\Product || \Magento\Catalog\Model\Category
      */
     public function getDataObject()
     {
@@ -153,7 +155,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery extends Magent
      * Retrieve attribute field name
      *
      *
-     * @param Magento_Eav_Model_Entity_Attribute $attribute
+     * @param \Magento\Eav\Model\Entity\Attribute $attribute
      * @return string
      */
     public function getAttributeFieldName($attribute)
@@ -168,7 +170,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery extends Magent
     /**
      * Check readonly attribute
      *
-     * @param Magento_Eav_Model_Entity_Attribute|string $attribute
+     * @param \Magento\Eav\Model\Entity\Attribute|string $attribute
      * @return boolean
      */
     public function getAttributeReadonly($attribute)
@@ -196,6 +198,6 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery extends Magent
      */
     protected function _getDefaultStoreId()
     {
-        return Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID;
+        return \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID;
     }
 }

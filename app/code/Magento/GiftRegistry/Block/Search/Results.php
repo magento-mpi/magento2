@@ -14,7 +14,9 @@
  * @category   Magento
  * @package    Magento_GiftRegistry
  */
-class Magento_GiftRegistry_Block_Search_Results extends Magento_Core_Block_Template
+namespace Magento\GiftRegistry\Block\Search;
+
+class Results extends \Magento\Core\Block\Template
 {
     /**
      * Set search results and create html pager block
@@ -22,7 +24,7 @@ class Magento_GiftRegistry_Block_Search_Results extends Magento_Core_Block_Templ
     public function setSearchResults($results)
     {
         $this->setData('search_results', $results);
-        $pager = $this->getLayout()->createBlock('Magento_Page_Block_Html_Pager', 'giftregistry.search.pager')
+        $pager = $this->getLayout()->createBlock('Magento\Page\Block\Html\Pager', 'giftregistry.search.pager')
             ->setCollection($results)->setIsOutputRequired(false);
         $this->setChild('pager', $pager);
     }
@@ -30,7 +32,7 @@ class Magento_GiftRegistry_Block_Search_Results extends Magento_Core_Block_Templ
     /**
      * Return frontend registry link
      *
-     * @param Magento_GiftRegistry_Model_Entity $item
+     * @param \Magento\GiftRegistry\Model\Entity $item
      * @return string
      */
     public function getRegistryLink($item)
@@ -41,13 +43,13 @@ class Magento_GiftRegistry_Block_Search_Results extends Magento_Core_Block_Templ
     /**
      * Retrieve item formated date
      *
-     * @param Magento_GiftRegistry_Model_Entity $item
+     * @param \Magento\GiftRegistry\Model\Entity $item
      * @return string
      */
     public function getFormattedDate($item)
     {
         if ($item->getEventDate()) {
-            return $this->formatDate($item->getEventDate(), Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
+            return $this->formatDate($item->getEventDate(), \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
         }
     }
 }

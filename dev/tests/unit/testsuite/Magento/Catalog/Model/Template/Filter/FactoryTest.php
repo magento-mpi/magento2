@@ -6,31 +6,33 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Model_Template_Filter_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Template\Filter;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_ObjectManager|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManagerMock;
 
     /**
-     * @var Magento_Newsletter_Model_Template_Filter_Factory
+     * @var \Magento\Newsletter\Model\Template\Filter\Factory
      */
     protected $_factory;
 
     protected function setUp()
     {
-        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
+        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_factory = $objectManagerHelper->getObject('Magento_Catalog_Model_Template_Filter_Factory', array(
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_factory = $objectManagerHelper->getObject('Magento\Catalog\Model\Template\Filter\Factory', array(
             'objectManager' => $this->_objectManagerMock,
         ));
     }
 
     public function testCreate()
     {
-        $className = 'Magento_Filter_Template';
+        $className = 'Magento\Filter\Template';
 
         $filterMock = $this->getMock($className, array(), array(), '', false);
         $this->_objectManagerMock->expects($this->once())->method('create')->with($className, array())
@@ -41,7 +43,7 @@ class Magento_Catalog_Model_Template_Filter_FactoryTest extends PHPUnit_Framewor
 
     public function testCreateWithArguments()
     {
-        $className = 'Magento_Filter_Template';
+        $className = 'Magento\Filter\Template';
         $arguments = array('foo', 'bar');
 
         $filterMock = $this->getMock($className, array(), array(), '', false);
@@ -52,8 +54,8 @@ class Magento_Catalog_Model_Template_Filter_FactoryTest extends PHPUnit_Framewor
     }
 
     /**
-     * @expectedException Magento_Core_Exception
-     * @expectedExceptionMessage WrongClass doesn't extends Magento_Filter_Template
+     * @expectedException \Magento\Core\Exception
+     * @expectedExceptionMessage WrongClass doesn't extends \Magento\Filter\Template
      */
     public function testWrongTypeException()
     {

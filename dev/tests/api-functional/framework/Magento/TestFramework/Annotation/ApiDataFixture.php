@@ -11,7 +11,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_TestFramework_Annotation_ApiDataFixture
+namespace Magento\TestFramework\Annotation;
+
+class ApiDataFixture
 {
     /**
      * @var string
@@ -29,12 +31,12 @@ class Magento_TestFramework_Annotation_ApiDataFixture
      * Constructor
      *
      * @param string $fixtureBaseDir
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     public function __construct($fixtureBaseDir)
     {
         if (!is_dir($fixtureBaseDir)) {
-            throw new Magento_Exception("Fixture base directory '{$fixtureBaseDir}' does not exist.");
+            throw new \Magento\Exception("Fixture base directory '{$fixtureBaseDir}' does not exist.");
         }
         $this->_fixtureBaseDir = realpath($fixtureBaseDir);
     }
@@ -42,7 +44,7 @@ class Magento_TestFramework_Annotation_ApiDataFixture
     /**
      * Handler for 'startTest' event
      *
-     * @param PHPUnit_Framework_TestCase $test
+     * @param \PHPUnit_Framework_TestCase $test
      */
     public function startTest(PHPUnit_Framework_TestCase $test)
     {
@@ -62,11 +64,11 @@ class Magento_TestFramework_Annotation_ApiDataFixture
      * Retrieve fixtures from annotation
      *
      * @param string $scope 'class' or 'method'
-     * @param PHPUnit_Framework_TestCase $test
+     * @param \PHPUnit_Framework_TestCase $test
      * @return array
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
-    protected function _getFixtures($scope, PHPUnit_Framework_TestCase $test)
+    protected function _getFixtures($scope, \PHPUnit_Framework_TestCase $test)
     {
         $annotations = $test->getAnnotations();
         $result = array();
@@ -74,7 +76,7 @@ class Magento_TestFramework_Annotation_ApiDataFixture
             foreach ($annotations[$scope]['magentoApiDataFixture'] as $fixture) {
                 if (strpos($fixture, '\\') !== false) {
                     // usage of a single directory separator symbol streamlines search across the source code
-                    throw new Magento_Exception('Directory separator "\\" is prohibited in fixture declaration.');
+                    throw new \Magento\Exception('Directory separator "\\" is prohibited in fixture declaration.');
                 }
                 $fixtureMethod = array(get_class($test), $fixture);
                 if (is_callable($fixtureMethod)) {
@@ -106,7 +108,7 @@ class Magento_TestFramework_Annotation_ApiDataFixture
      * Execute fixture scripts if any
      *
      * @param array $fixtures
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     protected function _applyFixtures(array $fixtures)
     {

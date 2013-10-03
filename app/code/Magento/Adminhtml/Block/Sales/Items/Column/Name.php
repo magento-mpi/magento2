@@ -16,27 +16,29 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Items_Column_Name extends Magento_Adminhtml_Block_Sales_Items_Column_Default
+namespace Magento\Adminhtml\Block\Sales\Items\Column;
+
+class Name extends \Magento\Adminhtml\Block\Sales\Items\Column\DefaultColumn
 {
     /**
      * Core string
      *
-     * @var Magento_Core_Helper_String
+     * @var \Magento\Core\Helper\String
      */
     protected $_coreString = null;
 
     /**
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Catalog_Model_Product_OptionFactory $optionFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Catalog\Model\Product\OptionFactory $optionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_String $coreString,
-        Magento_Catalog_Model_Product_OptionFactory $optionFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Catalog\Model\Product\OptionFactory $optionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_coreString = $coreString;

@@ -16,7 +16,9 @@
  * @package    Magento_Persistent
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Persistent_Model_Session extends Magento_Core_Model_Abstract
+namespace Magento\Persistent\Model;
+
+class Session extends \Magento\Core\Model\AbstractModel
 {
     const KEY_LENGTH = 50;
     const COOKIE_NAME = 'persistent_shopping_cart';
@@ -38,60 +40,60 @@ class Magento_Persistent_Model_Session extends Magento_Core_Model_Abstract
     /**
      * Persistent data
      *
-     * @var Magento_Persistent_Helper_Data
+     * @var \Magento\Persistent\Helper\Data
      */
     protected $_persistentData = null;
 
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Cookie model
      *
-     * @var Magento_Core_Model_Cookie
+     * @var \Magento\Core\Model\Cookie
      */
     protected $_cookie;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Config $coreConfig
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Persistent_Helper_Data $persistentData
-     * @param Magento_Core_Model_Cookie $cookie
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Persistent\Helper\Data $persistentData
+     * @param \Magento\Core\Model\Cookie $cookie
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Config $coreConfig,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Persistent_Helper_Data $persistentData,
-        Magento_Core_Model_Cookie $cookie,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Persistent\Helper\Data $persistentData,
+        \Magento\Core\Model\Cookie $cookie,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -107,14 +109,14 @@ class Magento_Persistent_Model_Session extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Persistent_Model_Resource_Session');
+        $this->_init('Magento\Persistent\Model\Resource\Session');
     }
 
     /**
      * Set if load expired persistent session
      *
      * @param bool $loadExpired
-     * @return Magento_Persistent_Model_Session
+     * @return \Magento\Persistent\Model\Session
      */
     public function setLoadExpired($loadExpired = true)
     {
@@ -135,7 +137,7 @@ class Magento_Persistent_Model_Session extends Magento_Core_Model_Abstract
     /**
      * Get date-time before which persistent session is expired
      *
-     * @param int|string|Magento_Core_Model_Store $store
+     * @param int|string|\Magento\Core\Model\Store $store
      * @return string
      */
     public function getExpiredBefore($store = null)
@@ -147,7 +149,7 @@ class Magento_Persistent_Model_Session extends Magento_Core_Model_Abstract
      * Serialize info for Resource Model to save
      * For new model check and set available cookie key
      *
-     * @return Magento_Persistent_Model_Session
+     * @return \Magento\Persistent\Model\Session
      */
     protected function _beforeSave()
     {
@@ -176,7 +178,7 @@ class Magento_Persistent_Model_Session extends Magento_Core_Model_Abstract
     /**
      * Set model data from info field
      *
-     * @return Magento_Persistent_Model_Session
+     * @return \Magento\Persistent\Model\Session
      */
     protected function _afterLoad()
     {
@@ -194,12 +196,12 @@ class Magento_Persistent_Model_Session extends Magento_Core_Model_Abstract
      * Get persistent session by cookie key
      *
      * @param string $key
-     * @return Magento_Persistent_Model_Session
+     * @return \Magento\Persistent\Model\Session
      */
     public function loadByCookieKey($key = null)
     {
         if (is_null($key)) {
-            $key = $this->_cookie->get(Magento_Persistent_Model_Session::COOKIE_NAME);
+            $key = $this->_cookie->get(\Magento\Persistent\Model\Session::COOKIE_NAME);
         }
         if ($key) {
             $this->load($key, 'key');
@@ -212,7 +214,7 @@ class Magento_Persistent_Model_Session extends Magento_Core_Model_Abstract
      * Load session model by specified customer id
      *
      * @param int $id
-     * @return Magento_Core_Model_Abstract
+     * @return \Magento\Core\Model\AbstractModel
      */
     public function loadByCustomerId($id)
     {
@@ -224,7 +226,7 @@ class Magento_Persistent_Model_Session extends Magento_Core_Model_Abstract
      *
      * @param int $customerId
      * @param bool $clearCookie
-     * @return Magento_Persistent_Model_Session
+     * @return \Magento\Persistent\Model\Session
      */
     public function deleteByCustomerId($customerId, $clearCookie = true)
     {
@@ -238,11 +240,11 @@ class Magento_Persistent_Model_Session extends Magento_Core_Model_Abstract
     /**
      * Remove persistent cookie
      *
-     * @return Magento_Persistent_Model_Session
+     * @return \Magento\Persistent\Model\Session
      */
     public function removePersistentCookie()
     {
-        $this->_cookie->delete(Magento_Persistent_Model_Session::COOKIE_NAME);
+        $this->_cookie->delete(\Magento\Persistent\Model\Session::COOKIE_NAME);
         return $this;
     }
 
@@ -250,7 +252,7 @@ class Magento_Persistent_Model_Session extends Magento_Core_Model_Abstract
      * Delete expired persistent sessions for the website
      *
      * @param null|int $websiteId
-     * @return Magento_Persistent_Model_Session
+     * @return \Magento\Persistent\Model\Session
      */
     public function deleteExpired($websiteId = null)
     {
@@ -259,7 +261,7 @@ class Magento_Persistent_Model_Session extends Magento_Core_Model_Abstract
         }
 
         $lifetime = $this->_coreConfig->getValue(
-            Magento_Persistent_Helper_Data::XML_PATH_LIFE_TIME,
+            \Magento\Persistent\Helper\Data::XML_PATH_LIFE_TIME,
             'website',
             intval($websiteId)
         );
@@ -277,17 +279,17 @@ class Magento_Persistent_Model_Session extends Magento_Core_Model_Abstract
     /**
      * Delete 'persistent' cookie
      *
-     * @return Magento_Core_Model_Abstract
+     * @return \Magento\Core\Model\AbstractModel
      */
     protected function _afterDeleteCommit() {
-        $this->_cookie->delete(Magento_Persistent_Model_Session::COOKIE_NAME);
+        $this->_cookie->delete(\Magento\Persistent\Model\Session::COOKIE_NAME);
         return parent::_afterDeleteCommit();
     }
 
     /**
      * Set `updated_at` to be always changed
      *
-     * @return Magento_Persistent_Model_Session
+     * @return \Magento\Persistent\Model\Session
      */
     public function save()
     {

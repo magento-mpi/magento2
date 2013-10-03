@@ -15,9 +15,11 @@
  * @package    Magento_Banner
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Banner_Block_Adminhtml_Promo_Salesrule_Edit_Tab_Banners
-extends Magento_Adminhtml_Block_Text_List
-implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Banner\Block\Adminhtml\Promo\Salesrule\Edit\Tab;
+
+class Banners
+extends \Magento\Adminhtml\Block\Text\ListText
+implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
      * Prepare label for tab

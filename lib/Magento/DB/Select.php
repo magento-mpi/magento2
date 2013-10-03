@@ -11,30 +11,32 @@
 /**
  * Class for SQL SELECT generation and results.
  *
- * @method Magento_DB_Adapter_Interface|Zend_Db_Adapter_Abstract getAdapter()
- * @property Magento_DB_Adapter_Interface|Zend_Db_Adapter_Abstract $_adapter
- * @method Magento_DB_Select from($name, $cols = '*', $schema = null)
- * @method Magento_DB_Select join($name, $cond, $cols = '*', $schema = null)
- * @method Magento_DB_Select joinInner($name, $cond, $cols = '*', $schema = null)
- * @method Magento_DB_Select joinLeft($name, $cond, $cols = '*', $schema = null)
- * @method Magento_DB_Select joinNatural($name, $cond, $cols = '*', $schema = null)
- * @method Magento_DB_Select joinFull($name, $cond, $cols = '*', $schema = null)
- * @method Magento_DB_Select joinRight($name, $cond, $cols = '*', $schema = null)
- * @method Magento_DB_Select joinCross($name, $cols = '*', $schema = null)
- * @method Magento_DB_Select orWhere($cond, $value = null, $type = null)
- * @method Magento_DB_Select group($spec)
- * @method Magento_DB_Select order($spec)
- * @method Magento_DB_Select limitPage($page, $rowCount)
- * @method Magento_DB_Select forUpdate($flag = true)
- * @method Magento_DB_Select distinct($flag = true)
- * @method Magento_DB_Select reset($part = null)
- * @method Magento_DB_Select columns($cols = '*', $correlationName = null)
+ * @method \Magento\DB\Adapter\AdapterInterface|Zend_Db_Adapter_Abstract getAdapter()
+ * @property \Magento\DB\Adapter\AdapterInterface|Zend_Db_Adapter_Abstract $_adapter
+ * @method \Magento\DB\Select from($name, $cols = '*', $schema = null)
+ * @method \Magento\DB\Select join($name, $cond, $cols = '*', $schema = null)
+ * @method \Magento\DB\Select joinInner($name, $cond, $cols = '*', $schema = null)
+ * @method \Magento\DB\Select joinLeft($name, $cond, $cols = '*', $schema = null)
+ * @method \Magento\DB\Select joinNatural($name, $cond, $cols = '*', $schema = null)
+ * @method \Magento\DB\Select joinFull($name, $cond, $cols = '*', $schema = null)
+ * @method \Magento\DB\Select joinRight($name, $cond, $cols = '*', $schema = null)
+ * @method \Magento\DB\Select joinCross($name, $cols = '*', $schema = null)
+ * @method \Magento\DB\Select orWhere($cond, $value = null, $type = null)
+ * @method \Magento\DB\Select group($spec)
+ * @method \Magento\DB\Select order($spec)
+ * @method \Magento\DB\Select limitPage($page, $rowCount)
+ * @method \Magento\DB\Select forUpdate($flag = true)
+ * @method \Magento\DB\Select distinct($flag = true)
+ * @method \Magento\DB\Select reset($part = null)
+ * @method \Magento\DB\Select columns($cols = '*', $correlationName = null)
  *
  * @category    Magento
  * @package     Magento_DB
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_DB_Select extends Zend_Db_Select
+namespace Magento\DB;
+
+class Select extends \Zend_Db_Select
 {
     /**
      * Condition type
@@ -55,9 +57,9 @@ class Magento_DB_Select extends Zend_Db_Select
      * Class constructor
      * Add straight join support
      *
-     * @param Zend_Db_Adapter_Abstract $adapter
+     * @param \Zend_Db_Adapter_Abstract $adapter
      */
-    public function __construct(Zend_Db_Adapter_Abstract $adapter)
+    public function __construct(\Zend_Db_Adapter_Abstract $adapter)
     {
         if (!isset(self::$_partsInit[self::STRAIGHT_JOIN])) {
             self::$_partsInit = array(self::STRAIGHT_JOIN => false) + self::$_partsInit;
@@ -96,7 +98,7 @@ class Magento_DB_Select extends Zend_Db_Select
      * @param string   $cond  The WHERE condition.
      * @param string   $value OPTIONAL A single value to quote into the condition.
      * @param string|int|null $type  OPTIONAL The type of the given value
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function where($cond, $value = null, $type = null)
     {
@@ -115,7 +117,7 @@ class Magento_DB_Select extends Zend_Db_Select
     /**
      * Reset unused LEFT JOIN(s)
      *
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function resetJoinLeft()
     {
@@ -124,7 +126,7 @@ class Magento_DB_Select extends Zend_Db_Select
                 $useJoin = false;
                 foreach ($this->_parts[self::COLUMNS] as $columnEntry) {
                     list($correlationName, $column) = $columnEntry;
-                    if ($column instanceof Zend_Db_Expr) {
+                    if ($column instanceof \Zend_Db_Expr) {
                         if ($this->_findTableInCond($tableId, $column)
                             || $this->_findTableInCond($tableProp['tableName'], $column)) {
                             $useJoin = true;
@@ -175,7 +177,7 @@ class Magento_DB_Select extends Zend_Db_Select
     /**
      * Validate LEFT joins, and remove it if not exists
      *
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     protected function _resetJoinLeft()
     {
@@ -259,8 +261,8 @@ class Magento_DB_Select extends Zend_Db_Select
      * @param  string $cond Join on this condition
      * @param  array|string $cols The columns to select from the joined table
      * @param  string $schema The database name to specify, if any.
-     * @return Zend_Db_Select This Zend_Db_Select object
-     * @throws Zend_Db_Select_Exception
+     * @return \Zend_Db_Select This \Zend_Db_Select object
+     * @throws \Zend_Db_Select_Exception
      */
     protected function _join($type, $name, $cond, $cols, $schema = null)
     {
@@ -275,7 +277,7 @@ class Magento_DB_Select extends Zend_Db_Select
      *
      * @param int $count OPTIONAL The number of rows to return.
      * @param int $offset OPTIONAL Start returning after this many rows.
-     * @return Zend_Db_Select This Zend_Db_Select object.
+     * @return \Zend_Db_Select This \Zend_Db_Select object.
      */
     public function limit($count = null, $offset = null)
     {
@@ -313,7 +315,7 @@ class Magento_DB_Select extends Zend_Db_Select
      */
     public function insertFromSelect($tableName, $fields = array(), $onDuplicate = true)
     {
-        $mode = $onDuplicate ? Magento_DB_Adapter_Interface::INSERT_ON_DUPLICATE : false;
+        $mode = $onDuplicate ? \Magento\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE : false;
         return $this->getAdapter()->insertFromSelect($this, $tableName, $fields, $mode);
     }
 
@@ -327,7 +329,7 @@ class Magento_DB_Select extends Zend_Db_Select
     public function insertIgnoreFromSelect($tableName, $fields = array())
     {
         return $this->getAdapter()
-            ->insertFromSelect($this, $tableName, $fields, Magento_DB_Adapter_Interface::INSERT_IGNORE);
+            ->insertFromSelect($this, $tableName, $fields, \Magento\DB\Adapter\AdapterInterface::INSERT_IGNORE);
     }
 
     /**
@@ -346,14 +348,14 @@ class Magento_DB_Select extends Zend_Db_Select
      *
      * @param string $part
      * @param mixed $value
-     * @return Magento_DB_Select
-     * @throws Zend_Db_Select_Exception
+     * @return \Magento\DB\Select
+     * @throws \Zend_Db_Select_Exception
      */
     public function setPart($part, $value)
     {
         $part = strtolower($part);
         if (!array_key_exists($part, $this->_parts)) {
-            throw new Zend_Db_Select_Exception("Invalid Select part '{$part}'");
+            throw new \Zend_Db_Select_Exception("Invalid Select part '{$part}'");
         }
         $this->_parts[$part] = $value;
         return $this;
@@ -363,7 +365,7 @@ class Magento_DB_Select extends Zend_Db_Select
      * Use a STRAIGHT_JOIN for the SQL Select
      *
      * @param bool $flag Whether or not the SELECT use STRAIGHT_JOIN (default true).
-     * @return Zend_Db_Select This Zend_Db_Select object.
+     * @return \Zend_Db_Select This \Zend_Db_Select object.
      */
     public function useStraightJoin($flag = true)
     {
@@ -402,8 +404,8 @@ class Magento_DB_Select extends Zend_Db_Select
         }
 
         foreach ($cols as $k => $v) {
-            if ($v instanceof Magento_DB_Select) {
-                $cols[$k] = new Zend_Db_Expr(sprintf('(%s)', $v->assemble()));
+            if ($v instanceof \Magento\DB\Select) {
+                $cols[$k] = new \Zend_Db_Expr(sprintf('(%s)', $v->assemble()));
             }
         }
 
@@ -414,7 +416,7 @@ class Magento_DB_Select extends Zend_Db_Select
      * Adds the random order to query
      *
      * @param string $field     integer field name
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function orderRand($field = null)
     {
@@ -439,10 +441,10 @@ class Magento_DB_Select extends Zend_Db_Select
     /**
      * Add EXISTS clause
      *
-     * @param  Magento_DB_Select $select
+     * @param  \Magento\DB\Select $select
      * @param  string           $joinCondition
      * @param   bool            $isExists
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function exists($select, $joinCondition, $isExists = true)
     {
@@ -452,7 +454,7 @@ class Magento_DB_Select extends Zend_Db_Select
             $exists = 'NOT EXISTS (%s)';
         }
         $select->reset(self::COLUMNS)
-            ->columns(array(new Zend_Db_Expr('1')))
+            ->columns(array(new \Zend_Db_Expr('1')))
             ->where($joinCondition);
 
         $exists = sprintf($exists, $select->assemble());

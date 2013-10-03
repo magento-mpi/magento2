@@ -11,17 +11,19 @@
 /**
  * Fieldset renderer for PayPal solutions group
  */
-class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Group
-    extends Magento_Backend_Block_System_Config_Form_Fieldset
+namespace Magento\Paypal\Block\Adminhtml\System\Config\Fieldset;
+
+class Group
+    extends \Magento\Backend\Block\System\Config\Form\Fieldset
 {
     /**
-     * @param Magento_Backend_Block_Context $context
-     * @param Magento_Backend_Model_Auth_Session $authSession
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Context $context,
-        Magento_Backend_Model_Auth_Session $authSession,
+        \Magento\Backend\Block\Context $context,
+        \Magento\Backend\Model\Auth\Session $authSession,
         array $data = array()
     ) {
         parent::__construct($context, $authSession, $data);
@@ -30,7 +32,7 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Group
     /**
      * Return header comment part of html for fieldset
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
     protected function _getHeaderCommentHtml($element)
@@ -51,7 +53,7 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Group
     /**
      * Return collapse state
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return bool
      */
     protected function _isCollapseState($element)

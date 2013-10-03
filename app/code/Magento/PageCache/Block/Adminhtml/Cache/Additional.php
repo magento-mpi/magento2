@@ -15,25 +15,27 @@
  * @package     Magento_PageCache
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_PageCache_Block_Adminhtml_Cache_Additional extends Magento_Backend_Block_Template
+namespace Magento\PageCache\Block\Adminhtml\Cache;
+
+class Additional extends \Magento\Backend\Block\Template
 {
     /**
      * Page cache data
      *
-     * @var Magento_PageCache_Helper_Data
+     * @var \Magento\PageCache\Helper\Data
      */
     protected $_pageCacheData = null;
 
     /**
-     * @param Magento_PageCache_Helper_Data $pageCacheData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\PageCache\Helper\Data $pageCacheData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_PageCache_Helper_Data $pageCacheData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\PageCache\Helper\Data $pageCacheData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_pageCacheData = $pageCacheData;

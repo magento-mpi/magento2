@@ -9,17 +9,19 @@
  * @license     {license_link}
  */
 
-class Magento_Customer_Block_Widget_GenderTest extends PHPUnit_Framework_TestCase
+namespace Magento\Customer\Block\Widget;
+
+class GenderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Customer_Block_Widget_Gender
+     * @var \Magento\Customer\Block\Widget\Gender
      */
     protected $_block;
 
     protected function setUp()
     {
-        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_Customer_Block_Widget_Gender');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Customer\Block\Widget\Gender');
     }
 
     public function testGetGenderOptions()

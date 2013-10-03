@@ -8,23 +8,25 @@
  * @license     {license_link}
  */
 
-class Magento_Page_Block_Js_Cookie extends Magento_Core_Block_Template
+namespace Magento\Page\Block\Js;
+
+class Cookie extends \Magento\Core\Block\Template
 {
     /**
-     * @var Magento_Core_Model_Cookie
+     * @var \Magento\Core\Model\Cookie
      */
     protected $_cookie;
 
     /**
-     * @param Magento_Core_Model_Cookie $cookie
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Core\Model\Cookie $cookie
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Cookie $cookie,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Core\Model\Cookie $cookie,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_cookie = $cookie;
@@ -34,7 +36,7 @@ class Magento_Page_Block_Js_Cookie extends Magento_Core_Block_Template
     /**
      * Get cookie model instance
      *
-     * @return Magento_Core_Model_Cookie
+     * @return \Magento\Core\Model\Cookie
      */
     public function getCookie()
     {

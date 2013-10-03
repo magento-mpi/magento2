@@ -16,22 +16,24 @@
  * @package     Magento_CatalogInventory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogInventory_Model_Resource_Stock_Item extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\CatalogInventory\Model\Resource\Stock;
+
+class Item extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($resource);
@@ -49,11 +51,11 @@ class Magento_CatalogInventory_Model_Resource_Stock_Item extends Magento_Core_Mo
     /**
      * Loading stock item data by product
      *
-     * @param Magento_CatalogInventory_Model_Stock_Item $item
+     * @param \Magento\CatalogInventory\Model\Stock\Item $item
      * @param int $productId
-     * @return Magento_CatalogInventory_Model_Resource_Stock_Item
+     * @return \Magento\CatalogInventory\Model\Resource\Stock\Item
      */
-    public function loadByProductId(Magento_CatalogInventory_Model_Stock_Item $item, $productId)
+    public function loadByProductId(\Magento\CatalogInventory\Model\Stock\Item $item, $productId)
     {
         $select = $this->_getLoadSelect('product_id', $productId, $item)
             ->where('stock_id = :stock_id');
@@ -70,8 +72,8 @@ class Magento_CatalogInventory_Model_Resource_Stock_Item extends Magento_Core_Mo
      *
      * @param string $field
      * @param mixed $value
-     * @param Magento_CatalogInventory_Model_Stock_Item $object
-     * @return Magento_DB_Select
+     * @param \Magento\CatalogInventory\Model\Stock\Item $object
+     * @return \Magento\DB\Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {
@@ -86,20 +88,20 @@ class Magento_CatalogInventory_Model_Resource_Stock_Item extends Magento_Core_Mo
     /**
      * Add join for catalog in stock field to product collection
      *
-     * @param Magento_Catalog_Model_Resource_Product_Collection $productCollection
+     * @param \Magento\Catalog\Model\Resource\Product\Collection $productCollection
      * @param array $columns
-     * @return Magento_CatalogInventory_Model_Resource_Stock_Item
+     * @return \Magento\CatalogInventory\Model\Resource\Stock\Item
      */
     public function addCatalogInventoryToProductCollection($productCollection, $columns = null)
     {
         if ($columns === null) {
             $adapter = $this->_getReadAdapter();
-            $isManageStock = (int)$this->_coreStoreConfig->getConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK);
+            $isManageStock = (int)$this->_coreStoreConfig->getConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MANAGE_STOCK);
             $stockExpr = $adapter->getCheckSql('cisi.use_config_manage_stock = 1', $isManageStock, 'cisi.manage_stock');
             $stockExpr = $adapter->getCheckSql("({$stockExpr} = 1)", 'cisi.is_in_stock', '1');
 
             $columns = array(
-                'is_saleable' => new Zend_Db_Expr($stockExpr),
+                'is_saleable' => new \Zend_Db_Expr($stockExpr),
                 'inventory_in_stock' => 'is_in_stock'
             );
         }
@@ -117,11 +119,11 @@ class Magento_CatalogInventory_Model_Resource_Stock_Item extends Magento_Core_Mo
     /**
      * Use qty correction for qty column update
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      * @param string $table
      * @return array
      */
-    protected function _prepareDataForTable(Magento_Object $object, $table)
+    protected function _prepareDataForTable(\Magento\Object $object, $table)
     {
         $data = parent::_prepareDataForTable($object, $table);
         $ifNullSql = $this->_getWriteAdapter()->getIfNullSql('qty');
@@ -129,9 +131,9 @@ class Magento_CatalogInventory_Model_Resource_Stock_Item extends Magento_Core_Mo
             if ($object->getQty() === null) {
                 $data['qty'] = null;
             } elseif ($object->getQtyCorrection() < 0) {
-                $data['qty'] = new Zend_Db_Expr($ifNullSql . '-' . abs($object->getQtyCorrection()));
+                $data['qty'] = new \Zend_Db_Expr($ifNullSql . '-' . abs($object->getQtyCorrection()));
             } else {
-                $data['qty'] = new Zend_Db_Expr($ifNullSql . '+' . $object->getQtyCorrection());
+                $data['qty'] = new \Zend_Db_Expr($ifNullSql . '+' . $object->getQtyCorrection());
             }
         }
         return $data;

@@ -15,7 +15,9 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Model_Product_Source extends Magento_Eav_Model_Entity_Attribute_Source_Boolean
+namespace Magento\Rma\Model\Product;
+
+class Source extends \Magento\Eav\Model\Entity\Attribute\Source\Boolean
 {
     /**
      * XML configuration path allow RMA on product level

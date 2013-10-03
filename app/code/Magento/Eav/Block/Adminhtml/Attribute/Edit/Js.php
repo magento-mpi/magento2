@@ -15,7 +15,9 @@
  * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Block_Adminhtml_Attribute_Edit_Js extends Magento_Adminhtml_Block_Template
+namespace Magento\Eav\Block\Adminhtml\Attribute\Edit;
+
+class Js extends \Magento\Adminhtml\Block\Template
 {
     protected $_template = 'attribute/edit/js.phtml';
 }

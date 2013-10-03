@@ -9,12 +9,14 @@
  * @license     {license_link}
  */
 
+namespace Magento\Checkout\Controller;
+
 /**
- * Test class for Magento_Checkout_Controller_Multishipping
+ * Test class for \Magento\Checkout\Controller\Multishipping
  *
  * @magentoAppArea frontend
  */
-class Magento_Checkout_Controller_MultishippingTest extends Magento_TestFramework_TestCase_ControllerAbstract
+class MultishippingTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
      * Covers app/code/Magento/Checkout/Block/Multishipping/Payment/Info.php
@@ -26,16 +28,16 @@ class Magento_Checkout_Controller_MultishippingTest extends Magento_TestFramewor
      */
     public function testOverviewAction()
     {
-        /** @var $quote Magento_Sales_Model_Quote */
-        $quote = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Quote');
+        /** @var $quote \Magento\Sales\Model\Quote */
+        $quote = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Quote');
         $quote->load('test01', 'reserved_order_id');
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Checkout_Model_Session')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Checkout\Model\Session')
             ->setQuoteId($quote->getId());
-        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
-        /** @var $session Magento_Customer_Model_Session */
-        $session = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Session', array($logger));
+        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        /** @var $session \Magento\Customer\Model\Session */
+        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Session', array($logger));
         $session->login('customer@example.com', 'password');
         $this->getRequest()->setPost('payment', array('method' => 'checkmo'));
         $this->dispatch('checkout/multishipping/overview');

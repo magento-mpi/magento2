@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_PubSub_EventInterface
+namespace Magento\PubSub;
+
+interface EventInterface
 {
     /**
      * Status is assigned to newly created Event, identify that it is good to be sent to subscribers
@@ -58,14 +60,14 @@ interface Magento_PubSub_EventInterface
     /**
      * Mark event as processed
      *
-     * @return Magento_PubSub_EventInterface
+     * @return \Magento\PubSub\EventInterface
      */
     public function complete();
 
     /**
      * Mark event as In Progress
      *
-     * @return Magento_PubSub_Event
+     * @return \Magento\PubSub\Event
      */
     public function markAsInProgress();
 }

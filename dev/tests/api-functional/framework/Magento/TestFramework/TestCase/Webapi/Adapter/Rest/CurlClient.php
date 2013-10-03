@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_TestFramework_TestCase_Webapi_Adapter_Rest_CurlClient
+namespace Magento\TestFramework\TestCase\Webapi\Adapter\Rest;
+
+class CurlClient
 {
     /**
      * @var string REST URL base path
@@ -40,7 +42,7 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Rest_CurlClient
         }
 
         $curlOpts = array();
-        $curlOpts[CURLOPT_CUSTOMREQUEST] = Magento_Webapi_Model_Rest_Config::HTTP_METHOD_GET;
+        $curlOpts[CURLOPT_CUSTOMREQUEST] = \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET;
         $resp = $this->_invokeApi($url, $curlOpts, $headers);
         $respArray = $this->_jsonDecode($resp["body"]);
         return $respArray;
@@ -84,7 +86,7 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Rest_CurlClient
         $url = $this->constructResourceUrl($resourcePath);
 
         $curlOpts = array();
-        $curlOpts[CURLOPT_CUSTOMREQUEST] = Magento_Webapi_Model_Rest_Config::HTTP_METHOD_DELETE;
+        $curlOpts[CURLOPT_CUSTOMREQUEST] = \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE;
 
         $resp = $this->_invokeApi($url, $curlOpts, $headers);
         $respArray = $this->_jsonDecode($resp["body"]);
@@ -111,7 +113,7 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Rest_CurlClient
 
         $curlOpts = array();
         $curlOpts[CURLOPT_CUSTOMREQUEST] = $put
-            ? Magento_Webapi_Model_Rest_Config::HTTP_METHOD_PUT : Magento_Webapi_Model_Rest_Config::HTTP_METHOD_POST;
+            ? \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT : \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST;
         $headers[] = 'Content-Length: ' . strlen($jsonData);
         $curlOpts[CURLOPT_POSTFIELDS] = $jsonData;
 
@@ -124,7 +126,7 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Rest_CurlClient
     /**
      * @param string $resourcePath Resource URL like /V1/Resource1/123
      * @return string resource URL
-     * @throws Exception
+     * @throws \Exception
      */
     public function constructResourceUrl($resourcePath)
     {
@@ -138,14 +140,14 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Rest_CurlClient
      * @param array $additionalCurlOpts cURL Options
      * @param array $headers
      * @return array
-     * @throws Exception
+     * @throws \Exception
      */
     protected function _invokeApi($url, $additionalCurlOpts, $headers = array())
     {
         // initialize cURL
         $curl = curl_init($url);
         if ($curl === false) {
-            throw new Exception("Error Initializing cURL for baseUrl: " . $url);
+            throw new \Exception("Error Initializing cURL for baseUrl: " . $url);
         }
 
         // get cURL options
@@ -159,19 +161,19 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Rest_CurlClient
         $resp = array();
         $resp["body"] = curl_exec($curl);
         if ($resp["body"] === false) {
-            throw new Exception(curl_error($curl));
+            throw new \Exception(curl_error($curl));
         }
 
         $resp["meta"] = curl_getinfo($curl);
         if ($resp["meta"] === false) {
-            throw new Exception(curl_error($curl));
+            throw new \Exception(curl_error($curl));
         }
 
         curl_close($curl);
 
         $meta = $resp["meta"];
         if ($meta && $meta['http_code'] >= 400) {
-            throw new Exception ($resp["body"], $meta['http_code']);
+            throw new \Exception ($resp["body"], $meta['http_code']);
         }
 
         return $resp;
@@ -215,7 +217,7 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Rest_CurlClient
      *
      * @param mixed $data
      * @return string
-     * @throws Exception
+     * @throws \Exception
      */
     protected function _jsonEncode($data)
     {
@@ -231,7 +233,7 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Rest_CurlClient
      *
      * @param string $data
      * @param bool $asArray
-     * @throws Exception
+     * @throws \Exception
      * @return mixed
      */
     protected function _jsonDecode($data, $asArray = true)
@@ -245,7 +247,7 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Rest_CurlClient
 
     /**
      * Checks for JSON error in the latest encoding / decoding and throws an exception in case of error
-     * @throws Exception
+     * @throws \Exception
      */
     protected function _checkJsonError()
     {
@@ -257,7 +259,7 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Rest_CurlClient
                 $message = $this->_jsonErrorMessages[$jsonError];
             }
 
-            throw new Exception('JSON Encoding / Decoding error: ' . $message, $jsonError);
+            throw new \Exception('JSON Encoding / Decoding error: ' . $message, $jsonError);
         }
     }
 }

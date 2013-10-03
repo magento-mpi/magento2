@@ -5,25 +5,27 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Http_Handler_CompositeTest extends PHPUnit_Framework_TestCase
+namespace Magento\Http\Handler;
+
+class CompositeTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_HTTP_Handler_Composite
+     * @var \Magento\HTTP\Handler\Composite
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_requestMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_responseMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_handlerFactoryMock;
 
@@ -41,9 +43,9 @@ class Magento_Http_Handler_CompositeTest extends PHPUnit_Framework_TestCase
         );
         $this->_requestMock = $this->getMock('Zend_Controller_Request_Http', array(), array(), '', false);
         $this->_responseMock = $this->getMock('Zend_Controller_Response_Http', array(), array(), '', false);
-        $this->_handlerFactoryMock = $this->getMock('Magento_HTTP_HandlerFactory', array(), array(), '', false, false);
-        $this->_handlerMock = $this->getMock('Magento_HTTP_HandlerInterface', array(), array(), '', false, false);
-        $this->_model = new Magento_HTTP_Handler_Composite($this->_handlerFactoryMock, $handlers);
+        $this->_handlerFactoryMock = $this->getMock('Magento\HTTP\HandlerFactory', array(), array(), '', false, false);
+        $this->_handlerMock = $this->getMock('Magento\HTTP\HandlerInterface', array(), array(), '', false, false);
+        $this->_model = new \Magento\HTTP\Handler\Composite($this->_handlerFactoryMock, $handlers);
     }
 
     protected function tearDown()
@@ -78,7 +80,7 @@ class Magento_Http_Handler_CompositeTest extends PHPUnit_Framework_TestCase
             ),
         );
 
-        $model = new Magento_HTTP_Handler_Composite($this->_handlerFactoryMock, $handlers);
+        $model = new \Magento\HTTP\Handler\Composite($this->_handlerFactoryMock, $handlers);
 
         $this->_handlerMock->expects($this->exactly(2))->method('handle')
             ->with($this->_requestMock, $this->_responseMock);

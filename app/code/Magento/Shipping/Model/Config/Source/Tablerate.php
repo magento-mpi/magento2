@@ -9,17 +9,19 @@
  */
 
 
-class Magento_Shipping_Model_Config_Source_Tablerate implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Shipping\Model\Config\Source;
+
+class Tablerate implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @var Magento_Shipping_Model_Carrier_Tablerate
+     * @var \Magento\Shipping\Model\Carrier\Tablerate
      */
     protected $_carrierTablerate;
 
     /**
-     * @param Magento_Shipping_Model_Carrier_Tablerate $carrierTablerate
+     * @param \Magento\Shipping\Model\Carrier\Tablerate $carrierTablerate
      */
-    public function __construct(Magento_Shipping_Model_Carrier_Tablerate $carrierTablerate)
+    public function __construct(\Magento\Shipping\Model\Carrier\Tablerate $carrierTablerate)
     {
         $this->_carrierTablerate = $carrierTablerate;
     }

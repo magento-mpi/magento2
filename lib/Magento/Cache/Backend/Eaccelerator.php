@@ -8,25 +8,27 @@
  * @license    {license_link}
  */
 
-class Magento_Cache_Backend_Eaccelerator extends Zend_Cache_Backend implements Zend_Cache_Backend_ExtendedInterface
+namespace Magento\Cache\Backend;
+
+class Eaccelerator extends \Zend_Cache_Backend implements \Zend_Cache_Backend_ExtendedInterface
 {
     /**
      * Log message
      */
-    const TAGS_UNSUPPORTED_BY_CLEAN_OF_EACCELERATOR_BACKEND = 'Magento_Cache_Backend_Eaccelerator::clean() : tags are unsupported by the Eaccelerator backend';
-    const TAGS_UNSUPPORTED_BY_SAVE_OF_EACCELERATOR_BACKEND =  'Magento_Cache_Backend_Eaccelerator::save() : tags are unsupported by the Eaccelerator backend';
+    const TAGS_UNSUPPORTED_BY_CLEAN_OF_EACCELERATOR_BACKEND = 'Magento\Cache\Backend\Eaccelerator::clean() : tags are unsupported by the Eaccelerator backend';
+    const TAGS_UNSUPPORTED_BY_SAVE_OF_EACCELERATOR_BACKEND =  'Magento\Cache\Backend\Eaccelerator::save() : tags are unsupported by the Eaccelerator backend';
 
     /**
      * Constructor
      *
      * @param  array $options associative array of options
-     * @throws Zend_Cache_Exception
+     * @throws \Zend_Cache_Exception
      * @return void
      */
     public function __construct(array $options = array())
     {
         if (!extension_loaded('eaccelerator')) {
-            Zend_Cache::throwException('The eaccelerator extension must be loaded for using this backend !');
+            \Zend_Cache::throwException('The eaccelerator extension must be loaded for using this backend !');
         }
         parent::__construct($options);
     }
@@ -109,25 +111,25 @@ class Magento_Cache_Backend_Eaccelerator extends Zend_Cache_Backend implements Z
      *
      * @param  string $mode clean mode
      * @param  array  $tags array of tags
-     * @throws Zend_Cache_Exception
+     * @throws \Zend_Cache_Exception
      * @return boolean true if no problem
      */
-    public function clean($mode = Zend_Cache::CLEANING_MODE_ALL, $tags = array())
+    public function clean($mode = \Zend_Cache::CLEANING_MODE_ALL, $tags = array())
     {
         switch ($mode) {
-            case Zend_Cache::CLEANING_MODE_ALL:
+            case \Zend_Cache::CLEANING_MODE_ALL:
                 return eaccelerator_clean();
                 break;
-            case Zend_Cache::CLEANING_MODE_OLD:
-                $this->_log("Magento_Cache_Backend_Eaccelerator::clean() : CLEANING_MODE_OLD is unsupported by the Eaccelerator backend");
+            case \Zend_Cache::CLEANING_MODE_OLD:
+                $this->_log("Magento\Cache\Backend\Eaccelerator::clean() : CLEANING_MODE_OLD is unsupported by the Eaccelerator backend");
                 break;
-            case Zend_Cache::CLEANING_MODE_MATCHING_TAG:
-            case Zend_Cache::CLEANING_MODE_NOT_MATCHING_TAG:
-            case Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG:
+            case \Zend_Cache::CLEANING_MODE_MATCHING_TAG:
+            case \Zend_Cache::CLEANING_MODE_NOT_MATCHING_TAG:
+            case \Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG:
                 $this->_log(self::TAGS_UNSUPPORTED_BY_CLEAN_OF_EACCELERATOR_BACKEND);
                 break;
             default:
-                Zend_Cache::throwException('Invalid mode for clean() method');
+                \Zend_Cache::throwException('Invalid mode for clean() method');
                 break;
         }
     }
@@ -135,7 +137,7 @@ class Magento_Cache_Backend_Eaccelerator extends Zend_Cache_Backend implements Z
     /**
      * Return the filling percentage of the backend storage
      *
-     * @throws Zend_Cache_Exception
+     * @throws \Zend_Cache_Exception
      * @return int integer between 0 and 100
      */
     public function getFillingPercentage()
@@ -145,7 +147,7 @@ class Magento_Cache_Backend_Eaccelerator extends Zend_Cache_Backend implements Z
         $memAvailable= $mem['memoryAvailable'];
         $memUsed = $memSize - $memAvailable;
         if ($memSize == 0) {
-            Zend_Cache::throwException('can\'t get eaccelerator memory size');
+            \Zend_Cache::throwException('can\'t get eaccelerator memory size');
         }
         if ($memUsed > $memSize) {
             return 100;

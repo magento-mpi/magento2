@@ -11,7 +11,9 @@
 /**
  * Sales module base helper
  */
-class Magento_Sales_Helper_Guest extends Magento_Core_Helper_Data
+namespace Magento\Sales\Helper;
+
+class Guest extends \Magento\Core\Helper\Data
 {
     /**
      * Cookie params
@@ -26,76 +28,76 @@ class Magento_Sales_Helper_Guest extends Magento_Core_Helper_Data
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @var Magento_Core_Model_Cookie
+     * @var \Magento\Core\Model\Cookie
      */
     protected $_coreCookie;
 
     /**
-     * @var Magento_Core_Model_App
+     * @var \Magento\Core\Model\App
      */
     protected $_coreApp;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Model_Session
+     * @var \Magento\Core\Model\Session
      */
     protected $_coreSession;
 
     /**
-     * @var Magento_Sales_Model_OrderFactory
+     * @var \Magento\Sales\Model\OrderFactory
      */
     protected $_orderFactory;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Http $coreHttp
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Locale $locale
-     * @param Magento_Core_Model_Date $dateModel
-     * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Core_Model_Encryption $encryptor
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Core_Model_Cookie $coreCookie
-     * @param Magento_Core_Model_App $coreApp
-     * @param Magento_Core_Model_Session $coreSession
-     * @param Magento_Sales_Model_OrderFactory $orderFactory
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Http $coreHttp
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Locale $locale
+     * @param \Magento\Core\Model\Date $dateModel
+     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\Core\Model\Encryption $encryptor
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\Cookie $coreCookie
+     * @param \Magento\Core\Model\App $coreApp
+     * @param \Magento\Core\Model\Session $coreSession
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param bool $dbCompatibleMode
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Http $coreHttp,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Locale $locale,
-        Magento_Core_Model_Date $dateModel,
-        Magento_Core_Model_App_State $appState,
-        Magento_Core_Model_Encryption $encryptor,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Core_Model_Cookie $coreCookie,
-        Magento_Core_Model_App $coreApp,
-        Magento_Core_Model_Session $coreSession,
-        Magento_Sales_Model_OrderFactory $orderFactory,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Http $coreHttp,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Locale $locale,
+        \Magento\Core\Model\Date $dateModel,
+        \Magento\Core\Model\App\State $appState,
+        \Magento\Core\Model\Encryption $encryptor,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\Cookie $coreCookie,
+        \Magento\Core\Model\App $coreApp,
+        \Magento\Core\Model\Session $coreSession,
+        \Magento\Sales\Model\OrderFactory $orderFactory,
         $dbCompatibleMode = true
     )
     {
@@ -125,7 +127,7 @@ class Magento_Sales_Helper_Guest extends Magento_Core_Helper_Data
         $post = $this->_coreApp->getRequest()->getPost();
         $errors = false;
 
-        /** @var $order Magento_Sales_Model_Order */
+        /** @var $order \Magento\Sales\Model\Order */
         $order = $this->_orderFactory->create();
 
         if (empty($post) && !$this->_coreCookie->get($this->_cookieName)) {
@@ -193,7 +195,7 @@ class Magento_Sales_Helper_Guest extends Magento_Core_Helper_Data
     /**
      * Get Breadcrumbs for current controller action
      *
-     * @param  Magento_Core_Controller_Front_Action $controller
+     * @param  \Magento\Core\Controller\Front\Action $controller
      */
     public function getBreadcrumbs($controller)
     {

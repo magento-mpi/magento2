@@ -11,12 +11,14 @@
 /**
  * Factory class for Rule Condition
  */
-class Magento_Reminder_Model_Rule_ConditionFactory
+namespace Magento\Reminder\Model\Rule;
+
+class ConditionFactory
 {
     /**
      * Object Manager instance
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager = null;
 
@@ -26,37 +28,37 @@ class Magento_Reminder_Model_Rule_ConditionFactory
      * @var array
      */
     protected $_conditions = array(
-        'Magento_Reminder_Model_Rule_Condition_Cart_Amount',
-        'Magento_Reminder_Model_Rule_Condition_Cart_Attributes',
-        'Magento_Reminder_Model_Rule_Condition_Cart_Combine',
-        'Magento_Reminder_Model_Rule_Condition_Cart_Couponcode',
-        'Magento_Reminder_Model_Rule_Condition_Cart_Itemsquantity',
-        'Magento_Reminder_Model_Rule_Condition_Cart_Sku',
-        'Magento_Reminder_Model_Rule_Condition_Cart_Storeview',
-        'Magento_Reminder_Model_Rule_Condition_Cart_Subcombine',
-        'Magento_Reminder_Model_Rule_Condition_Cart_Subselection',
-        'Magento_Reminder_Model_Rule_Condition_Cart_Totalquantity',
-        'Magento_Reminder_Model_Rule_Condition_Cart_Virtual',
-        'Magento_Reminder_Model_Rule_Condition_Combine_Root',
-        'Magento_Reminder_Model_Rule_Condition_Wishlist_Attributes',
-        'Magento_Reminder_Model_Rule_Condition_Wishlist_Combine',
-        'Magento_Reminder_Model_Rule_Condition_Wishlist_Quantity',
-        'Magento_Reminder_Model_Rule_Condition_Wishlist_Sharing',
-        'Magento_Reminder_Model_Rule_Condition_Wishlist_Storeview',
-        'Magento_Reminder_Model_Rule_Condition_Wishlist_Subcombine',
-        'Magento_Reminder_Model_Rule_Condition_Wishlist_Subselection',
-        'Magento_Reminder_Model_Rule_Condition_Cart',
-        'Magento_Reminder_Model_Rule_Condition_Combine',
-        'Magento_Reminder_Model_Rule_Condition_Wishlist',
+        'Magento\Reminder\Model\Rule\Condition\Cart\Amount',
+        'Magento\Reminder\Model\Rule\Condition\Cart\Attributes',
+        'Magento\Reminder\Model\Rule\Condition\Cart\Combine',
+        'Magento\Reminder\Model\Rule\Condition\Cart\Couponcode',
+        'Magento\Reminder\Model\Rule\Condition\Cart\Itemsquantity',
+        'Magento\Reminder\Model\Rule\Condition\Cart\Sku',
+        'Magento\Reminder\Model\Rule\Condition\Cart\Storeview',
+        'Magento\Reminder\Model\Rule\Condition\Cart\Subcombine',
+        'Magento\Reminder\Model\Rule\Condition\Cart\Subselection',
+        'Magento\Reminder\Model\Rule\Condition\Cart\Totalquantity',
+        'Magento\Reminder\Model\Rule\Condition\Cart\Virtual',
+        'Magento\Reminder\Model\Rule\Condition\Combine\Root',
+        'Magento\Reminder\Model\Rule\Condition\Wishlist\Attributes',
+        'Magento\Reminder\Model\Rule\Condition\Wishlist\Combine',
+        'Magento\Reminder\Model\Rule\Condition\Wishlist\Quantity',
+        'Magento\Reminder\Model\Rule\Condition\Wishlist\Sharing',
+        'Magento\Reminder\Model\Rule\Condition\Wishlist\Storeview',
+        'Magento\Reminder\Model\Rule\Condition\Wishlist\Subcombine',
+        'Magento\Reminder\Model\Rule\Condition\Wishlist\Subselection',
+        'Magento\Reminder\Model\Rule\Condition\Cart',
+        'Magento\Reminder\Model\Rule\Condition\Combine',
+        'Magento\Reminder\Model\Rule\Condition\Wishlist',
     );
 
     /**
      * Factory constructor
      *
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(
-        Magento_ObjectManager $objectManager
+        \Magento\ObjectManager $objectManager
     ) {
         $this->_objectManager = $objectManager;
     }
@@ -65,15 +67,15 @@ class Magento_Reminder_Model_Rule_ConditionFactory
      * Create class instance with specified parameters
      *
      * @param string $type
-     * @return Magento_Rule_Model_Condition_Abstract
-     * @throws InvalidArgumentException
+     * @return \Magento\Rule\Model\Condition\AbstractCondition
+     * @throws \InvalidArgumentException
      */
     public function create($type)
     {
         if (in_array($type, $this->_conditions)) {
             return $this->_objectManager->create($type);
         } else {
-            throw new InvalidArgumentException(__('Condition type is unexpected'));
+            throw new \InvalidArgumentException(__('Condition type is unexpected'));
         }
     }
 }

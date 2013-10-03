@@ -13,71 +13,73 @@
  *
  * Implements hashes upgrading
  */
-class Magento_Pci_Model_Observer
+namespace Magento\Pci\Model;
+
+class Observer
 {
     const ADMIN_USER_LOCKED = 243;
 
     /**
-     * @var Magento_AuthorizationInterface
+     * @var \Magento\AuthorizationInterface
      */
     protected $_authorization;
 
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_storeConfig;
 
     /**
-     * @var Magento_Pci_Model_Resource_Admin_User
+     * @var \Magento\Pci\Model\Resource\Admin\User
      *
      */
     protected $_userResource;
     /**
-     * @var Magento_Backend_Model_Url
+     * @var \Magento\Backend\Model\Url
      */
     protected $_url;
 
     /**
-     * @var Magento_Adminhtml_Model_Session
+     * @var \Magento\Adminhtml\Model\Session
      */
     protected $_session;
 
     /**
-     * @var Magento_Backend_Model_Auth_Session
+     * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_authSession;
 
     /**
-     * @var Magento_User_Model_UserFactory
+     * @var \Magento\User\Model\UserFactory
      */
     protected $_userFactory;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_AuthorizationInterface $authorization
-     * @param Magento_Core_Model_Store_Config $storeConfig
-     * @param Magento_Pci_Model_Resource_Admin_User $userResource
-     * @param Magento_Backend_Model_Url $url
-     * @param Magento_Adminhtml_Model_Session $session
-     * @param Magento_Backend_Model_Auth_Session $authSession
-     * @param Magento_User_Model_UserFactory $userFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\AuthorizationInterface $authorization
+     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Pci\Model\Resource\Admin\User $userResource
+     * @param \Magento\Backend\Model\Url $url
+     * @param \Magento\Adminhtml\Model\Session $session
+     * @param \Magento\Backend\Model\Auth\Session $authSession
+     * @param \Magento\User\Model\UserFactory $userFactory
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_AuthorizationInterface $authorization,
-        Magento_Core_Model_Store_Config $storeConfig,
-        Magento_Pci_Model_Resource_Admin_User $userResource,
-        Magento_Backend_Model_Url $url,
-        Magento_Adminhtml_Model_Session $session,
-        Magento_Backend_Model_Auth_Session $authSession,
-        Magento_User_Model_UserFactory $userFactory
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\AuthorizationInterface $authorization,
+        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Pci\Model\Resource\Admin\User $userResource,
+        \Magento\Backend\Model\Url $url,
+        \Magento\Adminhtml\Model\Session $session,
+        \Magento\Backend\Model\Auth\Session $authSession,
+        \Magento\User\Model\UserFactory $userFactory
     ) {
         $this->_coreData = $coreData;
         $this->_authorization = $authorization;
@@ -92,8 +94,8 @@ class Magento_Pci_Model_Observer
     /**
      * Admin locking and password hashing upgrade logic implementation
      *
-     * @param Magento_Event_Observer $observer
-     * @throws Magento_Core_Exception
+     * @param \Magento\Event\Observer $observer
+     * @throws \Magento\Core\Exception
      */
     public function adminAuthenticate($observer)
     {
@@ -112,7 +114,7 @@ class Magento_Pci_Model_Observer
             }
             $failuresNum = (int)$user->getFailuresNum() + 1;
             if ($firstFailureDate = $user->getFirstFailure()) {
-                $firstFailureDate = new Zend_Date($firstFailureDate, Magento_Date::DATETIME_INTERNAL_FORMAT);
+                $firstFailureDate = new \Zend_Date($firstFailureDate, \Magento\Date::DATETIME_INTERNAL_FORMAT);
                 $firstFailureDate = $firstFailureDate->toValue();
             }
 
@@ -131,10 +133,10 @@ class Magento_Pci_Model_Observer
 
         // check whether user is locked
         if ($lockExpires = $user->getLockExpires()) {
-            $lockExpires = new Zend_Date($lockExpires, Magento_Date::DATETIME_INTERNAL_FORMAT);
+            $lockExpires = new \Zend_Date($lockExpires, \Magento\Date::DATETIME_INTERNAL_FORMAT);
             $lockExpires = $lockExpires->toValue();
             if ($lockExpires > time()) {
-                throw new Magento_Core_Exception(
+                throw new \Magento\Core\Exception(
                     __('This account is locked.'),
                     self::ADMIN_USER_LOCKED
                 );
@@ -199,7 +201,7 @@ class Magento_Pci_Model_Observer
     /**
      * Upgrade customer password hash when customer has logged in
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function upgradeCustomerPassword($observer)
     {
@@ -216,12 +218,12 @@ class Magento_Pci_Model_Observer
      * New password must be minimum 7 chars length and include alphanumeric characters
      * The password is compared to at least last 4 previous passwords to prevent setting them again
      *
-     * @param Magento_Event_Observer $observer
-     * @throws Magento_Core_Exception
+     * @param \Magento\Event\Observer $observer
+     * @throws \Magento\Core\Exception
      */
     public function checkAdminPasswordChange($observer)
     {
-        /* @var $user Magento_User_Model_User */
+        /* @var $user \Magento\User\Model\User */
         $user = $observer->getEvent()->getObject();
 
         if ($user->getNewPassword()) {
@@ -232,7 +234,7 @@ class Magento_Pci_Model_Observer
 
         if ($password && !$user->getForceNewPassword() && $user->getId()) {
             if ($this->_coreData->validateHash($password, $user->getOrigData('password'))) {
-                throw new Magento_Core_Exception(
+                throw new \Magento\Core\Exception(
                     __('Sorry, but this password has already been used. Please create another.')
                 );
             }
@@ -242,7 +244,7 @@ class Magento_Pci_Model_Observer
             $passwordHash = $this->_coreData->getHash($password, false);
             foreach ($resource->getOldPasswords($user) as $oldPasswordHash) {
                 if ($passwordHash === $oldPasswordHash) {
-                    throw new Magento_Core_Exception(
+                    throw new \Magento\Core\Exception(
                         __('Sorry, but this password has already been used. Please create another.')
                     );
                 }
@@ -253,11 +255,11 @@ class Magento_Pci_Model_Observer
     /**
      * Save new admin password
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function trackAdminNewPassword($observer)
     {
-        /* @var $user Magento_User_Model_User */
+        /* @var $user \Magento\User\Model\User */
         $user = $observer->getEvent()->getObject();
         if ($user->getId()) {
             $password = $user->getNewPassword();
@@ -295,7 +297,7 @@ class Magento_Pci_Model_Observer
     /**
      * Force admin to change password
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function forceAdminPasswordChange($observer)
     {
@@ -315,8 +317,8 @@ class Magento_Pci_Model_Observer
                     $controller->getResponse()->setRedirect(
                         $this->_url->getUrl('adminhtml/system_account/')
                     );
-                    $controller->setFlag('', Magento_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
-                    $controller->setFlag('', Magento_Core_Controller_Varien_Action::FLAG_NO_POST_DISPATCH, true);
+                    $controller->setFlag('', \Magento\Core\Controller\Varien\Action::FLAG_NO_DISPATCH, true);
+                    $controller->setFlag('', \Magento\Core\Controller\Varien\Action::FLAG_NO_POST_DISPATCH, true);
                 } else {
                     /*
                      * if admin password is expired and access to 'My Account' page is denied

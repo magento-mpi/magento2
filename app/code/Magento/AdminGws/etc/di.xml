@@ -8,27 +8,27 @@
  */
 -->
 <config>
-    <type name="Magento_AdminGws_Model_Observer">
+    <type name="Magento\AdminGws\Model\Observer">
         <param name="backendAuthSession">
-            <instance type="Magento_Backend_Model_Auth_Session_Proxy" />
+            <instance type="Magento\Backend\Model\Auth\Session\Proxy" />
         </param>
         <param name="systemStore">
-            <instance type="Magento_Core_Model_System_Store_Proxy" />
+            <instance type="Magento\Core\Model\System\Store\Proxy" />
         </param>
         <param name="aclBuilder">
-            <instance type="Magento_Acl_Builder_Proxy" />
+            <instance type="Magento\Acl\Builder\Proxy" />
         </param>
         <param name="userRoles">
-            <instance type="Magento_User_Model_Resource_Role_Collection_Proxy" />
+            <instance type="Magento\User\Model\Resource\Role\Collection\Proxy" />
         </param>
         <param name="storeGroups">
-            <instance type="Magento_Core_Model_Resource_Store_Group_Collection_Proxy" />
+            <instance type="Magento\Core\Model\Resource\Store\Group\Collection\Proxy" />
         </param>
         <param name="role">
-            <instance type="Magento_AdminGws_Model_Role_Proxy" />
+            <instance type="Magento\AdminGws\Model\Role\Proxy" />
         </param>
         <param name="request">
-            <instance type="Magento_Core_Controller_Request_Http_Proxy" />
+            <instance type="Magento\Core\Controller\Request\Http\Proxy" />
         </param>
     </type>
 </config>

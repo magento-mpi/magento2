@@ -15,7 +15,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Model_Product_Option_Type_Default
+namespace Magento\Catalog\Model\Product\Option\Type;
+
+class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
 {
     /**
      * Url for custom option download controller
@@ -29,74 +31,74 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
     protected $_formattedOptionValue = null;
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
     /**
-     * @var Magento_File_Size
+     * @var \Magento\File\Size
      */
     protected $_fileSize;
 
     /**
      * Core file storage database
      *
-     * @var Magento_Core_Helper_File_Storage_Database
+     * @var \Magento\Core\Helper\File\Storage\Database
      */
     protected $_coreFileStorageDatabase = null;
 
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * Dir
      *
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_dir;
 
     /**
      * Url
      *
-     * @var Magento_Core_Model_UrlInterface
+     * @var \Magento\Core\Model\UrlInterface
      */
     protected $_url;
 
     /**
      * Item option factory
      *
-     * @var Magento_Sales_Model_Quote_Item_OptionFactory
+     * @var \Magento\Sales\Model\Quote\Item\OptionFactory
      */
     protected $_itemOptionFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Sales_Model_Quote_Item_OptionFactory $itemOptionFactory
-     * @param Magento_Core_Model_UrlInterface $url
-     * @param Magento_Core_Model_Dir $dir
-     * @param Magento_Checkout_Model_Session $checkoutSession
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Filesystem $filesystem
-     * @param Magento_File_Size $fileSize
+     * @param \Magento\Sales\Model\Quote\Item\OptionFactory $itemOptionFactory
+     * @param \Magento\Core\Model\UrlInterface $url
+     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\File\Size $fileSize
      * @param array $data
      */
     public function __construct(
-        Magento_Sales_Model_Quote_Item_OptionFactory $itemOptionFactory,
-        Magento_Core_Model_UrlInterface $url,
-        Magento_Core_Model_Dir $dir,
-        Magento_Checkout_Model_Session $checkoutSession,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Filesystem $filesystem,
-        Magento_File_Size $fileSize,
+        \Magento\Sales\Model\Quote\Item\OptionFactory $itemOptionFactory,
+        \Magento\Core\Model\UrlInterface $url,
+        \Magento\Core\Model\Dir $dir,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Filesystem $filesystem,
+        \Magento\File\Size $fileSize,
         $data = array()
     ) {
         $this->_itemOptionFactory = $itemOptionFactory;
@@ -135,7 +137,7 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
             } elseif (isset($optionInfo['value'])) {
                 return $optionInfo['value'];
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return $optionInfo['value'];
         }
     }
@@ -143,20 +145,20 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
     /**
      * Returns additional params for processing options
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     protected function _getProcessingParams()
     {
         $buyRequest = $this->getRequest();
         $params = $buyRequest->getData('_processing_params');
         /*
-         * Notice check for params to be Magento_Object - by using object we protect from
+         * Notice check for params to be \Magento\Object - by using object we protect from
          * params being forged and contain data from user frontend input
          */
-        if ($params instanceof Magento_Object) {
+        if ($params instanceof \Magento\Object) {
             return $params;
         }
-        return new Magento_Object();
+        return new \Magento\Object();
     }
 
     /**
@@ -188,9 +190,9 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
     /**
      * Validate user input for option
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @param array $values All product option values, i.e. array (option_id => mixed, option_id => mixed...)
-     * @return Magento_Catalog_Model_Product_Option_Type_File
+     * @return \Magento\Catalog\Model\Product\Option\Type\File
      */
     public function validateUserValue($values)
     {
@@ -227,12 +229,12 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
         // Process new uploaded file
         try {
             $this->_validateUploadedFile();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if ($this->getSkipCheckRequiredOption()) {
                 $this->setUserValue(null);
                 return $this;
             } else {
-                throw new Magento_Core_Exception($e->getMessage());
+                throw new \Magento\Core\Exception($e->getMessage());
             }
         }
         return $this;
@@ -241,8 +243,8 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
     /**
      * Validate uploaded file
      *
-     * @throws Magento_Core_Exception
-     * @return Magento_Catalog_Model_Product_Option_Type_File
+     * @throws \Magento\Core\Exception
+     * @return \Magento\Catalog\Model\Product\Option\Type\File
      */
     protected function _validateUploadedFile()
     {
@@ -252,7 +254,7 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
         /**
          * Upload init
          */
-        $upload = new Zend_File_Transfer_Adapter_Http();
+        $upload = new \Zend_File_Transfer_Adapter_Http();
         $file = $processingParams->getFilesPrefix() . 'options_' . $option->getId() . '_file';
         $maxFileSize = $this->getFileSizeService()->getMaxFileSize();
         try {
@@ -266,19 +268,19 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
             $fileInfo = $fileInfo[$file];
             $fileInfo['title'] = $fileInfo['name'];
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // when file exceeds the upload_max_filesize, $_FILES is empty
             if (isset($_SERVER['CONTENT_LENGTH']) && $_SERVER['CONTENT_LENGTH'] > $maxFileSize) {
                 $this->setIsValid(false);
                 $value = $this->getFileSizeService()->getMaxFileSizeInMb();
-                throw new Magento_Core_Exception(
+                throw new \Magento\Core\Exception(
                     __("The file you uploaded is larger than %1 Megabytes allowed by server", $value)
                 );
             } else {
                 switch ($this->getProcessMode())
                 {
-                    case Magento_Catalog_Model_Product_Type_Abstract::PROCESS_MODE_FULL:
-                        throw new Magento_Core_Exception(
+                    case \Magento\Catalog\Model\Product\Type\AbstractType::PROCESS_MODE_FULL:
+                        throw new \Magento\Core\Exception(
                             __('Please specify the product\'s required option(s).')
                         );
                         break;
@@ -330,8 +332,8 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
 
             $extension = pathinfo(strtolower($fileInfo['name']), PATHINFO_EXTENSION);
 
-            $fileName = Magento_Core_Model_File_Uploader::getCorrectFileName($fileInfo['name']);
-            $dispersion = Magento_Core_Model_File_Uploader::getDispretionPath($fileName);
+            $fileName = \Magento\Core\Model\File\Uploader::getCorrectFileName($fileInfo['name']);
+            $dispersion = \Magento\Core\Model\File\Uploader::getDispretionPath($fileName);
 
             $filePath = $dispersion;
             $dirName = dirname($fileInfo['tmp_name']);
@@ -379,11 +381,11 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
 
             if (count($errors) > 0) {
                 $this->setIsValid(false);
-                throw new Magento_Core_Exception( implode("\n", $errors) );
+                throw new \Magento\Core\Exception( implode("\n", $errors) );
             }
         } else {
             $this->setIsValid(false);
-            throw new Magento_Core_Exception(__('Please specify the product required option(s).'));
+            throw new \Magento\Core\Exception(__('Please specify the product required option(s).'));
         }
         return $this;
     }
@@ -391,15 +393,15 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
     /**
      * Validate file
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @param array $optionValue
-     * @return Magento_Catalog_Model_Product_Option_Type_Default
+     * @return \Magento\Catalog\Model\Product\Option\Type\DefaultType
      */
     protected function _validateFile($optionValue)
     {
         $option = $this->getOption();
         /**
-         * @see Magento_Catalog_Model_Product_Option_Type_File::_validateUploadFile()
+         * @see \Magento\Catalog\Model\Product\Option\Type\File::_validateUploadFile()
          *              There setUserValue() sets correct fileFullPath only for
          *              quote_path. So we must form both full paths manually and
          *              check them.
@@ -427,7 +429,7 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
             return false;
         }
 
-        $validatorChain = new Zend_Validate();
+        $validatorChain = new \Zend_Validate();
 
         $_dimentions = array();
 
@@ -442,25 +444,25 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
         }
         if (count($_dimentions) > 0) {
             $validatorChain->addValidator(
-                new Zend_Validate_File_ImageSize($_dimentions)
+                new \Zend_Validate_File_ImageSize($_dimentions)
             );
         }
 
         // File extension
         $_allowed = $this->_parseExtensionsString($option->getFileExtension());
         if ($_allowed !== null) {
-            $validatorChain->addValidator(new Zend_Validate_File_Extension($_allowed));
+            $validatorChain->addValidator(new \Zend_Validate_File_Extension($_allowed));
         } else {
             $_forbidden = $this->_parseExtensionsString($this->getConfigData('forbidden_extensions'));
             if ($_forbidden !== null) {
-                $validatorChain->addValidator(new Zend_Validate_File_ExcludeExtension($_forbidden));
+                $validatorChain->addValidator(new \Zend_Validate_File_ExcludeExtension($_forbidden));
             }
         }
 
         // Maximum file size
         $maxFileSize = $this->getFileSizeService()->getMaxFileSize();
         $validatorChain->addValidator(
-                new Zend_Validate_File_FilesSize(array('max' => $maxFileSize))
+                new \Zend_Validate_File_FilesSize(array('max' => $maxFileSize))
         );
 
 
@@ -475,18 +477,18 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
 
             if (count($errors) > 0) {
                 $this->setIsValid(false);
-                throw new Magento_Core_Exception( implode("\n", $errors) );
+                throw new \Magento\Core\Exception( implode("\n", $errors) );
             }
         } else {
             $this->setIsValid(false);
-            throw new Magento_Core_Exception(__('Please specify the product required option(s).'));
+            throw new \Magento\Core\Exception(__('Please specify the product required option(s).'));
         }
     }
 
     /**
      * Get Error messages for validator Errors
      *
-     * @param array $errors Array of validation failure message codes @see Zend_Validate::getErrors()
+     * @param array $errors Array of validation failure message codes @see \Zend_Validate::getErrors()
      * @param array $fileInfo File info
      * @return array Array of error messages
      */
@@ -495,19 +497,19 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
         $option = $this->getOption();
         $result = array();
         foreach ($errors as $errorCode) {
-            if ($errorCode == Zend_Validate_File_ExcludeExtension::FALSE_EXTENSION) {
+            if ($errorCode == \Zend_Validate_File_ExcludeExtension::FALSE_EXTENSION) {
                 $result[] = __("The file '%1' for '%2' has an invalid extension.", $fileInfo['title'], $option->getTitle());
-            } elseif ($errorCode == Zend_Validate_File_Extension::FALSE_EXTENSION) {
+            } elseif ($errorCode == \Zend_Validate_File_Extension::FALSE_EXTENSION) {
                 $result[] = __("The file '%1' for '%2' has an invalid extension.", $fileInfo['title'], $option->getTitle());
-            } elseif ($errorCode == Zend_Validate_File_ImageSize::WIDTH_TOO_BIG
-                || $errorCode == Zend_Validate_File_ImageSize::HEIGHT_TOO_BIG) {
+            } elseif ($errorCode == \Zend_Validate_File_ImageSize::WIDTH_TOO_BIG
+                || $errorCode == \Zend_Validate_File_ImageSize::HEIGHT_TOO_BIG) {
                 $result[] = __(
                     "Maximum allowed image size for '%1' is %2x%3 px.",
                     $option->getTitle(),
                     $option->getImageSizeX(),
                     $option->getImageSizeY()
                 );
-            } elseif ($errorCode == Zend_Validate_File_FilesSize::TOO_BIG) {
+            } elseif ($errorCode == \Zend_Validate_File_FilesSize::TOO_BIG) {
                 $maxFileSize = $this->getFileSizeService()->getMaxFileSizeInMb();
                 $result[] = __("The file '%1' you uploaded is larger than the %2 megabytes allowed by our server.", $fileInfo['title'], $maxFileSize);
             }
@@ -578,7 +580,7 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
                 $this->_formattedOptionValue = $this->_getOptionHtml($value);
                 $this->getConfigurationItemOption()->setValue(serialize($value));
                 return $this->_formattedOptionValue;
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 return $optionValue;
             }
         }
@@ -612,8 +614,8 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
                 $this->_coreData->escapeHtml($title),
                 $sizes
             );
-        } catch (Exception $e) {
-            throw new Magento_Core_Exception(__("The file options format is not valid."));
+        } catch (\Exception $e) {
+            throw new \Magento\Core\Exception(__("The file options format is not valid."));
         }
     }
 
@@ -660,7 +662,7 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
                 $this->getConfigurationItemOption()->getId()
             );
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return $optionValue;
         }
     }
@@ -681,7 +683,7 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
             try {
                 unserialize($option->getValue());
                 return $option->getValue();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 return null;
             }
         } else {
@@ -700,7 +702,7 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
         try {
             $result = unserialize($optionValue);
             return $result;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return null;
         }
     }
@@ -708,7 +710,7 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
     /**
      * Quote item to order item copy process
      *
-     * @return Magento_Catalog_Model_Product_Option_Type_File
+     * @return \Magento\Catalog\Model\Product\Option\Type\File
      */
     public function copyQuoteToOrder()
     {
@@ -716,20 +718,20 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
         try {
             $value = unserialize($quoteOption->getValue());
             if (!isset($value['quote_path'])) {
-                throw new Exception();
+                throw new \Exception();
             }
             $quoteFileFullPath = $this->_dir->getDir() . $value['quote_path'];
             if (!$this->_filesystem->isFile($quoteFileFullPath)
                 || !$this->_filesystem->isReadable($quoteFileFullPath)
             ) {
-                throw new Exception();
+                throw new \Exception();
             }
             $orderFileFullPath = $this->_dir->getDir() . $value['order_path'];
             $dir = pathinfo($orderFileFullPath, PATHINFO_DIRNAME);
             $this->_createWritableDir($dir);
             $this->_coreFileStorageDatabase->copyFile($quoteFileFullPath, $orderFileFullPath);
             $this->_filesystem->copy($quoteFileFullPath, $orderFileFullPath);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return $this;
         }
         return $this;
@@ -743,7 +745,7 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
      */
     public function getTargetDir($relative = false)
     {
-        $fullPath = $this->_dir->getDir(Magento_Core_Model_Dir::MEDIA) . DS . 'custom_options';
+        $fullPath = $this->_dir->getDir(\Magento\Core\Model\Dir::MEDIA) . DS . 'custom_options';
         return $relative ? str_replace($this->_dir->getDir(), '', $fullPath) : $fullPath;
     }
 
@@ -773,7 +775,7 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
      * Set url to custom option download controller
      *
      * @param string $url
-     * @return Magento_Catalog_Model_Product_Option_Type_File
+     * @return \Magento\Catalog\Model\Product\Option\Type\File
      */
     public function setCustomOptionDownloadUrl($url)
     {
@@ -804,7 +806,7 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
      *
      * @param string Absolute directory path
      * @return void
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     protected function _createWritableDir($path)
     {
@@ -812,8 +814,8 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
             if (!$this->_filesystem->isWritable($path)) {
                 $this->_filesystem->createDirectory($path, 0777);
             }
-        } catch (Magento_Filesystem_Exception $e) {
-            throw new Magento_Core_Exception(__("Cannot create writable directory '%1'.", $path));
+        } catch (\Magento\Filesystem\Exception $e) {
+            throw new \Magento\Core\Exception(__("Cannot create writable directory '%1'.", $path));
         }
     }
 
@@ -847,7 +849,7 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
     /**
      * Simple check if file is image
      *
-     * @param array|string $fileInfo - either file data from Zend_File_Transfer or file path
+     * @param array|string $fileInfo - either file data from \Zend_File_Transfer or file path
      * @return boolean
      */
     protected function _isImage($fileInfo)
@@ -871,7 +873,7 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
     /**
      * Get file storage helper
      *
-     * @return Magento_File_Size
+     * @return \Magento\File\Size
      */
     public function getFileSizeService()
     {

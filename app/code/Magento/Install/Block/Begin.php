@@ -11,7 +11,9 @@
 /**
  * Installation begin block
  */
-class Magento_Install_Block_Begin extends Magento_Install_Block_Abstract
+namespace Magento\Install\Block;
+
+class Begin extends \Magento\Install\Block\AbstractBlock
 {
     protected $_template = 'begin.phtml';
 
@@ -23,20 +25,20 @@ class Magento_Install_Block_Begin extends Magento_Install_Block_Abstract
     protected $_eulaFile;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Install_Model_Installer $installer
-     * @param Magento_Install_Model_Wizard $installWizard
-     * @param Magento_Core_Model_Session_Generic $session
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Install\Model\Installer $installer
+     * @param \Magento\Install\Model\Wizard $installWizard
+     * @param \Magento\Core\Model\Session\Generic $session
      * @param array $data
      * @param string|null $eulaFile
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Install_Model_Installer $installer,
-        Magento_Install_Model_Wizard $installWizard,
-        Magento_Core_Model_Session_Generic $session,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Install\Model\Installer $installer,
+        \Magento\Install\Model\Wizard $installWizard,
+        \Magento\Core\Model\Session\Generic $session,
         $eulaFile = null,
         array $data = array()
     ) {

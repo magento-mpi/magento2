@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Weee_Model_Config_Source_Display implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Weee\Model\Config\Source;
+
+class Display implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Retrieve list of available options to display FPT
@@ -18,19 +20,19 @@ class Magento_Weee_Model_Config_Source_Display implements Magento_Core_Model_Opt
     {
         return array(
             array(
-                'value' => Magento_Weee_Model_Tax::DISPLAY_INCL,
+                'value' => \Magento\Weee\Model\Tax::DISPLAY_INCL,
                 'label' => __('Including FPT only')
             ),
             array(
-                'value' => Magento_Weee_Model_Tax::DISPLAY_INCL_DESCR,
+                'value' => \Magento\Weee\Model\Tax::DISPLAY_INCL_DESCR,
                 'label' => __('Including FPT and FPT description')
             ),
             array(
-                'value' => Magento_Weee_Model_Tax::DISPLAY_EXCL_DESCR_INCL,
+                'value' => \Magento\Weee\Model\Tax::DISPLAY_EXCL_DESCR_INCL,
                 'label' => __('Excluding FPT, FPT description, final price')
             ),
             array(
-                'value' => Magento_Weee_Model_Tax::DISPLAY_EXCL,
+                'value' => \Magento\Weee\Model\Tax::DISPLAY_EXCL,
                 'label' => __('Excluding FPT')
             ),
         );

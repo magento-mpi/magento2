@@ -11,7 +11,9 @@
 /**
  * Factory class for cache control interface
  */
-class Magento_PageCache_Model_CacheControlFactory
+namespace Magento\PageCache\Model;
+
+class CacheControlFactory
 {
     /**
      * Path to external cache controls
@@ -26,33 +28,33 @@ class Magento_PageCache_Model_CacheControlFactory
     /**
      * Object manager
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
      * Config
      *
-     * @var Magento_Centinel_Model_Config
+     * @var \Magento\Centinel\Model\Config
      */
     protected $_config;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_ObjectManager $objectManager
-     * @param Magento_Core_Model_ConfigInterface $config
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Core\Model\ConfigInterface $config
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_ObjectManager $objectManager,
-        Magento_Core_Model_ConfigInterface $config,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\ObjectManager $objectManager,
+        \Magento\Core\Model\ConfigInterface $config,
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_objectManager = $objectManager;
         $this->_config = $config;
@@ -73,8 +75,8 @@ class Magento_PageCache_Model_CacheControlFactory
     /**
      * Initialize proper external cache control model
      *
-     * @throws Magento_Core_Exception
-     * @return Magento_PageCache_Model_Control_Interface
+     * @throws \Magento\Core\Exception
+     * @return \Magento\PageCache\Model\Control\ControlInterface
      */
     public function getCacheControlInstance()
     {
@@ -86,6 +88,6 @@ class Magento_PageCache_Model_CacheControlFactory
                 }
             }
         }
-        throw new Magento_Core_Exception(__('Failed to load external cache control'));
+        throw new \Magento\Core\Exception(__('Failed to load external cache control'));
     }
 }

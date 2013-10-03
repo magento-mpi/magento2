@@ -11,8 +11,10 @@
 /**
  * Migration logger. Output result put to file
  */
-class Magento_Tools_Migration_System_Configuration_Logger_File
-    extends Magento_Tools_Migration_System_Configuration_LoggerAbstract
+namespace Magento\Tools\Migration\System\Configuration\Logger;
+
+class File
+    extends \Magento\Tools\Migration\System\Configuration\AbstractLogger
 {
     /**
      * Path to log file
@@ -22,23 +24,23 @@ class Magento_Tools_Migration_System_Configuration_Logger_File
     protected $_file = null;
 
     /**
-     * @var Magento_Tools_Migration_System_FileManager
+     * @var \Magento\Tools\Migration\System\FileManager
      */
     protected $_fileManager;
 
     /**
      * @param string $file
-     * @param Magento_Tools_Migration_System_FileManager $fileManger
-     * @throws InvalidArgumentException
+     * @param \Magento\Tools\Migration\System\FileManager $fileManger
+     * @throws \InvalidArgumentException
      */
-    public function __construct($file, Magento_Tools_Migration_System_FileManager $fileManger)
+    public function __construct($file, \Magento\Tools\Migration\System\FileManager $fileManger)
     {
         $this->_fileManager = $fileManger;
 
         $logDir = realpath(__DIR__ . '/../../') . '/log/';
 
         if (empty($file)) {
-            throw new InvalidArgumentException('Log file name is required');
+            throw new \InvalidArgumentException('Log file name is required');
         }
         $this->_file = $logDir . $file;
     }

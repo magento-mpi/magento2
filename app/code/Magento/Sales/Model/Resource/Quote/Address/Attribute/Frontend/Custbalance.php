@@ -16,16 +16,18 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Quote_Address_Attribute_Frontend_Custbalance
-    extends Magento_Sales_Model_Resource_Quote_Address_Attribute_Frontend
+namespace Magento\Sales\Model\Resource\Quote\Address\Attribute\Frontend;
+
+class Custbalance
+    extends \Magento\Sales\Model\Resource\Quote\Address\Attribute\Frontend
 {
     /**
      * Fetch customer balance
      *
-     * @param Magento_Sales_Model_Quote_Address $address
-     * @return Magento_Sales_Model_Resource_Quote_Address_Attribute_Frontend_Custbalance
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @return \Magento\Sales\Model\Resource\Quote\Address\Attribute\Frontend\Custbalance
      */
-    public function fetchTotals(Magento_Sales_Model_Quote_Address $address)
+    public function fetchTotals(\Magento\Sales\Model\Quote\Address $address)
     {
         $custbalance = $address->getCustbalanceAmount();
         if ($custbalance != 0) {

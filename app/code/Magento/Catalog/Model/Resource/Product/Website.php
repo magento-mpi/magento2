@@ -16,33 +16,35 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Product_Website extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Catalog\Model\Resource\Product;
+
+class Website extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Catalog product
      *
-     * @var Magento_Catalog_Model_Resource_Product
+     * @var \Magento\Catalog\Model\Resource\Product
      */
     protected $_productResource;
 
     /**
      * Class constructor
      *
-     * @param Magento_Catalog_Model_Resource_Product $productResource
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Catalog\Model\Resource\Product $productResource
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
-        Magento_Catalog_Model_Resource_Product $productResource,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Resource $resource
+        \Magento\Catalog\Model\Resource\Product $productResource,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Resource $resource
     ) {
         $this->_productResource = $productResource;
         $this->_storeManager = $storeManager;
@@ -63,8 +65,8 @@ class Magento_Catalog_Model_Resource_Product_Website extends Magento_Core_Model_
      *
      * @param array $websiteIds
      * @param array $productIds
-     * @return Magento_Catalog_Model_Resource_Product_Website
-     * @throws Exception
+     * @return \Magento\Catalog\Model\Resource\Product\Website
+     * @throws \Exception
      */
     public function removeProducts($websiteIds, $productIds)
     {
@@ -85,7 +87,7 @@ class Magento_Catalog_Model_Resource_Product_Website extends Magento_Core_Model_
         try {
             $adapter->delete($this->getMainTable(), $whereCond);
             $adapter->commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $adapter->rollBack();
             throw $e;
         }
@@ -98,8 +100,8 @@ class Magento_Catalog_Model_Resource_Product_Website extends Magento_Core_Model_
      *
      * @param array $websiteIds
      * @param array $productIds
-     * @return Magento_Catalog_Model_Resource_Product_Website
-     * @throws Exception
+     * @return \Magento\Catalog\Model\Resource\Product\Website
+     * @throws \Exception
      */
     public function addProducts($websiteIds, $productIds)
     {
@@ -134,7 +136,7 @@ class Magento_Catalog_Model_Resource_Product_Website extends Magento_Core_Model_
             }
 
             $this->_getWriteAdapter()->commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getWriteAdapter()->rollBack();
             throw $e;
         }

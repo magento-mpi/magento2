@@ -11,16 +11,16 @@
 /**
  * Product media data template
  *
- * @see Magento_Catalog_Block_Product_View_BaseImage
+ * @see \Magento\Catalog\Block\Product\View\BaseImage
  */
 ?>
 <?php
 $_product = $this->getProduct();
-$_helper = $this->helper('Magento_Catalog_Helper_Output');
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
 ?>
 <li>
     <?php
-    $_img = '<a href="' . $this->getGalleryUrl() . '"><img src="' . $this->helper('Magento_Catalog_Helper_Image')->init($_product, 'image')->resize(290) . '" width="145" alt="' . $this->escapeHtml($this->getImageLabel()) . '" title="' . $this->escapeHtml($this->getImageLabel()) . '" /></a>';
+    $_img = '<a href="' . $this->getGalleryUrl() . '"><img src="' . $this->helper('Magento\Catalog\Helper\Image')->init($_product, 'image')->resize(290) . '" width="145" alt="' . $this->escapeHtml($this->getImageLabel()) . '" title="' . $this->escapeHtml($this->getImageLabel()) . '" /></a>';
     echo $_helper->productAttribute($_product, $_img, 'image');
     ?>
 </li>

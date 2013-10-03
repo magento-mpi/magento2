@@ -9,21 +9,23 @@
  * @license     {license_link}
  */
 
-class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_AttributeTest
-    extends PHPUnit_Framework_TestCase
+namespace Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Attribute;
+
+class AttributeTest
+    extends \PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Core_Model_Layout */
+    /** @var \Magento\Core\Model\Layout */
     protected $_layout = null;
 
-    /** @var Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute */
+    /** @var \Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Attribute\Attribute */
     protected $_block = null;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->_layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
+        $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
         $this->_block = $this->_layout
-            ->createBlock('Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute');
+            ->createBlock('Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Attribute\Attribute');
     }
 
     public function testGetAddButtonId()

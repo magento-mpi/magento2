@@ -9,8 +9,8 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceContainer name="content">
-        <block class="Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Edit" name="oauth_consumer.edit">
-            <block class="Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Edit_Form" name="form"/>
+        <block class="Magento\Oauth\Block\Adminhtml\Oauth\Consumer\Edit" name="oauth_consumer.edit">
+            <block class="Magento\Oauth\Block\Adminhtml\Oauth\Consumer\Edit\Form" name="form"/>
         </block>
     </referenceContainer>
 </layout>

@@ -9,27 +9,29 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Product\Type;
+
+class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_Product_Type_Abstract
+     * @var \Magento\Catalog\Model\Product\Type\AbstractType
      */
     protected $_model;
 
     protected function setUp()
     {
-        $productFactory = $this->getMock('Magento_Catalog_Model_ProductFactory', array(), array(), '', false);
-        $catalogProductOption = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Catalog_Model_Product_Option');
-        $eavConfig = $this->getMock('Magento_Eav_Model_Config', array(), array(), '', false);
-        $catalogProductType = $this->getMock('Magento_Catalog_Model_Product_Type', array(), array(), '', false);
-        $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array('dispatch'), array(), '', false);
-        $coreData = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
-        $fileStorageDb = $this->getMock('Magento_Core_Helper_File_Storage_Database', array(), array(), '', false);
-        $filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
-        $registry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
-        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
-        $this->_model = $this->getMockForAbstractClass('Magento_Catalog_Model_Product_Type_Abstract',
+        $productFactory = $this->getMock('Magento\Catalog\Model\ProductFactory', array(), array(), '', false);
+        $catalogProductOption = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Catalog\Model\Product\Option');
+        $eavConfig = $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false);
+        $catalogProductType = $this->getMock('Magento\Catalog\Model\Product\Type', array(), array(), '', false);
+        $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array('dispatch'), array(), '', false);
+        $coreData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
+        $fileStorageDb = $this->getMock('Magento\Core\Helper\File\Storage\Database', array(), array(), '', false);
+        $filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
+        $registry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $this->_model = $this->getMockForAbstractClass('Magento\Catalog\Model\Product\Type\AbstractType',
             array($productFactory, $catalogProductOption, $eavConfig, $catalogProductType, $eventManager, $coreData,
                 $fileStorageDb, $filesystem, $registry, $logger)
         );
@@ -38,7 +40,7 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
     public function testGetRelationInfo()
     {
         $info = $this->_model->getRelationInfo();
-        $this->assertInstanceOf('Magento_Object', $info);
+        $this->assertInstanceOf('Magento\Object', $info);
         $this->assertNotSame($info, $this->_model->getRelationInfo());
     }
 
@@ -57,23 +59,23 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
      */
     public function testGetSetAttributes()
     {
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(1); // fixture
         $attributes = $this->_model->getSetAttributes($product);
         $this->assertArrayHasKey('sku', $attributes);
         $this->assertArrayHasKey('name', $attributes);
         foreach ($attributes as $attribute) {
-            $this->assertInstanceOf('Magento_Catalog_Model_Resource_Eav_Attribute', $attribute);
+            $this->assertInstanceOf('Magento\Catalog\Model\Resource\Eav\Attribute', $attribute);
         }
         /* possibility of fatal error if passing null instead of product */
     }
 
     public function testAttributesCompare()
     {
-        $attribute[1] = new Magento_Object(array('group_sort_path' => 1, 'sort_path' => 10));
-        $attribute[2] = new Magento_Object(array('group_sort_path' => 1, 'sort_path' =>  5));
-        $attribute[3] = new Magento_Object(array('group_sort_path' => 2, 'sort_path' => 10));
+        $attribute[1] = new \Magento\Object(array('group_sort_path' => 1, 'sort_path' => 10));
+        $attribute[2] = new \Magento\Object(array('group_sort_path' => 1, 'sort_path' =>  5));
+        $attribute[3] = new \Magento\Object(array('group_sort_path' => 2, 'sort_path' => 10));
         $this->assertEquals( 1, $this->_model->attributesCompare($attribute[1], $attribute[2]));
         $this->assertEquals(-1, $this->_model->attributesCompare($attribute[2], $attribute[1]));
         $this->assertEquals(-1, $this->_model->attributesCompare($attribute[1], $attribute[3]));
@@ -87,8 +89,8 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
      */
     public function testGetEditableAttributes()
     {
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(1); // fixture
         $this->assertArrayNotHasKey('_cache_editable_attributes', $product->getData());
         $attributes = $this->_model->getEditableAttributes($product);
@@ -98,7 +100,7 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
 
         $isTypeExists = false;
         foreach ($attributes as $attribute) {
-            $this->assertInstanceOf('Magento_Catalog_Model_Resource_Eav_Attribute', $attribute);
+            $this->assertInstanceOf('Magento\Catalog\Model\Resource\Eav\Attribute', $attribute);
             $applyTo = $attribute->getApplyTo();
             if (count($applyTo) > 0 && !in_array('simple', $applyTo)) {
                 $isTypeExists = true;
@@ -109,22 +111,22 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
 
     public function testGetAttributeById()
     {
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product')->load(1);
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product')->load(1);
 
         $this->assertNull($this->_model->getAttributeById(-1, $product));
         $this->assertNull($this->_model->getAttributeById(null, $product));
 
-        $sku = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Eav_Model_Config')
+        $sku = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Eav\Model\Config')
             ->getAttribute('catalog_product', 'sku');
         $this->assertSame($sku, $this->_model->getAttributeById($sku->getId(), $product));
     }
 
     public function testIsVirtual()
     {
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $this->assertFalse($this->_model->isVirtual($product));
     }
 
@@ -133,8 +135,8 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
      */
     public function testIsSalable()
     {
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $this->assertTrue($this->_model->isSalable($product));
 
         $product->load(1); // fixture
@@ -149,18 +151,18 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
      */
     public function testPrepareForCart()
     {
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(10); // fixture
         $this->assertEmpty($product->getCustomOption('info_buyRequest'));
 
         $requestData = array('qty' => 5);
-        $result = $this->_model->prepareForCart(new Magento_Object($requestData), $product);
+        $result = $this->_model->prepareForCart(new \Magento\Object($requestData), $product);
         $this->assertArrayHasKey(0, $result);
         $this->assertSame($product, $result[0]);
         $buyRequest = $product->getCustomOption('info_buyRequest');
-        $this->assertInstanceOf('Magento_Object', $buyRequest);
+        $this->assertInstanceOf('Magento\Object', $buyRequest);
         $this->assertEquals($product->getId(), $buyRequest->getProductId());
         $this->assertSame($product, $buyRequest->getProduct());
         $this->assertEquals(serialize($requestData), $buyRequest->getValue());
@@ -171,12 +173,12 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
      */
     public function testPrepareForCartOptionsException()
     {
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(1); // fixture
         $this->assertEquals(
             'Please specify the product required option(s).',
-            $this->_model->prepareForCart(new Magento_Object, $product)
+            $this->_model->prepareForCart(new \Magento\Object, $product)
         );
     }
 
@@ -189,21 +191,21 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
 
     public function testCheckProductBuyState()
     {
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->setSkipCheckRequiredOption('_');
         $this->_model->checkProductBuyState($product);
     }
 
     /**
      * @magentoDataFixture Magento/Catalog/_files/product_simple.php
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      */
     public function testCheckProductBuyStateException()
     {
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(1); // fixture
         $this->_model->checkProductBuyState($product);
     }
@@ -213,13 +215,13 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
      */
     public function testGetOrderOptions()
     {
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $this->assertEquals(array(), $this->_model->getOrderOptions($product));
 
         $product->load(1); // fixture
-        $product->addCustomOption('info_buyRequest', serialize(new Magento_Object(array('qty' => 2))));
+        $product->addCustomOption('info_buyRequest', serialize(new \Magento\Object(array('qty' => 2))));
         foreach ($product->getOptions() as $id => $option) {
             if ('field' == $option->getType()) {
                 $product->addCustomOption('option_ids', $id);
@@ -249,9 +251,9 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
      */
     public function testBeforeSave()
     {
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(1); // fixture
         $product->setData('links_purchased_separately', 'value'); // this attribute is applicable only for downloadable
         $this->_model->beforeSave($product);
@@ -265,8 +267,8 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
      */
     public function testGetSku()
     {
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(1); // fixture
         $this->assertEquals('simple', $this->_model->getSku($product));
     }
@@ -276,9 +278,9 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
      */
     public function testGetOptionSku()
     {
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $this->assertEmpty($this->_model->getOptionSku($product));
 
         $product->load(1); // fixture
@@ -298,7 +300,7 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
 
     public function testGetWeight()
     {
-        $product = new Magento_Object;
+        $product = new \Magento\Object;
         $this->assertEmpty($this->_model->getWeight($product));
         $product->setWeight('value');
         $this->assertEquals('value', $this->_model->getWeight($product));
@@ -308,19 +310,19 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
     {
         $this->markTestIncomplete('Bug MAGE-2814');
 
-        $product = new Magento_Object;
+        $product = new \Magento\Object;
         $this->assertFalse($this->_model->hasOptions($product));
 
-        $product = new Magento_Object(array('has_options' => true));
+        $product = new \Magento\Object(array('has_options' => true));
         $this->assertTrue($this->_model->hasOptions($product));
 
-        $product = new Magento_Object(array('is_recurring' => 1));
+        $product = new \Magento\Object(array('is_recurring' => 1));
         $this->assertTrue($this->_model->hasOptions($product));
     }
 
     public function testHasRequiredOptions()
     {
-        $product = new Magento_Object;
+        $product = new \Magento\Object;
         $this->assertFalse($this->_model->hasRequiredOptions($product));
         $product->setRequiredOptions(1);
         $this->assertTrue($this->_model->hasRequiredOptions($product));
@@ -328,9 +330,9 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
 
     public function testGetSetStoreFilter()
     {
-        $product = new Magento_Object;
+        $product = new \Magento\Object;
         $this->assertNull($this->_model->getStoreFilter($product));
-        $store = new StdClass;
+        $store = new \StdClass;
         $this->_model->setStoreFilter($store, $product);
         $this->assertSame($store, $this->_model->getStoreFilter($product));
     }
@@ -338,44 +340,44 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
     public function testGetForceChildItemQtyChanges()
     {
         $this->assertFalse(
-            $this->_model->getForceChildItemQtyChanges(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product'))
+            $this->_model->getForceChildItemQtyChanges(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product'))
         );
     }
 
     public function testPrepareQuoteItemQty()
     {
         $this->assertEquals(3.0,
-            $this->_model->prepareQuoteItemQty(3, Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product')));
+            $this->_model->prepareQuoteItemQty(3, \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product')));
     }
 
     public function testAssignProductToOption()
     {
-        $product = new Magento_Object;
-        $option = new Magento_Object;
+        $product = new \Magento\Object;
+        $option = new \Magento\Object;
         $this->_model->assignProductToOption($product, $option, $product);
         $this->assertSame($product, $option->getProduct());
 
-        $option = new Magento_Object;
+        $option = new \Magento\Object;
         $this->_model->assignProductToOption(null, $option, $product);
         $this->assertSame($product, $option->getProduct());
     }
 
     /**
-     * @covers Magento_Catalog_Model_Product_Type_Abstract::isComposite
-     * @covers Magento_Catalog_Model_Product_Type_Abstract::canUseQtyDecimals
-     * @covers Magento_Catalog_Model_Product_Type_Abstract::setConfig
+     * @covers \Magento\Catalog\Model\Product\Type\AbstractType::isComposite
+     * @covers \Magento\Catalog\Model\Product\Type\AbstractType::canUseQtyDecimals
+     * @covers \Magento\Catalog\Model\Product\Type\AbstractType::setConfig
      */
     public function testSetConfig()
     {
-        $this->assertFalse($this->_model->isComposite(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product')));
+        $this->assertFalse($this->_model->isComposite(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product')));
         $this->assertTrue($this->_model->canUseQtyDecimals());
         $config = array('composite' => 1, 'can_use_qty_decimals' => 0);
         $this->_model->setConfig($config);
-        $this->assertTrue($this->_model->isComposite(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product')));
+        $this->assertTrue($this->_model->isComposite(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product')));
         $this->assertFalse($this->_model->canUseQtyDecimals());
     }
 
@@ -384,8 +386,8 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
      */
     public function testGetSearchableData()
     {
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(1); // fixture
         $data = $this->_model->getSearchableData($product);
         $this->assertContains('Test Field', $data);
@@ -398,7 +400,7 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
 
     public function testGetProductsToPurchaseByReqGroups()
     {
-        $product = new StdClass;
+        $product = new \StdClass;
         $this->assertSame(array(array($product)), $this->_model->getProductsToPurchaseByReqGroups($product));
         $this->_model->setConfig(array('composite' => 1));
         $this->assertEquals(array(), $this->_model->getProductsToPurchaseByReqGroups($product));
@@ -411,9 +413,9 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
 
     public function testCheckProductConfiguration()
     {
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
-        $buyRequest = new Magento_Object(array('qty' => 5));
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
+        $buyRequest = new \Magento\Object(array('qty' => 5));
         $this->_model->checkProductConfiguration($product, $buyRequest);
     }
 }

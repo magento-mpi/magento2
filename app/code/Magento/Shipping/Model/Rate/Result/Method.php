@@ -18,19 +18,21 @@
  * - price: $9.40 (cost+handling)
  * - cost: $8.00
  */
-class Magento_Shipping_Model_Rate_Result_Method extends Magento_Shipping_Model_Rate_Result_Abstract
+namespace Magento\Shipping\Model\Rate\Result;
+
+class Method extends \Magento\Shipping\Model\Rate\Result\AbstractResult
 {
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -41,7 +43,7 @@ class Magento_Shipping_Model_Rate_Result_Method extends Magento_Shipping_Model_R
      * Round shipping carrier's method price
      *
      * @param string|float|int $price
-     * @return Magento_Shipping_Model_Rate_Result_Method
+     * @return \Magento\Shipping\Model\Rate\Result\Method
      */
     public function setPrice($price)
     {

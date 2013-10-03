@@ -16,7 +16,9 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Resource_Event_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Reports\Model\Resource\Event;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Store Ids
@@ -31,14 +33,14 @@ class Magento_Reports_Model_Resource_Event_Collection extends Magento_Core_Model
      */
     protected function _construct()
     {
-        $this->_init('Magento_Reports_Model_Event', 'Magento_Reports_Model_Resource_Event');
+        $this->_init('Magento\Reports\Model\Event', 'Magento\Reports\Model\Resource\Event');
     }
 
     /**
      * Add store ids filter
      *
      * @param array $storeIds
-     * @return Magento_Reports_Model_Resource_Event_Collection
+     * @return \Magento\Reports\Model\Resource\Event\Collection
      */
     public function addStoreFilter(array $storeIds)
     {
@@ -54,7 +56,7 @@ class Magento_Reports_Model_Resource_Event_Collection extends Magento_Core_Model
      * @param int $subtype
      * @param int|array $ignore
      * @param int $limit
-     * @return Magento_Reports_Model_Resource_Event_Collection
+     * @return \Magento\Reports\Model\Resource\Event\Collection
      */
     public function addRecentlyFiler($typeId, $subjectId, $subtype = 0, $ignore = null, $limit = 15)
     {

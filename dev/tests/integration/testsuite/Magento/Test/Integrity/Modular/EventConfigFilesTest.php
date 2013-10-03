@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Modular_EventConfigFilesTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Modular;
+
+class EventConfigFilesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var string
@@ -14,8 +16,8 @@ class Magento_Test_Integrity_Modular_EventConfigFilesTest extends PHPUnit_Framew
 
     protected function setUp()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $this->_schemaFile = $objectManager->get('Magento_Core_Model_Event_Config_SchemaLocator')->getSchema();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->_schemaFile = $objectManager->get('Magento\Core\Model\Event\Config\SchemaLocator')->getSchema();
     }
 
     /**
@@ -25,7 +27,7 @@ class Magento_Test_Integrity_Modular_EventConfigFilesTest extends PHPUnit_Framew
     public function testEventConfigFiles($file)
     {
         $errors = array();
-        $dom = new Magento_Config_Dom(file_get_contents($file));
+        $dom = new \Magento\Config\Dom(file_get_contents($file));
         $result = $dom->validate($this->_schemaFile, $errors);
         $message = "Invalid XML-file: {$file}\n";
         foreach ($errors as $error) {
@@ -39,7 +41,7 @@ class Magento_Test_Integrity_Modular_EventConfigFilesTest extends PHPUnit_Framew
      */
     public function eventConfigFilesDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getConfigFiles('{*/events.xml,events.xml}');
+        return \Magento\TestFramework\Utility\Files::init()->getConfigFiles('{*/events.xml,events.xml}');
 
     }
 }

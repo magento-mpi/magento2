@@ -15,50 +15,52 @@
  * @package Magento_Adminhtml
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
-    extends Magento_Backend_Block_Widget_Form_Generic
-    implements Magento_Backend_Block_Widget_Tab_Interface
+namespace Magento\Adminhtml\Block\Promo\Quote\Edit\Tab;
+
+class Main
+    extends \Magento\Backend\Block\Widget\Form\Generic
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Store manager instance
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Model_System_Store
+     * @var \Magento\Core\Model\System\Store
      */
     protected $_systemStore;
 
     /**
-     * @var Magento_Customer_Model_Resource_Group_CollectionFactory
+     * @var \Magento\Customer\Model\Resource\Group\CollectionFactory
      */
     protected $_customerGroup;
 
     /**
-     * @var Magento_SalesRule_Model_RuleFactory
+     * @var \Magento\SalesRule\Model\RuleFactory
      */
     protected $_salesRule;
 
     /**
-     * @param Magento_SalesRule_Model_RuleFactory $salesRule
-     * @param Magento_Customer_Model_Resource_Group_CollectionFactory $customerGroup
-     * @param Magento_Core_Model_System_Store $systemStore
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\SalesRule\Model\RuleFactory $salesRule
+     * @param \Magento\Customer\Model\Resource\Group\CollectionFactory $customerGroup
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_SalesRule_Model_RuleFactory $salesRule,
-        Magento_Customer_Model_Resource_Group_CollectionFactory $customerGroup,
-        Magento_Core_Model_System_Store $systemStore,
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\SalesRule\Model\RuleFactory $salesRule,
+        \Magento\Customer\Model\Resource\Group\CollectionFactory $customerGroup,
+        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_storeManager = $context->getStoreManager();
@@ -112,7 +114,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
     {
         $model = $this->_coreRegistry->registry('current_promo_quote_rule');
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('rule_');
 
@@ -174,7 +176,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
                 'required' => true,
                 'values'   => $this->_systemStore->getWebsiteValuesForForm(),
             ));
-            $renderer = $this->getLayout()->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+            $renderer = $this->getLayout()->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
         }
 
@@ -223,7 +225,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
         ));
 
         $autoGenerationCheckbox->setRenderer(
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main_Renderer_Checkbox')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Main\Renderer\Checkbox')
         );
 
         $usesPerCouponFiled = $fieldset->addField('uses_per_coupon', 'text', array(
@@ -236,13 +238,13 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
             'label' => __('Uses per Customer'),
         ));
 
-        $dateFormat = $this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
         $fieldset->addField('from_date', 'date', array(
             'name'   => 'from_date',
             'label'  => __('From Date'),
             'title'  => __('From Date'),
             'image'  => $this->getViewFileUrl('images/grid-cal.gif'),
-            'input_format' => Magento_Date::DATE_INTERNAL_FORMAT,
+            'input_format' => \Magento\Date::DATE_INTERNAL_FORMAT,
             'date_format'  => $dateFormat
         ));
         $fieldset->addField('to_date', 'date', array(
@@ -250,7 +252,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
             'label'  => __('To Date'),
             'title'  => __('To Date'),
             'image'  => $this->getViewFileUrl('images/grid-cal.gif'),
-            'input_format' => Magento_Date::DATE_INTERNAL_FORMAT,
+            'input_format' => \Magento\Date::DATE_INTERNAL_FORMAT,
             'date_format'  => $dateFormat
         ));
 
@@ -290,7 +292,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
 
         // field dependencies
         $this->setChild('form_after', $this->getLayout()
-            ->createBlock('Magento_Adminhtml_Block_Widget_Form_Element_Dependence')
+            ->createBlock('Magento\Adminhtml\Block\Widget\Form\Element\Dependence')
             ->addFieldMap($couponTypeFiled->getHtmlId(), $couponTypeFiled->getName())
             ->addFieldMap($couponCodeFiled->getHtmlId(), $couponCodeFiled->getName())
             ->addFieldMap($autoGenerationCheckbox->getHtmlId(), $autoGenerationCheckbox->getName())
@@ -298,15 +300,15 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
             ->addFieldDependence(
                 $couponCodeFiled->getName(),
                 $couponTypeFiled->getName(),
-                Magento_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC)
+                \Magento\SalesRule\Model\Rule::COUPON_TYPE_SPECIFIC)
             ->addFieldDependence(
                 $autoGenerationCheckbox->getName(),
                 $couponTypeFiled->getName(),
-                Magento_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC)
+                \Magento\SalesRule\Model\Rule::COUPON_TYPE_SPECIFIC)
             ->addFieldDependence(
                 $usesPerCouponFiled->getName(),
                 $couponTypeFiled->getName(),
-                Magento_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC)
+                \Magento\SalesRule\Model\Rule::COUPON_TYPE_SPECIFIC)
         );
 
         $this->_eventManager->dispatch('adminhtml_promo_quote_edit_tab_main_prepare_form', array('form' => $form));

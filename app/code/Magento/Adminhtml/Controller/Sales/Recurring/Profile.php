@@ -13,22 +13,24 @@
  *
  * TODO: implement ACL restrictions
  */
-class Magento_Adminhtml_Controller_Sales_Recurring_Profile extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller\Sales\Recurring;
+
+class Profile extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -59,10 +61,10 @@ class Magento_Adminhtml_Controller_Sales_Recurring_Profile extends Magento_Admin
                 ->_title(__('Profile #%1', $profile->getReferenceId()))
                 ->renderLayout();
             return;
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-        } catch (Exception $e) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+        } catch (\Exception $e) {
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
         }
         $this->_redirect('*/*/');
     }
@@ -75,10 +77,10 @@ class Magento_Adminhtml_Controller_Sales_Recurring_Profile extends Magento_Admin
         try {
             $this->loadLayout()->renderLayout();
             return;
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-        } catch (Exception $e) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+        } catch (\Exception $e) {
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
         }
         $this->_redirect('*/*/');
     }
@@ -91,8 +93,8 @@ class Magento_Adminhtml_Controller_Sales_Recurring_Profile extends Magento_Admin
         try {
             $this->_initProfile();
             $this->loadLayout()->renderLayout();
-        } catch (Exception $e) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+        } catch (\Exception $e) {
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             $this->norouteAction();
         }
     }
@@ -118,11 +120,11 @@ class Magento_Adminhtml_Controller_Sales_Recurring_Profile extends Magento_Admin
                     break;
             }
             $this->_getSession()->addSuccess(__('The profile state has been updated.'));
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getSession()->addError(__('We could not update the profile.'));
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
         }
         if ($profile) {
             $this->_redirect('*/*/view', array('profile' => $profile->getId()));
@@ -146,11 +148,11 @@ class Magento_Adminhtml_Controller_Sales_Recurring_Profile extends Magento_Admin
             } else {
                 $this->_getSession()->addNotice(__('The profile has no changes.'));
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getSession()->addError(__('We could not update the profile.'));
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
         }
         if ($profile) {
             $this->_redirect('*/*/view', array('profile' => $profile->getId()));
@@ -173,12 +175,12 @@ class Magento_Adminhtml_Controller_Sales_Recurring_Profile extends Magento_Admin
     /**
      * Initialize customer by ID specified in request
      *
-     * @return Magento_Adminhtml_Controller_Sales_Billing_Agreement
+     * @return \Magento\Adminhtml\Controller\Sales\Billing\Agreement
      */
     protected function _initCustomer()
     {
         $customerId = (int) $this->getRequest()->getParam('id');
-        $customer = $this->_objectManager->create('Magento_Customer_Model_Customer');
+        $customer = $this->_objectManager->create('Magento\Customer\Model\Customer');
 
         if ($customerId) {
             $customer->load($customerId);
@@ -191,13 +193,13 @@ class Magento_Adminhtml_Controller_Sales_Recurring_Profile extends Magento_Admin
     /**
      * Load/set profile
      *
-     * @return Magento_Sales_Model_Recurring_Profile
+     * @return \Magento\Sales\Model\Recurring\Profile
      */
     protected function _initProfile()
     {
-        $profile = $this->_objectManager->create('Magento_Sales_Model_Recurring_Profile')->load($this->getRequest()->getParam('profile'));
+        $profile = $this->_objectManager->create('Magento\Sales\Model\Recurring\Profile')->load($this->getRequest()->getParam('profile'));
         if (!$profile->getId()) {
-            throw new Magento_Core_Exception(__('The profile you specified does not exist.'));
+            throw new \Magento\Core\Exception(__('The profile you specified does not exist.'));
         }
         $this->_coreRegistry->register('current_recurring_profile', $profile);
         return $profile;

@@ -15,35 +15,37 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Report_Sales_Tax_Grid extends Magento_Adminhtml_Block_Report_Grid_Abstract
+namespace Magento\Adminhtml\Block\Report\Sales\Tax;
+
+class Grid extends \Magento\Adminhtml\Block\Report\Grid\AbstractGrid
 {
     protected $_columnGroupBy = 'period';
 
     /**
-     * @var Magento_Sales_Model_Order_ConfigFactory
+     * @var \Magento\Sales\Model\Order\ConfigFactory
      */
     protected $_configFactory;
 
     /**
-     * @param Magento_Sales_Model_Order_ConfigFactory $configFactory
-     * @param Magento_Reports_Model_Resource_Report_Collection_Factory $resourceFactory
-     * @param Magento_Reports_Model_Grouped_CollectionFactory $collectionFactory
-     * @param Magento_Reports_Helper_Data $reportsData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
+     * @param \Magento\Sales\Model\Order\ConfigFactory $configFactory
+     * @param \Magento\Reports\Model\Resource\Report\Collection\Factory $resourceFactory
+     * @param \Magento\Reports\Model\Grouped\CollectionFactory $collectionFactory
+     * @param \Magento\Reports\Helper\Data $reportsData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
      * @param array $data
      */
     public function __construct(
-        Magento_Sales_Model_Order_ConfigFactory $configFactory,
-        Magento_Reports_Model_Resource_Report_Collection_Factory $resourceFactory,
-        Magento_Reports_Model_Grouped_CollectionFactory $collectionFactory,
-        Magento_Reports_Helper_Data $reportsData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
+        \Magento\Sales\Model\Order\ConfigFactory $configFactory,
+        \Magento\Reports\Model\Resource\Report\Collection\Factory $resourceFactory,
+        \Magento\Reports\Model\Grouped\CollectionFactory $collectionFactory,
+        \Magento\Reports\Helper\Data $reportsData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
         array $data = array()
     ) {
         $this->_configFactory = $configFactory;
@@ -62,8 +64,8 @@ class Magento_Adminhtml_Block_Report_Sales_Tax_Grid extends Magento_Adminhtml_Bl
     public function getResourceCollectionName()
     {
         return ($this->getFilterData()->getData('report_type') == 'updated_at_order')
-            ? 'Magento_Tax_Model_Resource_Report_Updatedat_Collection'
-            : 'Magento_Tax_Model_Resource_Report_Collection';
+            ? 'Magento\Tax\Model\Resource\Report\Updatedat\Collection'
+            : 'Magento\Tax\Model\Resource\Report\Collection';
     }
 
     protected function _prepareColumns()
@@ -73,7 +75,7 @@ class Magento_Adminhtml_Block_Report_Sales_Tax_Grid extends Magento_Adminhtml_Bl
             'index'             => 'period',
             'sortable'          => false,
             'period_type'       => $this->getPeriodType(),
-            'renderer'          => 'Magento_Adminhtml_Block_Report_Sales_Grid_Column_Renderer_Date',
+            'renderer'          => 'Magento\Adminhtml\Block\Report\Sales\Grid\Column\Renderer\Date',
             'totals_label'      => __('Total'),
             'subtotals_label'   => __('Subtotal'),
             'html_decorators' => array('nobr'),
@@ -136,7 +138,7 @@ class Magento_Adminhtml_Block_Report_Sales_Tax_Grid extends Magento_Adminhtml_Bl
      * Preparing collection
      * Filter canceled statuses for orders in taxes
      *
-     * @return Magento_Adminhtml_Block_Report_Sales_Tax_Grid
+     * @return \Magento\Adminhtml\Block\Report\Sales\Tax\Grid
      */
     protected function _prepareCollection()
     {
@@ -144,7 +146,7 @@ class Magento_Adminhtml_Block_Report_Sales_Tax_Grid extends Magento_Adminhtml_Bl
         if (!$filterData->hasData('order_statuses')) {
             $orderConfig = $this->_configFactory->create();
             $statusValues = array();
-            $canceledStatuses = $orderConfig->getStateStatuses(Magento_Sales_Model_Order::STATE_CANCELED);
+            $canceledStatuses = $orderConfig->getStateStatuses(\Magento\Sales\Model\Order::STATE_CANCELED);
             foreach ($orderConfig->getStatuses() as $code => $label) {
                 if (!isset($canceledStatuses[$code])) {
                     $statusValues[] = $code;

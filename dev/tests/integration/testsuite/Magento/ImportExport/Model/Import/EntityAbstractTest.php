@@ -10,30 +10,32 @@
  */
 
 /**
- * Test class for Magento_ImportExport_Model_Import_EntityAbstract
+ * Test class for \Magento\ImportExport\Model\Import\AbstractEntity
  */
-class Magento_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Import;
+
+class EntityAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test for method _saveValidatedBunches()
      */
     public function testSaveValidatedBunches()
     {
-        $source = new Magento_ImportExport_Model_Import_Source_Csv(
+        $source = new \Magento\ImportExport\Model\Import\Source\Csv(
             __DIR__ . '/Entity/Eav/_files/customers_for_validation_test.csv'
         );
         $source->rewind();
         $expected = $source->current();
 
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var $model Magento_ImportExport_Model_Import_EntityAbstract|PHPUnit_Framework_MockObject_MockObject */
-        $model = $this->getMockForAbstractClass('Magento_ImportExport_Model_Import_EntityAbstract', array(
-            $objectManager->get('Magento_Core_Helper_Data'),
-            $objectManager->get('Magento_Core_Helper_String'),
-            $objectManager->get('Magento_Core_Model_Store_Config'),
-            $objectManager->get('Magento_ImportExport_Model_ImportFactory'),
-            $objectManager->get('Magento_ImportExport_Model_Resource_Helper'),
-            $objectManager->get('Magento_Core_Model_Resource'),
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var $model \Magento\ImportExport\Model\Import\AbstractEntity|\PHPUnit_Framework_MockObject_MockObject */
+        $model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\AbstractEntity', array(
+            $objectManager->get('Magento\Core\Helper\Data'),
+            $objectManager->get('Magento\Core\Helper\String'),
+            $objectManager->get('Magento\Core\Model\Store\Config'),
+            $objectManager->get('Magento\ImportExport\Model\ImportFactory'),
+            $objectManager->get('Magento\ImportExport\Model\Resource\Helper'),
+            $objectManager->get('Magento\Core\Model\Resource'),
         ));
         $model->expects($this->any())
             ->method('validateRow')
@@ -44,12 +46,12 @@ class Magento_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Frame
 
         $model->setSource($source);
 
-        $method = new ReflectionMethod($model, '_saveValidatedBunches');
+        $method = new \ReflectionMethod($model, '_saveValidatedBunches');
         $method->setAccessible(true);
         $method->invoke($model);
 
-        /** @var $dataSourceModel Magento_ImportExport_Model_Resource_Import_Data */
-        $dataSourceModel = $objectManager->get('Magento_ImportExport_Model_Resource_Import_Data');
+        /** @var $dataSourceModel \Magento\ImportExport\Model\Resource\Import\Data */
+        $dataSourceModel = $objectManager->get('Magento\ImportExport\Model\Resource\Import\Data');
         $this->assertCount(1, $dataSourceModel->getIterator());
 
         $bunch = $dataSourceModel->getNextBunch();

@@ -6,40 +6,42 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Layout;
+
+class MergeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Fixture XML instruction(s) to be used in tests
      */
-    const FIXTURE_LAYOUT_XML = '<block class="Magento_Core_Block_Template" template="fixture.phtml"/>';
+    const FIXTURE_LAYOUT_XML = '<block class="Magento\Core\Block\Template" template="fixture.phtml"/>';
 
     /**
-     * @var Magento_Core_Model_Layout_Merge
+     * @var \Magento\Core\Model\Layout\Merge
      */
     private $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_resource;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_appState;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_cache;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_theme;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_store;
 
@@ -47,31 +49,31 @@ class Magento_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
     {
         $files = array();
         foreach (glob(__DIR__ . '/_files/layout/*.xml') as $filename) {
-            $files[] = new Magento_Core_Model_Layout_File($filename, 'Magento_Core');
+            $files[] = new \Magento\Core\Model\Layout\File($filename, 'Magento_Core');
         }
-        $fileSource = $this->getMockForAbstractClass('Magento_Core_Model_Layout_File_SourceInterface');
+        $fileSource = $this->getMockForAbstractClass('Magento\Core\Model\Layout\File\SourceInterface');
         $fileSource->expects($this->any())->method('getFiles')->will($this->returnValue($files));
 
-        $design = $this->getMockForAbstractClass('Magento_Core_Model_View_DesignInterface');
+        $design = $this->getMockForAbstractClass('Magento\Core\Model\View\DesignInterface');
 
-        $this->_store = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);
+        $this->_store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
         $this->_store->expects($this->any())->method('getId')->will($this->returnValue(20));
-        $storeManager = $this->getMockForAbstractClass('Magento_Core_Model_StoreManagerInterface');
+        $storeManager = $this->getMockForAbstractClass('Magento\Core\Model\StoreManagerInterface');
         $storeManager->expects($this->once())->method('getStore')->with(null)->will($this->returnValue($this->_store));
 
-        $this->_resource = $this->getMock('Magento_Core_Model_Resource_Layout_Update', array(), array(), '', false);
+        $this->_resource = $this->getMock('Magento\Core\Model\Resource\Layout\Update', array(), array(), '', false);
 
-        $this->_appState = $this->getMock('Magento_Core_Model_App_State', array(), array(), '', false);
+        $this->_appState = $this->getMock('Magento\Core\Model\App\State', array(), array(), '', false);
 
-        $this->_cache = $this->getMockForAbstractClass('Magento_Cache_FrontendInterface');
+        $this->_cache = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface');
 
-        $this->_theme = $this->getMock('Magento_Core_Model_Theme', array(), array(), '', false, false);
+        $this->_theme = $this->getMock('Magento\Core\Model\Theme', array(), array(), '', false, false);
         $this->_theme->expects($this->any())->method('isPhysical')->will($this->returnValue(true));
         $this->_theme->expects($this->any())->method('getArea')->will($this->returnValue('area'));
         $this->_theme->expects($this->any())->method('getId')->will($this->returnValue(100));
 
-        $objectHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_model = $objectHelper->getObject('Magento_Core_Model_Layout_Merge', array(
+        $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_model = $objectHelper->getObject('Magento\Core\Model\Layout\Merge', array(
             'design' => $design,
             'storeManager' => $storeManager,
             'fileSource' => $fileSource,
@@ -197,8 +199,8 @@ class Magento_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($handles, $this->_model->getHandles());
         $expectedResult = '
             <root>
-                <block class="Magento_Core_Block_Template" template="fixture_template_one.phtml"/>
-                <block class="Magento_Core_Block_Template" template="fixture_template_two.phtml"/>
+                <block class="Magento\Core\Block\Template" template="fixture_template_one.phtml"/>
+                <block class="Magento\Core\Block\Template" template="fixture_template_two.phtml"/>
             </root>
         ';
         $actualResult = '<root>' . $this->_model->asString() . '</root>';

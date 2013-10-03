@@ -11,7 +11,9 @@
 /**
  * Theme resource model
  */
-class Magento_Core_Model_Resource_Theme extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Core\Model\Resource;
+
+class Theme extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization

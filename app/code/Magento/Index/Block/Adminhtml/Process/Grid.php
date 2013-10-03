@@ -8,12 +8,14 @@
  * @license     {license_link}
  */
 
-class Magento_Index_Block_Adminhtml_Process_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Index\Block\Adminhtml\Process;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * Process model
      *
-     * @var Magento_Index_Model_Process
+     * @var \Magento\Index\Model\Process
      */
     protected $_indexProcess;
 
@@ -22,38 +24,38 @@ class Magento_Index_Block_Adminhtml_Process_Grid extends Magento_Adminhtml_Block
      *
      * @var string
      */
-    protected $_massactionBlockName = 'Magento_Index_Block_Adminhtml_Process_Grid_Massaction';
+    protected $_massactionBlockName = 'Magento\Index\Block\Adminhtml\Process\Grid\Massaction';
 
     /**
      * Event repository
      *
-     * @var Magento_Index_Model_EventRepository
+     * @var \Magento\Index\Model\EventRepository
      */
     protected $_eventRepository;
 
     /**
-     * @var Magento_Index_Model_Resource_Process_CollectionFactory
+     * @var \Magento\Index\Model\Resource\Process\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @param Magento_Index_Model_Resource_Process_CollectionFactory $factory
-     * @param Magento_Index_Model_Process $indexProcess
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Index_Model_EventRepository $eventRepository
+     * @param \Magento\Index\Model\Resource\Process\CollectionFactory $factory
+     * @param \Magento\Index\Model\Process $indexProcess
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Index\Model\EventRepository $eventRepository
      * @param array $data
      */
     public function __construct(
-        Magento_Index_Model_Resource_Process_CollectionFactory $factory,
-        Magento_Index_Model_Process $indexProcess,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Index_Model_EventRepository $eventRepository,
+        \Magento\Index\Model\Resource\Process\CollectionFactory $factory,
+        \Magento\Index\Model\Process $indexProcess,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Index\Model\EventRepository $eventRepository,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
@@ -76,7 +78,7 @@ class Magento_Index_Block_Adminhtml_Process_Grid extends Magento_Adminhtml_Block
     /**
      * Prepare grid collection
      *
-     * @return Magento_Index_Block_Adminhtml_Process_Grid
+     * @return \Magento\Index\Block\Adminhtml\Process\Grid
      */
     protected function _prepareCollection()
     {
@@ -89,11 +91,11 @@ class Magento_Index_Block_Adminhtml_Process_Grid extends Magento_Adminhtml_Block
     /**
      * Add name and description to collection elements
      *
-     * @return Magento_Index_Block_Adminhtml_Process_Grid
+     * @return \Magento\Index\Block\Adminhtml\Process\Grid
      */
     protected function _afterLoadCollection()
     {
-        /** @var $item Magento_Index_Model_Process */
+        /** @var $item \Magento\Index\Model\Process */
         foreach ($this->_collection as $key => $item) {
             if (!$item->getIndexer()->isVisible()) {
                 $this->_collection->removeItemByKey($key);
@@ -103,7 +105,7 @@ class Magento_Index_Block_Adminhtml_Process_Grid extends Magento_Adminhtml_Block
             $item->setDescription($item->getIndexer()->getDescription());
             $item->setUpdateRequired($this->_eventRepository->hasUnprocessed($item) ? 1 : 0);
             if ($item->isLocked()) {
-                $item->setStatus(Magento_Index_Model_Process::STATUS_RUNNING);
+                $item->setStatus(\Magento\Index\Model\Process::STATUS_RUNNING);
             }
         }
         return $this;
@@ -112,7 +114,7 @@ class Magento_Index_Block_Adminhtml_Process_Grid extends Magento_Adminhtml_Block
     /**
      * Prepare grid columns
      *
-     * @return Magento_Index_Block_Adminhtml_Process_Grid
+     * @return \Magento\Index\Block\Adminhtml\Process\Grid
      */
     protected function _prepareColumns()
     {
@@ -197,8 +199,8 @@ class Magento_Index_Block_Adminhtml_Process_Grid extends Magento_Adminhtml_Block
      * Decorate status column values
      *
      * @param string $value
-     * @param Magento_Index_Model_Process $row
-     * @param Magento_Adminhtml_Block_Widget_Grid_Column $column
+     * @param \Magento\Index\Model\Process $row
+     * @param \Magento\Adminhtml\Block\Widget\Grid\Column $column
      * @param bool $isExport
      *
      * @return string
@@ -207,13 +209,13 @@ class Magento_Index_Block_Adminhtml_Process_Grid extends Magento_Adminhtml_Block
     {
         $class = '';
         switch ($row->getStatus()) {
-            case Magento_Index_Model_Process::STATUS_PENDING :
+            case \Magento\Index\Model\Process::STATUS_PENDING :
                 $class = 'grid-severity-notice';
                 break;
-            case Magento_Index_Model_Process::STATUS_RUNNING :
+            case \Magento\Index\Model\Process::STATUS_RUNNING :
                 $class = 'grid-severity-major';
                 break;
-            case Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX :
+            case \Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX :
                 $class = 'grid-severity-critical';
                 break;
         }
@@ -224,8 +226,8 @@ class Magento_Index_Block_Adminhtml_Process_Grid extends Magento_Adminhtml_Block
      * Decorate "Update Required" column values
      *
      * @param string $value
-     * @param Magento_Index_Model_Process $row
-     * @param Magento_Adminhtml_Block_Widget_Grid_Column $column
+     * @param \Magento\Index\Model\Process $row
+     * @param \Magento\Adminhtml\Block\Widget\Grid\Column $column
      * @param bool $isExport
      *
      * @return string
@@ -248,8 +250,8 @@ class Magento_Index_Block_Adminhtml_Process_Grid extends Magento_Adminhtml_Block
      * Decorate last run date coumn
      *
      * @param string $value
-     * @param Magento_Index_Model_Process $row
-     * @param Magento_Adminhtml_Block_Widget_Grid_Column $column
+     * @param \Magento\Index\Model\Process $row
+     * @param \Magento\Adminhtml\Block\Widget\Grid\Column $column
      * @param bool $isExport
      *
      * @return string
@@ -265,7 +267,7 @@ class Magento_Index_Block_Adminhtml_Process_Grid extends Magento_Adminhtml_Block
     /**
      * Get row edit url
      *
-     * @param Magento_Index_Model_Process $row
+     * @param \Magento\Index\Model\Process $row
      *
      * @return string
      */
@@ -277,7 +279,7 @@ class Magento_Index_Block_Adminhtml_Process_Grid extends Magento_Adminhtml_Block
     /**
      * Add mass-actions to grid
      *
-     * @return Magento_Index_Block_Adminhtml_Process_Grid
+     * @return \Magento\Index\Block\Adminhtml\Process\Grid
      */
     protected function _prepareMassaction()
     {

@@ -11,44 +11,46 @@
 /**
  * Abstract Rule entity data model
  *
- * @deprecated since 1.7.0.0 use Magento_Rule_Model_Abstract instead
+ * @deprecated since 1.7.0.0 use \Magento\Rule\Model\AbstractModel instead
  *
  * @category Magento
  * @package Magento_Rule
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rule_Model_Rule extends Magento_Rule_Model_Abstract
+namespace Magento\Rule\Model;
+
+class Rule extends \Magento\Rule\Model\AbstractModel
 {
     /**
-     * @var Magento_Rule_Model_Condition_Combine
+     * @var \Magento\Rule\Model\Condition\Combine
      */
     protected $_conditions;
 
     /**
-     * @var Magento_Rule_Model_Action_Collection
+     * @var \Magento\Rule\Model\Action\Collection
      */
     protected $_actions;
 
     /**
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Rule_Model_Condition_CombineFactory $conditionsFactory
-     * @param Magento_Rule_Model_Action_CollectionFactory $actionsFactory
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Rule\Model\Condition\CombineFactory $conditionsFactory
+     * @param \Magento\Rule\Model\Action\CollectionFactory $actionsFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Rule_Model_Condition_CombineFactory $conditionsFactory,
-        Magento_Rule_Model_Action_CollectionFactory $actionsFactory,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Rule\Model\Condition\CombineFactory $conditionsFactory,
+        \Magento\Rule\Model\Action\CollectionFactory $actionsFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_conditionsFactory = $conditionsFactory;
@@ -59,7 +61,7 @@ class Magento_Rule_Model_Rule extends Magento_Rule_Model_Abstract
     /**
      * Getter for rule combine conditions instance
      *
-     * @return Magento_Rule_Model_Condition_Combine
+     * @return \Magento\Rule\Model\Condition\Combine
      */
     public function getConditionsInstance()
     {
@@ -69,7 +71,7 @@ class Magento_Rule_Model_Rule extends Magento_Rule_Model_Abstract
     /**
      * Getter for rule actions collection instance
      *
-     * @return Magento_Rule_Model_Action_Collection
+     * @return \Magento\Rule\Model\Action\Collection
      */
     public function getActionsInstance()
     {

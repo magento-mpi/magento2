@@ -7,83 +7,86 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+namespace Magento\Backend\Controller;
+
 /**
  * Controller context
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_Backend_Controller_Context extends Magento_Core_Controller_Varien_Action_Context
+class Context extends \Magento\Core\Controller\Varien\Action\Context
 {
     /**
-     * @var Magento_Backend_Model_Session
+     * @var \Magento\Backend\Model\Session
      */
     protected $_session;
 
     /**
-     * @var Magento_Backend_Helper_Data
+     * @var \Magento\Backend\Helper\Data
      */
     protected $_helper;
 
     /**
-     * @var Magento_AuthorizationInterface
+     * @var \Magento\AuthorizationInterface
      */
     protected $_authorization;
 
     /**
-     * @var Magento_Core_Model_Translate
+     * @var \Magento\Core\Model\Translate
      */
     protected $_translator;
 
     /**
-     * @var Magento_Backend_Model_Auth
+     * @var \Magento\Backend\Model\Auth
      */
     protected $_auth;
 
     /**
-     * @var Magento_Backend_Model_Url
+     * @var \Magento\Backend\Model\Url
      */
     protected $_backendUrl;
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Controller_Request_Http $request
-     * @param Magento_Core_Controller_Response_Http $response
-     * @param Magento_ObjectManager $objectManager
-     * @param Magento_Core_Controller_Varien_Front $frontController
-     * @param Magento_Core_Model_Layout $layout
-     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\Core\Controller\Response\Http $response
+     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Core\Controller\Varien\Front $frontController
+     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param bool $isRenderInherited
-     * @param Magento_Backend_Model_Session $session
-     * @param Magento_Backend_Helper_Data $helper
-     * @param Magento_AuthorizationInterface $authorization
-     * @param Magento_Core_Model_Translate $translator
-     * @param Magento_Backend_Model_Auth $auth
-     * @param Magento_Backend_Model_Url $backendUrl
-     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param \Magento\Backend\Model\Session $session
+     * @param \Magento\Backend\Helper\Data $helper
+     * @param \Magento\AuthorizationInterface $authorization
+     * @param \Magento\Core\Model\Translate $translator
+     * @param \Magento\Backend\Model\Auth $auth
+     * @param \Magento\Backend\Model\Url $backendUrl
+     * @param \Magento\Core\Model\LocaleInterface $locale
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Controller_Request_Http $request,
-        Magento_Core_Controller_Response_Http $response,
-        Magento_ObjectManager $objectManager,
-        Magento_Core_Controller_Varien_Front $frontController,
-        Magento_Core_Model_Layout $layout,
-        Magento_Core_Model_Event_Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Controller\Request\Http $request,
+        \Magento\Core\Controller\Response\Http $response,
+        \Magento\ObjectManager $objectManager,
+        \Magento\Core\Controller\Varien\Front $frontController,
+        \Magento\Core\Model\Layout $layout,
+        \Magento\Core\Model\Event\Manager $eventManager,
         $isRenderInherited,
-        Magento_Backend_Model_Session $session,
-        Magento_Backend_Helper_Data $helper,
-        Magento_AuthorizationInterface $authorization,
-        Magento_Core_Model_Translate $translator,
-        Magento_Backend_Model_Auth $auth,
-        Magento_Backend_Model_Url $backendUrl,
-        Magento_Core_Model_LocaleInterface $locale
+        \Magento\Backend\Model\Session $session,
+        \Magento\Backend\Helper\Data $helper,
+        \Magento\AuthorizationInterface $authorization,
+        \Magento\Core\Model\Translate $translator,
+        \Magento\Backend\Model\Auth $auth,
+        \Magento\Backend\Model\Url $backendUrl,
+        \Magento\Core\Model\LocaleInterface $locale
     ) {
         parent::__construct($logger, $request, $response, $objectManager, $frontController, $layout, $eventManager, 
             $isRenderInherited
@@ -98,7 +101,7 @@ class Magento_Backend_Controller_Context extends Magento_Core_Controller_Varien_
     }
 
     /**
-     * @return \Magento_Backend_Helper_Data
+     * @return \Magento\Backend\Helper\Data
      */
     public function getHelper()
     {
@@ -106,7 +109,7 @@ class Magento_Backend_Controller_Context extends Magento_Core_Controller_Varien_
     }
 
     /**
-     * @return \Magento_Backend_Model_Session
+     * @return \Magento\Backend\Model\Session
      */
     public function getSession()
     {
@@ -114,7 +117,7 @@ class Magento_Backend_Controller_Context extends Magento_Core_Controller_Varien_
     }
 
     /**
-     * @return \Magento_AuthorizationInterface
+     * @return \Magento\AuthorizationInterface
      */
     public function getAuthorization()
     {
@@ -122,7 +125,7 @@ class Magento_Backend_Controller_Context extends Magento_Core_Controller_Varien_
     }
 
     /**
-     * @return \Magento_Core_Model_Translate
+     * @return \Magento\Core\Model\Translate
      */
     public function getTranslator()
     {
@@ -130,7 +133,7 @@ class Magento_Backend_Controller_Context extends Magento_Core_Controller_Varien_
     }
 
     /**
-     * @return \Magento_Backend_Model_Auth
+     * @return \Magento\Backend\Model\Auth
      */
     public function getAuth()
     {
@@ -138,7 +141,7 @@ class Magento_Backend_Controller_Context extends Magento_Core_Controller_Varien_
     }
 
     /**
-     * @return \Magento_Backend_Model_Url
+     * @return \Magento\Backend\Model\Url
      */
     public function getBackendUrl()
     {
@@ -146,7 +149,7 @@ class Magento_Backend_Controller_Context extends Magento_Core_Controller_Varien_
     }
 
     /**
-     * @return \Magento_Core_Model_LocaleInterface
+     * @return \Magento\Core\Model\LocaleInterface
      */
     public function getLocale()
     {

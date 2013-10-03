@@ -15,20 +15,22 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Helper_Url extends Magento_Core_Helper_Abstract
+namespace Magento\Core\Helper;
+
+class Url extends \Magento\Core\Helper\AbstractHelper
 {
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         parent::__construct($context);
         $this->_storeManager = $storeManager;
@@ -46,8 +48,8 @@ class Magento_Core_Helper_Url extends Magento_Core_Helper_Abstract
         $port = $this->_getRequest()->getServer('SERVER_PORT');
         if ($port) {
             $defaultPorts = array(
-                Magento_Core_Controller_Request_Http::DEFAULT_HTTP_PORT,
-                Magento_Core_Controller_Request_Http::DEFAULT_HTTPS_PORT
+                \Magento\Core\Controller\Request\Http::DEFAULT_HTTP_PORT,
+                \Magento\Core\Controller\Request\Http::DEFAULT_HTTPS_PORT
             );
             $port = (in_array($port, $defaultPorts)) ? '' : ':' . $port;
         }

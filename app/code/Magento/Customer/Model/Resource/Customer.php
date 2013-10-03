@@ -7,40 +7,42 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Customer_Model_Resource_Customer extends Magento_Eav_Model_Entity_Abstract
+namespace Magento\Customer\Model\Resource;
+
+class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
 {
     /**
-     * @var Magento_Core_Model_Validator_Factory
+     * @var \Magento\Core\Model\Validator\Factory
      */
     protected $_validatorFactory;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Eav_Model_Resource_Helper $resourceHelper
-     * @param Magento_Validator_UniversalFactory $universalFactory
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Validator_Factory $validatorFactory
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Validator\Factory $validatorFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Eav_Model_Resource_Helper $resourceHelper,
-        Magento_Validator_UniversalFactory $universalFactory,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Validator_Factory $validatorFactory,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Eav\Model\Resource\Helper $resourceHelper,
+        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Validator\Factory $validatorFactory,
         $data = array()
     ) {
         parent::__construct(
@@ -79,18 +81,18 @@ class Magento_Customer_Model_Resource_Customer extends Magento_Eav_Model_Entity_
     /**
      * Check customer scope, email and confirmation key before saving
      *
-     * @param Magento_Object $customer
-     * @throws Magento_Customer_Exception
-     * @throws Magento_Core_Exception
-     * @return Magento_Customer_Model_Resource_Customer
+     * @param \Magento\Object $customer
+     * @throws \Magento\Customer\Exception
+     * @throws \Magento\Core\Exception
+     * @return \Magento\Customer\Model\Resource\Customer
      */
-    protected function _beforeSave(Magento_Object $customer)
+    protected function _beforeSave(\Magento\Object $customer)
     {
-        /** @var Magento_Customer_Model_Customer $customer */
+        /** @var \Magento\Customer\Model\Customer $customer */
         parent::_beforeSave($customer);
 
         if (!$customer->getEmail()) {
-            throw new Magento_Customer_Exception(__('Customer email is required'));
+            throw new \Magento\Customer\Exception(__('Customer email is required'));
         }
 
         $adapter = $this->_getWriteAdapter();
@@ -110,9 +112,9 @@ class Magento_Customer_Model_Resource_Customer extends Magento_Eav_Model_Entity_
 
         $result = $adapter->fetchOne($select, $bind);
         if ($result) {
-            throw new Magento_Customer_Exception(
+            throw new \Magento\Customer\Exception(
                 __('Customer with the same email already exists.'),
-                Magento_Customer_Model_Customer::EXCEPTION_EMAIL_EXISTS
+                \Magento\Customer\Model\Customer::EXCEPTION_EMAIL_EXISTS
             );
         }
 
@@ -135,25 +137,25 @@ class Magento_Customer_Model_Resource_Customer extends Magento_Eav_Model_Entity_
     /**
      * Validate customer entity
      *
-     * @param Magento_Customer_Model_Customer $customer
-     * @throws Magento_Validator_Exception when validation failed
+     * @param \Magento\Customer\Model\Customer $customer
+     * @throws \Magento\Validator\Exception when validation failed
      */
     protected function _validate($customer)
     {
         $validator = $this->_validatorFactory->createValidator('customer', 'save');
 
         if (!$validator->isValid($customer)) {
-            throw new Magento_Validator_Exception($validator->getMessages());
+            throw new \Magento\Validator\Exception($validator->getMessages());
         }
     }
 
     /**
      * Save customer addresses and set default addresses in attributes backend
      *
-     * @param Magento_Object $customer
-     * @return Magento_Eav_Model_Entity_Abstract
+     * @param \Magento\Object $customer
+     * @return \Magento\Eav\Model\Entity\AbstractEntity
      */
-    protected function _afterSave(Magento_Object $customer)
+    protected function _afterSave(\Magento\Object $customer)
     {
         $this->_saveAddresses($customer);
         return parent::_afterSave($customer);
@@ -162,14 +164,14 @@ class Magento_Customer_Model_Resource_Customer extends Magento_Eav_Model_Entity_
     /**
      * Save/delete customer address
      *
-     * @param Magento_Customer_Model_Customer $customer
-     * @return Magento_Customer_Model_Resource_Customer
+     * @param \Magento\Customer\Model\Customer $customer
+     * @return \Magento\Customer\Model\Resource\Customer
      */
-    protected function _saveAddresses(Magento_Customer_Model_Customer $customer)
+    protected function _saveAddresses(\Magento\Customer\Model\Customer $customer)
     {
         $defaultBillingId   = $customer->getData('default_billing');
         $defaultShippingId  = $customer->getData('default_shipping');
-        /** @var Magento_Customer_Model_Address $address */
+        /** @var \Magento\Customer\Model\Address $address */
         foreach ($customer->getAddresses() as $address) {
             if ($address->getData('_deleted')) {
                 if ($address->getId() == $defaultBillingId) {
@@ -212,9 +214,9 @@ class Magento_Customer_Model_Resource_Customer extends Magento_Eav_Model_Entity_
     /**
      * Retrieve select object for loading base entity row
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @param mixed $rowId
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     protected function _getLoadRowSelect($object, $rowId)
     {
@@ -229,13 +231,13 @@ class Magento_Customer_Model_Resource_Customer extends Magento_Eav_Model_Entity_
     /**
      * Load customer by email
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      *
-     * @param Magento_Customer_Model_Customer $customer
+     * @param \Magento\Customer\Model\Customer $customer
      * @param string $email
-     * @return Magento_Customer_Model_Resource_Customer
+     * @return \Magento\Customer\Model\Resource\Customer
      */
-    public function loadByEmail(Magento_Customer_Model_Customer $customer, $email)
+    public function loadByEmail(\Magento\Customer\Model\Customer $customer, $email)
     {
         $adapter = $this->_getReadAdapter();
         $bind    = array('customer_email' => $email);
@@ -245,7 +247,7 @@ class Magento_Customer_Model_Resource_Customer extends Magento_Eav_Model_Entity_
 
         if ($customer->getSharingConfig()->isWebsiteScope()) {
             if (!$customer->hasData('website_id')) {
-                throw new Magento_Core_Exception(
+                throw new \Magento\Core\Exception(
                     __('Customer website ID must be specified when using the website scope')
                 );
             }
@@ -266,11 +268,11 @@ class Magento_Customer_Model_Resource_Customer extends Magento_Eav_Model_Entity_
     /**
      * Change customer password
      *
-     * @param Magento_Customer_Model_Customer $customer
+     * @param \Magento\Customer\Model\Customer $customer
      * @param string $newPassword
-     * @return Magento_Customer_Model_Resource_Customer
+     * @return \Magento\Customer\Model\Resource\Customer
      */
-    public function changePassword(Magento_Customer_Model_Customer $customer, $newPassword)
+    public function changePassword(\Magento\Customer\Model\Customer $customer, $newPassword)
     {
         $customer->setPassword($newPassword);
         $this->saveAttribute($customer, 'password_hash');
@@ -339,12 +341,12 @@ class Magento_Customer_Model_Resource_Customer extends Magento_Eav_Model_Entity_
     /**
      * Custom setter of increment ID if its needed
      *
-     * @param Magento_Object $object
-     * @return Magento_Customer_Model_Resource_Customer
+     * @param \Magento\Object $object
+     * @return \Magento\Customer\Model\Resource\Customer
      */
-    public function setNewIncrementId(Magento_Object $object)
+    public function setNewIncrementId(\Magento\Object $object)
     {
-        if ($this->_coreStoreConfig->getConfig(Magento_Customer_Model_Customer::XML_PATH_GENERATE_HUMAN_FRIENDLY_ID)) {
+        if ($this->_coreStoreConfig->getConfig(\Magento\Customer\Model\Customer::XML_PATH_GENERATE_HUMAN_FRIENDLY_ID)) {
             parent::setNewIncrementId($object);
         }
         return $this;
@@ -355,15 +357,15 @@ class Magento_Customer_Model_Resource_Customer extends Magento_Eav_Model_Entity_
      *
      * Stores new reset password link token and its creation time
      *
-     * @param Magento_Customer_Model_Customer $customer
+     * @param \Magento\Customer\Model\Customer $customer
      * @param string $passwordLinkToken
-     * @return Magento_Customer_Model_Resource_Customer
+     * @return \Magento\Customer\Model\Resource\Customer
      */
-    public function changeResetPasswordLinkToken(Magento_Customer_Model_Customer $customer, $passwordLinkToken)
+    public function changeResetPasswordLinkToken(\Magento\Customer\Model\Customer $customer, $passwordLinkToken)
     {
         if (is_string($passwordLinkToken) && !empty($passwordLinkToken)) {
             $customer->setRpToken($passwordLinkToken);
-            $currentDate = Magento_Date::now();
+            $currentDate = \Magento\Date::now();
             $customer->setRpTokenCreatedAt($currentDate);
             $this->saveAttribute($customer, 'rp_token');
             $this->saveAttribute($customer, 'rp_token_created_at');

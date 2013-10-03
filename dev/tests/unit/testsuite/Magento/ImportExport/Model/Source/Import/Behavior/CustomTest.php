@@ -10,10 +10,12 @@
  */
 
 /**
- * Test class for Magento_ImportExport_Model_Source_Import_Behavior_Custom
+ * Test class for \Magento\ImportExport\Model\Source\Import\Behavior\Custom
  */
-class Magento_ImportExport_Model_Source_Import_Behavior_CustomTest
-    extends Magento_ImportExport_Model_Source_Import_BehaviorTestCaseAbstract
+namespace Magento\ImportExport\Model\Source\Import\Behavior;
+
+class CustomTest
+    extends \Magento\ImportExport\Model\Source\Import\AbstractBehaviorTestCase
 {
     /**
      * Expected behavior group code
@@ -28,21 +30,21 @@ class Magento_ImportExport_Model_Source_Import_Behavior_CustomTest
      * @var array
      */
     protected $_expectedBehaviors = array(
-        Magento_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE,
-        Magento_ImportExport_Model_Import::BEHAVIOR_DELETE,
-        Magento_ImportExport_Model_Import::BEHAVIOR_CUSTOM,
+        \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE,
+        \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE,
+        \Magento\ImportExport\Model\Import::BEHAVIOR_CUSTOM,
     );
 
     protected function setUp()
     {
         parent::setUp();
-        $this->_model = new Magento_ImportExport_Model_Source_Import_Behavior_Custom(array());
+        $this->_model = new \Magento\ImportExport\Model\Source\Import\Behavior\Custom(array());
     }
 
     /**
      * Test toArray method
      *
-     * @covers Magento_ImportExport_Model_Source_Import_Behavior_Custom::toArray
+     * @covers \Magento\ImportExport\Model\Source\Import\Behavior\Custom::toArray
      */
     public function testToArray()
     {
@@ -54,7 +56,7 @@ class Magento_ImportExport_Model_Source_Import_Behavior_CustomTest
     /**
      * Test behavior group code
      *
-     * @covers Magento_ImportExport_Model_Source_Import_Behavior_Custom::getCode
+     * @covers \Magento\ImportExport\Model\Source\Import\Behavior\Custom::getCode
      */
     public function testGetCode()
     {

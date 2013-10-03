@@ -8,31 +8,33 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCardAccount_Model_Total_Quote_Giftcardaccount extends Magento_Sales_Model_Quote_Address_Total_Abstract
+namespace Magento\GiftCardAccount\Model\Total\Quote;
+
+class Giftcardaccount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
      * Gift card account data
      *
-     * @var Magento_GiftCardAccount_Helper_Data
+     * @var \Magento\GiftCardAccount\Helper\Data
      */
     protected $_giftCardAccountData = null;
 
     /**
      * Gift card account giftcardaccount
      *
-     * @var Magento_GiftCardAccount_Model_GiftcardaccountFactory
+     * @var \Magento\GiftCardAccount\Model\GiftcardaccountFactory
      */
     protected $_giftCAFactory = null;
 
     /**
      * Init total model, set total code
      *
-     * @param Magento_GiftCardAccount_Helper_Data $giftCardAccountData
-     * @param Magento_GiftCardAccount_Model_GiftcardaccountFactory $giftCAFactory
+     * @param \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
+     * @param \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftCAFactory
      */
     public function __construct(
-        Magento_GiftCardAccount_Helper_Data $giftCardAccountData,
-        Magento_GiftCardAccount_Model_GiftcardaccountFactory $giftCAFactory
+        \Magento\GiftCardAccount\Helper\Data $giftCardAccountData,
+        \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftCAFactory
     ) {
         $this->_giftCAFactory = $giftCAFactory;
         $this->_giftCardAccountData = $giftCardAccountData;
@@ -42,10 +44,10 @@ class Magento_GiftCardAccount_Model_Total_Quote_Giftcardaccount extends Magento_
     /**
      * Collect giftcertificate totals for specified address
      *
-     * @param Magento_Sales_Model_Quote_Address $address
-     * @return Magento_GiftCardAccount_Model_Total_Quote_Giftcardaccount
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @return \Magento\GiftCardAccount\Model\Total\Quote\Giftcardaccount
      */
-    public function collect(Magento_Sales_Model_Quote_Address $address)
+    public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
         $quote = $address->getQuote();
         $this->_collectQuoteGiftCards($quote);
@@ -155,10 +157,10 @@ class Magento_GiftCardAccount_Model_Total_Quote_Giftcardaccount extends Magento_
     /**
      * Return shopping cart total row items
      *
-     * @param Magento_Sales_Model_Quote_Address $address
-     * @return Magento_GiftCardAccount_Model_Total_Quote_Giftcardaccount
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @return \Magento\GiftCardAccount\Model\Total\Quote\Giftcardaccount
      */
-    public function fetch(Magento_Sales_Model_Quote_Address $address)
+    public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
         if ($address->getQuote()->isVirtual()) {
             $giftCards = $this->_giftCardAccountData->getCards($address->getQuote()->getBillingAddress());

@@ -9,7 +9,7 @@
  */
 ?>
 
-<?php /* @var $this Magento_Backend_Block_System_Config_System_Storage_Media_Synchronize */ ?>
+<?php /* @var $this \Magento\Backend\Block\System\Config\System\Storage\Media\Synchronize */ ?>
 
 <script type="text/javascript">
 //<![CDATA[
@@ -108,7 +108,7 @@
 
                 try {
                     response = eval('(' + transport.responseText + ')');
-                    if (response.state == '<?php echo Magento_Core_Model_File_Storage_Flag::STATE_RUNNING ?>'
+                    if (response.state == '<?php echo \Magento\Core\Model\File\Storage\Flag::STATE_RUNNING ?>'
                         && response.message
                     ) {
                         if ($('sync_span').hasClassName('no-display')) {
@@ -120,9 +120,9 @@
                         enableStorageSelection();
                         $('sync_span').addClassName('no-display');
 
-                        if (response.state == '<?php echo Magento_Core_Model_File_Storage_Flag::STATE_FINISHED ?>') {
+                        if (response.state == '<?php echo \Magento\Core\Model\File\Storage\Flag::STATE_FINISHED ?>') {
                             window.location.reload();
-                        } else if (response.state == '<?php echo Magento_Core_Model_File_Storage_Flag::STATE_NOTIFIED ?>') {
+                        } else if (response.state == '<?php echo \Magento\Core\Model\File\Storage\Flag::STATE_NOTIFIED ?>') {
                             if (response.has_errors) {
                                 enableSyncButton();
                             } else {

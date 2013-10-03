@@ -11,7 +11,9 @@
 /**
  * Theme Image model class
  */
-class Magento_Core_Model_Theme_Image
+namespace Magento\Core\Model\Theme;
+
+class Image
 {
     /**
      * Preview image width
@@ -24,52 +26,52 @@ class Magento_Core_Model_Theme_Image
     const PREVIEW_IMAGE_HEIGHT = 800;
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
     /**
-     * @var Magento_Core_Model_Image_Factory
+     * @var \Magento\Core\Model\Image\Factory
      */
     protected $_imageFactory;
 
     /**
-     * @var Magento_Core_Model_Theme_Image_UploaderProxy
+     * @var \Magento\Core\Model\Theme\Image\UploaderProxy
      */
     protected $_uploader;
 
     /**
-     * @var Magento_Core_Model_Theme_Image_Path
+     * @var \Magento\Core\Model\Theme\Image\Path
      */
     protected $_themeImagePath;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @var Magento_Core_Model_Theme
+     * @var \Magento\Core\Model\Theme
      */
     protected $_theme;
 
     /**
      * Initialize dependencies
      *
-     * @param Magento_Filesystem $filesystem
-     * @param Magento_Core_Model_Image_Factory $imageFactory
-     * @param Magento_Core_Model_Theme_Image_Uploader $uploader
-     * @param Magento_Core_Model_Theme_Image_Path $themeImagePath
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Theme $theme
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Core\Model\Image\Factory $imageFactory
+     * @param \Magento\Core\Model\Theme\Image\Uploader $uploader
+     * @param \Magento\Core\Model\Theme\Image\Path $themeImagePath
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Theme $theme
      */
     public function __construct(
-        Magento_Filesystem $filesystem,
-        Magento_Core_Model_Image_Factory $imageFactory,
-        Magento_Core_Model_Theme_Image_Uploader $uploader,
-        Magento_Core_Model_Theme_Image_Path $themeImagePath,
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Theme $theme = null
+        \Magento\Filesystem $filesystem,
+        \Magento\Core\Model\Image\Factory $imageFactory,
+        \Magento\Core\Model\Theme\Image\Uploader $uploader,
+        \Magento\Core\Model\Theme\Image\Path $themeImagePath,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Theme $theme = null
     ) {
         $this->_filesystem = $filesystem;
         $this->_imageFactory = $imageFactory;
@@ -117,13 +119,13 @@ class Magento_Core_Model_Theme_Image
 
         $isCopied = false;
         try {
-            $destinationFileName = Magento_File_Uploader::getNewFileName($destinationFilePath);
+            $destinationFileName = \Magento\File\Uploader::getNewFileName($destinationFilePath);
             $isCopied = $this->_filesystem->copy(
                 $destinationFilePath,
                 $previewDir . DIRECTORY_SEPARATOR . $destinationFileName
             );
             $this->_theme->setPreviewImage($destinationFileName);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_logger->logException($e);
         }
         return $isCopied;

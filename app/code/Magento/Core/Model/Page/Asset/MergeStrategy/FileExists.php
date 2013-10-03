@@ -9,26 +9,28 @@
 /**
  * Merge strategy representing the following: merged file is being recreated if and only if merged file does not exist
  */
-class Magento_Core_Model_Page_Asset_MergeStrategy_FileExists
-    implements Magento_Core_Model_Page_Asset_MergeStrategyInterface
+namespace Magento\Core\Model\Page\Asset\MergeStrategy;
+
+class FileExists
+    implements \Magento\Core\Model\Page\Asset\MergeStrategyInterface
 {
     /**
-     * @var Magento_Core_Model_Page_Asset_MergeStrategyInterface
+     * @var \Magento\Core\Model\Page\Asset\MergeStrategyInterface
      */
     private $_strategy;
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     private $_filesystem;
 
     /**
-     * @param Magento_Core_Model_Page_Asset_MergeStrategyInterface $strategy
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Core\Model\Page\Asset\MergeStrategyInterface $strategy
+     * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
-        Magento_Core_Model_Page_Asset_MergeStrategyInterface $strategy,
-        Magento_Filesystem $filesystem
+        \Magento\Core\Model\Page\Asset\MergeStrategyInterface $strategy,
+        \Magento\Filesystem $filesystem
     ) {
         $this->_strategy = $strategy;
         $this->_filesystem = $filesystem;

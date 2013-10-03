@@ -8,24 +8,26 @@
  * @license     {license_link}
  */
 
-class Magento_Logging_Model_Resource_Grid_Actions implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Logging\Model\Resource\Grid;
+
+class Actions implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @var Magento_Logging_Helper_Data
+     * @var \Magento\Logging\Helper\Data
      */
     protected $_helper;
 
     /**
-     * @var Magento_Logging_Model_Resource_Event
+     * @var \Magento\Logging\Model\Resource\Event
      */
     protected $_resource;
 
     /**
-     * @param Magento_Logging_Helper_Data $loggingHelper
-     * @param Magento_Logging_Model_Resource_Event $resource
+     * @param \Magento\Logging\Helper\Data $loggingHelper
+     * @param \Magento\Logging\Model\Resource\Event $resource
      */
-    public function __construct(Magento_Logging_Helper_Data $loggingHelper,
-                                Magento_Logging_Model_Resource_Event $resource)
+    public function __construct(\Magento\Logging\Helper\Data $loggingHelper,
+                                \Magento\Logging\Model\Resource\Event $resource)
     {
         $this->_helper = $loggingHelper;
         $this->_resource = $resource;

@@ -9,12 +9,14 @@
 /**
  * Catalog Event adminhtml data helper
  */
-class Magento_CatalogEvent_Helper_Adminhtml_Event extends Magento_Core_Helper_Abstract
+namespace Magento\CatalogEvent\Helper\Adminhtml;
+
+class Event extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Categories first and second level for admin
      *
-     * @var Magento_Data_Tree_Node
+     * @var \Magento\Data\Tree\Node
      */
     protected $_categories = null;
 
@@ -28,28 +30,28 @@ class Magento_CatalogEvent_Helper_Adminhtml_Event extends Magento_Core_Helper_Ab
     /**
      * Event collection factory
      *
-     * @var Magento_CatalogEvent_Model_Resource_Event_CollectionFactory
+     * @var \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory
      */
     protected $_eventCollectionFactory;
 
     /**
      * Category model factory
      *
-     * @var Magento_Catalog_Model_CategoryFactory
+     * @var \Magento\Catalog\Model\CategoryFactory
      */
     protected $_categoryFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_CatalogEvent_Model_Resource_Event_CollectionFactory $factory
-     * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory $factory
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_CatalogEvent_Model_Resource_Event_CollectionFactory $factory,
-        Magento_Catalog_Model_CategoryFactory $categoryFactory
+        \Magento\Core\Helper\Context $context,
+        \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory $factory,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory
     ) {
         parent::__construct($context);
 
@@ -60,16 +62,16 @@ class Magento_CatalogEvent_Helper_Adminhtml_Event extends Magento_Core_Helper_Ab
     /**
      * Return first and second level categories
      *
-     * @return Magento_Data_Tree_Node
+     * @return \Magento\Data\Tree\Node
      */
     public function getCategories()
     {
         if ($this->_categories === null) {
-            /** @var $tree Magento_Catalog_Model_Resource_Category_Tree */
+            /** @var $tree \Magento\Catalog\Model\Resource\Category\Tree */
             $tree = $this->_categoryFactory->create()->getTreeModel();
             $tree->load(null, 2); // Load only to second level.
             $tree->addCollectionData(null, 'position');
-            $this->_categories = $tree->getNodeById(Magento_Catalog_Model_Category::TREE_ROOT_ID)->getChildren();
+            $this->_categories = $tree->getNodeById(\Magento\Catalog\Model\Category::TREE_ROOT_ID)->getChildren();
         }
         return $this->_categories;
     }
@@ -101,7 +103,7 @@ class Magento_CatalogEvent_Helper_Adminhtml_Event extends Magento_Core_Helper_Ab
      *
      * @return array
      */
-    protected function _treeNodeToOption(Magento_Data_Tree_Node $node, $without)
+    protected function _treeNodeToOption(\Magento\Data\Tree\Node $node, $without)
     {
 
         $option = array();
@@ -124,7 +126,7 @@ class Magento_CatalogEvent_Helper_Adminhtml_Event extends Magento_Core_Helper_Ab
      *
      * @param array $categories
      * @param int $categoryId
-     * @return Magento_Data_Tree_Node|boolean
+     * @return \Magento\Data\Tree\Node|boolean
      */
     public function searchInCategories($categories, $categoryId)
     {
@@ -148,7 +150,7 @@ class Magento_CatalogEvent_Helper_Adminhtml_Event extends Magento_Core_Helper_Ab
     {
 
         if ($this->_inEventCategoryIds === null) {
-            /** @var Magento_CatalogEvent_Model_Resource_Event_Collection $collection */
+            /** @var \Magento\CatalogEvent\Model\Resource\Event\Collection $collection */
             $collection = $this->_eventCollectionFactory->create();
             $this->_inEventCategoryIds = $collection->getColumnValues('category_id');
         }

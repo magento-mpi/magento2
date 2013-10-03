@@ -9,29 +9,31 @@
  */
 
 
-class Magento_Catalog_Block_Product extends Magento_Core_Block_Template
+namespace Magento\Catalog\Block;
+
+class Product extends \Magento\Core\Block\Template
 {
     protected $_finalPrice = array();
 
     /**
      * Product factory
      *
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_productFactory = $productFactory;
@@ -40,7 +42,7 @@ class Magento_Catalog_Block_Product extends Magento_Core_Block_Template
 
     public function getProduct()
     {
-        if (!$this->getData('product') instanceof Magento_Catalog_Model_Product) {
+        if (!$this->getData('product') instanceof \Magento\Catalog\Model\Product) {
             if ($this->getData('product')->getProductId()) {
                 $productId = $this->getData('product')->getProductId();
             }

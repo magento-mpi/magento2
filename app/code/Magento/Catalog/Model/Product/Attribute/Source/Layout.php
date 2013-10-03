@@ -15,22 +15,24 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Attribute_Source_Layout extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
+namespace Magento\Catalog\Model\Product\Attribute\Source;
+
+class Layout extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**
      * Page source layout
      *
-     * @var Magento_Page_Model_Source_Layout
+     * @var \Magento\Page\Model\Source\Layout
      */
     protected $_pageSourceLayout;
 
     /**
      * Construct
      *
-     * @param Magento_Page_Model_Source_Layout $pageSourceLayout
+     * @param \Magento\Page\Model\Source\Layout $pageSourceLayout
      */
     public function __construct(
-        Magento_Page_Model_Source_Layout $pageSourceLayout
+        \Magento\Page\Model\Source\Layout $pageSourceLayout
     ) {
         $this->_pageSourceLayout = $pageSourceLayout;
     }

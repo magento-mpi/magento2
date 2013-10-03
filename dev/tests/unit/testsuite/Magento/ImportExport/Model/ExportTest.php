@@ -10,9 +10,11 @@
  */
 
 /**
- * Test class for Magento_ImportExport_Model_Export
+ * Test class for \Magento\ImportExport\Model\Export
  */
-class Magento_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model;
+
+class ExportTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Extension for export file
@@ -22,30 +24,30 @@ class Magento_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCase
     protected $_exportFileExtension = 'csv';
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_exportConfigMock;
 
     /**
-     * Return mock for Magento_ImportExport_Model_Export class
+     * Return mock for \Magento\ImportExport\Model\Export class
      *
-     * @return Magento_ImportExport_Model_Export
+     * @return \Magento\ImportExport\Model\Export
      */
     protected function _getMageImportExportModelExportMock()
     {
-        $this->_exportConfigMock = $this->getMock('Magento_ImportExport_Model_Export_ConfigInterface');
+        $this->_exportConfigMock = $this->getMock('Magento\ImportExport\Model\Export\ConfigInterface');
 
-        /** @var $mockEntityAbstract Magento_ImportExport_Model_Export_EntityAbstract */
-        $mockEntityAbstract = $this->getMockForAbstractClass(
-            'Magento_ImportExport_Model_Export_EntityAbstract',
+        /** @var $abstractMockEntity \Magento\ImportExport\Model\Export\AbstractEntity */
+        $abstractMockEntity = $this->getMockForAbstractClass(
+            'Magento\ImportExport\Model\Export\AbstractEntity',
             array(),
             '',
             false
         );
 
-        /** @var $mockAdapterTest Magento_ImportExport_Model_Export_Adapter_Abstract */
+        /** @var $mockAdapterTest \Magento\ImportExport\Model\Export\Adapter\AbstractAdapter */
         $mockAdapterTest = $this->getMockForAbstractClass(
-            'Magento_ImportExport_Model_Export_Adapter_Abstract',
+            'Magento\ImportExport\Model\Export\Adapter\AbstractAdapter',
             array(),
             '',
             false,
@@ -57,25 +59,25 @@ class Magento_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCase
             ->method('getFileExtension')
             ->will($this->returnValue($this->_exportFileExtension));
 
-        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
-        $dir = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false);
-        $adapterFactory = $this->getMock('Magento_Core_Model_Log_AdapterFactory', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $dir = $this->getMock('Magento\Core\Model\Dir', array(), array(), '', false);
+        $adapterFactory = $this->getMock('Magento\Core\Model\Log\AdapterFactory', array(), array(), '', false);
         $entityFactory = $this->getMock(
-            'Magento_ImportExport_Model_Export_Entity_Factory', array(), array(), '', false);;
+            'Magento\ImportExport\Model\Export\Entity\Factory', array(), array(), '', false);;
         $exportAdapterFac = $this->getMock(
-            'Magento_ImportExport_Model_Export_Adapter_Factory', array(), array(), '', false);
-        /** @var $mockModelExport Magento_ImportExport_Model_Export */
+            'Magento\ImportExport\Model\Export\Adapter\Factory', array(), array(), '', false);
+        /** @var $mockModelExport \Magento\ImportExport\Model\Export */
         $mockModelExport = $this->getMock(
-            'Magento_ImportExport_Model_Export',
+            'Magento\ImportExport\Model\Export',
             array('getEntityAdapter', '_getEntityAdapter', '_getWriter'),
             array($logger, $dir, $adapterFactory, $this->_exportConfigMock, $entityFactory, $exportAdapterFac)
         );
         $mockModelExport->expects($this->any())
             ->method('getEntityAdapter')
-            ->will($this->returnValue($mockEntityAbstract));
+            ->will($this->returnValue($abstractMockEntity));
         $mockModelExport->expects($this->any())
             ->method('_getEntityAdapter')
-            ->will($this->returnValue($mockEntityAbstract));
+            ->will($this->returnValue($abstractMockEntity));
         $mockModelExport->expects($this->any())
             ->method('_getWriter')
             ->will($this->returnValue($mockAdapterTest));

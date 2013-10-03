@@ -15,27 +15,29 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Report_Product_Downloads_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Report\Product\Downloads;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
-     * @var Magento_Reports_Model_Resource_Product_Downloads_CollectionFactory
+     * @var \Magento\Reports\Model\Resource\Product\Downloads\CollectionFactory
      */
     protected $_downloadsFactory;
 
     /**
-     * @param Magento_Reports_Model_Resource_Product_Downloads_CollectionFactory $downloadsFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
+     * @param \Magento\Reports\Model\Resource\Product\Downloads\CollectionFactory $downloadsFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
      * @param array $data
      */
     public function __construct(
-        Magento_Reports_Model_Resource_Product_Downloads_CollectionFactory $downloadsFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
+        \Magento\Reports\Model\Resource\Product\Downloads\CollectionFactory $downloadsFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
         array $data = array()
     ) {
         $this->_downloadsFactory = $downloadsFactory;
@@ -66,7 +68,7 @@ class Magento_Adminhtml_Block_Report_Product_Downloads_Grid extends Magento_Admi
         $collection = $this->_downloadsFactory->create()
             ->addAttributeToSelect('*')
             ->setStoreId($storeId)
-            ->addAttributeToFilter('type_id', array(Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE))
+            ->addAttributeToFilter('type_id', array(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE))
             ->addSummary();
 
         if ($storeId) {
@@ -107,7 +109,7 @@ class Magento_Adminhtml_Block_Report_Product_Downloads_Grid extends Magento_Admi
             'filter'    => false,
             'index'     => 'purchases',
             'type'      => 'number',
-            'renderer'  => 'Magento_Adminhtml_Block_Report_Product_Downloads_Renderer_Purchases',
+            'renderer'  => 'Magento\Adminhtml\Block\Report\Product\Downloads\Renderer\Purchases',
             'header_css_class'  => 'col-purchases',
             'column_css_class'  => 'col-purchases'
         ));

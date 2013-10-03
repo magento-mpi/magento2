@@ -5,21 +5,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_FullPageCache_Model_Placeholder_Config_ConverterTest extends PHPUnit_Framework_TestCase
+namespace Magento\FullPageCache\Model\Placeholder\Config;
+
+class ConverterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_FullPageCache_Model_Placeholder_Config_Converter
+     * @var \Magento\FullPageCache\Model\Placeholder\Config\Converter
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = new Magento_FullPageCache_Model_Placeholder_Config_Converter();
+        $this->_model = new \Magento\FullPageCache\Model\Placeholder\Config\Converter();
     }
 
     public function testConvert()
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $file = realpath(__DIR__ . '/_files/placeholders.xml');
         $dom->load($file);
         $expected = array (

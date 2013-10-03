@@ -5,35 +5,37 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Magento_GoogleOptimizer_Model_Observer_CmsPage_SaveTest extends PHPUnit_Framework_TestCase
+namespace Magento\GoogleOptimizer\Model\Observer\CmsPage;
+
+class SaveTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_helperMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_eventObserverMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_pageMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_codeMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_requestMock;
 
     /**
-     * @var Magento_GoogleOptimizer_Model_Observer_CmsPage_Save
+     * @var \Magento\GoogleOptimizer\Model\Observer\CmsPage\Save
      */
     protected $_modelObserver;
 
@@ -44,19 +46,19 @@ class Magento_GoogleOptimizer_Model_Observer_CmsPage_SaveTest extends PHPUnit_Fr
 
     protected function setUp()
     {
-        $this->_helperMock = $this->getMock('Magento_GoogleOptimizer_Helper_Data', array(), array(), '', false);
-        $this->_codeMock = $this->getMock('Magento_GoogleOptimizer_Model_Code', array(), array(), '', false);
-        $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
+        $this->_helperMock = $this->getMock('Magento\GoogleOptimizer\Helper\Data', array(), array(), '', false);
+        $this->_codeMock = $this->getMock('Magento\GoogleOptimizer\Model\Code', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento\Core\Controller\Request\Http', array(), array(), '', false);
 
-        $this->_pageMock = $this->getMock('Magento_Cms_Model_Page', array(), array(), '', false);
-        $event = $this->getMock('Magento_Event', array('getObject'), array(), '', false);
+        $this->_pageMock = $this->getMock('Magento\Cms\Model\Page', array(), array(), '', false);
+        $event = $this->getMock('Magento\Event', array('getObject'), array(), '', false);
         $event->expects($this->once())->method('getObject')->will($this->returnValue($this->_pageMock));
-        $this->_eventObserverMock = $this->getMock('Magento_Event_Observer', array(), array(), '', false);
+        $this->_eventObserverMock = $this->getMock('Magento\Event\Observer', array(), array(), '', false);
         $this->_eventObserverMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_modelObserver = $objectManagerHelper->getObject(
-            'Magento_GoogleOptimizer_Model_Observer_CmsPage_Save',
+            'Magento\GoogleOptimizer\Model\Observer\CmsPage\Save',
             array(
                 'helper' => $this->_helperMock,
                 'modelCode' => $this->_codeMock,
@@ -81,7 +83,7 @@ class Magento_GoogleOptimizer_Model_Observer_CmsPage_SaveTest extends PHPUnit_Fr
             )));
 
         $this->_codeMock->expects($this->once())->method('addData')->with(array(
-            'entity_type' => Magento_GoogleOptimizer_Model_Code::ENTITY_TYPE_PAGE,
+            'entity_type' => \Magento\GoogleOptimizer\Model\Code::ENTITY_TYPE_PAGE,
             'entity_id' => $pageId,
             'store_id' => 0,
             'experiment_script' => $experimentScript,
@@ -93,7 +95,7 @@ class Magento_GoogleOptimizer_Model_Observer_CmsPage_SaveTest extends PHPUnit_Fr
 
     /**
      * @param array $params
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Wrong request parameters
      * @dataProvider dataProviderWrongRequestForCreating
      */
@@ -147,7 +149,7 @@ class Magento_GoogleOptimizer_Model_Observer_CmsPage_SaveTest extends PHPUnit_Fr
         $this->_codeMock->expects($this->once())->method('getId')->will($this->returnValue($codeId));
 
         $this->_codeMock->expects($this->once())->method('addData')->with(array(
-            'entity_type' => Magento_GoogleOptimizer_Model_Code::ENTITY_TYPE_PAGE,
+            'entity_type' => \Magento\GoogleOptimizer\Model\Code::ENTITY_TYPE_PAGE,
             'entity_id' => $pageId,
             'store_id' => $this->_storeId,
             'experiment_script' => $experimentScript,
@@ -158,7 +160,7 @@ class Magento_GoogleOptimizer_Model_Observer_CmsPage_SaveTest extends PHPUnit_Fr
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Code does not exist
      */
     public function testEditingCodeIfCodeModelIsNotFound()

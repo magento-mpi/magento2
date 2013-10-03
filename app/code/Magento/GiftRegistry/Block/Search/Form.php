@@ -14,39 +14,41 @@
  * @category   Magento
  * @package    Magento_GiftRegistry
  */
-class Magento_GiftRegistry_Block_Search_Form extends Magento_Core_Block_Template
+namespace Magento\GiftRegistry\Block\Search;
+
+class Form extends \Magento\Core\Block\Template
 {
     protected $_formData = null;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $customerSession;
 
     /**
-     * @var Magento_GiftRegistry_Model_TypeFactory
+     * @var \Magento\GiftRegistry\Model\TypeFactory
      */
     protected $typeFactory;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $storeManager;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_GiftRegistry_Model_TypeFactory $typeFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\GiftRegistry\Model\TypeFactory $typeFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_GiftRegistry_Model_TypeFactory $typeFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);
@@ -85,7 +87,7 @@ class Magento_GiftRegistry_Block_Search_Form extends Magento_Core_Block_Template
     /**
      * Return available gift registry types collection
      *
-     * @return Magento_GiftRegistry_Model_Resource_Type_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Type\Collection
      */
     public function getTypesCollection()
     {
@@ -100,7 +102,7 @@ class Magento_GiftRegistry_Block_Search_Form extends Magento_Core_Block_Template
      */
     public function getTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
             ->setData(array(
                 'id'    => 'params-type-id',
                 'class' => 'select'

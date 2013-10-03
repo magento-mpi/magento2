@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Source_Hook implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Webhook\Model\Source;
+
+class Hook implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Path to environments section in the config
@@ -23,13 +25,13 @@ class Magento_Webhook_Model_Source_Hook implements Magento_Core_Model_Option_Arr
      */
     protected $_options = null;
 
-    /** @var  Magento_Core_Model_Config */
+    /** @var  \Magento\Core\Model\Config */
     private $_config;
 
     /**
-     * @param Magento_Core_Model_Config $config
+     * @param \Magento\Core\Model\Config $config
      */
-    public function __construct(Magento_Core_Model_Config $config )
+    public function __construct(\Magento\Core\Model\Config $config )
     {
         $this->_config = $config;
     }

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Modular_FieldsetConfigFilesTest extends Magento_TestFramework_TestCase_ConfigFilesAbstract
+namespace Magento\Test\Integrity\Modular;
+
+class FieldsetConfigFilesTest extends \Magento\TestFramework\TestCase\AbstractConfigFiles
 {
     /**
      * Returns the reader class name that will be instantiated via ObjectManager
@@ -16,7 +18,7 @@ class Magento_Test_Integrity_Modular_FieldsetConfigFilesTest extends Magento_Tes
      */
     protected function _getReaderClassName()
     {
-        return 'Magento_Core_Model_Fieldset_Config_Reader';
+        return 'Magento\Core\Model\Fieldset\Config\Reader';
     }
 
     /**

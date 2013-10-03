@@ -17,13 +17,15 @@
  * @package    Magento_Checkout
  * @module     Checkout
  */
-class Magento_Checkout_Block_Cart_Item_Configure extends Magento_Core_Block_Template
+namespace Magento\Checkout\Block\Cart\Item;
+
+class Configure extends \Magento\Core\Block\Template
 {
 
     /**
      * Configure product view blocks
      *
-     * @return Magento_Checkout_Block_Cart_Item_Configure
+     * @return \Magento\Checkout\Block\Cart\Item\Configure
      */
     protected function _prepareLayout()
     {

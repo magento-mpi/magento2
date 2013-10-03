@@ -7,29 +7,31 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_ObjectManager_ConfigLoader
+namespace Magento\Core\Model\ObjectManager;
+
+class ConfigLoader
 {
     /**
      * Config reader factory
      *
-     * @var Magento_ObjectManager_Config_Reader_Dom
+     * @var \Magento\ObjectManager\Config\Reader\Dom
      */
     protected $_reader;
 
     /**
      * Cache
      *
-     * @var Magento_Cache_FrontendInterface
+     * @var \Magento\Cache\FrontendInterface
      */
     protected $_cache;
 
     /**
-     * @param Magento_Config_CacheInterface $cache
-     * @param Magento_ObjectManager_Config_Reader_Dom $reader
+     * @param \Magento\Config\CacheInterface $cache
+     * @param \Magento\ObjectManager\Config\Reader\Dom $reader
      */
     public function __construct(
-        Magento_Config_CacheInterface $cache,
-        Magento_ObjectManager_Config_Reader_Dom $reader
+        \Magento\Config\CacheInterface $cache,
+        \Magento\ObjectManager\Config\Reader\Dom $reader
     ) {
         $this->_cache = $cache;
         $this->_reader = $reader;

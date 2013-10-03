@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Magento_Page_Config_ReferentialTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Magento\Page\Config;
+
+class ReferentialTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var array string[] $_templates Array of templates referenced from page_layouts
@@ -32,18 +34,18 @@ class Magento_Test_Integrity_Magento_Page_Config_ReferentialTest extends PHPUnit
         /**
          * @var array string[] $configFiles
          */
-        $configFiles = Magento_TestFramework_Utility_Files::init()->getConfigFiles('page_layouts.xml', array(), false);
+        $configFiles = \Magento\TestFramework\Utility\Files::init()->getConfigFiles('page_layouts.xml', array(), false);
         /**
          * @var string $file
          */
         foreach ($configFiles as $file) {
             /**
-             * @var DOMDocument $dom
+             * @var \DOMDocument $dom
              */
-            $dom = new DOMDocument();
+            $dom = new \DOMDocument();
             $dom->loadXML(file_get_contents($file));
 
-            $xpath = new DOMXPath($dom);
+            $xpath = new \DOMXPath($dom);
             foreach ($xpath->query('/page_layouts/layouts/layout') as $layout) {
                 foreach ($layout->childNodes as $layoutSubNode) {
                     if ($layoutSubNode->nodeName == 'template') {
@@ -59,7 +61,7 @@ class Magento_Test_Integrity_Magento_Page_Config_ReferentialTest extends PHPUnit
      */
     private static function _populateTemplateFiles()
     {
-        $filesPaths = Magento_TestFramework_Utility_Files::init()->getPhpFiles(false, false, true, false);
+        $filesPaths = \Magento\TestFramework\Utility\Files::init()->getPhpFiles(false, false, true, false);
         foreach ($filesPaths as $filePath) {
             $filePathArray = explode('/', $filePath);
             $fileName = array_pop($filePathArray);

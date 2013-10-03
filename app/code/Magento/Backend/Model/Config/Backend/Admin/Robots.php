@@ -11,10 +11,12 @@
 /**
  * Config backend model for robots.txt
  */
-class Magento_Backend_Model_Config_Backend_Admin_Robots extends Magento_Core_Model_Config_Value
+namespace Magento\Backend\Model\Config\Backend\Admin;
+
+class Robots extends \Magento\Core\Model\Config\Value
 {
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
@@ -24,25 +26,25 @@ class Magento_Backend_Model_Config_Backend_Admin_Robots extends Magento_Core_Mod
     protected $_filePath;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Filesystem $filesystem
-     * @param Magento_Core_Model_Dir $dir
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Config $config,
-        Magento_Filesystem $filesystem,
-        Magento_Core_Model_Dir $dir,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Config $config,
+        \Magento\Filesystem $filesystem,
+        \Magento\Core\Model\Dir $dir,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct(
@@ -55,7 +57,7 @@ class Magento_Backend_Model_Config_Backend_Admin_Robots extends Magento_Core_Mod
             $data
         );
         $this->_filesystem = $filesystem;
-        $this->_filePath = $dir->getDir(Magento_Core_Model_Dir::ROOT) . '/robots.txt';
+        $this->_filePath = $dir->getDir(\Magento\Core\Model\Dir::ROOT) . '/robots.txt';
     }
 
     /**
@@ -75,7 +77,7 @@ class Magento_Backend_Model_Config_Backend_Admin_Robots extends Magento_Core_Mod
     /**
      * Load default content from robots.txt if customer does not define own
      *
-     * @return Magento_Backend_Model_Config_Backend_Admin_Robots
+     * @return \Magento\Backend\Model\Config\Backend\Admin\Robots
      */
     protected function _afterLoad()
     {
@@ -89,7 +91,7 @@ class Magento_Backend_Model_Config_Backend_Admin_Robots extends Magento_Core_Mod
     /**
      * Check and process robots file
      *
-     * @return Magento_Backend_Model_Config_Backend_Admin_Robots
+     * @return \Magento\Backend\Model\Config\Backend\Admin\Robots
      */
     protected function _afterSave()
     {

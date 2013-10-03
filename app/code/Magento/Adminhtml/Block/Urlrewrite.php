@@ -11,14 +11,16 @@
 /**
  * Block for Urlrewrites grid container
  *
- * @method Magento_Adminhtml_Block_Urlrewrite setSelectorBlock(Magento_Adminhtml_Block_Urlrewrite_Selector $value)
- * @method null|Magento_Adminhtml_Block_Urlrewrite_Selector getSelectorBlock()
+ * @method \Magento\Adminhtml\Block\Urlrewrite setSelectorBlock(\Magento\Adminhtml\Block\Urlrewrite\Selector $value)
+ * @method null|\Magento\Adminhtml\Block\Urlrewrite\Selector getSelectorBlock()
  *
  * @category    Magento
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Urlrewrite extends Magento_Adminhtml_Block_Widget_Grid_Container
+namespace Magento\Adminhtml\Block;
+
+class Urlrewrite extends \Magento\Adminhtml\Block\Widget\Grid\Container
 {
     /**
      * Part for generating apropriate grid block name
@@ -28,20 +30,20 @@ class Magento_Adminhtml_Block_Urlrewrite extends Magento_Adminhtml_Block_Widget_
     protected $_controller = 'urlrewrite';
 
     /**
-     * @var Magento_Adminhtml_Block_Urlrewrite_Selector
+     * @var \Magento\Adminhtml\Block\Urlrewrite\Selector
      */
     protected $_urlrewriteSelector;
 
     /**
-     * @param Magento_Adminhtml_Block_Urlrewrite_Selector $urlrewriteSelector
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Adminhtml\Block\Urlrewrite\Selector $urlrewriteSelector
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Adminhtml_Block_Urlrewrite_Selector $urlrewriteSelector,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Adminhtml\Block\Urlrewrite\Selector $urlrewriteSelector,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_urlrewriteSelector = $urlrewriteSelector;
@@ -62,7 +64,7 @@ class Magento_Adminhtml_Block_Urlrewrite extends Magento_Adminhtml_Block_Widget_
     /**
      * Customize grid row URLs
      *
-     * @see Magento_Adminhtml_Block_Urlrewrite_Selector
+     * @see \Magento\Adminhtml\Block\Urlrewrite\Selector
      * @return string
      */
     public function getCreateUrl()

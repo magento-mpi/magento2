@@ -9,62 +9,64 @@
 /**
  * Payflow Advanced Checkout Controller
  */
-class Magento_Paypal_Controller_Payflowadvanced extends Magento_Paypal_Controller_Express_Abstract
+namespace Magento\Paypal\Controller;
+
+class Payflowadvanced extends \Magento\Paypal\Controller\Express\AbstractExpress
 {
     /**
      * Config mode type
      *
      * @var string
      */
-    protected $_configType = 'Magento_Paypal_Model_Config';
+    protected $_configType = 'Magento\Paypal\Model\Config';
 
     /**
      * Config method type
      *
      * @var string
      */
-    protected $_configMethod = Magento_Paypal_Model_Config::METHOD_PAYFLOWADVANCED;
+    protected $_configMethod = \Magento\Paypal\Model\Config::METHOD_PAYFLOWADVANCED;
 
     /**
      * Checkout mode type
      *
      * @var string
      */
-    protected $_checkoutType = 'Magento_Paypal_Model_Payflowadvanced';
+    protected $_checkoutType = 'Magento\Paypal\Model\Payflowadvanced';
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @var Magento_Paypal_Helper_Checkout
+     * @var \Magento\Paypal\Helper\Checkout
      */
     protected $_checkoutHelper;
 
     /**
-     * @param Magento_Core_Controller_Varien_Action_Context $context
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Core_Model_UrlInterface $urlBuilder
-     * @param Magento_Sales_Model_QuoteFactory $quoteFactory
-     * @param Magento_Checkout_Model_Session $checkoutSession
-     * @param Magento_Sales_Model_OrderFactory $orderFactory
-     * @param Magento_Paypal_Model_Express_Checkout_Factory $checkoutFactory
-     * @param Magento_Core_Model_Session_Generic $paypalSession
-     * @param Magento_Paypal_Helper_Checkout $checkoutHelper
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\UrlInterface $urlBuilder
+     * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param \Magento\Paypal\Model\Express\Checkout\Factory $checkoutFactory
+     * @param \Magento\Core\Model\Session\Generic $paypalSession
+     * @param \Magento\Paypal\Helper\Checkout $checkoutHelper
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Controller_Varien_Action_Context $context,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Core_Model_UrlInterface $urlBuilder,
-        Magento_Sales_Model_QuoteFactory $quoteFactory,
-        Magento_Checkout_Model_Session $checkoutSession,
-        Magento_Sales_Model_OrderFactory $orderFactory,
-        Magento_Paypal_Model_Express_Checkout_Factory $checkoutFactory,
-        Magento_Core_Model_Session_Generic $paypalSession,
-        Magento_Paypal_Helper_Checkout $checkoutHelper
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\UrlInterface $urlBuilder,
+        \Magento\Sales\Model\QuoteFactory $quoteFactory,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Sales\Model\OrderFactory $orderFactory,
+        \Magento\Paypal\Model\Express\Checkout\Factory $checkoutFactory,
+        \Magento\Core\Model\Session\Generic $paypalSession,
+        \Magento\Paypal\Helper\Checkout $checkoutHelper
     ) {
         $this->_logger = $context->getLogger();
         $this->_checkoutHelper = $checkoutHelper;
@@ -105,8 +107,8 @@ class Magento_Paypal_Controller_Payflowadvanced extends Magento_Paypal_Controlle
 
             if ($order && $order->getIncrementId() == $this->_checkoutSession->getLastRealOrderId()) {
                 $allowedOrderStates = array(
-                    Magento_Sales_Model_Order::STATE_PROCESSING,
-                    Magento_Sales_Model_Order::STATE_COMPLETE
+                    \Magento\Sales\Model\Order::STATE_PROCESSING,
+                    \Magento\Sales\Model\Order::STATE_COMPLETE
                 );
                 if (in_array($order->getState(), $allowedOrderStates)) {
                     $this->_checkoutSession->unsLastRealOrderId();
@@ -139,11 +141,11 @@ class Magento_Paypal_Controller_Payflowadvanced extends Magento_Paypal_Controlle
     {
         $data = $this->getRequest()->getPost();
         if (isset($data['INVNUM'])) {
-            /** @var $paymentModel Magento_Paypal_Model_Payflowadvanced */
+            /** @var $paymentModel \Magento\Paypal\Model\Payflowadvanced */
             $paymentModel = $this->_checkoutFactory->create($this->_checkoutType);
             try {
                 $paymentModel->process($data);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_logger->logException($e);
             }
         }

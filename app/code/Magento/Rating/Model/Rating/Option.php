@@ -11,26 +11,28 @@
 /**
  * Rating option model
  *
- * @method Magento_Rating_Model_Resource_Rating_Option _getResource()
- * @method Magento_Rating_Model_Resource_Rating_Option getResource()
+ * @method \Magento\Rating\Model\Resource\Rating\Option _getResource()
+ * @method \Magento\Rating\Model\Resource\Rating\Option getResource()
  * @method int getRatingId()
- * @method Magento_Rating_Model_Rating_Option setRatingId(int $value)
+ * @method \Magento\Rating\Model\Rating\Option setRatingId(int $value)
  * @method string getCode()
- * @method Magento_Rating_Model_Rating_Option setCode(string $value)
+ * @method \Magento\Rating\Model\Rating\Option setCode(string $value)
  * @method int getValue()
- * @method Magento_Rating_Model_Rating_Option setValue(int $value)
+ * @method \Magento\Rating\Model\Rating\Option setValue(int $value)
  * @method int getPosition()
- * @method Magento_Rating_Model_Rating_Option setPosition(int $value)
+ * @method \Magento\Rating\Model\Rating\Option setPosition(int $value)
  *
  * @category    Magento
  * @package     Magento_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rating_Model_Rating_Option extends Magento_Core_Model_Abstract
+namespace Magento\Rating\Model\Rating;
+
+class Option extends \Magento\Core\Model\AbstractModel
 {
     protected function _construct()
     {
-        $this->_init('Magento_Rating_Model_Resource_Rating_Option');
+        $this->_init('Magento\Rating\Model\Resource\Rating\Option');
     }
 
     public function addVote()

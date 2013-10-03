@@ -9,24 +9,26 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Urlrewrite\Edit;
+
 /**
- * Test for Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest
+ * Test for \Magento\Adminhtml\Block\Urlrewrite\Edit\FormTest
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework_TestCase
+class FormTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Get form instance
      *
      * @param array $args
-     * @return Magento_Data_Form
+     * @return \Magento\Data\Form
      */
     protected function _getFormInstance($args = array())
     {
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
-        /** @var $block Magento_Adminhtml_Block_Urlrewrite_Edit_Form */
-        $block = $layout->createBlock('Magento_Adminhtml_Block_Urlrewrite_Edit_Form', 'block', array('data' => $args));
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
+        /** @var $block \Magento\Adminhtml\Block\Urlrewrite\Edit\Form */
+        $block = $layout->createBlock('Magento\Adminhtml\Block\Urlrewrite\Edit\Form', 'block', array('data' => $args));
         $block->setTemplate(null);
         $block->toHtml();
         return $block->getForm();
@@ -39,8 +41,8 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework
     public function testPrepareForm()
     {
         // Test form was configured correctly
-        $form = $this->_getFormInstance(array('url_rewrite' => new Magento_Object(array('id' => 3))));
-        $this->assertInstanceOf('Magento_Data_Form', $form);
+        $form = $this->_getFormInstance(array('url_rewrite' => new \Magento\Object(array('id' => 3))));
+        $this->assertInstanceOf('Magento\Data\Form', $form);
         $this->assertNotEmpty($form->getAction());
         $this->assertEquals('edit_form', $form->getId());
         $this->assertEquals('post', $form->getMethod());
@@ -77,10 +79,10 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework
             'options'      => 'options',
             'description'  => 'description'
         );
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Adminhtml_Model_Session')->setUrlrewriteData($sessionValues);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Adminhtml\Model\Session')->setUrlrewriteData($sessionValues);
         // Re-init form to use newly set session data
-        $form = $this->_getFormInstance(array('url_rewrite' => new Magento_Object()));
+        $form = $this->_getFormInstance(array('url_rewrite' => new \Magento\Object()));
 
         // Check that all fields values are restored from session
         foreach ($sessionValues as $field => $value) {
@@ -96,14 +98,14 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework
      */
     public function testStoreElementSingleStore()
     {
-        $form = $this->_getFormInstance(array('url_rewrite' => new Magento_Object(array('id' => 3))));
-        /** @var $storeElement Magento_Data_Form_Element_Abstract */
+        $form = $this->_getFormInstance(array('url_rewrite' => new \Magento\Object(array('id' => 3))));
+        /** @var $storeElement \Magento\Data\Form\Element\AbstractElement */
         $storeElement = $form->getElement('store_id');
-        $this->assertInstanceOf('Magento_Data_Form_Element_Hidden', $storeElement);
+        $this->assertInstanceOf('Magento\Data\Form\Element\Hidden', $storeElement);
 
         // Check that store value set correctly
-        $defaultStore = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_StoreManagerInterface')->getStore(true)->getId();
+        $defaultStore = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\StoreManagerInterface')->getStore(true)->getId();
         $this->assertEquals($defaultStore, $storeElement->getValue());
     }
 
@@ -115,19 +117,20 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework
      */
     public function testStoreElementMultiStores()
     {
-        $form = $this->_getFormInstance(array('url_rewrite' => new Magento_Object(array('id' => 3))));
-        /** @var $storeElement Magento_Data_Form_Element_Abstract */
+        $form = $this->_getFormInstance(array('url_rewrite' => new \Magento\Object(array('id' => 3))));
+        /** @var $storeElement \Magento\Data\Form\Element\AbstractElement */
         $storeElement = $form->getElement('store_id');
 
         // Check store selection elements has correct type
-        $this->assertInstanceOf('Magento_Data_Form_Element_Select', $storeElement);
+        $this->assertInstanceOf('Magento\Data\Form\Element\Select', $storeElement);
 
         // Check store selection elements has correct renderer
-        $this->assertInstanceOf('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element',
+        $this->assertInstanceOf('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element',
             $storeElement->getRenderer());
 
         // Check store elements has expected values
-        $storesList = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_System_Store')
+        $storesList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\System\Store')
             ->getStoreValuesForForm();
         $this->assertInternalType('array', $storeElement->getValues());
         $this->assertNotEmpty($storeElement->getValues());
@@ -154,7 +157,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework
     {
         return array(
             array(
-                new Magento_Object(),
+                new \Magento\Object(),
                 array(
                     'is_system'    => true,
                     'id_path'      => false,
@@ -165,7 +168,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework
                 )
             ),
             array(
-                new Magento_Object(array('id' => 3)),
+                new \Magento\Object(array('id' => 3)),
                 array(
                     'is_system'    => true,
                     'id_path'      => false,

@@ -11,42 +11,44 @@
 /**
  * One page checkout status
  */
-class Magento_Checkout_Block_Onepage_Shipping extends Magento_Checkout_Block_Onepage_Abstract
+namespace Magento\Checkout\Block\Onepage;
+
+class Shipping extends \Magento\Checkout\Block\Onepage\AbstractOnepage
 {
     /**
      * Sales Qoute Shipping Address instance
      *
-     * @var Magento_Sales_Model_Quote_Address
+     * @var \Magento\Sales\Model\Quote\Address
      */
     protected $_address = null;
 
     /**
-     * @var Magento_Sales_Model_Quote_AddressFactory
+     * @var \Magento\Sales\Model\Quote\AddressFactory
      */
     protected $_addressFactory;
 
     /**
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Checkout_Model_Session $resourceSession
-     * @param Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory
-     * @param Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Sales_Model_Quote_AddressFactory $addressFactory
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Checkout\Model\Session $resourceSession
+     * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
+     * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Sales\Model\Quote\AddressFactory $addressFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Cache_Type_Config $configCacheType,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Checkout_Model_Session $resourceSession,
-        Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory,
-        Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Sales_Model_Quote_AddressFactory $addressFactory,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Checkout\Model\Session $resourceSession,
+        \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
+        \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Sales\Model\Quote\AddressFactory $addressFactory,
         array $data = array()
     ) {
         $this->_addressFactory = $addressFactory;
@@ -80,7 +82,7 @@ class Magento_Checkout_Block_Onepage_Shipping extends Magento_Checkout_Block_One
     /**
      * Return Sales Quote Address model (shipping address)
      *
-     * @return Magento_Sales_Model_Quote_Address
+     * @return \Magento\Sales\Model\Quote\Address
      */
     public function getAddress()
     {

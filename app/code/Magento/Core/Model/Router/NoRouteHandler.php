@@ -8,17 +8,19 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Router_NoRouteHandler implements Magento_Core_Model_Router_NoRouteHandlerInterface
+namespace Magento\Core\Model\Router;
+
+class NoRouteHandler implements \Magento\Core\Model\Router\NoRouteHandlerInterface
 {
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_config;
 
     /**
-     * @param Magento_Core_Model_Config $config
+     * @param \Magento\Core\Model\Config $config
      */
-    public function __construct(Magento_Core_Model_Config $config)
+    public function __construct(\Magento\Core\Model\Config $config)
     {
         $this->_config = $config;
     }
@@ -26,11 +28,11 @@ class Magento_Core_Model_Router_NoRouteHandler implements Magento_Core_Model_Rou
     /**
      * Check and process no route request
      *
-     * @param Magento_Core_Controller_Request_Http $request
+     * @param \Magento\Core\Controller\Request\Http $request
      * @return bool
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
-    public function process(Magento_Core_Controller_Request_Http $request)
+    public function process(\Magento\Core\Controller\Request\Http $request)
     {
         $noRoutePath = $this->_config->getValue('web/default/no_route', 'default');
 

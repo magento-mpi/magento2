@@ -30,7 +30,7 @@
                                 </div>
                             </dd>
                         <?php endif; ?>
-                        <dd><?php echo $this->helper('Magento_Review_Helper_Data')->getDetailHtml($_review->getDetail()) ?></dd>
+                        <dd><?php echo $this->helper('Magento\Review\Helper\Data')->getDetailHtml($_review->getDetail()) ?></dd>
                         <dd><a href="<?php echo $this->getReviewLink() ?>id/<?php echo $_review->getReviewId() ?>"><?php echo __('View Details') ?></a></dd>
                     </dl>
                 </li>

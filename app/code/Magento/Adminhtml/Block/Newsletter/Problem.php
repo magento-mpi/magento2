@@ -15,26 +15,28 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Newsletter_Problem extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Newsletter;
+
+class Problem extends \Magento\Adminhtml\Block\Template
 {
 
     protected $_template = 'newsletter/problem/list.phtml';
 
     /**
-     * @var Magento_Newsletter_Model_Resource_Problem_Collection
+     * @var \Magento\Newsletter\Model\Resource\Problem\Collection
      */
     protected $_problemCollection;
 
     /**
-     * @param Magento_Newsletter_Model_Resource_Problem_Collection $problemCollection
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Newsletter\Model\Resource\Problem\Collection $problemCollection
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Newsletter_Model_Resource_Problem_Collection $problemCollection,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Newsletter\Model\Resource\Problem\Collection $problemCollection,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_problemCollection = $problemCollection;
@@ -52,7 +54,7 @@ class Magento_Adminhtml_Block_Newsletter_Problem extends Magento_Adminhtml_Block
     protected function _prepareLayout()
     {
         $this->setChild('deleteButton',
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button', 'del.button')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button', 'del.button')
                 ->setData(
                     array(
                         'label' => __('Delete Selected Problems'),
@@ -62,7 +64,7 @@ class Magento_Adminhtml_Block_Newsletter_Problem extends Magento_Adminhtml_Block
         );
 
         $this->setChild('unsubscribeButton',
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button', 'unsubscribe.button')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button', 'unsubscribe.button')
                 ->setData(
                     array(
                         'label' => __('Unsubscribe Selected'),
@@ -87,4 +89,4 @@ class Magento_Adminhtml_Block_Newsletter_Problem extends Magento_Adminhtml_Block
     {
         return $this->_problemCollection->getSize() > 0;
     }
-}// Class Magento_Adminhtml_Block_Newsletter_Problem END
+}// Class \Magento\Adminhtml\Block\Newsletter\Problem END

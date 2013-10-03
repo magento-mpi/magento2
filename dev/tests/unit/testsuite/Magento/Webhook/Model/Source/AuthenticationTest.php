@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Source_Authentication
+ * \Magento\Webhook\Model\Source\Authentication
  *
  * {license_notice}
  *
@@ -10,11 +10,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Source_AuthenticationTest extends Magento_Webhook_Model_Source_Pkg
+namespace Magento\Webhook\Model\Source;
+
+class AuthenticationTest extends \Magento\Webhook\Model\Source\Pkg
 {
     public function testGetAuthenticationsForForm()
     {
-        $unitUnderTest = new Magento_Webhook_Model_Source_Authentication(array('type' => 'blah'));
+        $unitUnderTest = new \Magento\Webhook\Model\Source\Authentication(array('type' => 'blah'));
         $elements = $unitUnderTest->getAuthenticationsForForm();
         $this->_assertElements($elements);
 

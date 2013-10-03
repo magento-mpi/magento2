@@ -16,49 +16,51 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Action extends Magento_Core_Model_Abstract
+namespace Magento\Catalog\Model\Product;
+
+class Action extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
      * Index indexer
      *
-     * @var Magento_Index_Model_Indexer
+     * @var \Magento\Index\Model\Indexer
      */
     protected $_indexIndexer;
 
     /**
      * Product website factory
      *
-     * @var Magento_Catalog_Model_Product_WebsiteFactory
+     * @var \Magento\Catalog\Model\Product\WebsiteFactory
      */
     protected $_productWebsiteFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Catalog_Model_Product_WebsiteFactory $productWebsiteFactory
-     * @param Magento_Index_Model_Indexer $indexIndexer
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Catalog\Model\Product\WebsiteFactory $productWebsiteFactory
+     * @param \Magento\Index\Model\Indexer $indexIndexer
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Model_Product_WebsiteFactory $productWebsiteFactory,
-        Magento_Index_Model_Indexer $indexIndexer,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Catalog\Model\Product\WebsiteFactory $productWebsiteFactory,
+        \Magento\Index\Model\Indexer $indexIndexer,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_productWebsiteFactory = $productWebsiteFactory;
@@ -73,13 +75,13 @@ class Magento_Catalog_Model_Product_Action extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Catalog_Model_Resource_Product_Action');
+        $this->_init('Magento\Catalog\Model\Resource\Product\Action');
     }
 
     /**
      * Retrieve resource instance wrapper
      *
-     * @return Magento_Catalog_Model_Resource_Product_Action
+     * @return \Magento\Catalog\Model\Resource\Product\Action
      */
     protected function _getResource()
     {
@@ -92,7 +94,7 @@ class Magento_Catalog_Model_Product_Action extends Magento_Core_Model_Abstract
      * @param array $productIds
      * @param array $attrData
      * @param int $storeId
-     * @return Magento_Catalog_Model_Product_Action
+     * @return \Magento\Catalog\Model\Product\Action
      */
     public function updateAttributes($productIds, $attrData, $storeId)
     {
@@ -111,7 +113,7 @@ class Magento_Catalog_Model_Product_Action extends Magento_Core_Model_Abstract
 
         // register mass action indexer event
         $this->_indexIndexer->processEntityAction(
-            $this, Magento_Catalog_Model_Product::ENTITY, Magento_Index_Model_Event::TYPE_MASS_ACTION
+            $this, \Magento\Catalog\Model\Product::ENTITY, \Magento\Index\Model\Event::TYPE_MASS_ACTION
         );
         return $this;
     }
@@ -143,7 +145,7 @@ class Magento_Catalog_Model_Product_Action extends Magento_Core_Model_Abstract
 
         // register mass action indexer event
         $this->_indexIndexer->processEntityAction(
-            $this, Magento_Catalog_Model_Product::ENTITY, Magento_Index_Model_Event::TYPE_MASS_ACTION
+            $this, \Magento\Catalog\Model\Product::ENTITY, \Magento\Index\Model\Event::TYPE_MASS_ACTION
         );
     }
 }

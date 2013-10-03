@@ -11,7 +11,9 @@
 /**
  * Magento application console installer
  */
-class Magento_Install_Model_Installer_Console extends Magento_Install_Model_Installer_Abstract
+namespace Magento\Install\Model\Installer;
+
+class Console extends \Magento\Install\Model\Installer\AbstractInstaller
 {
     /**#@+
      * Installation options for application initialization
@@ -57,87 +59,87 @@ class Magento_Install_Model_Installer_Console extends Magento_Install_Model_Inst
     );
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
     /**
      * Installer data model to store data between installations steps
      *
-     * @var Magento_Install_Model_Installer_Data|Magento_Core_Model_Session_Generic
+     * @var \Magento\Install\Model\Installer\Data|\Magento\Core\Model\Session\Generic
      */
     protected $_dataModel;
 
     /**
      * Resource config
      *
-     * @var Magento_Core_Model_Config_Resource
+     * @var \Magento\Core\Model\Config\Resource
      */
     protected $_resourceConfig;
 
     /**
      * DB updater
      *
-     * @var Magento_Core_Model_Db_UpdaterInterface
+     * @var \Magento\Core\Model\Db\UpdaterInterface
      */
     protected $_dbUpdater;
 
     /**
      * Install installer data
      *
-     * @var Magento_Install_Model_Installer_Data
+     * @var \Magento\Install\Model\Installer\Data
      */
     protected $_installerData = null;
 
     /**
      * Application State
      *
-     * @var Magento_Core_Model_App_State
+     * @var \Magento\Core\Model\App\State
      */
     protected $_appState;
 
     /**
      * Core Dir model
      *
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_coreDir;
 
     /**
      * Locale model
      *
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
      * Magento Object Manager
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_Install_Model_InstallerProxy $installer
-     * @param Magento_Core_Model_Config_Resource $resourceConfig
-     * @param Magento_Core_Model_Db_UpdaterInterface $dbUpdater
-     * @param Magento_Filesystem $filesystem
-     * @param Magento_Install_Model_Installer_Data $installerData
-     * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Core_Model_Dir $coreDir
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\Install\Model\InstallerProxy $installer
+     * @param \Magento\Core\Model\Config\Resource $resourceConfig
+     * @param \Magento\Core\Model\Db\UpdaterInterface $dbUpdater
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Install\Model\Installer\Data $installerData
+     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\Core\Model\Dir $coreDir
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(
-        Magento_Install_Model_InstallerProxy $installer,
-        Magento_Core_Model_Config_Resource $resourceConfig,
-        Magento_Core_Model_Db_UpdaterInterface $dbUpdater,
-        Magento_Filesystem $filesystem,
-        Magento_Install_Model_Installer_Data $installerData,
-        Magento_Core_Model_App_State $appState,
-        Magento_Core_Model_Dir $coreDir,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_ObjectManager $objectManager
+        \Magento\Install\Model\InstallerProxy $installer,
+        \Magento\Core\Model\Config\Resource $resourceConfig,
+        \Magento\Core\Model\Db\UpdaterInterface $dbUpdater,
+        \Magento\Filesystem $filesystem,
+        \Magento\Install\Model\Installer\Data $installerData,
+        \Magento\Core\Model\App\State $appState,
+        \Magento\Core\Model\Dir $coreDir,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\ObjectManager $objectManager
     ) {
         parent::__construct($installer);
         $this->_resourceConfig = $resourceConfig;
@@ -194,7 +196,7 @@ class Magento_Install_Model_Installer_Console extends Magento_Install_Model_Inst
      * Add error
      *
      * @param string $error
-     * @return Magento_Install_Model_Installer_Console
+     * @return \Magento\Install\Model\Installer\Console
      */
     public function addError($error)
     {
@@ -354,9 +356,9 @@ class Magento_Install_Model_Installer_Console extends Magento_Install_Model_Inst
              */
             $this->_filesystem->changePermissions($this->_coreDir->getDir('var'), 0777, true);
             return $encryptionKey;
-        } catch (Exception $e) {
-            if ($e instanceof Magento_Core_Exception) {
-                foreach ($e->getMessages(Magento_Core_Model_Message::ERROR) as $errorMessage) {
+        } catch (\Exception $e) {
+            if ($e instanceof \Magento\Core\Exception) {
+                foreach ($e->getMessages(\Magento\Core\Model\Message::ERROR) as $errorMessage) {
                     $this->addError($errorMessage);
                 }
             } else {
@@ -371,8 +373,8 @@ class Magento_Install_Model_Installer_Console extends Magento_Install_Model_Inst
      */
     protected function _cleanUpDatabase()
     {
-        $modelName = 'Magento_Install_Model_Installer_Db_Mysql4';
-        /** @var $resourceModel Magento_Install_Model_Installer_Db_Abstract */
+        $modelName = 'Magento\Install\Model\Installer\Db\Mysql4';
+        /** @var $resourceModel \Magento\Install\Model\Installer\Db\AbstractDb */
         $resourceModel = $this->_objectManager->get($modelName);
         $resourceModel->cleanUpDatabase();
     }
@@ -391,10 +393,10 @@ class Magento_Install_Model_Installer_Console extends Magento_Install_Model_Inst
         $this->_cleanUpDatabase();
 
         /* Remove temporary directories and local.xml */
-        foreach (glob($this->_coreDir->getDir(Magento_Core_Model_Dir::VAR_DIR) . '/*', GLOB_ONLYDIR) as $dir) {
+        foreach (glob($this->_coreDir->getDir(\Magento\Core\Model\Dir::VAR_DIR) . '/*', GLOB_ONLYDIR) as $dir) {
             $this->_filesystem->delete($dir);
         }
-        $this->_filesystem->delete($this->_coreDir->getDir(Magento_Core_Model_Dir::CONFIG)
+        $this->_filesystem->delete($this->_coreDir->getDir(\Magento\Core\Model\Dir::CONFIG)
             . DIRECTORY_SEPARATOR . '/local.xml');
         return true;
     }

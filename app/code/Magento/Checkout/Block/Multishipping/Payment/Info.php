@@ -15,25 +15,27 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Multishipping_Payment_Info extends Magento_Payment_Block_Info_ContainerAbstract
+namespace Magento\Checkout\Block\Multishipping\Payment;
+
+class Info extends \Magento\Payment\Block\Info\AbstractContainer
 {
     /**
-     * @var Magento_Checkout_Model_Type_Multishipping
+     * @var \Magento\Checkout\Model\Type\Multishipping
      */
     protected $_multishipping;
 
     /**
-     * @param Magento_Payment_Helper_Data $paymentData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Checkout_Model_Type_Multishipping $multishipping
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Checkout\Model\Type\Multishipping $multishipping
      * @param array $data
      */
     public function __construct(
-        Magento_Payment_Helper_Data $paymentData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Checkout_Model_Type_Multishipping $multishipping,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Checkout\Model\Type\Multishipping $multishipping,
         array $data = array()
     ) {
         $this->_multishipping = $multishipping;
@@ -43,7 +45,7 @@ class Magento_Checkout_Block_Multishipping_Payment_Info extends Magento_Payment_
     /**
      * Retrieve payment info model
      *
-     * @return Magento_Payment_Model_Info
+     * @return \Magento\Payment\Model\Info
      */
     public function getPaymentInfo()
     {

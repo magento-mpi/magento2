@@ -15,45 +15,47 @@
  * @package     Magento_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
-    extends Magento_Backend_Block_Widget_Form_Generic
-    implements Magento_Backend_Block_Widget_Tab_Interface
+namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab;
+
+class Main
+    extends \Magento\Backend\Block\Widget\Form\Generic
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Store list manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Model_System_Store
+     * @var \Magento\Core\Model\System\Store
      */
     protected $_store;
 
     /**
-     * @var Magento_Core_Model_Theme_LabelFactory
+     * @var \Magento\Core\Model\Theme\LabelFactory
      */
     protected $_themeLabelFactory;
 
     /**
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_System_Store $store
-     * @param Magento_Core_Model_Theme_LabelFactory $themeLabelFactory
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\System\Store $store
+     * @param \Magento\Core\Model\Theme\LabelFactory $themeLabelFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_System_Store $store,
-        Magento_Core_Model_Theme_LabelFactory $themeLabelFactory,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\System\Store $store,
+        \Magento\Core\Model\Theme\LabelFactory $themeLabelFactory,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -125,13 +127,13 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
     /**
      * Prepare form before rendering HTML
      *
-     * @return Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
+     * @return \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main
      */
     protected function _prepareForm()
     {
         $widgetInstance = $this->getWidgetInstance();
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id' => 'edit_form',
@@ -161,7 +163,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
             'disabled' => true
         ));
 
-        /** @var $label Magento_Core_Model_Theme_Label */
+        /** @var $label \Magento\Core\Model\Theme\Label */
         $label = $this->_themeLabelFactory->create();
         $options = $label->getLabelsCollection(__('-- Please Select --'));
         $fieldset->addField('theme_id', 'select', array(
@@ -190,7 +192,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
                 'values'    => $this->_store->getStoreValuesForForm(false, true),
             ));
             $renderer = $this->getLayout()
-                ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+                ->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
         }
 
@@ -203,9 +205,9 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
             'note' => __('Sort Order of widget instances in the same container')
         ));
 
-        /* @var $layoutBlock Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout */
+        /* @var $layoutBlock \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main_Layout */
         $layoutBlock = $this->getLayout()
-            ->createBlock('Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout')
+            ->createBlock('Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main\Layout')
             ->setWidgetInstance($widgetInstance);
         $fieldset = $form->addFieldset('layout_updates_fieldset',
             array('legend' => __('Layout Updates'))
@@ -231,7 +233,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
     /**
      * Initialize form fileds values
      *
-     * @return Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
+     * @return \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main
      */
     protected function _initFormValues()
     {

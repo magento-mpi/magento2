@@ -15,25 +15,27 @@
  * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_MultipleWishlist_Block_Link extends Magento_Wishlist_Block_Link
+namespace Magento\MultipleWishlist\Block;
+
+class Link extends \Magento\Wishlist\Block\Link
 {
     /**
      * Wishlist data
      *
-     * @var Magento_MultipleWishlist_Helper_Data
+     * @var \Magento\MultipleWishlist\Helper\Data
      */
     protected $_wishlistData = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_MultipleWishlist_Helper_Data $wishlistData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\MultipleWishlist\Helper\Data $wishlistData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_MultipleWishlist_Helper_Data $wishlistData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\MultipleWishlist\Helper\Data $wishlistData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_wishlistData = $wishlistData;

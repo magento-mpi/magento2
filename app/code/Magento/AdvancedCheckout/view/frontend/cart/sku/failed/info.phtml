@@ -11,8 +11,8 @@
 /**
  * Order by SKU Failed item info
  *
- * @see Magento_AdvancedCheckout_Block_Sku_Products_Info
- * @var $this Magento_AdvancedCheckout_Block_Sku_Products_Info
+ * @see \Magento\AdvancedCheckout\Block\Sku\Products\Info
+ * @var $this \Magento\AdvancedCheckout\Block\Sku\Products\Info
  */
 $_item = $this->getItem();
 $escapedSku = $this->escapeHtml($_item->getSku());
@@ -31,7 +31,7 @@ $escapedSku = $this->escapeHtml($_item->getSku());
     <?php if ($_item->getQtyMinAllowed()): ?>
         <input type="hidden" class="qty_min_allowed" value="<?php echo $_item->getQtyMinAllowed() ?>"/>
     <?php endif ?>
-    <?php if ($_item->getCode() == Magento_AdvancedCheckout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_INCREMENTS): ?>
+    <?php if ($_item->getCode() == \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_QTY_INCREMENTS): ?>
         <input type="hidden" class="qty_increments" value="<?php echo $_item->getQtyIncrements() ?>"/>
     <?php endif ?>
 <?php endif; ?>

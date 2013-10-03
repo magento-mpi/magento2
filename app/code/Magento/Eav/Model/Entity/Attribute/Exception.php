@@ -16,7 +16,9 @@
  * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Entity_Attribute_Exception extends Exception
+namespace Magento\Eav\Model\Entity\Attribute;
+
+class Exception extends \Exception
 {
     /**
      * Eav entity attribute
@@ -37,7 +39,7 @@ class Magento_Eav_Model_Entity_Attribute_Exception extends Exception
      * Set Eav entity attribute
      *
      * @param string $attribute
-     * @return Magento_Eav_Model_Entity_Attribute_Exception
+     * @return \Magento\Eav\Model\Entity\Attribute\Exception
      */
     public function setAttributeCode($attribute)
     {
@@ -49,7 +51,7 @@ class Magento_Eav_Model_Entity_Attribute_Exception extends Exception
      * Set Eav entity attribute type
      *
      * @param string $part
-     * @return Magento_Eav_Model_Entity_Attribute_Exception
+     * @return \Magento\Eav\Model\Entity\Attribute\Exception
      */
     public function setPart($part) {
         $this->_part = $part;

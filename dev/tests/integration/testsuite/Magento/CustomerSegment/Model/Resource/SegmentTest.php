@@ -9,15 +9,17 @@
  * @license     {license_link}
  */
 
-class Magento_CustomerSegment_Model_Resource_SegmentTest extends PHPUnit_Framework_TestCase
+namespace Magento\CustomerSegment\Model\Resource;
+
+class SegmentTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider createConditionSqlDataProvider
      */
     public function testCreateConditionSql($field, $operator, $value, $expected)
     {
-        $segment = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_CustomerSegment_Model_Resource_Segment');
+        $segment = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\CustomerSegment\Model\Resource\Segment');
         $result = $segment->createConditionSql($field, $operator, $value);
         $this->assertEquals($expected, $result);
     }

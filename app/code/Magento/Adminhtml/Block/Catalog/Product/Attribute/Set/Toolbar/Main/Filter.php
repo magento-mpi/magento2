@@ -14,28 +14,30 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Main_Filter
-    extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Toolbar\Main;
+
+class Filter
+    extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var Magento_Eav_Model_Entity_Attribute_SetFactory
+     * @var \Magento\Eav\Model\Entity\Attribute\SetFactory
      */
     protected $_setFactory;
 
     /**
-     * @param Magento_Eav_Model_Entity_Attribute_SetFactory $setFactory
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Eav\Model\Entity\Attribute\SetFactory $setFactory
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Eav_Model_Entity_Attribute_SetFactory $setFactory,
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Eav\Model\Entity\Attribute\SetFactory $setFactory,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_setFactory = $setFactory;
@@ -44,7 +46,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Main_Filter
 
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
 
         $collection = $this->_setFactory->create()

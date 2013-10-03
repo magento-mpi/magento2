@@ -11,33 +11,35 @@
 /**
  * Backend Model for Currency import options
  */
-class Magento_Backend_Model_Config_Backend_Currency_Cron extends Magento_Core_Model_Config_Value
+namespace Magento\Backend\Model\Config\Backend\Currency;
+
+class Cron extends \Magento\Core\Model\Config\Value
 {
     const CRON_STRING_PATH = 'crontab/jobs/currency_rates_update/schedule/cron_expr';
 
     /**
-     * @var Magento_Core_Model_Config_ValueFactory
+     * @var \Magento\Core\Model\Config\ValueFactory
      */
     protected $_configValueFactory;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_Config_ValueFactory $configValueFactory
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Config\ValueFactory $configValueFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_Config_ValueFactory $configValueFactory,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Config\ValueFactory $configValueFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_configValueFactory = $configValueFactory;
@@ -49,8 +51,8 @@ class Magento_Backend_Model_Config_Backend_Currency_Cron extends Magento_Core_Mo
         $time = $this->getData('groups/import/fields/time/value');
         $frequency = $this->getData('groups/import/fields/frequency/value');
 
-        $frequencyWeekly = Magento_Cron_Model_Config_Source_Frequency::CRON_WEEKLY;
-        $frequencyMonthly = Magento_Cron_Model_Config_Source_Frequency::CRON_MONTHLY;
+        $frequencyWeekly = \Magento\Cron\Model\Config\Source\Frequency::CRON_WEEKLY;
+        $frequencyMonthly = \Magento\Cron\Model\Config\Source\Frequency::CRON_MONTHLY;
 
         $cronExprArray = array(
             intval($time[1]),                                   # Minute
@@ -63,14 +65,14 @@ class Magento_Backend_Model_Config_Backend_Currency_Cron extends Magento_Core_Mo
         $cronExprString = join(' ', $cronExprArray);
 
         try {
-            /** @var $configValue Magento_Core_Model_Config_Value */
+            /** @var $configValue \Magento\Core\Model\Config\Value */
             $configValue = $this->_configValueFactory->create();
             $configValue->load(self::CRON_STRING_PATH, 'path');
             $configValue->setValue($cronExprString)
                 ->setPath(self::CRON_STRING_PATH)
                 ->save();
-        } catch (Exception $e) {
-            throw new Exception(__('We can\'t save the Cron expression.'));
+        } catch (\Exception $e) {
+            throw new \Exception(__('We can\'t save the Cron expression.'));
         }
     }
 

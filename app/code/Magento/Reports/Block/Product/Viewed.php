@@ -15,7 +15,9 @@
  * @package    Magento_Reports
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Block_Product_Viewed extends Magento_Reports_Block_Product_Abstract
+namespace Magento\Reports\Block\Product;
+
+class Viewed extends \Magento\Reports\Block\Product\AbstractProduct
 {
     const XML_PATH_RECENTLY_VIEWED_COUNT    = 'catalog/recently_products/viewed_count';
 
@@ -24,7 +26,7 @@ class Magento_Reports_Block_Product_Viewed extends Magento_Reports_Block_Product
      *
      * @var string
      */
-    protected $_indexType = Magento_Reports_Model_Product_Index_Factory::TYPE_VIEWED;
+    protected $_indexType = \Magento\Reports\Model\Product\Index\Factory::TYPE_VIEWED;
 
     /**
      * Retrieve page size (count)

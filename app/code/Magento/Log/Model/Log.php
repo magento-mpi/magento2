@@ -12,48 +12,50 @@
 /**
  * Log Model
  *
- * @method Magento_Log_Model_Resource_Log _getResource()
- * @method Magento_Log_Model_Resource_Log getResource()
+ * @method \Magento\Log\Model\Resource\Log _getResource()
+ * @method \Magento\Log\Model\Resource\Log getResource()
  * @method string getSessionId()
- * @method Magento_Log_Model_Log setSessionId(string $value)
+ * @method \Magento\Log\Model\Log setSessionId(string $value)
  * @method string getFirstVisitAt()
- * @method Magento_Log_Model_Log setFirstVisitAt(string $value)
+ * @method \Magento\Log\Model\Log setFirstVisitAt(string $value)
  * @method string getLastVisitAt()
- * @method Magento_Log_Model_Log setLastVisitAt(string $value)
+ * @method \Magento\Log\Model\Log setLastVisitAt(string $value)
  * @method int getLastUrlId()
- * @method Magento_Log_Model_Log setLastUrlId(int $value)
+ * @method \Magento\Log\Model\Log setLastUrlId(int $value)
  * @method int getStoreId()
- * @method Magento_Log_Model_Log setStoreId(int $value)
+ * @method \Magento\Log\Model\Log setStoreId(int $value)
  *
  * @category    Magento
  * @package     Magento_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Log_Model_Log extends Magento_Core_Model_Abstract
+namespace Magento\Log\Model;
+
+class Log extends \Magento\Core\Model\AbstractModel
 {
     const XML_LOG_CLEAN_DAYS    = 'system/log/clean_after_day';
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -66,7 +68,7 @@ class Magento_Log_Model_Log extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Log_Model_Resource_Log');
+        $this->_init('Magento\Log\Model\Resource\Log');
     }
 
     public function getLogCleanTime()
@@ -77,7 +79,7 @@ class Magento_Log_Model_Log extends Magento_Core_Model_Abstract
     /**
      * Clean Logs
      *
-     * @return Magento_Log_Model_Log
+     * @return \Magento\Log\Model\Log
      */
     public function clean()
     {

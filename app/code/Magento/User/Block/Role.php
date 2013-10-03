@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_User_Block_Role extends Magento_Backend_Block_Widget_Grid_Container
+namespace Magento\User\Block;
+
+class Role extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * @var string
@@ -46,12 +48,12 @@ class Magento_User_Block_Role extends Magento_Backend_Block_Widget_Grid_Containe
             $this->setChild(
                 'grid',
                 $this->getLayout()->createBlock(
-                    $this->_blockGroup . '_Block_Role_Grid',
+                    $this->_blockGroup . '\\Block\\Role\\Grid',
                     $this->_controller . '.grid')
                     ->setSaveParametersInSession(true)
             );
         }
-        return Magento_Backend_Block_Widget_Container::_prepareLayout();
+        return \Magento\Backend\Block\Widget\Container::_prepareLayout();
     }
 
     /**

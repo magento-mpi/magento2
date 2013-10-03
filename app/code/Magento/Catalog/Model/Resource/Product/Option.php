@@ -16,42 +16,44 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Product_Option extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Catalog\Model\Resource\Product;
+
+class Option extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Currency factory
      *
-     * @var Magento_Directory_Model_CurrencyFactory
+     * @var \Magento\Directory\Model\CurrencyFactory
      */
     protected $_currencyFactory;
 
     /**
      * Core config model
      *
-     * @var Magento_Core_Model_ConfigInterface
+     * @var \Magento\Core\Model\ConfigInterface
      */
     protected $_config;
 
     /**
      * Class constructor
      *
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Config $config
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Config $config
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
-        Magento_Directory_Model_CurrencyFactory $currencyFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Config $config
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Directory\Model\CurrencyFactory $currencyFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Config $config
     ) {
         $this->_currencyFactory = $currencyFactory;
         $this->_storeManager = $storeManager;
@@ -71,10 +73,10 @@ class Magento_Catalog_Model_Resource_Product_Option extends Magento_Core_Model_R
     /**
      * Save options store data
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Core_Model_Resource_Db_Abstract
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
-    protected function _afterSave(Magento_Core_Model_Abstract $object)
+    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
         $this->_saveValuePrices($object);
         $this->_saveValueTitles($object);
@@ -85,10 +87,10 @@ class Magento_Catalog_Model_Resource_Product_Option extends Magento_Core_Model_R
     /**
      * Save value prices
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Catalog_Model_Resource_Product_Option
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Catalog\Model\Resource\Product\Option
      */
-    protected function _saveValuePrices(Magento_Core_Model_Abstract $object)
+    protected function _saveValuePrices(\Magento\Core\Model\AbstractModel $object)
     {
         $priceTable   = $this->getTable('catalog_product_option_price');
         $readAdapter  = $this->_getReadAdapter();
@@ -99,25 +101,25 @@ class Magento_Catalog_Model_Resource_Product_Option extends Magento_Core_Model_R
          * If there is not price skip saving price
          */
 
-        if ($object->getType() == Magento_Catalog_Model_Product_Option::OPTION_TYPE_FIELD
-            || $object->getType() == Magento_Catalog_Model_Product_Option::OPTION_TYPE_AREA
-            || $object->getType() == Magento_Catalog_Model_Product_Option::OPTION_TYPE_FILE
-            || $object->getType() == Magento_Catalog_Model_Product_Option::OPTION_TYPE_DATE
-            || $object->getType() == Magento_Catalog_Model_Product_Option::OPTION_TYPE_DATE_TIME
-            || $object->getType() == Magento_Catalog_Model_Product_Option::OPTION_TYPE_TIME
+        if ($object->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_FIELD
+            || $object->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_AREA
+            || $object->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_FILE
+            || $object->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_DATE
+            || $object->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_DATE_TIME
+            || $object->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_TIME
         ) {
             //save for store_id = 0
             if (!$object->getData('scope', 'price')) {
                 $statement = $readAdapter->select()
                     ->from($priceTable, 'option_id')
                     ->where('option_id = ?', $object->getId())
-                    ->where('store_id = ?', Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID);
+                    ->where('store_id = ?', \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID);
                 $optionId = $readAdapter->fetchOne($statement);
 
                 if ($optionId) {
                     if ($object->getStoreId() == '0') {
                         $data = $this->_prepareDataForTable(
-                            new Magento_Object(
+                            new \Magento\Object(
                                 array(
                                     'price'      => $object->getPrice(),
                                     'price_type' => $object->getPriceType())
@@ -130,16 +132,16 @@ class Magento_Catalog_Model_Resource_Product_Option extends Magento_Core_Model_R
                             $data,
                             array(
                                 'option_id = ?' => $object->getId(),
-                                'store_id  = ?' => Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID,
+                                'store_id  = ?' => \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID,
                             )
                         );
                     }
                 } else {
                     $data = $this->_prepareDataForTable(
-                         new Magento_Object(
+                         new \Magento\Object(
                             array(
                                 'option_id'  => $object->getId(),
-                                'store_id'   => Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID,
+                                'store_id'   => \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID,
                                 'price'      => $object->getPrice(),
                                 'price_type' => $object->getPriceType()
                             )
@@ -150,12 +152,12 @@ class Magento_Catalog_Model_Resource_Product_Option extends Magento_Core_Model_R
                 }
             }
 
-            $scope = (int) $this->_storeManager->getStore()->getConfig(Magento_Core_Model_Store::XML_PATH_PRICE_SCOPE);
+            $scope = (int) $this->_storeManager->getStore()->getConfig(\Magento\Core\Model\Store::XML_PATH_PRICE_SCOPE);
 
-            if ($object->getStoreId() != '0' && $scope == Magento_Core_Model_Store::PRICE_SCOPE_WEBSITE
+            if ($object->getStoreId() != '0' && $scope == \Magento\Core\Model\Store::PRICE_SCOPE_WEBSITE
                 && !$object->getData('scope', 'price')) {
 
-                $baseCurrency = $this->_config->getValue(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE,
+                $baseCurrency = $this->_config->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE,
                     'default');
 
                 $storeIds = $this->_storeManager->getStore($object->getStoreId())->getWebsite()->getStoreIds();
@@ -179,7 +181,7 @@ class Magento_Catalog_Model_Resource_Product_Option extends Magento_Core_Model_R
 
                         if ($readAdapter->fetchOne($statement)) {
                             $data = $this->_prepareDataForTable(
-                                new Magento_Object(
+                                new \Magento\Object(
                                     array(
                                         'price'      => $newPrice,
                                         'price_type' => $object->getPriceType()
@@ -198,7 +200,7 @@ class Magento_Catalog_Model_Resource_Product_Option extends Magento_Core_Model_R
                             );
                         } else {
                             $data = $this->_prepareDataForTable(
-                                new Magento_Object(
+                                new \Magento\Object(
                                     array(
                                         'option_id'  => $object->getId(),
                                         'store_id'   => $storeId,
@@ -212,7 +214,7 @@ class Magento_Catalog_Model_Resource_Product_Option extends Magento_Core_Model_R
                         }
                     }// end foreach()
                 }
-            } elseif ($scope == Magento_Core_Model_Store::PRICE_SCOPE_WEBSITE && $object->getData('scope', 'price')) {
+            } elseif ($scope == \Magento\Core\Model\Store::PRICE_SCOPE_WEBSITE && $object->getData('scope', 'price')) {
                 $writeAdapter->delete(
                     $priceTable,
                     array(
@@ -229,10 +231,10 @@ class Magento_Catalog_Model_Resource_Product_Option extends Magento_Core_Model_R
     /**
      * Save titles
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Catalog_Model_Resource_Product_Option
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Catalog\Model\Resource\Product\Option
      */
-    protected function _saveValueTitles(Magento_Core_Model_Abstract $object)
+    protected function _saveValueTitles(\Magento\Core\Model\AbstractModel $object)
     {
         $readAdapter  = $this->_getReadAdapter();
         $writeAdapter = $this->_getWriteAdapter();
@@ -243,12 +245,12 @@ class Magento_Catalog_Model_Resource_Product_Option extends Magento_Core_Model_R
             $statement = $readAdapter->select()
                 ->from($titleTable)
                 ->where('option_id = ?', $object->getId())
-                ->where('store_id  = ?', Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID);
+                ->where('store_id  = ?', \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID);
 
             if ($readAdapter->fetchOne($statement)) {
                 if ($object->getStoreId() == '0') {
                     $data = $this->_prepareDataForTable(
-                        new Magento_Object(
+                        new \Magento\Object(
                             array(
                                 'title' => $object->getTitle()
                             )
@@ -261,16 +263,16 @@ class Magento_Catalog_Model_Resource_Product_Option extends Magento_Core_Model_R
                         $data,
                         array(
                             'option_id = ?' => $object->getId(),
-                            'store_id  = ?' => Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID
+                            'store_id  = ?' => \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID
                         )
                     );
                 }
             } else {
                 $data = $this->_prepareDataForTable(
-                    new Magento_Object(
+                    new \Magento\Object(
                         array(
                             'option_id' => $object->getId(),
-                            'store_id'  => Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID,
+                            'store_id'  => \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID,
                             'title'     => $object->getTitle()
                         )
                     ),
@@ -289,7 +291,7 @@ class Magento_Catalog_Model_Resource_Product_Option extends Magento_Core_Model_R
 
             if ($readAdapter->fetchOne($statement)) {
                 $data = $this->_prepareDataForTable(
-                    new Magento_Object(
+                    new \Magento\Object(
                         array(
                             'title' => $object->getTitle()
                         )
@@ -307,7 +309,7 @@ class Magento_Catalog_Model_Resource_Product_Option extends Magento_Core_Model_R
                 );
             } else {
                 $data = $this->_prepareDataForTable(
-                    new Magento_Object(
+                    new \Magento\Object(
                         array(
                             'option_id' => $object->getId(),
                             'store_id'  => $object->getStoreId(),
@@ -333,7 +335,7 @@ class Magento_Catalog_Model_Resource_Product_Option extends Magento_Core_Model_R
      * Delete prices
      *
      * @param int $optionId
-     * @return Magento_Catalog_Model_Resource_Product_Option
+     * @return \Magento\Catalog\Model\Resource\Product\Option
      */
     public function deletePrices($optionId)
     {
@@ -351,7 +353,7 @@ class Magento_Catalog_Model_Resource_Product_Option extends Magento_Core_Model_R
      * Delete titles
      *
      * @param int $optionId
-     * @return Magento_Catalog_Model_Resource_Product_Option
+     * @return \Magento\Catalog\Model\Resource\Product\Option
      */
     public function deleteTitles($optionId)
     {
@@ -368,12 +370,12 @@ class Magento_Catalog_Model_Resource_Product_Option extends Magento_Core_Model_R
     /**
      * Duplicate custom options for product
      *
-     * @param Magento_Catalog_Model_Product_Option $object
+     * @param \Magento\Catalog\Model\Product\Option $object
      * @param int $oldProductId
      * @param int $newProductId
-     * @return Magento_Catalog_Model_Product_Option
+     * @return \Magento\Catalog\Model\Product\Option
      */
-    public function duplicate(Magento_Catalog_Model_Product_Option $object, $oldProductId, $newProductId)
+    public function duplicate(\Magento\Catalog\Model\Product\Option $object, $oldProductId, $newProductId)
     {
         $write  = $this->_getWriteAdapter();
         $read   = $this->_getReadAdapter();
@@ -406,14 +408,14 @@ class Magento_Catalog_Model_Resource_Product_Option extends Magento_Core_Model_R
             $table = $this->getTable('catalog_product_option_title');
 
             $select = $this->_getReadAdapter()->select()
-                ->from($table, array(new Zend_Db_Expr($newOptionId), 'store_id', 'title'))
+                ->from($table, array(new \Zend_Db_Expr($newOptionId), 'store_id', 'title'))
                 ->where('option_id = ?', $oldOptionId);
 
             $insertSelect = $write->insertFromSelect(
                 $select,
                 $table,
                 array('option_id', 'store_id', 'title'),
-                Magento_DB_Adapter_Interface::INSERT_ON_DUPLICATE
+                \Magento\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
             );
             $write->query($insertSelect);
 
@@ -421,7 +423,7 @@ class Magento_Catalog_Model_Resource_Product_Option extends Magento_Core_Model_R
             $table = $this->getTable('catalog_product_option_price');
 
             $select = $read->select()
-                ->from($table, array(new Zend_Db_Expr($newOptionId), 'store_id', 'price', 'price_type'))
+                ->from($table, array(new \Zend_Db_Expr($newOptionId), 'store_id', 'price', 'price_type'))
                 ->where('option_id = ?', $oldOptionId);
 
             $insertSelect = $write->insertFromSelect(
@@ -432,7 +434,7 @@ class Magento_Catalog_Model_Resource_Product_Option extends Magento_Core_Model_R
                     'price',
                     'price_type'
                 ),
-                Magento_DB_Adapter_Interface::INSERT_ON_DUPLICATE
+                \Magento\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
             );
             $write->query($insertSelect);
 
@@ -467,7 +469,7 @@ class Magento_Catalog_Model_Resource_Product_Option extends Magento_Core_Model_R
         $defaultOptionJoin = implode(
             ' AND ',
             array('option_title_default.option_id=product_option.option_id',
-            $adapter->quoteInto('option_title_default.store_id = ?', Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID))
+            $adapter->quoteInto('option_title_default.store_id = ?', \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID))
         );
 
         $storeOptionJoin = implode(
@@ -500,7 +502,7 @@ class Magento_Catalog_Model_Resource_Product_Option extends Magento_Core_Model_R
         $defaultOptionJoin = implode(
             ' AND ', array(
                 'option_title_default.option_type_id=option_type.option_type_id',
-                $adapter->quoteInto('option_title_default.store_id = ?', Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID))
+                $adapter->quoteInto('option_title_default.store_id = ?', \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID))
         );
 
         $storeOptionJoin = implode(

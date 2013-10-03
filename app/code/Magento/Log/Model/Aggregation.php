@@ -11,14 +11,16 @@
 /**
  * Log Aggregation Model
  *
- * @method Magento_Log_Model_Resource_Aggregation getResource()
- * @method Magento_Log_Model_Resource_Aggregation _getResource()
+ * @method \Magento\Log\Model\Resource\Aggregation getResource()
+ * @method \Magento\Log\Model\Resource\Aggregation _getResource()
  *
  * @category   Magento
  * @package    Magento_Log
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Log_Model_Aggregation extends Magento_Core_Model_Abstract
+namespace Magento\Log\Model;
+
+class Aggregation extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Last record data
@@ -28,24 +30,24 @@ class Magento_Log_Model_Aggregation extends Magento_Core_Model_Abstract
     protected $_lastRecord;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -57,7 +59,7 @@ class Magento_Log_Model_Aggregation extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Log_Model_Resource_Aggregation');
+        $this->_init('Magento\Log\Model\Resource\Aggregation');
     }
 
     /**

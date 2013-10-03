@@ -8,15 +8,17 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCardAccount_Model_Total_Creditmemo_Giftcardaccount extends Magento_Sales_Model_Order_Creditmemo_Total_Abstract
+namespace Magento\GiftCardAccount\Model\Total\Creditmemo;
+
+class Giftcardaccount extends \Magento\Sales\Model\Order\Creditmemo\Total\AbstractTotal
 {
     /**
      * Collect gift card account totals for credit memo
      *
-     * @param Magento_Sales_Model_Order_Creditmemo $creditmemo
-     * @return Magento_GiftCardAccount_Model_Total_Creditmemo_Giftcardaccount
+     * @param \Magento\Sales\Model\Order\Creditmemo $creditmemo
+     * @return \Magento\GiftCardAccount\Model\Total\Creditmemo\Giftcardaccount
      */
-    public function collect(Magento_Sales_Model_Order_Creditmemo $creditmemo)
+    public function collect(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
     {
         $order = $creditmemo->getOrder();
         if ($order->getBaseGiftCardsAmount() && $order->getBaseGiftCardsInvoiced() != 0) {

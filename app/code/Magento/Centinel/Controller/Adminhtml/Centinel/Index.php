@@ -15,22 +15,24 @@
  * @package  Magento_Centinel
  * @author   Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Centinel_Controller_Adminhtml_Centinel_Index extends Magento_Adminhtml_Controller_Action
+namespace Magento\Centinel\Controller\Adminhtml\Centinel;
+
+class Index extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -47,18 +49,18 @@ class Magento_Centinel_Controller_Adminhtml_Centinel_Index extends Magento_Admin
             $paymentData = $this->getRequest()->getParam('payment');
             $validator = $this->_getValidator();
             if (!$validator) {
-                throw new Exception('This payment method does not have centinel validation.');
+                throw new \Exception('This payment method does not have centinel validation.');
             }
             $validator->reset();
             $this->_getPayment()->importData($paymentData);
             $result['authenticationUrl'] = $validator->getAuthenticationStartUrl();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $result['message'] = $e->getMessage();
-        } catch (Exception $e) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+        } catch (\Exception $e) {
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             $result['message'] = __('Validation failed.');
         }
-        $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
     }
 
     /**
@@ -85,14 +87,14 @@ class Magento_Centinel_Controller_Adminhtml_Centinel_Index extends Magento_Admin
             if ($validator) {
                 $request = $this->getRequest();
 
-                $data = new Magento_Object();
+                $data = new \Magento\Object();
                 $data->setTransactionId($request->getParam('MD'));
                 $data->setPaResPayload($request->getParam('PaRes'));
 
                 $validator->authenticate($data);
                 $this->_coreRegistry->register('current_centinel_validator', $validator);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_coreRegistry->register('current_centinel_validator', false);
         }
         $this->loadLayout()->renderLayout();
@@ -101,17 +103,18 @@ class Magento_Centinel_Controller_Adminhtml_Centinel_Index extends Magento_Admin
     /**
      * Return payment model
      *
-     * @return Magento_Sales_Model_Quote_Payment
+     * @return \Magento\Sales\Model\Quote\Payment
      */
     private function _getPayment()
     {
-        return $this->_objectManager->get('Magento_Adminhtml_Model_Sales_Order_Create')->getQuote()->getPayment();
+        $model = \Mage::getSingleton('Magento\Adminhtml\Model\Sales\Order\Create');
+        return $this->_objectManager->get('Magento\Adminhtml\Model\Sales\Order\Create')->getQuote()->getPayment();
     }
 
     /**
      * Return Centinel validation model
      *
-     * @return Magento_Centinel_Model_Service
+     * @return \Magento\Centinel\Model\Service
      */
     private function _getValidator()
     {

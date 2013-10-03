@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Shipping_Model_Config_Source_Flatrate implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Shipping\Model\Config\Source;
+
+class Flatrate implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray()
     {

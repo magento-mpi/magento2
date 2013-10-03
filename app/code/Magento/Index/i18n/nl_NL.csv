@@ -18,7 +18,7 @@
 "Index mode","Index modus"
 "Indexer code is not defined.","Indexeercode is niet gedefinieerd."
 "Indexer model is not defined.","Indexeermodel is niet gedefinieerd."
-"Indexer model should extend Magento_Index_Model_Indexer_Abstract.","Indexeermodel moet Magento_Index_Model_Indexer_Abstract uitbreiden."
+"Indexer model should extend \Magento\Index\Model\Indexer\AbstractIndexer.","Indexeermodel moet \Magento\Index\Model\Indexer\AbstractIndexer uitbreiden."
 "Manual Update","Handmatige Update"
 "Mode","Modus"
 "Never","Nooit"

@@ -9,42 +9,44 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model;
+
+class MenuTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Model_Menu
+     * @var \Magento\Backend\Model\Menu
      */
     protected $_model;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @var Magento_Backend_Model_Menu_Item[]
+     * @var \Magento\Backend\Model\Menu\Item[]
      */
     protected $_items = array();
 
     protected function setUp()
     {
-        $this->_items['item1'] = $this->getMock('Magento_Backend_Model_Menu_Item', array(), array(), '', false);
+        $this->_items['item1'] = $this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false);
         $this->_items['item1']->expects($this->any())->method('getId')->will($this->returnValue('item1'));
 
-        $this->_items['item2'] = $this->getMock('Magento_Backend_Model_Menu_Item', array(), array(), '', false);
+        $this->_items['item2'] = $this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false);
         $this->_items['item2']->expects($this->any())->method('getId')->will($this->returnValue('item2'));
 
-        $this->_items['item3'] = $this->getMock('Magento_Backend_Model_Menu_Item', array(), array(), '', false);
+        $this->_items['item3'] = $this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false);
         $this->_items['item3']->expects($this->any())->method('getId')->will($this->returnValue('item3'));
 
-        $this->_logger = $this->getMock('Magento_Core_Model_Logger', array('log'), array(), '', false);
+        $this->_logger = $this->getMock('Magento\Core\Model\Logger', array('log'), array(), '', false);
 
-        $this->_model = new Magento_Backend_Model_Menu($this->_logger);
+        $this->_model = new \Magento\Backend\Model\Menu($this->_logger);
     }
 
     public function testAdd()
     {
-        $item = $this->getMock('Magento_Backend_Model_Menu_Item', array(), array(), '', false);
+        $item = $this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false);
         $this->_model->add($item);
         $this->assertCount(1, $this->_model);
         $this->assertEquals($item, $this->_model[0]);
@@ -60,7 +62,7 @@ class Magento_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
 
     public function testAddToItem()
     {
-        $subMenu = $this->getMock("Magento_Backend_Model_Menu", array(), array($this->_logger));
+        $subMenu = $this->getMock("Magento\Backend\Model\Menu", array(), array($this->_logger));
         $subMenu->expects($this->once())
             ->method("add")
             ->with($this->_items['item2']);
@@ -75,9 +77,9 @@ class Magento_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
 
     public function testAddWithSortIndexThatAlreadyExistsAddsItemOnNextAvailableIndex()
     {
-        $this->_model->add($this->getMock('Magento_Backend_Model_Menu_Item', array(), array(), '', false));
-        $this->_model->add($this->getMock('Magento_Backend_Model_Menu_Item', array(), array(), '', false));
-        $this->_model->add($this->getMock('Magento_Backend_Model_Menu_Item', array(), array(), '', false));
+        $this->_model->add($this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false));
+        $this->_model->add($this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false));
+        $this->_model->add($this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false));
 
         $this->_model->add($this->_items['item1'], null, 2);
         $this->assertCount(4, $this->_model);
@@ -93,7 +95,7 @@ class Magento_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
         $this->assertCount(3, $this->_model);
         $itemsOrdered = array();
         foreach ($this->_model as $item) {
-            /** @var $item Magento_Backend_Model_Menu_Item */
+            /** @var $item \Magento\Backend\Model\Menu\Item */
             $itemsOrdered[] = $item->getId();
         }
         $this->assertEquals(array('item1', 'item3', 'item2'), $itemsOrdered);
@@ -112,8 +114,8 @@ class Magento_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
 
     public function testGetRecursive()
     {
-        $menu1 = new Magento_Backend_Model_Menu($this->_logger);
-        $menu2 = new Magento_Backend_Model_Menu($this->_logger);
+        $menu1 = new \Magento\Backend\Model\Menu($this->_logger);
+        $menu2 = new \Magento\Backend\Model\Menu($this->_logger);
 
         $this->_items['item1']->expects($this->any())->method('hasChildren')->will($this->returnValue(true));
         $this->_items['item1']->expects($this->any())->method('getChildren')->will($this->returnValue($menu1));
@@ -137,7 +139,7 @@ class Magento_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
         $this->_model->add($this->_items['item2']);
         $this->_model->add($this->_items['item3']);
 
-        $subMenu = $this->getMock("Magento_Backend_Model_Menu", array(), array(), '', false);
+        $subMenu = $this->getMock("Magento\Backend\Model\Menu", array(), array(), '', false);
         $subMenu->expects($this->once())
             ->method("add")
             ->with($this->_items['item3']);
@@ -153,7 +155,7 @@ class Magento_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testMoveNonExistentItemThrowsException()
     {
@@ -165,7 +167,7 @@ class Magento_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testMoveToNonExistentItemThrowsException()
     {
@@ -190,7 +192,7 @@ class Magento_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
 
     public function testRemoveRemovesMenuItemRecursively()
     {
-        $menuMock = $this->getMock('Magento_Backend_Model_Menu', array(), array(), '', false);
+        $menuMock = $this->getMock('Magento\Backend\Model\Menu', array(), array(), '', false);
         $menuMock->expects($this->once())
             ->method('remove')
             ->with($this->equalTo('item2'));
@@ -227,7 +229,7 @@ class Magento_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
     {
         $this->_logger->expects($this->any())->method('log');
 
-        $subMenu = new Magento_Backend_Model_Menu($this->_logger);
+        $subMenu = new \Magento\Backend\Model\Menu($this->_logger);
 
         $this->_items['item1']->expects($this->any())
             ->method("hasChildren")
@@ -260,7 +262,7 @@ class Magento_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
 
     public function testGetFirstAvailableReturnsLeafNode()
     {
-        $item = $this->getMock('Magento_Backend_Model_Menu_Item', array(), array(), '', false);
+        $item = $this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false);
         $item->expects($this->never())->method('getFirstAvailable');
         $this->_model->add($item);
 
@@ -290,14 +292,14 @@ class Magento_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
 
     public function testMultipleIterationsWorkProperly()
     {
-        $this->_model->add($this->getMock('Magento_Backend_Model_Menu_Item', array(), array(), '', false));
-        $this->_model->add($this->getMock('Magento_Backend_Model_Menu_Item', array(), array(), '', false));
+        $this->_model->add($this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false));
+        $this->_model->add($this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false));
 
         $this->_model->add($this->_items['item1']);
         $this->_model->add($this->_items['item2']);
 
         $items = array();
-        /** @var $item Magento_Backend_Model_Menu_Item */
+        /** @var $item \Magento\Backend\Model\Menu\Item */
         foreach ($this->_model as $item) {
             $items[] = $item->getId();
         }

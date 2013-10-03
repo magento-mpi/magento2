@@ -15,12 +15,14 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Invoice_View_Form extends Magento_Adminhtml_Block_Sales_Order_Abstract
+namespace Magento\Adminhtml\Block\Sales\Order\Invoice\View;
+
+class Form extends \Magento\Adminhtml\Block\Sales\Order\AbstractOrder
 {
     /**
      * Retrieve invoice order
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
@@ -30,7 +32,7 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_View_Form extends Magento_Admi
     /**
      * Retrieve source
      *
-     * @return Magento_Sales_Model_Order_Invoice
+     * @return \Magento\Sales\Model\Order\Invoice
      */
     public function getSource()
     {
@@ -40,7 +42,7 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_View_Form extends Magento_Admi
     /**
      * Retrieve invoice model instance
      *
-     * @return Magento_Sales_Model_Order_Invoice
+     * @return \Magento\Sales\Model\Order\Invoice
      */
     public function getInvoice()
     {

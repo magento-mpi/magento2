@@ -8,23 +8,23 @@
  */
 -->
 <config>
-    <type name="Magento_Rma_Helper_Data">
+    <type name="Magento\Rma\Helper\Data">
         <param name="customerSession">
-            <instance type="Magento_Customer_Model_SessionProxy" />
+            <instance type="Magento\Customer\Model\SessionProxy" />
         </param>
         <param name="authSession">
-            <instance type="Magento_Backend_Model_Auth_SessionProxy" />
+            <instance type="Magento\Backend\Model\Auth\SessionProxy" />
         </param>
     </type>
-    <type name="Magento_Rma_Model_Rma_Status_History">
+    <type name="Magento\Rma\Model\Rma\Status\History">
         <param name="translate">
-            <instance type="Magento_Core_Model_TranslateProxy" />
+            <instance type="Magento\Core\Model\TranslateProxy" />
         </param>
     </type>
-    <type name="Magento_Core_Model_Db_Updater">
+    <type name="Magento\Core\Model\Db\Updater">
         <param name="resourceList">
             <value>
-                <rma_setup>Magento_Rma_Model_Resource_Setup</rma_setup>
+                <rma_setup>Magento\Rma\Model\Resource\Setup</rma_setup>
             </value>
         </param>
     </type>

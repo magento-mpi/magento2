@@ -9,8 +9,8 @@
  * @license     {license_link}
  */
 
-$billingAddress = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Sales_Model_Order_Address',
+$billingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Sales\Model\Order\Address',
     array(
         'data' => array(
             'firstname'  => 'guest',
@@ -27,19 +27,19 @@ $billingAddress = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
 );
 $billingAddress->setAddressType('billing');
 
-$payment = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Sales_Model_Order_Payment');
+$payment = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Sales\Model\Order\Payment');
 $payment->setMethod('checkmo');
 
-$orderItem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Sales_Model_Order_Item');
+$orderItem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Sales\Model\Order\Item');
 $orderItem->setProductId(1)
-    ->setProductType(Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE)
+    ->setProductType(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE)
     ->setBasePrice(100)
     ->setQtyOrdered(1);
 
-$order = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Sales_Model_Order');
+$order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Sales\Model\Order');
 $order->addItem($orderItem)
     ->setIncrementId('100000001')
     ->setCustomerIsGuest(true)

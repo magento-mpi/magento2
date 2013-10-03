@@ -5,22 +5,24 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Resource_Config_SchemaLocatorTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Resource\Config;
+
+class SchemaLocatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_modulesReaderMock;
 
     /**
-     * @var Magento_Core_Model_Resource_Config_SchemaLocator
+     * @var \Magento\Core\Model\Resource\Config\SchemaLocator
      */
     protected $_model;
 
     protected function setUp()
     {
         $this->_modulesReaderMock = $this->getMock(
-            'Magento_Core_Model_Config_Modules_Reader', array(), array(), '', false
+            'Magento\Core\Model\Config\Modules\Reader', array(), array(), '', false
         );
 
         $this->_modulesReaderMock->expects($this->once())
@@ -28,11 +30,11 @@ class Magento_Core_Model_Resource_Config_SchemaLocatorTest extends PHPUnit_Frame
             ->with('etc', 'Magento_Core')
             ->will($this->returnValue('some_path'));
 
-        $this->_model = new Magento_Core_Model_Resource_Config_SchemaLocator($this->_modulesReaderMock);
+        $this->_model = new \Magento\Core\Model\Resource\Config\SchemaLocator($this->_modulesReaderMock);
     }
 
     /**
-     * @covers Magento_Core_Model_Resource_Config_SchemaLocator::getSchema
+     * @covers \Magento\Core\Model\Resource\Config\SchemaLocator::getSchema
      */
     public function testGetSchema()
     {
@@ -41,7 +43,7 @@ class Magento_Core_Model_Resource_Config_SchemaLocatorTest extends PHPUnit_Frame
     }
 
     /**
-     * @covers Magento_Core_Model_Resource_Config_SchemaLocator::getPerFileSchema
+     * @covers \Magento\Core\Model\Resource\Config\SchemaLocator::getPerFileSchema
      */
     public function testGetPerFileSchema()
     {

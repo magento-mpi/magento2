@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Customer_Block_Account_Dashboard_Block extends Magento_Core_Block_Template
+namespace Magento\Customer\Block\Account\Dashboard;
+
+class Block extends \Magento\Core\Block\Template
 {
 
 }

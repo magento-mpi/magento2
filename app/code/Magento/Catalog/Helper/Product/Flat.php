@@ -15,7 +15,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Helper_Product_Flat extends Magento_Catalog_Helper_Flat_Abstract
+namespace Magento\Catalog\Helper\Product;
+
+class Flat extends \Magento\Catalog\Helper\Flat\AbstractFlat
 {
     /**
      * Catalog Product Flat Config
@@ -47,7 +49,7 @@ class Magento_Catalog_Helper_Product_Flat extends Magento_Catalog_Helper_Flat_Ab
     /**
      * Catalog Product Flat index process instance
      *
-     * @var Magento_Index_Model_Process|null
+     * @var \Magento\Index\Model\Process|null
      */
     protected $_process = null;
 
@@ -63,36 +65,36 @@ class Magento_Catalog_Helper_Product_Flat extends Magento_Catalog_Helper_Flat_Ab
     /**
      * Catalog Product Flat Flag object
      *
-     * @var Magento_Catalog_Model_Product_Flat_Flag
+     * @var \Magento\Catalog\Model\Product\Flat\Flag
      */
     protected $_flagObject;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
      * Construct
      *
-     * @param Magento_Index_Model_ProcessFactory $processFactory
+     * @param \Magento\Index\Model\ProcessFactory $processFactory
 
      * 
      * Constructor
-     * @param Magento_Index_Model_ProcessFactory $processFactory
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Catalog_Model_Product_Flat_Flag $flatFlag
+     * @param \Magento\Index\Model\ProcessFactory $processFactory
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Catalog\Model\Product\Flat\Flag $flatFlag
      * @param $addFilterableAttrs
      * @param $addChildData
      */
     public function __construct(
-        Magento_Index_Model_ProcessFactory $processFactory,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Catalog_Model_Product_Flat_Flag $flatFlag,
+        \Magento\Index\Model\ProcessFactory $processFactory,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Catalog\Model\Product\Flat\Flag $flatFlag,
         $addFilterableAttrs,
         $addChildData
     ) {
@@ -106,7 +108,7 @@ class Magento_Catalog_Helper_Product_Flat extends Magento_Catalog_Helper_Flat_Ab
     /**
      * Retrieve Catalog Product Flat Flag object
      *
-     * @return Magento_Catalog_Model_Product_Flat_Flag
+     * @return \Magento\Catalog\Model\Product\Flat\Flag
      */
     public function getFlag()
     {
@@ -119,7 +121,7 @@ class Magento_Catalog_Helper_Product_Flat extends Magento_Catalog_Helper_Flat_Ab
     /**
      * Check Catalog Product Flat functionality is enabled
      *
-     * @param int|string|null|Magento_Core_Model_Store $store this parameter is deprecated and no longer in use
+     * @param int|string|null|\Magento\Core\Model\Store $store this parameter is deprecated and no longer in use
      *
      * @return bool
      */

@@ -13,37 +13,39 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Recurring_Profile
-    extends Magento_Sales_Block_Adminhtml_Recurring_Profile_Grid
-    implements Magento_Backend_Block_Widget_Tab_Interface
+namespace Magento\Sales\Block\Adminhtml\Customer\Edit\Tab\Recurring;
+
+class Profile
+    extends \Magento\Sales\Block\Adminhtml\Recurring\Profile\Grid
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Payment_Helper_Data $paymentData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Sales_Model_Resource_Recurring_Profile_CollectionFactory $profileCollection
-     * @param Magento_Sales_Model_Recurring_ProfileFactory $recurringProfile
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory $profileCollection
+     * @param \Magento\Sales\Model\Recurring\ProfileFactory $recurringProfile
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Payment_Helper_Data $paymentData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Sales_Model_Resource_Recurring_Profile_CollectionFactory $profileCollection,
-        Magento_Sales_Model_Recurring_ProfileFactory $recurringProfile,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory $profileCollection,
+        \Magento\Sales\Model\Recurring\ProfileFactory $recurringProfile,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -113,7 +115,7 @@ class Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Recurring_Profile
     /**
      * Prepare collection for grid
      *
-     * @return Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Recurring_Profile
+     * @return \Magento\Sales\Block\Adminhtml\Customer\Edit\Tab\Recurring\Profile
      */
     protected function _prepareCollection()
     {

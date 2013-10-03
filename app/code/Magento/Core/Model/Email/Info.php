@@ -20,7 +20,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Email_Info extends Magento_Object
+namespace Magento\Core\Model\Email;
+
+class Info extends \Magento\Object
 {
     /**
      * Name list of "Bcc" recipients
@@ -56,7 +58,7 @@ class Magento_Core_Model_Email_Info extends Magento_Object
      *
      * @param string $email
      * @param string|null $name
-     * @return Magento_Core_Model_Email_Info
+     * @return \Magento\Core\Model\Email\Info
      */
     public function addBcc($email, $name = null)
     {
@@ -70,7 +72,7 @@ class Magento_Core_Model_Email_Info extends Magento_Object
      *
      * @param string $email
      * @param string|null $name
-     * @return Magento_Core_Model_Email_Info
+     * @return \Magento\Core\Model\Email\Info
      */
     public function addTo($email, $name = null)
     {

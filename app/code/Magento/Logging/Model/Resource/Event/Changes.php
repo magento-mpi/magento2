@@ -16,7 +16,9 @@
  * @package     Magento_Logging
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Logging_Model_Resource_Event_Changes extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Logging\Model\Resource\Event;
+
+class Changes extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize resource

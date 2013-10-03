@@ -11,25 +11,27 @@
 /**
  * Url processing helper
  */
-class Magento_FullPageCache_Helper_Url
+namespace Magento\FullPageCache\Helper;
+
+class Url
 {
     /**
-     * @var Magento_Core_Helper_Url
+     * @var \Magento\Core\Helper\Url
      */
     protected $_urlHelper;
 
     /**
-     * @var Magento_Core_Model_Session
+     * @var \Magento\Core\Model\Session
      */
     protected $_coreSession;
 
     /**
-     * @param Magento_Core_Helper_Url $urlHelper
-     * @param Magento_Core_Model_Session $coreSession
+     * @param \Magento\Core\Helper\Url $urlHelper
+     * @param \Magento\Core\Model\Session $coreSession
      */
     public function __construct(
-        Magento_Core_Helper_Url $urlHelper,
-        Magento_Core_Model_Session $coreSession
+        \Magento\Core\Helper\Url $urlHelper,
+        \Magento\Core\Model\Session $coreSession
     ) {
         $this->_urlHelper = $urlHelper;
         $this->_coreSession = $coreSession;
@@ -89,7 +91,7 @@ class Magento_FullPageCache_Helper_Url
      */
     public function replaceUenc($content)
     {
-        $search = '/\/(' . Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED . ')\/[^\/]*\//';
+        $search = '/\/(' . \Magento\Core\Controller\Front\Action::PARAM_NAME_URL_ENCODED . ')\/[^\/]*\//';
         $replace = '/$1/' . $this->_urlHelper->getEncodedUrl() . '/';
         $content = preg_replace($search, $replace, $content);
         return $content;

@@ -15,8 +15,10 @@
  * @package    Magento_CustomerSegment
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerSegment_Block_Adminhtml_Report_Customer_Segment
-    extends Magento_Backend_Block_Widget_Grid_Container
+namespace Magento\CustomerSegment\Block\Adminhtml\Report\Customer;
+
+class Segment
+    extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Constructor

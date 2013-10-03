@@ -9,7 +9,9 @@
 /**
  * General Logging container
  */
-class Magento_Logging_Block_Adminhtml_Container extends Magento_Backend_Block_Widget_Grid_Container
+namespace Magento\Logging\Block\Adminhtml;
+
+class Container extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Remove add button

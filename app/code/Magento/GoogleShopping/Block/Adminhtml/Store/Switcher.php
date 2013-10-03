@@ -15,7 +15,9 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Block_Adminhtml_Store_Switcher extends Magento_Backend_Block_Store_Switcher
+namespace Magento\GoogleShopping\Block\Adminhtml\Store;
+
+class Switcher extends \Magento\Backend\Block\Store\Switcher
 {
     /**
      * Whether the switcher should show default option

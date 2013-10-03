@@ -11,9 +11,11 @@
 /**
  * Cms Page Edit Hierarchy Tab Block
  */
-class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
-    extends Magento_Backend_Block_Template
-    implements Magento_Backend_Block_Widget_Tab_Interface
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit\Tab;
+
+class Hierarchy
+    extends \Magento\Backend\Block\Template
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Array of nodes for tree
@@ -25,36 +27,36 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
     /**
      * Cms hierarchy
      *
-     * @var Magento_VersionsCms_Helper_Hierarchy
+     * @var \Magento\VersionsCms\Helper\Hierarchy
      */
     protected $_cmsHierarchy;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry;
 
     /**
-     * @var Magento_VersionsCms_Model_Resource_Hierarchy_Node_CollectionFactory
+     * @var \Magento\VersionsCms\Model\Resource\Hierarchy\Node\CollectionFactory
      */
     protected $_nodeCollFactory;
 
     /**
-     * @param Magento_VersionsCms_Helper_Hierarchy $cmsHierarchy
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_VersionsCms_Model_Resource_Hierarchy_Node_CollectionFactory $nodeCollFactory
+     * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\VersionsCms\Model\Resource\Hierarchy\Node\CollectionFactory $nodeCollFactory
      * @param array $data
      */
     public function __construct(
-        Magento_VersionsCms_Helper_Hierarchy $cmsHierarchy,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_VersionsCms_Model_Resource_Hierarchy_Node_CollectionFactory $nodeCollFactory,
+        \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\VersionsCms\Model\Resource\Hierarchy\Node\CollectionFactory $nodeCollFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -66,7 +68,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
     /**
      * Retrieve current page instance
      *
-     * @return Magento_Cms_Model_Page
+     * @return \Magento\Cms\Model\Page
      */
     public function getPage()
     {
@@ -93,11 +95,11 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
             $this->_nodes = array();
             try{
                 $data = $this->_coreData->jsonDecode($this->getPage()->getNodesData());
-            }catch (Zend_Json_Exception $e){
+            }catch (\Zend_Json_Exception $e){
                 $data = null;
             }
 
-            /** @var Magento_VersionsCms_Model_Resource_Hierarchy_Node_Collection $collection */
+            /** @var \Magento\VersionsCms\Model\Resource\Hierarchy\Node\Collection $collection */
             $collection = $this->_nodeCollFactory->create()
                 ->joinCmsPage()
                 ->setOrderByLevel()
@@ -129,10 +131,10 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
                 }
             } else {
                 foreach ($collection as $item) {
-                    if ($item->getLevel() == Magento_VersionsCms_Model_Hierarchy_Node::NODE_LEVEL_FAKE) {
+                    if ($item->getLevel() == \Magento\VersionsCms\Model\Hierarchy\Node::NODE_LEVEL_FAKE) {
                         continue;
                     }
-                    /* @var $item Magento_VersionsCms_Model_Hierarchy_Node */
+                    /* @var $item \Magento\VersionsCms\Model\Hierarchy\Node */
                     $node = array(
                         'node_id'               => $item->getId(),
                         'parent_node_id'        => $item->getParentNodeId(),
@@ -166,7 +168,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
      * Forced nodes setter
      *
      * @param array $nodes New nodes array
-     * @return Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit\Tab\Hierarchy
      */
     public function setNodes($nodes)
     {

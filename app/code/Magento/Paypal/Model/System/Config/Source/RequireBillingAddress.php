@@ -11,18 +11,20 @@
 /**
  * Source model for Require Billing Address
  */
-class Magento_Paypal_Model_System_Config_Source_RequireBillingAddress
-    implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Paypal\Model\System\Config\Source;
+
+class RequireBillingAddress
+    implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @var Magento_Paypal_Model_ConfigFactory
+     * @var \Magento\Paypal\Model\ConfigFactory
      */
     protected $_configFactory;
 
     /**
-     * @param Magento_Paypal_Model_ConfigFactory $configFactory
+     * @param \Magento\Paypal\Model\ConfigFactory $configFactory
      */
-    public function __construct(Magento_Paypal_Model_ConfigFactory $configFactory)
+    public function __construct(\Magento\Paypal\Model\ConfigFactory $configFactory)
     {
         $this->_configFactory = $configFactory;
     }

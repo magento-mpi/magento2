@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-abstract class Magento_Core_Model_Resource_HelperFactory
+namespace Magento\Core\Model\Resource;
+
+abstract class HelperFactory
 {
     /**
      * @var string
@@ -16,14 +18,14 @@ abstract class Magento_Core_Model_Resource_HelperFactory
     protected $_moduleName;
 
     /**
-     * @var Magento_Core_Model_Resource_HelperPool
+     * @var \Magento\Core\Model\Resource\HelperPool
      */
     protected $_helperPool;
 
     /**
-     * @param Magento_Core_Model_Resource_HelperPool $helperPool
+     * @param \Magento\Core\Model\Resource\HelperPool $helperPool
      */
-    public function __construct(Magento_Core_Model_Resource_HelperPool $helperPool)
+    public function __construct(\Magento\Core\Model\Resource\HelperPool $helperPool)
     {
         $this->_helperPool = $helperPool;
     }

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Profiler_Driver_Standard_Stat
+namespace Magento\Profiler\Driver\Standard;
+
+class Stat
 {
     /**
      * #@+ Timer statistics data keys
@@ -63,12 +65,12 @@ class Magento_Profiler_Driver_Standard_Stat
      * @param int $time
      * @param int $realMemory Real size of memory allocated from system
      * @param int $emallocMemory Memory used by emalloc()
-     * @throws InvalidArgumentException if timer doesn't exist
+     * @throws \InvalidArgumentException if timer doesn't exist
      */
     public function stop($timerId, $time, $realMemory, $emallocMemory)
     {
         if (empty($this->_timers[$timerId])) {
-            throw new InvalidArgumentException(sprintf('Timer "%s" doesn\'t exist.', $timerId));
+            throw new \InvalidArgumentException(sprintf('Timer "%s" doesn\'t exist.', $timerId));
         }
 
         $this->_timers[$timerId][self::TIME] += ($time - $this->_timers[$timerId]['start']);
@@ -84,12 +86,12 @@ class Magento_Profiler_Driver_Standard_Stat
      *
      * @param string $timerId
      * @return array
-     * @throws InvalidArgumentException if timer doesn't exist
+     * @throws \InvalidArgumentException if timer doesn't exist
      */
     public function get($timerId)
     {
         if (empty($this->_timers[$timerId])) {
-            throw new InvalidArgumentException(sprintf('Timer "%s" doesn\'t exist.', $timerId));
+            throw new \InvalidArgumentException(sprintf('Timer "%s" doesn\'t exist.', $timerId));
         }
         return $this->_timers[$timerId];
     }
@@ -100,7 +102,7 @@ class Magento_Profiler_Driver_Standard_Stat
      * @param $timerId
      * @param string $key Information to return
      * @return int|float
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function fetch($timerId, $key)
     {
@@ -108,7 +110,7 @@ class Magento_Profiler_Driver_Standard_Stat
             return $timerId;
         }
         if (empty($this->_timers[$timerId])) {
-            throw new InvalidArgumentException(sprintf('Timer "%s" doesn\'t exist.', $timerId));
+            throw new \InvalidArgumentException(sprintf('Timer "%s" doesn\'t exist.', $timerId));
         }
         /* AVG = TIME / COUNT */
         $isAvg = ($key == self::AVG);
@@ -116,7 +118,7 @@ class Magento_Profiler_Driver_Standard_Stat
             $key = self::TIME;
         }
         if (!isset($this->_timers[$timerId][$key])) {
-            throw new InvalidArgumentException(sprintf('Timer "%s" doesn\'t have value for "%s".', $timerId, $key));
+            throw new \InvalidArgumentException(sprintf('Timer "%s" doesn\'t have value for "%s".', $timerId, $key));
         }
         $result = $this->_timers[$timerId][$key];
         if ($key == self::TIME && $this->_timers[$timerId][self::START] !== false) {
@@ -194,7 +196,7 @@ class Magento_Profiler_Driver_Standard_Stat
         }
 
         /* Prepare PCRE once to use it inside the loop body */
-        $nestingSep = preg_quote(Magento_Profiler::NESTING_SEPARATOR, '/');
+        $nestingSep = preg_quote(\Magento\Profiler::NESTING_SEPARATOR, '/');
         $patternLastTimerId = '/' . $nestingSep . '(?:.(?!' . $nestingSep . '))+$/';
 
         $prevTimerId = $timerIds[0];
@@ -206,10 +208,10 @@ class Magento_Profiler_Driver_Standard_Stat
                 continue;
             }
             /* Loop over all timers that need to be closed under previous timer */
-            while (strpos($timerId, $prevTimerId . Magento_Profiler::NESTING_SEPARATOR) !== 0) {
+            while (strpos($timerId, $prevTimerId . \Magento\Profiler::NESTING_SEPARATOR) !== 0) {
                 /* Add to result all timers nested in the previous timer */
                 for ($j = $i + 1; $j < count($timerIds); $j++) {
-                    if (strpos($timerIds[$j], $prevTimerId . Magento_Profiler::NESTING_SEPARATOR) === 0) {
+                    if (strpos($timerIds[$j], $prevTimerId . \Magento\Profiler::NESTING_SEPARATOR) === 0) {
                         $result[] = $timerIds[$j];
                         /* Mark timer as already added */
                         $timerIds[$j] = null;

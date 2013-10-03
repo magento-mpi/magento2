@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <job name="magento_targetrule_index_reindex" instance="Magento_TargetRule_Model_Index" method="cron">
+    <job name="magento_targetrule_index_reindex" instance="Magento\TargetRule\Model\Index" method="cron">
         <schedule>0 * * * *</schedule>
     </job>
 </config>

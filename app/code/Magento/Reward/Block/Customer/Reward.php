@@ -15,7 +15,9 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Block_Customer_Reward extends Magento_Core_Block_Template
+namespace Magento\Reward\Block\Customer;
+
+class Reward extends \Magento\Core\Block\Template
 {
     /**
      * Set template variables

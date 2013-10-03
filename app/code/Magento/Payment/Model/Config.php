@@ -13,51 +13,56 @@
  *
  * Used for retrieving configuration data by payment models
  */
-class Magento_Payment_Model_Config
+namespace Magento\Payment\Model;
+
+class Config
 {
-    protected static $_methods;
+    /**
+     * @var array
+     */
+    protected $_methods;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Config_DataInterface
+     * @var \Magento\Config\DataInterface
      */
     protected $_dataStorage;
 
     /**
      * Locale model
      *
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
      * Payment method factory
      *
-     * @var Magento_Payment_Model_Method_Factory
+     * @var \Magento\Payment\Model\Method\Factory
      */
     protected $_methodFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Config $coreConfig
-     * @param Magento_Payment_Model_Method_Factory $paymentMethodFactory
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Config_DataInterface $dataStorage
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Payment\Model\Method\Factory $paymentMethodFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Config\DataInterface $dataStorage
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Config $coreConfig,
-        Magento_Payment_Model_Method_Factory $paymentMethodFactory,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Config_DataInterface $dataStorage
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Payment\Model\Method\Factory $paymentMethodFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Config\DataInterface $dataStorage
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_dataStorage = $dataStorage;
@@ -108,10 +113,16 @@ class Magento_Payment_Model_Config
         return $methods;
     }
 
-    protected function _getMethod($code, $config, $store=null)
+    /**
+     * @param string $code
+     * @param string $config
+     * @param mixed $store
+     * @return \Magento\Payment\Model\Method\AbstractMethod
+     */
+    protected function _getMethod($code, $config, $store = null)
     {
-        if (isset(self::$_methods[$code])) {
-            return self::$_methods[$code];
+        if (isset($this->_methods[$code])) {
+            return $this->_methods[$code];
         }
         if (empty($config['model'])) {
             return false;
@@ -122,10 +133,11 @@ class Magento_Payment_Model_Config
             return false;
         }
 
+        /** @var \Magento\Payment\Model\Method\AbstractMethod $method */
         $method = $this->_methodFactory->create($modelName);
         $method->setId($code)->setStore($store);
-        self::$_methods[$code] = $method;
-        return self::$_methods[$code];
+        $this->_methods[$code] = $method;
+        return $this->_methods[$code];
     }
 
     /**

@@ -16,7 +16,9 @@
  * @package     Magento_CatalogRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resource_Abstract
+namespace Magento\CatalogRule\Model\Resource;
+
+class Rule extends \Magento\Rule\Model\Resource\AbstractResource
 {
     /**
      * Store number of seconds in a day
@@ -44,54 +46,54 @@ class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resourc
     /**
      * Catalog rule data
      *
-     * @var Magento_CatalogRule_Helper_Data
+     * @var \Magento\CatalogRule\Helper\Data
      */
     protected $_catalogRuleData = null;
 
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @var Magento_Eav_Model_Config
+     * @var \Magento\Eav\Model\Config
      */
     protected $_eavConfig;
 
     /**
-     * @var Magento_Core_Model_Date
+     * @var \Magento\Core\Model\Date
      */
     protected $_coreDate;
 
     /**
-     * @var Magento_Catalog_Model_Product_ConditionFactory
+     * @var \Magento\Catalog\Model\Product\ConditionFactory
      */
     protected $_conditionFactory;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Model_Product_ConditionFactory $conditionFactory
-     * @param Magento_Core_Model_Date $coreDate
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_CatalogRule_Helper_Data $catalogRuleData
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Product\ConditionFactory $conditionFactory
+     * @param \Magento\Core\Model\Date $coreDate
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\CatalogRule\Helper\Data $catalogRuleData
+     * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Model_Product_ConditionFactory $conditionFactory,
-        Magento_Core_Model_Date $coreDate,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_CatalogRule_Helper_Data $catalogRuleData,
-        Magento_Core_Model_Resource $resource
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Product\ConditionFactory $conditionFactory,
+        \Magento\Core\Model\Date $coreDate,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\CatalogRule\Helper\Data $catalogRuleData,
+        \Magento\Core\Model\Resource $resource
     ) {
         $this->_storeManager = $storeManager;
         $this->_conditionFactory = $conditionFactory;
@@ -113,11 +115,11 @@ class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resourc
     /**
      * Add customer group ids and website ids to rule data after load
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      *
-     * @return Magento_CatalogRule_Model_Resource_Rule
+     * @return \Magento\CatalogRule\Model\Resource\Rule
      */
-    protected function _afterLoad(Magento_Core_Model_Abstract $object)
+    protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
     {
         $object->setData('customer_group_ids', (array)$this->getCustomerGroupIds($object->getId()));
         $object->setData('website_ids', (array)$this->getWebsiteIds($object->getId()));
@@ -129,11 +131,11 @@ class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resourc
      * Bind catalog rule to customer group(s) and website(s).
      * Update products which are matched for rule.
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      *
-     * @return Magento_CatalogRule_Model_Resource_Rule
+     * @return \Magento\CatalogRule\Model\Resource\Rule
      */
-    protected function _afterSave(Magento_Core_Model_Abstract $object)
+    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
         if ($object->hasWebsiteIds()) {
             $websiteIds = $object->getWebsiteIds();
@@ -158,11 +160,11 @@ class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resourc
     /**
      * Update products which are matched for rule
      *
-     * @param Magento_CatalogRule_Model_Rule $rule
+     * @param \Magento\CatalogRule\Model\Rule $rule
      *
-     * @return Magento_CatalogRule_Model_Resource_Rule
+     * @return \Magento\CatalogRule\Model\Resource\Rule
      */
-    public function updateRuleProductData(Magento_CatalogRule_Model_Rule $rule)
+    public function updateRuleProductData(\Magento\CatalogRule\Model\Rule $rule)
     {
         $ruleId = $rule->getId();
         $write  = $this->_getWriteAdapter();
@@ -192,9 +194,9 @@ class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resourc
             return $this;
         }
 
-        Magento_Profiler::start('__MATCH_PRODUCTS__');
+        \Magento\Profiler::start('__MATCH_PRODUCTS__');
         $productIds = $rule->getMatchingProductIds();
-        Magento_Profiler::stop('__MATCH_PRODUCTS__');
+        \Magento\Profiler::stop('__MATCH_PRODUCTS__');
 
         $customerGroupIds = $rule->getCustomerGroupIds();
         $fromTime = strtotime($rule->getFromDate());
@@ -240,7 +242,7 @@ class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resourc
             }
 
             $write->commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $write->rollback();
             throw $e;
         }
@@ -272,7 +274,7 @@ class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resourc
      * @param int|string $toDate
      * @param int|null $productId
      *
-     * @return Magento_CatalogRule_Model_Resource_Rule
+     * @return \Magento\CatalogRule\Model\Resource\Rule
      */
     public function removeCatalogPricesForDateRange($fromDate, $toDate, $productId = null)
     {
@@ -311,7 +313,7 @@ class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resourc
      * @param string $date
      * @param int|null $productId
      *
-     * @return Magento_CatalogRule_Model_Resource_Rule
+     * @return \Magento\CatalogRule\Model\Resource\Rule
      */
     public function deleteOldData($date, $productId = null)
     {
@@ -333,7 +335,7 @@ class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resourc
      * @param int|null $productId
      * @param int|null $websiteId
      *
-     * @return Zend_Db_Statement_Interface
+     * @return \Zend_Db_Statement_Interface
      */
     protected function _getRuleProductsStmt($fromDate, $toDate, $productId = null, $websiteId = null)
     {
@@ -361,7 +363,7 @@ class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resourc
         /**
          * Join default price and websites prices to result
          */
-        $priceAttr  = $this->_eavConfig->getAttribute(Magento_Catalog_Model_Product::ENTITY, 'price');
+        $priceAttr  = $this->_eavConfig->getAttribute(\Magento\Catalog\Model\Product::ENTITY, 'price');
         $priceTable = $priceAttr->getBackend()->getTable();
         $attributeId= $priceAttr->getId();
 
@@ -370,17 +372,17 @@ class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resourc
 
         $select->join(
             array('pp_default'=>$priceTable),
-            sprintf($joinCondition, 'pp_default', Magento_Core_Model_AppInterface::ADMIN_STORE_ID),
+            sprintf($joinCondition, 'pp_default', \Magento\Core\Model\AppInterface::ADMIN_STORE_ID),
             array('default_price'=>'pp_default.value')
         );
 
         if ($websiteId !== null) {
             $website  = $this->_storeManager->getWebsite($websiteId);
             $defaultGroup = $website->getDefaultGroup();
-            if ($defaultGroup instanceof Magento_Core_Model_Store_Group) {
+            if ($defaultGroup instanceof \Magento\Core\Model\Store\Group) {
                 $storeId = $defaultGroup->getDefaultStoreId();
             } else {
-                $storeId = Magento_Core_Model_AppInterface::ADMIN_STORE_ID;
+                $storeId = \Magento\Core\Model\AppInterface::ADMIN_STORE_ID;
             }
 
             $select->joinInner(
@@ -402,10 +404,10 @@ class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resourc
             foreach ($this->_storeManager->getWebsites() as $website) {
                 $websiteId  = $website->getId();
                 $defaultGroup = $website->getDefaultGroup();
-                if ($defaultGroup instanceof Magento_Core_Model_Store_Group) {
+                if ($defaultGroup instanceof \Magento\Core\Model\Store\Group) {
                     $storeId = $defaultGroup->getDefaultStoreId();
                 } else {
-                    $storeId = Magento_Core_Model_AppInterface::ADMIN_STORE_ID;
+                    $storeId = \Magento\Core\Model\AppInterface::ADMIN_STORE_ID;
                 }
 
                 $tableAlias = 'pp' . $websiteId;
@@ -430,7 +432,7 @@ class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resourc
      * @param int|string|null $toDate
      * @param int $productId
      *
-     * @return Magento_CatalogRule_Model_Resource_Rule
+     * @return \Magento\CatalogRule\Model\Resource\Rule
      */
     public function applyAllRulesForDateRange($fromDate = null, $toDate = null, $productId = null)
     {
@@ -460,7 +462,7 @@ class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resourc
         }
 
         $product = null;
-        if ($productId instanceof Magento_Catalog_Model_Product) {
+        if ($productId instanceof \Magento\Catalog\Model\Product) {
             $product    = $productId;
             $productId  = $productId->getId();
         }
@@ -567,7 +569,7 @@ class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resourc
             $write->query($query);
 
             $write->commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $write->rollback();
             throw $e;
         }
@@ -618,7 +620,7 @@ class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resourc
      *
      * @param array $arrData
      *
-     * @return Magento_CatalogRule_Model_Resource_Rule
+     * @return \Magento\CatalogRule\Model\Resource\Rule
      */
     protected function _saveRuleProductPrices($arrData)
     {
@@ -640,7 +642,7 @@ class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resourc
             $adapter->insertOnDuplicate($this->getTable('catalogrule_affected_product'), array_unique($productIds));
             $adapter->insertOnDuplicate($this->getTable('catalogrule_product_price'), $arrData);
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $adapter->rollback();
             throw $e;
 
@@ -744,11 +746,11 @@ class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resourc
     /**
      * Apply catalog rule to product
      *
-     * @param Magento_CatalogRule_Model_Rule $rule
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\CatalogRule\Model\Rule $rule
+     * @param \Magento\Catalog\Model\Product $product
      * @param array $websiteIds
      *
-     * @return Magento_CatalogRule_Model_Resource_Rule
+     * @return \Magento\CatalogRule\Model\Resource\Rule
      */
     public function applyToProduct($rule, $product, $websiteIds)
     {
@@ -815,7 +817,7 @@ class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resourc
             if (!empty($rows)) {
                 $write->insertMultiple($this->getTable('catalogrule_product'), $rows);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $write->rollback();
             throw $e;
         }

@@ -1,26 +1,29 @@
 <?php
 /**
- * Magento_Webhook_Model_Event_QueueReader
- *
- * @magentoDbIsolation enabled
+ * \Magento\Webhook\Model\Event\QueueReader
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Event_QueueReaderTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Event;
+
+/**
+ * @magentoDbIsolation enabled
+ */
+class QueueReaderTest extends \PHPUnit_Framework_TestCase
 {
     public function testPoll()
     {
-        /** @var Magento_Webhook_Model_Event $event */
-        $event = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_Event')
+        /** @var \Magento\Webhook\Model\Event $event */
+        $event = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Event')
             ->setDataChanges(true)
             ->save();
-        /** @var Magento_Webhook_Model_Event_QueueReader $queue */
-        $queue = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_Event_QueueReader');
+        /** @var \Magento\Webhook\Model\Event\QueueReader $queue */
+        $queue = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Event\QueueReader');
         $this->assertEquals($event->getId(), $queue->poll()->getId());
 
         // Make sure an empty queue returns null

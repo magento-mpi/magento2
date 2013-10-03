@@ -12,9 +12,9 @@
 /**
  * Order by SKU widget template
  *
- * @var $this Magento_AdvancedCheckout_Block_Widget_Sku
+ * @var $this \Magento\AdvancedCheckout\Block\Widget\Sku
  */
-$uniqueSuffix = '_' . $this->helper('Magento_Core_Helper_Data')->getRandomString(20);
+$uniqueSuffix = '_' . $this->helper('Magento\Core\Helper\Data')->getRandomString(20);
 $skuFormId = 'skuForm' . $uniqueSuffix;
 $qtyValidationClasses = 'required-entry validate-number validate-greater-than-zero'
     . ' validate-number-range number-range-0.0001-99999999.9999';

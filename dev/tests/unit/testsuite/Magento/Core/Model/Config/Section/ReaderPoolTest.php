@@ -5,41 +5,43 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Config_Section_ReaderPoolTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Config\Section;
+
+class ReaderPoolTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Config_Section_ReaderPool
+     * @var \Magento\Core\Model\Config\Section\ReaderPool
      */
     protected $_model;
 
     /**
-     * @var Magento_Core_Model_Config_Section_Reader_DefaultReader
+     * @var \Magento\Core\Model\Config\Section\Reader\DefaultReader
      */
     protected $_defaultReaderMock;
 
     /**
-     * @var Magento_Core_Model_Config_Section_Reader_Website
+     * @var \Magento\Core\Model\Config\Section\Reader\Website
      */
     protected $_websiteReaderMock;
 
     /**
-     * @var Magento_Core_Model_Config_Section_Reader_Store
+     * @var \Magento\Core\Model\Config\Section\Reader\Store
      */
     protected $_storeReaderMock;
 
     protected function setUp()
     {
         $this->_defaultReaderMock = $this->getMock(
-            'Magento_Core_Model_Config_Section_Reader_DefaultReader', array(), array(), '', false
+            'Magento\Core\Model\Config\Section\Reader\DefaultReader', array(), array(), '', false
         );
         $this->_websiteReaderMock = $this->getMock(
-            'Magento_Core_Model_Config_Section_Reader_Website', array(), array(), '', false
+            'Magento\Core\Model\Config\Section\Reader\Website', array(), array(), '', false
         );
         $this->_storeReaderMock = $this->getMock(
-            'Magento_Core_Model_Config_Section_Reader_Store', array(), array(), '', false
+            'Magento\Core\Model\Config\Section\Reader\Store', array(), array(), '', false
         );
 
-        $this->_model = new Magento_Core_Model_Config_Section_ReaderPool(
+        $this->_model = new \Magento\Core\Model\Config\Section\ReaderPool(
             $this->_defaultReaderMock,
             $this->_websiteReaderMock,
             $this->_storeReaderMock
@@ -47,7 +49,7 @@ class Magento_Core_Model_Config_Section_ReaderPoolTest extends PHPUnit_Framework
     }
 
     /**
-     * @covers Magento_Core_Model_Config_Section_ReaderPool::getReader
+     * @covers \Magento\Core\Model\Config\Section\ReaderPool::getReader
      * @dataProvider getReaderDataProvider
      * @param string $scope
      * @param string $instanceType
@@ -65,23 +67,23 @@ class Magento_Core_Model_Config_Section_ReaderPoolTest extends PHPUnit_Framework
         return array(
             array(
                 'scope' => 'default',
-                'expectedResult' => 'Magento_Core_Model_Config_Section_Reader_DefaultReader'
+                'expectedResult' => 'Magento\Core\Model\Config\Section\Reader\DefaultReader'
             ),
             array(
                 'scope' => 'website',
-                'expectedResult' => 'Magento_Core_Model_Config_Section_Reader_Website'
+                'expectedResult' => 'Magento\Core\Model\Config\Section\Reader\Website'
             ),
             array(
                 'scope' => 'websites',
-                'expectedResult' => 'Magento_Core_Model_Config_Section_Reader_Website'
+                'expectedResult' => 'Magento\Core\Model\Config\Section\Reader\Website'
             ),
             array(
                 'scope' => 'store',
-                'expectedResult' => 'Magento_Core_Model_Config_Section_Reader_Store'
+                'expectedResult' => 'Magento\Core\Model\Config\Section\Reader\Store'
             ),
             array(
                 'scope' => 'stores',
-                'expectedResult' => 'Magento_Core_Model_Config_Section_Reader_Store'
+                'expectedResult' => 'Magento\Core\Model\Config\Section\Reader\Store'
             )
         );
     }

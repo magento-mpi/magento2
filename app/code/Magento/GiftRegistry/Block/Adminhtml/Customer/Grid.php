@@ -8,34 +8,36 @@
  * @license     {license_link}
  */
 
-class Magento_GiftRegistry_Block_Adminhtml_Customer_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\GiftRegistry\Block\Adminhtml\Customer;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
-     * @var Magento_GiftRegistry_Model_EntityFactory
+     * @var \Magento\GiftRegistry\Model\EntityFactory
      */
     protected $entityFactory;
 
     /**
-     * @var Magento_Core_Model_System_Store
+     * @var \Magento\Core\Model\System\Store
      */
     protected $systemStore;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_GiftRegistry_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_System_Store $systemStore
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\System\Store $systemStore
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_GiftRegistry_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_System_Store $systemStore,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\System\Store $systemStore,
         array $data = array()
     ) {
         $this->entityFactory = $entityFactory;
@@ -59,11 +61,11 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Grid extends Magento_Adminht
     /**
      * Instantiate and prepare collection
      *
-     * @return Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Customer_Grid
+     * @return \Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Customer\Grid
      */
     protected function _prepareCollection()
     {
-        /** @var $collection Magento_GiftRegistry_Model_Resource_Entity_Collection */
+        /** @var $collection \Magento\GiftRegistry\Model\Resource\Entity\Collection */
         $collection = $this->entityFactory->create()->getCollection();
         $collection->filterByCustomerId($this->getRequest()->getParam('id'));
         $collection->addRegistryInfo();
@@ -75,7 +77,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Grid extends Magento_Adminht
     /**
      * Prepare columns for grid
      *
-     * @return Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Customer_Grid
+     * @return \Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Customer\Grid
      */
     protected function _prepareColumns()
     {

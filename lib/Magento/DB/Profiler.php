@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_DB_Profiler extends Zend_Db_Profiler
+namespace Magento\DB;
+
+class Profiler extends \Zend_Db_Profiler
 {
     /**
      * Host IP whereto a request is sent
@@ -34,7 +36,7 @@ class Magento_DB_Profiler extends Zend_Db_Profiler
      * Setter for host IP
      *
      * @param string $host
-     * @return Magento_DB_Profiler
+     * @return \Magento\DB\Profiler
      */
     public function setHost($host)
     {
@@ -46,7 +48,7 @@ class Magento_DB_Profiler extends Zend_Db_Profiler
      * Setter for database connection type
      *
      * @param string $type
-     * @return Magento_DB_Profiler
+     * @return \Magento\DB\Profiler
      */
     public function setType($type)
     {
@@ -55,10 +57,10 @@ class Magento_DB_Profiler extends Zend_Db_Profiler
     }
 
     /**
-     * Starts a query. Creates a new query profile object (Zend_Db_Profiler_Query)
+     * Starts a query. Creates a new query profile object (\Zend_Db_Profiler_Query)
      *
      * @param string $queryText SQL statement
-     * @param integer|null $queryType OPTIONAL Type of query, one of the Zend_Db_Profiler::* constants
+     * @param integer|null $queryType OPTIONAL Type of query, one of the \Zend_Db_Profiler::* constants
      * @return integer|null
      */
     public function queryStart($queryText, $queryType = null)

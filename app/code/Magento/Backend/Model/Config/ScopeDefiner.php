@@ -11,7 +11,9 @@
 /**
  * System configuration scope
  */
-class Magento_Backend_Model_Config_ScopeDefiner
+namespace Magento\Backend\Model\Config;
+
+class ScopeDefiner
 {
     const SCOPE_WEBSITE = 'website';
     const SCOPE_STORE = 'store';
@@ -20,14 +22,14 @@ class Magento_Backend_Model_Config_ScopeDefiner
     /**
      * Request object
      *
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     protected $_request;
 
     /**
-     * @param Magento_Core_Controller_Request_Http $request
+     * @param \Magento\Core\Controller\Request\Http $request
      */
-    public function __construct(Magento_Core_Controller_Request_Http $request)
+    public function __construct(\Magento\Core\Controller\Request\Http $request)
     {
         $this->_request = $request;
     }

@@ -8,34 +8,36 @@
  * @license     {license_link}
  */
 
-class Magento_Shipping_Model_Carrier_Factory
+namespace Magento\Shipping\Model\Carrier;
+
+class Factory
 {
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Logger $logger,
-        Magento_ObjectManager $objectManager
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\ObjectManager $objectManager
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_logger = $logger;
@@ -45,7 +47,7 @@ class Magento_Shipping_Model_Carrier_Factory
     /**
      * @param string $carrierCode
      * @param int|null $storeId
-     * @return bool|Magento_Shipping_Model_Carrier_Abstract
+     * @return bool|\Magento\Shipping\Model\Carrier\AbstractCarrier
      */
     public function create($carrierCode, $storeId = null)
     {
@@ -60,7 +62,7 @@ class Magento_Shipping_Model_Carrier_Factory
          */
         try {
             $carrier = $this->_objectManager->create($className);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_logger->logException($e);
             return false;
         }

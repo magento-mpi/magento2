@@ -12,9 +12,9 @@
  * Order by SKU Failed Items renderer
  */
 
-/** @var $this Magento_Checkout_Block_Cart_Item_Renderer */
+/** @var $this \Magento\Checkout\Block\Cart\Item\Renderer */
 $_item = $this->getItem();
-$displayBothPrices = $this->helper('Magento_Tax_Helper_Data')->displayCartBothPrices();
+$displayBothPrices = $this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices();
 $additionalInfoBlock = $this->getProductAdditionalInformationBlock();
 
 $maxQuantity = -1;
@@ -25,7 +25,7 @@ if ($_item->getQtyMaxAllowed()) {
 // disable the qty field if there is no product associated with the sku (i.e. invalid sku) or if sku failed for
 // out of stock scenario
 $qtyDisabled = !$this->hasProductUrl() ||
-        $_item->getCode() == Magento_AdvancedCheckout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK;
+        $_item->getCode() == \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK;
 ?>
 <tr data-mage-init='{orderBySkuFailure:{}}'>
     <td>
@@ -38,7 +38,7 @@ $qtyDisabled = !$this->hasProductUrl() ||
         <?php endif;?>
     </td>
     <td class="a-center"></td>
-    <?php if ($this->helper('Magento_Wishlist_Helper_Data')->isAllowInCart()) : ?><td class="a-center"></td><?php endif ?>
+    <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllowInCart()) : ?><td class="a-center"></td><?php endif ?>
     <td class="a-right"<?php if ($displayBothPrices): ?> colspan="2"<?php endif; ?>></td>
     <td class="a-center">
         <?php $validateItemQuantityCheck = false; ?>

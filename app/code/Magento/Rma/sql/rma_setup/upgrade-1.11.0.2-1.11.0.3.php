@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_Rma_Model_Resource_Setup */
+/** @var $installer \Magento\Rma\Model\Resource\Setup */
 $installer = $this;
 
 $tableName = $installer->getTable('sales_flat_order_item');
@@ -20,7 +20,7 @@ $installer->getConnection()
         $tableName,
         'qty_returned',
         array(
-            'TYPE'      => Magento_DB_Ddl_Table::TYPE_DECIMAL,
+            'TYPE'      => \Magento\DB\Ddl\Table::TYPE_DECIMAL,
             'SCALE'     => 4,
             'PRECISION' => 12,
             'DEFAULT'   => '0.0000',

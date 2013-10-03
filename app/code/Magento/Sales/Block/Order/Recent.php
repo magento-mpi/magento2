@@ -11,37 +11,39 @@
 /**
  * Sales order history block
  */
-class Magento_Sales_Block_Order_Recent extends Magento_Core_Block_Template
+namespace Magento\Sales\Block\Order;
+
+class Recent extends \Magento\Core\Block\Template
 {
     /**
-     * @var Magento_Sales_Model_Resource_Order_CollectionFactory
+     * @var \Magento\Sales\Model\Resource\Order\CollectionFactory
      */
     protected $_orderCollectionFactory;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @var Magento_Sales_Model_Order_Config
+     * @var \Magento\Sales\Model\Order\Config
      */
     protected $_orderConfig;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Sales_Model_Resource_Order_CollectionFactory $orderCollectionFactory
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Sales_Model_Order_Config $orderConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Sales\Model\Order\Config $orderConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Sales_Model_Resource_Order_CollectionFactory $orderCollectionFactory,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Sales_Model_Order_Config $orderConfig,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Sales\Model\Order\Config $orderConfig,
         array $data = array()
     ) {
         $this->_orderCollectionFactory = $orderCollectionFactory;

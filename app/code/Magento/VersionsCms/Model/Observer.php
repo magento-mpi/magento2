@@ -11,161 +11,163 @@
 /**
  * Versions cms page observer
  */
-class Magento_VersionsCms_Model_Observer
+namespace Magento\VersionsCms\Model;
+
+class Observer
 {
     /**
      * Configuration model
      *
-     * @var Magento_VersionsCms_Model_Config
+     * @var \Magento\VersionsCms\Model\Config
      */
     protected $_config;
 
     /**
-     * @var Magento_AuthorizationInterface
+     * @var \Magento\AuthorizationInterface
      */
     protected $_authorization;
 
     /**
      * Cms hierarchy
      *
-     * @var Magento_VersionsCms_Helper_Hierarchy
+     * @var \Magento\VersionsCms\Helper\Hierarchy
      */
     protected $_cmsHierarchy;
 
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Backend_Model_Config_Source_Yesno
+     * @var \Magento\Backend\Model\Config\Source\Yesno
      */
     protected $_sourceYesno;
 
     /**
-     * @var Magento_Backend_Model_Auth_Session
+     * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_backendAuthSession;
 
     /**
-     * @var Magento_Backend_Model_Url
+     * @var \Magento\Backend\Model\Url
      */
     protected $_backendUrl;
 
     /**
-     * @var Magento_Core_Model_Url
+     * @var \Magento\Core\Model\Url
      */
     protected $_coreUrl;
 
     /**
-     * @var Magento_VersionsCms_Model_Page_RevisionFactory
+     * @var \Magento\VersionsCms\Model\Page\RevisionFactory
      */
     protected $_revisionFactory;
 
     /**
-     * @var Magento_VersionsCms_Model_Hierarchy_NodeFactory
+     * @var \Magento\VersionsCms\Model\Hierarchy\NodeFactory
      */
     protected $_hierarchyNodeFactory;
 
     /**
-     * @var Magento_VersionsCms_Model_Hierarchy_Node
+     * @var \Magento\VersionsCms\Model\Hierarchy\Node
      */
     protected $_hierarchyNode;
 
     /**
-     * @var Magento_VersionsCms_Model_Page_VersionFactory
+     * @var \Magento\VersionsCms\Model\Page\VersionFactory
      */
     protected $_pageVersionFactory;
 
     /**
-     * @var Magento_VersionsCms_Model_Resource_Page_Version_CollectionFactory
+     * @var \Magento\VersionsCms\Model\Resource\Page\Version\CollectionFactory
      */
     protected $_versionCollFactory;
 
     /**
-     * @var Magento_Core_Model_Resource_Iterator
+     * @var \Magento\Core\Model\Resource\Iterator
      */
     protected $_resourceIterator;
 
     /**
-     * @var Magento_Widget_Model_Resource_Widget_Instance_CollectionFactory
+     * @var \Magento\Widget\Model\Resource\Widget\Instance\CollectionFactory
      */
     protected $_widgetCollFactory;
 
     /**
-     * @var Magento_VersionsCms_Model_Resource_Hierarchy_Node
+     * @var \Magento\VersionsCms\Model\Resource\Hierarchy\Node
      */
     protected $_hierarchyNodeResource;
 
     /**
-     * @var Magento_VersionsCms_Model_Resource_Increment
+     * @var \Magento\VersionsCms\Model\Resource\Increment
      */
     protected $_cmsIncrement;
 
     /**
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     protected $_httpRequest;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_VersionsCms_Helper_Hierarchy $cmsHierarchy
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_VersionsCms_Model_Config $config
-     * @param Magento_AuthorizationInterface $authorization
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Backend_Model_Config_Source_Yesno $sourceYesno
-     * @param Magento_Backend_Model_Auth_Session $backendAuthSession
-     * @param Magento_Backend_Model_Url $backendUrl
-     * @param Magento_Core_Model_Url $coreUrl
-     * @param Magento_VersionsCms_Model_Page_RevisionFactory $revisionFactory
-     * @param Magento_VersionsCms_Model_Hierarchy_NodeFactory $hierarchyNodeFactory
-     * @param Magento_VersionsCms_Model_Hierarchy_Node $hierarchyNode
-     * @param Magento_VersionsCms_Model_Page_VersionFactory $pageVersionFactory
-     * @param Magento_VersionsCms_Model_Resource_Page_Version_CollectionFactory $versionCollFactory
-     * @param Magento_Core_Model_Resource_Iterator $resourceIterator
-     * @param Magento_Widget_Model_Resource_Widget_Instance_CollectionFactory $widgetCollFactory
-     * @param Magento_VersionsCms_Model_Resource_Hierarchy_Node $hierarchyNodeResource
-     * @param Magento_VersionsCms_Model_Resource_Increment $cmsIncrement
-     * @param Magento_Core_Controller_Request_Http $httpRequest
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\VersionsCms\Model\Config $config
+     * @param \Magento\AuthorizationInterface $authorization
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Backend\Model\Config\Source\Yesno $sourceYesno
+     * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
+     * @param \Magento\Backend\Model\Url $backendUrl
+     * @param \Magento\Core\Model\Url $coreUrl
+     * @param \Magento\VersionsCms\Model\Page\RevisionFactory $revisionFactory
+     * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $hierarchyNodeFactory
+     * @param \Magento\VersionsCms\Model\Hierarchy\Node $hierarchyNode
+     * @param \Magento\VersionsCms\Model\Page\VersionFactory $pageVersionFactory
+     * @param \Magento\VersionsCms\Model\Resource\Page\Version\CollectionFactory $versionCollFactory
+     * @param \Magento\Core\Model\Resource\Iterator $resourceIterator
+     * @param \Magento\Widget\Model\Resource\Widget\Instance\CollectionFactory $widgetCollFactory
+     * @param \Magento\VersionsCms\Model\Resource\Hierarchy\Node $hierarchyNodeResource
+     * @param \Magento\VersionsCms\Model\Resource\Increment $cmsIncrement
+     * @param \Magento\Core\Controller\Request\Http $httpRequest
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_VersionsCms_Helper_Hierarchy $cmsHierarchy,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_VersionsCms_Model_Config $config,
-        Magento_AuthorizationInterface $authorization,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Backend_Model_Config_Source_Yesno $sourceYesno,
-        Magento_Backend_Model_Auth_Session $backendAuthSession,
-        Magento_Backend_Model_Url $backendUrl,
-        Magento_Core_Model_Url $coreUrl,
-        Magento_VersionsCms_Model_Page_RevisionFactory $revisionFactory,
-        Magento_VersionsCms_Model_Hierarchy_NodeFactory $hierarchyNodeFactory,
-        Magento_VersionsCms_Model_Hierarchy_Node $hierarchyNode,
-        Magento_VersionsCms_Model_Page_VersionFactory $pageVersionFactory,
-        Magento_VersionsCms_Model_Resource_Page_Version_CollectionFactory $versionCollFactory,
-        Magento_Core_Model_Resource_Iterator $resourceIterator,
-        Magento_Widget_Model_Resource_Widget_Instance_CollectionFactory $widgetCollFactory,
-        Magento_VersionsCms_Model_Resource_Hierarchy_Node $hierarchyNodeResource,
-        Magento_VersionsCms_Model_Resource_Increment $cmsIncrement,
-        Magento_Core_Controller_Request_Http $httpRequest
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\VersionsCms\Model\Config $config,
+        \Magento\AuthorizationInterface $authorization,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Backend\Model\Config\Source\Yesno $sourceYesno,
+        \Magento\Backend\Model\Auth\Session $backendAuthSession,
+        \Magento\Backend\Model\Url $backendUrl,
+        \Magento\Core\Model\Url $coreUrl,
+        \Magento\VersionsCms\Model\Page\RevisionFactory $revisionFactory,
+        \Magento\VersionsCms\Model\Hierarchy\NodeFactory $hierarchyNodeFactory,
+        \Magento\VersionsCms\Model\Hierarchy\Node $hierarchyNode,
+        \Magento\VersionsCms\Model\Page\VersionFactory $pageVersionFactory,
+        \Magento\VersionsCms\Model\Resource\Page\Version\CollectionFactory $versionCollFactory,
+        \Magento\Core\Model\Resource\Iterator $resourceIterator,
+        \Magento\Widget\Model\Resource\Widget\Instance\CollectionFactory $widgetCollFactory,
+        \Magento\VersionsCms\Model\Resource\Hierarchy\Node $hierarchyNodeResource,
+        \Magento\VersionsCms\Model\Resource\Increment $cmsIncrement,
+        \Magento\Core\Controller\Request\Http $httpRequest
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_coreData = $coreData;
@@ -192,15 +194,15 @@ class Magento_VersionsCms_Model_Observer
     /**
      * Making changes to main tab regarding to custom logic
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_VersionsCms_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\VersionsCms\Model\Observer
      */
     public function onMainTabPrepareForm($observer)
     {
         $form = $observer->getEvent()->getForm();
-        /* @var $baseFieldset Magento_Data_Form_Element_Fieldset */
+        /* @var $baseFieldset \Magento\Data\Form\Element\Fieldset */
         $baseFieldset = $form->getElement('base_fieldset');
-        /* @var $baseFieldset Magento_Data_Form_Element_Fieldset */
+        /* @var $baseFieldset \Magento\Data\Form\Element\Fieldset */
 
         $isActiveElement = $form->getElement('is_active');
         if ($isActiveElement) {
@@ -213,7 +215,7 @@ class Magento_VersionsCms_Model_Observer
         /*
          * Adding link to current published revision
          */
-        /* @var $page Magento_VersionsCms_Model_Page */
+        /* @var $page \Magento\VersionsCms\Model\Page */
         $page = $this->_coreRegistry->registry('cms_page');
         $revisionAvailable = false;
         if ($page) {
@@ -229,7 +231,7 @@ class Magento_VersionsCms_Model_Observer
                 $userId = $this->_backendAuthSession->getUser()->getId();
                 $accessLevel = $this->_config->getAllowedAccessLevel();
 
-                /** @var Magento_VersionsCms_Model_Page_Revision $revision */
+                /** @var \Magento\VersionsCms\Model\Page\Revision $revision */
                 $revision = $this->_revisionFactory->create()
                     ->loadWithRestrictions($accessLevel, $userId, $page->getPublishedRevisionId());
 
@@ -272,10 +274,10 @@ class Magento_VersionsCms_Model_Observer
     /**
      * Validate and render Cms hierarchy page
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_VersionsCms_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\VersionsCms\Model\Observer
      */
-    public function cmsControllerRouterMatchBefore(Magento_Event_Observer $observer)
+    public function cmsControllerRouterMatchBefore(\Magento\Event\Observer $observer)
     {
         if (!$this->_cmsHierarchy->isEnabled()) {
             return $this;
@@ -286,10 +288,10 @@ class Magento_VersionsCms_Model_Observer
         /**
          * Validate Request and modify router match condition
          */
-        /* @var $node Magento_VersionsCms_Model_Hierarchy_Node */
+        /* @var $node \Magento\VersionsCms\Model\Hierarchy\Node */
         $node = $this->_hierarchyNodeFactory->create(array(
             'data' => array(
-                'scope' => Magento_VersionsCms_Model_Hierarchy_Node::NODE_SCOPE_STORE,
+                'scope' => \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_STORE,
                 'scope_id' => $this->_storeManager->getStore()->getId(),
         )))->getHeritage();
         $requestUrl = $condition->getIdentifier();
@@ -314,7 +316,7 @@ class Magento_VersionsCms_Model_Observer
         }
 
         if (!$node->getPageId()) {
-            /* @var $child Magento_VersionsCms_Model_Hierarchy_Node */
+            /* @var $child \Magento\VersionsCms\Model\Hierarchy\Node */
             $child = $this->_hierarchyNodeFactory->create(array(
                 'data' => array(
                     'scope' => $node->getScope(),
@@ -344,12 +346,12 @@ class Magento_VersionsCms_Model_Observer
     /**
      * Processing extra data after cms page saved
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_VersionsCms_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\VersionsCms\Model\Observer
      */
-    public function cmsPageSaveAfter(Magento_Event_Observer $observer)
+    public function cmsPageSaveAfter(\Magento\Event\Observer $observer)
     {
-        /* @var $page Magento_Cms_Model_Page */
+        /* @var $page \Magento\Cms\Model\Page */
         $page = $observer->getEvent()->getObject();
 
         // Create new initial version & revision if it
@@ -357,14 +359,14 @@ class Magento_VersionsCms_Model_Observer
         if ($page->getIsNewPage() || ($page->getUnderVersionControl()
             && $page->dataHasChangedFor('under_version_control'))
         ) {
-            /** @var Magento_VersionsCms_Model_Page_Version $version */
+            /** @var \Magento\VersionsCms\Model\Page\Version $version */
             $version = $this->_pageVersionFactory->create();
 
             $revisionInitialData = $page->getData();
             $revisionInitialData['copied_from_original'] = true;
 
             $version->setLabel($page->getTitle())
-                ->setAccessLevel(Magento_VersionsCms_Model_Page_Version::ACCESS_LEVEL_PUBLIC)
+                ->setAccessLevel(\Magento\VersionsCms\Model\Page\Version::ACCESS_LEVEL_PUBLIC)
                 ->setPageId($page->getId())
                 ->setUserId($this->_backendAuthSession->getUser()->getId())
                 ->setInitialRevisionData($revisionInitialData)
@@ -373,7 +375,7 @@ class Magento_VersionsCms_Model_Observer
             if ($page->getUnderVersionControl()) {
                 $revision = $version->getLastRevision();
 
-                if ($revision instanceof Magento_VersionsCms_Model_Page_Revision) {
+                if ($revision instanceof \Magento\VersionsCms\Model\Page\Revision) {
                     $revision->publish();
                 }
             }
@@ -408,12 +410,12 @@ class Magento_VersionsCms_Model_Observer
     /**
      * Preparing cms page object before it will be saved
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_VersionsCms_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\VersionsCms\Model\Observer
      */
-    public function cmsPageSaveBefore(Magento_Event_Observer $observer)
+    public function cmsPageSaveBefore(\Magento\Event\Observer $observer)
     {
-        /* @var Magento_Cms_Model_Page $page */
+        /* @var \Magento\Cms\Model\Page $page */
         $page = $observer->getEvent()->getObject();
         /*
          * All new pages created by user without permission to publish
@@ -439,7 +441,7 @@ class Magento_VersionsCms_Model_Observer
         if ($nodesData) {
             try {
                 $nodesData = $this->_coreData->jsonDecode($page->getNodesData());
-            } catch (Zend_Json_Exception $e) {
+            } catch (\Zend_Json_Exception $e) {
                 $nodesData=null;
             }
             if (!empty($nodesData)) {
@@ -467,13 +469,13 @@ class Magento_VersionsCms_Model_Observer
     /**
      * Clean up private versions after user deleted.
      *
-     * @return Magento_VersionsCms_Model_Observer
+     * @return \Magento\VersionsCms\Model\Observer
      */
     public function adminUserDeleteAfter()
     {
-        /** @var Magento_VersionsCms_Model_Resource_Page_Version_Collection $collection */
+        /** @var \Magento\VersionsCms\Model\Resource\Page\Version\Collection $collection */
         $collection = $this->_versionCollFactory->create()
-            ->addAccessLevelFilter(Magento_VersionsCms_Model_Page_Version::ACCESS_LEVEL_PRIVATE)
+            ->addAccessLevelFilter(\Magento\VersionsCms\Model\Page\Version::ACCESS_LEVEL_PRIVATE)
             ->addUserIdFilter();
 
         $this->_resourceIterator->walk(
@@ -488,16 +490,16 @@ class Magento_VersionsCms_Model_Observer
     /**
      * Clean up hierarchy tree that belongs to website.
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_VersionsCms_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\VersionsCms\Model\Observer
      */
-    public function deleteWebsite(Magento_Event_Observer $observer)
+    public function deleteWebsite(\Magento\Event\Observer $observer)
     {
-        /* @var $store Magento_Core_Model_Website */
+        /* @var $store \Magento\Core\Model\Website */
         $website = $observer->getEvent()->getWebsite();
 
         $this->_hierarchyNodeFactory->create()
-            ->deleteByScope(Magento_VersionsCms_Model_Hierarchy_Node::NODE_SCOPE_WEBSITE, $website->getId());
+            ->deleteByScope(\Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_WEBSITE, $website->getId());
 
         foreach ($website->getStoreIds() as $storeId) {
             $this->_cleanStoreFootprints($storeId);
@@ -509,10 +511,10 @@ class Magento_VersionsCms_Model_Observer
     /**
      * Clean up hierarchy tree that belongs to store.
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_VersionsCms_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\VersionsCms\Model\Observer
      */
-    public function deleteStore(Magento_Event_Observer $observer)
+    public function deleteStore(\Magento\Event\Observer $observer)
     {
         $storeId = $observer->getEvent()->getStore()->getId();
         $this->_cleanStoreFootprints($storeId);
@@ -526,15 +528,15 @@ class Magento_VersionsCms_Model_Observer
      */
     private function _cleanStoreFootprints($storeId)
     {
-        $storeScope = Magento_VersionsCms_Model_Hierarchy_Node::NODE_SCOPE_STORE;
+        $storeScope = \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_STORE;
         $this->_hierarchyNodeFactory->create()->deleteByScope($storeScope, $storeId);
 
-        /** @var Magento_Widget_Model_Resource_Widget_Instance_Collection $widgets */
+        /** @var \Magento\Widget\Model\Resource\Widget\Instance\Collection $widgets */
         $widgets = $this->_widgetCollFactory->create()
                 ->addStoreFilter(array($storeId, false))
-                ->addFieldToFilter('instance_type', 'Magento_VersionsCms_Block_Widget_Node');
+                ->addFieldToFilter('instance_type', 'Magento\VersionsCms\Block\Widget\Node');
 
-        /* @var $widgetInstance Magento_Widget_Model_Widget_Instance */
+        /* @var $widgetInstance \Magento\Widget\Model\Widget\Instance */
         foreach ($widgets as $widgetInstance) {
             $storeIds = $widgetInstance->getStoreIds();
             foreach ($storeIds as $key => $value) {
@@ -567,12 +569,12 @@ class Magento_VersionsCms_Model_Observer
 
         try {
             $version->delete();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             // If we have situation when revision from
             // orphaned private version published we should
             // change its access level to protected so publisher
             // will have chance to see it and assign to some user
-            $version->setAccessLevel(Magento_VersionsCms_Model_Page_Version::ACCESS_LEVEL_PROTECTED);
+            $version->setAccessLevel(\Magento\VersionsCms\Model\Page\Version::ACCESS_LEVEL_PROTECTED);
             $version->save();
         }
     }
@@ -581,17 +583,17 @@ class Magento_VersionsCms_Model_Observer
      * Removing unneeded data from increment table for removed page.
      *
      * @param $observer
-     * @return Magento_VersionsCms_Model_Observer
+     * @return \Magento\VersionsCms\Model\Observer
      */
-    public function cmsPageDeleteAfter(Magento_Event_Observer $observer)
+    public function cmsPageDeleteAfter(\Magento\Event\Observer $observer)
     {
-        /* @var $page Magento_Cms_Model_Page */
+        /* @var $page \Magento\Cms\Model\Page */
         $page = $observer->getEvent()->getObject();
 
         $this->_cmsIncrement->cleanIncrementRecord(
-            Magento_VersionsCms_Model_Increment::TYPE_PAGE,
+            \Magento\VersionsCms\Model\Increment::TYPE_PAGE,
             $page->getId(),
-            Magento_VersionsCms_Model_Increment::LEVEL_VERSION
+            \Magento\VersionsCms\Model\Increment::LEVEL_VERSION
         );
 
         return $this;
@@ -601,8 +603,8 @@ class Magento_VersionsCms_Model_Observer
      * Handler for cms hierarchy view
      *
      * @param array $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event|false
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event|false
      */
     public function postDispatchCmsHierachyView($config, $eventModel)
     {
@@ -613,8 +615,8 @@ class Magento_VersionsCms_Model_Observer
      * Handler for cms revision preview
      *
      * @param array $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event|false
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event|false
      */
     public function postDispatchCmsRevisionPreview($config, $eventModel)
     {
@@ -625,8 +627,8 @@ class Magento_VersionsCms_Model_Observer
      * Handler for cms revision publish
      *
      * @param array $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event|false
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event|false
      */
     public function postDispatchCmsRevisionPublish($config, $eventModel)
     {
@@ -637,9 +639,9 @@ class Magento_VersionsCms_Model_Observer
      * Add Hierarchy Menu layout handle to Cms page rendering
      *
      * @param $observer
-     * @return Magento_VersionsCms_Model_Observer
+     * @return \Magento\VersionsCms\Model\Observer
      */
-    public function affectCmsPageRender(Magento_Event_Observer $observer)
+    public function affectCmsPageRender(\Magento\Event\Observer $observer)
     {
         if (!is_object($this->_coreRegistry->registry('current_cms_hierarchy_node'))
             || !$this->_cmsHierarchy->isEnabled()
@@ -647,10 +649,10 @@ class Magento_VersionsCms_Model_Observer
             return $this;
         }
 
-        /* @var $node Magento_VersionsCms_Model_Hierarchy_Node */
+        /* @var $node \Magento\VersionsCms\Model\Hierarchy\Node */
         $node = $this->_coreRegistry->registry('current_cms_hierarchy_node');
 
-        /* @var $action Magento_Core_Controller_Varien_Action */
+        /* @var $action \Magento\Core\Controller\Varien\Action */
         $action = $observer->getEvent()->getControllerAction();
 
         // collect loaded handles for cms page
@@ -678,18 +680,18 @@ class Magento_VersionsCms_Model_Observer
     /**
      * Adds CMS hierarchy menu item to top menu
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function addCmsToTopmenuItems(Magento_Event_Observer $observer)
+    public function addCmsToTopmenuItems(\Magento\Event\Observer $observer)
     {
         /**
-         * @var $topMenuRootNode Magento_Data_Tree_Node
+         * @var $topMenuRootNode \Magento\Data\Tree\Node
          */
         $topMenuRootNode = $observer->getMenu();
 
         $hierarchyModel = $this->_hierarchyNodeFactory->create(array(
             'data' => array(
-                'scope' => Magento_VersionsCms_Model_Hierarchy_Node::NODE_SCOPE_STORE,
+                'scope' => \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_STORE,
                 'scope_id' => $this->_storeManager->getStore()->getId(),
         )))->getHeritage();
 
@@ -729,7 +731,7 @@ class Magento_VersionsCms_Model_Observer
                 continue;
             }
 
-            $menuNode = new Magento_Data_Tree_Node($menuNodeData, 'id', $tree, $parentNode);
+            $menuNode = new \Magento\Data\Tree\Node($menuNodeData, 'id', $tree, $parentNode);
             $parentNode->addChild($menuNode);
 
             $nodesFlatList[$menuNodeId] = $menuNode;
@@ -739,7 +741,7 @@ class Magento_VersionsCms_Model_Observer
     /**
      * Checks whether node belongs to currently active node's path
      *
-     * @param Magento_VersionsCms_Model_Hierarchy_Node $cmsNode
+     * @param \Magento\VersionsCms\Model\Hierarchy\Node $cmsNode
      * @return bool
      */
     protected function _isCmsNodeActive($cmsNode)

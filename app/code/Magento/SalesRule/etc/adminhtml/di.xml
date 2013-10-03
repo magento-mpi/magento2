@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <type name="Magento_SalesRule_Helper_Coupon">
+    <type name="Magento\SalesRule\Helper\Coupon">
         <param name="couponParameters">
             <value>
                 <separator>-</separator>

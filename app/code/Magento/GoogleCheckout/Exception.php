@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_GoogleCheckout_Exception extends Magento_Core_Exception
+namespace Magento\GoogleCheckout;
+
+class Exception extends \Magento\Core\Exception
 {
 
 }

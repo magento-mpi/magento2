@@ -16,27 +16,29 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Block_System_Config_Form_Field_ImportTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Block\System\Config\Form\Field;
+
+class ImportTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Block_System_Config_Form_Field_Import
+     * @var \Magento\Backend\Block\System\Config\Form\Field\Import
      */
     protected $_object;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_formMock;
 
     protected function setUp()
     {
-        $this->_formMock = $this->getMock('Magento_Data_Form',
+        $this->_formMock = $this->getMock('Magento\Data\Form',
             array('getFieldNameSuffix', 'addSuffixToName'),
             array(), '', false, false
         );
         $testData = array ('name' => 'test_name', 'html_id' => 'test_html_id');
-        $testHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_object = $testHelper->getObject('Magento_Backend_Block_System_Config_Form_Field_Import', array(
+        $testHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_object = $testHelper->getObject('Magento\Backend\Block\System\Config\Form\Field\Import', array(
             'attributes' => $testData
         ));
         $this->_object->setForm($this->_formMock);

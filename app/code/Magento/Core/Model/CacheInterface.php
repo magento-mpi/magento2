@@ -11,12 +11,14 @@
 /**
  * System cache model interface
  */
-interface Magento_Core_Model_CacheInterface
+namespace Magento\Core\Model;
+
+interface CacheInterface
 {
     /**
      * Get cache frontend API object
      *
-     * @return Magento_Cache_FrontendInterface
+     * @return \Magento\Cache\FrontendInterface
      */
     public function getFrontend();
 

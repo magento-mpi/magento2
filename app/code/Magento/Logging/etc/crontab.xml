@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <job name="magento_logging_rotate_logs" instance="Magento_Logging_Model_Observer" method="rotateLogs">
+    <job name="magento_logging_rotate_logs" instance="Magento\Logging\Model\Observer" method="rotateLogs">
         <schedule>1 2 * * *</schedule>
     </job>
 </config>

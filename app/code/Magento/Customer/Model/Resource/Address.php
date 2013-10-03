@@ -7,38 +7,40 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Customer_Model_Resource_Address extends Magento_Eav_Model_Entity_Abstract
+namespace Magento\Customer\Model\Resource;
+
+class Address extends \Magento\Eav\Model\Entity\AbstractEntity
 {
     /**
-     * @var Magento_Core_Model_Validator_Factory
+     * @var \Magento\Core\Model\Validator\Factory
      */
     protected $_validatorFactory;
 
     /**
-     * @var Magento_Customer_Model_CustomerFactory
+     * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $_customerFactory;
 
     /**
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Eav_Model_Resource_Helper $resourceHelper
-     * @param Magento_Validator_UniversalFactory $universalFactory
-     * @param Magento_Core_Model_Validator_Factory $validatorFactory
-     * @param Magento_Customer_Model_CustomerFactory $customerFactory
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Core\Model\Validator\Factory $validatorFactory
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Eav_Model_Resource_Helper $resourceHelper,
-        Magento_Validator_UniversalFactory $universalFactory,
-        Magento_Core_Model_Validator_Factory $validatorFactory,
-        Magento_Customer_Model_CustomerFactory $customerFactory,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Eav\Model\Resource\Helper $resourceHelper,
+        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Core\Model\Validator\Factory $validatorFactory,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
         $data = array()
     ) {
         $this->_validatorFactory = $validatorFactory;
@@ -61,10 +63,10 @@ class Magento_Customer_Model_Resource_Address extends Magento_Eav_Model_Entity_A
     /**
      * Set default shipping to address
      *
-     * @param Magento_Object $address
-     * @return Magento_Customer_Model_Resource_Address
+     * @param \Magento\Object $address
+     * @return \Magento\Customer\Model\Resource\Address
      */
-    protected function _afterSave(Magento_Object $address)
+    protected function _afterSave(\Magento\Object $address)
     {
         if ($address->getIsCustomerSaveTransaction()) {
             return $this;
@@ -86,10 +88,10 @@ class Magento_Customer_Model_Resource_Address extends Magento_Eav_Model_Entity_A
     /**
      * Check customer address before saving
      *
-     * @param Magento_Object $address
-     * @return Magento_Customer_Model_Resource_Address
+     * @param \Magento\Object $address
+     * @return \Magento\Customer\Model\Resource\Address
      */
-    protected function _beforeSave(Magento_Object $address)
+    protected function _beforeSave(\Magento\Object $address)
     {
         parent::_beforeSave($address);
 
@@ -101,20 +103,20 @@ class Magento_Customer_Model_Resource_Address extends Magento_Eav_Model_Entity_A
     /**
      * Validate customer address entity
      *
-     * @param Magento_Customer_Model_Customer $address
-     * @throws Magento_Validator_Exception when validation failed
+     * @param \Magento\Customer\Model\Customer $address
+     * @throws \Magento\Validator\Exception when validation failed
      */
     protected function _validate($address)
     {
         $validator = $this->_validatorFactory->createValidator('customer_address', 'save');
 
         if (!$validator->isValid($address)) {
-            throw new Magento_Validator_Exception($validator->getMessages());
+            throw new \Magento\Validator\Exception($validator->getMessages());
         }
     }
 
     /**
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     protected function _createCustomer()
     {

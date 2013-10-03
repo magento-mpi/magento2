@@ -16,7 +16,9 @@
  * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Resource_Attribute_Collection extends Magento_Eav_Model_Resource_Attribute_Collection
+namespace Magento\Customer\Model\Resource\Attribute;
+
+class Collection extends \Magento\Eav\Model\Resource\Attribute\Collection
 {
     /**
      * Default attribute entity type code

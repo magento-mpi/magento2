@@ -8,17 +8,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Captcha_Block_Captcha_DefaultTest extends PHPUnit_Framework_TestCase
+namespace Magento\Captcha\Block\Captcha;
+
+class DefaultTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Captcha_Block_Captcha_Default
+     * @var \Magento\Captcha\Block\Captcha\DefaultCaptcha
      */
     protected $_block;
 
     protected function setUp()
     {
-         $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_Captcha_Block_Captcha_Default');
+         $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Captcha\Block\Captcha\DefaultCaptcha');
     }
 
     /**
@@ -36,15 +38,15 @@ class Magento_Captcha_Block_Captcha_DefaultTest extends PHPUnit_Framework_TestCa
      */
     public function testGetRefreshUrlWhenIsAdminStore()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
             ->getStore('admin')->setUrlModel(
-                Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                    ->create('Magento_Backend_Model_Url')
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                    ->create('Magento\Backend\Model\Url')
             );
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
             ->setCurrentStore(
-                Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                    ->get('Magento_Core_Model_StoreManagerInterface')->getStore('admin')
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                    ->get('Magento\Core\Model\StoreManagerInterface')->getStore('admin')
             );
 
         $this->assertContains('backend/admin/refresh/refresh', $this->_block->getRefreshUrl());

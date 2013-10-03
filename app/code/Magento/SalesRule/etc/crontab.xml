@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <job name="aggregate_sales_report_coupons_data" instance="Magento_SalesRule_Model_Observer" method="aggregateSalesReportCouponsData">
+    <job name="aggregate_sales_report_coupons_data" instance="Magento\SalesRule\Model\Observer" method="aggregateSalesReportCouponsData">
         <schedule>0 0 * * *</schedule>
     </job>
 </config>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <service class="Magento\TestModule2\Service\SubsetRestV1Interface" baseUrl="/V1/testModule2SubsetRest">
+        <rest-route httpMethod="GET" method="item">/:id</rest-route>
+        <rest-route httpMethod="GET" method="items"></rest-route>
+    </service>
+    <service class="Magento\TestModule2\Service\AllSoapNoRestV1Interface"/>
+    <!-- NOTE : Deliberately commenting this out to demonstrate that if no entry is present here, the API will not be exposed via both REST and SOAP -->
+    <!-- <service class="Magento\TestModule2\Service\NoWebApiXmlV1Interface"/> -->
+</config>

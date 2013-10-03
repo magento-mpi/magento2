@@ -15,68 +15,70 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsCollection
-    extends Magento_Catalog_Model_Resource_Product_Link_Product_Collection
+namespace Magento\Catalog\Model\Resource\Product\Type\Grouped;
+
+class AssociatedProductsCollection
+    extends \Magento\Catalog\Model\Resource\Product\Link\Product\Collection
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * Product types config
      *
-     * @var Magento_Catalog_Model_ProductTypes_ConfigInterface
+     * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
      */
     protected $_config;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Core_Model_Resource $coreResource
-     * @param Magento_Eav_Model_EntityFactory $eavEntityFactory
-     * @param Magento_Validator_UniversalFactory $universalFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Catalog_Model_Product_OptionFactory $productOptionFactory
-     * @param Magento_Catalog_Model_Resource_Url $catalogUrl
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Catalog_Model_Resource_Helper $resourceHelper
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Catalog_Model_ProductTypes_ConfigInterface $config
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Model\Resource $coreResource
+     * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
+     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
+     * @param \Magento\Catalog\Model\Resource\Url $catalogUrl
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Catalog\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $config
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Core_Model_Resource $coreResource,
-        Magento_Eav_Model_EntityFactory $eavEntityFactory,
-        Magento_Validator_UniversalFactory $universalFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Catalog_Model_Product_OptionFactory $productOptionFactory,
-        Magento_Catalog_Model_Resource_Url $catalogUrl,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Catalog_Model_Resource_Helper $resourceHelper,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Catalog_Model_ProductTypes_ConfigInterface $config
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Model\Resource $coreResource,
+        \Magento\Eav\Model\EntityFactory $eavEntityFactory,
+        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
+        \Magento\Catalog\Model\Resource\Url $catalogUrl,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Catalog\Model\Resource\Helper $resourceHelper,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Catalog\Model\ProductTypes\ConfigInterface $config
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_config = $config;
@@ -89,7 +91,7 @@ class Magento_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsColl
     /**
      * Retrieve currently edited product model
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     protected function _getProduct()
     {

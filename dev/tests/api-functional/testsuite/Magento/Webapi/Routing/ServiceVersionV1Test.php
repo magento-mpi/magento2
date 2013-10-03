@@ -9,7 +9,9 @@
 /**
  * Class to test routing based on Service Versioning(for V1 version of a service)
  */
-class Magento_Webapi_Routing_ServiceVersionV1Test extends Magento_Webapi_Routing_BaseService
+namespace Magento\Webapi\Routing;
+
+class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
 {
 
     /**
@@ -42,7 +44,7 @@ class Magento_Webapi_Routing_ServiceVersionV1Test extends Magento_Webapi_Routing
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => Magento_Webapi_Model_Rest_Config::HTTP_METHOD_GET
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
             ),
             'soap' => array(
                 'service' => $this->_soapService,
@@ -72,7 +74,7 @@ class Magento_Webapi_Routing_ServiceVersionV1Test extends Magento_Webapi_Routing
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath,
-                'httpMethod' => Magento_Webapi_Model_Rest_Config::HTTP_METHOD_GET
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
             ),
             'soap' => array(
                 'service' => $this->_soapService,
@@ -92,7 +94,7 @@ class Magento_Webapi_Routing_ServiceVersionV1Test extends Magento_Webapi_Routing
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath,
-                'httpMethod' => Magento_Webapi_Model_Rest_Config::HTTP_METHOD_POST
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
             ),
             'soap' => array(
                 'service' => $this->_soapService,
@@ -113,7 +115,7 @@ class Magento_Webapi_Routing_ServiceVersionV1Test extends Magento_Webapi_Routing
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => Magento_Webapi_Model_Rest_Config::HTTP_METHOD_PUT
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
             ),
             'soap' => array(
                 'service' => $this->_soapService,
@@ -134,7 +136,7 @@ class Magento_Webapi_Routing_ServiceVersionV1Test extends Magento_Webapi_Routing
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => Magento_Webapi_Model_Rest_Config::HTTP_METHOD_DELETE
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE
             ),
             'soap' => array(
                 'service' => $this->_soapService,

@@ -8,9 +8,9 @@
  */
 -->
 <config>
-    <type name="Magento_Sitemap_Model_Sitemap">
+    <type name="Magento\Sitemap\Model\Sitemap">
         <param name="resource">
-            <instance type="Magento_Sitemap_Model_Resource_Sitemap" />
+            <instance type="Magento\Sitemap\Model\Resource\Sitemap" />
         </param>
     </type>
 </config>

@@ -11,38 +11,40 @@
 /**
  * Order Shipments grid
  */
-class Magento_Adminhtml_Block_Sales_Order_View_Tab_Shipments
-    extends Magento_Adminhtml_Block_Widget_Grid
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Adminhtml\Block\Sales\Order\View\Tab;
+
+class Shipments
+    extends \Magento\Adminhtml\Block\Widget\Grid
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Sales_Model_Resource_Order_Collection_Factory
+     * @var \Magento\Sales\Model\Resource\Order\Collection\Factory
      */
     protected $_collectionFactory;
 
     /**
-     * @param Magento_Sales_Model_Resource_Order_Collection_Factory $collectionFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Sales\Model\Resource\Order\Collection\Factory $collectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        Magento_Sales_Model_Resource_Order_Collection_Factory $collectionFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Core_Model_Registry $coreRegistry,
+        \Magento\Sales\Model\Resource\Order\Collection\Factory $collectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -64,7 +66,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_Shipments
      */
     protected function _getCollectionClass()
     {
-        return 'Magento_Sales_Model_Resource_Order_Shipment_Grid_Collection';
+        return 'Magento\Sales\Model\Resource\Order\Shipment\Grid\Collection';
     }
 
     protected function _prepareCollection()
@@ -119,7 +121,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_Shipments
     /**
      * Retrieve order model instance
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {

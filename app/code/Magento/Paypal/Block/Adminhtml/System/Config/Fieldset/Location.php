@@ -13,16 +13,18 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
-    extends Magento_Backend_Block_System_Config_Form_Fieldset
+namespace Magento\Paypal\Block\Adminhtml\System\Config\Fieldset;
+
+class Location
+    extends \Magento\Backend\Block\System\Config\Form\Fieldset
 {
     /**
      * Render fieldset html
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    public function render(Magento_Data_Form_Element_Abstract $element)
+    public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $this->setElement($element);
         $js = '
@@ -195,7 +197,7 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
 
                             if (conflict && !confirmationShowed && anotherEnabler.value == 1) {
                                 if (isEvent) {
-                                    confirmationApproved = confirm(\'' .  $this->helper('Magento_Core_Helper_Data')->jsQuoteEscape(__('There is already another PayPal solution enabled. Enable this solution instead?')) . '\');
+                                    confirmationApproved = confirm(\'' .  $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('There is already another PayPal solution enabled. Enable this solution instead?')) . '\');
                                 } else {
                                     paypalConflictsObject.isConflict = true;
                                 }
@@ -294,14 +296,14 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                     paypalConflictsObject.checkPaymentConflicts(enablerElement, "initial");
                 });
                 if (paypalConflictsObject.isConflict || paypalConflictsObject.ecMissed) {
-                    var notification = \'' .  $this->helper('Magento_Core_Helper_Data')->jsQuoteEscape(__('The following error(s) occured:')) . '\';
+                    var notification = \'' .  $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('The following error(s) occured:')) . '\';
                     if (paypalConflictsObject.isConflict) {
-                        notification += "\\n  " + \'' .  $this->helper('Magento_Core_Helper_Data')->jsQuoteEscape(__('Some PayPal solutions conflict.')) . '\';
+                        notification += "\\n  " + \'' .  $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('Some PayPal solutions conflict.')) . '\';
                     }
                     if (paypalConflictsObject.ecMissed) {
-                        notification += "\\n  " + \'' .  $this->helper('Magento_Core_Helper_Data')->jsQuoteEscape(__('PayPal Express Checkout is not enabled.')) . '\';
+                        notification += "\\n  " + \'' .  $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('PayPal Express Checkout is not enabled.')) . '\';
                     }
-                    notification += "\\n" + \'' .  $this->helper('Magento_Core_Helper_Data')->jsQuoteEscape(__('Please re-enable the previously enabled payment solutions.')) . '\';
+                    notification += "\\n" + \'' .  $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('Please re-enable the previously enabled payment solutions.')) . '\';
                     setTimeout(function() {
                         alert(notification);
                     }, 1);
@@ -339,6 +341,6 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                 });
             });
         ';
-        return $this->toHtml() . $this->helper('Magento_Adminhtml_Helper_Js')->getScript($js);
+        return $this->toHtml() . $this->helper('Magento\Adminhtml\Helper\Js')->getScript($js);
     }
 }

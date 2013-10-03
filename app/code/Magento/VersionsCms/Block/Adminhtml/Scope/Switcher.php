@@ -11,7 +11,9 @@
 /**
  * Store switcher block
  */
-class Magento_VersionsCms_Block_Adminhtml_Scope_Switcher extends Magento_Backend_Block_System_Config_Switcher
+namespace Magento\VersionsCms\Block\Adminhtml\Scope;
+
+class Switcher extends \Magento\Backend\Block\System\Config\Switcher
 {
     /**
      * Scope switcher options
@@ -21,17 +23,17 @@ class Magento_VersionsCms_Block_Adminhtml_Scope_Switcher extends Magento_Backend
     protected $_options;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_System_Store $systemStore
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_System_Store $systemStore,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $systemStore, $storeManager, $data);

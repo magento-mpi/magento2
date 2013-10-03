@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Cache_Config_Reader extends Magento_Config_Reader_Filesystem
+namespace Magento\Core\Model\Cache\Config;
+
+class Reader extends \Magento\Config\Reader\Filesystem
 {
     /**
      * List of id attributes for merge
@@ -17,22 +19,22 @@ class Magento_Core_Model_Cache_Config_Reader extends Magento_Config_Reader_Files
     );
 
     /**
-     * @param Magento_Config_FileResolverInterface $fileResolver
-     * @param Magento_Core_Model_Cache_Config_Converter $converter
-     * @param Magento_Core_Model_Cache_Config_SchemaLocator $schemeLocator
-     * @param Magento_Config_ValidationStateInterface $validationState
+     * @param \Magento\Config\FileResolverInterface $fileResolver
+     * @param \Magento\Core\Model\Cache\Config\Converter $converter
+     * @param \Magento\Core\Model\Cache\Config\SchemaLocator $schemeLocator
+     * @param \Magento\Config\ValidationStateInterface $validationState
      * @param string $fileName
      * @param array $idAttributes
      * @param string $domDocumentClass
      */
     public function __construct(
-        Magento_Config_FileResolverInterface $fileResolver,
-        Magento_Core_Model_Cache_Config_Converter $converter,
-        Magento_Core_Model_Cache_Config_SchemaLocator $schemeLocator,
-        Magento_Config_ValidationStateInterface $validationState,
+        \Magento\Config\FileResolverInterface $fileResolver,
+        \Magento\Core\Model\Cache\Config\Converter $converter,
+        \Magento\Core\Model\Cache\Config\SchemaLocator $schemeLocator,
+        \Magento\Config\ValidationStateInterface $validationState,
         $fileName = 'cache.xml',
         $idAttributes = array(),
-        $domDocumentClass = 'Magento_Config_Dom'
+        $domDocumentClass = 'Magento\Config\Dom'
     ) {
         parent::__construct(
             $fileResolver, $converter, $schemeLocator, $validationState, $fileName, $idAttributes, $domDocumentClass

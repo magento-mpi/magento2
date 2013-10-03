@@ -8,7 +8,9 @@
  * @license    {license_link}
  */
 
-class Magento_Tools_Migration_Acl_Formatter
+namespace Magento\Tools\Migration\Acl;
+
+class Formatter
 {
     /**
      * @param string $string

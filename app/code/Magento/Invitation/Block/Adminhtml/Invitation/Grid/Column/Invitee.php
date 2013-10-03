@@ -12,24 +12,26 @@
  * Column renderer for Invitee in invitations grid
  *
  */
-class Magento_Invitation_Block_Adminhtml_Invitation_Grid_Column_Invitee
-    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\Invitation\Block\Adminhtml\Invitation\Grid\Column;
+
+class Invitee
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Backend Url
      *
-     * @var Magento_Backend_Model_Url
+     * @var \Magento\Backend\Model\Url
      */
     protected $_url;
 
     /**
-     * @param Magento_Backend_Block_Context $context
-     * @param Magento_Backend_Model_Url $url
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Backend\Model\Url $url
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Context $context,
-        Magento_Backend_Model_Url $url,
+        \Magento\Backend\Block\Context $context,
+        \Magento\Backend\Model\Url $url,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -39,10 +41,10 @@ class Magento_Invitation_Block_Adminhtml_Invitation_Grid_Column_Invitee
     /**
      * Render invitee email linked to its account edit page
      *
-     * @param   Magento_Object $row
+     * @param   \Magento\Object $row
      * @return  string
      */
-    protected function _getValue(Magento_Object $row)
+    protected function _getValue(\Magento\Object $row)
     {
         if ($this->_authorization->isAllowed('Magento_Customer::manage')) {
             if (!$row->getReferralId()) {

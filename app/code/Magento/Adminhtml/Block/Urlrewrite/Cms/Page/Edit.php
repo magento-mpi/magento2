@@ -11,34 +11,36 @@
 /**
  * Block for CMS pages URL rewrites
  *
- * @method Magento_Cms_Model_Page getCmsPage()
- * @method Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit setCmsPage(Magento_Cms_Model_Page $cmsPage)
+ * @method \Magento\Cms\Model\Page getCmsPage()
+ * @method \Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit setCmsPage(\Magento\Cms\Model\Page $cmsPage)
  *
  * @category   Magento
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit extends Magento_Adminhtml_Block_Urlrewrite_Edit
+namespace Magento\Adminhtml\Block\Urlrewrite\Cms\Page;
+
+class Edit extends \Magento\Adminhtml\Block\Urlrewrite\Edit
 {
     /**
-     * @var Magento_Cms_Model_PageFactory
+     * @var \Magento\Cms\Model\PageFactory
      */
     protected $_pageFactory;
 
     /**
-     * @param Magento_Cms_Model_PageFactory $pageFactory
-     * @param Magento_Core_Model_Url_RewriteFactory $rewriteFactory
-     * @param Magento_Backend_Helper_Data $adminhtmlData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Cms\Model\PageFactory $pageFactory
+     * @param \Magento\Core\Model\Url\RewriteFactory $rewriteFactory
+     * @param \Magento\Backend\Helper\Data $adminhtmlData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Cms_Model_PageFactory $pageFactory,
-        Magento_Core_Model_Url_RewriteFactory $rewriteFactory,
-        Magento_Backend_Helper_Data $adminhtmlData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Cms\Model\PageFactory $pageFactory,
+        \Magento\Core\Model\Url\RewriteFactory $rewriteFactory,
+        \Magento\Backend\Helper\Data $adminhtmlData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_pageFactory = $pageFactory;
@@ -69,7 +71,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit extends Magento_Adminhtml
     /**
      * Get or create new instance of CMS page
      *
-     * @return Magento_Cms_Model_Page
+     * @return \Magento\Cms\Model\Page
      */
     private function _getCmsPage()
     {
@@ -84,7 +86,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit extends Magento_Adminhtml
      */
     private function _addCmsPageLinkBlock()
     {
-        $this->addChild('cms_page_link', 'Magento_Adminhtml_Block_Urlrewrite_Link', array(
+        $this->addChild('cms_page_link', 'Magento\Adminhtml\Block\Urlrewrite\Link', array(
             'item_url'  => $this->_adminhtmlData->getUrl('*/*/*') . 'cms_page',
             'item_name' => $this->getCmsPage()->getTitle(),
             'label'     => __('CMS page:')
@@ -96,17 +98,17 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit extends Magento_Adminhtml
      */
     private function _addCmsPageGridBlock()
     {
-        $this->addChild('cms_pages_grid', 'Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Grid');
+        $this->addChild('cms_pages_grid', 'Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Grid');
     }
 
     /**
      * Creates edit form block
      *
-     * @return Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form
+     * @return \Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit\Form
      */
     protected function _createEditFormBlock()
     {
-        return $this->getLayout()->createBlock('Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form', '', array(
+        return $this->getLayout()->createBlock('Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit\Form', '', array(
             'data' => array(
                 'cms_page'    => $this->_getCmsPage(),
                 'url_rewrite' => $this->_getUrlRewrite()

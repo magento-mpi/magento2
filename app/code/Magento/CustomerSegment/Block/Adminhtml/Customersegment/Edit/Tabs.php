@@ -8,34 +8,36 @@
  * @license     {license_link}
  */
 
-class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tabs extends Magento_Backend_Block_Widget_Tabs
+namespace Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit;
+
+class Tabs extends \Magento\Backend\Block\Widget\Tabs
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry;
 
     /**
-     * @var Magento_CustomerSegment_Model_SegmentFactory
+     * @var \Magento\CustomerSegment\Model\SegmentFactory
      */
     protected $_segmentFactory;
 
     /**
-     * @param Magento_CustomerSegment_Model_SegmentFactory $segmentFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Backend_Model_Auth_Session $authSession
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\CustomerSegment\Model\SegmentFactory $segmentFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Model\Auth\Session $authSession
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_CustomerSegment_Model_SegmentFactory $segmentFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Backend_Model_Auth_Session $authSession,
-        Magento_Core_Model_Registry $registry,
+        \Magento\CustomerSegment\Model\SegmentFactory $segmentFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Model\Auth\Session $authSession,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_segmentFactory = $segmentFactory;
@@ -59,12 +61,12 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tabs extends 
     /**
      * Add tab sections
      *
-     * @return Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tabs
+     * @return \Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit\Tabs
      */
     protected function _beforeToHtml()
     {
         $generalSectionContent = $this->getLayout()
-            ->createBlock('Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_General')
+            ->createBlock('Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit\Tab\General')
             ->toHtml();
 
         $this->addTab('general_section', array(
@@ -78,7 +80,7 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tabs extends 
 
         if ($segment && $segment->getId()) {
             $conditionsSectionContent = $this->getLayout()
-                ->createBlock('Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Conditions')
+                ->createBlock('Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit\Tab\Conditions')
                 ->toHtml();
 
             $this->addTab('conditions_section', array(
@@ -87,7 +89,7 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tabs extends 
                 'content' => $conditionsSectionContent,
             ));
 
-            if ($segment->getApplyTo() != Magento_CustomerSegment_Model_Segment::APPLY_TO_VISITORS) {
+            if ($segment->getApplyTo() != \Magento\CustomerSegment\Model\Segment::APPLY_TO_VISITORS) {
                 $customersQty = $this->_segmentFactory->create()
                     ->getResource()
                     ->getSegmentCustomersQty($segment->getId());

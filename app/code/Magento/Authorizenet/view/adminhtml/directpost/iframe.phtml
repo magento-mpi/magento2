@@ -9,13 +9,13 @@
  */
 
 /**
- * @var $this Magento_Authorizenet_Block_Directpost_Iframe
+ * @var $this \Magento\Authorizenet\Block\Directpost\Iframe
  */
 ?>
 <?php
 $_params = $this->getParams();
-/* @var $_helper Magento_Authorizenet_Helper_Data  */
-$_helper = $this->helper('Magento_Authorizenet_Helper_Data');
+/* @var $_helper \Magento\Authorizenet\Helper\Data  */
+$_helper = $this->helper('Magento\Authorizenet\Helper\Data');
 ?>
 <html>
 <head>
@@ -28,7 +28,7 @@ window.location="<?php echo $this->escapeUrl($_params['redirect']) ?>";
 window.top.location="<?php echo $this->escapeUrl($_params['redirect_parent']) ?>";
 <?php endif; ?>
 <?php if (isset($_params['error_msg'])): ?>
-window.top.directPostModel.showError(<?php echo $this->helper('Magento_Core_Helper_Data')->jsonEncode($_params['error_msg']) ?>);
+window.top.directPostModel.showError(<?php echo $this->helper('Magento\Core\Helper\Data')->jsonEncode($_params['error_msg']) ?>);
 <?php if (isset($_params['x_invoice_num'])): ?>
 window.top.directPostModel.successUrl="<?php echo $_helper->getSuccessOrderUrl($_params) ?>";
 <?php endif; ?>

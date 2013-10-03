@@ -48,7 +48,7 @@
                 containerElement.down('span.pbridge-reload').down('a').hide();
             }
             var message = document.getElementById('payment-method-message');
-            message.innerHTML = '<?php echo $this->helper('Magento_Core_Helper_Data')->jsQuoteEscape(__('We submitted your payment information to the server. To make changes, please click <a style="color: #F15A24" href="#" onclick="parent.reloadIframe(parent.order.paymentMethod); return false;">here</a> .')) ?>';
+            message.innerHTML = '<?php echo $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('We submitted your payment information to the server. To make changes, please click <a style="color: #F15A24" href="#" onclick="parent.reloadIframe(parent.order.paymentMethod); return false;">here</a> .')) ?>';
         }
     }
     window.onload = setPaymentMethod;

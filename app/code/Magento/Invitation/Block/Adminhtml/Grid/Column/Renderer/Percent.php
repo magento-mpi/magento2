@@ -14,16 +14,18 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-class Magento_Invitation_Block_Adminhtml_Grid_Column_Renderer_Percent
-    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Number
+namespace Magento\Invitation\Block\Adminhtml\Grid\Column\Renderer;
+
+class Percent
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Number
 {
     /**
      * Renders grid column
      *
-     * @param   Magento_Object $row
+     * @param   \Magento\Object $row
      * @return  string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         if ($this->getColumn()->getEditable()) {
             return parent::render($row);

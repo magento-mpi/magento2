@@ -12,36 +12,38 @@
  * Controller for Customer account -> Store Credit ajax tab and all its contents
  *
  */
-class Magento_CustomerBalance_Controller_Adminhtml_Customerbalance extends Magento_Adminhtml_Controller_Action
+namespace Magento\CustomerBalance\Controller\Adminhtml;
+
+class Customerbalance extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Customer_Model_CustomerFactory
+     * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $_customerFactory;
 
     /**
-     * @var Magento_CustomerBalance_Model_Balance
+     * @var \Magento\CustomerBalance\Model\Balance
      */
     protected $_balance;
 
     /**
-     * @param Magento_CustomerBalance_Model_Balance $balance
-     * @param Magento_Customer_Model_CustomerFactory $customerFactory
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\CustomerBalance\Model\Balance $balance
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_CustomerBalance_Model_Balance $balance,
-        Magento_Customer_Model_CustomerFactory $customerFactory,
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\CustomerBalance\Model\Balance $balance,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_balanceFactory = $balance;
         $this->_customerFactory = $customerFactory;
@@ -52,12 +54,12 @@ class Magento_CustomerBalance_Controller_Adminhtml_Customerbalance extends Magen
     /**
      * Check is enabled module in config
      *
-     * @return Magento_CustomerBalance_Controller_Adminhtml_Customerbalance
+     * @return \Magento\CustomerBalance\Controller\Adminhtml\Customerbalance
      */
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!$this->_objectManager->get('Magento_CustomerBalance_Helper_Data')->isEnabled()) {
+        if (!$this->_objectManager->get('Magento\CustomerBalance\Helper\Data')->isEnabled()) {
             if ($this->getRequest()->getActionName() != 'noroute') {
                 $this->_forward('noroute');
             }
@@ -86,7 +88,7 @@ class Magento_CustomerBalance_Controller_Adminhtml_Customerbalance extends Magen
         $this->loadLayout();
         $this->getResponse()->setBody(
             $this->getLayout()->createBlock(
-                'Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_History_Grid'
+                'Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance\History\Grid'
             )->toHtml()
         );
     }
@@ -107,13 +109,13 @@ class Magento_CustomerBalance_Controller_Adminhtml_Customerbalance extends Magen
      * Instantiate customer model
      *
      * @param string $idFieldName
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     protected function _initCustomer($idFieldName = 'id')
     {
         $customer = $this->_customerFactory->create()->load((int)$this->getRequest()->getParam($idFieldName));
         if (!$customer->getId()) {
-            throw new Magento_Core_Exception(__('Failed to initialize customer'));
+            throw new \Magento\Core\Exception(__('Failed to initialize customer'));
         }
         $this->_coreRegistry->register('current_customer', $customer);
     }

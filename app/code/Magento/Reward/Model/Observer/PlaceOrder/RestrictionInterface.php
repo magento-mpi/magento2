@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Reward_Model_Observer_PlaceOrder_RestrictionInterface
+namespace Magento\Reward\Model\Observer\PlaceOrder;
+
+interface RestrictionInterface
 {
     /**
      * Check if reward points operations is allowed

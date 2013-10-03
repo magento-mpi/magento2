@@ -8,23 +8,23 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_Enterprise_Model_Resource_Setup_Migration */
+/** @var $installer \Magento\Enterprise\Model\Resource\Setup\Migration */
 $installer = $this->_entMigrationFactory->create(array('resourceName' => 'core_setup'));
 $installer->startSetup();
 
 $installer->appendClassAliasReplace('magento_versionscms_page_revision', 'content',
-    Magento_Enterprise_Model_Resource_Setup_Migration::ENTITY_TYPE_BLOCK,
-    Magento_Enterprise_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_WIKI,
+    \Magento\Enterprise\Model\Resource\Setup\Migration::ENTITY_TYPE_BLOCK,
+    \Magento\Enterprise\Model\Resource\Setup\Migration::FIELD_CONTENT_TYPE_WIKI,
     array('revision_id')
 );
 $installer->appendClassAliasReplace('magento_versionscms_page_revision', 'layout_update_xml',
-    Magento_Enterprise_Model_Resource_Setup_Migration::ENTITY_TYPE_BLOCK,
-    Magento_Enterprise_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_XML,
+    \Magento\Enterprise\Model\Resource\Setup\Migration::ENTITY_TYPE_BLOCK,
+    \Magento\Enterprise\Model\Resource\Setup\Migration::FIELD_CONTENT_TYPE_XML,
     array('revision_id')
 );
 $installer->appendClassAliasReplace('magento_versionscms_page_revision', 'custom_layout_update_xml',
-    Magento_Enterprise_Model_Resource_Setup_Migration::ENTITY_TYPE_BLOCK,
-    Magento_Enterprise_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_XML,
+    \Magento\Enterprise\Model\Resource\Setup\Migration::ENTITY_TYPE_BLOCK,
+    \Magento\Enterprise\Model\Resource\Setup\Migration::FIELD_CONTENT_TYPE_XML,
     array('revision_id')
 );
 $installer->doUpdateClassAliases();

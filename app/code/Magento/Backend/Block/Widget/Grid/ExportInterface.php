@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-interface Magento_Backend_Block_Widget_Grid_ExportInterface
+namespace Magento\Backend\Block\Widget\Grid;
+
+interface ExportInterface
 {
     /**
      * Retrieve grid export types
@@ -36,7 +38,7 @@ interface Magento_Backend_Block_Widget_Grid_ExportInterface
      *
      * @param   string $url
      * @param   string $label
-     * @return  Magento_Backend_Block_Widget_Grid
+     * @return  \Magento\Backend\Block\Widget\Grid
      */
     public function addExportType($url, $label);
 

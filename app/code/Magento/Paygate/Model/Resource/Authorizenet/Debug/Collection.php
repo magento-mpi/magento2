@@ -16,7 +16,9 @@
  * @package     Magento_Paygate
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paygate_Model_Resource_Authorizenet_Debug_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Paygate\Model\Resource\Authorizenet\Debug;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource initialization
@@ -24,6 +26,6 @@ class Magento_Paygate_Model_Resource_Authorizenet_Debug_Collection extends Magen
      */
     protected function _construct()
     {
-        $this->_init('Magento_Paygate_Model_Authorizenet_Debug', 'Magento_Paygate_Model_Resource_Authorizenet_Debug');
+        $this->_init('Magento\Paygate\Model\Authorizenet\Debug', 'Magento\Paygate\Model\Resource\Authorizenet\Debug');
     }
 }

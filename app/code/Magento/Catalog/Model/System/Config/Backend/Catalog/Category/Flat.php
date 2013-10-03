@@ -11,35 +11,37 @@
 /**
  * Flat category on/off backend
  */
-class Magento_Catalog_Model_System_Config_Backend_Catalog_Category_Flat extends Magento_Core_Model_Config_Value
+namespace Magento\Catalog\Model\System\Config\Backend\Catalog\Category;
+
+class Flat extends \Magento\Core\Model\Config\Value
 {
     /**
      * Indexer factory
      *
-     * @var Magento_Index_Model_IndexerFactory
+     * @var \Magento\Index\Model\IndexerFactory
      */
     protected $_indexerFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Index_Model_IndexerFactory $indexerFactory
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Index\Model\IndexerFactory $indexerFactory
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Index_Model_IndexerFactory $indexerFactory,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Index\Model\IndexerFactory $indexerFactory,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_indexerFactory = $indexerFactory;
@@ -49,14 +51,14 @@ class Magento_Catalog_Model_System_Config_Backend_Catalog_Category_Flat extends 
     /**
      * After enable flat category required reindex
      *
-     * @return Magento_Catalog_Model_System_Config_Backend_Catalog_Category_Flat
+     * @return \Magento\Catalog\Model\System\Config\Backend\Catalog\Category\Flat
      */
     protected function _afterSave()
     {
         if ($this->isValueChanged() && $this->getValue()) {
             $this->_indexerFactory->create()
-                ->getProcessByCode(Magento_Catalog_Helper_Category_Flat::CATALOG_CATEGORY_FLAT_PROCESS_CODE)
-                ->changeStatus(Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+                ->getProcessByCode(\Magento\Catalog\Helper\Category\Flat::CATALOG_CATEGORY_FLAT_PROCESS_CODE)
+                ->changeStatus(\Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX);
         }
 
         return $this;

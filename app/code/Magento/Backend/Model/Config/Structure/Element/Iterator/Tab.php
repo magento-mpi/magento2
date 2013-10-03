@@ -8,13 +8,15 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Config_Structure_Element_Iterator_Tab
-    extends Magento_Backend_Model_Config_Structure_Element_Iterator
+namespace Magento\Backend\Model\Config\Structure\Element\Iterator;
+
+class Tab
+    extends \Magento\Backend\Model\Config\Structure\Element\Iterator
 {
     /**
-     * @param Magento_Backend_Model_Config_Structure_Element_Tab $element
+     * @param \Magento\Backend\Model\Config\Structure\Element\Tab $element
      */
-    public function __construct(Magento_Backend_Model_Config_Structure_Element_Tab $element)
+    public function __construct(\Magento\Backend\Model\Config\Structure\Element\Tab $element)
     {
         parent::__construct($element);
     }

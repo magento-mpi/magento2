@@ -13,14 +13,16 @@
  * @package    Magento_Paypal
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paypal_Controller_Hostedpro extends Magento_Core_Controller_Front_Action
+namespace Magento\Paypal\Controller;
+
+class Hostedpro extends \Magento\Core\Controller\Front\Action
 {
     /**
      * When a customer return to website from gateway.
      */
     public function returnAction()
     {
-        $session = $this->_objectManager->get('Magento_Checkout_Model_Session');;
+        $session = $this->_objectManager->get('Magento\Checkout\Model\Session');;
         //TODO: some actions with order
         if ($session->getLastRealOrderId()) {
             $this->_redirect('checkout/onepage/success');
@@ -49,7 +51,7 @@ class Magento_Paypal_Controller_Hostedpro extends Magento_Core_Controller_Front_
     protected function _cancelPayment($errorMsg = '')
     {
         $gotoSection = false;
-        $helper = $this->_objectManager->get('Magento_Paypal_Helper_Checkout');
+        $helper = $this->_objectManager->get('Magento\Paypal\Helper\Checkout');
         $helper->cancelCurrentOrder($errorMsg);
         if ($helper->restoreQuote()) {
             $gotoSection = 'payment';

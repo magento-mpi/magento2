@@ -11,52 +11,54 @@
 /**
  * Grid with revisions on version page
  */
-class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
-    extends Magento_Backend_Block_Widget_Grid_Extended
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Version\Edit;
+
+class Revisions
+    extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Cms data
      *
-     * @var Magento_VersionsCms_Helper_Data
+     * @var \Magento\VersionsCms\Helper\Data
      */
     protected $_cmsData;
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry;
 
     /**
-     * @var Magento_VersionsCms_Model_Resource_Page_Revision_CollectionFactory
+     * @var \Magento\VersionsCms\Model\Resource\Page\Revision\CollectionFactory
      */
     protected $_revisionCollFactory;
 
     /**
-     * @var Magento_VersionsCms_Model_Config
+     * @var \Magento\VersionsCms\Model\Config
      */
     protected $_cmsConfig;
 
     /**
-     * @param Magento_VersionsCms_Helper_Data $cmsData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_VersionsCms_Model_Resource_Page_Revision_CollectionFactory $revisionCollFactory
-     * @param Magento_VersionsCms_Model_Config $cmsConfig
+     * @param \Magento\VersionsCms\Helper\Data $cmsData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\VersionsCms\Model\Resource\Page\Revision\CollectionFactory $revisionCollFactory
+     * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param array $data
      */
     public function __construct(
-        Magento_VersionsCms_Helper_Data $cmsData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Core_Model_Registry $registry,
-        Magento_VersionsCms_Model_Resource_Page_Revision_CollectionFactory $revisionCollFactory,
-        Magento_VersionsCms_Model_Config $cmsConfig,
+        \Magento\VersionsCms\Helper\Data $cmsData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\VersionsCms\Model\Resource\Page\Revision\CollectionFactory $revisionCollFactory,
+        \Magento\VersionsCms\Model\Config $cmsConfig,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -78,11 +80,11 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
     /**
      * Prepares collection of revisions
      *
-     * @return Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Version\Edit\Revisions
      */
     protected function _prepareCollection()
     {
-        /* var $collection Magento_VersionsCms_Model_Resource_Page_Revision_Collection */
+        /* var $collection \Magento\VersionsCms\Model\Resource\Page\Revision\Collection */
         $collection = $this->_revisionCollFactory->create()
             ->addPageFilter($this->getPage())
             ->addVersionFilter($this->getVersion())
@@ -92,7 +94,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
             // Commented this bc now revision are shown in scope of version and not page.
             // So if user has permission to load this version he
             // has permission to see all its versions
-            //->addVisibilityFilter($this->_objM->get('Magento_Backend_Model_Auth_Session')->getUser()->getId(),
+            //->addVisibilityFilter($this->_objM->get('Magento\Backend\Model\Auth\Session')->getUser()->getId(),
             //$this->_cmsConfig->getAllowedAccessLevel());
 
         $this->setCollection($collection);
@@ -102,7 +104,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
     /**
      * Retrieve collection for grid if there is not collection call _prepareCollection
      *
-     * @return Magento_VersionsCms_Model_Resource_Page_Version_Collection
+     * @return \Magento\VersionsCms\Model\Resource\Page\Version\Collection
      */
     public function getCollection()
     {
@@ -116,7 +118,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
     /**
      * Prepare event grid columns
      *
-     * @return Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Version\Edit\Revisions
      */
     protected function _prepareColumns()
     {
@@ -172,7 +174,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
     /**
      * Returns cms page object from registry
      *
-     * @return Magento_Cms_Model_Page
+     * @return \Magento\Cms\Model\Page
      */
     public function getPage()
     {
@@ -182,7 +184,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
     /**
      * Returns cms page version object from registry
      *
-     * @return Magento_VersionsCms_Model_Page_Version
+     * @return \Magento\VersionsCms\Model\Page\Version
      */
     public function getVersion()
     {
@@ -193,7 +195,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
      * Prepare massactions for this grid.
      * For now it is only ability to remove revisions
      *
-     * @return Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Version\Edit\Revisions
      */
     protected function _prepareMassaction()
     {

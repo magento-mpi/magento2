@@ -16,36 +16,38 @@
  * @package     Magento_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Log_Model_Resource_Visitor extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Log\Model\Resource;
+
+class Visitor extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Core string
      *
-     * @var Magento_Core_Helper_String
+     * @var \Magento\Core\Helper\String
      */
     protected $_coreString = null;
 
     /**
-     * @var Magento_Core_Model_Date
+     * @var \Magento\Core\Model\Date
      */
     protected $_date;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_Date $date
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
-        Magento_Core_Model_Date $date,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Helper_String $coreString,
-        Magento_Core_Model_Resource $resource
+        \Magento\Core\Model\Date $date,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Core\Model\Resource $resource
     ) {
         $this->_date = $date;
         $this->_storeManager = $storeManager;
@@ -64,10 +66,10 @@ class Magento_Log_Model_Resource_Visitor extends Magento_Core_Model_Resource_Db_
     /**
      * Prepare data for save
      *
-     * @param Magento_Core_Model_Abstract $visitor
+     * @param \Magento\Core\Model\AbstractModel $visitor
      * @return array
      */
-    protected function _prepareDataForSave(Magento_Core_Model_Abstract $visitor)
+    protected function _prepareDataForSave(\Magento\Core\Model\AbstractModel $visitor)
     {
         return array(
             'session_id'        => $visitor->getSessionId(),
@@ -81,13 +83,13 @@ class Magento_Log_Model_Resource_Visitor extends Magento_Core_Model_Resource_Db_
     /**
      * Saving information about url
      *
-     * @param   Magento_Log_Model_Visitor $visitor
-     * @return  Magento_Log_Model_Resource_Visitor
+     * @param   \Magento\Log\Model\Visitor $visitor
+     * @return  \Magento\Log\Model\Resource\Visitor
      */
     protected function _saveUrlInfo($visitor)
     {
         $adapter    = $this->_getWriteAdapter();
-        $data       = new Magento_Object(array(
+        $data       = new \Magento\Object(array(
             'url'    => $this->_coreString->substr($visitor->getUrl(), 0, 250),
             'referer'=> $this->_coreString->substr($visitor->getHttpReferer(), 0, 250)
         ));
@@ -103,10 +105,10 @@ class Magento_Log_Model_Resource_Visitor extends Magento_Core_Model_Resource_Db_
     /**
      * Save url info before save
      *
-     * @param Magento_Core_Model_Abstract $visitor
-     * @return Magento_Log_Model_Resource_Visitor
+     * @param \Magento\Core\Model\AbstractModel $visitor
+     * @return \Magento\Log\Model\Resource\Visitor
      */
-    protected function _beforeSave(Magento_Core_Model_Abstract $visitor)
+    protected function _beforeSave(\Magento\Core\Model\AbstractModel $visitor)
     {
         if (!$visitor->getIsNewVisitor()) {
             $this->_saveUrlInfo($visitor);
@@ -117,10 +119,10 @@ class Magento_Log_Model_Resource_Visitor extends Magento_Core_Model_Resource_Db_
     /**
      * Actions after save
      *
-     * @param Magento_Core_Model_Abstract $visitor
-     * @return Magento_Log_Model_Resource_Visitor
+     * @param \Magento\Core\Model\AbstractModel $visitor
+     * @return \Magento\Log\Model\Resource\Visitor
      */
-    protected function _afterSave(Magento_Core_Model_Abstract $visitor)
+    protected function _afterSave(\Magento\Core\Model\AbstractModel $visitor)
     {
         if ($visitor->getIsNewVisitor()) {
             $this->_saveVisitorInfo($visitor);
@@ -140,10 +142,10 @@ class Magento_Log_Model_Resource_Visitor extends Magento_Core_Model_Resource_Db_
     /**
      * Perform actions after object load
      *
-     * @param \Magento_Core_Model_Abstract|\Magento_Object $object
-     * @return Magento_Core_Model_Resource_Db_Abstract
+     * @param \Magento\Core\Model\AbstractModel|\Magento\Object $object
+     * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
-    protected function _afterLoad(Magento_Core_Model_Abstract $object)
+    protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
     {
         parent::_afterLoad($object);
         // Add information about quote to visitor
@@ -160,8 +162,8 @@ class Magento_Log_Model_Resource_Visitor extends Magento_Core_Model_Resource_Db_
     /**
      * Saving visitor information
      *
-     * @param   Magento_Log_Model_Visitor $visitor
-     * @return  Magento_Log_Model_Resource_Visitor
+     * @param   \Magento\Log\Model\Visitor $visitor
+     * @return  \Magento\Log\Model\Resource\Visitor
      */
     protected function _saveVisitorInfo($visitor)
     {
@@ -177,7 +179,7 @@ class Magento_Log_Model_Resource_Visitor extends Magento_Core_Model_Resource_Db_
         $language   = $this->_coreString->cleanString($visitor->getHttpAcceptLanguage());
         $language   = $this->_coreString->substr($language, 0, 255);
 
-        $data = new Magento_Object(array(
+        $data = new \Magento\Object(array(
             'visitor_id'            => $visitor->getId(),
             'http_referer'          => $referer,
             'http_user_agent'       => $userAgent,
@@ -198,12 +200,12 @@ class Magento_Log_Model_Resource_Visitor extends Magento_Core_Model_Resource_Db_
     /**
      * Saving visitor and url relation
      *
-     * @param   Magento_Log_Model_Visitor $visitor
-     * @return  Magento_Log_Model_Resource_Visitor
+     * @param   \Magento\Log\Model\Visitor $visitor
+     * @return  \Magento\Log\Model\Resource\Visitor
      */
     protected function _saveVisitorUrl($visitor)
     {
-        $data = new Magento_Object(array(
+        $data = new \Magento\Object(array(
             'url_id'        => $visitor->getLastUrlId(),
             'visitor_id'    => $visitor->getId(),
             'visit_time'    => $this->_date->gmtDate()
@@ -217,15 +219,15 @@ class Magento_Log_Model_Resource_Visitor extends Magento_Core_Model_Resource_Db_
     /**
      * Saving information about customer
      *
-     * @param   Magento_Log_Model_Visitor $visitor
-     * @return  Magento_Log_Model_Resource_Visitor
+     * @param   \Magento\Log\Model\Visitor $visitor
+     * @return  \Magento\Log\Model\Resource\Visitor
      */
     protected function _saveCustomerInfo($visitor)
     {
         $adapter = $this->_getWriteAdapter();
 
         if ($visitor->getDoCustomerLogin()) {
-            $data = new Magento_Object(array(
+            $data = new \Magento\Object(array(
                 'visitor_id'    => $visitor->getVisitorId(),
                 'customer_id'   => $visitor->getCustomerId(),
                 'login_at'      => $this->_date->gmtDate(),
@@ -239,7 +241,7 @@ class Magento_Log_Model_Resource_Visitor extends Magento_Core_Model_Resource_Db_
         }
 
         if ($visitor->getDoCustomerLogout() && $logId = $visitor->getCustomerLogId()) {
-            $data = new Magento_Object(array(
+            $data = new \Magento\Object(array(
                 'logout_at' => $this->_date->gmtDate(),
                 'store_id'  => (int)$this->_storeManager->getStore()->getId(),
             ));
@@ -263,14 +265,14 @@ class Magento_Log_Model_Resource_Visitor extends Magento_Core_Model_Resource_Db_
     /**
      * Saving information about quote
      *
-     * @param   Magento_Log_Model_Visitor $visitor
-     * @return  Magento_Log_Model_Resource_Visitor
+     * @param   \Magento\Log\Model\Visitor $visitor
+     * @return  \Magento\Log\Model\Resource\Visitor
      */
     protected function _saveQuoteInfo($visitor)
     {
         $adapter = $this->_getWriteAdapter();
         if ($visitor->getDoQuoteCreate()) {
-            $data = new Magento_Object(array(
+            $data = new \Magento\Object(array(
                 'quote_id'      => (int) $visitor->getQuoteId(),
                 'visitor_id'    => (int) $visitor->getId(),
                 'created_at'    => $this->_date->gmtDate()

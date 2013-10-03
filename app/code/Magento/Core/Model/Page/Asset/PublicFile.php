@@ -11,10 +11,12 @@
 /**
  * Page asset representing a local file that already has public access
  */
-class Magento_Core_Model_Page_Asset_PublicFile implements Magento_Core_Model_Page_Asset_LocalInterface
+namespace Magento\Core\Model\Page\Asset;
+
+class PublicFile implements \Magento\Core\Model\Page\Asset\LocalInterface
 {
     /**
-     * @var Magento_Core_Model_View_Url
+     * @var \Magento\Core\Model\View\Url
      */
     protected $_viewUrl;
 
@@ -29,11 +31,11 @@ class Magento_Core_Model_Page_Asset_PublicFile implements Magento_Core_Model_Pag
     private $_contentType;
 
     /**
-     * @param Magento_Core_Model_View_Url $viewUrl
+     * @param \Magento\Core\Model\View\Url $viewUrl
      * @param string $file
      * @param string $contentType
      */
-    public function __construct(Magento_Core_Model_View_Url $viewUrl, $file, $contentType)
+    public function __construct(\Magento\Core\Model\View\Url $viewUrl, $file, $contentType)
     {
         $this->_viewUrl = $viewUrl;
         $this->_file = $file;

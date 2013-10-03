@@ -13,29 +13,31 @@
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Magento_Catalog_Model_Config_Source_Category implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Catalog\Model\Config\Source;
+
+class Category implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Category collection factory
      *
-     * @var Magento_Catalog_Model_Resource_Category_CollectionFactory
+     * @var \Magento\Catalog\Model\Resource\Category\CollectionFactory
      */
     protected $_categoryCollectionFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Catalog_Model_Resource_Category_CollectionFactory $categoryCollectionFactory
+     * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory
      */
     public function __construct(
-        Magento_Catalog_Model_Resource_Category_CollectionFactory $categoryCollectionFactory
+        \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory
     ) {
         $this->_categoryCollectionFactory = $categoryCollectionFactory;
     }
 
     public function toOptionArray($addEmpty = true)
     {
-        /** @var Magento_Catalog_Model_Resource_Category_Collection $collection */
+        /** @var \Magento\Catalog\Model\Resource\Category\Collection $collection */
         $collection = $this->_categoryCollectionFactory->create();
 
         $collection->addAttributeToSelect('name')

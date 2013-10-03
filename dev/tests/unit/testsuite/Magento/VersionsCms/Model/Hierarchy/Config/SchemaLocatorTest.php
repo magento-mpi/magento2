@@ -5,22 +5,24 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_VersionsCms_Model_Hierarchy_Config_SchemaLocatorTest extends PHPUnit_Framework_TestCase
+namespace Magento\VersionsCms\Model\Hierarchy\Config;
+
+class SchemaLocatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_VersionsCms_Model_Hierarchy_Config_SchemaLocator
+     * @var \Magento\VersionsCms\Model\Hierarchy\Config\SchemaLocator
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_modulesReaderMock;
 
     protected function setUp()
     {
         $this->_modulesReaderMock = $this->getMock(
-            'Magento_Core_Model_Config_Modules_Reader', array(), array(), '', false
+            'Magento\Core\Model\Config\Modules\Reader', array(), array(), '', false
         );
 
         $this->_modulesReaderMock->expects($this->once())
@@ -28,11 +30,11 @@ class Magento_VersionsCms_Model_Hierarchy_Config_SchemaLocatorTest extends PHPUn
             ->with('etc', 'Magento_VersionsCms')
             ->will($this->returnValue('some_path'));
 
-        $this->_model = new Magento_VersionsCms_Model_Hierarchy_Config_SchemaLocator($this->_modulesReaderMock);
+        $this->_model = new \Magento\VersionsCms\Model\Hierarchy\Config\SchemaLocator($this->_modulesReaderMock);
     }
 
     /**
-     * @covers Magento_VersionsCms_Model_Hierarchy_Config_SchemaLocator::getSchema
+     * @covers \Magento\VersionsCms\Model\Hierarchy\Config\SchemaLocator::getSchema
      */
     public function testGetSchema()
     {
@@ -41,7 +43,7 @@ class Magento_VersionsCms_Model_Hierarchy_Config_SchemaLocatorTest extends PHPUn
     }
 
     /**
-     * @covers Magento_VersionsCms_Model_Hierarchy_Config_SchemaLocator::getPerFileSchema
+     * @covers \Magento\VersionsCms\Model\Hierarchy\Config\SchemaLocator::getPerFileSchema
      */
     public function testGetPerFileSchema()
     {

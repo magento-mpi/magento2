@@ -15,27 +15,29 @@
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Block_Adminhtml_Report_Filter_Form extends Magento_Adminhtml_Block_Report_Filter_Form
+namespace Magento\Sales\Block\Adminhtml\Report\Filter;
+
+class Form extends \Magento\Adminhtml\Block\Report\Filter\Form
 {
     /**
-     * @var Magento_Sales_Model_Order_ConfigFactory
+     * @var \Magento\Sales\Model\Order\ConfigFactory
      */
     protected $_orderConfig;
 
     /**
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Sales_Model_Order_ConfigFactory $orderConfig
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Sales\Model\Order\ConfigFactory $orderConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Sales_Model_Order_ConfigFactory $orderConfig,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Sales\Model\Order\ConfigFactory $orderConfig,
         array $data = array()
     ) {
         $this->_orderConfig = $orderConfig;
@@ -45,17 +47,17 @@ class Magento_Sales_Block_Adminhtml_Report_Filter_Form extends Magento_Adminhtml
     /**
      * Add fields to base fieldset which are general to sales reports
      *
-     * @return Magento_Sales_Block_Adminhtml_Report_Filter_Form
+     * @return \Magento\Sales\Block\Adminhtml\Report\Filter\Form
      */
     protected function _prepareForm()
     {
         parent::_prepareForm();
         $form = $this->getForm();
         $htmlIdPrefix = $form->getHtmlIdPrefix();
-        /** @var Magento_Data_Form_Element_Fieldset $fieldset */
+        /** @var \Magento\Data\Form\Element\Fieldset $fieldset */
         $fieldset = $this->getForm()->getElement('base_fieldset');
 
-        if (is_object($fieldset) && $fieldset instanceof Magento_Data_Form_Element_Fieldset) {
+        if (is_object($fieldset) && $fieldset instanceof \Magento\Data\Form\Element\Fieldset) {
 
             $statuses = $this->_orderConfig->create()->getStatuses();
             $values = array();
@@ -88,7 +90,7 @@ class Magento_Sales_Block_Adminhtml_Report_Filter_Form extends Magento_Adminhtml
             if ($this->getFieldVisibility('show_order_statuses') && $this->getFieldVisibility('order_statuses')) {
                 $this->setChild(
                     'form_after',
-                    $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Form_Element_Dependence')
+                    $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Form\Element\Dependence')
                         ->addFieldMap("{$htmlIdPrefix}show_order_statuses", 'show_order_statuses')
                         ->addFieldMap("{$htmlIdPrefix}order_statuses", 'order_statuses')
                         ->addFieldDependence('order_statuses', 'show_order_statuses', '1')

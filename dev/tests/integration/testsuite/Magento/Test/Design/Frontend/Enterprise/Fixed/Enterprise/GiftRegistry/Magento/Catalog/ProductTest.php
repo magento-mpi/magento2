@@ -6,15 +6,17 @@
  * @license     {license_link}
  */
 
-class Magento_Test_Design_Frontend_Enterprise_Fixed_Enterprise_GiftRegistry_Magento_Catalog_ProductTest
-    extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\Test\Design\Frontend\Enterprise\Fixed\Enterprise\GiftRegistry\Magento\Catalog;
+
+class ProductTest
+    extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
      * @magentoDataFixture Magento/Bundle/_files/product.php
      */
     public function testViewActionBundle()
     {
-        $this->getRequest()->setParam('options', Magento_GiftRegistry_Block_Product_View::FLAG);
+        $this->getRequest()->setParam('options', \Magento\GiftRegistry\Block\Product\View::FLAG);
         $this->dispatch('catalog/product/view/id/3');
         $body = $this->getResponse()->getBody();
         $this->assertContains('<span>Customize and Add to Gift Registry</span>', $body);

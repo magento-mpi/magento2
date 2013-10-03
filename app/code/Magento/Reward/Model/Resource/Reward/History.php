@@ -16,7 +16,9 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Model_Resource_Reward_History extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Reward\Model\Resource\Reward;
+
+class History extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Internal constructor
@@ -30,10 +32,10 @@ class Magento_Reward_Model_Resource_Reward_History extends Magento_Core_Model_Re
     /**
      * Perform actions after object load
      *
-     * @param Magento_Object $object
-     * @return Magento_Reward_Model_Resource_Reward_History
+     * @param \Magento\Object $object
+     * @return \Magento\Reward\Model\Resource\Reward\History
      */
-    protected function _afterLoad(Magento_Core_Model_Abstract $object)
+    protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
     {
         parent::_afterLoad($object);
         if (is_string($object->getData('additional_data'))) {
@@ -45,10 +47,10 @@ class Magento_Reward_Model_Resource_Reward_History extends Magento_Core_Model_Re
     /**
      * Perform actions before object save
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Reward_Model_Resource_Reward_History
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Reward\Model\Resource\Reward\History
      */
-    public function _beforeSave(Magento_Core_Model_Abstract $object)
+    public function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
         parent::_beforeSave($object);
         if (is_array($object->getData('additional_data'))) {
@@ -117,9 +119,9 @@ class Magento_Reward_Model_Resource_Reward_History extends Magento_Core_Model_Re
      * Retrieve actual history records that have unused points, i.e. points_delta-points_used > 0
      * Update points_used field for non-used points
      *
-     * @param Magento_Reward_Model_Reward_History $history
+     * @param \Magento\Reward\Model\Reward\History $history
      * @param int $required Points total that required
-     * @return Magento_Reward_Model_Resource_Reward_History
+     * @return \Magento\Reward\Model\Resource\Reward\History
      */
     public function useAvailablePoints($history, $required)
     {
@@ -166,7 +168,7 @@ class Magento_Reward_Model_Resource_Reward_History extends Magento_Core_Model_Re
             }
 
             $adapter->commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $adapter->rollback();
             throw $e;
         }
@@ -188,10 +190,10 @@ class Magento_Reward_Model_Resource_Reward_History extends Magento_Core_Model_Re
         $update = array();
         if ($days) {
             $update['expired_at_dynamic'] = $adapter->getDateAddSql(
-                'created_at', $days, Magento_DB_Adapter_Interface::INTERVAL_DAY
+                'created_at', $days, \Magento\DB\Adapter\AdapterInterface::INTERVAL_DAY
             );
         } else {
-            $update['expired_at_dynamic'] = new Zend_Db_Expr('NULL');
+            $update['expired_at_dynamic'] = new \Zend_Db_Expr('NULL');
         }
         $where = array('website_id IN (?)' => $websiteIds);
         $adapter->update($this->getMainTable(), $update, $where);
@@ -205,7 +207,7 @@ class Magento_Reward_Model_Resource_Reward_History extends Magento_Core_Model_Re
      * @param int $websiteId
      * @param string $expiryType Expiry calculation (static or dynamic)
      * @param int $limit Limitation for records expired selection
-     * @return Magento_Reward_Model_Resource_Reward_History
+     * @return \Magento\Reward\Model\Resource\Reward\History
      */
     public function expirePoints($websiteId, $expiryType, $limit)
     {
@@ -282,7 +284,7 @@ class Magento_Reward_Model_Resource_Reward_History extends Magento_Core_Model_Re
      * Mark history records as notification was sent to customer (about points expiration)
      *
      * @param array $ids
-     * @return Magento_Reward_Model_Resource_Reward_History
+     * @return \Magento\Reward\Model\Resource\Reward\History
      */
     public function markAsNotified($ids)
     {
@@ -296,11 +298,11 @@ class Magento_Reward_Model_Resource_Reward_History extends Magento_Core_Model_Re
     /**
      * Perform Row-level data update
      *
-     * @param Magento_Reward_Model_Reward_History $object
+     * @param \Magento\Reward\Model\Reward\History $object
      * @param array $data New data
-     * @return Magento_Reward_Model_Resource_Reward_History
+     * @return \Magento\Reward\Model\Resource\Reward\History
      */
-    public function updateHistoryRow(Magento_Reward_Model_Reward_History $object, $data)
+    public function updateHistoryRow(\Magento\Reward\Model\Reward\History $object, $data)
     {
         if (!$object->getId() || !is_array($data)) {
             return $this;

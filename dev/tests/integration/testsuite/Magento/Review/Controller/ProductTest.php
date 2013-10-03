@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Review_Controller_ProductTest extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\Review\Controller;
+
+class ProductTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
      * @magentoDataFixture Magento/Catalog/_files/products.php

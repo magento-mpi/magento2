@@ -16,41 +16,43 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Review_Block_Customer_Recent extends Magento_Core_Block_Template
+namespace Magento\Review\Block\Customer;
+
+class Recent extends \Magento\Core\Block\Template
 {
     protected $_template = 'customer/list.phtml';
 
     /**
      * Product reviews collection
      *
-     * @var Magento_Review_Model_Resource_Review_Product_Collection
+     * @var \Magento\Review\Model\Resource\Review\Product\Collection
      */
     protected $_collection;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Review_Model_Resource_Review_Product_CollectionFactory $collectionFactory
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Review\Model\Resource\Review\Product\CollectionFactory $collectionFactory
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Review_Model_Resource_Review_Product_CollectionFactory $collectionFactory,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Review\Model\Resource\Review\Product\CollectionFactory $collectionFactory,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_collection = $collectionFactory->create();
@@ -101,7 +103,7 @@ class Magento_Review_Block_Customer_Recent extends Magento_Core_Block_Template
 
     public function dateFormat($date)
     {
-        return $this->formatDate($date, Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        return $this->formatDate($date, \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
     }
 
     public function getAllReviewsUrl()

@@ -8,28 +8,30 @@
  * @license     {license_link}
  */
 
+namespace Magento\Sales\Block\Recurring\Profile\View;
+
 /**
  * Recurring profile address view
  */
-class Magento_Sales_Block_Recurring_Profile_View_Address extends Magento_Sales_Block_Recurring_Profile_View
+class Address extends \Magento\Sales\Block\Recurring\Profile\View
 {
 
     /**
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Sales_Model_Order_AddressFactory $addressFactory
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Sales\Model\Order\AddressFactory $addressFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Sales_Model_Order_AddressFactory $addressFactory,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Sales\Model\Order\AddressFactory $addressFactory,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $storeManager, $locale, $coreData, $data);

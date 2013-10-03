@@ -9,26 +9,28 @@
  * @license     {license_link}
  */
 
-class Magento_AdminGws_Model_BlocksTest extends PHPUnit_Framework_TestCase
+namespace Magento\AdminGws\Model;
+
+class BlocksTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_AdminGws_Model_Blocks
+     * @var \Magento\AdminGws\Model\Blocks
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = new Magento_AdminGws_Model_Blocks(
-            $this->getMock('Magento_Cms_Model_Resource_Page', array(), array(), '', false),
-            $this->getMock('Magento_Catalog_Model_Resource_Category', array(), array(), '', false),
-            $this->getMock('Magento_AdminGws_Model_Role', array(), array(), '', false),
-            $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false)
+        $this->_model = new \Magento\AdminGws\Model\Blocks(
+            $this->getMock('Magento\Cms\Model\Resource\Page', array(), array(), '', false),
+            $this->getMock('Magento\Catalog\Model\Resource\Category', array(), array(), '', false),
+            $this->getMock('Magento\AdminGws\Model\Role', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false)
         );
     }
 
     public function testDisableTaxRelatedMultiselects()
     {
-        $form = $this->getMock('Magento_Data_Form', array('getElement' ,'setDisabled'), array(), '', false);
+        $form = $this->getMock('Magento\Data\Form', array('getElement' ,'setDisabled'), array(), '', false);
         $form->expects($this->exactly(3))
             ->method('getElement')
             ->with($this->logicalOr(
@@ -43,9 +45,9 @@ class Magento_AdminGws_Model_BlocksTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo(true))
             ->will($this->returnSelf());
 
-        $observerMock = new Magento_Object(array(
-            'event' => new Magento_Object(array(
-                'block' => new Magento_Object(array('form' => $form))
+        $observerMock = new \Magento\Object(array(
+            'event' => new \Magento\Object(array(
+                'block' => new \Magento\Object(array('form' => $form))
             ))
         ));
 

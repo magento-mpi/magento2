@@ -8,12 +8,14 @@
  * @license    {license_link}
  */
 
-class Magento_Tools_Migration_Acl_Db_Writer
+namespace Magento\Tools\Migration\Acl\Db;
+
+class Writer
 {
     /**
      * DB adapter
      *
-     * @var Zend_Db_Adapter_Abstract
+     * @var \Zend_Db_Adapter_Abstract
      */
     protected $_adapter;
 
@@ -25,10 +27,10 @@ class Magento_Tools_Migration_Acl_Db_Writer
     protected $_tableName;
 
     /**
-     * @param Zend_Db_Adapter_Abstract $adapter
+     * @param \Zend_Db_Adapter_Abstract $adapter
      * @param string $tableName source table
      */
-    public function __construct(Zend_Db_Adapter_Abstract $adapter, $tableName)
+    public function __construct(\Zend_Db_Adapter_Abstract $adapter, $tableName)
     {
         $this->_tableName = $tableName;
         $this->_adapter = $adapter;

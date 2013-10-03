@@ -11,13 +11,15 @@
 /**
  * Field renderer for hidden fields
  */
-class Magento_Paypal_Block_Adminhtml_System_Config_Field_Hidden
-    extends Magento_Backend_Block_System_Config_Form_Field
+namespace Magento\Paypal\Block\Adminhtml\System\Config\Field;
+
+class Hidden
+    extends \Magento\Backend\Block\System\Config\Form\Field
 {
     /**
      * Decorate field row html to be invisible
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @param string $html
      * @return string
      */

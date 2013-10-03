@@ -14,7 +14,9 @@
  * @category   Magento
  * @package    Magento_Sitemap
  */
-class Magento_Adminhtml_Block_Sitemap extends Magento_Adminhtml_Block_Widget_Grid_Container
+namespace Magento\Adminhtml\Block;
+
+class Sitemap extends \Magento\Adminhtml\Block\Widget\Grid\Container
 {
 
     /**

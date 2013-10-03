@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-interface Magento_Core_Model_Store_ListInterface
+namespace Magento\Core\Model\Store;
+
+interface ListInterface
 {
     /**
      * Allow or disallow single store mode
@@ -24,9 +26,9 @@ interface Magento_Core_Model_Store_ListInterface
     /**
      * Retrieve application store object
      *
-     * @param null|string|bool|int|Magento_Core_Model_Store $storeId
-     * @return Magento_Core_Model_Store
-     * @throws Magento_Core_Model_Store_Exception
+     * @param null|string|bool|int|\Magento\Core\Model\Store $storeId
+     * @return \Magento\Core\Model\Store
+     * @throws \Magento\Core\Model\Store\Exception
      */
     public function getStore($storeId = null);
 
@@ -35,16 +37,16 @@ interface Magento_Core_Model_Store_ListInterface
      *
      * @param bool $withDefault
      * @param bool $codeKey
-     * @return Magento_Core_Model_Store[]
+     * @return \Magento\Core\Model\Store[]
      */
     public function getStores($withDefault = false, $codeKey = false);
 
     /**
      * Retrieve application website object
      *
-     * @param null|bool|int|string|Magento_Core_Model_Website $websiteId
-     * @return Magento_Core_Model_Website
-     * @throws Magento_Core_Exception
+     * @param null|bool|int|string|\Magento\Core\Model\Website $websiteId
+     * @return \Magento\Core\Model\Website
+     * @throws \Magento\Core\Exception
      */
     public function getWebsite($websiteId = null);
 
@@ -53,7 +55,7 @@ interface Magento_Core_Model_Store_ListInterface
      *
      * @param bool $withDefault
      * @param bool|string $codeKey
-     * @return Magento_Core_Model_Website[]
+     * @return \Magento\Core\Model\Website[]
      */
     public function getWebsites($withDefault = false, $codeKey = false);
 
@@ -65,16 +67,16 @@ interface Magento_Core_Model_Store_ListInterface
     /**
      * Retrieve default store for default group and website
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getDefaultStoreView();
 
     /**
      * Retrieve application store group object
      *
-     * @param null|Magento_Core_Model_Store_Group|string $groupId
-     * @return Magento_Core_Model_Store_Group
-     * @throws Magento_Core_Exception
+     * @param null|\Magento\Core\Model\Store\Group|string $groupId
+     * @return \Magento\Core\Model\Store\Group
+     * @throws \Magento\Core\Exception
      */
     public function getGroup($groupId = null);
 
@@ -85,21 +87,21 @@ interface Magento_Core_Model_Store_ListInterface
      *
      * @param bool $withDefault
      * @param bool $codeKey
-     * @return Magento_Core_Model_Store_Group[]
+     * @return \Magento\Core\Model\Store\Group[]
      */
     public function getGroups($withDefault = false, $codeKey = false);
 
     /**
      *  Unset website by id from app cache
      *
-     * @param null|bool|int|string|Magento_Core_Model_Website $websiteId
+     * @param null|bool|int|string|\Magento\Core\Model\Website $websiteId
      */
     public function clearWebsiteCache($websiteId = null);
 
     /**
      * Get either default or any store view
      *
-     * @return Magento_Core_Model_Store|null
+     * @return \Magento\Core\Model\Store|null
      */
     public function getAnyStoreView();
 
@@ -118,7 +120,7 @@ interface Magento_Core_Model_Store_ListInterface
     public function getCurrentStore();
 
     /**
-     * @throws Magento_Core_Model_Store_Exception
+     * @throws \Magento\Core\Model\Store\Exception
      */
     public function throwStoreException();
 }

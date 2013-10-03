@@ -10,17 +10,19 @@
  * @license     {license_link}
  */
 
-class Magento_FullPageCache_Model_Container_PlaceholderFactory
+namespace Magento\FullPageCache\Model\Container;
+
+class PlaceholderFactory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -29,12 +31,12 @@ class Magento_FullPageCache_Model_Container_PlaceholderFactory
      * Create container placeholder instance
      *
      * @param string $definition
-     * @return Magento_FullPageCache_Model_Container_Placeholder
+     * @return \Magento\FullPageCache\Model\Container\Placeholder
      */
     public function create($definition)
     {
         return $this->_objectManager->create(
-            'Magento_FullPageCache_Model_Container_Placeholder',
+            'Magento\FullPageCache\Model\Container\Placeholder',
             array('definition' => $definition)
         );
     }

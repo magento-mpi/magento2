@@ -8,10 +8,10 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_Catalog_Model_Resource_Setup */
+/** @var $installer \Magento\Catalog\Model\Resource\Setup */
 $installer = $this;
 
-/** @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
+/** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
 $attribute = $installer->getAttribute('catalog_product', 'weight');
 
 if ($attribute) {

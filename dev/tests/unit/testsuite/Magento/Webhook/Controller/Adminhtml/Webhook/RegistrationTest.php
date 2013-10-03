@@ -1,103 +1,105 @@
 <?php
 /**
- * Magento_Webhook_Controller_Adminhtml_Webhook_Registration
+ * \Magento\Webhook\Controller\Adminhtml\Webhook\Registration
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Controller\Adminhtml\Webhook;
+
+class RegistrationTest extends \PHPUnit_Framework_TestCase
 {
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockObjectManager;
 
-    /** @var Magento_Webhook_Controller_Adminhtml_Webhook_Registration */
+    /** @var \Magento\Webhook\Controller\Adminhtml\Webhook\Registration */
     protected $_registrationContr;
 
-    /** @var Magento_TestFramework_Helper_ObjectManager $objectManagerHelper */
+    /** @var \Magento\TestFramework\Helper\ObjectManager $objectManagerHelper */
     protected $_objectManagerHelper;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject  */
+    /** @var \PHPUnit_Framework_MockObject_MockObject  */
     protected $_mockApp;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockConfig;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockEventManager;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockTranslateModel;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockLayoutFilter;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockBackendModSess;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockBackendCntCtxt;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockRequest;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockSubSvc;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockResponse;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockBackendHlpData;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockConfigScope;
 
     protected function setUp()
     {
-        /** @var Magento_TestFramework_Helper_ObjectManager $objectManagerHelper */
-        $this->_objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        /** @var \Magento\TestFramework\Helper\ObjectManager $objectManagerHelper */
+        $this->_objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_setMageObjectManager();
 
-        $this->_mockBackendHlpData = $this->getMockBuilder('Magento_Backend_Helper_Data')
+        $this->_mockBackendHlpData = $this->getMockBuilder('Magento\Backend\Helper\Data')
             ->disableOriginalConstructor()
             ->getMock();
 
         // Initialize mocks which are used in several test cases
-        $this->_mockApp = $this->getMockBuilder('Magento_Core_Model_App')
+        $this->_mockApp = $this->getMockBuilder('Magento\Core\Model\App')
             ->setMethods( array('getConfig'))
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_mockConfig = $this->getMockBuilder('Magento_Core_Model_Config')->disableOriginalConstructor()
+        $this->_mockConfig = $this->getMockBuilder('Magento\Core\Model\Config')->disableOriginalConstructor()
             ->getMock();
         $this->_mockApp->expects($this->any())->method('getConfig')->will($this->returnValue($this->_mockConfig));
-        $this->_mockEventManager = $this->getMockBuilder('Magento_Core_Model_Event_Manager')
+        $this->_mockEventManager = $this->getMockBuilder('Magento\Core\Model\Event\Manager')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_mockLayoutFilter = $this->getMockBuilder('Magento_Core_Model_Layout_Filter_Acl')
+        $this->_mockLayoutFilter = $this->getMockBuilder('Magento\Core\Model\Layout\Filter\Acl')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_mockBackendModSess = $this->getMockBuilder('Magento_Backend_Model_Session')
+        $this->_mockBackendModSess = $this->getMockBuilder('Magento\Backend\Model\Session')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_mockTranslateModel = $this->getMockBuilder('Magento_Core_Model_Translate')
+        $this->_mockTranslateModel = $this->getMockBuilder('Magento\Core\Model\Translate')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_mockConfigScope = $this->getMockBuilder('Magento_Config_ScopeInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->_mockSubSvc = $this->getMockBuilder('Magento_Webhook_Service_SubscriptionV1')
+        $this->_mockConfigScope = $this->getMockBuilder('Magento\Config\ScopeInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_mockRequest = $this->getMockBuilder('Magento_Core_Controller_Request_Http')
+        $this->_mockSubSvc = $this->getMockBuilder('Magento\Webhook\Service\SubscriptionV1')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_mockResponse = $this->getMockBuilder('Magento_Core_Controller_Response_Http')
+
+        $this->_mockRequest = $this->getMockBuilder('Magento\Core\Controller\Request\Http')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_mockResponse = $this->getMockBuilder('Magento\Core\Controller\Response\Http')
             ->disableOriginalConstructor()
             ->getMock();
     }
@@ -106,7 +108,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends PHPU
     {
         $expectedMessage = 'not subscribed';
         $this->_mockSubSvc->expects($this->any())->method('get')
-            ->will($this->throwException(new Magento_Core_Exception($expectedMessage)));
+            ->will($this->throwException(new \Magento\Core\Exception($expectedMessage)));
 
         // verify the error
         $this->_mockBackendModSess->expects($this->once())->method('addError')
@@ -136,7 +138,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends PHPU
     {
         $expectedMessage = 'not subscribed';
         $this->_mockSubSvc->expects($this->any())->method('get')
-            ->will($this->throwException(new Magento_Core_Exception($expectedMessage)));
+            ->will($this->throwException(new \Magento\Core\Exception($expectedMessage)));
 
         // verify the error
         $this->_mockBackendModSess->expects($this->once())->method('addError')
@@ -157,7 +159,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends PHPU
     {
         $expectedMessage = 'not subscribed';
         $this->_mockSubSvc->expects($this->any())->method('get')
-            ->will($this->throwException(new Magento_Core_Exception($expectedMessage)));
+            ->will($this->throwException(new \Magento\Core\Exception($expectedMessage)));
 
         // verify the error
         $this->_mockBackendModSess->expects($this->once())->method('addError')
@@ -269,12 +271,12 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends PHPU
     public function testSucceededActionNotSubscribed()
     {
         $this->_verifyLoadAndRenderLayout();
-        $this->_mockSubSvc = $this->getMockBuilder('Magento_Webhook_Service_SubscriptionV1')
+        $this->_mockSubSvc = $this->getMockBuilder('Magento\Webhook\Service\SubscriptionV1')
             ->disableOriginalConstructor()
             ->getMock();
         $expectedMessage = 'not subscribed';
         $this->_mockSubSvc->expects($this->any())->method('get')
-            ->will($this->throwException(new Magento_Core_Exception($expectedMessage)));
+            ->will($this->throwException(new \Magento\Core\Exception($expectedMessage)));
         // verify the error
         $this->_mockBackendModSess->expects($this->once())->method('addError')
             ->with($this->equalTo($expectedMessage));
@@ -289,29 +291,29 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends PHPU
      */
     protected function _setMageObjectManager()
     {
-        $this->_mockObjectManager = $this->getMockBuilder('Magento_ObjectManager')
+        $this->_mockObjectManager = $this->getMockBuilder('Magento\ObjectManager')
             ->disableOriginalConstructor()
             ->getMock();
-        Magento_Core_Model_ObjectManager::setInstance($this->_mockObjectManager);
+        \Magento\Core\Model\ObjectManager::setInstance($this->_mockObjectManager);
     }
 
     /**
      * Creates the RegistrationController to test.
-     * @return Magento_Webhook_Controller_Adminhtml_Webhook_Registration
+     * @return \Magento\Webhook\Controller\Adminhtml\Webhook\Registration
      */
     protected function _createRegistrationController()
     {
         // Mock Layout passed into constructor
-        $layoutMock = $this->getMockBuilder('Magento_Core_Model_Layout')
+        $layoutMock = $this->getMockBuilder('Magento\Core\Model\Layout')
             ->disableOriginalConstructor()
             ->getMock();
-        $layoutMergeMock = $this->getMockBuilder('Magento_Core_Model_Layout_Merge')
+        $layoutMergeMock = $this->getMockBuilder('Magento\Core\Model\Layout\Merge')
             ->disableOriginalConstructor()
             ->getMock();
         $layoutMock->expects($this->any())->method('getUpdate')->will($this->returnValue($layoutMergeMock));
-        $testElement = new Magento_Simplexml_Element('<test>test</test>');
+        $testElement = new \Magento\Simplexml\Element('<test>test</test>');
         $layoutMock->expects($this->any())->method('getNode')->will($this->returnValue($testElement));
-        $blockMock = $this->getMockBuilder('Magento_Core_Block_Abstract')
+        $blockMock = $this->getMockBuilder('Magento\Core\Block\AbstractBlock')
             ->disableOriginalConstructor()
             ->getMock();
         $layoutMock->expects($this->any())->method('getMessagesBlock')->will($this->returnValue($blockMock));
@@ -327,7 +329,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends PHPU
         );
 
         $this->_mockBackendCntCtxt = $this->_objectManagerHelper
-            ->getObject('Magento_Backend_Controller_Context',
+            ->getObject('Magento\Backend\Controller\Context',
                 $contextParameters);
 
         $regControllerParams = array(
@@ -335,9 +337,9 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends PHPU
             'subscriptionService' => $this->_mockSubSvc,
         );
 
-        /** @var Magento_Webhook_Controller_Adminhtml_Webhook_Registration $registrationContr */
+        /** @var \Magento\Webhook\Controller\Adminhtml\Webhook\Registration $registrationContr */
         $registrationContr = $this->_objectManagerHelper
-            ->getObject('Magento_Webhook_Controller_Adminhtml_Webhook_Registration',
+            ->getObject('Magento\Webhook\Controller\Adminhtml\Webhook\Registration',
                 $regControllerParams);
         return $registrationContr;
     }
@@ -345,16 +347,16 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends PHPU
     /**
      * Common mock 'expect' pattern.
      * Calls that need to be mocked out when
-     * Magento_Backend_Controller_ActionAbstract loadLayout() and renderLayout() are called.
+     * \Magento\Backend\Controller\AbstractAction loadLayout() and renderLayout() are called.
      */
     protected function _verifyLoadAndRenderLayout()
     {
         $map = array(
-            array('Magento_Core_Model_Config', $this->_mockConfig),
-            array('Magento_Core_Model_Layout_Filter_Acl', $this->_mockLayoutFilter),
-            array('Magento_Backend_Model_Session', $this->_mockBackendModSess),
-            array('Magento_Core_Model_Translate', $this->_mockTranslateModel),
-            array('Magento_Config_ScopeInterface', $this->_mockConfigScope),
+            array('Magento\Core\Model\Config', $this->_mockConfig),
+            array('Magento\Core\Model\Layout\Filter\Acl', $this->_mockLayoutFilter),
+            array('Magento\Backend\Model\Session', $this->_mockBackendModSess),
+            array('Magento\Core\Model\Translate', $this->_mockTranslateModel),
+            array('Magento\Config\ScopeInterface', $this->_mockConfigScope),
         );
         $this->_mockObjectManager->expects($this->any())
             ->method('get')

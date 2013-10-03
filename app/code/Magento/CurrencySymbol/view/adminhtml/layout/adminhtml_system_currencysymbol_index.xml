@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceContainer name="content">
-        <block class="Magento_CurrencySymbol_Block_Adminhtml_System_Currencysymbol" name="mage.system.currencysymbol" template="grid.phtml"/>
+        <block class="Magento\CurrencySymbol\Block\Adminhtml\System\Currencysymbol" name="mage.system.currencysymbol" template="grid.phtml"/>
     </referenceContainer>
 </layout>

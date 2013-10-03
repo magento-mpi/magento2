@@ -10,14 +10,14 @@
 ?>
 <?php
 /**
- * @see Magento_Paypal_Block_System_Config_Fieldset_Store
+ * @see \Magento\Paypal\Block\System\Config\Fieldset\Store
  */
 ?>
 <script type="text/javascript">
 
 Event.observe(window, 'load', function () {
     var pConfigDisabler = new PaypalConfigDisabler;
-    var disabledMethods = <?php echo $this->helper('Magento_Core_Helper_Data')->jsonEncode($this->getPaypalDisabledMethods()); ?>;
+    var disabledMethods = <?php echo $this->helper('Magento\Core\Helper\Data')->jsonEncode($this->getPaypalDisabledMethods()); ?>;
     pConfigDisabler.disableMethods(disabledMethods);
 });
 

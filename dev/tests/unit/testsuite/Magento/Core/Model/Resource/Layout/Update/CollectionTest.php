@@ -9,24 +9,26 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Resource_Layout_Update_CollectionTest
-    extends Magento_Core_Model_Resource_Layout_AbstractTestCase
+namespace Magento\Core\Model\Resource\Layout\Update;
+
+class CollectionTest
+    extends \Magento\Core\Model\Resource\Layout\AbstractTestCase
 {
     /**
      * Retrieve layout update collection instance
      *
-     * @param Zend_Db_Select $select
-     * @return Magento_Core_Model_Resource_Layout_Update_Collection
+     * @param \Zend_Db_Select $select
+     * @return \Magento\Core\Model\Resource\Layout\Update\Collection
      */
-    protected function _getCollection(Zend_Db_Select $select)
+    protected function _getCollection(\Zend_Db_Select $select)
     {
-        $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
+        $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
 
-        return new Magento_Core_Model_Resource_Layout_Update_Collection(
+        return new \Magento\Core\Model\Resource\Layout\Update\Collection(
             $eventManager,
-            $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false),
-            $this->getMockForAbstractClass('Magento_Data_Collection_Db_FetchStrategyInterface'),
-            $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false),
+            $this->getMockForAbstractClass('Magento\Data\Collection\Db\FetchStrategyInterface'),
+            $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false),
             $this->_getResource($select)
         );
     }
@@ -56,7 +58,7 @@ class Magento_Core_Model_Resource_Layout_Update_CollectionTest
     }
 
     /**
-     * @covers Magento_Core_Model_Resource_Layout_Update_Collection::_joinWithLink
+     * @covers \Magento\Core\Model\Resource\Layout\Update\Collection::_joinWithLink
      */
     public function testJoinWithLink()
     {
@@ -90,7 +92,7 @@ class Magento_Core_Model_Resource_Layout_Update_CollectionTest
 
         $collection = $this->_getCollection($select);
 
-        /** @var $connection PHPUnit_Framework_MockObject_MockObject */
+        /** @var $connection \PHPUnit_Framework_MockObject_MockObject */
         $connection = $collection->getResource()->getReadConnection();
         $connection->expects($this->once())
             ->method('prepareSqlCondition')

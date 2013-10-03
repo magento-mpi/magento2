@@ -12,168 +12,170 @@
 /**
  * Installer model
  */
-class Magento_Install_Model_Installer extends Magento_Object
+namespace Magento\Install\Model;
+
+class Installer extends \Magento\Object
 {
     /**
      * Installer data model used to store data between installation steps
      *
-     * @var Magento_Object
+     * @var \Magento\Object
      */
     protected $_dataModel;
 
     /**
      * DB updated model
      *
-     * @var Magento_Core_Model_Db_UpdaterInterface
+     * @var \Magento\Core\Model\Db\UpdaterInterface
      */
     protected $_dbUpdater;
 
     /**
      * Application chache model
      *
-     * @var Magento_Core_Model_CacheInterface
+     * @var \Magento\Core\Model\CacheInterface
      */
     protected $_cache;
 
     /**
      * Application config model
      *
-     * @var Magento_Core_Model_ConfigInterface
+     * @var \Magento\Core\Model\ConfigInterface
      */
     protected $_config;
 
     /**
-     * @var Magento_Core_Model_Cache_StateInterface
+     * @var \Magento\Core\Model\Cache\StateInterface
      */
     protected $_cacheState;
 
     /**
-     * @var Magento_Core_Model_Cache_TypeListInterface
+     * @var \Magento\Core\Model\Cache\TypeListInterface
      */
     protected $_cacheTypeList;
 
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @var Magento_Core_Model_Resource_SetupFactory
+     * @var \Magento\Core\Model\Resource\SetupFactory
      */
     protected $_setupFactory;
 
     /**
      * Core Primary config
      *
-     * @var Magento_Core_Model_Config_Primary
+     * @var \Magento\Core\Model\Config\Primary
      */
     protected $_primaryConfig;
 
     /**
      * Install installer pear
      *
-     * @var Magento_Install_Model_Installer_Pear
+     * @var \Magento\Install\Model\Installer\Pear
      */
     protected $_installerPear;
 
     /**
      * Install installer filesystem
      *
-     * @var Magento_Install_Model_Installer_Filesystem
+     * @var \Magento\Install\Model\Installer\Filesystem
      */
     protected $_filesystem;
 
     /**
      * Application
      *
-     * @var Magento_Core_Model_App
+     * @var \Magento\Core\Model\App
      */
     protected $_app;
 
     /**
      * Application
      *
-     * @var Magento_Core_Model_App_State
+     * @var \Magento\Core\Model\App\State
      */
     protected $_appState;
 
     /**
      * Store Manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * User user
      *
-     * @var Magento_User_Model_UserFactory
+     * @var \Magento\User\Model\UserFactory
      */
     protected $_userModelFactory;
 
     /**
      * Installer DB model
      *
-     * @var Magento_Install_Model_Installer_Db
+     * @var \Magento\Install\Model\Installer\Db
      */
     protected $_installerDb;
 
     /**
      * Installer DB model
      *
-     * @var Magento_Install_Model_Installer_Config
+     * @var \Magento\Install\Model\Installer\Config
      */
     protected $_installerConfig;
 
     /**
      * Install session
      *
-     * @var Magento_Core_Model_Session_Generic
+     * @var \Magento\Core\Model\Session\Generic
      */
     protected $_session;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_ConfigInterface $config
-     * @param Magento_Core_Model_Db_UpdaterInterface $dbUpdater
-     * @param Magento_Core_Model_CacheInterface $cache
-     * @param Magento_Core_Model_Cache_TypeListInterface $cacheTypeList
-     * @param Magento_Core_Model_Cache_StateInterface $cacheState
-     * @param Magento_Core_Model_Resource_SetupFactory $setupFactory
-     * @param Magento_Core_Model_Config_Primary $primaryConfig
-     * @param Magento_Core_Model_Config_Local $localConfig
-     * @param Magento_Core_Model_App $app
-     * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_User_Model_UserFactory $userModelFactory
-     * @param Magento_Install_Model_Installer_Filesystem $filesystem
-     * @param Magento_Install_Model_Installer_Pear $installerPear
-     * @param Magento_Install_Model_Installer_Db $installerDb
-     * @param Magento_Install_Model_Installer_Config $installerConfig
-     * @param Magento_Core_Model_Session_Generic $session
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\ConfigInterface $config
+     * @param \Magento\Core\Model\Db\UpdaterInterface $dbUpdater
+     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList
+     * @param \Magento\Core\Model\Cache\StateInterface $cacheState
+     * @param \Magento\Core\Model\Resource\SetupFactory $setupFactory
+     * @param \Magento\Core\Model\Config\Primary $primaryConfig
+     * @param \Magento\Core\Model\Config\Local $localConfig
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\User\Model\UserFactory $userModelFactory
+     * @param \Magento\Install\Model\Installer\Filesystem $filesystem
+     * @param \Magento\Install\Model\Installer\Pear $installerPear
+     * @param \Magento\Install\Model\Installer\Db $installerDb
+     * @param \Magento\Install\Model\Installer\Config $installerConfig
+     * @param \Magento\Core\Model\Session\Generic $session
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_ConfigInterface $config,
-        Magento_Core_Model_Db_UpdaterInterface $dbUpdater,
-        Magento_Core_Model_CacheInterface $cache,
-        Magento_Core_Model_Cache_TypeListInterface $cacheTypeList,
-        Magento_Core_Model_Cache_StateInterface $cacheState,
-        Magento_Core_Model_Resource_SetupFactory $setupFactory,
-        Magento_Core_Model_Config_Primary $primaryConfig,
-        Magento_Core_Model_Config_Local $localConfig,
-        Magento_Core_Model_App $app,
-        Magento_Core_Model_App_State $appState,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_User_Model_UserFactory $userModelFactory,
-        Magento_Install_Model_Installer_Filesystem $filesystem,
-        Magento_Install_Model_Installer_Pear $installerPear,
-        Magento_Install_Model_Installer_Db $installerDb,
-        Magento_Install_Model_Installer_Config $installerConfig,
-        Magento_Core_Model_Session_Generic $session,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\ConfigInterface $config,
+        \Magento\Core\Model\Db\UpdaterInterface $dbUpdater,
+        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList,
+        \Magento\Core\Model\Cache\StateInterface $cacheState,
+        \Magento\Core\Model\Resource\SetupFactory $setupFactory,
+        \Magento\Core\Model\Config\Primary $primaryConfig,
+        \Magento\Core\Model\Config\Local $localConfig,
+        \Magento\Core\Model\App $app,
+        \Magento\Core\Model\App\State $appState,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\User\Model\UserFactory $userModelFactory,
+        \Magento\Install\Model\Installer\Filesystem $filesystem,
+        \Magento\Install\Model\Installer\Pear $installerPear,
+        \Magento\Install\Model\Installer\Db $installerDb,
+        \Magento\Install\Model\Installer\Config $installerConfig,
+        \Magento\Core\Model\Session\Generic $session,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -210,7 +212,7 @@ class Magento_Install_Model_Installer extends Magento_Object
     /**
      * Get data model
      *
-     * @return Magento_Core_Model_Session_Generic
+     * @return \Magento\Core\Model\Session\Generic
      */
     public function getDataModel()
     {
@@ -223,10 +225,10 @@ class Magento_Install_Model_Installer extends Magento_Object
     /**
      * Set data model to store data between installation steps
      *
-     * @param Magento_Object $model
-     * @return Magento_Install_Model_Installer
+     * @param \Magento\Object $model
+     * @return \Magento\Install\Model\Installer
      */
-    public function setDataModel(Magento_Object $model)
+    public function setDataModel(\Magento\Object $model)
     {
         $this->_dataModel = $model;
         return $this;
@@ -242,7 +244,7 @@ class Magento_Install_Model_Installer extends Magento_Object
         try {
             $this->_installerPear->checkDownloads();
             $result = true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $result = false;
         }
         $this->setDownloadCheckStatus($result);
@@ -259,7 +261,7 @@ class Magento_Install_Model_Installer extends Magento_Object
         try {
             $this->_filesystem->install();
             $result = true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $result = false;
         }
         $this->setData('server_check_status', $result);
@@ -284,7 +286,7 @@ class Magento_Install_Model_Installer extends Magento_Object
      * Installation config data
      *
      * @param   array $data
-     * @return  Magento_Install_Model_Installer
+     * @return  \Magento\Install\Model\Installer
      */
     public function installConfig($data)
     {
@@ -307,7 +309,7 @@ class Magento_Install_Model_Installer extends Magento_Object
     /**
      * Database installation
      *
-     * @return Magento_Install_Model_Installer
+     * @return \Magento\Install\Model\Installer
      */
     public function installDb()
     {
@@ -317,19 +319,19 @@ class Magento_Install_Model_Installer extends Magento_Object
         /**
          * Saving host information into DB
          */
-        /** @var $setupModel Magento_Core_Model_Resource_Setup */
+        /** @var $setupModel \Magento\Core\Model\Resource\Setup */
         $setupModel = $this->_setupFactory->create(
-            'Magento_Core_Model_Resource_Setup', array('resourceName' => 'core_setup', 'moduleName' => 'Magento_Core')
+            'Magento\Core\Model\Resource\Setup', array('resourceName' => 'core_setup', 'moduleName' => 'Magento_Core')
         );
 
         if (!empty($data['use_rewrites'])) {
-            $setupModel->setConfigData(Magento_Core_Model_Store::XML_PATH_USE_REWRITES, 1);
+            $setupModel->setConfigData(\Magento\Core\Model\Store::XML_PATH_USE_REWRITES, 1);
         }
 
         if (!empty($data['enable_charts'])) {
-            $setupModel->setConfigData(Magento_Adminhtml_Block_Dashboard::XML_PATH_ENABLE_CHARTS, 1);
+            $setupModel->setConfigData(\Magento\Adminhtml\Block\Dashboard::XML_PATH_ENABLE_CHARTS, 1);
         } else {
-            $setupModel->setConfigData(Magento_Adminhtml_Block_Dashboard::XML_PATH_ENABLE_CHARTS, 0);
+            $setupModel->setConfigData(\Magento\Adminhtml\Block\Dashboard::XML_PATH_ENABLE_CHARTS, 0);
         }
 
         if (!empty($data['admin_no_form_key'])) {
@@ -339,17 +341,17 @@ class Magento_Install_Model_Installer extends Magento_Object
         $unsecureBaseUrl = $this->_storeManager->getStore()->getBaseUrl('web');
         if (!empty($data['unsecure_base_url'])) {
             $unsecureBaseUrl = $data['unsecure_base_url'];
-            $setupModel->setConfigData(Magento_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL, $unsecureBaseUrl);
+            $setupModel->setConfigData(\Magento\Core\Model\Store::XML_PATH_UNSECURE_BASE_URL, $unsecureBaseUrl);
         }
 
         if (!empty($data['use_secure'])) {
-            $setupModel->setConfigData(Magento_Core_Model_Store::XML_PATH_SECURE_IN_FRONTEND, 1);
-            $setupModel->setConfigData(Magento_Core_Model_Store::XML_PATH_SECURE_BASE_URL, $data['secure_base_url']);
+            $setupModel->setConfigData(\Magento\Core\Model\Store::XML_PATH_SECURE_IN_FRONTEND, 1);
+            $setupModel->setConfigData(\Magento\Core\Model\Store::XML_PATH_SECURE_BASE_URL, $data['secure_base_url']);
             if (!empty($data['use_secure_admin'])) {
-                $setupModel->setConfigData(Magento_Core_Model_Store::XML_PATH_SECURE_IN_ADMINHTML, 1);
+                $setupModel->setConfigData(\Magento\Core\Model\Store::XML_PATH_SECURE_IN_ADMINHTML, 1);
             }
         } elseif (!empty($data['unsecure_base_url'])) {
-            $setupModel->setConfigData(Magento_Core_Model_Store::XML_PATH_SECURE_BASE_URL, $unsecureBaseUrl);
+            $setupModel->setConfigData(\Magento\Core\Model\Store::XML_PATH_SECURE_BASE_URL, $unsecureBaseUrl);
         }
 
         /**
@@ -357,19 +359,19 @@ class Magento_Install_Model_Installer extends Magento_Object
          */
         $locale = $this->getDataModel()->getLocaleData();
         if (!empty($locale['locale'])) {
-            $setupModel->setConfigData(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE,
+            $setupModel->setConfigData(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_LOCALE,
                 $locale['locale']);
         }
         if (!empty($locale['timezone'])) {
-            $setupModel->setConfigData(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE,
+            $setupModel->setConfigData(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE,
                 $locale['timezone']);
         }
         if (!empty($locale['currency'])) {
-            $setupModel->setConfigData(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE,
+            $setupModel->setConfigData(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE,
                 $locale['currency']);
-            $setupModel->setConfigData(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_DEFAULT,
+            $setupModel->setConfigData(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_DEFAULT,
                 $locale['currency']);
-            $setupModel->setConfigData(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_ALLOW,
+            $setupModel->setConfigData(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_ALLOW,
                 $locale['currency']);
         }
 
@@ -383,10 +385,10 @@ class Magento_Install_Model_Installer extends Magento_Object
     /**
      * Set order number prefix
      *
-     * @param Magento_Core_Model_Resource_Setup $setupModel
+     * @param \Magento\Core\Model\Resource\Setup $setupModel
      * @param string $orderIncrementPrefix
      */
-    protected function _setOrderIncrementPrefix(Magento_Core_Model_Resource_Setup $setupModel, $orderIncrementPrefix)
+    protected function _setOrderIncrementPrefix(\Magento\Core\Model\Resource\Setup $setupModel, $orderIncrementPrefix)
     {
         $select = $setupModel->getConnection()->select()
             ->from($setupModel->getTable('eav_entity_type'), 'entity_type_id')
@@ -406,11 +408,11 @@ class Magento_Install_Model_Installer extends Magento_Object
      */
     public function createAdministrator($data)
     {
-        // Magento_User_Model_User belongs to adminhtml area
+        // \Magento\User\Model\User belongs to adminhtml area
         $this->_app
-            ->loadAreaPart(Magento_Core_Model_App_Area::AREA_ADMINHTML, Magento_Core_Model_App_Area::PART_CONFIG);
+            ->loadAreaPart(\Magento\Core\Model\App\Area::AREA_ADMINHTML, \Magento\Core\Model\App\Area::PART_CONFIG);
 
-        /** @var $user Magento_User_Model_User */
+        /** @var $user \Magento\User\Model\User */
         $user = $this->_userModelFactory->create();
         $user->loadByUsername($data['username']);
         $user->addData($data)
@@ -424,7 +426,7 @@ class Magento_Install_Model_Installer extends Magento_Object
      * Install encryption key into the application, generate and return a random one, if no value is specified
      *
      * @param string $key
-     * @return Magento_Install_Model_Installer
+     * @return \Magento\Install\Model\Installer
      */
     public function installEncryptionKey($key)
     {

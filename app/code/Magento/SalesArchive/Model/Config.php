@@ -12,7 +12,9 @@
  * Order archive config model
  *
  */
-class Magento_SalesArchive_Model_Config
+namespace Magento\SalesArchive\Model;
+
+class Config
 {
     const XML_PATH_ARCHIVE_ACTIVE = 'sales/magento_salesarchive/active';
     const XML_PATH_ARCHIVE_AGE = 'sales/magento_salesarchive/age';
@@ -21,15 +23,15 @@ class Magento_SalesArchive_Model_Config
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
     }

@@ -14,6 +14,6 @@
         </action>
     </referenceBlock>
     <referenceContainer name="content">
-        <block class="Magento_Rma_Block_Return_Tracking_Package" name="rma.tracking.popup" template="return/popup/package.phtml"/>
+        <block class="Magento\Rma\Block\Returns\Tracking\Package" name="rma.tracking.popup" template="return/popup/package.phtml"/>
     </referenceContainer>
 </layout>

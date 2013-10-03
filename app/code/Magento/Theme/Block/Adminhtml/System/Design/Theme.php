@@ -11,7 +11,9 @@
 /**
  *  Container for theme grid
  */
-class Magento_Theme_Block_Adminhtml_System_Design_Theme extends Magento_Backend_Block_Widget_Grid_Container
+namespace Magento\Theme\Block\Adminhtml\System\Design;
+
+class Theme extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Initialize grid container and prepare controls

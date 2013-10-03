@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Order extends Magento_Sales_Model_Resource_Order_Abstract
+namespace Magento\Sales\Model\Resource;
+
+class Order extends \Magento\Sales\Model\Resource\Order\AbstractOrder
 {
     /**
      * Event prefix
@@ -65,7 +67,7 @@ class Magento_Sales_Model_Resource_Order extends Magento_Sales_Model_Resource_Or
     /**
      * Init virtual grid records for entity
      *
-     * @return Magento_Sales_Model_Resource_Order
+     * @return \Magento\Sales\Model\Resource\Order
      */
     protected function _initVirtualGridColumns()
     {
@@ -104,7 +106,7 @@ class Magento_Sales_Model_Resource_Order extends Magento_Sales_Model_Resource_Or
         $select  = $adapter->select()
             ->from(
                 array('o' => $this->getTable('sales_flat_order_item')),
-                array('o.product_type', new Zend_Db_Expr('COUNT(*)')))
+                array('o.product_type', new \Zend_Db_Expr('COUNT(*)')))
             ->joinInner(
                 array('p' => $this->getTable('catalog_product_entity')),
                 'o.product_id=p.entity_id',

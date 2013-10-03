@@ -15,39 +15,41 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Accordion extends Magento_Adminhtml_Block_Widget_Accordion
+namespace Magento\Adminhtml\Block\Customer\Edit\Tab\View;
+
+class Accordion extends \Magento\Adminhtml\Block\Widget\Accordion
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Sales_Model_QuoteFactory
+     * @var \Magento\Sales\Model\QuoteFactory
      */
     protected $_quoteFactory;
 
     /**
-     * @var Magento_Wishlist_Model_Resource_Item_CollectionFactory
+     * @var \Magento\Wishlist\Model\Resource\Item\CollectionFactory
      */
     protected $_itemsFactory;
 
     /**
-     * @param Magento_Sales_Model_QuoteFactory $quoteFactory
-     * @param Magento_Wishlist_Model_Resource_Item_CollectionFactory $itemsFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
+     * @param \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemsFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Sales_Model_QuoteFactory $quoteFactory,
-        Magento_Wishlist_Model_Resource_Item_CollectionFactory $itemsFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Sales\Model\QuoteFactory $quoteFactory,
+        \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemsFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;

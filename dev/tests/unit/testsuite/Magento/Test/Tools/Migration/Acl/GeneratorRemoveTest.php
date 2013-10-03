@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Test\Tools\Migration\Acl;
+
 require_once realpath(__DIR__ . '/../../../../../../../../')
     . '/tools/Magento/Tools/Migration/Acl/Generator.php';
 require_once realpath(__DIR__ . '/../../../../../../../../')
@@ -18,10 +20,10 @@ require_once realpath(__DIR__ . '/../../../../../../../../')
 /**
  * Tools_Migration_Acl_Generator remove test case
  */
-class Magento_Test_Tools_Migration_Acl_GeneratorRemoveTest extends PHPUnit_Framework_TestCase
+class GeneratorRemoveTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var $model Magento_Tools_Migration_Acl_Generator
+     * @var $model \Magento\Tools\Migration\Acl\Generator
      */
     protected $_model;
 
@@ -36,12 +38,12 @@ class Magento_Test_Tools_Migration_Acl_GeneratorRemoveTest extends PHPUnit_Frame
     protected $_notEmptyFile;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_xmlFormatterMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fileManagerMock;
 
@@ -53,10 +55,10 @@ class Magento_Test_Tools_Migration_Acl_GeneratorRemoveTest extends PHPUnit_Frame
         $this->_emptyFile = $path . 'empty.xml';
         $this->_notEmptyFile = $path . 'not_empty.xml';
 
-        $this->_xmlFormatterMock = $this->getMock('Magento_Tools_Migration_Acl_Formatter');
-        $this->_fileManagerMock = $this->getMock('Magento_Tools_Migration_Acl_FileManager');
+        $this->_xmlFormatterMock = $this->getMock('Magento\Tools\Migration\Acl\Formatter');
+        $this->_fileManagerMock = $this->getMock('Magento\Tools\Migration\Acl\FileManager');
         $this->_fileManagerMock->expects($this->once())->method('remove')->with($this->equalTo($this->_emptyFile));
-        $this->_model = new Magento_Tools_Migration_Acl_Generator($this->_xmlFormatterMock, $this->_fileManagerMock);
+        $this->_model = new \Magento\Tools\Migration\Acl\Generator($this->_xmlFormatterMock, $this->_fileManagerMock);
     }
 
     protected function tearDown()
@@ -66,10 +68,10 @@ class Magento_Test_Tools_Migration_Acl_GeneratorRemoveTest extends PHPUnit_Frame
 
     public function testRemoveAdminhtmlFiles()
     {
-        $domEmpty = new DOMDocument();
+        $domEmpty = new \DOMDocument();
         $domEmpty->load($this->_emptyFile);
 
-        $domNotEmpty = new DOMDocument();
+        $domNotEmpty = new \DOMDocument();
         $domNotEmpty->load($this->_notEmptyFile);
 
         $adminhtmlDomList = array(

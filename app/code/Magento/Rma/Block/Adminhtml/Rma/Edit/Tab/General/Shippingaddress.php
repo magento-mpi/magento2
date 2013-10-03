@@ -15,8 +15,10 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingaddress
-    extends Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Abstract
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General;
+
+class Shippingaddress
+    extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\AbstractGeneral
 {
     /**
      * Get order shipping address
@@ -26,7 +28,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingaddress
     public function getOrderShippingAddress()
     {
         $address = $this->getOrder()->getShippingAddress();
-        if ($address instanceof Magento_Sales_Model_Order_Address) {
+        if ($address instanceof \Magento\Sales\Model\Order\Address) {
             return $address->format('html');
         } else {
             return null;

@@ -8,25 +8,27 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCardAccount_Block_Account_Redeem extends Magento_Core_Block_Template
+namespace Magento\GiftCardAccount\Block\Account;
+
+class Redeem extends \Magento\Core\Block\Template
 {
     /**
      * Customer balance data
      *
-     * @var Magento_CustomerBalance_Helper_Data
+     * @var \Magento\CustomerBalance\Helper\Data
      */
     protected $_customerBalanceData = null;
 
     /**
-     * @param Magento_CustomerBalance_Helper_Data $customerBalanceData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_CustomerBalance_Helper_Data $customerBalanceData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\CustomerBalance\Helper\Data $customerBalanceData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_customerBalanceData = $customerBalanceData;

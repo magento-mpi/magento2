@@ -15,43 +15,45 @@
  * @package     Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Cart extends Magento_Checkout_Block_Cart_Abstract
+namespace Magento\Checkout\Block;
+
+class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
 {
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Catalog_Model_Resource_Url
+     * @var \Magento\Catalog\Model\Resource\Url
      */
     protected $_catalogUrlBuilder;
 
     /**
-     * @var Magento_Core_Model_UrlInterface
+     * @var \Magento\Core\Model\UrlInterface
      */
     protected $_urlBuilder;
 
     /**
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Model_Resource_Url $catalogUrlBuilder
-     * @param Magento_Core_Model_UrlInterface $urlBuilder
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Checkout_Model_Session $checkoutSession
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Resource\Url $catalogUrlBuilder
+     * @param \Magento\Core\Model\UrlInterface $urlBuilder
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Checkout_Model_Session $checkoutSession,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Model_Resource_Url $catalogUrlBuilder,
-        Magento_Core_Model_UrlInterface $urlBuilder,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Resource\Url $catalogUrlBuilder,
+        \Magento\Core\Model\UrlInterface $urlBuilder,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -76,7 +78,7 @@ class Magento_Checkout_Block_Cart extends Magento_Checkout_Block_Cart_Abstract
     public function prepareItemUrls()
     {
         $products = array();
-        /* @var $item Magento_Sales_Model_Quote_Item */
+        /* @var $item \Magento\Sales\Model\Quote\Item */
         foreach ($this->getItems() as $item) {
             $product    = $item->getProduct();
             $option     = $item->getOptionByCode('product_type');
@@ -102,7 +104,7 @@ class Magento_Checkout_Block_Cart extends Magento_Checkout_Block_Cart_Abstract
                 }
 
                 if (isset($products[$product->getId()])) {
-                    $object = new Magento_Object($products[$product->getId()]);
+                    $object = new \Magento\Object($products[$product->getId()]);
                     $item->getProduct()->setUrlDataObject($object);
                 }
             }
@@ -168,7 +170,7 @@ class Magento_Checkout_Block_Cart extends Magento_Checkout_Block_Cart_Abstract
      */
     public function getIsVirtual()
     {
-        return $this->helper('Magento_Checkout_Helper_Cart')->getIsVirtualQuote();
+        return $this->helper('Magento\Checkout\Helper\Cart')->getIsVirtualQuote();
     }
 
     /**
@@ -191,13 +193,13 @@ class Magento_Checkout_Block_Cart extends Magento_Checkout_Block_Cart_Abstract
      *
      * @param string $name Block name in layout
      * @return string
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function getMethodHtml($name)
     {
         $block = $this->getLayout()->getBlock($name);
         if (!$block) {
-            throw new Magento_Core_Exception(__('Invalid method: %1', $name));
+            throw new \Magento\Core\Exception(__('Invalid method: %1', $name));
         }
         return $block->toHtml();
     }

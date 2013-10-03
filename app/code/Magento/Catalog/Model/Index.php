@@ -16,40 +16,42 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Index
+namespace Magento\Catalog\Model;
+
+class Index
 {
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Catalog category
      *
-     * @var Magento_Catalog_Model_Resource_Category
+     * @var \Magento\Catalog\Model\Resource\Category
      */
     protected $_catalogCategory;
 
     /**
      * Catalog product
      *
-     * @var Magento_Catalog_Model_Resource_Product
+     * @var \Magento\Catalog\Model\Resource\Product
      */
     protected $_catalogProduct;
 
     /**
      * Construct
      *
-     * @param Magento_Catalog_Model_Resource_Product $catalogProduct
-     * @param Magento_Catalog_Model_Resource_Category $catalogCategory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Resource\Product $catalogProduct
+     * @param \Magento\Catalog\Model\Resource\Category $catalogCategory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        Magento_Catalog_Model_Resource_Product $catalogProduct,
-        Magento_Catalog_Model_Resource_Category $catalogCategory,
-        Magento_Core_Model_StoreManagerInterface $storeManager
+        \Magento\Catalog\Model\Resource\Product $catalogProduct,
+        \Magento\Catalog\Model\Resource\Category $catalogCategory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_catalogProduct = $catalogProduct;
         $this->_catalogCategory = $catalogCategory;
@@ -59,7 +61,7 @@ class Magento_Catalog_Model_Index
     /**
      * Rebuild indexes
      *
-     * @return Magento_Catalog_Model_Index
+     * @return \Magento\Catalog\Model\Index
      */
     public function rebuild()
     {

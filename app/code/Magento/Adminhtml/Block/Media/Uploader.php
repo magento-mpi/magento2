@@ -11,10 +11,12 @@
 /**
  * Adminhtml media library uploader
  */
-class Magento_Adminhtml_Block_Media_Uploader extends Magento_Adminhtml_Block_Widget
+namespace Magento\Adminhtml\Block\Media;
+
+class Uploader extends \Magento\Adminhtml\Block\Widget
 {
     /**
-     * @var Magento_Object
+     * @var \Magento\Object
      */
     protected $_config;
 
@@ -24,27 +26,27 @@ class Magento_Adminhtml_Block_Media_Uploader extends Magento_Adminhtml_Block_Wid
     protected $_template = 'media/uploader.phtml';
 
     /**
-     * @var Magento_Core_Model_View_Url
+     * @var \Magento\Core\Model\View\Url
      */
     protected $_viewUrl;
 
     /**
-     * @var Magento_File_Size
+     * @var \Magento\File\Size
      */
     protected $_fileSizeService;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_View_Url $viewUrl
-     * @param Magento_File_Size $fileSize
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\File\Size $fileSize
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_View_Url $viewUrl,
-        Magento_File_Size $fileSize,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\File\Size $fileSize,
         array $data = array()
     ) {
         $this->_viewUrl = $viewUrl;
@@ -81,7 +83,7 @@ class Magento_Adminhtml_Block_Media_Uploader extends Magento_Adminhtml_Block_Wid
     /**
      * Get file size
      *
-     * @return Magento_File_Size
+     * @return \Magento\File\Size
      */
     public function getFileSizeService()
     {
@@ -91,7 +93,7 @@ class Magento_Adminhtml_Block_Media_Uploader extends Magento_Adminhtml_Block_Wid
     /**
      * Prepares layout and set element renderer
      *
-     * @return Magento_Adminhtml_Block_Media_Uploader
+     * @return \Magento\Adminhtml\Block\Media\Uploader
      */
     protected function _prepareLayout()
     {
@@ -99,7 +101,7 @@ class Magento_Adminhtml_Block_Media_Uploader extends Magento_Adminhtml_Block_Wid
         if ($head) {
             $head->addChild(
                 'jquery-fileUploader-css-jquery-fileupload-ui-css',
-                'Magento_Page_Block_Html_Head_Css',
+                'Magento\Page\Block\Html\Head\Css',
                 array(
                     'file' => 'jquery/fileUploader/css/jquery.fileupload-ui.css'
                 )
@@ -131,12 +133,12 @@ class Magento_Adminhtml_Block_Media_Uploader extends Magento_Adminhtml_Block_Wid
     /**
      * Retrive config object
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getConfig()
     {
         if (null === $this->_config) {
-            $this->_config = new Magento_Object();
+            $this->_config = new \Magento\Object();
         }
 
         return $this->_config;

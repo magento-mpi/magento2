@@ -16,7 +16,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Items_Renderer_Configurable extends  Magento_Adminhtml_Block_Sales_Items_Abstract
+namespace Magento\Adminhtml\Block\Sales\Items\Renderer;
+
+class Configurable extends  \Magento\Adminhtml\Block\Sales\Items\AbstractItems
 {
 
     public function getItem()

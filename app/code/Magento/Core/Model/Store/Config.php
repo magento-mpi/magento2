@@ -8,18 +8,20 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Store_Config implements Magento_Core_Model_Store_ConfigInterface
+namespace Magento\Core\Model\Store;
+
+class Config implements \Magento\Core\Model\Store\ConfigInterface
 {
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_storeManager = $storeManager;
     }

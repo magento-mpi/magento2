@@ -16,7 +16,9 @@
  * @package    Magento_CatalogInventory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogInventory_Block_Stockqty_Type_Grouped extends Magento_CatalogInventory_Block_Stockqty_Composite
+namespace Magento\CatalogInventory\Block\Stockqty\Type;
+
+class Grouped extends \Magento\CatalogInventory\Block\Stockqty\Composite
 {
     /**
      * Retrieve child products

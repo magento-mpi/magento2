@@ -12,19 +12,21 @@
 /**
  * Base items collection class
  */
-class Magento_Data_Collection_Db extends Magento_Data_Collection
+namespace Magento\Data\Collection;
+
+class Db extends \Magento\Data\Collection
 {
     /**
      * DB connection
      *
-     * @var Zend_Db_Adapter_Abstract
+     * @var \Zend_Db_Adapter_Abstract
      */
     protected $_conn;
 
     /**
      * Select object
      *
-     * @var Zend_Db_Select
+     * @var \Zend_Db_Select
      */
     protected $_select;
 
@@ -62,7 +64,7 @@ class Magento_Data_Collection_Db extends Magento_Data_Collection
     /**
      * Database's statement for fetch item one by one
      *
-     * @var Zend_Db_Statement_Pdo
+     * @var \Zend_Db_Statement_Pdo
      */
     protected $_fetchStmt = null;
 
@@ -74,25 +76,25 @@ class Magento_Data_Collection_Db extends Magento_Data_Collection
     protected $_isOrdersRendered = false;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @var Magento_Data_Collection_Db_FetchStrategyInterface
+     * @var \Magento\Data\Collection\Db\FetchStrategyInterface
      */
     private $_fetchStrategy;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param null $conn
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
         $conn = null
     ) {
         parent::__construct($entityFactory);
@@ -108,7 +110,7 @@ class Magento_Data_Collection_Db extends Magento_Data_Collection
      *
      * @param string $name
      * @param mixed $value
-     * @return Magento_Data_Collection_Db
+     * @return \Magento\Data\Collection\Db
      */
     public function addBindParam($name, $value)
     {
@@ -120,7 +122,7 @@ class Magento_Data_Collection_Db extends Magento_Data_Collection
      * Specify collection objects id field name
      *
      * @param string $fieldName
-     * @return Magento_Data_Collection_Db
+     * @return \Magento\Data\Collection\Db
      */
     protected function _setIdFieldName($fieldName)
     {
@@ -141,10 +143,10 @@ class Magento_Data_Collection_Db extends Magento_Data_Collection
     /**
      * Get collection item identifier
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return mixed
      */
-    protected function _getItemId(Magento_Object $item)
+    protected function _getItemId(\Magento\Object $item)
     {
         if ($field = $this->getIdFieldName()) {
             return $item->getData($field);
@@ -155,14 +157,14 @@ class Magento_Data_Collection_Db extends Magento_Data_Collection
     /**
      * Set database connection adapter
      *
-     * @param Zend_Db_Adapter_Abstract $conn
-     * @return Magento_Data_Collection_Db
-     * @throws Zend_Exception
+     * @param \Zend_Db_Adapter_Abstract $conn
+     * @return \Magento\Data\Collection\Db
+     * @throws \Zend_Exception
      */
     public function setConnection($conn)
     {
-        if (!$conn instanceof Zend_Db_Adapter_Abstract) {
-            throw new Zend_Exception('dbModel read resource does not implement Zend_Db_Adapter_Abstract');
+        if (!$conn instanceof \Zend_Db_Adapter_Abstract) {
+            throw new \Zend_Exception('dbModel read resource does not implement \Zend_Db_Adapter_Abstract');
         }
 
         $this->_conn = $conn;
@@ -172,9 +174,9 @@ class Magento_Data_Collection_Db extends Magento_Data_Collection
     }
 
     /**
-     * Get Zend_Db_Select instance
+     * Get \Zend_Db_Select instance
      *
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function getSelect()
     {
@@ -184,7 +186,7 @@ class Magento_Data_Collection_Db extends Magento_Data_Collection
     /**
      * Retrieve connection object
      *
-     * @return Magento_DB_Adapter_Interface
+     * @return \Magento\DB\Adapter\AdapterInterface
      */
     public function getConnection()
     {
@@ -208,17 +210,17 @@ class Magento_Data_Collection_Db extends Magento_Data_Collection
     /**
      * Get SQL for get record count
      *
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function getSelectCountSql()
     {
         $this->_renderFilters();
 
         $countSelect = clone $this->getSelect();
-        $countSelect->reset(Zend_Db_Select::ORDER);
-        $countSelect->reset(Zend_Db_Select::LIMIT_COUNT);
-        $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
-        $countSelect->reset(Zend_Db_Select::COLUMNS);
+        $countSelect->reset(\Zend_Db_Select::ORDER);
+        $countSelect->reset(\Zend_Db_Select::LIMIT_COUNT);
+        $countSelect->reset(\Zend_Db_Select::LIMIT_OFFSET);
+        $countSelect->reset(\Zend_Db_Select::COLUMNS);
 
         $countSelect->columns('COUNT(*)');
 
@@ -229,7 +231,7 @@ class Magento_Data_Collection_Db extends Magento_Data_Collection
      * Get sql select string or object
      *
      * @param   bool $stringMode
-     * @return  string || Zend_Db_Select
+     * @return  string || \Zend_Db_Select
      */
     public function getSelectSql($stringMode = false)
     {
@@ -244,7 +246,7 @@ class Magento_Data_Collection_Db extends Magento_Data_Collection
      *
      * @param   string $field
      * @param   string $direction
-     * @return  Magento_Data_Collection_Db
+     * @return  \Magento\Data\Collection\Db
      */
     public function setOrder($field, $direction = self::SORT_ORDER_DESC)
     {
@@ -256,7 +258,7 @@ class Magento_Data_Collection_Db extends Magento_Data_Collection
      *
      * @param string $field
      * @param string $direction
-     * @return Magento_Data_Collection_Db
+     * @return \Magento\Data\Collection\Db
      */
     public function addOrder($field, $direction = self::SORT_ORDER_DESC)
     {
@@ -268,7 +270,7 @@ class Magento_Data_Collection_Db extends Magento_Data_Collection
      *
      * @param string $field
      * @param string $direction
-     * @return Magento_Data_Collection_Db
+     * @return \Magento\Data\Collection\Db
      */
     public function unshiftOrder($field, $direction = self::SORT_ORDER_DESC)
     {
@@ -281,7 +283,7 @@ class Magento_Data_Collection_Db extends Magento_Data_Collection
      * @param string $field
      * @param string $direction
      * @param bool $unshift
-     * @return Magento_Data_Collection_Db
+     * @return \Magento\Data\Collection\Db
      */
     private function _setOrder($field, $direction, $unshift = false)
     {
@@ -305,7 +307,7 @@ class Magento_Data_Collection_Db extends Magento_Data_Collection
     /**
      * Render sql select conditions
      *
-     * @return  Magento_Data_Collection_Db
+     * @return  \Magento\Data\Collection\Db
      */
     protected function _renderFilters()
     {
@@ -328,7 +330,7 @@ class Magento_Data_Collection_Db extends Magento_Data_Collection
                     $field = $this->_getMappedField($filter['field']);
                     $condition = $filter['value'];
                     $this->_select->where(
-                        $this->_getConditionSql($field, $condition), null, Magento_DB_Select::TYPE_CONDITION
+                        $this->_getConditionSql($field, $condition), null, \Magento\DB\Select::TYPE_CONDITION
                     );
                     break;
                 default:
@@ -354,7 +356,7 @@ class Magento_Data_Collection_Db extends Magento_Data_Collection
      *
      * @param string|array $field
      * @param null|string|array $condition
-     * @return Magento_Data_Collection_Db
+     * @return \Magento\Data\Collection\Db
      */
     public function addFieldToFilter($field, $condition = null)
     {
@@ -364,12 +366,12 @@ class Magento_Data_Collection_Db extends Magento_Data_Collection
                 $conditions[] = $this->_translateCondition($value, isset($condition[$key]) ? $condition[$key] : null);
             }
 
-            $resultCondition = '(' . implode(') ' . Zend_Db_Select::SQL_OR . ' (', $conditions) . ')';
+            $resultCondition = '(' . implode(') ' . \Zend_Db_Select::SQL_OR . ' (', $conditions) . ')';
         } else {
             $resultCondition = $this->_translateCondition($field, $condition);
         }
 
-        $this->_select->where($resultCondition, null, Magento_DB_Select::TYPE_CONDITION);
+        $this->_select->where($resultCondition, null, \Magento\DB\Select::TYPE_CONDITION);
 
         return $this;
     }
@@ -465,13 +467,13 @@ class Magento_Data_Collection_Db extends Magento_Data_Collection
     /**
      * Render sql select orders
      *
-     * @return  Magento_Data_Collection_Db
+     * @return  \Magento\Data\Collection\Db
      */
     protected function _renderOrders()
     {
         if (!$this->_isOrdersRendered) {
             foreach ($this->_orders as $field => $direction) {
-                $this->_select->order(new Zend_Db_Expr($field . ' ' . $direction));
+                $this->_select->order(new \Zend_Db_Expr($field . ' ' . $direction));
             }
             $this->_isOrdersRendered = true;
         }
@@ -482,7 +484,7 @@ class Magento_Data_Collection_Db extends Magento_Data_Collection
     /**
      * Render sql select limit
      *
-     * @return  Magento_Data_Collection_Db
+     * @return  \Magento\Data\Collection\Db
      */
     protected function _renderLimit()
     {
@@ -498,7 +500,7 @@ class Magento_Data_Collection_Db extends Magento_Data_Collection
      *
      * @param   bool $flag
      *
-     * @return  Magento_Data_Collection_Db
+     * @return  \Magento\Data\Collection\Db
      */
     public function distinct($flag)
     {
@@ -509,7 +511,7 @@ class Magento_Data_Collection_Db extends Magento_Data_Collection
     /**
      * Before load action
      *
-     * @return Magento_Data_Collection_Db
+     * @return \Magento\Data\Collection\Db
      */
     protected function _beforeLoad()
     {
@@ -522,7 +524,7 @@ class Magento_Data_Collection_Db extends Magento_Data_Collection
      * @param   bool $printQuery
      * @param   bool $logQuery
      *
-     * @return  Magento_Data_Collection_Db
+     * @return  \Magento\Data\Collection\Db
      */
     public function load($printQuery = false, $logQuery = false)
     {
@@ -560,7 +562,7 @@ class Magento_Data_Collection_Db extends Magento_Data_Collection
      * Returns a collection item that corresponds to the fetched row
      * and moves the internal data pointer ahead
      *
-     * @return  Magento_Object|bool
+     * @return  \Magento\Object|bool
      */
     public function fetchItem()
     {
@@ -629,7 +631,7 @@ class Magento_Data_Collection_Db extends Magento_Data_Collection
     /**
      * Process loaded collection data
      *
-     * @return Magento_Data_Collection_Db
+     * @return \Magento\Data\Collection\Db
      */
     protected function _afterLoadData()
     {
@@ -639,7 +641,7 @@ class Magento_Data_Collection_Db extends Magento_Data_Collection
     /**
      * Reset loaded for collection data array
      *
-     * @return Magento_Data_Collection_Db
+     * @return \Magento\Data\Collection\Db
      */
     public function resetData()
     {
@@ -664,7 +666,7 @@ class Magento_Data_Collection_Db extends Magento_Data_Collection
      * @param   bool $logQuery
      * @param   string $sql
      *
-     * @return  Magento_Data_Collection_Db
+     * @return  \Magento\Data\Collection\Db
      */
     public function printLogQuery($printQuery = false, $logQuery = false, $sql = null)
     {
@@ -691,7 +693,7 @@ class Magento_Data_Collection_Db extends Magento_Data_Collection
     /**
      * Reset collection
      *
-     * @return Magento_Data_Collection_Db
+     * @return \Magento\Data\Collection\Db
      */
     protected function _reset()
     {
@@ -706,10 +708,10 @@ class Magento_Data_Collection_Db extends Magento_Data_Collection
     /**
      * Fetch collection data
      *
-     * @param Zend_Db_Select $select
+     * @param \Zend_Db_Select $select
      * @return array
      */
-    protected function _fetchAll(Zend_Db_Select $select)
+    protected function _fetchAll(\Zend_Db_Select $select)
     {
         return $this->_fetchStrategy->fetchAll($select, $this->_bindParams);
     }
@@ -721,7 +723,7 @@ class Magento_Data_Collection_Db extends Magento_Data_Collection
      * @param string $alias
      * @param string $group default 'fields'
      *
-     * @return Magento_Data_Collection_Db
+     * @return \Magento\Data\Collection\Db
      */
     public function addFilterToMap($filter, $alias, $group = 'fields')
     {

@@ -9,13 +9,13 @@
  */
 
 /**
- * @var $this Magento_Catalog_Block_Product_View_Gallery
+ * @var $this \Magento\Catalog\Block\Product\View\Gallery
  */
 ?>
 <?php foreach ($this->getGalleryImages() as $_image): ?>
     <li>
         <a href="<?php echo $this->getGalleryUrl($_image) ?>" title="<?php echo $this->escapeHtml($_image->getLabel()) ?>">
-            <img src="<?php echo $this->helper('Magento_Catalog_Helper_Image')->init($this->getProduct(), 'thumbnail', $_image->getFile())->resize(290); ?>" width="145" height="145" alt="<?php echo $this->escapeHtml($_image->getLabel()) ?>"/>
+            <img src="<?php echo $this->helper('Magento\Catalog\Helper\Image')->init($this->getProduct(), 'thumbnail', $_image->getFile())->resize(290); ?>" width="145" height="145" alt="<?php echo $this->escapeHtml($_image->getLabel()) ?>"/>
         </a>
     </li>
 <?php endforeach; ?>

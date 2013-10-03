@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Websites extends Magento_Backend_Block_Store_Switcher
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab;
+
+class Websites extends \Magento\Backend\Block\Store\Switcher
 {
     protected $_storeFromHtml;
 
@@ -24,30 +26,30 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Websites extends Magento_
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * Constructor
      *
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_App $application
-     * @param Magento_Core_Model_Website_Factory $websiteFactory
-     * @param Magento_Core_Model_Store_Group_Factory $storeGroupFactory
-     * @param Magento_Core_Model_StoreFactory $storeFactory
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\App $application
+     * @param \Magento\Core\Model\Website\Factory $websiteFactory
+     * @param \Magento\Core\Model\Store\Group\Factory $storeGroupFactory
+     * @param \Magento\Core\Model\StoreFactory $storeFactory
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_App $application,
-        Magento_Core_Model_Website_Factory $websiteFactory,
-        Magento_Core_Model_Store_Group_Factory $storeGroupFactory,
-        Magento_Core_Model_StoreFactory $storeFactory,
-        Magento_Core_Model_Registry $coreRegistry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\App $application,
+        \Magento\Core\Model\Website\Factory $websiteFactory,
+        \Magento\Core\Model\Store\Group\Factory $storeGroupFactory,
+        \Magento\Core\Model\StoreFactory $storeFactory,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -59,7 +61,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Websites extends Magento_
     /**
      * Retrieve edited product model instance
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
@@ -131,7 +133,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Websites extends Magento_
     /**
      * Get HTML of store chooser
      *
-     * @param Magento_Core_Model_Store $storeTo
+     * @param \Magento\Core\Model\Store $storeTo
      * @return string
      */
     public function getChooseFromStoreHtml($storeTo)

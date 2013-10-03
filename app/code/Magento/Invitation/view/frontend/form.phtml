@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 ?>
-<?php /** @var $this Magento_Invitation_Block_Form */?>
+<?php /** @var $this \Magento\Invitation\Block\Form */?>
 <div class="page-title">
     <h1><?php echo __('Send Invitations') ?></h1>
 </div>
@@ -40,7 +40,7 @@
     </div>
    <p class="required"><?php echo __('* Required Fields') ?></p>
     <div class="buttons-set form-buttons">
-        <p class="back-link"><a href="<?php echo $this->helper('Magento_Invitation_Helper_Data')->getCustomerInvitationUrl() ?>"><small>&laquo; </small><?php  echo __('Back to Invitations') ?></a></p>
+        <p class="back-link"><a href="<?php echo $this->helper('Magento\Invitation\Helper\Data')->getCustomerInvitationUrl() ?>"><small>&laquo; </small><?php  echo __('Back to Invitations') ?></a></p>
         <button class="button" type="submit"><span><span><?php echo __('Send Invitations') ?></span></span></button>
     </div>
 

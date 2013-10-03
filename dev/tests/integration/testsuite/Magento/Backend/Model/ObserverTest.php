@@ -9,29 +9,32 @@
  * @license     {license_link}
  */
 
+
+namespace Magento\Backend\Model;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Backend_Model_ObserverTest extends PHPUnit_Framework_TestCase
+class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Model_Observer
+     * @var \Magento\Backend\Model\Observer
      */
     protected $_model;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Backend_Model_Observer');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Backend\Model\Observer');
     }
 
     public function testActionPreDispatchAdminNotLogged()
     {
         $this->markTestSkipped('Skipped because of authentication process moved into base controller.');
 
-        $request = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Controller_Request_Http');
+        $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Controller\Request\Http');
         $this->assertEmpty($request->getRouteName());
         $this->assertEmpty($request->getControllerName());
         $this->assertEmpty($request->getActionName());
@@ -54,13 +57,13 @@ class Magento_Backend_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $observer = $this->_buildObserver();
         $this->_model->actionPreDispatchAdmin($observer);
 
-        $response = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+        $response = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
             ->getResponse();
         $code = $response->getHttpResponseCode();
         $this->assertTrue($code >= 300 && $code < 400);
 
-        $session = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Backend_Model_Auth_Session');
+        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Backend\Model\Auth\Session');
         $this->assertTrue($session->isLoggedIn());
     }
 
@@ -75,36 +78,36 @@ class Magento_Backend_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $observer = $this->_buildObserver();
         $this->_model->actionPreDispatchAdmin($observer);
 
-        $response = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+        $response = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
             ->getResponse();
         $code = $response->getHttpResponseCode();
         $this->assertFalse($code >= 300 && $code < 400);
 
-        $session = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Backend_Model_Auth_Session');
+        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Backend\Model\Auth\Session');
         $this->assertTrue($session->isLoggedIn());
     }
 
     /**
      * Builds a dummy observer for testing adminPreDispatch method
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     protected function _buildObserver()
     {
-        $request = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Controller_Request_Http');
+        $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Controller\Request\Http');
         $request->setPost(
             'login',
             array(
-                'username' => Magento_TestFramework_Bootstrap::ADMIN_NAME,
-                'password' => Magento_TestFramework_Bootstrap::ADMIN_PASSWORD
+                'username' => \Magento\TestFramework\Bootstrap::ADMIN_NAME,
+                'password' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
             )
         );
 
-        $controller = new Magento_Object(array('request' => $request));
-        $event = new Magento_Object(array('controller_action' => $controller));
-        $observer = new Magento_Object(array('event' => $event));
+        $controller = new \Magento\Object(array('request' => $request));
+        $event = new \Magento\Object(array('controller_action' => $controller));
+        $observer = new \Magento\Object(array('event' => $event));
         return $observer;
     }
 }

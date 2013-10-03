@@ -11,19 +11,21 @@
 /**
  * Rating model
  *
- * @method Magento_Rating_Model_Resource_Rating getResource()
- * @method Magento_Rating_Model_Resource_Rating _getResource()
+ * @method \Magento\Rating\Model\Resource\Rating getResource()
+ * @method \Magento\Rating\Model\Resource\Rating _getResource()
  * @method array getRatingCodes()
- * @method Magento_Rating_Model_Rating setRatingCodes(array $value)
+ * @method \Magento\Rating\Model\Rating setRatingCodes(array $value)
  * @method array getStores()
- * @method Magento_Rating_Model_Rating setStores(array $value)
+ * @method \Magento\Rating\Model\Rating setStores(array $value)
  * @method string getRatingCode()
  *
  * @category   Magento
  * @package    Magento_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rating_Model_Rating extends Magento_Core_Model_Abstract
+namespace Magento\Rating\Model;
+
+class Rating extends \Magento\Core\Model\AbstractModel
 {
     /**
      * rating entity codes
@@ -33,31 +35,31 @@ class Magento_Rating_Model_Rating extends Magento_Core_Model_Abstract
     const ENTITY_REVIEW_CODE            = 'review';
 
     /**
-     * @var Magento_Rating_Model_Rating_OptionFactory
+     * @var \Magento\Rating\Model\Rating\OptionFactory
      */
     protected $_ratingOptionFactory;
 
     /**
-     * @var Magento_Rating_Model_Resource_Rating_Option_CollectionFactory
+     * @var \Magento\Rating\Model\Resource\Rating\Option\CollectionFactory
      */
     protected $_ratingCollectionF;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Rating_Model_Rating_OptionFactory $ratingOptionFactory
-     * @param Magento_Rating_Model_Resource_Rating_Option_CollectionFactory $ratingCollectionF
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Rating\Model\Rating\OptionFactory $ratingOptionFactory
+     * @param \Magento\Rating\Model\Resource\Rating\Option\CollectionFactory $ratingCollectionF
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Rating_Model_Rating_OptionFactory $ratingOptionFactory,
-        Magento_Rating_Model_Resource_Rating_Option_CollectionFactory $ratingCollectionF,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Rating\Model\Rating\OptionFactory $ratingOptionFactory,
+        \Magento\Rating\Model\Resource\Rating\Option\CollectionFactory $ratingCollectionF,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_ratingOptionFactory = $ratingOptionFactory;
@@ -72,7 +74,7 @@ class Magento_Rating_Model_Rating extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Rating_Model_Resource_Rating');
+        $this->_init('Magento\Rating\Model\Resource\Rating');
     }
 
     /**
@@ -129,7 +131,7 @@ class Magento_Rating_Model_Rating extends Magento_Core_Model_Abstract
      *
      * @param $entityPkValue
      * @param bool $onlyForCurrentStore
-     * @return Magento_Data_Collection_Db
+     * @return \Magento\Data\Collection\Db
      */
     public function getEntitySummary($entityPkValue,  $onlyForCurrentStore = true)
     {

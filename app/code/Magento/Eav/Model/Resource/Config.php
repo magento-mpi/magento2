@@ -16,7 +16,9 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Resource_Config extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Eav\Model\Resource;
+
+class Config extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Array of entity types
@@ -43,7 +45,7 @@ class Magento_Eav_Model_Resource_Config extends Magento_Core_Model_Resource_Db_A
     /**
      * Load all entity types
      *
-     * @return Magento_Eav_Model_Resource_Config
+     * @return \Magento\Eav\Model\Resource\Config
      */
     protected function _loadTypes()
     {

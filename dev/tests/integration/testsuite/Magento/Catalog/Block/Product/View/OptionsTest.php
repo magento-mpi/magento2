@@ -9,42 +9,44 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Block\Product\View;
+
 /**
- * Test class for Magento_Catalog_Block_Product_View_Options.
+ * Test class for \Magento\Catalog\Block\Product\View\Options.
  *
  * @magentoDataFixture Magento/Catalog/_files/product_simple.php
  */
-class Magento_Catalog_Block_Product_View_OptionsTest extends PHPUnit_Framework_TestCase
+class OptionsTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Block_Product_View_Options
+     * @var \Magento\Catalog\Block\Product\View\Options
      */
     protected $_block;
 
     /**
-     * @var Magento_Catalog_Model_Product
+     * @var \Magento\Catalog\Model\Product
      */
     protected $_product;
 
     protected function setUp()
     {
-        $this->_product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        $this->_product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $this->_product->load(1);
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_Registry')->unregister('current_product');
-        $objectManager->get('Magento_Core_Model_Registry')->register('current_product', $this->_product);
-        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_Catalog_Block_Product_View_Options');
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager->get('Magento\Core\Model\Registry')->unregister('current_product');
+        $objectManager->get('Magento\Core\Model\Registry')->register('current_product', $this->_product);
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Catalog\Block\Product\View\Options');
     }
 
     public function testSetGetProduct()
     {
         $this->assertSame($this->_product, $this->_block->getProduct());
 
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $this->_block->setProduct($product);
         $this->assertSame($product, $this->_block->getProduct());
     }
@@ -59,7 +61,7 @@ class Magento_Catalog_Block_Product_View_OptionsTest extends PHPUnit_Framework_T
         $options = $this->_block->getOptions();
         $this->assertNotEmpty($options);
         foreach ($options as $option) {
-            $this->assertInstanceOf('Magento_Catalog_Model_Product_Option', $option);
+            $this->assertInstanceOf('Magento\Catalog\Model\Product\Option', $option);
         }
     }
 

@@ -9,23 +9,25 @@
  * @license     {license_link}
  */
 
-class Magento_Theme_Block_Adminhtml_System_Design_Theme_TabAbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Theme\Block\Adminhtml\System\Design\Theme;
+
+class TabAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_TabAbstract
+     * @var \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\AbstractTab
      */
     protected $_model;
 
     protected function setUp()
     {
         $this->_model = $this->getMockForAbstractClass(
-            'Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_TabAbstract',
+            'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\AbstractTab',
             array(
-                $this->getMock('Magento_Data_Form_Factory', array(), array(), '', false),
-                $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false),
-                $this->getMock('Magento_Backend_Block_Template_Context', array(), array(), '', false),
-                $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false),
-                $this->getMock('Magento_ObjectManager', array(), array(), '', false)
+                $this->getMock('Magento\Data\Form\Factory', array(), array(), '', false),
+                $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false),
+                $this->getMock('Magento\Backend\Block\Template\Context', array(), array(), '', false),
+                $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false),
+                $this->getMock('Magento\ObjectManager', array(), array(), '', false)
             ),
             '',
             true,
@@ -58,7 +60,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_TabAbstractTest extends 
      */
     public function testCanShowTab($isVirtual, $themeId, $result)
     {
-        $themeMock = $this->getMock('Magento_Core_Model_Theme', array('isVirtual', 'getId'), array(), '', false);
+        $themeMock = $this->getMock('Magento\Core\Model\Theme', array('isVirtual', 'getId'), array(), '', false);
         $themeMock->expects($this->any())
             ->method('isVirtual')
             ->will($this->returnValue($isVirtual));

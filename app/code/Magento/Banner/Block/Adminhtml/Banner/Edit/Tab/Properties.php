@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab;
+
 /**
  * Main banner properties edit form
  *
@@ -17,30 +19,30 @@
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties extends Magento_Backend_Block_Widget_Form_Generic
-    implements Magento_Backend_Block_Widget_Tab_Interface
+class Properties extends \Magento\Backend\Block\Widget\Form\Generic
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Banner config
      *
-     * @var Magento_Banner_Model_Config
+     * @var \Magento\Banner\Model\Config
      */
     protected $_bannerConfig;
 
     /**
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Banner_Model_Config $bannerConfig
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Banner\Model\Config $bannerConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Banner_Model_Config $bannerConfig,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Banner\Model\Config $bannerConfig,
         array $data = array()
     ) {
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
@@ -50,11 +52,11 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties extends Magento_
     /**
      * Set form id prefix, declare fields for banner properties
      *
-     * @return Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties
+     * @return \Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Properties
      */
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $htmlIdPrefix = 'banner_properties_';
         $form->setHtmlIdPrefix($htmlIdPrefix);
@@ -84,12 +86,12 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties extends Magento_
             'required'  => true,
             'disabled'  => (bool)$model->getIsReadonly(),
             'options'   => array(
-                Magento_Banner_Model_Banner::STATUS_ENABLED  => __('Yes'),
-                Magento_Banner_Model_Banner::STATUS_DISABLED => __('No'),
+                \Magento\Banner\Model\Banner::STATUS_ENABLED  => __('Yes'),
+                \Magento\Banner\Model\Banner::STATUS_DISABLED => __('No'),
             ),
         ));
         if (!$model->getId()) {
-            $model->setData('is_enabled', Magento_Banner_Model_Banner::STATUS_ENABLED);
+            $model->setData('is_enabled', \Magento\Banner\Model\Banner::STATUS_ENABLED);
         }
 
         // whether to specify banner types - for UI design purposes only
@@ -111,7 +113,7 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties extends Magento_
             'can_be_empty' => true,
         ));
 
-        $afterFormBlock = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Form_Element_Dependence')
+        $afterFormBlock = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Form\Element\Dependence')
             ->addFieldMap("{$htmlIdPrefix}is_types", 'is_types')
             ->addFieldMap("{$htmlIdPrefix}types", 'types')
             ->addFieldDependence('types', 'is_types', '1');

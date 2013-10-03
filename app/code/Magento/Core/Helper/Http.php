@@ -15,7 +15,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Helper_Http extends Magento_Core_Helper_Abstract
+namespace Magento\Core\Helper;
+
+class Http extends \Magento\Core\Helper\AbstractHelper
 {
     const XML_NODE_REMOTE_ADDR_HEADERS  = 'global/remote_addr_headers';
 
@@ -29,24 +31,24 @@ class Magento_Core_Helper_Http extends Magento_Core_Helper_Abstract
     /**
      * Core string
      *
-     * @var Magento_Core_Helper_String
+     * @var \Magento\Core\Helper\String
      */
     protected $_coreString = null;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
     /**
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Config $coreConfig
      */
     public function __construct(
-        Magento_Core_Helper_String $coreString,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config $coreConfig
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Config $coreConfig
     ) {
         $this->_coreString = $coreString;
         $this->_coreConfig = $coreConfig;
@@ -58,10 +60,10 @@ class Magento_Core_Helper_Http extends Magento_Core_Helper_Abstract
      *
      * Returns plain array with 2 items: login and password respectively
      *
-     * @param Zend_Controller_Request_Http $request
+     * @param \Zend_Controller_Request_Http $request
      * @return array
      */
-    public function getHttpAuthCredentials(Zend_Controller_Request_Http $request)
+    public function getHttpAuthCredentials(\Zend_Controller_Request_Http $request)
     {
         $server = $request->getServer();
         $user = '';
@@ -99,10 +101,10 @@ class Magento_Core_Helper_Http extends Magento_Core_Helper_Abstract
     /**
      * Set "auth failed" headers to the specified response object
      *
-     * @param Zend_Controller_Response_Http $response
+     * @param \Zend_Controller_Response_Http $response
      * @param string $realm
      */
-    public function failHttpAuthentication(Zend_Controller_Response_Http $response, $realm)
+    public function failHttpAuthentication(\Zend_Controller_Response_Http $response, $realm)
     {
         $response->setHeader('HTTP/1.1', '401 Unauthorized')
             ->setHeader('WWW-Authenticate', 'Basic realm="' . $realm . '"')
@@ -119,7 +121,7 @@ class Magento_Core_Helper_Http extends Magento_Core_Helper_Abstract
     {
         $headers = array();
         $element = $this->_coreConfig->getNode(self::XML_NODE_REMOTE_ADDR_HEADERS);
-        if ($element instanceof Magento_Core_Model_Config_Element) {
+        if ($element instanceof \Magento\Core\Model\Config\Element) {
             foreach ($element->children() as $node) {
                 $headers[] = (string)$node;
             }

@@ -15,29 +15,33 @@
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  *
+ */
+namespace Magento\Backend\Block\Widget\Grid\Massaction;
+
+/**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_Backend_Block_Widget_Grid_Massaction_Additional extends Magento_Backend_Block_Widget_Form_Generic
+class Additional extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var Magento_Core_Model_Layout_Argument_HandlerFactory
+     * @var \Magento\Core\Model\Layout\Argument\HandlerFactory
      */
     protected $_handlerFactory;
 
     /**
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Layout_Argument_HandlerFactory $handlerFactory
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Layout\Argument\HandlerFactory $handlerFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Layout_Argument_HandlerFactory $handlerFactory,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Layout\Argument\HandlerFactory $handlerFactory,
         array $data = array()
     ) {
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
@@ -48,11 +52,11 @@ class Magento_Backend_Block_Widget_Grid_Massaction_Additional extends Magento_Ba
     /**
      * Prepare form before rendering HTML
      *
-     * @return Magento_Backend_Block_Widget_Form
+     * @return \Magento\Backend\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         foreach ($this->getData('fields') as $itemId => $item) {
             $this->_prepareFormItem($item);

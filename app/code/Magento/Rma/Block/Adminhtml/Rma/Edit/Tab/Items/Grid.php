@@ -11,7 +11,9 @@
 /**
  * Admin RMA create order grid block
  */
-class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Backend_Block_Widget_Grid_Extended
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items;
+
+class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Default limit collection
@@ -30,40 +32,40 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Backen
     /**
      * Rma eav
      *
-     * @var Magento_Rma_Helper_Eav
+     * @var \Magento\Rma\Helper\Eav
      */
     protected $_rmaEav;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry;
 
     /**
-     * @var Magento_Rma_Model_Item_Status
+     * @var \Magento\Rma\Model\Item\Status
      */
     protected $_itemStatus;
 
     /**
-     * @param Magento_Rma_Model_Item_Status $itemStatus
-     * @param Magento_Rma_Helper_Eav $rmaEav
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Rma\Model\Item\Status $itemStatus
+     * @param \Magento\Rma\Helper\Eav $rmaEav
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        Magento_Rma_Model_Item_Status $itemStatus,
-        Magento_Rma_Helper_Eav $rmaEav,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Core_Model_Registry $coreRegistry,
+        \Magento\Rma\Model\Item\Status $itemStatus,
+        \Magento\Rma\Helper\Eav $rmaEav,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -108,13 +110,13 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Backen
     /**
      * Prepare grid collection object
      *
-     * @return Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid
+     * @return \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid
      */
     protected function _prepareCollection()
     {
         $rma = $this->_coreRegistry->registry('current_rma');
 
-        /** @var $collection Magento_Rma_Model_Resource_Item_Collection */
+        /** @var $collection \Magento\Rma\Model\Resource\Item\Collection */
         $collection = $rma->getItemsForDisplay();
 
         if ($this->getItemFilter()) {
@@ -129,14 +131,14 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Backen
     /**
      * Prepare columns
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareColumns()
     {
         $rma = $this->_coreRegistry->registry('current_rma');
         if ($rma
-            && (($rma->getStatus() === Magento_Rma_Model_Rma_Source_Status::STATE_CLOSED)
-                || ($rma->getStatus() === Magento_Rma_Model_Rma_Source_Status::STATE_PROCESSED_CLOSED))
+            && (($rma->getStatus() === \Magento\Rma\Model\Rma\Source\Status::STATE_CLOSED)
+                || ($rma->getStatus() === \Magento\Rma\Model\Rma\Source\Status::STATE_PROCESSED_CLOSED))
         ) {
             $this->_itemStatus->setOrderIsClosed();
         }
@@ -162,7 +164,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Backen
         $this->addColumn('qty_ordered', array(
             'header'=> __('Remaining'),
             'getter'   => array($this, 'getQtyOrdered'),
-            'renderer'  => 'Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Quantity',
+            'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Quantity',
             'index' => 'qty_ordered',
             'order_data' => $this->getOrderItemsData(),
             'header_css_class'  => 'col-qty',
@@ -172,7 +174,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Backen
         $this->addColumn('qty_requested', array(
             'header'=> __('Requested'),
             'index' => 'qty_requested',
-            'renderer'  => 'Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Textinput',
+            'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Textinput',
             'validate_class' => 'validate-greater-than-zero',
             'header_css_class'  => 'col-qty',
             'column_css_class'  => 'col-qty'
@@ -181,7 +183,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Backen
         $this->addColumn('qty_authorized', array(
             'header'=> __('Authorized'),
             'index' => 'qty_authorized',
-            'renderer'  => 'Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Textinput',
+            'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Textinput',
             'validate_class' => 'validate-greater-than-zero',
             'header_css_class'  => 'col-qty',
             'column_css_class'  => 'col-qty'
@@ -190,7 +192,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Backen
         $this->addColumn('qty_returned', array(
             'header'=> __('Returned'),
             'index' => 'qty_returned',
-            'renderer'  => 'Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Textinput',
+            'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Textinput',
             'validate_class' => 'validate-greater-than-zero',
             'header_css_class'  => 'col-qty',
             'column_css_class'  => 'col-qty'
@@ -199,7 +201,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Backen
         $this->addColumn('qty_approved', array(
             'header'=> __('Approved'),
             'index' => 'qty_approved',
-            'renderer'  => 'Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Textinput',
+            'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Textinput',
             'validate_class' => 'validate-greater-than-zero',
             'header_css_class'  => 'col-qty',
             'column_css_class'  => 'col-qty'
@@ -208,7 +210,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Backen
         $this->addColumn('reason', array(
             'header'=> __('Return Reason'),
             'getter'   => array($this, 'getReasonOptionStringValue'),
-            'renderer'  => 'Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Reasonselect',
+            'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Reasonselect',
             'options' => $this->_rmaEav->getAttributeOptionValues('reason'),
             'index' => 'reason',
             'header_css_class'  => 'col-reason',
@@ -218,7 +220,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Backen
         $this->addColumn('condition', array(
             'header'=> __('Item Condition'),
             'getter'   => array($this, 'getConditionOptionStringValue'),
-            'renderer'  => 'Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Textselect',
+            'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Textselect',
             'options' => $this->_rmaEav->getAttributeOptionValues('condition'),
             'index' => 'condition',
             'header_css_class'  => 'col-condition',
@@ -229,7 +231,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Backen
             'header'=> __('Resolution'),
             'index' => 'resolution',
             'getter'   => array($this, 'getResolutionOptionStringValue'),
-            'renderer'  => 'Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Textselect',
+            'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Textselect',
             'options' => $this->_rmaEav->getAttributeOptionValues('resolution'),
             'header_css_class'  => 'col-resolution',
             'column_css_class'  => 'col-resolution'
@@ -239,7 +241,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Backen
             'header'=> __('Status'),
             'index' => 'status',
             'getter'=> array($this, 'getStatusOptionStringValue'),
-            'renderer'  => 'Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Status',
+            'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Status',
             'header_css_class'  => 'col-status',
             'column_css_class'  => 'col-status'
         ));
@@ -251,8 +253,8 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Backen
             ),
         );
         if (!($rma
-            && (($rma->getStatus() === Magento_Rma_Model_Rma_Source_Status::STATE_CLOSED)
-                || ($rma->getStatus() === Magento_Rma_Model_Rma_Source_Status::STATE_PROCESSED_CLOSED))
+            && (($rma->getStatus() === \Magento\Rma\Model\Rma\Source\Status::STATE_CLOSED)
+                || ($rma->getStatus() === \Magento\Rma\Model\Rma\Source\Status::STATE_PROCESSED_CLOSED))
         )) {
                 $actionsArray[] = array(
                 'caption'   => __('Split'),
@@ -264,7 +266,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Backen
         $this->addColumn('action',
             array(
                 'header'    =>  __('Action'),
-                'renderer'  => 'Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Action',
+                'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Action',
                 'actions'   => $actionsArray,
                 'is_system' => true,
                 'header_css_class'  => 'col-actions',
@@ -277,7 +279,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Backen
     /**
      * Get available for return item quantity
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return int
      */
     public function getQtyOrdered($row)
@@ -298,7 +300,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Backen
     /**
      * Get string value of "Reason to Return" Attribute
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
     public function getReasonOptionStringValue($row)
@@ -309,7 +311,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Backen
     /**
      * Get string value of "Reason to Return" Attribute
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
     public function getResolutionOptionStringValue($row)
@@ -320,7 +322,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Backen
     /**
      * Get string value of "Reason to Return" Attribute
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
     public function getConditionOptionStringValue($row)
@@ -331,7 +333,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Backen
     /**
      * Get string value of "Status" Attribute
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
     public function getStatusOptionStringValue($row)
@@ -360,7 +362,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Backen
     /**
      * Sets all available fields in editable state
      *
-     * @return Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid
+     * @return \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid
      */
     public function setAllFieldsEditable()
     {

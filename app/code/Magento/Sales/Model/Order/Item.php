@@ -11,167 +11,169 @@
 /**
  * Order Item Model
  *
- * @method Magento_Sales_Model_Resource_Order_Item _getResource()
- * @method Magento_Sales_Model_Resource_Order_Item getResource()
+ * @method \Magento\Sales\Model\Resource\Order\Item _getResource()
+ * @method \Magento\Sales\Model\Resource\Order\Item getResource()
  * @method int getOrderId()
- * @method Magento_Sales_Model_Order_Item setOrderId(int $value)
+ * @method \Magento\Sales\Model\Order\Item setOrderId(int $value)
  * @method int getParentItemId()
- * @method Magento_Sales_Model_Order_Item setParentItemId(int $value)
+ * @method \Magento\Sales\Model\Order\Item setParentItemId(int $value)
  * @method int getQuoteItemId()
- * @method Magento_Sales_Model_Order_Item setQuoteItemId(int $value)
+ * @method \Magento\Sales\Model\Order\Item setQuoteItemId(int $value)
  * @method int getStoreId()
- * @method Magento_Sales_Model_Order_Item setStoreId(int $value)
+ * @method \Magento\Sales\Model\Order\Item setStoreId(int $value)
  * @method string getCreatedAt()
- * @method Magento_Sales_Model_Order_Item setCreatedAt(string $value)
+ * @method \Magento\Sales\Model\Order\Item setCreatedAt(string $value)
  * @method string getUpdatedAt()
- * @method Magento_Sales_Model_Order_Item setUpdatedAt(string $value)
+ * @method \Magento\Sales\Model\Order\Item setUpdatedAt(string $value)
  * @method int getProductId()
- * @method Magento_Sales_Model_Order_Item setProductId(int $value)
+ * @method \Magento\Sales\Model\Order\Item setProductId(int $value)
  * @method string getProductType()
- * @method Magento_Sales_Model_Order_Item setProductType(string $value)
+ * @method \Magento\Sales\Model\Order\Item setProductType(string $value)
  * @method float getWeight()
- * @method Magento_Sales_Model_Order_Item setWeight(float $value)
+ * @method \Magento\Sales\Model\Order\Item setWeight(float $value)
  * @method int getIsVirtual()
- * @method Magento_Sales_Model_Order_Item setIsVirtual(int $value)
+ * @method \Magento\Sales\Model\Order\Item setIsVirtual(int $value)
  * @method string getSku()
- * @method Magento_Sales_Model_Order_Item setSku(string $value)
+ * @method \Magento\Sales\Model\Order\Item setSku(string $value)
  * @method string getName()
- * @method Magento_Sales_Model_Order_Item setName(string $value)
+ * @method \Magento\Sales\Model\Order\Item setName(string $value)
  * @method string getDescription()
- * @method Magento_Sales_Model_Order_Item setDescription(string $value)
+ * @method \Magento\Sales\Model\Order\Item setDescription(string $value)
  * @method string getAppliedRuleIds()
- * @method Magento_Sales_Model_Order_Item setAppliedRuleIds(string $value)
+ * @method \Magento\Sales\Model\Order\Item setAppliedRuleIds(string $value)
  * @method string getAdditionalData()
- * @method Magento_Sales_Model_Order_Item setAdditionalData(string $value)
+ * @method \Magento\Sales\Model\Order\Item setAdditionalData(string $value)
  * @method int getFreeShipping()
- * @method Magento_Sales_Model_Order_Item setFreeShipping(int $value)
+ * @method \Magento\Sales\Model\Order\Item setFreeShipping(int $value)
  * @method int getIsQtyDecimal()
- * @method Magento_Sales_Model_Order_Item setIsQtyDecimal(int $value)
+ * @method \Magento\Sales\Model\Order\Item setIsQtyDecimal(int $value)
  * @method int getNoDiscount()
- * @method Magento_Sales_Model_Order_Item setNoDiscount(int $value)
+ * @method \Magento\Sales\Model\Order\Item setNoDiscount(int $value)
  * @method float getQtyBackordered()
- * @method Magento_Sales_Model_Order_Item setQtyBackordered(float $value)
+ * @method \Magento\Sales\Model\Order\Item setQtyBackordered(float $value)
  * @method float getQtyCanceled()
- * @method Magento_Sales_Model_Order_Item setQtyCanceled(float $value)
+ * @method \Magento\Sales\Model\Order\Item setQtyCanceled(float $value)
  * @method float getQtyInvoiced()
- * @method Magento_Sales_Model_Order_Item setQtyInvoiced(float $value)
+ * @method \Magento\Sales\Model\Order\Item setQtyInvoiced(float $value)
  * @method float getQtyOrdered()
- * @method Magento_Sales_Model_Order_Item setQtyOrdered(float $value)
+ * @method \Magento\Sales\Model\Order\Item setQtyOrdered(float $value)
  * @method float getQtyRefunded()
- * @method Magento_Sales_Model_Order_Item setQtyRefunded(float $value)
+ * @method \Magento\Sales\Model\Order\Item setQtyRefunded(float $value)
  * @method float getQtyShipped()
- * @method Magento_Sales_Model_Order_Item setQtyShipped(float $value)
+ * @method \Magento\Sales\Model\Order\Item setQtyShipped(float $value)
  * @method float getBaseCost()
- * @method Magento_Sales_Model_Order_Item setBaseCost(float $value)
+ * @method \Magento\Sales\Model\Order\Item setBaseCost(float $value)
  * @method float getPrice()
- * @method Magento_Sales_Model_Order_Item setPrice(float $value)
+ * @method \Magento\Sales\Model\Order\Item setPrice(float $value)
  * @method float getBasePrice()
- * @method Magento_Sales_Model_Order_Item setBasePrice(float $value)
- * @method Magento_Sales_Model_Order_Item setOriginalPrice(float $value)
+ * @method \Magento\Sales\Model\Order\Item setBasePrice(float $value)
+ * @method \Magento\Sales\Model\Order\Item setOriginalPrice(float $value)
  * @method float getBaseOriginalPrice()
- * @method Magento_Sales_Model_Order_Item setBaseOriginalPrice(float $value)
+ * @method \Magento\Sales\Model\Order\Item setBaseOriginalPrice(float $value)
  * @method float getTaxPercent()
- * @method Magento_Sales_Model_Order_Item setTaxPercent(float $value)
+ * @method \Magento\Sales\Model\Order\Item setTaxPercent(float $value)
  * @method float getTaxAmount()
- * @method Magento_Sales_Model_Order_Item setTaxAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Item setTaxAmount(float $value)
  * @method float getBaseTaxAmount()
- * @method Magento_Sales_Model_Order_Item setBaseTaxAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Item setBaseTaxAmount(float $value)
  * @method float getTaxInvoiced()
- * @method Magento_Sales_Model_Order_Item setTaxInvoiced(float $value)
+ * @method \Magento\Sales\Model\Order\Item setTaxInvoiced(float $value)
  * @method float getBaseTaxInvoiced()
- * @method Magento_Sales_Model_Order_Item setBaseTaxInvoiced(float $value)
+ * @method \Magento\Sales\Model\Order\Item setBaseTaxInvoiced(float $value)
  * @method float getDiscountPercent()
- * @method Magento_Sales_Model_Order_Item setDiscountPercent(float $value)
+ * @method \Magento\Sales\Model\Order\Item setDiscountPercent(float $value)
  * @method float getDiscountAmount()
- * @method Magento_Sales_Model_Order_Item setDiscountAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Item setDiscountAmount(float $value)
  * @method float getBaseDiscountAmount()
- * @method Magento_Sales_Model_Order_Item setBaseDiscountAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Item setBaseDiscountAmount(float $value)
  * @method float getDiscountInvoiced()
- * @method Magento_Sales_Model_Order_Item setDiscountInvoiced(float $value)
+ * @method \Magento\Sales\Model\Order\Item setDiscountInvoiced(float $value)
  * @method float getBaseDiscountInvoiced()
- * @method Magento_Sales_Model_Order_Item setBaseDiscountInvoiced(float $value)
+ * @method \Magento\Sales\Model\Order\Item setBaseDiscountInvoiced(float $value)
  * @method float getAmountRefunded()
- * @method Magento_Sales_Model_Order_Item setAmountRefunded(float $value)
+ * @method \Magento\Sales\Model\Order\Item setAmountRefunded(float $value)
  * @method float getBaseAmountRefunded()
- * @method Magento_Sales_Model_Order_Item setBaseAmountRefunded(float $value)
+ * @method \Magento\Sales\Model\Order\Item setBaseAmountRefunded(float $value)
  * @method float getRowTotal()
- * @method Magento_Sales_Model_Order_Item setRowTotal(float $value)
+ * @method \Magento\Sales\Model\Order\Item setRowTotal(float $value)
  * @method float getBaseRowTotal()
- * @method Magento_Sales_Model_Order_Item setBaseRowTotal(float $value)
+ * @method \Magento\Sales\Model\Order\Item setBaseRowTotal(float $value)
  * @method float getRowInvoiced()
- * @method Magento_Sales_Model_Order_Item setRowInvoiced(float $value)
+ * @method \Magento\Sales\Model\Order\Item setRowInvoiced(float $value)
  * @method float getBaseRowInvoiced()
- * @method Magento_Sales_Model_Order_Item setBaseRowInvoiced(float $value)
+ * @method \Magento\Sales\Model\Order\Item setBaseRowInvoiced(float $value)
  * @method float getRowWeight()
- * @method Magento_Sales_Model_Order_Item setRowWeight(float $value)
+ * @method \Magento\Sales\Model\Order\Item setRowWeight(float $value)
  * @method int getGiftMessageId()
- * @method Magento_Sales_Model_Order_Item setGiftMessageId(int $value)
+ * @method \Magento\Sales\Model\Order\Item setGiftMessageId(int $value)
  * @method int getGiftMessageAvailable()
- * @method Magento_Sales_Model_Order_Item setGiftMessageAvailable(int $value)
+ * @method \Magento\Sales\Model\Order\Item setGiftMessageAvailable(int $value)
  * @method float getBaseTaxBeforeDiscount()
- * @method Magento_Sales_Model_Order_Item setBaseTaxBeforeDiscount(float $value)
+ * @method \Magento\Sales\Model\Order\Item setBaseTaxBeforeDiscount(float $value)
  * @method float getTaxBeforeDiscount()
- * @method Magento_Sales_Model_Order_Item setTaxBeforeDiscount(float $value)
+ * @method \Magento\Sales\Model\Order\Item setTaxBeforeDiscount(float $value)
  * @method string getExtOrderItemId()
- * @method Magento_Sales_Model_Order_Item setExtOrderItemId(string $value)
+ * @method \Magento\Sales\Model\Order\Item setExtOrderItemId(string $value)
  * @method string getWeeeTaxApplied()
- * @method Magento_Sales_Model_Order_Item setWeeeTaxApplied(string $value)
+ * @method \Magento\Sales\Model\Order\Item setWeeeTaxApplied(string $value)
  * @method float getWeeeTaxAppliedAmount()
- * @method Magento_Sales_Model_Order_Item setWeeeTaxAppliedAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Item setWeeeTaxAppliedAmount(float $value)
  * @method float getWeeeTaxAppliedRowAmount()
- * @method Magento_Sales_Model_Order_Item setWeeeTaxAppliedRowAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Item setWeeeTaxAppliedRowAmount(float $value)
  * @method float getBaseWeeeTaxAppliedAmount()
- * @method Magento_Sales_Model_Order_Item setBaseWeeeTaxAppliedAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Item setBaseWeeeTaxAppliedAmount(float $value)
  * @method float getBaseWeeeTaxAppliedRowAmnt()
- * @method Magento_Sales_Model_Order_Item setBaseWeeeTaxAppliedRowAmnt(float $value)
+ * @method \Magento\Sales\Model\Order\Item setBaseWeeeTaxAppliedRowAmnt(float $value)
  * @method float getWeeeTaxDisposition()
- * @method Magento_Sales_Model_Order_Item setWeeeTaxDisposition(float $value)
+ * @method \Magento\Sales\Model\Order\Item setWeeeTaxDisposition(float $value)
  * @method float getWeeeTaxRowDisposition()
- * @method Magento_Sales_Model_Order_Item setWeeeTaxRowDisposition(float $value)
+ * @method \Magento\Sales\Model\Order\Item setWeeeTaxRowDisposition(float $value)
  * @method float getBaseWeeeTaxDisposition()
- * @method Magento_Sales_Model_Order_Item setBaseWeeeTaxDisposition(float $value)
+ * @method \Magento\Sales\Model\Order\Item setBaseWeeeTaxDisposition(float $value)
  * @method float getBaseWeeeTaxRowDisposition()
- * @method Magento_Sales_Model_Order_Item setBaseWeeeTaxRowDisposition(float $value)
+ * @method \Magento\Sales\Model\Order\Item setBaseWeeeTaxRowDisposition(float $value)
  * @method int getLockedDoInvoice()
- * @method Magento_Sales_Model_Order_Item setLockedDoInvoice(int $value)
+ * @method \Magento\Sales\Model\Order\Item setLockedDoInvoice(int $value)
  * @method int getLockedDoShip()
- * @method Magento_Sales_Model_Order_Item setLockedDoShip(int $value)
+ * @method \Magento\Sales\Model\Order\Item setLockedDoShip(int $value)
  * @method float getPriceInclTax()
- * @method Magento_Sales_Model_Order_Item setPriceInclTax(float $value)
+ * @method \Magento\Sales\Model\Order\Item setPriceInclTax(float $value)
  * @method float getBasePriceInclTax()
- * @method Magento_Sales_Model_Order_Item setBasePriceInclTax(float $value)
+ * @method \Magento\Sales\Model\Order\Item setBasePriceInclTax(float $value)
  * @method float getRowTotalInclTax()
- * @method Magento_Sales_Model_Order_Item setRowTotalInclTax(float $value)
+ * @method \Magento\Sales\Model\Order\Item setRowTotalInclTax(float $value)
  * @method float getBaseRowTotalInclTax()
- * @method Magento_Sales_Model_Order_Item setBaseRowTotalInclTax(float $value)
+ * @method \Magento\Sales\Model\Order\Item setBaseRowTotalInclTax(float $value)
  * @method float getHiddenTaxAmount()
- * @method Magento_Sales_Model_Order_Item setHiddenTaxAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Item setHiddenTaxAmount(float $value)
  * @method float getBaseHiddenTaxAmount()
- * @method Magento_Sales_Model_Order_Item setBaseHiddenTaxAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Item setBaseHiddenTaxAmount(float $value)
  * @method float getHiddenTaxInvoiced()
- * @method Magento_Sales_Model_Order_Item setHiddenTaxInvoiced(float $value)
+ * @method \Magento\Sales\Model\Order\Item setHiddenTaxInvoiced(float $value)
  * @method float getBaseHiddenTaxInvoiced()
- * @method Magento_Sales_Model_Order_Item setBaseHiddenTaxInvoiced(float $value)
+ * @method \Magento\Sales\Model\Order\Item setBaseHiddenTaxInvoiced(float $value)
  * @method float getHiddenTaxRefunded()
- * @method Magento_Sales_Model_Order_Item setHiddenTaxRefunded(float $value)
+ * @method \Magento\Sales\Model\Order\Item setHiddenTaxRefunded(float $value)
  * @method float getBaseHiddenTaxRefunded()
- * @method Magento_Sales_Model_Order_Item setBaseHiddenTaxRefunded(float $value)
+ * @method \Magento\Sales\Model\Order\Item setBaseHiddenTaxRefunded(float $value)
  * @method int getIsNominal()
- * @method Magento_Sales_Model_Order_Item setIsNominal(int $value)
+ * @method \Magento\Sales\Model\Order\Item setIsNominal(int $value)
  * @method float getTaxCanceled()
- * @method Magento_Sales_Model_Order_Item setTaxCanceled(float $value)
+ * @method \Magento\Sales\Model\Order\Item setTaxCanceled(float $value)
  * @method float getHiddenTaxCanceled()
- * @method Magento_Sales_Model_Order_Item setHiddenTaxCanceled(float $value)
+ * @method \Magento\Sales\Model\Order\Item setHiddenTaxCanceled(float $value)
  * @method float getTaxRefunded()
- * @method Magento_Sales_Model_Order_Item setTaxRefunded(float $value)
+ * @method \Magento\Sales\Model\Order\Item setTaxRefunded(float $value)
  * @method float getBaseTaxRefunded()
- * @method Magento_Sales_Model_Order_Item setBaseTaxRefunded(float $value)
+ * @method \Magento\Sales\Model\Order\Item setBaseTaxRefunded(float $value)
  * @method float getDiscountRefunded()
- * @method Magento_Sales_Model_Order_Item setDiscountRefunded(float $value)
+ * @method \Magento\Sales\Model\Order\Item setDiscountRefunded(float $value)
  * @method float getBaseDiscountRefunded()
- * @method Magento_Sales_Model_Order_Item setBaseDiscountRefunded(float $value)
+ * @method \Magento\Sales\Model\Order\Item setBaseDiscountRefunded(float $value)
  */
-class Magento_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
+namespace Magento\Sales\Model\Order;
+
+class Item extends \Magento\Core\Model\AbstractModel
 {
 
     const STATUS_PENDING        = 1; // No items shipped, invoiced, canceled, refunded nor backordered
@@ -194,7 +196,7 @@ class Magento_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
     /**
      * Order instance
      *
-     * @var Magento_Sales_Model_Order
+     * @var \Magento\Sales\Model\Order
      */
     protected $_order       = null;
     protected $_parentItem  = null;
@@ -203,38 +205,38 @@ class Magento_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @var Magento_Sales_Model_OrderFactory
+     * @var \Magento\Sales\Model\OrderFactory
      */
     protected $_orderFactory;
 
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Sales_Model_OrderFactory $orderFactory
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Sales_Model_OrderFactory $orderFactory,
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Sales\Model\OrderFactory $orderFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -248,13 +250,13 @@ class Magento_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Resource_Order_Item');
+        $this->_init('Magento\Sales\Model\Resource\Order\Item');
     }
 
     /**
      * Prepare data before save
      *
-     * @return Magento_Sales_Model_Order_Item
+     * @return \Magento\Sales\Model\Order\Item
      */
     protected function _beforeSave()
     {
@@ -271,8 +273,8 @@ class Magento_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
     /**
      * Set parent item
      *
-     * @param   Magento_Sales_Model_Order_Item $item
-     * @return  Magento_Sales_Model_Order_Item
+     * @param   \Magento\Sales\Model\Order\Item $item
+     * @return  \Magento\Sales\Model\Order\Item
      */
     public function setParentItem($item)
     {
@@ -287,7 +289,7 @@ class Magento_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
     /**
      * Get parent item
      *
-     * @return Magento_Sales_Model_Order_Item || null
+     * @return \Magento\Sales\Model\Order\Item || null
      */
     public function getParentItem()
     {
@@ -392,10 +394,10 @@ class Magento_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
     /**
      * Declare order
      *
-     * @param   Magento_Sales_Model_Order $order
-     * @return  Magento_Sales_Model_Order_Item
+     * @param   \Magento\Sales\Model\Order $order
+     * @return  \Magento\Sales\Model\Order\Item
      */
-    public function setOrder(Magento_Sales_Model_Order $order)
+    public function setOrder(\Magento\Sales\Model\Order $order)
     {
         $this->_order = $order;
         $this->setOrderId($order->getId());
@@ -405,7 +407,7 @@ class Magento_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
     /**
      * Retrieve order model object
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
@@ -511,7 +513,7 @@ class Magento_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
     /**
      * Cancel order item
      *
-     * @return Magento_Sales_Model_Order_Item
+     * @return \Magento\Sales\Model\Order\Item
      */
     public function cancel()
     {
@@ -567,7 +569,7 @@ class Magento_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
      * Set product options
      *
      * @param   array $options
-     * @return  Magento_Sales_Model_Order_Item
+     * @return  \Magento\Sales\Model\Order\Item
      */
     public function setProductOptions(array $options)
     {
@@ -625,11 +627,11 @@ class Magento_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
     /**
      * Adds child item to this item
      *
-     * @param Magento_Sales_Model_Order_Item $item
+     * @param \Magento\Sales\Model\Order\Item $item
      */
     public function addChildItem($item)
     {
-        if ($item instanceof Magento_Sales_Model_Order_Item) {
+        if ($item instanceof \Magento\Sales\Model\Order\Item) {
             $this->_children[] = $item;
         } elseif (is_array($item)) {
             $this->_children = array_merge($this->_children, $item);
@@ -661,7 +663,7 @@ class Magento_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
         }
 
         if (isset($options['product_calculations'])
-            && $options['product_calculations'] == Magento_Catalog_Model_Product_Type_Abstract::CALCULATE_CHILD
+            && $options['product_calculations'] == \Magento\Catalog\Model\Product\Type\AbstractType::CALCULATE_CHILD
         ) {
             return true;
         }
@@ -698,7 +700,7 @@ class Magento_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
         }
 
         if (isset($options['shipment_type']) &&
-             $options['shipment_type'] == Magento_Catalog_Model_Product_Type_Abstract::SHIPMENT_SEPARATELY) {
+             $options['shipment_type'] == \Magento\Catalog\Model\Product\Type\AbstractType::SHIPMENT_SEPARATELY) {
                 return true;
         }
         return false;
@@ -753,7 +755,7 @@ class Magento_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
      * Returns formatted buy request - object, holding request received from
      * product view page with keys and options for configured product
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getBuyRequest()
     {
@@ -761,7 +763,7 @@ class Magento_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
         if (!$option) {
             $option = array();
         }
-        $buyRequest = new Magento_Object($option);
+        $buyRequest = new \Magento\Object($option);
         $buyRequest->setQty($this->getQtyOrdered() * 1);
         return $buyRequest;
     }
@@ -769,7 +771,7 @@ class Magento_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
     /**
      * Retrieve product
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {

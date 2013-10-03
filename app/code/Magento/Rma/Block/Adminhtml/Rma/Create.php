@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Rma_Block_Adminhtml_Rma_Create extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\Rma\Block\Adminhtml\Rma;
+
+class Create extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     protected function _construct()
     {
@@ -34,6 +36,6 @@ class Magento_Rma_Block_Adminhtml_Rma_Create extends Magento_Adminhtml_Block_Wid
 
     public function getHeaderHtml()
     {
-        return $this->getLayout()->createBlock('Magento_Rma_Block_Adminhtml_Rma_Create_Header')->toHtml();
+        return $this->getLayout()->createBlock('Magento\Rma\Block\Adminhtml\Rma\Create\Header')->toHtml();
     }
 }

@@ -9,15 +9,17 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Model_AbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model;
+
+class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Stub class name for class under test
      */
-    const STUB_CLASS = 'Magento_Catalog_Model_Abstract_Stub';
+    const STUB_CLASS = 'Magento_Catalog_Model_AbstractModel_Stub';
 
     /**
-     * @var Magento_Catalog_Model_Abstract
+     * @var \Magento\Catalog\Model\AbstractModel
      */
     protected $_model;
 
@@ -31,29 +33,29 @@ class Magento_Catalog_Model_AbstractTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         if (!self::$_isStubClass) {
-            $this->getMockForAbstractClass('Magento_Catalog_Model_Abstract', array(), self::STUB_CLASS, false);
+            $this->getMockForAbstractClass('Magento\Catalog\Model\AbstractModel', array(), self::STUB_CLASS, false);
             self::$_isStubClass = true;
         }
 
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create(self::STUB_CLASS);
 
-        $resourceProperty = new ReflectionProperty(get_class($this->_model), '_resourceName');
+        $resourceProperty = new \ReflectionProperty(get_class($this->_model), '_resourceName');
         $resourceProperty->setAccessible(true);
-        $resourceProperty->setValue($this->_model, 'Magento_Catalog_Model_Resource_Product');
+        $resourceProperty->setValue($this->_model, 'Magento\Catalog\Model\Resource\Product');
 
-        $collectionProperty = new ReflectionProperty(get_class($this->_model), '_collectionName');
+        $collectionProperty = new \ReflectionProperty(get_class($this->_model), '_collectionName');
         $collectionProperty->setAccessible(true);
-        $collectionProperty->setValue($this->_model, 'Magento_Catalog_Model_Resource_Product_Collection');
+        $collectionProperty->setValue($this->_model, 'Magento\Catalog\Model\Resource\Product\Collection');
     }
 
     /**
-     * @covers Magento_Catalog_Model_Abstract::lockAttribute
-     * @covers Magento_Catalog_Model_Abstract::unlockAttribute
-     * @covers Magento_Catalog_Model_Abstract::unlockAttributes
-     * @covers Magento_Catalog_Model_Abstract::getLockedAttributes
-     * @covers Magento_Catalog_Model_Abstract::hasLockedAttributes
-     * @covers Magento_Catalog_Model_Abstract::isLockedAttribute
+     * @covers \Magento\Catalog\Model\AbstractModel::lockAttribute
+     * @covers \Magento\Catalog\Model\AbstractModel::unlockAttribute
+     * @covers \Magento\Catalog\Model\AbstractModel::unlockAttributes
+     * @covers \Magento\Catalog\Model\AbstractModel::getLockedAttributes
+     * @covers \Magento\Catalog\Model\AbstractModel::hasLockedAttributes
+     * @covers \Magento\Catalog\Model\AbstractModel::isLockedAttribute
      */
     public function testLockedAttributeApi()
     {
@@ -117,7 +119,7 @@ class Magento_Catalog_Model_AbstractTest extends PHPUnit_Framework_TestCase
     {
         $this->_model->setStoreId(99);
         $collection = $this->_model->getResourceCollection();
-        $this->assertInstanceOf('Magento_Catalog_Model_Resource_Collection_Abstract', $collection);
+        $this->assertInstanceOf('Magento\Catalog\Model\Resource\Collection\AbstractCollection', $collection);
         $this->assertEquals(99, $collection->getStoreId());
     }
 
@@ -139,7 +141,7 @@ class Magento_Catalog_Model_AbstractTest extends PHPUnit_Framework_TestCase
         $store = $this->_model->getStore();
         $this->assertSame(
             $store,
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
                 ->getStore()
         );
     }
@@ -147,8 +149,8 @@ class Magento_Catalog_Model_AbstractTest extends PHPUnit_Framework_TestCase
     public function testGetWebsiteStoreIds()
     {
         $ids = $this->_model->getWebsiteStoreIds();
-        $storeId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getId();
+        $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getId();
         $this->assertEquals(array($storeId => $storeId), $ids);
     }
 
@@ -167,8 +169,8 @@ class Magento_Catalog_Model_AbstractTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Catalog_Model_Abstract::isDeleteable
-     * @covers Magento_Catalog_Model_Abstract::setIsDeleteable
+     * @covers \Magento\Catalog\Model\AbstractModel::isDeleteable
+     * @covers \Magento\Catalog\Model\AbstractModel::setIsDeleteable
      */
     public function testIsDeleteable()
     {
@@ -178,8 +180,8 @@ class Magento_Catalog_Model_AbstractTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Catalog_Model_Abstract::isReadonly
-     * @covers Magento_Catalog_Model_Abstract::setIsReadonly
+     * @covers \Magento\Catalog\Model\AbstractModel::isReadonly
+     * @covers \Magento\Catalog\Model\AbstractModel::setIsReadonly
      */
     public function testIsReadonly()
     {

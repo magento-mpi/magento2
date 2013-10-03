@@ -3,19 +3,21 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Backup
+ * @package     \Magento\Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Filesystem helper for Magento_Backup library
+ * Filesystem helper for \Magento\Backup library
  *
  * @category    Magento
- * @package     Magento_Backup
+ * @package     \Magento\Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backup_Filesystem_Helper
+namespace Magento\Backup\Filesystem;
+
+class Helper
 {
     /**
      * Constant can be used in getInfo() function as second parameter.
@@ -55,15 +57,15 @@ class Magento_Backup_Filesystem_Helper
      * @param string $path
      * @param array $skipPaths
      * @param bool $removeRoot
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     public function rm($path, $skipPaths = array(), $removeRoot = false)
     {
-        $filesystemIterator = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($path), RecursiveIteratorIterator::CHILD_FIRST
+        $filesystemIterator = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($path), \RecursiveIteratorIterator::CHILD_FIRST
         );
 
-        $iterator = new Magento_Backup_Filesystem_Iterator_Filter($filesystemIterator, $skipPaths);
+        $iterator = new \Magento\Backup\Filesystem\Iterator\Filter($filesystemIterator, $skipPaths);
 
         foreach ($iterator as $item) {
             $item->isDir() ? @rmdir($item->__toString()) : @unlink($item->__toString());
@@ -96,11 +98,11 @@ class Magento_Backup_Filesystem_Helper
             $info['size'] = 0;
         }
 
-        $filesystemIterator = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($path), RecursiveIteratorIterator::CHILD_FIRST
+        $filesystemIterator = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($path), \RecursiveIteratorIterator::CHILD_FIRST
         );
 
-        $iterator = new Magento_Backup_Filesystem_Iterator_Filter($filesystemIterator, $skipFiles);
+        $iterator = new \Magento\Backup\Filesystem\Iterator\Filter($filesystemIterator, $skipFiles);
 
         foreach ($iterator as $item) {
             if (($infoOptions & self::INFO_WRITABLE) && !$item->isWritable()) {

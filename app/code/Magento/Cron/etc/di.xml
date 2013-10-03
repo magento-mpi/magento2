@@ -8,29 +8,29 @@
  */
 -->
 <config>
-    <preference for="Magento_Cron_Model_ConfigInterface" type="Magento_Cron_Model_Config" />
-    <type name="Magento_Cron_Model_Config_Reader_Db">
+    <preference for="Magento\Cron\Model\ConfigInterface" type="Magento\Cron\Model\Config" />
+    <type name="Magento\Cron\Model\Config\Reader\Db">
         <param name="converter">
-            <instance type="Magento_Cron_Model_Config_Converter_Db" />
+            <instance type="Magento\Cron\Model\Config\Converter\Db" />
         </param>
     </type>
-    <type name="Magento_Cron_Model_Config_Reader_Xml">
+    <type name="Magento\Cron\Model\Config\Reader\Xml">
         <param name="converter">
-            <instance type="Magento_Cron_Model_Config_Converter_Xml" />
+            <instance type="Magento\Cron\Model\Config\Converter\Xml" />
         </param>
         <param name="schemaLocator">
-            <instance type="Magento_Cron_Model_Config_SchemaLocator" />
+            <instance type="Magento\Cron\Model\Config\SchemaLocator" />
         </param>
     </type>
-    <type name="Magento_Cron_Model_Observer">
+    <type name="Magento\Cron\Model\Observer">
         <param name="objectManager">
-            <instance type="Magento_Core_Model_ObjectManager" />
+            <instance type="Magento\Core\Model\ObjectManager" />
         </param>
         <param name="app">
-            <instance type="Magento_Core_Model_App" />
+            <instance type="Magento\Core\Model\App" />
         </param>
         <param name="coreConfig">
-            <instance type="Magento_Core_Model_Config" />
+            <instance type="Magento\Core\Model\Config" />
         </param>
     </type>
 </config>

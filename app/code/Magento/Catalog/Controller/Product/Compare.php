@@ -14,7 +14,9 @@
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Magento_Catalog_Controller_Product_Compare extends Magento_Core_Controller_Front_Action
+namespace Magento\Catalog\Controller\Product;
+
+class Compare extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Action list where need check enabled cookie
@@ -33,91 +35,91 @@ class Magento_Catalog_Controller_Product_Compare extends Magento_Core_Controller
     /**
      * Catalog session
      *
-     * @var Magento_Catalog_Model_Session
+     * @var \Magento\Catalog\Model\Session
      */
     protected $_catalogSession;
 
     /**
      * Catalog product compare list
      *
-     * @var Magento_Catalog_Model_Product_Compare_List
+     * @var \Magento\Catalog\Model\Product\Compare\ListCompare
      */
     protected $_catalogProductCompareList;
 
     /**
      * Log visitor
      *
-     * @var Magento_Log_Model_Visitor
+     * @var \Magento\Log\Model\Visitor
      */
     protected $_logVisitor;
 
     /**
      * Customer session
      *
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Item collection factory
      *
-     * @var Magento_Catalog_Model_Resource_Product_Compare_Item_CollectionFactory
+     * @var \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory
      */
     protected $_itemCollectionFactory;
 
     /**
      * Product factory
      *
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
      * Compare item factory
      *
-     * @var Magento_Catalog_Model_Product_Compare_ItemFactory
+     * @var \Magento\Catalog\Model\Product\Compare\ItemFactory
      */
     protected $_compareItemFactory;
 
     /**
      * Customer factory
      *
-     * @var Magento_Customer_Model_CustomerFactory
+     * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $_customerFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Customer_Model_CustomerFactory $customerFactory
-     * @param Magento_Catalog_Model_Product_Compare_ItemFactory $compareItemFactory
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Catalog_Model_Resource_Product_Compare_Item_CollectionFactory $itemCollectionFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Log_Model_Visitor $logVisitor
-     * @param Magento_Catalog_Model_Product_Compare_List $catalogProductCompareList
-     * @param Magento_Catalog_Model_Session $catalogSession
-     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Catalog\Model\Product\Compare\ItemFactory $compareItemFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory $itemCollectionFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Log\Model\Visitor $logVisitor
+     * @param \Magento\Catalog\Model\Product\Compare\ListCompare $catalogProductCompareList
+     * @param \Magento\Catalog\Model\Session $catalogSession
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
      */
     public function __construct(
-        Magento_Customer_Model_CustomerFactory $customerFactory,
-        Magento_Catalog_Model_Product_Compare_ItemFactory $compareItemFactory,
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Catalog_Model_Resource_Product_Compare_Item_CollectionFactory $itemCollectionFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Log_Model_Visitor $logVisitor,
-        Magento_Catalog_Model_Product_Compare_List $catalogProductCompareList,
-        Magento_Catalog_Model_Session $catalogSession,
-        Magento_Core_Controller_Varien_Action_Context $context
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Catalog\Model\Product\Compare\ItemFactory $compareItemFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory $itemCollectionFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Log\Model\Visitor $logVisitor,
+        \Magento\Catalog\Model\Product\Compare\ListCompare $catalogProductCompareList,
+        \Magento\Catalog\Model\Session $catalogSession,
+        \Magento\Core\Controller\Varien\Action\Context $context
     ) {
         $this->_customerFactory = $customerFactory;
         $this->_compareItemFactory = $compareItemFactory;
@@ -141,12 +143,12 @@ class Magento_Catalog_Controller_Product_Compare extends Magento_Core_Controller
         $beforeUrl = $this->getRequest()->getParam(self::PARAM_NAME_URL_ENCODED);
         if ($beforeUrl) {
             $this->_catalogSession
-                ->setBeforeCompareUrl($this->_objectManager->get('Magento_Core_Helper_Data')->urlDecode($beforeUrl));
+                ->setBeforeCompareUrl($this->_objectManager->get('Magento\Core\Helper\Data')->urlDecode($beforeUrl));
         }
 
         if ($items) {
             $items = explode(',', $items);
-            /** @var Magento_Catalog_Model_Product_Compare_List $list */
+            /** @var \Magento\Catalog\Model\Product\Compare\ListCompare $list */
             $list = $this->_catalogProductCompareList;
             $list->addProducts($items);
             $this->_redirect('*/*/*');
@@ -167,21 +169,21 @@ class Magento_Catalog_Controller_Product_Compare extends Magento_Core_Controller
             && ($this->_logVisitor->getId()
                 || $this->_customerSession->isLoggedIn())
         ) {
-            /** @var Magento_Catalog_Model_Product $product */
+            /** @var \Magento\Catalog\Model\Product $product */
             $product = $this->_productFactory->create();
             $product->setStoreId($this->_storeManager->getStore()->getId())
                 ->load($productId);
 
             if ($product->getId()/* && !$product->isSuper()*/) {
                 $this->_catalogProductCompareList->addProduct($product);
-                $productName = $this->_objectManager->get('Magento_Core_Helper_Data')->escapeHtml($product->getName());
+                $productName = $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($product->getName());
                 $this->_catalogSession->addSuccess(
                     __('You added product %1 to the comparison list.', $productName)
                 );
                 $this->_eventManager->dispatch('catalog_product_compare_add_product', array('product'=>$product));
             }
 
-            $this->_objectManager->get('Magento_Catalog_Helper_Product_Compare')->calculate();
+            $this->_objectManager->get('Magento\Catalog\Helper\Product\Compare')->calculate();
         }
 
         $this->_redirectReferer();
@@ -194,13 +196,13 @@ class Magento_Catalog_Controller_Product_Compare extends Magento_Core_Controller
     {
         $productId = (int)$this->getRequest()->getParam('product');
         if ($productId) {
-            /** @var Magento_Catalog_Model_Product $product */
+            /** @var \Magento\Catalog\Model\Product $product */
             $product = $this->_productFactory->create();
             $product->setStoreId($this->_storeManager->getStore()->getId())
                 ->load($productId);
 
             if ($product->getId()) {
-                /** @var $item Magento_Catalog_Model_Product_Compare_Item */
+                /** @var $item \Magento\Catalog\Model\Product\Compare\Item */
                 $item = $this->_compareItemFactory->create();
                 if ($this->_customerSession->isLoggedIn()) {
                     $item->addCustomerData($this->_customerSession->getCustomer());
@@ -213,8 +215,8 @@ class Magento_Catalog_Controller_Product_Compare extends Magento_Core_Controller
                 }
 
                 $item->loadByProduct($product);
-                /** @var $helper Magento_Catalog_Helper_Product_Compare */
-                $helper = $this->_objectManager->get('Magento_Catalog_Helper_Product_Compare');
+                /** @var $helper \Magento\Catalog\Helper\Product\Compare */
+                $helper = $this->_objectManager->get('Magento\Catalog\Helper\Product\Compare');
                 if ($item->getId()) {
                     $item->delete();
                     $productName = $helper->escapeHtml($product->getName());
@@ -237,7 +239,7 @@ class Magento_Catalog_Controller_Product_Compare extends Magento_Core_Controller
      */
     public function clearAction()
     {
-        /** @var Magento_Catalog_Model_Resource_Product_Compare_Item_Collection $items */
+        /** @var \Magento\Catalog\Model\Resource\Product\Compare\Item\Collection $items */
         $items = $this->_itemCollectionFactory->create();
 
         if ($this->_customerSession->isLoggedIn()) {
@@ -251,10 +253,10 @@ class Magento_Catalog_Controller_Product_Compare extends Magento_Core_Controller
         try {
             $items->clear();
             $this->_catalogSession->addSuccess(__('You cleared the comparison list.'));
-            $this->_objectManager->get('Magento_Catalog_Helper_Product_Compare')->calculate();
-        } catch (Magento_Core_Exception $e) {
+            $this->_objectManager->get('Magento\Catalog\Helper\Product\Compare')->calculate();
+        } catch (\Magento\Core\Exception $e) {
             $this->_catalogSession->addError($e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_catalogSession->addException($e, __('Something went wrong  clearing the comparison list.'));
         }
 
@@ -265,7 +267,7 @@ class Magento_Catalog_Controller_Product_Compare extends Magento_Core_Controller
      * Setter for customer id
      *
      * @param int $customerId
-     * @return Magento_Catalog_Controller_Product_Compare
+     * @return \Magento\Catalog\Controller\Product\Compare
      */
     public function setCustomerId($customerId)
     {

@@ -16,14 +16,16 @@
  * @package    Magento_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Attribute_Backend_Data_Boolean
-    extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
+namespace Magento\Customer\Model\Attribute\Backend\Data;
+
+class Boolean
+    extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
      * Prepare data before attribute save
      *
-     * @param Magento_Customer_Model_Customer $customer
-     * @return Magento_Customer_Model_Attribute_Backend_Data_Boolean
+     * @param \Magento\Customer\Model\Customer $customer
+     * @return \Magento\Customer\Model\Attribute\Backend\Data\Boolean
      */
     public function beforeSave($customer)
     {

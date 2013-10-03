@@ -15,25 +15,27 @@
  * @package     Magento_AdvancedCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdvancedCheckout_Block_Adminhtml_Customer_Edit_Buttons extends Magento_Adminhtml_Block_Customer_Edit
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Customer\Edit;
+
+class Buttons extends \Magento\Adminhtml\Block\Customer\Edit
 {
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManager $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManager $storeManager,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $registry, $data);
@@ -43,7 +45,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Customer_Edit_Buttons extends Mag
     /**
      * Add "Manage Shopping Cart" button on customer management page
      *
-     * @return Magento_AdvancedCheckout_Block_Adminhtml_Customer_Edit_Buttons
+     * @return \Magento\AdvancedCheckout\Block\Adminhtml\Customer\Edit\Buttons
      */
     public function addButtons()
     {
@@ -55,7 +57,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Customer_Edit_Buttons extends Mag
             return $this;
         }
         $container = $this->getParentBlock();
-        if ($container instanceof Magento_Backend_Block_Template && $container->getCustomerId()) {
+        if ($container instanceof \Magento\Backend\Block\Template && $container->getCustomerId()) {
             $url = $this->_urlBuilder->getUrl('*/checkout/index', array(
                 'customer' => $container->getCustomerId()
             ));

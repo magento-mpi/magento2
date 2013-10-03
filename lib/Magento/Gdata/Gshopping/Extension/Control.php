@@ -14,7 +14,9 @@
  * @category    Magento
  * @package     Magento_Gdata
  */
-class Magento_Gdata_Gshopping_Extension_Control extends Zend_Gdata_App_Extension_Control
+namespace Magento\Gdata\Gshopping\Extension;
+
+class Control extends \Zend_Gdata_App_Extension_Control
 {
     /**
      * Constanst for destination mode excluded
@@ -44,23 +46,23 @@ class Magento_Gdata_Gshopping_Extension_Control extends Zend_Gdata_App_Extension
      * Create instance of class
      *
      * @param array $destinations Map destination's names to mode (DEST_MODE_*)
-     * @param Zend_Gdata_App_Extension_Draft|null $draft Draft extension
+     * @param \Zend_Gdata_App_Extension_Draft|null $draft Draft extension
      */
     public function __construct(array $destinations = array(), $draft = null)
     {
-        $this->registerAllNamespaces(Magento_Gdata_Gshopping_Content::$namespaces);
+        $this->registerAllNamespaces(\Magento\Gdata\Gshopping\Content::$namespaces);
         parent::__construct($draft);
         $this->_destinations = $destinations;
     }
 
     /**
-     * Retrieves a DOMElement which corresponds to this element and all
+     * Retrieves a \DOMElement which corresponds to this element and all
      * child properties.  This is used to build an entry back into a DOM
      * and eventually XML text for sending to the server upon updates, or
      * for application storage/persistence.
      *
-     * @param DOMDocument $doc The DOMDocument used to construct DOMElements
-     * @return DOMElement The DOMElement representing this element and all
+     * @param \DOMDocument $doc The \DOMDocument used to construct \DOMElements
+     * @return \DOMElement The \DOMElement representing this element and all
      * child properties.
      */
     public function getDOM($doc = null, $majorVersion = 1, $minorVersion = null)
@@ -87,11 +89,11 @@ class Magento_Gdata_Gshopping_Extension_Control extends Zend_Gdata_App_Extension
     }
 
     /**
-     * Given a child DOMNode, tries to determine how to map the data into
+     * Given a child \DOMNode, tries to determine how to map the data into
      * object instance members.  If no mapping is defined, Extension_Element
      * objects are created and stored in an array.
      *
-     * @param DOMNode $child The DOMNode needed to be handled
+     * @param \DOMNode $child The \DOMNode needed to be handled
      */
     protected function takeChildFromDOM($child)
     {

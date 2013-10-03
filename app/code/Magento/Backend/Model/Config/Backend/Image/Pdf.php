@@ -16,7 +16,9 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Model_Config_Backend_Image_Pdf extends Magento_Backend_Model_Config_Backend_Image
+namespace Magento\Backend\Model\Config\Backend\Image;
+
+class Pdf extends \Magento\Backend\Model\Config\Backend\Image
 {
     protected function _getAllowedExtensions()
     {

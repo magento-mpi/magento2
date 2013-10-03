@@ -15,24 +15,26 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Helper_File extends Magento_Core_Helper_Abstract
+namespace Magento\Downloadable\Helper;
+
+class File extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Core file storage database
      *
-     * @var Magento_Core_Helper_File_Storage_Database
+     * @var \Magento\Core\Helper\File\Storage\Database
      */
     protected $_coreFileStorageDatabase = null;
 
     /**
-     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Config $config
+     * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Config $config
      */
     public function __construct(
-        Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config $config
+        \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Config $config
     ) {
         $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
         parent::__construct($context);
@@ -62,8 +64,8 @@ class Magento_Downloadable_Helper_File extends Magento_Core_Helper_Abstract
                     $fileName = $this->_moveFileFromTmp(
                         $baseTmpPath, $basePath, $file[0]['file']
                     );
-                } catch (Exception $e) {
-                    throw new Magento_Core_Exception(__('Something went wrong while saving the file(s).'));
+                } catch (\Exception $e) {
+                    throw new \Magento\Core\Exception(__('Something went wrong while saving the file(s).'));
                 }
             }
             return $fileName;
@@ -81,11 +83,11 @@ class Magento_Downloadable_Helper_File extends Magento_Core_Helper_Abstract
      */
     protected function _moveFileFromTmp($baseTmpPath, $basePath, $file)
     {
-        $ioObject = new Magento_Io_File();
+        $ioObject = new \Magento\Io\File();
         $destDirectory = dirname($this->getFilePath($basePath, $file));
         try {
             $ioObject->open(array('path'=>$destDirectory));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $ioObject->mkdir($destDirectory, 0777, true);
             $ioObject->open(array('path'=>$destDirectory));
         }
@@ -95,7 +97,7 @@ class Magento_Downloadable_Helper_File extends Magento_Core_Helper_Abstract
         }
 
         $destFile = dirname($file) . $ioObject->dirsep()
-                  . Magento_Core_Model_File_Uploader::getNewFileName($this->getFilePath($basePath, $file));
+                  . \Magento\Core\Model\File\Uploader::getNewFileName($this->getFilePath($basePath, $file));
 
         $this->_coreFileStorageDatabase->copyFile(
             $this->getFilePath($baseTmpPath, $file),

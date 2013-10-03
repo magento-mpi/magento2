@@ -16,7 +16,9 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Onepage_Payment extends Magento_Checkout_Block_Onepage_Abstract
+namespace Magento\Checkout\Block\Onepage;
+
+class Payment extends \Magento\Checkout\Block\Onepage\AbstractOnepage
 {
     protected function _construct()
     {

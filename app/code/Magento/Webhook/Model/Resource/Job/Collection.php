@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Resource_Job_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Webhook\Model\Resource\Job;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Number of jobs to load at once;
@@ -25,19 +27,19 @@ class Magento_Webhook_Model_Resource_Job_Collection extends Magento_Core_Model_R
     protected $_timeoutIdling;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Resource\Db\Abstract $resource
      * @param null $timeoutIdling
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null,
         $timeoutIdling = null
     ) {
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
@@ -51,13 +53,13 @@ class Magento_Webhook_Model_Resource_Job_Collection extends Magento_Core_Model_R
     public function _construct()
     {
         parent::_construct();
-        $this->_init('Magento_Webhook_Model_Job', 'Magento_Webhook_Model_Resource_Job');
+        $this->_init('Magento\Webhook\Model\Job', 'Magento\Webhook\Model\Resource\Job');
     }
 
     /**
      * Adds FOR UPDATE lock on retrieved rows and filter status
      *
-     * @return Magento_Webhook_Model_Resource_Job_Collection
+     * @return \Magento\Webhook\Model\Resource\Job\Collection
      */
     protected function _initSelect()
     {
@@ -66,11 +68,11 @@ class Magento_Webhook_Model_Resource_Job_Collection extends Magento_Core_Model_R
 
         $this->addFieldToFilter('status', array(
                 'in' => array(
-                    Magento_PubSub_JobInterface::STATUS_READY_TO_SEND,
-                    Magento_PubSub_JobInterface::STATUS_RETRY
+                    \Magento\PubSub\JobInterface::STATUS_READY_TO_SEND,
+                    \Magento\PubSub\JobInterface::STATUS_RETRY
                 )))
-            ->addFieldToFilter('retry_at', array('to' => Magento_Date::formatDate(true), 'datetime' => true))
-            ->setOrder('updated_at', Magento_Data_Collection::SORT_ORDER_ASC)
+            ->addFieldToFilter('retry_at', array('to' => \Magento\Date::formatDate(true), 'datetime' => true))
+            ->setOrder('updated_at', \Magento\Data\Collection::SORT_ORDER_ASC)
             ->setPageSize(self::PAGE_SIZE);
         return $this;
     }
@@ -78,7 +80,7 @@ class Magento_Webhook_Model_Resource_Job_Collection extends Magento_Core_Model_R
     /**
      * Start transaction before executing the query in order to update the status atomically
      *
-     * @return Magento_Webhook_Model_Resource_Job_Collection
+     * @return \Magento\Webhook\Model\Resource\Job\Collection
      */
     protected function _beforeLoad()
     {
@@ -90,8 +92,8 @@ class Magento_Webhook_Model_Resource_Job_Collection extends Magento_Core_Model_R
     /**
      * Update the status and commit transaction in case of success
      *
-     * @return Magento_Webhook_Model_Resource_Job_Collection
-     * @throws Exception
+     * @return \Magento\Webhook\Model\Resource\Job\Collection
+     * @throws \Exception
      */
     protected function _afterLoad()
     {
@@ -100,11 +102,11 @@ class Magento_Webhook_Model_Resource_Job_Collection extends Magento_Core_Model_R
             $loadedIds = $this->_getLoadedIds();
             if (!empty($loadedIds)) {
                 $this->getConnection()->update($this->getMainTable(),
-                    array('status' => Magento_PubSub_JobInterface::STATUS_IN_PROGRESS),
+                    array('status' => \Magento\PubSub\JobInterface::STATUS_IN_PROGRESS),
                     array('dispatch_job_id IN (?)' => $loadedIds));
             }
             $this->getConnection()->commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->getConnection()->rollBack();
             $this->clear();
             throw $e;
@@ -133,7 +135,7 @@ class Magento_Webhook_Model_Resource_Job_Collection extends Magento_Core_Model_R
      *
      * Regularly run by scheduling mechanism
      *
-     * @throws Exception
+     * @throws \Exception
      * @return null
      */
     public function revokeIdlingInProgress()
@@ -142,8 +144,8 @@ class Magento_Webhook_Model_Resource_Job_Collection extends Magento_Core_Model_R
         try {
             /* if event is in progress state for less than defined delay we do nothing with it */
             $okUpdatedTime = time() - $this->_timeoutIdling;
-            $this->addFieldToFilter('status', Magento_PubSub_JobInterface::STATUS_IN_PROGRESS)
-                ->addFieldToFilter('updated_at', array('to' => Magento_Date::formatDate($okUpdatedTime),
+            $this->addFieldToFilter('status', \Magento\PubSub\JobInterface::STATUS_IN_PROGRESS)
+                ->addFieldToFilter('updated_at', array('to' => \Magento\Date::formatDate($okUpdatedTime),
                     'datetime' => true));
 
             if (!count($this->getItems())) {
@@ -151,13 +153,13 @@ class Magento_Webhook_Model_Resource_Job_Collection extends Magento_Core_Model_R
                 return;
             }
 
-            /** @var Magento_Webhook_Model_Job $job */
+            /** @var \Magento\Webhook\Model\Job $job */
             foreach ($this->getItems() as $job) {
                 $job->handleFailure()
                     ->save();
             }
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->getConnection()->rollBack();
             $this->clear();
             throw $e;

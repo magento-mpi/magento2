@@ -9,42 +9,44 @@
 /**
  * Catalog Events Adminhtml controller
  */
-class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Adminhtml_Controller_Action
+namespace Magento\CatalogEvent\Controller\Adminhtml\Catalog;
+
+class Event extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry;
 
     /**
      * Store model manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Event model factory
      *
-     * @var Magento_CatalogEvent_Model_EventFactory
+     * @var \Magento\CatalogEvent\Model\EventFactory
      */
     protected $_eventFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_CatalogEvent_Model_EventFactory $eventFactory
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\CatalogEvent\Model\EventFactory $eventFactory
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_CatalogEvent_Model_EventFactory $eventFactory
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\CatalogEvent\Model\EventFactory $eventFactory
     ) {
         parent::__construct($context);
 
@@ -56,12 +58,12 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
     /**
      * Check is enabled module in config
      *
-     * @return Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event
+     * @return \Magento\CatalogEvent\Controller\Adminhtml\Catalog\Event
      */
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!$this->_objectManager->get('Magento_CatalogEvent_Helper_Data')->isEnabled()) {
+        if (!$this->_objectManager->get('Magento\CatalogEvent\Helper\Data')->isEnabled()) {
             if ($this->getRequest()->getActionName() != 'noroute') {
                 $this->_forward('noroute');
             }
@@ -72,7 +74,7 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
     /**
      * Init action breadcrumbs and active menu
      *
-     * @return Magento_CatalogEvent_IndexController
+     * @return \Magento\CatalogEvent\IndexController
      */
     public function _initAction()
     {
@@ -112,7 +114,7 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
     {
         $this->_title(__('Events'));
 
-        /** @var Magento_CatalogEvent_Model_Event $event */
+        /** @var \Magento\CatalogEvent\Model\Event $event */
         $event = $this->_eventFactory->create()
             ->setStoreId($this->getRequest()->getParam('store', 0));
         $eventId = $this->getRequest()->getParam('id', false);
@@ -148,11 +150,11 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
     /**
      * Save action
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function saveAction()
     {
-        /* @var Magento_CatalogEvent_Model_Event $event*/
+        /* @var \Magento\CatalogEvent\Model\Event $event*/
         $event = $this->_eventFactory->create()->setStoreId($this->getRequest()->getParam('store', 0));
         $eventId = $this->getRequest()->getParam('id', false);
         if ($eventId) {
@@ -171,7 +173,7 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
             return;
         }
 
-        $data = new Magento_Object($postData['catalogevent']);
+        $data = new \Magento\Object($postData['catalogevent']);
 
         $event->setDisplayState($data->getDisplayState())
             ->setStoreDateStart($data->getDateStart())
@@ -181,12 +183,12 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
         $isUploaded = true;
         try {
             $uploader = $this->_objectManager
-                ->create('Magento_Core_Model_File_Uploader', array('fileId' => 'image'));;
+                ->create('Magento\Core\Model\File\Uploader', array('fileId' => 'image'));;
             $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
             $uploader->setAllowRenameFiles(true);
             $uploader->setAllowCreateFolders(true);
             $uploader->setFilesDispersion(false);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $isUploaded = false;
         }
 
@@ -208,8 +210,8 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
             } elseif ($isUploaded) {
                 try {
                     $event->setImage($uploader);
-                } catch (Exception $e) {
-                    throw new Magento_Core_Exception(__('We did not upload your image.'));
+                } catch (\Exception $e) {
+                    throw new \Magento\Core\Exception(__('We did not upload your image.'));
                 }
             }
             $event->save();
@@ -222,7 +224,7 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
             } else {
                 $this->_redirect('*/*/');
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_getSession()->setEventData($event->getData());
             $this->_redirect('*/*/edit', array('_current' => true));
@@ -234,7 +236,7 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
      */
     public function deleteAction()
     {
-        /** @var Magento_CatalogEvent_Model_Event $event */
+        /** @var \Magento\CatalogEvent\Model\Event $event */
         $event = $this->_eventFactory->create();
         $event->load($this->getRequest()->getParam('id', false));
         if ($event->getId()) {
@@ -248,7 +250,7 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
                 } else {
                     $this->_redirect('*/*/');
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('_current' => true));
             }
@@ -262,7 +264,7 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
     {
         $id = $this->getRequest()->getParam('id', null);
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Category')
+            $this->getLayout()->createBlock('Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Category')
                 ->getTreeArray($id, true, 1)
         );
     }

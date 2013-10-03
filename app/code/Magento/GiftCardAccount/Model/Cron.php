@@ -8,26 +8,28 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCardAccount_Model_Cron
+namespace Magento\GiftCardAccount\Model;
+
+class Cron
 {
 
     /**
-     * @var Magento_GiftCardAccount_Model_GiftcardaccountFactory
+     * @var \Magento\GiftCardAccount\Model\GiftcardaccountFactory
      */
     protected $_giftCAFactory = null;
 
     /**
-     * @var Magento_Core_Model_Date
+     * @var \Magento\Core\Model\Date
      */
     protected $_coreDate = null;
 
     /**
-     * @param Magento_GiftCardAccount_Model_GiftcardaccountFactory $giftCAFactory
-     * @param Magento_Core_Model_Date $coreDate
+     * @param \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftCAFactory
+     * @param \Magento\Core\Model\Date $coreDate
      */
     public function __construct(
-        Magento_GiftCardAccount_Model_GiftcardaccountFactory $giftCAFactory,
-        Magento_Core_Model_Date $coreDate
+        \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftCAFactory,
+        \Magento\Core\Model\Date $coreDate
     ) {
         $this->_giftCAFactory = $giftCAFactory;
         $this->_coreDate = $coreDate;
@@ -36,7 +38,7 @@ class Magento_GiftCardAccount_Model_Cron
     /**
      * Update Gift Card Account states by cron
      *
-     * @return Magento_GiftCardAccount_Model_Cron
+     * @return \Magento\GiftCardAccount\Model\Cron
      */
     public function updateStates()
     {
@@ -46,13 +48,13 @@ class Magento_GiftCardAccount_Model_Cron
         $now = $this->_coreDate->date('Y-m-d');
 
         $collection = $model->getCollection()
-            ->addFieldToFilter('state', Magento_GiftCardAccount_Model_Giftcardaccount::STATE_AVAILABLE)
+            ->addFieldToFilter('state', \Magento\GiftCardAccount\Model\Giftcardaccount::STATE_AVAILABLE)
             ->addFieldToFilter('date_expires', array('notnull'=>true))
             ->addFieldToFilter('date_expires', array('lt'=>$now));
 
         $ids = $collection->getAllIds();
         if ($ids) {
-            $state = Magento_GiftCardAccount_Model_Giftcardaccount::STATE_EXPIRED;
+            $state = \Magento\GiftCardAccount\Model\Giftcardaccount::STATE_EXPIRED;
             $model->updateState($ids, $state);
         }
         return $this;

@@ -15,7 +15,9 @@
  * @category   Magento
  * @package    Magento_CatalogEvent
  */
-class Magento_CatalogEvent_Block_Adminhtml_Event_Helper_Image extends Magento_Data_Form_Element_Image
+namespace Magento\CatalogEvent\Block\Adminhtml\Event\Helper;
+
+class Image extends \Magento\Data\Form\Element\Image
 {
     /**
      * Get url for image

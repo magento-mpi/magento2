@@ -16,12 +16,14 @@
  * @package    Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_System_Store extends Magento_Object
+namespace Magento\Core\Model\System;
+
+class Store extends \Magento\Object
 {
 
     /**
      * Website collection
-     * websiteId => Magento_Core_Model_Website
+     * websiteId => \Magento\Core\Model\Website
      *
      * @var array
      */
@@ -29,7 +31,7 @@ class Magento_Core_Model_System_Store extends Magento_Object
 
     /**
      * Group collection
-     * groupId => Magento_Core_Model_Store_Group
+     * groupId => \Magento\Core\Model\Store\Group
      *
      * @var array
      */
@@ -37,7 +39,7 @@ class Magento_Core_Model_System_Store extends Magento_Object
 
     /**
      * Store collection
-     * storeId => Magento_Core_Model_Store
+     * storeId => \Magento\Core\Model\Store
      *
      * @var array
      */
@@ -49,7 +51,7 @@ class Magento_Core_Model_System_Store extends Magento_Object
     private $_isAdminScopeAllowed = true;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
@@ -57,10 +59,10 @@ class Magento_Core_Model_System_Store extends Magento_Object
      * Init model
      * Load Website, Group and Store collections
      *
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @return Magento_Core_Model_System_Store
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @return \Magento\Core\Model\System\Store
      */
-    public function __construct(Magento_Core_Model_StoreManager $storeManager)
+    public function __construct(\Magento\Core\Model\StoreManager $storeManager)
     {
         $this->_storeManager = $storeManager;
         return $this->reload();
@@ -361,7 +363,7 @@ class Magento_Core_Model_System_Store extends Magento_Object
      * Retrieve store name with website and website store
      *
      * @param  int $storeId
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      **/
     public function getStoreData($storeId)
     {
@@ -433,7 +435,7 @@ class Magento_Core_Model_System_Store extends Magento_Object
      * Allowed types: website, group, store or null for all
      *
      * @param string $type
-     * @return Magento_Core_Model_System_Store
+     * @return \Magento\Core\Model\System\Store
      */
     public function reload($type = null)
     {
@@ -490,7 +492,7 @@ class Magento_Core_Model_System_Store extends Magento_Object
      * Specify whether to show admin-scope options
      *
      * @param bool $value
-     * @return Magento_Core_Model_System_Store
+     * @return \Magento\Core\Model\System\Store
      */
     public function setIsAdminScopeAllowed($value)
     {

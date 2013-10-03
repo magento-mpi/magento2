@@ -15,7 +15,9 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Model_Attribute extends Magento_Core_Model_Abstract
+namespace Magento\GoogleShopping\Model;
+
+class Attribute extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Default ignored attribute codes
@@ -52,47 +54,47 @@ class Magento_GoogleShopping_Model_Attribute extends Magento_Core_Model_Abstract
     protected $_ignoredAttributeTypes = array('hidden', 'media_image', 'image', 'gallery');
 
     /**
-     * @var Magento_GoogleShopping_Helper_Data|null
+     * @var \Magento\GoogleShopping\Helper\Data|null
      */
     protected $_gsData = null;
 
     /**
-     * @var Magento_GoogleShopping_Helper_Product|null
+     * @var \Magento\GoogleShopping\Helper\Product|null
      */
     protected $_gsProduct = null;
 
     /**
-     * @var Magento_GoogleShopping_Helper_Price|null
+     * @var \Magento\GoogleShopping\Helper\Price|null
      */
     protected $_gsPrice = null;
 
     /**
      * Product factory
      *
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_GoogleShopping_Helper_Data $gsData
-     * @param Magento_GoogleShopping_Helper_Product $gsProduct
-     * @param Magento_GoogleShopping_Helper_Price $gsPrice
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_GoogleShopping_Model_Resource_Attribute $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\GoogleShopping\Helper\Data $gsData
+     * @param \Magento\GoogleShopping\Helper\Product $gsProduct
+     * @param \Magento\GoogleShopping\Helper\Price $gsPrice
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\GoogleShopping\Model\Resource\Attribute $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_GoogleShopping_Helper_Data $gsData,
-        Magento_GoogleShopping_Helper_Product $gsProduct,
-        Magento_GoogleShopping_Helper_Price $gsPrice,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_GoogleShopping_Model_Resource_Attribute $resource,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\GoogleShopping\Helper\Data $gsData,
+        \Magento\GoogleShopping\Helper\Product $gsProduct,
+        \Magento\GoogleShopping\Helper\Price $gsPrice,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\GoogleShopping\Model\Resource\Attribute $resource,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_productFactory = $productFactory;
@@ -105,7 +107,7 @@ class Magento_GoogleShopping_Model_Attribute extends Magento_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('Magento_GoogleShopping_Model_Resource_Attribute');
+        $this->_init('Magento\GoogleShopping\Model\Resource\Attribute');
     }
 
     /**
@@ -122,7 +124,7 @@ class Magento_GoogleShopping_Model_Attribute extends Magento_Core_Model_Abstract
 
         $titles = array();
         foreach ($attributes as $attribute) {
-            /* @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
+            /* @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
             if ($attribute->isInSet($setId) && $this->_isAllowedAttribute($attribute)) {
                 $list[$attribute->getAttributeId()] = $attribute;
                 $titles[$attribute->getAttributeId()] = $attribute->getFrontendLabel();
@@ -139,7 +141,7 @@ class Magento_GoogleShopping_Model_Attribute extends Magento_Core_Model_Abstract
     /**
      * Check if attribute allowed
      *
-     * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
      * @param array $attributes
      * @return boolean
      */

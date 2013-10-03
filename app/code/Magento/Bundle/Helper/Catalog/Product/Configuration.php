@@ -15,32 +15,34 @@
  * @package    Magento_Bundle
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Helper_Catalog_Product_Configuration extends Magento_Core_Helper_Abstract
-    implements Magento_Catalog_Helper_Product_Configuration_Interface
+namespace Magento\Bundle\Helper\Catalog\Product;
+
+class Configuration extends \Magento\Core\Helper\AbstractHelper
+    implements \Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface
 {
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * Catalog product configuration
      *
-     * @var Magento_Catalog_Helper_Product_Configuration
+     * @var \Magento\Catalog\Helper\Product\Configuration
      */
     protected $_ctlgProdConfigur = null;
 
     /**
-     * @param Magento_Catalog_Helper_Product_Configuration $ctlgProdConfigur
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Helper_Context $context
+     * @param \Magento\Catalog\Helper\Product\Configuration $ctlgProdConfigur
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\Context $context
      */
     public function __construct(
-        Magento_Catalog_Helper_Product_Configuration $ctlgProdConfigur,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_Context $context
+        \Magento\Catalog\Helper\Product\Configuration $ctlgProdConfigur,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\Context $context
     ) {
         $this->_ctlgProdConfigur = $ctlgProdConfigur;
         $this->_coreData = $coreData;
@@ -50,7 +52,7 @@ class Magento_Bundle_Helper_Catalog_Product_Configuration extends Magento_Core_H
     /**
      * Get selection quantity
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param int $selectionId
      *
      * @return decimal
@@ -67,12 +69,12 @@ class Magento_Bundle_Helper_Catalog_Product_Configuration extends Magento_Core_H
     /**
      * Obtain final price of selection in a bundle product
      *
-     * @param Magento_Catalog_Model_Product_Configuration_Item_Interface $item
-     * @param Magento_Catalog_Model_Product $selectionProduct
+     * @param \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item
+     * @param \Magento\Catalog\Model\Product $selectionProduct
      *
      * @return decimal
      */
-    public function getSelectionFinalPrice(Magento_Catalog_Model_Product_Configuration_Item_Interface $item,
+    public function getSelectionFinalPrice(\Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item,
         $selectionProduct)
     {
         $selectionProduct->unsetData('final_price');
@@ -94,13 +96,13 @@ class Magento_Bundle_Helper_Catalog_Product_Configuration extends Magento_Core_H
      *
      * @return array
      */
-    public function getBundleOptions(Magento_Catalog_Model_Product_Configuration_Item_Interface $item)
+    public function getBundleOptions(\Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item)
     {
         $options = array();
         $product = $item->getProduct();
 
         /**
-         * @var Magento_Bundle_Model_Product_Type
+         * @var \Magento\Bundle\Model\Product\Type
          */
         $typeInstance = $product->getTypeInstance();
 
@@ -109,7 +111,7 @@ class Magento_Bundle_Helper_Catalog_Product_Configuration extends Magento_Core_H
         $bundleOptionsIds = $optionsQuoteItemOption ? unserialize($optionsQuoteItemOption->getValue()) : array();
         if ($bundleOptionsIds) {
             /**
-            * @var Magento_Bundle_Model_Resource_Option_Collection
+            * @var \Magento\Bundle\Model\Resource\Option\Collection
             */
             $optionsCollection = $typeInstance->getOptionsByIds($bundleOptionsIds, $product);
 
@@ -158,10 +160,10 @@ class Magento_Bundle_Helper_Catalog_Product_Configuration extends Magento_Core_H
     /**
      * Retrieves product options list
      *
-     * @param Magento_Catalog_Model_Product_Configuration_Item_Interface $item
+     * @param \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item
      * @return array
      */
-    public function getOptions(Magento_Catalog_Model_Product_Configuration_Item_Interface $item)
+    public function getOptions(\Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item)
     {
         return array_merge(
             $this->getBundleOptions($item),

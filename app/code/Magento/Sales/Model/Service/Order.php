@@ -11,36 +11,38 @@
 /**
  * Quote submit service model
  */
-class Magento_Sales_Model_Service_Order
+namespace Magento\Sales\Model\Service;
+
+class Order
 {
     /**
      * Order object
      *
-     * @var Magento_Sales_Model_Order
+     * @var \Magento\Sales\Model\Order
      */
     protected $_order;
 
     /**
      * Quote convert object
      *
-     * @var Magento_Sales_Model_Convert_Order
+     * @var \Magento\Sales\Model\Convert\Order
      */
     protected $_convertor;
 
     /**
-     * @var Magento_Tax_Model_Config
+     * @var \Magento\Tax\Model\Config
      */
     protected $_taxConfig;
 
     /**
-     * @param Magento_Sales_Model_Order $order
-     * @param Magento_Sales_Model_Convert_OrderFactory $convertOrderFactory
-     * @param Magento_Tax_Model_Config $taxConfig
+     * @param \Magento\Sales\Model\Order $order
+     * @param \Magento\Sales\Model\Convert\OrderFactory $convertOrderFactory
+     * @param \Magento\Tax\Model\Config $taxConfig
      */
     public function __construct(
-        Magento_Sales_Model_Order $order,
-        Magento_Sales_Model_Convert_OrderFactory $convertOrderFactory,
-        Magento_Tax_Model_Config $taxConfig
+        \Magento\Sales\Model\Order $order,
+        \Magento\Sales\Model\Convert\OrderFactory $convertOrderFactory,
+        \Magento\Tax\Model\Config $taxConfig
     ) {
         $this->_order = $order;
         $this->_convertor = $convertOrderFactory->create();
@@ -50,10 +52,10 @@ class Magento_Sales_Model_Service_Order
     /**
      * Quote convertor declaration
      *
-     * @param   Magento_Sales_Model_Convert_Order $convertor
-     * @return  Magento_Sales_Model_Service_Order
+     * @param   \Magento\Sales\Model\Convert\Order $convertor
+     * @return  \Magento\Sales\Model\Service\Order
      */
-    public function setConvertor(Magento_Sales_Model_Convert_Order $convertor)
+    public function setConvertor(\Magento\Sales\Model\Convert\Order $convertor)
     {
         $this->_convertor = $convertor;
         return $this;
@@ -62,7 +64,7 @@ class Magento_Sales_Model_Service_Order
     /**
      * Get assigned order object
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
@@ -74,7 +76,7 @@ class Magento_Sales_Model_Service_Order
      * prepare only specified items, otherwise all containing in the order.
      *
      * @param array $qtys
-     * @return Magento_Sales_Model_Order_Invoice
+     * @return \Magento\Sales\Model\Order\Invoice
      */
     public function prepareInvoice($qtys = array())
     {
@@ -108,7 +110,7 @@ class Magento_Sales_Model_Service_Order
      * Prepare order shipment based on order items and requested items qty
      *
      * @param array $qtys
-     * @return Magento_Sales_Model_Order_Shipment
+     * @return \Magento\Sales\Model\Order\Shipment
      */
     public function prepareShipment($qtys = array())
     {
@@ -164,7 +166,7 @@ class Magento_Sales_Model_Service_Order
      * Prepare order creditmemo based on order items and requested params
      *
      * @param array $data
-     * @return Magento_Sales_Model_Order_Creditmemo
+     * @return \Magento\Sales\Model\Order\Creditmemo
      */
     public function prepareCreditmemo($data = array())
     {
@@ -207,7 +209,7 @@ class Magento_Sales_Model_Service_Order
      *
      * @param object $invoice
      * @param array $data
-     * @return Magento_Sales_Model_Order_Creditmemo
+     * @return \Magento\Sales\Model\Order\Creditmemo
      */
     public function prepareInvoiceCreditmemo($invoice, $data = array())
     {
@@ -218,7 +220,7 @@ class Magento_Sales_Model_Service_Order
 
         $invoiceQtysRefunded = array();
         foreach($invoice->getOrder()->getCreditmemosCollection() as $createdCreditmemo) {
-            if ($createdCreditmemo->getState() != Magento_Sales_Model_Order_Creditmemo::STATE_CANCELED
+            if ($createdCreditmemo->getState() != \Magento\Sales\Model\Order\Creditmemo::STATE_CANCELED
                 && $createdCreditmemo->getInvoiceId() == $invoice->getId()) {
                 foreach($createdCreditmemo->getAllItems() as $createdCreditmemoItem) {
                     $orderItemId = $createdCreditmemoItem->getOrderItem()->getId();
@@ -293,7 +295,7 @@ class Magento_Sales_Model_Service_Order
     /**
      * Initialize creditmemo state based on requested parameters
      *
-     * @param Magento_Sales_Model_Order_Creditmemo $creditmemo
+     * @param \Magento\Sales\Model\Order\Creditmemo $creditmemo
      * @param array $data
      */
     protected function _initCreditmemoData($creditmemo, $data)
@@ -315,7 +317,7 @@ class Magento_Sales_Model_Service_Order
      * Check if order item can be invoiced. Dummy item can be invoiced or with his childrens or
      * with parent item which is included to invoice
      *
-     * @param Magento_Sales_Model_Order_Item $item
+     * @param \Magento\Sales\Model\Order\Item $item
      * @param array $qtys
      * @return bool
      */
@@ -355,7 +357,7 @@ class Magento_Sales_Model_Service_Order
      * Check if order item can be shiped. Dummy item can be shiped or with his childrens or
      * with parent item which is included to shipment
      *
-     * @param Magento_Sales_Model_Order_Item $item
+     * @param \Magento\Sales\Model\Order\Item $item
      * @param array $qtys
      * @return bool
      */
@@ -400,7 +402,7 @@ class Magento_Sales_Model_Service_Order
     /**
      * Check if order item can be refunded
      *
-     * @param Magento_Sales_Model_Order_Item $item
+     * @param \Magento\Sales\Model\Order\Item $item
      * @param array $qtys
      * @param array $invoiceQtysRefundLimits
      * @return bool
@@ -437,7 +439,7 @@ class Magento_Sales_Model_Service_Order
     /**
      * Check if no dummy order item can be refunded
      *
-     * @param Magento_Sales_Model_Order_Item $item
+     * @param \Magento\Sales\Model\Order\Item $item
      * @param array $invoiceQtysRefundLimits
      * @return bool
      */

@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Config_Structure_Element_Dependency_FieldTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Config\Structure\Element\Dependency;
+
+class FieldTest extends \PHPUnit_Framework_TestCase
 {
     /**#@+
      * SUT values
@@ -57,14 +59,14 @@ class Magento_Backend_Model_Config_Structure_Element_Dependency_FieldTest extend
      *
      * @param array $data
      * @param bool $isNegative
-     * @return Magento_Backend_Model_Config_Structure_Element_Dependency_Field
+     * @return \Magento\Backend\Model\Config\Structure\Element\Dependency\Field
      */
     protected function _getFieldObject($data, $isNegative)
     {
         if ($isNegative) {
             $data['negative'] = '1';
         }
-        return new Magento_Backend_Model_Config_Structure_Element_Dependency_Field($data, self::PREFIX);
+        return new \Magento\Backend\Model\Config\Structure\Element\Dependency\Field($data, self::PREFIX);
     }
 
     /**

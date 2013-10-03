@@ -5,17 +5,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Paypal_Model_Report_SettlementTest extends PHPUnit_Framework_TestCase
+namespace Magento\Paypal\Model\Report;
+
+class SettlementTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoDbIsolation enabled
      */
     public function testFetchAndSave()
     {
-        /** @var $model Magento_Paypal_Model_Report_Settlement; */
-        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Paypal_Model_Report_Settlement');
-        $connection = $this->getMock('Magento_Io_Sftp', array('rawls', 'read'), array(), '', false);
+        /** @var $model \Magento\Paypal\Model\Report\Settlement; */
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Paypal\Model\Report\Settlement');
+        $connection = $this->getMock('Magento\Io\Sftp', array('rawls', 'read'), array(), '', false);
         $filename = 'STL-00000000.00.abc.CSV';
         $connection->expects($this->once())->method('rawls')->will($this->returnValue(array($filename => array())));
         $connection->expects($this->once())->method('read')->with($filename, $this->anything());
@@ -24,12 +26,12 @@ class Magento_Paypal_Model_Report_SettlementTest extends PHPUnit_Framework_TestC
 
     /**
      * @param array $config
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @dataProvider createConnectionExceptionDataProvider
      */
     public function testCreateConnectionException($config)
     {
-        Magento_Paypal_Model_Report_Settlement::createConnection($config);
+        \Magento\Paypal\Model\Report\Settlement::createConnection($config);
     }
 
     /**

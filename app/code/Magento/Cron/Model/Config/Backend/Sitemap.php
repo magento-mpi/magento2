@@ -15,7 +15,9 @@
  * @package    Magento_Cron
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Cron_Model_Config_Backend_Sitemap extends Magento_Core_Model_Config_Value
+namespace Magento\Cron\Model\Config\Backend;
+
+class Sitemap extends \Magento\Core\Model\Config\Value
 {
     /**
      * Cron string path
@@ -28,28 +30,28 @@ class Magento_Cron_Model_Config_Backend_Sitemap extends Magento_Core_Model_Confi
     const CRON_MODEL_PATH  = 'crontab/jobs/sitemap_generate/run/model';
 
     /**
-     * @var Magento_Core_Model_Config_ValueFactory
+     * @var \Magento\Core\Model\Config\ValueFactory
      */
     protected $_configValueFactory;
 
     /**
-     * @param Magento_Core_Model_Config_ValueFactory $configValueFactory
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Config\ValueFactory $configValueFactory
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Config_ValueFactory $configValueFactory,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Config\ValueFactory $configValueFactory,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_configValueFactory = $configValueFactory;
@@ -57,8 +59,8 @@ class Magento_Cron_Model_Config_Backend_Sitemap extends Magento_Core_Model_Confi
     }
 
     /**
-     * @return Magento_Core_Model_Abstract
-     * @throws Exception
+     * @return \Magento\Core\Model\AbstractModel
+     * @throws \Exception
      */
     protected function _afterSave()
     {
@@ -68,9 +70,9 @@ class Magento_Cron_Model_Config_Backend_Sitemap extends Magento_Core_Model_Confi
         $cronExprArray = array(
             intval($time[1]), //Minute
             intval($time[0]), //Hour
-            ($frequency == Magento_Cron_Model_Config_Source_Frequency::CRON_MONTHLY) ? '1' : '*', //Day of the Month
+            ($frequency == \Magento\Cron\Model\Config\Source\Frequency::CRON_MONTHLY) ? '1' : '*', //Day of the Month
             '*', //Month of the Year
-            ($frequency == Magento_Cron_Model_Config_Source_Frequency::CRON_WEEKLY) ? '1' : '*', //# Day of the Week
+            ($frequency == \Magento\Cron\Model\Config\Source\Frequency::CRON_WEEKLY) ? '1' : '*', //# Day of the Week
         );
 
         $cronExprString = join(' ', $cronExprArray);
@@ -86,8 +88,8 @@ class Magento_Cron_Model_Config_Backend_Sitemap extends Magento_Core_Model_Confi
                 ->setValue((string)$this->_config->getNode(self::CRON_MODEL_PATH))
                 ->setPath(self::CRON_MODEL_PATH)
                 ->save();
-        } catch (Exception $e) {
-            throw new Exception(__('We can\'t save the cron expression.'));
+        } catch (\Exception $e) {
+            throw new \Exception(__('We can\'t save the cron expression.'));
         }
     }
 }

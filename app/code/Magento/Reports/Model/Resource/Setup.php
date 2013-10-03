@@ -11,23 +11,25 @@
 /**
  * Resource Setup Model
  */
-class Magento_Reports_Model_Resource_Setup extends Magento_Core_Model_Resource_Setup
+namespace Magento\Reports\Model\Resource;
+
+class Setup extends \Magento\Core\Model\Resource\Setup
 {
     /**
-     * @var Magento_Cms_Model_PageFactory
+     * @var \Magento\Cms\Model\PageFactory
      */
     protected $_pageFactory;
 
     /**
-     * @param Magento_Core_Model_Resource_Setup_Context $context
-     * @param Magento_Cms_Model_PageFactory $pageFactory
+     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param string $resourceName
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
-        Magento_Core_Model_Resource_Setup_Context $context,
-        Magento_Cms_Model_PageFactory $pageFactory,
+        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Cms\Model\PageFactory $pageFactory,
         $resourceName,
         $moduleName = 'Magento_Reports',
         $connectionName = ''
@@ -37,7 +39,7 @@ class Magento_Reports_Model_Resource_Setup extends Magento_Core_Model_Resource_S
     }
 
     /**
-     * @return Magento_Cms_Model_Page
+     * @return \Magento\Cms\Model\Page
      */
     public function getPage()
     {

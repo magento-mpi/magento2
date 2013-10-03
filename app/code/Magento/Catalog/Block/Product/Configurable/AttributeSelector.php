@@ -13,39 +13,41 @@
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Magento_Catalog_Block_Product_Configurable_AttributeSelector extends Magento_Backend_Block_Template
+namespace Magento\Catalog\Block\Product\Configurable;
+
+class AttributeSelector extends \Magento\Backend\Block\Template
 {
     /**
      * Attribute collection factory
      *
-     * @var Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory
+     * @var \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory
      */
-    protected $_attributeCollectionFactory;
+    protected $_attributeColFactory;
 
     /**
      * Catalog resource helper
      *
-     * @var Magento_Catalog_Model_Resource_Helper
+     * @var \Magento\Catalog\Model\Resource\Helper
      */
     protected $_resourceHelper;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $attributeCollectionFactory
-     * @param Magento_Catalog_Model_Resource_Helper $resourceHelper
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeColFactory
+     * @param \Magento\Catalog\Model\Resource\Helper $resourceHelper
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $attributeCollectionFactory,
-        Magento_Catalog_Model_Resource_Helper $resourceHelper,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeColFactory,
+        \Magento\Catalog\Model\Resource\Helper $resourceHelper,
         array $data = array()
     ) {
-        $this->_attributeCollectionFactory = $attributeCollectionFactory;
+        $this->_attributeColFactory = $attributeColFactory;
         $this->_resourceHelper = $resourceHelper;
         parent::__construct($coreData, $context, $data);
     }
@@ -54,27 +56,27 @@ class Magento_Catalog_Block_Product_Configurable_AttributeSelector extends Magen
      * Retrieve list of attributes with admin store label containing $labelPart
      *
      * @param string $labelPart
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Collection
      */
     public function getSuggestedAttributes($labelPart)
     {
         $escapedLabelPart = $this->_resourceHelper->addLikeEscape($labelPart, array('position' => 'any'));
-        /** @var $collection Magento_Catalog_Model_Resource_Product_Attribute_Collection */
-        $collection = $this->_attributeCollectionFactory->create();
+        /** @var $collection \Magento\Catalog\Model\Resource\Product\Attribute\Collection */
+        $collection = $this->_attributeColFactory->create();
         $collection->addFieldToFilter('frontend_input', 'select')
             ->addFieldToFilter('frontend_label', array('like' => $escapedLabelPart))
             ->addFieldToFilter('is_configurable', 1)
             ->addFieldToFilter('is_user_defined', 1)
-            ->addFieldToFilter('is_global', Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL);
+            ->addFieldToFilter('is_global', \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL);
 
         $result = array();
         $types = array(
-            Magento_Catalog_Model_Product_Type::TYPE_SIMPLE,
-            Magento_Catalog_Model_Product_Type::TYPE_VIRTUAL,
-            Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE,
+            \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
+            \Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL,
+            \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE,
         );
         foreach ($collection->getItems() as $id => $attribute) {
-            /** @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
+            /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
             if (!$attribute->getApplyTo() || count(array_diff($types, $attribute->getApplyTo())) === 0) {
                 $result[$id] = array(
                     'id'      => $attribute->getId(),

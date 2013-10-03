@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_AdminNotification_Controller_Adminhtml_Notification extends Magento_Backend_Controller_ActionAbstract
+namespace Magento\AdminNotification\Controller\Adminhtml;
+
+class Notification extends \Magento\Backend\Controller\AbstractAction
 {
     public function indexAction()
     {
@@ -28,14 +30,14 @@ class Magento_AdminNotification_Controller_Adminhtml_Notification extends Magent
         $notificationId = (int)$this->getRequest()->getParam('id');
         if ($notificationId) {
             try {
-                $this->_objectManager->create('Magento_AdminNotification_Model_NotificationService')
+                $this->_objectManager->create('Magento\AdminNotification\Model\NotificationService')
                     ->markAsRead($notificationId);
                 $this->_session->addSuccess(
                     __('The message has been marked as Read.')
                 );
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_session->addError($e->getMessage());
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_session->addException($e,
                     __("We couldn't mark the notification as Read because of an error.")
                 );
@@ -58,14 +60,14 @@ class Magento_AdminNotification_Controller_Adminhtml_Notification extends Magent
         $notificationId = (int)$this->getRequest()->getPost('id');
         $responseData = array();
         try {
-            $this->_objectManager->create('Magento_AdminNotification_Model_NotificationService')
+            $this->_objectManager->create('Magento\AdminNotification\Model\NotificationService')
                 ->markAsRead($notificationId);
             $responseData['success'] = true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $responseData['success'] = false;
         }
         $this->getResponse()->setBody(
-            $this->_objectManager->create('Magento_Core_Helper_Data')->jsonEncode($responseData)
+            $this->_objectManager->create('Magento\Core\Helper\Data')->jsonEncode($responseData)
         );
     }
 
@@ -77,7 +79,7 @@ class Magento_AdminNotification_Controller_Adminhtml_Notification extends Magent
         } else {
             try {
                 foreach ($ids as $id) {
-                    $model = $this->_objectManager->create('Magento_AdminNotification_Model_Inbox')
+                    $model = $this->_objectManager->create('Magento\AdminNotification\Model\Inbox')
                         ->load($id);
                     if ($model->getId()) {
                         $model->setIsRead(1)
@@ -87,9 +89,9 @@ class Magento_AdminNotification_Controller_Adminhtml_Notification extends Magent
                 $this->_getSession()->addSuccess(
                     __('A total of %1 record(s) have been marked as Read.', count($ids))
                 );
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_session->addError($e->getMessage());
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_session->addException($e,
                     __("We couldn't mark the notification as Read because of an error.")
                 );
@@ -101,7 +103,7 @@ class Magento_AdminNotification_Controller_Adminhtml_Notification extends Magent
     public function removeAction()
     {
         if ($id = $this->getRequest()->getParam('id')) {
-            $model = $this->_objectManager->create('Magento_AdminNotification_Model_Inbox')
+            $model = $this->_objectManager->create('Magento\AdminNotification\Model\Inbox')
                 ->load($id);
 
             if (!$model->getId()) {
@@ -115,9 +117,9 @@ class Magento_AdminNotification_Controller_Adminhtml_Notification extends Magent
                 $this->_session->addSuccess(
                     __('The message has been removed.')
                 );
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_session->addError($e->getMessage());
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_session->addException($e,
                     __("We couldn't remove the messages because of an error.")
                 );
@@ -139,7 +141,7 @@ class Magento_AdminNotification_Controller_Adminhtml_Notification extends Magent
         } else {
             try {
                 foreach ($ids as $id) {
-                    $model = $this->_objectManager->create('Magento_AdminNotification_Model_Inbox')
+                    $model = $this->_objectManager->create('Magento\AdminNotification\Model\Inbox')
                         ->load($id);
                     if ($model->getId()) {
                         $model->setIsRemove(1)
@@ -149,9 +151,9 @@ class Magento_AdminNotification_Controller_Adminhtml_Notification extends Magent
                 $this->_getSession()->addSuccess(
                     __('Total of %1 record(s) have been removed.', count($ids))
                 );
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_session->addError($e->getMessage());
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_session->addException($e,
                     __("We couldn't remove the messages because of an error."));
             }

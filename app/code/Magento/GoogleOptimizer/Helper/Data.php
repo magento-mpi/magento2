@@ -7,7 +7,9 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Magento_GoogleOptimizer_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\GoogleOptimizer\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Xml path google experiments enabled
@@ -20,24 +22,24 @@ class Magento_GoogleOptimizer_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_activeForCmsFlag;
 
     /**
-     * @var Magento_Core_Model_Store_ConfigInterface
+     * @var \Magento\Core\Model\Store\ConfigInterface
      */
     protected $_storeConfig;
 
     /**
-     * @var Magento_GoogleAnalytics_Helper_Data
+     * @var \Magento\GoogleAnalytics\Helper\Data
      */
     protected $_analyticsHelper;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Store_ConfigInterface $storeConfig
-     * @param Magento_GoogleAnalytics_Helper_Data $analyticsHelper
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
+     * @param \Magento\GoogleAnalytics\Helper\Data $analyticsHelper
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_ConfigInterface $storeConfig,
-        Magento_GoogleAnalytics_Helper_Data $analyticsHelper
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Store\ConfigInterface $storeConfig,
+        \Magento\GoogleAnalytics\Helper\Data $analyticsHelper
     ) {
         $this->_storeConfig = $storeConfig;
         $this->_analyticsHelper = $analyticsHelper;

@@ -3552,7 +3552,7 @@ system_configuration:
                                     dropdowns:
                                         mage_adminnotification: //select[@name='groups[modules_disable_output][fields][Magento_AdminNotification][value]']
                                         mage_authorizenet: //select[@name='groups[modules_disable_output][fields][Magento_Authorizenet][value]']
-                                        mage_backup: //select[@name='groups[modules_disable_output][fields][Magento_Backup][value]']
+                                        mage_backup: //select[@name='groups[modules_disable_output][fields][\Magento\Backup][value]']
                                         mage_bundle: //select[@name='groups[modules_disable_output][fields][Magento_Bundle][value]']
                                         mage_captcha: //select[@id='Magento_Captcha']
                                         mage_catalog: //select[@name='groups[modules_disable_output][fields][Magento_Catalog][value]']
@@ -3612,7 +3612,7 @@ system_configuration:
                                     checkboxes:
                                         mage_adminnotification_use_default: //input[@name='groups[modules_disable_output][fields][Magento_AdminNotification][inherit]']
                                         mage_authorizenet_use_default: //input[@name='groups[modules_disable_output][fields][Magento_Authorizenet][inherit]']
-                                        mage_backup_use_default: //input[@name='groups[modules_disable_output][fields][Magento_Backup][inherit]']
+                                        mage_backup_use_default: //input[@name='groups[modules_disable_output][fields][\Magento\Backup][inherit]']
                                         mage_bundle_use_default: //input[@name='groups[modules_disable_output][fields][Magento_Bundle][inherit]']
                                         mage_captcha_use_default: //input[@id='Magento_Captcha_inherit']
                                         mage_catalog_use_default: //input[@name='groups[modules_disable_output][fields][Magento_Catalog][inherit]']

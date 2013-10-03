@@ -16,65 +16,67 @@
  * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogSearch_Model_Resource_Fulltext_Collection extends Magento_Catalog_Model_Resource_Product_Collection
+namespace Magento\CatalogSearch\Model\Resource\Fulltext;
+
+class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
 {
     /**
      * Catalog search data
      *
-     * @var Magento_CatalogSearch_Helper_Data
+     * @var \Magento\CatalogSearch\Helper\Data
      */
     protected $_catalogSearchData = null;
 
     /**
      * Catalog search fulltext
      *
-     * @var Magento_CatalogSearch_Model_Fulltext
+     * @var \Magento\CatalogSearch\Model\Fulltext
      */
     protected $_catalogSearchFulltext;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Core_Model_Resource $coreResource
-     * @param Magento_Eav_Model_EntityFactory $eavEntityFactory
-     * @param Magento_Validator_UniversalFactory $universalFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Catalog_Model_Product_OptionFactory $productOptionFactory
-     * @param Magento_Catalog_Model_Resource_Url $catalogUrl
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Catalog_Model_Resource_Helper $resourceHelper
-     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
-     * @param Magento_CatalogSearch_Model_Fulltext $catalogSearchFulltext
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Model\Resource $coreResource
+     * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
+     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
+     * @param \Magento\Catalog\Model\Resource\Url $catalogUrl
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Catalog\Model\Resource\Helper $resourceHelper
+     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
+     * @param \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Core_Model_Resource $coreResource,
-        Magento_Eav_Model_EntityFactory $eavEntityFactory,
-        Magento_Validator_UniversalFactory $universalFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Catalog_Model_Product_OptionFactory $productOptionFactory,
-        Magento_Catalog_Model_Resource_Url $catalogUrl,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Catalog_Model_Resource_Helper $resourceHelper,
-        Magento_CatalogSearch_Helper_Data $catalogSearchData,
-        Magento_CatalogSearch_Model_Fulltext $catalogSearchFulltext
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Model\Resource $coreResource,
+        \Magento\Eav\Model\EntityFactory $eavEntityFactory,
+        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
+        \Magento\Catalog\Model\Resource\Url $catalogUrl,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Catalog\Model\Resource\Helper $resourceHelper,
+        \Magento\CatalogSearch\Helper\Data $catalogSearchData,
+        \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext
     )
     {
         $this->_catalogSearchFulltext = $catalogSearchFulltext;
@@ -89,7 +91,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext_Collection extends Magento_C
     /**
      * Retrieve query model object
      *
-     * @return Magento_CatalogSearch_Model_Query
+     * @return \Magento\CatalogSearch\Model\Query
      */
     protected function _getQuery()
     {
@@ -100,7 +102,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext_Collection extends Magento_C
      * Add search query filter
      *
      * @param string $query
-     * @return Magento_CatalogSearch_Model_Resource_Fulltext_Collection
+     * @return \Magento\CatalogSearch\Model\Resource\Fulltext\Collection
      */
     public function addSearchFilter($query)
     {
@@ -123,7 +125,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext_Collection extends Magento_C
      *
      * @param string $attribute
      * @param string $dir
-     * @return Magento_CatalogSearch_Model_Resource_Fulltext_Collection
+     * @return \Magento\CatalogSearch\Model\Resource\Fulltext\Collection
      */
     public function setOrder($attribute, $dir = 'desc')
     {
@@ -138,7 +140,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext_Collection extends Magento_C
     /**
      * Stub method for campatibility with other search engines
      *
-     * @return Magento_CatalogSearch_Model_Resource_Fulltext_Collection
+     * @return \Magento\CatalogSearch\Model\Resource\Fulltext\Collection
      */
     public function setGeneralDefaultQuery()
     {

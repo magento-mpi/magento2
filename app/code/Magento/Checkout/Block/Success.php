@@ -9,23 +9,25 @@
  */
 
 
-class Magento_Checkout_Block_Success extends Magento_Core_Block_Template
+namespace Magento\Checkout\Block;
+
+class Success extends \Magento\Core\Block\Template
 {
     /**
-     * @var Magento_Sales_Model_OrderFactory
+     * @var \Magento\Sales\Model\OrderFactory
      */
     protected $_orderFactory;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Sales_Model_OrderFactory $orderFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Sales_Model_OrderFactory $orderFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Sales\Model\OrderFactory $orderFactory,
         array $data = array()
     ) {
         $this->_orderFactory = $orderFactory;
@@ -37,7 +39,7 @@ class Magento_Checkout_Block_Success extends Magento_Core_Block_Template
      */
     public function getRealOrderId()
     {
-        /** @var Magento_Sales_Model_Order $order */
+        /** @var \Magento\Sales\Model\Order $order */
         $order = $this->_orderFactory()->create()->load($this->getLastOrderId());
         return $order->getIncrementId();
     }

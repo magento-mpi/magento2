@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
-class Magento_Eav_Model_AttributeFactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Eav\Model;
+
+class AttributeFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Eav_Model_AttributeFactory
+     * @var \Magento\Eav\Model\AttributeFactory
      */
     protected $_factory;
 
@@ -28,13 +30,13 @@ class Magento_Eav_Model_AttributeFactoryTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        /** @var $objectManagerMock Magento_ObjectManager */
-        $objectManagerMock = $this->getMock('Magento_ObjectManager');
+        /** @var $objectManagerMock \Magento\ObjectManager */
+        $objectManagerMock = $this->getMock('Magento\ObjectManager');
         $objectManagerMock->expects($this->any())
             ->method('create')
             ->will($this->returnCallback(array($this, 'getModelInstance')));
 
-        $this->_factory = new Magento_Eav_Model_AttributeFactory($objectManagerMock);
+        $this->_factory = new \Magento\Eav\Model\AttributeFactory($objectManagerMock);
     }
 
     protected function tearDown()
@@ -43,7 +45,7 @@ class Magento_Eav_Model_AttributeFactoryTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Eav_Model_AttributeFactory::createAttribute
+     * @covers \Magento\Eav\Model\AttributeFactory::createAttribute
      */
     public function testCreateAttribute()
     {

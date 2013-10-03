@@ -14,7 +14,9 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  * @deprecated Moved to module Magento_Backend
  */
-class Magento_Adminhtml_Block_Widget_Grid_Column_Filter_Range extends Magento_Backend_Block_Widget_Grid_Column_Filter_Range
+namespace Magento\Adminhtml\Block\Widget\Grid\Column\Filter;
+
+class Range extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Range
 {
 
 }

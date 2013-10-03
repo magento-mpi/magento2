@@ -8,8 +8,8 @@
  */
 -->
 <config>
-    <type name="giftcard" label="Gift Card" modelInstance="Magento_GiftCard_Model_Catalog_Product_Type_Giftcard" composite='false' indexPriority="45" isQty="true">
-        <priceModel instance="Magento_GiftCard_Model_Catalog_Product_Price_Giftcard" />
-        <indexerModel instance="Magento_GiftCard_Model_Resource_Indexer_Price" />
+    <type name="giftcard" label="Gift Card" modelInstance="Magento\GiftCard\Model\Catalog\Product\Type\Giftcard" composite='false' indexPriority="45" isQty="true">
+        <priceModel instance="Magento\GiftCard\Model\Catalog\Product\Price\Giftcard" />
+        <indexerModel instance="Magento\GiftCard\Model\Resource\Indexer\Price" />
     </type>
 </config>

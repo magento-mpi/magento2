@@ -16,8 +16,9 @@
  * @package     Magento_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paypal_Model_System_Config_Source_AuthorizationAmounts
-    implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Paypal\Model\System\Config\Source;
+
+class AuthorizationAmounts implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Options getter

@@ -8,10 +8,12 @@
  * @license     {license_link}
  */
 
-class Magento_Cron_Model_Config_Converter_XmlTest extends PHPUnit_Framework_TestCase
+namespace Magento\Cron\Model\Config\Converter;
+
+class XmlTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Cron_Model_Config_Converter_Xml
+     * @var \Magento\Cron\Model\Config\Converter\Xml
      */
     protected $_converter;
 
@@ -20,7 +22,7 @@ class Magento_Cron_Model_Config_Converter_XmlTest extends PHPUnit_Framework_Test
      */
     protected function setUp()
     {
-        $this->_converter = new Magento_Cron_Model_Config_Converter_Xml();
+        $this->_converter = new \Magento\Cron\Model\Config\Converter\Xml();
     }
 
     /**
@@ -37,7 +39,7 @@ class Magento_Cron_Model_Config_Converter_XmlTest extends PHPUnit_Framework_Test
      */
     public function testConvertNoElements()
     {
-        $result = $this->_converter->convert(new DOMDocument());
+        $result = $this->_converter->convert(new \DOMDocument());
         $this->assertEmpty($result);
     }
 
@@ -62,7 +64,7 @@ class Magento_Cron_Model_Config_Converter_XmlTest extends PHPUnit_Framework_Test
         );
 
         $xmlFile = __DIR__ . '/../_files/crontab_valid.xml';
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->loadXML(file_get_contents($xmlFile));
         $result = $this->_converter->convert($dom);
 
@@ -75,12 +77,12 @@ class Magento_Cron_Model_Config_Converter_XmlTest extends PHPUnit_Framework_Test
     /**
      * Testing converting not valid cron configuration, expect to get exception
      *
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testConvertWrongConfiguration()
     {
         $xmlFile = __DIR__ . '/../_files/crontab_invalid.xml';
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->loadXML(file_get_contents($xmlFile));
         $this->_converter->convert($dom);
     }

@@ -16,46 +16,48 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Block_Adminhtml_Sales_Order_Create_Payment extends Magento_Backend_Block_Template
+namespace Magento\Reward\Block\Adminhtml\Sales\Order\Create;
+
+class Payment extends \Magento\Backend\Block\Template
 {
     /**
      * Reward data
      *
-     * @var Magento_Reward_Helper_Data
+     * @var \Magento\Reward\Helper\Data
      */
     protected $_rewardData = null;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Adminhtml_Model_Sales_Order_Create
+     * @var \Magento\Adminhtml\Model\Sales\Order\Create
      */
     protected $_orderCreate;
 
     /**
-     * @var Magento_Reward_Model_RewardFactory
+     * @var \Magento\Reward\Model\RewardFactory
      */
     protected $_rewardFactory;
 
     /**
-     * @param Magento_Reward_Helper_Data $rewardData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Adminhtml_Model_Sales_Order_Create $orderCreate
-     * @param Magento_Reward_Model_RewardFactory $rewardFactory
+     * @param \Magento\Reward\Helper\Data $rewardData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate
+     * @param \Magento\Reward\Model\RewardFactory $rewardFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Reward_Helper_Data $rewardData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Adminhtml_Model_Sales_Order_Create $orderCreate,
-        Magento_Reward_Model_RewardFactory $rewardFactory,
+        \Magento\Reward\Helper\Data $rewardData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate,
+        \Magento\Reward\Model\RewardFactory $rewardFactory,
         array $data = array()
     ) {
         $this->_rewardData = $rewardData;
@@ -68,7 +70,7 @@ class Magento_Reward_Block_Adminhtml_Sales_Order_Create_Payment extends Magento_
     /**
      * Getter
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {
@@ -84,13 +86,13 @@ class Magento_Reward_Block_Adminhtml_Sales_Order_Create_Payment extends Magento_
     {
         $websiteId = $this->_storeManager->getStore($this->getQuote()->getStoreId())->getWebsiteId();
         $minPointsBalance = (int)$this->_storeConfig->getConfig(
-            Magento_Reward_Model_Reward::XML_PATH_MIN_POINTS_BALANCE,
+            \Magento\Reward\Model\Reward::XML_PATH_MIN_POINTS_BALANCE,
             $this->getQuote()->getStoreId()
         );
 
         return $this->getReward()->getPointsBalance() >= $minPointsBalance
             && $this->_rewardData->isEnabledOnFront($websiteId)
-            && $this->_authorization->isAllowed(Magento_Reward_Helper_Data::XML_PATH_PERMISSION_AFFECT)
+            && $this->_authorization->isAllowed(\Magento\Reward\Helper\Data::XML_PATH_PERMISSION_AFFECT)
             && (float)$this->getCurrencyAmount()
             && $this->getQuote()->getBaseGrandTotal() + $this->getQuote()->getBaseRewardCurrencyAmount() > 0;
     }
@@ -99,12 +101,12 @@ class Magento_Reward_Block_Adminhtml_Sales_Order_Create_Payment extends Magento_
      * Getter.
      * Retrieve reward points model
      *
-     * @return Magento_Reward_Model_Reward
+     * @return \Magento\Reward\Model\Reward
      */
     public function getReward()
     {
         if (!$this->_getData('reward')) {
-            /* @var $reward Magento_Reward_Model_Reward */
+            /* @var $reward \Magento\Reward\Model\Reward */
             $reward = $this->_rewardFactory->create()
                 ->setCustomer($this->getQuote()->getCustomer())
                 ->setStore($this->getQuote()->getStore())

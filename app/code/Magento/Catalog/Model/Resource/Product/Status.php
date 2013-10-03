@@ -16,7 +16,9 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Product_Status extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Catalog\Model\Resource\Product;
+
+class Status extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Product atrribute cache
@@ -28,37 +30,37 @@ class Magento_Catalog_Model_Resource_Product_Status extends Magento_Core_Model_R
     /**
      * Catalog product
      *
-     * @var Magento_Catalog_Model_Product
+     * @var \Magento\Catalog\Model\Product
      */
     protected $_catalogProduct;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Catalog product1
      *
-     * @var Magento_Catalog_Model_Resource_Product
+     * @var \Magento\Catalog\Model\Resource\Product
      */
     protected $_productResource;
 
     /**
      * Class constructor
      *
-     * @param Magento_Catalog_Model_Resource_Product $productResource
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Model_Product $catalogProduct
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Catalog\Model\Resource\Product $productResource
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Product $catalogProduct
+     * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
-        Magento_Catalog_Model_Resource_Product $productResource,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Model_Product $catalogProduct,
-        Magento_Core_Model_Resource $resource
+        \Magento\Catalog\Model\Resource\Product $productResource,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Product $catalogProduct,
+        \Magento\Core\Model\Resource $resource
     ) {
         $this->_productResource = $productResource;
         $this->_storeManager = $storeManager;
@@ -79,7 +81,7 @@ class Magento_Catalog_Model_Resource_Product_Status extends Magento_Core_Model_R
      * Retrieve product attribute (public method for status model)
      *
      * @param string $attributeCode
-     * @return Magento_Catalog_Model_Resource_Eav_Attribute
+     * @return \Magento\Catalog\Model\Resource\Eav\Attribute
      */
     public function getProductAttribute($attributeCode)
     {
@@ -90,7 +92,7 @@ class Magento_Catalog_Model_Resource_Product_Status extends Magento_Core_Model_R
      * Retrieve product attribute
      *
      * @param unknown_type $attribute
-     * @return Magento_Eav_Model_Entity_Attribute_Abstract
+     * @return \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
      */
     protected function _getProductAttribute($attribute)
     {
@@ -105,11 +107,11 @@ class Magento_Catalog_Model_Resource_Product_Status extends Magento_Core_Model_R
      *
      * @param int $productId
      * @param int $storeId
-     * @return Magento_Catalog_Model_Resource_Product_Status
+     * @return \Magento\Catalog\Model\Resource\Product\Status
      */
     public function refreshEnabledIndex($productId, $storeId)
     {
-        if ($storeId == Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID) {
+        if ($storeId == \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID) {
             foreach ($this->_storeManager->getStores() as $store) {
                 $this->refreshEnabledIndex($productId, $store->getId());
             }
@@ -128,7 +130,7 @@ class Magento_Catalog_Model_Resource_Product_Status extends Magento_Core_Model_R
      * @param int $productId
      * @param int $storId
      * @param int $value
-     * @return Magento_Catalog_Model_Resource_Product_Status
+     * @return \Magento\Catalog\Model\Resource\Product\Status
      */
     public function updateProductStatus($productId, $storeId, $value)
     {
@@ -138,7 +140,7 @@ class Magento_Catalog_Model_Resource_Product_Status extends Magento_Core_Model_R
         $refreshIndex       = true;
         $adapter            = $this->_getWriteAdapter();
 
-        $data = new Magento_Object(array(
+        $data = new \Magento\Object(array(
             'entity_type_id' => $statusEntityTypeId,
             'attribute_id'   => $statusAttributeId,
             'store_id'       => $storeId,
@@ -194,12 +196,12 @@ class Magento_Catalog_Model_Resource_Product_Status extends Magento_Core_Model_R
             $productIds = array($productIds);
         }
 
-        if ($storeId === null || $storeId == Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID) {
+        if ($storeId === null || $storeId == \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID) {
             $select = $adapter->select()
                 ->from($attributeTable, array('entity_id', 'value'))
                 ->where('entity_id IN (?)', $productIds)
                 ->where('attribute_id = ?', $attribute->getAttributeId())
-                ->where('store_id = ?', Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID);
+                ->where('store_id = ?', \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID);
 
             $rows = $adapter->fetchPairs($select);
         } else {
@@ -215,7 +217,7 @@ class Magento_Catalog_Model_Resource_Product_Status extends Magento_Core_Model_R
                         . (int)$storeId,
                     array('t1.entity_id')
                 )
-                ->where('t1.store_id = ?', Magento_Core_Model_AppInterface::ADMIN_STORE_ID)
+                ->where('t1.store_id = ?', \Magento\Core\Model\AppInterface::ADMIN_STORE_ID)
                 ->where('t1.attribute_id = ?', $attribute->getAttributeId())
                 ->where('t1.entity_id IN(?)', $productIds);
             $rows = $adapter->fetchPairs($select);

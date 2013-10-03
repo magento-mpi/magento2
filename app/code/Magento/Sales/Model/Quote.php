@@ -18,105 +18,107 @@
  *  sales_quote_delete_before
  *  sales_quote_delete_after
  *
- * @method Magento_Sales_Model_Resource_Quote _getResource()
- * @method Magento_Sales_Model_Resource_Quote getResource()
- * @method Magento_Sales_Model_Quote setStoreId(int $value)
+ * @method \Magento\Sales\Model\Resource\Quote _getResource()
+ * @method \Magento\Sales\Model\Resource\Quote getResource()
+ * @method \Magento\Sales\Model\Quote setStoreId(int $value)
  * @method string getCreatedAt()
- * @method Magento_Sales_Model_Quote setCreatedAt(string $value)
+ * @method \Magento\Sales\Model\Quote setCreatedAt(string $value)
  * @method string getUpdatedAt()
- * @method Magento_Sales_Model_Quote setUpdatedAt(string $value)
+ * @method \Magento\Sales\Model\Quote setUpdatedAt(string $value)
  * @method string getConvertedAt()
- * @method Magento_Sales_Model_Quote setConvertedAt(string $value)
+ * @method \Magento\Sales\Model\Quote setConvertedAt(string $value)
  * @method int getIsActive()
- * @method Magento_Sales_Model_Quote setIsActive(int $value)
- * @method Magento_Sales_Model_Quote setIsVirtual(int $value)
+ * @method \Magento\Sales\Model\Quote setIsActive(int $value)
+ * @method \Magento\Sales\Model\Quote setIsVirtual(int $value)
  * @method int getIsMultiShipping()
- * @method Magento_Sales_Model_Quote setIsMultiShipping(int $value)
+ * @method \Magento\Sales\Model\Quote setIsMultiShipping(int $value)
  * @method int getItemsCount()
- * @method Magento_Sales_Model_Quote setItemsCount(int $value)
+ * @method \Magento\Sales\Model\Quote setItemsCount(int $value)
  * @method float getItemsQty()
- * @method Magento_Sales_Model_Quote setItemsQty(float $value)
+ * @method \Magento\Sales\Model\Quote setItemsQty(float $value)
  * @method int getOrigOrderId()
- * @method Magento_Sales_Model_Quote setOrigOrderId(int $value)
+ * @method \Magento\Sales\Model\Quote setOrigOrderId(int $value)
  * @method float getStoreToBaseRate()
- * @method Magento_Sales_Model_Quote setStoreToBaseRate(float $value)
+ * @method \Magento\Sales\Model\Quote setStoreToBaseRate(float $value)
  * @method float getStoreToQuoteRate()
- * @method Magento_Sales_Model_Quote setStoreToQuoteRate(float $value)
+ * @method \Magento\Sales\Model\Quote setStoreToQuoteRate(float $value)
  * @method string getBaseCurrencyCode()
- * @method Magento_Sales_Model_Quote setBaseCurrencyCode(string $value)
+ * @method \Magento\Sales\Model\Quote setBaseCurrencyCode(string $value)
  * @method string getStoreCurrencyCode()
- * @method Magento_Sales_Model_Quote setStoreCurrencyCode(string $value)
+ * @method \Magento\Sales\Model\Quote setStoreCurrencyCode(string $value)
  * @method string getQuoteCurrencyCode()
- * @method Magento_Sales_Model_Quote setQuoteCurrencyCode(string $value)
+ * @method \Magento\Sales\Model\Quote setQuoteCurrencyCode(string $value)
  * @method float getGrandTotal()
- * @method Magento_Sales_Model_Quote setGrandTotal(float $value)
+ * @method \Magento\Sales\Model\Quote setGrandTotal(float $value)
  * @method float getBaseGrandTotal()
- * @method Magento_Sales_Model_Quote setBaseGrandTotal(float $value)
- * @method Magento_Sales_Model_Quote setCheckoutMethod(string $value)
+ * @method \Magento\Sales\Model\Quote setBaseGrandTotal(float $value)
+ * @method \Magento\Sales\Model\Quote setCheckoutMethod(string $value)
  * @method int getCustomerId()
- * @method Magento_Sales_Model_Quote setCustomerId(int $value)
- * @method Magento_Sales_Model_Quote setCustomerTaxClassId(int $value)
- * @method Magento_Sales_Model_Quote setCustomerGroupId(int $value)
+ * @method \Magento\Sales\Model\Quote setCustomerId(int $value)
+ * @method \Magento\Sales\Model\Quote setCustomerTaxClassId(int $value)
+ * @method \Magento\Sales\Model\Quote setCustomerGroupId(int $value)
  * @method string getCustomerEmail()
- * @method Magento_Sales_Model_Quote setCustomerEmail(string $value)
+ * @method \Magento\Sales\Model\Quote setCustomerEmail(string $value)
  * @method string getCustomerPrefix()
- * @method Magento_Sales_Model_Quote setCustomerPrefix(string $value)
+ * @method \Magento\Sales\Model\Quote setCustomerPrefix(string $value)
  * @method string getCustomerFirstname()
- * @method Magento_Sales_Model_Quote setCustomerFirstname(string $value)
+ * @method \Magento\Sales\Model\Quote setCustomerFirstname(string $value)
  * @method string getCustomerMiddlename()
- * @method Magento_Sales_Model_Quote setCustomerMiddlename(string $value)
+ * @method \Magento\Sales\Model\Quote setCustomerMiddlename(string $value)
  * @method string getCustomerLastname()
- * @method Magento_Sales_Model_Quote setCustomerLastname(string $value)
+ * @method \Magento\Sales\Model\Quote setCustomerLastname(string $value)
  * @method string getCustomerSuffix()
- * @method Magento_Sales_Model_Quote setCustomerSuffix(string $value)
+ * @method \Magento\Sales\Model\Quote setCustomerSuffix(string $value)
  * @method string getCustomerDob()
- * @method Magento_Sales_Model_Quote setCustomerDob(string $value)
+ * @method \Magento\Sales\Model\Quote setCustomerDob(string $value)
  * @method string getCustomerNote()
- * @method Magento_Sales_Model_Quote setCustomerNote(string $value)
+ * @method \Magento\Sales\Model\Quote setCustomerNote(string $value)
  * @method int getCustomerNoteNotify()
- * @method Magento_Sales_Model_Quote setCustomerNoteNotify(int $value)
+ * @method \Magento\Sales\Model\Quote setCustomerNoteNotify(int $value)
  * @method int getCustomerIsGuest()
- * @method Magento_Sales_Model_Quote setCustomerIsGuest(int $value)
+ * @method \Magento\Sales\Model\Quote setCustomerIsGuest(int $value)
  * @method string getRemoteIp()
- * @method Magento_Sales_Model_Quote setRemoteIp(string $value)
+ * @method \Magento\Sales\Model\Quote setRemoteIp(string $value)
  * @method string getAppliedRuleIds()
- * @method Magento_Sales_Model_Quote setAppliedRuleIds(string $value)
+ * @method \Magento\Sales\Model\Quote setAppliedRuleIds(string $value)
  * @method string getReservedOrderId()
- * @method Magento_Sales_Model_Quote setReservedOrderId(string $value)
+ * @method \Magento\Sales\Model\Quote setReservedOrderId(string $value)
  * @method string getPasswordHash()
- * @method Magento_Sales_Model_Quote setPasswordHash(string $value)
+ * @method \Magento\Sales\Model\Quote setPasswordHash(string $value)
  * @method string getCouponCode()
- * @method Magento_Sales_Model_Quote setCouponCode(string $value)
+ * @method \Magento\Sales\Model\Quote setCouponCode(string $value)
  * @method string getGlobalCurrencyCode()
- * @method Magento_Sales_Model_Quote setGlobalCurrencyCode(string $value)
+ * @method \Magento\Sales\Model\Quote setGlobalCurrencyCode(string $value)
  * @method float getBaseToGlobalRate()
- * @method Magento_Sales_Model_Quote setBaseToGlobalRate(float $value)
+ * @method \Magento\Sales\Model\Quote setBaseToGlobalRate(float $value)
  * @method float getBaseToQuoteRate()
- * @method Magento_Sales_Model_Quote setBaseToQuoteRate(float $value)
+ * @method \Magento\Sales\Model\Quote setBaseToQuoteRate(float $value)
  * @method string getCustomerTaxvat()
- * @method Magento_Sales_Model_Quote setCustomerTaxvat(string $value)
+ * @method \Magento\Sales\Model\Quote setCustomerTaxvat(string $value)
  * @method string getCustomerGender()
- * @method Magento_Sales_Model_Quote setCustomerGender(string $value)
+ * @method \Magento\Sales\Model\Quote setCustomerGender(string $value)
  * @method float getSubtotal()
- * @method Magento_Sales_Model_Quote setSubtotal(float $value)
+ * @method \Magento\Sales\Model\Quote setSubtotal(float $value)
  * @method float getBaseSubtotal()
- * @method Magento_Sales_Model_Quote setBaseSubtotal(float $value)
+ * @method \Magento\Sales\Model\Quote setBaseSubtotal(float $value)
  * @method float getSubtotalWithDiscount()
- * @method Magento_Sales_Model_Quote setSubtotalWithDiscount(float $value)
+ * @method \Magento\Sales\Model\Quote setSubtotalWithDiscount(float $value)
  * @method float getBaseSubtotalWithDiscount()
- * @method Magento_Sales_Model_Quote setBaseSubtotalWithDiscount(float $value)
+ * @method \Magento\Sales\Model\Quote setBaseSubtotalWithDiscount(float $value)
  * @method int getIsChanged()
- * @method Magento_Sales_Model_Quote setIsChanged(int $value)
+ * @method \Magento\Sales\Model\Quote setIsChanged(int $value)
  * @method int getTriggerRecollect()
- * @method Magento_Sales_Model_Quote setTriggerRecollect(int $value)
+ * @method \Magento\Sales\Model\Quote setTriggerRecollect(int $value)
  * @method string getExtShippingInfo()
- * @method Magento_Sales_Model_Quote setExtShippingInfo(string $value)
+ * @method \Magento\Sales\Model\Quote setExtShippingInfo(string $value)
  * @method int getGiftMessageId()
- * @method Magento_Sales_Model_Quote setGiftMessageId(int $value)
+ * @method \Magento\Sales\Model\Quote setGiftMessageId(int $value)
  * @method bool|null getIsPersistent()
- * @method Magento_Sales_Model_Quote setIsPersistent(bool $value)
+ * @method \Magento\Sales\Model\Quote setIsPersistent(bool $value)
  */
-class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
+namespace Magento\Sales\Model;
+
+class Quote extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Checkout login method key
@@ -136,28 +138,28 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
     /**
      * Quote customer model object
      *
-     * @var Magento_Customer_Model_Customer
+     * @var \Magento\Customer\Model\Customer
      */
     protected $_customer;
 
     /**
      * Quote addresses collection
      *
-     * @var Magento_Eav_Model_Entity_Collection_Abstract
+     * @var \Magento\Eav\Model\Entity\Collection\AbstractCollection
      */
     protected $_addresses;
 
     /**
      * Quote items collection
      *
-     * @var Magento_Eav_Model_Entity_Collection_Abstract
+     * @var \Magento\Eav\Model\Entity\Collection\AbstractCollection
      */
     protected $_items;
 
     /**
      * Quote payments
      *
-     * @var Magento_Eav_Model_Entity_Collection_Abstract
+     * @var \Magento\Eav\Model\Entity\Collection\AbstractCollection
      */
     protected $_payments;
 
@@ -178,153 +180,153 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData;
 
     /**
      * Catalog product
      *
-     * @var Magento_Catalog_Helper_Product
+     * @var \Magento\Catalog\Helper\Product
      */
     protected $_catalogProduct;
 
     /**
      * Sales data
      *
-     * @var Magento_Sales_Helper_Data
+     * @var \Magento\Sales\Helper\Data
      */
     protected $_salesData;
 
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_ConfigInterface
+     * @var \Magento\Core\Model\Store\ConfigInterface
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_config;
 
     /**
-     * @var Magento_Sales_Model_Quote_AddressFactory
+     * @var \Magento\Sales\Model\Quote\AddressFactory
      */
     protected $_quoteAddressFactory;
 
     /**
-     * @var Magento_Customer_Model_CustomerFactory
+     * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $_customerFactory;
 
     /**
-     * @var Magento_Customer_Model_GroupFactory
+     * @var \Magento\Customer\Model\GroupFactory
      */
     protected $_customerGroupFactory;
 
     /**
-     * @var Magento_Sales_Model_Resource_Quote_Item_CollectionFactory
+     * @var \Magento\Sales\Model\Resource\Quote\Item\CollectionFactory
      */
     protected $_quoteItemCollFactory;
 
     /**
-     * @var Magento_Sales_Model_Quote_ItemFactory
+     * @var \Magento\Sales\Model\Quote\ItemFactory
      */
     protected $_quoteItemFactory;
 
     /**
-     * @var Magento_Core_Model_Message
+     * @var \Magento\Core\Model\Message
      */
     protected $_message;
 
     /**
-     * @var Magento_Sales_Model_Status_ListFactory
+     * @var \Magento\Sales\Model\Status\ListFactory
      */
     protected $_statusListFactory;
 
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
-     * @var Magento_Sales_Model_Quote_PaymentFactory
+     * @var \Magento\Sales\Model\Quote\PaymentFactory
      */
     protected $_quotePaymentFactory;
 
     /**
-     * @var Magento_Sales_Model_Resource_Quote_Payment_CollectionFactory
+     * @var \Magento\Sales\Model\Resource\Quote\Payment\CollectionFactory
      */
     protected $_quotePaymentCollFactory;
 
     /**
-     * @var Magento_Sales_Model_Recurring_ProfileFactory
+     * @var \Magento\Sales\Model\Recurring\ProfileFactory
      */
     protected $_recurringProfileFactory;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Sales_Helper_Data $salesData
-     * @param Magento_Catalog_Helper_Product $catalogProduct
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Sales_Model_Quote_AddressFactory $quoteAddressFactory
-     * @param Magento_Customer_Model_CustomerFactory $customerFactory
-     * @param Magento_Customer_Model_GroupFactory $customerGroupFactory
-     * @param Magento_Sales_Model_Resource_Quote_Item_CollectionFactory $quoteItemCollFactory
-     * @param Magento_Sales_Model_Quote_ItemFactory $quoteItemFactory
-     * @param Magento_Core_Model_Message $message
-     * @param Magento_Sales_Model_Status_ListFactory $statusListFactory
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Sales_Model_Quote_PaymentFactory $quotePaymentFactory
-     * @param Magento_Sales_Model_Resource_Quote_Payment_CollectionFactory $quotePaymentCollFactory
-     * @param Magento_Sales_Model_Recurring_ProfileFactory $recurringProfileFactory
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Sales\Helper\Data $salesData
+     * @param \Magento\Catalog\Helper\Product $catalogProduct
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Sales\Model\Quote\AddressFactory $quoteAddressFactory
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Customer\Model\GroupFactory $customerGroupFactory
+     * @param \Magento\Sales\Model\Resource\Quote\Item\CollectionFactory $quoteItemCollFactory
+     * @param \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory
+     * @param \Magento\Core\Model\Message $message
+     * @param \Magento\Sales\Model\Status\ListFactory $statusListFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Sales\Model\Quote\PaymentFactory $quotePaymentFactory
+     * @param \Magento\Sales\Model\Resource\Quote\Payment\CollectionFactory $quotePaymentCollFactory
+     * @param \Magento\Sales\Model\Recurring\ProfileFactory $recurringProfileFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Sales_Helper_Data $salesData,
-        Magento_Catalog_Helper_Product $catalogProduct,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Config $config,
-        Magento_Sales_Model_Quote_AddressFactory $quoteAddressFactory,
-        Magento_Customer_Model_CustomerFactory $customerFactory,
-        Magento_Customer_Model_GroupFactory $customerGroupFactory,
-        Magento_Sales_Model_Resource_Quote_Item_CollectionFactory $quoteItemCollFactory,
-        Magento_Sales_Model_Quote_ItemFactory $quoteItemFactory,
-        Magento_Core_Model_Message $message,
-        Magento_Sales_Model_Status_ListFactory $statusListFactory,
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Sales_Model_Quote_PaymentFactory $quotePaymentFactory,
-        Magento_Sales_Model_Resource_Quote_Payment_CollectionFactory $quotePaymentCollFactory,
-        Magento_Sales_Model_Recurring_ProfileFactory $recurringProfileFactory,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Sales\Helper\Data $salesData,
+        \Magento\Catalog\Helper\Product $catalogProduct,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Config $config,
+        \Magento\Sales\Model\Quote\AddressFactory $quoteAddressFactory,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Customer\Model\GroupFactory $customerGroupFactory,
+        \Magento\Sales\Model\Resource\Quote\Item\CollectionFactory $quoteItemCollFactory,
+        \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory,
+        \Magento\Core\Model\Message $message,
+        \Magento\Sales\Model\Status\ListFactory $statusListFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Sales\Model\Quote\PaymentFactory $quotePaymentFactory,
+        \Magento\Sales\Model\Resource\Quote\Payment\CollectionFactory $quotePaymentCollFactory,
+        \Magento\Sales\Model\Recurring\ProfileFactory $recurringProfileFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -353,7 +355,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Resource_Quote');
+        $this->_init('Magento\Sales\Model\Resource\Quote');
     }
 
     /**
@@ -372,7 +374,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
     /**
      * Get quote store model object
      *
-     * @return  Magento_Core_Model_Store
+     * @return  \Magento\Core\Model\Store
      */
     public function getStore()
     {
@@ -382,10 +384,10 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
     /**
      * Declare quote store model
      *
-     * @param   Magento_Core_Model_Store $store
-     * @return  Magento_Sales_Model_Quote
+     * @param   \Magento\Core\Model\Store $store
+     * @return  \Magento\Sales\Model\Quote
      */
-    public function setStore(Magento_Core_Model_Store $store)
+    public function setStore(\Magento\Core\Model\Store $store)
     {
         $this->setStoreId($store->getId());
         return $this;
@@ -412,7 +414,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
     /**
      * Prepare data before save
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     protected function _beforeSave()
     {
@@ -430,7 +432,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
          *      base_to_global & base_to_quote/base_to_order
          */
         $globalCurrencyCode  = $this->_config->getValue(
-            Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE,
+            \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE,
             'default'
         );
         $baseCurrency = $this->getStore()->getBaseCurrency();
@@ -465,7 +467,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
     /**
      * Save related items
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     protected function _afterSave()
     {
@@ -488,12 +490,12 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
     /**
      * Loading quote data by customer
      *
-     * @param Magento_Customer_Model_Customer|int $customer
-     * @return Magento_Sales_Model_Quote
+     * @param \Magento\Customer\Model\Customer|int $customer
+     * @return \Magento\Sales\Model\Quote
      */
     public function loadByCustomer($customer)
     {
-        if ($customer instanceof Magento_Customer_Model_Customer) {
+        if ($customer instanceof \Magento\Customer\Model\Customer) {
             $customerId = $customer->getId();
         } else {
             $customerId = (int)$customer;
@@ -507,7 +509,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
      * Loading only active quote
      *
      * @param int $quoteId
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function loadActive($quoteId)
     {
@@ -520,7 +522,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
      * Loading quote by identifier
      *
      * @param int $quoteId
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function loadByIdWithoutStore($quoteId)
     {
@@ -532,10 +534,10 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
     /**
      * Assign customer model object data to quote
      *
-     * @param   Magento_Customer_Model_Customer $customer
-     * @return  Magento_Sales_Model_Quote
+     * @param   \Magento\Customer\Model\Customer $customer
+     * @return  \Magento\Sales\Model\Quote
      */
-    public function assignCustomer(Magento_Customer_Model_Customer $customer)
+    public function assignCustomer(\Magento\Customer\Model\Customer $customer)
     {
         return $this->assignCustomerWithAddressChange($customer);
     }
@@ -543,15 +545,15 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
     /**
      * Assign customer model to quote with billing and shipping address change
      *
-     * @param  Magento_Customer_Model_Customer    $customer
-     * @param  Magento_Sales_Model_Quote_Address  $billingAddress
-     * @param  Magento_Sales_Model_Quote_Address  $shippingAddress
-     * @return Magento_Sales_Model_Quote
+     * @param  \Magento\Customer\Model\Customer    $customer
+     * @param  \Magento\Sales\Model\Quote\Address  $billingAddress
+     * @param  \Magento\Sales\Model\Quote\Address  $shippingAddress
+     * @return \Magento\Sales\Model\Quote
      */
     public function assignCustomerWithAddressChange(
-        Magento_Customer_Model_Customer    $customer,
-        Magento_Sales_Model_Quote_Address  $billingAddress  = null,
-        Magento_Sales_Model_Quote_Address  $shippingAddress = null
+        \Magento\Customer\Model\Customer    $customer,
+        \Magento\Sales\Model\Quote\Address  $billingAddress  = null,
+        \Magento\Sales\Model\Quote\Address  $shippingAddress = null
     ) {
         if ($customer->getId()) {
             $this->setCustomer($customer);
@@ -585,10 +587,10 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
     /**
      * Define customer object
      *
-     * @param   Magento_Customer_Model_Customer $customer
-     * @return  Magento_Sales_Model_Quote
+     * @param   \Magento\Customer\Model\Customer $customer
+     * @return  \Magento\Sales\Model\Quote
      */
-    public function setCustomer(Magento_Customer_Model_Customer $customer)
+    public function setCustomer(\Magento\Customer\Model\Customer $customer)
     {
         $this->_customer = $customer;
         $this->setCustomerId($customer->getId());
@@ -599,7 +601,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
     /**
      * Retrieve customer model object
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function getCustomer()
     {
@@ -628,7 +630,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
         } elseif ($this->getCustomerId()) {
             return $this->getCustomer()->getGroupId();
         } else {
-            return Magento_Customer_Model_Group::NOT_LOGGED_IN_ID;
+            return \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID;
         }
     }
 
@@ -652,7 +654,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
     /**
      * Retrieve quote address collection
      *
-     * @return Magento_Eav_Model_Entity_Collection_Abstract
+     * @return \Magento\Eav\Model\Entity\Collection\AbstractCollection
      */
     public function getAddressesCollection()
     {
@@ -673,7 +675,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
      * Retrieve quote address by type
      *
      * @param   string $type
-     * @return  Magento_Sales_Model_Quote_Address
+     * @return  \Magento\Sales\Model\Quote\Address
      */
     protected function _getAddressByType($type)
     {
@@ -691,21 +693,21 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
     /**
      * Retrieve quote billing address
      *
-     * @return Magento_Sales_Model_Quote_Address
+     * @return \Magento\Sales\Model\Quote\Address
      */
     public function getBillingAddress()
     {
-        return $this->_getAddressByType(Magento_Sales_Model_Quote_Address::TYPE_BILLING);
+        return $this->_getAddressByType(\Magento\Sales\Model\Quote\Address::TYPE_BILLING);
     }
 
     /**
      * Retrieve quote shipping address
      *
-     * @return Magento_Sales_Model_Quote_Address
+     * @return \Magento\Sales\Model\Quote\Address
      */
     public function getShippingAddress()
     {
-        return $this->_getAddressByType(Magento_Sales_Model_Quote_Address::TYPE_SHIPPING);
+        return $this->_getAddressByType(\Magento\Sales\Model\Quote\Address::TYPE_SHIPPING);
     }
 
     /**
@@ -715,7 +717,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
     {
         $addresses = array();
         foreach ($this->getAddressesCollection() as $address) {
-            if ($address->getAddressType() == Magento_Sales_Model_Quote_Address::TYPE_SHIPPING
+            if ($address->getAddressType() == \Magento\Sales\Model\Quote\Address::TYPE_SHIPPING
                 && !$address->isDeleted()
             ) {
                 $addresses[] = $address;
@@ -741,7 +743,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
     /**
      *
      * @param int $addressId
-     * @return Magento_Sales_Model_Quote_Address
+     * @return \Magento\Sales\Model\Quote\Address
      */
     public function getAddressById($addressId)
     {
@@ -774,7 +776,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
     public function getShippingAddressByCustomerAddressId($addressId)
     {
         foreach ($this->getAddressesCollection() as $address) {
-            if (!$address->isDeleted() && $address->getAddressType() == Magento_Sales_Model_Quote_Address::TYPE_SHIPPING
+            if (!$address->isDeleted() && $address->getAddressType() == \Magento\Sales\Model\Quote\Address::TYPE_SHIPPING
                 && $address->getCustomerAddressId() == $addressId
             ) {
                 return $address;
@@ -801,7 +803,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
     /**
      * Leave no more than one billing and one shipping address, fill them with default data
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function removeAllAddresses()
     {
@@ -836,10 +838,10 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
     }
 
     /**
-     * @param Magento_Sales_Model_Quote_Address $address
+     * @param \Magento\Sales\Model\Quote\Address $address
      * @return $this
      */
-    public function addAddress(Magento_Sales_Model_Quote_Address $address)
+    public function addAddress(\Magento\Sales\Model\Quote\Address $address)
     {
         $address->setQuote($this);
         if (!$address->getId()) {
@@ -849,17 +851,17 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
     }
 
     /**
-     * @param Magento_Sales_Model_Quote_Address $address
-     * @return Magento_Sales_Model_Quote
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @return \Magento\Sales\Model\Quote
      */
-    public function setBillingAddress(Magento_Sales_Model_Quote_Address $address)
+    public function setBillingAddress(\Magento\Sales\Model\Quote\Address $address)
     {
         $old = $this->getBillingAddress();
 
         if (!empty($old)) {
             $old->addData($address->getData());
         } else {
-            $this->addAddress($address->setAddressType(Magento_Sales_Model_Quote_Address::TYPE_BILLING));
+            $this->addAddress($address->setAddressType(\Magento\Sales\Model\Quote\Address::TYPE_BILLING));
         }
         return $this;
     }
@@ -867,29 +869,29 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
     /**
      * Set shipping address
      *
-     * @param Magento_Sales_Model_Quote_Address $address
-     * @return Magento_Sales_Model_Quote
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @return \Magento\Sales\Model\Quote
      */
-    public function setShippingAddress(Magento_Sales_Model_Quote_Address $address)
+    public function setShippingAddress(\Magento\Sales\Model\Quote\Address $address)
     {
         if ($this->getIsMultiShipping()) {
-            $this->addAddress($address->setAddressType(Magento_Sales_Model_Quote_Address::TYPE_SHIPPING));
+            $this->addAddress($address->setAddressType(\Magento\Sales\Model\Quote\Address::TYPE_SHIPPING));
         } else {
             $old = $this->getShippingAddress();
             if (!empty($old)) {
                 $old->addData($address->getData());
             } else {
-                $this->addAddress($address->setAddressType(Magento_Sales_Model_Quote_Address::TYPE_SHIPPING));
+                $this->addAddress($address->setAddressType(\Magento\Sales\Model\Quote\Address::TYPE_SHIPPING));
             }
         }
         return $this;
     }
 
     /**
-     * @param Magento_Sales_Model_Quote_Address $address
+     * @param \Magento\Sales\Model\Quote\Address $address
      * @return $this
      */
-    public function addShippingAddress(Magento_Sales_Model_Quote_Address $address)
+    public function addShippingAddress(\Magento\Sales\Model\Quote\Address $address)
     {
         $this->setShippingAddress($address);
         return $this;
@@ -899,7 +901,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
      * Retrieve quote items collection
      *
      * @param bool $useCache
-     * @return  Magento_Eav_Model_Entity_Collection_Abstract
+     * @return  \Magento\Eav\Model\Entity\Collection\AbstractCollection
      */
     public function getItemsCollection($useCache = true)
     {
@@ -993,7 +995,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
      * Retrieve item model object by item identifier
      *
      * @param   int $itemId
-     * @return  Magento_Sales_Model_Quote_Item
+     * @return  \Magento\Sales\Model\Quote\Item
      */
     public function getItemById($itemId)
     {
@@ -1003,10 +1005,10 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
     /**
      * Delete quote item. If it does not have identifier then it will be only removed from collection
      *
-     * @param   Magento_Sales_Model_Quote_Item $item
-     * @return  Magento_Sales_Model_Quote
+     * @param   \Magento\Sales\Model\Quote\Item $item
+     * @return  \Magento\Sales\Model\Quote
      */
-    public function deleteItem(Magento_Sales_Model_Quote_Item $item)
+    public function deleteItem(\Magento\Sales\Model\Quote\Item $item)
     {
         if ($item->getId()) {
             $this->removeItem($item->getId());
@@ -1034,7 +1036,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
      * Remove quote item by item identifier
      *
      * @param   int $itemId
-     * @return  Magento_Sales_Model_Quote
+     * @return  \Magento\Sales\Model\Quote
      */
     public function removeItem($itemId)
     {
@@ -1067,7 +1069,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
     /**
      * Mark all quote items as deleted (empty quote)
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function removeAllItems()
     {
@@ -1084,11 +1086,11 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
     /**
      * Adding new item to quote
      *
-     * @param   Magento_Sales_Model_Quote_Item $item
-     * @return  Magento_Sales_Model_Quote
-     * @throws Magento_Core_Exception
+     * @param   \Magento\Sales\Model\Quote\Item $item
+     * @return  \Magento\Sales\Model\Quote
+     * @throws \Magento\Core\Exception
      */
-    public function addItem(Magento_Sales_Model_Quote_Item $item)
+    public function addItem(\Magento\Sales\Model\Quote\Item $item)
     {
         /**
          * Temporary workaround for purchase process: it is too dangerous to purchase more than one nominal item
@@ -1099,7 +1101,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
          * Proper solution is to submit items one by one with customer confirmation each time.
          */
         if ($item->isNominal() && $this->hasItems() || $this->hasNominalItems()) {
-            throw new Magento_Core_Exception(
+            throw new \Magento\Core\Exception(
                 __('Sorry, but items with payment agreements must be ordered one at a time To continue, please remove or buy the other items in your cart, then order this item by itself.')
             );
         }
@@ -1117,21 +1119,21 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
      * Returns error message if product type instance can't prepare product.
      *
      * @param mixed $product
-     * @param null|float|Magento_Object $request
+     * @param null|float|\Magento\Object $request
      * @param null|string $processMode
-     * @return Magento_Sales_Model_Quote_Item|string
-     * @throws Magento_Core_Exception
+     * @return \Magento\Sales\Model\Quote\Item|string
+     * @throws \Magento\Core\Exception
      */
-    public function addProductAdvanced(Magento_Catalog_Model_Product $product, $request = null, $processMode = null)
+    public function addProductAdvanced(\Magento\Catalog\Model\Product $product, $request = null, $processMode = null)
     {
         if ($request === null) {
             $request = 1;
         }
         if (is_numeric($request)) {
-            $request = new Magento_Object(array('qty'=>$request));
+            $request = new \Magento\Object(array('qty'=>$request));
         }
-        if (!($request instanceof Magento_Object)) {
-            throw new Magento_Core_Exception(__('We found an invalid request for adding product to quote.'));
+        if (!($request instanceof \Magento\Object)) {
+            throw new \Magento\Core\Exception(__('We found an invalid request for adding product to quote.'));
         }
 
         $cartCandidates = $product->getTypeInstance()->prepareForCartAdvanced($request, $product, $processMode);
@@ -1187,7 +1189,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
             }
         }
         if (!empty($errors)) {
-            throw new Magento_Core_Exception(implode("\n", $errors));
+            throw new \Magento\Core\Exception(implode("\n", $errors));
         }
 
         $this->_eventManager->dispatch('sales_quote_product_add_after', array('items' => $items));
@@ -1202,26 +1204,26 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
      * return error message if product type instance can't prepare product
      *
      * @param mixed $product
-     * @param null|float|Magento_Object $request
-     * @return Magento_Sales_Model_Quote_Item|string
+     * @param null|float|\Magento\Object $request
+     * @return \Magento\Sales\Model\Quote\Item|string
      */
-    public function addProduct(Magento_Catalog_Model_Product $product, $request = null)
+    public function addProduct(\Magento\Catalog\Model\Product $product, $request = null)
     {
         return $this->addProductAdvanced(
             $product,
             $request,
-            Magento_Catalog_Model_Product_Type_Abstract::PROCESS_MODE_FULL
+            \Magento\Catalog\Model\Product\Type\AbstractType::PROCESS_MODE_FULL
         );
     }
 
     /**
      * Adding catalog product object data to quote
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param int $qty
-     * @return Magento_Sales_Model_Quote_Item
+     * @return \Magento\Sales\Model\Quote\Item
      */
-    protected function _addCatalogProduct(Magento_Catalog_Model_Product $product, $qty = 1)
+    protected function _addCatalogProduct(\Magento\Catalog\Model\Product $product, $qty = 1)
     {
         $newItem = false;
         $item = $this->getItemByProduct($product);
@@ -1257,29 +1259,29 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
      * Updates quote item with new configuration
      *
      * $params sets how current item configuration must be taken into account and additional options.
-     * It's passed to Magento_Catalog_Helper_Product->addParamsToBuyRequest() to compose resulting buyRequest.
+     * It's passed to \Magento\Catalog\Helper\Product->addParamsToBuyRequest() to compose resulting buyRequest.
      *
      * Basically it can hold
-     * - 'current_config', Magento_Object or array - current buyRequest that configures product in this item,
+     * - 'current_config', \Magento\Object or array - current buyRequest that configures product in this item,
      *   used to restore currently attached files
      * - 'files_prefix': string[a-z0-9_] - prefix that was added at frontend to names of file options (file inputs),
      *   so they won't intersect with other submitted options
      *
-     * For more options see Magento_Catalog_Helper_Product->addParamsToBuyRequest()
+     * For more options see \Magento\Catalog\Helper\Product->addParamsToBuyRequest()
      *
      * @param int $itemId
-     * @param Magento_Object $buyRequest
-     * @param null|array|Magento_Object $params
-     * @return Magento_Sales_Model_Quote_Item
-     * @throws Magento_Core_Exception
+     * @param \Magento\Object $buyRequest
+     * @param null|array|\Magento\Object $params
+     * @return \Magento\Sales\Model\Quote\Item
+     * @throws \Magento\Core\Exception
      *
-     * @see Magento_Catalog_Helper_Product::addParamsToBuyRequest()
+     * @see \Magento\Catalog\Helper\Product::addParamsToBuyRequest()
      */
     public function updateItem($itemId, $buyRequest, $params = null)
     {
         $item = $this->getItemById($itemId);
         if (!$item) {
-            throw new Magento_Core_Exception(__('This is the wrong quote item id to update configuration.'));
+            throw new \Magento\Core\Exception(__('This is the wrong quote item id to update configuration.'));
         }
         $productId = $item->getProduct()->getId();
 
@@ -1290,9 +1292,9 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
             ->load($productId);
 
         if (!$params) {
-            $params = new Magento_Object();
+            $params = new \Magento\Object();
         } elseif (is_array($params)) {
-            $params = new Magento_Object($params);
+            $params = new \Magento\Object($params);
         }
         $params->setCurrentConfig($item->getBuyRequest());
         $buyRequest = $this->_catalogProduct->addParamsToBuyRequest($buyRequest, $params);
@@ -1301,7 +1303,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
         $resultItem = $this->addProduct($product, $buyRequest);
 
         if (is_string($resultItem)) {
-            throw new Magento_Core_Exception($resultItem);
+            throw new \Magento\Core\Exception($resultItem);
         }
 
         if ($resultItem->getParentItem()) {
@@ -1335,8 +1337,8 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
     /**
      * Retrieve quote item by product id
      *
-     * @param   Magento_Catalog_Model_Product $product
-     * @return  Magento_Sales_Model_Quote_Item|bool
+     * @param   \Magento\Catalog\Model\Product $product
+     * @return  \Magento\Sales\Model\Quote\Item|bool
      */
     public function getItemByProduct($product)
     {
@@ -1408,7 +1410,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
 
     /*********************** PAYMENTS ***************************/
     /**
-     * @return Magento_Eav_Model_Entity_Collection_Abstract
+     * @return \Magento\Eav\Model\Entity\Collection\AbstractCollection
      */
     public function getPaymentsCollection()
     {
@@ -1426,7 +1428,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
     }
 
     /**
-     * @return Magento_Sales_Model_Quote_Payment
+     * @return \Magento\Sales\Model\Quote\Payment
      */
     public function getPayment()
     {
@@ -1455,10 +1457,10 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
     }
 
     /**
-     * @param Magento_Sales_Model_Quote_Payment $payment
+     * @param \Magento\Sales\Model\Quote\Payment $payment
      * @return $this
      */
-    public function addPayment(Magento_Sales_Model_Quote_Payment $payment)
+    public function addPayment(\Magento\Sales\Model\Quote\Payment $payment)
     {
         $payment->setQuote($this);
         if (!$payment->getId()) {
@@ -1468,10 +1470,10 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
     }
 
     /**
-     * @param Magento_Sales_Model_Quote_Payment $payment
-     * @return Magento_Sales_Model_Quote_Payment
+     * @param \Magento\Sales\Model\Quote\Payment $payment
+     * @return \Magento\Sales\Model\Quote\Payment
      */
-    public function setPayment(Magento_Sales_Model_Quote_Payment $payment)
+    public function setPayment(\Magento\Sales\Model\Quote\Payment $payment)
     {
         if (!$this->getIsMultiPayment() && ($old = $this->getPayment())) {
             $payment->setId($old->getId());
@@ -1493,7 +1495,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
     /**
      * Collect totals
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function collectTotals()
     {
@@ -1554,7 +1556,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
     /**
      * Collect items qty
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     protected function _collectItemsQtys()
     {
@@ -1620,7 +1622,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
 
         $sortedTotals = array();
         foreach ($this->getBillingAddress()->getTotalCollector()->getRetrievers() as $total) {
-            /* @var $total Magento_Sales_Model_Quote_Address_Total_Abstract */
+            /* @var $total \Magento\Sales\Model\Quote\Address\Total\AbstractTotal */
             if (isset($totals[$total->getCode()])) {
                 $sortedTotals[$total->getCode()] = $totals[$total->getCode()];
             }
@@ -1677,8 +1679,8 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
     {
         $errors = array();
         foreach ($this->getMessages() as $message) {
-            /* @var $error Magento_Core_Model_Message_Abstract */
-            if ($message->getType() == Magento_Core_Model_Message::ERROR) {
+            /* @var $error \Magento\Core\Model\Message\AbstractMessage */
+            if ($message->getType() == \Magento\Core\Model\Message::ERROR) {
                 array_push($errors, $message);
             }
         }
@@ -1689,7 +1691,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
      * Sets flag, whether this quote has some error associated with it.
      *
      * @param bool $flag
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     protected function _setHasError($flag)
     {
@@ -1703,7 +1705,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
      * It's recommended to use addErrorInfo() instead - to be able to remove error statuses later.
      *
      * @param bool $flag
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      * @see addErrorInfo()
      */
     public function setHasError($flag)
@@ -1720,7 +1722,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
      * Clears list of errors, associated with this quote.
      * Also automatically removes error-flag from oneself.
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     protected function _clearErrorInfo()
     {
@@ -1737,8 +1739,8 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
      * @param string|null $origin Usually a name of module, that embeds error
      * @param int|null $code Error code, unique for origin, that sets it
      * @param string|null $message Error message
-     * @param Magento_Object|null $additionalData Any additional data, that caller would like to store
-     * @return Magento_Sales_Model_Quote
+     * @param \Magento\Object|null $additionalData Any additional data, that caller would like to store
+     * @return \Magento\Sales\Model\Quote
      */
     public function addErrorInfo($type = 'error', $origin = null, $code = null, $message = null, $additionalData = null)
     {
@@ -1763,7 +1765,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
      *
      * @param string $type An internal error type ('error', 'qty', etc.), passed then to adding messages routine
      * @param array $params
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function removeErrorInfosByParams($type = 'error', $params)
     {
@@ -1806,7 +1808,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
      *
      * @param string $type
      * @param string $text
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function removeMessageByText($type = 'error', $text)
     {
@@ -1820,7 +1822,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
         }
 
         $message = $messages[$type];
-        if ($message instanceof Magento_Core_Model_Message_Abstract) {
+        if ($message instanceof \Magento\Core\Model\Message\AbstractMessage) {
             $message = $message->getText();
         } elseif (!is_string($message)) {
             return $this;
@@ -1835,7 +1837,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
     /**
      * Generate new increment order id and associate it with current quote
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function reserveOrderId()
     {
@@ -1881,7 +1883,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
             } else {
                 $baseTotal = 0;
                 foreach ($addresses as $address) {
-                    /* @var $address Magento_Sales_Model_Quote_Address */
+                    /* @var $address \Magento\Sales\Model\Quote\Address */
                     $baseTotal += $address->getBaseSubtotalWithDiscount();
                 }
                 if ($baseTotal < $minAmount) {
@@ -1890,7 +1892,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
             }
         } else {
             foreach ($addresses as $address) {
-                /* @var $address Magento_Sales_Model_Quote_Address */
+                /* @var $address \Magento\Sales\Model\Quote\Address */
                 if (!$address->validateMinimumAmount()) {
                     return false;
                 }
@@ -1909,7 +1911,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
         $isVirtual = true;
         $countItems = 0;
         foreach ($this->getItemsCollection() as $_item) {
-            /* @var $_item Magento_Sales_Model_Quote_Item */
+            /* @var $_item \Magento\Sales\Model\Quote\Item */
             if ($_item->isDeleted() || $_item->getParentItemId()) {
                 continue;
             }
@@ -1954,10 +1956,10 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
     /**
      * Merge quotes
      *
-     * @param   Magento_Sales_Model_Quote $quote
-     * @return  Magento_Sales_Model_Quote
+     * @param   \Magento\Sales\Model\Quote $quote
+     * @return  \Magento\Sales\Model\Quote
      */
-    public function merge(Magento_Sales_Model_Quote $quote)
+    public function merge(\Magento\Sales\Model\Quote $quote)
     {
         $this->_eventManager->dispatch($this->_eventPrefix . '_merge_before', array(
             $this->_eventObject => $this,
@@ -2061,13 +2063,13 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
      * Create recurring payment profiles basing on the current items
      *
      * @return array
-     * @throws Exception
+     * @throws \Exception
      */
     public function prepareRecurringPaymentProfiles()
     {
         if (!$this->getTotalsCollectedFlag()) {
             // Whoops! Make sure nominal totals must be calculated here.
-            throw new Exception('Quote totals must be collected before this operation.');
+            throw new \Exception('Quote totals must be collected before this operation.');
         }
 
         $result = array();
@@ -2110,7 +2112,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
     /**
      * Trigger collect totals after loading, if required
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     protected function _afterLoad()
     {
@@ -2138,7 +2140,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
     /**
      * Prevent quote from saving
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function preventSaving()
     {
@@ -2149,7 +2151,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
     /**
      * Save quote with prevention checking
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function save()
     {

@@ -15,15 +15,17 @@
  * @package    Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Totals
+namespace Magento\Reports\Model;
+
+class Totals
 {
     /**
      * Retrieve count totals
      *
-     * @param Magento_Adminhtml_Block_Widget_Grid $grid
+     * @param \Magento\Adminhtml\Block\Widget\Grid $grid
      * @param string $from
      * @param string $to
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function countTotals($grid, $from, $to)
     {
@@ -71,7 +73,7 @@ class Magento_Reports_Model_Totals
             }
         }
 
-        $totals = new Magento_Object();
+        $totals = new \Magento\Object();
         $totals->setData($data);
 
         return $totals;

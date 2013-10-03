@@ -15,48 +15,50 @@
  * @package     Magento_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Search_Block_Catalogsearch_Layer extends Magento_CatalogSearch_Block_Layer
+namespace Magento\Search\Block\Catalogsearch;
+
+class Layer extends \Magento\CatalogSearch\Block\Layer
 {
     /**
      * Search data
      *
-     * @var Magento_Search_Helper_Data
+     * @var \Magento\Search\Helper\Data
      */
     protected $_searchData;
 
     /**
      * Extended search layer
      *
-     * @var Magento_Search_Model_Search_Layer
+     * @var \Magento\Search\Model\Search\Layer
      */
     protected $_searchLayer;
 
     /**
      * Construct
      *
-     * @param Magento_CatalogSearch_Model_Layer $layer
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider
-     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
-     * @param Magento_CatalogSearch_Model_Layer $catalogSearchLayer
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Search_Helper_Data $searchData
-     * @param Magento_Search_Model_Search_Layer $searchLayer
+     * @param \Magento\CatalogSearch\Model\Layer $layer
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
+     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
+     * @param \Magento\CatalogSearch\Model\Layer $catalogSearchLayer
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Search\Helper\Data $searchData
+     * @param \Magento\Search\Model\Search\Layer $searchLayer
      * @param array $data
      */
     public function __construct(
-        Magento_CatalogSearch_Model_Layer $layer,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider,
-        Magento_CatalogSearch_Helper_Data $catalogSearchData,
-        Magento_CatalogSearch_Model_Layer $catalogSearchLayer,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Registry $registry,
-        Magento_Search_Helper_Data $searchData,
-        Magento_Search_Model_Search_Layer $searchLayer,
+        \Magento\CatalogSearch\Model\Layer $layer,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
+        \Magento\CatalogSearch\Helper\Data $catalogSearchData,
+        \Magento\CatalogSearch\Model\Layer $catalogSearchLayer,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Search\Helper\Data $searchData,
+        \Magento\Search\Model\Search\Layer $searchLayer,
         array $data = array()
     ) {
         $this->_searchData = $searchData;
@@ -73,17 +75,17 @@ class Magento_Search_Block_Catalogsearch_Layer extends Magento_CatalogSearch_Blo
         parent::_initBlocks();
 
         if ($this->_searchData->getIsEngineAvailableForNavigation(false)) {
-            $this->_categoryBlockName        = 'Magento_Search_Block_Catalog_Layer_Filter_Category';
-            $this->_attributeFilterBlockName = 'Magento_Search_Block_Catalogsearch_Layer_Filter_Attribute';
-            $this->_priceFilterBlockName     = 'Magento_Search_Block_Catalog_Layer_Filter_Price';
-            $this->_decimalFilterBlockName   = 'Magento_Search_Block_Catalog_Layer_Filter_Decimal';
+            $this->_categoryBlockName        = 'Magento\Search\Block\Catalog\Layer\Filter\Category';
+            $this->_attributeFilterBlockName = 'Magento\Search\Block\Catalogsearch\Layer\Filter\Attribute';
+            $this->_priceFilterBlockName     = 'Magento\Search\Block\Catalog\Layer\Filter\Price';
+            $this->_decimalFilterBlockName   = 'Magento\Search\Block\Catalog\Layer\Filter\Decimal';
         }
     }
 
     /**
      * Prepare child blocks
      *
-     * @return Magento_Search_Block_Catalog_Layer_View
+     * @return \Magento\Search\Block\Catalog\Layer\View
      */
     protected function _prepareLayout()
     {
@@ -145,7 +147,7 @@ class Magento_Search_Block_Catalogsearch_Layer extends Magento_CatalogSearch_Blo
     /**
      * Get layer object
      *
-     * @return Magento_Catalog_Model_Layer
+     * @return \Magento\Catalog\Model\Layer
      */
     public function getLayer()
     {

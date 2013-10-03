@@ -9,20 +9,22 @@
  * @license     {license_link}
  */
 
-require_once __DIR__ . '/OutputBambooTestFilter.php';
+namespace Magento\Test\Profiler;
+
 /**
- * Test class for Magento_TestFramework_Profiler_OutputBamboo.
+ * Test class for \Magento\TestFramework\Profiler\OutputBamboo.
  */
-class Magento_Test_Profiler_OutputBambooTest extends PHPUnit_Framework_TestCase
+require_once __DIR__ . '/OutputBambooTestFilter.php';
+class OutputBambooTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_Profiler_OutputBamboo
+     * @var \Magento\TestFramework\Profiler\OutputBamboo
      */
     protected $_output;
 
     public static function setUpBeforeClass()
     {
-        stream_filter_register('dataCollectorFilter', 'Magento_Test_Profiler_OutputBambooTestFilter');
+        stream_filter_register('dataCollectorFilter', 'Magento\Test\Profiler\OutputBambooTestFilter');
     }
 
     /**
@@ -30,12 +32,12 @@ class Magento_Test_Profiler_OutputBambooTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        Magento_Test_Profiler_OutputBambooTestFilter::resetCollectedData();
+        \Magento\Test\Profiler\OutputBambooTestFilter::resetCollectedData();
 
         /**
          * @link http://php.net/manual/en/wrappers.php.php
          */
-        $this->_output = new Magento_TestFramework_Profiler_OutputBamboo(array(
+        $this->_output = new \Magento\TestFramework\Profiler\OutputBamboo(array(
             'filePath' => 'php://filter/write=dataCollectorFilter/resource=php://memory',
             'metrics' => array('sample metric (ms)' => array('profiler_key_for_sample_metric'))
         ));
@@ -43,7 +45,7 @@ class Magento_Test_Profiler_OutputBambooTest extends PHPUnit_Framework_TestCase
 
     public function testDisplay()
     {
-        $this->_output->display(new Magento_Profiler_Driver_Standard_Stat());
-        Magento_Test_Profiler_OutputBambooTestFilter::assertCollectedData("Timestamp,\"sample metric (ms)\"\n%d,%d");
+        $this->_output->display(new \Magento\Profiler\Driver\Standard\Stat());
+        \Magento\Test\Profiler\OutputBambooTestFilter::assertCollectedData("Timestamp,\"sample metric (ms)\"\n%d,%d");
     }
 }

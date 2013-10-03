@@ -12,7 +12,9 @@
  * This class is responsible for parsing content and applying necessary html element
  * wrapping and client scripts for inline translation.
  */
-class Magento_Core_Model_Translate_InlineParser
+namespace Magento\Core\Model\Translate;
+
+class InlineParser
 {
     /**
      * Default state for jason flag
@@ -107,45 +109,45 @@ class Magento_Core_Model_Translate_InlineParser
     );
 
     /**
-     * @var Magento_Core_Model_View_DesignInterface
+     * @var \Magento\Core\Model\View\DesignInterface
      */
     protected $_design;
 
     /**
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_helper;
 
     /**
-     * @var Magento_Core_Model_Resource_Translate_String
+     * @var \Magento\Core\Model\Resource\Translate\String
      */
     protected $_resource;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @var Zend_Filter_Interface
+     * @var \Zend_Filter_Interface
      */
     protected $_inputFilter;
 
     /**
      * Initialize base inline translation model
      *
-     * @param Magento_Core_Model_Resource_Translate_String $resource
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_View_DesignInterface $design
-     * @param Magento_Core_Helper_Data $helper
-     * @param Zend_Filter_Interface $inputFilter
+     * @param \Magento\Core\Model\Resource\Translate\String $resource
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\Core\Helper\Data $helper
+     * @param \Zend_Filter_Interface $inputFilter
      */
     public function __construct(
-        Magento_Core_Model_Resource_Translate_String $resource,
-        Magento_Core_Model_View_DesignInterface $design,
-        Magento_Core_Helper_Data $helper,
-        Magento_Core_Model_StoreManager $storeManager,
-        Zend_Filter_Interface $inputFilter
+        \Magento\Core\Model\Resource\Translate\String $resource,
+        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\Core\Helper\Data $helper,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Zend_Filter_Interface $inputFilter
     ) {
         $this->_resource = $resource;
         $this->_design = $design;
@@ -155,7 +157,7 @@ class Magento_Core_Model_Translate_InlineParser
     }
 
     /**
-     * @return Magento_Core_Model_View_DesignInterface
+     * @return \Magento\Core\Model\View\DesignInterface
      */
     public function getDesignPackage()
     {
@@ -163,7 +165,7 @@ class Magento_Core_Model_Translate_InlineParser
     }
 
     /**
-     * @return Magento_Core_Helper_Data
+     * @return \Magento\Core\Helper\Data
      */
     public function getHelper()
     {
@@ -171,7 +173,7 @@ class Magento_Core_Model_Translate_InlineParser
     }
 
     /**
-     * @return Magento_Core_Model_StoreManager
+     * @return \Magento\Core\Model\StoreManager
      */
     public function getStoreManager()
     {
@@ -182,8 +184,8 @@ class Magento_Core_Model_Translate_InlineParser
      * Parse and save edited translation
      *
      * @param array $translateParams
-     * @param Magento_Core_Model_Translate_InlineInterface $inlineInterface
-     * @return Magento_Core_Model_Translate_InlineParser
+     * @param \Magento\Core\Model\Translate\InlineInterface $inlineInterface
+     * @return \Magento\Core\Model\Translate\InlineParser
      */
     public function processAjaxPost(array $translateParams, $inlineInterface)
     {
@@ -198,7 +200,7 @@ class Magento_Core_Model_Translate_InlineParser
         $validStoreId = $this->_storeManager->getStore()->getId();
 
         foreach ($translateParams as $param) {
-            if ($this->_design->getArea() == Magento_Backend_Helper_Data::BACKEND_AREA_CODE) {
+            if ($this->_design->getArea() == \Magento\Backend\Helper\Data::BACKEND_AREA_CODE) {
                 $storeId = 0;
             } else if (empty($param['perstore'])) {
                 $this->_resource->deleteTranslate($param['original'], null, false);
@@ -215,13 +217,13 @@ class Magento_Core_Model_Translate_InlineParser
      * Validate the structure of translation parameters
      *
      * @param array $translateParams
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function _validateTranslationParams(array $translateParams)
     {
         foreach ($translateParams as $param) {
             if (!is_array($param) || !isset($param['original']) || !isset($param['custom'])) {
-                throw new InvalidArgumentException(
+                throw new \InvalidArgumentException(
                     'Both original and custom phrases are required for inline translation.'
                 );
             }
@@ -247,7 +249,7 @@ class Magento_Core_Model_Translate_InlineParser
      * Replace html body with translation wrapping.
      *
      * @param string $body
-     * @param Magento_Core_Model_Translate_InlineInterface $inlineInterface
+     * @param \Magento\Core\Model\Translate\InlineInterface $inlineInterface
      * @return string
      */
     public function processResponseBodyString($body, $inlineInterface)
@@ -285,7 +287,7 @@ class Magento_Core_Model_Translate_InlineParser
      * Set flag about parsed content is Json
      *
      * @param bool $flag
-     * @return Magento_Core_Model_Translate_InlineParser
+     * @return \Magento\Core\Model\Translate\InlineParser
      */
     public function setIsJson($flag)
     {
@@ -327,7 +329,7 @@ class Magento_Core_Model_Translate_InlineParser
     /**
      * Format translation for special tags.  Adding translate mode attribute for vde requests.
      *
-     * @param Magento_Core_Model_Translate_InlineInterface $inlineInterface
+     * @param \Magento\Core\Model\Translate\InlineInterface $inlineInterface
      * @param string $tagHtml
      * @param string $tagName
      * @param array $trArr
@@ -350,7 +352,7 @@ class Magento_Core_Model_Translate_InlineParser
     /**
      * Format translation for simple tags.  Added translate mode attribute for vde requests.
      *
-     * @param Magento_Core_Model_Translate_InlineInterface $inlineInterface
+     * @param \Magento\Core\Model\Translate\InlineInterface $inlineInterface
      * @param string $tagHtml
      * @param string  $tagName
      * @param array $trArr
@@ -398,7 +400,7 @@ class Magento_Core_Model_Translate_InlineParser
     /**
      * Prepare tags inline translates
      *
-     * @param Magento_Core_Model_Translate_InlineInterface $inlineInterface
+     * @param \Magento\Core\Model\Translate\InlineInterface $inlineInterface
      */
     private function _tagAttributes($inlineInterface)
     {
@@ -409,7 +411,7 @@ class Magento_Core_Model_Translate_InlineParser
      * Prepare tags inline translates for the content
      *
      * @param string $content
-     * @param Magento_Core_Model_Translate_InlineInterface $inlineInterface
+     * @param \Magento\Core\Model\Translate\InlineInterface $inlineInterface
      */
     private function _prepareTagAttributesForContent(&$content, $inlineInterface)
     {
@@ -457,7 +459,7 @@ class Magento_Core_Model_Translate_InlineParser
     /**
      * Add data-translate-mode attribute
      *
-     * @param Magento_Core_Model_Translate_InlineInterface $inlineInterface
+     * @param \Magento\Core\Model\Translate\InlineInterface $inlineInterface
      * @param string $trAttr
      * @return string
      */
@@ -488,7 +490,7 @@ class Magento_Core_Model_Translate_InlineParser
     /**
      * Prepare special tags
      *
-     * @param Magento_Core_Model_Translate_InlineInterface $inlineInterface
+     * @param \Magento\Core\Model\Translate\InlineInterface $inlineInterface
      */
     private function _specialTags($inlineInterface)
     {
@@ -504,7 +506,7 @@ class Magento_Core_Model_Translate_InlineParser
      *
      * @param string $content
      * @param array $tagsList
-     * @param Magento_Core_Model_Translate_InlineInterface $inlineInterface
+     * @param \Magento\Core\Model\Translate\InlineInterface $inlineInterface
      * @param string|array $formatCallback
      */
     private function _translateTags(&$content, $tagsList, $inlineInterface, $formatCallback)
@@ -587,7 +589,7 @@ class Magento_Core_Model_Translate_InlineParser
     /**
      * Prepare other text inline translates
      *
-     * @param Magento_Core_Model_Translate_InlineInterface $inlineInterface
+     * @param \Magento\Core\Model\Translate\InlineInterface $inlineInterface
      */
     private function _otherText($inlineInterface)
     {
@@ -612,7 +614,7 @@ class Magento_Core_Model_Translate_InlineParser
     /**
      * Returns the html span that contains the data translate attribute including vde specific translate mode attribute
      *
-     * @param Magento_Core_Model_Translate_InlineInterface $inlineInterface
+     * @param \Magento\Core\Model\Translate\InlineInterface $inlineInterface
      * @param string $data
      * @param string $text
      * @return string
@@ -631,7 +633,7 @@ class Magento_Core_Model_Translate_InlineParser
     /**
      * Add an additional html attribute if needed.
      *
-     * @param Magento_Core_Model_Translate_InlineInterface $inlineInterface
+     * @param \Magento\Core\Model\Translate\InlineInterface $inlineInterface
      * @param mixed|string $tagName
      * @return string
      */

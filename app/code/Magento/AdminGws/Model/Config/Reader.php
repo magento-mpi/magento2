@@ -6,7 +6,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_AdminGws_Model_Config_Reader extends Magento_Config_Reader_Filesystem
+namespace Magento\AdminGws\Model\Config;
+
+class Reader extends \Magento\Config\Reader\Filesystem
 {
     /**
      * List of id attributes for merge
@@ -21,22 +23,22 @@ class Magento_AdminGws_Model_Config_Reader extends Magento_Config_Reader_Filesys
     );
 
     /**
-     * @param Magento_Config_FileResolverInterface $fileResolver
-     * @param Magento_AdminGws_Model_Config_Converter $converter
-     * @param Magento_AdminGws_Model_Config_SchemaLocator $schemaLocator
-     * @param Magento_Config_ValidationStateInterface $validationState
+     * @param \Magento\Config\FileResolverInterface $fileResolver
+     * @param \Magento\AdminGws\Model\Config\Converter $converter
+     * @param \Magento\AdminGws\Model\Config\SchemaLocator $schemaLocator
+     * @param \Magento\Config\ValidationStateInterface $validationState
      * @param string $fileName
      * @param $idAttributes
      * @param string $domDocumentClass
      */
     public function __construct(
-        Magento_Config_FileResolverInterface $fileResolver,
-        Magento_AdminGws_Model_Config_Converter $converter,
-        Magento_AdminGws_Model_Config_SchemaLocator $schemaLocator,
-        Magento_Config_ValidationStateInterface $validationState,
+        \Magento\Config\FileResolverInterface $fileResolver,
+        \Magento\AdminGws\Model\Config\Converter $converter,
+        \Magento\AdminGws\Model\Config\SchemaLocator $schemaLocator,
+        \Magento\Config\ValidationStateInterface $validationState,
         $fileName = 'admingws.xml',
         $idAttributes = array(),
-        $domDocumentClass = 'Magento_Config_Dom'
+        $domDocumentClass = 'Magento\Config\Dom'
     ) {
         parent::__construct(
             $fileResolver, $converter, $schemaLocator, $validationState, $fileName, $idAttributes, $domDocumentClass

@@ -11,7 +11,9 @@
 /**
  * Command to remove menu item
  */
-class Magento_Backend_Model_Menu_Builder_Command_Remove extends Magento_Backend_Model_Menu_Builder_CommandAbstract
+namespace Magento\Backend\Model\Menu\Builder\Command;
+
+class Remove extends \Magento\Backend\Model\Menu\Builder\AbstractCommand
 {
     /**
      * Mark item as removed

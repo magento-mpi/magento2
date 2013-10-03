@@ -10,22 +10,22 @@
  */
 
 require __DIR__ . '/../../../Magento/Customer/_files/customer.php';
-/** @var $balance Magento_CustomerBalance_Model_Balance */
-$balance = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_CustomerBalance_Model_Balance');
+/** @var $balance \Magento\CustomerBalance\Model\Balance */
+$balance = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\CustomerBalance\Model\Balance');
 $balance->setCustomerId($customer->getId())
     ->setWebsiteId(
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
             ->getStore()->getWebsiteId()
     );
 $balance->save();
 
-/** @var $history Magento_CustomerBalance_Model_Balance_History */
-$history = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_CustomerBalance_Model_Balance_History');
+/** @var $history \Magento\CustomerBalance\Model\Balance\History */
+$history = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\CustomerBalance\Model\Balance\History');
 $history->setCustomerId($customer->getId())
     ->setWebsiteId(
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
             ->getStore()->getWebsiteId()
     )
     ->setBalanceModel($balance);

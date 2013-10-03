@@ -13,7 +13,7 @@
     <default>
         <theme>
             <customization>
-                <custom_css>Magento_Theme_Model_Theme_Customization_File_CustomCss</custom_css>
+                <custom_css>Magento\Theme\Model\Theme\Customization\File\CustomCss</custom_css>
             </customization>
         </theme>
     </default>

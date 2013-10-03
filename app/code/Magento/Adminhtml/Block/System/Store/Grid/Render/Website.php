@@ -16,11 +16,13 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_System_Store_Grid_Render_Website
-    extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\Adminhtml\Block\System\Store\Grid\Render;
+
+class Website
+    extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
 
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         return '<a title="' . __('Edit Web Site') . '"
             href="' . $this->getUrl('*/*/editWebsite', array('website_id' => $row->getWebsiteId())) . '">'

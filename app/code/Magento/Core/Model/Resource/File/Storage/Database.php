@@ -16,20 +16,22 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Resource_File_Storage_Database extends Magento_Core_Model_Resource_File_Storage_Abstract
+namespace Magento\Core\Model\Resource\File\Storage;
+
+class Database extends \Magento\Core\Model\Resource\File\Storage\AbstractStorage
 {
     /**
-     * @var Magento_Core_Model_Resource_Helper_Abstract
+     * @var \Magento\Core\Model\Resource\Helper\AbstractHelper
      */
     protected $_resourceHelper;
 
     /**
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Resource_Helper_Abstract $resourceHelper
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Resource\Helper\AbstractHelper $resourceHelper
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Resource_Helper_Abstract $resourceHelper
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\Resource\Helper\AbstractHelper $resourceHelper
     ) {
         parent::__construct($resource);
         $this->_resourceHelper = $resourceHelper;
@@ -47,7 +49,7 @@ class Magento_Core_Model_Resource_File_Storage_Database extends Magento_Core_Mod
     /**
      * Create database scheme for storing files
      *
-     * @return Magento_Core_Model_Resource_File_Storage_Database
+     * @return \Magento\Core\Model\Resource\File\Storage\Database
      */
     public function createDatabaseScheme()
     {
@@ -60,36 +62,36 @@ class Magento_Core_Model_Resource_File_Storage_Database extends Magento_Core_Mod
         $dirStorageTable = $this->getTable('core_directory_storage'); // For foreign key
 
         $ddlTable = $adapter->newTable($table)
-            ->addColumn('file_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+            ->addColumn('file_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
                 'identity'  => true,
                 'unsigned'  => true,
                 'nullable'  => false,
                 'primary'   => true
                 ), 'File Id')
-            ->addColumn('content', Magento_DB_Ddl_Table::TYPE_VARBINARY, Magento_DB_Ddl_Table::MAX_VARBINARY_SIZE, array(
+            ->addColumn('content', \Magento\DB\Ddl\Table::TYPE_VARBINARY, \Magento\DB\Ddl\Table::MAX_VARBINARY_SIZE, array(
                 'nullable' => false
                 ), 'File Content')
-            ->addColumn('upload_time', Magento_DB_Ddl_Table::TYPE_TIMESTAMP, null, array(
+            ->addColumn('upload_time', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
                 'nullable' => false,
-                'default' => Magento_DB_Ddl_Table::TIMESTAMP_INIT
+                'default' => \Magento\DB\Ddl\Table::TIMESTAMP_INIT
                 ), 'Upload Timestamp')
-            ->addColumn('filename', Magento_DB_Ddl_Table::TYPE_TEXT, 100, array(
+            ->addColumn('filename', \Magento\DB\Ddl\Table::TYPE_TEXT, 100, array(
                 'nullable' => false
                 ), 'Filename')
-            ->addColumn('directory_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+            ->addColumn('directory_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
                 'unsigned' => true,
                 'default' => null
                 ), 'Identifier of Directory where File is Located')
-            ->addColumn('directory', Magento_DB_Ddl_Table::TYPE_TEXT, 255, array(
+            ->addColumn('directory', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
                 'default' => null
                 ), 'Directory Path')
             ->addIndex($adapter->getIndexName($table, array('filename', 'directory_id'),
-                Magento_DB_Adapter_Interface::INDEX_TYPE_UNIQUE),
-                array('filename', 'directory_id'), array('type' => Magento_DB_Adapter_Interface::INDEX_TYPE_UNIQUE))
+                \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
+                array('filename', 'directory_id'), array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE))
             ->addIndex($adapter->getIndexName($table, array('directory_id')), array('directory_id'))
             ->addForeignKey($adapter->getForeignKeyName($table, 'directory_id', $dirStorageTable, 'directory_id'),
                 'directory_id', $dirStorageTable, 'directory_id',
-                Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+                \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
             ->setComment('File Storage');
 
         $adapter->createTable($ddlTable);
@@ -125,12 +127,12 @@ class Magento_Core_Model_Resource_File_Storage_Database extends Magento_Core_Mod
     /**
      * Load entity by filename
      *
-     * @param  Magento_Core_Model_File_Storage_Database $object
+     * @param  \Magento\Core\Model\File\Storage\Database $object
      * @param  string $filename
      * @param  string $path
-     * @return Magento_Core_Model_Resource_File_Storage_Database
+     * @return \Magento\Core\Model\Resource\File\Storage\Database
      */
-    public function loadByFilename(Magento_Core_Model_File_Storage_Database $object, $filename, $path)
+    public function loadByFilename(\Magento\Core\Model\File\Storage\Database $object, $filename, $path)
     {
         $adapter = $this->_getReadAdapter();
 
@@ -152,7 +154,7 @@ class Magento_Core_Model_Resource_File_Storage_Database extends Magento_Core_Mod
     /**
      * Clear files in storage
      *
-     * @return Magento_Core_Model_Resource_File_Storage_Database
+     * @return \Magento\Core\Model\Resource\File\Storage\Database
      */
     public function clearFiles()
     {
@@ -188,14 +190,14 @@ class Magento_Core_Model_Resource_File_Storage_Database extends Magento_Core_Mod
     /**
      * Save file to storage
      *
-     * @param  Magento_Core_Model_File_Storage_Database|array $object
-     * @return Magento_Core_Model_Resource_File_Storage_Database
+     * @param  \Magento\Core\Model\File\Storage\Database|array $object
+     * @return \Magento\Core\Model\Resource\File\Storage\Database
      */
     public function saveFile($file)
     {
         $adapter = $this->_getWriteAdapter();
 
-        $contentParam = new Magento_DB_Statement_Parameter($file['content']);
+        $contentParam = new \Magento\DB\Statement\Parameter($file['content']);
         $contentParam->setIsBlob(true);
         $data = array(
             'content'        => $contentParam,
@@ -217,7 +219,7 @@ class Magento_Core_Model_Resource_File_Storage_Database extends Magento_Core_Mod
      * @param  string $oldPath
      * @param  string $newFilename
      * @param  string $newPath
-     * @return Magento_Core_Model_Resource_File_Storage_Database
+     * @return \Magento\Core\Model\Resource\File\Storage\Database
      */
     public function renameFile($oldFilename, $oldPath, $newFilename, $newPath)
     {
@@ -225,7 +227,7 @@ class Magento_Core_Model_Resource_File_Storage_Database extends Magento_Core_Mod
         $dataUpdate = array('filename' => $newFilename, 'directory' => $newPath);
 
         $dataWhere  = array('filename = ?' => $oldFilename);
-        $dataWhere[] = new Zend_Db_Expr($adapter->prepareSqlCondition('directory', array('seq' => $oldPath)));
+        $dataWhere[] = new \Zend_Db_Expr($adapter->prepareSqlCondition('directory', array('seq' => $oldPath)));
 
         $adapter->update($this->getMainTable(), $dataUpdate, $dataWhere);
 
@@ -239,7 +241,7 @@ class Magento_Core_Model_Resource_File_Storage_Database extends Magento_Core_Mod
      * @param  string $oldPath
      * @param  string $newFilename
      * @param  string $newPath
-     * @return Magento_Core_Model_Resource_File_Storage_Database
+     * @return \Magento\Core\Model\Resource\File\Storage\Database
      */
     public function copyFile($oldFilename, $oldPath, $newFilename, $newPath)
     {
@@ -302,7 +304,7 @@ class Magento_Core_Model_Resource_File_Storage_Database extends Magento_Core_Mod
 
         $likeExpression = $this->_resourceHelper->addLikeEscape($folderName . '/', array('position' => 'start'));
         $this->_getWriteAdapter()
-            ->delete($this->getMainTable(), new Zend_Db_Expr('filename LIKE ' . $likeExpression));
+            ->delete($this->getMainTable(), new \Zend_Db_Expr('filename LIKE ' . $likeExpression));
     }
 
     /**
@@ -316,7 +318,7 @@ class Magento_Core_Model_Resource_File_Storage_Database extends Magento_Core_Mod
         $adapter = $this->_getWriteAdapter();
 
         $where = array('filename = ?' => $filename);
-        $where[] = new Zend_Db_Expr($adapter->prepareSqlCondition('directory', array('seq' => $directory)));
+        $where[] = new \Zend_Db_Expr($adapter->prepareSqlCondition('directory', array('seq' => $directory)));
 
         $adapter->delete($this->getMainTable(), $where);
     }

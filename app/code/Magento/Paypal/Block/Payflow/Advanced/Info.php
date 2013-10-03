@@ -15,7 +15,9 @@
  * @package    Magento_Paypal
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paypal_Block_Payflow_Advanced_Info extends Magento_Paypal_Block_Payflow_Link_Info
+namespace Magento\Paypal\Block\Payflow\Advanced;
+
+class Info extends \Magento\Paypal\Block\Payflow\Link\Info
 {
 
 }

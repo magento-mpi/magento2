@@ -11,32 +11,34 @@
 /**
  * Import entity factory
  */
-class Magento_ImportExport_Model_Import_Entity_Factory
+namespace Magento\ImportExport\Model\Import\Entity;
+
+class Factory
 {
     /**
      * Object Manager
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
 
     /**
      * @param string $className
-     * @return Magento_ImportExport_Model_Import_Entity_Abstract|Magento_ImportExport_Model_Import_EntityAbstract
-     * @throws InvalidArgumentException
+     * @return \Magento\ImportExport\Model\Import\Entity\AbstractEntity|\Magento\ImportExport\Model\Import\AbstractEntity
+     * @throws \InvalidArgumentException
      */
     public function create($className)
     {
         if (!$className) {
-            throw new InvalidArgumentException('Incorrect class name');
+            throw new \InvalidArgumentException('Incorrect class name');
         }
 
         return $this->_objectManager->create($className);

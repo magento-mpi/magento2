@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/* @var $installer Magento_Core_Model_Resource_Setup */
+/* @var $installer \Magento\Core\Model\Resource\Setup */
 $installer           = $this;
 $connection          = $installer->getConnection();
 
@@ -24,14 +24,14 @@ $installer->startSetup();
  * column website_ids of main catalog rules table
  */
 $table = $connection->newTable($rulesWebsitesTable)
-    ->addColumn('rule_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('rule_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true
         ),
         'Rule Id'
         )
-    ->addColumn('website_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('website_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true
@@ -48,11 +48,11 @@ $table = $connection->newTable($rulesWebsitesTable)
     )
     ->addForeignKey($installer->getFkName('salesrule_website', 'rule_id', 'salesrule', 'rule_id'),
         'rule_id', $rulesTable, 'rule_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE
     )
     ->addForeignKey($installer->getFkName('salesrule_website', 'website_id', 'core/website', 'website_id'),
         'website_id', $websitesTable, 'website_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE
     )
     ->setComment('Sales Rules To Websites Relations');
 
@@ -64,14 +64,14 @@ $connection->createTable($table);
  * column customer_group_ids of main catalog rules table
  */
 $table = $connection->newTable($rulesCustomerGroupsTable)
-    ->addColumn('rule_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('rule_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true
         ),
         'Rule Id'
     )
-    ->addColumn('customer_group_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('customer_group_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true
@@ -88,14 +88,14 @@ $table = $connection->newTable($rulesCustomerGroupsTable)
     )
     ->addForeignKey($installer->getFkName('salesrule_customer_group', 'rule_id', 'salesrule', 'rule_id'),
         'rule_id', $rulesTable, 'rule_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE
     )
     ->addForeignKey(
         $installer->getFkName('salesrule_customer_group', 'customer_group_id',
             'customer_group', 'customer_group_id'
         ),
         'customer_group_id', $customerGroupsTable, 'customer_group_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE
     )
     ->setComment('Sales Rules To Customer Groups Relations');
 
@@ -110,7 +110,7 @@ $select = $connection->select()
     ->join(
         array('cw' => $websitesTable),
         $connection->prepareSqlCondition(
-           'sr.website_ids', array('finset' =>  new Zend_Db_Expr('cw.website_id'))
+           'sr.website_ids', array('finset' =>  new \Zend_Db_Expr('cw.website_id'))
         ),
         array()
     );
@@ -127,7 +127,7 @@ $select = $connection->select()
     ->join(
         array('cg' => $customerGroupsTable),
         $connection->prepareSqlCondition(
-            'sr.customer_group_ids', array('finset' =>  new Zend_Db_Expr('cg.customer_group_id'))
+            'sr.customer_group_ids', array('finset' =>  new \Zend_Db_Expr('cg.customer_group_id'))
         ),
         array()
     );
@@ -147,7 +147,7 @@ $connection->modifyColumn(
     $rulesTable,
     'from_date',
     array(
-        'type'      => Magento_DB_Ddl_Table::TYPE_DATE,
+        'type'      => \Magento\DB\Ddl\Table::TYPE_DATE,
         'nullable'  => true,
         'default'   => null
     )
@@ -157,7 +157,7 @@ $connection->modifyColumn(
     $rulesTable,
     'to_date',
     array(
-        'type'      => Magento_DB_Ddl_Table::TYPE_DATE,
+        'type'      => \Magento\DB\Ddl\Table::TYPE_DATE,
         'nullable'  => true,
         'default'   => null
     )

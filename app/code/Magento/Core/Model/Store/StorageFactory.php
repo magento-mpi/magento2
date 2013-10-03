@@ -5,10 +5,12 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Model_Store_StorageFactory
+namespace Magento\Core\Model\Store;
+
+class StorageFactory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -27,54 +29,54 @@ class Magento_Core_Model_Store_StorageFactory
     protected $_installedStoreClassName;
 
     /**
-     * @var Magento_Core_Model_Store_StorageInterface[]
+     * @var \Magento\Core\Model\Store\StorageInterface[]
      */
     protected $_cache = array();
 
     /**
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_log;
 
     /**
-     * @var Magento_Core_Model_ConfigInterface
+     * @var \Magento\Core\Model\ConfigInterface
      */
     protected $_config;
 
     /**
-     * @var Magento_Core_Model_App_Proxy
+     * @var \Magento\Core\Model\App\Proxy
      */
     protected $_app;
 
     /**
-     * @var Magento_Core_Model_App_State
+     * @var \Magento\Core\Model\App\State
      */
     protected $_appState;
 
     /**
-     * @param Magento_ObjectManager $objectManager
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $log
-     * @param Magento_Core_Model_ConfigInterface $config
-     * @param Magento_Core_Model_App_Proxy $app
-     * @param Magento_Core_Model_App_State $appState
+     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $log
+     * @param \Magento\Core\Model\ConfigInterface $config
+     * @param \Magento\Core\Model\App\Proxy $app
+     * @param \Magento\Core\Model\App\State $appState
      * @param string $defaultStorageClassName
      * @param string $installedStoreClassName
      */
     public function __construct(
-        Magento_ObjectManager $objectManager,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $log,
-        Magento_Core_Model_ConfigInterface $config,
-        Magento_Core_Model_App_Proxy $app,
-        Magento_Core_Model_App_State $appState,
-        $defaultStorageClassName = 'Magento_Core_Model_Store_Storage_Default',
-        $installedStoreClassName = 'Magento_Core_Model_Store_Storage_Db'
+        \Magento\ObjectManager $objectManager,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $log,
+        \Magento\Core\Model\ConfigInterface $config,
+        \Magento\Core\Model\App\Proxy $app,
+        \Magento\Core\Model\App\State $appState,
+        $defaultStorageClassName = 'Magento\Core\Model\Store\Storage\DefaultStorage',
+        $installedStoreClassName = 'Magento\Core\Model\Store\Storage\Db'
     ) {
         $this->_objectManager = $objectManager;
         $this->_defaultStorageClassName = $defaultStorageClassName;
@@ -90,8 +92,8 @@ class Magento_Core_Model_Store_StorageFactory
      * Get storage instance
      *
      * @param array $arguments
-     * @return Magento_Core_Model_Store_StorageInterface
-     * @throws InvalidArgumentException
+     * @return \Magento\Core\Model\Store\StorageInterface
+     * @throws \InvalidArgumentException
      */
     public function get(array $arguments = array())
     {
@@ -100,19 +102,19 @@ class Magento_Core_Model_Store_StorageFactory
             $this->_defaultStorageClassName;
 
         if (false == isset($this->_cache[$className])) {
-            /** @var $instance Magento_Core_Model_Store_StorageInterface */
+            /** @var $instance \Magento\Core\Model\Store\StorageInterface */
             $instance = $this->_objectManager->create($className, $arguments);
 
-            if (false === ($instance instanceof Magento_Core_Model_Store_StorageInterface)) {
-                throw new InvalidArgumentException($className
-                        . ' doesn\'t implement Magento_Core_Model_Store_StorageInterface'
+            if (false === ($instance instanceof \Magento\Core\Model\Store\StorageInterface)) {
+                throw new \InvalidArgumentException($className
+                        . ' doesn\'t implement \Magento\Core\Model\Store\StorageInterface'
                 );
             }
             $this->_cache[$className] = $instance;
             $instance->initCurrentStore();
             if ($className === $this->_installedStoreClassName) {
                 $useSid = $instance->getStore()
-                    ->getConfig(Magento_Core_Model_Session_Abstract::XML_PATH_USE_FRONTEND_SID);
+                    ->getConfig(\Magento\Core\Model\Session\AbstractSession::XML_PATH_USE_FRONTEND_SID);
                 $this->_app->setUseSessionInUrl($useSid);
 
                 $this->_eventManager->dispatch('core_app_init_current_store_after');

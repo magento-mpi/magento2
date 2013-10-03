@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_AdminNotification_Block_Inbox extends Magento_Backend_Block_Widget_Grid_Container
+namespace Magento\AdminNotification\Block;
+
+class Inbox extends \Magento\Backend\Block\Widget\Grid\Container
 {
     protected function _construct()
     {

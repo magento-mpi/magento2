@@ -11,7 +11,9 @@
 /**
  * Bank Transfer payment method model
  */
-class Magento_Payment_Model_Method_Banktransfer extends Magento_Payment_Model_Method_Abstract
+namespace Magento\Payment\Model\Method;
+
+class Banktransfer extends \Magento\Payment\Model\Method\AbstractMethod
 {
     const PAYMENT_METHOD_BANKTRANSFER_CODE = 'banktransfer';
 
@@ -27,8 +29,8 @@ class Magento_Payment_Model_Method_Banktransfer extends Magento_Payment_Model_Me
      *
      * @var string
      */
-    protected $_formBlockType = 'Magento_Payment_Block_Form_Banktransfer';
-    protected $_infoBlockType = 'Magento_Payment_Block_Info_Instructions';
+    protected $_formBlockType = 'Magento\Payment\Block\Form\Banktransfer';
+    protected $_infoBlockType = 'Magento\Payment\Block\Info\Instructions';
 
     /**
      * Get instructions text from config

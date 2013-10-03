@@ -12,7 +12,9 @@
 /**
  * Implementation of the @magentoDataFixture DocBlock annotation
  */
-class Magento_TestFramework_Annotation_DataFixture
+namespace Magento\TestFramework\Annotation;
+
+class DataFixture
 {
     /**
      * @var string
@@ -30,12 +32,12 @@ class Magento_TestFramework_Annotation_DataFixture
      * Constructor
      *
      * @param string $fixtureBaseDir
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     public function __construct($fixtureBaseDir)
     {
         if (!is_dir($fixtureBaseDir)) {
-            throw new Magento_Exception("Fixture base directory '$fixtureBaseDir' does not exist.");
+            throw new \Magento\Exception("Fixture base directory '$fixtureBaseDir' does not exist.");
         }
         $this->_fixtureBaseDir = realpath($fixtureBaseDir);
     }
@@ -43,11 +45,11 @@ class Magento_TestFramework_Annotation_DataFixture
     /**
      * Handler for 'startTestTransactionRequest' event
      *
-     * @param PHPUnit_Framework_TestCase $test
-     * @param Magento_TestFramework_Event_Param_Transaction $param
+     * @param \PHPUnit_Framework_TestCase $test
+     * @param \Magento\TestFramework\Event\Param\Transaction $param
      */
     public function startTestTransactionRequest(
-        PHPUnit_Framework_TestCase $test, Magento_TestFramework_Event_Param_Transaction $param
+        \PHPUnit_Framework_TestCase $test, \Magento\TestFramework\Event\Param\Transaction $param
     ) {
         /* Start transaction before applying first fixture to be able to revert them all further */
         if ($this->_getFixtures('method', $test)) {
@@ -64,11 +66,11 @@ class Magento_TestFramework_Annotation_DataFixture
     /**
      * Handler for 'endTestNeedTransactionRollback' event
      *
-     * @param PHPUnit_Framework_TestCase $test
-     * @param Magento_TestFramework_Event_Param_Transaction $param
+     * @param \PHPUnit_Framework_TestCase $test
+     * @param \Magento\TestFramework\Event\Param\Transaction $param
      */
     public function endTestTransactionRequest(
-        PHPUnit_Framework_TestCase $test, Magento_TestFramework_Event_Param_Transaction $param
+        \PHPUnit_Framework_TestCase $test, \Magento\TestFramework\Event\Param\Transaction $param
     ) {
         /* Isolate other tests from test-specific fixtures */
         if ($this->_appliedFixtures && $this->_getFixtures('method', $test)) {
@@ -79,9 +81,9 @@ class Magento_TestFramework_Annotation_DataFixture
     /**
      * Handler for 'startTransaction' event
      *
-     * @param PHPUnit_Framework_TestCase $test
+     * @param \PHPUnit_Framework_TestCase $test
      */
-    public function startTransaction(PHPUnit_Framework_TestCase $test)
+    public function startTransaction(\PHPUnit_Framework_TestCase $test)
     {
         $this->_applyFixtures($this->_getFixtures('method', $test) ?: $this->_getFixtures('class', $test));
     }
@@ -98,11 +100,11 @@ class Magento_TestFramework_Annotation_DataFixture
      * Retrieve fixtures from annotation
      *
      * @param string $scope 'class' or 'method'
-     * @param PHPUnit_Framework_TestCase $test
+     * @param \PHPUnit_Framework_TestCase $test
      * @return array
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
-    protected function _getFixtures($scope, PHPUnit_Framework_TestCase $test)
+    protected function _getFixtures($scope, \PHPUnit_Framework_TestCase $test)
     {
         $annotations = $test->getAnnotations();
         $result = array();
@@ -110,7 +112,7 @@ class Magento_TestFramework_Annotation_DataFixture
             foreach ($annotations[$scope]['magentoDataFixture'] as $fixture) {
                 if (strpos($fixture, '\\') !== false) {
                     // usage of a single directory separator symbol streamlines search across the source code
-                    throw new Magento_Exception('Directory separator "\\" is prohibited in fixture declaration.');
+                    throw new \Magento\Exception('Directory separator "\\" is prohibited in fixture declaration.');
                 }
                 $fixtureMethod = array(get_class($test), $fixture);
                 if (is_callable($fixtureMethod)) {
@@ -134,11 +136,11 @@ class Magento_TestFramework_Annotation_DataFixture
             if (is_callable($fixture)) {
                 call_user_func($fixture);
             } else {
-                    require($fixture);
+                require($fixture);
             }
-        } catch (Zend_Db_Statement_Exception $e) {
+        } catch (\Exception $e) {
             echo 'Error in fixture: ', json_encode($fixture), PHP_EOL, $e;
-            throw $e;
+            //throw $e;
         }
     }
 
@@ -146,7 +148,7 @@ class Magento_TestFramework_Annotation_DataFixture
      * Execute fixture scripts if any
      *
      * @param array $fixtures
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     protected function _applyFixtures(array $fixtures)
     {
@@ -160,7 +162,7 @@ class Magento_TestFramework_Annotation_DataFixture
                 $this->_applyOneFixture($oneFixture);
                 $this->_appliedFixtures[] = $oneFixture;
             }
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             echo $e;
         }
     }

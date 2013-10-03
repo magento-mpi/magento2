@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
-class Magento_ImportExport_Model_Import_Entity_Product_Type_AbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Import\Entity\Product\Type;
+
+class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_ImportExport_Model_Import_Entity_Product_Type_Abstract
+     * @var \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
      */
     protected $_model;
 
@@ -22,13 +24,13 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_AbstractTest extends
      */
     protected function setUp()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $params = array($objectManager->create('Magento_ImportExport_Model_Import_Entity_Product'), 'simple');
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $params = array($objectManager->create('Magento\ImportExport\Model\Import\Entity\Product'), 'simple');
         $this->_model = $this->getMockForAbstractClass(
-            'Magento_ImportExport_Model_Import_Entity_Product_Type_Abstract',
+            'Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType',
             array(
-                $objectManager->get('Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory'),
-                $objectManager->get('Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory'),
+                $objectManager->get('Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory'),
+                $objectManager->get('Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory'),
                 $params
             )
         );

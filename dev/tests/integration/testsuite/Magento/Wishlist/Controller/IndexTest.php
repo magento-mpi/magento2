@@ -9,19 +9,21 @@
  * @license     {license_link}
  */
 
-class Magento_Wishlist_Controller_IndexTest extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\Wishlist\Controller;
+
+class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     protected function setUp()
     {
         parent::setUp();
-        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
-        $this->_customerSession = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Session', array($logger));
+        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $this->_customerSession = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Session', array($logger));
         $this->_customerSession->login('customer@example.com', 'password');
     }
 
@@ -36,14 +38,14 @@ class Magento_Wishlist_Controller_IndexTest extends Magento_TestFramework_TestCa
      * Verify wishlist view action
      *
      * The following is verified:
-     * - Magento_Wishlist_Model_Resource_Item_Collection
-     * - Magento_Wishlist_Block_Customer_Wishlist
-     * - Magento_Wishlist_Block_Customer_Wishlist_Items
-     * - Magento_Wishlist_Block_Customer_Wishlist_Item_Column
-     * - Magento_Wishlist_Block_Customer_Wishlist_Item_Column_Cart
-     * - Magento_Wishlist_Block_Customer_Wishlist_Item_Column_Comment
-     * - Magento_Wishlist_Block_Customer_Wishlist_Button
-     * - that Magento_Wishlist_Block_Customer_Wishlist_Item_Options doesn't throw a fatal error
+     * - \Magento\Wishlist\Model\Resource\Item\Collection
+     * - \Magento\Wishlist\Block\Customer\Wishlist
+     * - \Magento\Wishlist\Block\Customer\Wishlist\Items
+     * - \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
+     * - \Magento\Wishlist\Block\Customer\Wishlist\Item\Column\Cart
+     * - \Magento\Wishlist\Block\Customer\Wishlist\Item\Column\Comment
+     * - \Magento\Wishlist\Block\Customer\Wishlist\Button
+     * - that \Magento\Wishlist\Block\Customer\Wishlist\Item\Options doesn't throw a fatal error
      *
      * @magentoDataFixture Magento/Wishlist/_files/wishlist.php
      */

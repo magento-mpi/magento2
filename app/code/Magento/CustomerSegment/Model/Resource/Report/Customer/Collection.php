@@ -16,8 +16,10 @@
  * @package     Magento_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerSegment_Model_Resource_Report_Customer_Collection
-    extends Magento_Customer_Model_Resource_Customer_Collection
+namespace Magento\CustomerSegment\Model\Resource\Report\Customer;
+
+class Collection
+    extends \Magento\Customer\Model\Resource\Customer\Collection
 {
     /**
      * View mode
@@ -29,7 +31,7 @@ class Magento_CustomerSegment_Model_Resource_Report_Customer_Collection
     /**
      * Subquery for filter
      *
-     * @var Magento_DB_Select
+     * @var \Magento\DB\Select
      */
     protected $_subQuery     = null;
 
@@ -43,16 +45,16 @@ class Magento_CustomerSegment_Model_Resource_Report_Customer_Collection
     /**
      * Add filter by segment(s)
      *
-     * @param Magento_CustomerSegment_Model_Segment|integer $segment
-     * @return Magento_CustomerSegment_Model_Resource_Report_Customer_Collection
+     * @param \Magento\CustomerSegment\Model\Segment|integer $segment
+     * @return \Magento\CustomerSegment\Model\Resource\Report\Customer\Collection
      */
     public function addSegmentFilter($segment)
     {
-        if ($segment instanceof Magento_CustomerSegment_Model_Segment) {
+        if ($segment instanceof \Magento\CustomerSegment\Model\Segment) {
             $segment = ($segment->getId()) ? $segment->getId() : $segment->getMassactionIds();
         }
 
-        $this->_subQuery = ($this->getViewMode() == Magento_CustomerSegment_Model_Segment::VIEW_MODE_INTERSECT_CODE)
+        $this->_subQuery = ($this->getViewMode() == \Magento\CustomerSegment\Model\Segment::VIEW_MODE_INTERSECT_CODE)
             ? $this->_getIntersectQuery($segment)
             : $this->_getUnionQuery($segment);
 
@@ -63,7 +65,7 @@ class Magento_CustomerSegment_Model_Resource_Report_Customer_Collection
      * Add filter by websites
      *
      * @param int|null|array $websites
-     * @return Magento_CustomerSegment_Model_Resource_Report_Customer_Collection
+     * @return \Magento\CustomerSegment\Model\Resource\Report\Customer\Collection
      */
     public function addWebsiteFilter($websites)
     {
@@ -81,7 +83,7 @@ class Magento_CustomerSegment_Model_Resource_Report_Customer_Collection
      * Rerieve union sub-query
      *
      * @param array|int $segment
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     protected function _getUnionQuery($segment)
     {
@@ -100,7 +102,7 @@ class Magento_CustomerSegment_Model_Resource_Report_Customer_Collection
      * Rerieve intersect sub-query
      *
      * @param array $segment
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     protected function _getIntersectQuery($segment)
     {
@@ -121,7 +123,7 @@ class Magento_CustomerSegment_Model_Resource_Report_Customer_Collection
      * Setter for view mode
      *
      * @param string $mode
-     * @return Magento_CustomerSegment_Model_Resource_Report_Customer_Collection
+     * @return \Magento\CustomerSegment\Model\Resource\Report\Customer\Collection
      */
     public function setViewMode($mode)
     {
@@ -142,21 +144,21 @@ class Magento_CustomerSegment_Model_Resource_Report_Customer_Collection
     /**
      * Apply filters
      *
-     * @return Magento_CustomerSegment_Model_Resource_Report_Customer_Collection
+     * @return \Magento\CustomerSegment\Model\Resource\Report\Customer\Collection
      */
     protected function _applyFilters()
     {
         if (!is_null($this->_websites)) {
             $this->_subQuery->where('website_id IN(?)', $this->_websites);
         }
-        $this->getSelect()->where('e.entity_id IN(?)', new Zend_Db_Expr($this->_subQuery));
+        $this->getSelect()->where('e.entity_id IN(?)', new \Zend_Db_Expr($this->_subQuery));
         return $this;
     }
 
     /**
      * Applying delayed filters
      *
-     * @return Magento_CustomerSegment_Model_Resource_Report_Customer_Collection
+     * @return \Magento\CustomerSegment\Model\Resource\Report\Customer\Collection
      */
     protected function _beforeLoad()
     {

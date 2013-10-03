@@ -8,17 +8,19 @@
  * @license     {license_link}
  */
 
-class Magento_Rule_Model_ActionFactory
+namespace Magento\Rule\Model;
+
+class ActionFactory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -28,7 +30,7 @@ class Magento_Rule_Model_ActionFactory
      *
      * @param string $type
      * @param array $data
-     * @return Magento_Rule_Model_Action_Interface
+     * @return \Magento\Rule\Model\Action\ActionInterface
      */
     public function create($type, array $data = array())
     {

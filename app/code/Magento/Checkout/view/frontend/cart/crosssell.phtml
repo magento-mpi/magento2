@@ -12,7 +12,7 @@
 /**
  * Cart cross sell items template
  *
- * @see Magento_Checkout_Block_Cart_Crosssell
+ * @see \Magento\Checkout\Block\Cart\Crosssell
  */
 ?>
 <?php if($this->getItemCount()): ?>
@@ -27,7 +27,7 @@
                 <?php echo $this->getPriceHtml($_item, true) ?>
                 <button type="button" title="<?php echo __('Add to Cart') ?>" class="button btn-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_item) ?>')"><span><span><?php echo __('Add to Cart') ?></span></span></button>
                 <ul class="add-to-links" data-role="add-to-links">
-                    <?php if ($this->helper('Magento_Wishlist_Helper_Data')->isAllow()) : ?>
+                    <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow()) : ?>
                         <li><a href="<?php echo $this->getAddToWishlistUrl($_item) ?>" class="link-wishlist" data-action="add-to-wishlist"><?php echo __('Add to Wish List') ?></a></li>
                     <?php endif; ?>
                     <?php if($_compareUrl=$this->getAddToCompareUrl($_item)): ?>

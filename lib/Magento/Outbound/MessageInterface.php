@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Outbound_MessageInterface
+namespace Magento\Outbound;
+
+interface MessageInterface
 {
     /**
      * return endpoint url

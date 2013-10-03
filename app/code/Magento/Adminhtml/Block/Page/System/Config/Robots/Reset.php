@@ -15,27 +15,29 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Page_System_Config_Robots_Reset extends Magento_Backend_Block_System_Config_Form_Field
+namespace Magento\Adminhtml\Block\Page\System\Config\Robots;
+
+class Reset extends \Magento\Backend\Block\System\Config\Form\Field
 {
     /**
      * Page robots
      *
-     * @var Magento_Page_Helper_Robots
+     * @var \Magento\Page\Helper\Robots
      */
     protected $_pageRobots = null;
 
     /**
-     * @param Magento_Page_Helper_Robots $pageRobots
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_App $application
+     * @param \Magento\Page\Helper\Robots $pageRobots
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\App $application
      * @param array $data
      */
     public function __construct(
-        Magento_Page_Helper_Robots $pageRobots,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_App $application,
+        \Magento\Page\Helper\Robots $pageRobots,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\App $application,
         array $data = array()
     ) {
         $this->_pageRobots = $pageRobots;
@@ -68,7 +70,7 @@ class Magento_Adminhtml_Block_Page_System_Config_Robots_Reset extends Magento_Ba
      */
     public function getButtonHtml()
     {
-        $button = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+        $button = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
                 'id'      => 'reset_to_default_button',
                 'label'   => __('Reset to Default'),
@@ -81,10 +83,10 @@ class Magento_Adminhtml_Block_Page_System_Config_Robots_Reset extends Magento_Ba
     /**
      * Render button
      *
-     * @param  Magento_Data_Form_Element_Abstract $element
+     * @param  \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    public function render(Magento_Data_Form_Element_Abstract $element)
+    public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         // Remove scope label
         $element->unsScope()->unsCanUseWebsiteValue()->unsCanUseDefaultValue();
@@ -94,11 +96,11 @@ class Magento_Adminhtml_Block_Page_System_Config_Robots_Reset extends Magento_Ba
     /**
      * Return element html
      *
-     * @param  Magento_Data_Form_Element_Abstract $element
+     * @param  \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    protected function _getElementHtml(Magento_Data_Form_Element_Abstract $element)
+    protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
         return $this->_toHtml();
     }

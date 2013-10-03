@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Checkout_Block_Cart_Shipping extends Magento_Checkout_Block_Cart_Abstract
+namespace Magento\Checkout\Block\Cart;
+
+class Shipping extends \Magento\Checkout\Block\Cart\AbstractCart
 {
     /**
      * Available Carriers Instances
@@ -30,26 +32,26 @@ class Magento_Checkout_Block_Cart_Shipping extends Magento_Checkout_Block_Cart_A
     protected $_address = array();
 
     /**
-     * @var Magento_Directory_Block_Data
+     * @var \Magento\Directory\Block\Data
      */
     protected $_directoryBlock;
 
     /**
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Checkout_Model_Session $checkoutSession
-     * @param Magento_Directory_Block_Data $directoryBlock
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Directory\Block\Data $directoryBlock
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Checkout_Model_Session $checkoutSession,
-        Magento_Directory_Block_Data $directoryBlock,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Directory\Block\Data $directoryBlock,
         array $data = array()
     ) {
         $this->_directoryBlock = $directoryBlock;
@@ -68,7 +70,7 @@ class Magento_Checkout_Block_Cart_Shipping extends Magento_Checkout_Block_Cart_A
     }
 
     /**
-     * @return Magento_Directory_Block_Data
+     * @return \Magento\Directory\Block\Data
      */
     public function getDirectoryBlock()
     {
@@ -92,7 +94,7 @@ class Magento_Checkout_Block_Cart_Shipping extends Magento_Checkout_Block_Cart_A
     /**
      * Get Address Model
      *
-     * @return Magento_Sales_Model_Quote_Address
+     * @return \Magento\Sales\Model\Quote\Address
      */
     public function getAddress()
     {
@@ -219,7 +221,7 @@ class Magento_Checkout_Block_Cart_Shipping extends Magento_Checkout_Block_Cart_A
      */
     public function getShippingPrice($price, $flag)
     {
-        return $this->formatPrice($this->helper('Magento_Tax_Helper_Data')->getShippingPrice(
+        return $this->formatPrice($this->helper('Magento\Tax\Helper\Data')->getShippingPrice(
             $price,
             $flag,
             $this->getAddress(),

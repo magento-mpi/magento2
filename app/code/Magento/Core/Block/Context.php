@@ -8,126 +8,128 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Block_Context implements Magento_ObjectManager_ContextInterface
+namespace Magento\Core\Block;
+
+class Context implements \Magento\ObjectManager\ContextInterface
 {
     /**
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     protected $_request;
 
     /**
-     * @var Magento_Core_Model_Layout
+     * @var \Magento\Core\Model\Layout
      */
     protected $_layout;
 
     /**
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager;
 
     /**
-     * @var Magento_Core_Model_UrlInterface
+     * @var \Magento\Core\Model\UrlInterface
      */
     protected $_urlBuilder;
 
     /**
-     * @var Magento_Core_Model_Translate
+     * @var \Magento\Core\Model\Translate
      */
     protected $_translator;
 
     /**
-     * @var Magento_Core_Model_CacheInterface
+     * @var \Magento\Core\Model\CacheInterface
      */
     protected $_cache;
 
     /**
-     * @var Magento_Core_Model_View_DesignInterface
+     * @var \Magento\Core\Model\View\DesignInterface
      */
     protected $_design;
 
     /**
-     * @var Magento_Core_Model_Session
+     * @var \Magento\Core\Model\Session
      */
     protected $_session;
 
     /**
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_storeConfig;
 
     /**
-     * @var Magento_Core_Controller_Varien_Front
+     * @var \Magento\Core\Controller\Varien\Front
      */
     protected $_frontController;
 
     /**
-     * @var Magento_Core_Model_Factory_Helper
+     * @var \Magento\Core\Model\Factory\Helper
      */
     protected $_helperFactory;
 
     /**
-     * @var Magento_Core_Model_View_Url
+     * @var \Magento\Core\Model\View\Url
      */
     protected $_viewUrl;
 
     /**
      * View config model
      *
-     * @var Magento_Core_Model_View_Config
+     * @var \Magento\Core\Model\View\Config
      */
     protected $_viewConfig;
 
     /**
-     * @var Magento_Core_Model_Cache_StateInterface
+     * @var \Magento\Core\Model\Cache\StateInterface
      */
     protected $_cacheState;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @var Magento_Core_Model_App
+     * @var \Magento\Core\Model\App
      */
     protected $_app;
 
     /**
-     * @param Magento_Core_Controller_Request_Http $request
-     * @param Magento_Core_Model_Layout $layout
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_UrlInterface $urlBuilder
-     * @param Magento_Core_Model_Translate $translator
-     * @param Magento_Core_Model_CacheInterface $cache
-     * @param Magento_Core_Model_View_DesignInterface $design
-     * @param Magento_Core_Model_Session_Abstract $session
-     * @param Magento_Core_Model_Store_Config $storeConfig
-     * @param Magento_Core_Controller_Varien_Front $frontController
-     * @param Magento_Core_Model_Factory_Helper $helperFactory
-     * @param Magento_Core_Model_View_Url $viewUrl
-     * @param Magento_Core_Model_View_Config $viewConfig
-     * @param Magento_Core_Model_Cache_StateInterface $cacheState
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_App $app
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\UrlInterface $urlBuilder
+     * @param \Magento\Core\Model\Translate $translator
+     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\Core\Model\Session\AbstractSession $session
+     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Core\Controller\Varien\Front $frontController
+     * @param \Magento\Core\Model\Factory\Helper $helperFactory
+     * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\Core\Model\View\Config $viewConfig
+     * @param \Magento\Core\Model\Cache\StateInterface $cacheState
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\App $app
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Controller_Request_Http $request,
-        Magento_Core_Model_Layout $layout,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_UrlInterface $urlBuilder,
-        Magento_Core_Model_Translate $translator,
-        Magento_Core_Model_CacheInterface $cache,
-        Magento_Core_Model_View_DesignInterface $design,
-        Magento_Core_Model_Session_Abstract $session,
-        Magento_Core_Model_Store_Config $storeConfig,
-        Magento_Core_Controller_Varien_Front $frontController,
-        Magento_Core_Model_Factory_Helper $helperFactory,
-        Magento_Core_Model_View_Url $viewUrl,
-        Magento_Core_Model_View_Config $viewConfig,
-        Magento_Core_Model_Cache_StateInterface $cacheState,
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_App $app,
+        \Magento\Core\Controller\Request\Http $request,
+        \Magento\Core\Model\Layout $layout,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\UrlInterface $urlBuilder,
+        \Magento\Core\Model\Translate $translator,
+        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\Core\Model\Session\AbstractSession $session,
+        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Core\Controller\Varien\Front $frontController,
+        \Magento\Core\Model\Factory\Helper $helperFactory,
+        \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\Core\Model\View\Config $viewConfig,
+        \Magento\Core\Model\Cache\StateInterface $cacheState,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\App $app,
         array $data = array()
     ) {
         $this->_request         = $request;
@@ -149,7 +151,7 @@ class Magento_Core_Block_Context implements Magento_ObjectManager_ContextInterfa
     }
 
     /**
-     * @return Magento_Core_Model_CacheInterface
+     * @return \Magento\Core\Model\CacheInterface
      */
     public function getCache()
     {
@@ -157,7 +159,7 @@ class Magento_Core_Block_Context implements Magento_ObjectManager_ContextInterfa
     }
 
     /**
-     * @return Magento_Core_Model_View_DesignInterface
+     * @return \Magento\Core\Model\View\DesignInterface
      */
     public function getDesignPackage()
     {
@@ -165,7 +167,7 @@ class Magento_Core_Block_Context implements Magento_ObjectManager_ContextInterfa
     }
 
     /**
-     * @return Magento_Core_Model_Event_Manager
+     * @return \Magento\Core\Model\Event\Manager
      */
     public function getEventManager()
     {
@@ -173,7 +175,7 @@ class Magento_Core_Block_Context implements Magento_ObjectManager_ContextInterfa
     }
 
     /**
-     * @return Magento_Core_Controller_Varien_Front
+     * @return \Magento\Core\Controller\Varien\Front
      */
     public function getFrontController()
     {
@@ -181,7 +183,7 @@ class Magento_Core_Block_Context implements Magento_ObjectManager_ContextInterfa
     }
 
     /**
-     * @return Magento_Core_Model_Factory_Helper
+     * @return \Magento\Core\Model\Factory\Helper
      */
     public function getHelperFactory()
     {
@@ -189,7 +191,7 @@ class Magento_Core_Block_Context implements Magento_ObjectManager_ContextInterfa
     }
 
     /**
-     * @return Magento_Core_Model_Layout
+     * @return \Magento\Core\Model\Layout
      */
     public function getLayout()
     {
@@ -197,7 +199,7 @@ class Magento_Core_Block_Context implements Magento_ObjectManager_ContextInterfa
     }
 
     /**
-     * @return Magento_Core_Controller_Request_Http
+     * @return \Magento\Core\Controller\Request\Http
      */
     public function getRequest()
     {
@@ -205,7 +207,7 @@ class Magento_Core_Block_Context implements Magento_ObjectManager_ContextInterfa
     }
 
     /**
-     * @return Magento_Core_Model_Session|Magento_Core_Model_Session_Abstract
+     * @return \Magento\Core\Model\Session|\Magento\Core\Model\Session\AbstractSession
      */
     public function getSession()
     {
@@ -213,7 +215,7 @@ class Magento_Core_Block_Context implements Magento_ObjectManager_ContextInterfa
     }
 
     /**
-     * @return Magento_Core_Model_Store_Config
+     * @return \Magento\Core\Model\Store\Config
      */
     public function getStoreConfig()
     {
@@ -221,7 +223,7 @@ class Magento_Core_Block_Context implements Magento_ObjectManager_ContextInterfa
     }
 
     /**
-     * @return Magento_Core_Model_Translate
+     * @return \Magento\Core\Model\Translate
      */
     public function getTranslator()
     {
@@ -229,7 +231,7 @@ class Magento_Core_Block_Context implements Magento_ObjectManager_ContextInterfa
     }
 
     /**
-     * @return Magento_Core_Model_UrlInterface
+     * @return \Magento\Core\Model\UrlInterface
      */
     public function getUrlBuilder()
     {
@@ -237,7 +239,7 @@ class Magento_Core_Block_Context implements Magento_ObjectManager_ContextInterfa
     }
 
     /**
-     * @return Magento_Core_Model_View_Url
+     * @return \Magento\Core\Model\View\Url
      */
     public function getViewUrl()
     {
@@ -245,7 +247,7 @@ class Magento_Core_Block_Context implements Magento_ObjectManager_ContextInterfa
     }
 
     /**
-     * @return Magento_Core_Model_View_Config
+     * @return \Magento\Core\Model\View\Config
      */
     public function getViewConfig()
     {
@@ -253,7 +255,7 @@ class Magento_Core_Block_Context implements Magento_ObjectManager_ContextInterfa
     }
 
     /**
-     * @return \Magento_Core_Model_Cache_StateInterface
+     * @return \Magento\Core\Model\Cache\StateInterface
      */
     public function getCacheState()
     {
@@ -261,7 +263,7 @@ class Magento_Core_Block_Context implements Magento_ObjectManager_ContextInterfa
     }
 
     /**
-     * @return \Magento_Core_Model_Logger
+     * @return \Magento\Core\Model\Logger
      */
     public function getLogger()
     {
@@ -269,7 +271,7 @@ class Magento_Core_Block_Context implements Magento_ObjectManager_ContextInterfa
     }
 
     /**
-     * @return Magento_Core_Model_App
+     * @return \Magento\Core\Model\App
      */
     public function getApp()
     {

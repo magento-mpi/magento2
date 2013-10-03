@@ -25,25 +25,25 @@
             <events>
                 <event controller_action="adminhtml_checkout_index" action_alias="view">
                     <expected_models>
-                        <expected_model class="Magento_Sales_Model_Quote" />
+                        <expected_model class="Magento\Sales\Model\Quote" />
                     </expected_models>
                 </event>
                 <event controller_action="adminhtml_checkout_applyCoupon"
                        action_alias="apply_coupon"
                        post_dispatch="postDispatchAdminCheckoutApplyCoupon">
                     <expected_models>
-                        <expected_model class="Magento_Sales_Model_Quote" />
+                        <expected_model class="Magento\Sales\Model\Quote" />
                     </expected_models>
                 </event>
                 <event controller_action="adminhtml_checkout_updateItems" action_alias="save">
                     <expected_models>
-                        <expected_model class="Magento_Sales_Model_Quote_Item" />
+                        <expected_model class="Magento\Sales\Model\Quote\Item" />
                     </expected_models>
                 </event>
                 <event controller_action="adminhtml_checkout_addToCart"
                        action_alias="add_to_cart">
                     <expected_models>
-                        <expected_model class="Magento_Sales_Model_Quote_Item">
+                        <expected_model class="Magento\Sales\Model\Quote\Item">
                             <additional_fields>
                                 <field name="item_id" />
                                 <field name="quote_id" />

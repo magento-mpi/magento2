@@ -16,24 +16,26 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Product_Type_Configurable extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Catalog\Model\Resource\Product\Type;
+
+class Configurable extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Catalog product relation
      *
-     * @var Magento_Catalog_Model_Resource_Product_Relation
+     * @var \Magento\Catalog\Model\Resource\Product\Relation
      */
     protected $_catalogProductRelation;
 
     /**
      * Class constructor
      *
-     * @param Magento_Catalog_Model_Resource_Product_Relation $catalogProductRelation
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Catalog\Model\Resource\Product\Relation $catalogProductRelation
+     * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
-        Magento_Catalog_Model_Resource_Product_Relation $catalogProductRelation,
-        Magento_Core_Model_Resource $resource
+        \Magento\Catalog\Model\Resource\Product\Relation $catalogProductRelation,
+        \Magento\Core\Model\Resource $resource
     ) {
         $this->_catalogProductRelation = $catalogProductRelation;
         parent::__construct($resource);
@@ -51,14 +53,14 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable extends Magento_C
     /**
      * Save configurable product relations
      *
-     * @param Magento_Catalog_Model_Product $mainProduct the parent id
+     * @param \Magento\Catalog\Model\Product $mainProduct the parent id
      * @param array $productIds the children id array
-     * @return Magento_Catalog_Model_Resource_Product_Type_Configurable
+     * @return \Magento\Catalog\Model\Resource\Product\Type\Configurable
      */
     public function saveProducts($mainProduct, $productIds)
     {
         $isProductInstance = false;
-        if ($mainProduct instanceof Magento_Catalog_Model_Product) {
+        if ($mainProduct instanceof \Magento\Catalog\Model\Product) {
             $mainProductId = $mainProduct->getId();
             $isProductInstance = true;
         }
@@ -149,7 +151,7 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable extends Magento_C
     /**
      * Collect product options with values according to the product instance and attributes, that were received
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param array $attributes
      * @return array
      */
@@ -209,7 +211,7 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable extends Magento_C
                     ),
                     implode(' AND ', array(
                         'option_value.option_id = entity_value.value',
-                        'option_value.store_id = ' . Magento_Core_Model_AppInterface::ADMIN_STORE_ID,
+                        'option_value.store_id = ' . \Magento\Core\Model\AppInterface::ADMIN_STORE_ID,
                     )),
                     array()
                 )->joinLeft(

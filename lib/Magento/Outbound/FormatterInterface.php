@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Outbound_FormatterInterface
+namespace Magento\Outbound;
+
+interface FormatterInterface
 {
     /** content type header */
     const CONTENT_TYPE_HEADER = 'Content-Type';

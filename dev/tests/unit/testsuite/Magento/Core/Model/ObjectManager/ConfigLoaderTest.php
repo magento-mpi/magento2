@@ -5,31 +5,33 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_ObjectManager_ConfigLoaderTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\ObjectManager;
+
+class ConfigLoaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_ObjectManager_ConfigLoader
+     * @var \Magento\Core\Model\ObjectManager\ConfigLoader
      */
     protected $_model;
 
     /**
-     * @var Magento_ObjectManager_Config_Reader_Dom
+     * @var \Magento\ObjectManager\Config\Reader\Dom
      */
     protected $_readerMock;
 
     /**
-     * @var Magento_Core_Model_Cache_Type_Config
+     * @var \Magento\Core\Model\Cache\Type\Config
      */
     protected $_cacheMock;
 
     protected function setUp()
     {
-        $this->_readerMock = $this->getMock('Magento_ObjectManager_Config_Reader_Dom',
+        $this->_readerMock = $this->getMock('Magento\ObjectManager\Config\Reader\Dom',
             array(), array(), '', false
         );
 
-        $this->_cacheMock = $this->getMock('Magento_Core_Model_Cache_Type_Config', array(), array(), '', false);
-        $this->_model = new Magento_Core_Model_ObjectManager_ConfigLoader($this->_cacheMock, $this->_readerMock);
+        $this->_cacheMock = $this->getMock('Magento\Core\Model\Cache\Type\Config', array(), array(), '', false);
+        $this->_model = new \Magento\Core\Model\ObjectManager\ConfigLoader($this->_cacheMock, $this->_readerMock);
     }
 
     /**

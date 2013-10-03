@@ -16,6 +16,8 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Items_Column_Qty extends Magento_Adminhtml_Block_Sales_Items_Column_Default
+namespace Magento\Adminhtml\Block\Sales\Items\Column;
+
+class Qty extends \Magento\Adminhtml\Block\Sales\Items\Column\DefaultColumn
 {}
 ?>

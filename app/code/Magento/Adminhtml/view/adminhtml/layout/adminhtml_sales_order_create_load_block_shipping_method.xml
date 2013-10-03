@@ -9,8 +9,8 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceContainer name="content">
-        <block class="Magento_Adminhtml_Block_Sales_Order_Create_Shipping_Method" template="sales/order/create/abstract.phtml" name="shipping_method">
-            <block class="Magento_Adminhtml_Block_Sales_Order_Create_Shipping_Method_Form" template="sales/order/create/shipping/method/form.phtml" name="order.create.shipping.method.form" as="form"/>
+        <block class="Magento\Adminhtml\Block\Sales\Order\Create\Shipping\Method" template="sales/order/create/abstract.phtml" name="shipping_method">
+            <block class="Magento\Adminhtml\Block\Sales\Order\Create\Shipping\Method\Form" template="sales/order/create/shipping/method/form.phtml" name="order.create.shipping.method.form" as="form"/>
         </block>
     </referenceContainer>
 </layout>

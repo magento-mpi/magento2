@@ -16,7 +16,9 @@
  * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Resource_Attribute extends Magento_Eav_Model_Resource_Attribute
+namespace Magento\Customer\Model\Resource;
+
+class Attribute extends \Magento\Eav\Model\Resource\Attribute
 {
     /**
      * Get EAV website table

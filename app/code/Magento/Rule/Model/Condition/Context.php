@@ -10,46 +10,48 @@
  * Abstract block context object. Will be used as rule condition constructor modification point after release.
  * Important: Should not be modified by extension developers.
  */
-class Magento_Rule_Model_Condition_Context implements Magento_ObjectManager_ContextInterface
+namespace Magento\Rule\Model\Condition;
+
+class Context implements \Magento\ObjectManager\ContextInterface
 {
     /**
-     * @var Magento_Core_Model_View_Url
+     * @var \Magento\Core\Model\View\Url
      */
     protected $_viewUrl;
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @var Magento_Core_Model_Layout
+     * @var \Magento\Core\Model\Layout
      */
     protected $_layout;
 
     /**
-     * @var Magento_Rule_Model_ConditionFactory
+     * @var \Magento\Rule\Model\ConditionFactory
      */
     protected $_conditionFactory;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @param Magento_Core_Model_View_Url $viewUrl
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Core_Model_Layout $layout
-     * @param Magento_Rule_Model_ConditionFactory $conditionFactory
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\Rule\Model\ConditionFactory $conditionFactory
+     * @param \Magento\Core\Model\Logger $logger
      */
     public function __construct(
-        Magento_Core_Model_View_Url $viewUrl,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Core_Model_Layout $layout,
-        Magento_Rule_Model_ConditionFactory $conditionFactory,
-        Magento_Core_Model_Logger $logger
+        \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\Layout $layout,
+        \Magento\Rule\Model\ConditionFactory $conditionFactory,
+        \Magento\Core\Model\Logger $logger
     ) {
         $this->_viewUrl = $viewUrl;
         $this->_locale = $locale;
@@ -59,7 +61,7 @@ class Magento_Rule_Model_Condition_Context implements Magento_ObjectManager_Cont
     }
 
     /**
-     * @return Magento_Core_Model_View_Url
+     * @return \Magento\Core\Model\View\Url
      */
     public function getViewUrl()
     {
@@ -67,7 +69,7 @@ class Magento_Rule_Model_Condition_Context implements Magento_ObjectManager_Cont
     }
 
     /**
-     * @return Magento_Core_Model_LocaleInterface
+     * @return \Magento\Core\Model\LocaleInterface
      */
     public function getLocale()
     {
@@ -75,7 +77,7 @@ class Magento_Rule_Model_Condition_Context implements Magento_ObjectManager_Cont
     }
 
     /**
-     * @return Magento_Core_Model_Layout
+     * @return \Magento\Core\Model\Layout
      */
     public function getLayout()
     {
@@ -83,7 +85,7 @@ class Magento_Rule_Model_Condition_Context implements Magento_ObjectManager_Cont
     }
 
     /**
-     * @return Magento_Core_Model_Layout
+     * @return \Magento\Core\Model\Layout
      */
     public function getConditionFactory()
     {
@@ -91,7 +93,7 @@ class Magento_Rule_Model_Condition_Context implements Magento_ObjectManager_Cont
     }
 
     /**
-     * @return Magento_Core_Model_Logger
+     * @return \Magento\Core\Model\Logger
      */
     public function getLogger()
     {

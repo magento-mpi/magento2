@@ -11,34 +11,36 @@
 /**
  * Adminhtml block for fieldset of configurable product
  */
-class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Configurable extends Magento_Catalog_Block_Product_View_Type_Configurable
+namespace Magento\Adminhtml\Block\Catalog\Product\Composite\Fieldset;
+
+class Configurable extends \Magento\Catalog\Block\Product\View\Type\Configurable
 {
     /**
      * Construct
      *
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Model_Config $catalogConfig
-     * @param Magento_Tax_Model_Calculation $taxCalculation
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Catalog_Helper_Product $catalogProduct
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Tax\Model\Calculation $taxCalculation
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Catalog\Helper\Product $catalogProduct
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Model_Config $catalogConfig,
-        Magento_Tax_Model_Calculation $taxCalculation,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Catalog_Helper_Product $catalogProduct,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\Tax\Model\Calculation $taxCalculation,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Catalog\Helper\Product $catalogProduct,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         parent::__construct($storeManager, $catalogConfig, $taxCalculation, $coreRegistry, $catalogProduct, $taxData,
@@ -48,7 +50,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Configurable ex
     /**
      * Retrieve product
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
@@ -69,7 +71,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Configurable ex
     /**
      * Retrieve current store
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getCurrentStore()
     {

@@ -18,7 +18,9 @@
  * - pad_char
  * - last_id
  */
-class Magento_Eav_Model_Entity_Increment_Numeric extends Magento_Eav_Model_Entity_Increment_Abstract
+namespace Magento\Eav\Model\Entity\Increment;
+
+class Numeric extends \Magento\Eav\Model\Entity\Increment\AbstractIncrement
 {
     public function getNextId()
     {

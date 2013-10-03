@@ -1,6 +1,6 @@
 <?php
 /**
- * Creates new instances of Magento_Outbound_UserInterface (via Magento_Webhook_Model_User)
+ * Creates new instances of \Magento\Outbound\UserInterface (via \Magento\Webhook\Model\User)
  *
  * {license_notice}
  *
@@ -9,31 +9,33 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_User_Factory
+namespace Magento\Webhook\Model\User;
+
+class Factory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
      * Initialize the class
      *
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
 
     /**
-     * Create a new instance of Magento_Webhook_Model_User
+     * Create a new instance of \Magento\Webhook\Model\User
      *
      * @param int $webapiUserId webapi user id
-     * @return Magento_Webhook_Model_User
+     * @return \Magento\Webhook\Model\User
      */
     public function create($webapiUserId)
     {
-        return $this->_objectManager->create('Magento_Webhook_Model_User', array('webapiUserId' => $webapiUserId));
+        return $this->_objectManager->create('Magento\Webhook\Model\User', array('webapiUserId' => $webapiUserId));
     }
 }

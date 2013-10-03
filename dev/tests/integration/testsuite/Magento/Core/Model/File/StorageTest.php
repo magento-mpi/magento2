@@ -9,23 +9,25 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_File_StorageTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\File;
+
+class StorageTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * test for Magento_Core_Model_File_Storage::getScriptConfig()
+     * test for \Magento\Core\Model\File\Storage::getScriptConfig()
      *
      * @magentoConfigFixture current_store system/media_storage_configuration/configuration_update_time 1000
      */
     public function testGetScriptConfig()
     {
-        $config = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_File_Storage')->getScriptConfig();
+        $config = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\File\Storage')->getScriptConfig();
         $this->assertInternalType('array', $config);
         $this->assertArrayHasKey('media_directory', $config);
         $this->assertArrayHasKey('allowed_resources', $config);
         $this->assertArrayHasKey('update_time', $config);
         $this->assertEquals(
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')->getDir('media'),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')->getDir('media'),
             $config['media_directory']
         );
         $this->assertInternalType('array', $config['allowed_resources']);

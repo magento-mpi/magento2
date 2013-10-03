@@ -9,31 +9,33 @@
  */
 
 
-class Magento_Reminder_Model_Rule_Condition_Wishlist_Storeview
-    extends Magento_Reminder_Model_Condition_Abstract
+namespace Magento\Reminder\Model\Rule\Condition\Wishlist;
+
+class Storeview
+    extends \Magento\Reminder\Model\Condition\AbstractCondition
 {
     /**
      * Store
      *
-     * @var Magento_Core_Model_System_Store
+     * @var \Magento\Core\Model\System\Store
      */
     protected $_store;
 
     /**
-     * @param Magento_Rule_Model_Condition_Context $context
-     * @param Magento_Reminder_Model_Resource_Rule $ruleResource
-     * @param Magento_Core_Model_System_Store $store
+     * @param \Magento\Rule\Model\Condition\Context $context
+     * @param \Magento\Reminder\Model\Resource\Rule $ruleResource
+     * @param \Magento\Core\Model\System\Store $store
      * @param array $data
      */
     public function __construct(
-        Magento_Rule_Model_Condition_Context $context,
-        Magento_Reminder_Model_Resource_Rule $ruleResource,
-        Magento_Core_Model_System_Store $store,
+        \Magento\Rule\Model\Condition\Context $context,
+        \Magento\Reminder\Model\Resource\Rule $ruleResource,
+        \Magento\Core\Model\System\Store $store,
         array $data = array()
     ) {
         $this->_store = $store;
         parent::__construct($context, $ruleResource, $data);
-        $this->setType('Magento_Reminder_Model_Rule_Condition_Wishlist_Storeview');
+        $this->setType('Magento\Reminder\Model\Rule\Condition\Wishlist\Storeview');
         $this->setValue(null);
     }
 
@@ -63,7 +65,7 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Storeview
     /**
      * Initialize value select options
      *
-     * @return Magento_Reminder_Model_Rule_Condition_Wishlist_Storeview
+     * @return \Magento\Reminder\Model\Rule\Condition\Wishlist\Storeview
      */
     public function loadValueOptions()
     {
@@ -94,7 +96,7 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Storeview
     /**
      * Prepare operator select options
      *
-     * @return Magento_Reminder_Model_Rule_Condition_Wishlist_Storeview
+     * @return \Magento\Reminder\Model\Rule\Condition\Wishlist\Storeview
      */
     public function loadOperatorOptions()
     {
@@ -111,7 +113,7 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Storeview
      *
      * @param $customer
      * @param int|Zend_Db_Expr $website
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)
     {
@@ -120,7 +122,7 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Storeview
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('item' => $wishlistItemTable), array(new Zend_Db_Expr(1)));
+        $select->from(array('item' => $wishlistItemTable), array(new \Zend_Db_Expr(1)));
 
         $select->joinInner(
             array('list' => $wishlistTable),

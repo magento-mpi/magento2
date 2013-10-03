@@ -8,14 +8,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Code_Plugin_GeneratorTest_SimpleClassPluginB
+namespace Magento\Code\Plugin\GeneratorTest;
+
+class SimpleClassPluginB
 {
     /**
      * @param array $arguments
-     * @param Magento_Code_Plugin_InvocationChain $invocationChain
+     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
      * @return string
      */
-    public function aroundDoWork(array $arguments, Magento_Code_Plugin_InvocationChain $invocationChain)
+    public function aroundDoWork(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
     {
         return '<PluginB>' . $invocationChain->proceed($arguments) . '</PluginB>';
     }

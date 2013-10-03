@@ -9,15 +9,17 @@
  * @license     {license_link}
  */
 
+namespace Magento\ImportExport\Model\Import\Entity;
+
 /**
  * Customer composite test
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHPUnit_Framework_TestCase
+class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_ImportExport_Model_Import_Entity_CustomerComposite
+     * @var \Magento\ImportExport\Model\Import\Entity\CustomerComposite
      */
     protected $_model;
 
@@ -32,42 +34,42 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
     protected $_addressAttributes = array('city', 'country', 'street');
 
     /**
-     * @var Magento_Core_Helper_Data|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Helper\Data|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_coreHelper;
 
     /**
-     * @var Magento_Core_Helper_String|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Helper\String|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_stringHelper;
 
     /**
-     * @var Magento_ImportExport_Model_ImportFactory
+     * @var \Magento\ImportExport\Model\ImportFactory
      */
     protected $_importFactory;
 
     /**
-     * @var Magento_Core_Model_Resource
+     * @var \Magento\Core\Model\Resource
      */
     protected $_resource;
 
     /**
-     * @var Magento_ImportExport_Model_Resource_Helper
+     * @var \Magento\ImportExport\Model\Resource\Helper
      */
     protected $_resourceHelper;
 
     /**
-     * @var Magento_ImportExport_Model_Resource_Import_CustomerComposite_DataFactory
+     * @var \Magento\ImportExport\Model\Resource\Import\CustomerComposite\DataFactory
      */
     protected $_dataFactory;
 
     /**
-     * @var Magento_ImportExport_Model_Import_Entity_Eav_CustomerFactory
+     * @var \Magento\ImportExport\Model\Import\Entity\Eav\CustomerFactory
      */
     protected $_customerFactory;
 
     /**
-     * @var Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressFactory
+     * @var \Magento\ImportExport\Model\Import\Entity\Eav\Customer\AddressFactory
      */
     protected $_addressFactory;
 
@@ -91,40 +93,40 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
 
     protected function setUp()
     {
-        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
-        $translator = $this->getMock('Magento_Core_Model_Translate', array('isAllowed'), array(), '', false);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $translator = $this->getMock('Magento\Core\Model\Translate', array('isAllowed'), array(), '', false);
         $translator->expects($this->any())
             ->method('isAllowed')
             ->will($this->returnValue(false));
-        $context = $this->getMock('Magento_Core_Helper_Context', array('getTranslator'), array(), '', false);
+        $context = $this->getMock('Magento\Core\Helper\Context', array('getTranslator'), array(), '', false);
         $context->expects($this->any())->method('getTranslator')->will($this->returnValue($translator));
         $data = array(
             'translator' => $translator,
             'context' => $context,
-            'locale' => $this->getMock('Magento_Core_Model_Locale', array(), array(), '', false),
-            'dateModel' => $this->getMock('Magento_Core_Model_Date', array(), array(), '', false)
+            'locale' => $this->getMock('Magento\Core\Model\Locale', array(), array(), '', false),
+            'dateModel' => $this->getMock('Magento\Core\Model\Date', array(), array(), '', false)
         );
-        $this->_coreHelper = $objectManager->getObject('Magento_Core_Helper_Data', $data);
-        $this->_stringHelper = $this->getMock('Magento_Core_Helper_String', array('__construct'), array(), '', false);
+        $this->_coreHelper = $objectManager->getObject('Magento\Core\Helper\Data', $data);
+        $this->_stringHelper = $this->getMock('Magento\Core\Helper\String', array('__construct'), array(), '', false);
 
-        $this->_importFactory = $this->getMock('Magento_ImportExport_Model_ImportFactory', array(), array(), '', false);
-        $this->_resource = $this->getMock('Magento_Core_Model_Resource', array(), array(), '', false);
+        $this->_importFactory = $this->getMock('Magento\ImportExport\Model\ImportFactory', array(), array(), '', false);
+        $this->_resource = $this->getMock('Magento\Core\Model\Resource', array(), array(), '', false);
         $this->_resourceHelper = $this->getMock(
-            'Magento_ImportExport_Model_Resource_Helper', array(), array(), '', false
+            'Magento\ImportExport\Model\Resource\Helper', array(), array(), '', false
         );
         $this->_dataFactory = $this->getMock(
-            'Magento_ImportExport_Model_Resource_Import_CustomerComposite_DataFactory', array(), array(), '', false
+            'Magento\ImportExport\Model\Resource\Import\CustomerComposite\DataFactory', array(), array(), '', false
         );
         $this->_customerFactory = $this->getMock(
-            'Magento_ImportExport_Model_Import_Entity_Eav_CustomerFactory', array(), array(), '', false
+            'Magento\ImportExport\Model\Import\Entity\Eav\CustomerFactory', array(), array(), '', false
         );
         $this->_addressFactory = $this->getMock(
-            'Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressFactory', array(), array(), '', false
+            'Magento\ImportExport\Model\Import\Entity\Eav\Customer\AddressFactory', array(), array(), '', false
         );
     }
 
     /**
-     * @return Magento_ImportExport_Model_Import_Entity_CustomerComposite
+     * @return \Magento\ImportExport\Model\Import\Entity\CustomerComposite
      */
     protected function _getModelMock()
     {
@@ -132,9 +134,9 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
         $data['customer_entity'] = $this->_getCustomerEntityMock();
         $data['address_entity']  = $this->_getAddressEntityMock();
         
-        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
 
-        $this->_model = new Magento_ImportExport_Model_Import_Entity_CustomerComposite(
+        $this->_model = new \Magento\ImportExport\Model\Import\Entity\CustomerComposite(
             $this->_coreHelper,
             $this->_stringHelper,
             $coreStoreConfig,
@@ -153,7 +155,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
     /**
      * Returns entity mock for method testPrepareRowForDb
      *
-     * @return Magento_ImportExport_Model_Import_Entity_CustomerComposite
+     * @return \Magento\ImportExport\Model\Import\Entity\CustomerComposite
      */
     protected function _getModelMockForPrepareRowForDb()
     {
@@ -185,9 +187,9 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
         $data['address_entity']    = $addressEntity;
         $data['data_source_model'] = $dataSourceMock;
         
-        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
         
-        $this->_model = new Magento_ImportExport_Model_Import_Entity_CustomerComposite(
+        $this->_model = new \Magento\ImportExport\Model\Import\Entity\CustomerComposite(
             $this->_coreHelper,
             $this->_stringHelper,
             $coreStoreConfig,
@@ -204,15 +206,15 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
     }
 
     /**
-     * Expected prepared data after method Magento_ImportExport_Model_Import_Entity_CustomerComposite::_prepareRowForDb
+     * Expected prepared data after method \Magento\ImportExport\Model\Import\Entity\CustomerComposite::_prepareRowForDb
      *
      * @var array
      */
     protected $_preparedData = array(
-        '_scope' => Magento_ImportExport_Model_Import_Entity_CustomerComposite::SCOPE_DEFAULT,
-        Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_WEBSITE    => 'admin',
-        Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_EMAIL      => 'test@qwewqeq.com',
-        Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID => null,
+        '_scope' => \Magento\ImportExport\Model\Import\Entity\CustomerComposite::SCOPE_DEFAULT,
+        \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_WEBSITE    => 'admin',
+        \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_EMAIL      => 'test@qwewqeq.com',
+        \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID => null,
     );
 
     /**
@@ -221,7 +223,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
      * @param bool $isDeleteBehavior
      * @param boolean $customerImport
      * @param boolean $addressImport
-     * @return Magento_ImportExport_Model_Import_Entity_CustomerComposite
+     * @return \Magento\ImportExport\Model\Import\Entity\CustomerComposite
      */
     protected function _getModelMockForImportData($isDeleteBehavior, $customerImport, $addressImport)
     {
@@ -245,9 +247,9 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
         $data['customer_entity'] = $customerEntity;
         $data['address_entity']  = $addressEntity;
         
-        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
         
-        $this->_model = new Magento_ImportExport_Model_Import_Entity_CustomerComposite(
+        $this->_model = new \Magento\ImportExport\Model\Import\Entity\CustomerComposite(
             $this->_coreHelper,
             $this->_stringHelper,
             $coreStoreConfig,
@@ -270,7 +272,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
 
     /**
      * @param array $mockedMethods
-     * @return Magento_ImportExport_Model_Import_Entity_Eav_Customer|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\ImportExport\Model\Import\Entity\Eav\Customer|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getCustomerEntityMock(array $mockedMethods = null)
     {
@@ -280,14 +282,14 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
         $mockedMethods[] = 'getAttributeCollection';
         $mockedMethods[] = 'getWebsiteId';
 
-        /** @var $customerEntity Magento_ImportExport_Model_Import_Entity_Eav_Customer */
-        $customerEntity = $this->getMock('Magento_ImportExport_Model_Import_Entity_Eav_Customer', $mockedMethods,
+        /** @var $customerEntity \Magento\ImportExport\Model\Import\Entity\Eav\Customer */
+        $customerEntity = $this->getMock('Magento\ImportExport\Model\Import\Entity\Eav\Customer', $mockedMethods,
             array(), '', false
         );
 
         $attributeList = array();
         foreach ($this->_customerAttributes as $code) {
-            $attribute = new Magento_Object(array(
+            $attribute = new \Magento\Object(array(
                 'attribute_code' => $code
             ));
             $attributeList[] = $attribute;
@@ -301,7 +303,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
 
     /**
      * @param array $mockedMethods
-     * @return Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getAddressEntityMock(array $mockedMethods = null)
     {
@@ -310,14 +312,14 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
         }
         $mockedMethods[] = 'getAttributeCollection';
 
-        /** @var $addressEntity Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address */
-        $addressEntity = $this->getMock('Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address', $mockedMethods,
+        /** @var $addressEntity \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address */
+        $addressEntity = $this->getMock('Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address', $mockedMethods,
             array(), '', false
         );
 
         $attributeList = array();
         foreach ($this->_addressAttributes as $code) {
-            $attribute = new Magento_Object(array(
+            $attribute = new \Magento\Object(array(
                 'attribute_code' => $code
             ));
             $attributeList[] = $attribute;
@@ -353,8 +355,8 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
     }
 
     /**
-     * @covers Magento_ImportExport_Model_Import_Entity_CustomerComposite::isAttributeParticular
-     * @covers Magento_ImportExport_Model_Import_Entity_CustomerComposite::_initAddressAttributes
+     * @covers \Magento\ImportExport\Model\Import\Entity\CustomerComposite::isAttributeParticular
+     * @covers \Magento\ImportExport\Model\Import\Entity\CustomerComposite::_initAddressAttributes
      */
     public function testIsAttributeParticular()
     {
@@ -362,7 +364,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
         foreach ($this->_addressAttributes as $code) {
             $this->assertTrue(
                 $this->_model->isAttributeParticular(
-                    Magento_ImportExport_Model_Import_Entity_CustomerComposite::COLUMN_ADDRESS_PREFIX . $code
+                    \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COLUMN_ADDRESS_PREFIX . $code
                 ),
                 'Attribute must be particular'
             );
@@ -372,8 +374,8 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
 
     /**
      * @dataProvider getRowDataProvider
-     * @covers Magento_ImportExport_Model_Import_Entity_CustomerComposite::validateRow
-     * @covers Magento_ImportExport_Model_Import_Entity_CustomerComposite::_getRowScope
+     * @covers \Magento\ImportExport\Model\Import\Entity\CustomerComposite::validateRow
+     * @covers \Magento\ImportExport\Model\Import\Entity\CustomerComposite::_getRowScope
      *
      * @param array $rows
      * @param array $calls
@@ -416,9 +418,9 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
         $data['customer_entity'] = $customerEntity;
         $data['address_entity']  = $addressEntity;
         
-        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
         
-        $this->_model = new Magento_ImportExport_Model_Import_Entity_CustomerComposite(
+        $this->_model = new \Magento\ImportExport\Model\Import\Entity\CustomerComposite(
             $this->_coreHelper,
             $this->_stringHelper,
             $coreStoreConfig,
@@ -441,7 +443,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
     }
 
     /**
-     * @covers Magento_ImportExport_Model_Import_Entity_CustomerComposite::_prepareAddressRowData
+     * @covers \Magento\ImportExport\Model\Import\Entity\CustomerComposite::_prepareAddressRowData
      */
     public function testPrepareAddressRowData()
     {
@@ -469,9 +471,9 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
         $data['customer_entity'] = $customerEntity;
         $data['address_entity']  = $addressEntity;
         
-        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
         
-        $this->_model = new Magento_ImportExport_Model_Import_Entity_CustomerComposite(
+        $this->_model = new \Magento\ImportExport\Model\Import\Entity\CustomerComposite(
             $this->_coreHelper,
             $this->_stringHelper,
             $coreStoreConfig,
@@ -485,11 +487,11 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
         );
 
         $rowData = array(
-            Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL                 => 'test@test.com',
-            Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_WEBSITE               => 'admin',
-            Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID    => null,
-            Magento_ImportExport_Model_Import_Entity_CustomerComposite::COLUMN_DEFAULT_BILLING  => true,
-            Magento_ImportExport_Model_Import_Entity_CustomerComposite::COLUMN_DEFAULT_SHIPPING => true,
+            \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_EMAIL                 => 'test@test.com',
+            \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_WEBSITE               => 'admin',
+            \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID    => null,
+            \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COLUMN_DEFAULT_BILLING  => true,
+            \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COLUMN_DEFAULT_SHIPPING => true,
             'firstname' => 'John',
             'lastname'  => 'Doe',
             'dob'       => '1984-11-11',
@@ -507,10 +509,10 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
         foreach ($this->_customerAttributes as $attributeCode) {
             $this->assertArrayNotHasKey($attributeCode, $rowData);
         }
-        $this->assertArrayHasKey(Magento_ImportExport_Model_Import_Entity_CustomerComposite::COLUMN_DEFAULT_BILLING,
+        $this->assertArrayHasKey(\Magento\ImportExport\Model\Import\Entity\CustomerComposite::COLUMN_DEFAULT_BILLING,
             $rowData
         );
-        $this->assertArrayHasKey(Magento_ImportExport_Model_Import_Entity_CustomerComposite::COLUMN_DEFAULT_SHIPPING,
+        $this->assertArrayHasKey(\Magento\ImportExport\Model\Import\Entity\CustomerComposite::COLUMN_DEFAULT_SHIPPING,
             $rowData
         );
         $this->assertEquals(1, $rowNumber);
@@ -525,14 +527,14 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
             'customer and address rows, append behavior' => array(
                 '$rows' => array(
                     array(
-                        Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL   => 'test@test.com',
-                        Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_WEBSITE => 'admin',
-                        Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID => null
+                        \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_EMAIL   => 'test@test.com',
+                        \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_WEBSITE => 'admin',
+                        \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID => null
                     ),
                     array(
-                        Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL   => '',
-                        Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_WEBSITE => '',
-                        Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID => 1
+                        \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_EMAIL   => '',
+                        \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_WEBSITE => '',
+                        \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID => 1
                     )
                 ),
                 '$calls'            => array(
@@ -541,19 +543,19 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
                 ),
                 '$validationReturn' => true,
                 '$expectedErrors'   => array(),
-                '$behavior'         => Magento_ImportExport_Model_Import::BEHAVIOR_APPEND
+                '$behavior'         => \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND
             ),
             'customer and address rows, delete behavior' => array(
                 '$rows' => array(
                     array(
-                        Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL   => 'test@test.com',
-                        Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_WEBSITE => 'admin',
-                        Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID => null
+                        \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_EMAIL   => 'test@test.com',
+                        \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_WEBSITE => 'admin',
+                        \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID => null
                     ),
                     array(
-                        Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL   => '',
-                        Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_WEBSITE => '',
-                        Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID => 1
+                        \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_EMAIL   => '',
+                        \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_WEBSITE => '',
+                        \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID => 1
                     )
                 ),
                 '$calls'            => array(
@@ -562,24 +564,24 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
                 ),
                 '$validationReturn' => true,
                 '$expectedErrors'   => array(),
-                '$behavior'         => Magento_ImportExport_Model_Import::BEHAVIOR_DELETE
+                '$behavior'         => \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE
             ),
             'customer and two addresses row, append behavior' => array(
                 '$rows' => array(
                     array(
-                        Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL => 'test@test.com',
-                        Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_WEBSITE => 'admin',
-                        Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID => null
+                        \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_EMAIL => 'test@test.com',
+                        \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_WEBSITE => 'admin',
+                        \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID => null
                     ),
                     array(
-                        Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL => '',
-                        Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_WEBSITE => '',
-                        Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID => 1
+                        \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_EMAIL => '',
+                        \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_WEBSITE => '',
+                        \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID => 1
                     ),
                     array(
-                        Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL => '',
-                        Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_WEBSITE => '',
-                        Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID => 2
+                        \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_EMAIL => '',
+                        \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_WEBSITE => '',
+                        \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID => 2
                     )
                 ),
                 '$calls'            => array(
@@ -588,19 +590,19 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
                 ),
                 '$validationReturn' => true,
                 '$expectedErrors'   => array(),
-                '$behavior'         => Magento_ImportExport_Model_Import::BEHAVIOR_APPEND
+                '$behavior'         => \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND
             ),
             'customer and addresses row with filed validation, append behavior' => array(
                 '$rows' => array(
                     array(
-                        Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL => 'test@test.com',
-                        Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_WEBSITE => 'admin',
-                        Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID => null
+                        \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_EMAIL => 'test@test.com',
+                        \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_WEBSITE => 'admin',
+                        \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID => null
                     ),
                     array(
-                        Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL => '',
-                        Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_WEBSITE => '',
-                        Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID => 1
+                        \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_EMAIL => '',
+                        \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_WEBSITE => '',
+                        \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID => 1
                     )
                 ),
                 '$calls'            => array(
@@ -609,13 +611,13 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
                 ),
                 '$validationReturn' => false,
                 '$expectedErrors'   => array('Orphan rows that will be skipped due default row errors'),
-                '$behavior'         => Magento_ImportExport_Model_Import::BEHAVIOR_APPEND
+                '$behavior'         => \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND
             )
         );
     }
 
     /**
-     * @covers Magento_ImportExport_Model_Import_Entity_CustomerComposite::setParameters
+     * @covers \Magento\ImportExport\Model\Import\Entity\CustomerComposite::setParameters
      */
     public function testSetParameters()
     {
@@ -632,9 +634,9 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
         $data['customer_entity'] = $customerEntity;
         $data['address_entity']  = $addressEntity;
         
-        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
         
-        $this->_model = new Magento_ImportExport_Model_Import_Entity_CustomerComposite(
+        $this->_model = new \Magento\ImportExport\Model\Import\Entity\CustomerComposite(
             $this->_coreHelper,
             $this->_stringHelper,
             $coreStoreConfig,
@@ -648,7 +650,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
         );
 
         $params = array(
-            'behavior' => Magento_ImportExport_Model_Import::BEHAVIOR_APPEND
+            'behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND
         );
         $this->_model->setParameters($params);
     }
@@ -659,11 +661,11 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
     public function callbackCheckParameters(array $params)
     {
         $this->assertArrayHasKey('behavior', $params);
-        $this->assertEquals(Magento_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE, $params['behavior']);
+        $this->assertEquals(\Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE, $params['behavior']);
     }
 
     /**
-     * @covers Magento_ImportExport_Model_Import_Entity_CustomerComposite::setSource
+     * @covers \Magento\ImportExport\Model\Import\Entity\CustomerComposite::setSource
      */
     public function testSetSource()
     {
@@ -678,9 +680,9 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
         $data['customer_entity'] = $customerEntity;
         $data['address_entity']  = $addressEntity;
         
-        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
         
-        $this->_model = new Magento_ImportExport_Model_Import_Entity_CustomerComposite(
+        $this->_model = new \Magento\ImportExport\Model\Import\Entity\CustomerComposite(
             $this->_coreHelper,
             $this->_stringHelper,
             $coreStoreConfig,
@@ -693,13 +695,13 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
             $data
         );
 
-        $source = $this->getMockForAbstractClass('Magento_ImportExport_Model_Import_SourceAbstract', array(), '',
+        $source = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\AbstractSource', array(), '',
             false);
         $this->_model->setSource($source);
     }
 
     /**
-     * @covers Magento_ImportExport_Model_Import_Entity_CustomerComposite::setErrorMessages
+     * @covers \Magento\ImportExport\Model\Import\Entity\CustomerComposite::setErrorMessages
      */
     public function testGetErrorMessages()
     {
@@ -726,9 +728,9 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
         $data['customer_entity'] = $customerEntity;
         $data['address_entity']  = $addressEntity;
         
-        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
         
-        $this->_model = new Magento_ImportExport_Model_Import_Entity_CustomerComposite(
+        $this->_model = new \Magento\ImportExport\Model\Import\Entity\CustomerComposite(
             $this->_coreHelper,
             $this->_stringHelper,
             $coreStoreConfig,
@@ -758,20 +760,20 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
     }
 
     /**
-     * @covers Magento_ImportExport_Model_Import_Entity_CustomerComposite::_prepareRowForDb
+     * @covers \Magento\ImportExport\Model\Import\Entity\CustomerComposite::_prepareRowForDb
      */
     public function testPrepareRowForDb()
     {
         $this->_getModelMockForPrepareRowForDb();
         $pathToCsvFile = __DIR__ . '/_files/customer_composite_prepare_row_for_db.csv';
-        $source = new Magento_ImportExport_Model_Import_Source_Csv($pathToCsvFile);
+        $source = new \Magento\ImportExport\Model\Import\Source\Csv($pathToCsvFile);
         $this->_model->setSource($source);
         $this->_model->validateData();  // assertions processed in self::verifyPrepareRowForDbData
     }
 
     /**
-     * Callback for Magento_ImportExport_Model_Resource_Import_Data::saveBunch to verify correctness of data
-     * for method Magento_ImportExport_Model_Import_Entity_CustomerComposite::_prepareRowForDb
+     * Callback for \Magento\ImportExport\Model\Resource\Import\Data::saveBunch to verify correctness of data
+     * for method \Magento\ImportExport\Model\Import\Entity\CustomerComposite::_prepareRowForDb
      *
      * @param string $entityType
      * @param string $behavior
@@ -801,37 +803,37 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
     {
         return array(
             'add_update_behavior_customer_true_address_true' => array(
-                '$behavior'       => Magento_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE,
+                '$behavior'       => \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE,
                 '$customerImport' => true,
                 '$addressImport'  => true,
                 '$result'         => true,
             ),
             'add_update_behavior_customer_true_address_false' => array(
-                '$behavior'       => Magento_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE,
+                '$behavior'       => \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE,
                 '$customerImport' => true,
                 '$addressImport'  => false,
                 '$result'         => false,
             ),
             'add_update_behavior_customer_false_address_true' => array(
-                '$behavior'       => Magento_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE,
+                '$behavior'       => \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE,
                 '$customerImport' => false,
                 '$addressImport'  => true,
                 '$result'         => false,
             ),
             'add_update_behavior_customer_false_address_false' => array(
-                '$behavior'       => Magento_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE,
+                '$behavior'       => \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE,
                 '$customerImport' => false,
                 '$addressImport'  => false,
                 '$result'         => false,
             ),
             'delete_behavior_customer_true' => array(
-                '$behavior' => Magento_ImportExport_Model_Import::BEHAVIOR_DELETE,
+                '$behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE,
                 '$customerImport' => true,
                 '$addressImport'  => false,
                 '$result'         => true,
             ),
             'delete_behavior_customer_false' => array(
-                '$behavior' => Magento_ImportExport_Model_Import::BEHAVIOR_DELETE,
+                '$behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE,
                 '$customerImport' => false,
                 '$addressImport'  => false,
                 '$result'         => false,
@@ -841,7 +843,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
 
     /**
      * @dataProvider dataProviderTestImportData
-     * @covers Magento_ImportExport_Model_Import_Entity_CustomerComposite::_importData
+     * @covers \Magento\ImportExport\Model\Import\Entity\CustomerComposite::_importData
      *
      * @param string $behavior
      * @param boolean $customerImport
@@ -850,7 +852,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
      */
     public function testImportData($behavior, $customerImport, $addressImport, $result)
     {
-        $isDeleteBehavior = $behavior == Magento_ImportExport_Model_Import::BEHAVIOR_DELETE;
+        $isDeleteBehavior = $behavior == \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE;
         $entityMock = $this->_getModelMockForImportData($isDeleteBehavior, $customerImport, $addressImport);
         $entityMock->setParameters(array('behavior' => $behavior));
         $importResult = $entityMock->importData();
@@ -862,33 +864,33 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
     }
 
     /**
-     * @covers Magento_ImportExport_Model_Import_Entity_CustomerComposite::getErrorsCount
+     * @covers \Magento\ImportExport\Model\Import\Entity\CustomerComposite::getErrorsCount
      */
     public function testGetErrorsCount()
     {
         $customerReturnData = 1;
         $addressReturnData = 2;
         $model = $this->_getModelForGetterTest('getErrorsCount', $customerReturnData, $addressReturnData);
-        $model->addRowError(Magento_ImportExport_Model_Import_Entity_CustomerComposite::ERROR_ROW_IS_ORPHAN, 1);
+        $model->addRowError(\Magento\ImportExport\Model\Import\Entity\CustomerComposite::ERROR_ROW_IS_ORPHAN, 1);
 
         $this->assertEquals($customerReturnData + $addressReturnData + 1, $model->getErrorsCount());
     }
 
     /**
-     * @covers Magento_ImportExport_Model_Import_Entity_CustomerComposite::getInvalidRowsCount
+     * @covers \Magento\ImportExport\Model\Import\Entity\CustomerComposite::getInvalidRowsCount
      */
     public function testGetInvalidRowsCount()
     {
         $customerReturnData = 3;
         $addressReturnData = 2;
         $model = $this->_getModelForGetterTest('getInvalidRowsCount', $customerReturnData, $addressReturnData);
-        $model->addRowError(Magento_ImportExport_Model_Import_Entity_CustomerComposite::ERROR_ROW_IS_ORPHAN, 1);
+        $model->addRowError(\Magento\ImportExport\Model\Import\Entity\CustomerComposite::ERROR_ROW_IS_ORPHAN, 1);
 
         $this->assertEquals($customerReturnData + $addressReturnData + 1, $model->getInvalidRowsCount());
     }
 
     /**
-     * @covers Magento_ImportExport_Model_Import_Entity_CustomerComposite::getProcessedEntitiesCount
+     * @covers \Magento\ImportExport\Model\Import\Entity\CustomerComposite::getProcessedEntitiesCount
      */
     public function testGetProcessedEntitiesCount()
     {
@@ -903,7 +905,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
      * @param string $method
      * @param int $customerReturnData
      * @param int $addressReturnData
-     * @return Magento_ImportExport_Model_Import_Entity_CustomerComposite
+     * @return \Magento\ImportExport\Model\Import\Entity\CustomerComposite
      */
     protected function _getModelForGetterTest($method, $customerReturnData, $addressReturnData)
     {
@@ -920,8 +922,8 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
         $data = $this->_getModelDependencies();
         $data['customer_entity'] = $customerEntity;
         $data['address_entity']  = $addressEntity;
-        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
-        $this->_model = new Magento_ImportExport_Model_Import_Entity_CustomerComposite(
+        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
+        $this->_model = new \Magento\ImportExport\Model\Import\Entity\CustomerComposite(
             $this->_coreHelper,
             $this->_stringHelper,
             $coreStoreConfig,

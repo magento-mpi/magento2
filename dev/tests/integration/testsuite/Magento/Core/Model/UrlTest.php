@@ -9,17 +9,19 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model;
+
+class UrlTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Url
+     * @var \Magento\Core\Model\Url
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Url');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Url');
     }
 
     public function testParseUrl()
@@ -75,17 +77,17 @@ class Magento_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
     public function testSetGetRequest()
     {
         $this->assertInstanceOf('Zend_Controller_Request_Http', $this->_model->getRequest());
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var $request Magento_TestFramework_Request */
-        $request = $objectManager->get('Magento_TestFramework_Request');
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var $request \Magento\TestFramework\Request */
+        $request = $objectManager->get('Magento\TestFramework\Request');
         $this->_model->setRequest($request);
         $this->assertSame($request, $this->_model->getRequest());
     }
 
     public function testGetType()
     {
-        $this->assertEquals(Magento_Core_Model_Store::URL_TYPE_LINK, $this->_model->getType());
+        $this->assertEquals(\Magento\Core\Model\Store::URL_TYPE_LINK, $this->_model->getType());
     }
 
     /**
@@ -96,17 +98,17 @@ class Magento_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->_model->isSecure());
         $this->_model->setSecureIsForced(1);
         $this->assertTrue(is_bool($this->_model->isSecure()));
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
-            ->getStore()->setId(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            ->getStore()->setId(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
         $this->assertFalse($this->_model->isSecure());
     }
 
     public function testSetGetStore()
     {
-        $this->assertInstanceOf('Magento_Core_Model_Store', $this->_model->getStore());
+        $this->assertInstanceOf('Magento\Core\Model\Store', $this->_model->getStore());
 
-        $store = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Store');
+        $store = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Store');
         $this->_model->setStore($store);
         $this->assertSame($store, $this->_model->getStore());
     }
@@ -163,7 +165,7 @@ class Magento_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
         /**
          * Set specified type
          */
-        $this->_model->setType(Magento_Core_Model_Store::URL_TYPE_WEB);
+        $this->_model->setType(\Magento\Core\Model\Store::URL_TYPE_WEB);
         $webUrl = $this->_model->getBaseUrl();
         $this->assertEquals('http://localhost/', $webUrl, 'Incorrect web url');
         $this->assertEquals('http://localhost/index.php/', $this->_model->getBaseUrl(), 'Incorrect link url');
@@ -171,7 +173,7 @@ class Magento_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
         /**
          * Get url with type specified in params
          */
-        $mediaUrl = $this->_model->getBaseUrl(array('_type' => Magento_Core_Model_Store::URL_TYPE_MEDIA));
+        $mediaUrl = $this->_model->getBaseUrl(array('_type' => \Magento\Core\Model\Store::URL_TYPE_MEDIA));
         $this->assertEquals('http://localhost/pub/media/', $mediaUrl, 'Incorrect media url');
         $this->assertEquals('http://localhost/index.php/', $this->_model->getBaseUrl(), 'Incorrect link url');
     }
@@ -180,15 +182,15 @@ class Magento_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                array('_type' => Magento_Core_Model_Store::URL_TYPE_WEB),
+                array('_type' => \Magento\Core\Model\Store::URL_TYPE_WEB),
                 'http://sample.com/base_path/'
             ),
             array(
-                array('_type' => Magento_Core_Model_Store::URL_TYPE_LINK),
+                array('_type' => \Magento\Core\Model\Store::URL_TYPE_LINK),
                 'http://sample.com/base_link_path/index.php/'
             ),
             array(
-                array('_type' => Magento_Core_Model_Store::URL_TYPE_LINK, '_secure' => 1),
+                array('_type' => \Magento\Core\Model\Store::URL_TYPE_LINK, '_secure' => 1),
                 'https://sample.com/base_link_path/index.php/'
             ),
         );
@@ -383,7 +385,7 @@ class Magento_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
     /**
      * Note: isolation flushes the URL memory cache
      * @magentoAppIsolation enabled
-     * @covers Magento_Core_Model_Url::getUrl
+     * @covers \Magento\Core\Model\Url::getUrl
      */
     public function testGetUrlDoesntAddFragmentOnConsequentCalls()
     {
@@ -410,7 +412,7 @@ class Magento_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
      * @param array $secondRouteParams
      * @param string $firstExpectedUrl
      * @param string $secondExpectedUrl
-     * @covers Magento_Core_Model_Url::getUrl
+     * @covers \Magento\Core\Model\Url::getUrl
      */
     public function testGetUrlOnConsequentCalls($firstCallUrl, $secondCallUrl, $firstRouteParams, $secondRouteParams,
         $firstExpectedUrl, $secondExpectedUrl
@@ -586,7 +588,7 @@ class Magento_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
      */
     public function testSessionUrlVar()
     {
-        $sessionId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Session')
+        $sessionId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Session')
             ->getEncryptedSessionId();
         $sessionUrl = $this->_model->sessionUrlVar('<a href="http://example.com/?___SID=U">www.example.com</a>');
         $this->assertEquals('<a href="http://example.com/?SID=' . $sessionId . '">www.example.com</a>',

@@ -8,37 +8,39 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Model_Quote_Address_Total_Discount extends Magento_Sales_Model_Quote_Address_Total_Abstract
+namespace Magento\Sales\Model\Quote\Address\Total;
+
+class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_StoreManagerInterface $storeManager
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_eventManager = $eventManager;
         $this->_storeManager = $storeManager;
     }
 
     /**
-     * @param Magento_Sales_Model_Quote_Address $address
-     * @return $this|Magento_Sales_Model_Quote_Address_Total_Abstract
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @return $this|\Magento\Sales\Model\Quote\Address\Total\AbstractTotal
      */
-    public function collect(Magento_Sales_Model_Quote_Address $address)
+    public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
         $quote = $address->getQuote();
         $eventArgs = array(
@@ -136,10 +138,10 @@ class Magento_Sales_Model_Quote_Address_Total_Discount extends Magento_Sales_Mod
     }
 
     /**
-     * @param Magento_Sales_Model_Quote_Address $address
+     * @param \Magento\Sales\Model\Quote\Address $address
      * @return $this
      */
-    public function fetch(Magento_Sales_Model_Quote_Address $address)
+    public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
         $amount = $address->getDiscountAmount();
         if ($amount!=0) {

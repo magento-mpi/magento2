@@ -11,7 +11,9 @@
 /**
  * Generic frontend controller
  */
-class Magento_Core_Controller_Front_Action extends Magento_Core_Controller_Varien_Action
+namespace Magento\Core\Controller\Front;
+
+class Action extends \Magento\Core\Controller\Varien\Action
 {
     /**
      * Session namespace to refer in other places
@@ -28,15 +30,15 @@ class Magento_Core_Controller_Front_Action extends Magento_Core_Controller_Varie
     /**
      * Remember the last visited url in the session
      *
-     * @return Magento_Core_Controller_Front_Action
+     * @return \Magento\Core\Controller\Front\Action
      */
     public function postDispatch()
     {
         parent::postDispatch();
         if (!$this->getFlag('', self::FLAG_NO_START_SESSION )) {
-            $this->_objectManager->get('Magento_Core_Model_Session')
+            $this->_objectManager->get('Magento\Core\Model\Session')
                 ->setLastUrl(
-                    $this->_objectManager->create('Magento_Core_Model_Url')->getUrl('*/*/*', array('_current' => true))
+                    $this->_objectManager->create('Magento\Core\Model\Url')->getUrl('*/*/*', array('_current' => true))
                 );
         }
         return $this;
@@ -48,33 +50,33 @@ class Magento_Core_Controller_Front_Action extends Magento_Core_Controller_Varie
      * If not authenticated, will try to do it using credentials from HTTP-request
      *
      * @param string $aclResource
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Core\Model\Logger $logger
      * @return bool
      */
     public function authenticateAndAuthorizeAdmin($aclResource, $logger)
     {
-        $this->_objectManager->get('Magento_Core_Model_App')
-            ->loadAreaPart(Magento_Core_Model_App_Area::AREA_ADMINHTML,Magento_Core_Model_App_Area::PART_CONFIG);
+        $this->_objectManager->get('Magento\Core\Model\App')
+            ->loadAreaPart(\Magento\Core\Model\App\Area::AREA_ADMINHTML, \Magento\Core\Model\App\Area::PART_CONFIG);
 
-        /** @var $auth Magento_Backend_Model_Auth */
-        $auth = $this->_objectManager->create('Magento_Backend_Model_Auth');
+        /** @var $auth \Magento\Backend\Model\Auth */
+        $auth = $this->_objectManager->create('Magento\Backend\Model\Auth');
         $session = $auth->getAuthStorage();
 
         // Try to login using HTTP-authentication
         if (!$session->isLoggedIn()) {
-            list($login, $password) = $this->_objectManager->get('Magento_Core_Helper_Http')
+            list($login, $password) = $this->_objectManager->get('Magento\Core\Helper\Http')
                 ->getHttpAuthCredentials($this->getRequest());
             try {
                 $auth->login($login, $password);
-            } catch (Magento_Backend_Model_Auth_Exception $e) {
+            } catch (\Magento\Backend\Model\Auth\Exception $e) {
                 $logger->logException($e);
             }
         }
 
         // Verify if logged in and authorized
         if (!$session->isLoggedIn()
-            || !$this->_objectManager->get('Magento_AuthorizationInterface')->isAllowed($aclResource)) {
-            $this->_objectManager->get('Magento_Core_Helper_Http')
+            || !$this->_objectManager->get('Magento\AuthorizationInterface')->isAllowed($aclResource)) {
+            $this->_objectManager->get('Magento\Core\Helper\Http')
                 ->failHttpAuthentication($this->getResponse(), 'RSS Feeds');
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return false;

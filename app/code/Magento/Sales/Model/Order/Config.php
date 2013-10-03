@@ -11,10 +11,12 @@
 /**
  * Order configuration model
  */
-class Magento_Sales_Model_Order_Config
+namespace Magento\Sales\Model\Order;
+
+class Config
 {
     /**
-     * @var Magento_Sales_Model_Resource_Order_Status_Collection
+     * @var \Magento\Sales\Model\Resource\Order\Status\Collection
      */
     protected $_collection;
 
@@ -31,31 +33,31 @@ class Magento_Sales_Model_Order_Config
     private $_states;
 
     /**
-     * @var Magento_Sales_Model_Order_Status
+     * @var \Magento\Sales\Model\Order\Status
      */
     protected $_orderStatusFactory;
 
     /**
-     * @var Magento_Sales_Model_Resource_Order_Status_CollectionFactory
+     * @var \Magento\Sales\Model\Resource\Order\Status\CollectionFactory
      */
     protected $_orderStatusCollFactory;
 
     /**
      * Constructor
      *
-     * @param Magento_Sales_Model_Order_StatusFactory $orderStatusFactory
-     * @param Magento_Sales_Model_Resource_Order_Status_CollectionFactory $orderStatusCollFactory
+     * @param \Magento\Sales\Model\Order\StatusFactory $orderStatusFactory
+     * @param \Magento\Sales\Model\Resource\Order\Status\CollectionFactory $orderStatusCollFactory
      */
     public function __construct(
-        Magento_Sales_Model_Order_StatusFactory $orderStatusFactory,
-        Magento_Sales_Model_Resource_Order_Status_CollectionFactory $orderStatusCollFactory
+        \Magento\Sales\Model\Order\StatusFactory $orderStatusFactory,
+        \Magento\Sales\Model\Resource\Order\Status\CollectionFactory $orderStatusCollFactory
     ) {
         $this->_orderStatusFactory = $orderStatusFactory;
         $this->_orderStatusCollFactory = $orderStatusCollFactory;
     }
 
     /**
-     * @return Magento_Sales_Model_Resource_Order_Status_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Status\Collection
      */
     protected function _getCollection()
     {
@@ -67,7 +69,7 @@ class Magento_Sales_Model_Order_Config
 
     /**
      * @param string $state
-     * @return Magento_Sales_Model_Order_Status
+     * @return \Magento\Sales\Model\Order\Status
      */
     protected function _getState($state)
     {

@@ -11,34 +11,36 @@
 /**
  * Entity data model
  *
- * @method Magento_GiftRegistry_Model_Resource_Entity getResource()
- * @method Magento_GiftRegistry_Model_Entity setTypeId(int $value)
+ * @method \Magento\GiftRegistry\Model\Resource\Entity getResource()
+ * @method \Magento\GiftRegistry\Model\Entity setTypeId(int $value)
  * @method int getCustomerId()
- * @method Magento_GiftRegistry_Model_Entity setCustomerId(int $value)
+ * @method \Magento\GiftRegistry\Model\Entity setCustomerId(int $value)
  * @method int getWebsiteId()
- * @method Magento_GiftRegistry_Model_Entity setWebsiteId(int $value)
+ * @method \Magento\GiftRegistry\Model\Entity setWebsiteId(int $value)
  * @method int getIsPublic()
- * @method Magento_GiftRegistry_Model_Entity setIsPublic(int $value)
+ * @method \Magento\GiftRegistry\Model\Entity setIsPublic(int $value)
  * @method string getUrlKey()
- * @method Magento_GiftRegistry_Model_Entity setUrlKey(string $value)
+ * @method \Magento\GiftRegistry\Model\Entity setUrlKey(string $value)
  * @method string getTitle()
- * @method Magento_GiftRegistry_Model_Entity setTitle(string $value)
+ * @method \Magento\GiftRegistry\Model\Entity setTitle(string $value)
  * @method string getMessage()
- * @method Magento_GiftRegistry_Model_Entity setMessage(string $value)
+ * @method \Magento\GiftRegistry\Model\Entity setMessage(string $value)
  * @method string getShippingAddress()
- * @method Magento_GiftRegistry_Model_Entity setShippingAddress(string $value)
+ * @method \Magento\GiftRegistry\Model\Entity setShippingAddress(string $value)
  * @method string getCustomValues()
- * @method Magento_GiftRegistry_Model_Entity setCustomValues(string $value)
+ * @method \Magento\GiftRegistry\Model\Entity setCustomValues(string $value)
  * @method int getIsActive()
- * @method Magento_GiftRegistry_Model_Entity setIsActive(int $value)
+ * @method \Magento\GiftRegistry\Model\Entity setIsActive(int $value)
  * @method string getCreatedAt()
- * @method Magento_GiftRegistry_Model_Entity setCreatedAt(string $value)
+ * @method \Magento\GiftRegistry\Model\Entity setCreatedAt(string $value)
  *
  * @category    Magento
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
+namespace Magento\GiftRegistry\Model;
+
+class Entity extends \Magento\Core\Model\AbstractModel
 {
     /**
      * XML configuration paths
@@ -51,13 +53,13 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
     const XML_PATH_UPDATE_EMAIL_TEMPLATE = 'magento_giftregistry/update_email/template';
 
     /**
-     * Exception code
+     * \Exception code
      */
     const EXCEPTION_CODE_HAS_REQUIRED_OPTIONS = 916;
 
     /**
      * Type object
-     * @var Magento_GiftRegistry_Model_Type
+     * @var \Magento\GiftRegistry\Model\Type
      */
     protected $_type = null;
 
@@ -76,31 +78,31 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
     protected $_attributes = null;
 
     /**
-     * @var Magento_GiftRegistry_Model_Attribute_Config
+     * @var \Magento\GiftRegistry\Model\Attribute\Config
      */
     protected $attributeConfig;
 
     /**
-     * @var Magento_GiftRegistry_Model_Item
+     * @var \Magento\GiftRegistry\Model\Item
      */
     protected $itemModel;
 
     /**
-     * @var Magento_CatalogInventory_Model_Stock_Item
+     * @var \Magento\CatalogInventory\Model\Stock\Item
      */
     protected $inventoryStockItem;
 
     /**
      * Store instance
      *
-     * @var Magento_Core_Model_Store
+     * @var \Magento\Core\Model\Store
      */
     protected $_store;
 
     /**
      * Application instance
      *
-     * @var Magento_Core_Model_App
+     * @var \Magento\Core\Model\App
      */
     protected $_app;
 
@@ -114,132 +116,132 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
     /**
      * Translate instance
      *
-     * @var Magento_Core_Model_Translate
+     * @var \Magento\Core\Model\Translate
      */
     protected $_translate;
 
     /**
-     * @var Magento_Core_Model_Email_TemplateFactory
+     * @var \Magento\Core\Model\Email\TemplateFactory
      */
     protected $_templateFactory;
 
     /**
      * Gift registry data
      *
-     * @var Magento_GiftRegistry_Helper_Data
+     * @var \Magento\GiftRegistry\Helper\Data
      */
     protected $_giftRegistryData = null;
 
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @var Magento_Sales_Model_QuoteFactory
+     * @var \Magento\Sales\Model\QuoteFactory
      */
     protected $quoteFactory;
 
     /**
-     * @var Magento_Customer_Model_CustomerFactory
+     * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $customerFactory;
 
     /**
-     * @var Magento_GiftRegistry_Model_PersonFactory
+     * @var \Magento\GiftRegistry\Model\PersonFactory
      */
     protected $personFactory;
 
     /**
-     * @var Magento_GiftRegistry_Model_ItemFactory
+     * @var \Magento\GiftRegistry\Model\ItemFactory
      */
     protected $itemFactory;
 
     /**
-     * @var Magento_Customer_Model_AddressFactory
+     * @var \Magento\Customer\Model\AddressFactory
      */
     protected $addressFactory;
 
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $productFactory;
 
     /**
-     * @var Magento_Core_Model_DateFactory
+     * @var \Magento\Core\Model\DateFactory
      */
     protected $dateFactory;
 
     /**
-     * @var Magento_Logging_Model_Event_ChangesFactory
+     * @var \Magento\Logging\Model\Event\ChangesFactory
      */
     protected $changesFactory;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $storeManager;
 
     /**
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     protected $request;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_GiftRegistry_Helper_Data $giftRegistryData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_App $application
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Translate $translate
-     * @param Magento_Core_Model_Email_TemplateFactory $templateFactory
-     * @param Magento_GiftRegistry_Model_Resource_Entity $resource
-     * @param Magento_GiftRegistry_Model_Resource_Entity_Collection $resourceCollection
-     * @param Magento_GiftRegistry_Model_Type $type
-     * @param Magento_GiftRegistry_Model_Attribute_Config $attributeConfig
-     * @param Magento_GiftRegistry_Model_Item $itemModel
-     * @param Magento_CatalogInventory_Model_Stock_Item $inventoryStockItem
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Sales_Model_QuoteFactory $quoteFactory
-     * @param Magento_Customer_Model_CustomerFactory $customerFactory
-     * @param Magento_GiftRegistry_Model_PersonFactory $personFactory
-     * @param Magento_GiftRegistry_Model_ItemFactory $itemFactory
-     * @param Magento_Customer_Model_AddressFactory $addressFactory
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Core_Model_DateFactory $dateFactory
-     * @param Magento_Logging_Model_Event_ChangesFactory $changesFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Controller_Request_Http $request
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\App $application
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Translate $translate
+     * @param \Magento\Core\Model\Email\TemplateFactory $templateFactory
+     * @param \Magento\GiftRegistry\Model\Resource\Entity $resource
+     * @param \Magento\GiftRegistry\Model\Resource\Entity\Collection $resourceCollection
+     * @param \Magento\GiftRegistry\Model\Type $type
+     * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
+     * @param \Magento\GiftRegistry\Model\Item $itemModel
+     * @param \Magento\CatalogInventory\Model\Stock\Item $inventoryStockItem
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\GiftRegistry\Model\PersonFactory $personFactory
+     * @param \Magento\GiftRegistry\Model\ItemFactory $itemFactory
+     * @param \Magento\Customer\Model\AddressFactory $addressFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Core\Model\DateFactory $dateFactory
+     * @param \Magento\Logging\Model\Event\ChangesFactory $changesFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Controller\Request\Http $request
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_GiftRegistry_Helper_Data $giftRegistryData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_App $application,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Translate $translate,
-        Magento_Core_Model_Email_TemplateFactory $templateFactory,
-        Magento_GiftRegistry_Model_Type $type,
-        Magento_GiftRegistry_Model_Attribute_Config $attributeConfig,
-        Magento_GiftRegistry_Model_Item $itemModel,
-        Magento_CatalogInventory_Model_Stock_Item $inventoryStockItem,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Sales_Model_QuoteFactory $quoteFactory,
-        Magento_Customer_Model_CustomerFactory $customerFactory,
-        Magento_GiftRegistry_Model_PersonFactory $personFactory,
-        Magento_GiftRegistry_Model_ItemFactory $itemFactory,
-        Magento_Customer_Model_AddressFactory $addressFactory,
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Core_Model_DateFactory $dateFactory,
-        Magento_Logging_Model_Event_ChangesFactory $changesFactory,
-        Magento_Core_Controller_Request_Http $request,
-        Magento_GiftRegistry_Model_Resource_Entity $resource = null,
-        Magento_GiftRegistry_Model_Resource_Entity_Collection $resourceCollection = null,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\GiftRegistry\Helper\Data $giftRegistryData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\App $application,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Translate $translate,
+        \Magento\Core\Model\Email\TemplateFactory $templateFactory,
+        \Magento\GiftRegistry\Model\Type $type,
+        \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
+        \Magento\GiftRegistry\Model\Item $itemModel,
+        \Magento\CatalogInventory\Model\Stock\Item $inventoryStockItem,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Sales\Model\QuoteFactory $quoteFactory,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\GiftRegistry\Model\PersonFactory $personFactory,
+        \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
+        \Magento\Customer\Model\AddressFactory $addressFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Core\Model\DateFactory $dateFactory,
+        \Magento\Logging\Model\Event\ChangesFactory $changesFactory,
+        \Magento\Core\Controller\Request\Http $request,
+        \Magento\GiftRegistry\Model\Resource\Entity $resource = null,
+        \Magento\GiftRegistry\Model\Resource\Entity\Collection $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -272,14 +274,14 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_GiftRegistry_Model_Resource_Entity');
+        $this->_init('Magento\GiftRegistry\Model\Resource\Entity');
         parent::_construct();
     }
 
     /**
      * Get resource instance
      *
-     * @return Magento_Core_Model_Resource_Db_Abstract
+     * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _getResource()
     {
@@ -319,14 +321,14 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
     /**
      * Add new product to registry
      *
-     * @param int|Magento_Sales_Model_Quote_Item $itemToAdd
-     * @param null|Magento_Object $request
-     * @return false|Magento_GiftRegistry_Model_Item
-     * @throws Magento_Core_Exception
+     * @param int|\Magento\Sales\Model\Quote\Item $itemToAdd
+     * @param null|\Magento\Object $request
+     * @return false|\Magento\GiftRegistry\Model\Item
+     * @throws \Magento\Core\Exception
      */
     public function addItem($itemToAdd, $request = null)
     {
-        if ($itemToAdd instanceof Magento_Sales_Model_Quote_Item) {
+        if ($itemToAdd instanceof \Magento\Sales\Model\Quote\Item) {
             $productId = $itemToAdd->getProductId();
             $qty = $itemToAdd->getQty();
         } else {
@@ -336,24 +338,24 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
         $product = $this->getProduct($productId);
 
         if ($product->getTypeInstance()->hasRequiredOptions($product)
-            && (!$request && !($itemToAdd instanceof Magento_Sales_Model_Quote_Item))) {
-            throw new Magento_Core_Exception(null, self::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS);
+            && (!$request && !($itemToAdd instanceof \Magento\Sales\Model\Quote\Item))) {
+            throw new \Magento\Core\Exception(null, self::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS);
         }
 
-        if ($itemToAdd instanceof Magento_Sales_Model_Quote_Item) {
+        if ($itemToAdd instanceof \Magento\Sales\Model\Quote\Item) {
             $cartCandidate = $itemToAdd->getProduct();
             $cartCandidate->setCustomOptions($itemToAdd->getOptionsByCode());
             $cartCandidates = array($cartCandidate);
         } else {
             if (!$request) {
-                $request = new Magento_Object();
+                $request = new \Magento\Object();
                 $request->setBundleOption(array());//Bundle options mocking for compatibility
             }
             $cartCandidates = $product->getTypeInstance()->prepareForCart($request, $product);
         }
 
         if (is_string($cartCandidates)) { //prepare process has error, seems like we have bundle
-            throw new Magento_Core_Exception($cartCandidates, self::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS);
+            throw new \Magento\Core\Exception($cartCandidates, self::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS);
         }
 
         $item = $this->itemFactory->create();
@@ -440,7 +442,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
             'url' => $this->_giftRegistryData->getRegistryLink($this)
         );
 
-        $mail->setDesignConfig(array('area' => Magento_Core_Model_App_Area::AREA_FRONTEND, 'store' => $store->getId()));
+        $mail->setDesignConfig(array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $store->getId()));
         $mail->sendTransactional(
             $store->getConfig(self::XML_PATH_SHARE_EMAIL_TEMPLATE),
             $identity,
@@ -460,14 +462,14 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
     /**
      * Send share emails
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function sendShareRegistryEmails()
     {
         $senderMessage = $this->getSenderMessage();
         $senderName = $this->_giftRegistryData->escapeHtml($this->getSenderName());
         $senderEmail = $this->_giftRegistryData->escapeHtml($this->getSenderEmail());
-        $result = new Magento_Object(array('is_success' => false));
+        $result = new \Magento\Object(array('is_success' => false));
 
         if (empty($senderName) || empty($senderMessage) || empty($senderEmail)) {
             return $result->setErrorMessage(
@@ -475,7 +477,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
             );
         }
 
-        if (!Zend_Validate::is($senderEmail, 'EmailAddress')) {
+        if (!\Zend_Validate::is($senderEmail, 'EmailAddress')) {
             return $result->setErrorMessage(
                 __('Please enter a valid sender email address.')
             );
@@ -484,7 +486,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
         $emails = array();
         foreach ($this->getRecipients() as $recipient) {
             $recipientEmail = trim($recipient['email']);
-            if (!Zend_Validate::is($recipientEmail, 'EmailAddress')) {
+            if (!\Zend_Validate::is($recipientEmail, 'EmailAddress')) {
                 return $result->setErrorMessage(
                     __('Please enter a valid recipient email address.')
                 );
@@ -550,7 +552,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
             'entity' => $this
         );
 
-        $mail->setDesignConfig(array('area' => Magento_Core_Model_App_Area::AREA_FRONTEND, 'store' => $store->getId()));
+        $mail->setDesignConfig(array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $store->getId()));
         $mail->sendTransactional(
             $store->getConfig(self::XML_PATH_UPDATE_EMAIL_TEMPLATE),
             $store->getConfig(self::XML_PATH_UPDATE_EMAIL_IDENTITY),
@@ -590,7 +592,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
             'url' => $this->_giftRegistryData->getRegistryLink($this)
         );
 
-        $mail->setDesignConfig(array('area' => Magento_Core_Model_App_Area::AREA_FRONTEND, 'store' => $store->getId()));
+        $mail->setDesignConfig(array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $store->getId()));
         $mail->sendTransactional(
             $store->getConfig(self::XML_PATH_OWNER_EMAIL_TEMPLATE),
             $store->getConfig(self::XML_PATH_OWNER_EMAIL_IDENTITY),
@@ -645,7 +647,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
     /**
      * Return entity registrants collection
      *
-     * @return Magento_GiftRegistry_Model_Resource_Person_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Person\Collection
      */
     public function getRegistrantsCollection()
     {
@@ -658,7 +660,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
     /**
      * Return entity items collection
      *
-     * @return Magento_GiftRegistry_Model_Resource_Item_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Item\Collection
      */
     public function getItemsCollection()
     {
@@ -671,7 +673,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
      * Load entity model by gift registry item id
      *
      * @param int $itemId
-     * @return Magento_GiftRegistry_Model_Entity
+     * @return \Magento\GiftRegistry\Model\Entity
      */
     public function loadByEntityItem($itemId)
     {
@@ -684,7 +686,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
      *
      * @param int $customerId
      * @param int $entityId
-     * @return Magento_GiftRegistry_Model_Entity
+     * @return \Magento\GiftRegistry\Model\Entity
      */
     public function setActiveEntity($customerId, $entityId)
     {
@@ -705,7 +707,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
     /**
      * Return address object entity on data in GiftRegistry entity
      *
-     * @return Magento_Customer_Model_Address
+     * @return \Magento\Customer\Model\Address
      */
     public function exportAddress()
     {
@@ -720,10 +722,10 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
     /**
      * Sets up address data to the GiftRegistry entity  object
      *
-     * @param Magento_Customer_Model_Address $address
+     * @param \Magento\Customer\Model\Address $address
      * @return $this
      */
-    public function importAddress(Magento_Customer_Model_Address $address)
+    public function importAddress(\Magento\Customer\Model\Address $address)
     {
         $skip = array('increment_id', 'entity_type_id', 'parent_id', 'entity_id', 'attribute_set_id');
         $data = array();
@@ -740,7 +742,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
     /**
      * Set type for Model using typeId
      * @param int $typeId
-     * @return Magento_GiftRegistry_Model_Entity | false
+     * @return \Magento\GiftRegistry\Model\Entity | false
      */
     public function setTypeById($typeId)
     {
@@ -858,15 +860,15 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
     {
         $errors = array();
 
-        if (!Zend_Validate::is($this->getTitle(), 'NotEmpty')) {
+        if (!\Zend_Validate::is($this->getTitle(), 'NotEmpty')) {
             $errors[] = __('Please enter the title.');
         }
 
-        if (!Zend_Validate::is($this->getMessage(), 'NotEmpty')) {
+        if (!\Zend_Validate::is($this->getMessage(), 'NotEmpty')) {
             $errors[] = __('Please enter the message.');
         }
 
-        if (!Zend_Validate::is($this->getIsPublic(), 'NotEmpty')) {
+        if (!\Zend_Validate::is($this->getIsPublic(), 'NotEmpty')) {
             $errors[] = __('Please enter correct the Privacy setting.');
         } else if (!array_key_exists($this->getIsPublic(), $this->getOptionsIsPublic())) {
             $errors[] = __('Please enter correct the Privacy setting.');
@@ -895,14 +897,14 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
      * Retrieve item product instance
      *
      * @param int $productId
-     * @return Magento_Catalog_Model_Product|mixed
+     * @return \Magento\Catalog\Model\Product|mixed
      */
     public function getProduct($productId)
     {
         $product = $this->_getData('product');
         if (is_null($product)) {
             if (!$productId) {
-                throw new Magento_Core_Exception(__('We cannot specify the product.'));
+                throw new \Magento\Core\Exception(__('We cannot specify the product.'));
             }
 
             $product = $this->productFactory->create()
@@ -999,9 +1001,9 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
      * Custom handler for giftregistry share email action
      *
      * @param array $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @param Magento_Logging_Model_Processor $processor
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @param \Magento\Logging\Model\Processor $processor
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchShare($config, $eventModel, $processor)
     {
@@ -1028,7 +1030,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
      * Load entity model by url key
      *
      * @param string $urlKey
-     * @return Magento_GiftRegistry_Model_Entity
+     * @return \Magento\GiftRegistry\Model\Entity
      */
     public function loadByUrlKey($urlKey)
     {
@@ -1040,7 +1042,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
      * Validate gift registry items
      *
      * @param array $items
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     protected function _validateItems($items)
     {
@@ -1048,16 +1050,16 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
             $model = $this->itemModel->load($id);
             if ($model->getId() && $model->getEntityId() == $this->getId()) {
                 if (!isset($item['delete'])) {
-                    /** @var $stockItem Magento_CatalogInventory_Model_Stock_Item */
+                    /** @var $stockItem \Magento\CatalogInventory\Model\Stock\Item */
                     $stockItem = $this->inventoryStockItem;
                     $stockItem->loadByProduct($model->getProductId());
-                    // not Magento_Core_Exception intentionally
+                    // not \Magento\Core\Exception intentionally
                     if ($stockItem->getIsQtyDecimal() == 0 && $item['qty'] != (int)$item['qty']) {
-                        throw new Magento_Exception(__('Please correct the  gift registry item quantity.'));
+                        throw new \Magento\Exception(__('Please correct the  gift registry item quantity.'));
                     }
                 }
             } else {
-                throw new Magento_Core_Exception(
+                throw new \Magento\Core\Exception(
                     __('Please correct the gift registry item ID.')
                 );
             }
@@ -1068,7 +1070,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
      * Update gift registry items
      *
      * @param array $items
-     * @return Magento_GiftRegistry_Model_Entity
+     * @return \Magento\GiftRegistry\Model\Entity
      */
     public function updateItems($items)
     {

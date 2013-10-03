@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_TargetRule_Model_Source_Rotation implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\TargetRule\Model\Source;
+
+class Rotation implements \Magento\Core\Model\Option\ArrayInterface
 {
 
     /**
@@ -19,9 +21,9 @@ class Magento_TargetRule_Model_Source_Rotation implements Magento_Core_Model_Opt
     public function toOptionArray()
     {
         return array(
-            Magento_TargetRule_Model_Rule::ROTATION_NONE =>
+            \Magento\TargetRule\Model\Rule::ROTATION_NONE =>
                 __('Do not rotate'),
-            Magento_TargetRule_Model_Rule::ROTATION_SHUFFLE =>
+            \Magento\TargetRule\Model\Rule::ROTATION_SHUFFLE =>
                 __('Shuffle'),
         );
     }

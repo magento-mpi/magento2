@@ -9,13 +9,15 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Controller;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Controller_IndexTest extends Magento_Backend_Utility_Controller
+class IndexTest extends \Magento\Backend\Utility\Controller
 {
     /**
-     * @covers Magento_Adminhtml_Controller_Index::globalSearchAction
+     * @covers \Magento\Adminhtml\Controller\Index::globalSearchAction
      */
     public function testGlobalSearchAction()
     {

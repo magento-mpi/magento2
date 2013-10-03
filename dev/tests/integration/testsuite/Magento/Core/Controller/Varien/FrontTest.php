@@ -9,22 +9,24 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Controller_Varien_FrontTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Controller\Varien;
+
+class FrontTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @var Magento_Core_Controller_Varien_Front
+     * @var \Magento\Core\Controller\Varien\Front
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $this->_model = $this->_objectManager->create('Magento_Core_Controller_Varien_Front');
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->_model = $this->_objectManager->create('Magento\Core\Controller\Varien\Front');
     }
 
     public function testSetGetDefault()
@@ -39,24 +41,25 @@ class Magento_Core_Controller_Varien_FrontTest extends PHPUnit_Framework_TestCas
 
     public function testGetRequest()
     {
-        $this->assertInstanceOf('Magento_Core_Controller_Request_Http', $this->_model->getRequest());
+        $this->assertInstanceOf('Magento\Core\Controller\Request\Http', $this->_model->getRequest());
     }
 
     public function testGetResponse()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')->setResponse(
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                ->get('Magento_Core_Controller_Response_Http')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')->setResponse(
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->get('Magento\Core\Controller\Response\Http')
         );
-        if (!Magento_TestFramework_Helper_Bootstrap::canTestHeaders()) {
+        if (!\Magento\TestFramework\Helper\Bootstrap::canTestHeaders()) {
             $this->markTestSkipped('Can\'t test get response without sending headers');
         }
-        $this->assertInstanceOf('Magento_Core_Controller_Response_Http', $this->_model->getResponse());
+        $this->assertInstanceOf('Magento\Core\Controller\Response\Http', $this->_model->getResponse());
     }
 
     public function testGetRouter()
     {
-        $this->assertInstanceOf('Magento_Core_Controller_Varien_Router_Default', $this->_model->getRouter('default'));
+        $this->assertInstanceOf('Magento\Core\Controller\Varien\Router\DefaultRouter',
+            $this->_model->getRouter('default'));
     }
 
     public function testGetRouters()
@@ -65,13 +68,13 @@ class Magento_Core_Controller_Varien_FrontTest extends PHPUnit_Framework_TestCas
         $routerIds = array_keys($routers);
         foreach (array('admin', 'standard', 'default', 'cms', 'vde') as $routerId) {
             $this->assertContains($routerId, $routerIds);
-            $this->assertInstanceOf('Magento_Core_Controller_Varien_Router_Abstract', $routers[$routerId]);
+            $this->assertInstanceOf('Magento\Core\Controller\Varien\Router\AbstractRouter', $routers[$routerId]);
         }
     }
 
     public function testDispatch()
     {
-        if (!Magento_TestFramework_Helper_Bootstrap::canTestHeaders()) {
+        if (!\Magento\TestFramework\Helper\Bootstrap::canTestHeaders()) {
             $this->markTestSkipped('Cant\'t test dispatch process without sending headers');
         }
         $_SERVER['HTTP_HOST'] = 'localhost';
@@ -93,8 +96,8 @@ class Magento_Core_Controller_Varien_FrontTest extends PHPUnit_Framework_TestCas
      */
     public function testApplyRewrites($sourcePath, $resultPath)
     {
-        /** @var $request Magento_Core_Controller_Request_Http */
-        $request = $this->_objectManager->create('Magento_Core_Controller_Request_Http');
+        /** @var $request \Magento\Core\Controller\Request\Http */
+        $request = $this->_objectManager->create('Magento\Core\Controller\Request\Http');
         $request->setPathInfo($sourcePath);
 
         $this->_model->applyRewrites($request);

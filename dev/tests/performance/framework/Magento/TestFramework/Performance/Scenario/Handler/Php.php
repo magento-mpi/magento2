@@ -11,11 +11,13 @@
 /**
  * Handler for performance testing scenarios in format of PHP console scripts
  */
-class Magento_TestFramework_Performance_Scenario_Handler_Php
-    implements Magento_TestFramework_Performance_Scenario_HandlerInterface
+namespace Magento\TestFramework\Performance\Scenario\Handler;
+
+class Php
+    implements \Magento\TestFramework\Performance\Scenario\HandlerInterface
 {
     /**
-     * @var Magento_Shell
+     * @var \Magento\Shell
      */
     protected $_shell;
 
@@ -27,10 +29,10 @@ class Magento_TestFramework_Performance_Scenario_Handler_Php
     /**
      * Constructor
      *
-     * @param Magento_Shell $shell
+     * @param \Magento\Shell $shell
      * @param bool $validateExecutable
      */
-    public function __construct(Magento_Shell $shell, $validateExecutable = true)
+    public function __construct(\Magento\Shell $shell, $validateExecutable = true)
     {
         $this->_shell = $shell;
         $this->_validateExecutable = $validateExecutable;
@@ -50,20 +52,20 @@ class Magento_TestFramework_Performance_Scenario_Handler_Php
     /**
      * Run scenario and optionally write results to report file
      *
-     * @param Magento_TestFramework_Performance_Scenario $scenario
+     * @param \Magento\TestFramework\Performance\Scenario $scenario
      * @param string|null $reportFile Report file to write results to, NULL disables report creation
-     * @throws Magento_Exception
-     * @throws Magento_TestFramework_Performance_Scenario_FailureException
+     * @throws \Magento\Exception
+     * @throws \Magento\TestFramework\Performance\Scenario\FailureException
      *
      * @todo Implement execution in concurrent threads defined by the "users" scenario argument
      */
-    public function run(Magento_TestFramework_Performance_Scenario $scenario, $reportFile = null)
+    public function run(\Magento\TestFramework\Performance\Scenario $scenario, $reportFile = null)
     {
         $this->_validateScenarioExecutable();
 
         $scenarioArguments = $scenario->getArguments();
         $reportRows = array();
-        for ($i = 0; $i < $scenarioArguments[Magento_TestFramework_Performance_Scenario::ARG_LOOPS]; $i++) {
+        for ($i = 0; $i < $scenarioArguments[\Magento\TestFramework\Performance\Scenario::ARG_LOOPS]; $i++) {
             $oneReportRow = $this->_executeScenario($scenario);
             $reportRows[] = $oneReportRow;
         }
@@ -72,7 +74,7 @@ class Magento_TestFramework_Performance_Scenario_Handler_Php
         }
         $reportErrors = $this->_getReportErrors($reportRows);
         if ($reportErrors) {
-            throw new Magento_TestFramework_Performance_Scenario_FailureException($scenario, implode(PHP_EOL,
+            throw new \Magento\TestFramework\Performance\Scenario\FailureException($scenario, implode(PHP_EOL,
                 $reportErrors));
         }
     }
@@ -80,10 +82,10 @@ class Magento_TestFramework_Performance_Scenario_Handler_Php
     /**
      * Execute scenario and return measurement results
      *
-     * @param Magento_TestFramework_Performance_Scenario $scenario
+     * @param \Magento\TestFramework\Performance\Scenario $scenario
      * @return array
      */
-    protected function _executeScenario(Magento_TestFramework_Performance_Scenario $scenario)
+    protected function _executeScenario(\Magento\TestFramework\Performance\Scenario $scenario)
     {
         list($scenarioCmd, $scenarioCmdArgs) = $this->_buildScenarioCmd($scenario);
         $result = array(
@@ -97,7 +99,7 @@ class Magento_TestFramework_Performance_Scenario_Handler_Php
         $executionTime = microtime(true);
         try {
             $result['output'] = $this->_shell->execute($scenarioCmd, $scenarioCmdArgs);
-        } catch (Magento_Exception $e) {
+        } catch (\Magento\Exception $e) {
             $result['success']   = false;
             $result['exit_code'] = $e->getPrevious()->getCode();
             $result['output']    = $e->getPrevious()->getMessage();
@@ -112,10 +114,10 @@ class Magento_TestFramework_Performance_Scenario_Handler_Php
      * Build and return scenario execution command and arguments for it, compatible with the getopt() "long options"
      * @link http://www.php.net/getopt
      *
-     * @param Magento_TestFramework_Performance_Scenario $scenario
+     * @param \Magento\TestFramework\Performance\Scenario $scenario
      * @return array
      */
-    protected function _buildScenarioCmd(Magento_TestFramework_Performance_Scenario $scenario)
+    protected function _buildScenarioCmd(\Magento\TestFramework\Performance\Scenario $scenario)
     {
         $command = 'php -f %s --';
         $arguments = array($scenario->getFile());

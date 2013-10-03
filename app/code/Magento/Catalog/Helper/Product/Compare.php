@@ -14,12 +14,14 @@
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Magento_Catalog_Helper_Product_Compare extends Magento_Core_Helper_Url
+namespace Magento\Catalog\Helper\Product;
+
+class Compare extends \Magento\Core\Helper\Url
 {
     /**
      * Product Compare Items Collection
      *
-     * @var Magento_Catalog_Model_Resource_Product_Compare_Item_Collection
+     * @var \Magento\Catalog\Model\Resource\Product\Compare\Item\Collection
      */
     protected $_itemCollection;
 
@@ -47,57 +49,57 @@ class Magento_Catalog_Helper_Product_Compare extends Magento_Core_Helper_Url
     /**
      * Catalog session
      *
-     * @var Magento_Catalog_Model_Session
+     * @var \Magento\Catalog\Model\Session
      */
     protected $_catalogSession;
 
     /**
      * Customer session
      *
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
      * Log visitor
      *
-     * @var Magento_Log_Model_Visitor
+     * @var \Magento\Log\Model\Visitor
      */
     protected $_logVisitor;
 
     /**
      * Catalog product visibility
      *
-     * @var Magento_Catalog_Model_Product_Visibility
+     * @var \Magento\Catalog\Model\Product\Visibility
      */
     protected $_catalogProductVisibility;
 
     /**
      * Product compare item collection factory
      *
-     * @var Magento_Catalog_Model_Resource_Product_Compare_Item_CollectionFactory
+     * @var \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory
      */
     protected $_itemCollectionFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Catalog_Model_Resource_Product_Compare_Item_CollectionFactory $itemCollectionFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Model_Product_Visibility $catalogProductVisibility
-     * @param Magento_Log_Model_Visitor $logVisitor
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Catalog_Model_Session $catalogSession
-     * @param Magento_Core_Helper_Context $context
+     * @param \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory $itemCollectionFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
+     * @param \Magento\Log\Model\Visitor $logVisitor
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Catalog\Model\Session $catalogSession
+     * @param \Magento\Core\Helper\Context $context
      */
     public function __construct(
-        Magento_Catalog_Model_Resource_Product_Compare_Item_CollectionFactory $itemCollectionFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Model_Product_Visibility $catalogProductVisibility,
-        Magento_Log_Model_Visitor $logVisitor,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Catalog_Model_Session $catalogSession,
-        Magento_Core_Helper_Context $context
+        \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory $itemCollectionFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
+        \Magento\Log\Model\Visitor $logVisitor,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Catalog\Model\Session $catalogSession,
+        \Magento\Core\Helper\Context $context
     ) {
         $this->_itemCollectionFactory = $itemCollectionFactory;
         $this->_catalogProductVisibility = $catalogProductVisibility;
@@ -110,7 +112,7 @@ class Magento_Catalog_Helper_Product_Compare extends Magento_Core_Helper_Url
     /**
      * Retrieve Catalog Session instance
      *
-     * @return Magento_Catalog_Model_Session
+     * @return \Magento\Catalog\Model\Session
      */
     protected function _getSession()
     {
@@ -131,7 +133,7 @@ class Magento_Catalog_Helper_Product_Compare extends Magento_Core_Helper_Url
 
          $params = array(
             'items'=>implode(',', $itemIds),
-            Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl()
+            \Magento\Core\Controller\Front\Action::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl()
          );
 
          return $this->_getUrl('catalog/product_compare', $params);
@@ -140,21 +142,21 @@ class Magento_Catalog_Helper_Product_Compare extends Magento_Core_Helper_Url
     /**
      * Get parameters used for build add product to compare list urls
      *
-     * @param   Magento_Catalog_Model_Product $product
+     * @param   \Magento\Catalog\Model\Product $product
      * @return  array
      */
     protected function _getUrlParams($product)
     {
         return array(
             'product' => $product->getId(),
-            Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl()
+            \Magento\Core\Controller\Front\Action::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl()
         );
     }
 
     /**
      * Retrieve url for adding product to conpare list
      *
-     * @param   Magento_Catalog_Model_Product $product
+     * @param   \Magento\Catalog\Model\Product $product
      * @return  string
      */
     public function getAddUrl($product)
@@ -165,7 +167,7 @@ class Magento_Catalog_Helper_Product_Compare extends Magento_Core_Helper_Url
     /**
      * Retrive add to wishlist url
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return string
      */
     public function getAddToWishlistUrl($product)
@@ -174,7 +176,7 @@ class Magento_Catalog_Helper_Product_Compare extends Magento_Core_Helper_Url
 
         $params = array(
             'product'=>$product->getId(),
-            Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl($beforeCompareUrl)
+            \Magento\Core\Controller\Front\Action::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl($beforeCompareUrl)
         );
 
         return $this->_getUrl('wishlist/index/add', $params);
@@ -183,7 +185,7 @@ class Magento_Catalog_Helper_Product_Compare extends Magento_Core_Helper_Url
     /**
      * Retrive add to cart url
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return string
      */
     public function getAddToCartUrl($product)
@@ -191,7 +193,7 @@ class Magento_Catalog_Helper_Product_Compare extends Magento_Core_Helper_Url
         $beforeCompareUrl = $this->_catalogSession->getBeforeCompareUrl();
         $params = array(
             'product'=>$product->getId(),
-            Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl($beforeCompareUrl)
+            \Magento\Core\Controller\Front\Action::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl($beforeCompareUrl)
         );
 
         return $this->_getUrl('checkout/cart/add', $params);
@@ -207,7 +209,7 @@ class Magento_Catalog_Helper_Product_Compare extends Magento_Core_Helper_Url
     {
         $params = array(
             'product'=>$item->getId(),
-            Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl()
+            \Magento\Core\Controller\Front\Action::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl()
         );
         return $this->_getUrl('catalog/product_compare/remove', $params);
     }
@@ -220,7 +222,7 @@ class Magento_Catalog_Helper_Product_Compare extends Magento_Core_Helper_Url
     public function getClearListUrl()
     {
         $params = array(
-            Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl()
+            \Magento\Core\Controller\Front\Action::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl()
         );
         return $this->_getUrl('catalog/product_compare/clear', $params);
     }
@@ -228,7 +230,7 @@ class Magento_Catalog_Helper_Product_Compare extends Magento_Core_Helper_Url
     /**
      * Retrieve compare list items collection
      *
-     * @return Magento_Catalog_Model_Resource_Product_Compare_Item_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Compare\Item\Collection
      */
     public function getItemCollection()
     {
@@ -269,7 +271,7 @@ class Magento_Catalog_Helper_Product_Compare extends Magento_Core_Helper_Url
      * Calculate cache product compare collection
      *
      * @param  bool $logout
-     * @return Magento_Catalog_Helper_Product_Compare
+     * @return \Magento\Catalog\Helper\Product\Compare
      */
     public function calculate($logout = false)
     {
@@ -277,7 +279,7 @@ class Magento_Catalog_Helper_Product_Compare extends Magento_Core_Helper_Url
         if (!$this->_getSession()->hasCatalogCompareItemsCount() && !$this->_customerId) {
             $count = 0;
         } else {
-            /** @var $collection Magento_Catalog_Model_Resource_Product_Compare_Item_Collection */
+            /** @var $collection \Magento\Catalog\Model\Resource\Product\Compare\Item\Collection */
             $collection = $this->_itemCollectionFactory->create()
                 ->useProductItem(true);
             if (!$logout && $this->_customerSession->isLoggedIn()) {
@@ -328,7 +330,7 @@ class Magento_Catalog_Helper_Product_Compare extends Magento_Core_Helper_Url
      * Set is allow used flat (for collection)
      *
      * @param bool $flag
-     * @return Magento_Catalog_Helper_Product_Compare
+     * @return \Magento\Catalog\Helper\Product\Compare
      */
     public function setAllowUsedFlat($flag)
     {
@@ -350,7 +352,7 @@ class Magento_Catalog_Helper_Product_Compare extends Magento_Core_Helper_Url
      * Setter for customer id
      *
      * @param int $id
-     * @return Magento_Catalog_Helper_Product_Compare
+     * @return \Magento\Catalog\Helper\Product\Compare
      */
     public function setCustomerId($id)
     {

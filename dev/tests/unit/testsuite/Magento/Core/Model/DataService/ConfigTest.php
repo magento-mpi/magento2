@@ -1,35 +1,37 @@
 <?php
 /**
- * Magento_Core_Model_DataService_Config
+ * \Magento\Core\Model\DataService\Config
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\DataService;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_DataService_Config
+     * @var \Magento\Core\Model\DataService\Config
      */
     protected $_dataServiceConfig;
 
-    /** @var Magento_Core_Model_DataService_Config_Reader_Factory */
+    /** @var \Magento\Core\Model\DataService\Config\Reader\Factory */
     private $_readersFactoryMock;
 
     protected function setUp()
     {
-        $reader = $this->getMockBuilder('Magento_Core_Model_DataService_Config_Reader')
+        $reader = $this->getMockBuilder('Magento\Core\Model\DataService\Config\Reader')
             ->disableOriginalConstructor()
             ->getMock();
 
         $configXml = file_get_contents(__DIR__ . '/_files/service_calls.xml');
-        $config = new Magento_Config_Dom($configXml);
+        $config = new \Magento\Config\Dom($configXml);
         $reader->expects($this->any())
             ->method('getServiceCallConfig')
             ->will($this->returnValue($config->getDom()));
 
-        $this->_readersFactoryMock = $this->getMockBuilder('Magento_Core_Model_DataService_Config_Reader_Factory')
+        $this->_readersFactoryMock = $this->getMockBuilder('Magento\Core\Model\DataService\Config\Reader\Factory')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -37,15 +39,15 @@ class Magento_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCa
             ->method('createReader')
             ->will($this->returnValue($reader));
 
-        /** @var Magento_Core_Model_Config_Modules_Reader $modulesReaderMock */
-        $modulesReaderMock = $this->getMockBuilder('Magento_Core_Model_Config_Modules_Reader')
+        /** @var \Magento\Core\Model\Config\Modules\Reader $modulesReaderMock */
+        $modulesReaderMock = $this->getMockBuilder('Magento\Core\Model\Config\Modules\Reader')
             ->disableOriginalConstructor()
             ->getMock();
         $modulesReaderMock->expects($this->any())
             ->method('getConfigurationFiles')
             ->will($this->returnValue(array()));
 
-        $this->_dataServiceConfig = new Magento_Core_Model_DataService_Config(
+        $this->_dataServiceConfig = new \Magento\Core\Model\DataService\Config(
             $this->_readersFactoryMock, $modulesReaderMock);
     }
 
@@ -60,7 +62,7 @@ class Magento_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCa
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Service call with name
      */
     public function testGetClassByAliasNotFound()
@@ -69,7 +71,7 @@ class Magento_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCa
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage
      */
     public function testGetClassByAliasInvalidCall()
@@ -78,7 +80,7 @@ class Magento_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCa
     }
 
     /**
-     * @expectedException LogicException
+     * @expectedException \LogicException
      * @expectedExceptionMessage
      */
     public function testGetClassByAliasMethodNotFound()

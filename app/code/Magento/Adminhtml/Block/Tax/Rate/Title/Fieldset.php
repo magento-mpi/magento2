@@ -14,25 +14,27 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Tax_Rate_Title_Fieldset extends Magento_Data_Form_Element_Fieldset
+namespace Magento\Adminhtml\Block\Tax\Rate\Title;
+
+class Fieldset extends \Magento\Data\Form\Element\Fieldset
 {
     /**
-     * @var Magento_Adminhtml_Block_Tax_Rate_Title
+     * @var \Magento\Adminhtml\Block\Tax\Rate\Title
      */
     protected $_title;
 
     /**
-     * @param Magento_Adminhtml_Block_Tax_Rate_Title $title
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Data_Form_Element_Factory $factoryElement
-     * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
+     * @param \Magento\Adminhtml\Block\Tax\Rate\Title $title
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
      * @param array $attributes
      */
     public function __construct(
-        Magento_Adminhtml_Block_Tax_Rate_Title $title,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Data_Form_Element_Factory $factoryElement,
-        Magento_Data_Form_Element_CollectionFactory $factoryCollection,
+        \Magento\Adminhtml\Block\Tax\Rate\Title $title,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Data\Form\Element\Factory $factoryElement,
+        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
         $attributes = array()
     ) {
         $this->_title = $title;

@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Modular_Magento_Catalog_AttributeConfigFilesTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Modular\Magento\Catalog;
+
+class AttributeConfigFilesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var string
@@ -14,9 +16,9 @@ class Magento_Test_Integrity_Modular_Magento_Catalog_AttributeConfigFilesTest ex
 
     protected function setUp()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var Magento_Catalog_Model_Attribute_Config_SchemaLocator $schemaLocator */
-        $schemaLocator = $objectManager->get('Magento_Catalog_Model_Attribute_Config_SchemaLocator');
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var \Magento\Catalog\Model\Attribute\Config\SchemaLocator $schemaLocator */
+        $schemaLocator = $objectManager->get('Magento\Catalog\Model\Attribute\Config\SchemaLocator');
         $this->_schemaFile = $schemaLocator->getSchema();
     }
 
@@ -26,7 +28,7 @@ class Magento_Test_Integrity_Modular_Magento_Catalog_AttributeConfigFilesTest ex
      */
     public function testFileFormat($file)
     {
-        $dom = new Magento_Config_Dom(file_get_contents($file));
+        $dom = new \Magento\Config\Dom(file_get_contents($file));
         $result = $dom->validate($this->_schemaFile, $errors);
         $this->assertTrue($result, print_r($errors, true));
     }
@@ -36,6 +38,6 @@ class Magento_Test_Integrity_Modular_Magento_Catalog_AttributeConfigFilesTest ex
      */
     public function fileFormatDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getConfigFiles('catalog_attributes.xml');
+        return \Magento\TestFramework\Utility\Files::init()->getConfigFiles('catalog_attributes.xml');
     }
 }

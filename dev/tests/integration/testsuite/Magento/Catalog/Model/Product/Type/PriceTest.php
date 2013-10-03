@@ -12,29 +12,31 @@
 /**
  * @magentoDataFixture Magento/Catalog/_files/product_simple.php
  */
-class Magento_Catalog_Model_Product_Type_PriceTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Product\Type;
+
+class PriceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_Product_Type_Price
+     * @var \Magento\Catalog\Model\Product\Type\Price
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product_Type_Price');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product\Type\Price');
     }
 
     public function testGetPrice()
     {
-        $this->assertEquals('test', $this->_model->getPrice(new Magento_Object(array('price' => 'test'))));
+        $this->assertEquals('test', $this->_model->getPrice(new \Magento\Object(array('price' => 'test'))));
     }
 
     public function testGetFinalPrice()
     {
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(1); // fixture
 
         // regular & tier prices
@@ -56,9 +58,9 @@ class Magento_Catalog_Model_Product_Type_PriceTest extends PHPUnit_Framework_Tes
      */
     public function testGetChildFinalPrice()
     {
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(1); // fixture
 
         // regular & tier prices
@@ -76,8 +78,8 @@ class Magento_Catalog_Model_Product_Type_PriceTest extends PHPUnit_Framework_Tes
 
     public function testGetTierPrice()
     {
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(1); // fixture
         $this->assertEquals(8.0, $this->_model->getTierPrice(2, $product));
         $this->assertEquals(5.0, $this->_model->getTierPrice(5, $product));
@@ -85,24 +87,24 @@ class Magento_Catalog_Model_Product_Type_PriceTest extends PHPUnit_Framework_Tes
 
     public function testGetTierPriceCount()
     {
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(1); // fixture
         $this->assertEquals(2, $this->_model->getTierPriceCount($product));
     }
 
     public function testGetFormatedTierPrice()
     {
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(1); // fixture
         $this->assertEquals('<span class="price">$8.00</span>', $this->_model->getFormatedTierPrice(2, $product));
     }
 
     public function testGetFormatedPrice()
     {
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(1); // fixture
         $this->assertEquals('<span class="price">$10.00</span>', $this->_model->getFormatedPrice($product));
     }

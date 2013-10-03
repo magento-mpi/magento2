@@ -11,18 +11,20 @@
 /**
  * PayPal resource model for certificate based authentication
  */
-class Magento_Paypal_Model_Resource_Cert extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Paypal\Model\Resource;
+
+class Cert extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
-     * @var Magento_Core_Model_Date
+     * @var \Magento\Core\Model\Date
      */
     protected $_coreDate;
 
     /**
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Date $coreDate
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Date $coreDate
      */
-    public function __construct(Magento_Core_Model_Resource $resource, Magento_Core_Model_Date $coreDate)
+    public function __construct(\Magento\Core\Model\Resource $resource, \Magento\Core\Model\Date $coreDate)
     {
         $this->_coreDate = $coreDate;
         parent::__construct($resource);
@@ -39,10 +41,10 @@ class Magento_Paypal_Model_Resource_Cert extends Magento_Core_Model_Resource_Db_
     /**
      * Set date of last update
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Core_Model_Resource_Db_Abstract
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
-    protected function _beforeSave(Magento_Core_Model_Abstract $object)
+    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
         $object->setUpdatedAt($this->formatDate($this->_coreDate->gmtDate()));
         return parent::_beforeSave($object);
@@ -51,9 +53,9 @@ class Magento_Paypal_Model_Resource_Cert extends Magento_Core_Model_Resource_Db_
     /**
      * Load model by website id
      *
-     * @param Magento_Paypal_Model_Cert $object
+     * @param \Magento\Paypal\Model\Cert $object
      * @param bool $strictLoad
-     * @return Magento_Paypal_Model_Cert
+     * @return \Magento\Paypal\Model\Cert
      */
     public function loadByWebsite($object, $strictLoad = true)
     {

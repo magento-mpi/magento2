@@ -6,13 +6,15 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Resource_Setup_Generic extends Magento_Core_Model_Resource_Setup
+namespace Magento\Core\Model\Resource\Setup;
+
+class Generic extends \Magento\Core\Model\Resource\Setup
 {
     /**
      * Get migration instance
      *
      * @param array $data
-     * @return Magento_Core_Model_Resource_Setup_Migration
+     * @return \Magento\Core\Model\Resource\Setup\Migration
      */
     public function createMigrationSetup(array $data = array())
     {

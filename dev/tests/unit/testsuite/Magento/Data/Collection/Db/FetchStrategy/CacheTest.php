@@ -6,25 +6,27 @@
  * @license     {license_link}
  */
 
-class Magento_Data_Collection_Db_FetchStrategy_CacheTest extends PHPUnit_Framework_TestCase
+namespace Magento\Data\Collection\Db\FetchStrategy;
+
+class CacheTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Data_Collection_Db_FetchStrategy_Cache
+     * @var \Magento\Data\Collection\Db\FetchStrategy\Cache
      */
     private $_object;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_cache;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_fetchStrategy;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_select;
 
@@ -45,10 +47,10 @@ class Magento_Data_Collection_Db_FetchStrategy_CacheTest extends PHPUnit_Framewo
             ->will($this->returnValue('SELECT * FROM fixture_table'))
         ;
 
-        $this->_cache = $this->getMockForAbstractClass('Magento_Cache_FrontendInterface');
-        $this->_fetchStrategy = $this->getMockForAbstractClass('Magento_Data_Collection_Db_FetchStrategyInterface');
+        $this->_cache = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface');
+        $this->_fetchStrategy = $this->getMockForAbstractClass('Magento\Data\Collection\Db\FetchStrategyInterface');
 
-        $this->_object = new Magento_Data_Collection_Db_FetchStrategy_Cache(
+        $this->_object = new \Magento\Data\Collection\Db\FetchStrategy\Cache(
             $this->_cache, $this->_fetchStrategy, 'fixture_', array('fixture_tag_one', 'fixture_tag_two'), 86400
         );
     }

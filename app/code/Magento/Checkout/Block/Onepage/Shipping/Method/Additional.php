@@ -16,7 +16,9 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Onepage_Shipping_Method_Additional extends Magento_Checkout_Block_Onepage_Abstract
+namespace Magento\Checkout\Block\Onepage\Shipping\Method;
+
+class Additional extends \Magento\Checkout\Block\Onepage\AbstractOnepage
 {
 
 }

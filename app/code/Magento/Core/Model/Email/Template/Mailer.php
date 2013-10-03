@@ -15,11 +15,13 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Email_Template_Mailer extends Magento_Object
+namespace Magento\Core\Model\Email\Template;
+
+class Mailer extends \Magento\Object
 {
     /**
      * List of email infos
-     * @see Magento_Core_Model_Email_Info
+     * @see \Magento\Core\Model\Email\Info
      *
      * @var array
      */
@@ -28,16 +30,16 @@ class Magento_Core_Model_Email_Template_Mailer extends Magento_Object
     /**
      * Email template factory
      *
-     * @var Magento_Core_Model_Email_TemplateFactory
+     * @var \Magento\Core\Model\Email\TemplateFactory
      */
     protected $_coreEmailTemplateFactory;
 
     /**
-     * @param Magento_Core_Model_Email_TemplateFactory $coreEmailTemplateFactory
+     * @param \Magento\Core\Model\Email\TemplateFactory $coreEmailTemplateFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Email_TemplateFactory $coreEmailTemplateFactory,
+        \Magento\Core\Model\Email\TemplateFactory $coreEmailTemplateFactory,
         array $data = array()
     ) {
         parent::__construct($data);
@@ -47,10 +49,10 @@ class Magento_Core_Model_Email_Template_Mailer extends Magento_Object
     /**
      * Add new email info to corresponding list
      *
-     * @param Magento_Core_Model_Email_Info $emailInfo
-     * @return Magento_Core_Model_Email_Template_Mailer
+     * @param \Magento\Core\Model\Email\Info $emailInfo
+     * @return \Magento\Core\Model\Email\Template\Mailer
      */
-    public function addEmailInfo(Magento_Core_Model_Email_Info $emailInfo)
+    public function addEmailInfo(\Magento\Core\Model\Email\Info $emailInfo)
     {
         array_push($this->_emailInfos, $emailInfo);
         return $this;
@@ -60,20 +62,20 @@ class Magento_Core_Model_Email_Template_Mailer extends Magento_Object
      * Send all emails from email list
      * @see self::$_emailInfos
      *
-     * @return Magento_Core_Model_Email_Template_Mailer
+     * @return \Magento\Core\Model\Email\Template\Mailer
      */
     public function send()
     {
-        /** @var $emailTemplate Magento_Core_Model_Email_Template */
+        /** @var $emailTemplate \Magento\Core\Model\Email\Template */
         $emailTemplate = $this->_coreEmailTemplateFactory->create();
         // Send all emails from corresponding list
         while (!empty($this->_emailInfos)) {
             $emailInfo = array_pop($this->_emailInfos);
             // Handle "Bcc" recepients of the current email
             $emailTemplate->addBcc($emailInfo->getBccEmails());
-            // Set required design parameters and delegate email sending to Magento_Core_Model_Email_Template
+            // Set required design parameters and delegate email sending to \Magento\Core\Model\Email\Template
             $designConfig = array(
-                'area' => Magento_Core_Model_App_Area::AREA_FRONTEND,
+                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
                 'store' => $this->getStoreId()
             );
             $emailTemplate->setDesignConfig($designConfig);
@@ -94,7 +96,7 @@ class Magento_Core_Model_Email_Template_Mailer extends Magento_Object
      * Set email sender
      *
      * @param string|array $sender
-     * @return Magento_Core_Model_Email_Template_Mailer
+     * @return \Magento\Core\Model\Email\Template\Mailer
      */
     public function setSender($sender)
     {
@@ -115,7 +117,7 @@ class Magento_Core_Model_Email_Template_Mailer extends Magento_Object
      * Set store id
      *
      * @param int $storeId
-     * @return Magento_Core_Model_Email_Template_Mailer
+     * @return \Magento\Core\Model\Email\Template\Mailer
      */
     public function setStoreId($storeId)
     {
@@ -136,7 +138,7 @@ class Magento_Core_Model_Email_Template_Mailer extends Magento_Object
      * Set template id
      *
      * @param int $templateId
-     * @return Magento_Core_Model_Email_Template_Mailer
+     * @return \Magento\Core\Model\Email\Template\Mailer
      */
     public function setTemplateId($templateId)
     {
@@ -157,7 +159,7 @@ class Magento_Core_Model_Email_Template_Mailer extends Magento_Object
      * Set tempate parameters
      *
      * @param array $templateParams
-     * @return Magento_Core_Model_Email_Template_Mailer
+     * @return \Magento\Core\Model\Email\Template\Mailer
      */
     public function setTemplateParams(array $templateParams)
     {

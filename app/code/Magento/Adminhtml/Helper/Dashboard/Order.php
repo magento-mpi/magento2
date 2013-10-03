@@ -11,39 +11,41 @@
 /**
  * Adminhtml dashboard helper for orders
  */
-class Magento_Adminhtml_Helper_Dashboard_Order extends Magento_Adminhtml_Helper_Dashboard_Abstract
+namespace Magento\Adminhtml\Helper\Dashboard;
+
+class Order extends \Magento\Adminhtml\Helper\Dashboard\AbstractDashboard
 {
     /**
-     * @var Magento_Reports_Model_Resource_Order_Collection
+     * @var \Magento\Reports\Model\Resource\Order\Collection
      */
     protected $_orderCollection;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Http $coreHttp
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Locale $locale
-     * @param Magento_Core_Model_Date $dateModel
-     * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Core_Model_Encryption $encryptor
-     * @param Magento_Reports_Model_Resource_Order_Collection $orderCollection
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Http $coreHttp
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Locale $locale
+     * @param \Magento\Core\Model\Date $dateModel
+     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\Core\Model\Encryption $encryptor
+     * @param \Magento\Reports\Model\Resource\Order\Collection $orderCollection
      * @param bool $dbCompatibleMode
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Http $coreHttp,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Locale $locale,
-        Magento_Core_Model_Date $dateModel,
-        Magento_Core_Model_App_State $appState,
-        Magento_Core_Model_Encryption $encryptor,
-        Magento_Reports_Model_Resource_Order_Collection $orderCollection,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Http $coreHttp,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Locale $locale,
+        \Magento\Core\Model\Date $dateModel,
+        \Magento\Core\Model\App\State $appState,
+        \Magento\Core\Model\Encryption $encryptor,
+        \Magento\Reports\Model\Resource\Order\Collection $orderCollection,
         $dbCompatibleMode = true
     )
     {
@@ -69,7 +71,7 @@ class Magento_Adminhtml_Helper_Dashboard_Order extends Magento_Adminhtml_Helper_
             $this->_collection->addFieldToFilter('store_id', array('in' => implode(',', $storeIds)));
         } elseif (!$this->_collection->isLive()) {
             $this->_collection->addFieldToFilter('store_id',
-                array('eq' => $this->_storeManger->getStore(Magento_Core_Model_Store::ADMIN_CODE)->getId())
+                array('eq' => $this->_storeManger->getStore(\Magento\Core\Model\Store::ADMIN_CODE)->getId())
             );
         }
 

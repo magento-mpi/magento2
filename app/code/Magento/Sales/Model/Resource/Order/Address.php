@@ -11,7 +11,9 @@
 /**
  * Flat sales order address resource
  */
-class Magento_Sales_Model_Resource_Order_Address extends Magento_Sales_Model_Resource_Order_Abstract
+namespace Magento\Sales\Model\Resource\Order;
+
+class Address extends \Magento\Sales\Model\Resource\Order\AbstractOrder
 {
     /**
      * Event prefix
@@ -21,21 +23,21 @@ class Magento_Sales_Model_Resource_Order_Address extends Magento_Sales_Model_Res
     protected $_eventPrefix    = 'sales_order_address_resource';
 
     /**
-     * @var Magento_Sales_Model_Resource_Factory
+     * @var \Magento\Sales\Model\Resource\Factory
      */
     protected $_salesResourceFactory;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Eav_Model_Entity_TypeFactory $eavEntityTypeFactory
-     * @param Magento_Sales_Model_Resource_Factory $salesResourceFactory
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Eav\Model\Entity\TypeFactory $eavEntityTypeFactory
+     * @param \Magento\Sales\Model\Resource\Factory $salesResourceFactory
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Resource $resource,
-        Magento_Eav_Model_Entity_TypeFactory $eavEntityTypeFactory,
-        Magento_Sales_Model_Resource_Factory $salesResourceFactory
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Eav\Model\Entity\TypeFactory $eavEntityTypeFactory,
+        \Magento\Sales\Model\Resource\Factory $salesResourceFactory
     ) {
         parent::__construct($eventManager, $resource, $eavEntityTypeFactory);
         $this->_salesResourceFactory = $salesResourceFactory;
@@ -75,18 +77,18 @@ class Magento_Sales_Model_Resource_Order_Address extends Magento_Sales_Model_Res
     /**
      * Update related grid table after object save
      *
-     * @param Magento_Core_Model_Abstract|Magento_Object $object
-     * @return Magento_Core_Model_Resource_Db_Abstract
+     * @param \Magento\Core\Model\AbstractModel|\Magento\Object $object
+     * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
-    protected function _afterSave(Magento_Core_Model_Abstract $object)
+    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
         $resource = parent::_afterSave($object);
         if ($object->hasDataChanges() && $object->getOrder()) {
             $gridList = array(
-                'Magento_Sales_Model_Resource_Order' => 'entity_id',
-                'Magento_Sales_Model_Resource_Order_Invoice' => 'order_id',
-                'Magento_Sales_Model_Resource_Order_Shipment' => 'order_id',
-                'Magento_Sales_Model_Resource_Order_Creditmemo' => 'order_id'
+                'Magento\Sales\Model\Resource\Order' => 'entity_id',
+                'Magento\Sales\Model\Resource\Order\Invoice' => 'order_id',
+                'Magento\Sales\Model\Resource\Order\Shipment' => 'order_id',
+                'Magento\Sales\Model\Resource\Order\Creditmemo' => 'order_id'
             );
 
             // update grid table after grid update

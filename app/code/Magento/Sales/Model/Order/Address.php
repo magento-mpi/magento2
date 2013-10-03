@@ -11,49 +11,51 @@
 /**
  * Sales order address model
  *
- * @method Magento_Sales_Model_Resource_Order_Address _getResource()
- * @method Magento_Sales_Model_Resource_Order_Address getResource()
+ * @method \Magento\Sales\Model\Resource\Order\Address _getResource()
+ * @method \Magento\Sales\Model\Resource\Order\Address getResource()
  * @method int getParentId()
- * @method Magento_Sales_Model_Order_Address setParentId(int $value)
+ * @method \Magento\Sales\Model\Order\Address setParentId(int $value)
  * @method int getCustomerAddressId()
- * @method Magento_Sales_Model_Order_Address setCustomerAddressId(int $value)
+ * @method \Magento\Sales\Model\Order\Address setCustomerAddressId(int $value)
  * @method int getQuoteAddressId()
- * @method Magento_Sales_Model_Order_Address setQuoteAddressId(int $value)
- * @method Magento_Sales_Model_Order_Address setRegionId(int $value)
+ * @method \Magento\Sales\Model\Order\Address setQuoteAddressId(int $value)
+ * @method \Magento\Sales\Model\Order\Address setRegionId(int $value)
  * @method int getCustomerId()
- * @method Magento_Sales_Model_Order_Address setCustomerId(int $value)
+ * @method \Magento\Sales\Model\Order\Address setCustomerId(int $value)
  * @method string getFax()
- * @method Magento_Sales_Model_Order_Address setFax(string $value)
- * @method Magento_Sales_Model_Order_Address setRegion(string $value)
+ * @method \Magento\Sales\Model\Order\Address setFax(string $value)
+ * @method \Magento\Sales\Model\Order\Address setRegion(string $value)
  * @method string getPostcode()
- * @method Magento_Sales_Model_Order_Address setPostcode(string $value)
+ * @method \Magento\Sales\Model\Order\Address setPostcode(string $value)
  * @method string getLastname()
- * @method Magento_Sales_Model_Order_Address setLastname(string $value)
+ * @method \Magento\Sales\Model\Order\Address setLastname(string $value)
  * @method string getCity()
- * @method Magento_Sales_Model_Order_Address setCity(string $value)
+ * @method \Magento\Sales\Model\Order\Address setCity(string $value)
  * @method string getEmail()
- * @method Magento_Sales_Model_Order_Address setEmail(string $value)
+ * @method \Magento\Sales\Model\Order\Address setEmail(string $value)
  * @method string getTelephone()
- * @method Magento_Sales_Model_Order_Address setTelephone(string $value)
+ * @method \Magento\Sales\Model\Order\Address setTelephone(string $value)
  * @method string getCountryId()
- * @method Magento_Sales_Model_Order_Address setCountryId(string $value)
+ * @method \Magento\Sales\Model\Order\Address setCountryId(string $value)
  * @method string getFirstname()
- * @method Magento_Sales_Model_Order_Address setFirstname(string $value)
+ * @method \Magento\Sales\Model\Order\Address setFirstname(string $value)
  * @method string getAddressType()
- * @method Magento_Sales_Model_Order_Address setAddressType(string $value)
+ * @method \Magento\Sales\Model\Order\Address setAddressType(string $value)
  * @method string getPrefix()
- * @method Magento_Sales_Model_Order_Address setPrefix(string $value)
+ * @method \Magento\Sales\Model\Order\Address setPrefix(string $value)
  * @method string getMiddlename()
- * @method Magento_Sales_Model_Order_Address setMiddlename(string $value)
+ * @method \Magento\Sales\Model\Order\Address setMiddlename(string $value)
  * @method string getSuffix()
- * @method Magento_Sales_Model_Order_Address setSuffix(string $value)
+ * @method \Magento\Sales\Model\Order\Address setSuffix(string $value)
  * @method string getCompany()
- * @method Magento_Sales_Model_Order_Address setCompany(string $value)
+ * @method \Magento\Sales\Model\Order\Address setCompany(string $value)
  */
-class Magento_Sales_Model_Order_Address extends Magento_Customer_Model_Address_Abstract
+namespace Magento\Sales\Model\Order;
+
+class Address extends \Magento\Customer\Model\Address\AbstractAddress
 {
     /**
-     * @var Magento_Sales_Model_Order
+     * @var \Magento\Sales\Model\Order
      */
     protected $_order;
 
@@ -68,38 +70,38 @@ class Magento_Sales_Model_Order_Address extends Magento_Customer_Model_Address_A
     protected $_eventObject = 'address';
 
     /**
-     * @var Magento_Sales_Model_OrderFactory
+     * @var \Magento\Sales\Model\OrderFactory
      */
     protected $_orderFactory;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Directory_Helper_Data $directoryData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Customer_Model_Address_Config $addressConfig
-     * @param Magento_Directory_Model_RegionFactory $regionFactory
-     * @param Magento_Directory_Model_CountryFactory $countryFactory
-     * @param Magento_Sales_Model_OrderFactory $orderFactory
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Directory\Helper\Data $directoryData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Customer\Model\Address\Config $addressConfig
+     * @param \Magento\Directory\Model\RegionFactory $regionFactory
+     * @param \Magento\Directory\Model\CountryFactory $countryFactory
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Directory_Helper_Data $directoryData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Customer_Model_Address_Config $addressConfig,
-        Magento_Directory_Model_RegionFactory $regionFactory,
-        Magento_Directory_Model_CountryFactory $countryFactory,
-        Magento_Sales_Model_OrderFactory $orderFactory,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Directory\Helper\Data $directoryData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Customer\Model\Address\Config $addressConfig,
+        \Magento\Directory\Model\RegionFactory $regionFactory,
+        \Magento\Directory\Model\CountryFactory $countryFactory,
+        \Magento\Sales\Model\OrderFactory $orderFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct(
@@ -123,16 +125,16 @@ class Magento_Sales_Model_Order_Address extends Magento_Customer_Model_Address_A
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Resource_Order_Address');
+        $this->_init('Magento\Sales\Model\Resource\Order\Address');
     }
 
     /**
      * Set order
      *
-     * @param Magento_Sales_Model_Order $order
-     * @return Magento_Sales_Model_Order_Address
+     * @param \Magento\Sales\Model\Order $order
+     * @return \Magento\Sales\Model\Order\Address
      */
-    public function setOrder(Magento_Sales_Model_Order $order)
+    public function setOrder(\Magento\Sales\Model\Order $order)
     {
         $this->_order = $order;
         return $this;
@@ -141,7 +143,7 @@ class Magento_Sales_Model_Order_Address extends Magento_Customer_Model_Address_A
     /**
      * Get order
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
@@ -154,7 +156,7 @@ class Magento_Sales_Model_Order_Address extends Magento_Customer_Model_Address_A
     /**
      * Before object save manipulations
      *
-     * @return Magento_Sales_Model_Order_Address
+     * @return \Magento\Sales\Model\Order\Address
      */
     protected function _beforeSave()
     {

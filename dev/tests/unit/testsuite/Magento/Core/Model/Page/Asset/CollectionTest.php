@@ -9,28 +9,30 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Page_Asset_CollectionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Page\Asset;
+
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Page_Asset_Collection
+     * @var \Magento\Core\Model\Page\Asset\Collection
      */
     protected $_object;
 
     /**
-     * @var Magento_Core_Model_Page_Asset_AssetInterface
+     * @var \Magento\Core\Model\Page\Asset\AssetInterface
      */
     protected $_asset;
 
     protected function setUp()
     {
-        $this->_object = new Magento_Core_Model_Page_Asset_Collection();
-        $this->_asset = new Magento_Core_Model_Page_Asset_Remote('http://127.0.0.1/magento/test.css');
+        $this->_object = new \Magento\Core\Model\Page\Asset\Collection();
+        $this->_asset = new \Magento\Core\Model\Page\Asset\Remote('http://127.0.0.1/magento/test.css');
         $this->_object->add('asset', $this->_asset);
     }
 
     public function testAdd()
     {
-        $assetNew = new Magento_Core_Model_Page_Asset_Remote('http://127.0.0.1/magento/test.js');
+        $assetNew = new \Magento\Core\Model\Page\Asset\Remote('http://127.0.0.1/magento/test.js');
         $this->_object->add('asset_new', $assetNew);
         $this->assertSame(array('asset' => $this->_asset, 'asset_new' => $assetNew), $this->_object->getAll());
     }
@@ -49,7 +51,7 @@ class Magento_Core_Model_Page_Asset_CollectionTest extends PHPUnit_Framework_Tes
 
     public function testAddOverrideExisting()
     {
-        $assetOverridden = new Magento_Core_Model_Page_Asset_Remote('http://127.0.0.1/magento/test_overridden.css');
+        $assetOverridden = new \Magento\Core\Model\Page\Asset\Remote('http://127.0.0.1/magento/test_overridden.css');
         $this->_object->add('asset', $assetOverridden);
         $this->assertSame(array('asset' => $assetOverridden), $this->_object->getAll());
     }

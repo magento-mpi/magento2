@@ -7,47 +7,49 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Interception_FactoryDecorator implements Magento_ObjectManager_Factory
+namespace Magento\Interception;
+
+class FactoryDecorator implements \Magento\ObjectManager\Factory
 {
     /**
      * Configurable factory
      *
-     * @var Magento_ObjectManager_Factory
+     * @var \Magento\ObjectManager\Factory
      */
     protected $_factory;
 
     /**
      * Object manager
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
      * Object manager config
      *
-     * @var Magento_Interception_Config
+     * @var \Magento\Interception\Config
      */
     protected $_config;
 
     /**
      * List of plugins configured for instance
      *
-     * @var Magento_Interception_PluginList
+     * @var \Magento\Interception\PluginList
      */
     protected $_pluginList;
 
     /**
-     * @param Magento_ObjectManager_Factory $factory
-     * @param Magento_Interception_Config $config
-     * @param Magento_Interception_PluginList $pluginList
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager\Factory $factory
+     * @param \Magento\Interception\Config $config
+     * @param \Magento\Interception\PluginList $pluginList
+     * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(
-        Magento_ObjectManager_Factory $factory,
-        Magento_Interception_Config $config,
-        Magento_Interception_PluginList $pluginList,
-        Magento_ObjectManager $objectManager
+        \Magento\ObjectManager\Factory $factory,
+        \Magento\Interception\Config $config,
+        \Magento\Interception\PluginList $pluginList,
+        \Magento\ObjectManager $objectManager
     ) {
         $this->_factory = $factory;
         $this->_pluginList = $pluginList;
@@ -58,9 +60,9 @@ class Magento_Interception_FactoryDecorator implements Magento_ObjectManager_Fac
     /**
      * Set object manager
      *
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function setObjectManager(Magento_ObjectManager $objectManager)
+    public function setObjectManager(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
         $this->_factory->setObjectManager($objectManager);

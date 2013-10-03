@@ -11,33 +11,35 @@
 /**
  * Widget Instance page groups (predefined layouts group) to display on
  *
- * @method Magento_Widget_Model_Widget_Instance getWidgetInstance()
+ * @method \Magento\Widget\Model\Widget\Instance getWidgetInstance()
  */
-class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout
-    extends Magento_Adminhtml_Block_Template implements Magento_Data_Form_Element_Renderer_Interface
+namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main;
+
+class Layout
+    extends \Magento\Adminhtml\Block\Template implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     /**
-     * @var Magento_Data_Form_Element_Abstract
+     * @var \Magento\Data\Form\Element\AbstractElement
      */
     protected $_element = null;
 
     protected $_template = 'instance/edit/layout.phtml';
 
     /**
-     * @var Magento_Catalog_Model_Product_Type
+     * @var \Magento\Catalog\Model\Product\Type
      */
     protected $_productType;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Catalog_Model_Product_Type $productType
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Catalog\Model\Product\Type $productType
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Catalog_Model_Product_Type $productType,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Catalog\Model\Product\Type $productType,
         array $data = array()
     ) {
         $this->_productType = $productType;
@@ -49,7 +51,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout
      *
      * @return string
      */
-    public function render(Magento_Data_Form_Element_Abstract $element)
+    public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $this->setElement($element);
         return $this->toHtml();
@@ -58,10 +60,10 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout
     /**
      * Setter
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return
      */
-    public function setElement(Magento_Data_Form_Element_Abstract $element)
+    public function setElement(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $this->_element = $element;
         return $this;
@@ -70,7 +72,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout
     /**
      * Getter
      *
-     * @return Magento_Data_Form_Element_Abstract
+     * @return \Magento\Data\Form\Element\AbstractElement
      */
     public function getElement()
     {
@@ -124,7 +126,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout
      */
     public function getDisplayOnSelectHtml()
     {
-        $selectBlock = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
+        $selectBlock = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
             ->setName('widget_instance[{{id}}][page_group]')
             ->setId('widget_instance[{{id}}][page_group]')
             ->setClass('required-entry page_group_select select')
@@ -146,45 +148,45 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout
         $options = array();
         $options[] = array(
             'value' => '',
-            'label' => $this->helper('Magento_Core_Helper_Data')->jsQuoteEscape(__('-- Please Select --'))
+            'label' => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('-- Please Select --'))
         );
         $options[] = array(
             'label' => __('Categories'),
             'value' => array(
                 array(
                     'value' => 'anchor_categories',
-                    'label' => $this->helper('Magento_Core_Helper_Data')->jsQuoteEscape(__('Anchor Categories'))
+                    'label' => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('Anchor Categories'))
                 ),
                 array(
                     'value' => 'notanchor_categories',
-                    'label' => $this->helper('Magento_Core_Helper_Data')->jsQuoteEscape(__('Non-Anchor Categories'))
+                    'label' => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('Non-Anchor Categories'))
                 )
             )
         );
         foreach ($this->_productType->getTypes() as $typeId => $type) {
             $productsOptions[] = array(
                'value' => $typeId.'_products',
-               'label' => $this->helper('Magento_Core_Helper_Data')->jsQuoteEscape($type['label'])
+               'label' => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape($type['label'])
             );
         }
         array_unshift($productsOptions, array(
             'value' => 'all_products',
-            'label' => $this->helper('Magento_Core_Helper_Data')->jsQuoteEscape(__('All Product Types'))
+            'label' => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('All Product Types'))
         ));
         $options[] = array(
-            'label' => $this->helper('Magento_Core_Helper_Data')->jsQuoteEscape(__('Products')),
+            'label' => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('Products')),
             'value' => $productsOptions
         );
         $options[] = array(
-            'label' => $this->helper('Magento_Core_Helper_Data')->jsQuoteEscape(__('Generic Pages')),
+            'label' => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('Generic Pages')),
             'value' => array(
                 array(
                     'value' => 'all_pages',
-                    'label' => $this->helper('Magento_Core_Helper_Data')->jsQuoteEscape(__('All Pages'))
+                    'label' => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('All Pages'))
                 ),
                 array(
                     'value' => 'pages',
-                    'label' => $this->helper('Magento_Core_Helper_Data')->jsQuoteEscape(__('Specified Page'))
+                    'label' => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('Specified Page'))
                 )
             )
         );
@@ -203,7 +205,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout
             'label' => 'Categories',
             'code' => 'categories',
             'name' => 'anchor_categories',
-            'layout_handle' => Magento_Widget_Model_Widget_Instance::ANCHOR_CATEGORY_LAYOUT_HANDLE,
+            'layout_handle' => \Magento\Widget\Model\Widget\Instance::ANCHOR_CATEGORY_LAYOUT_HANDLE,
             'is_anchor_only' => 1,
             'product_type_id' => ''
         );
@@ -211,7 +213,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout
             'label' => 'Categories',
             'code' => 'categories',
             'name' => 'notanchor_categories',
-            'layout_handle' => Magento_Widget_Model_Widget_Instance::NOTANCHOR_CATEGORY_LAYOUT_HANDLE,
+            'layout_handle' => \Magento\Widget\Model\Widget\Instance::NOTANCHOR_CATEGORY_LAYOUT_HANDLE,
             'is_anchor_only' => 0,
             'product_type_id' => ''
         );
@@ -219,7 +221,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout
             'label' => 'Products',
             'code' => 'products',
             'name' => 'all_products',
-            'layout_handle' => Magento_Widget_Model_Widget_Instance::PRODUCT_LAYOUT_HANDLE,
+            'layout_handle' => \Magento\Widget\Model\Widget\Instance::PRODUCT_LAYOUT_HANDLE,
             'is_anchor_only' => '',
             'product_type_id' => ''
         );
@@ -229,7 +231,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout
                 'code' => 'products',
                 'name' => $typeId . '_products',
                 'layout_handle'
-                    => str_replace('{{TYPE}}', $typeId, Magento_Widget_Model_Widget_Instance::PRODUCT_TYPE_LAYOUT_HANDLE),
+                    => str_replace('{{TYPE}}', $typeId, \Magento\Widget\Model\Widget\Instance::PRODUCT_TYPE_LAYOUT_HANDLE),
                 'is_anchor_only' => '',
                 'product_type_id' => $typeId
             );
@@ -245,7 +247,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout
     public function getLayoutsChooser()
     {
         $chooserBlock = $this->getLayout()
-            ->createBlock('Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Layout')
+            ->createBlock('Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\Layout')
             ->setName('widget_instance[{{id}}][pages][layout_handle]')
             ->setId('layout_handle')
             ->setClass('required-entry select')
@@ -264,7 +266,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout
      */
     public function getAddLayoutButtonHtml()
     {
-        $button = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+        $button = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
                 'label'     => __('Add Layout Update'),
                 'onclick'   => 'WidgetInstance.addPageGroup({})',
@@ -280,9 +282,9 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout
      */
     public function getRemoveLayoutButtonHtml()
     {
-        $button = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+        $button = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
-                'label'     => $this->helper('Magento_Core_Helper_Data')->jsQuoteEscape(__('Remove Layout Update')),
+                'label'     => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape(__('Remove Layout Update')),
                 'onclick'   => 'WidgetInstance.removePageGroup(this)',
                 'class'     => 'action-delete'
             ));

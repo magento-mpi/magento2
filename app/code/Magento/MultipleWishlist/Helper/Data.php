@@ -13,7 +13,9 @@
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Magento_MultipleWishlist_Helper_Data extends Magento_Wishlist_Helper_Data
+namespace Magento\MultipleWishlist\Helper;
+
+class Data extends \Magento\Wishlist\Helper\Data
 {
     /**
      * The list of default wishlists grouped by customer id
@@ -25,40 +27,40 @@ class Magento_MultipleWishlist_Helper_Data extends Magento_Wishlist_Helper_Data
     /**
      * Item collection factory
      *
-     * @var Magento_Wishlist_Model_Resource_Item_CollectionFactory
+     * @var \Magento\Wishlist\Model\Resource\Item\CollectionFactory
      */
     protected $_itemCollectionFactory;
 
     /**
      * Wishlist collection factory
      *
-     * @var Magento_Wishlist_Model_Resource_Wishlist_CollectionFactory
+     * @var \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory
      */
     protected $_wishlistCollectionFactory;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Customer_Model_SessionProxy $customerSession
-     * @param Magento_Wishlist_Model_WishlistFactory $wishlistFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Wishlist_Model_Resource_Item_CollectionFactory $itemCollectionFactory
-     * @param Magento_Wishlist_Model_Resource_Wishlist_CollectionFactory $wishlistCollectionFactory
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Customer\Model\SessionProxy $customerSession
+     * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemCollectionFactory
+     * @param \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Customer_Model_SessionProxy $customerSession,
-        Magento_Wishlist_Model_WishlistFactory $wishlistFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Wishlist_Model_Resource_Item_CollectionFactory $itemCollectionFactory,
-        Magento_Wishlist_Model_Resource_Wishlist_CollectionFactory $wishlistCollectionFactory
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Customer\Model\SessionProxy $customerSession,
+        \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemCollectionFactory,
+        \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory
     ) {
         $this->_itemCollectionFactory = $itemCollectionFactory;
         $this->_wishlistCollectionFactory = $wishlistCollectionFactory;
@@ -69,7 +71,7 @@ class Magento_MultipleWishlist_Helper_Data extends Magento_Wishlist_Helper_Data
     /**
      * Create wishlist item collection
      *
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     protected function _createWishlistItemCollection()
     {
@@ -98,10 +100,10 @@ class Magento_MultipleWishlist_Helper_Data extends Magento_Wishlist_Helper_Data
     /**
      * Check whether given wishlist is default for it's customer
      *
-     * @param Magento_Wishlist_Model_Wishlist $wishlist
+     * @param \Magento\Wishlist\Model\Wishlist $wishlist
      * @return bool
      */
-    public function isWishlistDefault(Magento_Wishlist_Model_Wishlist $wishlist)
+    public function isWishlistDefault(\Magento\Wishlist\Model\Wishlist $wishlist)
     {
         return $this->getDefaultWishlist($wishlist->getCustomerId())->getId() == $wishlist->getId();
     }
@@ -110,7 +112,7 @@ class Magento_MultipleWishlist_Helper_Data extends Magento_Wishlist_Helper_Data
      * Retrieve customer's default wishlist
      *
      * @param int $customerId
-     * @return Magento_Wishlist_Model_Wishlist
+     * @return \Magento\Wishlist\Model\Wishlist
      */
     public function getDefaultWishlist($customerId = null)
     {
@@ -137,10 +139,10 @@ class Magento_MultipleWishlist_Helper_Data extends Magento_Wishlist_Helper_Data
     /**
      * Check whether given wishlist collection size exceeds wishlist limit
      *
-     * @param Magento_Wishlist_Model_Resource_Wishlist_Collection $wishlistList
+     * @param \Magento\Wishlist\Model\Resource\Wishlist\Collection $wishlistList
      * @return bool
      */
-    public function isWishlistLimitReached(Magento_Wishlist_Model_Resource_Wishlist_Collection $wishlistList)
+    public function isWishlistLimitReached(\Magento\Wishlist\Model\Resource\Wishlist\Collection $wishlistList)
     {
         return count($wishlistList) >= $this->getWishlistLimit();
     }
@@ -149,7 +151,7 @@ class Magento_MultipleWishlist_Helper_Data extends Magento_Wishlist_Helper_Data
      * Retrieve Wishlist collection by customer id
      *
      * @param int $customerId
-     * @return Magento_Wishlist_Model_Resource_Wishlist_Collection
+     * @return \Magento\Wishlist\Model\Resource\Wishlist\Collection
      */
     public function getCustomerWishlists($customerId = null)
     {
@@ -158,7 +160,7 @@ class Magento_MultipleWishlist_Helper_Data extends Magento_Wishlist_Helper_Data
         }
         $wishlistsByCustomer = $this->_coreRegistry->registry('wishlists_by_customer');
         if (!isset($wishlistsByCustomer[$customerId])) {
-            /** @var Magento_Wishlist_Model_Resource_Wishlist_Collection $collection */
+            /** @var \Magento\Wishlist\Model\Resource\Wishlist\Collection $collection */
             $collection = $this->_wishlistCollectionFactory->create();
             $collection->filterByCustomerId($customerId);
             $wishlistsByCustomer[$customerId] = $collection;
@@ -170,10 +172,10 @@ class Magento_MultipleWishlist_Helper_Data extends Magento_Wishlist_Helper_Data
     /**
      * Retrieve number of wishlist items in given wishlist
      *
-     * @param Magento_Wishlist_Model_Wishlist $wishlist
+     * @param \Magento\Wishlist\Model\Wishlist $wishlist
      * @return int
      */
-    public function getWishlistItemCount(Magento_Wishlist_Model_Wishlist $wishlist)
+    public function getWishlistItemCount(\Magento\Wishlist\Model\Wishlist $wishlist)
     {
         $collection = $wishlist->getItemCollection();
         if ($this->_coreStoreConfig->getConfig(self::XML_PATH_WISHLIST_LINK_USE_QTY)) {

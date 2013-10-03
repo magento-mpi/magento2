@@ -11,22 +11,24 @@
 /**
  * System Configuration controller
  */
-class Magento_Backend_Controller_Adminhtml_System_Config extends Magento_Backend_Controller_System_ConfigAbstract
+namespace Magento\Backend\Controller\Adminhtml\System;
+
+class Config extends \Magento\Backend\Controller\System\AbstractConfig
 {
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Backend_Model_Config_Structure $configStructure
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\Model\Config\Structure $configStructure
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Backend_Model_Config_Structure $configStructure,
-        Magento_Core_Model_StoreManagerInterface $storeManager
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\Model\Config\Structure $configStructure,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_storeManager = $storeManager;
         parent::__construct($context, $configStructure);
@@ -53,7 +55,7 @@ class Magento_Backend_Controller_Adminhtml_System_Config extends Magento_Backend
         $website = $this->getRequest()->getParam('website');
         $store   = $this->getRequest()->getParam('store');
 
-        /** @var $section Magento_Backend_Model_Config_Structure_Element_Section */
+        /** @var $section \Magento\Backend\Model\Config\Structure\Element\Section */
         $section = $this->_configStructure->getElement($current);
         if ($current && !$section->isVisible($website, $store)) {
             return $this->_redirect('*/*/', array('website' => $website, 'store' => $store));
@@ -95,8 +97,8 @@ class Magento_Backend_Controller_Adminhtml_System_Config extends Magento_Backend
     public function exportTableratesAction()
     {
         $fileName = 'tablerates.csv';
-        /** @var $gridBlock Magento_Adminhtml_Block_Shipping_Carrier_Tablerate_Grid */
-        $gridBlock = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Shipping_Carrier_Tablerate_Grid');
+        /** @var $gridBlock \Magento\Adminhtml\Block\Shipping\Carrier\Tablerate\Grid */
+        $gridBlock = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Shipping\Carrier\Tablerate\Grid');
         $website = $this->_storeManager->getWebsite($this->getRequest()->getParam('website'));
         if ($this->getRequest()->getParam('conditionName')) {
             $conditionName = $this->getRequest()->getParam('conditionName');

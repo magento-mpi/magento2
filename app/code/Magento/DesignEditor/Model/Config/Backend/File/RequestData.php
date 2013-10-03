@@ -11,8 +11,10 @@
 /**
  * Design editor request data
  */
-class Magento_DesignEditor_Model_Config_Backend_File_RequestData
-    implements Magento_Backend_Model_Config_Backend_File_RequestData_Interface
+namespace Magento\DesignEditor\Model\Config\Backend\File;
+
+class RequestData
+    implements \Magento\Backend\Model\Config\Backend\File\RequestData\RequestDataInterface
 {
     /**
      * Retrieve uploaded file tmp name by path

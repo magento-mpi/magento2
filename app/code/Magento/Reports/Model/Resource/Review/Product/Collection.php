@@ -16,12 +16,14 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Resource_Review_Product_Collection extends Magento_Catalog_Model_Resource_Product_Collection
+namespace Magento\Reports\Model\Resource\Review\Product;
+
+class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
 {
     /**
      * Init Select
      *
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     protected function _initSelect()
     {
@@ -33,7 +35,7 @@ class Magento_Reports_Model_Resource_Review_Product_Collection extends Magento_C
     /**
      * Join review table to result
      *
-     * @return Magento_Reports_Model_Resource_Review_Product_Collection
+     * @return \Magento\Reports\Model\Resource\Review\Product\Collection
      */
     protected function _joinReview()
     {
@@ -49,7 +51,7 @@ class Magento_Reports_Model_Resource_Review_Product_Collection extends Magento_C
                 array('r' => $this->getTable('review')),
                 'e.entity_id = r.entity_pk_value',
                 array(
-                    'review_cnt'    => new Zend_Db_Expr(sprintf('(%s)', $subSelect)),
+                    'review_cnt'    => new \Zend_Db_Expr(sprintf('(%s)', $subSelect)),
                     'last_created'  => 'MAX(r.created_at)',))
             ->group('e.entity_id');
 
@@ -59,9 +61,9 @@ class Magento_Reports_Model_Resource_Review_Product_Collection extends Magento_C
         );
 
         $percentField       = $this->getConnection()->quoteIdentifier('table_rating.percent');
-        $sumPercentField    = new Zend_Db_Expr("SUM({$percentField})");
-        $sumPercentApproved = new Zend_Db_Expr('SUM(table_rating.percent_approved)');
-        $countRatingId      = new Zend_Db_Expr('COUNT(table_rating.rating_id)');
+        $sumPercentField    = new \Zend_Db_Expr("SUM({$percentField})");
+        $sumPercentApproved = new \Zend_Db_Expr('SUM(table_rating.percent_approved)');
+        $countRatingId      = new \Zend_Db_Expr('COUNT(table_rating.rating_id)');
 
         $this->getSelect()
             ->joinLeft(
@@ -80,7 +82,7 @@ class Magento_Reports_Model_Resource_Review_Product_Collection extends Magento_C
      *
      * @param string $attribute
      * @param string $dir
-     * @return Magento_Reports_Model_Resource_Review_Product_Collection
+     * @return \Magento\Reports\Model\Resource\Review\Product\Collection
      */
     public function addAttributeToSort($attribute, $dir = self::SORT_ORDER_ASC)
     {
@@ -95,22 +97,22 @@ class Magento_Reports_Model_Resource_Review_Product_Collection extends Magento_C
     /**
      * Get select count sql
      *
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function getSelectCountSql()
     {
         $this->_renderFilters();
 
-        /* @var Magento_DB_Select $select */
+        /* @var \Magento\DB\Select $select */
         $select = clone $this->getSelect();
-        $select->reset(Zend_Db_Select::ORDER);
-        $select->reset(Zend_Db_Select::LIMIT_COUNT);
-        $select->reset(Zend_Db_Select::LIMIT_OFFSET);
-        $select->reset(Zend_Db_Select::COLUMNS);
+        $select->reset(\Zend_Db_Select::ORDER);
+        $select->reset(\Zend_Db_Select::LIMIT_COUNT);
+        $select->reset(\Zend_Db_Select::LIMIT_OFFSET);
+        $select->reset(\Zend_Db_Select::COLUMNS);
         $select->resetJoinLeft();
-        $select->columns(new Zend_Db_Expr('1'));
+        $select->columns(new \Zend_Db_Expr('1'));
 
-        /* @var Magento_DB_Select $countSelect */
+        /* @var \Magento\DB\Select $countSelect */
         $countSelect = clone $select;
         $countSelect->reset();
         $countSelect->from($select, "COUNT(*)");

@@ -13,9 +13,11 @@
  * Renderer for service JavaScript code that disables corresponding paypal methods on page load
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Store
-    extends Magento_Backend_Block_Template
-    implements Magento_Data_Form_Element_Renderer_Interface
+namespace Magento\Paypal\Block\Adminhtml\System\Config\Fieldset;
+
+class Store
+    extends \Magento\Backend\Block\Template
+    implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     /**
      * Path to template file
@@ -25,27 +27,27 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Store
     protected $_template = 'Magento_Paypal::system/config/fieldset/store.phtml';
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Config $coreConfig
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Config $coreConfig,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         parent::__construct(
@@ -60,10 +62,10 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Store
     /**
      * Render service JavaScript code
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    public function render(Magento_Data_Form_Element_Abstract $element)
+    public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $html = $this->_storeManager->isSingleStoreMode() ? '' : $this->toHtml();
         return $html;

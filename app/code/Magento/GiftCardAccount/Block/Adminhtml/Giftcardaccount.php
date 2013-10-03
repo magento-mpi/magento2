@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount extends Magento_Adminhtml_Block_Widget_Grid_Container
+namespace Magento\GiftCardAccount\Block\Adminhtml;
+
+class Giftcardaccount extends \Magento\Adminhtml\Block\Widget\Grid\Container
 {
 
     protected function _construct()

@@ -16,7 +16,9 @@
  * @package     Magento_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Tax_Model_Resource_Report_Tax_Updatedat extends Magento_Tax_Model_Resource_Report_Tax_Createdat
+namespace Magento\Tax\Model\Resource\Report\Tax;
+
+class Updatedat extends \Magento\Tax\Model\Resource\Report\Tax\Createdat
 {
     /**
      * Resource initialization
@@ -31,7 +33,7 @@ class Magento_Tax_Model_Resource_Report_Tax_Updatedat extends Magento_Tax_Model_
      *
      * @param mixed $from
      * @param mixed $to
-     * @return Magento_Tax_Model_Resource_Report_Tax_Updatedat
+     * @return \Magento\Tax\Model\Resource\Report\Tax\Updatedat
      */
     public function aggregate($from = null, $to = null)
     {

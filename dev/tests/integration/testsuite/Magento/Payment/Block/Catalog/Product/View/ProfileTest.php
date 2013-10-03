@@ -10,33 +10,35 @@
  */
 
 /**
- * Test class for Magento_Payment_Block_Catalog_Product_View_Profile
+ * Test class for \Magento\Payment\Block\Catalog\Product\View\Profile
  */
-class Magento_Payment_Block_Catalog_Product_View_ProfileTest extends PHPUnit_Framework_TestCase
+namespace Magento\Payment\Block\Catalog\Product\View;
+
+class ProfileTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled
      */
     public function testGetDateHtml()
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         
-        $product = $objectManager->create('Magento_Catalog_Model_Product');
+        $product = $objectManager->create('Magento\Catalog\Model\Product');
         $product->setIsRecurring('1');
         $product->setRecurringProfile(array('start_date_is_editable' => true));
-        $objectManager->get('Magento_Core_Model_Registry')->register('current_product', $product);
-        $block = $objectManager->create('Magento_Payment_Block_Catalog_Product_View_Profile');
-        $block->setLayout($objectManager->create('Magento_Core_Model_Layout'));
+        $objectManager->get('Magento\Core\Model\Registry')->register('current_product', $product);
+        $block = $objectManager->create('Magento\Payment\Block\Catalog\Product\View\Profile');
+        $block->setLayout($objectManager->create('Magento\Core\Model\Layout'));
 
         $html = $block->getDateHtml();
         $this->assertNotEmpty($html);
-        $dateFormat = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_LocaleInterface')
-            ->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
-        $timeFormat = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_LocaleInterface')
-            ->getTimeFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\LocaleInterface')
+            ->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+        $timeFormat = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\LocaleInterface')
+            ->getTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
         $this->assertContains('dateFormat: "' . $dateFormat . '",', $html);
         $this->assertContains('timeFormat: "' . $timeFormat . '",', $html);
     }

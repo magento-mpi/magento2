@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Sales_Order_Create_Billing_Method extends Magento_Adminhtml_Block_Sales_Order_Create_Abstract
+namespace Magento\Adminhtml\Block\Sales\Order\Create\Billing;
+
+class Method extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
 {
     protected function _construct()
     {

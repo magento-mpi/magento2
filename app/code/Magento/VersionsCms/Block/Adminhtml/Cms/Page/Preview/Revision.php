@@ -11,37 +11,39 @@
 /**
  * Revision selector
  */
-class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Preview_Revision extends Magento_Adminhtml_Block_Template
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Preview;
+
+class Revision extends \Magento\Adminhtml\Block\Template
 {
     /**
-     * @var Magento_VersionsCms_Model_Resource_Page_Revision_CollectionFactory
+     * @var \Magento\VersionsCms\Model\Resource\Page\Revision\CollectionFactory
      */
     protected $_revisionCollFactory;
 
     /**
-     * @var Magento_VersionsCms_Model_Config
+     * @var \Magento\VersionsCms\Model\Config
      */
     protected $_cmsConfig;
 
     /**
-     * @var Magento_Backend_Model_Auth_Session
+     * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_backendAuthSession;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_VersionsCms_Model_Resource_Page_Revision_CollectionFactory $revisionCollFactory
-     * @param Magento_VersionsCms_Model_Config $cmsConfig
-     * @param Magento_Backend_Model_Auth_Session $backendAuthSession
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\VersionsCms\Model\Resource\Page\Revision\CollectionFactory $revisionCollFactory
+     * @param \Magento\VersionsCms\Model\Config $cmsConfig
+     * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_VersionsCms_Model_Resource_Page_Revision_CollectionFactory $revisionCollFactory,
-        Magento_VersionsCms_Model_Config $cmsConfig,
-        Magento_Backend_Model_Auth_Session $backendAuthSession,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\VersionsCms\Model\Resource\Page\Revision\CollectionFactory $revisionCollFactory,
+        \Magento\VersionsCms\Model\Config $cmsConfig,
+        \Magento\Backend\Model\Auth\Session $backendAuthSession,
         array $data = array()
     ) {
         $this->_revisionCollFactory = $revisionCollFactory;
@@ -70,7 +72,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Preview_Revision extends Mage
      */
     public function getRevisions()
     {
-        /* var $collection Magento_VersionsCms_Model_Resource_Page_Revision_Collection */
+        /* var $collection \Magento\VersionsCms\Model\Resource\Page\Revision\Collection */
         $collection = $this->_revisionCollFactory->create()
             ->addPageFilter($this->getRequest()->getParam('page_id'))
             ->joinVersions()

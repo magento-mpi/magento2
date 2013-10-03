@@ -11,7 +11,9 @@
 /**
  * Log archive file model
  */
-class Magento_Logging_Model_Archive extends Magento_Object
+namespace Magento\Logging\Model;
+
+class Archive extends \Magento\Object
 {
     /**
      * Full system name to current file, if set
@@ -21,14 +23,14 @@ class Magento_Logging_Model_Archive extends Magento_Object
     protected $_file = '';
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
     /**
-     * @param Magento_Filesystem $fileSystem
+     * @param \Magento\Filesystem $fileSystem
      */
-    public function __construct(Magento_Filesystem $fileSystem)
+    public function __construct(\Magento\Filesystem $fileSystem)
     {
         $this->_filesystem = $fileSystem;
     }
@@ -58,7 +60,7 @@ class Magento_Logging_Model_Archive extends Magento_Object
      * Search the file in storage by base name and set it
      *
      * @param string $baseName
-     * @return Magento_Logging_Model_Archive
+     * @return \Magento\Logging\Model\Archive
      */
     public function loadByBaseName($baseName)
     {
@@ -80,7 +82,7 @@ class Magento_Logging_Model_Archive extends Magento_Object
      * Generate a full system filename from base name
      *
      * @param string $baseName
-     * @return Magento_Logging_Model_Archive
+     * @return \Magento\Logging\Model\Archive
      */
     public function generateFilename($baseName)
     {

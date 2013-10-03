@@ -7,30 +7,32 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Checkout_Block_Agreements extends Magento_Core_Block_Template
+namespace Magento\Checkout\Block;
+
+class Agreements extends \Magento\Core\Block\Template
 {
     /**
-     * @var Magento_Checkout_Model_Resource_Agreement_CollectionFactory
+     * @var \Magento\Checkout\Model\Resource\Agreement\CollectionFactory
      */
     protected $_agreementCollFactory;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Checkout_Model_Resource_Agreement_CollectionFactory $agreementCollFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Checkout\Model\Resource\Agreement\CollectionFactory $agreementCollFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Checkout_Model_Resource_Agreement_CollectionFactory $agreementCollFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Checkout\Model\Resource\Agreement\CollectionFactory $agreementCollFactory,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -47,7 +49,7 @@ class Magento_Checkout_Block_Agreements extends Magento_Core_Block_Template
             if (!$this->_storeConfig->getConfigFlag('checkout/options/enable_agreements')) {
                 $agreements = array();
             } else {
-                /** @var Magento_Checkout_Model_Resource_Agreement_Collection $agreements */
+                /** @var \Magento\Checkout\Model\Resource\Agreement\Collection $agreements */
                 $agreements = $this->_agreementCollFactory->create()
                     ->addStoreFilter($this->_storeManager->getStore()->getId())
                     ->addFieldToFilter('is_active', 1);

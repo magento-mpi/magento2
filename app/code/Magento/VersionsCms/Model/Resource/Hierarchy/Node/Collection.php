@@ -11,29 +11,31 @@
 /**
  * Cms Page Hierarchy Tree Nodes Collection
  */
-class Magento_VersionsCms_Model_Resource_Hierarchy_Node_Collection
-    extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\VersionsCms\Model\Resource\Hierarchy\Node;
+
+class Collection
+    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
-     * @var Magento_Core_Model_Resource_Helper
+     * @var \Magento\Core\Model\Resource\Helper
      */
     protected $_resourceHelper;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_Resource_Helper $resourceHelper
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_Resource_Helper $resourceHelper,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\Resource\Helper $resourceHelper,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_resourceHelper = $resourceHelper;
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
@@ -44,13 +46,13 @@ class Magento_VersionsCms_Model_Resource_Hierarchy_Node_Collection
      */
     protected function _construct()
     {
-        $this->_init('Magento_VersionsCms_Model_Hierarchy_Node', 'Magento_VersionsCms_Model_Resource_Hierarchy_Node');
+        $this->_init('Magento\VersionsCms\Model\Hierarchy\Node', 'Magento\VersionsCms\Model\Resource\Hierarchy\Node');
     }
 
     /**
      * Join Cms Page data to collection
      *
-     * @return Magento_VersionsCms_Model_Resource_Hierarchy_Node_Collection
+     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node\Collection
      */
     public function joinCmsPage()
     {
@@ -71,18 +73,18 @@ class Magento_VersionsCms_Model_Resource_Hierarchy_Node_Collection
     /**
      * Add Store Filter to assigned CMS pages
      *
-     * @param int|Magento_Core_Model_Store $store
+     * @param int|\Magento\Core\Model\Store $store
      * @param bool $withAdmin Include admin store or not
-     * @return Magento_VersionsCms_Model_Resource_Hierarchy_Node_Collection
+     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node\Collection
      */
     public function addStoreFilter($store, $withAdmin = true)
     {
-        if ($store instanceof Magento_Core_Model_Store) {
+        if ($store instanceof \Magento\Core\Model\Store) {
             $store = $store->getId();
         }
 
         if ($withAdmin) {
-            $storeIds = array(Magento_Core_Model_AppInterface::ADMIN_STORE_ID, $store);
+            $storeIds = array(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID, $store);
         } else {
             $storeIds = array($store);
         }
@@ -98,7 +100,7 @@ class Magento_VersionsCms_Model_Resource_Hierarchy_Node_Collection
     /**
      * Adding sub query for custom column to determine on which stores page active.
      *
-     * @return Magento_VersionsCms_Model_Resource_Hierarchy_Node_Collection
+     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node\Collection
      */
     public function addCmsPageInStoresColumn()
     {
@@ -107,7 +109,7 @@ class Magento_VersionsCms_Model_Resource_Hierarchy_Node_Collection
             $subSelect->from(array('store' => $this->getTable('cms_page_store')), array())
                 ->where('store.page_id = main_table.page_id');
             $subSelect = $this->_resourceHelper->addGroupConcatColumn($subSelect, 'store_id', 'store_id');
-            $this->getSelect()->columns(array('page_in_stores' => new Zend_Db_Expr('(' . $subSelect . ')')));
+            $this->getSelect()->columns(array('page_in_stores' => new \Zend_Db_Expr('(' . $subSelect . ')')));
 
             // save subSelect to use later
             $this->setFlag('page_in_stores_select', $subSelect);
@@ -120,7 +122,7 @@ class Magento_VersionsCms_Model_Resource_Hierarchy_Node_Collection
     /**
      * Order nodes as tree
      *
-     * @return Magento_VersionsCms_Model_Resource_Hierarchy_Node_Collection
+     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node\Collection
      */
     public function setTreeOrder()
     {
@@ -136,7 +138,7 @@ class Magento_VersionsCms_Model_Resource_Hierarchy_Node_Collection
     /**
      * Order tree by level and position
      *
-     * @return Magento_VersionsCms_Model_Resource_Hierarchy_Node_Collection
+     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node\Collection
      */
     public function setOrderByLevel()
     {
@@ -147,7 +149,7 @@ class Magento_VersionsCms_Model_Resource_Hierarchy_Node_Collection
     /**
      * Join meta data for tree root nodes from extra table.
      *
-     * @return Magento_VersionsCms_Model_Resource_Hierarchy_Node_Collection
+     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node\Collection
      */
     public function joinMetaData()
     {
@@ -183,13 +185,13 @@ class Magento_VersionsCms_Model_Resource_Hierarchy_Node_Collection
      * Join main table on self to discover which nodes
      * have defined page as direct child node.
      *
-     * @param int|Magento_Cms_Model_Page $page
-     * @return Magento_VersionsCms_Model_Resource_Hierarchy_Node_Collection
+     * @param int|\Magento\Cms\Model\Page $page
+     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node\Collection
      */
     public function joinPageExistsNodeInfo($page)
     {
         if (!$this->getFlag('page_exists_joined')) {
-            if ($page instanceof Magento_Cms_Model_Page) {
+            if ($page instanceof \Magento\Cms\Model\Page) {
                 $page = $page->getId();
             }
 
@@ -218,8 +220,8 @@ class Magento_VersionsCms_Model_Resource_Hierarchy_Node_Collection
      * defined page in their direct children.
      *
      * @param int|array $nodeIds
-     * @param int|Magento_Cms_Model_Page|null $page
-     * @return Magento_VersionsCms_Model_Resource_Hierarchy_Node_Collection
+     * @param int|\Magento\Cms\Model\Page|null $page
+     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node\Collection
      */
     public function applyPageExistsOrNodeIdFilter($nodeIds, $page = null)
     {
@@ -242,13 +244,13 @@ class Magento_VersionsCms_Model_Resource_Hierarchy_Node_Collection
      * Adds dynamic column with maximum value (which means that it
      * is sort_order of last direct child) of sort_order column in scope of one node.
      *
-     * @return Magento_VersionsCms_Model_Resource_Hierarchy_Node_Collection
+     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node\Collection
      */
     public function addLastChildSortOrderColumn()
     {
         if (!$this->getFlag('last_child_sort_order_column_added')) {
             $subSelect = $this->getConnection()->select();
-            $subSelect->from($this->getResource()->getMainTable(), new Zend_Db_Expr('MAX(sort_order)'))
+            $subSelect->from($this->getResource()->getMainTable(), new \Zend_Db_Expr('MAX(sort_order)'))
                 ->where('parent_node_id = main_table.node_id');
             $this->getSelect()->columns(array('last_child_sort_order' => $subSelect));
             $this->setFlag('last_child_sort_order_column_added', true);
@@ -260,7 +262,7 @@ class Magento_VersionsCms_Model_Resource_Hierarchy_Node_Collection
     /**
      * Apply filter to retrieve only root nodes.
      *
-     * @return Magento_VersionsCms_Model_Resource_Hierarchy_Node_Collection
+     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node\Collection
      */
     public function applyRootNodeFilter()
     {

@@ -16,29 +16,31 @@
  * @package     Magento_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Log_Model_Resource_Log extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Log\Model\Resource;
+
+class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @var Magento_Core_Model_Date
+     * @var \Magento\Core\Model\Date
      */
     protected $_date;
 
     /**
-     * @param Magento_Core_Model_Date $date
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
-        Magento_Core_Model_Date $date,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Resource $resource
+        \Magento\Core\Model\Date $date,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Resource $resource
     ) {
         $this->_date = $date;
         $this->_eventManager = $eventManager;
@@ -57,10 +59,10 @@ class Magento_Log_Model_Resource_Log extends Magento_Core_Model_Resource_Db_Abst
     /**
      * Clean logs
      *
-     * @param Magento_Log_Model_Log $object
-     * @return Magento_Log_Model_Resource_Log
+     * @param \Magento\Log\Model\Log $object
+     * @return \Magento\Log\Model\Resource\Log
      */
-    public function clean(Magento_Log_Model_Log $object)
+    public function clean(\Magento\Log\Model\Log $object)
     {
         $cleanTime = $object->getLogCleanTime();
 
@@ -75,7 +77,7 @@ class Magento_Log_Model_Resource_Log extends Magento_Core_Model_Resource_Db_Abst
      * Clean visitors table
      *
      * @param int $time
-     * @return Magento_Log_Model_Resource_Log
+     * @return \Magento\Log\Model\Resource\Log
      */
     protected function _cleanVisitors($time)
     {
@@ -124,7 +126,7 @@ class Magento_Log_Model_Resource_Log extends Magento_Core_Model_Resource_Db_Abst
      * Clean customer table
      *
      * @param int $time
-     * @return Magento_Log_Model_Resource_Log
+     * @return \Magento\Log\Model\Resource\Log
      */
     protected function _cleanCustomers($time)
     {
@@ -221,7 +223,7 @@ class Magento_Log_Model_Resource_Log extends Magento_Core_Model_Resource_Db_Abst
     /**
      * Clean url table
      *
-     * @return Magento_Log_Model_Resource_Log
+     * @return \Magento\Log\Model\Resource\Log
      */
     protected function _cleanUrls()
     {

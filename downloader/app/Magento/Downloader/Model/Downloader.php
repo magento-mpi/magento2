@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Downloader_Model_Downloader extends Magento_Downloader_Model
+namespace Magento\Downloader\Model;
+
+class Downloader extends \Magento\Downloader\Model
 {
 
 }

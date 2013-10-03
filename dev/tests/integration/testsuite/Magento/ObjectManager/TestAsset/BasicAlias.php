@@ -9,6 +9,8 @@
  * @license     {license_link}
  */
 
-class Magento_ObjectManager_TestAsset_BasicAlias
+namespace Magento\ObjectManager\TestAsset;
+
+class BasicAlias
 {
 }

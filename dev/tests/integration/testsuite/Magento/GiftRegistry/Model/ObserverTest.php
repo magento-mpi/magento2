@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
-class Magento_GiftRegistry_Model_ObserverTest extends PHPUnit_Framework_TestCase
+namespace Magento\GiftRegistry\Model;
+
+class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_GiftRegistry_Model_Entity
+     * @var \Magento\GiftRegistry\Model\Entity
      */
     protected $_giftRegistry;
 
@@ -22,17 +24,17 @@ class Magento_GiftRegistry_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     public function testDeleteProduct()
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_Registry')->register('isSecureArea', true);
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager->get('Magento\Core\Model\Registry')->register('isSecureArea', true);
 
-        $customer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Customer');
+        $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Customer');
         $customer->setWebsiteId(1);
         $customer->loadByEmail('customer@example.com');
 
-        $this->_giftRegistry = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_GiftRegistry_Model_Entity');
+        $this->_giftRegistry = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\GiftRegistry\Model\Entity');
         $this->_giftRegistry->setCustomerId($customer->getId());
         $this->_giftRegistry->setTypeId(1);
         $this->_giftRegistry->setWebsiteId(1);
@@ -42,24 +44,24 @@ class Magento_GiftRegistry_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->_giftRegistry->setMessage('Test');
         $this->_giftRegistry->save();
 
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(1); // fixture
 
-        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product_Type_Configurable');
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product\Type\Configurable');
 
         $attributes = $model->getConfigurableAttributesAsArray($product);
         $attribute = reset($attributes);
         $optionValueId = $attribute['values'][0]['value_index'];
 
-        $buyRequest = new Magento_Object(array(
+        $buyRequest = new \Magento\Object(array(
             'qty' => 5,
             'super_attribute' => array($attribute['attribute_id'] => $optionValueId)
         ));
         $item = $this->_giftRegistry->addItem($product->getId(), $buyRequest);
         $items = $this->_giftRegistry->getItemsCollection();
-        $this->assertInstanceOf('Magento_GiftRegistry_Model_Item', $item);
+        $this->assertInstanceOf('Magento\GiftRegistry\Model\Item', $item);
         $this->assertNotEmpty($items->count());
 
         $cartProduct = $model->prepareForCart($buyRequest, $product);
@@ -70,11 +72,11 @@ class Magento_GiftRegistry_Model_ObserverTest extends PHPUnit_Framework_TestCase
             }
         }
 
-        $this->assertInstanceOf('Magento_Catalog_Model_Product', $simple);
+        $this->assertInstanceOf('Magento\Catalog\Model\Product', $simple);
         $simple->delete();
 
-        $giftRegistryTwo = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_GiftRegistry_Model_Entity');
+        $giftRegistryTwo = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\GiftRegistry\Model\Entity');
         $giftRegistryTwo->load($this->_giftRegistry->getId());
         $itemsTwo = $giftRegistryTwo->getItemsCollection();
         $this->assertEmpty($itemsTwo->count());

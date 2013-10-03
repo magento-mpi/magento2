@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Paygate_Model_Authorizenet_Request extends Magento_Object 
+namespace Magento\Paygate\Model\Authorizenet;
+
+class Request extends \Magento\Object
 {
     
 }

@@ -15,8 +15,10 @@
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Block_Widget_Form_Renderer_Fieldset extends Magento_Backend_Block_Template
-    implements Magento_Data_Form_Element_Renderer_Interface
+namespace Magento\Backend\Block\Widget\Form\Renderer;
+
+class Fieldset extends \Magento\Backend\Block\Template
+    implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     protected $_element;
 
@@ -27,7 +29,7 @@ class Magento_Backend_Block_Widget_Form_Renderer_Fieldset extends Magento_Backen
         return $this->_element;
     }
 
-    public function render(Magento_Data_Form_Element_Abstract $element)
+    public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $this->_element = $element;
         return $this->toHtml();

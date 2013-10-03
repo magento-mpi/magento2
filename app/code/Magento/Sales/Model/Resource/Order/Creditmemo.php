@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Order_Creditmemo extends Magento_Sales_Model_Resource_Order_Abstract
+namespace Magento\Sales\Model\Resource\Order;
+
+class Creditmemo extends \Magento\Sales\Model\Resource\Order\AbstractOrder
 {
     /**
      * Event prefix
@@ -58,7 +60,7 @@ class Magento_Sales_Model_Resource_Order_Creditmemo extends Magento_Sales_Model_
     /**
      * Init virtual grid records for entity
      *
-     * @return Magento_Sales_Model_Resource_Order_Creditmemo
+     * @return \Magento\Sales\Model\Resource\Order\Creditmemo
      */
     protected function _initVirtualGridColumns()
     {

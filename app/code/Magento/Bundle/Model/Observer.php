@@ -15,50 +15,52 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Model_Observer
+namespace Magento\Bundle\Model;
+
+class Observer
 {
     /**
      * Bundle data
      *
-     * @var Magento_Bundle_Helper_Data
+     * @var \Magento\Bundle\Helper\Data
      */
     protected $_bundleData = null;
 
     /**
      * Adminhtml catalog
      *
-     * @var Magento_Adminhtml_Helper_Catalog
+     * @var \Magento\Adminhtml\Helper\Catalog
      */
     protected $_adminhtmlCatalog = null;
 
     /**
-     * @var Magento_Bundle_Model_Resource_Selection
+     * @var \Magento\Bundle\Model\Resource\Selection
      */
     protected $_bundleSelection;
 
     /**
-     * @var Magento_Catalog_Model_Config
+     * @var \Magento\Catalog\Model\Config
      */
     protected $_config;
 
     /**
-     * @var Magento_Catalog_Model_Product_Visibility
+     * @var \Magento\Catalog\Model\Product\Visibility
      */
     protected $_productVisibility;
 
     /**
-     * @param Magento_Catalog_Model_Product_Visibility $productVisibility
-     * @param Magento_Catalog_Model_Config $config
-     * @param Magento_Bundle_Model_Resource_Selection $bundleSelection
-     * @param Magento_Adminhtml_Helper_Catalog $adminhtmlCatalog
-     * @param Magento_Bundle_Helper_Data $bundleData
+     * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
+     * @param \Magento\Catalog\Model\Config $config
+     * @param \Magento\Bundle\Model\Resource\Selection $bundleSelection
+     * @param \Magento\Adminhtml\Helper\Catalog $adminhtmlCatalog
+     * @param \Magento\Bundle\Helper\Data $bundleData
      */
     public function __construct(
-        Magento_Catalog_Model_Product_Visibility $productVisibility,
-        Magento_Catalog_Model_Config $config,
-        Magento_Bundle_Model_Resource_Selection $bundleSelection,
-        Magento_Adminhtml_Helper_Catalog $adminhtmlCatalog,
-        Magento_Bundle_Helper_Data $bundleData
+        \Magento\Catalog\Model\Product\Visibility $productVisibility,
+        \Magento\Catalog\Model\Config $config,
+        \Magento\Bundle\Model\Resource\Selection $bundleSelection,
+        \Magento\Adminhtml\Helper\Catalog $adminhtmlCatalog,
+        \Magento\Bundle\Helper\Data $bundleData
     ) {
         $this->_adminhtmlCatalog = $adminhtmlCatalog;
         $this->_bundleData = $bundleData;
@@ -70,8 +72,8 @@ class Magento_Bundle_Model_Observer
     /**
      * Setting Bundle Items Data to product for father processing
      *
-     * @param Magento_Object $observer
-     * @return Magento_Bundle_Model_Observer
+     * @param \Magento\Object $observer
+     * @return \Magento\Bundle\Model\Observer
      */
     public function prepareProductSave($observer)
     {
@@ -106,12 +108,12 @@ class Magento_Bundle_Model_Observer
     /**
      * Append bundles in upsell list for current product
      *
-     * @param Magento_Object $observer
-     * @return Magento_Bundle_Model_Observer
+     * @param \Magento\Object $observer
+     * @return \Magento\Bundle\Model\Observer
      */
     public function appendUpsellProducts($observer)
     {
-        /* @var $product Magento_Catalog_Model_Product */
+        /* @var $product \Magento\Catalog\Model\Product */
         $product = $observer->getEvent()->getProduct();
 
         /**
@@ -121,7 +123,7 @@ class Magento_Bundle_Model_Observer
             return $this;
         }
 
-        /* @var $collection Magento_Catalog_Model_Resource_Product_Link_Product_Collection */
+        /* @var $collection \Magento\Catalog\Model\Resource\Product\Link\Product\Collection */
         $collection = $observer->getEvent()->getCollection();
         $limit      = $observer->getEvent()->getLimit();
         if (is_array($limit)) {
@@ -132,7 +134,7 @@ class Magento_Bundle_Model_Observer
             }
         }
 
-        /* @var $resource Magento_Bundle_Model_Resource_Selection */
+        /* @var $resource \Magento\Bundle\Model\Resource\Selection */
         $resource   = $this->_bundleSelection;
 
         $productIds = array_keys($collection->getItems());
@@ -149,7 +151,7 @@ class Magento_Bundle_Model_Observer
             return $this;
         }
 
-        /* @var $bundleCollection Magento_Catalog_Model_Resource_Product_Collection */
+        /* @var $bundleCollection \Magento\Catalog\Model\Resource\Product\Collection */
         $bundleCollection = $product->getCollection()
             ->addAttributeToSelect($this->_config->getProductAttributes())
             ->addStoreFilter()
@@ -164,11 +166,11 @@ class Magento_Bundle_Model_Observer
         $bundleCollection->addFieldToFilter('entity_id', array('in' => $bundleIds))
             ->setFlag('do_not_use_category_id', true);
 
-        if ($collection instanceof Magento_Data_Collection) {
+        if ($collection instanceof \Magento\Data\Collection) {
             foreach ($bundleCollection as $item) {
                 $collection->addItem($item);
             }
-        } elseif ($collection instanceof Magento_Object) {
+        } elseif ($collection instanceof \Magento\Object) {
             $items = $collection->getItems();
             foreach ($bundleCollection as $item) {
                 $items[$item->getEntityId()] = $item;
@@ -183,13 +185,13 @@ class Magento_Bundle_Model_Observer
      * Add price index data for catalog product collection
      * only for front end
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_Bundle_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\Bundle\Model\Observer
      */
     public function loadProductOptions($observer)
     {
         $collection = $observer->getEvent()->getCollection();
-        /* @var $collection Magento_Catalog_Model_Resource_Product_Collection */
+        /* @var $collection \Magento\Catalog\Model\Resource\Product\Collection */
         $collection->addPriceData();
 
         return $this;
@@ -198,14 +200,14 @@ class Magento_Bundle_Model_Observer
     /**
      * duplicating bundle options and selections
      *
-     * @param Magento_Object $observer
-     * @return Magento_Bundle_Model_Observer
+     * @param \Magento\Object $observer
+     * @return \Magento\Bundle\Model\Observer
      */
     public function duplicateProduct($observer)
     {
         $product = $observer->getEvent()->getCurrentProduct();
 
-        if ($product->getTypeId() != Magento_Catalog_Model_Product_Type::TYPE_BUNDLE) {
+        if ($product->getTypeId() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
             //do nothing if not bundle
             return $this;
         }
@@ -255,15 +257,15 @@ class Magento_Bundle_Model_Observer
     /**
      * Setting attribute tab block for bundle
      *
-     * @param Magento_Object $observer
-     * @return Magento_Bundle_Model_Observer
+     * @param \Magento\Object $observer
+     * @return \Magento\Bundle\Model\Observer
      */
     public function setAttributeTabBlock($observer)
     {
         $product = $observer->getEvent()->getProduct();
-        if ($product->getTypeId() == Magento_Catalog_Model_Product_Type::TYPE_BUNDLE) {
+        if ($product->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
             $this->_adminhtmlCatalog
-                ->setAttributeTabBlock('Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes');
+                ->setAttributeTabBlock('Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Attributes');
         }
         return $this;
     }
@@ -271,13 +273,13 @@ class Magento_Bundle_Model_Observer
     /**
      * Initialize product options renderer with bundle specific params
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_Bundle_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\Bundle\Model\Observer
      */
-    public function initOptionRenderer(Magento_Event_Observer $observer)
+    public function initOptionRenderer(\Magento\Event\Observer $observer)
     {
         $block = $observer->getBlock();
-        $block->addOptionsRenderCfg('bundle', 'Magento_Bundle_Helper_Catalog_Product_Configuration');
+        $block->addOptionsRenderCfg('bundle', 'Magento\Bundle\Helper\Catalog\Product\Configuration');
         return $this;
     }
 }

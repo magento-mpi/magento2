@@ -15,34 +15,36 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Model_Locale_Manager
+namespace Magento\Backend\Model\Locale;
+
+class Manager
 {
     /**
-     * @var Magento_Backend_Model_Session
+     * @var \Magento\Backend\Model\Session
      */
     protected $_session;
 
     /**
-     * @var Magento_Backend_Model_Auth_Session
+     * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_authSession;
 
     /**
-     * @var Magento_Core_Model_Translate
+     * @var \Magento\Core\Model\Translate
      */
     protected $_translator;
 
     /**
      * Constructor
      *
-     * @param Magento_Backend_Model_Session $session
-     * @param Magento_Backend_Model_Auth_Session $authSession
-     * @param Magento_Core_Model_Translate $translator
+     * @param \Magento\Backend\Model\Session $session
+     * @param \Magento\Backend\Model\Auth\Session $authSession
+     * @param \Magento\Core\Model\Translate $translator
      */
     public function __construct(
-        Magento_Backend_Model_Session $session,
-        Magento_Backend_Model_Auth_Session $authSession,
-        Magento_Core_Model_Translate $translator
+        \Magento\Backend\Model\Session $session,
+        \Magento\Backend\Model\Auth\Session $authSession,
+        \Magento\Core\Model\Translate $translator
     ) {
         $this->_session = $session;
         $this->_authSession = $authSession;
@@ -53,7 +55,7 @@ class Magento_Backend_Model_Locale_Manager
      * Switch backend locale according to locale code
      *
      * @param string $localeCode
-     * @return Magento_Backend_Model_Locale_Manager
+     * @return \Magento\Backend\Model\Locale\Manager
      */
     public function switchBackendInterfaceLocale($localeCode)
     {
@@ -63,7 +65,7 @@ class Magento_Backend_Model_Locale_Manager
             ->setInterfaceLocale($localeCode);
 
         $this->_translator->setLocale($localeCode)
-            ->init(Magento_Backend_Helper_Data::BACKEND_AREA_CODE, true);
+            ->init(\Magento\Backend\Helper\Data::BACKEND_AREA_CODE, true);
 
         return $this;
     }
@@ -75,7 +77,7 @@ class Magento_Backend_Model_Locale_Manager
      */
     public function getUserInterfaceLocale()
     {
-        $interfaceLocale = Magento_Core_Model_LocaleInterface::DEFAULT_LOCALE;
+        $interfaceLocale = \Magento\Core\Model\LocaleInterface::DEFAULT_LOCALE;
 
         $userData = $this->_authSession->getUser();
         if ($userData && $userData->getInterfaceLocale()) {

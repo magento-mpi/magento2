@@ -12,7 +12,9 @@
  * @method string getLabel()
  * @method string getTitle()
  */
-class Magento_Page_Block_Link extends Magento_Core_Block_Template
+namespace Magento\Page\Block;
+
+class Link extends \Magento\Core\Block\Template
 {
     /** @var string */
     protected $_template = 'Magento_Page::link.phtml';

@@ -5,8 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Webapi\Helper;
 
-class Magento_Webapi_Helper_Data extends Magento_Core_Helper_Abstract
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
 
 }

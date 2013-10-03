@@ -10,38 +10,40 @@
  */
 
 /**
- * Test class for Magento_Backend_Block_Widget_Grid_Column
+ * Test class for \Magento\Backend\Block\Widget\Grid\Column
  */
-class Magento_Backend_Block_Widget_Grid_ColumnTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Block\Widget\Grid;
+
+class ColumnTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Block_Widget_Grid_Column
+     * @var \Magento\Backend\Block\Widget\Grid\Column
      */
     protected $_block;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_layoutMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_blockMock;
 
     protected function setUp()
     {
-        $this->_layoutMock = $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false, false);
-        $this->_blockMock = $this->getMock('Magento_Core_Block_Template', array('setColumn', 'getHtml'), array(), '',
+        $this->_layoutMock = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false, false);
+        $this->_blockMock = $this->getMock('Magento\Core\Block\Template', array('setColumn', 'getHtml'), array(), '',
             false, false
         );
 
         $arguments = array(
             'layout' => $this->_layoutMock,
-            'urlBuilder' => $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false)
+            'urlBuilder' => $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false)
         );
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_block = $objectManagerHelper->getObject('Magento_Backend_Block_Widget_Grid_Column', $arguments);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_block = $objectManagerHelper->getObject('Magento\Backend\Block\Widget\Grid\Column', $arguments);
         $this->_block->setId('id');
     }
 
@@ -64,7 +66,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnTest extends PHPUnit_Framework_Tes
     {
         $this->_layoutMock->expects($this->once())
             ->method('createBlock')
-            ->with('Magento_Backend_Block_Widget_Grid_Column_Filter_Text')
+            ->with('Magento\Backend\Block\Widget\Grid\Column\Filter\Text')
             ->will($this->returnValue($this->_blockMock));
 
         $this->_block->getFilter();
@@ -94,8 +96,8 @@ class Magento_Backend_Block_Widget_Grid_ColumnTest extends PHPUnit_Framework_Tes
     }
 
     /**
-     * @covers Magento_Backend_Block_Widget_Grid_Column::getFilter
-     * @covers Magento_Backend_Block_Widget_Grid_Column::setFilterType
+     * @covers \Magento\Backend\Block\Widget\Grid\Column::getFilter
+     * @covers \Magento\Backend\Block\Widget\Grid\Column::setFilterType
      */
     public function testGetFilterWithSetEmptyCustomFilterType()
     {
@@ -105,7 +107,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnTest extends PHPUnit_Framework_Tes
     }
 
     /**
-     * @covers Magento_Backend_Block_Widget_Grid_Column::getFilter
+     * @covers \Magento\Backend\Block\Widget\Grid\Column::getFilter
      */
     public function testGetFilterWithInvalidFilterTypeWhenUseDefaultFilter()
     {
@@ -113,14 +115,14 @@ class Magento_Backend_Block_Widget_Grid_ColumnTest extends PHPUnit_Framework_Tes
 
         $this->_layoutMock->expects($this->once())
             ->method('createBlock')
-            ->with('Magento_Backend_Block_Widget_Grid_Column_Filter_Text')
+            ->with('Magento\Backend\Block\Widget\Grid\Column\Filter\Text')
             ->will($this->returnValue($this->_blockMock));
 
         $this->_block->getFilter();
     }
 
     /**
-     * @covers Magento_Backend_Block_Widget_Grid_Column::getFilter
+     * @covers \Magento\Backend\Block\Widget\Grid\Column::getFilter
      */
     public function testGetFilterWhenUseCustomFilter()
     {
@@ -136,8 +138,8 @@ class Magento_Backend_Block_Widget_Grid_ColumnTest extends PHPUnit_Framework_Tes
     }
 
     /**
-     * @covers Magento_Backend_Block_Widget_Grid_Column::getFilter
-     * @covers Magento_Backend_Block_Widget_Grid_Column::setFilter
+     * @covers \Magento\Backend\Block\Widget\Grid\Column::getFilter
+     * @covers \Magento\Backend\Block\Widget\Grid\Column::setFilter
      */
     public function testGetFilterWhenFilterWasSetPreviously()
     {
@@ -189,7 +191,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnTest extends PHPUnit_Framework_Tes
     }
 
     /**
-     * @covers Magento_Backend_Block_Widget_Grid_Column::getRenderer
+     * @covers \Magento\Backend\Block\Widget\Grid\Column::getRenderer
      */
     public function testGetRendererWheRendererSetFalse()
     {
@@ -201,15 +203,15 @@ class Magento_Backend_Block_Widget_Grid_ColumnTest extends PHPUnit_Framework_Tes
 
         $this->_layoutMock->expects($this->once())
             ->method('createBlock')
-            ->with('Magento_Backend_Block_Widget_Grid_Column_Renderer_Text')
+            ->with('Magento\Backend\Block\Widget\Grid\Column\Renderer\Text')
             ->will($this->returnValue($this->_blockMock));
 
         $this->assertEquals($this->_blockMock, $this->_block->getRenderer());
     }
 
     /**
-     * @covers Magento_Backend_Block_Widget_Grid_Column::getRenderer
-     * @covers Magento_Backend_Block_Widget_Grid_Column::setRendererType
+     * @covers \Magento\Backend\Block\Widget\Grid\Column::getRenderer
+     * @covers \Magento\Backend\Block\Widget\Grid\Column::setRendererType
      */
     public function testGetRendererWhenUseCustomRenderer()
     {
@@ -229,8 +231,8 @@ class Magento_Backend_Block_Widget_Grid_ColumnTest extends PHPUnit_Framework_Tes
     }
 
     /**
-     * @covers Magento_Backend_Block_Widget_Grid_Column::getRenderer
-     * @covers Magento_Backend_Block_Widget_Grid_Column::setRenderer
+     * @covers \Magento\Backend\Block\Widget\Grid\Column::getRenderer
+     * @covers \Magento\Backend\Block\Widget\Grid\Column::setRenderer
      */
     public function testGetRendererWhenRendererWasSetPreviously()
     {
@@ -321,7 +323,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnTest extends PHPUnit_Framework_Tes
 
         $this->_block->setFilter('StdClass');
 
-        $grid = new StdClass();
+        $grid = new \StdClass();
         $this->_block->setGrid($grid);
         $this->assertEquals($grid, $this->_block->getGrid());
     }
@@ -335,12 +337,12 @@ class Magento_Backend_Block_Widget_Grid_ColumnTest extends PHPUnit_Framework_Tes
     {
         $arguments = array(
             'layout' => $this->_layoutMock,
-            'urlBuilder' => $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false),
+            'urlBuilder' => $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false),
             'data' => $groupedData
         );
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $block = $objectManagerHelper->getObject('Magento_Backend_Block_Widget_Grid_Column', $arguments);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $block = $objectManagerHelper->getObject('Magento\Backend\Block\Widget\Grid\Column', $arguments);
         $this->assertEquals($expected, $block->isGrouped());
     }
 

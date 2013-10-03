@@ -15,27 +15,29 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Newsletter_Subscriber_Grid extends Magento_Backend_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Newsletter\Subscriber;
+
+class Grid extends \Magento\Backend\Block\Widget\Grid
 {
     /**
-     * @var Magento_Newsletter_Model_QueueFactory
+     * @var \Magento\Newsletter\Model\QueueFactory
      */
     protected $_queueFactory;
 
     /**
-     * @param Magento_Newsletter_Model_QueueFactory $queueFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
+     * @param \Magento\Newsletter\Model\QueueFactory $queueFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
      * @param array $data
      */
     public function __construct(
-        Magento_Newsletter_Model_QueueFactory $queueFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
+        \Magento\Newsletter\Model\QueueFactory $queueFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
         array $data = array()
     ) {
         $this->_queueFactory = $queueFactory;
@@ -45,7 +47,7 @@ class Magento_Adminhtml_Block_Newsletter_Subscriber_Grid extends Magento_Backend
     /**
      * Prepare collection for grid
      *
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {

@@ -11,12 +11,14 @@
 /**
  * Base payment iformation block
  */
-class Magento_Payment_Block_Info extends Magento_Core_Block_Template
+namespace Magento\Payment\Block;
+
+class Info extends \Magento\Core\Block\Template
 {
     /**
      * Payment rendered specific information
      *
-     * @var Magento_Object
+     * @var \Magento\Object
      */
     protected $_paymentSpecificInformation = null;
 
@@ -25,22 +27,22 @@ class Magento_Payment_Block_Info extends Magento_Core_Block_Template
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);
@@ -51,14 +53,14 @@ class Magento_Payment_Block_Info extends Magento_Core_Block_Template
     /**
      * Retrieve info model
      *
-     * @return Magento_Payment_Model_Info
-     * @throws Magento_Core_Exception
+     * @return \Magento\Payment\Model\Info
+     * @throws \Magento\Core\Exception
      */
     public function getInfo()
     {
         $info = $this->getData('info');
-        if (!($info instanceof Magento_Payment_Model_Info)) {
-            throw new Magento_Core_Exception(__('We cannot retrieve the payment info model object.'));
+        if (!($info instanceof \Magento\Payment\Model\Info)) {
+            throw new \Magento\Core\Exception(__('We cannot retrieve the payment info model object.'));
         }
         return $info;
     }
@@ -66,7 +68,7 @@ class Magento_Payment_Block_Info extends Magento_Core_Block_Template
     /**
      * Retrieve payment method model
      *
-     * @return Magento_Payment_Model_Method_Abstract
+     * @return \Magento\Payment\Model\Method\AbstractMethod
      */
     public function getMethod()
     {
@@ -158,16 +160,16 @@ class Magento_Payment_Block_Info extends Magento_Core_Block_Template
     /**
      * Prepare information specific to current payment method
      *
-     * @param Magento_Object|array $transport
-     * @return Magento_Object
+     * @param \Magento\Object|array $transport
+     * @return \Magento\Object
      */
     protected function _prepareSpecificInformation($transport = null)
     {
         if (null === $this->_paymentSpecificInformation) {
             if (null === $transport) {
-                $transport = new Magento_Object;
+                $transport = new \Magento\Object;
             } elseif (is_array($transport)) {
-                $transport = new Magento_Object($transport);
+                $transport = new \Magento\Object($transport);
             }
             $this->_eventManager->dispatch('payment_info_block_prepare_specific_information', array(
                 'transport' => $transport,

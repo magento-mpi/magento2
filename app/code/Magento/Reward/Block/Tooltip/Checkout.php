@@ -11,31 +11,33 @@
 /**
  * Checkout Tooltip block to show checkout cart message for gaining reward points
  */
-class Magento_Reward_Block_Tooltip_Checkout extends Magento_Reward_Block_Tooltip
+namespace Magento\Reward\Block\Tooltip;
+
+class Checkout extends \Magento\Reward\Block\Tooltip
 {
     /**
-     * @var Magento_Checkout_Model_Session
+     * @var \Magento\Checkout\Model\Session
      */
     protected $_checkoutSession;
 
     /**
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Reward_Helper_Data $rewardHelper
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Reward_Model_Reward $rewardInstance
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Checkout_Model_Session $checkoutSession
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Reward\Helper\Data $rewardHelper
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Reward\Model\Reward $rewardInstance
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Template_Context $context,
-        Magento_Reward_Helper_Data $rewardHelper,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Reward_Model_Reward $rewardInstance,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Checkout_Model_Session $checkoutSession,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Reward\Helper\Data $rewardHelper,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Reward\Model\Reward $rewardInstance,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Checkout\Model\Session $checkoutSession,
         array $data = array()
     ) {
         $this->_checkoutSession = $checkoutSession;
@@ -51,7 +53,7 @@ class Magento_Reward_Block_Tooltip_Checkout extends Magento_Reward_Block_Tooltip
     }
 
     /**
-     * @return $this|Magento_Core_Block_Abstract
+     * @return $this|\Magento\Core\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {

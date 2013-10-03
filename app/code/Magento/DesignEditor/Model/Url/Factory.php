@@ -8,22 +8,24 @@
  * @license     {license_link}
  */
 
-class Magento_DesignEditor_Model_Url_Factory
+namespace Magento\DesignEditor\Model\Url;
+
+class Factory
 {
     /**
      * Default url model class name
      */
-    const CLASS_NAME = 'Magento_Core_Model_Url';
+    const CLASS_NAME = 'Magento\Core\Model\Url';
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -32,7 +34,7 @@ class Magento_DesignEditor_Model_Url_Factory
      * Replace name of url model
      *
      * @param string $className
-     * @return Magento_DesignEditor_Model_Url_Factory
+     * @return \Magento\DesignEditor\Model\Url\Factory
      */
     public function replaceClassName($className)
     {
@@ -45,7 +47,7 @@ class Magento_DesignEditor_Model_Url_Factory
      * Create url model new instance
      *
      * @param array $arguments
-     * @return Magento_Core_Model_Url
+     * @return \Magento\Core\Model\Url
      */
     public function create(array $arguments = array())
     {

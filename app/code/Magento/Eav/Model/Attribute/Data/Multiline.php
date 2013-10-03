@@ -16,15 +16,17 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Attribute_Data_Multiline extends Magento_Eav_Model_Attribute_Data_Text
+namespace Magento\Eav\Model\Attribute\Data;
+
+class Multiline extends \Magento\Eav\Model\Attribute\Data\Text
 {
     /**
      * Extract data from request and return value
      *
-     * @param Zend_Controller_Request_Http $request
+     * @param \Zend_Controller_Request_Http $request
      * @return array|string
      */
-    public function extractValue(Zend_Controller_Request_Http $request)
+    public function extractValue(\Zend_Controller_Request_Http $request)
     {
         $value = $this->_getRequestValue($request);
         if (!is_array($value)) {
@@ -87,9 +89,9 @@ class Magento_Eav_Model_Attribute_Data_Multiline extends Magento_Eav_Model_Attri
     /**
      * Export attribute value to entity model
      *
-     * @param Magento_Core_Model_Abstract $entity
+     * @param \Magento\Core\Model\AbstractModel $entity
      * @param array|string $value
-     * @return Magento_Eav_Model_Attribute_Data_Multiline
+     * @return \Magento\Eav\Model\Attribute\Data\Multiline
      */
     public function compactValue($value)
     {
@@ -103,7 +105,7 @@ class Magento_Eav_Model_Attribute_Data_Multiline extends Magento_Eav_Model_Attri
      * Restore attribute value from SESSION to entity model
      *
      * @param array|string $value
-     * @return Magento_Eav_Model_Attribute_Data_Multiline
+     * @return \Magento\Eav\Model\Attribute\Data\Multiline
      */
     public function restoreValue($value)
     {
@@ -116,7 +118,7 @@ class Magento_Eav_Model_Attribute_Data_Multiline extends Magento_Eav_Model_Attri
      * @param string $format
      * @return array|string
      */
-    public function outputValue($format = Magento_Eav_Model_AttributeDataFactory::OUTPUT_FORMAT_TEXT)
+    public function outputValue($format = \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_TEXT)
     {
         $values = $this->getEntity()->getData($this->getAttribute()->getAttributeCode());
         if (!is_array($values)) {
@@ -124,13 +126,13 @@ class Magento_Eav_Model_Attribute_Data_Multiline extends Magento_Eav_Model_Attri
         }
         $values = array_map(array($this, '_applyOutputFilter'), $values);
         switch ($format) {
-            case Magento_Eav_Model_AttributeDataFactory::OUTPUT_FORMAT_ARRAY:
+            case \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_ARRAY:
                 $output = $values;
                 break;
-            case Magento_Eav_Model_AttributeDataFactory::OUTPUT_FORMAT_HTML:
+            case \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_HTML:
                 $output = implode("<br />", $values);
                 break;
-            case Magento_Eav_Model_AttributeDataFactory::OUTPUT_FORMAT_ONELINE:
+            case \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_ONELINE:
                 $output = implode(" ", $values);
                 break;
             default:

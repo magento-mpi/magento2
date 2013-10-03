@@ -12,12 +12,14 @@
 /**
  * Implementation of the @magentoConfigFixture DocBlock annotation
  */
-class Magento_TestFramework_Annotation_ConfigFixture
+namespace Magento\TestFramework\Annotation;
+
+class ConfigFixture
 {
     /**
      * Test instance that is available between 'startTest' and 'stopTest' events
      *
-     * @var PHPUnit_Framework_TestCase
+     * @var \PHPUnit_Framework_TestCase
      */
     protected $_currentTest;
 
@@ -44,18 +46,18 @@ class Magento_TestFramework_Annotation_ConfigFixture
      */
     protected function _getConfigValue($configPath, $storeCode = false)
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         if ($storeCode === false) {
-            /** @var Magento_Core_Model_Config $configModel */
-            $configModel = $objectManager->get('Magento_Core_Model_Config');
+            /** @var \Magento\Core\Model\Config $configModel */
+            $configModel = $objectManager->get('Magento\Core\Model\Config');
             $result = $configModel->getNode($configPath);
         } else {
-            /** @var Magento_Core_Model_Store_Config $storeConfig */
-            $storeConfig = $objectManager->get('Magento_Core_Model_Store_Config');
+            /** @var \Magento\Core\Model\Store\Config $storeConfig */
+            $storeConfig = $objectManager->get('Magento\Core\Model\Store\Config');
             $result = $storeConfig->getConfig($configPath, $storeCode);
         }
-        if ($result instanceof SimpleXMLElement) {
+        if ($result instanceof \SimpleXMLElement) {
             $result = (string)$result;
         }
         return $result;
@@ -71,21 +73,21 @@ class Magento_TestFramework_Annotation_ConfigFixture
     protected function _setConfigValue($configPath, $value, $storeCode = false)
     {
         if ($storeCode === false) {
-            $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-            /** @var $configModel Magento_Core_Model_Config */
-            $configModel = $objectManager->get('Magento_Core_Model_Config');
+            $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+            /** @var $configModel \Magento\Core\Model\Config */
+            $configModel = $objectManager->get('Magento\Core\Model\Config');
             // @todo refactor this method when all types of configuration are represented by array
             if (strpos($configPath, 'default/') === 0) {
                 $configPath = substr($configPath, 8);
                 $configModel->setValue($configPath, $value);
-                $objectManager->get('Magento_Core_Model_Config')->setValue($configPath, $value);
+                $objectManager->get('Magento\Core\Model\Config')->setValue($configPath, $value);
             } else {
                 $configModel->setNode($configPath, $value);
-                $objectManager->get('Magento_Core_Model_Config')->setNode($configPath, $value);
-                $objectManager->get('Magento_Core_Model_Config_Primary')->setNode($configPath, $value);
+                $objectManager->get('Magento\Core\Model\Config')->setNode($configPath, $value);
+                $objectManager->get('Magento\Core\Model\Config\Primary')->setNode($configPath, $value);
             }
         } else {
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
                 ->getStore($storeCode)->setConfig($configPath, $value);
         }
     }
@@ -93,9 +95,9 @@ class Magento_TestFramework_Annotation_ConfigFixture
     /**
      * Assign required config values and save original ones
      *
-     * @param PHPUnit_Framework_TestCase $test
+     * @param \PHPUnit_Framework_TestCase $test
      */
-    protected function _assignConfigData(PHPUnit_Framework_TestCase $test)
+    protected function _assignConfigData(\PHPUnit_Framework_TestCase $test)
     {
         $annotations = $test->getAnnotations();
         if (!isset($annotations['method']['magentoConfigFixture'])) {
@@ -147,9 +149,9 @@ class Magento_TestFramework_Annotation_ConfigFixture
     /**
      * Handler for 'startTest' event
      *
-     * @param PHPUnit_Framework_TestCase $test
+     * @param \PHPUnit_Framework_TestCase $test
      */
-    public function startTest(PHPUnit_Framework_TestCase $test)
+    public function startTest(\PHPUnit_Framework_TestCase $test)
     {
         $this->_currentTest = $test;
         $this->_assignConfigData($test);
@@ -158,11 +160,11 @@ class Magento_TestFramework_Annotation_ConfigFixture
     /**
      * Handler for 'endTest' event
      *
-     * @param PHPUnit_Framework_TestCase $test
+     * @param \PHPUnit_Framework_TestCase $test
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function endTest(PHPUnit_Framework_TestCase $test)
+    public function endTest(\PHPUnit_Framework_TestCase $test)
     {
         $this->_currentTest = null;
         $this->_restoreConfigData();

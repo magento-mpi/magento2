@@ -9,35 +9,37 @@
  * @license     {license_link}
  */
 
+namespace Magento\Backend\Model;
+
 /**
- * Test class for Magento_Backend_Model_Url.
+ * Test class for \Magento\Backend\Model\Url.
  *
  * @magentoAppArea adminhtml
  */
-class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
+class UrlTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Model_Url
+     * @var \Magento\Backend\Model\Url
      */
     protected $_model;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Backend_Model_Url');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Backend\Model\Url');
     }
 
     /**
-     * @covers Magento_Backend_Model_Url::getSecure
+     * @covers \Magento\Backend\Model\Url::getSecure
      */
     public function testIsSecure()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
             ->getStore()->setConfig('web/secure/use_in_adminhtml', true);
         $this->assertTrue($this->_model->isSecure());
 
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
             ->getStore()->setConfig('web/secure/use_in_adminhtml', false);
         $this->assertFalse($this->_model->isSecure());
 
@@ -50,7 +52,7 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Backend_Model_Url::getSecure
+     * @covers \Magento\Backend\Model\Url::getSecure
      */
     public function testSetRouteParams()
     {
@@ -64,7 +66,7 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
     /**
      * App isolation is enabled to protect next tests from polluted registry by getUrl()
      *
-     * @covers Magento_Backend_Model_Url::getSecure
+     * @covers \Magento\Backend\Model\Url::getSecure
      * @magentoAppIsolation enabled
      */
     public function testGetUrl()
@@ -83,15 +85,15 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
      */
     public function testGetSecretKey($routeName, $controller, $action, $expectedHash)
     {
-        /** @var $request Magento_Core_Controller_Request_Http */
-        $request = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Controller_Request_Http');
+        /** @var $request \Magento\Core\Controller\Request\Http */
+        $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Controller\Request\Http');
         $request->setControllerName('default_controller')
             ->setActionName('default_action')
             ->setRouteName('default_router');
 
         $this->_model->setRequest($request);
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Session')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Session')
             ->setData('_form_key', 'salt');
         $this->assertEquals($expectedHash, $this->_model->getSecretKey($routeName, $controller, $action));
     }
@@ -101,8 +103,8 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
      */
     public function getSecretKeyDataProvider()
     {
-        /** @var $helper Magento_Core_Helper_Data */
-        $helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Data');
+        /** @var $helper \Magento\Core\Helper\Data */
+        $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data');
         return array(
             array('', '', '',
                 $helper->getHash('default_router' . 'default_controller' . 'default_action' . 'salt')),
@@ -128,15 +130,15 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
      */
     public function testGetSecretKeyForwarded()
     {
-        /** @var $helper Magento_Core_Helper_Data */
-        $helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Data');
-        /** @var $request Magento_Core_Controller_Request_Http */
-        $request = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Controller_Request_Http');
+        /** @var $helper \Magento\Core\Helper\Data */
+        $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data');
+        /** @var $request \Magento\Core\Controller\Request\Http */
+        $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Controller\Request\Http');
         $request->setControllerName('controller')->setActionName('action');
         $request->initForward()->setControllerName(uniqid())->setActionName(uniqid());
         $this->_model->setRequest($request);
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Session')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Session')
             ->setData('_form_key', 'salt');
         $this->assertEquals(
             $helper->getHash('controller' . 'action' . 'salt'),

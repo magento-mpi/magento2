@@ -7,26 +7,28 @@
  */
 
 /**
- * Magento_User Auth controller
+ * \Magento\User Auth controller
  */
-class Magento_User_Controller_Adminhtml_Auth extends Magento_Backend_Controller_ActionAbstract
+namespace Magento\User\Controller\Adminhtml;
+
+class Auth extends \Magento\Backend\Controller\AbstractAction
 {
     /**
      * User model factory
      *
-     * @var Magento_User_Model_UserFactory
+     * @var \Magento\User\Model\UserFactory
      */
     protected $_userFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_User_Model_UserFactory $userFactory
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\User\Model\UserFactory $userFactory
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_User_Model_UserFactory $userFactory
+        \Magento\Backend\Controller\Context $context,
+        \Magento\User\Model\UserFactory $userFactory
     ) {
         parent::__construct($context);
         $this->_userFactory = $userFactory;
@@ -42,18 +44,18 @@ class Magento_User_Controller_Adminhtml_Auth extends Magento_Backend_Controller_
 
         if (!empty($email) && !empty($params)) {
             // Validate received data to be an email address
-            if (Zend_Validate::is($email, 'EmailAddress')) {
-                $collection = $this->_objectManager->get('Magento_User_Model_Resource_User_Collection');
-                /** @var $collection Magento_User_Model_Resource_User_Collection */
+            if (\Zend_Validate::is($email, 'EmailAddress')) {
+                $collection = $this->_objectManager->get('Magento\User\Model\Resource\User\Collection');
+                /** @var $collection \Magento\User\Model\Resource\User\Collection */
                 $collection->addFieldToFilter('email', $email);
                 $collection->load(false);
 
                 if ($collection->getSize() > 0) {
                     foreach ($collection as $item) {
-                        /** @var Magento_User_Model_User $user */
+                        /** @var \Magento\User\Model\User $user */
                         $user = $this->_userFactory->create()->load($item->getId());
                         if ($user->getId()) {
-                            $newPassResetToken = $this->_objectManager->get('Magento_User_Helper_Data')
+                            $newPassResetToken = $this->_objectManager->get('Magento\User\Helper\Data')
                                 ->generateResetPasswordLinkToken();
                             $user->changeResetPasswordLinkToken($newPassResetToken);
                             $user->save();
@@ -64,10 +66,10 @@ class Magento_User_Controller_Adminhtml_Auth extends Magento_Backend_Controller_
                 }
                 // @codingStandardsIgnoreStart
                 $this->_getSession()
-                    ->addSuccess(__('If there is an account associated with %1 you will receive an email with a link to reset your password.', $this->_objectManager->get('Magento_User_Helper_Data')->escapeHtml($email)));
+                    ->addSuccess(__('If there is an account associated with %1 you will receive an email with a link to reset your password.', $this->_objectManager->get('Magento\User\Helper\Data')->escapeHtml($email)));
                 // @codingStandardsIgnoreEnd
                 $this->getResponse()->setRedirect(
-                    $this->_objectManager->get('Magento_Backend_Helper_Data')->getHomePageUrl()
+                    $this->_objectManager->get('Magento\Backend\Helper\Data')->getHomePageUrl()
                 );
                 return;
             } else {
@@ -101,7 +103,7 @@ class Magento_User_Controller_Adminhtml_Auth extends Magento_Backend_Controller_
             }
 
             $this->renderLayout();
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             $this->_getSession()->addError(
                 __('Your password reset link has expired.')
             );
@@ -124,17 +126,17 @@ class Magento_User_Controller_Adminhtml_Auth extends Magento_Backend_Controller_
 
         try {
             $this->_validateResetPasswordLinkToken($userId, $passwordResetToken);
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             $this->_getSession()->addError(
                 __('Your password reset link has expired.')
             );
             $this->getResponse()->setRedirect(
-                $this->_objectManager->get('Magento_Backend_Helper_Data')->getHomePageUrl()
+                $this->_objectManager->get('Magento\Backend\Helper\Data')->getHomePageUrl()
             );
             return;
         }
 
-        /** @var $user Magento_User_Model_User */
+        /** @var $user \Magento\User\Model\User */
         $user = $this->_userFactory->create()->load($userId);
         if ($password !== '') {
             $user->setPassword($password);
@@ -151,9 +153,9 @@ class Magento_User_Controller_Adminhtml_Auth extends Magento_Backend_Controller_
                 __('Your password has been updated.')
             );
             $this->getResponse()->setRedirect(
-                $this->_objectManager->get('Magento_Backend_Helper_Data')->getHomePageUrl()
+                $this->_objectManager->get('Magento\Backend\Helper\Data')->getHomePageUrl()
             );
-        } catch (Magento_Core_Exception $exception) {
+        } catch (\Magento\Core\Exception $exception) {
             $this->_getSession()->addMessages($exception->getMessages());
             $this->_redirect('*/auth/resetpassword', array(
                 '_nosecret' => true,
@@ -170,7 +172,7 @@ class Magento_User_Controller_Adminhtml_Auth extends Magento_Backend_Controller_
      *
      * @param int $userId
      * @param string $resetPasswordToken
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     protected function _validateResetPasswordLinkToken($userId, $resetPasswordToken)
     {
@@ -180,18 +182,18 @@ class Magento_User_Controller_Adminhtml_Auth extends Magento_Backend_Controller_
             || empty($userId)
             || $userId < 0
         ) {
-            throw new Magento_Core_Exception(__('Please correct the password reset token.'));
+            throw new \Magento\Core\Exception(__('Please correct the password reset token.'));
         }
 
-        /** @var $user Magento_User_Model_User */
+        /** @var $user \Magento\User\Model\User */
         $user = $this->_userFactory->create()->load($userId);
         if (!$user->getId()) {
-            throw new Magento_Core_Exception(__('Please specify the correct account and try again.'));
+            throw new \Magento\Core\Exception(__('Please specify the correct account and try again.'));
         }
 
         $userToken = $user->getRpToken();
         if (strcmp($userToken, $resetPasswordToken) != 0 || $user->isResetPasswordLinkTokenExpired()) {
-            throw new Magento_Core_Exception(__('Your password reset link has expired.'));
+            throw new \Magento\Core\Exception(__('Your password reset link has expired.'));
         }
     }
 

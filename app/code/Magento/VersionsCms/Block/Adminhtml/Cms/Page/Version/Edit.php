@@ -11,8 +11,10 @@
 /**
  * Edit version page
  */
-class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit
-    extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Version;
+
+class Edit
+    extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     protected $_objectId   = 'version_id';
     protected $_blockGroup = 'Magento_VersionsCms';
@@ -21,27 +23,27 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry;
 
     /**
-     * @var Magento_VersionsCms_Model_Config
+     * @var \Magento\VersionsCms\Model\Config
      */
     protected $_cmsConfig;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_VersionsCms_Model_Config $cmsConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_VersionsCms_Model_Config $cmsConfig,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\VersionsCms\Model\Config $cmsConfig,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;

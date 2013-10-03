@@ -11,26 +11,28 @@
 /**
  * Order creditmemo shipping total calculation model
  */
-class Magento_Sales_Model_Order_Creditmemo_Total_Shipping extends Magento_Sales_Model_Order_Creditmemo_Total_Abstract
+namespace Magento\Sales\Model\Order\Creditmemo\Total;
+
+class Shipping extends \Magento\Sales\Model\Order\Creditmemo\Total\AbstractTotal
 {
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Tax_Model_Config
+     * @var \Magento\Tax\Model\Config
      */
     protected $_taxConfig;
 
     /**
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Tax_Model_Config $taxConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Tax\Model\Config $taxConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Tax_Model_Config $taxConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Tax\Model\Config $taxConfig,
         array $data = array()
     ) {
         parent::__construct($data);
@@ -38,7 +40,7 @@ class Magento_Sales_Model_Order_Creditmemo_Total_Shipping extends Magento_Sales_
         $this->_taxConfig = $taxConfig;
     }
 
-    public function collect(Magento_Sales_Model_Order_Creditmemo $creditmemo)
+    public function collect(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
     {
         $order = $creditmemo->getOrder();
         $allowedAmount          = $order->getShippingAmount()-$order->getShippingRefunded();
@@ -86,7 +88,7 @@ class Magento_Sales_Model_Order_Creditmemo_Total_Shipping extends Magento_Sales_
                 }
             } else {
                 $baseAllowedAmount = $order->getBaseCurrency()->format($baseAllowedAmount,null,false);
-                throw new Magento_Core_Exception(
+                throw new \Magento\Core\Exception(
                     __('Maximum shipping amount allowed to refund is: %1', $baseAllowedAmount)
                 );
             }

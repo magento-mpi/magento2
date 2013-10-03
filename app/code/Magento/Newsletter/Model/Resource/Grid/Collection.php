@@ -16,12 +16,14 @@
  * @package     Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Newsletter_Model_Resource_Grid_Collection extends Magento_Newsletter_Model_Resource_Problem_Collection
+namespace Magento\Newsletter\Model\Resource\Grid;
+
+class Collection extends \Magento\Newsletter\Model\Resource\Problem\Collection
 {
     /**
      * Adds queue info to grid
      *
-     * @return Magento_Core_Model_Resource_Db_Collection_Abstract|Magento_Newsletter_Model_Resource_Grid_Collection
+     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection|\Magento\Newsletter\Model\Resource\Grid\Collection
      */
     protected function _initSelect()
     {

@@ -11,7 +11,9 @@
 /**
  * Eav data helper
  */
-class Magento_Eav_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Eav\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * XML path to input types validator data in config
@@ -25,24 +27,24 @@ class Magento_Eav_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Eav_Model_Entity_Attribute_Config
+     * @var \Magento\Eav\Model\Entity\Attribute\Config
      */
     protected $_attributeConfig;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Eav_Model_Entity_Attribute_Config $attributeConfig
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Eav_Model_Entity_Attribute_Config $attributeConfig,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\Core\Helper\Context $context,
+        \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig,
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_attributeConfig = $attributeConfig;

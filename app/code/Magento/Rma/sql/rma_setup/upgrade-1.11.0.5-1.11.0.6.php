@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_Rma_Model_Resource_Setup */
+/** @var $installer \Magento\Rma\Model\Resource\Setup */
 $installer = $this;
 
 /**
@@ -19,7 +19,7 @@ $installer->getConnection()
         $installer->getTable('magento_rma_shipping_label'),
         'is_admin',
         array(
-            'TYPE' => Magento_DB_Ddl_Table::TYPE_SMALLINT,
+            'TYPE' => \Magento\DB\Ddl\Table::TYPE_SMALLINT,
             'LENGTH' => 6,
             'COMMENT' => 'Is this Label Created by Merchant',
         )
@@ -33,7 +33,7 @@ $installer->getConnection()
         $installer->getTable('magento_rma'),
         'protect_code',
         array(
-            'TYPE' => Magento_DB_Ddl_Table::TYPE_TEXT,
+            'TYPE' => \Magento\DB\Ddl\Table::TYPE_TEXT,
             'LENGTH' => 255,
             'COMMENT' => 'Protect Code',
         )

@@ -15,36 +15,38 @@
  * @package    Magento_TargetRule
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main
-    extends Magento_Backend_Block_Widget_Form_Generic
-    implements Magento_Backend_Block_Widget_Tab_Interface
+namespace Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab;
+
+class Main
+    extends \Magento\Backend\Block\Widget\Form\Generic
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
-     * @var Magento_TargetRule_Model_Rule
+     * @var \Magento\TargetRule\Model\Rule
      */
     protected $_rule;
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @param Magento_Core_Model_LocaleInterface $local
-     * @param Magento_TargetRule_Model_Rule $rule
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Core\Model\LocaleInterface $local
+     * @param \Magento\TargetRule\Model\Rule $rule
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_LocaleInterface $local,
-        Magento_TargetRule_Model_Rule $rule,
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Core\Model\LocaleInterface $local,
+        \Magento\TargetRule\Model\Rule $rule,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_locale = $local;
@@ -56,13 +58,13 @@ class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main
     /**
      * Prepare Mail Target Rule Edit form
      *
-     * @return Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main
+     * @return \Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab\Main
      */
     protected function _prepareForm()
     {
-        /* @var $model Magento_TargetRule_Model_Rule */
+        /* @var $model \Magento\TargetRule\Model\Rule */
         $model = $this->_coreRegistry->registry('current_target_rule');
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
 
 
@@ -109,19 +111,19 @@ class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main
             'options'   => $this->_rule->getAppliesToOptions(true),
         ));
 
-        $dateFormat = $this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
         $fieldset->addField('from_date', 'date', array(
             'name'         => 'from_date',
             'label'        => __('From Date'),
             'image'        => $this->getViewFileUrl('images/grid-cal.gif'),
-            'input_format' => Magento_Date::DATE_INTERNAL_FORMAT,
+            'input_format' => \Magento\Date::DATE_INTERNAL_FORMAT,
             'date_format'  => $dateFormat
         ));
         $fieldset->addField('to_date', 'date', array(
             'name'         => 'to_date',
             'label'        => __('To Date'),
             'image'        => $this->getViewFileUrl('images/grid-cal.gif'),
-            'input_format' => Magento_Date::DATE_INTERNAL_FORMAT,
+            'input_format' => \Magento\Date::DATE_INTERNAL_FORMAT,
             'date_format'  => $dateFormat
         ));
 

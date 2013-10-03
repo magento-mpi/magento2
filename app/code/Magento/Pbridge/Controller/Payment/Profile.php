@@ -15,24 +15,26 @@
  * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Pbridge_Controller_Payment_Profile extends Magento_Core_Controller_Front_Action
+namespace Magento\Pbridge\Controller\Payment;
+
+class Profile extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Customer session
      *
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Controller_Varien_Action_Context $context
-     * @param Magento_Customer_Model_Session $customerSession
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
-        Magento_Core_Controller_Varien_Action_Context $context,
-        Magento_Customer_Model_Session $customerSession
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Customer\Model\Session $customerSession
     ) {
         $this->_customerSession = $customerSession;
         parent::__construct($context);
@@ -41,12 +43,12 @@ class Magento_Pbridge_Controller_Payment_Profile extends Magento_Core_Controller
     /**
      * Check whether Payment Profiles functionality enabled
      *
-     * @return Magento_Pbridge_Controller_Payment_Profile
+     * @return \Magento\Pbridge\Controller\Payment\Profile
      */
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!$this->_objectManager->get('Magento_Pbridge_Helper_Data')->arePaymentProfilesEnables()) {
+        if (!$this->_objectManager->get('Magento\Pbridge\Helper\Data')->arePaymentProfilesEnables()) {
             if ($this->getRequest()->getActionName() != 'noroute') {
                 $this->_forward('noroute');
             }

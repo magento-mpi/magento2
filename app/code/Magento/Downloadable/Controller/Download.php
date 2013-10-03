@@ -15,33 +15,35 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Controller_Download extends Magento_Core_Controller_Front_Action
+namespace Magento\Downloadable\Controller;
+
+class Download extends \Magento\Core\Controller\Front\Action
 {
 
     /**
      * Return core session object
      *
-     * @return Magento_Core_Model_Session
+     * @return \Magento\Core\Model\Session
      */
     protected function _getSession()
     {
-        return $this->_objectManager->get('Magento_Core_Model_Session');
+        return $this->_objectManager->get('Magento\Core\Model\Session');
     }
 
     /**
      * Return customer session object
      *
-     * @return Magento_Customer_Model_Session
+     * @return \Magento\Customer\Model\Session
      */
     protected function _getCustomerSession()
     {
-        return $this->_objectManager->get('Magento_Customer_Model_Session');
+        return $this->_objectManager->get('Magento\Customer\Model\Session');
     }
 
     protected function _processDownload($resource, $resourceType)
     {
-        /* @var $helper Magento_Downloadable_Helper_Download */
-        $helper = $this->_objectManager->get('Magento_Downloadable_Helper_Download');
+        /* @var $helper \Magento\Downloadable\Helper\Download */
+        $helper = $this->_objectManager->get('Magento\Downloadable\Helper\Download');
 
         $helper->setResource($resource, $resourceType);
         $fileName = $helper->getFilename();
@@ -78,27 +80,27 @@ class Magento_Downloadable_Controller_Download extends Magento_Core_Controller_F
     public function sampleAction()
     {
         $sampleId = $this->getRequest()->getParam('sample_id', 0);
-        /** @var Magento_Downloadable_Model_Sample $sample */
-        $sample = $this->_objectManager->create('Magento_Downloadable_Model_Sample')->load($sampleId);
+        /** @var \Magento\Downloadable\Model\Sample $sample */
+        $sample = $this->_objectManager->create('Magento\Downloadable\Model\Sample')->load($sampleId);
         if ($sample->getId()) {
             $resource = '';
             $resourceType = '';
-            if ($sample->getSampleType() == Magento_Downloadable_Helper_Download::LINK_TYPE_URL) {
+            if ($sample->getSampleType() == \Magento\Downloadable\Helper\Download::LINK_TYPE_URL) {
                 $resource = $sample->getSampleUrl();
-                $resourceType = Magento_Downloadable_Helper_Download::LINK_TYPE_URL;
-            } elseif ($sample->getSampleType() == Magento_Downloadable_Helper_Download::LINK_TYPE_FILE) {
-                /** @var Magento_Downloadable_Helper_File $helper */
-                $helper = $this->_objectManager->get('Magento_Downloadable_Helper_File');
+                $resourceType = \Magento\Downloadable\Helper\Download::LINK_TYPE_URL;
+            } elseif ($sample->getSampleType() == \Magento\Downloadable\Helper\Download::LINK_TYPE_FILE) {
+                /** @var \Magento\Downloadable\Helper\File $helper */
+                $helper = $this->_objectManager->get('Magento\Downloadable\Helper\File');
                 $resource = $helper->getFilePath(
                     $sample->getBasePath(),
                     $sample->getSampleFile()
                 );
-                $resourceType = Magento_Downloadable_Helper_Download::LINK_TYPE_FILE;
+                $resourceType = \Magento\Downloadable\Helper\Download::LINK_TYPE_FILE;
             }
             try {
                 $this->_processDownload($resource, $resourceType);
                 exit(0);
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError(__('Sorry, there was an error getting requested content. Please contact the store owner.'));
             }
         }
@@ -112,23 +114,23 @@ class Magento_Downloadable_Controller_Download extends Magento_Core_Controller_F
     public function linkSampleAction()
     {
         $linkId = $this->getRequest()->getParam('link_id', 0);
-        $link = $this->_objectManager->create('Magento_Downloadable_Model_Link')->load($linkId);
+        $link = $this->_objectManager->create('Magento\Downloadable\Model\Link')->load($linkId);
         if ($link->getId()) {
             $resource = '';
             $resourceType = '';
-            if ($link->getSampleType() == Magento_Downloadable_Helper_Download::LINK_TYPE_URL) {
+            if ($link->getSampleType() == \Magento\Downloadable\Helper\Download::LINK_TYPE_URL) {
                 $resource = $link->getSampleUrl();
-                $resourceType = Magento_Downloadable_Helper_Download::LINK_TYPE_URL;
-            } elseif ($link->getSampleType() == Magento_Downloadable_Helper_Download::LINK_TYPE_FILE) {
-                $resource = $this->_objectManager->get('Magento_Downloadable_Helper_File')->getFilePath(
+                $resourceType = \Magento\Downloadable\Helper\Download::LINK_TYPE_URL;
+            } elseif ($link->getSampleType() == \Magento\Downloadable\Helper\Download::LINK_TYPE_FILE) {
+                $resource = $this->_objectManager->get('Magento\Downloadable\Helper\File')->getFilePath(
                     $this->_getLink()->getBaseSamplePath(), $link->getSampleFile()
                 );
-                $resourceType = Magento_Downloadable_Helper_Download::LINK_TYPE_FILE;
+                $resourceType = \Magento\Downloadable\Helper\Download::LINK_TYPE_FILE;
             }
             try {
                 $this->_processDownload($resource, $resourceType);
                 exit(0);
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_getCustomerSession()->addError(__('Sorry, there was an error getting requested content. Please contact the store owner.'));
             }
         }
@@ -143,18 +145,18 @@ class Magento_Downloadable_Controller_Download extends Magento_Core_Controller_F
         $session = $this->_getCustomerSession();
 
         $id = $this->getRequest()->getParam('id', 0);
-        /** @var Magento_Downloadable_Model_Link_Purchased_Item $linkPurchasedItem */
-        $linkPurchasedItem = $this->_objectManager->create('Magento_Downloadable_Model_Link_Purchased_Item')
+        /** @var \Magento\Downloadable\Model\Link\Purchased\Item $linkPurchasedItem */
+        $linkPurchasedItem = $this->_objectManager->create('Magento\Downloadable\Model\Link\Purchased\Item')
             ->load($id, 'link_hash');
         if (! $linkPurchasedItem->getId() ) {
             $session->addNotice(__("We can't find the link you requested."));
             return $this->_redirect('*/customer/products');
         }
-        if (!$this->_objectManager->get('Magento_Downloadable_Helper_Data')->getIsShareable($linkPurchasedItem)) {
+        if (!$this->_objectManager->get('Magento\Downloadable\Helper\Data')->getIsShareable($linkPurchasedItem)) {
             $customerId = $session->getCustomerId();
             if (!$customerId) {
-                /** @var Magento_Catalog_Model_Product $product */
-                $product = $this->_objectManager->create('Magento_Catalog_Model_Product')
+                /** @var \Magento\Catalog\Model\Product $product */
+                $product = $this->_objectManager->create('Magento\Catalog\Model\Product')
                     ->load($linkPurchasedItem->getProductId());
                 if ($product->getId()) {
                     $notice = __('Please log in to download your product or purchase <a href="%1">%2</a>.',
@@ -167,15 +169,15 @@ class Magento_Downloadable_Controller_Download extends Magento_Core_Controller_F
                 $session->addNotice($notice);
                 $session->authenticate($this);
                 $session->setBeforeAuthUrl(
-                    $this->_objectManager->create('Magento_Core_Model_Url')->getUrl(
+                    $this->_objectManager->create('Magento\Core\Model\Url')->getUrl(
                         'downloadable/customer/products/',
                         array('_secure' => true)
                     )
                 );
                 return ;
             }
-            /** @var Magento_Downloadable_Model_Link_Purchased $linkPurchased */
-            $linkPurchased = $this->_objectManager->create('Magento_Downloadable_Model_Link_Purchased')
+            /** @var \Magento\Downloadable\Model\Link\Purchased $linkPurchased */
+            $linkPurchased = $this->_objectManager->create('Magento\Downloadable\Model\Link\Purchased')
                 ->load($linkPurchasedItem->getPurchasedId());
             if ($linkPurchased->getCustomerId() != $customerId) {
                 $session->addNotice(__("We can't find the link you requested."));
@@ -186,40 +188,40 @@ class Magento_Downloadable_Controller_Download extends Magento_Core_Controller_F
             - $linkPurchasedItem->getNumberOfDownloadsUsed();
 
         $status = $linkPurchasedItem->getStatus();
-        if ($status == Magento_Downloadable_Model_Link_Purchased_Item::LINK_STATUS_AVAILABLE
+        if ($status == \Magento\Downloadable\Model\Link\Purchased\Item::LINK_STATUS_AVAILABLE
             && ($downloadsLeft || $linkPurchasedItem->getNumberOfDownloadsBought() == 0)
         ) {
             $resource = '';
             $resourceType = '';
-            if ($linkPurchasedItem->getLinkType() == Magento_Downloadable_Helper_Download::LINK_TYPE_URL) {
+            if ($linkPurchasedItem->getLinkType() == \Magento\Downloadable\Helper\Download::LINK_TYPE_URL) {
                 $resource = $linkPurchasedItem->getLinkUrl();
-                $resourceType = Magento_Downloadable_Helper_Download::LINK_TYPE_URL;
-            } elseif ($linkPurchasedItem->getLinkType() == Magento_Downloadable_Helper_Download::LINK_TYPE_FILE) {
-                $resource = $this->_objectManager->get('Magento_Downloadable_Helper_File')->getFilePath(
+                $resourceType = \Magento\Downloadable\Helper\Download::LINK_TYPE_URL;
+            } elseif ($linkPurchasedItem->getLinkType() == \Magento\Downloadable\Helper\Download::LINK_TYPE_FILE) {
+                $resource = $this->_objectManager->get('Magento\Downloadable\Helper\File')->getFilePath(
                     $this->_getLink()->getBasePath(),
                     $linkPurchasedItem->getLinkFile()
                 );
-                $resourceType = Magento_Downloadable_Helper_Download::LINK_TYPE_FILE;
+                $resourceType = \Magento\Downloadable\Helper\Download::LINK_TYPE_FILE;
             }
             try {
                 $this->_processDownload($resource, $resourceType);
                 $linkPurchasedItem->setNumberOfDownloadsUsed($linkPurchasedItem->getNumberOfDownloadsUsed() + 1);
 
                 if ($linkPurchasedItem->getNumberOfDownloadsBought() != 0 && !($downloadsLeft - 1)) {
-                    $linkPurchasedItem->setStatus(Magento_Downloadable_Model_Link_Purchased_Item::LINK_STATUS_EXPIRED);
+                    $linkPurchasedItem->setStatus(\Magento\Downloadable\Model\Link\Purchased\Item::LINK_STATUS_EXPIRED);
                 }
                 $linkPurchasedItem->save();
                 exit(0);
             }
-            catch (Exception $e) {
+            catch (\Exception $e) {
                 $session->addError(
                     __('Something went wrong while getting the requested content.')
                 );
             }
-        } elseif ($status == Magento_Downloadable_Model_Link_Purchased_Item::LINK_STATUS_EXPIRED) {
+        } elseif ($status == \Magento\Downloadable\Model\Link\Purchased\Item::LINK_STATUS_EXPIRED) {
             $session->addNotice(__('The link has expired.'));
-        } elseif ($status == Magento_Downloadable_Model_Link_Purchased_Item::LINK_STATUS_PENDING
-            || $status == Magento_Downloadable_Model_Link_Purchased_Item::LINK_STATUS_PAYMENT_REVIEW
+        } elseif ($status == \Magento\Downloadable\Model\Link\Purchased\Item::LINK_STATUS_PENDING
+            || $status == \Magento\Downloadable\Model\Link\Purchased\Item::LINK_STATUS_PAYMENT_REVIEW
         ) {
             $session->addNotice(__('The link is not available.'));
         } else {
@@ -231,10 +233,10 @@ class Magento_Downloadable_Controller_Download extends Magento_Core_Controller_F
     }
 
     /**
-     * @return Magento_Downloadable_Model_Link
+     * @return \Magento\Downloadable\Model\Link
      */
     protected function _getLink()
     {
-        return $this->_objectManager->get('Magento_Downloadable_Model_Link');
+        return $this->_objectManager->get('Magento\Downloadable\Model\Link');
     }
 }

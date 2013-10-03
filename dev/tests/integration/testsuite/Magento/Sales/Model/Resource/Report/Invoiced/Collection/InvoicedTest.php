@@ -6,17 +6,19 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Model_Resource_Report_Invoiced_Collection_InvoicedTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Model\Resource\Report\Invoiced\Collection;
+
+class InvoicedTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Sales_Model_Resource_Report_Invoiced_Collection_Invoiced
+     * @var \Magento\Sales\Model\Resource\Report\Invoiced\Collection\Invoiced
      */
     private $_collection;
 
     protected function setUp()
     {
-        $this->_collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Resource_Report_Invoiced_Collection_Invoiced');
+        $this->_collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Resource\Report\Invoiced\Collection\Invoiced');
         $this->_collection
             ->setPeriod('day')
             ->setDateRange(null, null)
@@ -34,7 +36,7 @@ class Magento_Sales_Model_Resource_Report_Invoiced_Collection_InvoicedTest exten
             array('orders_count' => 1, 'orders_invoiced' => 1),
         );
         $actualResult = array();
-        /** @var Magento_Adminhtml_Model_Report_Item $reportItem */
+        /** @var \Magento\Adminhtml\Model\Report\Item $reportItem */
         foreach ($this->_collection->getItems() as $reportItem) {
             $actualResult[] = array(
                 'orders_count' => $reportItem->getData('orders_count'),

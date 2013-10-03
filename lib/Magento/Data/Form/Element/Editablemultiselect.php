@@ -17,7 +17,9 @@
  * @package    Magento_Data
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Data_Form_Element_Editablemultiselect extends Magento_Data_Form_Element_Multiselect
+namespace Magento\Data\Form\Element;
+
+class Editablemultiselect extends \Magento\Data\Form\Element\Multiselect
 {
     /**
      * Name of the default JavaScript class that is used to make multiselect editable
@@ -45,7 +47,7 @@ class Magento_Data_Form_Element_Editablemultiselect extends Magento_Data_Form_El
             $elementJsClass = $this->getData('element_js_class');
         }
 
-        $selectConfigJson = Zend_Json::encode($selectConfig);
+        $selectConfigJson = \Zend_Json::encode($selectConfig);
         $jsObjectName = $this->getJsObjectName();
         $html .= '<script type="text/javascript">'
             . '/*<![CDATA[*/'

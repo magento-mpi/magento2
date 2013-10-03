@@ -8,7 +8,7 @@
  * @license    {license_link}
  */
 
-/* @var $installer Magento_Core_Model_Resource_Setup */
+/* @var $installer \Magento\Core\Model\Resource\Setup */
 $installer = $this;
 
 $installer->startSetup();
@@ -27,7 +27,7 @@ $connection->dropForeignKey(
 $connection->dropIndex($tableCoreLayoutLink, $installer->getIdxName(
     'core_layout_link',
     array('store_id', 'package', 'theme', 'layout_update_id'),
-    Magento_DB_Adapter_Interface::INDEX_TYPE_UNIQUE
+    \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
 ));
 
 $connection->dropColumn($tableCoreLayoutLink, 'area');
@@ -35,7 +35,7 @@ $connection->dropColumn($tableCoreLayoutLink, 'area');
 $connection->dropColumn($tableCoreLayoutLink, 'package');
 
 $connection->changeColumn($tableCoreLayoutLink, 'theme', 'theme_id', array(
-    'type'     => Magento_DB_Ddl_Table::TYPE_INTEGER,
+    'type'     => \Magento\DB\Ddl\Table::TYPE_INTEGER,
     'unsigned' => true,
     'nullable' => false,
     'comment'  => 'Theme id'
@@ -44,8 +44,8 @@ $connection->changeColumn($tableCoreLayoutLink, 'theme', 'theme_id', array(
 $connection->addIndex($tableCoreLayoutLink, $installer->getIdxName(
     'core_layout_link',
     array('store_id', 'theme_id', 'layout_update_id'),
-    Magento_DB_Adapter_Interface::INDEX_TYPE_UNIQUE
-), array('store_id', 'theme_id', 'layout_update_id'), Magento_DB_Adapter_Interface::INDEX_TYPE_UNIQUE);
+    \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
+), array('store_id', 'theme_id', 'layout_update_id'), \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE);
 
 $connection->addForeignKey(
     $installer->getFkName('core_layout_link', 'store_id', 'core_store', 'store_id'),
@@ -53,8 +53,8 @@ $connection->addForeignKey(
     'store_id',
     $installer->getTable('core_store'),
     'store_id',
-    Magento_DB_Ddl_Table::ACTION_CASCADE,
-    Magento_DB_Ddl_Table::ACTION_CASCADE
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
 );
 
 $connection->addForeignKey(
@@ -63,15 +63,15 @@ $connection->addForeignKey(
     'theme_id',
     $installer->getTable('core_theme'),
     'theme_id',
-    Magento_DB_Ddl_Table::ACTION_CASCADE,
-    Magento_DB_Ddl_Table::ACTION_CASCADE
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
 );
 
 /**
  * Add column 'area' to 'core_theme'
  */
 $connection->addColumn($installer->getTable('core_theme'), 'area', array(
-    'type'     => Magento_DB_Ddl_Table::TYPE_TEXT,
+    'type'     => \Magento\DB\Ddl\Table::TYPE_TEXT,
     'length'   => '255',
     'nullable' => false,
     'comment'  => 'Theme Area'

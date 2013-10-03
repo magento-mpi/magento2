@@ -9,24 +9,24 @@
  */
 
 $installer = $this;
-/** @var $installer Magento_Catalog_Model_Resource_Setup */
+/** @var $installer \Magento\Catalog\Model\Resource\Setup */
 
 $installer->updateAttribute(
-    Magento_Catalog_Model_Product::ENTITY,
+    \Magento\Catalog\Model\Product::ENTITY,
     'url_key',
     'frontend_label',
     'URL Key'
 );
 
 $installer->updateAttribute(
-    Magento_Catalog_Model_Category::ENTITY,
+    \Magento\Catalog\Model\Category::ENTITY,
     'url_key',
     'frontend_label',
     'URL Key'
 );
 
 $installer->updateAttribute(
-    Magento_Catalog_Model_Product::ENTITY,
+    \Magento\Catalog\Model\Product::ENTITY,
     'options_container',
     'frontend_label',
     'Display Product Options In'

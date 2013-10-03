@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
+namespace Magento\GiftCard\Model;
+
+class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * List of block injection classes
@@ -17,14 +19,14 @@ class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_blockInjections = array(
-        'Magento_Core_Model_Context',
-        'Magento_Core_Model_Registry',
-        'Magento_Filesystem',
-        'Magento_Core_Model_View_Url',
-        'Magento_Core_Model_View_FileSystem',
-        'Magento_Core_Model_View_Design',
-        'Magento_Core_Model_Store_Config',
-        'Magento_Core_Model_Email_Template_Config',
+        'Magento\Core\Model\Context',
+        'Magento\Core\Model\Registry',
+        'Magento\Filesystem',
+        'Magento\Core\Model\View\Url',
+        'Magento\Core\Model\View\FileSystem',
+        'Magento\Core\Model\View\Design',
+        'Magento\Core\Model\Store\Config',
+        'Magento\Core\Model\Email\Template\Config',
     );
 
     /**
@@ -34,46 +36,46 @@ class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     public function testGenerateGiftCardAccountsEmailSending()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_App')->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
-        $order = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Order');
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager->get('Magento\Core\Model\App')->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
+        $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Order');
         $this->_checkOrderItemProductOptions($order, true);
 
-        $event = new Magento_Event(array('order' => $order));
-        $observer = new Magento_Event_Observer(array('event' => $event));
+        $event = new \Magento\Event(array('order' => $order));
+        $observer = new \Magento\Event\Observer(array('event' => $event));
 
         $emailTemplateMock = $this->getMock(
-            'Magento_Core_Model_Email_Template',
+            'Magento\Core\Model\Email\Template',
             array('_getMail'),
             array(
-                $objectManager->get('Magento_Core_Model_Context'),
-                $objectManager->get('Magento_Core_Model_Registry'),
-                $objectManager->get('Magento_Core_Model_App_Emulation'),
-                $objectManager->get('Magento_Filesystem'),
-                $objectManager->get('Magento_Core_Model_View_Url'),
-                $objectManager->get('Magento_Core_Model_View_FileSystem'),
-                $objectManager->get('Magento_Core_Model_View_DesignInterface'),
-                $objectManager->get('Magento_Core_Model_Store_Config'),
-                $objectManager->get('Magento_Core_Model_Config'),
-                $objectManager->get('Magento_Core_Model_Email_Template_FilterFactory'),
-                $objectManager->get('Magento_Core_Model_StoreManager'),
-                $objectManager->get('Magento_Core_Model_Dir'),
-                $objectManager->get('Magento_Core_Model_Email_Template_Config'),
+                $objectManager->get('Magento\Core\Model\Context'),
+                $objectManager->get('Magento\Core\Model\Registry'),
+                $objectManager->get('Magento\Core\Model\App\Emulation'),
+                $objectManager->get('Magento\Filesystem'),
+                $objectManager->get('Magento\Core\Model\View\Url'),
+                $objectManager->get('Magento\Core\Model\View\FileSystem'),
+                $objectManager->get('Magento\Core\Model\View\DesignInterface'),
+                $objectManager->get('Magento\Core\Model\Store\Config'),
+                $objectManager->get('Magento\Core\Model\Config'),
+                $objectManager->get('Magento\Core\Model\Email\Template\FilterFactory'),
+                $objectManager->get('Magento\Core\Model\StoreManager'),
+                $objectManager->get('Magento\Core\Model\Dir'),
+                $objectManager->get('Magento\Core\Model\Email\Template\Config'),
             )
         );
         $emailTemplateMock->expects($this->once())
             ->method('_getMail')
             ->will($this->returnValue($this->getMock('Zend_Mail', array('send'), array('utf-8'))));
 
-        /** @var $model Magento_GiftCard_Model_Observer */
-        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_GiftCard_Model_Observer', array(
+        /** @var $model \Magento\GiftCard\Model\Observer */
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\GiftCard\Model\Observer', array(
                 'data' => array('email_template_model' => $emailTemplateMock)
             ));
         $model->generateGiftCardAccounts($observer);
         $this->assertEquals(
-            array('area' => Magento_Core_Model_App_Area::AREA_FRONTEND, 'store' => 1),
+            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => 1),
             $emailTemplateMock->getDesignConfig()->getData()
         );
 
@@ -83,7 +85,7 @@ class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
     /**
      * Check email sending related gift card product options
      *
-     * @param Magento_Sales_Model_Order $order
+     * @param \Magento\Sales\Model\Order $order
      * @param bool $expectedEmpty
      */
     protected function _checkOrderItemProductOptions($order, $expectedEmpty)
@@ -105,7 +107,7 @@ class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
     {
         $arguments = array();
         foreach ($this->_blockInjections as $injectionClass) {
-            $arguments[] = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            $arguments[] = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create($injectionClass);
         }
         return $arguments;

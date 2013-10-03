@@ -7,7 +7,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-interface Magento_JobQueue_ClientInterface
+namespace Magento\JobQueue;
+
+interface ClientInterface
 {
     const TASK_PRIORITY_HIGH = 'high';
     const TASK_PRIORITY_LOW = 'low';

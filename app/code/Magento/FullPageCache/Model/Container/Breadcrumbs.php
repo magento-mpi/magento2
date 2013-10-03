@@ -11,46 +11,48 @@
 /**
  * Breadcrumbs container
  */
-class Magento_FullPageCache_Model_Container_Breadcrumbs extends Magento_FullPageCache_Model_Container_Abstract
+namespace Magento\FullPageCache\Model\Container;
+
+class Breadcrumbs extends \Magento\FullPageCache\Model\Container\AbstractContainer
 {
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
-     * @var Magento_Catalog_Model_CategoryFactory
+     * @var \Magento\Catalog\Model\CategoryFactory
      */
     protected $_categoryFactory;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_FullPageCache_Model_Cache $fpcCache
-     * @param Magento_FullPageCache_Model_Container_Placeholder $placeholder
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_FullPageCache_Helper_Url $urlHelper
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Layout $layout
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\FullPageCache\Model\Cache $fpcCache
+     * @param \Magento\FullPageCache\Model\Container\Placeholder $placeholder
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\FullPageCache\Helper\Url $urlHelper
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_FullPageCache_Model_Cache $fpcCache,
-        Magento_FullPageCache_Model_Container_Placeholder $placeholder,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_FullPageCache_Helper_Url $urlHelper,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Layout $layout,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Catalog_Model_CategoryFactory $categoryFactory
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\FullPageCache\Model\Cache $fpcCache,
+        \Magento\FullPageCache\Model\Container\Placeholder $placeholder,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\FullPageCache\Helper\Url $urlHelper,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Layout $layout,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory
     ) {
         parent::__construct(
             $eventManager, $fpcCache, $placeholder, $coreRegistry, $urlHelper, $coreStoreConfig, $layout
@@ -85,7 +87,7 @@ class Magento_FullPageCache_Model_Container_Breadcrumbs extends Magento_FullPage
     {
         $productId = $this->_getProductId();
 
-        /** @var $product null|Magento_Catalog_Model_Product */
+        /** @var $product null|\Magento\Catalog\Model\Product */
         $product = null;
 
         if ($productId) {
@@ -115,7 +117,7 @@ class Magento_FullPageCache_Model_Container_Breadcrumbs extends Magento_FullPage
             return '';
         }
 
-        /** @var $breadcrumbsBlock Magento_Page_Block_Html_Breadcrumbs */
+        /** @var $breadcrumbsBlock \Magento\Page\Block\Html\Breadcrumbs */
         $breadcrumbsBlock = $this->_getPlaceHolderBlock();
         $breadcrumbsBlock->setNameInLayout($this->_placeholder->getAttribute('name'));
         $crumbs = $this->_placeholder->getAttribute('crumbs');

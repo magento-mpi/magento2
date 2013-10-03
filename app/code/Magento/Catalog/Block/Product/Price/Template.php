@@ -16,7 +16,9 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Block_Product_Price_Template extends Magento_Core_Block_Abstract
+namespace Magento\Catalog\Block\Product\Price;
+
+class Template extends \Magento\Core\Block\AbstractBlock
 {
     /**
      * Product Price block types cache
@@ -44,7 +46,7 @@ class Magento_Catalog_Block_Product_Price_Template extends Magento_Core_Block_Ab
      * @param string $type
      * @param string $block
      * @param string $template
-     * @return Magento_Catalog_Block_Product_Price_Template
+     * @return \Magento\Catalog\Block\Product\Price\Template
      */
     public function addPriceBlockType($type, $block = '', $template = '')
     {

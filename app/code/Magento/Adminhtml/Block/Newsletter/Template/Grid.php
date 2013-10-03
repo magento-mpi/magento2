@@ -15,27 +15,29 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Newsletter_Template_Grid extends Magento_Backend_Block_Widget_Grid_Extended
+namespace Magento\Adminhtml\Block\Newsletter\Template;
+
+class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
-     * @var Magento_Newsletter_Model_Resource_Template_Collection
+     * @var \Magento\Newsletter\Model\Resource\Template\Collection
      */
     protected $_templateCollection;
 
     /**
-     * @param Magento_Newsletter_Model_Resource_Template_Collection $templateCollection
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
+     * @param \Magento\Newsletter\Model\Resource\Template\Collection $templateCollection
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
      * @param array $data
      */
     public function __construct(
-        Magento_Newsletter_Model_Resource_Template_Collection $templateCollection,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
+        \Magento\Newsletter\Model\Resource\Template\Collection $templateCollection,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
         array $data = array()
     ) {
         $this->_templateCollection = $templateCollection;
@@ -99,7 +101,7 @@ class Magento_Adminhtml_Block_Newsletter_Template_Grid extends Magento_Backend_B
             array(
                 'header'    => __('Sender'),
                 'index'     => 'template_sender_email',
-                'renderer'  => 'Magento_Adminhtml_Block_Newsletter_Template_Grid_Renderer_Sender',
+                'renderer'  => 'Magento\Adminhtml\Block\Newsletter\Template\Grid\Renderer\Sender',
                 'header_css_class'  => 'col-sender',
                 'column_css_class'  => 'col-sender'
         ));
@@ -110,8 +112,8 @@ class Magento_Adminhtml_Block_Newsletter_Template_Grid extends Magento_Backend_B
                 'index'     => 'template_type',
                 'type'      => 'options',
                 'options'   => array(
-                    Magento_Newsletter_Model_Template::TYPE_HTML   => 'html',
-                    Magento_Newsletter_Model_Template::TYPE_TEXT 	=> 'text'
+                    \Magento\Newsletter\Model\Template::TYPE_HTML   => 'html',
+                    \Magento\Newsletter\Model\Template::TYPE_TEXT 	=> 'text'
                 ),
                 'header_css_class'  => 'col-type',
                 'column_css_class'  => 'col-type'
@@ -124,7 +126,7 @@ class Magento_Adminhtml_Block_Newsletter_Template_Grid extends Magento_Backend_B
                 'sortable'  => false,
                 'filter'    => false,
                 'no_link'   => true,
-                'renderer'  => 'Magento_Adminhtml_Block_Newsletter_Template_Grid_Renderer_Action',
+                'renderer'  => 'Magento\Adminhtml\Block\Newsletter\Template\Grid\Renderer\Action',
                 'header_css_class'  => 'col-actions',
                 'column_css_class'  => 'col-actions'
         ));

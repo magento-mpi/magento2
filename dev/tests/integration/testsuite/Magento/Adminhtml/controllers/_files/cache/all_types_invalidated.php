@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-/** @var $cacheTypeList Magento_Core_Model_Cache_TypeListInterface */
-$cacheTypeList = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Core_Model_Cache_TypeListInterface');
+/** @var $cacheTypeList \Magento\Core\Model\Cache\TypeListInterface */
+$cacheTypeList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Core\Model\Cache\TypeListInterface');
 $cacheTypeList->invalidate(array_keys($cacheTypeList->getTypes()));

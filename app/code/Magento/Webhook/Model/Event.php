@@ -9,11 +9,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  *
- * @method Magento_Webhook_Model_Event setStatus()
- * @method Magento_Webhook_Model_Event setUpdatedAt()
- * @method Magento_Webhook_Model_Event setCreatedAt()
+ * @method \Magento\Webhook\Model\Event setStatus()
+ * @method \Magento\Webhook\Model\Event setUpdatedAt()
+ * @method \Magento\Webhook\Model\Event setCreatedAt()
  */
-class Magento_Webhook_Model_Event extends Magento_Core_Model_Abstract implements Magento_PubSub_EventInterface
+namespace Magento\Webhook\Model;
+
+class Event extends \Magento\Core\Model\AbstractModel implements \Magento\PubSub\EventInterface
 {
     /**
      * Initialize Model
@@ -21,14 +23,14 @@ class Magento_Webhook_Model_Event extends Magento_Core_Model_Abstract implements
     public function _construct()
     {
         parent::_construct();
-        $this->_init('Magento_Webhook_Model_Resource_Event');
-        $this->setStatus(Magento_PubSub_EventInterface::STATUS_READY_TO_SEND);
+        $this->_init('Magento\Webhook\Model\Resource\Event');
+        $this->setStatus(\Magento\PubSub\EventInterface::STATUS_READY_TO_SEND);
     }
 
     /**
      * Prepare data to be saved to database
      *
-     * @return Magento_Webhook_Model_Event
+     * @return \Magento\Webhook\Model\Event
      */
     protected function _beforeSave()
     {
@@ -45,7 +47,7 @@ class Magento_Webhook_Model_Event extends Magento_Core_Model_Abstract implements
      * Prepare data before set
      *
      * @param array $data
-     * @return Magento_Webhook_Model_Event
+     * @return \Magento\Webhook\Model\Event
      */
     public function setBodyData(array $data)
     {
@@ -70,7 +72,7 @@ class Magento_Webhook_Model_Event extends Magento_Core_Model_Abstract implements
      * Prepare headers before set
      *
      * @param array $headers
-     * @return Magento_Webhook_Model_Event
+     * @return \Magento\Webhook\Model\Event
      */
     public function setHeaders(array $headers)
     {
@@ -95,7 +97,7 @@ class Magento_Webhook_Model_Event extends Magento_Core_Model_Abstract implements
      * Prepare options before set
      *
      * @param array $options
-     * @return Magento_Webhook_Model_Event
+     * @return \Magento\Webhook\Model\Event
      */
     public function setOptions(array $options)
     {
@@ -125,11 +127,11 @@ class Magento_Webhook_Model_Event extends Magento_Core_Model_Abstract implements
     /**
      * Mark event as processed
      *
-     * @return Magento_Webhook_Model_Event
+     * @return \Magento\Webhook\Model\Event
      */
     public function complete()
     {
-        $this->setData('status', Magento_PubSub_EventInterface::STATUS_PROCESSED)
+        $this->setData('status', \Magento\PubSub\EventInterface::STATUS_PROCESSED)
             ->save();
         return $this;
     }
@@ -137,11 +139,11 @@ class Magento_Webhook_Model_Event extends Magento_Core_Model_Abstract implements
     /**
      * Mark event as processed
      *
-     * @return Magento_Webhook_Model_Event
+     * @return \Magento\Webhook\Model\Event
      */
     public function markAsInProgress()
     {
-        $this->setData('status', Magento_PubSub_EventInterface::STATUS_IN_PROGRESS);
+        $this->setData('status', \Magento\PubSub\EventInterface::STATUS_IN_PROGRESS);
         return $this;
     }
 }

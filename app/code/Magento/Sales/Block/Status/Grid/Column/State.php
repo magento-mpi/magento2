@@ -8,23 +8,25 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Block_Status_Grid_Column_State extends Magento_Backend_Block_Widget_Grid_Column
+namespace Magento\Sales\Block\Status\Grid\Column;
+
+class State extends \Magento\Backend\Block\Widget\Grid\Column
 {
     /**
-     * @var Magento_Sales_Model_Order_Config
+     * @var \Magento\Sales\Model\Order\Config
      */
     protected $_config;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Sales_Model_Order_Config $config
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Sales\Model\Order\Config $config
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Sales_Model_Order_Config $config,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Sales\Model\Order\Config $config,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);
@@ -46,8 +48,8 @@ class Magento_Sales_Block_Status_Grid_Column_State extends Magento_Backend_Block
      * Decorate status column values
      *
      * @param string $value
-     * @param Magento_Sales_Model_Order_Status $row
-     * @param Magento_Adminhtml_Block_Widget_Grid_Column $column
+     * @param \Magento\Sales\Model\Order\Status $row
+     * @param \Magento\Adminhtml\Block\Widget\Grid\Column $column
      * @param bool $isExport
      * @return string
      */

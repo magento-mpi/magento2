@@ -18,7 +18,7 @@
 "Index mode","Modo de Índice"
 "Indexer code is not defined.","Código Indexador não está definido."
 "Indexer model is not defined.","Modelo indexador não está definido."
-"Indexer model should extend Magento_Index_Model_Indexer_Abstract.","Modelo indexador deve incluir Magento_Index_Model_Indexer_Abstract."
+"Indexer model should extend \Magento\Index\Model\Indexer\AbstractIndexer.","Modelo indexador deve incluir \Magento\Index\Model\Indexer\AbstractIndexer."
 "Manual Update","Atualização Manual"
 "Mode","Modo"
 "Never","Nunca"

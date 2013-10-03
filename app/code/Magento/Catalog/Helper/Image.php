@@ -13,12 +13,14 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Helper_Image extends Magento_Core_Helper_Abstract
+namespace Magento\Catalog\Helper;
+
+class Image extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Current model
      *
-     * @var Magento_Catalog_Model_Product_Image
+     * @var \Magento\Catalog\Model\Product\Image
      */
     protected $_model;
 
@@ -74,7 +76,7 @@ class Magento_Catalog_Helper_Image extends Magento_Core_Helper_Abstract
     /**
      * Current Product
      *
-     * @var Magento_Catalog_Model_Product
+     * @var \Magento\Catalog\Model\Product
      */
     protected $_product;
 
@@ -93,37 +95,37 @@ class Magento_Catalog_Helper_Image extends Magento_Core_Helper_Abstract
     protected $_placeholder;
 
     /**
-     * @var Magento_Core_Model_View_Url
+     * @var \Magento\Core\Model\View\Url
      */
     protected $_viewUrl;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
      * Product image factory
      *
-     * @var Magento_Catalog_Model_Product_ImageFactory
+     * @var \Magento\Catalog\Model\Product\ImageFactory
      */
     protected $_productImageFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Catalog_Model_Product_ImageFactory $productImageFactory
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_View_Url $viewUrl
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Catalog\Model\Product\ImageFactory $productImageFactory
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Catalog_Model_Product_ImageFactory $productImageFactory,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_View_Url $viewUrl,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\Catalog\Model\Product\ImageFactory $productImageFactory,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_productImageFactory = $productImageFactory;
         parent::__construct($context);
@@ -134,7 +136,7 @@ class Magento_Catalog_Helper_Image extends Magento_Core_Helper_Abstract
     /**
      * Reset all previous data
      *
-     * @return Magento_Catalog_Helper_Image
+     * @return \Magento\Catalog\Helper\Image
      */
     protected function _reset()
     {
@@ -154,12 +156,12 @@ class Magento_Catalog_Helper_Image extends Magento_Core_Helper_Abstract
     /**
      * Initialize Helper to work with Image
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param string $attributeName
      * @param mixed $imageFile
-     * @return Magento_Catalog_Helper_Image
+     * @return \Magento\Catalog\Helper\Image
      */
-    public function init(Magento_Catalog_Model_Product $product, $attributeName, $imageFile=null)
+    public function init(\Magento\Catalog\Model\Product $product, $attributeName, $imageFile=null)
     {
         $this->_reset();
         $this->_setModel($this->_productImageFactory->create());
@@ -192,10 +194,10 @@ class Magento_Catalog_Helper_Image extends Magento_Core_Helper_Abstract
      * Schedule resize of the image
      * $width *or* $height can be null - in this case, lacking dimension will be calculated.
      *
-     * @see Magento_Catalog_Model_Product_Image
+     * @see \Magento\Catalog\Model\Product\Image
      * @param int $width
      * @param int $height
-     * @return Magento_Catalog_Helper_Image
+     * @return \Magento\Catalog\Helper\Image
      */
     public function resize($width, $height = null)
     {
@@ -208,7 +210,7 @@ class Magento_Catalog_Helper_Image extends Magento_Core_Helper_Abstract
      * Set image quality, values in percentage from 0 to 100
      *
      * @param int $quality
-     * @return Magento_Catalog_Helper_Image
+     * @return \Magento\Catalog\Helper\Image
      */
     public function setQuality($quality)
     {
@@ -221,9 +223,9 @@ class Magento_Catalog_Helper_Image extends Magento_Core_Helper_Abstract
      * Applicable before calling resize()
      * It is true by default.
      *
-     * @see Magento_Catalog_Model_Product_Image
+     * @see \Magento\Catalog\Model\Product\Image
      * @param bool $flag
-     * @return Magento_Catalog_Helper_Image
+     * @return \Magento\Catalog\Helper\Image
      */
     public function keepAspectRatio($flag)
     {
@@ -238,10 +240,10 @@ class Magento_Catalog_Helper_Image extends Magento_Core_Helper_Abstract
      *
      * $position - TODO, not used for now - picture position inside the frame.
      *
-     * @see Magento_Catalog_Model_Product_Image
+     * @see \Magento\Catalog\Model\Product\Image
      * @param bool $flag
      * @param array $position
-     * @return Magento_Catalog_Helper_Image
+     * @return \Magento\Catalog\Helper\Image
      */
     public function keepFrame($flag, $position = array('center', 'middle'))
     {
@@ -256,10 +258,10 @@ class Magento_Catalog_Helper_Image extends Magento_Core_Helper_Abstract
      *
      * $alphaOpacity - TODO, not used for now
      *
-     * @see Magento_Catalog_Model_Product_Image
+     * @see \Magento\Catalog\Model\Product\Image
      * @param bool $flag
      * @param int $alphaOpacity
-     * @return Magento_Catalog_Helper_Image
+     * @return \Magento\Catalog\Helper\Image
      */
     public function keepTransparency($flag, $alphaOpacity = null)
     {
@@ -273,7 +275,7 @@ class Magento_Catalog_Helper_Image extends Magento_Core_Helper_Abstract
      * It is false by default
      *
      * @param bool $flag
-     * @return Magento_Catalog_Helper_Image
+     * @return \Magento\Catalog\Helper\Image
      */
     public function constrainOnly($flag)
     {
@@ -287,9 +289,9 @@ class Magento_Catalog_Helper_Image extends Magento_Core_Helper_Abstract
      * The keepTransparency(true) overrides this (if image has transparent color)
      * It is white by default.
      *
-     * @see Magento_Catalog_Model_Product_Image
+     * @see \Magento\Catalog\Model\Product\Image
      * @param array $colorRGB
-     * @return Magento_Catalog_Helper_Image
+     * @return \Magento\Catalog\Helper\Image
      */
     public function backgroundColor($colorRGB)
     {
@@ -305,7 +307,7 @@ class Magento_Catalog_Helper_Image extends Magento_Core_Helper_Abstract
      * Rotate image into specified angle
      *
      * @param int $angle
-     * @return Magento_Catalog_Helper_Image
+     * @return \Magento\Catalog\Helper\Image
      */
     public function rotate($angle)
     {
@@ -323,7 +325,7 @@ class Magento_Catalog_Helper_Image extends Magento_Core_Helper_Abstract
      * @param string $position
      * @param string $size
      * @param int $imageOpacity
-     * @return Magento_Catalog_Helper_Image
+     * @return \Magento\Catalog\Helper\Image
      */
     public function watermark($fileName, $position, $size=null, $imageOpacity=null)
     {
@@ -392,7 +394,7 @@ class Magento_Catalog_Helper_Image extends Magento_Core_Helper_Abstract
 
                 $url = $model->saveFile()->getUrl();
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $url = $this->_viewUrl->getViewFileUrl($this->getPlaceholder());
         }
         return $url;
@@ -401,8 +403,8 @@ class Magento_Catalog_Helper_Image extends Magento_Core_Helper_Abstract
     /**
      * Set current Image model
      *
-     * @param Magento_Catalog_Model_Product_Image $model
-     * @return Magento_Catalog_Helper_Image
+     * @param \Magento\Catalog\Model\Product\Image $model
+     * @return \Magento\Catalog\Helper\Image
      */
     protected function _setModel($model)
     {
@@ -413,7 +415,7 @@ class Magento_Catalog_Helper_Image extends Magento_Core_Helper_Abstract
     /**
      * Get current Image model
      *
-     * @return Magento_Catalog_Model_Product_Image
+     * @return \Magento\Catalog\Model\Product\Image
      */
     protected function _getModel()
     {
@@ -424,7 +426,7 @@ class Magento_Catalog_Helper_Image extends Magento_Core_Helper_Abstract
      * Set Rotation Angle
      *
      * @param int $angle
-     * @return Magento_Catalog_Helper_Image
+     * @return \Magento\Catalog\Helper\Image
      */
     protected function setAngle($angle)
     {
@@ -446,7 +448,7 @@ class Magento_Catalog_Helper_Image extends Magento_Core_Helper_Abstract
      * Set watermark file name
      *
      * @param string $watermark
-     * @return Magento_Catalog_Helper_Image
+     * @return \Magento\Catalog\Helper\Image
      */
     protected function setWatermark($watermark)
     {
@@ -469,7 +471,7 @@ class Magento_Catalog_Helper_Image extends Magento_Core_Helper_Abstract
      * Set watermark position
      *
      * @param string $position
-     * @return Magento_Catalog_Helper_Image
+     * @return \Magento\Catalog\Helper\Image
      */
     protected function setWatermarkPosition($position)
     {
@@ -493,7 +495,7 @@ class Magento_Catalog_Helper_Image extends Magento_Core_Helper_Abstract
      * param size in format 100x200
      *
      * @param string $size
-     * @return Magento_Catalog_Helper_Image
+     * @return \Magento\Catalog\Helper\Image
      */
     public function setWatermarkSize($size)
     {
@@ -516,7 +518,7 @@ class Magento_Catalog_Helper_Image extends Magento_Core_Helper_Abstract
      * Set watermark image opacity
      *
      * @param int $imageOpacity
-     * @return Magento_Catalog_Helper_Image
+     * @return \Magento\Catalog\Helper\Image
      */
     public function setWatermarkImageOpacity($imageOpacity)
     {
@@ -542,8 +544,8 @@ class Magento_Catalog_Helper_Image extends Magento_Core_Helper_Abstract
     /**
      * Set current Product
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_Catalog_Helper_Image
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\Catalog\Helper\Image
      */
     protected function setProduct($product)
     {
@@ -554,7 +556,7 @@ class Magento_Catalog_Helper_Image extends Magento_Core_Helper_Abstract
     /**
      * Get current Product
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     protected function getProduct()
     {
@@ -565,7 +567,7 @@ class Magento_Catalog_Helper_Image extends Magento_Core_Helper_Abstract
      * Set Image file
      *
      * @param string $file
-     * @return Magento_Catalog_Helper_Image
+     * @return \Magento\Catalog\Helper\Image
      */
     protected function setImageFile($file)
     {

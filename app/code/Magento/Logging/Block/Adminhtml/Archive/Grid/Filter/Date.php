@@ -9,8 +9,10 @@
 /**
  * Custom date column filter for logging archive grid
  */
-class Magento_Logging_Block_Adminhtml_Archive_Grid_Filter_Date
-    extends Magento_Backend_Block_Widget_Grid_Column_Filter_Date
+namespace Magento\Logging\Block\Adminhtml\Archive\Grid\Filter;
+
+class Date
+    extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Date
 {
     /**
      * Convert date from localized to internal format
@@ -21,11 +23,11 @@ class Magento_Logging_Block_Adminhtml_Archive_Grid_Filter_Date
      */
     protected function _convertDate($date, $locale)
     {
-        $filterInput = new Zend_Filter_LocalizedToNormalized(array(
-            'date_format' => $this->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT)
+        $filterInput = new \Zend_Filter_LocalizedToNormalized(array(
+            'date_format' => $this->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT)
         ));
-        $filterInternal = new Zend_Filter_NormalizedToLocalized(array(
-            'date_format' => Magento_Date::DATE_INTERNAL_FORMAT
+        $filterInternal = new \Zend_Filter_NormalizedToLocalized(array(
+            'date_format' => \Magento\Date::DATE_INTERNAL_FORMAT
         ));
         $date = $filterInput->filter($date);
         $date = $filterInternal->filter($date);

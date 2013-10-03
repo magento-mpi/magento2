@@ -16,7 +16,9 @@
  * @package     Magento_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Tax_Model_Resource_Report_Tax_Createdat extends Magento_Reports_Model_Resource_Report_Abstract
+namespace Magento\Tax\Model\Resource\Report\Tax;
+
+class Createdat extends \Magento\Reports\Model\Resource\Report\AbstractReport
 {
     /**
      * Resource initialization
@@ -31,7 +33,7 @@ class Magento_Tax_Model_Resource_Report_Tax_Createdat extends Magento_Reports_Mo
      *
      * @param mixed $from
      * @param mixed $to
-     * @return Magento_Tax_Model_Resource_Report_Tax_Createdat
+     * @return \Magento\Tax\Model\Resource\Report\Tax\Createdat
      */
     public function aggregate($from = null, $to = null)
     {
@@ -41,11 +43,11 @@ class Magento_Tax_Model_Resource_Report_Tax_Createdat extends Magento_Reports_Mo
     /**
      * Aggregate Tax data by orders
      *
-     * @throws Exception
+     * @throws \Exception
      * @param string $aggregationField
      * @param mixed $from
      * @param mixed $to
-     * @return Magento_Tax_Model_Resource_Report_Tax_Createdat
+     * @return \Magento\Tax\Model\Resource\Report\Tax\Createdat
      */
     protected function _aggregateByOrder($aggregationField, $from, $to)
     {
@@ -93,8 +95,8 @@ class Magento_Tax_Model_Resource_Report_Tax_Createdat extends Magento_Reports_Mo
                 ->useStraightJoin();
 
             $select->where('e.state NOT IN (?)', array(
-                Magento_Sales_Model_Order::STATE_PENDING_PAYMENT,
-                Magento_Sales_Model_Order::STATE_NEW
+                \Magento\Sales\Model\Order::STATE_PENDING_PAYMENT,
+                \Magento\Sales\Model\Order::STATE_NEW
             ));
 
             if ($subSelect !== null) {
@@ -110,7 +112,7 @@ class Magento_Tax_Model_Resource_Report_Tax_Createdat extends Magento_Reports_Mo
 
             $columns = array(
                 'period'                => 'period',
-                'store_id'              => new Zend_Db_Expr(Magento_Core_Model_AppInterface::ADMIN_STORE_ID),
+                'store_id'              => new \Zend_Db_Expr(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID),
                 'code'                  => 'code',
                 'order_status'          => 'order_status',
                 'percent'               => 'MAX(' . $writeAdapter->quoteIdentifier('percent') . ')',
@@ -130,7 +132,7 @@ class Magento_Tax_Model_Resource_Report_Tax_Createdat extends Magento_Reports_Mo
             $insertQuery = $writeAdapter->insertFromSelect($select, $this->getMainTable(), array_keys($columns));
             $writeAdapter->query($insertQuery);
             $writeAdapter->commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $writeAdapter->rollBack();
             throw $e;
         }

@@ -8,17 +8,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Adminhtml_Block_Tax_Rate_ImportExportTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Block\Tax\Rate;
+
+class ImportExportTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main
+     * @var \Magento\Adminhtml\Block\Catalog\Product\Attribute\Edit\Tab\Main
      */
     protected $_block = null;
 
     protected function setUp()
     {
-        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_Adminhtml_Block_Tax_Rate_ImportExport')
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Adminhtml\Block\Tax\Rate\ImportExport')
             ->setArea('adminhtml');
     }
 
@@ -29,7 +31,7 @@ class Magento_Adminhtml_Block_Tax_Rate_ImportExportTest extends PHPUnit_Framewor
 
     public function testCreateBlock()
     {
-        $this->assertInstanceOf('Magento_Adminhtml_Block_Tax_Rate_ImportExport', $this->_block);
+        $this->assertInstanceOf('Magento\Adminhtml\Block\Tax\Rate\ImportExport', $this->_block);
     }
 
     public function testFormExists()

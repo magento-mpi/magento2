@@ -9,9 +9,11 @@
  * @license     {license_link}
  */
 
-class Magento_Review_Helper_Action_PagerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Review\Helper\Action;
+
+class PagerTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Review_Helper_Action_Pager */
+    /** @var \Magento\Review\Helper\Action\Pager */
     protected $_helper = null;
 
     /**
@@ -19,7 +21,7 @@ class Magento_Review_Helper_Action_PagerTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $sessionMock = $this->getMockBuilder('Magento_Backend_Model_Session')
+        $sessionMock = $this->getMockBuilder('Magento\Backend\Model\Session')
             ->disableOriginalConstructor()
             ->setMethods(array('setData', 'getData'))
             ->getMock();
@@ -32,9 +34,9 @@ class Magento_Review_Helper_Action_PagerTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(array(3,2,6,5)));
 
         $contextMock = $this->getMock(
-            'Magento_Core_Helper_Context', array('getTranslator', 'getModuleManager', 'getRequest'), array(), '', false
+            'Magento\Core\Helper\Context', array('getTranslator', 'getModuleManager', 'getRequest'), array(), '', false
         );
-        $this->_helper = new Magento_Review_Helper_Action_Pager($sessionMock, $contextMock);
+        $this->_helper = new \Magento\Review\Helper\Action\Pager($sessionMock, $contextMock);
         $this->_helper->setStorageId('reviews');
     }
 

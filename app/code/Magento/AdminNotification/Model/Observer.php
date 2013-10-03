@@ -16,25 +16,27 @@
  * @package    Magento_AdminNotification
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdminNotification_Model_Observer
+namespace Magento\AdminNotification\Model;
+
+class Observer
 {
     /**
-     * @var Magento_AdminNotification_Model_FeedFactory
+     * @var \Magento\AdminNotification\Model\FeedFactory
      */
     protected $_feedFactory;
 
     /**
-     * @var Magento_Backend_Model_Auth_Session
+     * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_backendAuthSession;
 
     /**
-     * @param Magento_AdminNotification_Model_FeedFactory $feedFactory
-     * @param Magento_Backend_Model_Auth_Session $backendAuthSession
+     * @param \Magento\AdminNotification\Model\FeedFactory $feedFactory
+     * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      */
     public function __construct(
-        Magento_AdminNotification_Model_FeedFactory $feedFactory,
-        Magento_Backend_Model_Auth_Session $backendAuthSession
+        \Magento\AdminNotification\Model\FeedFactory $feedFactory,
+        \Magento\Backend\Model\Auth\Session $backendAuthSession
     ) {
         $this->_feedFactory = $feedFactory;
         $this->_backendAuthSession = $backendAuthSession;
@@ -43,13 +45,13 @@ class Magento_AdminNotification_Model_Observer
     /**
      * Predispath admin action controller
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function preDispatch(Magento_Event_Observer $observer)
+    public function preDispatch(\Magento\Event\Observer $observer)
     {
         if ($this->_backendAuthSession->isLoggedIn()) {
             $feedModel  = $this->_feedFactory->create();
-            /* @var $feedModel Magento_AdminNotification_Model_Feed */
+            /* @var $feedModel \Magento\AdminNotification\Model\Feed */
             $feedModel->checkUpdate();
         }
     }

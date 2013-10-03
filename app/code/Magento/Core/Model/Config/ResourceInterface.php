@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Core_Model_Config_ResourceInterface
+namespace Magento\Core\Model\Config;
+
+interface ResourceInterface
 {
     /**
      * Retrieve resource connection instance name

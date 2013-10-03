@@ -11,7 +11,9 @@
 /**
  * Theme asset file interface
  */
-interface Magento_Core_Model_Theme_Customization_FileAssetInterface
+namespace Magento\Core\Model\Theme\Customization;
+
+interface FileAssetInterface
 {
     /**
      * Get content type of file

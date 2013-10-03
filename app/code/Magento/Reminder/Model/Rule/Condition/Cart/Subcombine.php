@@ -11,48 +11,50 @@
 /**
  * Rule conditions cart items subselection container
  */
-class Magento_Reminder_Model_Rule_Condition_Cart_Subcombine
-    extends Magento_Reminder_Model_Condition_Combine_Abstract
+namespace Magento\Reminder\Model\Rule\Condition\Cart;
+
+class Subcombine
+    extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
 {
     /**
      * Cart Storeview Factory
      *
-     * @var Magento_Reminder_Model_Rule_Condition_Cart_StoreviewFactory
+     * @var \Magento\Reminder\Model\Rule\Condition\Cart\StoreviewFactory
      */
     protected $_storeviewFactory;
 
     /**
      * Cart Sku Factory
      *
-     * @var Magento_Reminder_Model_Rule_Condition_Cart_SkuFactory
+     * @var \Magento\Reminder\Model\Rule\Condition\Cart\SkuFactory
      */
     protected $_skuFactory;
 
     /**
      * Cart Attributes Factory
      *
-     * @var Magento_Reminder_Model_Rule_Condition_Cart_AttributesFactory
+     * @var \Magento\Reminder\Model\Rule\Condition\Cart\AttributesFactory
      */
     protected $_attrFactory;
 
     /**
-     * @param Magento_Rule_Model_Condition_Context $context
-     * @param Magento_Reminder_Model_Resource_Rule $ruleResource
-     * @param Magento_Reminder_Model_Rule_Condition_Cart_StoreviewFactory $storeviewFactory
-     * @param Magento_Reminder_Model_Rule_Condition_Cart_SkuFactory $skuFactory
-     * @param Magento_Reminder_Model_Rule_Condition_Cart_AttributesFactory $attrFactory
+     * @param \Magento\Rule\Model\Condition\Context $context
+     * @param \Magento\Reminder\Model\Resource\Rule $ruleResource
+     * @param \Magento\Reminder\Model\Rule\Condition\Cart\StoreviewFactory $storeviewFactory
+     * @param \Magento\Reminder\Model\Rule\Condition\Cart\SkuFactory $skuFactory
+     * @param \Magento\Reminder\Model\Rule\Condition\Cart\AttributesFactory $attrFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Rule_Model_Condition_Context $context,
-        Magento_Reminder_Model_Resource_Rule $ruleResource,
-        Magento_Reminder_Model_Rule_Condition_Cart_StoreviewFactory $storeviewFactory,
-        Magento_Reminder_Model_Rule_Condition_Cart_SkuFactory $skuFactory,
-        Magento_Reminder_Model_Rule_Condition_Cart_AttributesFactory $attrFactory,
+        \Magento\Rule\Model\Condition\Context $context,
+        \Magento\Reminder\Model\Resource\Rule $ruleResource,
+        \Magento\Reminder\Model\Rule\Condition\Cart\StoreviewFactory $storeviewFactory,
+        \Magento\Reminder\Model\Rule\Condition\Cart\SkuFactory $skuFactory,
+        \Magento\Reminder\Model\Rule\Condition\Cart\AttributesFactory $attrFactory,
         array $data = array()
     ) {
         parent::__construct($context, $ruleResource, $data);
-        $this->setType('Magento_Reminder_Model_Rule_Condition_Cart_Subcombine');
+        $this->setType('Magento\Reminder\Model\Rule\Condition\Cart\Subcombine');
         $this->_storeviewFactory = $storeviewFactory;
         $this->_skuFactory = $skuFactory;
         $this->_attrFactory = $attrFactory;

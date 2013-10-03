@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Outbound_Message
+ * \Magento\Outbound\Message
  * 
  * {license_notice}
  *
@@ -11,11 +11,13 @@
  * @license     {license_link}
  */
 
-class Magento_Outbound_MessageTest extends PHPUnit_Framework_TestCase
+namespace Magento\Outbound;
+
+class MessageTest extends \PHPUnit_Framework_TestCase
 {
     public function test() 
     {
-        $uut = new Magento_Outbound_Message('http://localhost', array('key1'=>'val1', 'key2' => 'val2'), "Body");
+        $uut = new \Magento\Outbound\Message('http://localhost', array('key1'=>'val1', 'key2' => 'val2'), "Body");
         // check endpoint url
         $this->assertSame('http://localhost', $uut->getEndpointUrl());
         // check headers

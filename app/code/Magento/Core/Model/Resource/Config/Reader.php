@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Resource_Config_Reader extends Magento_Config_Reader_Filesystem
+namespace Magento\Core\Model\Resource\Config;
+
+class Reader extends \Magento\Config\Reader\Filesystem
 {
     /**
      * List of id attributes for merge
@@ -19,24 +21,24 @@ class Magento_Core_Model_Resource_Config_Reader extends Magento_Config_Reader_Fi
     );
 
     /**
-     * @var Magento_Core_Model_Config_Local
+     * @var \Magento\Core\Model\Config\Local
      */
     protected $_configLocal;
 
     /**
-     * @param Magento_Config_FileResolverInterface $fileResolver
-     * @param Magento_Core_Model_Resource_Config_Converter $converter
-     * @param Magento_Core_Model_Resource_Config_SchemaLocator $schemaLocator
-     * @param Magento_Config_ValidationStateInterface $validationState
-     * @param Magento_Core_Model_Config_Local $configLocal
+     * @param \Magento\Config\FileResolverInterface $fileResolver
+     * @param \Magento\Core\Model\Resource\Config\Converter $converter
+     * @param \Magento\Core\Model\Resource\Config\SchemaLocator $schemaLocator
+     * @param \Magento\Config\ValidationStateInterface $validationState
+     * @param \Magento\Core\Model\Config\Local $configLocal
      * @param string $fileName
      */
     public function __construct(
-        Magento_Config_FileResolverInterface $fileResolver,
-        Magento_Core_Model_Resource_Config_Converter $converter,
-        Magento_Core_Model_Resource_Config_SchemaLocator $schemaLocator,
-        Magento_Config_ValidationStateInterface $validationState,
-        Magento_Core_Model_Config_Local $configLocal,
+        \Magento\Config\FileResolverInterface $fileResolver,
+        \Magento\Core\Model\Resource\Config\Converter $converter,
+        \Magento\Core\Model\Resource\Config\SchemaLocator $schemaLocator,
+        \Magento\Config\ValidationStateInterface $validationState,
+        \Magento\Core\Model\Config\Local $configLocal,
         $fileName = 'resources.xml'
     ) {
         $this->_configLocal = $configLocal;

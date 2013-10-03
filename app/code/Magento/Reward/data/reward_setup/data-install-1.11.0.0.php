@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var Magento_Reward_Model_Resource_Setup $this */
+/** @var \Magento\Reward\Model\Resource\Setup $this */
 
 $cmsPage = array(
     'title'           => 'Reward Points',

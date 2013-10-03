@@ -6,44 +6,45 @@
  * @license     {license_link}
  */
 
+namespace Magento\User\Block\User\Edit\Tab;
+
 /**
  * Cms page edit form main tab
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-
-class Magento_User_Block_User_Edit_Tab_Main extends Magento_Backend_Block_Widget_Form_Generic
+class Main extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var Magento_Backend_Model_Auth_Session
+     * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_authSession;
 
     /**
      * Locale model
      *
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
      * Construct
      *
-     * @param Magento_Backend_Model_Auth_Session $authSession
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param \Magento\Backend\Model\Auth\Session $authSession
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Backend_Model_Auth_Session $authSession,
-        Magento_Core_Model_LocaleInterface $locale,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Model\Auth\Session $authSession,
+        \Magento\Core\Model\LocaleInterface $locale,
         array $data = array()
     ) {
         $this->_authSession = $authSession;
@@ -55,14 +56,14 @@ class Magento_User_Block_User_Edit_Tab_Main extends Magento_Backend_Block_Widget
      * Prepare form fields
      *
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
-     * @return Magento_Backend_Block_Widget_Form
+     * @return \Magento\Backend\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        /** @var $model Magento_User_Model_User */
+        /** @var $model \Magento\User\Model\User */
         $model = $this->_coreRegistry->registry('permissions_user');
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('user_');
 
@@ -165,13 +166,13 @@ class Magento_User_Block_User_Edit_Tab_Main extends Magento_Backend_Block_Widget
     /**
      * Add password input fields
      *
-     * @param Magento_Data_Form_Element_Fieldset $fieldset
+     * @param \Magento\Data\Form\Element\Fieldset $fieldset
      * @param string $passwordLabel
      * @param string $confirmationLabel
      * @param bool $isRequired
      */
     protected function _addPasswordFields(
-        Magento_Data_Form_Element_Fieldset $fieldset, $passwordLabel, $confirmationLabel, $isRequired = false
+        \Magento\Data\Form\Element\Fieldset $fieldset, $passwordLabel, $confirmationLabel, $isRequired = false
     ) {
         $requiredFieldClass = ($isRequired ? ' required-entry' : '');
         $fieldset->addField('password', 'password', array(

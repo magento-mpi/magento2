@@ -15,7 +15,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Helper_File_Storage extends Magento_Core_Helper_Abstract
+namespace Magento\Core\Helper\File;
+
+class Storage extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Current storage code
@@ -30,30 +32,30 @@ class Magento_Core_Helper_File_Storage extends Magento_Core_Helper_Abstract
      * @var array
      */
     protected $_internalStorageList = array(
-        Magento_Core_Model_File_Storage::STORAGE_MEDIA_FILE_SYSTEM
+        \Magento\Core\Model\File\Storage::STORAGE_MEDIA_FILE_SYSTEM
     );
 
     /**
      * Core file storage database
      *
-     * @var Magento_Core_Helper_File_Storage_Database
+     * @var \Magento\Core\Helper\File\Storage\Database
      */
     protected $_coreFileStorageDb = null;
 
     /**
-     * @var Magento_Core_Model_File_Storage
+     * @var \Magento\Core\Model\File\Storage
      */
     protected $_storage;
 
     /**
-     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_File_Storage $storage
+     * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\File\Storage $storage
      */
     public function __construct(
-        Magento_Core_Helper_File_Storage_Database $coreFileStorageDb,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_File_Storage $storage
+        \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\File\Storage $storage
     ) {
         $this->_coreFileStorageDb = $coreFileStorageDb;
         $this->_storage = $storage;
@@ -69,7 +71,7 @@ class Magento_Core_Helper_File_Storage extends Magento_Core_Helper_Abstract
     {
         if (is_null($this->_currentStorage)) {
             $this->_currentStorage = (int) $this->_app
-                ->getConfig()->getValue(Magento_Core_Model_File_Storage::XML_PATH_STORAGE_MEDIA, 'default');
+                ->getConfig()->getValue(\Magento\Core\Model\File\Storage::XML_PATH_STORAGE_MEDIA, 'default');
         }
 
         return $this->_currentStorage;
@@ -78,11 +80,12 @@ class Magento_Core_Helper_File_Storage extends Magento_Core_Helper_Abstract
     /**
      * Retrieve file system storage model
      *
-     * @return Magento_Core_Model_File_Storage_File
+     * @return \Magento\Core\Model\File\Storage\File
      */
     public function getStorageFileModel()
     {
-        return Mage::getSingleton('Magento_Core_Model_File_Storage_File');
+        return $objectManager = \Magento\Core\Model\ObjectManager::getInstance()
+            ->getSingleton('Magento\Core\Model\File\Storage\File');
     }
 
     /**
@@ -103,7 +106,7 @@ class Magento_Core_Helper_File_Storage extends Magento_Core_Helper_Abstract
      *
      * @param  int|null $storage
      * @param  array $params
-     * @return Magento_Core_Model_Abstract|bool
+     * @return \Magento\Core\Model\AbstractModel|bool
      */
     public function getStorageModel($storage = null, $params = array())
     {
@@ -138,7 +141,7 @@ class Magento_Core_Helper_File_Storage extends Magento_Core_Helper_Abstract
     /**
      * Save file to file system
      *
-     * @param  Magento_Core_Model_File_Storage_Database $file
+     * @param  \Magento\Core\Model\File\Storage\Database $file
      * @return bool|int
      */
     public function saveFileToFileSystem($file)

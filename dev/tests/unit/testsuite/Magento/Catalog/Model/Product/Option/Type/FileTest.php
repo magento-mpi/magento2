@@ -8,7 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Catalog_Model_Product_Option_Type_FileTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Product\Option\Type;
+
+class FileTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider createWritableDirDataProvider
@@ -17,8 +19,8 @@ class Magento_Catalog_Model_Product_Option_Type_FileTest extends PHPUnit_Framewo
      */
     public function testCreateWritableDir($isWritable, $throwException)
     {
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $filesystemMock = $this->getMock('Magento_Filesystem', array(), array(), '', false);
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $filesystemMock = $this->getMock('\Magento\Filesystem', array(), array(), '', false);
         $filesystemMock->expects($this->once())
             ->method('isWritable')
             ->will($this->returnValue($isWritable));
@@ -26,7 +28,7 @@ class Magento_Catalog_Model_Product_Option_Type_FileTest extends PHPUnit_Framewo
             $filesystemMock->expects($this->once())
                 ->method('createDirectory')
                 ->will($throwException
-                    ? $this->throwException(new Magento_Filesystem_Exception)
+                    ? $this->throwException(new \Magento\Core\Exception)
                     : $this->returnValue(null)
                 );
         } else {
@@ -34,16 +36,16 @@ class Magento_Catalog_Model_Product_Option_Type_FileTest extends PHPUnit_Framewo
         }
 
         if ($throwException) {
-            $this->setExpectedException('Magento_Core_Exception');
+            $this->setExpectedException('Magento\Core\Exception');
         }
 
-        $optionFactoryMock = $this->getMock('Magento_Sales_Model_Quote_Item_OptionFactory', array(), array(),
+        $optionFactoryMock = $this->getMock('Magento\Sales\Model\Quote\Item\OptionFactory', array(), array(),
             '', false);
-        $model = $helper->getObject('Magento_Catalog_Model_Product_Option_Type_File', array(
+        $model = $helper->getObject('Magento\Catalog\Model\Product\Option\Type\File', array(
             'filesystem' => $filesystemMock,
             'itemOptionFactory' => $optionFactoryMock,
         ));
-        $method = new ReflectionMethod('Magento_Catalog_Model_Product_Option_Type_File', '_createWritableDir');
+        $method = new \ReflectionMethod('Magento\Catalog\Model\Product\Option\Type\File', '_createWritableDir');
         $method->setAccessible(true);
         $method->invoke($model, 'dummy/path');
     }

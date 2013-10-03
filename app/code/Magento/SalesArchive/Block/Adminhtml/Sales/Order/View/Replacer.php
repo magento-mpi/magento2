@@ -12,26 +12,28 @@
  * Sales archive order view replacer for archive
  *
  */
-class Magento_SalesArchive_Block_Adminhtml_Sales_Order_View_Replacer
-    extends Magento_Adminhtml_Block_Sales_Order_Abstract
+namespace Magento\SalesArchive\Block\Adminhtml\Sales\Order\View;
+
+class Replacer
+    extends \Magento\Adminhtml\Block\Sales\Order\AbstractOrder
 {
     /**
-     * @var Magento_SalesArchive_Model_Config
+     * @var \Magento\SalesArchive\Model\Config
      */
     protected $_configModel;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_SalesArchive_Model_Config $configModel
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\SalesArchive\Model\Config $configModel
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_SalesArchive_Model_Config $configModel,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\SalesArchive\Model\Config $configModel,
         array $data = array()
     ) {
         $this->_configModel = $configModel;
@@ -43,15 +45,15 @@ class Magento_SalesArchive_Block_Adminhtml_Sales_Order_View_Replacer
         if ($this->getOrder()->getIsArchived()) {
             $this->getLayout()->getBlock('sales_order_tabs')->addTab(
                 'magento_order_shipments',
-                'Magento_SalesArchive_Block_Adminhtml_Sales_Order_View_Tab_Shipments'
+                'Magento\SalesArchive\Block\Adminhtml\Sales\Order\View\Tab\Shipments'
             );
             $this->getLayout()->getBlock('sales_order_tabs')->addTab(
                 'magento_order_invoices',
-                'Magento_SalesArchive_Block_Adminhtml_Sales_Order_View_Tab_Invoices'
+                'Magento\SalesArchive\Block\Adminhtml\Sales\Order\View\Tab\Invoices'
             );
             $this->getLayout()->getBlock('sales_order_tabs')->addTab(
                 'magento_order_creditmemos',
-                'Magento_SalesArchive_Block_Adminhtml_Sales_Order_View_Tab_Creditmemos'
+                'Magento\SalesArchive\Block\Adminhtml\Sales\Order\View\Tab\Creditmemos'
             );
 
             $restoreUrl = $this->getUrl(

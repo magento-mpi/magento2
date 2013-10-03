@@ -9,5 +9,5 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <remove name="root"/>
-    <block class="Magento_Sales_Block_Adminhtml_Recurring_Profile_Grid" name="sales.recurring.profile.grid" output="1"/>
+    <block class="Magento\Sales\Block\Adminhtml\Recurring\Profile\Grid" name="sales.recurring.profile.grid" output="1"/>
 </layout>

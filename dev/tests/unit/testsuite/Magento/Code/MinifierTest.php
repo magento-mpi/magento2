@@ -6,28 +6,30 @@
  * @license     {license_link}
  */
 
-class Magento_Code_MinifierTest extends PHPUnit_Framework_TestCase
+namespace Magento\Code;
+
+class MinifierTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Code_Minifier_StrategyInterface|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Code\Minifier\StrategyInterface|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_strategy;
 
     /**
-     * @var Magento_Filesystem|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Filesystem|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_filesystem;
 
     /**
-     * @var Magento_Code_Minifier
+     * @var \Magento\Code\Minifier
      */
     protected $_minifier;
 
     protected function setUp()
     {
-        $this->_strategy = $this->getMockForAbstractClass('Magento_Code_Minifier_StrategyInterface');
-        $this->_filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
-        $this->_minifier = new Magento_Code_Minifier($this->_strategy, $this->_filesystem, __DIR__);
+        $this->_strategy = $this->getMockForAbstractClass('Magento\Code\Minifier\StrategyInterface');
+        $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
+        $this->_minifier = new \Magento\Code\Minifier($this->_strategy, $this->_filesystem, __DIR__);
     }
 
     public function testGetMinifiedFile()

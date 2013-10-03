@@ -10,39 +10,41 @@
  */
 
 /**
- * Test class for Magento_Backend_Model_Url
+ * Test class for \Magento\Backend\Model\Url
  */
-class Magento_Backend_Block_Widget_GridTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Block\Widget;
+
+class GridTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_Helper_ObjectManager
+     * @var \Magento\TestFramework\Helper\ObjectManager
      */
     protected $_objectManager;
 
     protected function setUp()
     {
-        $this->_objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
+        $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
     }
 
     /**
-     * @covers Magento_Backend_Block_Widget_Grid::addRssList
-     * @covers Magento_Backend_Block_Widget_Grid::clearRss
-     * @covers Magento_Backend_Block_Widget_Grid::getRssLists
+     * @covers \Magento\Backend\Block\Widget\Grid::addRssList
+     * @covers \Magento\Backend\Block\Widget\Grid::clearRss
+     * @covers \Magento\Backend\Block\Widget\Grid::getRssLists
      * @dataProvider addGetClearRssDataProvider
      */
     public function testAddGetClearRss($isUseStoreInUrl, $setStoreCount)
     {
-        $helperMock = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
-        $urlMock = $this->getMock('Magento_Core_Model_Url', array(), array(), '', false);
+        $helperMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
+        $urlMock = $this->getMock('Magento\Core\Model\Url', array(), array(), '', false);
         $urlMock->expects($this->at($setStoreCount))->method('setStore');
         $urlMock->expects($this->any())->method('getUrl')->will($this->returnValue('some_url'));
 
-        $storeMock = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);
+        $storeMock = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
         $storeMock->expects($this->any())
             ->method('isUseStoreInUrl')
             ->will($this->returnValue($isUseStoreInUrl));
         $storeManager = $this->getMock(
-            'Magento_Core_Model_StoreManager', array('getDefaultStoreView', 'getStore'), array(), '', false
+            'Magento\Core\Model\StoreManager', array('getDefaultStoreView', 'getStore'), array(), '', false
         );
         $storeManager->expects($this->any())
             ->method('getStore')
@@ -51,9 +53,9 @@ class Magento_Backend_Block_Widget_GridTest extends PHPUnit_Framework_TestCase
             ->method('getDefaultStoreView')
             ->will($this->returnValue($storeMock));
 
-        /** @var $block Magento_Backend_Block_Widget_Grid */
+        /** @var $block \Magento\Backend\Block\Widget\Grid */
         $block = $this->_objectManager->getObject(
-            'Magento_Backend_Block_Widget_Grid',
+            'Magento\Backend\Block\Widget\Grid',
             array(
                 'storeManager' => $storeManager,
                 'urlModel' => $urlMock,

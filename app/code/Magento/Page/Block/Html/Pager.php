@@ -17,7 +17,9 @@
  *
  * @todo        separate order, mode and pager
  */
-class Magento_Page_Block_Html_Pager extends Magento_Core_Block_Template
+namespace Magento\Page\Block\Html;
+
+class Pager extends \Magento\Core\Block\Template
 {
     protected $_collection = null;
     protected $_pageVarName    = 'p';
@@ -106,7 +108,7 @@ class Magento_Page_Block_Html_Pager extends Magento_Core_Block_Template
      * Setter for limit items per page
      *
      * @param int $limit
-     * @return Magento_Page_Block_Html_Pager
+     * @return \Magento\Page\Block\Html\Pager
      */
     public function setLimit($limit)
     {
@@ -117,8 +119,8 @@ class Magento_Page_Block_Html_Pager extends Magento_Core_Block_Template
     /**
      * Set collection for pagination
      *
-     * @param  Magento_Data_Collection $collection
-     * @return Magento_Page_Block_Html_Pager
+     * @param  \Magento\Data\Collection $collection
+     * @return \Magento\Page\Block\Html\Pager
      */
     public function setCollection($collection)
     {
@@ -135,7 +137,7 @@ class Magento_Page_Block_Html_Pager extends Magento_Core_Block_Template
     }
 
     /**
-     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
+     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
     public function getCollection()
     {
@@ -414,7 +416,7 @@ class Magento_Page_Block_Html_Pager extends Magento_Core_Block_Template
      * Setter for $_frameLength
      *
      * @param int $frame
-     * @return Magento_Page_Block_Html_Pager
+     * @return \Magento\Page\Block\Html\Pager
      */
     public function setFrameLength($frame)
     {
@@ -434,7 +436,7 @@ class Magento_Page_Block_Html_Pager extends Magento_Core_Block_Template
      * Setter for $_jump
      *
      * @param int $jump
-     * @return Magento_Page_Block_Html_Pager
+     * @return \Magento\Page\Block\Html\Pager
      */
     public function setJump($jump)
     {
@@ -490,7 +492,7 @@ class Magento_Page_Block_Html_Pager extends Magento_Core_Block_Template
     /**
      * Initialize frame data, such as frame start, frame start etc.
      *
-     * @return Magento_Page_Block_Html_Pager
+     * @return \Magento\Page\Block\Html\Pager
      */
     protected function _initFrame()
     {
@@ -533,7 +535,7 @@ class Magento_Page_Block_Html_Pager extends Magento_Core_Block_Template
      * Setter for flag _frameInitialized
      *
      * @param bool $flag
-     * @return Magento_Page_Block_Html_Pager
+     * @return \Magento\Page\Block\Html\Pager
      */
     protected function _setFrameInitialized($flag)
     {
@@ -544,7 +546,7 @@ class Magento_Page_Block_Html_Pager extends Magento_Core_Block_Template
     /**
      * Check if frame data was initialized
      *
-     * @return Magento_Page_Block_Html_Pager
+     * @return \Magento\Page\Block\Html\Pager
      */
     public function isFrameInitialized()
     {
@@ -575,7 +577,7 @@ class Magento_Page_Block_Html_Pager extends Magento_Core_Block_Template
      * Set whether output of the pager is mandatory
      *
      * @param bool $isRequired
-     * @return Magento_Page_Block_Html_Pager
+     * @return \Magento\Page\Block\Html\Pager
      */
     public function setIsOutputRequired($isRequired)
     {

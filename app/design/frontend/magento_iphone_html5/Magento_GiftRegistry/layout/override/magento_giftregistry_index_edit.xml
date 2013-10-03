@@ -16,7 +16,7 @@
         </action>
     </referenceBlock>
     <referenceContainer name="my.account.wrapper">
-        <block class="Magento_GiftRegistry_Block_Customer_Edit" name="giftregistry_edit" template="edit/edit.phtml">
+        <block class="Magento\GiftRegistry\Block\Customer\Edit" name="giftregistry_edit" template="edit/edit.phtml">
             <action method="addInputTypeTemplate">
                 <argument name="type" xsi:type="string">text</argument>
                 <argument name="template" xsi:type="string">Magento_GiftRegistry::attributes/text.phtml</argument>
@@ -25,9 +25,9 @@
                 <argument name="type" xsi:type="string">region</argument>
                 <argument name="template" xsi:type="string">Magento_GiftRegistry::attributes/region.phtml</argument>
             </action>
-            <block class="Magento_GiftRegistry_Block_Customer_Edit_Registry" name="giftregistry_edit_registry" template="edit/registry.phtml"/>
-            <block class="Magento_GiftRegistry_Block_Customer_Edit_Registrants" name="giftregistry_edit_registrants" template="edit/registrants.phtml"/>
-            <block class="Magento_GiftRegistry_Block_Customer_Address_Edit" name="giftregistry_address_edit" template="address/edit.phtml"/>
+            <block class="Magento\GiftRegistry\Block\Customer\Edit\Registry" name="giftregistry_edit_registry" template="edit/registry.phtml"/>
+            <block class="Magento\GiftRegistry\Block\Customer\Edit\Registrants" name="giftregistry_edit_registrants" template="edit/registrants.phtml"/>
+            <block class="Magento\GiftRegistry\Block\Customer\Address\Edit" name="giftregistry_address_edit" template="address/edit.phtml"/>
         </block>
     </referenceContainer>
 </layout>

@@ -9,18 +9,20 @@
  * @license     {license_link}
  */
 
-class Magento_Test_RequestTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test;
+
+class RequestTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_Request
+     * @var \Magento\TestFramework\Request
      */
     protected $_model = null;
 
     protected function setUp()
     {
-        $this->_model = new Magento_TestFramework_Request(
-            $this->getMock('Magento_Core_Model_StoreManager', ['__wakeup'], [], '', false),
-            $this->getMock('Magento_Backend_Helper_Data', [], [], 'Magento_Backend_Helper_DataProxy', false)
+        $this->_model = new \Magento\TestFramework\Request(
+            $this->getMock('Magento\Core\Model\StoreManager', ['__wakeup'], [], '', false),
+            $this->getMock('Magento\Backend\Helper\Data', [], [], '', false)
         );
     }
 

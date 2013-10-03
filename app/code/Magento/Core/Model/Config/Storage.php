@@ -7,17 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Config_Storage extends Magento_Core_Model_Config_StorageAbstract
+namespace Magento\Core\Model\Config;
+
+class Storage extends \Magento\Core\Model\Config\AbstractStorage
 {
     /**
-     * @param Magento_Core_Model_Config_Cache $cache
-     * @param Magento_Core_Model_Config_Loader $loader
-     * @param Magento_Core_Model_Config_BaseFactory $factory
+     * @param \Magento\Core\Model\Config\Cache $cache
+     * @param \Magento\Core\Model\Config\Loader $loader
+     * @param \Magento\Core\Model\Config\BaseFactory $factory
      */
     public function __construct(
-        Magento_Core_Model_Config_Cache $cache,
-        Magento_Core_Model_Config_Loader $loader,
-        Magento_Core_Model_Config_BaseFactory $factory
+        \Magento\Core\Model\Config\Cache $cache,
+        \Magento\Core\Model\Config\Loader $loader,
+        \Magento\Core\Model\Config\BaseFactory $factory
     ) {
         parent::__construct($cache, $loader, $factory);
     }
@@ -25,7 +27,7 @@ class Magento_Core_Model_Config_Storage extends Magento_Core_Model_Config_Storag
     /**
      * Retrieve application configuration
      *
-     * @return Magento_Core_Model_ConfigInterface
+     * @return \Magento\Core\Model\ConfigInterface
      */
     public function getConfiguration()
     {

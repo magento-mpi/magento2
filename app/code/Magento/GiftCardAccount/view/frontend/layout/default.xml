@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceBlock name="head.components">
-        <block class="Magento_Core_Block_Template" name="magento_giftcardaccount_head_components" template="Magento_GiftCardAccount::js/components.phtml"/>
+        <block class="Magento\Core\Block\Template" name="magento_giftcardaccount_head_components" template="Magento_GiftCardAccount::js/components.phtml"/>
     </referenceBlock>
 </layout>

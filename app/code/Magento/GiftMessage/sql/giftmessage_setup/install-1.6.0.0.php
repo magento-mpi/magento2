@@ -9,7 +9,7 @@
  */
 
 
-/** @var $installer Magento_GiftMessage_Model_Resource_Setup */
+/** @var $installer \Magento\GiftMessage\Model\Resource\Setup */
 
 $installer = $this;
 $installer->startSetup();
@@ -19,22 +19,22 @@ $installer->startSetup();
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('gift_message'))
-    ->addColumn('gift_message_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('gift_message_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'GiftMessage Id')
-    ->addColumn('customer_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('customer_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Customer id')
-    ->addColumn('sender', Magento_DB_Ddl_Table::TYPE_TEXT, 255, array(
+    ->addColumn('sender', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
         ), 'Sender')
-    ->addColumn('recipient', Magento_DB_Ddl_Table::TYPE_TEXT, 255, array(
+    ->addColumn('recipient', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
         ), 'Recipient')
-    ->addColumn('message', Magento_DB_Ddl_Table::TYPE_TEXT, null, array(
+    ->addColumn('message', \Magento\DB\Ddl\Table::TYPE_TEXT, null, array(
         ), 'Message')
     ->setComment('Gift Message');
 
@@ -52,7 +52,7 @@ $entities = array(
     'order_item'
 );
 $options = array(
-    'type'     => Magento_DB_Ddl_Table::TYPE_INTEGER,
+    'type'     => \Magento\DB\Ddl\Table::TYPE_INTEGER,
     'visible'  => false,
     'required' => false
 );
@@ -65,22 +65,22 @@ foreach ($entities as $entity) {
  */
 $installer->addAttribute('order_item', 'gift_message_available', $options);
 $installer->createGiftMessageSetup(array('resourceName' => 'catalog_setup'))->addAttribute(
-    Magento_Catalog_Model_Product::ENTITY, 'gift_message_available',
+    \Magento\Catalog\Model\Product::ENTITY, 'gift_message_available',
     array(
         'group'         => 'Gift Options',
-        'backend'       => 'Magento_Catalog_Model_Product_Attribute_Backend_Boolean',
+        'backend'       => 'Magento\Catalog\Model\Product\Attribute\Backend\Boolean',
         'frontend'      => '',
         'label'         => 'Allow Gift Message',
         'input'         => 'select',
         'class'         => '',
-        'source'        => 'Magento_Eav_Model_Entity_Attribute_Source_Boolean',
+        'source'        => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean',
         'global'        => true,
         'visible'       => true,
         'required'      => false,
         'user_defined'  => false,
         'default'       => '',
         'apply_to'      => '',
-        'input_renderer'   => 'Magento_GiftMessage_Block_Adminhtml_Product_Helper_Form_Config',
+        'input_renderer'   => 'Magento\GiftMessage\Block\Adminhtml\Product\Helper\Form\Config',
         'is_configurable'  => 0,
         'visible_on_front' => false
     )

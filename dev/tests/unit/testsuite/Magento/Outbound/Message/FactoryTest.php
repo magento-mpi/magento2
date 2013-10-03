@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Outbound_Message_Factory
+ * \Magento\Outbound\Message\Factory
  *
  * {license_notice}
  *
@@ -11,7 +11,9 @@
  * @license     {license_link}
  */
 
-class Magento_Outbound_Message_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Outbound\Message;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     const ENDPOINT_URL = 'https://endpoint_url';
 
@@ -29,48 +31,48 @@ class Magento_Outbound_Message_FactoryTest extends PHPUnit_Framework_TestCase
 
     public static $signatureHeaders = array('signature' => 'hash');
 
-    /** @var Magento_Outbound_Message_Factory */
+    /** @var \Magento\Outbound\Message\Factory */
     protected $_factory;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockObjectManager;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockFormatFactory;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockFormatter;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockAuthFactory;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockEndpoint;
 
     protected function setUp()
     {
-        $this->_mockObjectManager = $this->getMockBuilder('Magento_ObjectManager')
+        $this->_mockObjectManager = $this->getMockBuilder('Magento\ObjectManager')
             ->setMethods(array('create'))
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
 
-        $this->_mockFormatFactory = $this->getMockBuilder('Magento_Outbound_Formatter_Factory')
+        $this->_mockFormatFactory = $this->getMockBuilder('Magento\Outbound\Formatter\Factory')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_mockAuthFactory = $this->getMockBuilder('Magento_Outbound_Authentication_Factory')
+        $this->_mockAuthFactory = $this->getMockBuilder('Magento\Outbound\Authentication\Factory')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_factory = new Magento_Outbound_Message_Factory($this->_mockObjectManager,
+        $this->_factory = new \Magento\Outbound\Message\Factory($this->_mockObjectManager,
                                                                $this->_mockFormatFactory,
                                                                $this->_mockAuthFactory);
 
-        $this->_mockFormatter = $this->getMockBuilder('Magento_Outbound_FormatterInterface')
+        $this->_mockFormatter = $this->getMockBuilder('Magento\Outbound\FormatterInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_mockEndpoint = $this->getMockBuilder('Magento_Outbound_EndpointInterface')
+        $this->_mockEndpoint = $this->getMockBuilder('Magento\Outbound\EndpointInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -96,7 +98,7 @@ class Magento_Outbound_Message_FactoryTest extends PHPUnit_Framework_TestCase
             ->method('getAuthenticationType')
             ->will($this->returnValue(self::AUTH_TYPE));
 
-        $mockAuth = $this->getMockBuilder('Magento_Outbound_AuthenticationInterface')
+        $mockAuth = $this->getMockBuilder('Magento\Outbound\AuthenticationInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -105,7 +107,7 @@ class Magento_Outbound_Message_FactoryTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo(self::AUTH_TYPE))
             ->will($this->returnValue($mockAuth));
 
-        $mockUser = $this->getMockBuilder('Magento_Outbound_UserInterface')
+        $mockUser = $this->getMockBuilder('Magento\Outbound\UserInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -128,7 +130,7 @@ class Magento_Outbound_Message_FactoryTest extends PHPUnit_Framework_TestCase
 
         $this->_mockObjectManager->expects($this->once())
             ->method('create')
-            ->with($this->equalTo('Magento_Outbound_Message'), $this->anything())
+            ->with($this->equalTo('Magento\Outbound\Message'), $this->anything())
             ->will($this->returnCallback(array($this, 'verifyManagerCreate')));
     }
 
@@ -138,7 +140,7 @@ class Magento_Outbound_Message_FactoryTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Used to verify the correct arguments are passed in to Magento_ObjectManager::create
+     * Used to verify the correct arguments are passed in to \Magento\ObjectManager::create
      *
      * @param       $className
      * @param array $arguments
@@ -147,7 +149,7 @@ class Magento_Outbound_Message_FactoryTest extends PHPUnit_Framework_TestCase
      */
     public function verifyManagerCreate($className, array $arguments)
     {
-        $this->assertSame('Magento_Outbound_Message', $className);
+        $this->assertSame('Magento\Outbound\Message', $className);
 
         $this->assertCount(4, $arguments);
 
@@ -156,10 +158,10 @@ class Magento_Outbound_Message_FactoryTest extends PHPUnit_Framework_TestCase
 
         $this->assertArrayHasKey('headers', $arguments);
         $headers = $arguments['headers'];
-        $this->assertArrayHasKey(Magento_Outbound_Message_FactoryInterface::TOPIC_HEADER, $headers);
-        $this->assertSame(self::TOPIC, $headers[Magento_Outbound_Message_FactoryInterface::TOPIC_HEADER]);
-        $this->assertArrayHasKey(Magento_Outbound_FormatterInterface::CONTENT_TYPE_HEADER, $headers);
-        $this->assertSame(self::CONTENT_TYPE, $headers[Magento_Outbound_FormatterInterface::CONTENT_TYPE_HEADER]);
+        $this->assertArrayHasKey(\Magento\Outbound\Message\FactoryInterface::TOPIC_HEADER, $headers);
+        $this->assertSame(self::TOPIC, $headers[\Magento\Outbound\Message\FactoryInterface::TOPIC_HEADER]);
+        $this->assertArrayHasKey(\Magento\Outbound\FormatterInterface::CONTENT_TYPE_HEADER, $headers);
+        $this->assertSame(self::CONTENT_TYPE, $headers[\Magento\Outbound\FormatterInterface::CONTENT_TYPE_HEADER]);
         foreach (self::$signatureHeaders as $key => $value) {
             $this->assertArrayHasKey($key, $headers);
             $this->assertSame($value, $headers[$key]);

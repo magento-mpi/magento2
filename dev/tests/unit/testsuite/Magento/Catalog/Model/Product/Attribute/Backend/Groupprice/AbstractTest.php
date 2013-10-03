@@ -9,35 +9,37 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Model_Product_Attribute_Backend_Groupprice_AbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Product\Attribute\Backend\Groupprice;
+
+class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_Resource_Product_Attribute_Backend_Groupprice_Abstract
+     * @var \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Groupprice\AbstractGroupprice
      */
     protected $_model;
 
     /**
      * Catalog helper
      *
-     * @var Magento_Catalog_Helper_Data|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Catalog\Helper\Data|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_helper;
 
     protected function setUp()
     {
-        $this->_helper = $this->getMock('Magento_Catalog_Helper_Data', array('isPriceGlobal'), array(), '', false);
+        $this->_helper = $this->getMock('Magento\Catalog\Helper\Data', array('isPriceGlobal'), array(), '', false);
         $this->_helper->expects($this->any())
             ->method('isPriceGlobal')
             ->will($this->returnValue(true));
 
-        $loggerMock = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
-        $currencyFactoryMock = $this->getMock('Magento_Directory_Model_CurrencyFactory', array(), array(), '', false);
-        $storeManagerMock = $this->getMock('Magento_Core_Model_StoreManagerInterface', array(), array(), '', false);
-        $productTypeMock = $this->getMock('Magento_Catalog_Model_Product_Type', array(), array(), '', false);
-        $configMock = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
+        $loggerMock = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $currencyFactoryMock = $this->getMock('Magento\Directory\Model\CurrencyFactory', array(), array(), '', false);
+        $storeManagerMock = $this->getMock('Magento\Core\Model\StoreManagerInterface', array(), array(), '', false);
+        $productTypeMock = $this->getMock('Magento\Catalog\Model\Product\Type', array(), array(), '', false);
+        $configMock = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
 
         $this->_model = $this->getMockForAbstractClass(
-            'Magento_Catalog_Model_Product_Attribute_Backend_Groupprice_Abstract',
+            'Magento\Catalog\Model\Product\Attribute\Backend\Groupprice\AbstractGroupprice',
             array(
                 'logger' => $loggerMock,
                 'currencyFactory' => $currencyFactoryMock,
@@ -63,7 +65,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Groupprice_AbstractTest ex
         $attributeId = 42;
 
         $attribute = $this->getMock(
-            'Magento_Eav_Model_Entity_Attribute_Abstract',
+            'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
             array('getBackendTable', 'isStatic', 'getAttributeId', 'getName'),
             array(),
             '',
@@ -87,7 +89,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Groupprice_AbstractTest ex
 
         $this->_model->setAttribute($attribute);
 
-        $object = new Magento_Object();
+        $object = new \Magento\Object();
         $object->setGroupPrice(array(array(
             'price_id' => 10
         )));

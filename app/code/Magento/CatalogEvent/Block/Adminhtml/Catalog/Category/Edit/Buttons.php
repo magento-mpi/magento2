@@ -9,30 +9,32 @@
 /**
  * Catalog Events edit form select categories
  */
-class Magento_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons
-    extends Magento_Adminhtml_Block_Catalog_Category_Abstract
+namespace Magento\CatalogEvent\Block\Adminhtml\Catalog\Category\Edit;
+
+class Buttons
+    extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
 {
     /**
      * Factory for event collections
      *
-     * @var Magento_CatalogEvent_Model_Resource_Event_CollectionFactory
+     * @var \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory
      */
     protected $_eventCollectionFactory;
 
     /**
-     * @param Magento_Catalog_Model_Resource_Category_Tree $categoryTree
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_CatalogEvent_Model_Resource_Event_CollectionFactory $eventCollectionFactory
+     * @param \Magento\Catalog\Model\Resource\Category\Tree $categoryTree
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory $eventCollectionFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Model_Resource_Category_Tree $categoryTree,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_CatalogEvent_Model_Resource_Event_CollectionFactory $eventCollectionFactory,
+        \Magento\Catalog\Model\Resource\Category\Tree $categoryTree,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory $eventCollectionFactory,
         array $data = array()
     ) {
         parent::__construct($categoryTree, $coreData, $context, $registry, $data);
@@ -43,12 +45,12 @@ class Magento_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons
     /**
      * Retrieve category event
      *
-     * @return Magento_CatalogEvent_Model_Event
+     * @return \Magento\CatalogEvent\Model\Event
      */
     public function getEvent()
     {
         if (!$this->hasData('event')) {
-            /** @var Magento_CatalogEvent_Model_Resource_Event_Collection $collection */
+            /** @var \Magento\CatalogEvent\Model\Resource\Event\Collection $collection */
             $collection = $this->_eventCollectionFactory->create()
                 ->addFieldToFilter('category_id', $this->getCategoryId());
 
@@ -62,15 +64,15 @@ class Magento_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons
     /**
      * Add buttons on category edit page
      *
-     * @return Magento_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons
+     * @return \Magento\CatalogEvent\Block\Adminhtml\Catalog\Category\Edit\Buttons
      */
     public function addButtons()
     {
-        if ($this->helper('Magento_CatalogEvent_Helper_Data')->isEnabled()
+        if ($this->helper('Magento\CatalogEvent\Helper\Data')->isEnabled()
             && $this->_authorization->isAllowed('Magento_CatalogEvent::events')
             && $this->getCategoryId() && $this->getCategory()->getLevel() > 1) {
             if ($this->getEvent() && $this->getEvent()->getId()) {
-                $url = $this->helper('Magento_Adminhtml_Helper_Data')->getUrl('*/catalog_event/edit', array(
+                $url = $this->helper('Magento\Adminhtml\Helper\Data')->getUrl('*/catalog_event/edit', array(
                             'id' => $this->getEvent()->getId(),
                             'category' => 1
                 ));
@@ -81,7 +83,7 @@ class Magento_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons
                         'onclick'   => 'setLocation(\''. $url .'\')'
                     ));
             } else {
-                $url = $this->helper('Magento_Adminhtml_Helper_Data')->getUrl('*/catalog_event/new', array(
+                $url = $this->helper('Magento\Adminhtml\Helper\Data')->getUrl('*/catalog_event/new', array(
                         'category_id' => $this->getCategoryId(),
                         'category' => 1
                 ));

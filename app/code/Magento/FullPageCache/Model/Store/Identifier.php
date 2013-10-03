@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_FullPageCache_Model_Store_Identifier
+namespace Magento\FullPageCache\Model\Store;
+
+class Identifier
 {
     /**
      * Store identifier cache prefix
@@ -15,14 +17,14 @@ class Magento_FullPageCache_Model_Store_Identifier
     /**
      * Cache model
      *
-     * @var Magento_FullPageCache_Model_Cache
+     * @var \Magento\FullPageCache\Model\Cache
      */
     protected $_fpcCache;
 
     /**
-     * @param Magento_FullPageCache_Model_Cache $fpcCache
+     * @param \Magento\FullPageCache\Model\Cache $fpcCache
      */
-    public function __construct(Magento_FullPageCache_Model_Cache $fpcCache)
+    public function __construct(\Magento\FullPageCache\Model\Cache $fpcCache)
     {
         $this->_fpcCache = $fpcCache;
     }

@@ -14,7 +14,9 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-class Magento_Invitation_Controller_Customer_Account extends Magento_Customer_Controller_Account
+namespace Magento\Invitation\Controller\Customer;
+
+class Account extends \Magento\Customer\Controller\Account
 {
     /**
      * Action list where need check enabled cookie
@@ -26,40 +28,40 @@ class Magento_Invitation_Controller_Customer_Account extends Magento_Customer_Co
     /**
      * Invitation Config
      *
-     * @var Magento_Invitation_Model_Config
+     * @var \Magento\Invitation\Model\Config
      */
     protected $_config;
 
     /**
      * Invitation Factory
      *
-     * @var Magento_Invitation_Model_InvitationFactory
+     * @var \Magento\Invitation\Model\InvitationFactory
      */
     protected $_invitationFactory;
 
     /**
-     * @param Magento_Core_Controller_Varien_Action_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_UrlFactory $urlFactory
-     * @param Magento_Customer_Model_CustomerFactory $customerFactory
-     * @param Magento_Customer_Model_FormFactory $formFactory
-     * @param Magento_Customer_Model_AddressFactory $addressFactory
-     * @param Magento_Invitation_Model_Config $config
-     * @param Magento_Invitation_Model_InvitationFactory $invitationFactory
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\UrlFactory $urlFactory
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Customer\Model\FormFactory $formFactory
+     * @param \Magento\Customer\Model\AddressFactory $addressFactory
+     * @param \Magento\Invitation\Model\Config $config
+     * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
      */
     public function __construct(
-        Magento_Core_Controller_Varien_Action_Context $context,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_UrlFactory $urlFactory,
-        Magento_Customer_Model_CustomerFactory $customerFactory,
-        Magento_Customer_Model_FormFactory $formFactory,
-        Magento_Customer_Model_AddressFactory $addressFactory,
-        Magento_Invitation_Model_Config $config,
-        Magento_Invitation_Model_InvitationFactory $invitationFactory
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\UrlFactory $urlFactory,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Customer\Model\FormFactory $formFactory,
+        \Magento\Customer\Model\AddressFactory $addressFactory,
+        \Magento\Invitation\Model\Config $config,
+        \Magento\Invitation\Model\InvitationFactory $invitationFactory
     ) {
         parent::__construct(
             $context,
@@ -86,7 +88,7 @@ class Magento_Invitation_Controller_Customer_Account extends Magento_Customer_Co
      */
     public function preDispatch()
     {
-        Magento_Core_Controller_Front_Action::preDispatch();
+        \Magento\Core\Controller\Front\Action::preDispatch();
 
         if (!preg_match('/^(create|createpost)/i', $this->getRequest()->getActionName())) {
             $this->norouteAction();
@@ -110,14 +112,14 @@ class Magento_Invitation_Controller_Customer_Account extends Magento_Customer_Co
     /**
      * Initialize invitation from request
      *
-     * @return Magento_Invitation_Model_Invitation
+     * @return \Magento\Invitation\Model\Invitation
      */
     protected function _initInvitation()
     {
         if (!$this->_coreRegistry->registry('current_invitation')) {
             $invitation = $this->_invitationFactory->create();
             $invitation
-                ->loadByInvitationCode($this->_objectManager->get('Magento_Core_Helper_Data')->urlDecode(
+                ->loadByInvitationCode($this->_objectManager->get('Magento\Core\Helper\Data')->urlDecode(
                     $this->getRequest()->getParam('invitation', false)
                 ))
                 ->makeSureCanBeAccepted();
@@ -134,10 +136,10 @@ class Magento_Invitation_Controller_Customer_Account extends Magento_Customer_Co
         try {
             $this->_initInvitation();
             $this->loadLayout();
-            $this->_initLayoutMessages('Magento_Customer_Model_Session');
+            $this->_initLayoutMessages('Magento\Customer\Model\Session');
             $this->renderLayout();
             return;
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
         $this->_redirect('customer/account/login');
@@ -167,16 +169,16 @@ class Magento_Invitation_Controller_Customer_Account extends Magento_Customer_Co
                 $invitation->accept($this->_storeManager->getWebsite()->getId(), $customerId);
             }
             return;
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $_definedErrorCodes = array(
-                Magento_Invitation_Model_Invitation::ERROR_CUSTOMER_EXISTS,
-                Magento_Invitation_Model_Invitation::ERROR_INVALID_DATA
+                \Magento\Invitation\Model\Invitation::ERROR_CUSTOMER_EXISTS,
+                \Magento\Invitation\Model\Invitation::ERROR_INVALID_DATA
             );
             if (in_array($e->getCode(), $_definedErrorCodes)) {
                 $this->_getSession()->addError($e->getMessage())
                     ->setCustomerFormData($this->getRequest()->getPost());
             } else {
-                if ($this->_objectManager->get('Magento_Customer_Helper_Data')->isRegistrationAllowed()) {
+                if ($this->_objectManager->get('Magento\Customer\Helper\Data')->isRegistrationAllowed()) {
                     $this->_getSession()->addError(
                         __('Your invitation is not valid. Please create an account.')
                     );
@@ -184,14 +186,14 @@ class Magento_Invitation_Controller_Customer_Account extends Magento_Customer_Co
                     return;
                 } else {
                     $this->_getSession()->addError(__('Your invitation is not valid. Please contact us at %1.',
-                            $this->_objectManager->get('Magento_Core_Model_Store_Config')
+                            $this->_objectManager->get('Magento\Core\Model\Store\Config')
                                 ->getConfig('trans_email/ident_support/email'))
                     );
                     $this->_redirect('customer/account/login');
                     return;
                 }
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getSession()->setCustomerFormData($this->getRequest()->getPost())
                 ->addException($e, __('Unable to save the customer.'));
         }
@@ -205,7 +207,7 @@ class Magento_Invitation_Controller_Customer_Account extends Magento_Customer_Co
      * Make success redirect constant
      *
      * @param string $defaultUrl
-     * @return Magento_Invitation_Controller_Customer_Account
+     * @return \Magento\Invitation\Controller\Customer\Account
      */
     protected function _redirectSuccess($defaultUrl)
     {
@@ -216,7 +218,7 @@ class Magento_Invitation_Controller_Customer_Account extends Magento_Customer_Co
      * Make failure redirect constant
      *
      * @param string $defaultUrl
-     * @return Magento_Invitation_Controller_Customer_Account
+     * @return \Magento\Invitation\Controller\Customer\Account
      */
     protected function _redirectError($defaultUrl)
     {

@@ -8,9 +8,9 @@
  */
 -->
 <config>
-    <type name="downloadable" label="Downloadable Product" modelInstance="Magento_Downloadable_Model_Product_Type" composite='false' isQty="true" canUseQtyDecimals="true">
-        <priceModel instance="Magento_Downloadable_Model_Product_Price" />
-        <indexerModel instance="Magento_Downloadable_Model_Resource_Indexer_Price" />
+    <type name="downloadable" label="Downloadable Product" modelInstance="Magento\Downloadable\Model\Product\Type" composite='false' isQty="true" canUseQtyDecimals="true">
+        <priceModel instance="Magento\Downloadable\Model\Product\Price" />
+        <indexerModel instance="Magento\Downloadable\Model\Resource\Indexer\Price" />
     </type>
     <type name="configurable">
         <allowProductTypes>

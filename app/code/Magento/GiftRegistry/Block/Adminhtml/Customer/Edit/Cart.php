@@ -12,52 +12,54 @@
  * Adminhtml customer cart items grid block
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
-    extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\GiftRegistry\Block\Adminhtml\Customer\Edit;
+
+class Cart
+    extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
-     * @var Magento_Customer_Model_CustomerFactory
+     * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $customerFactory;
 
     /**
-     * @var Magento_Sales_Model_QuoteFactory
+     * @var \Magento\Sales\Model\QuoteFactory
      */
     protected $salesQuoteFactory;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Data_CollectionFactory
+     * @var \Magento\Data\CollectionFactory
      */
     protected $_dataFactory;
 
     /**
-     * @param Magento_Data_CollectionFactory $dataFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Customer_Model_CustomerFactory $customerFactory
-     * @param Magento_Sales_Model_QuoteFactory $salesQuoteFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Data\CollectionFactory $dataFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Sales\Model\QuoteFactory $salesQuoteFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Data_CollectionFactory $dataFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Customer_Model_CustomerFactory $customerFactory,
-        Magento_Sales_Model_QuoteFactory $salesQuoteFactory,
+        \Magento\Data\CollectionFactory $dataFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Sales\Model\QuoteFactory $salesQuoteFactory,
         array $data = array()
     ) {
         $this->_dataFactory = $dataFactory;
@@ -114,7 +116,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
             'index' => 'price',
             'type'  => 'currency',
             'width' => '120px',
-            'currency_code' => (string) $this->_storeConfig->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+            'currency_code' => (string) $this->_storeConfig->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
         ));
 
         $this->addColumn('qty', array(
@@ -129,7 +131,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
             'index' => 'row_total',
             'type'  => 'currency',
             'width' => '120px',
-            'currency_code' => (string) $this->_storeConfig->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+            'currency_code' => (string) $this->_storeConfig->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
         ));
 
         return parent::_prepareColumns();
@@ -138,7 +140,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
     /**
      * Prepare mass action options for this grid
      *
-     * @return Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
+     * @return \Magento\GiftRegistry\Block\Adminhtml\Customer\Edit\Cart
      */
     protected function _prepareMassaction()
     {
@@ -166,7 +168,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
     /**
      * Return gift registry entity object
      *
-     * @return Magento_GiftRegistry_Model_Entity
+     * @return \Magento\GiftRegistry\Model\Entity
      */
     public function getEntity()
     {

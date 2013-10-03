@@ -9,30 +9,32 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Cms\Page\Edit\Tab;
+
 /**
- * Test class for Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Design
+ * Test class for \Magento\Adminhtml\Block\Cms\Page\Edit\Tab\Design
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_DesignTest extends PHPUnit_Framework_TestCase
+class DesignTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled
      */
     public function testPrepareForm()
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_View_DesignInterface')
-            ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager->get('Magento\Core\Model\View\DesignInterface')
+            ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
-        $objectManager->get('Magento_Core_Model_Config_Scope')
-            ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
-        $objectManager->get('Magento_Core_Model_Registry')
-            ->register('cms_page', $objectManager->create('Magento_Cms_Model_Page'));
+        $objectManager->get('Magento\Core\Model\Config\Scope')
+            ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
+        $objectManager->get('Magento\Core\Model\Registry')
+            ->register('cms_page', $objectManager->create('Magento\Cms\Model\Page'));
 
-        $block = $objectManager->create('Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Design');
-        $prepareFormMethod = new ReflectionMethod(
-            'Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Design', '_prepareForm');
+        $block = $objectManager->create('Magento\Adminhtml\Block\Cms\Page\Edit\Tab\Design');
+        $prepareFormMethod = new \ReflectionMethod(
+            'Magento\Adminhtml\Block\Cms\Page\Edit\Tab\Design', '_prepareForm');
         $prepareFormMethod->setAccessible(true);
         $prepareFormMethod->invoke($block);
 

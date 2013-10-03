@@ -16,7 +16,9 @@
  * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Pbridge_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Pbridge\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Payment Bridge action name to fetch Payment Bridge gateway form
@@ -50,7 +52,7 @@ class Magento_Pbridge_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Encryptor model
      *
-     * @var Magento_Pbridge_Model_Encryption
+     * @var \Magento\Pbridge\Model\Encryption
      */
     protected $_encryptor = null;
 
@@ -64,82 +66,82 @@ class Magento_Pbridge_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
      * Locale
      *
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Checkout session
      *
-     * @var Magento_Checkout_Model_Session
+     * @var \Magento\Checkout\Model\Session
      */
     protected $_checkoutSession;
 
     /**
      * Customer session
      *
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
      * Layout
      *
-     * @var Magento_Core_Model_Layout
+     * @var \Magento\Core\Model\Layout
      */
     protected $_layout;
 
     /**
      * Encryption factory
      *
-     * @var Magento_Pbridge_Model_EncryptionFactory
+     * @var \Magento\Pbridge\Model\EncryptionFactory
      */
     protected $_encryptionFactory;
 
     /**
      * Cart factory
      *
-     * @var Magento_Paypal_Model_CartFactory
+     * @var \Magento\Paypal\Model\CartFactory
      */
     protected $_cartFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Checkout_Model_Session $checkoutSession
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Core_Model_Layout $layout
-     * @param Magento_Pbridge_Model_EncryptionFactory $encryptionFactory
-     * @param Magento_Paypal_Model_CartFactory $cartFactory
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\Pbridge\Model\EncryptionFactory $encryptionFactory
+     * @param \Magento\Paypal\Model\CartFactory $cartFactory
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Checkout_Model_Session $checkoutSession,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Core_Model_Layout $layout,
-        Magento_Pbridge_Model_EncryptionFactory $encryptionFactory,
-        Magento_Paypal_Model_CartFactory $cartFactory
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\Layout $layout,
+        \Magento\Pbridge\Model\EncryptionFactory $encryptionFactory,
+        \Magento\Paypal\Model\CartFactory $cartFactory
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_customerSession = $customerSession;
@@ -155,7 +157,7 @@ class Magento_Pbridge_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Check if Payment Bridge Magento Module is enabled in configuration
      *
-     * @param Magento_Core_Model_Store $store
+     * @param \Magento\Core\Model\Store $store
      * @return bool
      */
     public function isEnabled($store = null)
@@ -166,7 +168,7 @@ class Magento_Pbridge_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Check if Payment Bridge supports Payment Profiles
      *
-     * @param Magento_Core_Model_Store $store
+     * @param \Magento\Core\Model\Store $store
      * @return bool
      */
     public function arePaymentProfilesEnables($store = null)
@@ -179,7 +181,7 @@ class Magento_Pbridge_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Check if enough config paramters to use Pbridge module
      *
-     * @param Magento_Core_Model_Store | integer $store
+     * @param \Magento\Core\Model\Store | integer $store
      * @return boolean
      */
     public function isAvailable($store = null)
@@ -192,12 +194,12 @@ class Magento_Pbridge_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Getter
      *
-     * @param Magento_Sales_Model_Quote $quote
-     * @return Magento_Sales_Model_Quote | null
+     * @param \Magento\Sales\Model\Quote $quote
+     * @return \Magento\Sales\Model\Quote | null
      */
     protected function _getQuote($quote = null)
     {
-        if ($quote && $quote instanceof Magento_Sales_Model_Quote) {
+        if ($quote && $quote instanceof \Magento\Sales\Model\Quote) {
             return $quote;
         }
         return $this->_checkoutSession->getQuote();
@@ -275,7 +277,7 @@ class Magento_Pbridge_Helper_Data extends Magento_Core_Helper_Abstract
      * Return payment Bridge request URL to display gateway form
      *
      * @param array $params OPTIONAL
-     * @param Magento_Sales_Model_Quote $quote
+     * @param \Magento\Sales\Model\Quote $quote
      * @return string
      */
     public function getGatewayFormUrl(array $params = array(), $quote = null)
@@ -336,7 +338,7 @@ class Magento_Pbridge_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Return a modified encryptor
      *
-     * @return Magento_Pbridge_Model_Encryption
+     * @return \Magento\Pbridge\Model\Encryption
      */
     public function getEncryptor()
     {
@@ -392,7 +394,7 @@ class Magento_Pbridge_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Prepare cart from order
      *
-     * @param Magento_Core_Model_Abstract $order
+     * @param \Magento\Core\Model\AbstractModel $order
      * @return array
      */
     public function prepareCart($order)

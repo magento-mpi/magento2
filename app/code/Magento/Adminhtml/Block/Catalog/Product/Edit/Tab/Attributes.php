@@ -15,36 +15,38 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Magento_Adminhtml_Block_Catalog_Form
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab;
+
+class Attributes extends \Magento\Adminhtml\Block\Catalog\Form
 {
     /**
      * Catalog data
      *
-     * @var Magento_Catalog_Helper_Data
+     * @var \Magento\Catalog\Helper\Data
      */
     protected $_catalogData = null;
 
     /**
-     * @var Magento_Cms_Model_Wysiwyg_Config
+     * @var \Magento\Cms\Model\Wysiwyg\Config
      */
     protected $_wysiwygConfig;
 
     /**
-     * @param Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_wysiwygConfig = $wysiwygConfig;
@@ -72,10 +74,10 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Magent
      */
     protected function _prepareForm()
     {
-        /** @var $group Magento_Eav_Model_Entity_Attribute_Group */
+        /** @var $group \Magento\Eav\Model\Entity\Attribute\Group */
         $group = $this->getGroup();
         if ($group) {
-            /** @var Magento_Data_Form $form */
+            /** @var \Magento\Data\Form $form */
             $form = $this->_formFactory->create();
             $product = $this->_coreRegistry->registry('product');
             $isWrapped = $this->_coreRegistry->registry('use_wrapper');
@@ -103,28 +105,28 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Magent
             $urlKey = $form->getElement('url_key');
             if ($urlKey) {
                 $urlKey->setRenderer(
-                    $this->getLayout()->createBlock('Magento_Adminhtml_Block_Catalog_Form_Renderer_Attribute_Urlkey')
+                    $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Form\Renderer\Attribute\Urlkey')
                 );
             }
 
             $tierPrice = $form->getElement('tier_price');
             if ($tierPrice) {
                 $tierPrice->setRenderer(
-                    $this->getLayout()->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier')
+                    $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Price\Tier')
                 );
             }
 
             $groupPrice = $form->getElement('group_price');
             if ($groupPrice) {
                 $groupPrice->setRenderer(
-                    $this->getLayout()->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group')
+                    $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Price\Group')
                 );
             }
 
             $recurringProfile = $form->getElement('recurring_profile');
             if ($recurringProfile) {
                 $recurringProfile->setRenderer(
-                    $this->getLayout()->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Recurring')
+                    $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Price\Recurring')
                 );
             }
 
@@ -134,7 +136,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Magent
                 && $isWrapped
             ) {
                 $attributeCreate = $this->getLayout()
-                    ->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes_Create');
+                    ->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Attributes\Create');
 
                 $attributeCreate->getConfig()
                     ->setAttributeGroupCode($group->getAttributeGroupCode())
@@ -146,7 +148,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Magent
                     ->setProductId($form->getDataObject()->getId());
 
                 $attributeSearch = $this->getLayout()
-                    ->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes_Search')
+                    ->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Attributes\Search')
                     ->setGroupId($group->getId())
                     ->setGroupCode($group->getAttributeGroupCode());
 
@@ -191,15 +193,15 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Magent
     protected function _getAdditionalElementTypes()
     {
         $result = array(
-            'price'    => 'Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Price',
-            'weight'   => 'Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight',
-            'gallery'  => 'Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery',
-            'image'    => 'Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Image',
-            'boolean'  => 'Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Boolean',
-            'textarea' => 'Magento_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg',
+            'price'    => 'Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Price',
+            'weight'   => 'Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Weight',
+            'gallery'  => 'Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Gallery',
+            'image'    => 'Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Image',
+            'boolean'  => 'Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Boolean',
+            'textarea' => 'Magento\Adminhtml\Block\Catalog\Helper\Form\Wysiwyg',
         );
 
-        $response = new Magento_Object();
+        $response = new \Magento\Object();
         $response->setTypes(array());
         $this->_eventManager->dispatch('adminhtml_catalog_product_edit_element_types', array('response' => $response));
 

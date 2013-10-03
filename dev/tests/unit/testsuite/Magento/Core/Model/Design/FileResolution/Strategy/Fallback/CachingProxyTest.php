@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxyTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Design\FileResolution\Strategy\Fallback;
+
+class CachingProxyTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Temp directory for the model to store maps
@@ -21,21 +23,21 @@ class Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxyTes
     /**
      * Mock of the model to be tested. Operates the mocked fallback object.
      *
-     * @var Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy
+     * @var \Magento\Core\Model\Design\FileResolution\Strategy\Fallback\CachingProxy
      */
     protected $_model;
 
     /**
      * Mocked fallback object, with file resolution methods ready to be substituted.
      *
-     * @var Magento_Core_Model_Design_FileResolution_Strategy_Fallback|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Design\FileResolution\Strategy\Fallback|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fallback;
 
     /**
      * Theme model, pre-created in setUp() for usage in tests
      *
-     * @var Magento_Core_Model_Theme|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Theme|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_themeModel;
 
@@ -45,15 +47,15 @@ class Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxyTes
         mkdir($this->_tmpDir);
 
         $this->_fallback = $this->getMock(
-            'Magento_Core_Model_Design_FileResolution_Strategy_Fallback',
+            'Magento\Core\Model\Design\FileResolution\Strategy\Fallback',
             array(),
             array(),
             '',
             false
         );
 
-        $this->_themeModel = PHPUnit_Framework_MockObject_Generator::getMock(
-            'Magento_Core_Model_Theme',
+        $this->_themeModel = \PHPUnit_Framework_MockObject_Generator::getMock(
+            'Magento\Core\Model\Theme',
             array(),
             array(),
             '',
@@ -64,22 +66,22 @@ class Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxyTes
             ->method('getId')
             ->will($this->returnValue('t'));
 
-        $this->_model = new Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy(
+        $this->_model = new \Magento\Core\Model\Design\FileResolution\Strategy\Fallback\CachingProxy(
             $this->_fallback, $this->_createFilesystem(), $this->_tmpDir, TESTS_TEMP_DIR, true
         );
     }
 
     protected function tearDown()
     {
-        Magento_Io_File::rmdirRecursive($this->_tmpDir);
+        \Magento\Io\File::rmdirRecursive($this->_tmpDir);
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testConstructInvalidDir()
     {
-        $this->_model = new Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy(
+        $this->_model = new \Magento\Core\Model\Design\FileResolution\Strategy\Fallback\CachingProxy(
             $this->_fallback, $this->_createFilesystem(), $this->_tmpDir, TESTS_TEMP_DIR . '/invalid_dir'
         );
     }
@@ -106,7 +108,7 @@ class Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxyTes
         $this->_fallback->expects($this->once())
             ->method('getFile')
             ->will($this->returnValue(TESTS_TEMP_DIR . DIRECTORY_SEPARATOR . 'test.txt'));
-        $model = new Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy(
+        $model = new \Magento\Core\Model\Design\FileResolution\Strategy\Fallback\CachingProxy(
             $this->_fallback, $this->_createFilesystem(), $this->_tmpDir, TESTS_TEMP_DIR, false
         );
 
@@ -122,13 +124,13 @@ class Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxyTes
      * @param array $params
      * @param string $expectedResult
      * @dataProvider proxyMethodsDataProvider
-     * @covers Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy::getFile
-     * @covers Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy::getLocaleFile
-     * @covers Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy::getViewFile
+     * @covers \Magento\Core\Model\Design\FileResolution\Strategy\Fallback\CachingProxy::getFile
+     * @covers \Magento\Core\Model\Design\FileResolution\Strategy\Fallback\CachingProxy::getLocaleFile
+     * @covers \Magento\Core\Model\Design\FileResolution\Strategy\Fallback\CachingProxy::getViewFile
      */
     public function testProxyMethods($method, $params, $expectedResult)
     {
-        $helper = new Magento_TestFramework_Helper_ProxyTesting();
+        $helper = new \Magento\TestFramework\Helper\ProxyTesting();
         $actualResult = $helper->invokeWithExpectations($this->_model, $this->_fallback, $method, $params,
             $expectedResult);
         $this->assertEquals($expectedResult, $actualResult);
@@ -139,8 +141,8 @@ class Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxyTes
      */
     public static function proxyMethodsDataProvider()
     {
-        $themeModel = PHPUnit_Framework_MockObject_Generator::getMock(
-            'Magento_Core_Model_Theme',
+        $themeModel = \PHPUnit_Framework_MockObject_Generator::getMock(
+            'Magento\Core\Model\Theme',
             array(),
             array(),
             '',
@@ -182,10 +184,10 @@ class Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxyTes
     }
 
     /**
-     * @return Magento_Filesystem
+     * @return \Magento\Filesystem
      */
     protected function _createFilesystem()
     {
-        return new Magento_Filesystem(new Magento_Filesystem_Adapter_Local());
+        return new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local());
     }
 }

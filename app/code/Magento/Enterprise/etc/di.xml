@@ -8,8 +8,8 @@
  */
 -->
 <config>
-    <preference for="Magento_Core_Model_Resource_Setup_Migration" type="Magento_Enterprise_Model_Resource_Setup_Migration" />
-    <type name="Magento_Core_Model_View_Design">
+    <preference for="Magento\Core\Model\Resource\Setup\Migration" type="Magento\Enterprise\Model\Resource\Setup\Migration" />
+    <type name="Magento\Core\Model\View\Design">
         <param name="themes">
             <value>
                 <frontend>magento_fixed_width</frontend>
@@ -18,15 +18,15 @@
             </value>
         </param>
     </type>
-    <type name="Magento_Install_Block_Begin">
+    <type name="Magento\Install\Block\Begin">
         <param name="eulaFile">
             <value>LICENSE_EE.html</value>
         </param>
     </type>
-    <type name="Magento_Core_Model_Db_Updater">
+    <type name="Magento\Core\Model\Db\Updater">
         <param name="resourceList">
             <value>
-                <enterprise_setup>Magento_Enterprise_Model_Resource_Setup</enterprise_setup>
+                <enterprise_setup>Magento\Enterprise\Model\Resource\Setup</enterprise_setup>
             </value>
         </param>
     </type>

@@ -16,7 +16,9 @@
  * @package     Magento_Sitemap
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sitemap_Model_Resource_Sitemap_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Sitemap\Model\Resource\Sitemap;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Init collection
@@ -24,14 +26,14 @@ class Magento_Sitemap_Model_Resource_Sitemap_Collection extends Magento_Core_Mod
      */
     public function _construct()
     {
-        $this->_init('Magento_Sitemap_Model_Sitemap', 'Magento_Sitemap_Model_Resource_Sitemap');
+        $this->_init('Magento\Sitemap\Model\Sitemap', 'Magento\Sitemap\Model\Resource\Sitemap');
     }
 
     /**
      * Filter collection by specified store ids
      *
      * @param array|int $storeIds
-     * @return Magento_Sitemap_Model_Resource_Sitemap_Collection
+     * @return \Magento\Sitemap\Model\Resource\Sitemap\Collection
      */
     public function addStoreFilter($storeIds)
     {

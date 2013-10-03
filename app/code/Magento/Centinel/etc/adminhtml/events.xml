@@ -9,6 +9,6 @@
 -->
 <config>
     <event name="payment_info_block_prepare_specific_information">
-        <observer name="centinel" instance="Magento_Centinel_Model_Observer" method="paymentInfoBlockPrepareSpecificInformation" shared="false" />
+        <observer name="centinel" instance="Magento\Centinel\Model\Observer" method="paymentInfoBlockPrepareSpecificInformation" shared="false" />
     </event>
 </config>

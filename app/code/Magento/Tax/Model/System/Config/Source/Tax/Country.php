@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Tax_Model_System_Config_Source_Tax_Country extends Magento_Directory_Model_Config_Source_Country
+namespace Magento\Tax\Model\System\Config\Source\Tax;
+
+class Country extends \Magento\Directory\Model\Config\Source\Country
 {
     protected $_options;
 

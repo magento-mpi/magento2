@@ -15,7 +15,9 @@
  * @package     Magento_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rating_Model_Resource_Rating_Option extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Rating\Model\Resource\Rating;
+
+class Option extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Review table
@@ -76,31 +78,31 @@ class Magento_Rating_Model_Resource_Rating_Option extends Magento_Core_Model_Res
     /**
      * Core http
      *
-     * @var Magento_Core_Helper_Http
+     * @var \Magento\Core\Helper\Http
      */
     protected $_coreHttp = null;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @var Magento_Rating_Model_Rating_Option_VoteFactory
+     * @var \Magento\Rating\Model\Rating\Option\VoteFactory
      */
     protected $_ratingOptionVoteF;
 
     /**
-     * @param Magento_Core_Helper_Http $coreHttp
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Rating_Model_Rating_Option_VoteFactory $ratingOptionVoteF
+     * @param \Magento\Core\Helper\Http $coreHttp
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Rating\Model\Rating\Option\VoteFactory $ratingOptionVoteF
      */
     public function __construct(
-        Magento_Core_Helper_Http $coreHttp,
-        Magento_Core_Model_Resource $resource,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Rating_Model_Rating_Option_VoteFactory $ratingOptionVoteF
+        \Magento\Core\Helper\Http $coreHttp,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Rating\Model\Rating\Option\VoteFactory $ratingOptionVoteF
     ) {
         $this->_coreHttp = $coreHttp;
         $this->_customerSession = $customerSession;
@@ -127,8 +129,8 @@ class Magento_Rating_Model_Resource_Rating_Option extends Magento_Core_Model_Res
     /**
      * Add vote
      *
-     * @param Magento_Rating_Model_Rating_Option $option
-     * @return Magento_Rating_Model_Resource_Rating_Option
+     * @param \Magento\Rating\Model\Rating\Option $option
+     * @return \Magento\Rating\Model\Resource\Rating\Option
      */
     public function addVote($option)
     {
@@ -164,9 +166,9 @@ class Magento_Rating_Model_Resource_Rating_Option extends Magento_Core_Model_Res
                 $this->aggregate($option);
             }
             $adapter->commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $adapter->rollback();
-            throw new Exception($e->getMessage());
+            throw new \Exception($e->getMessage());
         }
         return $this;
     }
@@ -174,7 +176,7 @@ class Magento_Rating_Model_Resource_Rating_Option extends Magento_Core_Model_Res
     /**
      * Aggregate options
      *
-     * @param Magento_Rating_Model_Rating_Option $option
+     * @param \Magento\Rating\Model\Rating\Option $option
      */
     public function aggregate($option)
     {
@@ -206,10 +208,10 @@ class Magento_Rating_Model_Resource_Rating_Option extends Magento_Core_Model_Res
         $select = $readAdapter->select()
             ->from(array('vote'=>$this->_ratingVoteTable),
                 array(
-                    'vote_count'         => new Zend_Db_Expr('COUNT(vote.vote_id)'),
-                    'vote_value_sum'     => new Zend_Db_Expr('SUM(vote.value)'),
-                    'app_vote_count'     => new Zend_Db_Expr("COUNT({$appVoteCountCond})"),
-                    'app_vote_value_sum' => new Zend_Db_Expr("SUM({$appVoteValueSumCond})") ))
+                    'vote_count'         => new \Zend_Db_Expr('COUNT(vote.vote_id)'),
+                    'vote_value_sum'     => new \Zend_Db_Expr('SUM(vote.value)'),
+                    'app_vote_count'     => new \Zend_Db_Expr("COUNT({$appVoteCountCond})"),
+                    'app_vote_value_sum' => new \Zend_Db_Expr("SUM({$appVoteValueSumCond})") ))
             ->join(array('review'   =>$this->_reviewTable),
                 'vote.review_id=review.review_id',
                 array())

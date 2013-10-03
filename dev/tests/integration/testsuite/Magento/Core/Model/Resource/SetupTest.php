@@ -9,17 +9,19 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Resource_SetupTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Resource;
+
+class SetupTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Resource_Setup
+     * @var \Magento\Core\Model\Resource\Setup
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Resource_Setup',
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Resource\Setup',
             array('resourceName' => 'default_setup', 'moduleName' => 'Magento_Core')
         );
     }
@@ -33,19 +35,19 @@ class Magento_Core_Model_Resource_SetupTest extends PHPUnit_Framework_TestCase
     public function testApplyAllDataUpdates()
     {
         /*reset versions*/
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Model_Resource_Resource')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Core\Model\Resource\Resource')
             ->setDbVersion('adminnotification_setup', false);
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Model_Resource_Resource')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Core\Model\Resource\Resource')
             ->setDataVersion('adminnotification_setup', false);
         $this->_model->deleteTableRow('core_resource', 'code', 'adminnotification_setup');
         $this->_model->getConnection()->dropTable($this->_model->getTable('adminnotification_inbox'));
         $this->_model->getConnection()->dropTable($this->_model->getTable('admin_system_messages'));
-        /** @var $updater Magento_Core_Model_Db_Updater */
-        $updater = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Db_Updater');
+        /** @var $updater \Magento\Core\Model\Db\Updater */
+        $updater = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Db\Updater');
         try {
             $updater->updateScheme();
             $updater->updateData();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->fail("Impossible to continue other tests, because database is broken: {$e}");
         }
         $this->assertNotEmpty(
@@ -84,7 +86,7 @@ class Magento_Core_Model_Resource_SetupTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Zend_Db_Statement_Exception
+     * @expectedException \Zend_Db_Statement_Exception
      */
     public function testGetTableRow()
     {
@@ -93,7 +95,7 @@ class Magento_Core_Model_Resource_SetupTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Zend_Db_Statement_Exception
+     * @expectedException \Zend_Db_Statement_Exception
      */
     public function testDeleteTableRow()
     {
@@ -101,8 +103,8 @@ class Magento_Core_Model_Resource_SetupTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Core_Model_Resource_Setup::updateTableRow
-     * @expectedException Zend_Db_Statement_Exception
+     * @covers \Magento\Core\Model\Resource\Setup::updateTableRow
+     * @expectedException \Zend_Db_Statement_Exception
      */
     public function testUpdateTableRowNameConversion()
     {

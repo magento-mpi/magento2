@@ -10,8 +10,8 @@
 ?>
 <?php
 /**
- * Template for Magento_Backend_Block_Widget_Grid_ColumnSet
- * @var $this Magento_Backend_Block_Widget_Grid_ColumnSet
+ * Template for \Magento\Backend\Block\Widget\Grid\ColumnSet
+ * @var $this \Magento\Backend\Block\Widget\Grid\ColumnSet
  */
 $numColumns = sizeof($this->getColumns());
 ?>
@@ -26,7 +26,7 @@ $numColumns = sizeof($this->getColumns());
             <?php if ($this->isHeaderVisible()): ?>
                 <tr class="headings">
                 <?php foreach ($this->getColumns() as $_column): ?>
-                <?php /* @var $_column Magento_Backend_Block_Widget_Grid_Column */ ?>
+                <?php /* @var $_column \Magento\Backend\Block\Widget\Grid\Column */ ?>
                     <th data-column="<?php echo $_column->getId() ?>" <?php echo $_column->getHeaderHtmlProperty() ?>>
                             <span class="nobr"><?php echo $_column->getHeaderHtml() ?></span>
                     </th>

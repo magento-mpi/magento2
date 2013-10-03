@@ -11,7 +11,9 @@
 /**
  * PHP JsHint shell command
  */
-class Magento_TestFramework_Inspection_JsHint_Command extends Magento_TestFramework_Inspection_CommandAbstract
+namespace Magento\TestFramework\Inspection\JsHint;
+
+class Command extends \Magento\TestFramework\Inspection\AbstractCommand
 {
 
     /**
@@ -181,20 +183,20 @@ class Magento_TestFramework_Inspection_JsHint_Command extends Magento_TestFramew
 
     /**
      * Check if JsHint is runnable
-     * @throws Exception
+     * @throws \Exception
      * @return boolean
      */
     public function canRun()
     {
         $retArray = $this->_executeCommand($this->_getHostScript());
         if ($retArray[1] != 0) {
-            throw new Exception($this->_getHostScript() . ' does not exist.');
+            throw new \Exception($this->_getHostScript() . ' does not exist.');
         }
         if (!$this->_fileExists($this->_getJsHintPath())) {
-            throw new Exception($this->_getJsHintPath() . ' does not exist.');
+            throw new \Exception($this->_getJsHintPath() . ' does not exist.');
         }
         if (!$this->_fileExists($this->getFileName())) {
-            throw new Exception($this->getFileName() . ' does not exist.');
+            throw new \Exception($this->getFileName() . ' does not exist.');
         }
         return true;
     }

@@ -15,7 +15,7 @@
         <group name="magento_catalogevent">
             <label translate="true">Catalog Events</label>
             <expected_models>
-                <expected_model class="Magento_CatalogEvent_Model_Event" />
+                <expected_model class="Magento\CatalogEvent\Model\Event" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_catalog_event_edit" action_alias="view" />

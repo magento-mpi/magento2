@@ -9,10 +9,12 @@
  */
 
 
-class Magento_Rule_Block_Newchild extends Magento_Core_Block_Abstract
-    implements Magento_Data_Form_Element_Renderer_Interface
+namespace Magento\Rule\Block;
+
+class Newchild extends \Magento\Core\Block\AbstractBlock
+    implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
-    public function render(Magento_Data_Form_Element_Abstract $element)
+    public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $element->addClass('element-value-changer');
         $html = '&nbsp;<span class="rule-param rule-param-new-child"' . ($element->getParamId() ? ' id="' . $element->getParamId() . '"' : '') . '>';

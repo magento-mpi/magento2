@@ -15,26 +15,28 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Page extends Magento_Backend_Block_Template
+namespace Magento\Adminhtml\Block;
+
+class Page extends \Magento\Backend\Block\Template
 {
 
     protected $_template = 'admin/page.phtml';
 
     /**
-     * @var Magento_Core_Model_App
+     * @var \Magento\Core\Model\App
      */
     protected $_application;
 
     /**
-     * @param Magento_Core_Model_App $application
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Core\Model\App $application
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_App $application,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Core\Model\App $application,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_application = $application;
@@ -72,7 +74,7 @@ class Magento_Adminhtml_Block_Page extends Magento_Backend_Block_Template
      * Add CSS class to page body tag
      *
      * @param string $className
-     * @return Magento_Adminhtml_Block_Page
+     * @return \Magento\Adminhtml\Block\Page
      */
     public function addBodyClass($className)
     {

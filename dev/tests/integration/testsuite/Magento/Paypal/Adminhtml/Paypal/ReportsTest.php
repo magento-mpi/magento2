@@ -6,10 +6,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Paypal\Adminhtml\Paypal;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Paypal_Adminhtml_Paypal_ReportsTest extends Magento_Backend_Utility_Controller
+class ReportsTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * @magentoConfigFixture current_store paypal/fetch_reports/active 1
@@ -25,7 +27,7 @@ class Magento_Paypal_Adminhtml_Paypal_ReportsTest extends Magento_Backend_Utilit
         $this->dispatch('backend/admin/paypal_reports/fetch');
         $this->assertSessionMessages(
             $this->equalTo(array("We couldn't fetch reports from 'login@127.0.0.1'.")),
-            Magento_Core_Model_Message::ERROR
+            \Magento\Core\Model\Message::ERROR
         );
     }
 }

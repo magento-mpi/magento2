@@ -9,11 +9,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Urlrewrite\Catalog\Category;
+
 /**
- * Test for Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit
+ * Test for \Magento\Adminhtml\Block\Urlrewrite\Catalog\Category\Edit
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_EditTest extends PHPUnit_Framework_TestCase
+class EditTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test prepare layout
@@ -25,15 +27,15 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_EditTest extends PHPUn
      */
     public function testPrepareLayout($blockAttributes, $expected)
     {
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
-            'Magento_Core_Model_Layout',
-            array('area' => Magento_Core_Model_App_Area::AREA_ADMINHTML)
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Core\Model\Layout',
+            array('area' => \Magento\Core\Model\App\Area::AREA_ADMINHTML)
         );
 
-        /** @var $block Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit */
+        /** @var $block \Magento\Adminhtml\Block\Urlrewrite\Catalog\Category\Edit */
         $block = $layout->createBlock(
-            'Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit', '', array('data' => $blockAttributes)
+            'Magento\Adminhtml\Block\Urlrewrite\Catalog\Category\Edit', '', array('data' => $blockAttributes)
         );
 
         $this->_checkSelector($block, $expected);
@@ -46,7 +48,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_EditTest extends PHPUn
     /**
      * Check selector
      *
-     * @param Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit $block
+     * @param \Magento\Adminhtml\Block\Urlrewrite\Catalog\Category\Edit $block
      * @param array $expected
      */
     private function _checkSelector($block, $expected)
@@ -54,11 +56,11 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_EditTest extends PHPUn
         $layout = $block->getLayout();
         $blockName = $block->getNameInLayout();
 
-        /** @var $selectorBlock Magento_Adminhtml_Block_Urlrewrite_Selector|bool */
+        /** @var $selectorBlock \Magento\Adminhtml\Block\Urlrewrite\Selector|bool */
         $selectorBlock = $layout->getChildBlock($blockName, 'selector');
 
         if ($expected['selector']) {
-            $this->assertInstanceOf('Magento_Adminhtml_Block_Urlrewrite_Selector', $selectorBlock,
+            $this->assertInstanceOf('Magento\Adminhtml\Block\Urlrewrite\Selector', $selectorBlock,
                 'Child block with entity selector is invalid');
         } else {
             $this->assertFalse($selectorBlock, 'Child block with entity selector should not present in block');
@@ -68,7 +70,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_EditTest extends PHPUn
     /**
      * Check links
      *
-     * @param Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit $block
+     * @param \Magento\Adminhtml\Block\Urlrewrite\Catalog\Category\Edit $block
      * @param array $expected
      */
     private function _checkLinks($block, $expected)
@@ -76,11 +78,11 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_EditTest extends PHPUn
         $layout = $block->getLayout();
         $blockName = $block->getNameInLayout();
 
-        /** @var $categoryBlock Magento_Adminhtml_Block_Urlrewrite_Link|bool */
+        /** @var $categoryBlock \Magento\Adminhtml\Block\Urlrewrite\Link|bool */
         $categoryBlock = $layout->getChildBlock($blockName, 'category_link');
 
         if ($expected['category_link']) {
-            $this->assertInstanceOf('Magento_Adminhtml_Block_Urlrewrite_Link', $categoryBlock,
+            $this->assertInstanceOf('Magento\Adminhtml\Block\Urlrewrite\Link', $categoryBlock,
                 'Child block with category link is invalid');
 
             $this->assertEquals('Category:', $categoryBlock->getLabel(),
@@ -99,7 +101,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_EditTest extends PHPUn
     /**
      * Check buttons
      *
-     * @param Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit $block
+     * @param \Magento\Adminhtml\Block\Urlrewrite\Catalog\Category\Edit $block
      * @param array $expected
      */
     private function _checkButtons($block, $expected)
@@ -147,7 +149,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_EditTest extends PHPUn
     /**
      * Check form
      *
-     * @param Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit $block
+     * @param \Magento\Adminhtml\Block\Urlrewrite\Catalog\Category\Edit $block
      * @param array $expected
      */
     private function _checkForm($block, $expected)
@@ -155,11 +157,11 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_EditTest extends PHPUn
         $layout = $block->getLayout();
         $blockName = $block->getNameInLayout();
 
-        /** @var $formBlock Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form|bool */
+        /** @var $formBlock \Magento\Adminhtml\Block\Urlrewrite\Catalog\Edit\Form|bool */
         $formBlock = $layout->getChildBlock($blockName, 'form');
 
         if ($expected['form']) {
-            $this->assertInstanceOf('Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form', $formBlock,
+            $this->assertInstanceOf('Magento\Adminhtml\Block\Urlrewrite\Catalog\Edit\Form', $formBlock,
                 'Child block with form is invalid');
 
             $this->assertSame($expected['form']['category'], $formBlock->getCategory(),
@@ -175,7 +177,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_EditTest extends PHPUn
     /**
      * Check categories tree
      *
-     * @param Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit $block
+     * @param \Magento\Adminhtml\Block\Urlrewrite\Catalog\Category\Edit $block
      * @param array $expected
      */
     private function _checkCategoriesTree($block, $expected)
@@ -183,11 +185,11 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_EditTest extends PHPUn
         $layout = $block->getLayout();
         $blockName = $block->getNameInLayout();
 
-        /** @var $categoriesTreeBlock Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Tree|bool  */
+        /** @var $categoriesTreeBlock \Magento\Adminhtml\Block\Urlrewrite\Catalog\Category\Tree|bool  */
         $categoriesTreeBlock = $layout->getChildBlock($blockName, 'categories_tree');
 
         if ($expected['categories_tree']) {
-            $this->assertInstanceOf('Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Tree', $categoriesTreeBlock,
+            $this->assertInstanceOf('Magento\Adminhtml\Block\Urlrewrite\Catalog\Category\Tree', $categoriesTreeBlock,
                 'Child block with categories tree is invalid');
         } else {
             $this->assertFalse($categoriesTreeBlock, 'Child block with category_tree should not present in block');
@@ -201,17 +203,17 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_EditTest extends PHPUn
      */
     public function prepareLayoutDataProvider()
     {
-        /** @var $urlRewrite Magento_Core_Model_Url_Rewrite */
-        $urlRewrite = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Url_Rewrite');
-        /** @var $category Magento_Catalog_Model_Category */
-        $category = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
-            'Magento_Catalog_Model_Category',
+        /** @var $urlRewrite \Magento\Core\Model\Url\Rewrite */
+        $urlRewrite = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Url\Rewrite');
+        /** @var $category \Magento\Catalog\Model\Category */
+        $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Category',
             array('data' => array('entity_id' => 1, 'name' => 'Test category'))
         );
-        /** @var $existingUrlRewrite Magento_Core_Model_Url_Rewrite */
-        $existingUrlRewrite = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
-            'Magento_Core_Model_Url_Rewrite',
+        /** @var $existingUrlRewrite \Magento\Core\Model\Url\Rewrite */
+        $existingUrlRewrite = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Core\Model\Url\Rewrite',
             array('data' => array('url_rewrite_id' => 1))
         );
 

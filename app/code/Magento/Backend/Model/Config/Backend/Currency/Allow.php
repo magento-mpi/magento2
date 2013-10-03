@@ -12,33 +12,35 @@
  * Config Directory currency backend model
  * Allows dispatching before and after events for each controller action
  */
-class Magento_Backend_Model_Config_Backend_Currency_Allow extends Magento_Backend_Model_Config_Backend_Currency_Abstract
+namespace Magento\Backend\Model\Config\Backend\Currency;
+
+class Allow extends \Magento\Backend\Model\Config\Backend\Currency\AbstractCurrency
 {
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_locale = $locale;
@@ -50,8 +52,8 @@ class Magento_Backend_Model_Config_Backend_Currency_Allow extends Magento_Backen
      * Check is isset default display currency in allowed currencies
      * Check allowed currencies is available in installed currencies
      *
-     * @return Magento_Backend_Model_Config_Backend_Currency_Allow
-     * @throws Magento_Core_Exception
+     * @return \Magento\Backend\Model\Config\Backend\Currency\Allow
+     * @throws \Magento\Core\Exception
      */
     protected function _afterSave()
     {
@@ -71,7 +73,7 @@ class Magento_Backend_Model_Config_Backend_Currency_Allow extends Magento_Backen
         }
 
         if ($exceptions) {
-            throw new Magento_Core_Exception(join("\n", $exceptions));
+            throw new \Magento\Core\Exception(join("\n", $exceptions));
         }
 
         return $this;

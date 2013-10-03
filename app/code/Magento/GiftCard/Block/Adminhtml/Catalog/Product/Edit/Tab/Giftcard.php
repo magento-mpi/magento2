@@ -8,12 +8,14 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard
- extends Magento_Backend_Block_Widget
- implements Magento_Backend_Block_Widget_Tab_Interface
+namespace Magento\GiftCard\Block\Adminhtml\Catalog\Product\Edit\Tab;
+
+class Giftcard
+ extends \Magento\Backend\Block\Widget
+ implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
@@ -22,31 +24,31 @@ class Magento_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * Email config options factory
      *
-     * @var Magento_Backend_Model_Config_Source_Email_TemplateFactory
+     * @var \Magento\Backend\Model\Config\Source\Email\TemplateFactory
      */
     protected $_templateOptions;
 
     /**
-     * @param Magento_Backend_Model_Config_Source_Email_TemplateFactory $templateOptions
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateOptions
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Model_Config_Source_Email_TemplateFactory $templateOptions,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Registry $coreRegistry,
+        \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateOptions,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_templateOptions = $templateOptions;
@@ -130,7 +132,7 @@ class Magento_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard
             return $this->_coreRegistry->registry('product')->getDataUsingMethod($field);
         }
 
-        return $this->_storeConfig->getConfig(Magento_GiftCard_Model_Giftcard::XML_PATH . $field);
+        return $this->_storeConfig->getConfig(\Magento\GiftCard\Model\Giftcard::XML_PATH . $field);
     }
 
     /**
@@ -141,9 +143,9 @@ class Magento_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard
     public function getCardTypes()
     {
         return array(
-            Magento_GiftCard_Model_Giftcard::TYPE_VIRTUAL  => __('Virtual'),
-            Magento_GiftCard_Model_Giftcard::TYPE_PHYSICAL => __('Physical'),
-            Magento_GiftCard_Model_Giftcard::TYPE_COMBINED => __('Combined'),
+            \Magento\GiftCard\Model\Giftcard::TYPE_VIRTUAL  => __('Virtual'),
+            \Magento\GiftCard\Model\Giftcard::TYPE_PHYSICAL => __('Physical'),
+            \Magento\GiftCard\Model\Giftcard::TYPE_COMBINED => __('Combined'),
         );
     }
 
@@ -156,7 +158,7 @@ class Magento_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard
     {
         $result = array();
         $template = $this->_templateOptions->create();
-        $template->setPath(Magento_GiftCard_Model_Giftcard::XML_PATH_EMAIL_TEMPLATE);
+        $template->setPath(\Magento\GiftCard\Model\Giftcard::XML_PATH_EMAIL_TEMPLATE);
         foreach ($template->toOptionArray() as $one) {
             $result[$one['value']] = $this->escapeHtml($one['label']);
         }
@@ -165,7 +167,7 @@ class Magento_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard
 
     public function getConfigValue($field)
     {
-        return $this->_storeConfig->getConfig(Magento_GiftCard_Model_Giftcard::XML_PATH . $field);
+        return $this->_storeConfig->getConfig(\Magento\GiftCard\Model\Giftcard::XML_PATH . $field);
     }
 
     /**

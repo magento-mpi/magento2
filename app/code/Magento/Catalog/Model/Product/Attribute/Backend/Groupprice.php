@@ -14,35 +14,37 @@
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Magento_Catalog_Model_Product_Attribute_Backend_Groupprice
-    extends Magento_Catalog_Model_Product_Attribute_Backend_Groupprice_Abstract
+namespace Magento\Catalog\Model\Product\Attribute\Backend;
+
+class Groupprice
+    extends \Magento\Catalog\Model\Product\Attribute\Backend\Groupprice\AbstractGroupprice
 {
     /**
      * Catalog product attribute backend groupprice
      *
-     * @var Magento_Catalog_Model_Resource_Product_Attribute_Backend_Groupprice
+     * @var \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Groupprice
      */
     protected $_productAttributeBackendGroupprice;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
-     * @param Magento_Catalog_Model_Resource_Product_Attribute_Backend_Groupprice $productAttributeBackendGroupprice
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Model_Product_Type $catalogProductType
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Model_Config $config
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
+     * @param \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Groupprice $productAttributeBackendGroupprice
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Product\Type $catalogProductType
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Model\Config $config
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Directory_Model_CurrencyFactory $currencyFactory,
-        Magento_Catalog_Model_Resource_Product_Attribute_Backend_Groupprice $productAttributeBackendGroupprice,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Model_Product_Type $catalogProductType,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Model_Config $config
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Directory\Model\CurrencyFactory $currencyFactory,
+        \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Groupprice $productAttributeBackendGroupprice,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Product\Type $catalogProductType,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Model\Config $config
     ) {
         $this->_productAttributeBackendGroupprice = $productAttributeBackendGroupprice;
         parent::__construct($logger, $currencyFactory, $storeManager, $catalogProductType, $catalogData,
@@ -52,7 +54,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Groupprice
     /**
      * Retrieve resource instance
      *
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Backend_Groupprice
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Groupprice
      */
     protected function _getResource()
     {

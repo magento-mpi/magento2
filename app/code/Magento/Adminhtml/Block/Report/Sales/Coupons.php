@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Report_Sales_Coupons extends Magento_Adminhtml_Block_Widget_Grid_Container
+namespace Magento\Adminhtml\Block\Report\Sales;
+
+class Coupons extends \Magento\Adminhtml\Block\Widget\Grid\Container
 {
     protected $_template = 'report/grid/container.phtml';
 

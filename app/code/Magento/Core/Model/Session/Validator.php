@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Session_Validator
+namespace Magento\Core\Model\Session;
+
+class Validator
 {
     const VALIDATOR_KEY                         = '_session_validator_data';
     const VALIDATOR_HTTP_USER_AGENT_KEY         = 'http_user_agent';
@@ -19,12 +21,12 @@ class Magento_Core_Model_Session_Validator
     const XML_PATH_USE_USER_AGENT       = 'web/session/use_http_user_agent';
 
     /**
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_storeConfig;
 
     /**
-     * @var Magento_Core_Helper_Http
+     * @var \Magento\Core\Helper\Http
      */
     protected $_helper;
 
@@ -34,13 +36,13 @@ class Magento_Core_Model_Session_Validator
     protected $_skippedAgentList;
 
     /**
-     * @param Magento_Core_Model_Store_Config $storeConfig
-     * @param Magento_Core_Helper_Http $helper
+     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Core\Helper\Http $helper
      * @param array $skippedUserAgentList
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $storeConfig,
-        Magento_Core_Helper_Http $helper,
+        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Core\Helper\Http $helper,
         array $skippedUserAgentList = array()
     ) {
         $this->_storeConfig = $storeConfig;
@@ -51,10 +53,10 @@ class Magento_Core_Model_Session_Validator
     /**
      * Validate session
      *
-     * @param Magento_Core_Model_Session_Abstract $session
-     * @throws Magento_Core_Model_Session_Exception
+     * @param \Magento\Core\Model\Session\AbstractSession $session
+     * @throws \Magento\Core\Model\Session\Exception
      */
-    public function validate(Magento_Core_Model_Session_Abstract $session)
+    public function validate(\Magento\Core\Model\Session\AbstractSession $session)
     {
         if (!isset($_SESSION[self::VALIDATOR_KEY])) {
             $_SESSION[self::VALIDATOR_KEY] = $this->_getSessionEnvironment();
@@ -62,7 +64,7 @@ class Magento_Core_Model_Session_Validator
             if (!$this->_validate()) {
                 $session->getCookie()->delete(session_name());
                 // throw core session exception
-                throw new Magento_Core_Model_Session_Exception('');
+                throw new \Magento\Core\Model\Session\Exception('');
             }
         }
     }

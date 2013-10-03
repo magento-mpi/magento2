@@ -6,21 +6,25 @@
  * @package     Magento_Cms
  * @copyright   {copyright}
  * @license     {license_link}
+ */
+namespace Magento\Cms\Model\Config\Source;
+
+/**
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Magento_Cms_Model_Config_Source_Page implements Magento_Core_Model_Option_ArrayInterface
+class Page implements \Magento\Core\Model\Option\ArrayInterface
 {
     protected $_options;
 
     /**
-     * @var Magento_Cms_Model_Resource_Page_CollectionFactory
+     * @var \Magento\Cms\Model\Resource\Page\CollectionFactory
      */
     protected $_pageCollectionFactory;
 
     /**
-     * @param Magento_Cms_Model_Resource_Page_CollectionFactory $pageCollectionFactory
+     * @param \Magento\Cms\Model\Resource\Page\CollectionFactory $pageCollectionFactory
      */
-    public function __construct(Magento_Cms_Model_Resource_Page_CollectionFactory $pageCollectionFactory)
+    public function __construct(\Magento\Cms\Model\Resource\Page\CollectionFactory $pageCollectionFactory)
     {
         $this->_pageCollectionFactory = $pageCollectionFactory;
     }

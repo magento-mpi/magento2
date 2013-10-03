@@ -8,29 +8,31 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCard_Model_Source_Type extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
+namespace Magento\GiftCard\Model\Source;
+
+class Type extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * Eav entity attribute factory
      *
-     * @var Magento_Eav_Model_Resource_Entity_AttributeFactory
+     * @var \Magento\Eav\Model\Resource\Entity\AttributeFactory
      */
     protected $_eavAttributeFactory;
 
     /**
-     * @param Magento_Eav_Model_Resource_Entity_AttributeFactory $eavAttributeFactory
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Eav\Model\Resource\Entity\AttributeFactory $eavAttributeFactory
+     * @param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
-        Magento_Eav_Model_Resource_Entity_AttributeFactory $eavAttributeFactory,
-        Magento_Core_Helper_Data $coreData
+        \Magento\Eav\Model\Resource\Entity\AttributeFactory $eavAttributeFactory,
+        \Magento\Core\Helper\Data $coreData
     ) {
         $this->_eavAttributeFactory = $eavAttributeFactory;
         $this->_coreData = $coreData;
@@ -77,9 +79,9 @@ class Magento_GiftCard_Model_Source_Type extends Magento_Eav_Model_Entity_Attrib
     protected function _getValues()
     {
         return array(
-            Magento_GiftCard_Model_Giftcard::TYPE_VIRTUAL  => __('Virtual'),
-            Magento_GiftCard_Model_Giftcard::TYPE_PHYSICAL => __('Physical'),
-            Magento_GiftCard_Model_Giftcard::TYPE_COMBINED => __('Combined'),
+            \Magento\GiftCard\Model\Giftcard::TYPE_VIRTUAL  => __('Virtual'),
+            \Magento\GiftCard\Model\Giftcard::TYPE_PHYSICAL => __('Physical'),
+            \Magento\GiftCard\Model\Giftcard::TYPE_COMBINED => __('Combined'),
         );
     }
 
@@ -101,7 +103,7 @@ class Magento_GiftCard_Model_Source_Type extends Magento_Eav_Model_Entity_Attrib
             $column['type']     = 'tinyint';
             $column['is_null']  = true;
         } else {
-            $column['type']     = Magento_DB_Ddl_Table::TYPE_SMALLINT;
+            $column['type']     = \Magento\DB\Ddl\Table::TYPE_SMALLINT;
             $column['nullable'] = true;
             $column['comment']  = 'Enterprise Giftcard Type ' . $attributeCode . ' column';
         }
@@ -113,7 +115,7 @@ class Magento_GiftCard_Model_Source_Type extends Magento_Eav_Model_Entity_Attrib
      * Retrieve select for flat attribute update
      *
      * @param int $store
-     * @return Magento_DB_Select|null
+     * @return \Magento\DB\Select|null
      */
     public function getFlatUpdateSelect($store)
     {

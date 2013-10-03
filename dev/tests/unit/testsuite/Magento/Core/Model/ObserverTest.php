@@ -5,49 +5,51 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model;
+
+class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cacheFrontendMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_frontendPoolMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_themeCustomization;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_assetFactory;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_assetsMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configMock;
 
     /**
-     * @var Magento_Core_Model_Observer
+     * @var \Magento\Core\Model\Observer
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_cacheFrontendMock = $this->getMockForAbstractClass('Magento_Cache_FrontendInterface');
+        $this->_cacheFrontendMock = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface');
 
         $this->_frontendPoolMock = $this->getMock(
-            'Magento_Core_Model_Cache_Frontend_Pool',
+            'Magento\Core\Model\Cache\Frontend\Pool',
             array(),
             array(),
             '',
@@ -65,37 +67,37 @@ class Magento_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
         ;
 
         $this->_themeCustomization = $this->getMock(
-            'Magento_Core_Model_Theme_Customization',
+            'Magento\Core\Model\Theme\Customization',
             array(),
             array(),
             '',
             false
         );
-        $themeMock = $this->getMock('Magento_Core_Model_Theme', array('getCustomization'), array(), '', false);
+        $themeMock = $this->getMock('Magento\Core\Model\Theme', array('getCustomization'), array(), '', false);
         $themeMock->expects($this->any())->method('getCustomization')
             ->will($this->returnValue($this->_themeCustomization));
 
-        $designMock = $this->getMock('Magento_Core_Model_View_DesignInterface');
+        $designMock = $this->getMock('Magento\Core\Model\View\DesignInterface');
         $designMock
             ->expects($this->any())
             ->method('getDesignTheme')
             ->will($this->returnValue($themeMock))
         ;
 
-        $this->_assetsMock = $this->getMock('Magento_Core_Model_Page_Asset_Collection');
-        $this->_configMock = $this->getMock('Magento_Core_Model_ConfigInterface',
+        $this->_assetsMock = $this->getMock('Magento\Core\Model\Page\Asset\Collection');
+        $this->_configMock = $this->getMock('Magento\Core\Model\ConfigInterface',
             array(), array(), '', false, false);
 
-        $this->_assetFactory = $this->getMock('Magento_Core_Model_Page_Asset_PublicFileFactory',
+        $this->_assetFactory = $this->getMock('Magento\Core\Model\Page\Asset\PublicFileFactory',
             array('create'), array(), '', false);
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject(
-            'Magento_Core_Model_Observer',
+            'Magento\Core\Model\Observer',
             array(
                 'cacheFrontendPool' => $this->_frontendPoolMock,
                 'design'            => $designMock,
-                'page'              => new Magento_Core_Model_Page($this->_assetsMock),
+                'page'              => new \Magento\Core\Model\Page($this->_assetsMock),
                 'config'            => $this->_configMock,
                 'assetFileFactory'  => $this->_assetFactory
             )
@@ -118,22 +120,22 @@ class Magento_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $cacheBackendMock
             ->expects($this->once())
             ->method('clean')
-            ->with(Zend_Cache::CLEANING_MODE_OLD, array())
+            ->with(\Zend_Cache::CLEANING_MODE_OLD, array())
         ;
         $this->_cacheFrontendMock
             ->expects($this->once())
             ->method('getBackend')
             ->will($this->returnValue($cacheBackendMock))
         ;
-        $cronScheduleMock = $this->getMock('Magento_Cron_Model_Schedule', array(), array(), '', false);
+        $cronScheduleMock = $this->getMock('Magento\Cron\Model\Schedule', array(), array(), '', false);
         $this->_model->cleanCache($cronScheduleMock);
     }
 
     public function testApplyThemeCustomization()
     {
-        $asset = new Magento_Core_Model_Page_Asset_Remote('http://127.0.0.1/test.css');
-        $file = $this->getMock('Magento_Core_Model_Theme_File', array(), array(), '', false);
-        $fileService = $this->getMock('Magento_Core_Model_Theme_Customization_File_Css', array(), array(), '', false);
+        $asset = new \Magento\Core\Model\Page\Asset\Remote('http://127.0.0.1/test.css');
+        $file = $this->getMock('Magento\Core\Model\Theme\File', array(), array(), '', false);
+        $fileService = $this->getMock('Magento\Core\Model\Theme\Customization\File\Css', array(), array(), '', false);
 
         $fileService->expects($this->atLeastOnce())->method('getContentType')->will($this->returnValue('css'));
 
@@ -149,13 +151,13 @@ class Magento_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         $this->_assetsMock->expects($this->once())->method('add')->with($this->anything(), $asset);
 
-        $observer = new Magento_Event_Observer;
+        $observer = new \Magento\Event\Observer;
         $this->_model->applyThemeCustomization($observer);
     }
 
     public function testProcessReinitConfig()
     {
-        $observer = new Magento_Event_Observer;
+        $observer = new \Magento\Event\Observer;
         $this->_configMock->expects($this->once())->method('reinit');
         $this->_model->processReinitConfig($observer);
     }

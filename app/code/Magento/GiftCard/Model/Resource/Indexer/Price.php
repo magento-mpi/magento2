@@ -16,14 +16,16 @@
  * @package     Magento_GiftCard
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftCard_Model_Resource_Indexer_Price extends Magento_Catalog_Model_Resource_Product_Indexer_Price_Default
+namespace Magento\GiftCard\Model\Resource\Indexer;
+
+class Price extends \Magento\Catalog\Model\Resource\Product\Indexer\Price\DefaultPrice
 {
     /**
      * Register data required by product type process in event object
      *
-     * @param Magento_Index_Model_Event $event
+     * @param \Magento\Index\Model\Event $event
      */
-    public function registerEvent(Magento_Index_Model_Event $event)
+    public function registerEvent(\Magento\Index\Model\Event $event)
     {
         $attributes = array(
             'allow_open_amount',
@@ -32,10 +34,10 @@ class Magento_GiftCard_Model_Resource_Indexer_Price extends Magento_Catalog_Mode
         );
 
         $entity = $event->getEntity();
-        if ($entity == Magento_Catalog_Model_Product::ENTITY) {
+        if ($entity == \Magento\Catalog\Model\Product::ENTITY) {
             switch ($event->getType()) {
-                case Magento_Index_Model_Event::TYPE_SAVE:
-                    /* @var $product Magento_Catalog_Model_Product */
+                case \Magento\Index\Model\Event::TYPE_SAVE:
+                    /* @var $product \Magento\Catalog\Model\Product */
                     $product      = $event->getDataObject();
                     $reindexPrice = $product->getAmountsHasChanged();
                     foreach ($attributes as $code) {
@@ -52,8 +54,8 @@ class Magento_GiftCard_Model_Resource_Indexer_Price extends Magento_Catalog_Mode
 
                     break;
 
-                case Magento_Index_Model_Event::TYPE_MASS_ACTION:
-                    /* @var $actionObject Magento_Object */
+                case \Magento\Index\Model\Event::TYPE_MASS_ACTION:
+                    /* @var $actionObject \Magento\Object */
                     $actionObject = $event->getDataObject();
                     $reindexPrice = false;
 
@@ -81,7 +83,7 @@ class Magento_GiftCard_Model_Resource_Indexer_Price extends Magento_Catalog_Mode
      * Prepare giftCard products prices in temporary index table
      *
      * @param int|array $entityIds  the entity ids limitation
-     * @return Magento_GiftCard_Model_Resource_Indexer_Price
+     * @return \Magento\GiftCard\Model\Resource\Indexer\Price
      */
     protected function _prepareFinalPriceData($entityIds = null)
     {
@@ -98,11 +100,11 @@ class Magento_GiftCard_Model_Resource_Indexer_Price extends Magento_Catalog_Mode
         $this->_addWebsiteJoinToSelect($select, true);
         $this->_addProductWebsiteJoinToSelect($select, 'cw.website_id', 'e.entity_id');
         $select->columns(array('website_id'), 'cw')
-            ->columns(array('tax_class_id'  => new Zend_Db_Expr('0')))
+            ->columns(array('tax_class_id'  => new \Zend_Db_Expr('0')))
             ->where('e.type_id = ?', $this->getTypeId());
 
         // add enable products limitation
-        $statusCond = $write->quoteInto('=?', Magento_Catalog_Model_Product_Status::STATUS_ENABLED);
+        $statusCond = $write->quoteInto('=?', \Magento\Catalog\Model\Product\Status::STATUS_ENABLED);
         $this->_addAttributeToSelect($select, 'status', 'e.entity_id', 'cs.store_id', $statusCond, true);
 
         $allowOpenAmount = $this->_addAttributeToSelect($select, 'allow_open_amount', 'e.entity_id', 'cs.store_id');
@@ -129,7 +131,7 @@ class Magento_GiftCard_Model_Resource_Indexer_Price extends Magento_Catalog_Mode
                 'NULL'
             ) . ')';
 
-        $priceExpr = new Zend_Db_Expr(
+        $priceExpr = new \Zend_Db_Expr(
             'ROUND(' . $write->getCheckSql(
                 $openAmountExpr . ' IS NULL',
                 $write->getCheckSql($amountsExpr . ' IS NULL', '0', $amountsExpr),
@@ -147,14 +149,14 @@ class Magento_GiftCard_Model_Resource_Indexer_Price extends Magento_Catalog_Mode
 
         $select->group(array('e.entity_id', 'cg.customer_group_id', 'cw.website_id'))
             ->columns(array(
-                'price'            => new Zend_Db_Expr('NULL'),
+                'price'            => new \Zend_Db_Expr('NULL'),
                 'final_price'      => $priceExpr,
                 'min_price'        => $priceExpr,
-                'max_price'        => new Zend_Db_Expr('NULL'),
-                'tier_price'       => new Zend_Db_Expr('NULL'),
-                'base_tier'        => new Zend_Db_Expr('NULL'),
-                'group_price'      => new Zend_Db_Expr('NULL'),
-                'base_group_price' => new Zend_Db_Expr('NULL'),
+                'max_price'        => new \Zend_Db_Expr('NULL'),
+                'tier_price'       => new \Zend_Db_Expr('NULL'),
+                'base_tier'        => new \Zend_Db_Expr('NULL'),
+                'group_price'      => new \Zend_Db_Expr('NULL'),
+                'base_group_price' => new \Zend_Db_Expr('NULL'),
             ));
 
         if (!is_null($entityIds)) {
@@ -166,9 +168,9 @@ class Magento_GiftCard_Model_Resource_Indexer_Price extends Magento_Catalog_Mode
          */
         $this->_eventManager->dispatch('prepare_catalog_product_index_select', array(
             'select'        => $select,
-            'entity_field'  => new Zend_Db_Expr('e.entity_id'),
-            'website_field' => new Zend_Db_Expr('cw.website_id'),
-            'store_field'   => new Zend_Db_Expr('cs.store_id')
+            'entity_field'  => new \Zend_Db_Expr('e.entity_id'),
+            'website_field' => new \Zend_Db_Expr('cw.website_id'),
+            'store_field'   => new \Zend_Db_Expr('cs.store_id')
         ));
 
         $query = $select->insertFromSelect($this->_getDefaultFinalPriceTable());

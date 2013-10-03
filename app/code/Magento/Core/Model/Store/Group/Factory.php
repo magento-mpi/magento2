@@ -11,24 +11,26 @@
 /**
  * Store Group factory
  */
-class Magento_Core_Model_Store_Group_Factory
+namespace Magento\Core\Model\Store\Group;
+
+class Factory
 {
     /**
      * Store group model class name
      */
-    const CLASS_NAME = 'Magento_Core_Model_Store_Group';
+    const CLASS_NAME = 'Magento\Core\Model\Store\Group';
 
     /**
      * Object Manager
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }

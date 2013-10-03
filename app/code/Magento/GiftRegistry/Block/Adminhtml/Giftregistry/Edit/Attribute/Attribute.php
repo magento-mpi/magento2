@@ -8,8 +8,10 @@
  * @license     {license_link}
  */
 
-class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute
-    extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Attribute;
+
+class Attribute
+    extends \Magento\Adminhtml\Block\Widget\Form
 {
     /**
      * Instance of gift registry type model
@@ -17,17 +19,17 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute
     protected $_typeInstance;
 
     /**
-     * @var Magento_GiftRegistry_Model_Type
+     * @var \Magento\GiftRegistry\Model\Type
      */
     protected $defaultTypeInstance;
 
     /**
-     * @var Magento_GiftRegistry_Model_Attribute_Config
+     * @var \Magento\GiftRegistry\Model\Attribute\Config
      */
     protected $attributeConfig;
 
     /**
-     * @var Magento_Backend_Model_Config_Source_Yesno
+     * @var \Magento\Backend\Model\Config\Source\Yesno
      */
     protected $sourceYesNo;
 
@@ -41,26 +43,26 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Backend_Model_Config_Source_Yesno $sourceYesNo
-     * @param Magento_GiftRegistry_Model_Type $defaultTypeInstance
-     * @param Magento_GiftRegistry_Model_Attribute_Config $attributeConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Backend\Model\Config\Source\Yesno $sourceYesNo
+     * @param \Magento\GiftRegistry\Model\Type $defaultTypeInstance
+     * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Backend_Model_Config_Source_Yesno $sourceYesNo,
-        Magento_GiftRegistry_Model_Type $defaultTypeInstance,
-        Magento_GiftRegistry_Model_Attribute_Config $attributeConfig,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Backend\Model\Config\Source\Yesno $sourceYesNo,
+        \Magento\GiftRegistry\Model\Type $defaultTypeInstance,
+        \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -74,17 +76,17 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute
     /**
      * Preparing block layout
      *
-     * @return Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_Registry
+     * @return \Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Tab\Registry
      */
     protected function _prepareLayout()
     {
-        $this->addChild('add_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('add_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Add Attribute'),
             'class' => 'action-add',
             'id'    => $this->getFieldPrefix() . '_add_new_attribute'
         ));
 
-        $this->addChild('delete_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('delete_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Delete Attribute'),
             'class' => 'action-delete delete-attribute-option'
         ));
@@ -128,7 +130,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute
     /**
      * Get gift registry attribute config model
      *
-     * @return Magento_GiftRegistry_Model_Attribute_Config
+     * @return \Magento\GiftRegistry\Model\Attribute\Config
      */
     public function getConfig()
     {
@@ -138,7 +140,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute
     /**
      * Get gift registry attribute type model
      *
-     * @return Magento_GiftRegistry_Model_Type
+     * @return \Magento\GiftRegistry\Model\Type
      */
     public function getType()
     {
@@ -170,7 +172,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute
      */
     public function getTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Html\Select')
             ->setData(array(
                 'id'    => $this->getFieldPrefix() . '_attribute_{{id}}_type',
                 'class' => 'select required-entry attribute-type global-scope'
@@ -188,7 +190,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute
      */
     public function getGroupSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Html\Select')
             ->setData(array(
                 'id'    => $this->getFieldPrefix() . '_attribute_{{id}}_group',
                 'class' => 'select required-entry global-scope'
@@ -206,7 +208,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute
      */
     public function getSearcheableSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Html\Select')
             ->setData(array(
                  'id'    => $this->getFieldPrefix() . '_attribute_{{id}}_is_searcheable',
                  'class' => 'select required-entry global-scope'
@@ -224,7 +226,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute
      */
     public function getListedSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Html\Select')
             ->setData(array(
                  'id'    => $this->getFieldPrefix() . '_attribute_{{id}}_is_listed',
                  'class' => 'select required-entry global-scope'
@@ -242,7 +244,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute
      */
     public function getRequiredSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Html\Select')
             ->setData(array(
                  'id'    => $this->getFieldPrefix() . '_attribute_{{id}}_is_required',
                  'class' => 'select required-entry global-scope'
@@ -264,7 +266,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute
         $types = array('Select', 'Date', 'Country');
 
         foreach ($types as $type) {
-            $renderer = 'Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_' . $type;
+            $renderer = 'Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Attribute\Type\\' . $type;
             $block = $this->getLayout()->createBlock($renderer)->setFieldPrefix($this->getFieldPrefix());
             $templates[] = $block->toHtml();
         }
@@ -328,7 +330,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute
                 }
             }
 
-            $values[] = new Magento_Object($value);
+            $values[] = new \Magento\Object($value);
             $innerId++;
         }
         return $values;
@@ -365,12 +367,12 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute
     }
 
     /**
-     * Prepare and return static types as Magento_Object
+     * Prepare and return static types as \Magento\Object
      *
      * @return array
      */
     public function getStaticTypes()
     {
-        return new Magento_Object($this->getConfig()->getStaticTypes());
+        return new \Magento\Object($this->getConfig()->getStaticTypes());
     }
 }

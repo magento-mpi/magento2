@@ -16,8 +16,10 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Options_Type_Select
-    extends Magento_Bundle_Block_Catalog_Product_View_Type_Bundle_Option_Select
+namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Composite\Fieldset\Options\Type;
+
+class Select
+    extends \Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Select
 {
     protected $_template = 'product/composite/fieldset/options/type/select.phtml';
 

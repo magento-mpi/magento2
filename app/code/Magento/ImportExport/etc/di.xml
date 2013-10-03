@@ -8,11 +8,11 @@
  */
 -->
 <config>
-    <preference for="Magento_ImportExport_Model_Import_ConfigInterface" type="Magento_ImportExport_Model_Import_Config" />
-    <preference for="Magento_ImportExport_Model_Export_ConfigInterface" type="Magento_ImportExport_Model_Export_Config" />
-    <type name="Magento_ImportExport_Model_Import_Entity_Product">
+    <preference for="Magento\ImportExport\Model\Import\ConfigInterface" type="Magento\ImportExport\Model\Import\Config" />
+    <preference for="Magento\ImportExport\Model\Export\ConfigInterface" type="Magento\ImportExport\Model\Export\Config" />
+    <type name="Magento\ImportExport\Model\Import\Entity\Product">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
 </config>

@@ -9,24 +9,26 @@
  * @license     {license_link}
  */
 
-class Magento_Rma_Helper_EavTest extends PHPUnit_Framework_TestCase
+namespace Magento\Rma\Helper;
+
+class EavTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Rma_Helper_Eav
+     * @var \Magento\Rma\Helper\Eav
      */
     protected $_model;
 
     protected function setUp()
     {
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $collectionFactory = $this->getMock('Magento_Eav_Model_Resource_Entity_Attribute_Option_CollectionFactory',
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $collectionFactory = $this->getMock('Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory',
             array('create'), array(), '', false);
-        $attributeConfig = $this->getMock('Magento_Eav_Model_Entity_Attribute_Config',
+        $attributeConfig = $this->getMock('Magento\Eav\Model\Entity\Attribute\Config',
             array(), array(), '', false);
-        $this->_model = $helper->getObject('Magento_Rma_Helper_Eav', array(
+        $this->_model = $helper->getObject('Magento\Rma\Helper\Eav', array(
             'collectionFactory' => $collectionFactory,
             'attributeConfig' => $attributeConfig,
-            'context' => $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false)
+            'context' => $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false)
         ));
     }
 
@@ -38,7 +40,7 @@ class Magento_Rma_Helper_EavTest extends PHPUnit_Framework_TestCase
      */
     public function testGetAdditionalTextElementClasses($validateRules, $additionalClasses)
     {
-        $attributeMock = new Magento_Object(
+        $attributeMock = new \Magento\Object(
             array('validate_rules' => $validateRules)
         );
         $this->assertEquals($this->_model->getAdditionalTextElementClasses($attributeMock), $additionalClasses);

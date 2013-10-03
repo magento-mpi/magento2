@@ -5,17 +5,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Phrase_Renderer_PlaceholderTest extends PHPUnit_Framework_TestCase
+namespace Magento\Phrase\Renderer;
+
+class PlaceholderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Phrase_Renderer_Placeholder
+     * @var \Magento\Phrase\Renderer\Placeholder
      */
     protected $_renderer;
 
     protected function setUp()
     {
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_renderer = $objectManagerHelper->getObject('Magento_Phrase_Renderer_Placeholder');
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_renderer = $objectManagerHelper->getObject('Magento\Phrase\Renderer\Placeholder');
     }
 
     public function testRenderPlaceholder()

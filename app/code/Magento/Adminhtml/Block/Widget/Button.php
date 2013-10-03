@@ -14,7 +14,9 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  * @deprecated Moved to module Magento_Backend
  */
-class Magento_Adminhtml_Block_Widget_Button extends Magento_Backend_Block_Widget_Button
+namespace Magento\Adminhtml\Block\Widget;
+
+class Button extends \Magento\Backend\Block\Widget\Button
 {
 
 }

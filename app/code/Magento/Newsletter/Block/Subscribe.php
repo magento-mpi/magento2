@@ -16,27 +16,29 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Newsletter_Block_Subscribe extends Magento_Core_Block_Template
+namespace Magento\Newsletter\Block;
+
+class Subscribe extends \Magento\Core\Block\Template
 {
     /**
      * Newsletter session
      *
-     * @var Magento_Newsletter_Model_Session
+     * @var \Magento\Newsletter\Model\Session
      */
     protected $_newsletterSession;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Newsletter_Model_Session $newsletterSession
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Newsletter\Model\Session $newsletterSession
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Newsletter_Model_Session $newsletterSession,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Newsletter\Model\Session $newsletterSession,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);

@@ -14,10 +14,10 @@ Usage:
  php -f split.php -- --input <file> --locale <locale_NAME>
 
 */
-
+namespace Magento\Tools\Translate;
 
 define('DS', DIRECTORY_SEPARATOR);
-define('BASE_PATH', dirname(dirname(dirname(__DIR__))));
+define('BASE_PATH', dirname(dirname(dirname(dirname(dirname(__DIR__))))));
 
 define('MESSAGE_TYPE_NOTICE', '0');
 define('MESSAGE_TYPE_WARNING', '1');
@@ -28,7 +28,10 @@ define('LOCALE_PATH', BASE_PATH . DS . 'app' . DS . 'locale' . DS . '%s' . DS);
 include(BASE_PATH . DS . 'lib' . DS . 'Magento' . DS . 'File' . DS . 'Csv.php');
 include(__DIR__ . DS . 'ModuleTranslations.php');
 
-class Magento_Tools_Translate_Split
+
+global $argv;
+
+class Split
 {
     /**
      * Pattern of the locale path
@@ -157,7 +160,7 @@ class Magento_Tools_Translate_Split
             return false;
         }
 
-        $csv = new Magento_File_Csv();
+        $csv = new \Magento\File\Csv();
         $inputData = $csv->getData($this->_inputFileName);
         $output = array();
 
@@ -173,9 +176,9 @@ class Magento_Tools_Translate_Split
         $this->_addMessage(MESSAGE_TYPE_NOTICE, 'Translation splitted successfully');
 
         if ($this->_distribute) {
-            Magento_Tools_Translate_ModuleTranslations::distributeTranslations($this->_localeName);
+            \Magento\Tools\Translate\ModuleTranslations::distributeTranslations($this->_localeName);
             if ($this->_clean) {
-                Magento_Tools_Translate_ModuleTranslations::cleanTranslations($this->_localeName);
+                \Magento\Tools\Translate\ModuleTranslations::cleanTranslations($this->_localeName);
             }
         }
     }
@@ -220,7 +223,7 @@ class Magento_Tools_Translate_Split
     }
 }
 
-$split = new Magento_Tools_Translate_Split($argv);
+$split = new \Magento\Tools\Translate\Split($argv);
 $split->run();
 echo $split->renderMessages();
 echo "\n\n";

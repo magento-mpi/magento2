@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Block_GlobalSearch extends Magento_Backend_Block_Template
+namespace Magento\Backend\Block;
+
+class GlobalSearch extends \Magento\Backend\Block\Template
 {
     /**
      * @var string

@@ -7,20 +7,22 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Magento_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimizer
-    extends Magento_GoogleOptimizer_Block_Adminhtml_TabAbstract
+namespace Magento\GoogleOptimizer\Block\Adminhtml\Catalog\Product\Edit\Tab;
+
+class Googleoptimizer
+    extends \Magento\GoogleOptimizer\Block\Adminhtml\AbstractTab
 {
     /**
      * Get Product entity
      *
-     * @return Magento_Catalog_Model_Product
-     * @throws RuntimeException
+     * @return \Magento\Catalog\Model\Product
+     * @throws \RuntimeException
      */
     protected function _getEntity()
     {
         $entity = $this->_registry->registry('product');
         if (!$entity) {
-            throw new RuntimeException('Entity is not found in registry.');
+            throw new \RuntimeException('Entity is not found in registry.');
         }
         return $entity;
     }

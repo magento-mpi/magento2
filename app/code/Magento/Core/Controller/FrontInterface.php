@@ -8,12 +8,14 @@
  * @license     {license_link}
  */
 
-interface Magento_Core_Controller_FrontInterface
+namespace Magento\Core\Controller;
+
+interface FrontInterface
 {
     /**
      * Dispatch request and send response
      *
-     * @return Magento_Core_Controller_FrontInterface
+     * @return \Magento\Core\Controller\FrontInterface
      */
     public function dispatch();
 }

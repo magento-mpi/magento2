@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Reward_Controller_Cart extends Magento_Core_Controller_Front_Action
+namespace Magento\Reward\Controller;
+
+class Cart extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Only logged in users can use this functionality,
@@ -18,7 +20,7 @@ class Magento_Reward_Controller_Cart extends Magento_Core_Controller_Front_Actio
     {
         parent::preDispatch();
 
-        if (!$this->_objectManager->get('Magento_Customer_Model_Session')->authenticate($this)) {
+        if (!$this->_objectManager->get('Magento\Customer\Model\Session')->authenticate($this)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
     }
@@ -29,20 +31,20 @@ class Magento_Reward_Controller_Cart extends Magento_Core_Controller_Front_Actio
      */
     public function removeAction()
     {
-        if (!$this->_objectManager->get('Magento_Reward_Helper_Data')->isEnabledOnFront()
-            || !$this->_objectManager->get('Magento_Reward_Helper_Data')->getHasRates()) {
+        if (!$this->_objectManager->get('Magento\Reward\Helper\Data')->isEnabledOnFront()
+            || !$this->_objectManager->get('Magento\Reward\Helper\Data')->getHasRates()) {
             return $this->_redirect('customer/account/');
         }
 
-        $quote = $this->_objectManager->get('Magento_Checkout_Model_Session')->getQuote();
+        $quote = $this->_objectManager->get('Magento\Checkout\Model\Session')->getQuote();
 
         if ($quote->getUseRewardPoints()) {
             $quote->setUseRewardPoints(false)->collectTotals()->save();
-            $this->_objectManager->get('Magento_Checkout_Model_Session')->addSuccess(
+            $this->_objectManager->get('Magento\Checkout\Model\Session')->addSuccess(
                 __('You removed the reward points from this order.')
             );
         } else {
-            $this->_objectManager->get('Magento_Checkout_Model_Session')->addError(
+            $this->_objectManager->get('Magento\Checkout\Model\Session')->addError(
                 __('Reward points will not be used in this order.')
             );
         }

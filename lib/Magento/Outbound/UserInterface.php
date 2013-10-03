@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Outbound_UserInterface
+namespace Magento\Outbound;
+
+interface UserInterface
 {
     /**
      * Returns a shared secret known only by Magento and this user

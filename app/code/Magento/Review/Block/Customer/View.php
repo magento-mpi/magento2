@@ -16,72 +16,74 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Review_Block_Customer_View extends Magento_Catalog_Block_Product_Abstract
+namespace Magento\Review\Block\Customer;
+
+class View extends \Magento\Catalog\Block\Product\AbstractProduct
 {
     protected $_template = 'customer/view.phtml';
 
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Review_Model_ReviewFactory
+     * @var \Magento\Review\Model\ReviewFactory
      */
     protected $_reviewFactory;
 
     /**
-     * @var Magento_Rating_Model_Rating_Option_VoteFactory
+     * @var \Magento\Rating\Model\Rating\Option\VoteFactory
      */
     protected $_voteFactory;
 
     /**
-     * @var Magento_Rating_Model_RatingFactory
+     * @var \Magento\Rating\Model\RatingFactory
      */
     protected $_ratingFactory;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Model_Config $catalogConfig
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Review_Model_ReviewFactory $reviewFactory
-     * @param Magento_Rating_Model_Rating_Option_VoteFactory $voteFactory
-     * @param Magento_Rating_Model_RatingFactory $ratingFactory
-     * @param Magento_Customer_Model_Session $customerSession
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Review\Model\ReviewFactory $reviewFactory
+     * @param \Magento\Rating\Model\Rating\Option\VoteFactory $voteFactory
+     * @param \Magento\Rating\Model\RatingFactory $ratingFactory
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Model_Config $catalogConfig,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Review_Model_ReviewFactory $reviewFactory,
-        Magento_Rating_Model_Rating_Option_VoteFactory $voteFactory,
-        Magento_Rating_Model_RatingFactory $ratingFactory,
-        Magento_Customer_Model_Session $customerSession,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Review\Model\ReviewFactory $reviewFactory,
+        \Magento\Rating\Model\Rating\Option\VoteFactory $voteFactory,
+        \Magento\Rating\Model\RatingFactory $ratingFactory,
+        \Magento\Customer\Model\Session $customerSession,
         array $data = array()
     ) {
         $this->_productFactory = $productFactory;
@@ -160,7 +162,7 @@ class Magento_Review_Block_Customer_View extends Magento_Catalog_Block_Product_A
 
     public function dateFormat($date)
     {
-        return $this->formatDate($date, Magento_Core_Model_LocaleInterface::FORMAT_TYPE_LONG);
+        return $this->formatDate($date, \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_LONG);
     }
 
     /**

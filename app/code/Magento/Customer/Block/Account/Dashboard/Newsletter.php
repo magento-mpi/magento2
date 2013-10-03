@@ -16,28 +16,30 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Customer_Block_Account_Dashboard_Newsletter extends Magento_Core_Block_Template
+namespace Magento\Customer\Block\Account\Dashboard;
+
+class Newsletter extends \Magento\Core\Block\Template
 {
     /**
-     * @var Magento_Newsletter_Model_Subscriber
+     * @var \Magento\Newsletter\Model\Subscriber
      */
     protected $_subscription;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @var Magento_Newsletter_Model_SubscriberFactory
+     * @var \Magento\Newsletter\Model\SubscriberFactory
      */
     protected $_subscriberFactory;
 
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Newsletter_Model_SubscriberFactory $subscriberFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
@@ -54,7 +56,7 @@ class Magento_Customer_Block_Account_Dashboard_Newsletter extends Magento_Core_B
     }
 
     /**
-     * @return Magento_Newsletter_Model_Subscriber
+     * @return \Magento\Newsletter\Model\Subscriber
      */
     protected function _createSubscriber()
     {

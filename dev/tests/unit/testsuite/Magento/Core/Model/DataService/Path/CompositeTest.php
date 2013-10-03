@@ -1,13 +1,15 @@
 <?php
 /**
- * Magento_Core_Model_DataService_Path_Composite
+ * \Magento\Core\Model\DataService\Path\Composite
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_DataService_Path_CompositeTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\DataService\Path;
+
+class CompositeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Names to use for testing path composite
@@ -16,7 +18,7 @@ class Magento_Core_Model_DataService_Path_CompositeTest extends PHPUnit_Framewor
     const ITEM_TWO = 'ITEM_TWO';
     const ITEM_THREE = 'ITEM_THREE';
 
-    /** @var Magento_Core_Model_DataService_Path_Composite */
+    /** @var \Magento\Core\Model\DataService\Path\Composite */
     protected $_composite;
 
     /**
@@ -27,8 +29,8 @@ class Magento_Core_Model_DataService_Path_CompositeTest extends PHPUnit_Framewor
 
     protected function setUp()
     {
-        /** @var $objectManagerMock Magento_ObjectManager */
-        $objectManagerMock = $this->getMockBuilder('Magento_ObjectManager')->disableOriginalConstructor()->getMock();
+        /** @var $objectManagerMock \Magento\ObjectManager */
+        $objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')->disableOriginalConstructor()->getMock();
         $this->_map = array(
             array(self::ITEM_ONE, (object)array('name' => self::ITEM_ONE)),
             array(self::ITEM_TWO, (object)array('name' => self::ITEM_TWO)),
@@ -39,7 +41,7 @@ class Magento_Core_Model_DataService_Path_CompositeTest extends PHPUnit_Framewor
                         (self::ITEM_TWO)   => (self::ITEM_TWO),
                         (self::ITEM_THREE) => (self::ITEM_THREE));
         $this->_composite
-            = new Magento_Core_Model_DataService_Path_Composite($objectManagerMock, $vector);
+            = new \Magento\Core\Model\DataService\Path\Composite($objectManagerMock, $vector);
     }
 
     /**

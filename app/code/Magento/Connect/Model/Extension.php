@@ -15,7 +15,9 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Connect_Model_Extension extends Magento_Object
+namespace Magento\Connect\Model;
+
+class Extension extends \Magento\Object
 {
     /**
      * Cache for targets
@@ -27,48 +29,48 @@ class Magento_Connect_Model_Extension extends Magento_Object
     /**
      * Internal cache for package
      *
-     * @var Magento_Connect_Package
+     * @var \Magento\Connect\Package
      */
     protected $_package;
 
     /**
-     * @var Magento_Filesystem $filesystem
+     * @var \Magento\Filesystem $filesystem
      */
     protected $_filesystem;
 
     /**
      * Connect data
      *
-     * @var Magento_Connect_Helper_Data
+     * @var \Magento\Connect\Helper\Data
      */
     protected $_connectData = null;
 
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * Session
      *
-     * @var Magento_Connect_Model_Session
+     * @var \Magento\Connect\Model\Session
      */
     protected $_session;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Connect_Helper_Data $connectData
-     * @param Magento_Filesystem $filesystem
-     * @param Magento_Connect_Model_Session $session
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Connect\Helper\Data $connectData
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Connect\Model\Session $session
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Connect_Helper_Data $connectData,
-        Magento_Filesystem $filesystem,
-        Magento_Connect_Model_Session $session,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Connect\Helper\Data $connectData,
+        \Magento\Filesystem $filesystem,
+        \Magento\Connect\Model\Session $session,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -81,12 +83,12 @@ class Magento_Connect_Model_Extension extends Magento_Object
     /**
      * Return package object
      *
-     * @return Magento_Connect_Package
+     * @return \Magento\Connect\Package
      */
     protected function getPackage()
     {
-        if (!$this->_package instanceof Magento_Connect_Package) {
-            $this->_package = new Magento_Connect_Package();
+        if (!$this->_package instanceof \Magento\Connect\Package) {
+            $this->_package = new \Magento\Connect\Package();
         }
         return $this->_package;
     }
@@ -94,7 +96,7 @@ class Magento_Connect_Model_Extension extends Magento_Object
     /**
      * Set package object.
      *
-     * @return Magento_Connect_Model_Extension
+     * @return \Magento\Connect\Model\Extension
      */
     public function generatePackageXml()
     {
@@ -108,7 +110,7 @@ class Magento_Connect_Model_Extension extends Magento_Object
             ->_setContents();
         if (!$this->getPackage()->validate()) {
             $message = $this->getPackage()->getErrors();
-            throw new Magento_Core_Exception(__($message[0]));
+            throw new \Magento\Core\Exception(__($message[0]));
         }
         $this->setPackageXml($this->getPackage()->getPackageXml());
         return $this;
@@ -117,7 +119,7 @@ class Magento_Connect_Model_Extension extends Magento_Object
     /**
      * Set general information.
      *
-     * @return Magento_Connect_Model_Extension
+     * @return \Magento\Connect\Model\Extension
      */
     protected function _setPackage()
     {
@@ -133,7 +135,7 @@ class Magento_Connect_Model_Extension extends Magento_Object
     /**
      * Set release information
      *
-     * @return Magento_Connect_Model_Extension
+     * @return \Magento\Connect\Model\Extension
      */
     protected function _setRelease()
     {
@@ -149,7 +151,7 @@ class Magento_Connect_Model_Extension extends Magento_Object
     /**
      * Set authors
      *
-     * @return Magento_Connect_Model_Extension
+     * @return \Magento\Connect\Model\Extension
      */
     protected function _setAuthors()
     {
@@ -182,7 +184,7 @@ class Magento_Connect_Model_Extension extends Magento_Object
     /**
      * Set php, php extensions, another packages dependencies
      *
-     * @return Magento_Connect_Model_Extension
+     * @return \Magento\Connect\Model\Extension
      */
     protected function _setDependencies()
     {
@@ -224,7 +226,7 @@ class Magento_Connect_Model_Extension extends Magento_Object
     /**
      * Set contents. Add file or entire directory.
      *
-     * @return Magento_Connect_Model_Extension
+     * @return \Magento\Connect\Model\Extension
      */
     protected function _setContents()
     {
@@ -284,7 +286,7 @@ class Magento_Connect_Model_Extension extends Magento_Object
             $this->unsPackageXml();
             $this->unsTargets();
             $xml = $this->_coreData->assocToXml($this->getData());
-            $xml = new Magento_Simplexml_Element($xml->asXML());
+            $xml = new \Magento\Simplexml\Element($xml->asXML());
 
             // prepare dir to save
             $parts = explode(DS, $fileName);
@@ -295,7 +297,7 @@ class Magento_Connect_Model_Extension extends Magento_Object
                 $this->_filesystem->ensureDirectoryExists($path, $newDir, 0777);
             }
             $this->_filesystem->write($path . $fileName . '.xml', $xml->asNiceXml());
-        } catch (Magento_Filesystem_Exception $e) {
+        } catch (\Magento\Filesystem\FilesystemException $e) {
             return false;
         }
         return true;
@@ -349,7 +351,7 @@ class Magento_Connect_Model_Extension extends Magento_Object
     public function getLabelTargets()
     {
         if (!is_array($this->_targets)) {
-            $objectTarget = new Magento_Connect_Package_Target();
+            $objectTarget = new \Magento\Connect\Package\Target();
             $this->_targets = $objectTarget->getLabelTargets();
         }
         return $this->_targets;

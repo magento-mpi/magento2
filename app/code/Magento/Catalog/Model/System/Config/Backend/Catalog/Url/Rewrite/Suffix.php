@@ -11,33 +11,35 @@
 /**
  * Url rewrite suffix backend
  */
-class Magento_Catalog_Model_System_Config_Backend_Catalog_Url_Rewrite_Suffix extends Magento_Core_Model_Config_Value
+namespace Magento\Catalog\Model\System\Config\Backend\Catalog\Url\Rewrite;
+
+class Suffix extends \Magento\Core\Model\Config\Value
 {
     /**
      * Core url rewrite
      *
-     * @var Magento_Core_Helper_Url_Rewrite
+     * @var \Magento\Core\Helper\Url\Rewrite
      */
     protected $_coreUrlRewrite = null;
 
     /**
-     * @param Magento_Core_Helper_Url_Rewrite $coreUrlRewrite
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Helper\Url\Rewrite $coreUrlRewrite
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Url_Rewrite $coreUrlRewrite,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Helper\Url\Rewrite $coreUrlRewrite,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreUrlRewrite = $coreUrlRewrite;
@@ -47,7 +49,7 @@ class Magento_Catalog_Model_System_Config_Backend_Catalog_Url_Rewrite_Suffix ext
     /**
      * Check url rewrite suffix - whether we can support it
      *
-     * @return Magento_Catalog_Model_System_Config_Backend_Catalog_Url_Rewrite_Suffix
+     * @return \Magento\Catalog\Model\System\Config\Backend\Catalog\Url\Rewrite\Suffix
      */
     protected function _beforeSave()
     {

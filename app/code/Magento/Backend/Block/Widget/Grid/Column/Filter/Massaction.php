@@ -15,8 +15,10 @@
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Block_Widget_Grid_Column_Filter_Massaction
-    extends Magento_Backend_Block_Widget_Grid_Column_Filter_Checkbox
+namespace Magento\Backend\Block\Widget\Grid\Column\Filter;
+
+class Massaction
+    extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Checkbox
 {
     public function getCondition()
     {

@@ -1,9 +1,5 @@
 <?php
 /**
- * Magento_Webhook_Block_Adminhtml_Subscription_Grid_Renderer_Action
- *
- * @magentoAppArea adminhtml
- *
  * {license_notice}
  *
  * @category    Magento
@@ -12,24 +8,31 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Block_Adminhtml_Subscription_Grid_Renderer_ActionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Block\Adminhtml\Subscription\Grid\Renderer;
+
+/**
+ * \Magento\Webhook\Block\Adminhtml\Subscription\Grid\Renderer\Action
+ *
+ * @magentoAppArea adminhtml
+ */
+class ActionTest extends \PHPUnit_Framework_TestCase
 {
     public function testRender()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $grid = $objectManager->create('Magento_Webhook_Block_Adminhtml_Subscription_Grid_Renderer_Action');
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $grid = $objectManager->create('Magento\Webhook\Block\Adminhtml\Subscription\Grid\Renderer\Action');
 
-        /** @var Magento_Webhook_Model_Subscription $subscriptionRow */
-        $subscriptionRow = $objectManager->create('Magento_Webhook_Model_Subscription');
+        /** @var \Magento\Webhook\Model\Subscription $subscriptionRow */
+        $subscriptionRow = $objectManager->create('Magento\Webhook\Model\Subscription');
 
-        $subscriptionRow->setStatus(Magento_Webhook_Model_Subscription::STATUS_ACTIVE);
+        $subscriptionRow->setStatus(\Magento\Webhook\Model\Subscription::STATUS_ACTIVE);
         $this->assertTrue(strpos($grid->render($subscriptionRow), 'Revoke') !== false);
 
-        $subscriptionRow->setStatus(Magento_Webhook_Model_Subscription::STATUS_INACTIVE);
+        $subscriptionRow->setStatus(\Magento\Webhook\Model\Subscription::STATUS_INACTIVE);
         $this->assertTrue(strpos($grid->render($subscriptionRow), 'Activate') !== false);
         $this->assertTrue(strpos($grid->render($subscriptionRow), 'activateSubscription') !== false);
 
-        $subscriptionRow->setStatus(Magento_Webhook_Model_Subscription::STATUS_REVOKED);
+        $subscriptionRow->setStatus(\Magento\Webhook\Model\Subscription::STATUS_REVOKED);
         $this->assertTrue(strpos($grid->render($subscriptionRow), 'Activate') !== false);
 
         $invalidStatus = -1;

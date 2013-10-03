@@ -8,18 +8,20 @@
  * @license     {license_link}
  */
 
-class Magento_Pbridge_Model_Encryption extends Magento_Pci_Model_Encryption
+namespace Magento\Pbridge\Model;
+
+class Encryption extends \Magento\Pci\Model\Encryption
 {
 
     /**
      * Constructor
      *
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param string $cryptKey
      * @param $key
      */
     public function __construct(
-        Magento_ObjectManager $objectManager,
+        \Magento\ObjectManager $objectManager,
         $cryptKey,
         $key
     ) {

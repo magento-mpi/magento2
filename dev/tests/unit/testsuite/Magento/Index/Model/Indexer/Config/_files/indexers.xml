@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <indexer name="cataloginventory_stock" instance="Magento_CatalogInventory_Model_Indexer_Stock" />
+    <indexer name="cataloginventory_stock" instance="Magento\CatalogInventory\Model\Indexer\Stock" />
     <indexer name="catalog_product_attribute">
         <depends name="cataloginventory_stock" />
     </indexer>

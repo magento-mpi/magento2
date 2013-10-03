@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Report_Shipping extends Magento_Sales_Model_Resource_Report_Abstract
+namespace Magento\Sales\Model\Resource\Report;
+
+class Shipping extends \Magento\Sales\Model\Resource\Report\AbstractReport
 {
     /**
      * Model initialization
@@ -32,7 +34,7 @@ class Magento_Sales_Model_Resource_Report_Shipping extends Magento_Sales_Model_R
      *
      * @param mixed $from
      * @param mixed $to
-     * @return Magento_Sales_Model_Resource_Report_Shipping
+     * @return \Magento\Sales\Model\Resource\Report\Shipping
      */
     public function aggregate($from = null, $to = null)
     {
@@ -43,7 +45,7 @@ class Magento_Sales_Model_Resource_Report_Shipping extends Magento_Sales_Model_R
         $this->_checkDates($from, $to);
         $this->_aggregateByOrderCreatedAt($from, $to);
         $this->_aggregateByShippingCreatedAt($from, $to);
-        $this->_setFlagData(Magento_Reports_Model_Flag::REPORT_SHIPPING_FLAG_CODE);
+        $this->_setFlagData(\Magento\Reports\Model\Flag::REPORT_SHIPPING_FLAG_CODE);
         return $this;
     }
 
@@ -52,8 +54,8 @@ class Magento_Sales_Model_Resource_Report_Shipping extends Magento_Sales_Model_R
      *
      * @param mixed $from
      * @param mixed $to
-     * @return Magento_Sales_Model_Resource_Report_Shipping
-     * @throws Exception
+     * @return \Magento\Sales\Model\Resource\Report\Shipping
+     * @throws \Exception
      */
     protected function _aggregateByOrderCreatedAt($from, $to)
     {
@@ -81,11 +83,11 @@ class Magento_Sales_Model_Resource_Report_Shipping extends Magento_Sales_Model_R
                 'store_id'              => 'store_id',
                 'order_status'          => 'status',
                 'shipping_description'  => 'shipping_description',
-                'orders_count'          => new Zend_Db_Expr('COUNT(entity_id)'),
-                'total_shipping'        => new Zend_Db_Expr(
+                'orders_count'          => new \Zend_Db_Expr('COUNT(entity_id)'),
+                'total_shipping'        => new \Zend_Db_Expr(
                     "SUM((base_shipping_amount - {$shippingCanceled}) * base_to_global_rate)"
                 ),
-                'total_shipping_actual' => new Zend_Db_Expr(
+                'total_shipping_actual' => new \Zend_Db_Expr(
                     "SUM((base_shipping_invoiced - {$shippingRefunded}) * base_to_global_rate)"
                 ),
             );
@@ -93,8 +95,8 @@ class Magento_Sales_Model_Resource_Report_Shipping extends Magento_Sales_Model_R
             $select = $adapter->select();
             $select->from($sourceTable, $columns)
                  ->where('state NOT IN (?)', array(
-                    Magento_Sales_Model_Order::STATE_PENDING_PAYMENT,
-                    Magento_Sales_Model_Order::STATE_NEW
+                    \Magento\Sales\Model\Order::STATE_PENDING_PAYMENT,
+                    \Magento\Sales\Model\Order::STATE_NEW
                 ))
                 ->where('is_virtual = 0');
 
@@ -110,12 +112,12 @@ class Magento_Sales_Model_Resource_Report_Shipping extends Magento_Sales_Model_R
 
             $columns = array(
                 'period'                => 'period',
-                'store_id'              => new Zend_Db_Expr(Magento_Core_Model_AppInterface::ADMIN_STORE_ID),
+                'store_id'              => new \Zend_Db_Expr(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID),
                 'order_status'          => 'order_status',
                 'shipping_description'  => 'shipping_description',
-                'orders_count'          => new Zend_Db_Expr('SUM(orders_count)'),
-                'total_shipping'        => new Zend_Db_Expr('SUM(total_shipping)'),
-                'total_shipping_actual' => new Zend_Db_Expr('SUM(total_shipping_actual)'),
+                'orders_count'          => new \Zend_Db_Expr('SUM(orders_count)'),
+                'total_shipping'        => new \Zend_Db_Expr('SUM(total_shipping)'),
+                'total_shipping_actual' => new \Zend_Db_Expr('SUM(total_shipping_actual)'),
             );
 
             $select->from($table, $columns)->where('store_id != ?', 0);
@@ -127,7 +129,7 @@ class Magento_Sales_Model_Resource_Report_Shipping extends Magento_Sales_Model_R
             $select->group(array('period', 'order_status', 'shipping_description'));
             $insertQuery = $select->insertFromSelect($table, array_keys($columns));
             $adapter->query($insertQuery);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $adapter->rollBack();
             throw $e;
         }
@@ -141,8 +143,8 @@ class Magento_Sales_Model_Resource_Report_Shipping extends Magento_Sales_Model_R
      *
      * @param mixed $from
      * @param mixed $to
-     * @return Magento_Sales_Model_Resource_Report_Shipping
-     * @throws Exception
+     * @return \Magento\Sales\Model\Resource\Report\Shipping
+     * @throws \Exception
      */
     protected function _aggregateByShippingCreatedAt($from, $to)
     {
@@ -177,10 +179,10 @@ class Magento_Sales_Model_Resource_Report_Shipping extends Magento_Sales_Model_R
                 'store_id'              => 'order_table.store_id',
                 'order_status'          => 'order_table.status',
                 'shipping_description'  => 'order_table.shipping_description',
-                'orders_count'          => new Zend_Db_Expr('COUNT(order_table.entity_id)'),
-                'total_shipping'        => new Zend_Db_Expr('SUM((order_table.base_shipping_amount - '
+                'orders_count'          => new \Zend_Db_Expr('COUNT(order_table.entity_id)'),
+                'total_shipping'        => new \Zend_Db_Expr('SUM((order_table.base_shipping_amount - '
                     . "{$shippingCanceled}) * order_table.base_to_global_rate)"),
-                'total_shipping_actual' => new Zend_Db_Expr('SUM((order_table.base_shipping_invoiced - '
+                'total_shipping_actual' => new \Zend_Db_Expr('SUM((order_table.base_shipping_invoiced - '
                     . "{$shippingRefunded}) * order_table.base_to_global_rate)"),
             );
 
@@ -189,7 +191,7 @@ class Magento_Sales_Model_Resource_Report_Shipping extends Magento_Sales_Model_R
                 array('order_table' => $orderTable),
                 $adapter->quoteInto(
                     'source_table.order_id = order_table.entity_id AND order_table.state != ?',
-                    Magento_Sales_Model_Order::STATE_CANCELED
+                    \Magento\Sales\Model\Order::STATE_CANCELED
                 ),
                 array()
             )
@@ -203,7 +205,7 @@ class Magento_Sales_Model_Resource_Report_Shipping extends Magento_Sales_Model_R
                 $select->having($this->_makeConditionFromDateRangeSelect($subSelect, 'period'));
             }
 
-            $select->where('source_table.entity_id = (?)', new Zend_Db_Expr($filterSubSelect));
+            $select->where('source_table.entity_id = (?)', new \Zend_Db_Expr($filterSubSelect));
             unset($filterSubSelect);
 
             $select->group(array(
@@ -219,12 +221,12 @@ class Magento_Sales_Model_Resource_Report_Shipping extends Magento_Sales_Model_R
 
             $columns = array(
                 'period'                => 'period',
-                'store_id'              => new Zend_Db_Expr(Magento_Core_Model_AppInterface::ADMIN_STORE_ID),
+                'store_id'              => new \Zend_Db_Expr(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID),
                 'order_status'          => 'order_status',
                 'shipping_description'  => 'shipping_description',
-                'orders_count'          => new Zend_Db_Expr('SUM(orders_count)'),
-                'total_shipping'        => new Zend_Db_Expr('SUM(total_shipping)'),
-                'total_shipping_actual' => new Zend_Db_Expr('SUM(total_shipping_actual)'),
+                'orders_count'          => new \Zend_Db_Expr('SUM(orders_count)'),
+                'total_shipping'        => new \Zend_Db_Expr('SUM(total_shipping)'),
+                'total_shipping_actual' => new \Zend_Db_Expr('SUM(total_shipping_actual)'),
             );
 
             $select->from($table, $columns)->where('store_id != ?', 0);
@@ -236,7 +238,7 @@ class Magento_Sales_Model_Resource_Report_Shipping extends Magento_Sales_Model_R
             $select->group(array('period', 'order_status', 'shipping_description'));
             $insertQuery = $select->insertFromSelect($table, array_keys($columns));
             $adapter->query($insertQuery);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $adapter->rollBack();
             throw $e;
         }

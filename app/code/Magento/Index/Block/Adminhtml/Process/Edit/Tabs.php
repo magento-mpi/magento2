@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Index_Block_Adminhtml_Process_Edit_Tabs extends Magento_Adminhtml_Block_Widget_Tabs
+namespace Magento\Index\Block\Adminhtml\Process\Edit;
+
+class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
 {
 
     protected function _construct()

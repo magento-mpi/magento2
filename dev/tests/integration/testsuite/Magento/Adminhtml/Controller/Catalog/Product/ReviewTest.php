@@ -9,18 +9,21 @@
  * @license     {license_link}
  */
 
+
+namespace Magento\Adminhtml\Controller\Catalog\Product;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Controller_Catalog_Product_ReviewTest extends Magento_Backend_Utility_Controller
+class ReviewTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * @magentoDataFixture Magento/Review/_files/review_xss.php
      */
     public function testEditActionProductNameXss()
     {
-        $reviewId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Review_Model_Review')->load(1, 'entity_pk_value')->getId();
+        $reviewId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Review\Model\Review')->load(1, 'entity_pk_value')->getId();
         $this->dispatch('backend/admin/catalog_product_review/edit/id/' . $reviewId);
         $responseBody = $this->getResponse()->getBody();
         $this->assertContains('&lt;script&gt;alert(&quot;xss&quot;);&lt;/script&gt;', $responseBody);

@@ -16,8 +16,10 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group
-    extends Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group_Abstract
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Price;
+
+class Group
+    extends \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Price\Group\AbstractGroup
 {
     protected $_template = 'catalog/product/edit/price/group.phtml';
 
@@ -56,11 +58,11 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group
      *
      * Add "Add Group Price" button to layout
      *
-     * @return Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group
+     * @return \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Price\Group
      */
     protected function _prepareLayout()
     {
-        $button = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+        $button = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
                 'label' => __('Add Group Price'),
                 'onclick' => 'return groupPriceControl.addItem()',

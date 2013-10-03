@@ -11,22 +11,24 @@
 /**
  * Theme controller
  */
-class Magento_Theme_Controller_Adminhtml_System_Design_Theme extends Magento_Adminhtml_Controller_Action
+namespace Magento\Theme\Controller\Adminhtml\System\Design;
+
+class Theme extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -66,32 +68,32 @@ class Magento_Theme_Controller_Adminhtml_System_Design_Theme extends Magento_Adm
     public function editAction()
     {
         $themeId = (int)$this->getRequest()->getParam('id');
-        /** @var $theme Magento_Core_Model_Theme */
-        $theme = $this->_objectManager->create('Magento_Core_Model_Theme');
+        /** @var $theme \Magento\Core\Model\Theme */
+        $theme = $this->_objectManager->create('Magento\Core\Model\Theme');
         try {
-            $theme->setType(Magento_Core_Model_Theme::TYPE_VIRTUAL);
+            $theme->setType(\Magento\Core\Model\Theme::TYPE_VIRTUAL);
             if ($themeId && (!$theme->load($themeId)->getId() || !$theme->isVisible())) {
-                throw new Magento_Core_Exception(__('We cannot find theme "%1".', $themeId));
+                throw new \Magento\Core\Exception(__('We cannot find theme "%1".', $themeId));
             }
             $this->_coreRegistry->register('current_theme', $theme);
 
             $this->loadLayout();
-            /** @var $tab Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css */
+            /** @var $tab \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab_Css */
             $tab = $this->getLayout()->getBlock('theme_edit_tabs_tab_css_tab');
             if ($tab && $tab->canShowTab()) {
-                /** @var $helper Magento_Core_Helper_Theme */
-                $helper = $this->_objectManager->get('Magento_Core_Helper_Theme');
+                /** @var $helper \Magento\Core\Helper\Theme */
+                $helper = $this->_objectManager->get('Magento\Core\Helper\Theme');
                 $files = $helper->getGroupedCssFiles($theme);
                 $tab->setFiles($files);
             }
             $this->_setActiveMenu('Magento_Theme::system_design_theme');
             $this->renderLayout();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*/');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getSession()->addError(__('We cannot find the theme.'));
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             $this->_redirect('*/*/');
         }
     }
@@ -107,12 +109,12 @@ class Magento_Theme_Controller_Adminhtml_System_Design_Theme extends Magento_Adm
         $removeJsFiles = (array)$this->getRequest()->getParam('js_removed_files');
         $reorderJsFiles = array_keys($this->getRequest()->getParam('js_order', array()));
 
-        /** @var $themeFactory Magento_Core_Model_Theme_FlyweightFactory */
-        $themeFactory = $this->_objectManager->get('Magento_Core_Model_Theme_FlyweightFactory');
-        /** @var $cssService Magento_Theme_Model_Theme_Customization_File_CustomCss */
-        $cssService = $this->_objectManager->get('Magento_Theme_Model_Theme_Customization_File_CustomCss');
-        /** @var $singleFile Magento_Theme_Model_Theme_SingleFile */
-        $singleFile = $this->_objectManager->create('Magento_Theme_Model_Theme_SingleFile',
+        /** @var $themeFactory \Magento\Core\Model\Theme\FlyweightFactory */
+        $themeFactory = $this->_objectManager->get('Magento\Core\Model\Theme\FlyweightFactory');
+        /** @var $cssService \Magento\Theme\Model\Theme\Customization\File\CustomCss */
+        $cssService = $this->_objectManager->get('Magento\Theme\Model\Theme\Customization\File\CustomCss');
+        /** @var $singleFile \Magento\Theme\Model\Theme\SingleFile */
+        $singleFile = $this->_objectManager->create('Magento\Theme\Model\Theme\SingleFile',
             array('fileService' => $cssService));
         try {
             if ($this->getRequest()->getPost()) {
@@ -120,33 +122,33 @@ class Magento_Theme_Controller_Adminhtml_System_Design_Theme extends Magento_Adm
                     $theme = $themeFactory->create($themeData['theme_id']);
                 } else {
                     $parentTheme = $themeFactory->create($themeData['parent_id']);
-                    $theme = $parentTheme->getDomainModel(Magento_Core_Model_Theme::TYPE_PHYSICAL)
+                    $theme = $parentTheme->getDomainModel(\Magento\Core\Model\Theme::TYPE_PHYSICAL)
                         ->createVirtualTheme($parentTheme);
                 }
                 if ($theme && !$theme->isEditable()) {
-                    throw new Magento_Core_Exception(__('Theme isn\'t editable.'));
+                    throw new \Magento\Core\Exception(__('Theme isn\'t editable.'));
                 }
                 $theme->addData($themeData);
                 if (isset($themeData['preview']['delete'])) {
                     $theme->getThemeImage()->removePreviewImage();
                 }
                 $theme->getThemeImage()->uploadPreviewImage('preview');
-                $theme->setType(Magento_Core_Model_Theme::TYPE_VIRTUAL);
+                $theme->setType(\Magento\Core\Model\Theme::TYPE_VIRTUAL);
                 $theme->save();
                 $customization = $theme->getCustomization();
-                $customization->reorder(Magento_Core_Model_Theme_Customization_File_Js::TYPE, $reorderJsFiles);
+                $customization->reorder(\Magento\Core\Model\Theme\Customization\File\Js::TYPE, $reorderJsFiles);
                 $customization->delete($removeJsFiles);
                 $singleFile->update($theme, $customCssData);
                 $this->_getSession()->addSuccess(__('You saved the theme.'));
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_getSession()->setThemeData($themeData);
             $this->_getSession()->setThemeCustomCssData($customCssData);
             $redirectBack = true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getSession()->addError('The theme was not saved');
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
         }
         $redirectBack ? $this->_redirect('*/*/edit', array('id' => $theme->getId())) : $this->_redirect('*/*/');
     }
@@ -160,24 +162,24 @@ class Magento_Theme_Controller_Adminhtml_System_Design_Theme extends Magento_Adm
         $themeId = $this->getRequest()->getParam('id');
         try {
             if ($themeId) {
-                /** @var $theme Magento_Core_Model_Theme */
-                $theme = $this->_objectManager->create('Magento_Core_Model_Theme')->load($themeId);
+                /** @var $theme \Magento\Core\Model\Theme */
+                $theme = $this->_objectManager->create('Magento\Core\Model\Theme')->load($themeId);
                 if (!$theme->getId()) {
-                    throw new InvalidArgumentException(sprintf('We cannot find a theme with id "%1".', $themeId));
+                    throw new \InvalidArgumentException(sprintf('We cannot find a theme with id "%1".', $themeId));
                 }
                 if (!$theme->isVirtual()) {
-                    throw new InvalidArgumentException(
+                    throw new \InvalidArgumentException(
                         sprintf('Only virtual theme is possible to delete and theme "%s" isn\'t virtual', $themeId)
                     );
                 }
                 $theme->delete();
                 $this->_getSession()->addSuccess(__('You deleted the theme.'));
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getSession()->addException($e, __('We cannot delete the theme.'));
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
         }
         /**
          * @todo Temporary solution. Theme module should not know about the existence of editor module.
@@ -190,38 +192,38 @@ class Magento_Theme_Controller_Adminhtml_System_Design_Theme extends Magento_Adm
      */
     public function uploadCssAction()
     {
-        /** @var $serviceModel Magento_Theme_Model_Uploader_Service */
-        $serviceModel = $this->_objectManager->get('Magento_Theme_Model_Uploader_Service');
+        /** @var $serviceModel \Magento\Theme\Model\Uploader\Service */
+        $serviceModel = $this->_objectManager->get('Magento\Theme\Model\Uploader\Service');
         try {
             $cssFileContent = $serviceModel->uploadCssFile('css_file_uploader');
             $result = array('error' => false, 'content' => $cssFileContent['content']);
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $result = array('error' => true, 'message' => __('We cannot upload the CSS file.'));
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
         }
-        $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
     }
 
     /**
      * Upload js file
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function uploadJsAction()
     {
         $themeId = $this->getRequest()->getParam('id');
-        /** @var $serviceModel Magento_Theme_Model_Uploader_Service */
-        $serviceModel = $this->_objectManager->get('Magento_Theme_Model_Uploader_Service');
-        /** @var $themeFactory Magento_Core_Model_Theme_FlyweightFactory */
-        $themeFactory = $this->_objectManager->get('Magento_Core_Model_Theme_FlyweightFactory');
-        /** @var $jsService Magento_Core_Model_Theme_Customization_File_Js */
-        $jsService = $this->_objectManager->get('Magento_Core_Model_Theme_Customization_File_Js');
+        /** @var $serviceModel \Magento\Theme\Model\Uploader\Service */
+        $serviceModel = $this->_objectManager->get('Magento\Theme\Model\Uploader\Service');
+        /** @var $themeFactory \Magento\Core\Model\Theme\FlyweightFactory */
+        $themeFactory = $this->_objectManager->get('Magento\Core\Model\Theme\FlyweightFactory');
+        /** @var $jsService \Magento\Core\Model\Theme\Customization\File\Js */
+        $jsService = $this->_objectManager->get('Magento\Core\Model\Theme\Customization\File\Js');
         try {
             $theme = $themeFactory->create($themeId);
             if (!$theme) {
-                throw new Magento_Core_Exception(__('We cannot find a theme with id "%1".', $themeId));
+                throw new \Magento\Core\Exception(__('We cannot find a theme with id "%1".', $themeId));
             }
             $jsFileData = $serviceModel->uploadJsFile('js_files_uploader');
             $jsFile = $jsService->create();
@@ -230,18 +232,18 @@ class Magento_Theme_Controller_Adminhtml_System_Design_Theme extends Magento_Adm
             $jsFile->setData('content', $jsFileData['content']);
             $jsFile->save();
 
-            /** @var $customization Magento_Core_Model_Theme_Customization */
-            $customization = $this->_objectManager->create('Magento_Core_Model_Theme_Customization',
+            /** @var $customization \Magento\Core\Model\Theme\Customization */
+            $customization = $this->_objectManager->create('Magento\Core\Model\Theme\Customization',
                 array('theme' => $theme));
-            $customJsFiles = $customization->getFilesByType(Magento_Core_Model_Theme_Customization_File_Js::TYPE);
+            $customJsFiles = $customization->getFilesByType(\Magento\Core\Model\Theme\Customization\File\Js::TYPE);
             $result = array('error' => false, 'files' => $customization->generateFileInfo($customJsFiles));
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $result = array('error' => true, 'message' => __('We cannot upload the JS file.'));
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
         }
-        $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
     }
 
     /**
@@ -251,17 +253,17 @@ class Magento_Theme_Controller_Adminhtml_System_Design_Theme extends Magento_Adm
     {
         $themeId = $this->getRequest()->getParam('theme_id');
         try {
-            /** @var $themeFactory Magento_Core_Model_Theme_FlyweightFactory */
-            $themeFactory = $this->_objectManager->create('Magento_Core_Model_Theme_FlyweightFactory');
+            /** @var $themeFactory \Magento\Core\Model\Theme\FlyweightFactory */
+            $themeFactory = $this->_objectManager->create('Magento\Core\Model\Theme\FlyweightFactory');
             $theme = $themeFactory->create($themeId);
             if (!$theme) {
-                throw new InvalidArgumentException(sprintf('We cannot find a theme with id "%1".', $themeId));
+                throw new \InvalidArgumentException(sprintf('We cannot find a theme with id "%1".', $themeId));
             }
 
             $customCssFiles = $theme->getCustomization()->getFilesByType(
-                Magento_Theme_Model_Theme_Customization_File_CustomCss::TYPE
+                \Magento\Theme\Model\Theme\Customization\File\CustomCss::TYPE
             );
-            /** @var $customCssFile Magento_Core_Model_Theme_FileInterface */
+            /** @var $customCssFile \Magento\Core\Model\Theme\FileInterface */
             $customCssFile = reset($customCssFiles);
             if ($customCssFile && $customCssFile->getContent()) {
                 $this->_prepareDownloadResponse(
@@ -272,10 +274,10 @@ class Magento_Theme_Controller_Adminhtml_System_Design_Theme extends Magento_Adm
                     )
                 );
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getSession()->addException($e, __('We cannot find file'));
             $this->_redirectUrl($this->_getRefererUrl());
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
         }
     }
 
@@ -287,19 +289,19 @@ class Magento_Theme_Controller_Adminhtml_System_Design_Theme extends Magento_Adm
         $themeId = $this->getRequest()->getParam('theme_id');
         $file = $this->getRequest()->getParam('file');
 
-        /** @var $helper Magento_Core_Helper_Theme */
-        $helper = $this->_objectManager->get('Magento_Core_Helper_Theme');
+        /** @var $helper \Magento\Core\Helper\Theme */
+        $helper = $this->_objectManager->get('Magento\Core\Helper\Theme');
         $fileName = $helper->urlDecode($file);
         try {
-            /** @var $theme Magento_Core_Model_Theme */
-            $theme = $this->_objectManager->create('Magento_Core_Model_Theme')->load($themeId);
+            /** @var $theme \Magento\Core\Model\Theme */
+            $theme = $this->_objectManager->create('Magento\Core\Model\Theme')->load($themeId);
             if (!$theme->getId()) {
-                throw new InvalidArgumentException(sprintf('We cannot find a theme with id "%1".', $themeId));
+                throw new \InvalidArgumentException(sprintf('We cannot find a theme with id "%1".', $themeId));
             }
 
             $themeCss = $helper->getCssFiles($theme);
             if (!isset($themeCss[$fileName])) {
-                throw new InvalidArgumentException(
+                throw new \InvalidArgumentException(
                     sprintf('Css file "%s" is not in the theme with id "%d".', $fileName, $themeId)
                 );
             }
@@ -308,10 +310,10 @@ class Magento_Theme_Controller_Adminhtml_System_Design_Theme extends Magento_Adm
                 'type'  => 'filename',
                 'value' => $themeCss[$fileName]['path']
             ));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getSession()->addException($e, __('We cannot find file "%1".', $fileName));
             $this->_redirectUrl($this->_getRefererUrl());
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
         }
     }
 

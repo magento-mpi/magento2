@@ -15,37 +15,39 @@
  * @package     Magento_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_General
-    extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit\Tab;
+
+class General
+    extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var Magento_Core_Model_System_Store
+     * @var \Magento\Core\Model\System\Store
      */
     protected $_systemStore;
 
     /**
      * Store list manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_System_Store $systemStore
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_System_Store $systemStore,
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -56,13 +58,13 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_General
     /**
      * Prepare general properties form
      *
-     * @return Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_General
+     * @return \Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit\Tab\General
      */
     protected function _prepareForm()
     {
         $model = $this->_coreRegistry->registry('current_customer_segment');
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
 
         $form->setHtmlIdPrefix('segment_');
@@ -123,9 +125,9 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_General
             'required' => false,
             'disabled' => (boolean)$model->getId(),
             'options' => array(
-                Magento_CustomerSegment_Model_Segment::APPLY_TO_VISITORS_AND_REGISTERED => __('Visitors and Registered Customers'),
-                Magento_CustomerSegment_Model_Segment::APPLY_TO_REGISTERED => __('Registered Customers'),
-                Magento_CustomerSegment_Model_Segment::APPLY_TO_VISITORS => __('Visitors')
+                \Magento\CustomerSegment\Model\Segment::APPLY_TO_VISITORS_AND_REGISTERED => __('Visitors and Registered Customers'),
+                \Magento\CustomerSegment\Model\Segment::APPLY_TO_REGISTERED => __('Registered Customers'),
+                \Magento\CustomerSegment\Model\Segment::APPLY_TO_VISITORS => __('Visitors')
             )
         );
         if (!$model->getId()) {

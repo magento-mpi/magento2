@@ -11,60 +11,62 @@
 /**
  * Review form block
  */
-class Magento_Rss_Block_Catalog_Review extends Magento_Core_Block_Abstract
+namespace Magento\Rss\Block\Catalog;
+
+class Review extends \Magento\Core\Block\AbstractBlock
 {
     /**
      * Rss data
      *
-     * @var Magento_Rss_Helper_Data
+     * @var \Magento\Rss\Helper\Data
      */
     protected $_rssData = null;
 
     /**
      * Adminhtml data
      *
-     * @var Magento_Backend_Helper_Data
+     * @var \Magento\Backend\Helper\Data
      */
     protected $_adminhtmlData = null;
 
     /**
-     * @var Magento_Rss_Model_RssFactory
+     * @var \Magento\Rss\Model\RssFactory
      */
     protected $_rssFactory;
 
     /**
-     * @var Magento_Core_Model_Resource_Iterator
+     * @var \Magento\Core\Model\Resource\Iterator
      */
     protected $_resourceIterator;
 
     /**
-     * @var Magento_Review_Model_ReviewFactory
+     * @var \Magento\Review\Model\ReviewFactory
      */
     protected $_reviewFactory;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Backend_Helper_Data $adminhtmlData
-     * @param Magento_Rss_Helper_Data $rssData
-     * @param Magento_Core_Block_Context $context
-     * @param Magento_Rss_Model_RssFactory $rssFactory
-     * @param Magento_Core_Model_Resource_Iterator $resourceIterator
-     * @param Magento_Review_Model_ReviewFactory $reviewFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Backend\Helper\Data $adminhtmlData
+     * @param \Magento\Rss\Helper\Data $rssData
+     * @param \Magento\Core\Block\Context $context
+     * @param \Magento\Rss\Model\RssFactory $rssFactory
+     * @param \Magento\Core\Model\Resource\Iterator $resourceIterator
+     * @param \Magento\Review\Model\ReviewFactory $reviewFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Helper_Data $adminhtmlData,
-        Magento_Rss_Helper_Data $rssData,
-        Magento_Core_Block_Context $context,
-        Magento_Rss_Model_RssFactory $rssFactory,
-        Magento_Core_Model_Resource_Iterator $resourceIterator,
-        Magento_Review_Model_ReviewFactory $reviewFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
+        \Magento\Backend\Helper\Data $adminhtmlData,
+        \Magento\Rss\Helper\Data $rssData,
+        \Magento\Core\Block\Context $context,
+        \Magento\Rss\Model\RssFactory $rssFactory,
+        \Magento\Core\Model\Resource\Iterator $resourceIterator,
+        \Magento\Review\Model\ReviewFactory $reviewFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_adminhtmlData = $adminhtmlData;
@@ -87,7 +89,7 @@ class Magento_Rss_Block_Catalog_Review extends Magento_Core_Block_Abstract
         $title = __('Pending product review(s)');
         $this->_rssData->disableFlat();
 
-        /** @var $rssObj Magento_Rss_Model_Rss */
+        /** @var $rssObj \Magento\Rss\Model\Rss */
         $rssObj = $this->_rssFactory->create();
         $rssObj->_addHeader(array(
             'title' => $title,
@@ -96,7 +98,7 @@ class Magento_Rss_Block_Catalog_Review extends Magento_Core_Block_Abstract
             'charset'     => 'UTF-8',
         ));
 
-        /** @var $reviewModel Magento_Review_Model_Review */
+        /** @var $reviewModel \Magento\Review\Model\Review */
         $reviewModel = $this->_reviewFactory->create();
         $collection = $reviewModel->getProductCollection()
             ->addStatusFilter($reviewModel->getPendingStatus())
@@ -121,7 +123,7 @@ class Magento_Rss_Block_Catalog_Review extends Magento_Core_Block_Abstract
      */
     public function addReviewItemXmlCallback($args)
     {
-        /** @var $rssObj Magento_Rss_Model_Rss */
+        /** @var $rssObj \Magento\Rss\Model\Rss */
         $rssObj = $args['rssObj'];
         $row = $args['row'];
 

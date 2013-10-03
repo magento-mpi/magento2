@@ -15,39 +15,41 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Model_Resource_Item_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\GoogleShopping\Model\Resource\Item;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Config
      *
-     * @var Magento_Eav_Model_Config
+     * @var \Magento\Eav\Model\Config
      */
     protected $_eavConfig;
 
     /**
      * Resource helper
      *
-     * @var Magento_Core_Model_Resource_Helper
+     * @var \Magento\Core\Model\Resource\Helper
      */
     protected $_resourceHelper;
 
     /**
-     * @param Magento_Core_Model_Resource_Helper $resourceHelper
-     * @param Magento_Eav_Model_Config $config
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Core\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Eav\Model\Config $config
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        Magento_Core_Model_Resource_Helper $resourceHelper,
-        Magento_Eav_Model_Config $config,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null
+        \Magento\Core\Model\Resource\Helper $resourceHelper,
+        \Magento\Eav\Model\Config $config,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_resourceHelper = $resourceHelper;
         $this->_eavConfig = $config;
@@ -56,13 +58,13 @@ class Magento_GoogleShopping_Model_Resource_Item_Collection extends Magento_Core
 
     protected function _construct()
     {
-        $this->_init('Magento_GoogleShopping_Model_Item', 'Magento_GoogleShopping_Model_Resource_Item');
+        $this->_init('Magento\GoogleShopping\Model\Item', 'Magento\GoogleShopping\Model\Resource\Item');
     }
 
     /**
      * Init collection select
      *
-     * @return Magento_GoogleShopping_Model_Resource_Item_Collection
+     * @return \Magento\GoogleShopping\Model\Resource\Item\Collection
      */
     protected function _initSelect()
     {
@@ -75,7 +77,7 @@ class Magento_GoogleShopping_Model_Resource_Item_Collection extends Magento_Core
      * Filter collection by specified store ids
      *
      * @param array|int $storeIds
-     * @return Magento_GoogleShopping_Model_Resource_Item_Collection
+     * @return \Magento\GoogleShopping\Model\Resource\Item\Collection
      */
     public function addStoreFilter($storeIds)
     {
@@ -87,7 +89,7 @@ class Magento_GoogleShopping_Model_Resource_Item_Collection extends Magento_Core
      * Filter collection by specified product id
      *
      * @param int $productId
-     * @return Magento_GoogleShopping_Model_Resource_Item_Collection
+     * @return \Magento\GoogleShopping\Model\Resource\Item\Collection
      */
     public function addProductFilterId($productId)
     {
@@ -101,7 +103,7 @@ class Magento_GoogleShopping_Model_Resource_Item_Collection extends Magento_Core
      * @see self::_getConditionSql for $condition
      * @param string $field
      * @param null|string|array $condition
-     * @return Magento_Eav_Model_Entity_Collection_Abstract
+     * @return \Magento\Eav\Model\Entity\Collection\AbstractCollection
      */
     public function addFieldToFilter($field, $condition=null)
     {
@@ -109,7 +111,7 @@ class Magento_GoogleShopping_Model_Resource_Item_Collection extends Magento_Core
             $conditionSql = $this->_getConditionSql(
                 $this->getConnection()->getIfNullSql('p.value', 'p_d.value'), $condition
             );
-            $this->getSelect()->where($conditionSql, null, Magento_DB_Select::TYPE_CONDITION);
+            $this->getSelect()->where($conditionSql, null, \Magento\DB\Select::TYPE_CONDITION);
             return $this;
         } else {
             return parent::addFieldToFilter($field, $condition);
@@ -119,7 +121,7 @@ class Magento_GoogleShopping_Model_Resource_Item_Collection extends Magento_Core
     /**
      * Join product and type data
      *
-     * @return Magento_GoogleShopping_Model_Resource_Item_Collection
+     * @return \Magento\GoogleShopping\Model\Resource\Item\Collection
      */
     protected function _joinTables()
     {

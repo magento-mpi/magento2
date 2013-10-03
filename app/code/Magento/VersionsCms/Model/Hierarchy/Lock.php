@@ -12,32 +12,34 @@
 /**
  * Cms Hierarchy Pages Lock Model
  *
- * @method Magento_VersionsCms_Model_Resource_Hierarchy_Lock _getResource()
- * @method Magento_VersionsCms_Model_Resource_Hierarchy_Lock getResource()
+ * @method \Magento\VersionsCms\Model\Resource\Hierarchy\Lock _getResource()
+ * @method \Magento\VersionsCms\Model\Resource\Hierarchy\Lock getResource()
  * @method int getUserId()
- * @method Magento_VersionsCms_Model_Hierarchy_Lock setUserId(int $value)
+ * @method \Magento\VersionsCms\Model\Hierarchy\Lock setUserId(int $value)
  * @method string getUserName()
- * @method Magento_VersionsCms_Model_Hierarchy_Lock setUserName(string $value)
+ * @method \Magento\VersionsCms\Model\Hierarchy\Lock setUserName(string $value)
  * @method string getSessionId()
- * @method Magento_VersionsCms_Model_Hierarchy_Lock setSessionId(string $value)
+ * @method \Magento\VersionsCms\Model\Hierarchy\Lock setSessionId(string $value)
  * @method int getStartedAt()
- * @method Magento_VersionsCms_Model_Hierarchy_Lock setStartedAt(int $value)
+ * @method \Magento\VersionsCms\Model\Hierarchy\Lock setStartedAt(int $value)
  *
  * @deprecated since 1.12.0.0
  */
-class Magento_VersionsCms_Model_Hierarchy_Lock extends Magento_Core_Model_Abstract
+namespace Magento\VersionsCms\Model\Hierarchy;
+
+class Lock extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
      * Session model instance
      *
-     * @var Magento_Core_Model_Session_Abstract
+     * @var \Magento\Core\Model\Session\AbstractSession
      */
     protected $_session;
 
@@ -49,26 +51,26 @@ class Magento_VersionsCms_Model_Hierarchy_Lock extends Magento_Core_Model_Abstra
     protected $_dataLoaded = false;
 
     /**
-     * @var Magento_Backend_Model_Auth_Session
+     * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_backendAuthSession;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Backend_Model_Auth_Session $backendAuthSession
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Backend_Model_Auth_Session $backendAuthSession,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Backend\Model\Auth\Session $backendAuthSession,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -81,16 +83,16 @@ class Magento_VersionsCms_Model_Hierarchy_Lock extends Magento_Core_Model_Abstra
      */
     protected function _construct()
     {
-        $this->_init('Magento_VersionsCms_Model_Resource_Hierarchy_Lock');
+        $this->_init('Magento\VersionsCms\Model\Resource\Hierarchy\Lock');
     }
 
     /**
      * Setter for session instance
      *
-     * @param Magento_Core_Model_Session_Abstract $session
-     * @return Magento_VersionsCms_Model_Hierarchy_Lock
+     * @param \Magento\Core\Model\Session\AbstractSession $session
+     * @return \Magento\VersionsCms\Model\Hierarchy\Lock
      */
-    public function setSession(Magento_Core_Model_Session_Abstract $session)
+    public function setSession(\Magento\Core\Model\Session\AbstractSession $session)
     {
         $this->_session = $session;
         return $this;
@@ -99,7 +101,7 @@ class Magento_VersionsCms_Model_Hierarchy_Lock extends Magento_Core_Model_Abstra
     /**
      * Getter for session instance
      *
-     * @return Magento_Core_Model_Session_Abstract
+     * @return \Magento\Core\Model\Session\AbstractSession
      */
     protected function _getSession()
     {
@@ -112,7 +114,7 @@ class Magento_VersionsCms_Model_Hierarchy_Lock extends Magento_Core_Model_Abstra
     /**
      * Load lock data
      *
-     * @return Magento_VersionsCms_Model_Hierarchy_Lock
+     * @return \Magento\VersionsCms\Model\Hierarchy\Lock
      */
     public function loadLockData()
     {
@@ -157,7 +159,7 @@ class Magento_VersionsCms_Model_Hierarchy_Lock extends Magento_Core_Model_Abstra
     /**
      * Revalidate lock data
      *
-     * @return Magento_VersionsCms_Model_Hierarchy_Lock
+     * @return \Magento\VersionsCms\Model\Hierarchy\Lock
      */
     public function revalidate()
     {
@@ -213,7 +215,7 @@ class Magento_VersionsCms_Model_Hierarchy_Lock extends Magento_Core_Model_Abstra
     /**
      * Create lock for page, previously deleting existing lock
      *
-     * @return Magento_VersionsCms_Model_Hierarchy_Lock
+     * @return \Magento\VersionsCms\Model\Hierarchy\Lock
      */
     public function lock()
     {

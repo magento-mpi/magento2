@@ -6,16 +6,18 @@
  * @license     {license_link}
  */
 
-class Magento_GoogleShopping_Model_AttributeFactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\GoogleShopping\Model;
+
+class AttributeFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Get object manager mock
      *
-     * @return Magento_ObjectManager
+     * @return \Magento\ObjectManager
      */
     protected function _createObjectManager()
     {
-        return $this->getMockBuilder('Magento_ObjectManager')
+        return $this->getMockBuilder('Magento\ObjectManager')
             ->setMethods(array('create'))
             ->getMockForAbstractClass();
     }
@@ -23,11 +25,11 @@ class Magento_GoogleShopping_Model_AttributeFactoryTest extends PHPUnit_Framewor
     /**
      * Get helper mock
      *
-     * @return Magento_GoogleShopping_Helper_Data
+     * @return \Magento\GoogleShopping\Helper\Data
      */
     protected function _createGsData()
     {
-        return $this->getMockBuilder('Magento_GoogleShopping_Helper_Data')
+        return $this->getMockBuilder('Magento\GoogleShopping\Helper\Data')
             ->disableOriginalConstructor()
             ->setMethods(null)
             ->getMock();
@@ -36,11 +38,11 @@ class Magento_GoogleShopping_Model_AttributeFactoryTest extends PHPUnit_Framewor
     /**
      * Get default attribute mock
      *
-     * @return Magento_GoogleShopping_Model_Attribute_Default
+     * @return \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      */
     protected function _createDefaultAttribute()
     {
-        return $this->getMockBuilder('Magento_GoogleShopping_Model_Attribute_Default')
+        return $this->getMockBuilder('Magento\GoogleShopping\Model\Attribute\DefaultAttribute')
             ->disableOriginalConstructor()
             ->setMethods(null)
             ->getMock();
@@ -56,9 +58,9 @@ class Magento_GoogleShopping_Model_AttributeFactoryTest extends PHPUnit_Framewor
         $objectManager = $this->_createObjectManager();
         $objectManager->expects($this->once())
             ->method('create')
-            ->with($this->equalTo('Magento_GoogleShopping_Model_Attribute_' . $expected))
+            ->with($this->equalTo('Magento\GoogleShopping\Model\Attribute\\' . $expected))
             ->will($this->returnValue($this->_createDefaultAttribute()));
-        $attributeFactory = new Magento_GoogleShopping_Model_AttributeFactory($objectManager, $this->_createGsData());
+        $attributeFactory = new \Magento\GoogleShopping\Model\AttributeFactory($objectManager, $this->_createGsData());
         $attribute = $attributeFactory->createAttribute($name);
         $this->assertEquals($name, $attribute->getName());
     }
@@ -81,13 +83,13 @@ class Magento_GoogleShopping_Model_AttributeFactoryTest extends PHPUnit_Framewor
         $objectManager = $this->_createObjectManager();
         $objectManager->expects($this->at(0))
             ->method('create')
-            ->with($this->equalTo('Magento_GoogleShopping_Model_Attribute_Name'))
-            ->will($throwException ? $this->throwException(new Exception()) : $this->returnValue(false));
+            ->with($this->equalTo('Magento\GoogleShopping\Model\Attribute\Name'))
+            ->will($throwException ? $this->throwException(new \Exception()) : $this->returnValue(false));
         $objectManager->expects($this->at(1))
             ->method('create')
-            ->with($this->equalTo('Magento_GoogleShopping_Model_Attribute_Default'))
+            ->with($this->equalTo('Magento\GoogleShopping\Model\Attribute\DefaultAttribute'))
             ->will($this->returnValue($this->_createDefaultAttribute()));
-        $attributeFactory = new Magento_GoogleShopping_Model_AttributeFactory($objectManager, $this->_createGsData());
+        $attributeFactory = new \Magento\GoogleShopping\Model\AttributeFactory($objectManager, $this->_createGsData());
         $attribute = $attributeFactory->createAttribute('name');
         $this->assertEquals('name', $attribute->getName());
     }
@@ -102,9 +104,9 @@ class Magento_GoogleShopping_Model_AttributeFactoryTest extends PHPUnit_Framewor
         $objectManager = $this->_createObjectManager();
         $objectManager->expects($this->once())
             ->method('create')
-            ->with('Magento_GoogleShopping_Model_Attribute')
+            ->with('Magento\GoogleShopping\Model\Attribute')
             ->will($this->returnValue('some value'));
-        $attributeFactory = new Magento_GoogleShopping_Model_AttributeFactory($objectManager, $this->_createGsData());
+        $attributeFactory = new \Magento\GoogleShopping\Model\AttributeFactory($objectManager, $this->_createGsData());
         $attribute = $attributeFactory->create();
         $this->assertEquals('some value', $attribute);
     }

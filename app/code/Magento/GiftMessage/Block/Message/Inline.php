@@ -16,7 +16,9 @@
  * @package    Magento_GiftMessage
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftMessage_Block_Message_Inline extends Magento_Core_Block_Template
+namespace Magento\GiftMessage\Block\Message;
+
+class Inline extends \Magento\Core\Block\Template
 {
     protected $_entity = null;
     protected $_type   = null;
@@ -27,27 +29,27 @@ class Magento_GiftMessage_Block_Message_Inline extends Magento_Core_Block_Templa
     /**
      * Gift message message
      *
-     * @var Magento_GiftMessage_Helper_Message
+     * @var \Magento\GiftMessage\Helper\Message
      */
     protected $_giftMessageMessage = null;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_GiftMessage_Helper_Message $giftMessageMessage
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\GiftMessage\Helper\Message $giftMessageMessage
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Customer_Model_Session $customerSession,
-        Magento_GiftMessage_Helper_Message $giftMessageMessage,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\GiftMessage\Helper\Message $giftMessageMessage,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_giftMessageMessage = $giftMessageMessage;
@@ -59,7 +61,7 @@ class Magento_GiftMessage_Block_Message_Inline extends Magento_Core_Block_Templa
      * Set entity
      *
      * @param $entity
-     * @return Magento_GiftMessage_Block_Message_Inline
+     * @return \Magento\GiftMessage\Block\Message\Inline
      */
     public function setEntity($entity)
     {
@@ -70,7 +72,7 @@ class Magento_GiftMessage_Block_Message_Inline extends Magento_Core_Block_Templa
     /**
      * Get entity
      *
-     * @return Magento_GiftMessage_Block_Message_Inline
+     * @return \Magento\GiftMessage\Block\Message\Inline
      */
     public function getEntity()
     {
@@ -81,7 +83,7 @@ class Magento_GiftMessage_Block_Message_Inline extends Magento_Core_Block_Templa
      * Set type
      *
      * @param string $type
-     * @return Magento_GiftMessage_Block_Message_Inline
+     * @return \Magento\GiftMessage\Block\Message\Inline
      */
     public function setType($type)
     {
@@ -112,11 +114,11 @@ class Magento_GiftMessage_Block_Message_Inline extends Magento_Core_Block_Templa
     /**
      * Init message
      *
-     * @return Magento_GiftMessage_Block_Message_Inline
+     * @return \Magento\GiftMessage\Block\Message\Inline
      */
     protected function _initMessage()
     {
-        $this->_giftMessage = $this->helper('Magento_GiftMessage_Helper_Message')->getGiftMessage(
+        $this->_giftMessage = $this->helper('Magento\GiftMessage\Helper\Message')->getGiftMessage(
             $this->getEntity()->getGiftMessageId()
         );
         return $this;
@@ -165,7 +167,7 @@ class Magento_GiftMessage_Block_Message_Inline extends Magento_Core_Block_Templa
         if ($entity) {
             if (!$entity->getGiftMessage()) {
                 $entity->setGiftMessage(
-                    $this->helper('Magento_GiftMessage_Helper_Message')->getGiftMessage($entity->getGiftMessageId())
+                    $this->helper('Magento\GiftMessage\Helper\Message')->getGiftMessage($entity->getGiftMessageId())
                 );
             }
             return $entity->getGiftMessage();
@@ -292,12 +294,12 @@ class Magento_GiftMessage_Block_Message_Inline extends Magento_Core_Block_Templa
     /**
      * Product thumbnail image url getter
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return string
      */
     public function getThumbnailUrl($product)
     {
-        return (string)$this->helper('Magento_Catalog_Helper_Image')->init($product, 'thumbnail')
+        return (string)$this->helper('Magento\Catalog\Helper\Image')->init($product, 'thumbnail')
             ->resize($this->getThumbnailSize());
     }
 

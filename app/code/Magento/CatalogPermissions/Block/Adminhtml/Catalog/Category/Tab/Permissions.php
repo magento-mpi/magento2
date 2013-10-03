@@ -14,9 +14,11 @@
  * @category   Magento
  * @package    Magento_CatalogPermissions
  */
-class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permissions
-    extends Magento_Adminhtml_Block_Catalog_Category_Abstract
-    implements Magento_Backend_Block_Widget_Tab_Interface
+namespace Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab;
+
+class Permissions
+    extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
 
     protected $_template = 'catalog/category/tab/permissions.phtml';
@@ -24,52 +26,52 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
     /**
      * Catalog permissions data
      *
-     * @var Magento_CatalogPermissions_Helper_Data
+     * @var \Magento\CatalogPermissions\Helper\Data
      */
     protected $_catalogPermData = null;
 
     /**
-     * @var Magento_Customer_Model_Resource_Group_CollectionFactory
+     * @var \Magento\Customer\Model\Resource\Group\CollectionFactory
      */
     protected $_groupCollFactory;
 
     /**
-     * @var Magento_CatalogPermissions_Model_Resource_Permission_CollectionFactory
+     * @var \Magento\CatalogPermissions\Model\Resource\Permission\CollectionFactory
      */
     protected $_permissionCollFactory;
 
     /**
-     * @var Magento_CatalogPermissions_Model_Permission_IndexFactory
+     * @var \Magento\CatalogPermissions\Model\Permission\IndexFactory
      */
     protected $_permIndexFactory;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_CatalogPermissions_Model_Permission_IndexFactory $permIndexFactory
-     * @param Magento_CatalogPermissions_Model_Resource_Permission_CollectionFactory $permissionCollFactory
-     * @param Magento_Customer_Model_Resource_Group_CollectionFactory $groupCollFactory
-     * @param Magento_CatalogPermissions_Helper_Data $catalogPermData
-     * @param Magento_Catalog_Model_Resource_Category_Tree $categoryTree
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\CatalogPermissions\Model\Permission\IndexFactory $permIndexFactory
+     * @param \Magento\CatalogPermissions\Model\Resource\Permission\CollectionFactory $permissionCollFactory
+     * @param \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollFactory
+     * @param \Magento\CatalogPermissions\Helper\Data $catalogPermData
+     * @param \Magento\Catalog\Model\Resource\Category\Tree $categoryTree
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_CatalogPermissions_Model_Permission_IndexFactory $permIndexFactory,
-        Magento_CatalogPermissions_Model_Resource_Permission_CollectionFactory $permissionCollFactory,
-        Magento_Customer_Model_Resource_Group_CollectionFactory $groupCollFactory,
-        Magento_CatalogPermissions_Helper_Data $catalogPermData,
-        Magento_Catalog_Model_Resource_Category_Tree $categoryTree,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\CatalogPermissions\Model\Permission\IndexFactory $permIndexFactory,
+        \Magento\CatalogPermissions\Model\Resource\Permission\CollectionFactory $permissionCollFactory,
+        \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollFactory,
+        \Magento\CatalogPermissions\Helper\Data $catalogPermData,
+        \Magento\Catalog\Model\Resource\Category\Tree $categoryTree,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -83,13 +85,13 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
     /**
      * Prepare layout
      *
-     * @return Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permissions
+     * @return \Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab\Permissions
      */
     protected function _prepareLayout()
     {
-        $this->addChild('row', 'Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permissions_Row');
+        $this->addChild('row', 'Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab\Permissions\Row');
 
-        $this->addChild('add_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('add_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('New Permission'),
             'class' => 'add' . ($this->isReadonly() ? ' disabled' : ''),
             'type'  => 'button',
@@ -138,7 +140,7 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
     /**
      * Retrieve permission collection
      *
-     * @return Magento_CatalogPermissions_Model_Resource_Permission_Collection
+     * @return \Magento\CatalogPermissions\Model\Resource\Permission\Collection
      */
     public function getPermissionCollection()
     {
@@ -185,16 +187,16 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
         $websites = $this->_storeManager->getWebsites(false);
         $groups   = $this->_groupCollFactory->create()->getAllIds();
 
-        /* @var $helper Magento_CatalogPermissions_Helper_Data */
+        /* @var $helper \Magento\CatalogPermissions\Helper\Data */
         $helper   = $this->_catalogPermData;
 
-        $parent = (string)Magento_CatalogPermissions_Model_Permission::PERMISSION_PARENT;
-        $allow  = (string)Magento_CatalogPermissions_Model_Permission::PERMISSION_ALLOW;
-        $deny   = (string)Magento_CatalogPermissions_Model_Permission::PERMISSION_DENY;
+        $parent = (string)\Magento\CatalogPermissions\Model\Permission::PERMISSION_PARENT;
+        $allow  = (string)\Magento\CatalogPermissions\Model\Permission::PERMISSION_ALLOW;
+        $deny   = (string)\Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY;
 
         foreach ($groups as $groupId) {
             foreach ($websites as $website) {
-                /* @var $website Magento_Core_Model_Website */
+                /* @var $website \Magento\Core\Model\Website */
                 $websiteId = $website->getId();
 
                 $store = $website->getDefaultStore();

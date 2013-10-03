@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Authorizenet_Controller_Directpost_PaymentTest extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\Authorizenet\Controller\Directpost;
+
+class PaymentTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     public function testResponseActionValidationFiled()
     {

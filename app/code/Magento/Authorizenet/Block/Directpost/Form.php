@@ -15,36 +15,38 @@
  * @package    Magento_Authorizenet
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Authorizenet_Block_Directpost_Form extends Magento_Payment_Block_Form_Cc
+namespace Magento\Authorizenet\Block\Directpost;
+
+class Form extends \Magento\Payment\Block\Form\Cc
 {
     protected $_template = 'directpost/info.phtml';
 
     /**
-     * @var Magento_Authorizenet_Model_Directpost
+     * @var \Magento\Authorizenet\Model\Directpost
      */
     protected $_model;
 
     /**
-     * @var Magento_Checkout_Model_Type_Onepage
+     * @var \Magento\Checkout\Model\Type\Onepage
      */
     protected $_checkoutModel;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Payment_Model_Config $paymentConfig
-     * @param Magento_Authorizenet_Model_Directpost $model
-     * @param Magento_Checkout_Model_Type_Onepage $checkoutModel
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Payment\Model\Config $paymentConfig
+     * @param \Magento\Authorizenet\Model\Directpost $model
+     * @param \Magento\Checkout\Model\Type\Onepage $checkoutModel
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Payment_Model_Config $paymentConfig,
-        Magento_Authorizenet_Model_Directpost $model,
-        Magento_Checkout_Model_Type_Onepage $checkoutModel,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Payment\Model\Config $paymentConfig,
+        \Magento\Authorizenet\Model\Directpost $model,
+        \Magento\Checkout\Model\Type\Onepage $checkoutModel,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $paymentConfig, $data);
@@ -67,7 +69,7 @@ class Magento_Authorizenet_Block_Directpost_Form extends Magento_Payment_Block_F
     /**
      * Set method info
      *
-     * @return Magento_Authorizenet_Block_Directpost_Form
+     * @return \Magento\Authorizenet\Block\Directpost\Form
      */
     public function setMethodInfo()
     {

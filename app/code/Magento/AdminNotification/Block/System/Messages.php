@@ -5,25 +5,27 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_AdminNotification_Block_System_Messages extends Magento_Backend_Block_Template
+namespace Magento\AdminNotification\Block\System;
+
+class Messages extends \Magento\Backend\Block\Template
 {
     /**
      * Message list
      *
-     * @var Magento_AdminNotification_Model_Resource_System_Message_Collection_Synchronized
+     * @var \Magento\AdminNotification\Model\Resource\System\Message\Collection\Synchronized
      */
     protected $_messages;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_AdminNotification_Model_Resource_System_Message_Collection_Synchronized $messages
+     * @param Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\AdminNotification\Model\Resource\System\Message\Collection\Synchronized $messages
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_AdminNotification_Model_Resource_System_Message_Collection_Synchronized $messages,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\AdminNotification\Model\Resource\System\Message\Collection\Synchronized $messages,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);
@@ -44,13 +46,13 @@ class Magento_AdminNotification_Block_System_Messages extends Magento_Backend_Bl
     /**
      * Retrieve message list
      *
-     * @return Magento_AdminNotification_Model_System_MessageInterface[]
+     * @return \Magento\AdminNotification\Model\System\MessageInterface[]
      */
     public function getLastCritical()
     {
         $items = array_values($this->_messages->getItems());
         if (isset($items[0]) && $items[0]->getSeverity()
-            == Magento_AdminNotification_Model_System_MessageInterface::SEVERITY_CRITICAL
+            == \Magento\AdminNotification\Model\System\MessageInterface::SEVERITY_CRITICAL
         ) {
             return $items[0];
         }
@@ -65,7 +67,7 @@ class Magento_AdminNotification_Block_System_Messages extends Magento_Backend_Bl
     public function getCriticalCount()
     {
         return $this->_messages->getCountBySeverity(
-            Magento_AdminNotification_Model_System_MessageInterface::SEVERITY_CRITICAL
+            \Magento\AdminNotification\Model\System\MessageInterface::SEVERITY_CRITICAL
         );
     }
 
@@ -77,7 +79,7 @@ class Magento_AdminNotification_Block_System_Messages extends Magento_Backend_Bl
     public function getMajorCount()
     {
         return $this->_messages->getCountBySeverity(
-            Magento_AdminNotification_Model_System_MessageInterface::SEVERITY_MAJOR
+            \Magento\AdminNotification\Model\System\MessageInterface::SEVERITY_MAJOR
         );
     }
 
@@ -108,7 +110,7 @@ class Magento_AdminNotification_Block_System_Messages extends Magento_Backend_Bl
      */
     public function getSystemMessageDialogJson()
     {
-        return $this->helper('Magento_Core_Helper_Data')->jsonEncode(array(
+        return $this->helper('Magento\Core\Helper\Data')->jsonEncode(array(
             'systemMessageDialog' => array(
                 'autoOpen' => false,
                 'width' => 600,

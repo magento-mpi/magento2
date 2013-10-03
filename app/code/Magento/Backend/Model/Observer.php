@@ -11,25 +11,27 @@
 /**
  * Backend event observer
  */
-class Magento_Backend_Model_Observer
+namespace Magento\Backend\Model;
+
+class Observer
 {
     /**
-     * @var Magento_Backend_Model_Session
+     * @var \Magento\Backend\Model\Session
      */
     protected $_backendSession;
 
     /**
-     * @var Magento_Core_Model_App
+     * @var \Magento\Core\Model\App
      */
     protected $_app;
 
     /**
-     * @param Magento_Backend_Model_Session $backendSession
-     * @param Magento_Core_Model_App $app
+     * @param \Magento\Backend\Model\Session $backendSession
+     * @param \Magento\Core\Model\App $app
      */
     public function __construct(
-        Magento_Backend_Model_Session $backendSession,
-        Magento_Core_Model_App $app
+        \Magento\Backend\Model\Session $backendSession,
+        \Magento\Core\Model\App $app
     ) {
         $this->_backendSession = $backendSession;
         $this->_app = $app;
@@ -38,8 +40,8 @@ class Magento_Backend_Model_Observer
     /**
      * Bind locale
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_Backend_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\Backend\Model\Observer
      */
     public function bindLocale($observer)
     {
@@ -56,7 +58,7 @@ class Magento_Backend_Model_Observer
     /**
      * Prepare mass action separated data
      *
-     * @return Magento_Backend_Model_Observer
+     * @return \Magento\Backend\Model\Observer
      */
     public function massactionPrepareKey()
     {
@@ -73,7 +75,7 @@ class Magento_Backend_Model_Observer
     /**
      * Clear result of configuration files access level verification in system cache
      *
-     * @return Magento_Backend_Model_Observer
+     * @return \Magento\Backend\Model\Observer
      */
     public function clearCacheConfigurationFilesAccessLevelVerification()
     {
@@ -83,7 +85,7 @@ class Magento_Backend_Model_Observer
     /**
      * Backend will always use base class for translation.
      *
-     * @return Magento_Backend_Model_Observer
+     * @return \Magento\Backend\Model\Observer
      */
     public function initializeTranslation()
     {
@@ -93,22 +95,22 @@ class Magento_Backend_Model_Observer
     /**
      * Set url class name for store 'admin'
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_Backend_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\Backend\Model\Observer
      */
-    public function setUrlClassName(Magento_Event_Observer $observer)
+    public function setUrlClassName(\Magento\Event\Observer $observer)
     {
-        /** @var $storeCollection Magento_Core_Model_Resource_Store_Collection */
+        /** @var $storeCollection \Magento\Core\Model\Resource\Store\Collection */
         $storeCollection = $observer->getEvent()->getStoreCollection();
-        /** @var $store Magento_Core_Model_Store */
+        /** @var $store \Magento\Core\Model\Store */
         foreach ($storeCollection as $store) {
             if ($store->getId() == 0) {
-                $store->setUrlClassName('Magento_Backend_Model_Url');
+                $store->setUrlClassName('Magento\Backend\Model\Url');
                 break;
             }
         }
         $this->_app->removeCache(
-            Magento_AdminNotification_Model_System_Message_Security::VERIFICATION_RESULT_CACHE_KEY
+            \Magento\AdminNotification\Model\System\Message\Security::VERIFICATION_RESULT_CACHE_KEY
         );
         return $this;
     }

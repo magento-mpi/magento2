@@ -16,7 +16,9 @@
  * @package     Magento_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Wishlist_Model_Resource_Wishlist extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Wishlist\Model\Resource;
+
+class Wishlist extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Store wishlist items count
@@ -46,13 +48,13 @@ class Magento_Wishlist_Model_Resource_Wishlist extends Magento_Core_Model_Resour
      * @param string $field
      * @param mixed $value
      * @param mixed $object
-     * @return Zend_Db_Select
+     * @return \Zend_Db_Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {
         $select = parent::_getLoadSelect($field, $value, $object);
         if ($field == $this->_customerIdFieldName) {
-            $select->order('wishlist_id ' . Zend_Db_Select::SQL_ASC)
+            $select->order('wishlist_id ' . \Zend_Db_Select::SQL_ASC)
                 ->limit(1);
         }
         return $select;
@@ -73,7 +75,7 @@ class Magento_Wishlist_Model_Resource_Wishlist extends Magento_Core_Model_Resour
      *
      * @param $fieldName
      *
-     * @return Magento_Wishlist_Model_Resource_Wishlist
+     * @return \Magento\Wishlist\Model\Resource\Wishlist
      */
     public function setCustomerIdFieldName($fieldName)
     {

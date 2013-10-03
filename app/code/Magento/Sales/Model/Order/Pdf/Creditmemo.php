@@ -11,48 +11,50 @@
 /**
  * Sales Order Creditmemo PDF model
  */
-class Magento_Sales_Model_Order_Pdf_Creditmemo extends Magento_Sales_Model_Order_Pdf_Abstract
+namespace Magento\Sales\Model\Order\Pdf;
+
+class Creditmemo extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
 {
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Payment_Helper_Data $paymentData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
-     * @param Magento_Core_Model_Translate $translate
-     * @param Magento_Core_Model_Dir $coreDir
-     * @param Magento_Shipping_Model_Config $shippingConfig
-     * @param Magento_Sales_Model_Order_Pdf_Config $pdfConfig
-     * @param Magento_Sales_Model_Order_Pdf_Total_Factory $pdfTotalFactory
-     * @param Magento_Sales_Model_Order_Pdf_ItemsFactory $pdfItemsFactory
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Core\Model\Translate $translate
+     * @param \Magento\Core\Model\Dir $coreDir
+     * @param \Magento\Shipping\Model\Config $shippingConfig
+     * @param \Magento\Sales\Model\Order\Pdf\Config $pdfConfig
+     * @param \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory
+     * @param \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Payment_Helper_Data $paymentData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_String $coreString,
-        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
-        Magento_Core_Model_Translate $translate,
-        Magento_Core_Model_Dir $coreDir,
-        Magento_Shipping_Model_Config $shippingConfig,
-        Magento_Sales_Model_Order_Pdf_Config $pdfConfig,
-        Magento_Sales_Model_Order_Pdf_Total_Factory $pdfTotalFactory,
-        Magento_Sales_Model_Order_Pdf_ItemsFactory $pdfItemsFactory,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\Core\Model\Translate $translate,
+        \Magento\Core\Model\Dir $coreDir,
+        \Magento\Shipping\Model\Config $shippingConfig,
+        \Magento\Sales\Model\Order\Pdf\Config $pdfConfig,
+        \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory,
+        \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_locale = $locale;
@@ -75,18 +77,18 @@ class Magento_Sales_Model_Order_Pdf_Creditmemo extends Magento_Sales_Model_Order
     /**
      * Draw table header for product items
      *
-     * @param  Zend_Pdf_Page $page
+     * @param  \Zend_Pdf_Page $page
      * @return void
      */
-    protected function _drawHeader(Zend_Pdf_Page $page)
+    protected function _drawHeader(\Zend_Pdf_Page $page)
     {
         $this->_setFontRegular($page, 10);
-        $page->setFillColor(new Zend_Pdf_Color_RGB(0.93, 0.92, 0.92));
-        $page->setLineColor(new Zend_Pdf_Color_GrayScale(0.5));
+        $page->setFillColor(new \Zend_Pdf_Color_RGB(0.93, 0.92, 0.92));
+        $page->setLineColor(new \Zend_Pdf_Color_GrayScale(0.5));
         $page->setLineWidth(0.5);
         $page->drawRectangle(25, $this->y, 570, $this->y - 30);
         $this->y -= 10;
-        $page->setFillColor(new Zend_Pdf_Color_RGB(0, 0, 0));
+        $page->setFillColor(new \Zend_Pdf_Color_RGB(0, 0, 0));
 
         //columns headers
         $lines[0][] = array(
@@ -95,41 +97,41 @@ class Magento_Sales_Model_Order_Pdf_Creditmemo extends Magento_Sales_Model_Order
         );
 
         $lines[0][] = array(
-            'text'  => $this->_coreString->str_split(__('SKU'), 12, true, true),
+            'text'  => $this->_coreString->strSplit(__('SKU'), 12, true, true),
             'feed'  => 255,
             'align' => 'right'
         );
 
         $lines[0][] = array(
-            'text'  => $this->_coreString->str_split(__('Total (ex)'), 12, true, true),
+            'text'  => $this->_coreString->strSplit(__('Total (ex)'), 12, true, true),
             'feed'  => 330,
             'align' => 'right',
             //'width' => 50,
         );
 
         $lines[0][] = array(
-            'text'  => $this->_coreString->str_split(__('Discount'), 12, true, true),
+            'text'  => $this->_coreString->strSplit(__('Discount'), 12, true, true),
             'feed'  => 380,
             'align' => 'right',
             //'width' => 50,
         );
 
         $lines[0][] = array(
-            'text'  => $this->_coreString->str_split(__('Qty'), 12, true, true),
+            'text'  => $this->_coreString->strSplit(__('Qty'), 12, true, true),
             'feed'  => 445,
             'align' => 'right',
             //'width' => 30,
         );
 
         $lines[0][] = array(
-            'text'  => $this->_coreString->str_split(__('Tax'), 12, true, true),
+            'text'  => $this->_coreString->strSplit(__('Tax'), 12, true, true),
             'feed'  => 495,
             'align' => 'right',
             //'width' => 45,
         );
 
         $lines[0][] = array(
-            'text'  => $this->_coreString->str_split(__('Total (inc)'), 12, true, true),
+            'text'  => $this->_coreString->strSplit(__('Total (inc)'), 12, true, true),
             'feed'  => 565,
             'align' => 'right'
         );
@@ -140,7 +142,7 @@ class Magento_Sales_Model_Order_Pdf_Creditmemo extends Magento_Sales_Model_Order
         );
 
         $this->drawLineBlocks($page, array($lineBlock), array('table_header' => true));
-        $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
+        $page->setFillColor(new \Zend_Pdf_Color_GrayScale(0));
         $this->y -= 20;
     }
 
@@ -148,16 +150,16 @@ class Magento_Sales_Model_Order_Pdf_Creditmemo extends Magento_Sales_Model_Order
      * Return PDF document
      *
      * @param  array $creditmemos
-     * @return Zend_Pdf
+     * @return \Zend_Pdf
      */
     public function getPdf($creditmemos = array())
     {
         $this->_beforeGetPdf();
         $this->_initRenderer('creditmemo');
 
-        $pdf = new Zend_Pdf();
+        $pdf = new \Zend_Pdf();
         $this->_setPdf($pdf);
-        $style = new Zend_Pdf_Style();
+        $style = new \Zend_Pdf_Style();
         $this->_setFontBold($style, 10);
 
         foreach ($creditmemos as $creditmemo) {
@@ -209,7 +211,7 @@ class Magento_Sales_Model_Order_Pdf_Creditmemo extends Magento_Sales_Model_Order
      * Create new page and assign to PDF object
      *
      * @param  array $settings
-     * @return Zend_Pdf_Page
+     * @return \Zend_Pdf_Page
      */
     public function newPage(array $settings = array())
     {

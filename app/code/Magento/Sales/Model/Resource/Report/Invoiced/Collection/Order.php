@@ -16,8 +16,10 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Report_Invoiced_Collection_Order
-    extends Magento_Sales_Model_Resource_Report_Collection_Abstract
+namespace Magento\Sales\Model\Resource\Report\Invoiced\Collection;
+
+class Order
+    extends \Magento\Sales\Model\Resource\Report\Collection\AbstractCollection
 {
     /**
      * Period format
@@ -34,18 +36,18 @@ class Magento_Sales_Model_Resource_Report_Invoiced_Collection_Order
     protected $_selectedColumns    = array();
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Sales_Model_Resource_Report $resource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Sales\Model\Resource\Report $resource
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Sales_Model_Resource_Report $resource
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Sales\Model\Resource\Report $resource
     ) {
         $resource->init('sales_invoiced_aggregated_order');
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
@@ -62,7 +64,7 @@ class Magento_Sales_Model_Resource_Report_Invoiced_Collection_Order
         if ('month' == $this->_period) {
             $this->_periodFormat = $adapter->getDateFormatSql('period', '%Y-%m');
         } elseif ('year' == $this->_period) {
-            $this->_periodFormat = $adapter->getDateExtractSql('period', Magento_DB_Adapter_Interface::INTERVAL_YEAR);
+            $this->_periodFormat = $adapter->getDateExtractSql('period', \Magento\DB\Adapter\AdapterInterface::INTERVAL_YEAR);
         } else {
             $this->_periodFormat = $adapter->getDateFormatSql('period', '%Y-%m-%d');
         }
@@ -88,7 +90,7 @@ class Magento_Sales_Model_Resource_Report_Invoiced_Collection_Order
     /**
      * Add selected data
      *
-     * @return Magento_Sales_Model_Resource_Report_Invoiced_Collection_Order
+     * @return \Magento\Sales\Model\Resource\Report\Invoiced\Collection\Order
      */
     protected function _initSelect()
     {

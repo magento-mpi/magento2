@@ -7,7 +7,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Eav_Model_Entity_Attribute_Config_SchemaLocator implements Magento_Config_SchemaLocatorInterface
+namespace Magento\Eav\Model\Entity\Attribute\Config;
+
+class SchemaLocator implements \Magento\Config\SchemaLocatorInterface
 {
     /**
      * Schema file
@@ -17,9 +19,9 @@ class Magento_Eav_Model_Entity_Attribute_Config_SchemaLocator implements Magento
     protected $_schema;
 
     /**
-     * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
+     * @param \Magento\Core\Model\Config\Modules\Reader $moduleReader
      */
-    public function __construct(Magento_Core_Model_Config_Modules_Reader $moduleReader)
+    public function __construct(\Magento\Core\Model\Config\Modules\Reader $moduleReader)
     {
         $this->_schema = $moduleReader->getModuleDir('etc', 'Magento_Eav') . DIRECTORY_SEPARATOR . 'eav_attributes.xsd';
     }

@@ -9,9 +9,9 @@
  * @license     {license_link}
  */
 
-/** @var $website Magento_Core_Model_Website */
-$website = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Core_Model_Website');
+/** @var $website \Magento\Core\Model\Website */
+$website = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Core\Model\Website');
 $website->setData(array(
     'code' => 'test',
     'name' => 'Test Website',
@@ -20,8 +20,8 @@ $website->setData(array(
 ));
 $website->save();
 
-$key = 'Magento_ScheduledImportExport_Model_Website';
-/** @var $objectManager Magento_TestFramework_ObjectManager */
-$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-$objectManager->get('Magento_Core_Model_Registry')->unregister($key);
-$objectManager->get('Magento_Core_Model_Registry')->register($key, $website);
+$key = 'Magento\ScheduledImportExport\Model\Website';
+/** @var $objectManager \Magento\TestFramework\ObjectManager */
+$objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+$objectManager->get('Magento\Core\Model\Registry')->unregister($key);
+$objectManager->get('Magento\Core\Model\Registry')->register($key, $website);

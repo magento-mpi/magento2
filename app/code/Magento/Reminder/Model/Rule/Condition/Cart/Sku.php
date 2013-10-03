@@ -11,31 +11,33 @@
 /**
  * Cart items SKU subselection condition
  */
-class Magento_Reminder_Model_Rule_Condition_Cart_Sku
-    extends Magento_Reminder_Model_Condition_Abstract
+namespace Magento\Reminder\Model\Rule\Condition\Cart;
+
+class Sku
+    extends \Magento\Reminder\Model\Condition\AbstractCondition
 {
     /**
      * Store
      *
-     * @var Magento_Core_Model_System_Store
+     * @var \Magento\Core\Model\System\Store
      */
     protected $_store;
 
     /**
-     * @param Magento_Rule_Model_Condition_Context $context
-     * @param Magento_Reminder_Model_Resource_Rule $ruleResource
-     * @param Magento_Core_Model_System_Store $store
+     * @param \Magento\Rule\Model\Condition\Context $context
+     * @param \Magento\Reminder\Model\Resource\Rule $ruleResource
+     * @param \Magento\Core\Model\System\Store $store
      * @param array $data
      */
     public function __construct(
-        Magento_Rule_Model_Condition_Context $context,
-        Magento_Reminder_Model_Resource_Rule $ruleResource,
-        Magento_Core_Model_System_Store $store,
+        \Magento\Rule\Model\Condition\Context $context,
+        \Magento\Reminder\Model\Resource\Rule $ruleResource,
+        \Magento\Core\Model\System\Store $store,
         array $data = array()
     ) {
         $this->_store = $store;
         parent::__construct($context, $ruleResource, $data);
-        $this->setType('Magento_Reminder_Model_Rule_Condition_Cart_Sku');
+        $this->setType('Magento\Reminder\Model\Rule\Condition\Cart\Sku');
         $this->setValue(null);
     }
 
@@ -65,7 +67,7 @@ class Magento_Reminder_Model_Rule_Condition_Cart_Sku
     /**
      * Initialize value select options
      *
-     * @return Magento_Reminder_Model_Rule_Condition_Wishlist_Sku
+     * @return \Magento\Reminder\Model\Rule\Condition\Wishlist\Sku
      */
     public function loadValueOptions()
     {
@@ -77,8 +79,8 @@ class Magento_Reminder_Model_Rule_Condition_Cart_Sku
      * Get SQL select
      *
      * @param $customer
-     * @param int | Zend_Db_Expr $website
-     * @return Magento_DB_Select
+     * @param int | \Zend_Db_Expr $website
+     * @return \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)
     {
@@ -87,7 +89,7 @@ class Magento_Reminder_Model_Rule_Condition_Cart_Sku
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('item' => $quoteItemTable), array(new Zend_Db_Expr(1)));
+        $select->from(array('item' => $quoteItemTable), array(new \Zend_Db_Expr(1)));
 
         $select->joinInner(
             array('quote' => $quoteTable),

@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Resource_SessionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Resource;
+
+class SessionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Session table name
@@ -39,7 +41,7 @@ class Magento_Core_Model_Resource_SessionTest extends PHPUnit_Framework_TestCase
     /**
      * Model under test
      *
-     * @var Magento_Core_Model_Resource_Session
+     * @var \Magento\Core\Model\Resource\Session
      */
     protected $_model;
 
@@ -76,11 +78,11 @@ class Magento_Core_Model_Resource_SessionTest extends PHPUnit_Framework_TestCase
     /**
      * Prepares mock for test model with specified connections
      *
-     * @param PHPUnit_Framework_MockObject_MockObject $connection
+     * @param \PHPUnit_Framework_MockObject_MockObject $connection
      */
     protected function _prepareResourceMock($connection)
     {
-        $resource = $this->getMock('Magento_Core_Model_Resource', array('getTableName', 'getConnection'),
+        $resource = $this->getMock('Magento\Core\Model\Resource', array('getTableName', 'getConnection'),
             array(), '', false, false);
         $resource->expects($this->once())
             ->method('getTableName')
@@ -89,8 +91,8 @@ class Magento_Core_Model_Resource_SessionTest extends PHPUnit_Framework_TestCase
             ->method('getConnection')
             ->will($this->returnValue($connection));
 
-        $this->_model = new Magento_Core_Model_Resource_Session(
-            $resource, $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false, false)
+        $this->_model = new \Magento\Core\Model\Resource\Session(
+            $resource, $this->getMock('Magento\Core\Model\Dir', array(), array(), '', false, false)
         );
     }
 
@@ -101,7 +103,7 @@ class Magento_Core_Model_Resource_SessionTest extends PHPUnit_Framework_TestCase
      */
     protected function _prepareMockForRead($isDataEncoded)
     {
-        $connection = $this->getMock('Magento_DB_Adapter_Pdo_Mysql',
+        $connection = $this->getMock('Magento\DB\Adapter\Pdo\Mysql',
             array('select', 'from', 'where', 'fetchOne'), array(), '', false
         );
         $connection->expects($this->once())
@@ -159,7 +161,7 @@ class Magento_Core_Model_Resource_SessionTest extends PHPUnit_Framework_TestCase
      */
     protected function _prepareMockForWrite($sessionExists)
     {
-        $connection = $this->getMock('Magento_DB_Adapter_Pdo_Mysql',
+        $connection = $this->getMock('Magento\DB\Adapter\Pdo\Mysql',
             array('select', 'from', 'where', 'fetchOne', 'update', 'insert'), array(), '', false
         );
         $connection->expects($this->once())

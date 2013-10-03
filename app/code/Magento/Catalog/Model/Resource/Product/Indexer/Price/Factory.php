@@ -9,21 +9,23 @@
 /**
  * Resource product indexer price factory
  */
-class Magento_Catalog_Model_Resource_Product_Indexer_Price_Factory
+namespace Magento\Catalog\Model\Resource\Product\Indexer\Price;
+
+class Factory
 {
     /**
      * Object Manager
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
      * Construct
      *
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -33,16 +35,16 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Price_Factory
      *
      * @param string $className
      * @param array $data
-     * @return Magento_Catalog_Model_Resource_Product_Indexer_Price_Default
-     * @throws Magento_Core_Exception
+     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Price\DefaultPrice
+     * @throws \Magento\Core\Exception
      */
     public function create($className, array $data = array())
     {
         $indexerPrice = $this->_objectManager->create($className, $data);
 
-        if (!$indexerPrice instanceof Magento_Catalog_Model_Resource_Product_Indexer_Price_Default) {
-            throw new Magento_Core_Exception($className
-                . ' doesn\'t extends Magento_Catalog_Model_Resource_Product_Indexer_Price_Default');
+        if (!$indexerPrice instanceof \Magento\Catalog\Model\Resource\Product\Indexer\Price\DefaultPrice) {
+            throw new \Magento\Core\Exception($className
+                . ' doesn\'t extends \Magento\Catalog\Model\Resource\Product\Indexer\Price\DefaultPrice');
         }
         return $indexerPrice;
     }

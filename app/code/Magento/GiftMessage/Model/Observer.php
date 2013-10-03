@@ -16,27 +16,29 @@
  * @package    Magento_GiftMessage
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftMessage_Model_Observer extends Magento_Object
+namespace Magento\GiftMessage\Model;
+
+class Observer extends \Magento\Object
 {
     /**
      * Gift message message
      *
-     * @var Magento_GiftMessage_Helper_Message
+     * @var \Magento\GiftMessage\Helper\Message
      */
     protected $_giftMessageMessage = null;
 
     /**
-     * @var Magento_GiftMessage_Model_MessageFactory
+     * @var \Magento\GiftMessage\Model\MessageFactory
      */
     protected $_messageFactory;
 
     /**
-     * @param Magento_GiftMessage_Model_MessageFactory $messageFactory
-     * @param Magento_GiftMessage_Helper_Message $giftMessageMessage
+     * @param \Magento\GiftMessage\Model\MessageFactory $messageFactory
+     * @param \Magento\GiftMessage\Helper\Message $giftMessageMessage
      */
     public function __construct(
-        Magento_GiftMessage_Model_MessageFactory $messageFactory,
-        Magento_GiftMessage_Helper_Message $giftMessageMessage
+        \Magento\GiftMessage\Model\MessageFactory $messageFactory,
+        \Magento\GiftMessage\Helper\Message $giftMessageMessage
     ) {
         $this->_messageFactory = $messageFactory;
         $this->_giftMessageMessage = $giftMessageMessage;
@@ -45,8 +47,8 @@ class Magento_GiftMessage_Model_Observer extends Magento_Object
     /**
      * Set gift messages to order from quote address
      *
-     * @param Magento_Object $observer
-     * @return Magento_GiftMessage_Model_Observer
+     * @param \Magento\Object $observer
+     * @return \Magento\GiftMessage\Model\Observer
      */
     public function salesEventConvertQuoteAddressToOrder($observer)
     {
@@ -60,8 +62,8 @@ class Magento_GiftMessage_Model_Observer extends Magento_Object
     /**
      * Set gift messages to order from quote address
      *
-     * @param Magento_Object $observer
-     * @return Magento_GiftMessage_Model_Observer
+     * @param \Magento\Object $observer
+     * @return \Magento\GiftMessage\Model\Observer
      */
     public function salesEventConvertQuoteToOrder($observer)
     {
@@ -74,13 +76,13 @@ class Magento_GiftMessage_Model_Observer extends Magento_Object
      * Operate with gift messages on checkout proccess
      *
      * @param Varieb_Object $observer
-     * @return Magento_GiftMessage_Model_Observer
+     * @return \Magento\GiftMessage\Model\Observer
      */
     public function checkoutEventCreateGiftMessage($observer)
     {
         $giftMessages = $observer->getEvent()->getRequest()->getParam('giftmessage');
         $quote = $observer->getEvent()->getQuote();
-        /* @var $quote Magento_Sales_Model_Quote */
+        /* @var $quote \Magento\Sales\Model\Quote */
         if (is_array($giftMessages)) {
             foreach ($giftMessages as $entityId=>$message) {
 
@@ -115,7 +117,7 @@ class Magento_GiftMessage_Model_Observer extends Magento_Object
                             $entity->setGiftMessageId(0)
                                 ->save();
                         }
-                        catch (Exception $e) { }
+                        catch (\Exception $e) { }
                     }
                     continue;
                 }
@@ -130,7 +132,7 @@ class Magento_GiftMessage_Model_Observer extends Magento_Object
                         ->save();
 
                 }
-                catch (Exception $e) { }
+                catch (\Exception $e) { }
             }
         }
         return $this;
@@ -139,8 +141,8 @@ class Magento_GiftMessage_Model_Observer extends Magento_Object
     /**
      * Duplicates giftmessage from order to quote on import or reorder
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_GiftMessage_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\GiftMessage\Model\Observer
      */
     public function salesEventOrderToQuote($observer)
     {
@@ -167,12 +169,12 @@ class Magento_GiftMessage_Model_Observer extends Magento_Object
     /**
      * Duplicates giftmessage from order item to quote item on import or reorder
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_GiftMessage_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\GiftMessage\Model\Observer
      */
     public function salesEventOrderItemToQuoteItem($observer)
     {
-        /** @var $orderItem Magento_Sales_Model_Order_Item */
+        /** @var $orderItem \Magento\Sales\Model\Order\Item */
         $orderItem = $observer->getEvent()->getOrderItem();
         // Do not import giftmessage data if order is reordered
         $order = $orderItem->getOrder();
@@ -189,7 +191,7 @@ class Magento_GiftMessage_Model_Observer extends Magento_Object
             return $this;
         }
 
-        /** @var $quoteItem Magento_Sales_Model_Quote_Item */
+        /** @var $quoteItem \Magento\Sales\Model\Quote\Item */
         $quoteItem = $observer->getEvent()->getQuoteItem();
         if ($giftMessageId = $orderItem->getGiftMessageId()) {
             $giftMessage = $this->_messageFactory->create()->load($giftMessageId)

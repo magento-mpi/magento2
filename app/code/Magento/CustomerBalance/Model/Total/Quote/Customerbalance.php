@@ -9,34 +9,36 @@
  */
 
 
-class Magento_CustomerBalance_Model_Total_Quote_Customerbalance extends Magento_Sales_Model_Quote_Address_Total_Abstract
+namespace Magento\CustomerBalance\Model\Total\Quote;
+
+class Customerbalance extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
      * Customer balance data
      *
-     * @var Magento_CustomerBalance_Helper_Data
+     * @var \Magento\CustomerBalance\Helper\Data
      */
     protected $_customerBalanceData = null;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_CustomerBalance_Model_BalanceFactory
+     * @var \Magento\CustomerBalance\Model\BalanceFactory
      */
     protected $_balanceFactory;
 
     /**
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_CustomerBalance_Model_BalanceFactory $balanceFactory
-     * @param Magento_CustomerBalance_Helper_Data $customerBalanceData
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
+     * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_CustomerBalance_Model_BalanceFactory $balanceFactory,
-        Magento_CustomerBalance_Helper_Data $customerBalanceData
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
+        \Magento\CustomerBalance\Helper\Data $customerBalanceData
     ) {
         $this->_storeManager = $storeManager;
         $this->_balanceFactory = $balanceFactory;
@@ -47,10 +49,10 @@ class Magento_CustomerBalance_Model_Total_Quote_Customerbalance extends Magento_
     /**
      * Collect customer balance totals for specified address
      *
-     * @param Magento_Sales_Model_Quote_Address $address
-     * @return Magento_CustomerBalance_Model_Total_Quote_Customerbalance
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @return \Magento\CustomerBalance\Model\Total\Quote\Customerbalance
      */
-    public function collect(Magento_Sales_Model_Quote_Address $address)
+    public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
         if (!$this->_customerBalanceData->isEnabled()) {
             return $this;
@@ -111,10 +113,10 @@ class Magento_CustomerBalance_Model_Total_Quote_Customerbalance extends Magento_
     /**
      * Return shopping cart total row items
      *
-     * @param Magento_Sales_Model_Quote_Address $address
-     * @return Magento_CustomerBalance_Model_Total_Quote_Customerbalance
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @return \Magento\CustomerBalance\Model\Total\Quote\Customerbalance
      */
-    public function fetch(Magento_Sales_Model_Quote_Address $address)
+    public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
         if (!$this->_customerBalanceData->isEnabled()) {
             return $this;

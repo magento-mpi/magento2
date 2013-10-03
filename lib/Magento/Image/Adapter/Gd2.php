@@ -3,13 +3,15 @@
  * {license_notice}
  *
  * @category   Magento
- * @package    Magento_Image
+ * @package    \Magento\Image
  * @copyright  {copyright}
  * @license    {license_link}
  */
 
 
-class Magento_Image_Adapter_Gd2 extends Magento_Image_Adapter_Abstract
+namespace Magento\Image\Adapter;
+
+class Gd2 extends \Magento\Image\Adapter\AbstractAdapter
 {
     /**
      * Required extensions
@@ -55,7 +57,7 @@ class Magento_Image_Adapter_Gd2 extends Magento_Image_Adapter_Abstract
      * Save image to specific path.
      * If some folders of path does not exist they will be created
      *
-     * @throws Exception  if destination path is not writable
+     * @throws \Exception  if destination path is not writable
      * @param string $destination
      * @param string $newName
      */
@@ -105,7 +107,7 @@ class Magento_Image_Adapter_Gd2 extends Magento_Image_Adapter_Abstract
     }
 
     /**
-     * @see Magento_Image_Adapter_Abstract::getImage
+     * @see \Magento\Image\Adapter\AbstractAdapter::getImage
      * @return string
      */
     public function getImage()
@@ -121,7 +123,7 @@ class Magento_Image_Adapter_Gd2 extends Magento_Image_Adapter_Abstract
      * @param string $callbackType
      * @param int $fileType
      * @return string
-     * @throws Exception
+     * @throws \Exception
      */
     private function _getCallback($callbackType, $fileType = null, $unsupportedText = 'Unsupported image format.')
     {
@@ -129,10 +131,10 @@ class Magento_Image_Adapter_Gd2 extends Magento_Image_Adapter_Abstract
             $fileType = $this->_fileType;
         }
         if (empty(self::$_callbacks[$fileType])) {
-            throw new Exception($unsupportedText);
+            throw new \Exception($unsupportedText);
         }
         if (empty(self::$_callbacks[$fileType][$callbackType])) {
-            throw new Exception('Callback not found.');
+            throw new \Exception('Callback not found.');
         }
         return self::$_callbacks[$fileType][$callbackType];
     }
@@ -141,7 +143,7 @@ class Magento_Image_Adapter_Gd2 extends Magento_Image_Adapter_Abstract
      * Fill image with main background color.
      * Returns a color identifier.
      *
-     * @throws Exception
+     * @throws \Exception
      * @param resource $imageResourceTo
      * @return int
      */
@@ -156,17 +158,17 @@ class Magento_Image_Adapter_Gd2 extends Magento_Image_Adapter_Abstract
                 if ($isAlpha) {
 
                     if (!imagealphablending($imageResourceTo, false)) {
-                        throw new Exception('Failed to set alpha blending for PNG image.');
+                        throw new \Exception('Failed to set alpha blending for PNG image.');
                     }
                     $transparentAlphaColor = imagecolorallocatealpha($imageResourceTo, 0, 0, 0, 127);
                     if (false === $transparentAlphaColor) {
-                        throw new Exception('Failed to allocate alpha transparency for PNG image.');
+                        throw new \Exception('Failed to allocate alpha transparency for PNG image.');
                     }
                     if (!imagefill($imageResourceTo, 0, 0, $transparentAlphaColor)) {
-                        throw new Exception('Failed to fill PNG image with alpha transparency.');
+                        throw new \Exception('Failed to fill PNG image with alpha transparency.');
                     }
                     if (!imagesavealpha($imageResourceTo, true)) {
-                        throw new Exception('Failed to save alpha transparency into PNG image.');
+                        throw new \Exception('Failed to save alpha transparency into PNG image.');
                     }
 
                     return $transparentAlphaColor;
@@ -179,23 +181,23 @@ class Magento_Image_Adapter_Gd2 extends Magento_Image_Adapter_Abstract
                         $transparentColor = imagecolorallocate($imageResourceTo, $r, $g, $b);
                     }
                     if (false === $transparentColor) {
-                        throw new Exception('Failed to allocate transparent color for image.');
+                        throw new \Exception('Failed to allocate transparent color for image.');
                     }
                     if (!imagefill($imageResourceTo, 0, 0, $transparentColor)) {
-                        throw new Exception('Failed to fill image with transparency.');
+                        throw new \Exception('Failed to fill image with transparency.');
                     }
                     imagecolortransparent($imageResourceTo, $transparentColor);
                     return $transparentColor;
                 }
             }
-            catch (Exception $e) {
+            catch (\Exception $e) {
                 // fallback to default background color
             }
         }
         list($r, $g, $b) = $this->_backgroundColor;
         $color = imagecolorallocate($imageResourceTo, $r, $g, $b);
         if (!imagefill($imageResourceTo, 0, 0, $color)) {
-            throw new Exception("Failed to fill image background with color {$r} {$g} {$b}.");
+            throw new \Exception("Failed to fill image background with color {$r} {$g} {$b}.");
         }
 
         return $color;
@@ -483,13 +485,13 @@ class Magento_Image_Adapter_Gd2 extends Magento_Image_Adapter_Abstract
     /**
      * Checks required dependecies
      *
-     * @throws Exception if some of dependecies are missing
+     * @throws \Exception if some of dependecies are missing
      */
     public function checkDependencies()
     {
         foreach( $this->_requiredExtensions as $value ) {
             if( !extension_loaded($value) ) {
-                throw new Exception("Required PHP extension '{$value}' was not loaded.");
+                throw new \Exception("Required PHP extension '{$value}' was not loaded.");
             }
         }
     }
@@ -544,7 +546,7 @@ class Magento_Image_Adapter_Gd2 extends Magento_Image_Adapter_Abstract
      *
      * @param string $text
      * @param string $font
-     * @return Magento_Image_Adapter_Abstract
+     * @return \Magento\Image\Adapter\AbstractAdapter
      */
     public function createPngFromString($text, $font = '')
     {
@@ -552,7 +554,7 @@ class Magento_Image_Adapter_Gd2 extends Magento_Image_Adapter_Abstract
         $this->_resized = true;
         try {
             $this->_createImageFromTtfText($text, $font);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $error = true;
         }
 
@@ -585,7 +587,7 @@ class Magento_Image_Adapter_Gd2 extends Magento_Image_Adapter_Abstract
      *
      * @param string $text
      * @param string $font
-     * @throws Exception
+     * @throws \Exception
      */
     protected function _createImageFromTtfText($text, $font)
     {
@@ -599,7 +601,7 @@ class Magento_Image_Adapter_Gd2 extends Magento_Image_Adapter_Abstract
         $result = imagettftext($this->_imageHandler, $this->_fontSize, 0, 0, $height - abs($boundingBox[1]),
             $black, $font, $text);
         if ($result === false) {
-            throw new Exception('Unable to create TTF text');
+            throw new \Exception('Unable to create TTF text');
         }
     }
 

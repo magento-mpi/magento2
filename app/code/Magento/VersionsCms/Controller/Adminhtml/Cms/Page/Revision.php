@@ -11,61 +11,63 @@
 /**
  * Manage revision controller
  */
-class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Revision
-    extends Magento_VersionsCms_Controller_Adminhtml_Cms_Page
+namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Page;
+
+class Revision
+    extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
 {
     /**
-     * @var Magento_Core_Model_Config_Scope
+     * @var \Magento\Core\Model\Config\Scope
      */
     protected $_configScope;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @var Magento_Cms_Model_Page
+     * @var \Magento\Cms\Model\Page
      */
     protected $_cmsPage;
 
     /**
-     * @var Magento_Core_Model_Design
+     * @var \Magento\Core\Model\Design
      */
     protected $_design;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Core_Model_Config_Scope $configScope
-     * @param Magento_VersionsCms_Model_Config $cmsConfig
-     * @param Magento_Backend_Model_Auth_Session $backendAuthSession
-     * @param Magento_VersionsCms_Model_Page_Version $pageVersion
-     * @param Magento_Cms_Model_PageFactory $pageFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Cms_Model_Page $cmsPage
-     * @param Magento_Core_Model_Design $design
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\Config\Scope $configScope
+     * @param \Magento\VersionsCms\Model\Config $cmsConfig
+     * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
+     * @param \Magento\VersionsCms\Model\Page\Version $pageVersion
+     * @param \Magento\Cms\Model\PageFactory $pageFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Cms\Model\Page $cmsPage
+     * @param \Magento\Core\Model\Design $design
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Model_Config_Scope $configScope,
-        Magento_VersionsCms_Model_Config $cmsConfig,
-        Magento_Backend_Model_Auth_Session $backendAuthSession,
-        Magento_VersionsCms_Model_Page_Version $pageVersion,
-        Magento_Cms_Model_PageFactory $pageFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Cms_Model_Page $cmsPage,
-        Magento_Core_Model_Design $design
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\Config\Scope $configScope,
+        \Magento\VersionsCms\Model\Config $cmsConfig,
+        \Magento\Backend\Model\Auth\Session $backendAuthSession,
+        \Magento\VersionsCms\Model\Page\Version $pageVersion,
+        \Magento\Cms\Model\PageFactory $pageFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Cms\Model\Page $cmsPage,
+        \Magento\Core\Model\Design $design
     ) {
         $this->_configScope = $configScope;
         $this->_storeManager = $storeManager;
@@ -78,7 +80,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Revision
     /**
      * Init actions
      *
-     * @return Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Revision
+     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Revision
      */
     protected function _initAction()
     {
@@ -95,7 +97,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Revision
      * with loaded data if id parameter present
      *
      * @param int $revisionId
-     * @return Magento_VersionsCms_Model_Page_Revision
+     * @return \Magento\VersionsCms\Model\Page\Revision
      */
     protected function _initRevision($revisionId = null)
     {
@@ -103,7 +105,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Revision
             $revisionId = (int)$this->getRequest()->getParam('revision_id');
         }
 
-        $revision = $this->_objectManager->create('Magento_VersionsCms_Model_Page_Revision');
+        $revision = $this->_objectManager->create('Magento\VersionsCms\Model\Page\Revision');
         $userId = $this->_backendAuthSession->getUser()->getId();
         $accessLevel = $this->_cmsConfig->getAllowedAccessLevel();
 
@@ -153,7 +155,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Revision
     /**
      * Save action
      *
-     * @return Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Revision
+     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Revision
      */
     public function saveAction()
     {
@@ -197,7 +199,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Revision
                     'version_id' => $revision->getVersionId()
                 ));
                 return;
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // display error message
                 $this->_session->addError($e->getMessage());
                 // save data in session
@@ -226,7 +228,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Revision
             $this->_session->addSuccess(__('You have published the revision.'));
             $this->_redirect('*/cms_page/edit', array('page_id' => $revision->getPageId()));
             return;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // display error message
             $this->_session->addError($e->getMessage());
             // redirect to edit form
@@ -241,7 +243,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Revision
     /**
      * Prepares page with iframe
      *
-     * @return Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Revision
+     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Revision
      */
     public function previewAction()
     {
@@ -289,7 +291,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Revision
     /**
      * Generates preview of page
      *
-     * @return Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Revision
+     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Revision
      */
     public function dropAction()
     {
@@ -349,21 +351,21 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Revision
             $this->_locale->emulate($selectedStoreId);
             $this->_storeManager->setCurrentStore($this->_storeManager->getStore($selectedStoreId));
 
-            $theme = $this->_objectManager->get('Magento_Core_Model_View_DesignInterface')
+            $theme = $this->_objectManager->get('Magento\Core\Model\View\DesignInterface')
                 ->getConfigurationDesignTheme(null, array('store' => $selectedStoreId));
-            $this->_objectManager->get('Magento_Core_Model_View_DesignInterface')->setDesignTheme($theme, 'frontend');
+            $this->_objectManager->get('Magento\Core\Model\View\DesignInterface')->setDesignTheme($theme, 'frontend');
 
             $designChange = $this->_design->loadChange($selectedStoreId);
 
             if ($designChange->getData()) {
-                $this->_objectManager->get('Magento_Core_Model_View_DesignInterface')
+                $this->_objectManager->get('Magento\Core\Model\View\DesignInterface')
                     ->setDesignTheme($designChange->getDesign());
             }
 
             // add handles used to render cms page on frontend
             $this->getLayout()->getUpdate()->addHandle('default');
             $this->getLayout()->getUpdate()->addHandle('cms_page_view');
-            $this->_objectManager->get('Magento_Cms_Helper_Page')->renderPageExtended($this);
+            $this->_objectManager->get('Magento\Cms\Helper\Page')->renderPageExtended($this);
             $this->_locale->revert();
 
         } else {
@@ -392,12 +394,12 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Revision
                         'version_id' => $revision->getVersionId()
                     ));
                 return;
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 // display error message
                 $this->_session->addError($e->getMessage());
                 $error = true;
-            } catch (Exception $e) {
-                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            } catch (\Exception $e) {
+                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
                 $this->_session->addError(__('Something went wrong while deleting the revision.'));
                 $error = true;
             }
@@ -436,7 +438,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Revision
     /**
      * Controller predispatch method
      *
-     * @return Magento_Adminhtml_Controller_Action
+     * @return \Magento\Adminhtml\Controller\Action
      */
     public function preDispatch()
     {
@@ -449,7 +451,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Revision
     /**
      * New Revision action
      *
-     * @return Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Revision
+     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Revision
      */
     public function newAction()
     {

@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Order_Shipment_Collection extends Magento_Sales_Model_Resource_Order_Collection_Abstract
+namespace Magento\Sales\Model\Resource\Order\Shipment;
+
+class Collection extends \Magento\Sales\Model\Resource\Order\Collection\AbstractCollection
 {
     /**
      * Event prefix
@@ -45,13 +47,13 @@ class Magento_Sales_Model_Resource_Order_Shipment_Collection extends Magento_Sal
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Order_Shipment', 'Magento_Sales_Model_Resource_Order_Shipment');
+        $this->_init('Magento\Sales\Model\Order\Shipment', 'Magento\Sales\Model\Resource\Order\Shipment');
     }
 
     /**
      * Used to emulate after load functionality for each item without loading them
      *
-     * @return Magento_Sales_Model_Resource_Order_Shipment_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Shipment\Collection
      */
     protected function _afterLoad()
     {

@@ -15,14 +15,16 @@
  * @package    Magento_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paypal_Block_Express_Review_Details extends Magento_Checkout_Block_Cart_Totals
+namespace Magento\Paypal\Block\Express\Review;
+
+class Details extends \Magento\Checkout\Block\Cart\Totals
 {
     protected $_address;
 
     /**
      * Return review shipping address
      *
-     * @return Magento_Sales_Model_Order_Address
+     * @return \Magento\Sales\Model\Order\Address
      */
     public function getAddress()
     {

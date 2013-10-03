@@ -14,8 +14,10 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-class Magento_Invitation_Block_Adminhtml_Report_Invitation_Customer
-    extends Magento_Backend_Block_Widget_Grid_Container
+namespace Magento\Invitation\Block\Adminhtml\Report\Invitation;
+
+class Customer
+    extends \Magento\Backend\Block\Widget\Grid\Container
 {
     protected function _construct()
     {

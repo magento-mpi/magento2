@@ -15,20 +15,22 @@
  * @package     Magento_Logging
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Logging_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Logging\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
-     * @var Magento_Logging_Model_Config
+     * @var \Magento\Logging\Model\Config
      */
     protected $_config;
 
     /**
-     * @param Magento_Logging_Model_Config $config
-     * @param Magento_Core_Helper_Context $context
+     * @param \Magento\Logging\Model\Config $config
+     * @param \Magento\Core\Helper\Context $context
      */
     public function __construct(
-        Magento_Logging_Model_Config $config,
-        Magento_Core_Helper_Context $context
+        \Magento\Logging\Model\Config $config,
+        \Magento\Core\Helper\Context $context
     ) {
         $this->_config = $config;
         parent::__construct($context);

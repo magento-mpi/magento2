@@ -15,7 +15,9 @@
  * @package    Magento_Captcha
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Captcha_Model_Config_Form_Frontend extends Magento_Captcha_Model_Config_Form_Abstract
+namespace Magento\Captcha\Model\Config\Form;
+
+class Frontend extends \Magento\Captcha\Model\Config\Form\AbstractForm
 {
     /**
      * @var string

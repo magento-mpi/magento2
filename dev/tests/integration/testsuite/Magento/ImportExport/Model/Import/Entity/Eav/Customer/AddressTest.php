@@ -10,16 +10,18 @@
  */
 
 /**
- * Test class for Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address
+ * Test class for \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address
  */
-class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Import\Entity\Eav\Customer;
+
+class AddressTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Tested class name
      *
      * @var string
      */
-    protected $_testClassName = 'Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address';
+    protected $_testClassName = 'Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address';
 
     /**
      * Fixture key from fixture
@@ -31,7 +33,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
     /**
      * Address entity adapter instance
      *
-     * @var Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address
+     * @var \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address
      */
     protected $_entityAdapter;
 
@@ -80,7 +82,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
      */
     protected function setUp()
     {
-        $this->_entityAdapter = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $this->_entityAdapter = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create($this->_testClassName);
     }
 
@@ -125,27 +127,27 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
      * Test _initAddresses
      *
      * @magentoDataFixture Magento/ImportExport/_files/customer_with_addresses.php
-     * @covers Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::_initAddresses
+     * @covers \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::_initAddresses
      */
     public function testInitAddresses()
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         // get addressed from fixture
-        $customers = $objectManager->get('Magento_Core_Model_Registry')->registry($this->_fixtureKey);
+        $customers = $objectManager->get('Magento\Core\Model\Registry')->registry($this->_fixtureKey);
         $correctAddresses = array();
-        /** @var $customer Magento_Customer_Model_Customer */
+        /** @var $customer \Magento\Customer\Model\Customer */
         foreach ($customers as $customer) {
             $correctAddresses[$customer->getId()] = array();
-            /** @var $address Magento_Customer_Model_Address */
+            /** @var $address \Magento\Customer\Model\Address */
             foreach ($customer->getAddressesCollection() as $address) {
                 $correctAddresses[$customer->getId()][] = $address->getId();
             }
         }
 
         // invoke _initAddresses
-        $initAddresses = new ReflectionMethod($this->_testClassName, '_initAddresses');
+        $initAddresses = new \ReflectionMethod($this->_testClassName, '_initAddresses');
         $initAddresses->setAccessible(true);
         $initAddresses->invoke($this->_entityAdapter);
 
@@ -154,7 +156,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
             'Addresses must be an array.');
         $this->assertAttributeNotEmpty('_addresses', $this->_entityAdapter, 'Addresses must not be empty');
 
-        $addressesReflection = new ReflectionProperty($this->_testClassName, '_addresses');
+        $addressesReflection = new \ReflectionProperty($this->_testClassName, '_addresses');
         $addressesReflection->setAccessible(true);
         $testAddresses = $addressesReflection->getValue($this->_entityAdapter);
 
@@ -178,7 +180,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
      * Test _saveAddressEntity
      *
      * @magentoDataFixture Magento/ImportExport/_files/customer_with_addresses.php
-     * @covers Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::_saveAddressEntities
+     * @covers \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::_saveAddressEntities
      */
     public function testSaveAddressEntities()
     {
@@ -186,8 +188,8 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
         list($customerId, $addressId) = $this->_addTestAddress($this->_entityAdapter);
 
         // check DB
-        $testAddress = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Address');
+        $testAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Address');
         $testAddress->load($addressId);
         $this->assertEquals($addressId, $testAddress->getId(), 'Incorrect address ID.');
         $this->assertEquals($customerId, $testAddress->getParentId(), 'Incorrect address customer ID.');
@@ -196,24 +198,24 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
     /**
      * Add new test address for existing customer
      *
-     * @param Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address $entityAdapter
+     * @param \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address $entityAdapter
      * @return array (customerID, addressID)
      */
-    protected function _addTestAddress(Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address $entityAdapter)
+    protected function _addTestAddress(\Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address $entityAdapter)
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        $customers = $objectManager->get('Magento_Core_Model_Registry')->registry($this->_fixtureKey);
-        /** @var $customer Magento_Customer_Model_Customer */
+        $customers = $objectManager->get('Magento\Core\Model\Registry')->registry($this->_fixtureKey);
+        /** @var $customer \Magento\Customer\Model\Customer */
         $customer = reset($customers);
         $customerId = $customer->getId();
 
-        /** @var $addressModel Magento_Customer_Model_Address */
-        $addressModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Address');
+        /** @var $addressModel \Magento\Customer\Model\Address */
+        $addressModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Address');
         $tableName = $addressModel->getResource()->getEntityTable();
-        $addressId = $objectManager->get('Magento_Core_Model_Resource_HelperPool')->get('Magento_ImportExport')
+        $addressId = $objectManager->get('Magento\Core\Model\Resource\HelperPool')->get('Magento_ImportExport')
             ->getNextAutoincrement($tableName);
 
         $entityData = array(
@@ -225,7 +227,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
         );
 
         // invoke _saveAddressEntities
-        $saveAddressEntities = new ReflectionMethod($this->_testClassName, '_saveAddressEntities');
+        $saveAddressEntities = new \ReflectionMethod($this->_testClassName, '_saveAddressEntities');
         $saveAddressEntities->setAccessible(true);
         $saveAddressEntities->invoke($entityAdapter, $entityData);
 
@@ -236,12 +238,12 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
      * Test _saveAddressAttributes
      *
      * @magentoDataFixture Magento/ImportExport/_files/customer_with_addresses.php
-     * @covers Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::_saveAddressAttributes
+     * @covers \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::_saveAddressAttributes
      */
     public function testSaveAddressAttributes()
     {
         // get attributes list
-        $attributesReflection = new ReflectionProperty($this->_testClassName, '_attributes');
+        $attributesReflection = new \ReflectionProperty($this->_testClassName, '_attributes');
         $attributesReflection->setAccessible(true);
         $attributes = $attributesReflection->getValue($this->_entityAdapter);
 
@@ -263,14 +265,14 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
         $attributeArray[$attributeTable][$addressId][$attributeId] = $attributeValue;
 
         // invoke _saveAddressAttributes
-        $saveAttributes = new ReflectionMethod($this->_testClassName, '_saveAddressAttributes');
+        $saveAttributes = new \ReflectionMethod($this->_testClassName, '_saveAddressAttributes');
         $saveAttributes->setAccessible(true);
         $saveAttributes->invoke($this->_entityAdapter, $attributeArray);
 
         // check DB
-        /** @var $testAddress Magento_Customer_Model_Address */
-        $testAddress = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Address');
+        /** @var $testAddress \Magento\Customer\Model\Address */
+        $testAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Address');
         $testAddress->load($addressId);
         $this->assertEquals($addressId, $testAddress->getId(), 'Incorrect address ID.');
         $this->assertEquals($attributeValue, $testAddress->getData($attributeName), 'There is no attribute value.');
@@ -280,22 +282,22 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
      * Test _saveCustomerDefaults
      *
      * @magentoDataFixture Magento/ImportExport/_files/customer_with_addresses.php
-     * @covers Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::_saveCustomerDefaults
+     * @covers \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::_saveCustomerDefaults
      */
     public function testSaveCustomerDefaults()
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         // get not default address
-        $customers = $objectManager->get('Magento_Core_Model_Registry')->registry($this->_fixtureKey);
-        /** @var $notDefaultAddress Magento_Customer_Model_Address */
+        $customers = $objectManager->get('Magento\Core\Model\Registry')->registry($this->_fixtureKey);
+        /** @var $notDefaultAddress \Magento\Customer\Model\Address */
         $notDefaultAddress = null;
-        /** @var $addressCustomer Magento_Customer_Model_Customer */
+        /** @var $addressCustomer \Magento\Customer\Model\Customer */
         $addressCustomer = null;
-        /** @var $customer Magento_Customer_Model_Customer */
+        /** @var $customer \Magento\Customer\Model\Customer */
         foreach ($customers as $customer) {
-            /** @var $address Magento_Customer_Model_Address */
+            /** @var $address \Magento\Customer\Model\Address */
             foreach ($customer->getAddressesCollection() as $address) {
                 if (!$customer->getDefaultBillingAddress() && !$customer->getDefaultShippingAddress()) {
                     $notDefaultAddress = $address;
@@ -315,9 +317,9 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
 
         // set customer defaults
         $defaults = array();
-        foreach (Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::getDefaultAddressAttributeMapping()
+        foreach (\Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::getDefaultAddressAttributeMapping()
             as $attributeCode) {
-            /** @var $attribute Magento_Eav_Model_Entity_Attribute_Abstract */
+            /** @var $attribute \Magento\Eav\Model\Entity\Attribute\AbstractAttribute */
             $attribute = $addressCustomer->getAttribute($attributeCode);
             $attributeTable = $attribute->getBackend()->getTable();
             $attributeId = $attribute->getId();
@@ -325,14 +327,14 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
         }
 
         // invoke _saveCustomerDefaults
-        $saveDefaults = new ReflectionMethod($this->_testClassName, '_saveCustomerDefaults');
+        $saveDefaults = new \ReflectionMethod($this->_testClassName, '_saveCustomerDefaults');
         $saveDefaults->setAccessible(true);
         $saveDefaults->invoke($this->_entityAdapter, $defaults);
 
         // check DB
-        /** @var $testCustomer Magento_Customer_Model_Customer */
-        $testCustomer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Customer');
+        /** @var $testCustomer \Magento\Customer\Model\Customer */
+        $testCustomer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Customer');
         $testCustomer->load($customerId);
         $this->assertEquals($customerId, $testCustomer->getId(), 'Customer must exists.');
         $this->assertNotNull($testCustomer->getDefaultBillingAddress(), 'Default billing address must exists.');
@@ -353,19 +355,19 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
      * Test import data method with add/update behaviour
      *
      * @magentoDataFixture Magento/ImportExport/_files/customers_for_address_import.php
-     * @covers Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::_importData
+     * @covers \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::_importData
      */
     public function testImportDataAddUpdate()
     {
         // set behaviour
         $this->_entityAdapter->setParameters(
-            array('behavior' => Magento_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE)
+            array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE)
         );
 
         // set fixture CSV file
         $sourceFile = __DIR__ . '/../_files/address_import_update.csv';
         $result = $this->_entityAdapter
-            ->setSource(Magento_ImportExport_Model_Import_Adapter::findAdapterFor($sourceFile))
+            ->setSource(\Magento\ImportExport\Model\Import\Adapter::findAdapterFor($sourceFile))
             ->isDataValid();
         $this->assertFalse($result, 'Validation result must be false.');
 
@@ -382,11 +384,11 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
         }
 
         // get addresses
-        $addressCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Resource_Address_Collection');
+        $addressCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Resource\Address\Collection');
         $addressCollection->addAttributeToSelect($requiredAttributes);
         $addresses = array();
-        /** @var $address Magento_Customer_Model_Address */
+        /** @var $address \Magento\Customer\Model\Address */
         foreach ($addressCollection as $address) {
             $addresses[$address->getData($keyAttribute)] = $address;
         }
@@ -401,7 +403,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
 
         // are updated address fields have new values
         $updatedAddressId = $this->_updateData['address']['update'];
-        /** @var $updatedAddress Magento_Customer_Model_Address */
+        /** @var $updatedAddress \Magento\Customer\Model\Address */
         $updatedAddress = $addresses[$updatedAddressId];
         $updatedData = $this->_updateData['update'][$updatedAddressId];
         foreach ($updatedData as $fieldName => $fieldValue) {
@@ -415,9 +417,9 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
         }
 
         // are default billing/shipping addresses have new value
-        /** @var $customer Magento_Customer_Model_Customer */
-        $customer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Customer');
+        /** @var $customer \Magento\Customer\Model\Customer */
+        $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Customer');
         $customer->setWebsiteId(0);
         $customer->loadByEmail('BetsyParker@example.com');
         $defaultsData = $this->_updateData['default'];
@@ -437,19 +439,19 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
      * Test import data method with delete behaviour
      *
      * @magentoDataFixture Magento/ImportExport/_files/customers_for_address_import.php
-     * @covers Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::_importData
+     * @covers \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::_importData
      */
     public function testImportDataDelete()
     {
         // set behaviour
         $this->_entityAdapter->setParameters(
-            array('behavior' => Magento_ImportExport_Model_Import::BEHAVIOR_DELETE)
+            array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE)
         );
 
         // set fixture CSV file
         $sourceFile = __DIR__ . '/../_files/address_import_delete.csv';
         $result = $this->_entityAdapter
-            ->setSource(Magento_ImportExport_Model_Import_Adapter::findAdapterFor($sourceFile))
+            ->setSource(\Magento\ImportExport\Model\Import\Adapter::findAdapterFor($sourceFile))
             ->isDataValid();
         $this->assertTrue($result, 'Validation result must be true.');
 
@@ -460,12 +462,12 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
         $keyAttribute = 'postcode';
 
         // get addresses
-        /** @var $addressCollection Magento_Customer_Model_Resource_Address_Collection */
-        $addressCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Resource_Address_Collection');
+        /** @var $addressCollection \Magento\Customer\Model\Resource\Address\Collection */
+        $addressCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Resource\Address\Collection');
         $addressCollection->addAttributeToSelect($keyAttribute);
         $addresses = array();
-        /** @var $address Magento_Customer_Model_Address */
+        /** @var $address \Magento\Customer\Model\Address */
         foreach ($addressCollection as $address) {
             $addresses[$address->getData($keyAttribute)] = $address;
         }

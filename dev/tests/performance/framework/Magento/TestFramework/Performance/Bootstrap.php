@@ -11,12 +11,14 @@
 /**
  * Bootstrap for performance tests
  */
-class Magento_TestFramework_Performance_Bootstrap
+namespace Magento\TestFramework\Performance;
+
+class Bootstrap
 {
     /**
      * Tests configuration holder
      *
-     * @var Magento_TestFramework_Performance_Config
+     * @var \Magento\TestFramework\Performance\Config
      */
     protected $_config;
 
@@ -31,19 +33,19 @@ class Magento_TestFramework_Performance_Bootstrap
         $configFile = "$testsBaseDir/config.php";
         $configFile = file_exists($configFile) ? $configFile : "$configFile.dist";
         $configData = require $configFile;
-        $this->_config = new Magento_TestFramework_Performance_Config($configData, $testsBaseDir, $appBaseDir);
+        $this->_config = new \Magento\TestFramework\Performance\Config($configData, $testsBaseDir, $appBaseDir);
     }
 
     /**
      * Ensure reports directory exists, empty, and has write permissions
      *
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     public function cleanupReports()
     {
         $reportDir = $this->_config->getReportDir();
-        if (file_exists($reportDir) && !Magento_Io_File::rmdirRecursive($reportDir)) {
-            throw new Magento_Exception("Cannot cleanup reports directory '$reportDir'.");
+        if (file_exists($reportDir) && !\Magento\Io\File::rmdirRecursive($reportDir)) {
+            throw new \Magento\Exception("Cannot cleanup reports directory '$reportDir'.");
         }
         mkdir($reportDir, 0777, true);
     }
@@ -51,7 +53,7 @@ class Magento_TestFramework_Performance_Bootstrap
     /**
      * Return configuration for the tests
      *
-     * @return Magento_TestFramework_Performance_Config
+     * @return \Magento\TestFramework\Performance\Config
      */
     public function getConfig()
     {

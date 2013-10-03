@@ -15,20 +15,22 @@
  * @package    Magento_PageCache
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_PageCache_Model_System_Config_Source_Controls implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\PageCache\Model\System\Config\Source;
+
+class Controls implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Page cache data
      *
-     * @var Magento_PageCache_Model_CacheControlFactory
+     * @var \Magento\PageCache\Model\CacheControlFactory
      */
     protected $_pageCacheData = null;
 
     /**
-     * @param Magento_PageCache_Model_CacheControlFactory $pageCacheData
+     * @param \Magento\PageCache\Model\CacheControlFactory $pageCacheData
      */
     public function __construct(
-        Magento_PageCache_Model_CacheControlFactory $pageCacheData
+        \Magento\PageCache\Model\CacheControlFactory $pageCacheData
     ) {
         $this->_pageCacheData = $pageCacheData;
     }

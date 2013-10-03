@@ -10,13 +10,13 @@
 <config>
     <renderers>
         <page type="invoice">
-            <renderer product_type="bundle">Magento_Bundle_Model_Sales_Order_Pdf_Items_Invoice</renderer>
+            <renderer product_type="bundle">Magento\Bundle\Model\Sales\Order\Pdf\Items\Invoice</renderer>
         </page>
         <page type="shipment">
-            <renderer product_type="bundle">Magento_Bundle_Model_Sales_Order_Pdf_Items_Shipment</renderer>
+            <renderer product_type="bundle">Magento\Bundle\Model\Sales\Order\Pdf\Items\Shipment</renderer>
         </page>
         <page type="creditmemo">
-            <renderer product_type="bundle">Magento_Bundle_Model_Sales_Order_Pdf_Items_Creditmemo</renderer>
+            <renderer product_type="bundle">Magento\Bundle\Model\Sales\Order\Pdf\Items\Creditmemo</renderer>
         </page>
     </renderers>
 </config>

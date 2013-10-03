@@ -14,12 +14,13 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formattribute
-    extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Main;
+
+class Formattribute extends \Magento\Backend\Block\Widget\Form\Generic
 {
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
 
         $fieldset = $form->addFieldset('set_fieldset', array('legend'=>__('Add New Attribute')));
@@ -34,7 +35,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formattribute
 
         $fieldset->addField('submit', 'note',
                             array(
-                                'text' => $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+                                'text' => $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
                                             ->setData(array(
                                                 'label'     => __('Add Attribute'),
                                                 'onclick'   => 'this.form.submit();',

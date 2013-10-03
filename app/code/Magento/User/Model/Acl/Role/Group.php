@@ -12,7 +12,9 @@
 /**
  * Acl Group model
  */
-class Magento_User_Model_Acl_Role_Group extends Magento_User_Model_Acl_Role_Generic
+namespace Magento\User\Model\Acl\Role;
+
+class Group extends \Magento\User\Model\Acl\Role\Generic
 {
     /**
      * All the group roles are prepended by G

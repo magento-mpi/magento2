@@ -11,22 +11,24 @@
 /**
  * PayPal Standard Checkout Module
  */
-class Magento_Paypal_Model_Standard extends Magento_Payment_Model_Method_Abstract
+namespace Magento\Paypal\Model;
+
+class Standard extends \Magento\Payment\Model\Method\AbstractMethod
 {
     /**
      * @var string
      */
-    protected $_code  = Magento_Paypal_Model_Config::METHOD_WPS;
+    protected $_code  = \Magento\Paypal\Model\Config::METHOD_WPS;
 
     /**
      * @var string
      */
-    protected $_formBlockType = 'Magento_Paypal_Block_Standard_Form';
+    protected $_formBlockType = 'Magento\Paypal\Block\Standard\Form';
 
     /**
      * @var string
      */
-    protected $_infoBlockType = 'Magento_Paypal_Block_Payment_Info';
+    protected $_infoBlockType = 'Magento\Paypal\Block\Payment\Info';
 
     protected $_isInitializeNeeded      = true;
     protected $_canUseInternal          = false;
@@ -35,80 +37,80 @@ class Magento_Paypal_Model_Standard extends Magento_Payment_Model_Method_Abstrac
     /**
      * Config instance
      *
-     * @var Magento_Paypal_Model_Config
+     * @var \Magento\Paypal\Model\Config
      */
     protected $_config;
 
     /**
-     * @var Magento_Paypal_Model_Session
+     * @var \Magento\Paypal\Model\Session
      */
     protected $_paypalSession;
 
     /**
-     * @var Magento_Checkout_Model_Session
+     * @var \Magento\Checkout\Model\Session
      */
     protected $_checkoutSession;
 
     /**
-     * @var Magento_Core_Model_UrlInterface
+     * @var \Magento\Core\Model\UrlInterface
      */
     protected $_urlBuilder;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Sales_Model_OrderFactory
+     * @var \Magento\Sales\Model\OrderFactory
      */
     protected $_orderFactory;
 
     /**
-     * @var Magento_Paypal_Model_Api_StandardFactory
+     * @var \Magento\Paypal\Model\Api\StandardFactory
      */
     protected $_apiStandardFactory;
 
     /**
-     * @var Magento_Paypal_Model_CartFactory
+     * @var \Magento\Paypal\Model\CartFactory
      */
     protected $_cartFactory;
 
     /**
-     * @var Magento_Paypal_Model_Config_Factory
+     * @var \Magento\Paypal\Model\Config\Factory
      */
     protected $_configFactory;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Payment_Helper_Data $paymentData
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
-     * @param Magento_Core_Model_Session_Generic $paypalSession
-     * @param Magento_Checkout_Model_Session $checkoutSession
-     * @param Magento_Core_Model_UrlInterface $urlBuilder
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Sales_Model_OrderFactory $orderFactory
-     * @param Magento_Paypal_Model_Api_StandardFactory $apiStandardFactory
-     * @param Magento_Paypal_Model_CartFactory $cartFactory
-     * @param Magento_Paypal_Model_Config_Factory $configFactory
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Core\Model\Session\Generic $paypalSession
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Core\Model\UrlInterface $urlBuilder
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param \Magento\Paypal\Model\Api\StandardFactory $apiStandardFactory
+     * @param \Magento\Paypal\Model\CartFactory $cartFactory
+     * @param \Magento\Paypal\Model\Config\Factory $configFactory
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Payment_Helper_Data $paymentData,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
-        Magento_Core_Model_Session_Generic $paypalSession,
-        Magento_Checkout_Model_Session $checkoutSession,
-        Magento_Core_Model_UrlInterface $urlBuilder,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Sales_Model_OrderFactory $orderFactory,
-        Magento_Paypal_Model_Api_StandardFactory $apiStandardFactory,
-        Magento_Paypal_Model_CartFactory $cartFactory,
-        Magento_Paypal_Model_Config_Factory $configFactory,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Core\Model\Session\Generic $paypalSession,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Core\Model\UrlInterface $urlBuilder,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Sales\Model\OrderFactory $orderFactory,
+        \Magento\Paypal\Model\Api\StandardFactory $apiStandardFactory,
+        \Magento\Paypal\Model\CartFactory $cartFactory,
+        \Magento\Paypal\Model\Config\Factory $configFactory,
         array $data = array()
     ) {
         $this->_paypalSession = $paypalSession;
@@ -136,7 +138,7 @@ class Magento_Paypal_Model_Standard extends Magento_Payment_Model_Method_Abstrac
     /**
      * Get paypal session namespace
      *
-     * @return Magento_Core_Model_Session_Generic
+     * @return \Magento\Core\Model\Session\Generic
      */
     public function getSession()
     {
@@ -146,7 +148,7 @@ class Magento_Paypal_Model_Standard extends Magento_Payment_Model_Method_Abstrac
     /**
      * Get checkout session namespace
      *
-     * @return Magento_Checkout_Model_Session
+     * @return \Magento\Checkout\Model\Session
      */
     public function getCheckout()
     {
@@ -156,7 +158,7 @@ class Magento_Paypal_Model_Standard extends Magento_Payment_Model_Method_Abstrac
     /**
      * Get current quote
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {
@@ -169,7 +171,7 @@ class Magento_Paypal_Model_Standard extends Magento_Payment_Model_Method_Abstrac
      */
     public function createFormBlock($name)
     {
-        $block = $this->getLayout()->createBlock('Magento_Paypal_Block_Standard_Form', $name)
+        $block = $this->getLayout()->createBlock('Magento\Paypal\Block\Standard\Form', $name)
             ->setMethod('paypal_standard')
             ->setPayment($this->getPayment())
             ->setTemplate('standard/form.phtml');
@@ -196,7 +198,7 @@ class Magento_Paypal_Model_Standard extends Magento_Payment_Model_Method_Abstrac
     {
         $orderIncrementId = $this->getCheckout()->getLastRealOrderId();
         $order = $this->_orderFactory->create()->loadByIncrementId($orderIncrementId);
-        /* @var $api Magento_Paypal_Model_Api_Standard */
+        /* @var $api \Magento\Paypal\Model\Api\Standard */
         $api = $this->_apiStandardFactory->create()->setConfigObject($this->getConfig());
         $api->setOrderId($orderIncrementId)
             ->setCurrencyCode($order->getBaseCurrencyCode())
@@ -230,11 +232,11 @@ class Magento_Paypal_Model_Standard extends Magento_Payment_Model_Method_Abstrac
      *
      * @param string $paymentAction
      * @param object $stateObject
-     * @return \Magento_Payment_Model_Abstract|null
+     * @return \Magento\Payment\Model\AbstractModel|null
      */
     public function initialize($paymentAction, $stateObject)
     {
-        $state = Magento_Sales_Model_Order::STATE_PENDING_PAYMENT;
+        $state = \Magento\Sales\Model\Order::STATE_PENDING_PAYMENT;
         $stateObject->setState($state);
         $stateObject->setStatus('pending_payment');
         $stateObject->setIsNotified(false);
@@ -242,7 +244,7 @@ class Magento_Paypal_Model_Standard extends Magento_Payment_Model_Method_Abstrac
 
     /**
      * Config instance getter
-     * @return Magento_Paypal_Model_Config
+     * @return \Magento\Paypal\Model\Config
      */
     public function getConfig()
     {
@@ -252,14 +254,14 @@ class Magento_Paypal_Model_Standard extends Magento_Payment_Model_Method_Abstrac
             if ($store) {
                 $params[] = is_object($store) ? $store->getId() : $store;
             }
-            $this->_config = $this->_configFactory->create('Magento_Paypal_Model_Config', array('params' => $params));
+            $this->_config = $this->_configFactory->create('Magento\Paypal\Model\Config', array('params' => $params));
         }
         return $this->_config;
     }
 
     /**
      * Check whether payment method can be used
-     * @param Magento_Sales_Model_Quote
+     * @param \Magento\Sales\Model\Quote
      * @return bool
      */
     public function isAvailable($quote = null)

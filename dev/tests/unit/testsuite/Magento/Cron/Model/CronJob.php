@@ -10,9 +10,11 @@
 
 /**
  * Class CronJob used to check that cron can execute method and pass param
- * Please see Magento_Cron_Model_ObserverTest
+ * Please see \Magento\Cron\Model\ObserverTest
  */
-class Magento_Cron_Model_CronJob
+namespace Magento\Cron\Model;
+
+class CronJob
 {
     protected $_param;
 

@@ -11,22 +11,24 @@
 /**
  * Gift registry frontend controller
  */
-class Magento_GiftRegistry_Controller_View extends Magento_Core_Controller_Front_Action
+namespace Magento\GiftRegistry\Controller;
+
+class View extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Controller_Varien_Action_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Core_Controller_Varien_Action_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -38,7 +40,7 @@ class Magento_GiftRegistry_Controller_View extends Magento_Core_Controller_Front
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!$this->_objectManager->get('Magento_GiftRegistry_Helper_Data')->isEnabled()) {
+        if (!$this->_objectManager->get('Magento\GiftRegistry\Helper\Data')->isEnabled()) {
             $this->norouteAction();
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return;
@@ -50,21 +52,21 @@ class Magento_GiftRegistry_Controller_View extends Magento_Core_Controller_Front
      */
     public function indexAction()
     {
-        $entity = $this->_objectManager->create('Magento_GiftRegistry_Model_Entity');
+        $entity = $this->_objectManager->create('Magento\GiftRegistry\Model\Entity');
         $entity->loadByUrlKey($this->getRequest()->getParam('id'));
         if (!$entity->getId() || !$entity->getCustomerId() || !$entity->getTypeId() || !$entity->getIsActive()) {
             $this->_forward('noroute');
             return;
         }
 
-        /** @var Magento_Customer_Model_Customer */
-        $customer = $this->_objectManager->create('Magento_Customer_Model_Customer');
+        /** @var \Magento\Customer\Model\Customer */
+        $customer = $this->_objectManager->create('Magento\Customer\Model\Customer');
         $customer->load($entity->getCustomerId());
         $entity->setCustomer($customer);
         $this->_coreRegistry->register('current_entity', $entity);
 
         $this->loadLayout();
-        $this->_initLayoutMessages('Magento_Customer_Model_Session');
+        $this->_initLayoutMessages('Magento\Customer\Model\Session');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Gift Registry Info'));
@@ -82,17 +84,17 @@ class Magento_GiftRegistry_Controller_View extends Magento_Core_Controller_Front
             $this->_redirect('*/*', array('_current' => true));
             return;
         }
-        /* @var Magento_Checkout_Model_Cart */
-        $cart = $this->_objectManager->get('Magento_Checkout_Model_Cart');
-        /* @var $session Magento_Core_Model_Session_Generic */
-        $session    = $this->_objectManager->get('Magento_Customer_Model_Session');
+        /* @var \Magento\Checkout\Model\Cart */
+        $cart = $this->_objectManager->get('Magento\Checkout\Model\Cart');
+        /* @var $session \Magento\Core\Model\Session\Generic */
+        $session    = $this->_objectManager->get('Magento\Customer\Model\Session');
         $success = false;
 
         try {
             $count = 0;
             foreach ($items as $itemId => $itemInfo) {
-                $item = $this->_objectManager->create('Magento_GiftRegistry_Model_Item')->load($itemId);
-                $optionCollection = $this->_objectManager->create('Magento_GiftRegistry_Model_Item_Option')->getCollection()
+                $item = $this->_objectManager->create('Magento\GiftRegistry\Model\Item')->load($itemId);
+                $optionCollection = $this->_objectManager->create('Magento\GiftRegistry\Model\Item\Option')->getCollection()
                     ->addItemFilter($itemId);
                 $item->setOptions($optionCollection->getOptionsByItem($item));
                 if (!$item->getId() || $itemInfo['qty'] < 1 || ($item->getQty() <= $item->getQtyFulfilled())) {
@@ -107,11 +109,11 @@ class Magento_GiftRegistry_Controller_View extends Magento_Core_Controller_Front
                 $success = false;
                 $session->addError(__('Please enter the quantity of items to add to cart.'));
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $session->addError(__($e->getMessage()));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $session->addException($e, __('We cannot add this item to your shopping cart.'));
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
         }
         if (!$success) {
             $this->_redirect('*/*', array('_current' => true));

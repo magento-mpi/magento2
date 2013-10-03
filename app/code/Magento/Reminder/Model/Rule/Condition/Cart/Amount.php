@@ -11,8 +11,10 @@
 /**
  * Cart totals amount condition
  */
-class Magento_Reminder_Model_Rule_Condition_Cart_Amount
-    extends Magento_Reminder_Model_Condition_Abstract
+namespace Magento\Reminder\Model\Rule\Condition\Cart;
+
+class Amount
+    extends \Magento\Reminder\Model\Condition\AbstractCondition
 {
     /**
      * @var string
@@ -20,18 +22,18 @@ class Magento_Reminder_Model_Rule_Condition_Cart_Amount
     protected $_inputType = 'numeric';
 
     /**
-     * @param Magento_Rule_Model_Condition_Context $context
-     * @param Magento_Reminder_Model_Resource_Rule $ruleResource
+     * @param \Magento\Rule\Model\Condition\Context $context
+     * @param \Magento\Reminder\Model\Resource\Rule $ruleResource
      * @param array $data
      */
     public function __construct(
-        Magento_Rule_Model_Condition_Context $context,
-        Magento_Reminder_Model_Resource_Rule $ruleResource,
+        \Magento\Rule\Model\Condition\Context $context,
+        \Magento\Reminder\Model\Resource\Rule $ruleResource,
         array $data = array()
     )
     {
         parent::__construct($context, $ruleResource, $data);
-        $this->setType('Magento_Reminder_Model_Rule_Condition_Cart_Amount');
+        $this->setType('Magento\Reminder\Model\Rule\Condition\Cart\Amount');
         $this->setValue(null);
     }
 
@@ -49,7 +51,7 @@ class Magento_Reminder_Model_Rule_Condition_Cart_Amount
     /**
      * Init available options list
      *
-     * @return Magento_Reminder_Model_Rule_Condition_Cart_Amount
+     * @return \Magento\Reminder\Model\Rule\Condition\Cart\Amount
      */
     public function loadAttributeOptions()
     {
@@ -76,9 +78,9 @@ class Magento_Reminder_Model_Rule_Condition_Cart_Amount
      * Build condition limitations sql string for specific website
      *
      * @param $customer
-     * @param int | Zend_Db_Expr $website
-     * @return Magento_DB_Select
-     * @throws Magento_Core_Exception
+     * @param int | \Zend_Db_Expr $website
+     * @return \Magento\DB\Select
+     * @throws \Magento\Core\Exception
      */
     public function getConditionsSql($customer, $website)
     {
@@ -86,7 +88,7 @@ class Magento_Reminder_Model_Rule_Condition_Cart_Amount
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('quote' => $table), array(new Zend_Db_Expr(1)));
+        $select->from(array('quote' => $table), array(new \Zend_Db_Expr(1)));
 
         switch ($this->getAttribute()) {
             case 'subtotal':
@@ -96,7 +98,7 @@ class Magento_Reminder_Model_Rule_Condition_Cart_Amount
                 $field = 'quote.base_grand_total';
                 break;
             default:
-                throw new Magento_Core_Exception(
+                throw new \Magento\Core\Exception(
                     __('Unknown quote total specified')
                 );
         }

@@ -19,7 +19,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Config_Converter_Dom_Flat implements Magento_Config_ConverterInterface
+namespace Magento\Config\Converter\Dom;
+
+class Flat implements \Magento\Config\ConverterInterface
 {
     /**
      * Node identifier attributes
@@ -39,7 +41,7 @@ class Magento_Config_Converter_Dom_Flat implements Magento_Config_ConverterInter
     /**
      * Convert dom node tree to array
      *
-     * @param DOMNode $source
+     * @param \DOMNode $source
      * @param string $path
      * @return array
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
@@ -48,11 +50,11 @@ class Magento_Config_Converter_Dom_Flat implements Magento_Config_ConverterInter
     {
         $nodeListData = array();
 
-        /** @var $node DOMNode */
+        /** @var $node \DOMNode */
         foreach ($source->childNodes as $node) {
             if ($node->nodeType == XML_ELEMENT_NODE) {
                 $nodeData = array();
-                /** @var $attribute DOMNode */
+                /** @var $attribute \DOMNode */
                 foreach ($node->attributes as $attribute) {
                     if ($attribute->nodeType == XML_ATTRIBUTE_NODE) {
                         $nodeData[$attribute->nodeName] = $attribute->nodeValue;

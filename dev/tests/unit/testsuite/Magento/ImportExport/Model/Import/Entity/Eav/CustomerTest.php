@@ -10,14 +10,16 @@
  */
 
 /**
- * Test class for Magento_ImportExport_Model_Import_Entity_Eav_Customer
+ * Test class for \Magento\ImportExport\Model\Import\Entity\Eav\Customer
  */
-class Magento_ImportExport_Model_Import_Entity_Eav_CustomerTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Import\Entity\Eav;
+
+class CustomerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Customer entity import model
      *
-     * @var Magento_ImportExport_Model_Import_Entity_Eav_Customer|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\ImportExport\Model\Import\Entity\Eav\Customer|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
@@ -27,9 +29,9 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerTest extends PHPUnit_
      * @var array
      */
     protected $_availableBehaviors = array(
-        Magento_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE,
-        Magento_ImportExport_Model_Import::BEHAVIOR_DELETE,
-        Magento_ImportExport_Model_Import::BEHAVIOR_CUSTOM,
+        \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE,
+        \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE,
+        \Magento\ImportExport\Model\Import::BEHAVIOR_CUSTOM,
     );
 
     /**
@@ -39,20 +41,20 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerTest extends PHPUnit_
      */
     protected $_inputRows = array(
         'create' => array(
-            Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_ACTION  => 'create',
-            Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL   => 'create@email.com',
-            Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_WEBSITE => 'website1',
+            \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_ACTION  => 'create',
+            \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_EMAIL   => 'create@email.com',
+            \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_WEBSITE => 'website1',
         ),
         'update' => array(
-            Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_ACTION  => 'update',
-            Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL   => 'update@email.com',
-            Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_WEBSITE => 'website1',
+            \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_ACTION  => 'update',
+            \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_EMAIL   => 'update@email.com',
+            \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_WEBSITE => 'website1',
         ),
         'delete' => array(
-            Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_ACTION
-                => Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_ACTION_VALUE_DELETE,
-            Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL   => 'delete@email.com',
-            Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_WEBSITE => 'website1',
+            \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_ACTION
+                => \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_ACTION_VALUE_DELETE,
+            \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_EMAIL   => 'delete@email.com',
+            \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_WEBSITE => 'website1',
         ),
     );
 
@@ -80,13 +82,13 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerTest extends PHPUnit_
     /**
      * Create mock for import with custom behavior test
      *
-     * @return Magento_ImportExport_Model_Import_Entity_Eav_Customer|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\ImportExport\Model\Import\Entity\Eav\Customer|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getModelMockForTestImportDataWithCustomBehaviour()
     {
         // entity adapter mock
         $modelMock = $this->getMock(
-            'Magento_ImportExport_Model_Import_Entity_Eav_Customer',
+            'Magento\ImportExport\Model\Import\Entity\Eav\Customer',
             array(
                 'validateRow',
                 '_getCustomerId',
@@ -102,13 +104,13 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerTest extends PHPUnit_
             true
         );
 
-        $availableBehaviors = new ReflectionProperty($modelMock, '_availableBehaviors');
+        $availableBehaviors = new \ReflectionProperty($modelMock, '_availableBehaviors');
         $availableBehaviors->setAccessible(true);
         $availableBehaviors->setValue($modelMock, $this->_availableBehaviors);
 
         // mock to imitate data source model
         $dataSourceModelMock = $this->getMock(
-            'Magento_ImportExport_Model_Resource_Import_Data',
+            'Magento\ImportExport\Model\Resource\Import\Data',
             array('getNextBunch'),
             array(),
             '',
@@ -121,8 +123,8 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerTest extends PHPUnit_
             ->method('getNextBunch')
             ->will($this->returnValue(null));
 
-        $property = new ReflectionProperty(
-            'Magento_ImportExport_Model_Import_Entity_Eav_Customer',
+        $property = new \ReflectionProperty(
+            'Magento\ImportExport\Model\Import\Entity\Eav\Customer',
             '_dataSourceModel'
         );
         $property->setAccessible(true);
@@ -158,12 +160,12 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerTest extends PHPUnit_
     /**
      * Test whether correct methods are invoked in case of custom behaviour for each row in action column
      *
-     * @covers Magento_ImportExport_Model_Import_Entity_Eav_Customer::_importData
+     * @covers \Magento\ImportExport\Model\Import\Entity\Eav\Customer::_importData
      */
     public function testImportDataWithCustomBehaviour()
     {
         $this->_model = $this->_getModelMockForTestImportDataWithCustomBehaviour();
-        $this->_model->setParameters(array('behavior' => Magento_ImportExport_Model_Import::BEHAVIOR_CUSTOM));
+        $this->_model->setParameters(array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_CUSTOM));
 
         // validation in validateSaveCustomerEntities and validateDeleteCustomerEntities
         $this->_model->importData();
@@ -178,18 +180,18 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerTest extends PHPUnit_
     public function prepareForUpdateMock(array $rowData)
     {
         $preparedResult = array(
-            Magento_ImportExport_Model_Import_Entity_Eav_Customer::ENTITIES_TO_CREATE_KEY => array(),
-            Magento_ImportExport_Model_Import_Entity_Eav_Customer::ENTITIES_TO_UPDATE_KEY => array(),
-            Magento_ImportExport_Model_Import_Entity_Eav_Customer::ATTRIBUTES_TO_SAVE_KEY => array('table' => array())
+            \Magento\ImportExport\Model\Import\Entity\Eav\Customer::ENTITIES_TO_CREATE_KEY => array(),
+            \Magento\ImportExport\Model\Import\Entity\Eav\Customer::ENTITIES_TO_UPDATE_KEY => array(),
+            \Magento\ImportExport\Model\Import\Entity\Eav\Customer::ATTRIBUTES_TO_SAVE_KEY => array('table' => array())
         );
 
-        $actionColumnKey = Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_ACTION;
+        $actionColumnKey = \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_ACTION;
         if ($rowData[$actionColumnKey] == 'create') {
-            $preparedResult[Magento_ImportExport_Model_Import_Entity_Eav_Customer::ENTITIES_TO_CREATE_KEY] = array(
+            $preparedResult[\Magento\ImportExport\Model\Import\Entity\Eav\Customer::ENTITIES_TO_CREATE_KEY] = array(
                 array('entity_id' => $this->_customerIds['create'])
             );
         } elseif ($rowData[$actionColumnKey] == 'update') {
-            $preparedResult[Magento_ImportExport_Model_Import_Entity_Eav_Customer::ENTITIES_TO_UPDATE_KEY] = array(
+            $preparedResult[\Magento\ImportExport\Model\Import\Entity\Eav\Customer::ENTITIES_TO_UPDATE_KEY] = array(
                 array('entity_id' => $this->_customerIds['update'])
             );
         }
@@ -202,7 +204,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerTest extends PHPUnit_
      *
      * @param array $entitiesToCreate
      * @param array $entitiesToUpdate
-     * @return Magento_ImportExport_Model_Import_Entity_Eav_Customer|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\ImportExport\Model\Import\Entity\Eav\Customer|PHPUnit_Framework_MockObject_MockObject
      */
     public function validateSaveCustomerEntities(array $entitiesToCreate, array $entitiesToUpdate)
     {
@@ -217,7 +219,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerTest extends PHPUnit_
      * Validation method for _deleteCustomerEntities
      *
      * @param array $customerIdsToDelete
-     * @return Magento_ImportExport_Model_Import_Entity_Eav_Customer|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\ImportExport\Model\Import\Entity\Eav\Customer|PHPUnit_Framework_MockObject_MockObject
      */
     public function validateDeleteCustomerEntities(array $customerIdsToDelete)
     {

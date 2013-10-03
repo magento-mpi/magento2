@@ -11,24 +11,26 @@
 /**
  * Sales orders grid massaction items updater
  */
-class Magento_Sales_Model_Billing_Agreement_OrdersUpdater implements Magento_Core_Model_Layout_Argument_UpdaterInterface
+namespace Magento\Sales\Model\Billing\Agreement;
+
+class OrdersUpdater implements \Magento\Core\Model\Layout\Argument\UpdaterInterface
 {
     /**
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_registryManager;
 
     /**
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
-    public function __construct(Magento_Core_Model_Registry $coreRegistry, array $data = array())
+    public function __construct(\Magento\Core\Model\Registry $coreRegistry, array $data = array())
     {
         $this->_registryManager = isset($data['registry']) ? $data['registry'] : $coreRegistry;
 
-        if (false === ($this->_registryManager instanceof Magento_Core_Model_Registry)) {
-            throw new InvalidArgumentException('registry object has to be an instance of Magento_Core_Model_Registry');
+        if (false === ($this->_registryManager instanceof \Magento\Core\Model\Registry)) {
+            throw new \InvalidArgumentException('registry object has to be an instance of \Magento\Core\Model\Registry');
         }
     }
 
@@ -36,6 +38,7 @@ class Magento_Sales_Model_Billing_Agreement_OrdersUpdater implements Magento_Cor
      * Add billing agreement filter
      *
      * @param mixed $argument
+     * @throws \DomainException
      * @return mixed
      * @throws DomainException
      */
@@ -44,7 +47,7 @@ class Magento_Sales_Model_Billing_Agreement_OrdersUpdater implements Magento_Cor
         $billingAgreement = $this->_registryManager->registry('current_billing_agreement');
 
         if (!$billingAgreement) {
-            throw new DomainException('Undefined billing agreement object');
+            throw new \DomainException('Undefined billing agreement object');
         }
 
         $argument->addBillingAgreementsFilter($billingAgreement->getId());

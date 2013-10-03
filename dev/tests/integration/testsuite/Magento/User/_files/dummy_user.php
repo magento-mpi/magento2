@@ -12,8 +12,8 @@
 /**
  * Create dummy user
  */
-$user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_User_Model_User');
+$user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\User\Model\User');
 $user->setFirstname('Dummy')
     ->setLastname('Dummy')
     ->setEmail('dummy@dummy.com')

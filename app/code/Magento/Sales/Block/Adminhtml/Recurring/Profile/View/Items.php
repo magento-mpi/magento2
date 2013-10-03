@@ -15,27 +15,29 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Block_Adminhtml_Recurring_Profile_View_Items extends Magento_Adminhtml_Block_Sales_Items_Abstract
+namespace Magento\Sales\Block\Adminhtml\Recurring\Profile\View;
+
+class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
 {
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -48,7 +50,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_View_Items extends Magento
     protected function _beforeToHtml()
     {
         if (!$this->getParentBlock()) {
-            throw new Magento_Core_Exception(__('Invalid parent block for this block'));
+            throw new \Magento\Core\Exception(__('Invalid parent block for this block'));
         }
         parent::_beforeToHtml();
     }
@@ -56,7 +58,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_View_Items extends Magento
     /**
      * Return current recurring profile
      *
-     * @return Magento_Sales_Model_Recurring_Profile
+     * @return \Magento\Sales\Model\Recurring\Profile
      */
     public function _getRecurringProfile()
     {
@@ -66,7 +68,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_View_Items extends Magento
     /**
      * Retrieve recurring profile item
      *
-     * @return Magento_Sales_Model_Order_Item
+     * @return \Magento\Sales\Model\Order\Item
      */
     public function getItem()
     {

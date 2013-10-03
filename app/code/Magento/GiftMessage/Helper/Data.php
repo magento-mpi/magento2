@@ -11,7 +11,9 @@
 /**
  * GiftMessage data helper
  */
-class Magento_GiftMessage_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\GiftMessage\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
 
 }

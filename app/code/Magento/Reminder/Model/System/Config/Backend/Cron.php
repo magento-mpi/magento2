@@ -11,7 +11,9 @@
 /**
  * Reminder Cron Backend Model
  */
-class Magento_Reminder_Model_System_Config_Backend_Cron extends Magento_Core_Model_Config_Value
+namespace Magento\Reminder\Model\System\Config\Backend;
+
+class Cron extends \Magento\Core\Model\Config\Value
 {
     const CRON_STRING_PATH  = 'crontab/jobs/send_notification/schedule/cron_expr';
     const CRON_MODEL_PATH   = 'crontab/jobs/send_notification/run/model';
@@ -19,28 +21,28 @@ class Magento_Reminder_Model_System_Config_Backend_Cron extends Magento_Core_Mod
     /**
      * Configuration Value Factory
      *
-     * @var Magento_Core_Model_Config_ValueFactory
+     * @var \Magento\Core\Model\Config\ValueFactory
      */
     protected $_valueFactory;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_Config_ValueFactory $valueFactory
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Config\ValueFactory $valueFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_Config_ValueFactory $valueFactory,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Config\ValueFactory $valueFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
@@ -51,17 +53,17 @@ class Magento_Reminder_Model_System_Config_Backend_Cron extends Magento_Core_Mod
     /**
      * Cron settings after save
      *
-     * @return Magento_Reminder_Model_System_Config_Backend_Cron
-     * @throws Magento_Core_Exception
+     * @return \Magento\Reminder\Model\System\Config\Backend\Cron
+     * @throws \Magento\Core\Exception
      */
     protected function _afterSave()
     {
         $cronExprString = '';
 
         if ($this->getFieldsetDataValue('enabled')) {
-            $minutely = Magento_Reminder_Model_Observer::CRON_MINUTELY;
-            $hourly   = Magento_Reminder_Model_Observer::CRON_HOURLY;
-            $daily    = Magento_Reminder_Model_Observer::CRON_DAILY;
+            $minutely = \Magento\Reminder\Model\Observer::CRON_MINUTELY;
+            $hourly   = \Magento\Reminder\Model\Observer::CRON_HOURLY;
+            $daily    = \Magento\Reminder\Model\Observer::CRON_DAILY;
 
             $frequency  = $this->getFieldsetDataValue('frequency');
 
@@ -75,7 +77,7 @@ class Magento_Reminder_Model_System_Config_Backend_Cron extends Magento_Core_Mod
                     $cronExprString = "{$minutes} * * * *";
                 }
                 else {
-                    throw new Magento_Core_Exception(__('Please specify a valid number of minute.'));
+                    throw new \Magento\Core\Exception(__('Please specify a valid number of minute.'));
                 }
             }
             elseif ($frequency == $daily) {
@@ -100,8 +102,8 @@ class Magento_Reminder_Model_System_Config_Backend_Cron extends Magento_Core_Mod
                 ->save();
         }
 
-        catch (Exception $e) {
-            throw new Magento_Core_Exception(__('Unable to save Cron expression'));
+        catch (\Exception $e) {
+            throw new \Magento\Core\Exception(__('Unable to save Cron expression'));
         }
     }
 }

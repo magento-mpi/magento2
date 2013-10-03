@@ -15,7 +15,9 @@
  * @category   Magento
  * @package    Magento_VersionsCms
  */
-class Magento_VersionsCms_Controller_Adminhtml_Cms_Hierarchy_Widget extends Magento_Adminhtml_Controller_Action
+namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Hierarchy;
+
+class Widget extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Chooser Source action
@@ -33,11 +35,11 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Hierarchy_Widget extends Mage
     /**
      * Tree block instance
      *
-     * @return Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Chooser
      */
     protected function _getTreeBlock()
     {
-        return $this->getLayout()->createBlock('Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser', '', array(
+        return $this->getLayout()->createBlock('Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Chooser', '', array(
             'data' => array(
                 'id' => $this->getRequest()->getParam('uniq_id')
             )

@@ -11,46 +11,48 @@
 /**
  * Customer gift registry checkout abstract block
  */
-class Magento_GiftRegistry_Block_Customer_Checkout extends Magento_Core_Block_Template
+namespace Magento\GiftRegistry\Block\Customer;
+
+class Checkout extends \Magento\Core\Block\Template
 {
     /**
-     * @var Magento_GiftRegistry_Model_EntityFactory
+     * @var \Magento\GiftRegistry\Model\EntityFactory
      */
     protected $entityFactory;
 
     /**
      * Gift registry data
      *
-     * @var Magento_GiftRegistry_Helper_Data
+     * @var \Magento\GiftRegistry\Helper\Data
      */
     protected $_giftRegistryData = null;
 
     /**
-     * @var Magento_Checkout_Model_Session
+     * @var \Magento\Checkout\Model\Session
      */
     protected $customerSession;
 
     /**
-     * @var Magento_Checkout_Model_Type_Multishipping
+     * @var \Magento\Checkout\Model\Type\Multishipping
      */
     protected $typeMultiShipping;
 
     /**
-     * @param Magento_GiftRegistry_Helper_Data $giftRegistryData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Checkout_Model_Session $customerSession
-     * @param Magento_Checkout_Model_Type_Multishipping $typeMultiShipping
-     * @param Magento_GiftRegistry_Model_EntityFactory $entityFactory
+     * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Checkout\Model\Session $customerSession
+     * @param \Magento\Checkout\Model\Type\Multishipping $typeMultiShipping
+     * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
      * @param array $data
      */
     public function __construct(
-        Magento_GiftRegistry_Helper_Data $giftRegistryData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Checkout_Model_Session $customerSession,
-        Magento_Checkout_Model_Type_Multishipping $typeMultiShipping,
-        Magento_GiftRegistry_Model_EntityFactory $entityFactory,
+        \Magento\GiftRegistry\Helper\Data $giftRegistryData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Checkout\Model\Session $customerSession,
+        \Magento\Checkout\Model\Type\Multishipping $typeMultiShipping,
+        \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
         array $data = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;
@@ -64,7 +66,7 @@ class Magento_GiftRegistry_Block_Customer_Checkout extends Magento_Core_Block_Te
     /**
      * Get current checkout session
      *
-     * @return Magento_Checkout_Model_Session
+     * @return \Magento\Checkout\Model\Session
      */
     protected function _getCheckoutSession()
     {
@@ -145,7 +147,7 @@ class Magento_GiftRegistry_Block_Customer_Checkout extends Magento_Core_Block_Te
     /**
      * Get select shipping address id prefix
      *
-     * @return Magento_Checkout_Model_Session
+     * @return \Magento\Checkout\Model\Session
      */
     public function getAddressIdPrefix()
     {

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Route_Config_Reader extends Magento_Config_Reader_Filesystem
+namespace Magento\Core\Model\Route\Config;
+
+class Reader extends \Magento\Config\Reader\Filesystem
 {
     /**
      * List of paths to identifiable nodes
@@ -21,17 +23,17 @@ class Magento_Core_Model_Route_Config_Reader extends Magento_Config_Reader_Files
     );
 
     /**
-     * @param Magento_Config_FileResolverInterface $fileResolver
-     * @param Magento_Core_Model_Route_Config_Converter $converter
-     * @param Magento_Core_Model_Route_Config_SchemaLocator $schemaLocator
-     * @param Magento_Config_ValidationStateInterface $validationState
+     * @param \Magento\Config\FileResolverInterface $fileResolver
+     * @param \Magento\Core\Model\Route\Config\Converter $converter
+     * @param \Magento\Core\Model\Route\Config\SchemaLocator $schemaLocator
+     * @param \Magento\Config\ValidationStateInterface $validationState
      * @param string $fileName
      */
     public function __construct(
-        Magento_Config_FileResolverInterface $fileResolver,
-        Magento_Core_Model_Route_Config_Converter $converter,
-        Magento_Core_Model_Route_Config_SchemaLocator $schemaLocator,
-        Magento_Config_ValidationStateInterface $validationState,
+        \Magento\Config\FileResolverInterface $fileResolver,
+        \Magento\Core\Model\Route\Config\Converter $converter,
+        \Magento\Core\Model\Route\Config\SchemaLocator $schemaLocator,
+        \Magento\Config\ValidationStateInterface $validationState,
         $fileName = 'routes.xml'
     ) {
         parent::__construct($fileResolver, $converter, $schemaLocator, $validationState, $fileName,

@@ -11,26 +11,28 @@
 /**
  * Configuration for reports
  */
-class Magento_Reports_Model_Config extends Magento_Object
+namespace Magento\Reports\Model;
+
+class Config extends \Magento\Object
 {
     /**
-     * @var Magento_Core_Model_Config_Modules_Reader
+     * @var \Magento\Core\Model\Config\Modules\Reader
      */
     protected $_moduleReader;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Config\Modules\Reader $moduleReader
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Config_Modules_Reader $moduleReader,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Config\Modules\Reader $moduleReader,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         parent::__construct($data);
@@ -40,7 +42,7 @@ class Magento_Reports_Model_Config extends Magento_Object
 
     public function getGlobalConfig()
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->load($this->_moduleReader->getModuleDir('etc', 'Magento_Reports') . DS . 'flexConfig.xml');
 
         $baseUrl = $dom->createElement('baseUrl');

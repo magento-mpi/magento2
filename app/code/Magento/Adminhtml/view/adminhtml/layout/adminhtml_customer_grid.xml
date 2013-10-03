@@ -10,6 +10,6 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="formkey"/>
     <container name="root" label="Root" output="1">
-        <block class="Magento_Adminhtml_Block_Customer_Grid" name="admin.customer.grid"/>
+        <block class="Magento\Adminhtml\Block\Customer\Grid" name="admin.customer.grid"/>
     </container>
 </layout>

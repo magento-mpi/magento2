@@ -17,17 +17,18 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Form
-    extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit;
+
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Preparing from for revision page
      *
-     * @return Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Form
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Form
      */
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id' => 'edit_form',

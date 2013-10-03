@@ -11,34 +11,36 @@
 /**
  * Customer reviews controller
  */
-class Magento_Rss_Controller_Order extends Magento_Core_Controller_Front_Action
+namespace Magento\Rss\Controller;
+
+class Order extends \Magento\Core\Controller\Front\Action
 {
     /**
-     * @var Magento_Core_Model_Config_Scope
+     * @var \Magento\Core\Model\Config\Scope
      */
     protected $_configScope;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @param Magento_Core_Controller_Varien_Action_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Core_Model_Config_Scope $configScope
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\Config\Scope $configScope
      */
     public function __construct(
-        Magento_Core_Controller_Varien_Action_Context $context,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Model_Config_Scope $configScope
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\Config\Scope $configScope
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_configScope = $configScope;
@@ -49,7 +51,7 @@ class Magento_Rss_Controller_Order extends Magento_Core_Controller_Front_Action
     public function preDispatch()
     {
         if ('new' === $this->getRequest()->getActionName()) {
-            $this->_configScope->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
+            $this->_configScope->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
             if (!$this->authenticateAndAuthorizeAdmin('Magento_Sales::sales_order', $this->_logger)) {
                 return;
             }
@@ -69,7 +71,7 @@ class Magento_Rss_Controller_Order extends Magento_Core_Controller_Front_Action
      */
     public function statusAction()
     {
-        $order = $this->_objectManager->get('Magento_Rss_Helper_Order')
+        $order = $this->_objectManager->get('Magento\Rss\Helper\Order')
             ->getOrderByStatusUrlKey((string)$this->getRequest()->getParam('data'));
 
         if (!is_null($order)) {

@@ -14,12 +14,12 @@
         </action>
     </referenceBlock>
     <referenceContainer name="content">
-        <block class="Magento_Sales_Block_Order_Info" as="info" name="sales.order.info">
-            <block class="Magento_Sales_Block_Order_Info_Buttons" as="buttons" name="sales.order.info.buttons">
-                <block class="Magento_Rma_Block_Order_Button" name="magento.rma.info.button" template="order/button.phtml"/>
+        <block class="Magento\Sales\Block\Order\Info" as="info" name="sales.order.info">
+            <block class="Magento\Sales\Block\Order\Info\Buttons" as="buttons" name="sales.order.info.buttons">
+                <block class="Magento\Rma\Block\Order\Button" name="magento.rma.info.button" template="order/button.phtml"/>
             </block>
         </block>
-        <block class="Magento_Rma_Block_Return_Returns" name="rma.return.returns"/>
+        <block class="Magento\Rma\Block\Returns\Returns" name="rma.returns.returns"/>
     </referenceContainer>
     <update handle="sales_order_info_rma_guest_links"/>
 </layout>

@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCardAccount_Controller_Adminhtml_Giftcardaccount extends Magento_Adminhtml_Controller_Action
+namespace Magento\GiftCardAccount\Controller\Adminhtml;
+
+class Giftcardaccount extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Defines if status message of code pool is show
@@ -20,17 +22,17 @@ class Magento_GiftCardAccount_Controller_Adminhtml_Giftcardaccount extends Magen
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -44,9 +46,9 @@ class Magento_GiftCardAccount_Controller_Adminhtml_Giftcardaccount extends Magen
         $this->_title(__('Gift Card Accounts'));
 
         if ($this->_showCodePoolStatusMessage) {
-            $usage = $this->_objectManager->create('Magento_GiftCardAccount_Model_Pool')->getPoolUsageInfo();
+            $usage = $this->_objectManager->create('Magento\GiftCardAccount\Model\Pool')->getPoolUsageInfo();
 
-            $url = $this->_objectManager->get('Magento_Backend_Model_Url')->getUrl('*/*/generate');
+            $url = $this->_objectManager->get('Magento\Backend\Model\Url')->getUrl('*/*/generate');
             $notice = __('Code Pool used: <b>%1%%</b> (free <b>%2</b> of <b>%3</b> total). Generate new code pool <a href="%4">here</a>.', $usage->getPercent(), $usage->getFree(), $usage->getTotal(), $url);
             if ($usage->getPercent() == 100) {
                 $this->_getSession()->addError($notice);
@@ -95,11 +97,11 @@ class Magento_GiftCardAccount_Controller_Adminhtml_Giftcardaccount extends Magen
             ->_addBreadcrumb($id ? __('Edit Gift Card Account') : __('New Gift Card Account'),
                              $id ? __('Edit Gift Card Account') : __('New Gift Card Account'))
             ->_addContent(
-                $this->getLayout()->createBlock('Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit')
+                $this->getLayout()->createBlock('Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit')
                     ->setData('form_action_url', $this->getUrl('*/*/save'))
             )
             ->_addLeft(
-                $this->getLayout()->createBlock('Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tabs')
+                $this->getLayout()->createBlock('Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tabs')
             )
             ->_setActiveMenu('Magento_GiftCardAccount::customer_giftcardaccount')
             ->renderLayout();
@@ -123,8 +125,8 @@ class Magento_GiftCardAccount_Controller_Adminhtml_Giftcardaccount extends Magen
                 return;
             }
 
-            if ($this->_objectManager->get('Magento_Core_Model_StoreManager')->isSingleStoreMode()) {
-                $data['website_id'] = $this->_objectManager->get('Magento_Core_Model_StoreManager')->getStore(true)
+            if ($this->_objectManager->get('Magento\Core\Model\StoreManager')->isSingleStoreMode()) {
+                $data['website_id'] = $this->_objectManager->get('Magento\Core\Model\StoreManager')->getStore(true)
                     ->getWebsiteId();
             }
 
@@ -147,7 +149,7 @@ class Magento_GiftCardAccount_Controller_Adminhtml_Giftcardaccount extends Magen
                         } else {
                             $status = true;
                         }
-                    } catch (Exception $e) {
+                    } catch (\Exception $e) {
                         $sending = false;
                     }
                 }
@@ -178,7 +180,7 @@ class Magento_GiftCardAccount_Controller_Adminhtml_Giftcardaccount extends Magen
                 $this->_redirect('*/*/');
                 return;
 
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // display error message
                 $this->_getSession()->addError($e->getMessage());
                 // save data in session
@@ -201,7 +203,7 @@ class Magento_GiftCardAccount_Controller_Adminhtml_Giftcardaccount extends Magen
         if ($id) {
             try {
                 // init model and delete
-                $model = $this->_objectManager->create('Magento_GiftCardAccount_Model_Giftcardaccount');
+                $model = $this->_objectManager->create('Magento\GiftCardAccount\Model\Giftcardaccount');
                 $model->load($id);
                 $model->delete();
                 // display success message
@@ -210,7 +212,7 @@ class Magento_GiftCardAccount_Controller_Adminhtml_Giftcardaccount extends Magen
                 $this->_redirect('*/*/');
                 return;
 
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // display error message
                 $this->_getSession()->addError($e->getMessage());
                 // go back to edit form
@@ -239,11 +241,11 @@ class Magento_GiftCardAccount_Controller_Adminhtml_Giftcardaccount extends Magen
     public function generateAction()
     {
         try {
-            $this->_objectManager->create('Magento_GiftCardAccount_Model_Pool')->generatePool();
+            $this->_objectManager->create('Magento\GiftCardAccount\Model\Pool')->generatePool();
             $this->_getSession()->addSuccess(__('New code pool was generated.'));
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getSession()->addException($e, __('We were unable to generate a new code pool.'));
         }
         $this->_redirectReferer('*/*/');
@@ -273,7 +275,7 @@ class Magento_GiftCardAccount_Controller_Adminhtml_Giftcardaccount extends Magen
         $this->loadLayout();
         $this->getResponse()->setBody(
             $this->getLayout()
-                ->createBlock('Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_History')
+                ->createBlock('Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\History')
                 ->toHtml()
         );
     }
@@ -282,14 +284,14 @@ class Magento_GiftCardAccount_Controller_Adminhtml_Giftcardaccount extends Magen
      * Load GCA from request
      *
      * @param string $idFieldName
-     * @return Magento_GiftCardAccount_Model_Giftcardaccount
+     * @return \Magento\GiftCardAccount\Model\Giftcardaccount
      */
     protected function _initGca($idFieldName = 'id')
     {
         $this->_title(__('Gift Card Accounts'));
 
         $id = (int)$this->getRequest()->getParam($idFieldName);
-        $model = $this->_objectManager->create('Magento_GiftCardAccount_Model_Giftcardaccount');
+        $model = $this->_objectManager->create('Magento\GiftCardAccount\Model\Giftcardaccount');
         if ($id) {
             $model->load($id);
         }
@@ -304,7 +306,7 @@ class Magento_GiftCardAccount_Controller_Adminhtml_Giftcardaccount extends Magen
     {
         $this->loadLayout();
         $fileName = 'giftcardaccounts.xml';
-        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
+        /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('gift.card.account.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
     }
@@ -316,7 +318,7 @@ class Magento_GiftCardAccount_Controller_Adminhtml_Giftcardaccount extends Magen
     {
         $this->loadLayout();
         $fileName = 'giftcardaccounts.csv';
-        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
+        /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('gift.card.account.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile($fileName));
     }
@@ -332,14 +334,14 @@ class Magento_GiftCardAccount_Controller_Adminhtml_Giftcardaccount extends Magen
         } else {
             try {
                 foreach ($ids as $id) {
-                    $model = $this->_objectManager->create('Magento_GiftCardAccount_Model_Giftcardaccount')->load($id);
+                    $model = $this->_objectManager->create('Magento\GiftCardAccount\Model\Giftcardaccount')->load($id);
                     $model->delete();
                 }
 
                 $this->_getSession()->addSuccess(
                     __('You deleted a total of %1 records.', count($ids))
                 );
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             }
         }

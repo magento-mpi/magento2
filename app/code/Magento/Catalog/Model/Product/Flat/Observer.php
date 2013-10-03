@@ -14,40 +14,42 @@
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Magento_Catalog_Model_Product_Flat_Observer
+namespace Magento\Catalog\Model\Product\Flat;
+
+class Observer
 {
     /**
      * Catalog product flat
      *
-     * @var Magento_Catalog_Helper_Product_Flat
+     * @var \Magento\Catalog\Helper\Product\Flat
      */
     protected $_catalogProductFlat = null;
 
     /**
      * Catalog product flat indexer
      *
-     * @var Magento_Catalog_Model_Product_Flat_Indexer
+     * @var \Magento\Catalog\Model\Product\Flat\Indexer
      */
     protected $_catalogProductFlatIndexer;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Model_Product_Flat_Indexer $catalogProductFlatIndexer
-     * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Product\Flat\Indexer $catalogProductFlatIndexer
+     * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Model_Product_Flat_Indexer $catalogProductFlatIndexer,
-        Magento_Catalog_Helper_Product_Flat $catalogProductFlat
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Product\Flat\Indexer $catalogProductFlatIndexer,
+        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
     ) {
         $this->_storeManager = $storeManager;
         $this->_catalogProductFlatIndexer = $catalogProductFlatIndexer;
@@ -57,7 +59,7 @@ class Magento_Catalog_Model_Product_Flat_Observer
     /**
      * Retrieve Catalog Product Flat Helper
      *
-     * @return Magento_Catalog_Helper_Product_Flat
+     * @return \Magento\Catalog\Helper\Product\Flat
      */
     protected function _getHelper()
     {
@@ -67,7 +69,7 @@ class Magento_Catalog_Model_Product_Flat_Observer
     /**
      * Retrieve Catalog Product Flat Indexer model
      *
-     * @return Magento_Catalog_Model_Product_Flat_Indexer
+     * @return \Magento\Catalog\Model\Product\Flat\Indexer
      */
     protected function _getIndexer() {
         return $this->_catalogProductFlatIndexer;
@@ -76,17 +78,17 @@ class Magento_Catalog_Model_Product_Flat_Observer
     /**
      * Catalog Entity attribute after save process
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_Catalog_Model_Product_Flat_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\Catalog\Model\Product\Flat\Observer
      */
-    public function catalogEntityAttributeSaveAfter(Magento_Event_Observer $observer)
+    public function catalogEntityAttributeSaveAfter(\Magento\Event\Observer $observer)
     {
         if (!$this->_getHelper()->isAvailable() || !$this->_getHelper()->isBuilt()) {
             return $this;
         }
 
         $attribute = $observer->getEvent()->getAttribute();
-        /* @var $attribute Magento_Catalog_Model_Entity_Attribute */
+        /* @var $attribute \Magento\Catalog\Model\Entity\Attribute */
 
         $enableBefore   = ($attribute->getOrigData('backend_type') == 'static')
             || ($this->_getHelper()->isAddFilterableAttributes() && $attribute->getOrigData('is_filterable') > 0)
@@ -115,10 +117,10 @@ class Magento_Catalog_Model_Product_Flat_Observer
     /**
      * Catalog Product Status Update
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_Catalog_Model_Product_Flat_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\Catalog\Model\Product\Flat\Observer
      */
-    public function catalogProductStatusUpdate(Magento_Event_Observer $observer)
+    public function catalogProductStatusUpdate(\Magento\Event\Observer $observer)
     {
         if (!$this->_getHelper()->isAvailable() || !$this->_getHelper()->isBuilt()) {
             return $this;
@@ -137,10 +139,10 @@ class Magento_Catalog_Model_Product_Flat_Observer
     /**
      * Catalog Product Website(s) update
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_Catalog_Model_Product_Flat_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\Catalog\Model\Product\Flat\Observer
      */
-    public function catalogProductWebsiteUpdate(Magento_Event_Observer $observer)
+    public function catalogProductWebsiteUpdate(\Magento\Event\Observer $observer)
     {
         if (!$this->_getHelper()->isAvailable() || !$this->_getHelper()->isBuilt()) {
             return $this;
@@ -167,10 +169,10 @@ class Magento_Catalog_Model_Product_Flat_Observer
     /**
      * Catalog Product After Save
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_Catalog_Model_Product_Flat_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\Catalog\Model\Product\Flat\Observer
      */
-    public function catalogProductSaveAfter(Magento_Event_Observer $observer) {
+    public function catalogProductSaveAfter(\Magento\Event\Observer $observer) {
         if (!$this->_getHelper()->isAvailable() || !$this->_getHelper()->isBuilt()) {
             return $this;
         }
@@ -186,17 +188,17 @@ class Magento_Catalog_Model_Product_Flat_Observer
     /**
      * Add new store flat process
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_Catalog_Model_Product_Flat_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\Catalog\Model\Product\Flat\Observer
      */
-    public function storeAdd(Magento_Event_Observer $observer)
+    public function storeAdd(\Magento\Event\Observer $observer)
     {
         if (!$this->_getHelper()->isAvailable() || !$this->_getHelper()->isBuilt()) {
             return $this;
         }
 
         $store = $observer->getEvent()->getStore();
-        /* @var $store Magento_Core_Model_Store */
+        /* @var $store \Magento\Core\Model\Store */
         $this->_getIndexer()->rebuild($store->getId());
 
         return $this;
@@ -205,17 +207,17 @@ class Magento_Catalog_Model_Product_Flat_Observer
     /**
      * Store edit action, check change store group
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_Catalog_Model_Product_Flat_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\Catalog\Model\Product\Flat\Observer
      */
-    public function storeEdit(Magento_Event_Observer $observer)
+    public function storeEdit(\Magento\Event\Observer $observer)
     {
         if (!$this->_getHelper()->isAvailable() || !$this->_getHelper()->isBuilt()) {
             return $this;
         }
 
         $store = $observer->getEvent()->getStore();
-        /* @var $store Magento_Core_Model_Store */
+        /* @var $store \Magento\Core\Model\Store */
         if ($store->dataHasChangedFor('group_id')) {
             $this->_getIndexer()->rebuild($store->getId());
         }
@@ -226,17 +228,17 @@ class Magento_Catalog_Model_Product_Flat_Observer
     /**
      * Store delete after process
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_Catalog_Model_Product_Flat_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\Catalog\Model\Product\Flat\Observer
      */
-    public function storeDelete(Magento_Event_Observer $observer)
+    public function storeDelete(\Magento\Event\Observer $observer)
     {
         if (!$this->_getHelper()->isAvailable() || !$this->_getHelper()->isBuilt()) {
             return $this;
         }
 
         $store = $observer->getEvent()->getStore();
-        /* @var $store Magento_Core_Model_Store */
+        /* @var $store \Magento\Core\Model\Store */
 
         $this->_getIndexer()->deleteStore($store->getId());
 
@@ -246,21 +248,21 @@ class Magento_Catalog_Model_Product_Flat_Observer
     /**
      * Store Group Save process
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_Catalog_Model_Product_Flat_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\Catalog\Model\Product\Flat\Observer
      */
-    public function storeGroupSave(Magento_Event_Observer $observer)
+    public function storeGroupSave(\Magento\Event\Observer $observer)
     {
         if (!$this->_getHelper()->isAvailable() || !$this->_getHelper()->isBuilt()) {
             return $this;
         }
 
         $group = $observer->getEvent()->getGroup();
-        /* @var $group Magento_Core_Model_Store_Group */
+        /* @var $group \Magento\Core\Model\Store\Group */
 
         if ($group->dataHasChangedFor('website_id')) {
             foreach ($group->getStores() as $store) {
-                /* @var $store Magento_Core_Model_Store */
+                /* @var $store \Magento\Core\Model\Store */
                 $this->_getIndexer()->rebuild($store->getId());
             }
         }
@@ -271,10 +273,10 @@ class Magento_Catalog_Model_Product_Flat_Observer
     /**
      * Catalog Product Import After process
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_Catalog_Model_Product_Flat_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\Catalog\Model\Product\Flat\Observer
      */
-    public function catalogProductImportAfter(Magento_Event_Observer $observer)
+    public function catalogProductImportAfter(\Magento\Event\Observer $observer)
     {
         if (!$this->_getHelper()->isAvailable() || !$this->_getHelper()->isBuilt()) {
             return $this;
@@ -288,17 +290,17 @@ class Magento_Catalog_Model_Product_Flat_Observer
     /**
      * Customer Group save after process
      *
-     * @param Magento_Event_Observer_Collection $observer
-     * @return Magento_Catalog_Model_Product_Flat_Observer
+     * @param \Magento\Event\Observer\Collection $observer
+     * @return \Magento\Catalog\Model\Product\Flat\Observer
      */
-    public function customerGroupSaveAfter(Magento_Event_Observer $observer)
+    public function customerGroupSaveAfter(\Magento\Event\Observer $observer)
     {
         if (!$this->_getHelper()->isAvailable() || !$this->_getHelper()->isBuilt()) {
             return $this;
         }
 
         $customerGroup = $observer->getEvent()->getObject();
-        /* @var $customerGroup Magento_Customer_Model_Group */
+        /* @var $customerGroup \Magento\Customer\Model\Group */
         if ($customerGroup->dataHasChangedFor($customerGroup->getIdFieldName())
             || $customerGroup->dataHasChangedFor('tax_class_id')) {
             $this->_getIndexer()->updateEventAttributes();

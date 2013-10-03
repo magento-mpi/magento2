@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Webapi_User_Factory
+namespace Magento\Webhook\Model\Webapi\User;
+
+class Factory
 {
     /** Keys used in user context array */
     const CONTEXT_EMAIL = 'email';
@@ -20,39 +22,39 @@ class Magento_Webhook_Model_Webapi_User_Factory
     /** name delimiter */
     const NAME_DELIM = ' - ';
 
-    /** @var Magento_Webapi_Model_Acl_Rule_Factory  */
+    /** @var \Magento\Webapi\Model\Acl\Rule\Factory  */
     private $_ruleFactory;
 
-    /** @var Magento_Webapi_Model_Acl_User_Factory  */
+    /** @var \Magento\Webapi\Model\Acl\User\Factory  */
     private $_userFactory;
 
-    /** @var Magento_Webapi_Model_Acl_Role_Factory  */
+    /** @var \Magento\Webapi\Model\Acl\Role\Factory  */
     private $_roleFactory;
 
     /** @var array virtual resource to resource mapping  */
     private $_topicMapping = array();
 
-    /** @var Magento_Acl_CacheInterface  */
+    /** @var \Magento\Acl\CacheInterface  */
     protected $_cache;
 
-    /** @var Magento_Core_Helper_Data  */
+    /** @var \Magento\Core\Helper\Data  */
     private $_coreHelper;
 
     /**
-     * @param Magento_Webapi_Model_Acl_Rule_Factory $ruleFactory
-     * @param Magento_Webapi_Model_Acl_User_Factory $userFactory
-     * @param Magento_Webapi_Model_Acl_Role_Factory $roleFactory
-     * @param Magento_Webapi_Model_Acl_Resource_Provider $resourceProvider
-     * @param Magento_Webapi_Model_Acl_Cache $cache
-     * @param Magento_Core_Helper_Data $coreHelper
+     * @param \Magento\Webapi\Model\Acl\Rule\Factory $ruleFactory
+     * @param \Magento\Webapi\Model\Acl\User\Factory $userFactory
+     * @param \Magento\Webapi\Model\Acl\Role\Factory $roleFactory
+     * @param \Magento\Webapi\Model\Acl\Resource\Provider $resourceProvider
+     * @param \Magento\Webapi\Model\Acl\Cache $cache
+     * @param \Magento\Core\Helper\Data $coreHelper
      */
     public function __construct(
-        Magento_Webapi_Model_Acl_Rule_Factory $ruleFactory,
-        Magento_Webapi_Model_Acl_User_Factory $userFactory,
-        Magento_Webapi_Model_Acl_Role_Factory $roleFactory,
-        Magento_Webapi_Model_Acl_Resource_Provider $resourceProvider,
-        Magento_Webapi_Model_Acl_Cache $cache,
-        Magento_Core_Helper_Data $coreHelper
+        \Magento\Webapi\Model\Acl\Rule\Factory $ruleFactory,
+        \Magento\Webapi\Model\Acl\User\Factory $userFactory,
+        \Magento\Webapi\Model\Acl\Role\Factory $roleFactory,
+        \Magento\Webapi\Model\Acl\Resource\Provider $resourceProvider,
+        \Magento\Webapi\Model\Acl\Cache $cache,
+        \Magento\Core\Helper\Data $coreHelper
     ) {
         $this->_ruleFactory = $ruleFactory;
         $this->_userFactory = $userFactory;
@@ -68,7 +70,7 @@ class Magento_Webhook_Model_Webapi_User_Factory
      * @param array $userContext Information needed to create a user: email, company, secret, key
      * @param array $topics Resources the user should have access to
      * @return int Webapi user id
-     * @throws Exception If a new user can't be created (because of DB issues for instance)
+     * @throws \Exception If a new user can't be created (because of DB issues for instance)
      */
     public function createUser(array $userContext, array $topics)
     {
@@ -82,7 +84,7 @@ class Magento_Webhook_Model_Webapi_User_Factory
         try {
             $this->_createWebapiRule($topics, $role->getId());
             $user = $this->_createWebapiUser($userContext, $role);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $role->delete();
             throw $e;
         }
@@ -91,11 +93,11 @@ class Magento_Webhook_Model_Webapi_User_Factory
     }
 
     /**
-     * Creates a new Magento_Webapi_Model_Acl_Role role with a unique name
+     * Creates a new \Magento\Webapi\Model\Acl\Role role with a unique name
      *
      * @param string $email
      * @param string $company
-     * @return Magento_Webapi_Model_Acl_Role
+     * @return \Magento\Webapi\Model\Acl\Role
      */
     protected function _createWebapiRole($email, $company)
     {
@@ -150,8 +152,8 @@ class Magento_Webhook_Model_Webapi_User_Factory
      * Creates a webapi User in the DB
      *
      * @param array $userContext
-     * @param Magento_Webapi_Model_Acl_Role $role
-     * @return Magento_Core_Model_Abstract
+     * @param \Magento\Webapi\Model\Acl\Role $role
+     * @return \Magento\Core\Model\AbstractModel
      */
     protected function _createWebapiUser(array $userContext, $role)
     {
@@ -191,10 +193,10 @@ class Magento_Webhook_Model_Webapi_User_Factory
     /**
      * Initialize our virtual resource to merchant visible resource mapping array.
      *
-     * @param Magento_Webapi_Model_Acl_Resource_Provider $resourceProvider
+     * @param \Magento\Webapi\Model\Acl\Resource\Provider $resourceProvider
      */
     protected function _initVirtualResourceMapping(
-        Magento_Webapi_Model_Acl_Resource_Provider $resourceProvider
+        \Magento\Webapi\Model\Acl\Resource\Provider $resourceProvider
     ) {
         $virtualResources = $resourceProvider->getAclVirtualResources();
         foreach ($virtualResources as $resource) {

@@ -5,25 +5,27 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Invitation_Model_Plugin_CustomerRegistration
+namespace Magento\Invitation\Model\Plugin;
+
+class CustomerRegistration
 {
     /**
-     * @var Magento_Invitation_Model_Config
+     * @var \Magento\Invitation\Model\Config
      */
     protected $_invitationConfig;
 
     /**
-     * @var Magento_Invitation_Helper_Data
+     * @var \Magento\Invitation\Helper\Data
      */
     protected $_invitationHelper;
 
     /**
-     * @param Magento_Invitation_Model_Config $invitationConfig
-     * @param Magento_Invitation_Helper_Data $invitationHelper
+     * @param \Magento\Invitation\Model\Config $invitationConfig
+     * @param \Magento\Invitation\Helper\Data $invitationHelper
      */
     public function __construct(
-        Magento_Invitation_Model_Config $invitationConfig,
-        Magento_Invitation_Helper_Data $invitationHelper
+        \Magento\Invitation\Model\Config $invitationConfig,
+        \Magento\Invitation\Helper\Data $invitationHelper
     ) {
         $this->_invitationConfig = $invitationConfig;
         $this->_invitationHelper = $invitationHelper;

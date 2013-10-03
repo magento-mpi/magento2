@@ -11,30 +11,32 @@
 /**
  * Root segment condition (top level condition)
  */
-class Magento_CustomerSegment_Model_Segment_Condition_Combine_Root
-    extends Magento_CustomerSegment_Model_Segment_Condition_Combine
+namespace Magento\CustomerSegment\Model\Segment\Condition\Combine;
+
+class Root
+    extends \Magento\CustomerSegment\Model\Segment\Condition\Combine
 {
     /**
-     * @var Magento_Customer_Model_Config_Share
+     * @var \Magento\Customer\Model\Config\Share
      */
     protected $_configShare;
 
     /**
-     * @param Magento_CustomerSegment_Model_ConditionFactory $conditionFactory
-     * @param Magento_CustomerSegment_Model_Resource_Segment $resourceSegment
-     * @param Magento_Rule_Model_Condition_Context $context
-     * @param Magento_Customer_Model_Config_Share $configShare
+     * @param \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory
+     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
+     * @param \Magento\Rule\Model\Condition\Context $context
+     * @param \Magento\Customer\Model\Config\Share $configShare
      * @param array $data
      */
     public function __construct(
-        Magento_CustomerSegment_Model_ConditionFactory $conditionFactory,
-        Magento_CustomerSegment_Model_Resource_Segment $resourceSegment,
-        Magento_Rule_Model_Condition_Context $context,
-        Magento_Customer_Model_Config_Share $configShare,
+        \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
+        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
+        \Magento\Rule\Model\Condition\Context $context,
+        \Magento\Customer\Model\Config\Share $configShare,
         array $data = array()
     ) {
         parent::__construct($conditionFactory, $resourceSegment, $context, $data);
-        $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Combine_Root');
+        $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Combine\Root');
         $this->_configShare = $configShare;
     }
 
@@ -51,16 +53,16 @@ class Magento_CustomerSegment_Model_Segment_Condition_Combine_Root
     /**
      * Prepare filter condition by customer
      *
-     * @param int|array|Magento_Customer_Model_Customer|Zend_Db_Select $customer
+     * @param int|array|\Magento\Customer\Model\Customer|Zend_Db_Select $customer
      * @param string $fieldName
      * @return string
      */
     protected function _createCustomerFilter($customer, $fieldName)
     {
-        if ($customer instanceof Magento_Customer_Model_Customer) {
+        if ($customer instanceof \Magento\Customer\Model\Customer) {
             $customer = $customer->getId();
-        } else if ($customer instanceof Zend_Db_Select) {
-            $customer = new Zend_Db_Expr($customer);
+        } else if ($customer instanceof \Zend_Db_Select) {
+            $customer = new \Zend_Db_Expr($customer);
         }
 
         return $this->getResource()->quoteInto("{$fieldName} IN (?)", $customer);
@@ -69,9 +71,9 @@ class Magento_CustomerSegment_Model_Segment_Condition_Combine_Root
     /**
      * Prepare base select with limitation by customer
      *
-     * @param   null | array | int | Magento_Customer_Model_Customer $customer
-     * @param   int | Zend_Db_Expr $website
-     * @return  Magento_DB_Select
+     * @param   null | array | int | \Magento\Customer\Model\Customer $customer
+     * @param   int | \Zend_Db_Expr $website
+     * @return  \Magento\DB\Select
      */
     protected function _prepareConditionsSql($customer, $website)
     {
@@ -80,7 +82,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Combine_Root
 
         if ($customer) {
             // For existing customer
-            $select->from($table, new Zend_Db_Expr(1));
+            $select->from($table, new \Zend_Db_Expr(1));
         } else {
             $select->from($table, array('entity_id', 'website_id'));
             if ($customer === null && $this->_configShare->isWebsiteScope()) {

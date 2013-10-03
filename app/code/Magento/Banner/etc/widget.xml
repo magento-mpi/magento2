@@ -9,7 +9,7 @@
 -->
 <widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../../../Magento/Widget/etc/widget.xsd">
-    <widget id="magento_banner" class="Magento_Banner_Block_Widget_Banner"
+    <widget id="magento_banner" class="Magento\Banner\Block\Widget\Banner"
             placeholder_image="Magento_Banner::widget_banner.gif">
         <label translate="true">Banner Rotator</label>
         <description translate="true">Displays Specified or Promotion Banners</description>
@@ -28,7 +28,7 @@
                     </option>
                 </options>
             </parameter>
-            <parameter xsi:type="multiselect" name="types" visible="true" source_model="Magento_Banner_Model_Config">
+            <parameter xsi:type="multiselect" name="types" visible="true" source_model="Magento\Banner\Model\Config">
                 <label translate="true">Restrict by Banner Types</label>
             </parameter>
             <parameter xsi:type="select" name="rotate" visible="true">
@@ -53,7 +53,7 @@
                 <depends>
                     <parameter name="display_mode" value="fixed" />
                 </depends>
-                <block class="Magento_Banner_Block_Adminhtml_Widget_Chooser" />
+                <block class="Magento\Banner\Block\Adminhtml\Widget\Chooser" />
             </parameter>
             <parameter xsi:type="select" name="template" required="true" visible="false">
                 <options>

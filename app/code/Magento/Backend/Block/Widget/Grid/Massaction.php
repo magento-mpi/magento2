@@ -16,7 +16,9 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Block_Widget_Grid_Massaction extends Magento_Backend_Block_Widget_Grid_Massaction_Abstract
+namespace Magento\Backend\Block\Widget\Grid;
+
+class Massaction extends \Magento\Backend\Block\Widget\Grid\Massaction\AbstractMassaction
 {
 
 }

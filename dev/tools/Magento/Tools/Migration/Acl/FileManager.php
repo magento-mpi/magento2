@@ -8,7 +8,9 @@
  * @license    {license_link}
  */
 
-class Magento_Tools_Migration_Acl_FileManager
+namespace Magento\Tools\Migration\Acl;
+
+class FileManager
 {
     /**
      * @param string $fileName

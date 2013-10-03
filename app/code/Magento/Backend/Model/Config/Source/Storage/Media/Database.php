@@ -11,17 +11,19 @@
 /**
  * Generate options for media database selection
  */
-class Magento_Backend_Model_Config_Source_Storage_Media_Database implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Backend\Model\Config\Source\Storage\Media;
+
+class Database implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @var Magento_Core_Model_ConfigInterface
+     * @var \Magento\Core\Model\ConfigInterface
      */
     protected $_config;
 
     /**
-     * @param Magento_Core_Model_ConfigInterface $config
+     * @param \Magento\Core\Model\ConfigInterface $config
      */
-    public function __construct(Magento_Core_Model_ConfigInterface $config)
+    public function __construct(\Magento\Core\Model\ConfigInterface $config)
     {
         $this->_config = $config;
     }

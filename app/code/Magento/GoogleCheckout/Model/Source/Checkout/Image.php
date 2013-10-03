@@ -9,7 +9,9 @@
  */
 
 
-class Magento_GoogleCheckout_Model_Source_Checkout_Image implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\GoogleCheckout\Model\Source\Checkout;
+
+class Image implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray()
     {

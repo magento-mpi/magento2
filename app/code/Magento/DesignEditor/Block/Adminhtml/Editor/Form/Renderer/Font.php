@@ -11,8 +11,10 @@
 /**
  * Composite 'font' element renderer
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Font
-    extends Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer;
+
+class Font
+    extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer
 {
     /**
      * Path to template file in theme.
@@ -28,7 +30,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Font
      */
     public function getClasses()
     {
-        /** @var $element Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Font */
+        /** @var $element \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Font */
         $element = $this->getElement();
 
         $classes = array();

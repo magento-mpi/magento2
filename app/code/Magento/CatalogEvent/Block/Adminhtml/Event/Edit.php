@@ -11,8 +11,10 @@
 /**
  * Catalog Events edit page
  */
-class Magento_CatalogEvent_Block_Adminhtml_Event_Edit
-    extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\CatalogEvent\Block\Adminhtml\Event;
+
+class Edit
+    extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     protected $_objectId = 'id';
     protected $_blockGroup = 'Magento_CatalogEvent';
@@ -21,20 +23,20 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -44,7 +46,7 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit
     /**
      * Prepare catalog event form or category selector
      *
-     * @return Magento_CatalogEvent_Block_Adminhtml_Event_Edit
+     * @return \Magento\CatalogEvent\Block\Adminhtml\Event\Edit
      */
     protected function _prepareLayout()
     {
@@ -72,10 +74,10 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit
         if (!$this->getEvent()->getId() && !$this->getEvent()->getCategoryId()) {
             $this->setChild(
                 'form',
-                $this->getLayout()->createBlock($this->_blockGroup
-                    . '_Block_'
-                    . str_replace(' ', '_', ucwords(str_replace('_', ' ', $this->_controller . '_' . $this->_mode)))
-                    . '_Category',
+                $this->getLayout()->createBlock(str_replace('_', '\\', $this->_blockGroup)
+                    . '\\Block\\'
+                    . str_replace(' ', '\\', ucwords(str_replace('_', ' ', $this->_controller . '_' . $this->_mode)))
+                    . '\Category',
                     $this->getNameInLayout() . 'catalog_event_form'
                 )
             );
@@ -139,7 +141,7 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit
     /**
      * Retrive catalog event model
      *
-     * @return Magento_CatalogEvent_Model_Event
+     * @return \Magento\CatalogEvent\Model\Event
      */
     public function getEvent()
     {

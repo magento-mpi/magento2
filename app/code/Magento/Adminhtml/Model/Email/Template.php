@@ -16,52 +16,54 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Model_Email_Template extends Magento_Core_Model_Email_Template
+namespace Magento\Adminhtml\Model\Email;
+
+class Template extends \Magento\Core\Model\Email\Template
 {
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
     /**
-     * @var Magento_Backend_Model_Config_Structure
+     * @var \Magento\Backend\Model\Config\Structure
      */
     private $_structure;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_App_Emulation $appEmulation
-     * @param Magento_Filesystem $filesystem
-     * @param Magento_Core_Model_View_Url $viewUrl
-     * @param Magento_Core_Model_View_FileSystem $viewFileSystem
-     * @param Magento_Core_Model_View_DesignInterface $design
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Config $coreConfig
-     * @param Magento_Core_Model_Email_Template_FilterFactory $emailFilterFactory
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Dir $dir
-     * @param Magento_Core_Model_Email_Template_Config $emailConfig
-     * @param Magento_Backend_Model_Config_Structure $structure
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\App\Emulation $appEmulation
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
+     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Core\Model\Email\Template\FilterFactory $emailFilterFactory
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\Core\Model\Email\Template\Config $emailConfig
+     * @param \Magento\Backend\Model\Config\Structure $structure
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_App_Emulation $appEmulation,
-        Magento_Filesystem $filesystem,
-        Magento_Core_Model_View_Url $viewUrl,
-        Magento_Core_Model_View_FileSystem $viewFileSystem,
-        Magento_Core_Model_View_DesignInterface $design,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Config $coreConfig,
-        Magento_Core_Model_Email_Template_FilterFactory $emailFilterFactory,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Dir $dir,
-        Magento_Core_Model_Email_Template_Config $emailConfig,
-        Magento_Backend_Model_Config_Structure $structure,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\App\Emulation $appEmulation,
+        \Magento\Filesystem $filesystem,
+        \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\Core\Model\View\FileSystem $viewFileSystem,
+        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Core\Model\Email\Template\FilterFactory $emailFilterFactory,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Dir $dir,
+        \Magento\Core\Model\Email\Template\Config $emailConfig,
+        \Magento\Backend\Model\Config\Structure $structure,
         array $data = array()
     ) {
         parent::__construct(
@@ -140,7 +142,7 @@ class Magento_Adminhtml_Model_Email_Template extends Magento_Core_Model_Email_Te
         }
 
         $templatePaths = $this->_structure
-            ->getFieldPathsByAttribute('source_model', 'Magento_Backend_Model_Config_Source_Email_Template');
+            ->getFieldPathsByAttribute('source_model', 'Magento\Backend\Model\Config\Source\Email\Template');
 
         if (!count($templatePaths)) {
             return array();

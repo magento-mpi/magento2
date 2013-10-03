@@ -11,22 +11,24 @@
 /**
  * Resource Setup Model
  */
-class Magento_VersionsCms_Model_Resource_Setup extends Magento_Core_Model_Resource_Setup
+namespace Magento\VersionsCms\Model\Resource;
+
+class Setup extends \Magento\Core\Model\Resource\Setup
 {
     /**
-     * @var Magento_Core_Model_Date
+     * @var \Magento\Core\Model\Date
      */
     protected $_coreDate;
 
     /**
-     * @var Magento_Enterprise_Model_Resource_Setup_MigrationFactory
+     * @var \Magento\Enterprise\Model\Resource\Setup\MigrationFactory
      */
     protected $_entMigrationFactory;
 
     /**
-     * @param Magento_Core_Model_Resource_Setup_Context $context
-     * @param Magento_Core_Model_Date $coreDate
-     * @param Magento_Enterprise_Model_Resource_Setup_MigrationFactory $entMigrationFactory
+     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Core\Model\Date $coreDate
+     * @param \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $entMigrationFactory
      * @param string $resourceName
      * @param $moduleName
      * @param string $connectionName
@@ -34,9 +36,9 @@ class Magento_VersionsCms_Model_Resource_Setup extends Magento_Core_Model_Resour
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_Resource_Setup_Context $context,
-        Magento_Core_Model_Date $coreDate,
-        Magento_Enterprise_Model_Resource_Setup_MigrationFactory $entMigrationFactory,
+        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Core\Model\Date $coreDate,
+        \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $entMigrationFactory,
         $resourceName,
         $moduleName = 'Magento_VersionsCms',
         $connectionName = ''

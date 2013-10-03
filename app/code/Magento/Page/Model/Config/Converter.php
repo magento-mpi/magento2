@@ -7,7 +7,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Page_Model_Config_Converter implements Magento_Config_ConverterInterface
+namespace Magento\Page\Model\Config;
+
+class Converter implements \Magento\Config\ConverterInterface
 {
     /**
      * {@inheritdoc}
@@ -15,7 +17,7 @@ class Magento_Page_Model_Config_Converter implements Magento_Config_ConverterInt
     public function convert($source)
     {
         $pageLayouts = array();
-        $xpath = new DOMXPath($source);
+        $xpath = new \DOMXPath($source);
 
         $defaultLayout = $xpath->query('/page_layouts/layouts')->item(0)->getAttribute('default');
 

@@ -7,25 +7,27 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Module_Dir_ReverseResolver
+namespace Magento\Core\Model\Module\Dir;
+
+class ReverseResolver
 {
     /**
-     * @var Magento_Core_Model_ModuleListInterface
+     * @var \Magento\Core\Model\ModuleListInterface
      */
     protected $_moduleList;
 
     /**
-     * @var Magento_Core_Model_Module_Dir
+     * @var \Magento\Core\Model\Module\Dir
      */
     protected $_moduleDirs;
 
     /**
-     * @param Magento_Core_Model_ModuleListInterface $moduleList
-     * @param Magento_Core_Model_Module_Dir $moduleDirs
+     * @param \Magento\Core\Model\ModuleListInterface $moduleList
+     * @param \Magento\Core\Model\Module\Dir $moduleDirs
      */
     public function __construct(
-        Magento_Core_Model_ModuleListInterface $moduleList,
-        Magento_Core_Model_Module_Dir $moduleDirs
+        \Magento\Core\Model\ModuleListInterface $moduleList,
+        \Magento\Core\Model\Module\Dir $moduleDirs
     ) {
         $this->_moduleList = $moduleList;
         $this->_moduleDirs = $moduleDirs;

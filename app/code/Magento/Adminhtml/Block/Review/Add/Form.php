@@ -16,36 +16,38 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Review_Add_Form extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\Adminhtml\Block\Review\Add;
+
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Review data
      *
-     * @var Magento_Review_Helper_Data
+     * @var \Magento\Review\Helper\Data
      */
     protected $_reviewData = null;
 
     /**
-     * @var Magento_Core_Model_System_Store
+     * @var \Magento\Core\Model\System\Store
      */
     protected $_systemStore;
 
     /**
-     * @param Magento_Core_Model_System_Store $systemStore
-     * @param Magento_Review_Helper_Data $reviewData
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Review\Helper\Data $reviewData
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_System_Store $systemStore,
-        Magento_Review_Helper_Data $reviewData,
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Review\Helper\Data $reviewData,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_reviewData = $reviewData;
@@ -55,7 +57,7 @@ class Magento_Adminhtml_Block_Review_Add_Form extends Magento_Backend_Block_Widg
 
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form   = $this->_formFactory->create();
 
         $fieldset = $form->addFieldset('add_review_form', array('legend' => __('Review Details')));
@@ -69,7 +71,7 @@ class Magento_Adminhtml_Block_Review_Add_Form extends Magento_Backend_Block_Widg
             'label'     => __('Product Rating'),
             'required'  => true,
             'text'      => '<div id="rating_detail">'
-                . $this->getLayout()->createBlock('Magento_Adminhtml_Block_Review_Rating_Detailed')->toHtml()
+                . $this->getLayout()->createBlock('Magento\Adminhtml\Block\Review\Rating\Detailed')->toHtml()
                 . '</div>',
         ));
 
@@ -91,7 +93,7 @@ class Magento_Adminhtml_Block_Review_Add_Form extends Magento_Backend_Block_Widg
                 'values'    => $this->_systemStore->getStoreValuesForForm(),
             ));
             $renderer = $this->getLayout()
-                ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+                ->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
         }
 
@@ -125,7 +127,7 @@ class Magento_Adminhtml_Block_Review_Add_Form extends Magento_Backend_Block_Widg
 
         /*$gridFieldset = $form->addFieldset('add_review_grid', array('legend' => __('Please select a product')));
         $gridFieldset->addField('products_grid', 'note', array(
-            'text' => $this->getLayout()->createBlock('Magento_Adminhtml_Block_Review_Product_Grid')->toHtml(),
+            'text' => $this->getLayout()->createBlock('Magento\Adminhtml\Block\Review\Product\Grid')->toHtml(),
         ));*/
 
         $form->setMethod('post');

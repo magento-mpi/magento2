@@ -5,8 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Backend_Block_Widget_Grid_Column_Renderer_Checkboxes_Extended
-    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Checkbox
+namespace Magento\Backend\Block\Widget\Grid\Column\Renderer\Checkboxes;
+
+class Extended
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Checkbox
 {
     /**
      * Prepare data for renderer

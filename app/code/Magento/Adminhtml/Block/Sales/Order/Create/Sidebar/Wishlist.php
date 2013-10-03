@@ -15,8 +15,10 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Wishlist
-    extends Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract
+namespace Magento\Adminhtml\Block\Sales\Order\Create\Sidebar;
+
+class Wishlist
+    extends \Magento\Adminhtml\Block\Sales\Order\Create\Sidebar\AbstractSidebar
 {
     /**
      * Storage action on selected item
@@ -75,7 +77,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Wishlist
     /**
      * Retrieve product identifier linked with item
      *
-     * @param   Magento_Wishlist_Model_Item $item
+     * @param   \Magento\Wishlist\Model\Item $item
      * @return  int
      */
     public function getProductId($item)
@@ -86,7 +88,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Wishlist
     /**
      * Retrieve identifier of block item
      *
-     * @param   Magento_Object $item
+     * @param   \Magento\Object $item
      * @return  int
      */
     public function getIdentifierId($item)

@@ -15,7 +15,9 @@
  * @package    Magento_Reports
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Block_Adminhtml_Grid extends Magento_Backend_Block_Widget_Grid
+namespace Magento\Reports\Block\Adminhtml;
+
+class Grid extends \Magento\Backend\Block\Widget\Grid
 {
     /**
      * Should Store Switcher block be visible
@@ -80,24 +82,24 @@ class Magento_Reports_Block_Adminhtml_Grid extends Magento_Backend_Block_Widget_
     /**
      * Locale instance
      *
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Core_Model_LocaleInterface $locale,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\LocaleInterface $locale,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
@@ -107,7 +109,7 @@ class Magento_Reports_Block_Adminhtml_Grid extends Magento_Backend_Block_Widget_
     /**
      * Apply sorting and filtering to collection
      *
-     * @return Magento_Backend_Block_Widget_Grid|Magento_Reports_Block_Adminhtml_Grid
+     * @return \Magento\Backend\Block\Widget\Grid|\Magento\Reports\Block\Adminhtml\Grid
      */
     protected function _prepareCollection()
     {
@@ -124,13 +126,13 @@ class Magento_Reports_Block_Adminhtml_Grid extends Magento_Backend_Block_Widget_
 
             if (!isset($data['report_from'])) {
                 // getting all reports from 2001 year
-                $date = new Zend_Date(mktime(0, 0, 0, 1, 1, 2001));
+                $date = new \Zend_Date(mktime(0, 0, 0, 1, 1, 2001));
                 $data['report_from'] = $date->toString($this->_locale->getDateFormat('short'));
             }
 
             if (!isset($data['report_to'])) {
                 // getting all reports from 2001 year
-                $date = new Zend_Date();
+                $date = new \Zend_Date();
                 $data['report_to'] = $date->toString($this->_locale->getDateFormat('short'));
             }
 
@@ -141,7 +143,7 @@ class Magento_Reports_Block_Adminhtml_Grid extends Magento_Backend_Block_Widget_
             $this->_setFilterValues($this->_defaultFilter);
         }
 
-        /** @var $collection Magento_Reports_Model_Resource_Report_Collection */
+        /** @var $collection \Magento\Reports\Model\Resource\Report\Collection */
         $collection = $this->getCollection();
         if ($collection) {
             $collection->setPeriod($this->getFilter('report_period'));
@@ -151,12 +153,12 @@ class Magento_Reports_Block_Adminhtml_Grid extends Magento_Backend_Block_Widget_
                  * Validate from and to date
                  */
                 try {
-                    $from = $this->_locale->date($this->getFilter('report_from'), Zend_Date::DATE_SHORT, null, false);
-                    $to   = $this->_locale->date($this->getFilter('report_to'), Zend_Date::DATE_SHORT, null, false);
+                    $from = $this->_locale->date($this->getFilter('report_from'), \Zend_Date::DATE_SHORT, null, false);
+                    $to   = $this->_locale->date($this->getFilter('report_to'), \Zend_Date::DATE_SHORT, null, false);
 
                     $collection->setInterval($from, $to);
                 }
-                catch (Exception $e) {
+                catch (\Exception $e) {
                     $this->_errors[] = __('Invalid date specified');
                 }
             }
@@ -212,7 +214,7 @@ class Magento_Reports_Block_Adminhtml_Grid extends Magento_Backend_Block_Widget_
      * Set filter values
      *
      * @param mixed $data
-     * @return Magento_Backend_Block_Widget_Grid|Magento_Reports_Block_Adminhtml_Grid
+     * @return \Magento\Backend\Block\Widget\Grid|\Magento\Reports\Block\Adminhtml\Grid
      */
     protected function _setFilterValues($data)
     {
@@ -299,7 +301,7 @@ class Magento_Reports_Block_Adminhtml_Grid extends Magento_Backend_Block_Widget_
      */
     public function getDateFormat()
     {
-        return $this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        return $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
     }
 
     /**
@@ -374,7 +376,7 @@ class Magento_Reports_Block_Adminhtml_Grid extends Magento_Backend_Block_Widget_
      */
     protected function _prepareFilterButtons()
     {
-        $this->addChild('refresh_button', 'Magento_Backend_Block_Widget_Button', array(
+        $this->addChild('refresh_button', 'Magento\Backend\Block\Widget\Button', array(
             'label'     => __('Refresh'),
             'onclick'   => "{$this->getJsObjectName()}.doFilter();",
             'class'     => 'task'

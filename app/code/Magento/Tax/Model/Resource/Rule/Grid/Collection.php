@@ -7,10 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Tax_Model_Resource_Rule_Grid_Collection extends Magento_Tax_Model_Resource_Calculation_Rule_Collection
+namespace Magento\Tax\Model\Resource\Rule\Grid;
+
+class Collection extends \Magento\Tax\Model\Resource\Calculation\Rule\Collection
 {
     /**
-     * @return Magento_Tax_Model_Resource_Rule_Grid_Collection
+     * @return \Magento\Tax\Model\Resource\Rule\Grid\Collection
      */
     protected function _initSelect()
     {
@@ -25,7 +27,7 @@ class Magento_Tax_Model_Resource_Rule_Grid_Collection extends Magento_Tax_Model_
     /**
      * @param array|string $field
      * @param null $condition
-     * @return Magento_Tax_Model_Resource_Rule_Grid_Collection
+     * @return \Magento\Tax\Model\Resource\Rule\Grid\Collection
      */
     public function addFieldToFilter($field, $condition = null)
     {

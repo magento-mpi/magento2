@@ -6,17 +6,19 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Rating\Edit\Tab;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Rating_Edit_Tab_FormTest extends PHPUnit_Framework_TestCase
+class FormTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstruct()
     {
         $this->assertInstanceOf(
-            'Magento_Adminhtml_Block_Rating_Edit_Tab_Form',
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-                ->createBlock('Magento_Adminhtml_Block_Rating_Edit_Tab_Form')
+            'Magento\Adminhtml\Block\Rating\Edit\Tab\Form',
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+                ->createBlock('Magento\Adminhtml\Block\Rating\Edit\Tab\Form')
         );
     }
 }

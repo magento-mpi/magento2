@@ -11,7 +11,9 @@
 /**
  * Tax Total Row Renderer
  */
-class Magento_Tax_Block_Checkout_Tax extends Magento_Checkout_Block_Total_Default
+namespace Magento\Tax\Block\Checkout;
+
+class Tax extends \Magento\Checkout\Block\Total\DefaultTotal
 {
     protected $_template = 'checkout/tax.phtml';
 }

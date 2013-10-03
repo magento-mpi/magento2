@@ -9,7 +9,9 @@
 /**
  * Backup data helper
  */
-class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Backup\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Backup type constant for database backup
@@ -37,58 +39,58 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
     const TYPE_SNAPSHOT_WITHOUT_MEDIA = 'nomedia';
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
     /**
-     * @var Magento_AuthorizationInterface
+     * @var \Magento\AuthorizationInterface
      */
     protected $_authorization;
 
     /**
-     * @var Magento_Core_Model_Cache_Config
+     * @var \Magento\Core\Model\Cache\Config
      */
     protected $_cacheConfig;
 
     /**
-     * @var Magento_Core_Model_Cache_TypeListInterface
+     * @var \Magento\Core\Model\Cache\TypeListInterface
      */
     protected $_cacheTypeList;
     
     /**
      * Directory model
      *
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_dir;
 
     /**
      * Index resource process collection factory
      *
-     * @var Magento_Index_Model_Resource_Process_CollectionFactory
+     * @var \Magento\Index\Model\Resource\Process\CollectionFactory
      */
     protected $_processFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Filesystem $filesystem
-     * @param Magento_AuthorizationInterface $authorization
-     * @param Magento_Core_Model_Cache_Config $cacheConfig
-     * @param Magento_Core_Model_Cache_TypeListInterface $cacheTypeList
-     * @param Magento_Core_Model_Dir $dir
-     * @param Magento_Index_Model_Resource_Process_CollectionFactory $processFactory
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\AuthorizationInterface $authorization
+     * @param \Magento\Core\Model\Cache\Config $cacheConfig
+     * @param \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList
+     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\Index\Model\Resource\Process\CollectionFactory $processFactory
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Filesystem $filesystem,
-        Magento_AuthorizationInterface $authorization,
-        Magento_Core_Model_Cache_Config $cacheConfig,
-        Magento_Core_Model_Cache_TypeListInterface $cacheTypeList,
-        Magento_Core_Model_Dir $dir,
-        Magento_Index_Model_Resource_Process_CollectionFactory $processFactory
+        \Magento\Core\Helper\Context $context,
+        \Magento\Filesystem $filesystem,
+        \Magento\AuthorizationInterface $authorization,
+        \Magento\Core\Model\Cache\Config $cacheConfig,
+        \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList,
+        \Magento\Core\Model\Dir $dir,
+        \Magento\Index\Model\Resource\Process\CollectionFactory $processFactory
     ) {
         parent::__construct($context);
         $this->_authorization = $authorization;
@@ -145,7 +147,7 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getBackupsDir()
     {
-        return $this->_dir->getDir(Magento_Core_Model_Dir::VAR_DIR) . DS . 'backups';
+        return $this->_dir->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DS . 'backups';
     }
 
     /**
@@ -178,10 +180,10 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Generate backup download name
      *
-     * @param Magento_Backup_Model_Backup $backup
+     * @param \Magento\Backup\Model\Backup $backup
      * @return string
      */
-    public function generateBackupDownloadName(Magento_Backup_Model_Backup $backup)
+    public function generateBackupDownloadName(\Magento\Backup\Model\Backup $backup)
     {
         $additionalExtension = $backup->getType() == self::TYPE_DB ? '.sql' : '';
         return $backup->getType() . '-' . date('YmdHis', $backup->getTime()) . $additionalExtension . '.'
@@ -209,12 +211,12 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
             '.git',
             '.svn',
             'maintenance.flag',
-            $this->_dir->getDir(Magento_Core_Model_Dir::VAR_DIR) . DS . 'session',
-            $this->_dir->getDir(Magento_Core_Model_Dir::VAR_DIR) . DS . 'cache',
-            $this->_dir->getDir(Magento_Core_Model_Dir::VAR_DIR) . DS . 'full_page_cache',
-            $this->_dir->getDir(Magento_Core_Model_Dir::VAR_DIR) . DS . 'locks',
-            $this->_dir->getDir(Magento_Core_Model_Dir::VAR_DIR) . DS . 'log',
-            $this->_dir->getDir(Magento_Core_Model_Dir::VAR_DIR) . DS . 'report',
+            $this->_dir->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DS . 'session',
+            $this->_dir->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DS . 'cache',
+            $this->_dir->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DS . 'full_page_cache',
+            $this->_dir->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DS . 'locks',
+            $this->_dir->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DS . 'log',
+            $this->_dir->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DS . 'report',
         );
     }
 
@@ -229,11 +231,11 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
             '.svn',
             '.git',
             'maintenance.flag',
-            $this->_dir->getDir(Magento_Core_Model_Dir::VAR_DIR) . DS . 'session',
-            $this->_dir->getDir(Magento_Core_Model_Dir::VAR_DIR) . DS . 'locks',
-            $this->_dir->getDir(Magento_Core_Model_Dir::VAR_DIR) . DS . 'log',
-            $this->_dir->getDir(Magento_Core_Model_Dir::VAR_DIR) . DS . 'report',
-            $this->_dir->getDir(Magento_Core_Model_Dir::APP) . DS . 'Mage.php',
+            $this->_dir->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DS . 'session',
+            $this->_dir->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DS . 'locks',
+            $this->_dir->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DS . 'log',
+            $this->_dir->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DS . 'report',
+            $this->_dir->getDir(\Magento\Core\Model\Dir::APP) . DS . 'Mage.php',
             $this->_dir->getDir() . DS . 'errors',
             $this->_dir->getDir() . DS . 'index.php',
         );
@@ -300,7 +302,7 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Invalidate Cache
      *
-     * @return Magento_Backup_Helper_Data
+     * @return \Magento\Backup\Helper\Data
      */
     public function invalidateCache()
     {
@@ -314,12 +316,12 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Invalidate Indexer
      *
-     * @return Magento_Backup_Helper_Data
+     * @return \Magento\Backup\Helper\Data
      */
     public function invalidateIndexer()
     {
         foreach ($this->_processFactory->create() as $process) {
-            $process->changeStatus(Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+            $process->changeStatus(\Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX);
         }
         return $this;
     }
@@ -339,7 +341,7 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
      * Extracts information from backup's filename
      *
      * @param string $filename
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function extractDataFromFilename($filename)
     {
@@ -363,7 +365,7 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
             $name = substr($name, 1);
         }
 
-        $result = new Magento_Object();
+        $result = new \Magento\Object();
         $result->addData(array(
             'name' => $name,
             'type' => $type,

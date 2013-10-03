@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Install_IndexTest extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\Install;
+
+class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     public function testIndexAction()
     {
@@ -19,8 +21,8 @@ class Magento_Install_IndexTest extends Magento_TestFramework_TestCase_Controlle
          * because in integration testing environment the application is considered "installed"
          */
         $this->assertFileExists(
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')
-                ->getDir(Magento_Core_Model_Dir::TMP)
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')
+                ->getDir(\Magento\Core\Model\Dir::TMP)
         );
     }
 }

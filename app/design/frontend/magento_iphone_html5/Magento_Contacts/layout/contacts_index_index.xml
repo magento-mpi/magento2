@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <remove name="form.additional.info"/>
     <referenceContainer name="content">
-        <block class="Magento_Page_Block_Html_Breadcrumbs" name="breadcrumbs" as="breadcrumbs" before="-">
+        <block class="Magento\Page\Block\Html\Breadcrumbs" name="breadcrumbs" as="breadcrumbs" before="-">
             <action method="addCrumb">
                 <argument translate="true" name="crumbName" xsi:type="string">home</argument>
                 <argument name="crumbInfo" xsi:type="array">

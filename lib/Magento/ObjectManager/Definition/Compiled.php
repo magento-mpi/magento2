@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link
  */
-abstract class Magento_ObjectManager_Definition_Compiled implements Magento_ObjectManager_Definition
+namespace Magento\ObjectManager\Definition;
+
+abstract class Compiled implements \Magento\ObjectManager\Definition
 {
     /**
      * Class definitions

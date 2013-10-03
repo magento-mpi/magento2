@@ -15,8 +15,10 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_HTTP_Client_Socket
-    implements Magento_HTTP_IClient
+namespace Magento\HTTP\Client;
+
+class Socket
+    implements \Magento\HTTP\IClient
 {
     /**
      * Hostname
@@ -247,14 +249,14 @@ class Magento_HTTP_Client_Socket
         if(!empty($parts['host'])) {
             $this->_host = $parts['host'];
         } else {
-            throw new InvalidArgumentException("Uri doesn't contain host part");
+            throw new \InvalidArgumentException("Uri doesn't contain host part");
         }
 
 
         if(!empty($parts['path'])) {
             $requestUri = $parts['path'];
         } else {
-            throw new InvalidArgumentException("Uri doesn't contain path part");
+            throw new \InvalidArgumentException("Uri doesn't contain path part");
         }
         if(!empty($parts['query'])) {
             $requestUri .= "?".$parts['query'];
@@ -429,7 +431,7 @@ class Magento_HTTP_Client_Socket
 
     /**
      * Get response status code
-     * @see lib/Magento/HTTP/Magento_HTTP_Client#getStatus()
+     * @see lib/Magento/HTTP/\Magento\HTTP\Client#getStatus()
      */
     public function getStatus()
     {
@@ -476,11 +478,11 @@ class Magento_HTTP_Client_Socket
     /**
      * Throw error excpetion
      * @param $string
-     * @throws Exception
+     * @throws \Exception
      */
     public function doError($string)
     {
-        throw new Exception($string);
+        throw new \Exception($string);
     }
 
     /**

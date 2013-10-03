@@ -13,27 +13,29 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rss_Helper_Order extends Magento_Core_Helper_Abstract
+namespace Magento\Rss\Helper;
+
+class Order extends \Magento\Core\Helper\AbstractHelper
 {
     /**
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_storeConfig;
 
     /**
-     * @var Magento_Sales_Model_OrderFactory
+     * @var \Magento\Sales\Model\OrderFactory
      */
     protected $_orderFactory;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Store_Config $storeConfig
-     * @param Magento_Sales_Model_OrderFactory $orderFactory
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $storeConfig,
-        Magento_Sales_Model_OrderFactory $orderFactory
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Sales\Model\OrderFactory $orderFactory
     ) {
         $this->_storeConfig = $storeConfig;
         $this->_orderFactory = $orderFactory;
@@ -56,7 +58,7 @@ class Magento_Rss_Helper_Order extends Magento_Core_Helper_Abstract
     /**
      * Retrieve order status history url
      *
-     * @param Magento_Sales_Model_Order $order
+     * @param \Magento\Sales\Model\Order $order
      * @return string
      */
     public function getStatusHistoryRssUrl($order)
@@ -69,7 +71,7 @@ class Magento_Rss_Helper_Order extends Magento_Core_Helper_Abstract
     /**
      * Retrieve order status url key
      *
-     * @param Magento_Sales_Model_Order $order
+     * @param \Magento\Sales\Model\Order $order
      * @return string
      */
     public function getStatusUrlKey($order)
@@ -87,7 +89,7 @@ class Magento_Rss_Helper_Order extends Magento_Core_Helper_Abstract
      * Retrieve order instance by specified status url key
      *
      * @param string $key
-     * @return Magento_Sales_Model_Order|null
+     * @return \Magento\Sales\Model\Order|null
      */
     public function getOrderByStatusUrlKey($key)
     {
@@ -98,7 +100,7 @@ class Magento_Rss_Helper_Order extends Magento_Core_Helper_Abstract
             return null;
         }
 
-        /** @var $order Magento_Sales_Model_Order */
+        /** @var $order \Magento\Sales\Model\Order */
         $order = $this->_orderFactory->create();
         $order->load($data['order_id']);
         if ($order->getId()

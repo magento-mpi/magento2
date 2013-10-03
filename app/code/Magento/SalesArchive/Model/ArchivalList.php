@@ -11,7 +11,9 @@
 /**
  * Sales archival model list
  */
-class Magento_SalesArchive_Model_ArchivalList
+namespace Magento\SalesArchive\Model;
+
+class ArchivalList
 {
     /**
      * Archival entity names
@@ -28,32 +30,32 @@ class Magento_SalesArchive_Model_ArchivalList
      */
     protected $_entities = array(
         self::ORDER => array(
-            'model' => 'Magento_Sales_Model_Order',
-            'resource_model' => 'Magento_Sales_Model_Resource_Order'
+            'model' => 'Magento\Sales\Model\Order',
+            'resource_model' => 'Magento\Sales\Model\Resource\Order'
         ),
         self::INVOICE => array(
-            'model' => 'Magento_Sales_Model_Order_Invoice',
-            'resource_model' => 'Magento_Sales_Model_Resource_Order_Invoice'
+            'model' => 'Magento\Sales\Model\Order\Invoice',
+            'resource_model' => 'Magento\Sales\Model\Resource\Order\Invoice'
         ),
         self::SHIPMENT  => array(
-            'model' => 'Magento_Sales_Model_Order_Shipment',
-            'resource_model' => 'Magento_Sales_Model_Resource_Order_Shipment'
+            'model' => 'Magento\Sales\Model\Order\Shipment',
+            'resource_model' => 'Magento\Sales\Model\Resource\Order\Shipment'
         ),
         self::CREDITMEMO => array(
-            'model' => 'Magento_Sales_Model_Order_Creditmemo',
-            'resource_model' => 'Magento_Sales_Model_Resource_Order_Creditmemo'
+            'model' => 'Magento\Sales\Model\Order\Creditmemo',
+            'resource_model' => 'Magento\Sales\Model\Resource\Order\Creditmemo'
         )
     );
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -63,15 +65,15 @@ class Magento_SalesArchive_Model_ArchivalList
      *
      * @param string $entity
      * @param array $arguments
-     * @return Magento_Sales_Model_Resource_Order_Abstract
-     * @throws LogicException
+     * @return \Magento\Sales\Model\Resource\Order\AbstractOrder
+     * @throws \LogicException
      */
     public function getResource($entity, array $arguments = array())
     {
         $className = $this->_getClassByEntity($entity);
 
         if ($className === false) {
-            throw new LogicException(
+            throw new \LogicException(
                 $entity . ' entity isn\'t allowed'
             );
         }
@@ -93,7 +95,7 @@ class Magento_SalesArchive_Model_ArchivalList
     /**
      * Return entity by object
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return string|boolean
      */
     public function getEntityByObject($object)

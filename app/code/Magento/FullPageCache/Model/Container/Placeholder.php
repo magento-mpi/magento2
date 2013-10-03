@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_FullPageCache_Model_Container_Placeholder
+namespace Magento\FullPageCache\Model\Container;
+
+class Placeholder
 {
     const HTML_NAME_PATTERN = '/<!--\{(.*?)\}-->/i';
 

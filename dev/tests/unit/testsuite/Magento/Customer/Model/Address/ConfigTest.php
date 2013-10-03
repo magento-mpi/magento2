@@ -6,35 +6,37 @@
  * @license     {license_link}
  */
 
-class Magento_Customer_Model_Address_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Customer\Model\Address;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_readerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cacheMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeManagerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_addressHelperMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeMock;
 
     /**
-     * @var Magento_Customer_Model_Address_Config
+     * @var \Magento\Customer\Model\Address\Config
      */
     protected $_model;
 
@@ -45,20 +47,20 @@ class Magento_Customer_Model_Address_ConfigTest extends PHPUnit_Framework_TestCa
 
     public function setUp()
     {
-        $this->_storeMock = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);
+        $this->_storeMock = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
 
         $this->_readerMock = $this->getMock(
-            'Magento_Customer_Model_Address_Config_Reader',
+            'Magento\Customer\Model\Address\Config\Reader',
             array(), array(), '', false
         );
-        $this->_cacheMock = $this->getMock('Magento_Config_CacheInterface');
-        $this->_storeManagerMock = $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false);
+        $this->_cacheMock = $this->getMock('Magento\Config\CacheInterface');
+        $this->_storeManagerMock = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
         $this->_storeManagerMock
             ->expects($this->once())
             ->method('getStore')
             ->will($this->returnValue($this->_storeMock));
 
-        $this->_addressHelperMock = $this->getMock('Magento_Customer_Helper_Address', array(), array(), '', false);
+        $this->_addressHelperMock = $this->getMock('Magento\Customer\Helper\Address', array(), array(), '', false);
 
         $this->_cacheMock
             ->expects($this->once())
@@ -79,7 +81,7 @@ class Magento_Customer_Model_Address_ConfigTest extends PHPUnit_Framework_TestCa
             ->with(serialize($fixtureConfigData), $this->_cacheId);
 
 
-        $this->_model = new Magento_Customer_Model_Address_Config(
+        $this->_model = new \Magento\Customer\Model\Address\Config(
             $this->_readerMock,
             $this->_cacheMock,
             $this->_storeManagerMock,
@@ -112,21 +114,21 @@ class Magento_Customer_Model_Address_ConfigTest extends PHPUnit_Framework_TestCa
 
 
 
-        $rendererMock = $this->getMock('Magento_Object');
+        $rendererMock = $this->getMock('Magento\Object');
 
         $this->_addressHelperMock
             ->expects($this->any())
             ->method('getRenderer')
             ->will($this->returnValue($rendererMock));
 
-        $firstExpected = new Magento_Object();
+        $firstExpected = new \Magento\Object();
         $firstExpected->setCode('format_one')
             ->setTitle('format_one_title')
             ->setDefaultFormat('someValue')
             ->setEscapeHtml(false)
             ->setRenderer(null);
 
-        $secondExpected = new Magento_Object();
+        $secondExpected = new \Magento\Object();
         $secondExpected->setCode('format_two')
             ->setTitle('format_two_title')
             ->setDefaultFormat('someValue')

@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Catalog_Model_Product_Attribute_Backend_Urlkey extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
+namespace Magento\Catalog\Model\Product\Attribute\Backend;
+
+class Urlkey extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     public function beforeSave($object)
     {

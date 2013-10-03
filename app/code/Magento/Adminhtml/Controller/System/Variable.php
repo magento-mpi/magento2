@@ -15,22 +15,24 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Controller_System_Variable extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller\System;
+
+class Variable extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -39,7 +41,7 @@ class Magento_Adminhtml_Controller_System_Variable extends Magento_Adminhtml_Con
     /**
      * Initialize Layout and set breadcrumbs
      *
-     * @return Magento_Adminhtml_Controller_System_Variable
+     * @return \Magento\Adminhtml\Controller\System\Variable
      */
     protected function _initLayout()
     {
@@ -52,7 +54,7 @@ class Magento_Adminhtml_Controller_System_Variable extends Magento_Adminhtml_Con
     /**
      * Initialize Variable object
      *
-     * @return Magento_Core_Model_Variable
+     * @return \Magento\Core\Model\Variable
      */
     protected function _initVariable()
     {
@@ -60,8 +62,8 @@ class Magento_Adminhtml_Controller_System_Variable extends Magento_Adminhtml_Con
 
         $variableId = $this->getRequest()->getParam('variable_id', null);
         $storeId = (int)$this->getRequest()->getParam('store', 0);
-        /* @var $emailVariable Magento_Core_Model_Variable */
-        $variable = $this->_objectManager->create('Magento_Core_Model_Variable');
+        /* @var $emailVariable \Magento\Core\Model\Variable */
+        $variable = $this->_objectManager->create('Magento\Core\Model\Variable');
         if ($variableId) {
             $variable->setStoreId($storeId)
                 ->load($variableId);
@@ -99,8 +101,8 @@ class Magento_Adminhtml_Controller_System_Variable extends Magento_Adminhtml_Con
         $this->_title($variable->getId() ? $variable->getCode() : __('New Custom Variable'));
 
         $this->_initLayout()
-            ->_addContent($this->getLayout()->createBlock('Magento_Adminhtml_Block_System_Variable_Edit'))
-            ->_addJs($this->getLayout()->createBlock('Magento_Core_Block_Template', '', array(
+            ->_addContent($this->getLayout()->createBlock('Magento\Adminhtml\Block\System\Variable\Edit'))
+            ->_addJs($this->getLayout()->createBlock('Magento\Core\Block\Template', '', array(
                 'data' => array('template' => 'Magento_Adminhtml::system/variable/js.phtml')
             )))
             ->renderLayout();
@@ -111,13 +113,13 @@ class Magento_Adminhtml_Controller_System_Variable extends Magento_Adminhtml_Con
      */
     public function validateAction()
     {
-        $response = new Magento_Object(array('error' => false));
+        $response = new \Magento\Object(array('error' => false));
         $variable = $this->_initVariable();
         $variable->addData($this->getRequest()->getPost('variable'));
         $result = $variable->validate();
         if ($result !== true && is_string($result)) {
             $this->_getSession()->addError($result);
-            $this->_initLayoutMessages('Magento_Adminhtml_Model_Session');
+            $this->_initLayoutMessages('Magento\Adminhtml\Model\Session');
             $response->setError(true);
             $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
         }
@@ -146,7 +148,7 @@ class Magento_Adminhtml_Controller_System_Variable extends Magento_Adminhtml_Con
                     $this->_redirect('*/*/', array());
                 }
                 return;
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('_current' => true, ));
                 return;
@@ -168,7 +170,7 @@ class Magento_Adminhtml_Controller_System_Variable extends Magento_Adminhtml_Con
                 $this->_getSession()->addSuccess(
                     __('You deleted the customer.')
                 );
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('_current' => true, ));
                 return;
@@ -183,10 +185,10 @@ class Magento_Adminhtml_Controller_System_Variable extends Magento_Adminhtml_Con
      */
     public function wysiwygPluginAction()
     {
-        $customVariables = $this->_objectManager->create('Magento_Core_Model_Variable')->getVariablesOptionArray(true);
-        $storeContactVariabls = $this->_objectManager->create('Magento_Core_Model_Source_Email_Variables')->toOptionArray(true);
+        $customVariables = $this->_objectManager->create('Magento\Core\Model\Variable')->getVariablesOptionArray(true);
+        $storeContactVariabls = $this->_objectManager->create('Magento\Core\Model\Source\Email\Variables')->toOptionArray(true);
         $variables = array($storeContactVariabls, $customVariables);
-        $this->getResponse()->setBody(Zend_Json::encode($variables));
+        $this->getResponse()->setBody(\Zend_Json::encode($variables));
     }
 
     /**

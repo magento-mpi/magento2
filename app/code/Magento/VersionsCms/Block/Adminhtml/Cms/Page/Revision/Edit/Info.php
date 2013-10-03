@@ -11,53 +11,55 @@
 /**
  * Cms page edit form revisions tab
  */
-class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Magento_Adminhtml_Block_Widget_Container
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit;
+
+class Info extends \Magento\Adminhtml\Block\Widget\Container
 {
     /**
      * Currently loaded page model
      *
-     * @var Magento_Cms_Model_Page
+     * @var \Magento\Cms\Model\Page
      */
     protected $_page;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry;
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @var Magento_Backend_Model_Auth_Session
+     * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_authSession;
 
     /**
-     * @var Magento_User_Model_UserFactory
+     * @var \Magento\User\Model\UserFactory
      */
     protected $_userFactory;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Backend_Model_Auth_Session $authSession
-     * @param Magento_User_Model_UserFactory $userFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Backend\Model\Auth\Session $authSession
+     * @param \Magento\User\Model\UserFactory $userFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Backend_Model_Auth_Session $authSession,
-        Magento_User_Model_UserFactory $userFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Backend\Model\Auth\Session $authSession,
+        \Magento\User\Model\UserFactory $userFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -157,11 +159,11 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Ma
      */
     public function getCreatedAt()
     {
-        $format = $this->_locale->getDateTimeFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
+        $format = $this->_locale->getDateTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
         $data = $this->_page->getRevisionCreatedAt();
         try {
-            $data = $this->_locale->date($data, Magento_Date::DATETIME_INTERNAL_FORMAT)->toString($format);
-        } catch (Exception $e) {
+            $data = $this->_locale->date($data, \Magento\Date::DATETIME_INTERNAL_FORMAT)->toString($format);
+        } catch (\Exception $e) {
             $data = __('N/A');
         }
         return  $data;

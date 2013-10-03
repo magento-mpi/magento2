@@ -11,8 +11,10 @@
 /**
  * Shopping cart product qty condition
  */
-class Magento_CustomerSegment_Model_Segment_Condition_Shoppingcart_Productsquantity
-    extends Magento_CustomerSegment_Model_Condition_Abstract
+namespace Magento\CustomerSegment\Model\Segment\Condition\Shoppingcart;
+
+class Productsquantity
+    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
 {
     /**
      * @var string
@@ -20,17 +22,17 @@ class Magento_CustomerSegment_Model_Segment_Condition_Shoppingcart_Productsquant
     protected $_inputType = 'numeric';
 
     /**
-     * @param Magento_CustomerSegment_Model_Resource_Segment $resourceSegment
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_CustomerSegment_Model_Resource_Segment $resourceSegment,
-        Magento_Rule_Model_Condition_Context $context,
+        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
+        \Magento\Rule\Model\Condition\Context $context,
         array $data = array()
     ) {
         parent::__construct($resourceSegment, $context, $data);
-        $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Shoppingcart_Productsquantity');
+        $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Shoppingcart\Productsquantity');
         $this->setValue(null);
     }
 
@@ -72,8 +74,8 @@ class Magento_CustomerSegment_Model_Segment_Condition_Shoppingcart_Productsquant
      * Get SQL select for matching shopping cart products count
      *
      * @param $customer
-     * @param int | Zend_Db_Expr $website
-     * @return Magento_DB_Select
+     * @param int | \Zend_Db_Expr $website
+     * @return \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)
     {
@@ -81,7 +83,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Shoppingcart_Productsquant
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('quote' => $table), array(new Zend_Db_Expr(1)))->where('quote.is_active=1');
+        $select->from(array('quote' => $table), array(new \Zend_Db_Expr(1)))->where('quote.is_active=1');
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
         $select->limit(1);
         $select->where("quote.items_qty {$operator} ?", $this->getValue());

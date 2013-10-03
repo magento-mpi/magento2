@@ -11,17 +11,19 @@
 /**
  * Rating Observer Model
  */
-class Magento_Rating_Model_Observer
+namespace Magento\Rating\Model;
+
+class Observer
 {
     /**
-     * @var Magento_Rating_Model_Resource_Rating
+     * @var \Magento\Rating\Model\Resource\Rating
      */
     protected $_resourceRating;
 
     /**
-     * @param Magento_Rating_Model_Resource_Rating $resourceRating
+     * @param \Magento\Rating\Model\Resource\Rating $resourceRating
      */
-    public function __construct(Magento_Rating_Model_Resource_Rating $resourceRating)
+    public function __construct(\Magento\Rating\Model\Resource\Rating $resourceRating)
     {
         $this->_resourceRating = $resourceRating;
     }
@@ -29,10 +31,10 @@ class Magento_Rating_Model_Observer
     /**
      * Cleanup product ratings after product delete
      *
-     * @param   Magento_Event_Observer $observer
-     * @return  Magento_Rating_Model_Observer
+     * @param   \Magento\Event\Observer $observer
+     * @return  \Magento\Rating\Model\Observer
      */
-    public function processProductAfterDeleteEvent(Magento_Event_Observer $observer)
+    public function processProductAfterDeleteEvent(\Magento\Event\Observer $observer)
     {
         $eventProduct = $observer->getEvent()->getProduct();
         if ($eventProduct && $eventProduct->getId()) {

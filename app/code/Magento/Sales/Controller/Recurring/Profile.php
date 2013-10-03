@@ -11,28 +11,30 @@
 /**
  * Recurring profiles view/management controller
  */
-class Magento_Sales_Controller_Recurring_Profile extends Magento_Core_Controller_Front_Action
+namespace Magento\Sales\Controller\Recurring;
+
+class Profile extends \Magento\Core\Controller\Front\Action
 {
     /**
      *
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_session = null;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Controller_Varien_Action_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Core_Controller_Varien_Action_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -47,7 +49,7 @@ class Magento_Sales_Controller_Recurring_Profile extends Magento_Core_Controller
         if (!$this->getRequest()->isDispatched()) {
             return;
         }
-        $this->_session = $this->_objectManager->get('Magento_Customer_Model_Session');
+        $this->_session = $this->_objectManager->get('Magento\Customer\Model\Session');
         if (!$this->_session->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
         }
@@ -61,7 +63,7 @@ class Magento_Sales_Controller_Recurring_Profile extends Magento_Core_Controller
     {
         $this->_title(__('Recurring Billing Profiles'));
         $this->loadLayout();
-        $this->_initLayoutMessages('Magento_Customer_Model_Session');
+        $this->_initLayoutMessages('Magento\Customer\Model\Session');
         $this->renderLayout();
     }
 
@@ -96,11 +98,11 @@ class Magento_Sales_Controller_Recurring_Profile extends Magento_Core_Controller
                     break;
             }
             $this->_session->addSuccess(__('The profile state has been updated.'));
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_session->addError($e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_session->addError(__('We couldn\'t update the profile.'));
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
         }
         if ($profile) {
             $this->_redirect('*/*/view', array('profile' => $profile->getId()));
@@ -124,11 +126,11 @@ class Magento_Sales_Controller_Recurring_Profile extends Magento_Core_Controller
             } else {
                 $this->_session->addNotice(__('The profile has no changes.'));
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_session->addError($e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_session->addError(__('We couldn\'t update the profile.'));
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
         }
         if ($profile) {
             $this->_redirect('*/*/view', array('profile' => $profile->getId()));
@@ -146,17 +148,17 @@ class Magento_Sales_Controller_Recurring_Profile extends Magento_Core_Controller
             $profile = $this->_initProfile();
             $this->_title(__('Recurring Billing Profiles'))->_title(__('Profile #%1', $profile->getReferenceId()));
             $this->loadLayout();
-            $this->_initLayoutMessages('Magento_Customer_Model_Session');
+            $this->_initLayoutMessages('Magento\Customer\Model\Session');
             $navigationBlock = $this->getLayout()->getBlock('customer_account_navigation');
             if ($navigationBlock) {
                 $navigationBlock->setActive('sales/recurring_profile/');
             }
             $this->renderLayout();
             return;
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_session->addError($e->getMessage());
-        } catch (Exception $e) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+        } catch (\Exception $e) {
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
         }
         $this->_redirect('*/*/');
     }
@@ -164,15 +166,15 @@ class Magento_Sales_Controller_Recurring_Profile extends Magento_Core_Controller
     /**
      * Instantiate current profile and put it into registry
      *
-     * @return Magento_Sales_Model_Recurring_Profile
-     * @throws Magento_Core_Exception
+     * @return \Magento\Sales\Model\Recurring\Profile
+     * @throws \Magento\Core\Exception
      */
     protected function _initProfile()
     {
-        $profile = $this->_objectManager->create('Magento_Sales_Model_Recurring_Profile')
+        $profile = $this->_objectManager->create('Magento\Sales\Model\Recurring\Profile')
             ->load($this->getRequest()->getParam('profile'));
         if (!$profile->getId()) {
-            throw new Magento_Core_Exception(__('We can\'t find the profile you specified.'));
+            throw new \Magento\Core\Exception(__('We can\'t find the profile you specified.'));
         }
         $this->_coreRegistry->register('current_recurring_profile', $profile);
         return $profile;

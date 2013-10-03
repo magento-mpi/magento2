@@ -8,44 +8,46 @@
  */
 
 /**
- * Test class for Magento_Core_Model_Config_Modules_File
+ * Test class for \Magento\Core\Model\Config\Modules\File
  */
-class Magento_Core_Model_Config_Modules_ReaderTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Config\Modules;
+
+class ReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Config_Modules_Reader
+     * @var \Magento\Core\Model\Config\Modules\Reader
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_moduleListMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_protFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_dirsMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_baseConfigMock;
 
     protected function setUp()
     {
-        $this->_protFactoryMock = $this->getMock('Magento_Core_Model_Config_BaseFactory',
+        $this->_protFactoryMock = $this->getMock('Magento\Core\Model\Config\BaseFactory',
             array(), array(), '', false, false);
-        $this->_dirsMock = $this->getMock('Magento_Core_Model_Module_Dir', array(), array(), '', false, false);
-        $this->_baseConfigMock = $this->getMock('Magento_Core_Model_Config_Base', array(), array(), '', false, false);
-        $this->_moduleListMock = $this->getMock('Magento_Core_Model_ModuleListInterface');
+        $this->_dirsMock = $this->getMock('Magento\Core\Model\Module\Dir', array(), array(), '', false, false);
+        $this->_baseConfigMock = $this->getMock('Magento\Core\Model\Config\Base', array(), array(), '', false, false);
+        $this->_moduleListMock = $this->getMock('Magento\Core\Model\ModuleListInterface');
 
-        $this->_model = new Magento_Core_Model_Config_Modules_Reader(
+        $this->_model = new \Magento\Core\Model\Config\Modules\Reader(
             $this->_dirsMock,
             $this->_protFactoryMock,
             $this->_moduleListMock
@@ -66,13 +68,13 @@ class Magento_Core_Model_Config_Modules_ReaderTest extends PHPUnit_Framework_Tes
             ->will($this->returnValue($modulesConfig));
 
         $result = $this->_model->loadModulesConfiguration($fileName, null, null, array());
-        $this->assertInstanceOf('Magento_Core_Model_Config_Base', $result);
+        $this->assertInstanceOf('Magento\Core\Model\Config\Base', $result);
     }
 
     public function testLoadModulesConfigurationMergeToObject()
     {
         $fileName = 'acl.xml';
-        $mergeToObject = $this->getMock('Magento_Core_Model_Config_Base', array(), array(), '', false, false);
+        $mergeToObject = $this->getMock('Magento\Core\Model\Config\Base', array(), array(), '', false, false);
         $mergeModel = null;
         $modulesConfig = array('mod1' => array());
 
@@ -90,7 +92,7 @@ class Magento_Core_Model_Config_Modules_ReaderTest extends PHPUnit_Framework_Tes
 
     public function testGetModuleDir()
     {
-        $expectedResult = new stdClass();
+        $expectedResult = new \stdClass();
         $this->_dirsMock->expects($this->once())
             ->method('getDir')
             ->with('Test_Module', 'etc')

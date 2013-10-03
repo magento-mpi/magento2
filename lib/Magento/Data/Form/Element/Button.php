@@ -15,7 +15,9 @@
  * @package    Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Data_Form_Element_Button extends Magento_Data_Form_Element_Abstract
+namespace Magento\Data\Form\Element;
+
+class Button extends \Magento\Data\Form\Element\AbstractElement
 {
     /**
      * Additional html attributes
@@ -25,15 +27,15 @@ class Magento_Data_Form_Element_Button extends Magento_Data_Form_Element_Abstrac
     protected $_htmlAttributes = array('data-mage-init');
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Data_Form_Element_Factory $factoryElement
-     * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
      * @param array $attributes
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Data_Form_Element_Factory $factoryElement,
-        Magento_Data_Form_Element_CollectionFactory $factoryCollection,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Data\Form\Element\Factory $factoryElement,
+        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
         $attributes = array()
     ) {
         parent::__construct($coreData, $factoryElement, $factoryCollection, $attributes);

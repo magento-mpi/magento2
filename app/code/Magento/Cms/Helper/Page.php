@@ -16,7 +16,9 @@
  * @package    Magento_Cms
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Cms_Helper_Page extends Magento_Core_Helper_Abstract
+namespace Magento\Cms\Helper;
+
+class Page extends \Magento\Core\Helper\AbstractHelper
 {
     const XML_PATH_NO_ROUTE_PAGE        = 'web/default/cms_no_route';
     const XML_PATH_NO_COOKIES_PAGE      = 'web/default/cms_no_cookies';
@@ -25,90 +27,90 @@ class Magento_Cms_Helper_Page extends Magento_Core_Helper_Abstract
     /**
      * Catalog product
      *
-     * @var Magento_Page_Helper_Layout
+     * @var \Magento\Page\Helper\Layout
      */
     protected $_pageLayout;
 
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager;
 
     /**
      * Design package instance
      *
-     * @var Magento_Core_Model_View_DesignInterface
+     * @var \Magento\Core\Model\View\DesignInterface
      */
     protected $_design;
 
     /**
-     * @var Magento_Cms_Model_Page
+     * @var \Magento\Cms\Model\Page
      */
     protected $_page;
 
     /**
-     * @var Magento_Core_Model_Session_Pool
+     * @var \Magento\Core\Model\Session\Pool
      */
     protected $_sessionPool;
 
     /**
      * Locale
      *
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Page factory
      *
-     * @var Magento_Cms_Model_PageFactory
+     * @var \Magento\Cms\Model\PageFactory
      */
     protected $_pageFactory;
 
     /**
      * Url
      *
-     * @var Magento_Core_Model_UrlInterface
+     * @var \Magento\Core\Model\UrlInterface
      */
     protected $_url;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Session_Pool $sessionFactory
-     * @param Magento_Cms_Model_Page $page
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Page_Helper_Layout $pageLayout
-     * @param Magento_Core_Model_View_DesignInterface $design
-     * @param Magento_Core_Model_UrlInterface $url
-     * @param Magento_Cms_Model_PageFactory $pageFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Session\Pool $sessionFactory
+     * @param \Magento\Cms\Model\Page $page
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Page\Helper\Layout $pageLayout
+     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\Core\Model\UrlInterface $url
+     * @param \Magento\Cms\Model\PageFactory $pageFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Session_Pool $sessionFactory,
-        Magento_Cms_Model_Page $page,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Page_Helper_Layout $pageLayout,
-        Magento_Core_Model_View_DesignInterface $design,
-        Magento_Core_Model_UrlInterface $url,
-        Magento_Cms_Model_PageFactory $pageFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_LocaleInterface $locale
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Session\Pool $sessionFactory,
+        \Magento\Cms\Model\Page $page,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Page\Helper\Layout $pageLayout,
+        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\Core\Model\UrlInterface $url,
+        \Magento\Cms\Model\PageFactory $pageFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale
     ) {
         $this->_sessionPool = $sessionFactory;
-        // used singleton (instead factory) because there exist dependencies on Magento_Cms_Helper_Page
+        // used singleton (instead factory) because there exist dependencies on \Magento\Cms\Helper\Page
         $this->_page = $page;
         $this->_eventManager = $eventManager;
         $this->_pageLayout = $pageLayout;
@@ -125,11 +127,11 @@ class Magento_Cms_Helper_Page extends Magento_Core_Helper_Abstract
      *
      * Call from controller action
      *
-     * @param Magento_Core_Controller_Front_Action $action
+     * @param \Magento\Core\Controller\Front\Action $action
      * @param integer $pageId
      * @return boolean
      */
-    public function renderPage(Magento_Core_Controller_Front_Action $action, $pageId = null)
+    public function renderPage(\Magento\Core\Controller\Front\Action $action, $pageId = null)
     {
         return $this->_renderPage($action, $pageId);
     }
@@ -137,12 +139,12 @@ class Magento_Cms_Helper_Page extends Magento_Core_Helper_Abstract
     /**
      * Renders CMS page
      *
-     * @param Magento_Core_Controller_Front_Action|Magento_Core_Controller_Varien_Action $action
+     * @param \Magento\Core\Controller\Front\Action|\Magento\Core\Controller\Varien\Action $action
      * @param integer $pageId
      * @param bool $renderLayout
      * @return boolean
      */
-    protected function _renderPage(Magento_Core_Controller_Varien_Action  $action, $pageId = null, $renderLayout = true)
+    protected function _renderPage(\Magento\Core\Controller\Varien\Action  $action, $pageId = null, $renderLayout = true)
     {
         if (!is_null($pageId) && $pageId!==$this->_page->getId()) {
             $delimeterPosition = strrpos($pageId, '|');
@@ -204,9 +206,9 @@ class Magento_Cms_Helper_Page extends Magento_Core_Helper_Abstract
         /* @TODO: Move catalog and checkout storage types to appropriate modules */
         $messageBlock = $action->getLayout()->getMessagesBlock();
         $sessions = array(
-            'Magento_Catalog_Model_Session',
-            'Magento_Checkout_Model_Session',
-            'Magento_Customer_Model_Session'
+            'Magento\Catalog\Model\Session',
+            'Magento\Checkout\Model\Session',
+            'Magento\Customer\Model\Session'
         );
         foreach ($sessions as $storageType) {
             $storage = $this->_sessionPool->get($storageType);
@@ -228,12 +230,12 @@ class Magento_Cms_Helper_Page extends Magento_Core_Helper_Abstract
      * Allows to use also backend action as first parameter.
      * Also takes third parameter which allows not run renderLayout method.
      *
-     * @param Magento_Core_Controller_Varien_Action $action
+     * @param \Magento\Core\Controller\Varien\Action $action
      * @param $pageId
      * @param $renderLayout
      * @return bool
      */
-    public function renderPageExtended(Magento_Core_Controller_Varien_Action $action, $pageId = null, $renderLayout = true)
+    public function renderPageExtended(\Magento\Core\Controller\Varien\Action $action, $pageId = null, $renderLayout = true)
     {
         return $this->_renderPage($action, $pageId, $renderLayout);
     }
@@ -246,7 +248,7 @@ class Magento_Cms_Helper_Page extends Magento_Core_Helper_Abstract
      */
     public function getPageUrl($pageId = null)
     {
-        /** @var Magento_Cms_Model_Page $page */
+        /** @var \Magento\Cms\Model\Page $page */
         $page = $this->_pageFactory->create();
         if (!is_null($pageId) && $pageId !== $page->getId()) {
             $page->setStoreId($this->_storeManager->getStore()->getId());

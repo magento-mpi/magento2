@@ -15,35 +15,37 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Block_Account_Dashboard extends Magento_Core_Block_Template
+namespace Magento\Customer\Block\Account;
+
+class Dashboard extends \Magento\Core\Block\Template
 {
     /**
-     * @var Magento_Newsletter_Model_Subscriber
+     * @var \Magento\Newsletter\Model\Subscriber
      */
     protected $_subscription;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @var Magento_Newsletter_Model_SubscriberFactory
+     * @var \Magento\Newsletter\Model\SubscriberFactory
      */
     protected $_subscriberFactory;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Newsletter_Model_SubscriberFactory $subscriberFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Newsletter_Model_SubscriberFactory $subscriberFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
@@ -122,8 +124,8 @@ class Magento_Customer_Block_Account_Dashboard extends Magento_Core_Block_Templa
      * Get back url in account dashboard
      *
      * This method is copypasted in:
-     * Magento_Wishlist_Block_Customer_Wishlist  - because of strange inheritance
-     * Magento_Customer_Block_Address_Book - because of secure url
+     * \Magento\Wishlist\Block\Customer\Wishlist  - because of strange inheritance
+     * \Magento\Customer\Block\Address\Book - because of secure url
      *
      * @return string
      */
@@ -137,7 +139,7 @@ class Magento_Customer_Block_Account_Dashboard extends Magento_Core_Block_Templa
     }
 
     /**
-     * @return Magento_Newsletter_Model_Subscriber
+     * @return \Magento\Newsletter\Model\Subscriber
      */
     protected function _createSubscriber()
     {

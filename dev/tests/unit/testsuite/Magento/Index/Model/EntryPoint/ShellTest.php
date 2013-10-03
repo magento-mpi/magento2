@@ -8,40 +8,42 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Index_Model_EntryPoint_ShellTest extends PHPUnit_Framework_TestCase
+namespace Magento\Index\Model\EntryPoint;
+
+class ShellTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Index_Model_EntryPoint_Shell
+     * @var \Magento\Index\Model\EntryPoint\Shell
      */
     protected $_entryPoint;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_shellErrorHandler;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_primaryConfig;
 
     protected function setUp()
     {
-        $this->_primaryConfig = $this->getMock('Magento_Core_Model_Config_Primary', array(), array(), '', false);
-        $this->_objectManager = $this->getMock('Magento_ObjectManager');
+        $this->_primaryConfig = $this->getMock('Magento\Core\Model\Config\Primary', array(), array(), '', false);
+        $this->_objectManager = $this->getMock('Magento\ObjectManager');
         $this->_shellErrorHandler = $this->getMock(
-            'Magento_Index_Model_EntryPoint_Shell_ErrorHandler',
+            'Magento\Index\Model\EntryPoint\Shell\ErrorHandler',
             array(),
             array(),
             '',
             false
         );
-        $this->_entryPoint = new Magento_Index_Model_EntryPoint_Shell(
+        $this->_entryPoint = new \Magento\Index\Model\EntryPoint\Shell(
             'indexer.php', $this->_shellErrorHandler, $this->_primaryConfig, $this->_objectManager
         );
     }
@@ -52,7 +54,7 @@ class Magento_Index_Model_EntryPoint_ShellTest extends PHPUnit_Framework_TestCas
      */
     public function testProcessRequest($shellHasErrors)
     {
-        $shell = $this->getMock('Magento_Index_Model_Shell', array(), array(), '', false);
+        $shell = $this->getMock('Magento\Index\Model\Shell', array(), array(), '', false);
         $shell->expects($this->once())
             ->method('hasErrors')
             ->will($this->returnValue($shellHasErrors));
@@ -68,7 +70,7 @@ class Magento_Index_Model_EntryPoint_ShellTest extends PHPUnit_Framework_TestCas
             ->method('create')
             ->will($this->returnValueMap(
                 array(
-                    array('Magento_Index_Model_Shell', array('entryPoint' => 'indexer.php'), $shell),
+                    array('Magento\Index\Model\Shell', array('entryPoint' => 'indexer.php'), $shell),
                 )
             ));
 

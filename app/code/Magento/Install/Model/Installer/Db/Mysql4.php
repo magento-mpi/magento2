@@ -12,7 +12,9 @@
 /**
  * Mysql resource data model
  */
-class Magento_Install_Model_Installer_Db_Mysql4 extends Magento_Install_Model_Installer_Db_Abstract
+namespace Magento\Install\Model\Installer\Db;
+
+class Mysql4 extends \Magento\Install\Model\Installer\Db\AbstractDb
 {
     /**
      * Retrieve DB server version

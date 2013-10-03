@@ -12,25 +12,27 @@
  *  Add sales archiving to order's grid view massaction
  *
  */
-class Magento_SalesArchive_Block_Adminhtml_Sales_Order_Grid_Button extends Magento_Adminhtml_Block_Sales_Order_Abstract
+namespace Magento\SalesArchive\Block\Adminhtml\Sales\Order\Grid;
+
+class Button extends \Magento\Adminhtml\Block\Sales\Order\AbstractOrder
 {
     /**
-     * @var Magento_SalesArchive_Model_Resource_Order_Collection
+     * @var \Magento\SalesArchive\Model\Resource\Order\Collection
      */
     protected $_orderCollection;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_SalesArchive_Model_Resource_Order_Collection $orderCollection
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\SalesArchive\Model\Resource\Order\Collection $orderCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_SalesArchive_Model_Resource_Order_Collection $orderCollection,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\SalesArchive\Model\Resource\Order\Collection $orderCollection,
         array $data = array()
     ) {
         $this->_orderCollection = $orderCollection;

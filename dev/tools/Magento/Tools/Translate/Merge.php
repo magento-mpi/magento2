@@ -14,17 +14,19 @@
 //- translate file
 //- write to file non translate
 
+namespace Magento\Tools\Translate;
+
 define('BASE_PATH', dirname(dirname(dirname(__DIR__))));
 define('DS', DIRECTORY_SEPARATOR);
 
-class Magento_Tools_Translate_Merge
+class Merge
 {
     protected $_usage;
     protected $_args;
     /**
      * Magento File CSV
      *
-     * @var Magento_File_Csv
+     * @var \Magento\File\Csv
      */
     protected $_csv;
 
@@ -47,7 +49,7 @@ OPTIONAL PARAMETRS:
 
         $this->_checkArgs();
         require_once(BASE_PATH . DS . 'lib' . DS . 'Magento' . DS . 'File' . DS . 'Csv.php');
-        $this->_csv = new Magento_File_Csv();
+        $this->_csv = new \Magento\File\Csv();
     }
 
     protected function _getArgs()
@@ -102,7 +104,7 @@ OPTIONAL PARAMETRS:
             $message = vsprintf($message, $inputArgs);
         }
 
-        throw new Exception($this->_usage . $message . "\n\n");
+        throw new \Exception($this->_usage . $message . "\n\n");
     }
 
     protected function _findTranslate($string, $module)
@@ -181,9 +183,9 @@ unknown string:             '.$result['diff_string'].'
 }
 
 try {
-    $merge = new Magento_Tools_Translate_Merge();
+    $merge = new \Magento\Tools\Translate\Merge();
     $merge->run();
 }
-catch (Exception $e) {
+catch (\Exception $e) {
     die($e->getMessage());
 }

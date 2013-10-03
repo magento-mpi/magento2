@@ -13,26 +13,28 @@
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_Banner_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setup
+namespace Magento\Banner\Model\Resource;
+
+class Setup extends \Magento\Sales\Model\Resource\Setup
 {
     /**
-     * @var Magento_Banner_Model_BannerFactory
+     * @var \Magento\Banner\Model\BannerFactory
      */
     protected $_bannerFactory;
 
     /**
-     * @var Magento_Widget_Model_Widget_InstanceFactory
+     * @var \Magento\Widget\Model\Widget\InstanceFactory
      */
     protected $_widgetFactory;
 
     /**
-     * @param Magento_Core_Model_Resource_Setup_Context $context
-     * @param Magento_Core_Model_CacheInterface $cache
-     * @param Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory
-     * @param Magento_Core_Helper_Data $coreHelper
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Widget_Model_Widget_InstanceFactory $widgetFactory
-     * @param Magento_Banner_Model_BannerFactory $bannerFactory
+     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory
+     * @param \Magento\Core\Helper\Data $coreHelper
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory
+     * @param \Magento\Banner\Model\BannerFactory $bannerFactory
      * @param string $resourceName
      * @param string $moduleName
      * @param string $connectionName
@@ -40,13 +42,13 @@ class Magento_Banner_Model_Resource_Setup extends Magento_Sales_Model_Resource_S
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_Resource_Setup_Context $context,
-        Magento_Core_Model_CacheInterface $cache,
-        Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory,
-        Magento_Core_Helper_Data $coreHelper,
-        Magento_Core_Model_Config $config,
-        Magento_Widget_Model_Widget_InstanceFactory $widgetFactory,
-        Magento_Banner_Model_BannerFactory $bannerFactory,
+        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory,
+        \Magento\Core\Helper\Data $coreHelper,
+        \Magento\Core\Model\Config $config,
+        \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory,
+        \Magento\Banner\Model\BannerFactory $bannerFactory,
         $resourceName,
         $moduleName = 'Magento_Banner',
         $connectionName = ''
@@ -66,7 +68,7 @@ class Magento_Banner_Model_Resource_Setup extends Magento_Sales_Model_Resource_S
     }
 
     /**
-     * @return \Magento_Banner_Model_BannerFactory
+     * @return \\Magento\Banner\Model\BannerFactory
      */
     public function getBannerInstance()
     {
@@ -74,7 +76,7 @@ class Magento_Banner_Model_Resource_Setup extends Magento_Sales_Model_Resource_S
     }
 
     /**
-     * @return \Magento_Core_Model_Resource_Theme_Collection
+     * @return \\Magento\Core\Model\Resource\Theme\Collection
      */
     public function getThemeCollection()
     {
@@ -82,7 +84,7 @@ class Magento_Banner_Model_Resource_Setup extends Magento_Sales_Model_Resource_S
     }
 
     /**
-     * @return \Magento_Widget_Model_Widget_Instance
+     * @return \\Magento\Widget\Model\Widget\Instance
      */
     public function getWidgetInstance()
     {

@@ -15,12 +15,14 @@
  * @package    Magento_CatalogInventory
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogInventory_Model_System_Config_Backend_Minqty extends Magento_Core_Model_Config_Value
+namespace Magento\CatalogInventory\Model\System\Config\Backend;
+
+class Minqty extends \Magento\Core\Model\Config\Value
 {
     /**
     * Validate minimum product qty value
     *
-    * @return Magento_CatalogInventory_Model_System_Config_Backend_Minqty
+    * @return \Magento\CatalogInventory\Model\System\Config\Backend\Minqty
     */
     protected function _beforeSave()
     {

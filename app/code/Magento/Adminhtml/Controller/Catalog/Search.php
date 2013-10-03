@@ -8,22 +8,24 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Controller_Catalog_Search extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller\Catalog;
+
+class Search extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -57,19 +59,19 @@ class Magento_Adminhtml_Controller_Catalog_Search extends Magento_Adminhtml_Cont
         $this->_title(__('Search Terms'));
 
         $id = $this->getRequest()->getParam('id');
-        $model = $this->_objectManager->create('Magento_CatalogSearch_Model_Query');
+        $model = $this->_objectManager->create('Magento\CatalogSearch\Model\Query');
 
         if ($id) {
             $model->load($id);
             if (! $model->getId()) {
-                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError(__('This search no longer exists.'));
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__('This search no longer exists.'));
                 $this->_redirect('*/*');
                 return;
             }
         }
 
         // set entered data if was error when we do save
-        $data = $this->_objectManager->get('Magento_Adminhtml_Model_Session')->getPageData(true);
+        $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getPageData(true);
         if (!empty($data)) {
             $model->addData($data);
         }
@@ -101,8 +103,8 @@ class Magento_Adminhtml_Controller_Catalog_Search extends Magento_Adminhtml_Cont
         $data       = $this->getRequest()->getPost();
         $queryId    = $this->getRequest()->getPost('query_id', null);
         if ($this->getRequest()->isPost() && $data) {
-            /* @var $model Magento_CatalogSearch_Model_Query */
-            $model = $this->_objectManager->create('Magento_CatalogSearch_Model_Query');
+            /* @var $model \Magento\CatalogSearch\Model\Query */
+            $model = $this->_objectManager->create('Magento\CatalogSearch\Model\Query');
 
             // validate query
             $queryText  = $this->getRequest()->getPost('query_text', false);
@@ -113,7 +115,7 @@ class Magento_Adminhtml_Controller_Catalog_Search extends Magento_Adminhtml_Cont
                     $model->setStoreId($storeId);
                     $model->loadByQueryText($queryText);
                     if ($model->getId() && $model->getId() != $queryId) {
-                        throw new Magento_Core_Exception(
+                        throw new \Magento\Core\Exception(
                             __('You already have an identical search term query.')
                         );
                     } else if (!$model->getId() && $queryId) {
@@ -127,10 +129,10 @@ class Magento_Adminhtml_Controller_Catalog_Search extends Magento_Adminhtml_Cont
                 $model->setIsProcessed(0);
                 $model->save();
 
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $hasError = true;
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_getSession()->addException($e,
                     __('Something went wrong while saving the search query.')
                 );
@@ -151,19 +153,19 @@ class Magento_Adminhtml_Controller_Catalog_Search extends Magento_Adminhtml_Cont
         $id = $this->getRequest()->getParam('id');
         if ($id) {
             try {
-                $model = $this->_objectManager->create('Magento_CatalogSearch_Model_Query');
+                $model = $this->_objectManager->create('Magento\CatalogSearch\Model\Query');
                 $model->setId($id);
                 $model->delete();
-                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addSuccess(__('You deleted the search.'));
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(__('You deleted the search.'));
                 $this->_redirect('*/*/');
                 return;
-            } catch (Exception $e) {
-                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+            } catch (\Exception $e) {
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
         }
-        $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError(__('We can\'t find a search term to delete.'));
+        $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__('We can\'t find a search term to delete.'));
         $this->_redirect('*/*/');
     }
 
@@ -171,18 +173,18 @@ class Magento_Adminhtml_Controller_Catalog_Search extends Magento_Adminhtml_Cont
     {
         $searchIds = $this->getRequest()->getParam('search');
         if (!is_array($searchIds)) {
-             $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError(__('Please select catalog searches.'));
+             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__('Please select catalog searches.'));
         } else {
             try {
                 foreach ($searchIds as $searchId) {
-                    $model = $this->_objectManager->create('Magento_CatalogSearch_Model_Query')->load($searchId);
+                    $model = $this->_objectManager->create('Magento\CatalogSearch\Model\Query')->load($searchId);
                     $model->delete();
                 }
-                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addSuccess(
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(
                     __('Total of %1 record(s) were deleted', count($searchIds))
                 );
-            } catch (Exception $e) {
-                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+            } catch (\Exception $e) {
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
             }
         }
 

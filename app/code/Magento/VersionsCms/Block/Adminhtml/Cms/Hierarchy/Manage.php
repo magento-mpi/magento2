@@ -11,34 +11,36 @@
 /**
  * Cms Hierarchy Copy Form Container Block
  */
-class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Manage extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy;
+
+class Manage extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Model_System_Store
+     * @var \Magento\Core\Model\System\Store
      */
     protected $_systemStore;
 
     /**
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_System_Store $systemStore
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\System\Store $systemStore
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_System_Store $systemStore,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\System\Store $systemStore,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -69,11 +71,11 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Manage extends Magento_B
     /**
      * Prepare form before rendering HTML
      *
-     * @return Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form
      */
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id'        => 'manage_form',
@@ -87,12 +89,12 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Manage extends Magento_B
         if ($currentStore) {
             $storeId = $this->_storeManager->getStore($currentStore)->getId();
             $excludeScopes = array(
-                Magento_VersionsCms_Helper_Hierarchy::SCOPE_PREFIX_STORE . $storeId
+                \Magento\VersionsCms\Helper\Hierarchy::SCOPE_PREFIX_STORE . $storeId
             );
         } elseif ($currentWebsite) {
             $websiteId = $this->_storeManager->getWebsite($currentWebsite)->getId();
             $excludeScopes = array(
-                Magento_VersionsCms_Helper_Hierarchy::SCOPE_PREFIX_WEBSITE . $websiteId
+                \Magento\VersionsCms\Helper\Hierarchy::SCOPE_PREFIX_WEBSITE . $websiteId
             );
         }
         $allStoreViews = $currentStore || $currentWebsite;
@@ -136,7 +138,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Manage extends Magento_B
         $options = array();
 
         foreach ($storeStructure as $website) {
-            $value = Magento_VersionsCms_Helper_Hierarchy::SCOPE_PREFIX_WEBSITE . $website['value'];
+            $value = \Magento\VersionsCms\Helper\Hierarchy::SCOPE_PREFIX_WEBSITE . $website['value'];
             if (isset($website['children'])) {
                 $website['value'] = in_array($value, $excludeScopes) ? array() : $value;
                 $options[] = array(
@@ -148,7 +150,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Manage extends Magento_B
                     if (isset($store['children']) && !in_array($store['value'], $excludeScopes)) {
                         $storeViewOptions = array();
                         foreach ($store['children'] as $storeView) {
-                            $storeView['value'] = Magento_VersionsCms_Helper_Hierarchy::SCOPE_PREFIX_STORE
+                            $storeView['value'] = \Magento\VersionsCms\Helper\Hierarchy::SCOPE_PREFIX_STORE
                                 . $storeView['value'];
                             if (!in_array($storeView['value'], $excludeScopes)) {
                                 $storeView['label'] = str_repeat($nonEscapableNbspChar, 4) . $storeView['label'];
@@ -163,9 +165,9 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Manage extends Magento_B
                         }
                     }
                 }
-            } elseif ($website['value'] == Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID) {
-                $website['value'] = Magento_VersionsCms_Helper_Hierarchy::SCOPE_PREFIX_STORE
-                                    . Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID;
+            } elseif ($website['value'] == \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID) {
+                $website['value'] = \Magento\VersionsCms\Helper\Hierarchy::SCOPE_PREFIX_STORE
+                                    . \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID;
                 $options[] = array(
                     'label' => $website['label'],
                     'value' => $website['value'],

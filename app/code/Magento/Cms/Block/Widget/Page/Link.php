@@ -16,9 +16,11 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Cms_Block_Widget_Page_Link
-    extends Magento_Core_Block_Html_Link
-    implements Magento_Widget_Block_Interface
+namespace Magento\Cms\Block\Widget\Page;
+
+class Link
+    extends \Magento\Core\Block\Html\Link
+    implements \Magento\Widget\Block\BlockInterface
 {
     /**
      * Prepared href attribute
@@ -42,40 +44,40 @@ class Magento_Cms_Block_Widget_Page_Link
     protected $_anchorText;
 
     /**
-     * @var Magento_Cms_Model_Resource_Page
+     * @var \Magento\Cms\Model\Resource\Page
      */
     protected $_resourcePage;
 
     /**
      * Cms page
      *
-     * @var Magento_Cms_Helper_Page
+     * @var \Magento\Cms\Helper\Page
      */
     protected $_cmsPage;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Cms_Model_Resource_Page $resourcePage
-     * @param Magento_Cms_Helper_Page $cmsPage
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Cms\Model\Resource\Page $resourcePage
+     * @param \Magento\Cms\Helper\Page $cmsPage
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Cms_Model_Resource_Page $resourcePage,
-        Magento_Cms_Helper_Page $cmsPage,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Cms\Model\Resource\Page $resourcePage,
+        \Magento\Cms\Helper\Page $cmsPage,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);

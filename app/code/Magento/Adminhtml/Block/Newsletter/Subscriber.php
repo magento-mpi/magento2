@@ -16,32 +16,34 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Newsletter_Subscriber extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Newsletter;
+
+class Subscriber extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Queue collection
      *
-     * @var Magento_Newsletter_Model_Resource_Queue_Collection
+     * @var \Magento\Newsletter\Model\Resource\Queue\Collection
      */
     protected $_queueCollection = null;
 
     protected $_template = 'newsletter/subscriber/list.phtml';
 
     /**
-     * @var Magento_Newsletter_Model_Resource_Queue_CollectionFactory
+     * @var \Magento\Newsletter\Model\Resource\Queue\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @param Magento_Newsletter_Model_Resource_Queue_CollectionFactory $collectionFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Newsletter\Model\Resource\Queue\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Newsletter_Model_Resource_Queue_CollectionFactory $collectionFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Newsletter\Model\Resource\Queue\CollectionFactory $collectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
@@ -51,7 +53,7 @@ class Magento_Adminhtml_Block_Newsletter_Subscriber extends Magento_Adminhtml_Bl
     /**
      * Prepares block to render
      *
-     * @return Magento_Adminhtml_Block_Newsletter_Subscriber
+     * @return \Magento\Adminhtml\Block\Newsletter\Subscriber
      */
     protected function _beforeToHtml()
     {
@@ -61,12 +63,12 @@ class Magento_Adminhtml_Block_Newsletter_Subscriber extends Magento_Adminhtml_Bl
     /**
      * Return queue collection with loaded neversent queues
      *
-     * @return Magento_Newsletter_Model_Resource_Queue_Collection
+     * @return \Magento\Newsletter\Model\Resource\Queue\Collection
      */
     public function getQueueCollection()
     {
         if (is_null($this->_queueCollection)) {
-            /** @var $this->_queueCollection Magento_Newsletter_Model_Resource_Queue_Collection */
+            /** @var $this->_queueCollection \Magento\Newsletter\Model\Resource\Queue\Collection */
             $this->_queueCollection = $this->_collectionFactory->create()
                 ->addTemplateInfo()
                 ->addOnlyUnsentFilter()

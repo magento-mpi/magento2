@@ -12,7 +12,9 @@
 /**
  * Factory for helpers, used in Magento testing framework
  */
-class Magento_TestFramework_Helper_Factory
+namespace Magento\TestFramework\Helper;
+
+class Factory
 {
     /**
      * @var array

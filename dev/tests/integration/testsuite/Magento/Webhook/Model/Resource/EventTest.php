@@ -1,28 +1,31 @@
 <?php
 /**
- * Magento_Webhook_Model_Resource_Event
+ * \Magento\Webhook\Model\Resource\Event
  *
  * {license_notice}
- *
- * @magentoDbIsolation enabled
  *
  * @category    Magento
  * @package     Magento_Webhook
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Resource_EventTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Resource;
+
+/**
+ * @magentoDbIsolation enabled
+ */
+class EventTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers Magento_Webhook_Model_Resource_Event::init
+     * @covers \Magento\Webhook\Model\Resource\Event::init
      */
     public function testInit()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $resource = $objectManager->create('Magento_Core_Model_Resource', array('tablePrefix' => 'prefix_'));
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $resource = $objectManager->create('Magento\Core\Model\Resource', array('tablePrefix' => 'prefix_'));
 
-        /** @var Magento_Webhook_Model_Resource_Event $eventResource */
-        $eventResource = $objectManager->create('Magento_Webhook_Model_Resource_Event', array('resource' => $resource));
+        /** @var \Magento\Webhook\Model\Resource\Event $eventResource */
+        $eventResource = $objectManager->create('Magento\Webhook\Model\Resource\Event', array('resource' => $resource));
 
         $this->assertEquals('prefix_webhook_event', $eventResource->getMainTable());
         $this->assertEquals('event_id', $eventResource->getIdFieldName());

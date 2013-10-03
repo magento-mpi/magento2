@@ -16,8 +16,8 @@
                 <label>Orders, Invoices, Shipments, Credit Memos Archiving</label>
                 <field id="active" translate="label" sortOrder="5" type="select" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Enable Archiving</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
-                    <backend_model>Magento_SalesArchive_Model_System_Config_Backend_Active</backend_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
+                    <backend_model>Magento\SalesArchive\Model\System\Config\Backend\Active</backend_model>
                 </field>
                 <field id="age" translate="label" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Archive Orders Purchased</label>
@@ -25,7 +25,7 @@
                 </field>
                 <field id="order_statuses" translate="label" sortOrder="15" type="multiselect" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Order Statuses to be Archived</label>
-                    <source_model>Magento_SalesArchive_Model_Order_Status_Source</source_model>
+                    <source_model>Magento\SalesArchive\Model\Order\Status\Source</source_model>
                     <can_be_empty>1</can_be_empty>
                 </field>
             </group>

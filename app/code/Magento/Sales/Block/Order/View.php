@@ -11,7 +11,9 @@
 /**
  * Sales order view block
  */
-class Magento_Sales_Block_Order_View extends Magento_Core_Block_Template
+namespace Magento\Sales\Block\Order;
+
+class View extends \Magento\Core\Block\Template
 {
     /**
      * @var string
@@ -21,27 +23,27 @@ class Magento_Sales_Block_Order_View extends Magento_Core_Block_Template
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Customer_Model_Session $customerSession
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Customer_Model_Session $customerSession,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Customer\Model\Session $customerSession,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -57,7 +59,7 @@ class Magento_Sales_Block_Order_View extends Magento_Core_Block_Template
         }
         $this->setChild(
             'payment_info',
-            $this->helper('Magento_Payment_Helper_Data')->getInfoBlock($this->getOrder()->getPayment())
+            $this->helper('Magento\Payment\Helper\Data')->getInfoBlock($this->getOrder()->getPayment())
         );
     }
 
@@ -72,7 +74,7 @@ class Magento_Sales_Block_Order_View extends Magento_Core_Block_Template
     /**
      * Retrieve current order model instance
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {

@@ -9,20 +9,22 @@
  * @license     {license_link}
  */
 
+namespace Magento\Paypal\Model;
+
 /**
  * @magentoAppArea frontend
  */
-class Magento_Paypal_Model_IpnTest extends PHPUnit_Framework_TestCase
+class IpnTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Paypal_Model_Ipn
+     * @var \Magento\Paypal\Model\Ipn
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Paypal_Model_Ipn');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Paypal\Model\Ipn');
     }
 
     /**
@@ -63,8 +65,8 @@ class Magento_Paypal_Model_IpnTest extends PHPUnit_Framework_TestCase
 
         $this->_model->processIpnRequest($ipnData, $this->_createMockedHttpAdapter());
 
-        $order = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Order');
+        $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Order');
         $order->loadByIncrementId('100000001');
         $this->_assertOrder($order, $currencyCode);
     }
@@ -87,13 +89,13 @@ class Magento_Paypal_Model_IpnTest extends PHPUnit_Framework_TestCase
 
         $this->_model->processIpnRequest($ipnData, $this->_createMockedHttpAdapter());
 
-        $recurringProfile = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Recurring_Profile');
+        $recurringProfile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Recurring\Profile');
         $recurringProfile->loadByInternalReferenceId('5-33949e201adc4b03fbbceafccba893ce');
         $orderIds = $recurringProfile->getChildOrderIds();
         $this->assertEquals(1, count($orderIds));
-        $order = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Order');
+        $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Order');
         $order->load($orderIds[0]);
         $this->_assertOrder($order, $currencyCode);
     }
@@ -101,7 +103,7 @@ class Magento_Paypal_Model_IpnTest extends PHPUnit_Framework_TestCase
     /**
      * Perform order state and status assertions depending on currency code
      *
-     * @param Magento_Sales_Model_Order $order
+     * @param \Magento\Sales\Model\Order $order
      * @param string $currencyCode
      */
     protected function _assertOrder($order, $currencyCode)
@@ -132,11 +134,11 @@ class Magento_Paypal_Model_IpnTest extends PHPUnit_Framework_TestCase
     /**
      * Mocked HTTP adapter to get VERIFIED PayPal IPN postback result
      *
-     * @return Magento_HTTP_Adapter_Curl
+     * @return \Magento\HTTP\Adapter\Curl
      */
     protected function _createMockedHttpAdapter()
     {
-        $adapter = $this->getMock('Magento_HTTP_Adapter_Curl', array('read', 'write'));
+        $adapter = $this->getMock('Magento\HTTP\Adapter\Curl', array('read', 'write'));
 
         $adapter->expects($this->once())
             ->method('read')

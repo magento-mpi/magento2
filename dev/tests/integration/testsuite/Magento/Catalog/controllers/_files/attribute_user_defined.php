@@ -9,8 +9,8 @@
  * @license     {license_link}
  */
 
-$model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Catalog_Model_Resource_Eav_Attribute');
+$model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Resource\Eav\Attribute');
 $model->setName('user_attribute')
     ->setId(1)
     ->setEntityTypeId(4)

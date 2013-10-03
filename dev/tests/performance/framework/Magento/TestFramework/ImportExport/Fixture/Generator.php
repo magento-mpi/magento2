@@ -9,7 +9,9 @@
 /**
  * A custom "Import" adapter for Magento_ImportExport module that allows generating arbitrary data rows
  */
-class Magento_TestFramework_ImportExport_Fixture_Generator extends Magento_ImportExport_Model_Import_SourceAbstract
+namespace Magento\TestFramework\ImportExport\Fixture;
+
+class Generator extends \Magento\ImportExport\Model\Import\AbstractSource
 {
     /**
      * Data row pattern

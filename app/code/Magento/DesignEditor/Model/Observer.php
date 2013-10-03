@@ -11,25 +11,27 @@
 /**
  * Observer for design editor module
  */
-class Magento_DesignEditor_Model_Observer
+namespace Magento\DesignEditor\Model;
+
+class Observer
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @var Magento_DesignEditor_Helper_Data
+     * @var \Magento\DesignEditor\Helper\Data
      */
     protected $_helper;
 
     /**
-     * @param Magento_ObjectManager $objectManager
-     * @param Magento_DesignEditor_Helper_Data $helper
+     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\DesignEditor\Helper\Data $helper
      */
     public function __construct(
-        Magento_ObjectManager $objectManager,
-        Magento_DesignEditor_Helper_Data $helper
+        \Magento\ObjectManager $objectManager,
+        \Magento\DesignEditor\Helper\Data $helper
     ) {
         $this->_objectManager = $objectManager;
         $this->_helper        = $helper;
@@ -39,21 +41,21 @@ class Magento_DesignEditor_Model_Observer
      * Remove non-VDE JavaScript assets in design mode
      * Applicable in combination with enabled 'vde_design_mode' flag for 'head' block
      *
-     * @param Magento_Event_Observer $event
+     * @param \Magento\Event\Observer $event
      */
-    public function clearJs(Magento_Event_Observer $event)
+    public function clearJs(\Magento\Event\Observer $event)
     {
-        /** @var $layout Magento_Core_Model_Layout */
+        /** @var $layout \Magento\Core\Model\Layout */
         $layout = $event->getEvent()->getLayout();
         $blockHead = $layout->getBlock('head');
         if (!$blockHead || !$blockHead->getData('vde_design_mode')) {
             return;
         }
 
-        /** @var $page Magento_Core_Model_Page */
-        $page = $this->_objectManager->get('Magento_Core_Model_Page');
+        /** @var $page \Magento\Core\Model\Page */
+        $page = $this->_objectManager->get('Magento\Core\Model\Page');
 
-        /** @var $pageAssets Magento_Page_Model_Asset_GroupedCollection */
+        /** @var $pageAssets \Magento\Page\Model\Asset\GroupedCollection */
         $pageAssets = $page->getAssets();
 
         $vdeAssets = array();
@@ -63,11 +65,11 @@ class Magento_DesignEditor_Model_Observer
             }
         }
 
-        /** @var $nonVdeAssets Magento_Core_Model_Page_Asset_AssetInterface[] */
+        /** @var $nonVdeAssets \Magento\Core\Model\Page\Asset\AssetInterface[] */
         $nonVdeAssets = array_diff_key($pageAssets->getAll(), $vdeAssets);
 
         foreach ($nonVdeAssets as $assetId => $asset) {
-            if ($asset->getContentType() == Magento_Core_Model_View_Publisher::CONTENT_TYPE_JS) {
+            if ($asset->getContentType() == \Magento\Core\Model\View\Publisher::CONTENT_TYPE_JS) {
                 $pageAssets->remove($assetId);
             }
         }
@@ -76,24 +78,24 @@ class Magento_DesignEditor_Model_Observer
     /**
      * Save quick styles
      *
-     * @param Magento_Event_Observer $event
+     * @param \Magento\Event\Observer $event
      */
     public function saveQuickStyles($event)
     {
-        /** @var $configuration Magento_DesignEditor_Model_Editor_Tools_Controls_Configuration */
+        /** @var $configuration \Magento\DesignEditor\Model\Editor\Tools\Controls\Configuration */
         $configuration = $event->getData('configuration');
-        /** @var $theme Magento_Core_Model_Theme */
+        /** @var $theme \Magento\Core\Model\Theme */
         $theme = $event->getData('theme');
-        if ($configuration->getControlConfig() instanceof Magento_DesignEditor_Model_Config_Control_QuickStyles) {
-            /** @var $renderer Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer */
-            $renderer = $this->_objectManager->create('Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer');
+        if ($configuration->getControlConfig() instanceof \Magento\DesignEditor\Model\Config\Control\QuickStyles) {
+            /** @var $renderer \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer */
+            $renderer = $this->_objectManager->create('Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer');
             $content = $renderer->render($configuration->getAllControlsData());
-            /** @var $cssService Magento_DesignEditor_Model_Theme_Customization_File_QuickStyleCss */
+            /** @var $cssService \Magento\DesignEditor\Model\Theme\Customization\File\QuickStyleCss */
             $cssService = $this->_objectManager->create(
-                'Magento_DesignEditor_Model_Theme_Customization_File_QuickStyleCss'
+                'Magento\DesignEditor\Model\Theme\Customization\File\QuickStyleCss'
             );
-            /** @var $singleFile Magento_Theme_Model_Theme_SingleFile */
-            $singleFile = $this->_objectManager->create('Magento_Theme_Model_Theme_SingleFile',
+            /** @var $singleFile \Magento\Theme\Model\Theme\SingleFile */
+            $singleFile = $this->_objectManager->create('Magento\Theme\Model\Theme\SingleFile',
                 array('fileService' => $cssService));
             $singleFile->update($theme, $content);
         }
@@ -102,14 +104,14 @@ class Magento_DesignEditor_Model_Observer
     /**
      * Save time stamp of last change
      *
-     * @param Magento_Event_Observer $event
+     * @param \Magento\Event\Observer $event
      */
     public function saveChangeTime($event)
     {
-        /** @var $theme Magento_Core_Model_Theme|null */
+        /** @var $theme \Magento\Core\Model\Theme|null */
         $theme = $event->getTheme() ?: $event->getDataObject()->getTheme();
-        /** @var $change Magento_DesignEditor_Model_Theme_Change */
-        $change = $this->_objectManager->create('Magento_DesignEditor_Model_Theme_Change');
+        /** @var $change \Magento\DesignEditor\Model\Theme\Change */
+        $change = $this->_objectManager->create('Magento\DesignEditor\Model\Theme\Change');
         if ($theme && $theme->getId()) {
             $change->loadByThemeId($theme->getId());
             $change->setThemeId($theme->getId())->setChangeTime(null);
@@ -120,14 +122,14 @@ class Magento_DesignEditor_Model_Observer
     /**
      * Determine if the vde specific translation class should be used.
      *
-     * @param  Magento_Event_Observer $observer
-     * @return Magento_DesignEditor_Model_Observer
+     * @param  \Magento\Event\Observer $observer
+     * @return \Magento\DesignEditor\Model\Observer
      */
-    public function initializeTranslation(Magento_Event_Observer $observer)
+    public function initializeTranslation(\Magento\Event\Observer $observer)
     {
         if ($this->_helper->isVdeRequest()) {
             // Request is for vde.  Override the translation class.
-            $observer->getResult()->setInlineType('Magento_DesignEditor_Model_Translate_InlineVde');
+            $observer->getResult()->setInlineType('Magento\DesignEditor\Model\Translate\InlineVde');
         }
         return $this;
     }

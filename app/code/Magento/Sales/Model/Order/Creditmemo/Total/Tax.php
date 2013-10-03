@@ -9,9 +9,11 @@
  */
 
 
-class Magento_Sales_Model_Order_Creditmemo_Total_Tax extends Magento_Sales_Model_Order_Creditmemo_Total_Abstract
+namespace Magento\Sales\Model\Order\Creditmemo\Total;
+
+class Tax extends \Magento\Sales\Model\Order\Creditmemo\Total\AbstractTotal
 {
-    public function collect(Magento_Sales_Model_Order_Creditmemo $creditmemo)
+    public function collect(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
     {
         $shippingTaxAmount     = 0;
         $baseShippingTaxAmount = 0;
@@ -22,7 +24,7 @@ class Magento_Sales_Model_Order_Creditmemo_Total_Tax extends Magento_Sales_Model
 
         $order = $creditmemo->getOrder();
 
-        /** @var $item Magento_Sales_Model_Order_Creditmemo_Item */
+        /** @var $item \Magento\Sales\Model\Order\Creditmemo\Item */
         foreach ($creditmemo->getAllItems() as $item) {
             $orderItem = $item->getOrderItem();
             if ($orderItem->isDummy()) {

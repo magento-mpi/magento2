@@ -11,20 +11,22 @@
 /**
  * Product alert for back in stock resource model
  */
-class Magento_ProductAlert_Model_Resource_Stock extends Magento_ProductAlert_Model_Resource_Abstract
+namespace Magento\ProductAlert\Model\Resource;
+
+class Stock extends \Magento\ProductAlert\Model\Resource\AbstractResource
 {
     /**
-     * @var Magento_Core_Model_DateFactory
+     * @var \Magento\Core\Model\DateFactory
      */
     protected $_dateFactory;
 
     /**
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_DateFactory $dateFactory
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\DateFactory $dateFactory
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_DateFactory $dateFactory
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\DateFactory $dateFactory
     ) {
         $this->_dateFactory = $dateFactory;
         parent::__construct($resource);
@@ -42,10 +44,10 @@ class Magento_ProductAlert_Model_Resource_Stock extends Magento_ProductAlert_Mod
     /**
      * Before save action
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Core_Model_Resource_Db_Abstract
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
-    protected function _beforeSave(Magento_Core_Model_Abstract $object)
+    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
         if (is_null($object->getId()) && $object->getCustomerId()
                 && $object->getProductId() && $object->getWebsiteId()) {

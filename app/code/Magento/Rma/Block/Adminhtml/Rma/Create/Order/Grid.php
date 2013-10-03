@@ -12,34 +12,36 @@
  * Admin RMA create order grid block
  */
 
-class Magento_Rma_Block_Adminhtml_Rma_Create_Order_Grid extends Magento_Backend_Block_Widget_Grid_Extended
+namespace Magento\Rma\Block\Adminhtml\Rma\Create\Order;
+
+class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
-     * @var Magento_Sales_Model_Order_Config
+     * @var \Magento\Sales\Model\Order\Config
      */
     protected $_orderConfig;
 
     /**
-     * @var Magento_Sales_Model_Resource_Order_Grid_CollectionFactory
+     * @var \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory
      */
     protected $_gridCollFactory;
 
     /**
-     * @param Magento_Sales_Model_Resource_Order_Grid_CollectionFactory $gridCollFactory
-     * @param Magento_Sales_Model_Order_Config $orderConfig
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
+     * @param \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory $gridCollFactory
+     * @param \Magento\Sales\Model\Order\Config $orderConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
      * @param array $data
      */
     public function __construct(
-        Magento_Sales_Model_Resource_Order_Grid_CollectionFactory $gridCollFactory,
-        Magento_Sales_Model_Order_Config $orderConfig,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
+        \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory $gridCollFactory,
+        \Magento\Sales\Model\Order\Config $orderConfig,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
         array $data = array()
     ) {
         $this->_gridCollFactory = $gridCollFactory;
@@ -60,11 +62,11 @@ class Magento_Rma_Block_Adminhtml_Rma_Create_Order_Grid extends Magento_Backend_
     /**
      * Prepare grid collection object
      *
-     * @return Magento_Rma_Block_Adminhtml_Rma_Create_Order_Grid
+     * @return \Magento\Rma\Block\Adminhtml\Rma\Create\Order\Grid
      */
     protected function _prepareCollection()
     {
-        /** @var $collection Magento_Sales_Model_Resource_Order_Grid_Collection */
+        /** @var $collection \Magento\Sales\Model\Resource\Order\Grid\Collection */
         $collection = $this->_gridCollFactory->create()
             ->setOrder('entity_id');
         $this->setCollection($collection);
@@ -74,7 +76,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Create_Order_Grid extends Magento_Backend_
     /**
      * Prepare columns
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareColumns()
     {

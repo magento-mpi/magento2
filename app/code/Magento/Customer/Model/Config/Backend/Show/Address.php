@@ -15,8 +15,10 @@
  * @package    Magento_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Config_Backend_Show_Address
-    extends Magento_Customer_Model_Config_Backend_Show_Customer
+namespace Magento\Customer\Model\Config\Backend\Show;
+
+class Address
+    extends \Magento\Customer\Model\Config\Backend\Show\Customer
 {
     /**
      * Retrieve attribute objects

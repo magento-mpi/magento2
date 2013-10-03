@@ -11,7 +11,9 @@
 /**
  * CSV import adapter
  */
-class Magento_ImportExport_Model_Import_Source_Csv extends Magento_ImportExport_Model_Import_SourceAbstract
+namespace Magento\ImportExport\Model\Import\Source;
+
+class Csv extends \Magento\ImportExport\Model\Import\AbstractSource
 {
     /**
      * @var resource
@@ -36,13 +38,13 @@ class Magento_ImportExport_Model_Import_Source_Csv extends Magento_ImportExport_
      * @param string $fileOrStream
      * @param string $delimiter
      * @param string $enclosure
-     * @throws LogicException
+     * @throws \LogicException
      */
     public function __construct($fileOrStream, $delimiter = ',', $enclosure = '"')
     {
         $this->_file = @fopen($fileOrStream, 'r');
         if (false === $this->_file) {
-            throw new LogicException("Unable to open file or stream: '{$fileOrStream}'");
+            throw new \LogicException("Unable to open file or stream: '{$fileOrStream}'");
         }
         $this->_delimiter = $delimiter;
         $this->_enclosure = $enclosure;
@@ -70,7 +72,7 @@ class Magento_ImportExport_Model_Import_Source_Csv extends Magento_ImportExport_
     }
 
     /**
-     * Rewind the Iterator to the first element (Iterator interface)
+     * Rewind the \Iterator to the first element (\Iterator interface)
      */
     public function rewind()
     {

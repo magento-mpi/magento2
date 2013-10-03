@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Directory_Exception extends Magento_Core_Exception  
+namespace Magento\Directory;
+
+class Exception extends \Magento\Core\Exception
 {
     
 }

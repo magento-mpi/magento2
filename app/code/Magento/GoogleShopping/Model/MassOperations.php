@@ -15,73 +15,75 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Model_MassOperations
+namespace Magento\GoogleShopping\Model;
+
+class MassOperations
 {
     /**
-     * @var Magento_GoogleShopping_Helper_Data
+     * @var \Magento\GoogleShopping\Helper\Data
      */
     protected $_gleShoppingData = null;
 
     /**
-     * @var Magento_GoogleShopping_Helper_Category|null
+     * @var \Magento\GoogleShopping\Helper\Category|null
      */
     protected $_gleShoppingCategory = null;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Item factory
      *
-     * @var Magento_GoogleShopping_Model_Service_ItemFactory
+     * @var \Magento\GoogleShopping\Model\Service\ItemFactory
      */
     protected $_itemFactory;
 
     /**
      * Product factory
      *
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
      * Inbox factory
      *
-     * @var Magento_AdminNotification_Model_InboxFactory
+     * @var \Magento\AdminNotification\Model\InboxFactory
      */
     protected $_inboxFactory;
 
     /**
      * Collection factory
      *
-     * @var Magento_GoogleShopping_Model_Resource_Item_CollectionFactory
+     * @var \Magento\GoogleShopping\Model\Resource\Item\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @param Magento_GoogleShopping_Model_Resource_Item_CollectionFactory $collectionFactory
-     * @param Magento_GoogleShopping_Model_Service_ItemFactory $itemFactory
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_AdminNotification_Model_InboxFactory $inboxFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_GoogleShopping_Helper_Data $gleShoppingData
-     * @param Magento_GoogleShopping_Helper_Category $gleShoppingCategory
+     * @param \Magento\GoogleShopping\Model\Resource\Item\CollectionFactory $collectionFactory
+     * @param \Magento\GoogleShopping\Model\Service\ItemFactory $itemFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\AdminNotification\Model\InboxFactory $inboxFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\GoogleShopping\Helper\Data $gleShoppingData
+     * @param \Magento\GoogleShopping\Helper\Category $gleShoppingCategory
      * @param array $data
      */
     public function __construct(
-        Magento_GoogleShopping_Model_Resource_Item_CollectionFactory $collectionFactory,
-        Magento_GoogleShopping_Model_Service_ItemFactory $itemFactory,
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_AdminNotification_Model_InboxFactory $inboxFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_GoogleShopping_Helper_Data $gleShoppingData,
-        Magento_GoogleShopping_Helper_Category $gleShoppingCategory,
+        \Magento\GoogleShopping\Model\Resource\Item\CollectionFactory $collectionFactory,
+        \Magento\GoogleShopping\Model\Service\ItemFactory $itemFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\AdminNotification\Model\InboxFactory $inboxFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\GoogleShopping\Helper\Data $gleShoppingData,
+        \Magento\GoogleShopping\Helper\Category $gleShoppingCategory,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
@@ -95,7 +97,7 @@ class Magento_GoogleShopping_Model_MassOperations
     }
 
     /**
-     * Zend_Db_Statement_Exception code for "Duplicate unique index" error
+     * \Zend_Db_Statement_Exception code for "Duplicate unique index" error
      *
      * @var int
      */
@@ -111,22 +113,22 @@ class Magento_GoogleShopping_Model_MassOperations
     /**
      * Process locking flag
      *
-     * @var Magento_GoogleShopping_Model_Flag
+     * @var \Magento\GoogleShopping\Model\Flag
      */
     protected $_flag;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
      * Set process locking flag.
      *
-     * @param Magento_GoogleShopping_Model_Flag $flag
-     * @return Magento_GoogleShopping_Model_MassOperations
+     * @param \Magento\GoogleShopping\Model\Flag $flag
+     * @return \Magento\GoogleShopping\Model\MassOperations
      */
-    public function setFlag(Magento_GoogleShopping_Model_Flag $flag)
+    public function setFlag(\Magento\GoogleShopping\Model\Flag $flag)
     {
         $this->_flag = $flag;
         return $this;
@@ -137,9 +139,9 @@ class Magento_GoogleShopping_Model_MassOperations
      *
      * @param array $productIds
      * @param int $storeId
-     * @throws Zend_Gdata_App_CaptchaRequiredException
-     * @throws Magento_Core_Exception
-     * @return Magento_GoogleShopping_Model_MassOperations
+     * @throws \Zend_Gdata_App_CaptchaRequiredException
+     * @throws \Magento\Core\Exception
+     * @return \Magento\GoogleShopping\Model\MassOperations
      */
     public function addProducts($productIds, $storeId)
     {
@@ -158,19 +160,19 @@ class Magento_GoogleShopping_Model_MassOperations
                         // The product was added successfully
                         $totalAdded++;
                     }
-                } catch (Zend_Gdata_App_CaptchaRequiredException $e) {
+                } catch (\Zend_Gdata_App_CaptchaRequiredException $e) {
                     throw $e;
-                } catch (Zend_Gdata_App_Exception $e) {
+                } catch (\Zend_Gdata_App_Exception $e) {
                     $errors[] = $this->_gleShoppingData->parseGdataExceptionMessage($e->getMessage(), $product);
-                } catch (Zend_Db_Statement_Exception $e) {
+                } catch (\Zend_Db_Statement_Exception $e) {
                     $message = $e->getMessage();
                     if ($e->getCode() == self::ERROR_CODE_SQL_UNIQUE_INDEX) {
                         $message = __("The Google Content item for product '%1' (in '%2' store) already exists.", $product->getName(), $this->_storeManager->getStore($product->getStoreId())->getName());
                     }
                     $errors[] = $message;
-                } catch (Magento_Core_Exception $e) {
+                } catch (\Magento\Core\Exception $e) {
                     $errors[] = __('The product "%1" cannot be added to Google Content. %2', $product->getName(), $e->getMessage());
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     $this->_logger->logException($e);
                     $errors[] = __('The product "%1" hasn\'t been added to Google Content.', $product->getName());
                 }
@@ -207,10 +209,10 @@ class Magento_GoogleShopping_Model_MassOperations
     /**
      * Update Google Content items.
      *
-     * @param array|Magento_GoogleShopping_Model_Resource_Item_Collection $items
-     * @throws Zend_Gdata_App_CaptchaRequiredException
-     * @throws Magento_Core_Exception
-     * @return Magento_GoogleShopping_Model_MassOperations
+     * @param array|\Magento\GoogleShopping\Model\Resource\Item\Collection $items
+     * @throws \Zend_Gdata_App_CaptchaRequiredException
+     * @throws \Magento\Core\Exception
+     * @return \Magento\GoogleShopping\Model\MassOperations
      */
     public function synchronizeItems($items)
     {
@@ -234,7 +236,7 @@ class Magento_GoogleShopping_Model_MassOperations
                     $item->save();
                     // The item was updated successfully
                     $totalUpdated++;
-                } catch (Magento_Gdata_Gshopping_HttpException $e) {
+                } catch (\Magento\Gdata\Gshopping\HttpException $e) {
                     if (in_array('notfound', $e->getCodes())) {
                         $item->delete();
                         $totalDeleted++;
@@ -244,17 +246,17 @@ class Magento_GoogleShopping_Model_MassOperations
                             ->parseGdataExceptionMessage($e->getMessage(), $item->getProduct());
                         $totalFailed++;
                     }
-                } catch (Zend_Gdata_App_CaptchaRequiredException $e) {
+                } catch (\Zend_Gdata_App_CaptchaRequiredException $e) {
                     throw $e;
-                } catch (Zend_Gdata_App_Exception $e) {
+                } catch (\Zend_Gdata_App_Exception $e) {
                     $this->_addGeneralError();
                     $errors[] = $this->_gleShoppingData
                         ->parseGdataExceptionMessage($e->getMessage(), $item->getProduct());
                     $totalFailed++;
-                } catch (Magento_Core_Exception $e) {
+                } catch (\Magento\Core\Exception $e) {
                     $errors[] = __('The item "%1" cannot be updated at Google Content. %2', $item->getProduct()->getName(), $e->getMessage());
                     $totalFailed++;
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     $this->_logger->logException($e);
                     $errors[] = __('The item "%1" hasn\'t been updated.', $item->getProduct()->getName());
                     $totalFailed++;
@@ -282,9 +284,9 @@ class Magento_GoogleShopping_Model_MassOperations
     /**
      * Remove Google Content items.
      *
-     * @param array|Magento_GoogleShopping_Model_Resource_Item_Collection $items
-     * @throws Zend_Gdata_App_CaptchaRequiredException
-     * @return Magento_GoogleShopping_Model_MassOperations
+     * @param array|\Magento\GoogleShopping\Model\Resource\Item\Collection $items
+     * @throws \Zend_Gdata_App_CaptchaRequiredException
+     * @return \Magento\GoogleShopping\Model\MassOperations
      */
     public function deleteItems($items)
     {
@@ -303,13 +305,13 @@ class Magento_GoogleShopping_Model_MassOperations
                     $item->deleteItem()->delete();
                     // The item was removed successfully
                     $totalDeleted++;
-                } catch (Zend_Gdata_App_CaptchaRequiredException $e) {
+                } catch (\Zend_Gdata_App_CaptchaRequiredException $e) {
                     throw $e;
-                } catch (Zend_Gdata_App_Exception $e) {
+                } catch (\Zend_Gdata_App_Exception $e) {
                     $this->_addGeneralError();
                     $errors[] = $this->_gleShoppingData
                         ->parseGdataExceptionMessage($e->getMessage(), $item->getProduct());
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     $this->_logger->logException($e);
                     $errors[] = __('The item "%1" hasn\'t been deleted.', $item->getProduct()->getName());
                 }
@@ -337,14 +339,14 @@ class Magento_GoogleShopping_Model_MassOperations
     /**
      * Return items collection by IDs
      *
-     * @param array|Magento_GoogleShopping_Model_Resource_Item_Collection $items
-     * @throws Magento_Core_Exception
-     * @return null|Magento_GoogleShopping_Model_Resource_Item_Collection
+     * @param array|\Magento\GoogleShopping\Model\Resource\Item\Collection $items
+     * @throws \Magento\Core\Exception
+     * @return null|\Magento\GoogleShopping\Model\Resource\Item\Collection
      */
     protected function _getItemsCollection($items)
     {
         $itemsCollection = null;
-        if ($items instanceof Magento_GoogleShopping_Model_Resource_Item_Collection) {
+        if ($items instanceof \Magento\GoogleShopping\Model\Resource\Item\Collection) {
             $itemsCollection = $items;
         } else if (is_array($items)) {
             $itemsCollection = $this->_collectionFactory->create()->addFieldToFilter('item_id', $items);
@@ -356,7 +358,7 @@ class Magento_GoogleShopping_Model_MassOperations
     /**
      * Retrieve admin notifier
      *
-     * @return Magento_Adminhtml_Model_Inbox
+     * @return \Magento\Adminhtml\Model\Inbox
      */
     protected function _getNotifier()
     {

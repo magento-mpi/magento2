@@ -5,3 +5,4 @@
 dev/build/core_dev/performance/config*.php
 dev/tests/functional
 dev/tools/Magento/Tools/Translate
+dev/tests/static/testsuite/Magento/Test/Php/Exemplar

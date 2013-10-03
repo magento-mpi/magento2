@@ -16,23 +16,25 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Connect_Model_Session extends Magento_Core_Model_Session_Abstract
+namespace Magento\Connect\Model;
+
+class Session extends \Magento\Core\Model\Session\AbstractSession
 {
     /**
      * Connect data
      *
-     * @var Magento_Connect_Helper_Data
+     * @var \Magento\Connect\Helper\Data
      */
     protected $_connectData;
 
     /**
-     * @param Magento_Core_Model_Session_Context $context
-     * @param Magento_Connect_Helper_Data $connectData
+     * @param \Magento\Core\Model\Session\Context $context
+     * @param \Magento\Connect\Helper\Data $connectData
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Session_Context $context,
-        Magento_Connect_Helper_Data $connectData,
+        \Magento\Core\Model\Session\Context $context,
+        \Magento\Connect\Helper\Data $connectData,
         array $data = array()
     ) {
         $this->_connectData = $connectData;

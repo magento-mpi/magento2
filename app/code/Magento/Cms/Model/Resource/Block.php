@@ -16,31 +16,33 @@
  * @package     Magento_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Cms_Model_Resource_Block extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Cms\Model\Resource;
+
+class Block extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
-     * @var Magento_Core_Model_Date
+     * @var \Magento\Core\Model\Date
      */
     protected $_date;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Date $date
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Date $date,
-        Magento_Core_Model_StoreManagerInterface $storeManager
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\Date $date,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         parent::__construct($resource);
         $this->_storeManager = $storeManager;
@@ -59,10 +61,10 @@ class Magento_Cms_Model_Resource_Block extends Magento_Core_Model_Resource_Db_Ab
     /**
      * Process block data before deleting
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Cms_Model_Resource_Page
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Cms\Model\Resource\Page
      */
-    protected function _beforeDelete(Magento_Core_Model_Abstract $object)
+    protected function _beforeDelete(\Magento\Core\Model\AbstractModel $object)
     {
         $condition = array(
             'block_id = ?'     => (int) $object->getId(),
@@ -76,14 +78,14 @@ class Magento_Cms_Model_Resource_Block extends Magento_Core_Model_Resource_Db_Ab
     /**
      * Perform operations before object save
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Cms_Model_Resource_Block
-     * @throws Magento_Core_Exception
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Cms\Model\Resource\Block
+     * @throws \Magento\Core\Exception
      */
-    protected function _beforeSave(Magento_Core_Model_Abstract $object)
+    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
         if (!$this->getIsUniqueBlockToStores($object)) {
-            throw new Magento_Core_Exception(
+            throw new \Magento\Core\Exception(
                 __('A block identifier with the same properties already exists in the selected store.'));
         }
 
@@ -97,10 +99,10 @@ class Magento_Cms_Model_Resource_Block extends Magento_Core_Model_Resource_Db_Ab
     /**
      * Perform operations after object save
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Cms_Model_Resource_Block
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Cms\Model\Resource\Block
      */
-    protected function _afterSave(Magento_Core_Model_Abstract $object)
+    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
         $oldStores = $this->lookupStoreIds($object->getId());
         $newStores = (array)$object->getStores();
@@ -138,12 +140,12 @@ class Magento_Cms_Model_Resource_Block extends Magento_Core_Model_Resource_Db_Ab
     /**
      * Load an object using 'identifier' field if there's no field specified and value is not numeric
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      * @param mixed $value
      * @param string $field
-     * @return Magento_Cms_Model_Resource_Block
+     * @return \Magento\Cms\Model\Resource\Block
      */
-    public function load(Magento_Core_Model_Abstract $object, $value, $field = null)
+    public function load(\Magento\Core\Model\AbstractModel $object, $value, $field = null)
     {
         if (!is_numeric($value) && is_null($field)) {
             $field = 'identifier';
@@ -155,10 +157,10 @@ class Magento_Cms_Model_Resource_Block extends Magento_Core_Model_Resource_Db_Ab
     /**
      * Perform operations after object load
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Cms_Model_Resource_Block
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Cms\Model\Resource\Block
      */
-    protected function _afterLoad(Magento_Core_Model_Abstract $object)
+    protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
     {
         if ($object->getId()) {
             $stores = $this->lookupStoreIds($object->getId());
@@ -174,8 +176,8 @@ class Magento_Cms_Model_Resource_Block extends Magento_Core_Model_Resource_Db_Ab
      *
      * @param string $field
      * @param mixed $value
-     * @param Magento_Cms_Model_Block $object
-     * @return Zend_Db_Select
+     * @param \Magento\Cms\Model\Block $object
+     * @return \Zend_Db_Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {
@@ -184,7 +186,7 @@ class Magento_Cms_Model_Resource_Block extends Magento_Core_Model_Resource_Db_Ab
         if ($object->getStoreId()) {
             $stores = array(
                 (int) $object->getStoreId(),
-                Magento_Core_Model_AppInterface::ADMIN_STORE_ID,
+                \Magento\Core\Model\AppInterface::ADMIN_STORE_ID,
             );
 
             $select->join(
@@ -203,13 +205,13 @@ class Magento_Cms_Model_Resource_Block extends Magento_Core_Model_Resource_Db_Ab
     /**
      * Check for unique of identifier of block to selected store(s).
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      * @return bool
      */
-    public function getIsUniqueBlockToStores(Magento_Core_Model_Abstract $object)
+    public function getIsUniqueBlockToStores(\Magento\Core\Model\AbstractModel $object)
     {
         if ($this->_storeManager->hasSingleStore()) {
-            $stores = array(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
+            $stores = array(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
         } else {
             $stores = (array)$object->getData('stores');
         }

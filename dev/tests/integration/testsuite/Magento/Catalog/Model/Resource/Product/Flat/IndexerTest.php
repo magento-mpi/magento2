@@ -5,17 +5,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Catalog_Model_Resource_Product_Flat_IndexerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Resource\Product\Flat;
+
+class IndexerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_Resource_Product_Flat_Indexer
+     * @var \Magento\Catalog\Model\Resource\Product\Flat\Indexer
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Resource_Product_Flat_Indexer');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Resource\Product\Flat\Indexer');
     }
 
     public function testGetAttributeCodes()

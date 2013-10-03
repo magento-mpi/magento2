@@ -6,21 +6,23 @@
  * @license     {license_link}
  */
 
+namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions;
+
 /**
  * @magentoDataFixture Magento/CatalogRule/_files/catalog_rule_10_off_not_logged.php
  * @magentoAppArea adminhtml
  */
-class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_CatalogruleTest extends PHPUnit_Framework_TestCase
+class CatalogruleTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetCollection()
     {
-        /** @var Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule $block */
-        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule');
+        /** @var \Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions\Catalogrule $block */
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions\Catalogrule');
 
-        /** @var Magento_CatalogRule_Model_Rule $catalogRule */
-        $catalogRule = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_CatalogRule_Model_Rule');
+        /** @var \Magento\CatalogRule\Model\Rule $catalogRule */
+        $catalogRule = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\CatalogRule\Model\Rule');
         $catalogRule->load('Test Catalog Rule', 'name');
 
         $this->assertSame(array($catalogRule->getId()), $block->getCollection()->getAllIds());

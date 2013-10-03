@@ -11,45 +11,47 @@
 /**
  * Manage version controller
  */
-class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Version
-    extends Magento_VersionsCms_Controller_Adminhtml_Cms_Page
+namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Page;
+
+class Version
+    extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
 {
     /**
-     * @var Magento_VersionsCms_Model_Page_VersionFactory
+     * @var \Magento\VersionsCms\Model\Page\VersionFactory
      */
     protected $_pageVersionFactory;
 
     /**
-     * @var Magento_Adminhtml_Model_Session
+     * @var \Magento\Adminhtml\Model\Session
      */
     protected $_adminhtmlSession;
 
     /**
-     * @var Magento_VersionsCms_Model_Page_Revision
+     * @var \Magento\VersionsCms\Model\Page\Revision
      */
     protected $_pageRevision;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_VersionsCms_Model_Config $cmsConfig
-     * @param Magento_Backend_Model_Auth_Session $backendAuthSession
-     * @param Magento_VersionsCms_Model_Page_Version $pageVersion
-     * @param Magento_Cms_Model_PageFactory $pageFactory
-     * @param Magento_VersionsCms_Model_Page_VersionFactory $pageVersionFactory
-     * @param Magento_Adminhtml_Model_Session $adminhtmlSession
-     * @param Magento_VersionsCms_Model_Page_Revision $pageRevision
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\VersionsCms\Model\Config $cmsConfig
+     * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
+     * @param \Magento\VersionsCms\Model\Page\Version $pageVersion
+     * @param \Magento\Cms\Model\PageFactory $pageFactory
+     * @param \Magento\VersionsCms\Model\Page\VersionFactory $pageVersionFactory
+     * @param \Magento\Adminhtml\Model\Session $adminhtmlSession
+     * @param \Magento\VersionsCms\Model\Page\Revision $pageRevision
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_VersionsCms_Model_Config $cmsConfig,
-        Magento_Backend_Model_Auth_Session $backendAuthSession,
-        Magento_VersionsCms_Model_Page_Version $pageVersion,
-        Magento_Cms_Model_PageFactory $pageFactory,
-        Magento_VersionsCms_Model_Page_VersionFactory $pageVersionFactory,
-        Magento_Adminhtml_Model_Session $adminhtmlSession,
-        Magento_VersionsCms_Model_Page_Revision $pageRevision
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\VersionsCms\Model\Config $cmsConfig,
+        \Magento\Backend\Model\Auth\Session $backendAuthSession,
+        \Magento\VersionsCms\Model\Page\Version $pageVersion,
+        \Magento\Cms\Model\PageFactory $pageFactory,
+        \Magento\VersionsCms\Model\Page\VersionFactory $pageVersionFactory,
+        \Magento\Adminhtml\Model\Session $adminhtmlSession,
+        \Magento\VersionsCms\Model\Page\Revision $pageRevision
     ) {
         $this->_pageVersionFactory = $pageVersionFactory;
         $this->_adminhtmlSession = $adminhtmlSession;
@@ -60,7 +62,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Version
     /**
      * Init actions
      *
-     * @return Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Version
+     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Version
      */
     protected function _initAction()
     {
@@ -77,7 +79,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Version
      * with loaded data if id parameter present
      *
      * @param int $versionId
-     * @return Magento_VersionsCms_Model_Page_Version
+     * @return \Magento\VersionsCms\Model\Page\Version
      */
     protected function _initVersion($versionId = null)
     {
@@ -86,7 +88,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Version
         }
 
         $version = $this->_pageVersionFactory->create();
-        /* @var $version Magento_VersionsCms_Model_Page_Version */
+        /* @var $version \Magento\VersionsCms\Model\Page\Version */
 
         if ($versionId) {
             $userId = $this->_backendAuthSession->getUser()->getId();
@@ -101,7 +103,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Version
     /**
      * Edit version of CMS page
      *
-     * @return Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Version
+     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Version
      */
     public function editAction()
     {
@@ -134,7 +136,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Version
     /**
      * Save Action
      *
-     * @return Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Version
+     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Version
      */
     public function saveAction()
     {
@@ -172,7 +174,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Version
                 $this->_redirect('*/cms_page/edit', array('page_id' => $version->getPageId()));
                 return;
 
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // display error message
                 $this->_adminhtmlSession->addError($e->getMessage());
                 // save data in session
@@ -191,7 +193,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Version
     /**
      * Action for ajax grid with revisions
      *
-     * @return Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Version
+     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Version
      */
     public function revisionsAction()
     {
@@ -207,7 +209,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Version
     /**
      * Mass deletion for revisions
      *
-     * @return Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Version
+     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Version
      */
     public function massDeleteRevisionsAction()
     {
@@ -229,10 +231,10 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Version
                 $this->_getSession()->addSuccess(
                     __('A total of %1 record(s) have been deleted.', count($ids))
                 );
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
-            } catch (Exception $e) {
-                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            } catch (\Exception $e) {
+                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
                 $this->_getSession()->addError(__('Something went wrong while deleting the revisions.'));
             }
         }
@@ -244,7 +246,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Version
     /**
      * Delete action
      *
-     * @return Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Version
+     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Version
      */
     public function deleteAction()
     {
@@ -260,12 +262,12 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Version
                 $this->_adminhtmlSession->addSuccess(__('You have deleted the version.'));
                 $this->_redirect('*/cms_page/edit', array('page_id' => $version->getPageId()));
                 return;
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 // display error message
                 $this->_adminhtmlSession->addError($e->getMessage());
                 $error = true;
-            } catch (Exception $e) {
-                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            } catch (\Exception $e) {
+                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
                 $this->_adminhtmlSession->addError(__('Something went wrong while deleting this version.'));
                 $error = true;
             }
@@ -286,7 +288,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Version
     /**
      * New Version
      *
-     * @return Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Version
+     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Version
      */
     public function newAction()
     {
@@ -327,7 +329,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Version
                     ));
                 }
                 return;
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // display error message
                 $this->_adminhtmlSession->addError($e->getMessage());
                 if ($this->_getRefererUrl()) {

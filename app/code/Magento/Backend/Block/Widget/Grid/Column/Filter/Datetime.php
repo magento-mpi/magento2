@@ -16,8 +16,10 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  * @todo        date format
  */
-class Magento_Backend_Block_Widget_Grid_Column_Filter_Datetime
-    extends Magento_Backend_Block_Widget_Grid_Column_Filter_Date
+namespace Magento\Backend\Block\Widget\Grid\Column\Filter;
+
+class Datetime
+    extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Date
 {
     /**
      * full day is 86400, we need 23 hours:59 minutes:59 seconds = 86399
@@ -41,10 +43,10 @@ class Magento_Backend_Block_Widget_Grid_Column_Filter_Datetime
 
             //calculate end date considering timezone specification
             $datetimeTo->setTimezone(
-                $this->_storeConfig->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE)
+                $this->_storeConfig->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE)
             );
             $datetimeTo->addDay(1)->subSecond(1);
-            $datetimeTo->setTimezone(Magento_Core_Model_LocaleInterface::DEFAULT_TIMEZONE);
+            $datetimeTo->setTimezone(\Magento\Core\Model\LocaleInterface::DEFAULT_TIMEZONE);
         }
         return $value;
     }
@@ -54,7 +56,7 @@ class Magento_Backend_Block_Widget_Grid_Column_Filter_Datetime
      *
      * @param string $date
      * @param string $locale
-     * @return Zend_Date
+     * @return \Zend_Date
      */
     protected function _convertDate($date, $locale)
     {
@@ -64,21 +66,21 @@ class Magento_Backend_Block_Widget_Grid_Column_Filter_Datetime
 
                 //set default timezone for store (admin)
                 $dateObj->setTimezone(
-                    $this->_storeConfig->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE)
+                    $this->_storeConfig->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE)
                 );
 
                 //set date with applying timezone of store
                 $dateObj->set(
                     $date,
-                    $this->getLocale()->getDateTimeFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT),
+                    $this->getLocale()->getDateTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT),
                     $locale
                 );
 
                 //convert store date to default date in UTC timezone without DST
-                $dateObj->setTimezone(Magento_Core_Model_LocaleInterface::DEFAULT_TIMEZONE);
+                $dateObj->setTimezone(\Magento\Core\Model\LocaleInterface::DEFAULT_TIMEZONE);
 
                 return $dateObj;
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 return null;
             }
         }
@@ -93,11 +95,11 @@ class Magento_Backend_Block_Widget_Grid_Column_Filter_Datetime
     public function getHtml()
     {
         $htmlId = $this->_coreData->uniqHash($this->_getHtmlId());
-        $format = $this->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        $format = $this->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
         $timeFormat = '';
 
         if ($this->getColumn()->getFilterTime()) {
-            $timeFormat = $this->getLocale()->getTimeFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+            $timeFormat = $this->getLocale()->getTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
         }
 
         $html = '<div class="range" id="' . $htmlId . '_range"><div class="range-line date">'
@@ -142,9 +144,9 @@ class Magento_Backend_Block_Widget_Grid_Column_Filter_Datetime
     {
         if ($this->getColumn()->getFilterTime()) {
             $value = $this->getValue($index);
-            if ($value instanceof Zend_Date) {
+            if ($value instanceof \Zend_Date) {
                 return $value->toString(
-                    $this->getLocale()->getDateTimeFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT)
+                    $this->getLocale()->getDateTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT)
                 );
             }
             return $value;

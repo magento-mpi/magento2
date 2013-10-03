@@ -8,10 +8,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Sales\Block\Recurring\Profile\View;
+
 /**
  * Recurring profile view data
  */
-class Magento_Sales_Block_Recurring_Profile_View_Data extends Magento_Sales_Block_Recurring_Profile_View
+class Data extends \Magento\Sales\Block\Recurring\Profile\View
 {
     /**
      * Prepare profile data

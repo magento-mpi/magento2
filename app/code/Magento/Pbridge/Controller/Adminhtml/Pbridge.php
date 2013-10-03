@@ -15,12 +15,14 @@
  * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Pbridge_Controller_Adminhtml_Pbridge extends Magento_Adminhtml_Controller_Action
+namespace Magento\Pbridge\Controller\Adminhtml;
+
+class Pbridge extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Load only action layout handles
      *
-     * @return Magento_Pbridge_Adminhtml_IndexController
+     * @return \Magento\Pbridge\Adminhtml\IndexController
      */
     protected function _initActionLayout()
     {
@@ -29,7 +31,7 @@ class Magento_Pbridge_Controller_Adminhtml_Pbridge extends Magento_Adminhtml_Con
         $this->generateLayoutXml();
         $this->generateLayoutBlocks();
         $this->_isLayoutLoaded = true;
-        $this->_initLayoutMessages('Magento_Adminhtml_Model_Session');
+        $this->_initLayoutMessages('Magento\Adminhtml\Model\Session');
         return $this;
     }
 
@@ -48,13 +50,13 @@ class Magento_Pbridge_Controller_Adminhtml_Pbridge extends Magento_Adminhtml_Con
      * Iframe Ajax Action
      *
      *  @return void
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function iframeAction()
     {
         $methodCode = $this->getRequest()->getParam('method_code', null);
         if ($methodCode) {
-            $methodInstance = $this->_objectManager->get('Magento_Payment_Helper_Data')->getMethodInstance($methodCode);
+            $methodInstance = $this->_objectManager->get('Magento\Payment\Helper\Data')->getMethodInstance($methodCode);
             if ($methodInstance) {
                 $block = $this->getLayout()->createBlock($methodInstance->getFormBlockType());
                 $block->setMethod($methodInstance);
@@ -66,7 +68,7 @@ class Magento_Pbridge_Controller_Adminhtml_Pbridge extends Magento_Adminhtml_Con
                 }
             }
         } else {
-            throw new Magento_Core_Exception(__('Payment Method Code is not passed.'));
+            throw new \Magento\Core\Exception(__('Payment Method Code is not passed.'));
         }
     }
 
@@ -78,7 +80,7 @@ class Magento_Pbridge_Controller_Adminhtml_Pbridge extends Magento_Adminhtml_Con
     public function resultAction()
     {
         if ($this->getRequest()->getParam('store')) {
-            $this->_objectManager->get('Magento_Pbridge_Helper_Data')->setStoreId($this->getRequest()->getParam('store'));
+            $this->_objectManager->get('Magento\Pbridge\Helper\Data')->setStoreId($this->getRequest()->getParam('store'));
         }
         $this->_initActionLayout();
         $this->renderLayout();

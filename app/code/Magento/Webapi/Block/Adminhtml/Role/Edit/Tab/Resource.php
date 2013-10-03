@@ -7,12 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  *
- * @method Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource setApiRole(Magento_Webapi_Model_Acl_Role $role)
- * @method Magento_Webapi_Model_Acl_Role getApiRole() getApiRole()
- * @method Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource setSelectedResources(array $srIds)
+ * @method \Magento\Webapi\Block\Adminhtml\Role\Edit\Tab\Resource setApiRole(\Magento\Webapi\Model\Acl\Role $role)
+ * @method \Magento\Webapi\Model\Acl\Role getApiRole() getApiRole()
+ * @method \Magento\Webapi\Block\Adminhtml\Role\Edit\Tab\Resource setSelectedResources(array $srIds)
  * @method array getSelectedResources() getSelectedResources()
  */
-class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Magento_Backend_Block_Widget_Form
+namespace Magento\Webapi\Block\Adminhtml\Role\Edit\Tab;
+
+class Resource extends \Magento\Backend\Block\Widget\Form
 {
     /**
      * Web API ACL resources tree root ID.
@@ -20,12 +22,12 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Magento_Back
     const RESOURCES_TREE_ROOT_ID = '__root__';
 
     /**
-     * @var Magento_Acl_Resource_ProviderInterface
+     * @var \Magento\Acl\Resource\ProviderInterface
      */
     protected $_resourceProvider;
 
     /**
-     * @var Magento_Webapi_Model_Resource_Acl_Rule
+     * @var \Magento\Webapi\Model\Resource\Acl\Rule
      */
     protected $_ruleResource;
 
@@ -42,24 +44,24 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Magento_Back
     /**
      * Root ACL Resource
      *
-     * @var Magento_Core_Model_Acl_RootResource
+     * @var \Magento\Core\Model\Acl\RootResource
      */
     protected $_rootResource;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Acl_Resource_ProviderInterface $resourceProvider
-     * @param Magento_Webapi_Model_Resource_Acl_Rule $ruleResource
-     * @param Magento_Core_Model_Acl_RootResource $rootResource
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Acl\Resource\ProviderInterface $resourceProvider
+     * @param \Magento\Webapi\Model\Resource\Acl\Rule $ruleResource
+     * @param \Magento\Core\Model\Acl\RootResource $rootResource
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Acl_Resource_ProviderInterface $resourceProvider,
-        Magento_Webapi_Model_Resource_Acl_Rule $ruleResource,
-        Magento_Core_Model_Acl_RootResource $rootResource,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Acl\Resource\ProviderInterface $resourceProvider,
+        \Magento\Webapi\Model\Resource\Acl\Rule $ruleResource,
+        \Magento\Core\Model\Acl\RootResource $rootResource,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);
@@ -71,7 +73,7 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Magento_Back
     /**
      * Prepare Form.
      *
-     * @return Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource
+     * @return \Magento\Webapi\Block\Adminhtml\Role\Edit\Tab\Resource
      */
     protected function _prepareForm()
     {

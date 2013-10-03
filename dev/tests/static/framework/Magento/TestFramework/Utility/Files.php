@@ -9,10 +9,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_TestFramework_Utility_Files
+namespace Magento\TestFramework\Utility;
+
+class Files
 {
     /**
-     * @var Magento_TestFramework_Utility_Files
+     * @var \Magento\TestFramework\Utility\Files
      */
     protected static $_instance = null;
 
@@ -31,17 +33,17 @@ class Magento_TestFramework_Utility_Files
     /**
      * Setter/Getter for an instance of self
      *
-     * @param Magento_TestFramework_Utility_Files $instance
-     * @return Magento_TestFramework_Utility_Files
-     * @throws Exception when there is no instance set
+     * @param \Magento\TestFramework\Utility\Files $instance
+     * @return \Magento\TestFramework\Utility\Files
+     * @throws \Exception when there is no instance set
      */
-    public static function init(Magento_TestFramework_Utility_Files $instance = null)
+    public static function init(\Magento\TestFramework\Utility\Files $instance = null)
     {
         if ($instance) {
             self::$_instance = $instance;
         }
         if (!self::$_instance) {
-            throw new Exception('Instance is not set yet.');
+            throw new \Exception('Instance is not set yet.');
         }
         return self::$_instance;
     }
@@ -144,12 +146,11 @@ class Magento_TestFramework_Utility_Files
             return self::$_cache[$key];
         }
         if (!isset(self::$_cache[$key])) {
-            $namespace = '*';
-
             $files = array_merge(
-                self::_getFiles(array("{$this->_path}/app/code/{$namespace}"), '*.php'),
-                self::_getFiles(array("{$this->_path}/dev"), '*.php'),
-                self::_getFiles(array("{$this->_path}/downloader/Maged"), '*.php'),
+                self::_getFiles(array("{$this->_path}/app/code/Magento"), '*.php'),
+                self::_getFiles(array("{$this->_path}/dev/tests"), '*.php'),
+                self::_getFiles(array("{$this->_path}/dev/tools/Magento"), '*.php'),
+                self::_getFiles(array("{$this->_path}/downloader/app/Magento"), '*.php'),
                 self::_getFiles(array("{$this->_path}/downloader/lib/Magento"), '*.php'),
                 self::_getFiles(array("{$this->_path}/lib/Magento"), '*.php')
             );
@@ -508,7 +509,13 @@ class Magento_TestFramework_Utility_Files
      */
     public function classFileExists($class, &$path = '')
     {
-        $path = implode(DIRECTORY_SEPARATOR, explode('_', $class)) . '.php';
+        if ($class[0] == '\\') {
+            $class = substr($class, 1);
+        }
+        $classParts = explode('\\', $class);
+        $className = array_pop($classParts);
+        $namespace = implode('\\', $classParts);
+        $path = implode(DIRECTORY_SEPARATOR, explode('\\', $class)) . '.php';
         $directories = array('/app/code/', '/lib/');
         foreach ($directories as $dir) {
             $fullPath = str_replace('/', DIRECTORY_SEPARATOR, $this->_path . $dir . $path);
@@ -518,9 +525,9 @@ class Magento_TestFramework_Utility_Files
              */
             if (realpath($fullPath) == $fullPath) {
                 $fileContent = file_get_contents($fullPath);
-                if (strpos($fileContent, 'class ' . $class) !== false ||
-                    strpos($fileContent, 'interface ' . $class) !== false
-                ) {
+                if (strpos($fileContent, 'namespace ' . $namespace) !== false &&
+                    (strpos($fileContent, 'class ' . $className) !== false ||
+                        strpos($fileContent, 'interface ' . $className) !== false)) {
                     return true;
                 }
             }
@@ -540,7 +547,7 @@ class Magento_TestFramework_Utility_Files
             return self::$_cache[$key];
         }
 
-        $iterator = new DirectoryIterator($this->_path . '/app/code/');
+        $iterator = new \DirectoryIterator($this->_path . '/app/code/');
         $result = array();
         foreach ($iterator as $file) {
             if (!$file->isDot() && !in_array($file->getFilename(), array('Zend')) && $file->isDir()) {

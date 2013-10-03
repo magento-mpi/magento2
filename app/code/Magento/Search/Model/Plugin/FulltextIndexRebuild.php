@@ -1,45 +1,47 @@
 <?php
 /**
- * Pluginization of Magento_CatalogSearch_Model_Fulltext model
+ * Pluginization of \Magento\CatalogSearch\Model\Fulltext model
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Search_Model_Plugin_FulltextIndexRebuild
+namespace Magento\Search\Model\Plugin;
+
+class FulltextIndexRebuild
 {
     /**
-     * @var Magento_Search_Helper_Data
+     * @var \Magento\Search\Helper\Data
      */
     protected $_searchHelper;
 
     /**
-     * @var Magento_Search_Model_Catalog_Layer_Filter_Price
+     * @var \Magento\Search\Model\Catalog\Layer\Filter\Price
      */
     protected $_layerFilterPrice;
 
     /**
-     * @var Magento_Core_Model_CacheInterface
+     * @var \Magento\Core\Model\CacheInterface
      */
     protected $_cache;
 
     /**
-     * @var Magento_CatalogSearch_Model_Resource_EngineProvider
+     * @var \Magento\CatalogSearch\Model\Resource\EngineProvider
      */
     protected $_engineProvider = null;
 
     /**
-     * @param Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider
-     * @param Magento_Search_Helper_Data $searchHelper
-     * @param Magento_Search_Model_Catalog_Layer_Filter_Price $layerFilterPrice
-     * @param Magento_Core_Model_CacheInterface $cache
+     * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
+     * @param \Magento\Search\Helper\Data $searchHelper
+     * @param \Magento\Search\Model\Catalog\Layer\Filter\Price $layerFilterPrice
+     * @param \Magento\Core\Model\CacheInterface $cache
      */
     public function __construct(
-        Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider,
-        Magento_Search_Helper_Data $searchHelper,
-        Magento_Search_Model_Catalog_Layer_Filter_Price $layerFilterPrice,
-        Magento_Core_Model_CacheInterface $cache
+        \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
+        \Magento\Search\Helper\Data $searchHelper,
+        \Magento\Search\Model\Catalog\Layer\Filter\Price $layerFilterPrice,
+        \Magento\Core\Model\CacheInterface $cache
     ) {
         $this->_engineProvider = $engineProvider;
         $this->_searchHelper = $searchHelper;
@@ -77,10 +79,10 @@ class Magento_Search_Model_Plugin_FulltextIndexRebuild
      * Make index optimization if documents were added to index.
      * Allow commit if it was held.
      *
-     * @param Magento_CatalogSearch_Model_Fulltext $result
-     * @return Magento_CatalogSearch_Model_Fulltext
+     * @param \Magento\CatalogSearch\Model\Fulltext $result
+     * @return \Magento\CatalogSearch\Model\Fulltext
      */
-    public function afterRebuildIndex(Magento_CatalogSearch_Model_Fulltext $result)
+    public function afterRebuildIndex(\Magento\CatalogSearch\Model\Fulltext $result)
     {
         if ($this->_searchHelper->isThirdPartyEngineAvailable()) {
 

@@ -11,35 +11,37 @@
 /**
  * Entity items data model
  *
- * @method Magento_GiftRegistry_Model_Resource_Item _getResource()
- * @method Magento_GiftRegistry_Model_Resource_Item getResource()
- * @method Magento_GiftRegistry_Model_Item setEntityId(int $value)
+ * @method \Magento\GiftRegistry\Model\Resource\Item _getResource()
+ * @method \Magento\GiftRegistry\Model\Resource\Item getResource()
+ * @method \Magento\GiftRegistry\Model\Item setEntityId(int $value)
  * @method int getProductId()
- * @method Magento_GiftRegistry_Model_Item setProductId(int $value)
+ * @method \Magento\GiftRegistry\Model\Item setProductId(int $value)
  * @method float getQty()
  * @method float getQtyFulfilled()
- * @method Magento_GiftRegistry_Model_Item setQtyFulfilled(float $value)
+ * @method \Magento\GiftRegistry\Model\Item setQtyFulfilled(float $value)
  * @method string getNote()
- * @method Magento_GiftRegistry_Model_Item setNote(string $value)
+ * @method \Magento\GiftRegistry\Model\Item setNote(string $value)
  * @method string getAddedAt()
- * @method Magento_GiftRegistry_Model_Item setAddedAt(string $value)
+ * @method \Magento\GiftRegistry\Model\Item setAddedAt(string $value)
  * @method string getCustomOptions()
- * @method Magento_GiftRegistry_Model_Item setCustomOptions(string $value)
+ * @method \Magento\GiftRegistry\Model\Item setCustomOptions(string $value)
  *
  * @category    Magento
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftRegistry_Model_Item extends Magento_Core_Model_Abstract
-    implements Magento_Catalog_Model_Product_Configuration_Item_Interface
+namespace Magento\GiftRegistry\Model;
+
+class Item extends \Magento\Core\Model\AbstractModel
+    implements \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface
 {
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $productFactory;
 
     /**
-     * @var Magento_GiftRegistry_Model_Item_OptionFactory
+     * @var \Magento\GiftRegistry\Model\Item\OptionFactory
      */
     protected $optionFactory;
 
@@ -59,28 +61,28 @@ class Magento_GiftRegistry_Model_Item extends Magento_Core_Model_Abstract
     protected $_optionsByCode = array();
 
     /**
-     * @var array|Magento_Catalog_Model_Resource_Url
+     * @var array|\Magento\Catalog\Model\Resource\Url
      */
     protected $resourceUrl = array();
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Catalog_Model_ProductFactory $productFactory,
-     * @param Magento_GiftRegistry_Model_Item_OptionFactory $optionFactory,
-     * @param Magento_Catalog_Model_Resource_Url $resourceUrl
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory,
+     * @param \Magento\GiftRegistry\Model\Item\OptionFactory $optionFactory,
+     * @param \Magento\Catalog\Model\Resource\Url $resourceUrl
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_GiftRegistry_Model_Item_OptionFactory $optionFactory,
-        Magento_Catalog_Model_Resource_Url $resourceUrl,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\GiftRegistry\Model\Item\OptionFactory $optionFactory,
+        \Magento\Catalog\Model\Resource\Url $resourceUrl,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -98,7 +100,7 @@ class Magento_GiftRegistry_Model_Item extends Magento_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('Magento_GiftRegistry_Model_Resource_Item');
+        $this->_init('Magento\GiftRegistry\Model\Resource\Item');
     }
 
     /**
@@ -106,7 +108,7 @@ class Magento_GiftRegistry_Model_Item extends Magento_Core_Model_Abstract
      *
      * @param int $registryId
      * @param int $productId
-     * @return Magento_GiftRegistry_Model_Item
+     * @return \Magento\GiftRegistry\Model\Item
      */
     public function loadByProductRegistry($registryId, $productId)
     {
@@ -120,12 +122,12 @@ class Magento_GiftRegistry_Model_Item extends Magento_Core_Model_Abstract
      * Return true if product was successful added or exception with code
      * Return false for disabled or unvisible products
      *
-     * @throws Magento_Core_Exception
-     * @param Magento_Checkout_Model_Cart $cart
+     * @throws \Magento\Core\Exception
+     * @param \Magento\Checkout\Model\Cart $cart
      * @param int $qty
      * @return bool
      */
-    public function addToCart(Magento_Checkout_Model_Cart $cart, $qty)
+    public function addToCart(\Magento\Checkout\Model\Cart $cart, $qty)
     {
         $product = $this->_getProduct();
         $storeId = $this->getStoreId();
@@ -134,7 +136,7 @@ class Magento_GiftRegistry_Model_Item extends Magento_Core_Model_Abstract
             $qty = $this->getQty() - $this->getQtyFulfilled();
         }
 
-        if ($product->getStatus() != Magento_Catalog_Model_Product_Status::STATUS_ENABLED) {
+        if ($product->getStatus() != \Magento\Catalog\Model\Product\Status::STATUS_ENABLED) {
             return false;
         }
 
@@ -146,7 +148,7 @@ class Magento_GiftRegistry_Model_Item extends Magento_Core_Model_Abstract
             if (!isset($urlData[$product->getId()])) {
                 return false;
             }
-            $product->setUrlDataObject(new Magento_Object($urlData));
+            $product->setUrlDataObject(new \Magento\Object($urlData));
             $visibility = $product->getUrlDataObject()->getVisibility();
             if (!in_array($visibility, $product->getVisibleInSiteVisibilities())) {
                 return false;
@@ -154,7 +156,7 @@ class Magento_GiftRegistry_Model_Item extends Magento_Core_Model_Abstract
         }
 
         if (!$product->isSalable()) {
-            throw new Magento_Core_Exception(
+            throw new \Magento\Core\Exception(
                 __('This product(s) is out of stock.'));
         }
 
@@ -177,7 +179,7 @@ class Magento_GiftRegistry_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Check product representation in item
      *
-     * @param   Magento_Catalog_Model_Product $product
+     * @param   \Magento\Catalog\Model\Product $product
      * @return  bool
      */
     public function isRepresentProduct($product)
@@ -226,8 +228,8 @@ class Magento_GiftRegistry_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Set product attributes to item
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_GiftRegistry_Model_Item
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\GiftRegistry\Model\Item
      */
     public function setProduct($product)
     {
@@ -249,14 +251,14 @@ class Magento_GiftRegistry_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Return item product
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     protected function _getProduct()
     {
         if (!$this->_getData('product')) {
             $product = $this->productFactory->create()->load($this->getProductId());
             if (!$product->getId()) {
-                throw new Magento_Core_Exception(
+                throw new \Magento\Core\Exception(
                     __('Please correct the product for adding the item to the quote.'));
             }
             $this->setProduct($product);
@@ -267,7 +269,7 @@ class Magento_GiftRegistry_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Return item product
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
@@ -291,7 +293,7 @@ class Magento_GiftRegistry_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Save item options after item is saved
      *
-     * @return Magento_GiftRegistry_Model_Item
+     * @return \Magento\GiftRegistry\Model\Item
      */
     protected function _afterSave()
     {
@@ -302,7 +304,7 @@ class Magento_GiftRegistry_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Save item options
      *
-     * @return Magento_GiftRegistry_Model_Item
+     * @return \Magento\GiftRegistry\Model\Item
      */
     protected function _saveItemOptions()
     {
@@ -341,7 +343,7 @@ class Magento_GiftRegistry_Model_Item extends Magento_Core_Model_Abstract
      * Initialize item options
      *
      * @param array $options
-     * @return Magento_GiftRegistry_Model_Item
+     * @return \Magento\GiftRegistry\Model\Item
      */
     public function setOptions($options)
     {
@@ -375,7 +377,7 @@ class Magento_GiftRegistry_Model_Item extends Magento_Core_Model_Abstract
      * Remove option from item options
      *
      * @param string $code
-     * @return Magento_GiftRegistry_Model_Item
+     * @return \Magento\GiftRegistry\Model\Item
      */
     public function removeOption($code)
     {
@@ -389,31 +391,31 @@ class Magento_GiftRegistry_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Add option to item
      *
-     * @throws  Magento_Core_Exception
-     * @param   Magento_GiftRegistry_Model_Item_Option $option
-     * @return  Magento_GiftRegistry_Model_Item
+     * @throws  \Magento\Core\Exception
+     * @param   \Magento\GiftRegistry\Model\Item\Option $option
+     * @return  \Magento\GiftRegistry\Model\Item
      */
     public function addOption($option)
     {
         if (is_array($option)) {
             $option = $this->optionFactory->create()->setData($option)
                 ->setItem($this);
-        } elseif ($option instanceof Magento_Sales_Model_Quote_Item_Option) {
+        } elseif ($option instanceof \Magento\Sales\Model\Quote\Item\Option) {
             // import data from existing quote item option
             $option = $this->optionFactory->create()->setProduct($option->getProduct())
                ->setCode($option->getCode())
                ->setValue($option->getValue())
                ->setItem($this);
-        } elseif (($option instanceof Magento_Object)
-            && !($option instanceof Magento_GiftRegistry_Model_Item_Option)
+        } elseif (($option instanceof \Magento\Object)
+            && !($option instanceof \Magento\GiftRegistry\Model\Item\Option)
         ) {
             $option = $this->optionFactory->create()->setData($option->getData())
                ->setProduct($option->getProduct())
                ->setItem($this);
-        } elseif ($option instanceof Magento_GiftRegistry_Model_Item_Option) {
+        } elseif ($option instanceof \Magento\GiftRegistry\Model\Item\Option) {
             $option->setItem($this);
         } else {
-            throw new Magento_Core_Exception(__('Please correct the item option format.'));
+            throw new \Magento\Core\Exception(__('Please correct the item option format.'));
         }
 
         $exOption = $this->getOptionByCode($option->getCode());
@@ -429,16 +431,16 @@ class Magento_GiftRegistry_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Register option code
      *
-     * @throws  Magento_Core_Exception
-     * @param   Magento_GiftRegistry_Model_Item_Option $option
-     * @return  Magento_GiftRegistry_Model_Item
+     * @throws  \Magento\Core\Exception
+     * @param   \Magento\GiftRegistry\Model\Item\Option $option
+     * @return  \Magento\GiftRegistry\Model\Item
      */
     protected function _addOptionCode($option)
     {
         if (!isset($this->_optionsByCode[$option->getCode()])) {
             $this->_optionsByCode[$option->getCode()] = $option;
         } else {
-            throw new Magento_Core_Exception(__('An item option with code %1 already exists.', $option->getCode()));
+            throw new \Magento\Core\Exception(__('An item option with code %1 already exists.', $option->getCode()));
         }
         return $this;
     }
@@ -447,7 +449,7 @@ class Magento_GiftRegistry_Model_Item extends Magento_Core_Model_Abstract
      * Retrieve item option by code
      *
      * @param   string $code
-     * @return  Magento_GiftRegistry_Model_Item_Option|null
+     * @return  \Magento\GiftRegistry\Model\Item\Option|null
      */
     public function getOptionByCode($code)
     {
@@ -461,12 +463,12 @@ class Magento_GiftRegistry_Model_Item extends Magento_Core_Model_Abstract
      * Returns formatted buy request - object, holding request received from
      * product view page with keys and options for configured product
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getBuyRequest()
     {
         $option = $this->getOptionByCode('info_buyRequest');
-        $buyRequest = new Magento_Object($option ? unserialize($option->getValue()) : null);
+        $buyRequest = new \Magento\Object($option ? unserialize($option->getValue()) : null);
         $buyRequest->setOriginalQty($buyRequest->getQty())
             ->setQty($this->getQty() * 1); // Qty value that is stored in buyRequest can be out-of-date
         return $buyRequest;
@@ -475,7 +477,7 @@ class Magento_GiftRegistry_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Clone gift registry item
      *
-     * @return Magento_GiftRegistry_Model_Item
+     * @return \Magento\GiftRegistry\Model\Item
      */
     public function __clone()
     {
@@ -490,10 +492,10 @@ class Magento_GiftRegistry_Model_Item extends Magento_Core_Model_Abstract
 
     /**
      * Returns special download params (if needed) for custom option with type = 'file'
-     * Needed to implement Magento_Catalog_Model_Product_Configuration_Item_Interface.
+     * Needed to implement \Magento\Catalog\Model\Product\Configuration\Item\Interface.
      * Currently returns null, as far as we don't show file options and don't need controllers to give file.
      *
-     * @return null|Magento_Object
+     * @return null|\Magento\Object
      */
     public function getFileDownloadParams()
     {
@@ -504,8 +506,8 @@ class Magento_GiftRegistry_Model_Item extends Magento_Core_Model_Abstract
      * Validates and sets quantity for the related product
      *
      * @param int|float $quantity New item quantity
-     * @throws Magento_Core_Exception
-     * @return Magento_GiftRegistry_Model_Item
+     * @throws \Magento\Core\Exception
+     * @return \Magento\GiftRegistry\Model\Item
      */
     public function setQty($quantity)
     {

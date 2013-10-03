@@ -8,10 +8,12 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Model_Config_ConverterTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Model\Config;
+
+class ConverterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Sales_Model_Config_Converter
+     * @var \Magento\Sales\Model\Config\Converter
      */
     protected $_converter;
 
@@ -20,7 +22,7 @@ class Magento_Sales_Model_Config_ConverterTest extends PHPUnit_Framework_TestCas
      */
     protected function setUp()
     {
-        $this->_converter = new Magento_Sales_Model_Config_Converter();
+        $this->_converter = new \Magento\Sales\Model\Config\Converter();
     }
 
     /**
@@ -37,7 +39,7 @@ class Magento_Sales_Model_Config_ConverterTest extends PHPUnit_Framework_TestCas
      */
     public function testConvertNoElements()
     {
-        $result = $this->_converter->convert(new DOMDocument());
+        $result = $this->_converter->convert(new \DOMDocument());
         $this->assertEmpty($result);
     }
 
@@ -83,7 +85,7 @@ class Magento_Sales_Model_Config_ConverterTest extends PHPUnit_Framework_TestCas
         );
 
         $xmlFile = __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'sales_valid.xml';
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->loadXML(file_get_contents($xmlFile));
         $result = $this->_converter->convert($dom);
         $this->assertEquals($expected, $result);
@@ -92,12 +94,12 @@ class Magento_Sales_Model_Config_ConverterTest extends PHPUnit_Framework_TestCas
     /**
      * Testing converting not valid cron configuration, expect to get exception
      *
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testConvertWrongConfiguration()
     {
         $xmlFile = __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'sales_invalid.xml';
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->loadXML(file_get_contents($xmlFile));
         $this->_converter->convert($dom);
     }

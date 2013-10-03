@@ -20,15 +20,17 @@
  * The test is intended to be deleted before Magento 2 release. With the release, having non-modular files with the
  * same paths as modular ones, is legitimate.
  */
-class Magento_Test_Integrity_ViewFileReferenceTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity;
+
+class ViewFileReferenceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Design_Fallback_Rule_RuleInterface
+     * @var \Magento\Core\Model\Design\Fallback\Rule\RuleInterface
      */
     static protected $_fallbackRule;
 
     /**
-     * @var Magento_Core_Model_Design_FileResolution_Strategy_Fallback
+     * @var \Magento\Core\Model\Design\FileResolution\Strategy\Fallback
      */
     static protected $_fallback;
 
@@ -38,22 +40,22 @@ class Magento_Test_Integrity_ViewFileReferenceTest extends PHPUnit_Framework_Tes
     static protected $_checkThemeLocales = array();
 
     /**
-     * @var Magento_Core_Model_Theme_Collection
+     * @var \Magento\Core\Model\Theme\Collection
      */
     static protected $_themeCollection;
 
     public static function setUpBeforeClass()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        /** @var $fallbackFactory Magento_Core_Model_Design_Fallback_Factory */
-        $fallbackFactory = $objectManager->get('Magento_Core_Model_Design_Fallback_Factory');
+        /** @var $fallbackFactory \Magento\Core\Model\Design\Fallback\Factory */
+        $fallbackFactory = $objectManager->get('Magento\Core\Model\Design\Fallback\Factory');
         self::$_fallbackRule = $fallbackFactory->createViewFileRule();
 
-        self::$_fallback = $objectManager->get('Magento_Core_Model_Design_FileResolution_Strategy_Fallback');
+        self::$_fallback = $objectManager->get('Magento\Core\Model\Design\FileResolution\Strategy\Fallback');
 
         // Themes to be checked
-        self::$_themeCollection = $objectManager->get('Magento_Core_Model_Theme_Collection');
+        self::$_themeCollection = $objectManager->get('Magento\Core\Model\Theme\Collection');
         self::$_themeCollection->addDefaultPattern('*');
 
         // Compose list of locales, needed to be checked for themes
@@ -68,14 +70,14 @@ class Magento_Test_Integrity_ViewFileReferenceTest extends PHPUnit_Framework_Tes
     /**
      * Return array of locales, supported by the theme
      *
-     * @param Magento_Core_Model_Theme $theme
+     * @param \Magento\Core\Model\Theme $theme
      * @return array
      */
-    static protected function _getThemeLocales(Magento_Core_Model_Theme $theme)
+    static protected function _getThemeLocales(\Magento\Core\Model\Theme $theme)
     {
         $result = array();
         $patternDir = self::_getLocalePatternDir($theme);
-        $localeModel = new Zend_Locale;
+        $localeModel = new \Zend_Locale;
         foreach (array_keys($localeModel->getLocaleList()) as $locale) {
             $dir = str_replace('<locale_placeholder>', $locale, $patternDir);
             if (is_dir($dir)) {
@@ -88,11 +90,11 @@ class Magento_Test_Integrity_ViewFileReferenceTest extends PHPUnit_Framework_Tes
     /**
      * Return pattern for theme locale directories, where <locale_placeholder> is placed to mark a locale's location.
      *
-     * @param Magento_Core_Model_Theme $theme
+     * @param \Magento\Core\Model\Theme $theme
      * @return string
-     * @throws Exception
+     * @throws \Exception
      */
-    static protected function _getLocalePatternDir(Magento_Core_Model_Theme $theme)
+    static protected function _getLocalePatternDir(\Magento\Core\Model\Theme $theme)
     {
         $localePlaceholder = '<locale_placeholder>';
         $params = array(
@@ -110,7 +112,7 @@ class Magento_Test_Integrity_ViewFileReferenceTest extends PHPUnit_Framework_Tes
                 return $patternDir;
             }
         }
-        throw new Exception('Unable to determine theme locale path');
+        throw new \Exception('Unable to determine theme locale path');
     }
 
     /**
@@ -121,7 +123,7 @@ class Magento_Test_Integrity_ViewFileReferenceTest extends PHPUnit_Framework_Tes
      */
     public function testModularFallback($modularCall, array $usages, $area)
     {
-        list(, $file) = explode(Magento_Core_Model_View_Service::SCOPE_SEPARATOR, $modularCall);
+        list(, $file) = explode(\Magento\Core\Model\View\Service::SCOPE_SEPARATOR, $modularCall);
 
         $wrongResolutions = array();
         foreach (self::$_themeCollection as $theme) {
@@ -148,11 +150,11 @@ class Magento_Test_Integrity_ViewFileReferenceTest extends PHPUnit_Framework_Tes
     /**
      * Resolves file to find its fallback'ed paths
      *
-     * @param Magento_Core_Model_Theme $theme
+     * @param \Magento\Core\Model\Theme $theme
      * @param string $file
      * @return array
      */
-    protected function _getFileResolutions(Magento_Core_Model_Theme $theme, $file)
+    protected function _getFileResolutions(\Magento\Core\Model\Theme $theme, $file)
     {
         $found = array();
         $fileResolved = self::$_fallback->getFile($theme->getArea(), $theme, $file);
@@ -181,7 +183,7 @@ class Magento_Test_Integrity_ViewFileReferenceTest extends PHPUnit_Framework_Tes
             $modulePattern = '[A-Z][a-z]+_[A-Z][a-z]+';
             $filePattern = '[[:alnum:]_/-]+\\.[[:alnum:]_./-]+';
             $pattern = '#' . $modulePattern
-                . preg_quote(Magento_Core_Model_View_Service::SCOPE_SEPARATOR)
+                . preg_quote(\Magento\Core\Model\View\Service::SCOPE_SEPARATOR)
                 . $filePattern . '#S';
             if (!preg_match_all($pattern, file_get_contents($file), $matches)) {
                 continue;
@@ -215,8 +217,8 @@ class Magento_Test_Integrity_ViewFileReferenceTest extends PHPUnit_Framework_Tes
         $result = array();
         $rootDir = self::_getRootDir();
         foreach (array('app/code', 'app/design') as $subDir) {
-            $iterator = new RecursiveIteratorIterator(
-                new RecursiveDirectoryIterator($rootDir . "/{$subDir}", RecursiveDirectoryIterator::SKIP_DOTS)
+            $iterator = new \RecursiveIteratorIterator(
+                new \RecursiveDirectoryIterator($rootDir . "/{$subDir}", \RecursiveDirectoryIterator::SKIP_DOTS)
             );
             $result = array_merge($result, iterator_to_array($iterator));
         }

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Install_Model_EntryPoint_Console extends Magento_Core_Model_EntryPointAbstract
+namespace Magento\Install\Model\EntryPoint;
+
+class Console extends \Magento\Core\Model\AbstractEntryPoint
 {
     /**
      * Application params
@@ -17,24 +19,24 @@ class Magento_Install_Model_EntryPoint_Console extends Magento_Core_Model_EntryP
     protected $_params = array();
 
     /**
-     * @param Magento_Core_Model_Config_Primary $baseDir
+     * @param \Magento\Core\Model\Config\Primary $baseDir
      * @param array $params
-     * @param Magento_Core_Model_Config_Primary $config
-     * @param Magento_ObjectManager $objectManager
-     * @param Magento_Install_Model_EntryPoint_Output $output
+     * @param \Magento\Core\Model\Config\Primary $config
+     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Install\Model\EntryPoint\Output $output
      */
     public function __construct(
         $baseDir,
         array $params = array(),
-        Magento_Core_Model_Config_Primary $config = null,
-        Magento_ObjectManager $objectManager = null,
-        Magento_Install_Model_EntryPoint_Output $output = null
+        \Magento\Core\Model\Config\Primary $config = null,
+        \Magento\ObjectManager $objectManager = null,
+        \Magento\Install\Model\EntryPoint\Output $output = null
     ) {
         $this->_params = $this->_buildInitParams($params);
         if (!$config) {
-            $config = new Magento_Core_Model_Config_Primary($baseDir, $this->_params);
+            $config = new \Magento\Core\Model\Config\Primary($baseDir, $this->_params);
         }
-        $this->_output = $output ?: new Magento_Install_Model_EntryPoint_Output();
+        $this->_output = $output ?: new \Magento\Install\Model\EntryPoint\Output();
         parent::__construct($config, $objectManager);
     }
 
@@ -46,13 +48,13 @@ class Magento_Install_Model_EntryPoint_Console extends Magento_Core_Model_EntryP
      */
     protected function _buildInitParams(array $args)
     {
-        if (!empty($args[Magento_Install_Model_Installer_Console::OPTION_URIS])) {
-            $args[Magento_Core_Model_App::PARAM_APP_URIS] =
-                unserialize(base64_decode($args[Magento_Install_Model_Installer_Console::OPTION_URIS]));
+        if (!empty($args[\Magento\Install\Model\Installer\Console::OPTION_URIS])) {
+            $args[\Magento\Core\Model\App::PARAM_APP_URIS] =
+                unserialize(base64_decode($args[\Magento\Install\Model\Installer\Console::OPTION_URIS]));
         }
-        if (!empty($args[Magento_Install_Model_Installer_Console::OPTION_DIRS])) {
-            $args[Magento_Core_Model_App::PARAM_APP_DIRS] =
-                unserialize(base64_decode($args[Magento_Install_Model_Installer_Console::OPTION_DIRS]));
+        if (!empty($args[\Magento\Install\Model\Installer\Console::OPTION_DIRS])) {
+            $args[\Magento\Core\Model\App::PARAM_APP_DIRS] =
+                unserialize(base64_decode($args[\Magento\Install\Model\Installer\Console::OPTION_DIRS]));
         }
         return $args;
     }
@@ -63,10 +65,10 @@ class Magento_Install_Model_EntryPoint_Console extends Magento_Core_Model_EntryP
     protected function _processRequest()
     {
         /**
-         * @var $installer Magento_Install_Model_Installer_Console
+         * @var $installer \Magento\Install\Model\Installer\Console
          */
         $installer = $this->_objectManager->create(
-            'Magento_Install_Model_Installer_Console',
+            'Magento\Install\Model\Installer\Console',
             array('installArgs' => $this->_params)
         );
         if (isset($this->_params['show_locales'])) {
@@ -85,9 +87,9 @@ class Magento_Install_Model_EntryPoint_Console extends Magento_Core_Model_EntryP
     /**
      * Install/Uninstall application
      *
-     * @param Magento_Install_Model_Installer_Console $installer
+     * @param \Magento\Install\Model\Installer\Console $installer
      */
-    protected function _handleInstall(Magento_Install_Model_Installer_Console $installer)
+    protected function _handleInstall(\Magento\Install\Model\Installer\Console $installer)
     {
         if (isset($this->_params['config']) && file_exists($this->_params['config'])) {
             $config = (array) include($this->_params['config']);

@@ -11,10 +11,12 @@
 /**
  * Recurring profile view
  */
-class Magento_Sales_Block_Recurring_Profile_View extends Magento_Core_Block_Template
+namespace Magento\Sales\Block\Recurring\Profile;
+
+class View extends \Magento\Core\Block\Template
 {
     /**
-     * @var Magento_Sales_Model_Recurring_Profile
+     * @var \Magento\Sales\Model\Recurring\Profile
      */
     protected $_profile = null;
 
@@ -35,22 +37,22 @@ class Magento_Sales_Block_Recurring_Profile_View extends Magento_Core_Block_Temp
     /**
      * Related orders collection
      *
-     * @var Magento_Sales_Model_Resource_Order_Collection
+     * @var \Magento\Sales\Model\Resource\Order\Collection
      */
     protected $_relatedOrders = null;
 
     /**
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_registry;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
@@ -62,19 +64,19 @@ class Magento_Sales_Block_Recurring_Profile_View extends Magento_Core_Block_Temp
     protected $_template = 'recurring/profile/view/info.phtml';
 
     /**
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Helper\Data $coreData
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Core_Helper_Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Helper\Data $coreData,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);
@@ -96,10 +98,10 @@ class Magento_Sales_Block_Recurring_Profile_View extends Magento_Core_Block_Temp
     /**
      * Get rendered row value
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
-    public function renderRowValue(Magento_Object $row)
+    public function renderRowValue(\Magento\Object $row)
     {
         $value = $row->getValue();
         if (is_array($value)) {
@@ -119,7 +121,7 @@ class Magento_Sales_Block_Recurring_Profile_View extends Magento_Core_Block_Temp
      */
     protected function _addInfo(array $data, $key = null)
     {
-        $object = new Magento_Object($data);
+        $object = new \Magento\Object($data);
         if ($key) {
             $this->_info[$key] = $object;
         } else {

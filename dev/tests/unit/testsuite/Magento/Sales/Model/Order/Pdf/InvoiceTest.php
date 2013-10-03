@@ -6,43 +6,45 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Model_Order_Pdf_InvoiceTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Model\Order\Pdf;
+
+class InvoiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Sales_Model_Order_Pdf_Invoice
+     * @var \Magento\Sales\Model\Order\Pdf\Invoice
      */
     protected $_model;
 
     /**
-     * @var Magento_Sales_Model_Order_Pdf_Config|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Sales\Model\Order\Pdf\Config|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_pdfConfigMock;
 
     protected function setUp()
     {
-        $paymentDataMock = $this->getMock('Magento_Payment_Helper_Data', array(), array(), '', false);
-        $coreHelperMock = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
-        $coreHelperStringMock = $this->getMock('Magento_Core_Helper_String', array(), array(), '', false, false);
-        $storeConfigMock = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false, false);
-        $translateMock = $this->getMock('Magento_Core_Model_Translate', array(), array(), '', false, false);
-        $coreDirMock = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false, false);
+        $paymentDataMock = $this->getMock('Magento\Payment\Helper\Data', array(), array(), '', false);
+        $coreHelperMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
+        $coreHelperStringMock = $this->getMock('Magento\Core\Helper\String', array(), array(), '', false, false);
+        $storeConfigMock = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false, false);
+        $translateMock = $this->getMock('Magento\Core\Model\Translate', array(), array(), '', false, false);
+        $coreDirMock = $this->getMock('Magento\Core\Model\Dir', array(), array(), '', false, false);
         $coreDirMock->expects($this->once())
             ->method('getDir')
             ->will($this->returnValue(BP));
-        $shippingConfigMock = $this->getMock('Magento_Shipping_Model_Config', array(), array(), '', false,
+        $shippingConfigMock = $this->getMock('Magento\Shipping\Model\Config', array(), array(), '', false,
             false);
         $this->_pdfConfigMock =
-            $this->getMock('Magento_Sales_Model_Order_Pdf_Config', array(), array(), '', false, false);
-        $totalFactoryMock = $this->getMock('Magento_Sales_Model_Order_Pdf_Total_Factory', array(), array(), '', false,
+            $this->getMock('Magento\Sales\Model\Order\Pdf\Config', array(), array(), '', false, false);
+        $totalFactoryMock = $this->getMock('Magento\Sales\Model\Order\Pdf\Total\Factory', array(), array(), '', false,
             false);
-        $pdfItemsFactoryMock = $this->getMock('Magento_Sales_Model_Order_Pdf_ItemsFactory', array(), array(), '', false,
+        $pdfItemsFactoryMock = $this->getMock('Magento\Sales\Model\Order\Pdf\ItemsFactory', array(), array(), '', false,
             false);
-        $localeMock = $this->getMock('Magento_Core_Model_LocaleInterface', array(), array(), '', false,
+        $localeMock = $this->getMock('Magento\Core\Model\LocaleInterface', array(), array(), '', false,
             false);
-        $storeManagerMock = $this->getMock('Magento_Core_Model_StoreManagerInterface', array(), array(), '', false,
+        $storeManagerMock = $this->getMock('Magento\Core\Model\StoreManagerInterface', array(), array(), '', false,
             false);
 
-        $this->_model = new Magento_Sales_Model_Order_Pdf_Invoice(
+        $this->_model = new \Magento\Sales\Model\Order\Pdf\Invoice(
             $paymentDataMock,
             $coreHelperMock,
             $coreHelperStringMock,
@@ -73,7 +75,7 @@ class Magento_Sales_Model_Order_Pdf_InvoiceTest extends PHPUnit_Framework_TestCa
                 ));
 
         $this->_model->getPdf(array());
-        $renderers = new ReflectionProperty($this->_model, '_renderers');
+        $renderers = new \ReflectionProperty($this->_model, '_renderers');
         $renderers->setAccessible(true);
         $this->assertSame(
             array(

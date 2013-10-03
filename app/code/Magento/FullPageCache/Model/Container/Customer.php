@@ -11,32 +11,34 @@
 /**
  * Container for cache lifetime equated with session lifetime
  */
-class Magento_FullPageCache_Model_Container_Customer extends Magento_FullPageCache_Model_Container_Abstract
+namespace Magento\FullPageCache\Model\Container;
+
+class Customer extends \Magento\FullPageCache\Model\Container\AbstractContainer
 {
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_FullPageCache_Model_Cache $fpcCache
-     * @param Magento_FullPageCache_Model_Container_Placeholder $placeholder
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_FullPageCache_Helper_Url $urlHelper
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Layout $layout
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\FullPageCache\Model\Cache $fpcCache
+     * @param \Magento\FullPageCache\Model\Container\Placeholder $placeholder
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\FullPageCache\Helper\Url $urlHelper
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\Core\Model\Config $coreConfig
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_FullPageCache_Model_Cache $fpcCache,
-        Magento_FullPageCache_Model_Container_Placeholder $placeholder,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_FullPageCache_Helper_Url $urlHelper,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Layout $layout,
-        Magento_Core_Model_Config $coreConfig
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\FullPageCache\Model\Cache $fpcCache,
+        \Magento\FullPageCache\Model\Container\Placeholder $placeholder,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\FullPageCache\Helper\Url $urlHelper,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Layout $layout,
+        \Magento\Core\Model\Config $coreConfig
     ) {
         parent::__construct(
             $eventManager, $fpcCache, $placeholder, $coreRegistry, $urlHelper, $coreStoreConfig, $layout
@@ -53,7 +55,7 @@ class Magento_FullPageCache_Model_Container_Customer extends Magento_FullPageCac
      */
     protected function _saveCache($data, $id, $tags = array(), $lifetime = null)
     {
-        $lifetime = $this->_coreConfig->getValue(Magento_Core_Model_Cookie::XML_PATH_COOKIE_LIFETIME, 'default');
+        $lifetime = $this->_coreConfig->getValue(\Magento\Core\Model\Cookie::XML_PATH_COOKIE_LIFETIME, 'default');
         return parent::_saveCache($data, $id, $tags, $lifetime);
     }
 }

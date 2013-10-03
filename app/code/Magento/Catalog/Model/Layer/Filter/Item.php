@@ -15,32 +15,34 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Layer_Filter_Item extends Magento_Object
+namespace Magento\Catalog\Model\Layer\Filter;
+
+class Item extends \Magento\Object
 {
     /**
      * Url
      *
-     * @var Magento_Core_Model_UrlInterface
+     * @var \Magento\Core\Model\UrlInterface
      */
     protected $_url;
 
     /**
      * Html pager block
      *
-     * @var Magento_Page_Block_Html_Pager
+     * @var \Magento\Page\Block\Html\Pager
      */
     protected $_htmlPagerBlock;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_UrlInterface $url
-     * @param Magento_Page_Block_Html_Pager $htmlPagerBlock
+     * @param \Magento\Core\Model\UrlInterface $url
+     * @param \Magento\Page\Block\Html\Pager $htmlPagerBlock
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_UrlInterface $url,
-        Magento_Page_Block_Html_Pager $htmlPagerBlock,
+        \Magento\Core\Model\UrlInterface $url,
+        \Magento\Page\Block\Html\Pager $htmlPagerBlock,
         array $data = array()
     ) {
         $this->_url = $url;
@@ -51,14 +53,14 @@ class Magento_Catalog_Model_Layer_Filter_Item extends Magento_Object
     /**
      * Get filter instance
      *
-     * @return Magento_Catalog_Model_Layer_Filter_Abstract
-     * @throws Magento_Core_Exception
+     * @return \Magento\Catalog\Model\Layer\Filter\AbstractFilter
+     * @throws \Magento\Core\Exception
      */
     public function getFilter()
     {
         $filter = $this->getData('filter');
         if (!is_object($filter)) {
-            throw new Magento_Core_Exception(
+            throw new \Magento\Core\Exception(
                 __('The filter must be an object. Please set correct filter.')
             );
         }

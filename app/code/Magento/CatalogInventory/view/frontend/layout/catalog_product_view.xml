@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceContainer name="product.info.extrahint">
-        <block class="Magento_CatalogInventory_Block_Qtyincrements" name="product.info.extrahint.qtyincrements" template="qtyincrements.phtml"/>
+        <block class="Magento\CatalogInventory\Block\Qtyincrements" name="product.info.extrahint.qtyincrements" template="qtyincrements.phtml"/>
     </referenceContainer>
 </layout>

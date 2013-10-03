@@ -13,14 +13,14 @@ require __DIR__ . '/../../Customer/_files/customer.php';
 require __DIR__ . '/../../Customer/_files/customer_address.php';
 require __DIR__ . '/../../../Magento/Catalog/_files/products.php';
 
-/** @var Magento_Sales_Model_Quote_Address $quoteShippingAddress */
-$quoteShippingAddress = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Sales_Model_Quote_Address');
+/** @var \Magento\Sales\Model\Quote\Address $quoteShippingAddress */
+$quoteShippingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Sales\Model\Quote\Address');
 $quoteShippingAddress->importCustomerAddress($customerAddress);
 
-/** @var Magento_Sales_Model_Quote $quote */
-$quote = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Sales_Model_Quote');
+/** @var \Magento\Sales\Model\Quote $quote */
+$quote = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Sales\Model\Quote');
 $quote->setStoreId(1)
     ->setIsActive(false)
     ->setIsMultiShipping(false)

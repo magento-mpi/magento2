@@ -9,21 +9,23 @@
  * @license     {license_link}
  */
 
-class Magento_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
+namespace Magento\Captcha\Helper;
+
+class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_dirMock;
 
     protected function setUp()
     {
-        $this->_dirMock = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false, false);
+        $this->_dirMock = $this->getMock('Magento\Core\Model\Dir', array(), array(), '', false, false);
     }
 
     protected function _getHelper($store, $config, $factory)
     {
-        $storeManager = $this->getMockBuilder('Magento_Core_Model_StoreManager')
+        $storeManager = $this->getMockBuilder('Magento\Core\Model\StoreManager')
             ->disableOriginalConstructor()
             ->getMock();
         $storeManager->expects($this->any())
@@ -33,23 +35,23 @@ class Magento_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
             ->method('getStore')
             ->will($this->returnValue($store));
 
-        $adapterMock = $this->getMockBuilder('Magento_Filesystem_Adapter_Local')
+        $adapterMock = $this->getMockBuilder('Magento\Filesystem\Adapter\Local')
             ->getMock();
         $adapterMock->expects($this->any())
             ->method('isDirectory')
             ->will($this->returnValue(true));
 
-        $filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
+        $filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
 
-        $context = $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false);
+        $context = $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false);
 
-        return new Magento_Captcha_Helper_Data(
+        return new \Magento\Captcha\Helper\Data(
             $context, $this->_dirMock, $storeManager, $config, $filesystem, $factory
         );
     }
 
     /**
-     * @covers Magento_Captcha_Helper_Data::getCaptcha
+     * @covers \Magento\Captcha\Helper\Data::getCaptcha
      */
     public function testGetCaptcha()
     {
@@ -63,24 +65,24 @@ class Magento_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
             ->with('customer/captcha/type')
             ->will($this->returnValue('zend'));
 
-        $factoryMock = $this->getMock('Magento_Captcha_Model_CaptchaFactory', array(), array(), '', false);
+        $factoryMock = $this->getMock('Magento\Captcha\Model\CaptchaFactory', array(), array(), '', false);
         $factoryMock->expects($this->once())
             ->method('create')
             ->with($this->equalTo('Zend'))
-            ->will($this->returnValue(new Magento_Captcha_Model_Default(
-                $this->getMock('Magento_Core_Model_Session_Abstract', array(), array(), '', false),
-                $this->getMock('Magento_Captcha_Helper_Data', array(), array(), '', false),
-                $this->getMock('Magento_Captcha_Model_Resource_LogFactory', array(), array(), '', false),
+            ->will($this->returnValue(new \Magento\Captcha\Model\DefaultModel(
+                $this->getMock('Magento\Core\Model\Session\AbstractSession', array(), array(), '', false),
+                $this->getMock('Magento\Captcha\Helper\Data', array(), array(), '', false),
+                $this->getMock('Magento\Captcha\Model\Resource\LogFactory', array(), array(), '', false),
                 'user_create'
             )));
 
         $config = $this->_getConfigStub();
         $helper = $this->_getHelper($store, $config, $factoryMock);
-        $this->assertInstanceOf('Magento_Captcha_Model_Default', $helper->getCaptcha('user_create'));
+        $this->assertInstanceOf('Magento\Captcha\Model\DefaultModel', $helper->getCaptcha('user_create'));
     }
 
     /**
-     * @covers Magento_Captcha_Helper_Data::getConfigNode
+     * @covers \Magento\Captcha\Helper\Data::getConfigNode
      */
     public function testGetConfigNode()
     {
@@ -94,7 +96,7 @@ class Magento_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
             ->with('customer/captcha/enable')
             ->will($this->returnValue('1'));
 
-        $factoryMock = $this->getMock('Magento_Captcha_Model_CaptchaFactory', array(), array(), '', false);
+        $factoryMock = $this->getMock('Magento\Captcha\Model\CaptchaFactory', array(), array(), '', false);
         $object = $this->_getHelper($store, $this->_getConfigStub(), $factoryMock);
         $object->getConfigNode('enable');
     }
@@ -103,10 +105,10 @@ class Magento_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $this->_dirMock->expects($this->once())
             ->method('getDir')
-            ->with(Magento_Core_Model_Dir::LIB)
+            ->with(\Magento\Core\Model\Dir::LIB)
             ->will($this->returnValue(TESTS_TEMP_DIR . '/lib'));
 
-        $factoryMock = $this->getMock('Magento_Captcha_Model_CaptchaFactory', array(), array(), '', false);
+        $factoryMock = $this->getMock('Magento\Captcha\Model\CaptchaFactory', array(), array(), '', false);
         $object = $this->_getHelper($this->_getStoreStub(), $this->_getConfigStub(), $factoryMock);
         $fonts = $object->getFonts();
         $this->assertArrayHasKey('font_code', $fonts); // fixture
@@ -118,15 +120,15 @@ class Magento_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Captcha_Model_Default::getImgDir
-     * @covers Magento_Captcha_Helper_Data::getImgDir
+     * @covers \Magento\Captcha\Model\DefaultModel::getImgDir
+     * @covers \Magento\Captcha\Helper\Data::getImgDir
      */
     public function testGetImgDir()
     {
-        $factoryMock = $this->getMock('Magento_Captcha_Model_CaptchaFactory', array(), array(), '', false);
+        $factoryMock = $this->getMock('Magento\Captcha\Model\CaptchaFactory', array(), array(), '', false);
         $this->_dirMock->expects($this->once())
             ->method('getDir')
-            ->with(Magento_Core_Model_Dir::MEDIA)
+            ->with(\Magento\Core\Model\Dir::MEDIA)
             ->will($this->returnValue(TESTS_TEMP_DIR . '/media'));
 
         $object = $this->_getHelper($this->_getStoreStub(), $this->_getConfigStub(), $factoryMock);
@@ -138,12 +140,12 @@ class Magento_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Captcha_Model_Default::getImgUrl
-     * @covers Magento_Captcha_Helper_Data::getImgUrl
+     * @covers \Magento\Captcha\Model\DefaultModel::getImgUrl
+     * @covers \Magento\Captcha\Helper\Data::getImgUrl
      */
     public function testGetImgUrl()
     {
-        $factoryMock = $this->getMock('Magento_Captcha_Model_CaptchaFactory', array(), array(), '', false);
+        $factoryMock = $this->getMock('Magento\Captcha\Model\CaptchaFactory', array(), array(), '', false);
         $object = $this->_getHelper($this->_getStoreStub(), $this->_getConfigStub(), $factoryMock);
         $this->assertEquals($object->getImgUrl(), 'http://localhost/pub/media/captcha/base/');
     }
@@ -151,12 +153,12 @@ class Magento_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
     /**
      * Create Config Stub
      *
-     * @return Magento_Core_Model_Config
+     * @return \Magento\Core\Model\Config
      */
     protected function _getConfigStub()
     {
         $config = $this->getMock(
-            'Magento_Core_Model_Config',
+            'Magento\Core\Model\Config',
             array('getValue'),
             array(), '', false
         );
@@ -178,12 +180,12 @@ class Magento_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
     /**
      * Create Website Stub
      *
-     * @return Magento_Core_Model_Website
+     * @return \Magento\Core\Model\Website
      */
     protected function _getWebsiteStub()
     {
         $website = $this->getMock(
-            'Magento_Core_Model_Website',
+            'Magento\Core\Model\Website',
             array('getCode'),
             array(), '', false
         );
@@ -198,12 +200,12 @@ class Magento_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
     /**
      * Create store stub
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     protected function _getStoreStub()
     {
         $store = $this->getMock(
-            'Magento_Core_Model_Store',
+            'Magento\Core\Model\Store',
             array(),
             array(),
             '',

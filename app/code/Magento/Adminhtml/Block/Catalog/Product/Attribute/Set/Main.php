@@ -15,64 +15,66 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Magento_Backend_Block_Template
+namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\Set;
+
+class Main extends \Magento\Backend\Block\Template
 {
     protected $_template = 'catalog/product/attribute/set/main.phtml';
 
     /**
      * Catalog product
      *
-     * @var Magento_Catalog_Helper_Product
+     * @var \Magento\Catalog\Helper\Product
      */
     protected $_catalogProduct = null;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory
+     * @var \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @var Magento_Eav_Model_Entity_Type
+     * @var \Magento\Eav\Model\Entity\Type
      */
     protected $_typeFactory;
 
     /**
-     * @var Magento_Eav_Model_Entity_Attribute_GroupFactory
+     * @var \Magento\Eav\Model\Entity\Attribute\GroupFactory
      */
     protected $_groupFactory;
 
     /**
-     * @var Magento_Catalog_Model_Resource_Product_Type_Configurable_AttributeFactory
+     * @var \Magento\Catalog\Model\Resource\Product\Type\Configurable\AttributeFactory
      */
     protected $_attributeFactory;
 
     /**
-     * @param Magento_Eav_Model_Entity_Type $typeFactory
-     * @param Magento_Eav_Model_Entity_Attribute_GroupFactory $groupFactory
-     * @param Magento_Catalog_Model_Resource_Product_Type_Configurable_AttributeFactory $attributeFactory
-     * @param Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $collectionFactory
-     * @param Magento_Catalog_Helper_Product $catalogProduct
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Eav\Model\Entity\Type $typeFactory
+     * @param \Magento\Eav\Model\Entity\Attribute\GroupFactory $groupFactory
+     * @param \Magento\Catalog\Model\Resource\Product\Type\Configurable\AttributeFactory $attributeFactory
+     * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $collectionFactory
+     * @param \Magento\Catalog\Helper\Product $catalogProduct
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Eav_Model_Entity_Type $typeFactory,
-        Magento_Eav_Model_Entity_Attribute_GroupFactory $groupFactory,
-        Magento_Catalog_Model_Resource_Product_Type_Configurable_AttributeFactory $attributeFactory,
-        Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $collectionFactory,
-        Magento_Catalog_Helper_Product $catalogProduct,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Eav\Model\Entity\Type $typeFactory,
+        \Magento\Eav\Model\Entity\Attribute\GroupFactory $groupFactory,
+        \Magento\Catalog\Model\Resource\Product\Type\Configurable\AttributeFactory $attributeFactory,
+        \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $collectionFactory,
+        \Magento\Catalog\Helper\Product $catalogProduct,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_typeFactory = $typeFactory;
@@ -87,52 +89,52 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Magento
     /**
      * Prepare Global Layout
      *
-     * @return Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main
+     * @return \Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Main
      */
     protected function _prepareLayout()
     {
         $setId = $this->_getSetId();
 
-        $this->addChild('group_tree', 'Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Tree_Group');
+        $this->addChild('group_tree', 'Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Main\Tree\Group');
 
-        $this->addChild('edit_set_form', 'Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formset');
+        $this->addChild('edit_set_form', 'Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Main\Formset');
 
-        $this->addChild('delete_group_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('delete_group_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Delete Selected Group'),
             'onclick'   => 'editSet.submit();',
             'class'     => 'delete'
         ));
 
-        $this->addChild('add_group_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('add_group_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Add New'),
             'onclick'   => 'editSet.addGroup();',
             'class'     => 'add'
         ));
 
-        $this->addChild('back_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('back_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Back'),
             'onclick'   => 'setLocation(\''.$this->getUrl('*/*/').'\')',
             'class'     => 'back'
         ));
 
-        $this->addChild('reset_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('reset_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Reset'),
             'onclick'   => 'window.location.reload()'
         ));
 
-        $this->addChild('save_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('save_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Save Attribute Set'),
             'onclick'   => 'editSet.save();',
             'class'     => 'save'
         ));
 
-        $this->addChild('delete_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('delete_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Delete Attribute Set'),
             'onclick'   => 'deleteConfirm(\''. $this->jsQuoteEscape(__('You are about to delete all products in this set. Are you sure you want to delete this attribute set?')) . '\', \'' . $this->getUrl('*/*/delete', array('id' => $setId)) . '\')',
             'class'     => 'delete'
         ));
 
-        $this->addChild('rename_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('rename_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('New Set Name'),
             'onclick'   => 'editSet.rename()'
         ));
@@ -200,7 +202,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Magento
         $items = array();
         $setId = $this->_getSetId();
 
-        /* @var $groups Magento_Eav_Model_Resource_Entity_Attribute_Group_Collection */
+        /* @var $groups \Magento\Eav\Model\Resource\Entity\Attribute\Group\Collection */
         $groups = $this->_groupFactory->create()
             ->getResourceCollection()
             ->setAttributeSetFilter($setId)
@@ -211,7 +213,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Magento
 
         $unassignableAttributes = $this->_catalogProduct->getUnassignableAttributes();
 
-        /* @var $node Magento_Eav_Model_Entity_Attribute_Group */
+        /* @var $node \Magento\Eav\Model\Entity\Attribute\Group */
         foreach ($groups as $node) {
             $item = array();
             $item['text']       = $node->getAttributeGroupName();
@@ -228,7 +230,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Magento
             if ($nodeChildren->getSize() > 0) {
                 $item['children'] = array();
                 foreach ($nodeChildren->getItems() as $child) {
-                    /* @var $child Magento_Eav_Model_Entity_Attribute */
+                    /* @var $child \Magento\Eav\Model\Entity\Attribute */
 
                     $isUnassignable = !in_array($child->getAttributeCode(), $unassignableAttributes);
 
@@ -270,7 +272,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Magento
             ->load();
 
         $attributesIds = array('0');
-        /* @var $item Magento_Eav_Model_Entity_Attribute */
+        /* @var $item \Magento\Eav\Model\Entity\Attribute */
         foreach ($collection->getItems() as $item) {
             $attributesIds[] = $item->getAttributeId();
         }
@@ -385,7 +387,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Magento
     /**
      * Retrieve current Attribute Set object
      *
-     * @return Magento_Eav_Model_Entity_Attribute_Set
+     * @return \Magento\Eav\Model\Entity\Attribute\Set
      */
     protected function _getAttributeSet()
     {

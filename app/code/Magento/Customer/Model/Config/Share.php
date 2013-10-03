@@ -15,8 +15,10 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Config_Share extends Magento_Core_Model_Config_Value
-    implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Customer\Model\Config;
+
+class Share extends \Magento\Core\Model\Config\Value
+    implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Xml config path to customers sharing scope value
@@ -34,37 +36,37 @@ class Magento_Customer_Model_Config_Share extends Magento_Core_Model_Config_Valu
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Customer_Model_Resource_Customer
+     * @var \Magento\Customer\Model\Resource\Customer
      */
     protected $_customerResource;
 
     /**
      * Constructor
      *
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Customer_Model_Resource_CustomerProxy $customerResource
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Customer\Model\Resource\CustomerProxy $customerResource
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Customer_Model_Resource_CustomerProxy $customerResource,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Customer\Model\Resource\CustomerProxy $customerResource,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -108,15 +110,15 @@ class Magento_Customer_Model_Config_Share extends Magento_Core_Model_Config_Valu
     /**
      * Check for email dublicates before saving customers sharing options
      *
-     * @return Magento_Customer_Model_Config_Share
-     * @throws Magento_Core_Exception
+     * @return \Magento\Customer\Model\Config\Share
+     * @throws \Magento\Core\Exception
      */
     public function _beforeSave()
     {
         $value = $this->getValue();
         if ($value == self::SHARE_GLOBAL) {
             if ($this->_customerResource->findEmailDuplicates()) {
-                throw new Magento_Core_Exception(
+                throw new \Magento\Core\Exception(
                     //@codingStandardsIgnoreStart
                     __('Cannot share customer accounts globally because some customer accounts with the same emails exist on multiple websites and cannot be merged.')
                     //@codingStandardsIgnoreEnd

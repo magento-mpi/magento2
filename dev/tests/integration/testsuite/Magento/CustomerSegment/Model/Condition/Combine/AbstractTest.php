@@ -6,27 +6,29 @@
  * @license     {license_link}
  */
 
-class Magento_CustomerSegment_Model_Condition_Combine_AbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\CustomerSegment\Model\Condition\Combine;
+
+class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_CustomerSegment_Model_Segment_Condition_Combine_Root
+     * @var \Magento\CustomerSegment\Model\Segment\Condition\Combine\Root
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_resource;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configShare;
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_CustomerSegment_Model_Segment_Condition_Combine_Root');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\CustomerSegment\Model\Segment\Condition\Combine\Root');
     }
 
 
@@ -50,7 +52,7 @@ class Magento_CustomerSegment_Model_Condition_Combine_AbstractTest extends PHPUn
             ->with($this->equalTo('store.website_id IN (?)'), $this->equalTo($website))
             ->will($this->returnSelf());
 
-        $testMethod = new ReflectionMethod($this->_model, '_limitByStoreWebsite');
+        $testMethod = new \ReflectionMethod($this->_model, '_limitByStoreWebsite');
         $testMethod->setAccessible(true);
 
         $testMethod->invoke($this->_model, $select, $website, 'main.store_id');
@@ -60,7 +62,7 @@ class Magento_CustomerSegment_Model_Condition_Combine_AbstractTest extends PHPUn
     {
         return array(
             array(1),
-            array(new Zend_Db_Expr(1)),
+            array(new \Zend_Db_Expr(1)),
         );
     }
 }

@@ -11,23 +11,25 @@
 /**
  * Cms Hierarchy Pages Node Model
  *
- * @method Magento_VersionsCms_Model_Resource_Hierarchy_Node getResource()
+ * @method \Magento\VersionsCms\Model\Resource\Hierarchy\Node getResource()
  * @method int getParentNodeId()
- * @method Magento_VersionsCms_Model_Hierarchy_Node setParentNodeId(int $value)
+ * @method \Magento\VersionsCms\Model\Hierarchy\Node setParentNodeId(int $value)
  * @method int getPageId()
- * @method Magento_VersionsCms_Model_Hierarchy_Node setPageId(int $value)
- * @method Magento_VersionsCms_Model_Hierarchy_Node setIdentifier(string $value)
- * @method Magento_VersionsCms_Model_Hierarchy_Node setLabel(string $value)
+ * @method \Magento\VersionsCms\Model\Hierarchy\Node setPageId(int $value)
+ * @method \Magento\VersionsCms\Model\Hierarchy\Node setIdentifier(string $value)
+ * @method \Magento\VersionsCms\Model\Hierarchy\Node setLabel(string $value)
  * @method int getLevel()
- * @method Magento_VersionsCms_Model_Hierarchy_Node setLevel(int $value)
+ * @method \Magento\VersionsCms\Model\Hierarchy\Node setLevel(int $value)
  * @method int getSortOrder()
- * @method Magento_VersionsCms_Model_Hierarchy_Node setSortOrder(int $value)
+ * @method \Magento\VersionsCms\Model\Hierarchy\Node setSortOrder(int $value)
  * @method string getRequestUrl()
- * @method Magento_VersionsCms_Model_Hierarchy_Node setRequestUrl(string $value)
+ * @method \Magento\VersionsCms\Model\Hierarchy\Node setRequestUrl(string $value)
  * @method string getXpath()
- * @method Magento_VersionsCms_Model_Hierarchy_Node setXpath(string $value)
+ * @method \Magento\VersionsCms\Model\Hierarchy\Node setXpath(string $value)
  */
-class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstract
+namespace Magento\VersionsCms\Model\Hierarchy;
+
+class Node extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Meta node's types
@@ -91,65 +93,65 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
     protected $_treeMetaData;
 
     /**
-     * @var Magento_VersionsCms_Model_Hierarchy_ConfigInterface
+     * @var \Magento\VersionsCms\Model\Hierarchy\ConfigInterface
      */
     protected $_hierarchyConfig;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
      * Cms hierarchy
      *
-     * @var Magento_VersionsCms_Helper_Hierarchy
+     * @var \Magento\VersionsCms\Helper\Hierarchy
      */
     protected $_cmsHierarchy;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Model_System_Store
+     * @var \Magento\Core\Model\System\Store
      */
     protected $_systemStore;
 
     /**
-     * @var Magento_VersionsCms_Model_Hierarchy_NodeFactory
+     * @var \Magento\VersionsCms\Model\Hierarchy\NodeFactory
      */
     protected $_nodeFactory;
 
     /**
-     * @param Magento_VersionsCms_Helper_Hierarchy $cmsHierarchy
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_VersionsCms_Model_Hierarchy_ConfigInterface $hierarchyConfig
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_VersionsCms_Model_Resource_Hierarchy_Node $resource
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_System_Store $systemStore
-     * @param Magento_VersionsCms_Model_Hierarchy_NodeFactory $nodeFactory
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\VersionsCms\Model\Hierarchy\ConfigInterface $hierarchyConfig
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\VersionsCms\Model\Resource\Hierarchy\Node $resource
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_VersionsCms_Helper_Hierarchy $cmsHierarchy,
-        Magento_Core_Model_Context $context,
-        Magento_VersionsCms_Model_Hierarchy_ConfigInterface $hierarchyConfig,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_VersionsCms_Model_Resource_Hierarchy_Node $resource,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_System_Store $systemStore,
-        Magento_VersionsCms_Model_Hierarchy_NodeFactory $nodeFactory,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
+        \Magento\Core\Model\Context $context,
+        \Magento\VersionsCms\Model\Hierarchy\ConfigInterface $hierarchyConfig,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\VersionsCms\Model\Resource\Hierarchy\Node $resource,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_cmsHierarchy = $cmsHierarchy;
@@ -238,7 +240,7 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
             if ($item->getLevel() == self::NODE_LEVEL_FAKE) {
                 continue;
             }
-            /* @var $item Magento_VersionsCms_Model_Hierarchy_Node */
+            /* @var $item \Magento\VersionsCms\Model\Hierarchy\Node */
             $node = array(
                 'node_id'           => $item->getId(),
                 'parent_node_id'    => $item->getParentNodeId(),
@@ -255,7 +257,7 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
     /**
      * Retrieving nodes collection for appropriate scope and scope ID.
      *
-     * @return Magento_VersionsCms_Model_Resource_Hierarchy_Node_Collection
+     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node\Collection
      */
     public function getNodesCollection()
     {
@@ -276,7 +278,7 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
      */
     protected function _construct()
     {
-        $this->_init('Magento_VersionsCms_Model_Resource_Hierarchy_Node');
+        $this->_init('Magento\VersionsCms\Model\Resource\Hierarchy\Node');
     }
 
     /**
@@ -284,8 +286,8 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
      *
      * @param array $data       modified nodes data array
      * @param array $remove     the removed node ids
-     * @return Magento_VersionsCms_Model_Hierarchy_Node
-     * @throws Magento_Core_Exception|Exception
+     * @return \Magento\VersionsCms\Model\Hierarchy\Node
+     * @throws \Magento\Core\Exception|Exception
      */
     public function collectTree($data, $remove)
     {
@@ -301,7 +303,7 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
             // validate required node data
             foreach ($required as $field) {
                 if (!array_key_exists($field, $v)) {
-                    throw new Magento_Core_Exception(__('Please correct the node data.'));
+                    throw new \Magento\Core\Exception(__('Please correct the node data.'));
                 }
             }
             $parentNodeId = empty($v['parent_node_id']) ? 0 : $v['parent_node_id'];
@@ -335,7 +337,7 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
 
             $this->_getResource()->addEmptyNode($this->_scope, $this->_scopeId);
             $this->_getResource()->commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getResource()->rollBack();
             throw $e;
         }
@@ -348,7 +350,7 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
      *
      * @param string $scope
      * @param int $scopeId
-     * @return Magento_VersionsCms_Model_Resource_Hierarchy_Node
+     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node
      */
     public function deleteByScope($scope, $scopeId)
     {
@@ -363,7 +365,7 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
      * @param string $path
      * @param string $xpath
      * @param int $level
-     * @return Magento_VersionsCms_Model_Hierarchy_Node
+     * @return \Magento\VersionsCms\Model\Hierarchy\Node
      */
     protected function _collectTree(array $nodes, $parentNodeId, $path = '', $xpath = '', $level = 0)
     {
@@ -396,7 +398,7 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
      * Flag to indicate whether append active pages only or not
      *
      * @param bool $flag
-     * @return Magento_VersionsCms_Model_Hierarchy_Node
+     * @return \Magento\VersionsCms\Model\Hierarchy\Node
      */
     public function setCollectActivePagesOnly($flag)
     {
@@ -410,7 +412,7 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
      * Flag to indicate whether append included pages (menu_excluded=0) only or not
      *
      * @param bool $flag
-     * @return Magento_VersionsCms_Model_Hierarchy_Node
+     * @return \Magento\VersionsCms\Model\Hierarchy\Node
      */
     public function setCollectIncludedPagesOnly($flag)
     {
@@ -472,7 +474,7 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
      * Load node by Request Url
      *
      * @param string $url
-     * @return Magento_VersionsCms_Model_Hierarchy_Node
+     * @return \Magento\VersionsCms\Model\Hierarchy\Node
      */
     public function loadByRequestUrl($url)
     {
@@ -486,7 +488,7 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
      * Retrieve first child node
      *
      * @param int $parentNodeId
-     * @return Magento_VersionsCms_Model_Hierarchy_Node
+     * @return \Magento\VersionsCms\Model\Hierarchy\Node
      */
     public function loadFirstChildByParent($parentNodeId)
     {
@@ -499,10 +501,10 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
     /**
      * Update rewrite for page (if identifier changed)
      *
-     * @param Magento_Cms_Model_Page $page
-     * @return Magento_VersionsCms_Model_Hierarchy_Node
+     * @param \Magento\Cms\Model\Page $page
+     * @return \Magento\VersionsCms\Model\Hierarchy\Node
      */
-    public function updateRewriteUrls(Magento_Cms_Model_Page $page)
+    public function updateRewriteUrls(\Magento\Cms\Model\Page $page)
     {
         $xpaths = $this->_getResource()->getTreeXpathsByPage($page->getId());
         foreach ($xpaths as $xpath) {
@@ -520,7 +522,7 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
      * Return true if a page binded to a tree node
      *
      * @param string $identifier
-     * @param int|Magento_Core_Model_Store $storeId
+     * @param int|\Magento\Core\Model\Store $storeId
      * @return bool
      */
     public function checkIdentifier($identifier, $storeId = null)
@@ -539,7 +541,7 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
      *  - previous      previous node (only in current parent node level)
      *
      * @param string $type
-     * @return Magento_VersionsCms_Model_Hierarchy_Node
+     * @return \Magento\VersionsCms\Model\Hierarchy\Node
      */
     public function getMetaNodeByType($type)
     {
@@ -571,7 +573,7 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
      * Maximum tree depth for tree slice, if equals zero - no limitations
      *
      * @param int $depth
-     * @return Magento_VersionsCms_Model_Hierarchy_Node
+     * @return \Magento\VersionsCms\Model\Hierarchy\Node
      */
     public function setTreeMaxDepth($depth)
     {
@@ -584,7 +586,7 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
      * Tree Detalization, i.e. brief or detailed
      *
      * @param bool $brief
-     * @return Magento_VersionsCms_Model_Hierarchy_Node
+     * @return \Magento\VersionsCms\Model\Hierarchy\Node
      */
     public function setTreeIsBrief($brief)
     {
@@ -634,7 +636,7 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
     /**
      * Load page data for model if defined page id end undefined page data
      *
-     * @return Magento_VersionsCms_Model_Hierarchy_Node
+     * @return \Magento\VersionsCms\Model\Hierarchy\Node
      */
     public function loadPageData()
     {
@@ -649,9 +651,9 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
      * Appending passed page as child node for specified nodes and set it specified sort order.
      * Parent nodes specified as array (parentNodeId => sortOrder)
      *
-     * @param Magento_Cms_Model_Page $page
+     * @param \Magento\Cms\Model\Page $page
      * @param array $nodes
-     * @return Magento_VersionsCms_Model_Hierarchy_Node
+     * @return \Magento\VersionsCms\Model\Hierarchy\Node
      */
     public function appendPageToNodes($page, $nodes)
     {
@@ -668,7 +670,7 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
         $removeFromNodes = array();
 
         foreach ($parentNodes as $node) {
-            /* @var $node Magento_VersionsCms_Model_Hierarchy_Node */
+            /* @var $node \Magento\VersionsCms\Model\Hierarchy\Node */
             if (isset($nodes[$node->getId()])) {
                 $sortOrder = $nodes[$node->getId()];
                 if ($node->getPageExists()) {
@@ -717,8 +719,8 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
     public function getMetadataPagerParams()
     {
         $values = array(
-            Magento_VersionsCms_Helper_Hierarchy::METADATA_VISIBILITY_YES,
-            Magento_VersionsCms_Helper_Hierarchy::METADATA_VISIBILITY_NO);
+            \Magento\VersionsCms\Helper\Hierarchy::METADATA_VISIBILITY_YES,
+            \Magento\VersionsCms\Helper\Hierarchy::METADATA_VISIBILITY_NO);
 
         return $this->getResource()->getParentMetadataParams($this, 'pager_visibility', $values);
     }
@@ -753,7 +755,7 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
     /**
      * Return Hierarchy Menu Layout Info object for Node
      *
-     * @return Magento_Object|null
+     * @return \Magento\Object|null
      */
     public function getMenuLayout()
     {
@@ -775,7 +777,7 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
     /**
      * Process additional data after save.
      *
-     * @return Magento_VersionsCms_Model_Hierarchy_Node
+     * @return \Magento\VersionsCms\Model\Hierarchy\Node
      */
     protected function _afterSave()
     {
@@ -793,7 +795,7 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
      *
      * @param string $scope
      * @param int $scopeId
-     * @return Magento_VersionsCms_Model_Hierarchy_Node
+     * @return \Magento\VersionsCms\Model\Hierarchy\Node
      */
     public function copyTo($scope, $scopeId)
     {
@@ -838,7 +840,7 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
     /**
      * Get heritage hierarchy
      *
-     * @return Magento_VersionsCms_Model_Hierarchy_Node
+     * @return \Magento\VersionsCms\Model\Hierarchy\Node
      */
     public function getHeritage()
     {

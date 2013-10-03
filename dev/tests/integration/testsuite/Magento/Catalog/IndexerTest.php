@@ -1,27 +1,32 @@
 <?php
 /**
- * Test for Magento_Index_Model_Indexer
+ * Test for \Magento\Index\Model\Indexer
  *
- * We have to implement it in Magento_Catalog module, because Magento_Index module doesn't implement any index processes
- * and also the original Magento_Index_Model_Indexer is not coverable with unit tests in current implementation
+ * We have to implement it in \Magento\Catalog module, because \Magento\Index module
+ * does not implement any index processes and also the original \Magento\Index\Model\Indexer
+ * is not able to be covered with unit tests in current implementation
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
+ */
+namespace Magento\Catalog;
+
+/**
  * @magentoDbIsolation enabled
  */
-class Magento_Catalog_IndexerTest extends PHPUnit_Framework_TestCase
+class IndexerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Index_Model_Indexer
+     * @var \Magento\Index\Model\Indexer
      */
     protected $_indexer;
 
     protected function setUp()
     {
-        $this->_indexer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Index_Model_Indexer');
+        $this->_indexer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Index\Model\Indexer');
     }
 
     protected function tearDown()
@@ -32,16 +37,16 @@ class Magento_Catalog_IndexerTest extends PHPUnit_Framework_TestCase
     public function testReindexAll()
     {
         $process = $this->_getProcessModel('catalog_product_price');
-        $process->setStatus(Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX)->save();
+        $process->setStatus(\Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX)->save();
         $this->assertEquals(
-            Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX,
+            \Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX,
             $this->_getProcessModel('catalog_product_price')->getStatus()
         );
 
         $this->_indexer->reindexAll();
 
         $this->assertEquals(
-            Magento_Index_Model_Process::STATUS_PENDING,
+            \Magento\Index\Model\Process::STATUS_PENDING,
             $this->_getProcessModel('catalog_product_price')->getStatus()
         );
     }
@@ -52,22 +57,22 @@ class Magento_Catalog_IndexerTest extends PHPUnit_Framework_TestCase
     public function testReindexRequired()
     {
         $process = $this->_getProcessModel('catalog_product_attribute');
-        $process->setStatus(Magento_Index_Model_Process::STATUS_RUNNING)->save();
+        $process->setStatus(\Magento\Index\Model\Process::STATUS_RUNNING)->save();
         $process = $this->_getProcessModel('catalog_product_price');
-        $process->setStatus(Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX)->save();
+        $process->setStatus(\Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX)->save();
         $this->assertEquals(
-            Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX,
+            \Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX,
             $this->_getProcessModel('catalog_product_price')->getStatus()
         );
 
         $this->_indexer->reindexRequired();
 
         $this->assertEquals(
-            Magento_Index_Model_Process::STATUS_RUNNING,
+            \Magento\Index\Model\Process::STATUS_RUNNING,
             $this->_getProcessModel('catalog_product_attribute')->getStatus()
         );
         $this->assertEquals(
-            Magento_Index_Model_Process::STATUS_PENDING,
+            \Magento\Index\Model\Process::STATUS_PENDING,
             $this->_getProcessModel('catalog_product_price')->getStatus()
         );
     }
@@ -75,16 +80,16 @@ class Magento_Catalog_IndexerTest extends PHPUnit_Framework_TestCase
     /**
      * Load and instantiate index process model
      *
-     * We want to load it every time instead of receiving using Magento_Index_Model_Indexer::getProcessByCode()
+     * We want to load it every time instead of receiving using \Magento\Index\Model\Indexer::getProcessByCode()
      * Because that method depends on state of the object, which does not reflect changes in database
      *
      * @param string $typeCode
-     * @return Magento_Index_Model_Process
+     * @return \Magento\Index\Model\Process
      */
     private function _getProcessModel($typeCode)
     {
-        $process = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Index_Model_Process');
+        $process = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Index\Model\Process');
         $process->load($typeCode, 'indexer_code');
         return $process;
     }

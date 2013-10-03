@@ -17,7 +17,12 @@
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\Adminhtml\Block\Customer\Edit\Tab;
+
+/**
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
+ */
+class Account extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Disable Auto Group Change Attribute Name
@@ -25,31 +30,31 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Backend_
     const DISABLE_ATTRIBUTE_NAME = 'disable_auto_group_change';
 
     /**
-     * @var Magento_Customer_Model_FormFactory
+     * @var \Magento\Customer\Model\FormFactory
      */
     protected $_customerFactory;
 
     /**
-     * @var Magento_Core_Model_System_Store
+     * @var \Magento\Core\Model\System\Store
      */
     protected $_systemStore;
 
     /**
-     * @param Magento_Customer_Model_FormFactory $customerFactory
-     * @param Magento_Core_Model_System_Store $systemStore
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Customer\Model\FormFactory $customerFactory
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Customer_Model_FormFactory $customerFactory,
-        Magento_Core_Model_System_Store $systemStore,
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Customer\Model\FormFactory $customerFactory,
+        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_systemStore = $systemStore;
@@ -60,11 +65,11 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Backend_
     /**
      * Initialize form
      *
-     * @return Magento_Adminhtml_Block_Customer_Edit_Tab_Account
+     * @return \Magento\Adminhtml\Block\Customer\Edit\Tab\Account
      */
     public function initForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('_account');
         $form->setFieldNameSuffix('account');
@@ -74,13 +79,13 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Backend_
         ));
 
         $customer = $this->_coreRegistry->registry('current_customer');
-        /** @var $customerForm Magento_Customer_Model_Form */
+        /** @var $customerForm \Magento\Customer\Model\Form */
         $customerForm = $this->_initCustomerForm($customer);
         $attributes = $this->_initCustomerAttributes($customerForm);
         $this->_setFieldset($attributes, $fieldset, array(self::DISABLE_ATTRIBUTE_NAME));
 
         $form->getElement('group_id')->setRenderer($this->getLayout()
-            ->createBlock('Magento_Adminhtml_Block_Customer_Edit_Renderer_Attribute_Group')
+            ->createBlock('Magento\Adminhtml\Block\Customer\Edit\Renderer\Attribute\Group')
             ->setDisableAutoGroupChangeAttribute($customerForm->getAttribute(self::DISABLE_ATTRIBUTE_NAME))
             ->setDisableAutoGroupChangeAttributeValue($customer->getData(self::DISABLE_ATTRIBUTE_NAME))
         );
@@ -90,7 +95,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Backend_
 
         $prefixElement = $form->getElement('prefix');
         if ($prefixElement) {
-            $prefixOptions = $this->helper('Magento_Customer_Helper_Data')->getNamePrefixOptions($customerStoreId);
+            $prefixOptions = $this->helper('Magento\Customer\Helper\Data')->getNamePrefixOptions($customerStoreId);
             if (!empty($prefixOptions)) {
                 $fieldset->removeField($prefixElement->getId());
                 $prefixField = $fieldset->addField($prefixElement->getId(),
@@ -107,7 +112,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Backend_
 
         $suffixElement = $form->getElement('suffix');
         if ($suffixElement) {
-            $suffixOptions = $this->helper('Magento_Customer_Helper_Data')->getNameSuffixOptions($customerStoreId);
+            $suffixOptions = $this->helper('Magento\Customer\Helper\Data')->getNameSuffixOptions($customerStoreId);
             if (!empty($suffixOptions)) {
                 $fieldset->removeField($suffixElement->getId());
                 $suffixField = $fieldset->addField($suffixElement->getId(),
@@ -145,23 +150,23 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Backend_
     protected function _getAdditionalElementTypes()
     {
         return array(
-            'file'      => 'Magento_Adminhtml_Block_Customer_Form_Element_File',
-            'image'     => 'Magento_Adminhtml_Block_Customer_Form_Element_Image',
-            'boolean'   => 'Magento_Adminhtml_Block_Customer_Form_Element_Boolean',
+            'file'      => 'Magento\Adminhtml\Block\Customer\Form\Element\File',
+            'image'     => 'Magento\Adminhtml\Block\Customer\Form\Element\Image',
+            'boolean'   => 'Magento\Adminhtml\Block\Customer\Form\Element\Boolean',
         );
     }
 
     /**
      * Initialize attribute set
      *
-     * @param Magento_Customer_Model_Form $customerFor
-     * @return Magento_Eav_Model_Entity_Attribute[]
+     * @param \Magento\Customer\Model\Form $customerFor
+     * @return \Magento\Eav\Model\Entity\Attribute[]
      */
-    protected function _initCustomerAttributes(Magento_Customer_Model_Form $customerForm)
+    protected function _initCustomerAttributes(\Magento\Customer\Model\Form $customerForm)
     {
         $attributes = $customerForm->getAttributes();
         foreach ($attributes as $attribute) {
-            /* @var $attribute Magento_Eav_Model_Entity_Attribute */
+            /* @var $attribute \Magento\Eav\Model\Entity\Attribute */
             $attributeLabel = __($attribute->getFrontend()->getLabel());
             $attribute->setFrontendLabel($attributeLabel);
             $attribute->unsIsVisible();
@@ -172,12 +177,12 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Backend_
     /**
      * Initialize customer form
      *
-     * @param Magento_Customer_Model_Customer $customer
-     * @return Magento_Customer_Model_Form $customerForm
+     * @param \Magento\Customer\Model\Customer $customer
+     * @return \Magento\Customer\Model\Form $customerForm
      */
-    protected function _initCustomerForm(Magento_Customer_Model_Customer $customer)
+    protected function _initCustomerForm(\Magento\Customer\Model\Customer $customer)
     {
-        /** @var $customerForm Magento_Customer_Model_Form */
+        /** @var $customerForm \Magento\Customer\Model\Form */
         $customerForm = $this->_customerFactory->create();
         $customerForm->setEntity($customer)
             ->setFormCode('adminhtml_customer')
@@ -189,8 +194,8 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Backend_
     /**
      * Handle Read-Only customer
      *
-     * @param Magento_Data_Form $form
-     * @param Magento_Customer_Model_Customer $customer
+     * @param \Magento\Data\Form $form
+     * @param \Magento\Customer\Model\Customer $customer
      */
     protected function _handleReadOnlyCustomer($form, $customer)
     {
@@ -208,9 +213,9 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Backend_
     /**
      * Make sendemail or sendmail_store_id disabled if website_id has an empty value
      *
-     * @param Magento_Data_Form $form
+     * @param \Magento\Data\Form $form
      */
-    protected function _disableSendEmailStoreForEmptyWebsite(Magento_Data_Form $form)
+    protected function _disableSendEmailStoreForEmptyWebsite(\Magento\Data\Form $form)
     {
         $sendEmailId = $this->_storeManager->isSingleStoreMode() ? 'sendemail' : 'sendemail_store_id';
         $sendEmail = $form->getElement($sendEmailId);
@@ -241,8 +246,8 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Backend_
     /**
      * Create New Customer form fields
      *
-     * @param Magento_Data_Form $form
-     * @param Magento_Data_Form_Element_Fieldset $fieldset
+     * @param \Magento\Data\Form $form
+     * @param \Magento\Data\Form\Element\Fieldset $fieldset
      */
     protected function _addNewCustomerFormFields($form, $fieldset)
     {
@@ -280,7 +285,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Backend_
                 . '</script>'
             );
             $renderer = $this->getLayout()
-                ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+                ->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $form->getElement('website_id')->setRenderer($renderer);
 
             $fieldset->addField('sendemail_store_id', 'select', array(
@@ -299,9 +304,9 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Backend_
     /**
      * Edit/View Existing Customer form fields
      *
-     * @param Magento_Data_Form $form
-     * @param Magento_Data_Form_Element_Fieldset $fieldset
-     * @param Magento_Customer_Model_Customer $customer
+     * @param \Magento\Data\Form $form
+     * @param \Magento\Data\Form\Element\Fieldset $fieldset
+     * @param \Magento\Customer\Model\Customer $customer
      */
     protected function _addEditCustomerFormFields($form, $fieldset, $customer)
     {
@@ -309,7 +314,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Backend_
         if (!$this->_storeManager->isSingleStoreMode()) {
             $form->getElement('website_id')->setDisabled('disabled');
             $renderer = $this->getLayout()
-                ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+                ->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $form->getElement('website_id')->setRenderer($renderer);
         } else {
             $fieldset->removeField('website_id');
@@ -352,7 +357,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Backend_
     /**
      * Add Password management fieldset
      *
-     * @param Magento_Data_Form $form
+     * @param \Magento\Data\Form $form
      * @param string $fieldLabel
      * @param boolean $isNew whether we set initial password or change existing one
      */
@@ -381,17 +386,17 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Backend_
             )
         );
         $field->setRenderer(
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Customer_Edit_Renderer_Newpass')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Customer\Edit\Renderer\Newpass')
         );
     }
 
     /**
      * Get Customer Store Id
      *
-     * @param Magento_Customer_Model_Customer $customer
+     * @param \Magento\Customer\Model\Customer $customer
      * @return int|null
      */
-    protected function _getCustomerStoreId(Magento_Customer_Model_Customer $customer)
+    protected function _getCustomerStoreId(\Magento\Customer\Model\Customer $customer)
     {
         $customerStoreId = null;
         if ($customer->getId()) {
@@ -405,9 +410,9 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Backend_
     /**
      * Set Customer Website Id in Single Store Mode
      *
-     * @param Magento_Customer_Model_Customer $customer
+     * @param \Magento\Customer\Model\Customer $customer
      */
-    protected function _setCustomerWebsiteId(Magento_Customer_Model_Customer $customer)
+    protected function _setCustomerWebsiteId(\Magento\Customer\Model\Customer $customer)
     {
         if ($this->_storeManager->isSingleStoreMode()) {
             $customer->setWebsiteId($this->_storeManager->getStore(true)->getWebsiteId());

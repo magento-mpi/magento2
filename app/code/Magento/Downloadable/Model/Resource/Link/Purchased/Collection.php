@@ -16,7 +16,9 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Model_Resource_Link_Purchased_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Downloadable\Model\Resource\Link\Purchased;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Init resource model
@@ -24,13 +26,13 @@ class Magento_Downloadable_Model_Resource_Link_Purchased_Collection extends Mage
      */
     protected function _construct()
     {
-        $this->_init('Magento_Downloadable_Model_Link_Purchased', 'Magento_Downloadable_Model_Resource_Link_Purchased');
+        $this->_init('Magento\Downloadable\Model\Link\Purchased', 'Magento\Downloadable\Model\Resource\Link\Purchased');
     }
 
     /**
      * Add purchased items to collection
      *
-     * @return Magento_Downloadable_Model_Resource_Link_Purchased_Collection
+     * @return \Magento\Downloadable\Model\Resource\Link\Purchased\Collection
      */
     public function addPurchasedItemsToResult()
     {

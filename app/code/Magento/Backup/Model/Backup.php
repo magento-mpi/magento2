@@ -10,13 +10,15 @@
  * Backup file item model
  *
  * @method string getPath()
- * @method Magento_Backup_Model_Backup setPath() setPath($path)
+ * @method \Magento\Backup\Model\Backup setPath() setPath($path)
  * @method string getName()
- * @method Magento_Backup_Model_Backup setName() setName($name)
+ * @method \Magento\Backup\Model\Backup setName() setName($name)
  * @method string getTime()
- * @method Magento_Backup_Model_Backup setTime() setTime($time)
+ * @method \Magento\Backup\Model\Backup setTime() setTime($time)
  */
-class Magento_Backup_Model_Backup extends Magento_Object
+namespace Magento\Backup\Model;
+
+class Backup extends \Magento\Object
 {
     /* internal constants */
     const COMPRESS_RATE     = 9;
@@ -31,62 +33,62 @@ class Magento_Backup_Model_Backup extends Magento_Object
     /**
      * Gz file pointer
      *
-     * @var Magento_Filesystem_Stream_Zlib
+     * @var \Magento\Filesystem\Stream\Zlib
      */
     protected $_stream = null;
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
     /**
-     * @var Magento_Backup_Helper_Data
+     * @var \Magento\Backup\Helper\Data
      */
     protected $_helper;
 
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * Locale model
      *
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
      * Backend auth session
      *
-     * @var Magento_Backend_Model_Auth_Session
+     * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_backendAuthSession;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backup_Helper_Data $helper
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Backend_Model_Auth_Session $authSession
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backup\Helper\Data $helper
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backup_Helper_Data $helper,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Backend_Model_Auth_Session $authSession,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backup\Helper\Data $helper,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Backend\Model\Auth\Session $authSession,
         $data = array()
     ) {
         parent::__construct($data);
 
         $this->_coreData = $coreData;
-        $adapter = new Magento_Filesystem_Adapter_Zlib(self::COMPRESS_RATE);
-        $this->_filesystem = new Magento_Filesystem($adapter);
+        $adapter = new \Magento\Filesystem\Adapter\Zlib(self::COMPRESS_RATE);
+        $this->_filesystem = new \Magento\Filesystem($adapter);
         $this->_filesystem->setIsAllowCreateDirectories(true);
         $this->_helper = $helper;
         $this->_locale = $locale;
@@ -98,7 +100,7 @@ class Magento_Backup_Model_Backup extends Magento_Object
      *
      * @param string $fileName
      * @param string $filePath
-     * @return Magento_Backup_Model_Backup
+     * @return \Magento\Backup\Model\Backup
      */
     public function load($fileName, $filePath)
     {
@@ -111,7 +113,7 @@ class Magento_Backup_Model_Backup extends Magento_Object
             'extension' => $this->_helper->getExtensionByType($backupData->getType()),
             'display_name' => $this->_helper->nameToDisplayName($backupData->getName()),
             'name' => $backupData->getName(),
-            'date_object' => new Zend_Date((int)$backupData->getTime(), $this->_locale->getLocaleCode())
+            'date_object' => new \Zend_Date((int)$backupData->getTime(), $this->_locale->getLocaleCode())
         ));
 
         $this->setType($backupData->getType());
@@ -151,7 +153,7 @@ class Magento_Backup_Model_Backup extends Magento_Object
      * Sets type of file
      *
      * @param string $value
-     * @return Magento_Backup_Model_Backup
+     * @return \Magento\Backup\Model\Backup
      */
     public function setType($value = 'db')
     {
@@ -180,13 +182,13 @@ class Magento_Backup_Model_Backup extends Magento_Object
      * Set the backup file content
      *
      * @param string $content
-     * @return Magento_Backup_Model_Backup
-     * @throws Magento_Core_Exception
+     * @return \Magento\Backup\Model\Backup
+     * @throws \Magento\Core\Exception
      */
     public function setFile(&$content)
     {
         if (!$this->hasData('time') || !$this->hasData('type') || !$this->hasData('path')) {
-            throw new Magento_Core_Exception(__('Please correct the order of creation for a new backup.'));
+            throw new \Magento\Core\Exception(__('Please correct the order of creation for a new backup.'));
         }
 
         $this->_filesystem->write($this->_getFilePath(), $content);
@@ -197,12 +199,12 @@ class Magento_Backup_Model_Backup extends Magento_Object
      * Return content of backup file
      *
      * @return string
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function &getFile()
     {
         if (!$this->exists()) {
-            throw new Magento_Core_Exception(__("The backup file does not exist."));
+            throw new \Magento\Core\Exception(__("The backup file does not exist."));
         }
 
         return $this->_filesystem->read($this->_getFilePath());
@@ -211,13 +213,13 @@ class Magento_Backup_Model_Backup extends Magento_Object
     /**
      * Delete backup file
      *
-     * @return Magento_Backup_Model_Backup
-     * @throws Magento_Core_Exception
+     * @return \Magento\Backup\Model\Backup
+     * @throws \Magento\Core\Exception
      */
     public function deleteFile()
     {
         if (!$this->exists()) {
-            throw new Magento_Core_Exception(__("The backup file does not exist."));
+            throw new \Magento\Core\Exception(__("The backup file does not exist."));
         }
 
         $this->_filesystem->delete($this->_getFilePath());
@@ -228,21 +230,21 @@ class Magento_Backup_Model_Backup extends Magento_Object
      * Open backup file (write or read mode)
      *
      * @param bool $write
-     * @return Magento_Backup_Model_Backup
-     * @throws Magento_Backup_Exception
-     * @throws Magento_Backup_Exception_NotEnoughPermissions
+     * @return \Magento\Backup\Model\Backup
+     * @throws \Magento\Backup\Exception
+     * @throws \Magento\Backup\Exception\NotEnoughPermissions
      */
     public function open($write = false)
     {
         if (is_null($this->getPath())) {
-            throw new Magento_Backup_Exception(__('The backup file path was not specified.'));
+            throw new \Magento\Backup\Exception(__('The backup file path was not specified.'));
         }
 
         if ($write && $this->_filesystem->isFile($this->_getFilePath())) {
             $this->_filesystem->delete($this->_getFilePath());
         }
         if (!$write && !$this->_filesystem->isFile($this->_getFilePath())) {
-            throw new Magento_Backup_Exception(__('The backup file "%1" does not exist.', $this->getFileName()));
+            throw new \Magento\Backup\Exception(__('The backup file "%1" does not exist.', $this->getFileName()));
         }
 
         $mode = $write ? 'wb' . self::COMPRESS_RATE : 'rb';
@@ -253,8 +255,8 @@ class Magento_Backup_Model_Backup extends Magento_Object
             $this->_stream = $this->_filesystem->createAndOpenStream($compressStream . $this->_getFilePath(), $mode,
                 $compressStream . $workingDirectory);
         }
-        catch (Magento_Filesystem_Exception $e) {
-            throw new Magento_Backup_Exception_NotEnoughPermissions(
+        catch (\Magento\Filesystem\Exception $e) {
+            throw new \Magento\Backup\Exception\NotEnoughPermissions(
                 __('Sorry, but we cannot read from or write to backup file "%1".', $this->getFileName())
             );
         }
@@ -265,13 +267,13 @@ class Magento_Backup_Model_Backup extends Magento_Object
     /**
      * Get zlib handler
      *
-     * @return Magento_Filesystem_Stream_Zlib
-     * @throws Magento_Backup_Exception
+     * @return \Magento\Filesystem\Stream\Zlib
+     * @throws \Magento\Backup\Exception
      */
     protected function _getStream()
     {
         if (is_null($this->_stream)) {
-            throw new Magento_Backup_Exception(__('The backup file handler was unspecified.'));
+            throw new \Magento\Backup\Exception(__('The backup file handler was unspecified.'));
         }
         return $this->_stream;
     }
@@ -301,16 +303,16 @@ class Magento_Backup_Model_Backup extends Magento_Object
      * Write to backup file
      *
      * @param string $string
-     * @return Magento_Backup_Model_Backup
-     * @throws Magento_Backup_Exception
+     * @return \Magento\Backup\Model\Backup
+     * @throws \Magento\Backup\Exception
      */
     public function write($string)
     {
         try {
             $this->_getStream()->write($string);
         }
-        catch (Magento_Filesystem_Exception $e) {
-            throw new Magento_Backup_Exception(__('Something went wrong writing to the backup file "%1".',
+        catch (\Magento\Filesystem\Exception $e) {
+            throw new \Magento\Backup\Exception(__('Something went wrong writing to the backup file "%1".',
                 $this->getFileName()));
         }
 
@@ -320,7 +322,7 @@ class Magento_Backup_Model_Backup extends Magento_Object
     /**
      * Close open backup file
      *
-     * @return Magento_Backup_Model_Backup
+     * @return \Magento\Backup\Model\Backup
      */
     public function close()
     {
@@ -380,7 +382,7 @@ class Magento_Backup_Model_Backup extends Magento_Object
      *
      * @param int $timestamp
      * @param string $type
-     * @return Magento_Backup_Model_Backup
+     * @return \Magento\Backup\Model\Backup
      */
     public function loadByTimeAndType($timestamp, $type)
     {

@@ -9,23 +9,25 @@
 /**
  * oAuth token controller
  */
-class Magento_Oauth_Controller_Token extends Magento_Core_Controller_Front_Action
+namespace Magento\Oauth\Controller;
+
+class Token extends \Magento\Core\Controller\Front\Action
 {
-    /** @var  Magento_Oauth_Service_OauthV1Interface */
+    /** @var  \Magento\Oauth\Service\OauthV1Interface */
     protected $_oauthService;
 
-    /** @var  Magento_Oauth_Helper_Data */
+    /** @var  \Magento\Oauth\Helper\Data */
     protected $_helper;
 
     /**
-     * @param Magento_Oauth_Service_OauthV1Interface $oauthService
-     * @param Magento_Core_Controller_Varien_Action_Context $context
-     * @param Magento_Oauth_Helper_Data $helper
+     * @param \Magento\Oauth\Service\OauthV1Interface $oauthService
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Oauth\Helper\Data $helper
      */
     public function __construct(
-        Magento_Core_Controller_Varien_Action_Context $context,
-        Magento_Oauth_Service_OauthV1Interface $oauthService,
-        Magento_Oauth_Helper_Data $helper
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Oauth\Service\OauthV1Interface $oauthService,
+        \Magento\Oauth\Helper\Data $helper
     ) {
         parent::__construct($context);
         $this->_oauthService = $oauthService;
@@ -43,7 +45,7 @@ class Magento_Oauth_Controller_Token extends Magento_Core_Controller_Front_Actio
             //Request request token
             $response = $this->_oauthService->getRequestToken($request);
 
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             $response = $this->_helper->prepareErrorResponse(
                 $exception,
                 $this->getResponse()
@@ -63,7 +65,7 @@ class Magento_Oauth_Controller_Token extends Magento_Core_Controller_Front_Actio
             //Request access token in exchange of a pre-authorized token
             $response = $this->_oauthService->getAccessToken($request);
 
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             $response = $this->_helper->prepareErrorResponse(
                 $exception,
                 $this->getResponse()

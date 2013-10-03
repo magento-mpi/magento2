@@ -7,19 +7,21 @@
  */
 
 /**
- * Test class for Magento_Checkout_Model_Session
+ * Test class for \Magento\Checkout\Model\Session
  */
-class Magento_Checkout_Model_SessionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Checkout\Model;
+
+class SessionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param int|null $orderId
      * @param int|null $incrementId
-     * @param Magento_Sales_Model_Order|PHPUnit_Framework_MockObject_MockObject $orderMock
+     * @param \Magento\Sales\Model\Order|\PHPUnit_Framework_MockObject_MockObject $orderMock
      * @dataProvider getLastRealOrderDataProvider
      */
     public function testGetLastRealOrder($orderId, $incrementId, $orderMock)
     {
-        $orderFactory = $this->getMockBuilder('Magento_Sales_Model_OrderFactory')
+        $orderFactory = $this->getMockBuilder('Magento\Sales\Model\OrderFactory')
             ->disableOriginalConstructor()
             ->setMethods(array('create'))
             ->getMock();
@@ -27,25 +29,25 @@ class Magento_Checkout_Model_SessionTest extends PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($orderMock));
 
-        $messageCollFactory = $this->getMockBuilder('Magento_Core_Model_Message_CollectionFactory')
+        $messageCollFactory = $this->getMockBuilder('Magento\Core\Model\Message\CollectionFactory')
             ->disableOriginalConstructor()
             ->getMock();
-        $quoteFactory = $this->getMockBuilder('Magento_Sales_Model_QuoteFactory')
+        $quoteFactory = $this->getMockBuilder('Magento\Sales\Model\QuoteFactory')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $constructArguments = $objectManager->getConstructArguments(
-            'Magento_Checkout_Model_Session',
+            'Magento\Checkout\Model\Session',
             array(
-                 'context' => $this->getMock('Magento_Core_Model_Session_Context', array(), array(), '', false),
+                 'context' => $this->getMock('Magento\Core\Model\Session\Context', array(), array(), '', false),
                  'orderFactory' => $orderFactory,
                  'messageCollFactory' => $messageCollFactory,
                  'quoteFactory' => $quoteFactory,
             )
         );
-        /** @var Magento_Checkout_Model_Session $session */
-        $session = $this->getMock('Magento_Checkout_Model_Session', array('init'), $constructArguments);
+        /** @var \Magento\Checkout\Model\Session $session */
+        $session = $this->getMock('Magento\Checkout\Model\Session', array('init'), $constructArguments);
         $session->setLastRealOrderId($orderId);
 
         $this->assertSame($orderMock, $session->getLastRealOrder());
@@ -69,12 +71,12 @@ class Magento_Checkout_Model_SessionTest extends PHPUnit_Framework_TestCase
     /**
      * @param int|null $incrementId
      * @param int|null $orderId
-     * @return Magento_Sales_Model_Order|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Sales\Model\Order|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getOrderMock($incrementId, $orderId)
     {
-        /** @var $order PHPUnit_Framework_MockObject_MockObject|Magento_Sales_Model_Order */
-        $order = $this->getMockBuilder('Magento_Sales_Model_Order')
+        /** @var $order \PHPUnit_Framework_MockObject_MockObject|\Magento\Sales\Model\Order */
+        $order = $this->getMockBuilder('Magento\Sales\Model\Order')
             ->disableOriginalConstructor()
             ->setMethods(array('getIncrementId', 'loadByIncrementId', '__sleep', '__wakeup'))
             ->getMock();

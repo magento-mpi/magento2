@@ -13,16 +13,16 @@
 /**
  * Template for displaying product price in different places (products grid, product view page etc)
  *
- * @var $this Magento_Adminhtml_Block_Catalog_Product_Price
+ * @var $this \Magento\Adminhtml\Block\Catalog\Product\Price
  */
 ?>
 <?php
-    /** @var $_coreHelper Magento_Core_Helper_Data */
-    $_coreHelper        = $this->helper('Magento_Core_Helper_Data');
-    /** @var $_weeeHelper Magento_Weee_Helper_Data */
-    $_weeeHelper        = $this->helper('Magento_Weee_Helper_Data');
-    /** @var $_taxHelper Magento_Tax_Helper_Data */
-    $_taxHelper         = $this->helper('Magento_Tax_Helper_Data');
+    /** @var $_coreHelper \Magento\Core\Helper\Data */
+    $_coreHelper        = $this->helper('Magento\Core\Helper\Data');
+    /** @var $_weeeHelper \Magento\Weee\Helper\Data */
+    $_weeeHelper        = $this->helper('Magento\Weee\Helper\Data');
+    /** @var $_taxHelper \Magento\Tax\Helper\Data */
+    $_taxHelper         = $this->helper('Magento\Tax\Helper\Data');
 
     $_product           = $this->getProduct();
     $_id                = $_product->getId();

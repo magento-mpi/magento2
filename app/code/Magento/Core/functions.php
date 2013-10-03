@@ -68,7 +68,7 @@ function is_empty_date($date)
  * @param string $errorFile
  * @param integer $errorLine
  * @return bool
- * @throws Exception
+ * @throws \Exception
  */
 function mageCoreErrorHandler($errorNo, $errorStr, $errorFile, $errorLine)
 {
@@ -145,16 +145,16 @@ function mageCoreErrorHandler($errorNo, $errorStr, $errorFile, $errorLine)
     }
 
     $errorMessage .= ": {$errorStr} in {$errorFile} on line {$errorLine}";
-    $exception = new Exception($errorMessage);
+    $exception = new \Exception($errorMessage);
     $errorMessage .= $exception->getTraceAsString();
-    $appState = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_App_State');
-    if ($appState == Magento_Core_Model_App_State::MODE_DEVELOPER) {
+    $appState = \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Core\Model\App\State');
+    if ($appState == \Magento\Core\Model\App\State::MODE_DEVELOPER) {
         throw $exception;
     } else {
-        $dirs = new Magento_Core_Model_Dir('.');
-        $fileSystem = new Magento_Io_File();
-        $logger = new Magento_Core_Model_Logger($dirs, $fileSystem);
-        $logger->log($errorMessage, Zend_Log::ERR);
+        $dirs = new \Magento\Core\Model\Dir('.');
+        $fileSystem = new \Magento\Io\File();
+        $logger = new \Magento\Core\Model\Logger($dirs, $fileSystem);
+        $logger->log($errorMessage, \Zend_Log::ERR);
     }
 }
 
@@ -275,7 +275,7 @@ function is_dir_writeable($dir)
 }
 
 /**
- * Create value-object Magento_Phrase
+ * Create value-object \Magento\Phrase
  *
  * @return string
  */
@@ -285,9 +285,9 @@ function __()
 
     /**
      * Type casting to string is a workaround.
-     * Many places in client code at the moment are unable to handle the Magento_Phrase object properly.
+     * Many places in client code at the moment are unable to handle the \Magento\Phrase object properly.
      * The intended behavior is to use __toString(),
      * so that rendering of the phrase happens only at the last moment when needed
      */
-    return (string)new Magento_Phrase(array_shift($argc), $argc);
+    return (string)new \Magento\Phrase(array_shift($argc), $argc);
 }

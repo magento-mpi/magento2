@@ -12,21 +12,23 @@
 /**
  * Catalog Compared Product Index Model
  *
- * @method Magento_Reports_Model_Resource_Product_Index_Compared _getResource()
- * @method Magento_Reports_Model_Resource_Product_Index_Compared getResource()
- * @method Magento_Reports_Model_Product_Index_Compared setVisitorId(int $value)
- * @method Magento_Reports_Model_Product_Index_Compared setCustomerId(int $value)
+ * @method \Magento\Reports\Model\Resource\Product\Index\Compared _getResource()
+ * @method \Magento\Reports\Model\Resource\Product\Index\Compared getResource()
+ * @method \Magento\Reports\Model\Product\Index\Compared setVisitorId(int $value)
+ * @method \Magento\Reports\Model\Product\Index\Compared setCustomerId(int $value)
  * @method int getProductId()
- * @method Magento_Reports_Model_Product_Index_Compared setProductId(int $value)
- * @method Magento_Reports_Model_Product_Index_Compared setStoreId(int $value)
+ * @method \Magento\Reports\Model\Product\Index\Compared setProductId(int $value)
+ * @method \Magento\Reports\Model\Product\Index\Compared setStoreId(int $value)
  * @method string getAddedAt()
- * @method Magento_Reports_Model_Product_Index_Compared setAddedAt(string $value)
+ * @method \Magento\Reports\Model\Product\Index\Compared setAddedAt(string $value)
  *
  * @category    Magento
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Product_Index_Compared extends Magento_Reports_Model_Product_Index_Abstract
+namespace Magento\Reports\Model\Product\Index;
+
+class Compared extends \Magento\Reports\Model\Product\Index\AbstractIndex
 {
     /**
      * Cache key name for Count of product index
@@ -38,34 +40,34 @@ class Magento_Reports_Model_Product_Index_Compared extends Magento_Reports_Model
     /**
      * Catalog product compare
      *
-     * @var Magento_Catalog_Helper_Product_Compare
+     * @var \Magento\Catalog\Helper\Product\Compare
      */
     protected $_productCompare = null;
 
     /**
-     * @param Magento_Catalog_Helper_Product_Compare $productCompare
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Log_Model_Visitor $logVisitor
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Core_Model_Session_Generic $reportSession
-     * @param Magento_Catalog_Model_Product_Visibility $productVisibility
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Catalog\Helper\Product\Compare $productCompare
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Log\Model\Visitor $logVisitor
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\Session\Generic $reportSession
+     * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Helper_Product_Compare $productCompare,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Log_Model_Visitor $logVisitor,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Core_Model_Session_Generic $reportSession,
-        Magento_Catalog_Model_Product_Visibility $productVisibility,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Catalog\Helper\Product\Compare $productCompare,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Log\Model\Visitor $logVisitor,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\Session\Generic $reportSession,
+        \Magento\Catalog\Model\Product\Visibility $productVisibility,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct(
@@ -80,7 +82,7 @@ class Magento_Reports_Model_Product_Index_Compared extends Magento_Reports_Model
      */
     protected function _construct()
     {
-        $this->_init('Magento_Reports_Model_Resource_Product_Index_Compared');
+        $this->_init('Magento\Reports\Model\Resource\Product\Index\Compared');
     }
 
     /**

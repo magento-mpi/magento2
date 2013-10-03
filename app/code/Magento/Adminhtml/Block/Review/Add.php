@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Review_Add extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\Adminhtml\Block\Review;
+
+class Add extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     protected function _construct()
     {

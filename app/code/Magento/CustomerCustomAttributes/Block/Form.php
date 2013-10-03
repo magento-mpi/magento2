@@ -16,7 +16,9 @@
  * @package     Magento_CustomerCustomAttributes
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerCustomAttributes_Block_Form extends Magento_CustomAttribute_Block_Form
+namespace Magento\CustomerCustomAttributes\Block;
+
+class Form extends \Magento\CustomAttribute\Block\Form
 {
     /**
      * Name of the block in layout update xml file
@@ -30,6 +32,6 @@ class Magento_CustomerCustomAttributes_Block_Form extends Magento_CustomAttribut
      *
      * @var string
      */
-    protected $_formModelPath = 'Magento_Customer_Model_Form';
+    protected $_formModelPath = 'Magento\Customer\Model\Form';
 
 }

@@ -9,32 +9,34 @@
  * @license     {license_link}
  */
 
-/** Test class for Magento_Search_Model_Client_RegularFactory */
-class Magento_Search_Model_RegularFactoryTest extends PHPUnit_Framework_TestCase
+/** Test class for \Magento\Search\Model\Client\RegularFactory */
+namespace Magento\Search\Model;
+
+class RegularFactoryTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_clientMock;
 
-    /** @var Magento_Search_Model_RegularFactory|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Search\Model\RegularFactory|\PHPUnit_Framework_MockObject_MockObject */
     protected $_factoryObject;
 
-    /** @var Magento_Search_Model_Adapter_HttpStream */
+    /** @var \Magento\Search\Model\Adapter\HttpStream */
     protected $_adapterMock;
 
-    /** @var Magento_ObjectManager|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\ObjectManager|\PHPUnit_Framework_MockObject_MockObject */
     protected $_objectManager;
 
     /** Set Solr Clients mocks */
     public function setUp()
     {
-        $this->_objectManager = $this->getMockBuilder('Magento_ObjectManager')->getMock();
-        $this->_clientMock = $this->getMock('Magento_Search_Model_Client_Solr',
+        $this->_objectManager = $this->getMockBuilder('Magento\ObjectManager')->getMock();
+        $this->_clientMock = $this->getMock('Magento\Search\Model\Client\Solr',
             array(), array(), '', false, false);
-        $this->_adapterMock = $this->getMock('Magento_Search_Model_Adapter_HttpStream',
+        $this->_adapterMock = $this->getMock('Magento\Search\Model\Adapter\HttpStream',
             array(), array(), '', false, false);
 
 
-        $this->_factoryObject = new Magento_Search_Model_RegularFactory(
+        $this->_factoryObject = new \Magento\Search\Model\RegularFactory(
             $this->_objectManager
         );
     }
@@ -47,7 +49,7 @@ class Magento_Search_Model_RegularFactoryTest extends PHPUnit_Framework_TestCase
         $options = array('attr1' => 'value1', 'attr2' => 'value2');
         $this->_objectManager->expects($this->once())
             ->method('create')
-            ->with('Magento_Search_Model_Client_Solr')
+            ->with('Magento\Search\Model\Client\Solr')
             ->will($this->returnValue($this->_clientMock));
 
         $this->_factoryObject->createClient($options);
@@ -60,7 +62,7 @@ class Magento_Search_Model_RegularFactoryTest extends PHPUnit_Framework_TestCase
     {
         $this->_objectManager->expects($this->once())
             ->method('create')
-            ->with('Magento_Search_Model_Adapter_HttpStream')
+            ->with('Magento\Search\Model\Adapter\HttpStream')
             ->will($this->returnValue($this->_adapterMock));
         $this->_factoryObject->createAdapter();
     }

@@ -5,10 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Catalog_Model_ProductTypes_Config_ConverterTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\ProductTypes\Config;
+
+class ConverterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_ProductTypes_Config_Converter
+     * @var \Magento\Catalog\Model\ProductTypes\Config\Converter
      */
     protected $_model;
 
@@ -19,14 +21,14 @@ class Magento_Catalog_Model_ProductTypes_Config_ConverterTest extends PHPUnit_Fr
 
     protected function setUp()
     {
-        $this->_model = new Magento_Catalog_Model_ProductTypes_Config_Converter();
+        $this->_model = new \Magento\Catalog\Model\ProductTypes\Config\Converter();
         $this->_filePath = realpath(__DIR__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR;
     }
 
     public function testConvertIfNodeNotExist()
     {
         $source = $this->_filePath . 'product_types.xml';
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->load($source);
         $expected = include($this->_filePath . 'product_types.php');
         $this->assertEquals($expected, $this->_model->convert($dom));

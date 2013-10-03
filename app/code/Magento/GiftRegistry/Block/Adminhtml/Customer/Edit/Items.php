@@ -11,37 +11,39 @@
 /**
  * Adminhtml customer view gift registry items block
  */
-class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Items
-    extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\GiftRegistry\Block\Adminhtml\Customer\Edit;
+
+class Items
+    extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
-     * @var Magento_GiftRegistry_Model_ItemFactory
+     * @var \Magento\GiftRegistry\Model\ItemFactory
      */
     protected $itemFactory;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_GiftRegistry_Model_ItemFactory $itemFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\GiftRegistry\Model\ItemFactory $itemFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_GiftRegistry_Model_ItemFactory $itemFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -93,14 +95,14 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Items
             'index'  => 'price',
             'type'  => 'currency',
             'width' => '120px',
-            'currency_code' => (string) $this->_storeConfig->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+            'currency_code' => (string) $this->_storeConfig->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
         ));
 
         $this->addColumn('qty', array(
             'header'   => __('Requested'),
             'index'    => 'qty',
             'width'    => '120px',
-            'renderer' => 'Magento_GiftRegistry_Block_Adminhtml_Widget_Grid_Column_Renderer_Qty'
+            'renderer' => 'Magento\GiftRegistry\Block\Adminhtml\Widget\Grid\Column\Renderer\Qty'
         ));
 
         $this->addColumn('qty_fulfilled', array(
@@ -124,7 +126,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Items
                 'update' => __('Update Quantity'),
                 'remove' => __('Remove Item')
             ),
-            'renderer' => 'Magento_GiftRegistry_Block_Adminhtml_Widget_Grid_Column_Renderer_Action'
+            'renderer' => 'Magento\GiftRegistry\Block\Adminhtml\Widget\Grid\Column\Renderer\Action'
         ));
 
         return parent::_prepareColumns();
@@ -143,7 +145,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Items
     /**
      * Return gift registry entity object
      *
-     * @return Magento_GiftRegistry_Model_Entity
+     * @return \Magento\GiftRegistry\Model\Entity
      */
     public function getEntity()
     {

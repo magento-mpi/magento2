@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Soap implements Magento_Core_Controller_FrontInterface
+namespace Magento\Webapi\Controller;
+
+class Soap implements \Magento\Core\Controller\FrontInterface
 {
     /**#@+
      * Content types used for responses processed by SOAP web API.
@@ -16,56 +18,56 @@ class Magento_Webapi_Controller_Soap implements Magento_Core_Controller_FrontInt
     const CONTENT_TYPE_WSDL_REQUEST = 'text/xml';
     /**#@-*/
 
-    /** @var Magento_Webapi_Model_Soap_Server */
+    /** @var \Magento\Webapi\Model\Soap\Server */
     protected $_soapServer;
 
-    /** @var Magento_Webapi_Model_Soap_Wsdl_Generator */
+    /** @var \Magento\Webapi\Model\Soap\Wsdl\Generator */
     protected $_wsdlGenerator;
 
-    /** @var Magento_Webapi_Controller_Soap_Request */
+    /** @var \Magento\Webapi\Controller\Soap\Request */
     protected $_request;
 
-    /** @var Magento_Webapi_Controller_Response */
+    /** @var \Magento\Webapi\Controller\Response */
     protected $_response;
 
-    /** @var Magento_Webapi_Controller_ErrorProcessor */
+    /** @var \Magento\Webapi\Controller\ErrorProcessor */
     protected $_errorProcessor;
 
-    /** @var Magento_Core_Model_App_State */
+    /** @var \Magento\Core\Model\App\State */
     protected $_appState;
 
-    /** @var Magento_Core_Model_App */
+    /** @var \Magento\Core\Model\App */
     protected $_application;
 
-    /** @var Magento_Oauth_Service_OauthV1Interface */
+    /** @var \Magento\Oauth\Service\OauthV1Interface */
     protected $_oauthService;
 
-    /** @var  Magento_Oauth_Helper_Service */
+    /** @var  \Magento\Oauth\Helper\Service */
     protected $_oauthHelper;
 
     /**
      * Initialize dependencies.
      *
-     * @param Magento_Webapi_Controller_Soap_Request $request
-     * @param Magento_Webapi_Controller_Response $response
-     * @param Magento_Webapi_Model_Soap_Wsdl_Generator $wsdlGenerator
-     * @param Magento_Webapi_Model_Soap_Server $soapServer
-     * @param Magento_Webapi_Controller_ErrorProcessor $errorProcessor
-     * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Core_Model_App $application
-     * @param Magento_Oauth_Service_OauthV1Interface $oauthService
-     * @param Magento_Oauth_Helper_Service $oauthHelper
+     * @param \Magento\Webapi\Controller\Soap\Request $request
+     * @param \Magento\Webapi\Controller\Response $response
+     * @param \Magento\Webapi\Model\Soap\Wsdl\Generator $wsdlGenerator
+     * @param \Magento\Webapi\Model\Soap\Server $soapServer
+     * @param \Magento\Webapi\Controller\ErrorProcessor $errorProcessor
+     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\Core\Model\App $application
+     * @param \Magento\Oauth\Service\OauthV1Interface $oauthService
+     * @param \Magento\Oauth\Helper\Service $oauthHelper
      */
     public function __construct(
-        Magento_Webapi_Controller_Soap_Request $request,
-        Magento_Webapi_Controller_Response $response,
-        Magento_Webapi_Model_Soap_Wsdl_Generator $wsdlGenerator,
-        Magento_Webapi_Model_Soap_Server $soapServer,
-        Magento_Webapi_Controller_ErrorProcessor $errorProcessor,
-        Magento_Core_Model_App_State $appState,
-        Magento_Core_Model_App $application,
-        Magento_Oauth_Service_OauthV1Interface $oauthService,
-        Magento_Oauth_Helper_Service $oauthHelper
+        \Magento\Webapi\Controller\Soap\Request $request,
+        \Magento\Webapi\Controller\Response $response,
+        \Magento\Webapi\Model\Soap\Wsdl\Generator $wsdlGenerator,
+        \Magento\Webapi\Model\Soap\Server $soapServer,
+        \Magento\Webapi\Controller\ErrorProcessor $errorProcessor,
+        \Magento\Core\Model\App\State $appState,
+        \Magento\Core\Model\App $application,
+        \Magento\Oauth\Service\OauthV1Interface $oauthService,
+        \Magento\Oauth\Helper\Service $oauthHelper
     ) {
         $this->_request = $request;
         $this->_response = $response;
@@ -81,7 +83,7 @@ class Magento_Webapi_Controller_Soap implements Magento_Core_Controller_FrontInt
     /**
      * Initialize front controller
      *
-     * @return Magento_Webapi_Controller_Soap
+     * @return \Magento\Webapi\Controller\Soap
      */
     public function init()
     {
@@ -91,13 +93,13 @@ class Magento_Webapi_Controller_Soap implements Magento_Core_Controller_FrontInt
     /**
      * Dispatch request to SOAP endpoint.
      *
-     * @return Magento_Webapi_Controller_Soap
+     * @return \Magento\Webapi\Controller\Soap
      */
     public function dispatch()
     {
         try {
             if (!$this->_appState->isInstalled()) {
-                throw new Magento_Webapi_Exception(__('Magento is not yet installed'));
+                throw new \Magento\Webapi\Exception(__('Magento is not yet installed'));
             }
             if ($this->_isWsdlRequest()) {
                 $responseBody = $this->_wsdlGenerator->generate(
@@ -111,7 +113,7 @@ class Magento_Webapi_Controller_Soap implements Magento_Core_Controller_FrontInt
                 $this->_setResponseContentType(self::CONTENT_TYPE_SOAP_CALL);
             }
             $this->_setResponseBody($responseBody);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_prepareErrorResponse($e);
         }
         $this->_response->sendResponse();
@@ -125,7 +127,7 @@ class Magento_Webapi_Controller_Soap implements Magento_Core_Controller_FrontInt
      */
     protected function _isWsdlRequest()
     {
-        return $this->_request->getParam(Magento_Webapi_Model_Soap_Server::REQUEST_PARAM_WSDL) !== null;
+        return $this->_request->getParam(\Magento\Webapi\Model\Soap\Server::REQUEST_PARAM_WSDL) !== null;
     }
 
     /**
@@ -143,17 +145,17 @@ class Magento_Webapi_Controller_Soap implements Magento_Core_Controller_FrontInt
     /**
      * Set body and status code to response using information extracted from provided exception.
      *
-     * @param Exception $exception
+     * @param \Exception $exception
      */
     protected function _prepareErrorResponse($exception)
     {
         $maskedException = $this->_errorProcessor->maskException($exception);
-        $soapFault = new Magento_Webapi_Model_Soap_Fault($this->_application, $maskedException);
+        $soapFault = new \Magento\Webapi\Model\Soap\Fault($this->_application, $maskedException);
         if ($this->_isWsdlRequest()) {
             $httpCode = $maskedException->getHttpCode();
             $contentType = self::CONTENT_TYPE_WSDL_REQUEST;
         } else {
-            $httpCode = Magento_Webapi_Controller_Response::HTTP_OK;
+            $httpCode = \Magento\Webapi\Controller\Response::HTTP_OK;
             $contentType = self::CONTENT_TYPE_SOAP_CALL;
         }
         $this->_setResponseContentType($contentType);
@@ -166,7 +168,7 @@ class Magento_Webapi_Controller_Soap implements Magento_Core_Controller_FrontInt
      * Set content type to response object.
      *
      * @param string $contentType
-     * @return Magento_Webapi_Controller_Soap
+     * @return \Magento\Webapi\Controller\Soap
      */
     protected function _setResponseContentType($contentType = 'text/xml')
     {
@@ -179,7 +181,7 @@ class Magento_Webapi_Controller_Soap implements Magento_Core_Controller_FrontInt
      * Replace WSDL xml encoding from config, if present, else default to UTF-8 and set it to the response object.
      *
      * @param string $responseBody
-     * @return Magento_Webapi_Controller_Soap
+     * @return \Magento\Webapi\Controller\Soap
      */
     protected function _setResponseBody($responseBody)
     {

@@ -88,7 +88,7 @@ EOT
 
 define('DS', DIRECTORY_SEPARATOR);
 define('PS', PATH_SEPARATOR);
-define('BASE_PATH', dirname(dirname(dirname(__DIR__))));
+define('BASE_PATH', dirname(dirname(dirname(dirname(dirname(__DIR__))))));
 
 ini_set('include_path', ini_get('include_path')
     . PS . BASE_PATH. DS . 'lib'
@@ -96,10 +96,10 @@ ini_set('include_path', ini_get('include_path')
 
 require_once __DIR__ . '/config.inc.php';
 require_once __DIR__ . '/MultyGetopt.php';
-require_once 'Varien/File/CsvMulty.php';
+require_once BASE_PATH . DS . 'lib' . DS . 'Magento/File/CsvMulty.php';
 require_once __DIR__ . '/DirectoryFilter.php';
 
-require_once 'Varien/Simplexml/Config.php';
-require_once 'Varien/Simplexml/Element.php';
+require_once BASE_PATH . DS . 'lib' . DS . 'Magento/Simplexml/Config.php';
+require_once BASE_PATH . DS . 'lib' . DS . 'Magento/Simplexml/Element.php';
 
-Magento_Tools_Translate_Translate::run($CONFIG);
+\Magento\Tools\Translate\TranslateTool::run($CONFIG);

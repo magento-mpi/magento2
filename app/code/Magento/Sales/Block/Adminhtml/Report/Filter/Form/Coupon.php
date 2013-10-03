@@ -15,7 +15,9 @@
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Block_Adminhtml_Report_Filter_Form_Coupon extends Magento_Sales_Block_Adminhtml_Report_Filter_Form
+namespace Magento\Sales\Block\Adminhtml\Report\Filter\Form;
+
+class Coupon extends \Magento\Sales\Block\Adminhtml\Report\Filter\Form
 {
     /**
      * Flag that keep info should we render specific dependent element or not
@@ -25,26 +27,26 @@ class Magento_Sales_Block_Adminhtml_Report_Filter_Form_Coupon extends Magento_Sa
     protected $_renderDependentElement = false;
 
     /**
-     * @var Magento_SalesRule_Model_Resource_Report_RuleFactory
+     * @var \Magento\SalesRule\Model\Resource\Report\RuleFactory
      */
     protected $_reportRule;
 
     /**
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Sales_Model_Order_ConfigFactory $orderConfig
-     * @param Magento_SalesRule_Model_Resource_Report_RuleFactory $reportRule
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Sales\Model\Order\ConfigFactory $orderConfig
+     * @param \Magento\SalesRule\Model\Resource\Report\RuleFactory $reportRule
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Sales_Model_Order_ConfigFactory $orderConfig,
-        Magento_SalesRule_Model_Resource_Report_RuleFactory $reportRule,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Sales\Model\Order\ConfigFactory $orderConfig,
+        \Magento\SalesRule\Model\Resource\Report\RuleFactory $reportRule,
         array $data = array()
     ) {
         $this->_reportRule = $reportRule;
@@ -54,16 +56,16 @@ class Magento_Sales_Block_Adminhtml_Report_Filter_Form_Coupon extends Magento_Sa
     /**
      * Prepare form
      *
-     * @return Magento_Sales_Block_Adminhtml_Report_Filter_Form_Coupon
+     * @return \Magento\Sales\Block\Adminhtml\Report\Filter\Form\Coupon
      */
     protected function _prepareForm()
     {
         parent::_prepareForm();
 
-        /** @var Magento_Data_Form_Element_Fieldset $fieldset */
+        /** @var \Magento\Data\Form\Element\Fieldset $fieldset */
         $fieldset = $this->getForm()->getElement('base_fieldset');
 
-        if (is_object($fieldset) && $fieldset instanceof Magento_Data_Form_Element_Fieldset) {
+        if (is_object($fieldset) && $fieldset instanceof \Magento\Data\Form\Element\Fieldset) {
 
             $fieldset->addField('price_rule_type', 'select', array(
                 'name'    => 'price_rule_type',
@@ -115,8 +117,8 @@ class Magento_Sales_Block_Adminhtml_Report_Filter_Form_Coupon extends Magento_Sa
              * form creates appropriate child block and uses this alias. In this case we can't use the same alias
              * without core logic changes, that's why the code below was moved inside method '_afterToHtml'.
              */
-            /** @var $formAfterBlock Magento_Adminhtml_Block_Widget_Form_Element_Dependence */
-            $formAfterBlock = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Form_Element_Dependence',
+            /** @var $formAfterBlock \Magento\Adminhtml\Block\Widget\Form\Element\Dependence */
+            $formAfterBlock = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Form\Element\Dependence',
                 'adminhtml.block.widget.form.element.dependence'
             );
             $formAfterBlock->addFieldMap($htmlIdPrefix . 'price_rule_type', 'price_rule_type')

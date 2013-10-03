@@ -16,7 +16,9 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Model_Resource_Link_Purchased extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Downloadable\Model\Resource\Link;
+
+class Purchased extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Magento class constructor

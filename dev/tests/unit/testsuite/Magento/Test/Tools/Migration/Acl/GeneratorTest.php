@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Test\Tools\Migration\Acl;
+
 require_once realpath(__DIR__ . '/../../../../../../../../')
     . '/tools/Magento/Tools/Migration/Acl/Generator.php';
 require_once realpath(__DIR__ . '/../../../../../../../../')
@@ -16,12 +18,12 @@ require_once realpath(__DIR__ . '/../../../../../../../../')
     . '/tools/Magento/Tools/Migration/Acl/Formatter.php';
 
 /**
- * Magento_Tools_Migration_Acl_Generator test case
+ * \Magento\Tools\Migration\Acl\Generator test case
  */
-class Magento_Test_Tools_Migration_Acl_GeneratorTest extends PHPUnit_Framework_TestCase
+class GeneratorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var $model Magento_Tools_Migration_Acl_Generator
+     * @var $model \Magento\Tools\Migration\Acl\Generator
      */
     protected $_model;
 
@@ -38,20 +40,20 @@ class Magento_Test_Tools_Migration_Acl_GeneratorTest extends PHPUnit_Framework_T
     protected $_adminhtmlFiles = array();
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_xmlFormatterMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fileManagerMock;
 
     protected function setUp()
     {
-        $this->_xmlFormatterMock = $this->getMock('Magento_Tools_Migration_Acl_Formatter');
-        $this->_fileManagerMock = $this->getMock('Magento_Tools_Migration_Acl_FileManager');
-        $this->_model = new Magento_Tools_Migration_Acl_Generator($this->_xmlFormatterMock, $this->_fileManagerMock);
+        $this->_xmlFormatterMock = $this->getMock('Magento\Tools\Migration\Acl\Formatter');
+        $this->_fileManagerMock = $this->getMock('Magento\Tools\Migration\Acl\FileManager');
+        $this->_model = new \Magento\Tools\Migration\Acl\Generator($this->_xmlFormatterMock, $this->_fileManagerMock);
 
         $this->_fixturePath = realpath(__DIR__) . DIRECTORY_SEPARATOR . '_files';
 
@@ -185,7 +187,7 @@ class Magento_Test_Tools_Migration_Acl_GeneratorTest extends PHPUnit_Framework_T
 
     public function testCreateNode()
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $parent = $dom->createElement('parent');
         $parent->setAttribute('xpath', 'root');
         $dom->appendChild($parent);
@@ -206,7 +208,7 @@ class Magento_Test_Tools_Migration_Acl_GeneratorTest extends PHPUnit_Framework_T
         );
         $this->_model->setMetaNodeNames($metaNodeName);
 
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $parent = $dom->createElement('parent');
         $parent->setAttribute('xpath', 'root');
         $parent->setAttribute('id', 'root_id');
@@ -235,22 +237,22 @@ class Magento_Test_Tools_Migration_Acl_GeneratorTest extends PHPUnit_Framework_T
     }
 
     /**
-     * @covers Magento_Tools_Migration_Acl_Generator::parseNode
-     * @covers Magento_Tools_Migration_Acl_Generator::generateId
+     * @covers \Magento\Tools\Migration\Acl\Generator::parseNode
+     * @covers \Magento\Tools\Migration\Acl\Generator::generateId
      */
     public function testParseNode()
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->formatOutput = true;
         $parentNode = $dom->createElement('root');
         $dom->appendChild($parentNode);
         $moduleName = 'Module_Name';
 
-        $sourceDom = new DOMDocument();
+        $sourceDom = new \DOMDocument();
         $sourceDom->load($this->_fixturePath . DIRECTORY_SEPARATOR . 'parse_node_source.xml');
         $nodeList = $sourceDom->getElementsByTagName('resources');
         $this->_model->parseNode($nodeList->item(0), $dom, $parentNode, $moduleName);
-        $expectedDom = new DOMDocument();
+        $expectedDom = new \DOMDocument();
         $expectedDom->load($this->_fixturePath . DIRECTORY_SEPARATOR . 'parse_node_result.xml');
         $this->assertEquals($expectedDom->saveXML($expectedDom->documentElement), $dom->saveXML($dom->documentElement));
     }
@@ -265,7 +267,7 @@ class Magento_Test_Tools_Migration_Acl_GeneratorTest extends PHPUnit_Framework_T
 </config>
 TEMPLATE;
         $dom = $this->_model->getResultDomDocument();
-        $expectedDom = new DOMDocument();
+        $expectedDom = new \DOMDocument();
         $expectedDom->formatOutput = true;
         $this->assertEquals($expectedDocument, $dom->saveXML($dom->documentElement));
     }
@@ -278,8 +280,8 @@ TEMPLATE;
     }
 
     /**
-     * @covers Magento_Tools_Migration_Acl_Generator::updateAclResourceIds()
-     * @covers Magento_Tools_Migration_Acl_Generator::updateChildAclNodes() (removing of xpath attribute)
+     * @covers \Magento\Tools\Migration\Acl\Generator::updateAclResourceIds()
+     * @covers \Magento\Tools\Migration\Acl\Generator::updateChildAclNodes() (removing of xpath attribute)
      */
     public function testUpdateAclResourceIds()
     {
@@ -287,9 +289,9 @@ TEMPLATE;
 
         $domList = $this->_model->getParsedDomList();
 
-        /** @var $dom DOMDocument **/
+        /** @var $dom \DOMDocument **/
         foreach ($domList as $dom) {
-            $xpath = new DOMXPath($dom);
+            $xpath = new \DOMXPath($dom);
             $resources = $xpath->query('//resources[@xpath]');
             $this->assertEquals(1, $resources->length);
         }
@@ -297,9 +299,9 @@ TEMPLATE;
         /**
          * check that all xpath attributes are removed
          */
-        /** @var $dom DOMDocument **/
+        /** @var $dom \DOMDocument **/
         foreach ($domList as $dom) {
-            $xpath = new DOMXPath($dom);
+            $xpath = new \DOMXPath($dom);
             $resources = $xpath->query('//*[@xpath]');
             $this->assertEquals(0, $resources->length);
         }
@@ -307,7 +309,7 @@ TEMPLATE;
 
     public function testUpdateChildAclNodes()
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $fileActual = $this->_fixturePath . DIRECTORY_SEPARATOR . 'update_child_acl_nodes_source.xml';
         $fileExpected = $this->_fixturePath . DIRECTORY_SEPARATOR . 'update_child_acl_nodes_result.xml';
         $dom->load($fileActual);
@@ -323,7 +325,7 @@ TEMPLATE;
         $this->_model->setAclResourceMaps($aclResourcesMaps);
         $this->_model->updateChildAclNodes($rootNode);
 
-        $expectedDom = new DOMDocument();
+        $expectedDom = new \DOMDocument();
         $expectedDom->load($fileExpected);
         $expectedRootNode = $expectedDom->getElementsByTagName('resources')->item(0);
 
@@ -332,7 +334,7 @@ TEMPLATE;
 
     public function testIsNodeEmpty()
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $node = $dom->createElement('node', 'test');
         $dom->appendChild($node);
         $this->assertTrue($this->_model->isNodeEmpty($node));

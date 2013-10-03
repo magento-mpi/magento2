@@ -7,17 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Soap_Wsdl_Factory
+namespace Magento\Webapi\Model\Soap\Wsdl;
+
+class Factory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -27,12 +29,12 @@ class Magento_Webapi_Model_Soap_Wsdl_Factory
      *
      * @param string $wsdlName
      * @param string $endpointUrl
-     * @return Magento_Webapi_Model_Soap_Wsdl
+     * @return \Magento\Webapi\Model\Soap\Wsdl
      */
     public function create($wsdlName, $endpointUrl)
     {
         return $this->_objectManager->create(
-            'Magento_Webapi_Model_Soap_Wsdl',
+            'Magento\Webapi\Model\Soap\Wsdl',
             array(
                 'name' => $wsdlName,
                 'uri' => $endpointUrl,

@@ -11,7 +11,9 @@
 /**
  * HSS iframe block
  */
-class Magento_Paypal_Block_Iframe extends Magento_Payment_Block_Form
+namespace Magento\Paypal\Block;
+
+class Iframe extends \Magento\Payment\Block\Form
 {
     /**
      * Whether the block should be eventually rendered
@@ -23,7 +25,7 @@ class Magento_Paypal_Block_Iframe extends Magento_Payment_Block_Form
     /**
      * Order object
      *
-     * @var Magento_Sales_Model_Order
+     * @var \Magento\Sales\Model\Order
      */
     protected $_order;
 
@@ -37,7 +39,7 @@ class Magento_Paypal_Block_Iframe extends Magento_Payment_Block_Form
     /**
      * Current iframe block instance
      *
-     * @var Magento_Payment_Block_Form
+     * @var \Magento\Payment\Block\Form
      */
     protected $_block;
 
@@ -47,27 +49,27 @@ class Magento_Paypal_Block_Iframe extends Magento_Payment_Block_Form
     protected $_template = 'hss/js.phtml';
 
     /**
-     * @var Magento_Sales_Model_OrderFactory
+     * @var \Magento\Sales\Model\OrderFactory
      */
     protected $_orderFactory;
 
     /**
-     * @var Magento_Checkout_Model_Session
+     * @var \Magento\Checkout\Model\Session
      */
     protected $_checkoutSession;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Sales_Model_OrderFactory $orderFactory
-     * @param Magento_Checkout_Model_Session $checkoutSession
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Sales_Model_OrderFactory $orderFactory,
-        Magento_Checkout_Model_Session $checkoutSession,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Sales\Model\OrderFactory $orderFactory,
+        \Magento\Checkout\Model\Session $checkoutSession,
         array $data = array()
     ) {
         $this->_orderFactory = $orderFactory;
@@ -85,7 +87,7 @@ class Magento_Paypal_Block_Iframe extends Magento_Payment_Block_Form
             ->getQuote()
             ->getPayment()
             ->getMethod();
-        if (in_array($paymentCode, $this->helper('Magento_Paypal_Helper_Hss')->getHssMethods())) {
+        if (in_array($paymentCode, $this->helper('Magento\Paypal\Helper\Hss')->getHssMethods())) {
             $this->_paymentMethodCode = $paymentCode;
             $templatePath = str_replace('_', '', $paymentCode);
             $templateFile = "{$templatePath}/iframe.phtml";
@@ -100,18 +102,20 @@ class Magento_Paypal_Block_Iframe extends Magento_Payment_Block_Form
     /**
      * Get current block instance
      *
-     * @return Magento_Paypal_Block_Iframe
-     * @throws Magento_Core_Exception
+     * @return \Magento\Paypal\Block\Iframe
+     * @throws \Magento\Core\Exception
      */
     protected function _getBlock()
     {
         if (!$this->_block) {
             $this->_block = $this->getLayout()
-                ->createBlock('Magento_Paypal_Block_'
-                    . str_replace(' ', '_', ucwords(str_replace('_', ' ', $this->_paymentMethodCode)))
+                ->createBlock('Magento\\Paypal\\Block\\'
+                    . str_replace(' ', \Magento\Autoload\IncludePath::NS_SEPARATOR,
+                            ucwords(str_replace(\Magento\Autoload\IncludePath::NS_SEPARATOR, ' ', $this
+                                        ->_paymentMethodCode)))
                     . '_Iframe');
-            if (!$this->_block instanceof Magento_Paypal_Block_Iframe) {
-                throw new Magento_Core_Exception('Invalid block type');
+            if (!$this->_block instanceof \Magento\Paypal\Block\Iframe) {
+                throw new \Magento\Core\Exception('Invalid block type');
             }
         }
 
@@ -121,7 +125,7 @@ class Magento_Paypal_Block_Iframe extends Magento_Payment_Block_Form
     /**
      * Get order object
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     protected function _getOrder()
     {
@@ -135,7 +139,7 @@ class Magento_Paypal_Block_Iframe extends Magento_Payment_Block_Form
     /**
      * Get frontend checkout session object
      *
-     * @return Magento_Checkout_Model_Session
+     * @return \Magento\Checkout\Model\Session
      */
     protected function _getCheckout()
     {
@@ -145,7 +149,7 @@ class Magento_Paypal_Block_Iframe extends Magento_Payment_Block_Form
     /**
      * Before rendering html, check if is block rendering needed
      *
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _beforeToHtml()
     {

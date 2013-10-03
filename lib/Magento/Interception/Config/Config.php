@@ -7,40 +7,42 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Interception_Config_Config implements Magento_Interception_Config
+namespace Magento\Interception\Config;
+
+class Config implements \Magento\Interception\Config
 {
     /**
      * Type configuration
      *
-     * @var Magento_ObjectManager_Config
+     * @var \Magento\ObjectManager\Config
      */
     protected $_omConfig;
 
     /**
      * Class relations info
      *
-     * @var Magento_ObjectManager_Relations
+     * @var \Magento\ObjectManager\Relations
      */
     protected $_relations;
 
     /**
      * Interceptor generator
      *
-     * @var Magento_Interception_CodeGenerator
+     * @var \Magento\Interception\CodeGenerator
      */
     protected $_codeGenerator;
 
     /**
      * List of interceptable classes
      *
-     * @var Magento_ObjectManager_Definition
+     * @var \Magento\ObjectManager\Definition
      */
     protected $_classDefinitions;
 
     /**
      * Cache
      *
-     * @var Magento_Cache_FrontendInterface
+     * @var \Magento\Cache\FrontendInterface
      */
     protected $_cache;
 
@@ -54,14 +56,14 @@ class Magento_Interception_Config_Config implements Magento_Interception_Config
     /**
      * Configuration reader
      *
-     * @var Magento_Config_ReaderInterface
+     * @var \Magento\Config\ReaderInterface
      */
     protected $_reader;
 
     /**
      * Configuration scope resolver
      *
-     * @var Magento_Config_ScopeInterface
+     * @var \Magento\Config\ScopeInterface
      */
     protected $_configScope;
 
@@ -73,23 +75,23 @@ class Magento_Interception_Config_Config implements Magento_Interception_Config
     protected $_intercepted = array();
 
     /**
-     * @param Magento_Config_ReaderInterface $reader
-     * @param Magento_Config_ScopeInterface $configScope
-     * @param Magento_Cache_FrontendInterface $cache
-     * @param Magento_ObjectManager_Relations $relations
-     * @param Magento_ObjectManager_Config $omConfig
-     * @param Magento_ObjectManager_Definition_Compiled $classDefinitions
-     * @param Magento_Interception_CodeGenerator $codeGenerator
+     * @param \Magento\Config\ReaderInterface $reader
+     * @param \Magento\Config\ScopeInterface $configScope
+     * @param \Magento\Cache\FrontendInterface $cache
+     * @param \Magento\ObjectManager\Relations $relations
+     * @param \Magento\ObjectManager\Config $omConfig
+     * @param \Magento\ObjectManager\Definition\Compiled $classDefinitions
+     * @param \Magento\Interception\CodeGenerator $codeGenerator
      * @param string $cacheId
      */
     public function __construct(
-        Magento_Config_ReaderInterface $reader,
-        Magento_Config_ScopeInterface $configScope,
-        Magento_Cache_FrontendInterface $cache,
-        Magento_ObjectManager_Relations $relations,
-        Magento_ObjectManager_Config $omConfig,
-        Magento_ObjectManager_Definition_Compiled $classDefinitions = null,
-        Magento_Interception_CodeGenerator $codeGenerator = null,
+        \Magento\Config\ReaderInterface $reader,
+        \Magento\Config\ScopeInterface $configScope,
+        \Magento\Cache\FrontendInterface $cache,
+        \Magento\ObjectManager\Relations $relations,
+        \Magento\ObjectManager\Config $omConfig,
+        \Magento\ObjectManager\Definition\Compiled $classDefinitions = null,
+        \Magento\Interception\CodeGenerator $codeGenerator = null,
         $cacheId = 'interception'
     ) {
         $this->_omConfig = $omConfig;
@@ -165,7 +167,7 @@ class Magento_Interception_Config_Config implements Magento_Interception_Config
      */
     public function getInterceptorClassName($type)
     {
-        $className = $this->_omConfig->getInstanceType($type) . '_Interceptor';
+        $className = $this->_omConfig->getInstanceType($type) . '\Interceptor';
         if ($this->_codeGenerator && !class_exists($className)) {
             $this->_codeGenerator->generate($className);
         }

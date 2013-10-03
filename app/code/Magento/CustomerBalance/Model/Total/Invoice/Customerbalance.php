@@ -8,21 +8,23 @@
  * @license     {license_link}
  */
 
-class Magento_CustomerBalance_Model_Total_Invoice_Customerbalance extends Magento_Sales_Model_Order_Invoice_Total_Abstract
+namespace Magento\CustomerBalance\Model\Total\Invoice;
+
+class Customerbalance extends \Magento\Sales\Model\Order\Invoice\Total\AbstractTotal
 {
     /**
      * Customer balance data
      *
-     * @var Magento_CustomerBalance_Helper_Data
+     * @var \Magento\CustomerBalance\Helper\Data
      */
     protected $_customerBalanceData = null;
 
     /**
-     * @param Magento_CustomerBalance_Helper_Data $customerBalanceData
+     * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
      * @param array $data
      */
     public function __construct(
-        Magento_CustomerBalance_Helper_Data $customerBalanceData,
+        \Magento\CustomerBalance\Helper\Data $customerBalanceData,
         array $data = array()
     ) {
         $this->_customerBalanceData = $customerBalanceData;
@@ -32,10 +34,10 @@ class Magento_CustomerBalance_Model_Total_Invoice_Customerbalance extends Magent
     /**
      * Collect customer balance totals for invoice
      *
-     * @param Magento_Sales_Model_Order_Invoice $invoice
-     * @return Magento_CustomerBalance_Model_Total_Invoice_Customerbalance
+     * @param \Magento\Sales\Model\Order\Invoice $invoice
+     * @return \Magento\CustomerBalance\Model\Total\Invoice\Customerbalance
      */
-    public function collect(Magento_Sales_Model_Order_Invoice $invoice)
+    public function collect(\Magento\Sales\Model\Order\Invoice $invoice)
     {
         if (!$this->_customerBalanceData->isEnabled()) {
             return $this;

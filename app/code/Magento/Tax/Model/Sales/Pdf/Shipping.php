@@ -8,25 +8,27 @@
  * @license     {license_link}
  */
 
-class Magento_Tax_Model_Sales_Pdf_Shipping extends Magento_Sales_Model_Order_Pdf_Total_Default
+namespace Magento\Tax\Model\Sales\Pdf;
+
+class Shipping extends \Magento\Sales\Model\Order\Pdf\Total\DefaultTotal
 {
     /**
-     * @var Magento_Tax_Model_Config
+     * @var \Magento\Tax\Model\Config
      */
     protected $_taxConfig;
 
     /**
-     * @param Magento_Tax_Helper_Data $taxHelper
-     * @param Magento_Tax_Model_Calculation $taxCalculation
-     * @param Magento_Tax_Model_Config $taxConfig
-     * @param Magento_Tax_Model_Resource_Sales_Order_Tax_CollectionFactory $ordersFactory
+     * @param \Magento\Tax\Helper\Data $taxHelper
+     * @param \Magento\Tax\Model\Calculation $taxCalculation
+     * @param \Magento\Tax\Model\Config $taxConfig
+     * @param \Magento\Tax\Model\Resource\Sales\Order\Tax\CollectionFactory $ordersFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Tax_Helper_Data $taxHelper,
-        Magento_Tax_Model_Calculation $taxCalculation,
-        Magento_Tax_Model_Config $taxConfig,
-        Magento_Tax_Model_Resource_Sales_Order_Tax_CollectionFactory $ordersFactory,
+        \Magento\Tax\Helper\Data $taxHelper,
+        \Magento\Tax\Model\Calculation $taxCalculation,
+        \Magento\Tax\Model\Config $taxConfig,
+        \Magento\Tax\Model\Resource\Sales\Order\Tax\CollectionFactory $ordersFactory,
         array $data = array()
     ) {
         $this->_taxConfig = $taxConfig;

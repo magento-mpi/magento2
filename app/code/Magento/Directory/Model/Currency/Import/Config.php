@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Directory_Model_Currency_Import_Config
+namespace Magento\Directory\Model\Currency\Import;
+
+class Config
 {
     /**
      * @var array
@@ -16,19 +18,19 @@ class Magento_Directory_Model_Currency_Import_Config
      * Validate format of services configuration array
      *
      * @param array $servicesConfig
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function __construct(array $servicesConfig)
     {
         foreach ($servicesConfig as $serviceName => $serviceInfo) {
             if (!is_string($serviceName) || empty($serviceName)) {
-                throw new InvalidArgumentException('Name for a currency import service has to be specified.');
+                throw new \InvalidArgumentException('Name for a currency import service has to be specified.');
             }
             if (empty($serviceInfo['class'])) {
-                throw new InvalidArgumentException('Class for a currency import service has to be specified.');
+                throw new \InvalidArgumentException('Class for a currency import service has to be specified.');
             }
             if (empty($serviceInfo['label'])) {
-                throw new InvalidArgumentException('Label for a currency import service has to be specified.');
+                throw new \InvalidArgumentException('Label for a currency import service has to be specified.');
             }
         }
         $this->_servicesConfig = $servicesConfig;

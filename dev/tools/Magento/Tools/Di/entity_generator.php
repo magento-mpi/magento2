@@ -11,7 +11,7 @@
 require __DIR__ . '/../../../../../app/bootstrap.php';
 
 // default generation dir
-$generationDir = BP . DS . Magento_Code_Generator_Io::DEFAULT_DIRECTORY;
+$generationDir = BP . DS . \Magento\Code\Generator\Io::DEFAULT_DIRECTORY;
 
 try {
     $opt = new Zend_Console_Getopt(array(
@@ -40,11 +40,11 @@ try {
         $generationDir = $opt->getOption('g');
     }
 } catch (Zend_Console_Getopt_Exception $e) {
-    $generator = new Magento_Code_Generator();
+    $generator = new \Magento\Code\Generator();
     $entities = $generator->getGeneratedEntities();
 
     $allowedTypes = 'Allowed entity types are: ' . implode(', ', $entities) . '.';
-    $example = 'Example: php -f entity_generator.php -- -t factory -c Magento_Event_Observer '
+    $example = 'Example: php -f entity_generator.php -- -t factory -c \Magento\Event\Observer '
         . '-g /var/mage/m2ee/generation'
         . ' - will generate file /var/mage/m2ee/generation/Magento/Event/ObserverFactory.php';
 
@@ -55,18 +55,18 @@ try {
     die($example);
 }
 
-Magento_Autoload_IncludePath::addIncludePath($generationDir);
+\Magento\Autoload\IncludePath::addIncludePath($generationDir);
 
 //reinit generator with correct generation path
-$io = new Magento_Code_Generator_Io(null, null, $generationDir);
-$generator = new Magento_Code_Generator(null, null, $io);
+$io = new \Magento\Code\Generator\Io(null, null, $generationDir);
+$generator = new \Magento\Code\Generator(null, null, $io);
 
 try {
-    if (Magento_Code_Generator::GENERATION_SUCCESS == $generator->generateClass($className)) {
+    if (\Magento\Code\Generator::GENERATION_SUCCESS == $generator->generateClass($className)) {
         print("Class {$className} was successfully generated.\n");
     } else {
         print("Can't generate class {$className}. This class either not generated entity, or it already exists.\n");
     }
-} catch (Magento_Exception $e) {
+} catch (\Magento\Exception $e) {
     print("Error! {$e->getMessage()}\n");
 }

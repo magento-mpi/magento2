@@ -7,20 +7,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */ 
-class Magento_HTTP_HandlerFactory
+namespace Magento\HTTP;
+
+class HandlerFactory
 {
 
     /**
      * Application object manager
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -29,7 +31,7 @@ class Magento_HTTP_HandlerFactory
      * Create new http request handler
      *
      * @param string $name
-     * @return Magento_HTTP_HandlerInterface
+     * @return \Magento\HTTP\HandlerInterface
      */
     public function create($name)
     {

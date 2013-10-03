@@ -7,53 +7,55 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_TemplateEngine_Twig_EnvironmentFactory
+namespace Magento\Core\Model\TemplateEngine\Twig;
+
+class EnvironmentFactory
 {
     /**
-     * @var Magento_Core_Model_TemplateEngine_Twig_Extension
+     * @var \Magento\Core\Model\TemplateEngine\Twig\Extension
      */
     protected $_extension;
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
     
     /**
-     * @var Twig_Environment
+     * @var \Twig_Environment
      */
     private $_environment;
 
     /**
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     private $_dir;
     
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     private $_logger;
 
     /**
-     * @var Twig_LoaderInterface
+     * @var \Twig_LoaderInterface
      */
     private $_loader;
 
     /**
      * Create new instance of factory
      *
-     * @param Magento_Filesystem $filesystem
-     * @param Magento_Core_Model_TemplateEngine_Twig_Extension $extension
-     * @param Magento_Core_Model_Dir $dir
-     * @param Magento_Core_Model_Logger $logger
-     * @param Twig_LoaderInterface $loader
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Core\Model\TemplateEngine\Twig\Extension $extension
+     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Twig_LoaderInterface $loader
      */
     public function __construct(
-        Magento_Filesystem $filesystem,
-        Magento_Core_Model_TemplateEngine_Twig_Extension $extension,
-        Magento_Core_Model_Dir $dir,
-        Magento_Core_Model_Logger $logger,
-        Twig_LoaderInterface $loader
+        \Magento\Filesystem $filesystem,
+        \Magento\Core\Model\TemplateEngine\Twig\Extension $extension,
+        \Magento\Core\Model\Dir $dir,
+        \Magento\Core\Model\Logger $logger,
+        \Twig_LoaderInterface $loader
     ) {
         $this->_filesystem = $filesystem;
         $this->_extension = $extension;
@@ -66,26 +68,26 @@ class Magento_Core_Model_TemplateEngine_Twig_EnvironmentFactory
     /**
      * Initialize (if necessary) and return the Twig environment.
      *
-     * @return Twig_Environment
+     * @return \Twig_Environment
      */
     public function create()
     {
         if ($this->_environment === null) {
-            $this->_environment = new Twig_Environment($this->_loader);
+            $this->_environment = new \Twig_Environment($this->_loader);
             try {
-                $precompiledTmpltDir = $this->_dir->getDir(Magento_Core_Model_Dir::VAR_DIR) . '/twig_templates';
+                $precompiledTmpltDir = $this->_dir->getDir(\Magento\Core\Model\Dir::VAR_DIR) . '/twig_templates';
                 $this->_filesystem->createDirectory($precompiledTmpltDir);
                 $this->_environment->setCache($precompiledTmpltDir);
-            } catch (Magento_Filesystem_Exception $e) {
+            } catch (\Magento\Filesystem\FilesystemException $e) {
                 // Twig will just run slowly but not worth stopping Magento for it
                 $this->_logger->logException($e);
-            } catch (InvalidArgumentException $e) {
+            } catch (\InvalidArgumentException $e) {
                 // Can happen if path isn't found, shouldn't stop Magento
                 $this->_logger->logException($e);
             }
             $this->_environment->enableStrictVariables();
-            $this->_environment->addExtension(new Twig_Extension_Escaper('html'));
-            $this->_environment->addExtension(new Twig_Extension_Optimizer(1));
+            $this->_environment->addExtension(new \Twig_Extension_Escaper('html'));
+            $this->_environment->addExtension(new \Twig_Extension_Optimizer(1));
             $this->_environment->addExtension($this->_extension);
             $this->_environmentInitialized = true;
         }

@@ -9,8 +9,8 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceContainer name="content">
-        <block class="Magento_Adminhtml_Block_Sales_Order_Create_Billing_Method" template="sales/order/create/abstract.phtml" name="billing_method">
-            <block class="Magento_Adminhtml_Block_Sales_Order_Create_Billing_Method_Form" template="sales/order/create/billing/method/form.phtml" name="order.create.billing.method.form" as="form"/>
+        <block class="Magento\Adminhtml\Block\Sales\Order\Create\Billing\Method" template="sales/order/create/abstract.phtml" name="billing_method">
+            <block class="Magento\Adminhtml\Block\Sales\Order\Create\Billing\Method\Form" template="sales/order/create/billing/method/form.phtml" name="order.create.billing.method.form" as="form"/>
         </block>
     </referenceContainer>
 </layout>

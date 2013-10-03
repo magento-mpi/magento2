@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var $installer Magento_Downloadable_Model_Resource_Setup */
+/** @var $installer \Magento\Downloadable\Model\Resource\Setup */
 $installer = $this;
 
 $fieldList = array(
@@ -22,10 +22,10 @@ $fieldList = array(
 
 // make these attributes applicable to downloadable products
 foreach ($fieldList as $field) {
-    $applyTo = explode(',', $installer->getAttribute(Magento_Catalog_Model_Product::ENTITY, $field, 'apply_to'));
+    $applyTo = explode(',', $installer->getAttribute(\Magento\Catalog\Model\Product::ENTITY, $field, 'apply_to'));
     if (!in_array('downloadable', $applyTo)) {
         $applyTo[] = 'downloadable';
-        $installer->updateAttribute(Magento_Catalog_Model_Product::ENTITY, $field, 'apply_to', implode(',', $applyTo));
+        $installer->updateAttribute(\Magento\Catalog\Model\Product::ENTITY, $field, 'apply_to', implode(',', $applyTo));
     }
 }
  

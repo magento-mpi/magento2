@@ -10,12 +10,14 @@
  */
 
 /**
- * Test class for Magento_TestFramework_Bootstrap_Settings.
+ * Test class for \Magento\TestFramework\Bootstrap\Settings.
  */
-class Magento_Test_Bootstrap_SettingsTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Bootstrap;
+
+class SettingsTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_Bootstrap_Settings
+     * @var \Magento\TestFramework\Bootstrap\Settings
      */
     protected $_object;
 
@@ -39,7 +41,7 @@ class Magento_Test_Bootstrap_SettingsTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_object = new Magento_TestFramework_Bootstrap_Settings($this->_fixtureDir, array(
+        $this->_object = new \Magento\TestFramework\Bootstrap\Settings($this->_fixtureDir, array(
             'item_label'                => 'Item Label',
             'number_of_items'           => 42,
             'item_price'                => 12.99,
@@ -62,12 +64,12 @@ class Magento_Test_Bootstrap_SettingsTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Base path 'non_existing_dir' has to be an existing directory.
      */
     public function testConstructorNonExistingBaseDir()
     {
-        new Magento_TestFramework_Bootstrap_Settings('non_existing_dir', array());
+        new \Magento\TestFramework\Bootstrap\Settings('non_existing_dir', array());
     }
 
     /**
@@ -207,7 +209,7 @@ class Magento_Test_Bootstrap_SettingsTest extends PHPUnit_Framework_TestCase
      */
     public function testGetAsConfigFileException($settingName, $expectedExceptionMsg)
     {
-        $this->setExpectedException('Magento_Exception', $expectedExceptionMsg);
+        $this->setExpectedException('Magento\Exception', $expectedExceptionMsg);
         $this->_object->getAsConfigFile($settingName);
     }
 

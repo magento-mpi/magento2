@@ -9,50 +9,52 @@
 /**
  * Log grid container
  */
-class Magento_Logging_Block_Adminhtml_Details extends Magento_Backend_Block_Widget_Container
+namespace Magento\Logging\Block\Adminhtml;
+
+class Details extends \Magento\Backend\Block\Widget\Container
 {
     /**
      * Store curent event
      *
-     * @var Magento_Logging_Model_Event
+     * @var \Magento\Logging\Model\Event
      */
     protected $_currentEevent = null;
 
     /**
      * Store current event user
      *
-     * @var Magento_User_Model_User
+     * @var \Magento\User\Model\User
      */
     protected $_eventUser = null;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * User model
      *
-     * @var Magento_User_Model_UserFactory
+     * @var \Magento\User\Model\UserFactory
      */
     protected $_userFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_User_Model_UserFactory $userFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\User\Model\UserFactory $userFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_User_Model_UserFactory $userFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\User\Model\UserFactory $userFactory,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);
@@ -91,7 +93,7 @@ class Magento_Logging_Block_Adminhtml_Details extends Magento_Backend_Block_Widg
     /**
      * Get current event
      *
-     * @return Magento_Logging_Model_Event|null
+     * @return \Magento\Logging\Model\Event|null
      */
     public function getCurrentEvent()
     {
@@ -146,7 +148,7 @@ class Magento_Logging_Block_Adminhtml_Details extends Magento_Backend_Block_Widg
     /**
      * Get current event user
      *
-     * @return Magento_User_Model_User|null
+     * @return \Magento\User\Model\User|null
      */
     public function getEventUser()
     {
@@ -167,7 +169,7 @@ class Magento_Logging_Block_Adminhtml_Details extends Magento_Backend_Block_Widg
         $data = $this->getCurrentEvent()->getInfo();
         try {
             $info = unserialize($data);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $info = $data;
         }
         return $info;

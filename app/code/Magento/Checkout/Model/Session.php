@@ -9,21 +9,23 @@
  */
 
 
-class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
+namespace Magento\Checkout\Model;
+
+class Session extends \Magento\Core\Model\Session\AbstractSession
 {
     const CHECKOUT_STATE_BEGIN = 'begin';
 
     /**
      * Quote instance
      *
-     * @var null|Magento_Sales_Model_Quote
+     * @var null|\Magento\Sales\Model\Quote
      */
     protected $_quote;
 
     /**
      * Customer instance
      *
-     * @var null|Magento_Customer_Model_Customer
+     * @var null|\Magento\Customer\Model\Customer
      */
     protected $_customer;
 
@@ -37,57 +39,57 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
     /**
      * Loaded order instance
      *
-     * @var Magento_Sales_Model_Order
+     * @var \Magento\Sales\Model\Order
      */
     protected $_order;
 
     /**
-     * @var Magento_Sales_Model_OrderFactory
+     * @var \Magento\Sales\Model\OrderFactory
      */
     protected $_orderFactory;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @var Magento_Core_Model_Message_CollectionFactory
+     * @var \Magento\Core\Model\Message\CollectionFactory
      */
     protected $_messageCollFactory;
 
     /**
-     * @var Magento_Sales_Model_QuoteFactory
+     * @var \Magento\Sales\Model\QuoteFactory
      */
     protected $_quoteFactory;
 
     /**
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     protected $_request;
 
     /**
-     * @param Magento_Core_Model_Session_Context $context
-     * @param Magento_Sales_Model_OrderFactory $orderFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Core_Model_Message_CollectionFactory $messageCollFactory
-     * @param Magento_Sales_Model_QuoteFactory $quoteFactory
+     * @param \Magento\Core\Model\Session\Context $context
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\Message\CollectionFactory $messageCollFactory
+     * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param null $sessionName
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Session_Context $context,
-        Magento_Sales_Model_OrderFactory $orderFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Core_Model_Message_CollectionFactory $messageCollFactory,
-        Magento_Sales_Model_QuoteFactory $quoteFactory,
+        \Magento\Core\Model\Session\Context $context,
+        \Magento\Sales\Model\OrderFactory $orderFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\Message\CollectionFactory $messageCollFactory,
+        \Magento\Sales\Model\QuoteFactory $quoteFactory,
         $sessionName = null,
         array $data = array()
     ) {
@@ -112,8 +114,8 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
     /**
      * Set customer instance
      *
-     * @param Magento_Customer_Model_Customer|null $customer
-     * @return Magento_Checkout_Model_Session
+     * @param \Magento\Customer\Model\Customer|null $customer
+     * @return \Magento\Checkout\Model\Session
      */
     public function setCustomer($customer)
     {
@@ -135,7 +137,7 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
      * Set quote to be loaded even if inactive
      *
      * @param bool $load
-     * @return Magento_Checkout_Model_Session
+     * @return \Magento\Checkout\Model\Session
      */
     public function setLoadInactive($load = true)
     {
@@ -146,14 +148,14 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
     /**
      * Get checkout quote instance by current session
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {
         $this->_eventManager->dispatch('custom_quote_process', array('checkout_session' => $this));
 
         if ($this->_quote === null) {
-            /** @var $quote Magento_Sales_Model_Quote */
+            /** @var $quote \Magento\Sales\Model\Quote */
             $quote = $this->_quoteFactory->create()->setStoreId($this->_storeManager->getStore()->getId());
             if ($this->getQuoteId()) {
                 if ($this->_loadInactive) {
@@ -230,7 +232,7 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
     /**
      * Load data for customer quote and merge with current quote
      *
-     * @return Magento_Checkout_Model_Session
+     * @return \Magento\Checkout\Model\Session
      */
     public function loadCustomerQuote()
     {
@@ -334,7 +336,7 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
      * @param string $itemKey
      * @param bool $clear
      *
-     * @return null|Magento_Core_Model_Message_Collection
+     * @return null|\Magento\Core\Model\Message\Collection
      */
     public function getItemAdditionalMessages($itemKey, $clear = false)
     {
@@ -356,9 +358,9 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
      * itemKey is a unique hash (e.g 'quote_item17') to distinguish item messages among message collections
      *
      * @param string $itemKey
-     * @param Magento_Core_Model_Message $message
+     * @param \Magento\Core\Model\Message $message
      *
-     * @return Magento_Checkout_Model_Session
+     * @return \Magento\Checkout\Model\Session
      */
     public function addItemAdditionalMessage($itemKey, $message)
     {
@@ -377,7 +379,7 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
      * @param int $itemId
      * @param bool $clear
      *
-     * @return null|Magento_Core_Model_Message_Collection
+     * @return null|\Magento\Core\Model\Message\Collection
      */
     public function getQuoteItemMessages($itemId, $clear = false)
     {
@@ -388,9 +390,9 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
      * Adds new message to a list of quote item messages, saved in this session
      *
      * @param int $itemId
-     * @param Magento_Core_Model_Message $message
+     * @param \Magento\Core\Model\Message $message
      *
-     * @return Magento_Checkout_Model_Session
+     * @return \Magento\Checkout\Model\Session
      */
     function addQuoteItemMessage($itemId, $message)
     {
@@ -435,7 +437,7 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
     /**
      * Get order instance based on last order ID
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getLastRealOrder()
     {

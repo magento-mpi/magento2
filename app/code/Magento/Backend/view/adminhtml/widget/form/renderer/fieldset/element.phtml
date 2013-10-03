@@ -9,7 +9,7 @@
  */
 ?>
 <?php
-/* @var $this Magento_Backend_Block_Widget_Form_Renderer_Fieldset_Element */
+/* @var $this \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element */
 $element = $this->getElement();
 $note = $element->getNote() ? '<div class="note" id="' . $element->getId() . '-note">' . $element->getNote() . '</div>' : '';
 $elementBeforeLabel = $element->getExtType() == 'checkbox' || $element->getExtType() == 'radio';

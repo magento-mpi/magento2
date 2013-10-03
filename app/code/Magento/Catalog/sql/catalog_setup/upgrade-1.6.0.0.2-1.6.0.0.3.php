@@ -19,8 +19,8 @@ $indexNameTmp = $installer->getConnection()->getPrimaryKeyName($tableNameTmp);
 $fields = array('entity_id', 'attribute_id', 'store_id');
 
 $installer->getConnection()
-        ->addIndex($tableName, $indexName, $fields, Magento_DB_Adapter_Interface::INDEX_TYPE_PRIMARY);
+        ->addIndex($tableName, $indexName, $fields, \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_PRIMARY);
 
 $installer->getConnection()
-        ->addIndex($tableNameTmp, $indexNameTmp, $fields, Magento_DB_Adapter_Interface::INDEX_TYPE_PRIMARY);
+        ->addIndex($tableNameTmp, $indexNameTmp, $fields, \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_PRIMARY);
 

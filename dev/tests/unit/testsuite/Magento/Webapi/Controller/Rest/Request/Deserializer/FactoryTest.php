@@ -7,13 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Rest_Request_Deserializer_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Controller\Rest\Request\Deserializer;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetLogicExceptionEmptyRequestAdapter()
     {
         $this->setExpectedException('LogicException', 'Request deserializer adapter is not set.');
-        $interpreterFactory = new Magento_Webapi_Controller_Rest_Request_Deserializer_Factory(
-            $this->getMock('Magento_ObjectManager'),
+        $interpreterFactory = new \Magento\Webapi\Controller\Rest\Request\Deserializer\Factory(
+            $this->getMock('Magento\ObjectManager'),
             array()
         );
         $interpreterFactory->get('contentType');
@@ -22,17 +24,17 @@ class Magento_Webapi_Controller_Rest_Request_Deserializer_FactoryTest extends PH
     public function testGet()
     {
         $expectedMetadata = array('text_xml' => array('type' => 'text/xml', 'model' => 'Xml'));
-        $validInterpreterMock = $this->getMockBuilder('Magento_Webapi_Controller_Rest_Request_Deserializer_Xml')
+        $validInterpreterMock = $this->getMockBuilder('Magento\Webapi\Controller\Rest\Request\Deserializer\Xml')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $objectManagerMock = $this->getMock('Magento_ObjectManager');
+        $objectManagerMock = $this->getMock('Magento\ObjectManager');
         $objectManagerMock
             ->expects($this->once())
             ->method('get')
             ->will($this->returnValue($validInterpreterMock));
 
-        $interpreterFactory = new Magento_Webapi_Controller_Rest_Request_Deserializer_Factory(
+        $interpreterFactory = new \Magento\Webapi\Controller\Rest\Request\Deserializer\Factory(
             $objectManagerMock,
             $expectedMetadata
         );
@@ -43,11 +45,11 @@ class Magento_Webapi_Controller_Rest_Request_Deserializer_FactoryTest extends PH
     {
         $expectedMetadata = array('text_xml' => array('type' => 'text/xml', 'model' => 'Xml'));
         $this->setExpectedException(
-            'Magento_Webapi_Exception',
+            'Magento\Webapi\Exception',
             'Server cannot understand Content-Type HTTP header media type text_xml'
         );
-        $interpreterFactory = new Magento_Webapi_Controller_Rest_Request_Deserializer_Factory(
-            $this->getMock('Magento_ObjectManager'),
+        $interpreterFactory = new \Magento\Webapi\Controller\Rest\Request\Deserializer\Factory(
+            $this->getMock('Magento\ObjectManager'),
             $expectedMetadata
         );
         $interpreterFactory->get('text_xml');
@@ -56,21 +58,21 @@ class Magento_Webapi_Controller_Rest_Request_Deserializer_FactoryTest extends PH
     public function testGetLogicExceptionInvalidRequestDeserializer()
     {
         $expectedMetadata = array('text_xml' => array('type' => 'text/xml', 'model' => 'Xml'));
-        $invalidInterpreter = $this->getMockBuilder('Magento_Webapi_Controller_Response_Rest_Renderer_Json')
+        $invalidInterpreter = $this->getMockBuilder('Magento\Webapi\Controller\Response\Rest\Renderer\Json')
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->setExpectedException(
             'LogicException',
-            'The deserializer must implement "Magento_Webapi_Controller_Rest_Request_DeserializerInterface".'
+            'The deserializer must implement "Magento\Webapi\Controller\Rest\Request\DeserializerInterface".'
         );
-        $objectManagerMock = $this->getMock('Magento_ObjectManager');
+        $objectManagerMock = $this->getMock('Magento\ObjectManager');
         $objectManagerMock
             ->expects($this->once())
             ->method('get')
             ->will($this->returnValue($invalidInterpreter));
 
-        $interpreterFactory = new Magento_Webapi_Controller_Rest_Request_Deserializer_Factory(
+        $interpreterFactory = new \Magento\Webapi\Controller\Rest\Request\Deserializer\Factory(
             $objectManagerMock,
             $expectedMetadata
         );

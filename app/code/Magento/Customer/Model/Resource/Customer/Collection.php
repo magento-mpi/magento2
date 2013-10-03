@@ -16,36 +16,38 @@
  * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Resource_Customer_Collection extends Magento_Eav_Model_Entity_Collection_Abstract
+namespace Magento\Customer\Model\Resource\Customer;
+
+class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
 {
     /**
-     * @var Magento_Core_Model_Fieldset_Config
+     * @var \Magento\Core\Model\Fieldset\Config
      */
     protected $_fieldsetConfig;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Eav_Model_EntityFactory $eavEntityFactory
-     * @param Magento_Eav_Model_Resource_Helper $resourceHelper
-     * @param Magento_Validator_UniversalFactory $universalFactory
-     * @param Magento_Core_Model_Fieldset_Config $fieldsetConfig
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
+     * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Core\Model\Fieldset\Config $fieldsetConfig
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Core_Model_Resource $resource,
-        Magento_Eav_Model_EntityFactory $eavEntityFactory,
-        Magento_Eav_Model_Resource_Helper $resourceHelper,
-        Magento_Validator_UniversalFactory $universalFactory,
-        Magento_Core_Model_Fieldset_Config $fieldsetConfig
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Eav\Model\EntityFactory $eavEntityFactory,
+        \Magento\Eav\Model\Resource\Helper $resourceHelper,
+        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Core\Model\Fieldset\Config $fieldsetConfig
     ) {
         $this->_fieldsetConfig = $fieldsetConfig;
         parent::__construct(
@@ -66,20 +68,20 @@ class Magento_Customer_Model_Resource_Customer_Collection extends Magento_Eav_Mo
      */
     protected function _construct()
     {
-        $this->_init('Magento_Customer_Model_Customer', 'Magento_Customer_Model_Resource_Customer');
+        $this->_init('Magento\Customer\Model\Customer', 'Magento\Customer\Model\Resource\Customer');
     }
 
     /**
      * Group result by customer email
      *
-     * @return Magento_Customer_Model_Resource_Customer_Collection
+     * @return \Magento\Customer\Model\Resource\Customer\Collection
      */
     public function groupByEmail()
     {
         $this->getSelect()
             ->from(
                 array('email' => $this->getEntity()->getEntityTable()),
-                array('email_count' => new Zend_Db_Expr('COUNT(email.entity_id)'))
+                array('email_count' => new \Zend_Db_Expr('COUNT(email.entity_id)'))
             )
             ->where('email.entity_id = e.entity_id')
             ->group('email.email');
@@ -90,7 +92,7 @@ class Magento_Customer_Model_Resource_Customer_Collection extends Magento_Eav_Mo
     /**
      * Add Name to select
      *
-     * @return Magento_Customer_Model_Resource_Customer_Collection
+     * @return \Magento\Customer\Model\Resource\Customer\Collection
      */
     public function addNameToSelect()
     {
@@ -136,7 +138,7 @@ class Magento_Customer_Model_Resource_Customer_Collection extends Magento_Eav_Mo
     /**
      * Get SQL for get record count
      *
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function getSelectCountSql()
     {
@@ -151,7 +153,7 @@ class Magento_Customer_Model_Resource_Customer_Collection extends Magento_Eav_Mo
      *
      * @param int $limit
      * @param int $offset
-     * @return Magento_Eav_Model_Entity_Collection_Abstract
+     * @return \Magento\Eav\Model\Entity\Collection\AbstractCollection
      */
     protected function _getAllIdsSelect($limit = null, $offset = null)
     {

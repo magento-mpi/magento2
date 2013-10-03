@@ -11,26 +11,28 @@
 /**
  * Paypal Direct dummy payment method model
  */
-class Magento_Pbridge_Model_Payment_Method_Paypal extends Magento_Paypal_Model_Direct
+namespace Magento\Pbridge\Model\Payment\Method;
+
+class Paypal extends \Magento\Paypal\Model\Direct
 {
     /**
      * Form block type for the frontend
      *
      * @var string
      */
-    protected $_formBlockType = 'Magento_Pbridge_Block_Checkout_Payment_Paypal';
+    protected $_formBlockType = 'Magento\Pbridge\Block\Checkout\Payment\Paypal';
 
     /**
      * Form block type for the backend
      *
      * @var string
      */
-    protected $_backendFormBlockType = 'Magento_Pbridge_Block_Adminhtml_Sales_Order_Create_Paypal';
+    protected $_backendFormBlockType = 'Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Paypal';
 
     /**
      * Payment Bridge Payment Method Instance
      *
-     * @var Magento_Pbridge_Model_Payment_Method_Pbridge
+     * @var \Magento\Pbridge\Model\Payment\Method\Pbridge
      */
     protected $_pbridgeMethodInstance;
 
@@ -39,49 +41,49 @@ class Magento_Pbridge_Model_Payment_Method_Paypal extends Magento_Paypal_Model_D
      *
      * @var $_proType string
      */
-    protected $_proType = 'Magento_Pbridge_Model_Payment_Method_Paypal_Pro';
+    protected $_proType = 'Magento\Pbridge\Model\Payment\Method\Paypal\Pro';
 
     /**
      * Pbridge data
      *
-     * @var Magento_Pbridge_Helper_Data
+     * @var \Magento\Pbridge\Helper\Data
      */
     protected $_pbridgeData;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_ModuleListInterface $moduleList
-     * @param Magento_Payment_Helper_Data $paymentData
-     * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Centinel_Model_Service $centinelService
-     * @param Magento_Paypal_Model_Method_ProTypeFactory $proTypeFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_UrlInterface $urlBuilder
-     * @param Magento_Core_Controller_Request_Http $requestHttp
-     * @param Magento_Paypal_Model_CartFactory $cartFactory
-     * @param Magento_Pbridge_Helper_Data $pbridgeData
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\ModuleListInterface $moduleList
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Centinel\Model\Service $centinelService
+     * @param \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\UrlInterface $urlBuilder
+     * @param \Magento\Core\Controller\Request\Http $requestHttp
+     * @param \Magento\Paypal\Model\CartFactory $cartFactory
+     * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_ModuleListInterface $moduleList,
-        Magento_Payment_Helper_Data $paymentData,
-        Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Centinel_Model_Service $centinelService,
-        Magento_Paypal_Model_Method_ProTypeFactory $proTypeFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_UrlInterface $urlBuilder,
-        Magento_Core_Controller_Request_Http $requestHttp,
-        Magento_Paypal_Model_CartFactory $cartFactory,
-        Magento_Pbridge_Helper_Data $pbridgeData,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\ModuleListInterface $moduleList,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Centinel\Model\Service $centinelService,
+        \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\UrlInterface $urlBuilder,
+        \Magento\Core\Controller\Request\Http $requestHttp,
+        \Magento\Paypal\Model\CartFactory $cartFactory,
+        \Magento\Pbridge\Helper\Data $pbridgeData,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
@@ -117,7 +119,7 @@ class Magento_Pbridge_Model_Payment_Method_Paypal extends Magento_Paypal_Model_D
     /**
      * Return Payment Bridge method instance
      *
-     * @return Magento_Pbridge_Model_Payment_Method_Pbridge
+     * @return \Magento\Pbridge\Model\Payment\Method\Pbridge
      */
     public function getPbridgeMethodInstance()
     {
@@ -160,7 +162,7 @@ class Magento_Pbridge_Model_Payment_Method_Paypal extends Magento_Paypal_Model_D
      * Assign data to info model instance
      *
      * @param  mixed $data
-     * @return Magento_Payment_Model_Info
+     * @return \Magento\Payment\Model\Info
      */
     public function assignData($data)
     {
@@ -187,13 +189,13 @@ class Magento_Pbridge_Model_Payment_Method_Paypal extends Magento_Paypal_Model_D
     /**
      * Check whether payment method can be used
      *
-     * @param Magento_Sales_Model_Quote $quote
+     * @param \Magento\Sales\Model\Quote $quote
      * @return boolean
      */
     public function isAvailable($quote = null)
     {
         return $this->getPbridgeMethodInstance()->isDummyMethodAvailable($quote)
-            && $this->_pro->getConfig()->isMethodAvailable(Magento_Paypal_Model_Config::METHOD_WPP_DIRECT);
+            && $this->_pro->getConfig()->isMethodAvailable(\Magento\Paypal\Model\Config::METHOD_WPP_DIRECT);
     }
 
     /**
@@ -209,7 +211,7 @@ class Magento_Pbridge_Model_Payment_Method_Paypal extends Magento_Paypal_Model_D
     /**
      * Prepare info instance for save
      *
-     * @return Magento_Pbridge_Model_Payment_Method_Paypal
+     * @return \Magento\Pbridge\Model\Payment\Method\Paypal
      */
     public function prepareSave()
     {
@@ -226,7 +228,7 @@ class Magento_Pbridge_Model_Payment_Method_Paypal extends Magento_Paypal_Model_D
     /**
      * Validate payment method information object
      *
-     * @return Magento_Pbridge_Model_Payment_Method_Paypal
+     * @return \Magento\Pbridge\Model\Payment\Method\Paypal
      */
     public function validate()
     {
@@ -234,16 +236,16 @@ class Magento_Pbridge_Model_Payment_Method_Paypal extends Magento_Paypal_Model_D
         return $this;
     }
 
-    public function authorize(Magento_Object $payment, $amount)
+    public function authorize(\Magento\Object $payment, $amount)
     {
-        $result = new Magento_Object($this->getPbridgeMethodInstance()->authorize($payment, $amount));
+        $result = new \Magento\Object($this->getPbridgeMethodInstance()->authorize($payment, $amount));
         $order = $payment->getOrder();
         $result->setEmail($order->getCustomerEmail());
         $this->_importResultToPayment($result, $payment);
         return $this;
     }
 
-    public function capture(Magento_Object $payment, $amount)
+    public function capture(\Magento\Object $payment, $amount)
     {
         if (false === $this->_pro->capture($payment, $amount)) {
             $this->authorize($payment, $amount);
@@ -251,13 +253,13 @@ class Magento_Pbridge_Model_Payment_Method_Paypal extends Magento_Paypal_Model_D
         return $this;
     }
 
-    public function refund(Magento_Object $payment, $amount)
+    public function refund(\Magento\Object $payment, $amount)
     {
         $this->_pro->refund($payment, $amount);
         return $this;
     }
 
-    public function void(Magento_Object $payment)
+    public function void(\Magento\Object $payment)
     {
         $this->_pro->void($payment);
         return $this;
@@ -275,7 +277,7 @@ class Magento_Pbridge_Model_Payment_Method_Paypal extends Magento_Paypal_Model_D
      * Store id setter, also set storeId to helper
      *
      * @param int $store
-     * @return Magento_Pbridge_Model_Payment_Method_Paypal
+     * @return \Magento\Pbridge\Model\Payment\Method\Paypal
      */
     public function setStore($store)
     {

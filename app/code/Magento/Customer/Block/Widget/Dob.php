@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Customer_Block_Widget_Dob extends Magento_Customer_Block_Widget_Abstract
+namespace Magento\Customer\Block\Widget;
+
+class Dob extends \Magento\Customer\Block\Widget\AbstractWidget
 {
     /**
      * Constants for borders of date-type customer attributes
@@ -24,22 +26,22 @@ class Magento_Customer_Block_Widget_Dob extends Magento_Customer_Block_Widget_Ab
     protected $_dateInputs = array();
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Core_Model_LocaleInterface $locale,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Model\LocaleInterface $locale,
         array $data = array()
     ) {
         $this->_locale = $locale;
@@ -94,7 +96,7 @@ class Magento_Customer_Block_Widget_Dob extends Magento_Customer_Block_Widget_Ab
      */
     public function getDateFormat()
     {
-        return $this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        return $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
     }
 
     /**

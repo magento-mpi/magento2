@@ -13,20 +13,22 @@
  * Tests product model:
  * - pricing behaviour is tested
  *
- * @see Magento_Catalog_Model_ProductTest
- * @see Magento_Catalog_Model_ProductExternalTest
+ * @see \Magento\Catalog\Model\ProductTest
+ * @see \Magento\Catalog\Model\ProductExternalTest
  */
-class Magento_Catalog_Model_ProductPriceTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model;
+
+class ProductPriceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_Product
+     * @var \Magento\Catalog\Model\Product
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
     }
 
     public function testGetPrice()
@@ -39,17 +41,17 @@ class Magento_Catalog_Model_ProductPriceTest extends PHPUnit_Framework_TestCase
     public function testGetPriceModel()
     {
         $default = $this->_model->getPriceModel();
-        $this->assertInstanceOf('Magento_Catalog_Model_Product_Type_Price', $default);
+        $this->assertInstanceOf('Magento\Catalog\Model\Product\Type\Price', $default);
         $this->assertSame($default, $this->_model->getPriceModel());
 
         $this->_model->setTypeId('configurable');
         $type = $this->_model->getPriceModel();
-        $this->assertInstanceOf('Magento_Catalog_Model_Product_Type_Configurable_Price', $type);
+        $this->assertInstanceOf('Magento\Catalog\Model\Product\Type\Configurable\Price', $type);
         $this->assertSame($type, $this->_model->getPriceModel());
     }
 
     /**
-     * See detailed tests at Magento_Catalog_Model_Product_Type*_PriceTest
+     * See detailed tests at \Magento\Catalog\Model\Product\Type*_PriceTest
      */
     public function testGetTierPrice()
     {
@@ -57,7 +59,7 @@ class Magento_Catalog_Model_ProductPriceTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * See detailed tests at Magento_Catalog_Model_Product_Type*_PriceTest
+     * See detailed tests at \Magento\Catalog\Model\Product\Type*_PriceTest
      */
     public function testGetTierPriceCount()
     {
@@ -65,7 +67,7 @@ class Magento_Catalog_Model_ProductPriceTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * See detailed tests at Magento_Catalog_Model_Product_Type*_PriceTest
+     * See detailed tests at \Magento\Catalog\Model\Product\Type*_PriceTest
      */
     public function testGetFormatedTierPrice()
     {
@@ -73,7 +75,7 @@ class Magento_Catalog_Model_ProductPriceTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * See detailed tests at Magento_Catalog_Model_Product_Type*_PriceTest
+     * See detailed tests at \Magento\Catalog\Model\Product\Type*_PriceTest
      */
     public function testGetFormatedPrice()
     {

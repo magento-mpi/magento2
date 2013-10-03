@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
+namespace Magento\Newsletter\Model;
+
+class QueueTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoDataFixture Magento/Newsletter/_files/queue.php
@@ -18,25 +20,25 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
      */
     public function testSendPerSubscriber()
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $themes = array('frontend' => 'magento_blank');
-        /** @var $design Magento_Core_Model_View_Design */
-        $design = $objectManager->create('Magento_Core_Model_View_DesignInterface', array('themes' => $themes));
-        $objectManager->addSharedInstance($design, 'Magento_Core_Model_View_Design');
-        /** @var $appEmulation Magento_Core_Model_App_Emulation */
-        $appEmulation = $objectManager->create('Magento_Core_Model_App_Emulation', array('viewDesign' => $design));
-        $objectManager->addSharedInstance($appEmulation, 'Magento_Core_Model_App_Emulation');
-        /** @var $app Magento_Core_Model_App */
-        $app = $objectManager->get('Magento_Core_Model_App');
-        $app->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
+        /** @var $design \Magento\Core\Model\View\Design */
+        $design = $objectManager->create('Magento\Core\Model\View\DesignInterface', array('themes' => $themes));
+        $objectManager->addSharedInstance($design, 'Magento\Core\Model\View\Design');
+        /** @var $appEmulation \Magento\Core\Model\App\Emulation */
+        $appEmulation = $objectManager->create('Magento\Core\Model\App\Emulation', array('viewDesign' => $design));
+        $objectManager->addSharedInstance($appEmulation, 'Magento\Core\Model\App\Emulation');
+        /** @var $app \Magento\Core\Model\App */
+        $app = $objectManager->get('Magento\Core\Model\App');
+        $app->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
 
-        /** @var $collection Magento_Core_Model_Resource_Theme_Collection */
-        $collection = $objectManager->create('Magento_Core_Model_Resource_Theme_Collection');
+        /** @var $collection \Magento\Core\Model\Resource\Theme\Collection */
+        $collection = $objectManager->create('Magento\Core\Model\Resource\Theme\Collection');
         $themeId = $collection->getThemeByFullPath('frontend/magento_demo')->getId();
-        /** @var $storeManager Magento_Core_Model_StoreManagerInterface */
-        $storeManager = $objectManager->get('Magento_Core_Model_StoreManagerInterface');
+        /** @var $storeManager \Magento\Core\Model\StoreManagerInterface */
+        $storeManager = $objectManager->get('Magento\Core\Model\StoreManagerInterface');
         $storeManager->getStore('fixturestore')->setConfig('design/theme/theme_id', $themeId);
 
         $subscriberOne = $this->getMock('Zend_Mail', array('send', 'setBodyHTML'), array('utf-8'));
@@ -48,25 +50,25 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
         $subscriberTwo->expects($this->once())->method('setBodyHTML')->with(
             $this->stringEndsWith('/static/frontend/magento_demo/de_DE/images/logo.gif')
         );
-        /** @var $filter Magento_Newsletter_Model_Template_Filter */
-        $filter = $objectManager->get('Magento_Newsletter_Model_Template_Filter');
+        /** @var $filter \Magento\Newsletter\Model\Template\Filter */
+        $filter = $objectManager->get('Magento\Newsletter\Model\Template\Filter');
 
-        $emailTemplate = $this->getMock('Magento_Core_Model_Email_Template',
+        $emailTemplate = $this->getMock('Magento\Core\Model\Email\Template',
             array('_getMail', '_getLogoUrl', '__wakeup', 'setTemplateFilter'),
             array(
-                $objectManager->get('Magento_Core_Model_Context'),
-                $objectManager->get('Magento_Core_Model_Registry'),
+                $objectManager->get('Magento\Core\Model\Context'),
+                $objectManager->get('Magento\Core\Model\Registry'),
                 $appEmulation,
-                $objectManager->get('Magento_Filesystem'),
-                $objectManager->get('Magento_Core_Model_View_Url'),
-                $objectManager->get('Magento_Core_Model_View_FileSystem'),
+                $objectManager->get('Magento\Filesystem'),
+                $objectManager->get('Magento\Core\Model\View\Url'),
+                $objectManager->get('Magento\Core\Model\View\FileSystem'),
                 $design,
-                $objectManager->get('Magento_Core_Model_Store_ConfigInterface'),
-                $objectManager->get('Magento_Core_Model_ConfigInterface'),
-                $objectManager->get('Magento_Core_Model_Email_Template_FilterFactory'),
-                $objectManager->get('Magento_Core_Model_StoreManagerInterface'),
-                $objectManager->get('Magento_Core_Model_Dir'),
-                $objectManager->get('Magento_Core_Model_Email_Template_Config'),
+                $objectManager->get('Magento\Core\Model\Store\ConfigInterface'),
+                $objectManager->get('Magento\Core\Model\ConfigInterface'),
+                $objectManager->get('Magento\Core\Model\Email\Template\FilterFactory'),
+                $objectManager->get('Magento\Core\Model\StoreManagerInterface'),
+                $objectManager->get('Magento\Core\Model\Dir'),
+                $objectManager->get('Magento\Core\Model\Email\Template\Config'),
             )
         );
         $emailTemplate->expects($this->once())
@@ -76,8 +78,8 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
         $emailTemplate->expects($this->exactly(2))->method('_getMail')->will($this->onConsecutiveCalls(
             $subscriberOne, $subscriberTwo
         ));
-        /** @var $queue Magento_Newsletter_Model_Queue */
-        $queue = $objectManager->create('Magento_Newsletter_Model_Queue', array(
+        /** @var $queue \Magento\Newsletter\Model\Queue */
+        $queue = $objectManager->create('Magento\Newsletter\Model\Queue', array(
             'filter' => $filter,
             'data'   => array('email_template' => $emailTemplate)
         ));
@@ -91,45 +93,45 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
      */
     public function testSendPerSubscriberProblem()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
-            ->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+            ->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
         $mail = $this->getMock('Zend_Mail', array('send'), array('utf-8'));
         $brokenMail = $this->getMock('Zend_Mail', array('send'), array('utf-8'));
         $errorMsg = md5(microtime());
-        $brokenMail->expects($this->any())->method('send')->will($this->throwException(new Exception($errorMsg, 99)));
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $template = $this->getMock('Magento_Core_Model_Email_Template',
+        $brokenMail->expects($this->any())->method('send')->will($this->throwException(new \Exception($errorMsg, 99)));
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $template = $this->getMock('Magento\Core\Model\Email\Template',
             array('_getMail', '_getLogoUrl', '__wakeup'),
             array(
-                $objectManager->get('Magento_Core_Model_Context'),
-                $objectManager->get('Magento_Core_Model_Registry'),
-                $objectManager->get('Magento_Core_Model_App_Emulation'),
-                $objectManager->get('Magento_Filesystem'),
-                $objectManager->get('Magento_Core_Model_View_Url'),
-                $objectManager->get('Magento_Core_Model_View_FileSystem'),
-                $objectManager->get('Magento_Core_Model_View_Design'),
-                $objectManager->get('Magento_Core_Model_Store_ConfigInterface'),
-                $objectManager->get('Magento_Core_Model_ConfigInterface'),
-                $objectManager->get('Magento_Core_Model_Email_Template_FilterFactory'),
-                $objectManager->get('Magento_Core_Model_StoreManagerInterface'),
-                $objectManager->get('Magento_Core_Model_Dir'),
-                $objectManager->get('Magento_Core_Model_Email_Template_Config'),
+                $objectManager->get('Magento\Core\Model\Context'),
+                $objectManager->get('Magento\Core\Model\Registry'),
+                $objectManager->get('Magento\Core\Model\App\Emulation'),
+                $objectManager->get('Magento\Filesystem'),
+                $objectManager->get('Magento\Core\Model\View\Url'),
+                $objectManager->get('Magento\Core\Model\View\FileSystem'),
+                $objectManager->get('Magento\Core\Model\View\Design'),
+                $objectManager->get('Magento\Core\Model\Store\ConfigInterface'),
+                $objectManager->get('Magento\Core\Model\ConfigInterface'),
+                $objectManager->get('Magento\Core\Model\Email\Template\FilterFactory'),
+                $objectManager->get('Magento\Core\Model\StoreManagerInterface'),
+                $objectManager->get('Magento\Core\Model\Dir'),
+                $objectManager->get('Magento\Core\Model\Email\Template\Config'),
             )
         );
         $template->expects($this->any())->method('_getMail')->will($this->onConsecutiveCalls($mail, $brokenMail));
 
-        $storeConfig = $objectManager->get('Magento_Core_Model_Store_Config');
-        $coreStoreConfig = new ReflectionProperty($template, '_coreStoreConfig');
+        $storeConfig = $objectManager->get('Magento\Core\Model\Store\Config');
+        $coreStoreConfig = new \ReflectionProperty($template, '_coreStoreConfig');
         $coreStoreConfig->setAccessible(true);
         $coreStoreConfig->setValue($template, $storeConfig);
 
-        $queue = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Newsletter_Model_Queue',
+        $queue = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Newsletter\Model\Queue',
             array('data' => array('email_template' => $template))
         );
         $queue->load('Subject', 'newsletter_subject'); // fixture
-        $problem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Newsletter_Model_Problem');
+        $problem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Newsletter\Model\Problem');
         $problem->load($queue->getId(), 'queue_id');
         $this->assertEmpty($problem->getId());
 

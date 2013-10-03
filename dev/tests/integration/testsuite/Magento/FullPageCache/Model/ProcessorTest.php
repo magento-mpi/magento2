@@ -8,25 +8,27 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_FullPageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCase
+namespace Magento\FullPageCache\Model;
+
+class ProcessorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_FullPageCache_Model_Processor
+     * @var \Magento\FullPageCache\Model\Processor
      */
     protected $_model;
 
     public static function setUpBeforeClass()
     {
-        /** @var $cacheState Magento_Core_Model_Cache_StateInterface */
-        $cacheState = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get(
-            'Magento_Core_Model_Cache_StateInterface');
+        /** @var $cacheState \Magento\Core\Model\Cache\StateInterface */
+        $cacheState = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Core\Model\Cache\StateInterface');
         $cacheState->setEnabled('full_page', true);
     }
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_FullPageCache_Model_Processor');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\FullPageCache\Model\Processor');
     }
 
     public function testIsAllowedHttps()
@@ -39,7 +41,7 @@ class Magento_FullPageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCa
     public function testIsAllowedSessionIdGetParam()
     {
         $this->assertTrue($this->_model->isAllowed());
-        $_GET[Magento_Core_Model_Session_Abstract::SESSION_ID_QUERY_PARAM] = 'session_id';
+        $_GET[\Magento\Core\Model\Session\AbstractSession::SESSION_ID_QUERY_PARAM] = 'session_id';
         $this->assertFalse($this->_model->isAllowed());
     }
 
@@ -49,9 +51,9 @@ class Magento_FullPageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCa
     public function testIsAllowedUseCacheFlag()
     {
         $this->assertTrue($this->_model->isAllowed());
-        /** @var Magento_Core_Model_Cache_StateInterface $cacheState */
-        $cacheState = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_Cache_StateInterface');
+        /** @var \Magento\Core\Model\Cache\StateInterface $cacheState */
+        $cacheState = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\Cache\StateInterface');
         $cacheState->setEnabled('full_page', false);
         $this->assertFalse($this->_model->isAllowed());
     }

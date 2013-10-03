@@ -13,7 +13,9 @@
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Magento_Catalog_Helper_Category extends Magento_Core_Helper_Abstract
+namespace Magento\Catalog\Helper;
+
+class Category extends \Magento\Core\Helper\AbstractHelper
 {
     const XML_PATH_CATEGORY_URL_SUFFIX          = 'catalog/seo/category_url_suffix';
     const XML_PATH_USE_CATEGORY_CANONICAL_TAG   = 'catalog/seo/category_canonical_tag';
@@ -36,46 +38,46 @@ class Magento_Catalog_Helper_Category extends Magento_Core_Helper_Abstract
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Category factory
      *
-     * @var Magento_Catalog_Model_CategoryFactory
+     * @var \Magento\Catalog\Model\CategoryFactory
      */
     protected $_categoryFactory;
 
     /**
      * Lib data collection factory
      *
-     * @var Magento_Data_CollectionFactory
+     * @var \Magento\Data\CollectionFactory
      */
     protected $_dataCollectionFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Data_CollectionFactory $dataCollectionFactory
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Data\CollectionFactory $dataCollectionFactory
      */
     public function __construct(
-        Magento_Catalog_Model_CategoryFactory $categoryFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Data_CollectionFactory $dataCollectionFactory
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Data\CollectionFactory $dataCollectionFactory
     ) {
         $this->_categoryFactory = $categoryFactory;
         $this->_storeManager = $storeManager;
@@ -89,7 +91,7 @@ class Magento_Catalog_Helper_Category extends Magento_Core_Helper_Abstract
      *
      * @param   boolean|string $sorted
      * @param   boolean $asCollection
-     * @return  Magento_Data_Tree_Node_Collection|Magento_Catalog_Model_Resource_Category_Collection|array
+     * @return  \Magento\Data\Tree\Node\Collection|\Magento\Catalog\Model\Resource\Category\Collection|array
      */
     public function getStoreCategories($sorted=false, $asCollection=false, $toLoad=true)
     {
@@ -103,7 +105,7 @@ class Magento_Catalog_Helper_Category extends Magento_Core_Helper_Abstract
          * Check if parent node of the store still exists
          */
         $category = $this->_categoryFactory->create();
-        /* @var $category Magento_Catalog_Model_Category */
+        /* @var $category \Magento\Catalog\Model\Category */
         if (!$category->checkId($parent)) {
             if ($asCollection) {
                 return $this->_dataCollectionFactory->create();
@@ -121,12 +123,12 @@ class Magento_Catalog_Helper_Category extends Magento_Core_Helper_Abstract
     /**
      * Retrieve category url
      *
-     * @param   Magento_Catalog_Model_Category $category
+     * @param   \Magento\Catalog\Model\Category $category
      * @return  string
      */
     public function getCategoryUrl($category)
     {
-        if ($category instanceof Magento_Catalog_Model_Category) {
+        if ($category instanceof \Magento\Catalog\Model\Category) {
             return $category->getUrl();
         }
         return $this->_categoryFactory->create()
@@ -137,7 +139,7 @@ class Magento_Catalog_Helper_Category extends Magento_Core_Helper_Abstract
     /**
      * Check if a category can be shown
      *
-     * @param  Magento_Catalog_Model_Category|int $category
+     * @param  \Magento\Catalog\Model\Category|int $category
      * @return boolean
      */
     public function canShow($category)

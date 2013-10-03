@@ -9,10 +9,13 @@
  * @license     {license_link}
  */
 
+
+namespace Magento\Adminhtml\Controller\Sales\Order;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Controller_Sales_Order_CreditmemoTest extends Magento_Backend_Utility_Controller
+class CreditmemoTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * @magentoConfigFixture current_store cataloginventory/item_options/auto_return 1
@@ -20,16 +23,16 @@ class Magento_Adminhtml_Controller_Sales_Order_CreditmemoTest extends Magento_Ba
      */
     public function testAddCommentAction()
     {
-        /** @var $stockItem Magento_CatalogInventory_Model_Stock_Item */
-        $stockItem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_CatalogInventory_Model_Stock_Item');
+        /** @var $stockItem \Magento\CatalogInventory\Model\Stock\Item */
+        $stockItem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\CatalogInventory\Model\Stock\Item');
         $stockItem->loadByProduct(1);
         $this->assertEquals(95, $stockItem->getStockQty());
         $stockItem = null;
 
-        /** @var $order Magento_Sales_Model_Order */
-        $order = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Order');
+        /** @var $order \Magento\Sales\Model\Order */
+        $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Order');
         $order->load('100000001', 'increment_id');
 
         $items = $order->getCreditmemosCollection()->getItems();
@@ -44,9 +47,9 @@ class Magento_Adminhtml_Controller_Sales_Order_CreditmemoTest extends Magento_Ba
         $html = $this->getResponse()->getBody();
 
         $this->assertContains($comment, $html);
-        /** @var $stockItem Magento_CatalogInventory_Model_Stock_Item */
-        $stockItem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_CatalogInventory_Model_Stock_Item');
+        /** @var $stockItem \Magento\CatalogInventory\Model\Stock\Item */
+        $stockItem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\CatalogInventory\Model\Stock\Item');
         $stockItem->loadByProduct(1);
         $this->assertEquals(95, $stockItem->getStockQty());
     }

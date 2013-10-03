@@ -16,7 +16,9 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Resource_Report_Collection extends Magento_Data_Collection
+namespace Magento\Reports\Model\Resource\Report;
+
+class Collection extends \Magento\Data\Collection
 {
     /**
      * From value
@@ -75,31 +77,31 @@ class Magento_Reports_Model_Resource_Report_Collection extends Magento_Data_Coll
     protected $_reportCollection = null;
 
     /**
-     * @var  Zend_DateFactory
+     * @var  \Zend_DateFactory
      */
     protected $_dateFactory;
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @var Magento_Reports_Model_Resource_Report_Collection_Factory
+     * @var \Magento\Reports\Model\Resource\Report\Collection\Factory
      */
     protected $_collectionFactory;
 
     /**
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Zend_DateFactory $dateFactory
-     * @param Magento_Reports_Model_Resource_Report_Collection_Factory $collectionFactory
-     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Zend_DateFactory $dateFactory
+     * @param \Magento\Reports\Model\Resource\Report\Collection\Factory $collectionFactory
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
      */
     public function __construct(
-        Magento_Core_Model_LocaleInterface $locale,
-        Zend_DateFactory $dateFactory,
-        Magento_Reports_Model_Resource_Report_Collection_Factory $collectionFactory,
-        Magento_Core_Model_EntityFactory $entityFactory
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Zend_DateFactory $dateFactory,
+        \Magento\Reports\Model\Resource\Report\Collection\Factory $collectionFactory,
+        \Magento\Core\Model\EntityFactory $entityFactory
     ) {
         $this->_dateFactory = $dateFactory;
         $this->_locale = $locale;
@@ -111,7 +113,7 @@ class Magento_Reports_Model_Resource_Report_Collection extends Magento_Data_Coll
      * Set period
      *
      * @param int $period
-     * @return Magento_Reports_Model_Resource_Report_Collection
+     * @return \Magento\Reports\Model\Resource\Report\Collection
      */
     public function setPeriod($period)
     {
@@ -124,7 +126,7 @@ class Magento_Reports_Model_Resource_Report_Collection extends Magento_Data_Coll
      *
      * @param int $fromDate
      * @param int $toDate
-     * @return Magento_Reports_Model_Resource_Report_Collection
+     * @return \Magento\Reports\Model\Resource\Report\Collection
      */
     public function setInterval($fromDate, $toDate)
     {
@@ -168,7 +170,7 @@ class Magento_Reports_Model_Resource_Report_Collection extends Magento_Data_Coll
                     default:
                         break(2);
                 }
-                $this->_intervals[$interval['period']] = new Magento_Object($interval);
+                $this->_intervals[$interval['period']] = new \Magento\Object($interval);
             }
         }
         return  $this->_intervals;
@@ -177,10 +179,10 @@ class Magento_Reports_Model_Resource_Report_Collection extends Magento_Data_Coll
     /**
      * Get interval for a day
      *
-     * @param Zend_Date $dateStart
+     * @param \Zend_Date $dateStart
      * @return array
      */
-    protected function _getDayInterval(Zend_Date $dateStart)
+    protected function _getDayInterval(\Zend_Date $dateStart)
     {
         $interval = array(
             'period' => $dateStart->toString($this->_locale->getDateFormat()),
@@ -193,12 +195,12 @@ class Magento_Reports_Model_Resource_Report_Collection extends Magento_Data_Coll
     /**
      * Get interval for a month
      *
-     * @param Zend_Date $dateStart
-     * @param Zend_Date $dateEnd
+     * @param \Zend_Date $dateStart
+     * @param \Zend_Date $dateEnd
      * @param bool $firstInterval
      * @return array
      */
-    protected function _getMonthInterval(Zend_Date $dateStart, Zend_Date $dateEnd, $firstInterval)
+    protected function _getMonthInterval(\Zend_Date $dateStart, \Zend_Date $dateEnd, $firstInterval)
     {
         $interval = array();
         $interval['period'] =  $dateStart->toString('MM/yyyy');
@@ -228,12 +230,12 @@ class Magento_Reports_Model_Resource_Report_Collection extends Magento_Data_Coll
     /**
      * Get Interval for a year
      *
-     * @param Zend_Date $dateStart
-     * @param Zend_Date $dateEnd
+     * @param \Zend_Date $dateStart
+     * @param \Zend_Date $dateEnd
      * @param bool $firstInterval
      * @return array
      */
-    protected function _getYearInterval(Zend_Date $dateStart, Zend_Date $dateEnd, $firstInterval)
+    protected function _getYearInterval(\Zend_Date $dateStart, \Zend_Date $dateEnd, $firstInterval)
     {
         $interval = array();
         $interval['period'] =  $dateStart->toString('yyyy');
@@ -272,7 +274,7 @@ class Magento_Reports_Model_Resource_Report_Collection extends Magento_Data_Coll
      * Set store ids
      *
      * @param array $storeIds
-     * @return Magento_Reports_Model_Resource_Report_Collection
+     * @return \Magento\Reports\Model\Resource\Report\Collection
      */
     public function setStoreIds($storeIds)
     {
@@ -304,7 +306,7 @@ class Magento_Reports_Model_Resource_Report_Collection extends Magento_Data_Coll
      * Set page size
      *
      * @param int $size
-     * @return Magento_Reports_Model_Resource_Report_Collection
+     * @return \Magento\Reports\Model\Resource\Report\Collection
      */
     public function setPageSize($size)
     {
@@ -327,7 +329,7 @@ class Magento_Reports_Model_Resource_Report_Collection extends Magento_Data_Coll
      *
      * @param int $fromDate
      * @param int $toDate
-     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
+     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
     protected function _getReport($fromDate, $toDate)
     {
@@ -374,8 +376,8 @@ class Magento_Reports_Model_Resource_Report_Collection extends Magento_Data_Coll
     public function timeShift($datetime)
     {
         return $this->_locale
-            ->utcDate(null, $datetime, true, Magento_Date::DATETIME_INTERNAL_FORMAT)
-            ->toString(Magento_Date::DATETIME_INTERNAL_FORMAT);
+            ->utcDate(null, $datetime, true, \Magento\Date::DATETIME_INTERNAL_FORMAT)
+            ->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT);
     }
 
     /**
@@ -383,7 +385,7 @@ class Magento_Reports_Model_Resource_Report_Collection extends Magento_Data_Coll
      *
      * @param bool $printQuery
      * @param bool $logQuery
-     * @return Magento_Reports_Model_Resource_Report_Collection|Magento_Data_Collection
+     * @return \Magento\Reports\Model\Resource\Report\Collection|\Magento\Data\Collection
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */

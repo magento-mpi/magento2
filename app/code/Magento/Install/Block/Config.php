@@ -13,7 +13,9 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Install_Block_Config extends Magento_Install_Block_Abstract
+namespace Magento\Install\Block;
+
+class Config extends \Magento\Install\Block\AbstractBlock
 {
     /**
      * @var string
@@ -23,26 +25,26 @@ class Magento_Install_Block_Config extends Magento_Install_Block_Abstract
     /**
      * Install installer config
      *
-     * @var Magento_Install_Model_Installer_Config
+     * @var \Magento\Install\Model\Installer\Config
      */
     protected $_installerConfig = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Install_Model_Installer $installer
-     * @param Magento_Install_Model_Wizard $installWizard
-     * @param Magento_Core_Model_Session_Generic $session
-     * @param Magento_Install_Model_Installer_Config $installerConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Install\Model\Installer $installer
+     * @param \Magento\Install\Model\Wizard $installWizard
+     * @param \Magento\Core\Model\Session\Generic $session
+     * @param \Magento\Install\Model\Installer\Config $installerConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Install_Model_Installer $installer,
-        Magento_Install_Model_Wizard $installWizard,
-        Magento_Core_Model_Session_Generic $session,
-        Magento_Install_Model_Installer_Config $installerConfig,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Install\Model\Installer $installer,
+        \Magento\Install\Model\Wizard $installWizard,
+        \Magento\Core\Model\Session\Generic $session,
+        \Magento\Install\Model\Installer\Config $installerConfig,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $installer, $installWizard, $session, $data);
@@ -62,7 +64,7 @@ class Magento_Install_Block_Config extends Magento_Install_Block_Abstract
     /**
      * Retrieve configuration form data object
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getFormData()
     {
@@ -72,7 +74,7 @@ class Magento_Install_Block_Config extends Magento_Install_Block_Abstract
             if (empty($data)) {
                 $data = $this->_installerConfig->getFormData();
             } else {
-                $data = new Magento_Object($data);
+                $data = new \Magento\Object($data);
             }
             $this->setFormData($data);
         }
@@ -111,7 +113,7 @@ class Magento_Install_Block_Config extends Magento_Install_Block_Abstract
      */
     public function getSessionSaveSelect()
     {
-        $html = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
+        $html = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
             ->setName('config[session_save]')
             ->setId('session_save')
             ->setTitle(__('Save Session Files In'))

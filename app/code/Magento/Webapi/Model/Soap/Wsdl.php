@@ -1,6 +1,4 @@
 <?php
-use Zend\Soap\Wsdl;
-
 /**
  * Magento-specific WSDL builder.
  *
@@ -9,20 +7,22 @@ use Zend\Soap\Wsdl;
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Soap_Wsdl extends Wsdl
+namespace Magento\Webapi\Model\Soap;
+
+class Wsdl extends \Zend\Soap\Wsdl
 {
     /**
      * Constructor.
      * Save URI for targetNamespace generation.
      *
      * @param string $name
-     * @param string|Zend\Uri\Uri $uri
-     * @param Magento_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_AnyComplexType $strategy
+     * @param string|\Zend\Uri\Uri $uri
+     * @param \Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy\AnyComplexType $strategy
      */
     public function __construct(
         $name,
         $uri,
-        Magento_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_AnyComplexType $strategy
+        \Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy\AnyComplexType $strategy
     ) {
         parent::__construct($name, $uri, $strategy);
     }
@@ -30,7 +30,7 @@ class Magento_Webapi_Model_Soap_Wsdl extends Wsdl
     /**
      * Add complex type definition
      *
-     * @param DOMNode $complexTypeNode XSD of service method for input/output
+     * @param \DOMNode $complexTypeNode XSD of service method for input/output
      * @return string|null
      */
     public function addComplexType($complexTypeNode)

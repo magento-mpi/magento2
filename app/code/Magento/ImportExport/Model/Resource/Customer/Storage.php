@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  *
  */
-class Magento_ImportExport_Model_Resource_Customer_Storage
+namespace Magento\ImportExport\Model\Resource\Customer;
+
+class Storage
 {
     /**
      * Flag to not load collection more than one time
@@ -28,7 +30,7 @@ class Magento_ImportExport_Model_Resource_Customer_Storage
     /**
      * Customer collection
      *
-     * @var Magento_Customer_Model_Resource_Customer_Collection
+     * @var \Magento\Customer\Model\Resource\Customer\Collection
      */
     protected $_customerCollection;
 
@@ -56,18 +58,18 @@ class Magento_ImportExport_Model_Resource_Customer_Storage
     /**
      * Collection by pages iterator
      *
-     * @var Magento_ImportExport_Model_Resource_CollectionByPagesIterator
+     * @var \Magento\ImportExport\Model\Resource\CollectionByPagesIterator
      */
     protected $_byPagesIterator;
 
     /**
-     * @param Magento_Customer_Model_Resource_Customer_CollectionFactory $collectionFactory
-     * @param Magento_ImportExport_Model_Resource_CollectionByPagesIteratorFactory $colIteratorFactory
+     * @param \Magento\Customer\Model\Resource\Customer\CollectionFactory $collectionFactory
+     * @param \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $colIteratorFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Customer_Model_Resource_Customer_CollectionFactory $collectionFactory,
-        Magento_ImportExport_Model_Resource_CollectionByPagesIteratorFactory $colIteratorFactory,
+        \Magento\Customer\Model\Resource\Customer\CollectionFactory $collectionFactory,
+        \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $colIteratorFactory,
         array $data = array()
     ) {
         $this->_customerCollection = isset($data['customer_collection']) ? $data['customer_collection']
@@ -99,10 +101,10 @@ class Magento_ImportExport_Model_Resource_Customer_Storage
     /**
      * Add customer to array
      *
-     * @param Magento_Object|Magento_Customer_Model_Customer $customer
-     * @return Magento_ImportExport_Model_Resource_Customer_Storage
+     * @param \Magento\Object|\Magento\Customer\Model\Customer $customer
+     * @return \Magento\ImportExport\Model\Resource\Customer\Storage
      */
-    public function addCustomer(Magento_Object $customer)
+    public function addCustomer(\Magento\Object $customer)
     {
         $email = strtolower(trim($customer->getEmail()));
         if (!isset($this->_customerIds[$email])) {

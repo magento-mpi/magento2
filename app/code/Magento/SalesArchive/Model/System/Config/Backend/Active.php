@@ -7,40 +7,42 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_SalesArchive_Model_System_Config_Backend_Active
-    extends Magento_Backend_Model_Config_Backend_Cache
-    implements Magento_Backend_Model_Config_CommentInterface
+namespace Magento\SalesArchive\Model\System\Config\Backend;
+
+class Active
+    extends \Magento\Backend\Model\Config\Backend\Cache
+    implements \Magento\Backend\Model\Config\CommentInterface
 {
     /**
-     * @var Magento_SalesArchive_Model_Archive
+     * @var \Magento\SalesArchive\Model\Archive
      */
     protected $_archive;
 
     /**
-     * @var Magento_SalesArchive_Model_Resource_Order_Collection
+     * @var \Magento\SalesArchive\Model\Resource\Order\Collection
      */
     protected $_orderCollection;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_SalesArchive_Model_Archive $archive
-     * @param Magento_SalesArchive_Model_Resource_Order_Collection $orderCollection
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\SalesArchive\Model\Archive $archive
+     * @param \Magento\SalesArchive\Model\Resource\Order\Collection $orderCollection
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Config $config,
-        Magento_SalesArchive_Model_Archive $archive,
-        Magento_SalesArchive_Model_Resource_Order_Collection $orderCollection,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Config $config,
+        \Magento\SalesArchive\Model\Archive $archive,
+        \Magento\SalesArchive\Model\Resource\Order\Collection $orderCollection,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_archive = $archive;
@@ -54,7 +56,7 @@ class Magento_SalesArchive_Model_System_Config_Backend_Active
      * @var array
      */
     protected $_cacheTags = array(
-        Magento_Backend_Block_Menu::CACHE_TAGS
+        \Magento\Backend\Block\Menu::CACHE_TAGS
     );
 
     /**

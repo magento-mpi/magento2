@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Paygate_Block_Authorizenet_Info_Cc extends Magento_Payment_Block_Info_Cc
+namespace Magento\Paygate\Block\Authorizenet\Info;
+
+class Cc extends \Magento\Payment\Block\Info\Cc
 {
     /**
      * Checkout progress information block flag
@@ -49,7 +51,7 @@ class Magento_Paygate_Block_Authorizenet_Info_Cc extends Magento_Payment_Block_I
      * in Previously used card information block
      *
      * @param bool $flag
-     * @return Magento_Paygate_Block_Authorizenet_Info_Cc
+     * @return \Magento\Paygate\Block\Authorizenet\Info\Cc
      */
     public function setCheckoutProgressBlock($flag)
     {

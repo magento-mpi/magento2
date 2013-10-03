@@ -9,29 +9,31 @@
  * @license     {license_link}
  */
 
+namespace Magento\Backend\Block\Widget;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Backend_Block_Widget_GridTest extends PHPUnit_Framework_TestCase
+class GridTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Block_Widget_Grid_ColumnSet
+     * @var \Magento\Backend\Block\Widget\Grid\ColumnSet
      */
     protected $_block;
 
     /**
-     * @var Magento_Core_Model_Layout|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Layout|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_layoutMock;
 
     /**
-     * @var Magento_Backend_Block_Widget_Grid_ColumnSet|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Backend\Block\Widget\Grid\ColumnSet|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_columnSetMock;
 
     protected function setUp()
     {
-        $this->_layoutMock = $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false);
+        $this->_layoutMock = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
         $this->_columnSetMock = $this->_getColumnSetMock();
 
         $returnValueMap = array(
@@ -45,18 +47,18 @@ class Magento_Backend_Block_Widget_GridTest extends PHPUnit_Framework_TestCase
             ->with('grid.columnSet')
             ->will($this->returnValue($this->_columnSetMock));
         $this->_layoutMock->expects($this->any())->method('createBlock')
-            ->with('Magento_Backend_Block_Widget_Button')
-            ->will($this->returnValue(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                ->get('Magento_Core_Model_Layout')->createBlock('Magento_Backend_Block_Widget_Button')));
+            ->with('Magento\Backend\Block\Widget\Button')
+            ->will($this->returnValue(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->get('Magento\Core\Model\Layout')->createBlock('Magento\Backend\Block\Widget\Button')));
         $this->_layoutMock->expects($this->any())->method('helper')
-            ->with('Magento_Core_Helper_Data')
+            ->with('Magento\Core\Helper\Data')
             ->will($this->returnValue(
-                Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Data')
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data')
             ));
 
 
-        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_Backend_Block_Widget_Grid');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Backend\Block\Widget\Grid');
         $this->_block->setLayout($this->_layoutMock);
         $this->_block->setNameInLayout('grid');
     }
@@ -64,23 +66,23 @@ class Magento_Backend_Block_Widget_GridTest extends PHPUnit_Framework_TestCase
     /**
      * Retrieve the mocked column set block instance
      *
-     * @return Magento_Backend_Block_Widget_Grid_ColumnSet|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Backend\Block\Widget\Grid\ColumnSet|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getColumnSetMock()
     {
-        return $this->getMock('Magento_Backend_Block_Widget_Grid_ColumnSet', array(), array(
-            $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false),
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Block_Template_Context', array(
-                'dirs' => new Magento_Core_Model_Dir(__DIR__),
-                'filesystem' => new Magento_Filesystem(new Magento_Filesystem_Adapter_Local),
+        return $this->getMock('Magento\Backend\Block\Widget\Grid\ColumnSet', array(), array(
+            $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Block\Template\Context', array(
+                'dirs' => new \Magento\Core\Model\Dir(__DIR__),
+                'filesystem' => new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local),
             )),
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                ->create('Magento_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory'),
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                ->create('Magento_Backend_Model_Widget_Grid_SubTotals'),
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                ->create('Magento_Backend_Model_Widget_Grid_Totals'),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->create('Magento\Backend\Model\Widget\Grid\Row\UrlGeneratorFactory'),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->create('Magento\Backend\Model\Widget\Grid\SubTotals'),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->create('Magento\Backend\Model\Widget\Grid\Totals'),
         ));
     }
 

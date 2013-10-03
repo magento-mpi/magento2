@@ -11,14 +11,16 @@
 /**
  * Grid widget massaction block
  *
- * @method Magento_Sales_Model_Quote setHideFormElement(boolean $value) Hide Form element to prevent IE errors
+ * @method \Magento\Sales\Model\Quote setHideFormElement(boolean $value) Hide Form element to prevent IE errors
  * @method boolean getHideFormElement()
  * @category   Magento
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  * @deprecated support Magento 1.x grid massaction implementation
  */
-class Magento_Backend_Block_Widget_Grid_Massaction_Extended extends Magento_Backend_Block_Widget
+namespace Magento\Backend\Block\Widget\Grid\Massaction;
+
+class Extended extends \Magento\Backend\Block\Widget
 {
     /**
      * Massaction items
@@ -37,20 +39,20 @@ class Magento_Backend_Block_Widget_Grid_Massaction_Extended extends Magento_Back
     /**
      * Backend data
      *
-     * @var Magento_Backend_Helper_Data
+     * @var \Magento\Backend\Helper\Data
      */
     protected $_backendData = null;
 
     /**
-     * @param Magento_Backend_Helper_Data $backendData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Backend\Helper\Data $backendData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Helper_Data $backendData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Backend\Helper\Data $backendData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_backendData = $backendData;
@@ -77,16 +79,16 @@ class Magento_Backend_Block_Widget_Grid_Massaction_Extended extends Magento_Back
      *      'complete' => string, // Only for ajax enabled grid (optional)
      *      'url'      => string,
      *      'confirm'  => string, // text of confirmation of this action (optional)
-     *      'additional' => string|array|Magento_Core_Block_Abstract // (optional)
+     *      'additional' => string|array|\Magento\Core\Block\AbstractBlock // (optional)
      * );
      *
      * @param string $itemId
      * @param array $item
-     * @return Magento_Backend_Block_Widget_Grid_Massaction_Extended
+     * @return \Magento\Backend\Block\Widget\Grid\Massaction\Extended
      */
     public function addItem($itemId, array $item)
     {
-        $this->_items[$itemId] =  $this->getLayout()->createBlock('Magento_Backend_Block_Widget_Grid_Massaction_Item')
+        $this->_items[$itemId] =  $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Grid\Massaction\Item')
             ->setData($item)
             ->setMassaction($this)
             ->setId($itemId);
@@ -103,7 +105,7 @@ class Magento_Backend_Block_Widget_Grid_Massaction_Extended extends Magento_Back
      * Retrieve massaction item with id $itemId
      *
      * @param string $itemId
-     * @return Magento_Backend_Block_Widget_Grid_Massaction_Item
+     * @return \Magento\Backend\Block\Widget\Grid\Massaction\Item
      */
     public function getItem($itemId)
     {
@@ -274,7 +276,7 @@ class Magento_Backend_Block_Widget_Grid_Massaction_Extended extends Magento_Back
      * Remove existing massaction item by its id
      *
      * @param string $itemId
-     * @return Magento_Backend_Block_Widget_Grid_Massaction_Extended
+     * @return \Magento\Backend\Block\Widget\Grid\Massaction\Extended
      */
     public function removeItem($itemId)
     {
@@ -299,7 +301,7 @@ class Magento_Backend_Block_Widget_Grid_Massaction_Extended extends Magento_Back
      * Retrieve select all functionality flag check
      *
      * @param boolean $flag
-     * @return Magento_Backend_Block_Widget_Grid_Massaction_Extended
+     * @return \Magento\Backend\Block\Widget\Grid\Massaction\Extended
      */
     public function setUseSelectAll($flag)
     {

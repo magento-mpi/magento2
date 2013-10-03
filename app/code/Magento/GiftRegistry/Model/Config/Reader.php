@@ -11,7 +11,9 @@
 /**
  * GiftRegistry configuration filesystem loader. Loads gift registry configuration from XML file
  */
-class Magento_GiftRegistry_Model_Config_Reader extends Magento_Config_Reader_Filesystem
+namespace Magento\GiftRegistry\Model\Config;
+
+class Reader extends \Magento\Config\Reader\Filesystem
 {
 
     /**
@@ -29,22 +31,22 @@ class Magento_GiftRegistry_Model_Config_Reader extends Magento_Config_Reader_Fil
     );
 
     /**
-     * @param Magento_Config_FileResolverInterface $fileResolver
-     * @param Magento_GiftRegistry_Model_Config_Converter $converter
-     * @param Magento_Config_ValidationStateInterface $validationState
-     * @param Magento_GiftRegistry_Model_Config_SchemaLocator $schemaLocator
+     * @param \Magento\Config\FileResolverInterface $fileResolver
+     * @param \Magento\GiftRegistry\Model\Config\Converter $converter
+     * @param \Magento\Config\ValidationStateInterface $validationState
+     * @param \Magento\GiftRegistry\Model\Config\SchemaLocator $schemaLocator
      * @param string $fileName
      * @param array $idAttributes
      * @param string $domDocumentClass
      */
     public function __construct(
-        Magento_Config_FileResolverInterface $fileResolver,
-        Magento_GiftRegistry_Model_Config_Converter $converter,
-        Magento_GiftRegistry_Model_Config_SchemaLocator $schemaLocator,
-        Magento_Config_ValidationStateInterface $validationState,
+        \Magento\Config\FileResolverInterface $fileResolver,
+        \Magento\GiftRegistry\Model\Config\Converter $converter,
+        \Magento\GiftRegistry\Model\Config\SchemaLocator $schemaLocator,
+        \Magento\Config\ValidationStateInterface $validationState,
         $fileName = 'giftregistry.xml',
         $idAttributes = array(),
-        $domDocumentClass = 'Magento_Config_Dom'
+        $domDocumentClass = 'Magento\Config\Dom'
     ) {
         parent::__construct(
             $fileResolver, $converter, $schemaLocator, $validationState, $fileName, $idAttributes, $domDocumentClass

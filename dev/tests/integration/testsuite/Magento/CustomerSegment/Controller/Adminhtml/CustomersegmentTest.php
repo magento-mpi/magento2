@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\CustomerSegment\Controller\Adminhtml;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_CustomerSegment_Controller_Adminhtml_CustomersegmentTest extends Magento_Backend_Utility_Controller
+class CustomersegmentTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * Checks that all important blocks are successfully created and rendered.
@@ -34,8 +36,8 @@ class Magento_CustomerSegment_Controller_Adminhtml_CustomersegmentTest extends M
      */
     public function testSaveAction()
     {
-        $segment = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_CustomerSegment_Model_Segment');
+        $segment = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\CustomerSegment\Model\Segment');
         $segment->load('Customer Segment 1', 'name');
         $this->dispatch('backend/admin/customersegment/save/id/' . $segment->getId());
         $content = $this->getResponse()->getBody();
@@ -48,14 +50,14 @@ class Magento_CustomerSegment_Controller_Adminhtml_CustomersegmentTest extends M
      */
     public function testMatchActionLogging()
     {
-        /** @var Magento_Logging_Model_Event $loggingModel */
-        $loggingModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Logging_Model_Event');
+        /** @var \Magento\Logging\Model\Event $loggingModel */
+        $loggingModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Logging\Model\Event');
         $result = $loggingModel->load('magento_customersegment', 'event_code');
         $this->assertEmpty($result->getId());
 
-        $segment = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_CustomerSegment_Model_Segment');
+        $segment = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\CustomerSegment\Model\Segment');
         $segment->load('Customer Segment 1', 'name');
         $this->dispatch('backend/admin/customersegment/match/id/' . $segment->getId());
 

@@ -9,31 +9,33 @@
  * @license     {license_link}
  */
 
+namespace Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab;
+
 /**
- * Test class for Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main
+ * Test class for \Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab\Main
  *
  * @magentoAppArea adminhtml
  */
-class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_MainTest extends PHPUnit_Framework_TestCase
+class MainTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled
      */
     public function testPrepareForm()
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_View_DesignInterface')
-            ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager->get('Magento\Core\Model\View\DesignInterface')
+            ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
-        $objectManager->get('Magento_Core_Model_Registry')
-            ->register('current_target_rule', Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_TargetRule_Model_Rule'));
+        $objectManager->get('Magento\Core\Model\Registry')
+            ->register('current_target_rule', \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\TargetRule\Model\Rule'));
 
-        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main');
-        $prepareFormMethod = new ReflectionMethod(
-            'Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main', '_prepareForm');
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab\Main');
+        $prepareFormMethod = new \ReflectionMethod(
+            'Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab\Main', '_prepareForm');
         $prepareFormMethod->setAccessible(true);
         $prepareFormMethod->invoke($block);
 

@@ -9,17 +9,19 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Options\Type;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_SelectTest extends PHPUnit_Framework_TestCase
+class SelectTest extends \PHPUnit_Framework_TestCase
 {
     public function testToHtmlFormId()
     {
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
-        /** @var $block Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Select */
-        $block = $layout->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Select', 'select');
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
+        /** @var $block \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Options\Type_Select */
+        $block = $layout->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Options\Type\Select', 'select');
         $html = $block->getPriceTypeSelectHtml();
         $this->assertContains('select_${select_id}', $html);
         $this->assertContains('[${select_id}]', $html);

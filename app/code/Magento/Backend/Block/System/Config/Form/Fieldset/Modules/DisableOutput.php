@@ -9,19 +9,21 @@
  */
 
 /**
- * @method Magento_Backend_Block_System_Config_Form getForm()
+ * @method \Magento\Backend\Block\System\Config\Form getForm()
  */
-class Magento_Backend_Block_System_Config_Form_Fieldset_Modules_DisableOutput
-    extends Magento_Backend_Block_System_Config_Form_Fieldset
+namespace Magento\Backend\Block\System\Config\Form\Fieldset\Modules;
+
+class DisableOutput
+    extends \Magento\Backend\Block\System\Config\Form\Fieldset
 {
     /**
-     * @var Magento_Object
+     * @var \Magento\Object
      */
     protected $_dummyElement;
 
 
     /**
-     * @var Magento_Backend_Block_System_Config_Form_Field
+     * @var \Magento\Backend\Block\System\Config\Form\Field
      */
     protected $_fieldRenderer;
 
@@ -31,20 +33,20 @@ class Magento_Backend_Block_System_Config_Form_Fieldset_Modules_DisableOutput
     protected $_values;
 
     /**
-     * @var Magento_Core_Model_ModuleListInterface
+     * @var \Magento\Core\Model\ModuleListInterface
      */
     protected $_moduleList;
 
     /**
-     * @param Magento_Backend_Block_Context $context
-     * @param Magento_Backend_Model_Auth_Session $authSession
-     * @param Magento_Core_Model_ModuleListInterface $moduleList
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Backend\Model\Auth\Session $authSession
+     * @param \Magento\Core\Model\ModuleListInterface $moduleList
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Context $context,
-        Magento_Backend_Model_Auth_Session $authSession,
-        Magento_Core_Model_ModuleListInterface $moduleList,
+        \Magento\Backend\Block\Context $context,
+        \Magento\Backend\Model\Auth\Session $authSession,
+        \Magento\Core\Model\ModuleListInterface $moduleList,
         array $data = array()
     ) {
         parent::__construct($context, $authSession, $data);
@@ -52,16 +54,16 @@ class Magento_Backend_Block_System_Config_Form_Fieldset_Modules_DisableOutput
     }
 
     /**
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    public function render(Magento_Data_Form_Element_Abstract $element)
+    public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $html = $this->_getHeaderHtml($element);
 
         $modules = array_keys($this->_moduleList->getModules());
 
-        $dispatchResult = new Magento_Object($modules);
+        $dispatchResult = new \Magento\Object($modules);
         $this->_eventManager->dispatch('adminhtml_system_config_advanced_disableoutput_render_before',
             array('modules' => $dispatchResult)
         );
@@ -81,23 +83,23 @@ class Magento_Backend_Block_System_Config_Form_Fieldset_Modules_DisableOutput
     }
 
     /**
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     protected function _getDummyElement()
     {
         if (empty($this->_dummyElement)) {
-            $this->_dummyElement = new Magento_Object(array('showInDefault' => 1, 'showInWebsite' => 1));
+            $this->_dummyElement = new \Magento\Object(array('showInDefault' => 1, 'showInWebsite' => 1));
         }
         return $this->_dummyElement;
     }
 
     /**
-     * @return Magento_Backend_Block_System_Config_Form_Field
+     * @return \Magento\Backend\Block\System\Config\Form\Field
      */
     protected function _getFieldRenderer()
     {
         if (empty($this->_fieldRenderer)) {
-            $this->_fieldRenderer = $this->_layout->getBlockSingleton('Magento_Backend_Block_System_Config_Form_Field');
+            $this->_fieldRenderer = $this->_layout->getBlockSingleton('Magento\Backend\Block\System\Config\Form\Field');
         }
         return $this->_fieldRenderer;
     }
@@ -117,7 +119,7 @@ class Magento_Backend_Block_System_Config_Form_Fieldset_Modules_DisableOutput
     }
 
     /**
-     * @param Magento_Data_Form_Element_Fieldset $fieldset
+     * @param \Magento\Data\Form\Element\Fieldset $fieldset
      * @param string $moduleName
      * @return mixed
      */

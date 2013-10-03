@@ -9,9 +9,9 @@
  * @license     {license_link}
  */
 
-/** @var $block Magento_Cms_Model_Block */
-$block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Cms_Model_Block');
+/** @var $block \Magento\Cms\Model\Block */
+$block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Cms\Model\Block');
 $block->setTitle('CMS Block Title')
     ->setIdentifier('fixture_block')
     ->setContent('<h1>Fixture Block Title</h1>
@@ -21,7 +21,7 @@ $block->setTitle('CMS Block Title')
 ')
     ->setIsActive(1)
     ->setStores(array(
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
             ->getStore()->getId()
     ))
     ->save()

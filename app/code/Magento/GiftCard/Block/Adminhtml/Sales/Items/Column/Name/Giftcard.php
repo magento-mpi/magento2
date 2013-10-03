@@ -8,8 +8,10 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCard_Block_Adminhtml_Sales_Items_Column_Name_Giftcard
-    extends Magento_Adminhtml_Block_Sales_Items_Column_Name
+namespace Magento\GiftCard\Block\Adminhtml\Sales\Items\Column\Name;
+
+class Giftcard
+    extends \Magento\Adminhtml\Block\Sales\Items\Column\Name
 {
     /**
      * Prepare custom option for display, returns false if there's no value
@@ -35,13 +37,13 @@ class Magento_GiftCard_Block_Adminhtml_Sales_Items_Column_Name_Giftcard
         $result = array();
         if ($type = $this->getItem()->getProductOptionByCode('giftcard_type')) {
             switch ($type) {
-                case Magento_GiftCard_Model_Giftcard::TYPE_VIRTUAL:
+                case \Magento\GiftCard\Model\Giftcard::TYPE_VIRTUAL:
                     $type = __('Virtual');
                     break;
-                case Magento_GiftCard_Model_Giftcard::TYPE_PHYSICAL:
+                case \Magento\GiftCard\Model\Giftcard::TYPE_PHYSICAL:
                     $type = __('Physical');
                     break;
-                case Magento_GiftCard_Model_Giftcard::TYPE_COMBINED:
+                case \Magento\GiftCard\Model\Giftcard::TYPE_COMBINED:
                     $type = __('Combined');
                     break;
             }

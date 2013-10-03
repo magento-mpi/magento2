@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Backend_Block_Widget_Grid_Column_Renderer_Options_Converter
+namespace Magento\Backend\Block\Widget\Grid\Column\Renderer\Options;
+
+class Converter
 {
     /**
      * Convert data from tree format to flat format

@@ -8,5 +8,5 @@
  */
 -->
 <config>
-    <indexer name="catalogpermissions" instance="Magento_CatalogPermissions_Model_Permission_Index" />
+    <indexer name="catalogpermissions" instance="Magento\CatalogPermissions\Model\Permission\Index" />
 </config>

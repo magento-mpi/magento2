@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Core_Model_Route_ConfigInterface
+namespace Magento\Core\Model\Route;
+
+interface ConfigInterface
 {
 
     /**

@@ -9,10 +9,12 @@
  */
 
 /**
- * Config model that is aware of all Magento_Paypal payment methods
+ * Config model that is aware of all \Magento\Paypal payment methods
  * Works with PayPal-specific system configuration
  */
-class Magento_Paypal_Model_Config
+namespace Magento\Paypal\Model;
+
+class Config
 {
     /**
      * PayPal Standard
@@ -231,46 +233,46 @@ class Magento_Paypal_Model_Config
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Payment_Model_Source_CctypeFactory
+     * @var \Magento\Payment\Model\Source\CctypeFactory
      */
     protected $_cctypeFactory;
 
     /**
-     * @var Magento_Paypal_Model_CertFactory
+     * @var \Magento\Paypal\Model\CertFactory
      */
     protected $_certFactory;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Payment_Model_Source_CctypeFactory $cctypeFactory
-     * @param Magento_Paypal_Model_CertFactory $certFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Payment\Model\Source\CctypeFactory $cctypeFactory
+     * @param \Magento\Paypal\Model\CertFactory $certFactory
      * @param array $params
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Payment_Model_Source_CctypeFactory $cctypeFactory,
-        Magento_Paypal_Model_CertFactory $certFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Payment\Model\Source\CctypeFactory $cctypeFactory,
+        \Magento\Paypal\Model\CertFactory $certFactory,
         $params = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -291,12 +293,12 @@ class Magento_Paypal_Model_Config
     /**
      * Method code setter
      *
-     * @param string|Magento_Payment_Model_Method_Abstract $method
-     * @return Magento_Paypal_Model_Config
+     * @param string|\Magento\Payment\Model\Method\AbstractMethod $method
+     * @return \Magento\Paypal\Model\Config
      */
     public function setMethod($method)
     {
-        if ($method instanceof Magento_Payment_Model_Method_Abstract) {
+        if ($method instanceof \Magento\Payment\Model\Method\AbstractMethod) {
             $this->_methodCode = $method->getCode();
         } elseif (is_string($method)) {
             $this->_methodCode = $method;
@@ -318,7 +320,7 @@ class Magento_Paypal_Model_Config
      * Store ID setter
      *
      * @param int $storeId
-     * @return Magento_Paypal_Model_Config
+     * @return \Magento\Paypal\Model\Config
      */
     public function setStoreId($storeId)
     {
@@ -729,10 +731,10 @@ class Magento_Paypal_Model_Config
      * Get "What Is PayPal" localized URL
      * Supposed to be used with "mark" as popup window
      *
-     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @return string
      */
-    public function getPaymentMarkWhatIsPaypalUrl(Magento_Core_Model_LocaleInterface $locale = null)
+    public function getPaymentMarkWhatIsPaypalUrl(\Magento\Core\Model\LocaleInterface $locale = null)
     {
         $countryCode = 'US';
         if (null !== $locale) {
@@ -937,11 +939,11 @@ class Magento_Paypal_Model_Config
     {
         switch ($this->paymentAction) {
             case self::PAYMENT_ACTION_AUTH:
-                return Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE;
+                return \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE;
             case self::PAYMENT_ACTION_SALE:
-                return Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE;
+                return \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE_CAPTURE;
             case self::PAYMENT_ACTION_ORDER:
-                return Magento_Payment_Model_Method_Abstract::ACTION_ORDER;
+                return \Magento\Payment\Model\Method\AbstractMethod::ACTION_ORDER;
         }
     }
 
@@ -1105,9 +1107,9 @@ class Magento_Paypal_Model_Config
     /**
      * Export page style current settings to specified object
      *
-     * @param Magento_Object $to
+     * @param \Magento\Object $to
      */
-    public function exportExpressCheckoutStyleSettings(Magento_Object $to)
+    public function exportExpressCheckoutStyleSettings(\Magento\Object $to)
     {
         foreach ($this->_ecStyleConfigMap as $key => $exportKey) {
             if ($this->$key) {

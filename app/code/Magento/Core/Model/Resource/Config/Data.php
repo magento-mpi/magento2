@@ -16,7 +16,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Resource_Config_Data extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Core\Model\Resource\Config;
+
+class Data extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Define main table
@@ -30,10 +32,10 @@ class Magento_Core_Model_Resource_Config_Data extends Magento_Core_Model_Resourc
     /**
      * Convert array to comma separated value
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Core_Model_Resource_Config_Data
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Core\Model\Resource\Config\Data
      */
-    protected function _beforeSave(Magento_Core_Model_Abstract $object)
+    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
         if (!$object->getId()) {
             $this->_checkUnique($object);
@@ -49,10 +51,10 @@ class Magento_Core_Model_Resource_Config_Data extends Magento_Core_Model_Resourc
      * Validate unique configuration data before save
      * Set id to object if exists configuration instead of throw exception
      *
-     * @param Magento_Core_Model_Config_Value $object
-     * @return Magento_Core_Model_Resource_Config_Data
+     * @param \Magento\Core\Model\Config\Value $object
+     * @return \Magento\Core\Model\Resource\Config\Data
      */
-    protected function _checkUnique(Magento_Core_Model_Abstract $object)
+    protected function _checkUnique(\Magento\Core\Model\AbstractModel $object)
     {
         $select = $this->_getReadAdapter()->select()
             ->from($this->getMainTable(), array($this->getIdFieldName()))
@@ -78,7 +80,7 @@ class Magento_Core_Model_Resource_Config_Data extends Magento_Core_Model_Resourc
      *
      * @param $website
      */
-    public function clearWebsiteData(Magento_Core_Model_Website $website)
+    public function clearWebsiteData(\Magento\Core\Model\Website $website)
     {
         $this->_getWriteAdapter()->delete(
             $this->getMainTable(), array('scope = ?' => 'websites', 'scope_id' => $website->getId())

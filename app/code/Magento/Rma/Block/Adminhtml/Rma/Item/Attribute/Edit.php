@@ -16,26 +16,28 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit
-    extends Magento_Backend_Block_Widget_Form_Container
+namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute;
+
+class Edit
+    extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -45,7 +47,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit
     /**
      * Return current customer address attribute instance
      *
-     * @return Magento_Rma_Model_Item_Attribute
+     * @return \Magento\Rma\Model\Item\Attribute
      */
     protected function _getAttribute()
     {

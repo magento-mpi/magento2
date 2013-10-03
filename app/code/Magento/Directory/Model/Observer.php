@@ -13,7 +13,9 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Directory_Model_Observer
+namespace Magento\Directory\Model;
+
+class Observer
 {
     const CRON_STRING_PATH = 'crontab/jobs/currency_rates_update/schedule/cron_expr';
     const IMPORT_ENABLE = 'currency/import/enabled';
@@ -24,52 +26,52 @@ class Magento_Directory_Model_Observer
     const XML_PATH_ERROR_RECIPIENT = 'currency/import/error_email';
 
     /**
-     * @var Magento_Directory_Model_Currency_Import_Factory
+     * @var \Magento\Directory\Model\Currency\Import\Factory
      */
     protected $_importFactory;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Core_Model_Translate
+     * @var \Magento\Core\Model\Translate
      */
     protected $_translate;
 
     /**
-     * @var Magento_Core_Model_Email_TemplateFactory
+     * @var \Magento\Core\Model\Email\TemplateFactory
      */
     protected $_emailTemplateFactory;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Directory_Model_CurrencyFactory
+     * @var \Magento\Directory\Model\CurrencyFactory
      */
     protected $_currencyFactory;
 
     /**
-     * @param Magento_Directory_Model_Currency_Import_Factory $importFactory
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Translate $translate
-     * @param Magento_Core_Model_Email_TemplateFactory $emailTemplateFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
+     * @param \Magento\Directory\Model\Currency\Import\Factory $importFactory
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Translate $translate
+     * @param \Magento\Core\Model\Email\TemplateFactory $emailTemplateFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      */
     public function __construct(
-        Magento_Directory_Model_Currency_Import_Factory $importFactory,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Translate $translate,
-        Magento_Core_Model_Email_TemplateFactory $emailTemplateFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Directory_Model_CurrencyFactory $currencyFactory
+        \Magento\Directory\Model\Currency\Import\Factory $importFactory,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Translate $translate,
+        \Magento\Core\Model\Email\TemplateFactory $emailTemplateFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Directory\Model\CurrencyFactory $currencyFactory
     ) {
         $this->_importFactory = $importFactory;
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -95,7 +97,7 @@ class Magento_Directory_Model_Observer
 
         try {
             $importModel = $this->_importFactory->create($service);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $importWarnings[] = __('FATAL ERROR:') . ' ' . __('We can\'t initialize the import model.');
         }
 
@@ -113,10 +115,10 @@ class Magento_Directory_Model_Observer
         } else {
             $this->_translate->setTranslateInline(false);
 
-            /* @var $mailTemplate Magento_Core_Model_Email_Template */
+            /* @var $mailTemplate \Magento\Core\Model\Email\Template */
             $mailTemplate = $this->_emailTemplateFactory->create();
             $mailTemplate->setDesignConfig(array(
-                'area' => Magento_Core_Model_App_Area::AREA_FRONTEND,
+                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
                 'store' => $this->_storeManager->getStore()->getId()
             ))
                 ->sendTransactional(

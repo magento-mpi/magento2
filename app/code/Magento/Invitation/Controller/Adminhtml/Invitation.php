@@ -11,49 +11,51 @@
 /**
  * Invitation adminhtml controller
  */
-class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminhtml_Controller_Action
+namespace Magento\Invitation\Controller\Adminhtml;
+
+class Invitation extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry;
 
     /**
      * Invitation Factory
      *
-     * @var Magento_Invitation_Model_InvitationFactory
+     * @var \Magento\Invitation\Model\InvitationFactory
      */
     protected $_invitationFactory;
 
     /**
      * Store Manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Invitation Config
      *
-     * @var Magento_Invitation_Model_Config
+     * @var \Magento\Invitation\Model\Config
      */
     protected $_config;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Invitation_Model_InvitationFactory $invitationFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Invitation_Model_Config $config
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Invitation\Model\Config $config
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Invitation_Model_InvitationFactory $invitationFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Invitation_Model_Config $config
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Invitation\Model\InvitationFactory $invitationFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Invitation\Model\Config $config
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -75,8 +77,8 @@ class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminht
     /**
      * Init invitation model by request
      *
-     * @return Magento_Invitation_Model_Invitation
-     * @throws Magento_Core_Exception
+     * @return \Magento\Invitation\Model\Invitation
+     * @throws \Magento\Core\Exception
      */
     protected function _initInvitation()
     {
@@ -84,7 +86,7 @@ class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminht
 
         $invitation =  $this->_invitationFactory->create()->load($this->getRequest()->getParam('id'));
         if (!$invitation->getId()) {
-            throw new Magento_Core_Exception(__("We couldn't find this invitation."));
+            throw new \Magento\Core\Exception(__("We couldn't find this invitation."));
         }
         $this->_coreRegistry->register('current_invitation', $invitation);
 
@@ -100,7 +102,7 @@ class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminht
             $this->_initInvitation();
             $this->loadLayout()->_setActiveMenu('Magento_Invitation::customer_magento_invitation');
             $this->renderLayout();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*/');
         }
@@ -137,7 +139,7 @@ class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminht
                 }
             }
             if (empty($emails)) {
-                throw new Magento_Core_Exception(__('Please specify at least one email address.'));
+                throw new \Magento\Core\Exception(__('Please specify at least one email address.'));
             }
             if ($this->_storeManager->hasSingleStore()) {
                 $storeId = $this->_storeManager->getStore(true)->getId();
@@ -162,10 +164,10 @@ class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminht
                     } else {
                         $failedCount++;
                     }
-                } catch (Magento_Core_Exception $e) {
+                } catch (\Magento\Core\Exception $e) {
                     if ($e->getCode()) {
                         $failedCount++;
-                        if ($e->getCode() == Magento_Invitation_Model_Invitation::ERROR_CUSTOMER_EXISTS) {
+                        if ($e->getCode() == \Magento\Invitation\Model\Invitation::ERROR_CUSTOMER_EXISTS) {
                             $customerExistsCount++;
                         }
                     } else {
@@ -185,7 +187,7 @@ class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminht
             $this->_getSession()->unsInvitationFormData();
             $this->_redirect('*/*/');
             return;
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
         $this->_redirect('*/*/new');
@@ -220,7 +222,7 @@ class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminht
 
                 $this->_getSession()->addSuccess(__('The invitation has been saved.'));
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
         $this->_redirect('*/*/view', array('_current' => true));
@@ -229,14 +231,14 @@ class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminht
     /**
      * Action for mass-resending invitations
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function massResendAction()
     {
         try {
             $invitationsPost = $this->getRequest()->getParam('invitations', array());
             if (empty($invitationsPost) || !is_array($invitationsPost)) {
-                throw new Magento_Core_Exception(__('Please select invitations.'));
+                throw new \Magento\Core\Exception(__('Please select invitations.'));
             }
             $collection =  $this->_invitationFactory->create()->getCollection()
                 ->addFieldToFilter('invitation_id', array('in' => $invitationsPost))
@@ -251,13 +253,13 @@ class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminht
                     if ($invitation->sendInvitationEmail()) {
                         $sent++;
                     }
-                } catch (Magento_Core_Exception $e) {
+                } catch (\Magento\Core\Exception $e) {
                     // jam all exceptions with codes
                     if (!$e->getCode()) {
                         throw $e;
                     }
                     // close irrelevant invitations
-                    if ($e->getCode() === Magento_Invitation_Model_Invitation::ERROR_CUSTOMER_EXISTS) {
+                    if ($e->getCode() === \Magento\Invitation\Model\Invitation::ERROR_CUSTOMER_EXISTS) {
                         $customerExists++;
                         $invitation->cancel();
                     }
@@ -278,7 +280,7 @@ class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminht
                     __('We discarded %1 invitation(s) addressed to current customers.', $customerExists)
                 );
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
         $this->_redirect('*/*/');
@@ -287,14 +289,14 @@ class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminht
     /**
      * Action for mass-cancelling invitations
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function massCancelAction()
     {
         try {
             $invitationsPost = $this->getRequest()->getParam('invitations', array());
             if (empty($invitationsPost) || !is_array($invitationsPost)) {
-                throw new Magento_Core_Exception(__('Please select invitations.'));
+                throw new \Magento\Core\Exception(__('Please select invitations.'));
             }
             $collection =  $this->_invitationFactory->create()->getCollection()
                 ->addFieldToFilter('invitation_id', array('in' => $invitationsPost))
@@ -308,7 +310,7 @@ class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminht
                         $invitation->cancel();
                         $cancelled++;
                     }
-                } catch (Magento_Core_Exception $e) {
+                } catch (\Magento\Core\Exception $e) {
                     // jam all exceptions with codes
                     if (!$e->getCode()) {
                         throw $e;
@@ -322,7 +324,7 @@ class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminht
             if ($failed) {
                 $this->_getSession()->addNotice(__('We skipped %1 of the selected invitations.', $failed));
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
         $this->_redirect('*/*/');

@@ -113,14 +113,14 @@ $bunches = array(
     )
 );
 
-$importDataResource = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_ImportExport_Model_Resource_Import_Data');
+$importDataResource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\ImportExport\Model\Resource\Import\Data');
 
 foreach ($bunches as $bunch) {
     $importDataResource->saveBunch($bunch['entity'], $bunch['behavior'], $bunch['data']);
 }
 
-/** @var $objectManager Magento_TestFramework_ObjectManager */
-$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-$objectManager->get('Magento_Core_Model_Registry')->unregister('_fixture/Magento_ImportExport_Import_Data');
-$objectManager->get('Magento_Core_Model_Registry')->register('_fixture/Magento_ImportExport_Import_Data', $bunches);
+/** @var $objectManager \Magento\TestFramework\ObjectManager */
+$objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+$objectManager->get('Magento\Core\Model\Registry')->unregister('_fixture/Magento_ImportExport_Import_Data');
+$objectManager->get('Magento\Core\Model\Registry')->register('_fixture/Magento_ImportExport_Import_Data', $bunches);

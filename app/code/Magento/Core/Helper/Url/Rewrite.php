@@ -15,7 +15,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Helper_Url_Rewrite extends Magento_Core_Helper_Abstract
+namespace Magento\Core\Helper\Url;
+
+class Rewrite extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Validation error constants
@@ -24,17 +26,17 @@ class Magento_Core_Helper_Url_Rewrite extends Magento_Core_Helper_Abstract
     const VERR_ANCHOR = 2;      // Anchor is not supported in request path, e.g. 'foo#bar'
 
     /**
-     * @var Magento_Core_Model_Source_Urlrewrite_Options
+     * @var \Magento\Core\Model\Source\Urlrewrite\Options
      */
     protected $_urlrewrite;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Source_Urlrewrite_Options $urlrewrite
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Source\Urlrewrite\Options $urlrewrite
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Source_Urlrewrite_Options $urlrewrite
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Source\Urlrewrite\Options $urlrewrite
     ) {
         parent::__construct($context);
         $this->_urlrewrite = $urlrewrite;
@@ -50,10 +52,10 @@ class Magento_Core_Helper_Url_Rewrite extends Magento_Core_Helper_Abstract
     protected function _validateRequestPath($requestPath)
     {
         if (strpos($requestPath, '//') !== false) {
-            throw new Exception(__('Two and more slashes together are not permitted in request path'), self::VERR_MANYSLASHES);
+            throw new \Exception(__('Two and more slashes together are not permitted in request path'), self::VERR_MANYSLASHES);
         }
         if (strpos($requestPath, '#') !== false) {
-            throw new Exception(__('Anchor symbol (#) is not supported in request path'), self::VERR_ANCHOR);
+            throw new \Exception(__('Anchor symbol (#) is not supported in request path'), self::VERR_ANCHOR);
         }
         return true;
     }
@@ -63,15 +65,15 @@ class Magento_Core_Helper_Url_Rewrite extends Magento_Core_Helper_Abstract
      * Either returns TRUE (success) or throws error (validation failed)
      *
      * @param $requestPath
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @return bool
      */
     public function validateRequestPath($requestPath)
     {
         try {
             $this->_validateRequestPath($requestPath);
-        } catch (Exception $e) {
-            throw new Magento_Core_Exception($e->getMessage());
+        } catch (\Exception $e) {
+            throw new \Magento\Core\Exception($e->getMessage());
         }
         return true;
     }
@@ -81,22 +83,22 @@ class Magento_Core_Helper_Url_Rewrite extends Magento_Core_Helper_Abstract
      * Either returns TRUE (success) or throws error (validation failed)
      *
      * @param $suffix
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @return bool
      */
     public function validateSuffix($suffix)
     {
         try {
             $this->_validateRequestPath($suffix); // Suffix itself must be a valid request path
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // Make message saying about suffix, not request path
             switch ($e->getCode()) {
                 case self::VERR_MANYSLASHES:
-                    throw new Magento_Core_Exception(
+                    throw new \Magento\Core\Exception(
                         __('Two and more slashes together are not permitted in url rewrite suffix')
                     );
                 case self::VERR_ANCHOR:
-                    throw new Magento_Core_Exception(__('Anchor symbol (#) is not supported in url rewrite suffix'));
+                    throw new \Magento\Core\Exception(__('Anchor symbol (#) is not supported in url rewrite suffix'));
             }
         }
         return true;
@@ -105,7 +107,7 @@ class Magento_Core_Helper_Url_Rewrite extends Magento_Core_Helper_Abstract
     /**
      * Has redirect options set
      *
-     * @param Magento_Core_Model_Url_Rewrite $urlRewrite
+     * @param \Magento\Core\Model\Url\Rewrite $urlRewrite
      * @return bool
      */
     public function hasRedirectOptions($urlRewrite)

@@ -15,22 +15,24 @@
  * @package     Magento_Sedfriend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sendfriend_Controller_Product extends Magento_Core_Controller_Front_Action
+namespace Magento\Sendfriend\Controller;
+
+class Product extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Controller_Varien_Action_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Core_Controller_Varien_Action_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -40,16 +42,16 @@ class Magento_Sendfriend_Controller_Product extends Magento_Core_Controller_Fron
      * Predispatch: check is enable module
      * If allow only for customer - redirect to login page
      *
-     * @return Magento_Sendfriend_Controller_Product
+     * @return \Magento\Sendfriend\Controller\Product
      */
     public function preDispatch()
     {
         parent::preDispatch();
 
-        /* @var $helper Magento_Sendfriend_Helper_Data */
-        $helper = $this->_objectManager->get('Magento_Sendfriend_Helper_Data');
-        /* @var $session Magento_Customer_Model_Session */
-        $session = $this->_objectManager->get('Magento_Customer_Model_Session');
+        /* @var $helper \Magento\Sendfriend\Helper\Data */
+        $helper = $this->_objectManager->get('Magento\Sendfriend\Helper\Data');
+        /* @var $session \Magento\Customer\Model\Session */
+        $session = $this->_objectManager->get('Magento\Customer\Model\Session');
 
         if (!$helper->isEnabled()) {
             $this->norouteAction();
@@ -60,11 +62,11 @@ class Magento_Sendfriend_Controller_Product extends Magento_Core_Controller_Fron
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             if ($this->getRequest()->getActionName() == 'sendemail') {
                 $session->setBeforeAuthUrl($this->_objectManager
-                        ->create('Magento_Core_Model_Url')
+                        ->create('Magento\Core\Model\Url')
                         ->getUrl('*/*/send', array(
                             '_current' => true
                         )));
-                $this->_objectManager->get('Magento_Catalog_Model_Session')
+                $this->_objectManager->get('Magento\Catalog\Model\Session')
                     ->setSendfriendFormData($this->getRequest()->getPost());
             }
         }
@@ -75,7 +77,7 @@ class Magento_Sendfriend_Controller_Product extends Magento_Core_Controller_Fron
     /**
      * Initialize Product Instance
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     protected function _initProduct()
     {
@@ -83,7 +85,7 @@ class Magento_Sendfriend_Controller_Product extends Magento_Core_Controller_Fron
         if (!$productId) {
             return false;
         }
-        $product = $this->_objectManager->create('Magento_Catalog_Model_Product')
+        $product = $this->_objectManager->create('Magento\Catalog\Model\Product')
             ->load($productId);
         if (!$product->getId() || !$product->isVisibleInCatalog()) {
             return false;
@@ -96,16 +98,16 @@ class Magento_Sendfriend_Controller_Product extends Magento_Core_Controller_Fron
     /**
      * Initialize send friend model
      *
-     * @return Magento_Sendfriend_Model_Sendfriend
+     * @return \Magento\Sendfriend\Model\Sendfriend
      */
     protected function _initSendToFriendModel()
     {
-        $model  = $this->_objectManager->create('Magento_Sendfriend_Model_Sendfriend');
-        $model->setRemoteAddr($this->_objectManager->get('Magento_Core_Helper_Http')->getRemoteAddr(true));
-        $model->setCookie($this->_objectManager->get('Magento_Core_Model_Cookie'));
+        $model  = $this->_objectManager->create('Magento\Sendfriend\Model\Sendfriend');
+        $model->setRemoteAddr($this->_objectManager->get('Magento\Core\Helper\Http')->getRemoteAddr(true));
+        $model->setCookie($this->_objectManager->get('Magento\Core\Model\Cookie'));
         $model->setWebsiteId(
             $this->_objectManager
-                ->get('Magento_Core_Model_StoreManagerInterface')
+                ->get('Magento\Core\Model\StoreManagerInterface')
                 ->getStore()
                 ->getWebsiteId()
         );
@@ -128,8 +130,8 @@ class Magento_Sendfriend_Controller_Product extends Magento_Core_Controller_Fron
             $this->_forward('noRoute');
             return;
         }
-        /* @var $session Magento_Catalog_Model_Session */
-        $catalogSession = $this->_objectManager->get('Magento_Catalog_Model_Session');
+        /* @var $session \Magento\Catalog\Model\Session */
+        $catalogSession = $this->_objectManager->get('Magento\Catalog\Model\Session');
 
         if ($model->getMaxSendsToFriend() && $model->isExceedLimit()) {
             $catalogSession->addNotice(
@@ -138,7 +140,7 @@ class Magento_Sendfriend_Controller_Product extends Magento_Core_Controller_Fron
         }
 
         $this->loadLayout();
-        $this->_initLayoutMessages('Magento_Catalog_Model_Session');
+        $this->_initLayoutMessages('Magento\Catalog\Model\Session');
 
         $this->_eventManager->dispatch('sendfriend_product', array('product' => $product));
         $data = $catalogSession->getSendfriendFormData();
@@ -174,7 +176,7 @@ class Magento_Sendfriend_Controller_Product extends Magento_Core_Controller_Fron
 
         $categoryId = $this->getRequest()->getParam('cat_id', null);
         if ($categoryId) {
-            $category = $this->_objectManager->create('Magento_Catalog_Model_Category')
+            $category = $this->_objectManager->create('Magento\Catalog\Model\Category')
                 ->load($categoryId);
             $product->setCategory($category);
             $this->_coreRegistry->register('current_category', $category);
@@ -184,8 +186,8 @@ class Magento_Sendfriend_Controller_Product extends Magento_Core_Controller_Fron
         $model->setRecipients($this->getRequest()->getPost('recipients'));
         $model->setProduct($product);
 
-        /* @var $session Magento_Catalog_Model_Session */
-        $catalogSession = $this->_objectManager->get('Magento_Catalog_Model_Session');
+        /* @var $session \Magento\Catalog\Model\Session */
+        $catalogSession = $this->_objectManager->get('Magento\Catalog\Model\Session');
         try {
             $validate = $model->validate();
             if ($validate === true) {
@@ -203,9 +205,9 @@ class Magento_Sendfriend_Controller_Product extends Magento_Core_Controller_Fron
                     $catalogSession->addError(__('We found some problems with the data.'));
                 }
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $catalogSession->addError($e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $catalogSession->addException($e, __('Some emails were not sent.'));
         }
 
@@ -214,7 +216,7 @@ class Magento_Sendfriend_Controller_Product extends Magento_Core_Controller_Fron
 
         $this->_redirectError(
             $this->_objectManager
-                ->create('Magento_Core_Model_Url')
+                ->create('Magento\Core\Model\Url')
                 ->getUrl('*/*/send', array('_current' => true))
         );
     }

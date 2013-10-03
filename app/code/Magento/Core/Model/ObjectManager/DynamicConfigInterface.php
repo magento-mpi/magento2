@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-interface Magento_Core_Model_ObjectManager_DynamicConfigInterface
+namespace Magento\Core\Model\ObjectManager;
+
+interface DynamicConfigInterface
 {
     /**
      * Map application initialization params to Object Manager configuration format

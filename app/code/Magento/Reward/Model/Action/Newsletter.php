@@ -15,17 +15,19 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Model_Action_Newsletter extends Magento_Reward_Model_Action_Abstract
+namespace Magento\Reward\Model\Action;
+
+class Newsletter extends \Magento\Reward\Model\Action\AbstractAction
 {
     /**
      * Reward data
      *
-     * @var Magento_Reward_Helper_Data
+     * @var \Magento\Reward\Helper\Data
      */
     protected $_rewardData = null;
 
     /**
-     * @var Magento_Newsletter_Model_Resource_Subscriber_CollectionFactory
+     * @var \Magento\Newsletter\Model\Resource\Subscriber\CollectionFactory
      */
     protected $_subscribersFactory;
 
@@ -35,13 +37,13 @@ class Magento_Reward_Model_Action_Newsletter extends Magento_Reward_Model_Action
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
-     * @param Magento_Reward_Helper_Data $rewardData
-     * @param Magento_Newsletter_Model_Resource_Subscriber_CollectionFactory $subscribersFactory
+     * @param \Magento\Reward\Helper\Data $rewardData
+     * @param \Magento\Newsletter\Model\Resource\Subscriber\CollectionFactory $subscribersFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Reward_Helper_Data $rewardData,
-        Magento_Newsletter_Model_Resource_Subscriber_CollectionFactory $subscribersFactory,
+        \Magento\Reward\Helper\Data $rewardData,
+        \Magento\Newsletter\Model\Resource\Subscriber\CollectionFactory $subscribersFactory,
         array $data = array()
     ) {
         $this->_rewardData = $rewardData;
@@ -69,14 +71,14 @@ class Magento_Reward_Model_Action_Newsletter extends Magento_Reward_Model_Action
     {
         $subscriber = $this->getEntity();
         $subscriberStatuses = array(
-            Magento_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED,
-            Magento_Newsletter_Model_Subscriber::STATUS_UNCONFIRMED
+            \Magento\Newsletter\Model\Subscriber::STATUS_SUBSCRIBED,
+            \Magento\Newsletter\Model\Subscriber::STATUS_UNCONFIRMED
         );
         if (!in_array($subscriber->getData('subscriber_status'), $subscriberStatuses)) {
             return false;
         }
 
-        /* @var $subscribers Magento_Newsletter_Model_Resource_Subscriber_Collection */
+        /* @var $subscribers \Magento\Newsletter\Model\Resource\Subscriber\Collection */
         $subscribers = $this->_subscribersFactory->create()
             ->addFieldToFilter('customer_id', $subscriber->getCustomerId())
             ->load();
@@ -107,8 +109,8 @@ class Magento_Reward_Model_Action_Newsletter extends Magento_Reward_Model_Action
     /**
      * Setter for $_entity and add some extra data to history
      *
-     * @param Magento_Object $entity
-     * @return Magento_Reward_Model_Action_Abstract
+     * @param \Magento\Object $entity
+     * @return \Magento\Reward\Model\Action\AbstractAction
      */
     public function setEntity($entity)
     {

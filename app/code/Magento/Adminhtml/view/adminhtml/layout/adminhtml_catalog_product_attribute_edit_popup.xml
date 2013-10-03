@@ -14,11 +14,11 @@
             <argument name="template" xsi:type="string">Magento_Adminhtml::catalog/product/attribute/form.phtml</argument>
         </arguments>
         <container name="form" label="Form">
-            <block class="Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main" as="main"/>
-            <block class="Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Options" as="advanced-options"/>
-            <block class="Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced" as="options"/>
-            <block class="Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Labels" as="labels"/>
-            <block class="Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front" as="front-options"/>
+            <block class="Magento\Adminhtml\Block\Catalog\Product\Attribute\Edit\Tab\Main" as="main"/>
+            <block class="Magento\Eav\Block\Adminhtml\Attribute\Edit\Options\Options" as="advanced-options"/>
+            <block class="Magento\Adminhtml\Block\Catalog\Product\Attribute\Edit\Tab\Advanced" as="options"/>
+            <block class="Magento\Eav\Block\Adminhtml\Attribute\Edit\Options\Labels" as="labels"/>
+            <block class="Magento\Adminhtml\Block\Catalog\Product\Attribute\Edit\Tab\Front" as="front-options"/>
         </container>
     </referenceBlock>
 </layout>

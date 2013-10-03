@@ -15,16 +15,18 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Options extends Magento_Catalog_Block_Product_View_Options
+namespace Magento\Adminhtml\Block\Catalog\Product\Composite\Fieldset;
+
+class Options extends \Magento\Catalog\Block\Product\View\Options
 {
     /**
      * Get option html block
      *
-     * @param Magento_Catalog_Model_Product_Option $option
+     * @param \Magento\Catalog\Model\Product\Option $option
      *
      * @return string
      */
-    public function getOptionHtml(Magento_Catalog_Model_Product_Option $option)
+    public function getOptionHtml(\Magento\Catalog\Model\Product\Option $option)
     {
         $type = $this->getGroupOfOption($option->getType());
         $renderer = $this->getChildBlock($type);

@@ -15,13 +15,15 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Model_Customer_Renderer_Region implements Magento_Data_Form_Element_Renderer_Interface
+namespace Magento\Adminhtml\Model\Customer\Renderer;
+
+class Region implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     /**
      * Country region collections
      *
      * array(
-     *      [$countryId] => Magento_Data_Collection_Db
+     *      [$countryId] => \Magento\Data\Collection\Db
      * )
      *
      * @var array
@@ -31,28 +33,28 @@ class Magento_Adminhtml_Model_Customer_Renderer_Region implements Magento_Data_F
     /**
      * Adminhtml data
      *
-     * @var Magento_Adminhtml_Helper_Data
+     * @var \Magento\Adminhtml\Helper\Data
      */
     protected $_adminhtmlData = null;
 
     /**
-     * @var Magento_Directory_Model_CountryFactory
+     * @var \Magento\Directory\Model\CountryFactory
      */
     protected $_countryFactory;
 
     /**
-     * @param Magento_Directory_Model_CountryFactory $countryFactory
-     * @param Magento_Adminhtml_Helper_Data $adminhtmlData
+     * @param \Magento\Directory\Model\CountryFactory $countryFactory
+     * @param \Magento\Adminhtml\Helper\Data $adminhtmlData
      */
     public function __construct(
-        Magento_Directory_Model_CountryFactory $countryFactory,
-        Magento_Adminhtml_Helper_Data $adminhtmlData
+        \Magento\Directory\Model\CountryFactory $countryFactory,
+        \Magento\Adminhtml\Helper\Data $adminhtmlData
     ) {
         $this->_countryFactory = $countryFactory;
         $this->_adminhtmlData = $adminhtmlData;
     }
 
-    public function render(Magento_Data_Form_Element_Abstract $element)
+    public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $html = '<div class="field field-region required">'."\n";
 

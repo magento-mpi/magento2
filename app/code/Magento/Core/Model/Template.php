@@ -16,7 +16,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_Core_Model_Template extends Magento_Core_Model_Abstract
+namespace Magento\Core\Model;
+
+abstract class Template extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Types of template
@@ -32,7 +34,7 @@ abstract class Magento_Core_Model_Template extends Magento_Core_Model_Abstract
     /**
      * Configuration of desing package for template
      *
-     * @var Magento_Object
+     * @var \Magento\Object
      */
     protected $_designConfig;
 
@@ -40,7 +42,7 @@ abstract class Magento_Core_Model_Template extends Magento_Core_Model_Abstract
     /**
      * Configuration of emulated desing package.
      *
-     * @var Magento_Object|boolean
+     * @var \Magento\Object|boolean
      */
     protected $_emulatedDesignConfig = false;
 
@@ -48,7 +50,7 @@ abstract class Magento_Core_Model_Template extends Magento_Core_Model_Abstract
      * Initial environment information
      * @see self::_applyDesignConfig()
      *
-     * @var Magento_Object|null
+     * @var \Magento\Object|null
      */
     protected $_initialEnvironmentInfo = null;
 
@@ -69,34 +71,34 @@ abstract class Magento_Core_Model_Template extends Magento_Core_Model_Abstract
     /**
      * Design package instance
      *
-     * @var Magento_Core_Model_View_DesignInterface
+     * @var \Magento\Core\Model\View\DesignInterface
      */
     protected $_design = null;
 
     /**
-     * @var Magento_Core_Model_App_Emulation
+     * @var \Magento\Core\Model\App\Emulation
      */
     protected $_appEmulation;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_View_DesignInterface $design
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_App_Emulation $appEmulation
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\App\Emulation $appEmulation
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_View_DesignInterface $design,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_App_Emulation $appEmulation,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
+        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\App\Emulation $appEmulation,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_design = $design;
@@ -110,7 +112,7 @@ abstract class Magento_Core_Model_Template extends Magento_Core_Model_Abstract
     /**
      * Applying of design config
      *
-     * @return Magento_Core_Model_Template
+     * @return \Magento\Core\Model\Template
      */
     protected function _applyDesignConfig()
     {
@@ -127,7 +129,7 @@ abstract class Magento_Core_Model_Template extends Magento_Core_Model_Abstract
     /**
      * Revert design settings to previous
      *
-     * @return Magento_Core_Model_Template
+     * @return \Magento\Core\Model\Template
      */
     protected function _cancelDesignConfig()
     {
@@ -141,7 +143,7 @@ abstract class Magento_Core_Model_Template extends Magento_Core_Model_Abstract
     /**
      * Get design configuration data
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getDesignConfig()
     {
@@ -152,7 +154,7 @@ abstract class Magento_Core_Model_Template extends Magento_Core_Model_Abstract
             if ($this->_store === null) {
                 $this->_store = $this->_storeManager->getStore()->getId();
             }
-            $this->_designConfig = new Magento_Object(array(
+            $this->_designConfig = new \Magento\Object(array(
                 'area' => $this->_area,
                 'store' => $this->_store
             ));
@@ -164,13 +166,13 @@ abstract class Magento_Core_Model_Template extends Magento_Core_Model_Abstract
      * Initialize design information for template processing
      *
      * @param array $config
-     * @return Magento_Core_Model_Template
-     * @throws Magento_Exception
+     * @return \Magento\Core\Model\Template
+     * @throws \Magento\Exception
      */
     public function setDesignConfig(array $config)
     {
         if (!isset($config['area']) || !isset($config['store'])) {
-            throw new Magento_Exception('Design config must have area and store.');
+            throw new \Magento\Exception('Design config must have area and store.');
         }
         $this->getDesignConfig()->setData($config);
         return $this;

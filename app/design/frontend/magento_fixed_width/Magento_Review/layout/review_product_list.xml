@@ -10,12 +10,12 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="page_one_column"/>
     <referenceBlock name="head">
-        <block class="Magento_Page_Block_Html_Head_Script" name="jquery-jqzoom-js-jquery-jqzoom-core-pack-js">
+        <block class="Magento\Page\Block\Html\Head\Script" name="jquery-jqzoom-js-jquery-jqzoom-core-pack-js">
             <arguments>
                 <argument name="file" xsi:type="string">jquery/jqzoom/js/jquery.jqzoom-core-pack.js</argument>
             </arguments>
         </block>
-        <block class="Magento_Page_Block_Html_Head_Css" name="jquery-jqzoom-css-jquery-jqzoom-css">
+        <block class="Magento\Page\Block\Html\Head\Css" name="jquery-jqzoom-css-jquery-jqzoom-css">
             <arguments>
                 <argument name="file" xsi:type="string">jquery/jqzoom/css/jquery.jqzoom.css</argument>
             </arguments>

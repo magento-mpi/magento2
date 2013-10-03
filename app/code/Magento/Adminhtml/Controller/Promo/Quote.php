@@ -8,22 +8,24 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Controller_Promo_Quote extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller\Promo;
+
+class Quote extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -33,7 +35,7 @@ class Magento_Adminhtml_Controller_Promo_Quote extends Magento_Adminhtml_Control
     {
         $this->_title(__('Cart Price Rules'));
 
-        $this->_coreRegistry->register('current_promo_quote_rule', $this->_objectManager->create('Magento_SalesRule_Model_Rule'));
+        $this->_coreRegistry->register('current_promo_quote_rule', $this->_objectManager->create('Magento\SalesRule\Model\Rule'));
         $id = (int)$this->getRequest()->getParam('id');
 
         if (!$id && $this->getRequest()->getParam('rule_id')) {
@@ -71,12 +73,12 @@ class Magento_Adminhtml_Controller_Promo_Quote extends Magento_Adminhtml_Control
     public function editAction()
     {
         $id = $this->getRequest()->getParam('id');
-        $model = $this->_objectManager->create('Magento_SalesRule_Model_Rule');
+        $model = $this->_objectManager->create('Magento\SalesRule\Model\Rule');
 
         if ($id) {
             $model->load($id);
             if (! $model->getRuleId()) {
-                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError(
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
                     __('This rule no longer exists.'));
                 $this->_redirect('*/*');
                 return;
@@ -86,7 +88,7 @@ class Magento_Adminhtml_Controller_Promo_Quote extends Magento_Adminhtml_Control
         $this->_title($model->getRuleId() ? $model->getName() : __('New Cart Price Rule'));
 
         // set entered data if was error when we do save
-        $data = $this->_objectManager->get('Magento_Adminhtml_Model_Session')->getPageData(true);
+        $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getPageData(true);
         if (!empty($data)) {
             $model->addData($data);
         }
@@ -117,8 +119,8 @@ class Magento_Adminhtml_Controller_Promo_Quote extends Magento_Adminhtml_Control
     {
         if ($this->getRequest()->getPost()) {
             try {
-                /** @var $model Magento_SalesRule_Model_Rule */
-                $model = $this->_objectManager->create('Magento_SalesRule_Model_Rule');
+                /** @var $model \Magento\SalesRule\Model\Rule */
+                $model = $this->_objectManager->create('Magento\SalesRule\Model\Rule');
                 $this->_eventManager->dispatch(
                     'adminhtml_controller_salesrule_prepare_save',
                     array('request' => $this->getRequest()));
@@ -128,13 +130,13 @@ class Magento_Adminhtml_Controller_Promo_Quote extends Magento_Adminhtml_Control
                 if ($id) {
                     $model->load($id);
                     if ($id != $model->getId()) {
-                        throw new Magento_Core_Exception(__('The wrong rule is specified.'));
+                        throw new \Magento\Core\Exception(__('The wrong rule is specified.'));
                     }
                 }
 
-                $session = $this->_objectManager->get('Magento_Adminhtml_Model_Session');
+                $session = $this->_objectManager->get('Magento\Adminhtml\Model\Session');
 
-                $validateResult = $model->validateData(new Magento_Object($data));
+                $validateResult = $model->validateData(new \Magento\Object($data));
                 if ($validateResult !== true) {
                     foreach ($validateResult as $errorMessage) {
                         $session->addError($errorMessage);
@@ -172,7 +174,7 @@ class Magento_Adminhtml_Controller_Promo_Quote extends Magento_Adminhtml_Control
                 }
                 $this->_redirect('*/*/');
                 return;
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $id = (int)$this->getRequest()->getParam('rule_id');
                 if (!empty($id)) {
@@ -182,11 +184,11 @@ class Magento_Adminhtml_Controller_Promo_Quote extends Magento_Adminhtml_Control
                 }
                 return;
 
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_getSession()->addError(
                     __('An error occurred while saving the rule data. Please review the log and try again.'));
-                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
-                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->setPageData($data);
+                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setPageData($data);
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('rule_id')));
                 return;
             }
@@ -199,24 +201,24 @@ class Magento_Adminhtml_Controller_Promo_Quote extends Magento_Adminhtml_Control
         $id = $this->getRequest()->getParam('id');
         if ($id) {
             try {
-                $model = $this->_objectManager->create('Magento_SalesRule_Model_Rule');
+                $model = $this->_objectManager->create('Magento\SalesRule\Model\Rule');
                 $model->load($id);
                 $model->delete();
-                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addSuccess(
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(
                     __('The rule has been deleted.'));
                 $this->_redirect('*/*/');
                 return;
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_getSession()->addError(
                     __('An error occurred while deleting the rule. Please review the log and try again.'));
-                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
         }
-        $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError(
+        $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
             __('We can\'t find a rule to delete.'));
         $this->_redirect('*/*/');
     }
@@ -230,13 +232,13 @@ class Magento_Adminhtml_Controller_Promo_Quote extends Magento_Adminhtml_Control
         $model = $this->_objectManager->create($type)
             ->setId($id)
             ->setType($type)
-            ->setRule($this->_objectManager->create('Magento_SalesRule_Model_Rule'))
+            ->setRule($this->_objectManager->create('Magento\SalesRule\Model\Rule'))
             ->setPrefix('conditions');
         if (!empty($typeArr[1])) {
             $model->setAttribute($typeArr[1]);
         }
 
-        if ($model instanceof Magento_Rule_Model_Condition_Abstract) {
+        if ($model instanceof \Magento\Rule\Model\Condition\AbstractCondition) {
             $model->setJsFormObject($this->getRequest()->getParam('form'));
             $html = $model->asHtmlRecursive();
         } else {
@@ -254,13 +256,13 @@ class Magento_Adminhtml_Controller_Promo_Quote extends Magento_Adminhtml_Control
         $model = $this->_objectManager->create($type)
             ->setId($id)
             ->setType($type)
-            ->setRule($this->_objectManager->create('Magento_SalesRule_Model_Rule'))
+            ->setRule($this->_objectManager->create('Magento\SalesRule\Model\Rule'))
             ->setPrefix('actions');
         if (!empty($typeArr[1])) {
             $model->setAttribute($typeArr[1]);
         }
 
-        if ($model instanceof Magento_Rule_Model_Condition_Abstract) {
+        if ($model instanceof \Magento\Rule\Model\Condition\AbstractCondition) {
             $model->setJsFormObject($this->getRequest()->getParam('form'));
             $html = $model->asHtmlRecursive();
         } else {
@@ -296,7 +298,7 @@ class Magento_Adminhtml_Controller_Promo_Quote extends Magento_Adminhtml_Control
         if ($rule->getId()) {
             $fileName = 'coupon_codes.xml';
             $content = $this->getLayout()
-                ->createBlock('Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid')
+                ->createBlock('Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Coupons\Grid')
                 ->getExcelFile($fileName);
             $this->_prepareDownloadResponse($fileName, $content);
         } else {
@@ -317,7 +319,7 @@ class Magento_Adminhtml_Controller_Promo_Quote extends Magento_Adminhtml_Control
         if ($rule->getId()) {
             $fileName = 'coupon_codes.csv';
             $content = $this->getLayout()
-                ->createBlock('Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid')
+                ->createBlock('Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Coupons\Grid')
                 ->getCsvFile();
             $this->_prepareDownloadResponse($fileName, $content);
         } else {
@@ -342,7 +344,7 @@ class Magento_Adminhtml_Controller_Promo_Quote extends Magento_Adminhtml_Control
 
         if (is_array($codesIds)) {
 
-            $couponsCollection = $this->_objectManager->create('Magento_SalesRule_Model_Resource_Coupon_Collection')
+            $couponsCollection = $this->_objectManager->create('Magento\SalesRule\Model\Resource\Coupon\Collection')
                 ->addFieldToFilter('coupon_id', array('in' => $codesIds));
 
             foreach ($couponsCollection as $coupon) {
@@ -363,7 +365,7 @@ class Magento_Adminhtml_Controller_Promo_Quote extends Magento_Adminhtml_Control
         $result = array();
         $this->_initRule();
 
-        /** @var $rule Magento_SalesRule_Model_Rule */
+        /** @var $rule \Magento\SalesRule\Model\Rule */
         $rule = $this->_coreRegistry->registry('current_promo_quote_rule');
 
         if (!$rule->getId()) {
@@ -375,8 +377,8 @@ class Magento_Adminhtml_Controller_Promo_Quote extends Magento_Adminhtml_Control
                     $data = array_merge($data, $this->_filterDates($data, array('to_date')));
                 }
 
-                /** @var $generator Magento_SalesRule_Model_Coupon_Massgenerator */
-                $generator = $this->_objectManager->get('Magento_SalesRule_Model_Coupon_Massgenerator');
+                /** @var $generator \Magento\SalesRule\Model\Coupon\Massgenerator */
+                $generator = $this->_objectManager->get('Magento\SalesRule\Model\Coupon\Massgenerator');
                 if (!$generator->validateData($data)) {
                     $result['error'] = __('Invalid data provided');
                 } else {
@@ -384,17 +386,17 @@ class Magento_Adminhtml_Controller_Promo_Quote extends Magento_Adminhtml_Control
                     $generator->generatePool();
                     $generated = $generator->getGeneratedCount();
                     $this->_getSession()->addSuccess(__('%1 coupon(s) have been generated.', $generated));
-                    $this->_initLayoutMessages('Magento_Adminhtml_Model_Session');
+                    $this->_initLayoutMessages('Magento\Adminhtml\Model\Session');
                     $result['messages']  = $this->getLayout()->getMessagesBlock()->getGroupedHtml();
                 }
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $result['error'] = $e->getMessage();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $result['error'] = __('Something went wrong while generating coupons. Please review the log and try again.');
-                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             }
         }
-        $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
     }
 
     /**
@@ -404,7 +406,7 @@ class Magento_Adminhtml_Controller_Promo_Quote extends Magento_Adminhtml_Control
     {
         $uniqId = $this->getRequest()->getParam('uniq_id');
         $chooserBlock = $this->getLayout()
-            ->createBlock('Magento_Adminhtml_Block_Promo_Widget_Chooser', '', array('data' => array('id' => $uniqId)));
+            ->createBlock('Magento\Adminhtml\Block\Promo\Widget\Chooser', '', array('data' => array('id' => $uniqId)));
         $this->getResponse()->setBody($chooserBlock->toHtml());
     }
 

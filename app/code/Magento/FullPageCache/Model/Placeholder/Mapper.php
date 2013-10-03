@@ -7,25 +7,27 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_FullPageCache_Model_Placeholder_Mapper
+namespace Magento\FullPageCache\Model\Placeholder;
+
+class Mapper
 {
     /**
-     * @var Magento_FullPageCache_Model_Placeholder_ConfigInterface
+     * @var \Magento\FullPageCache\Model\Placeholder\ConfigInterface
      */
     protected $_config;
 
     /**
-     * @var Magento_FullPageCache_Model_Container_PlaceholderFactory
+     * @var \Magento\FullPageCache\Model\Container\PlaceholderFactory
      */
     protected $_factory;
 
     /**
-     * @param Magento_FullPageCache_Model_Container_PlaceholderFactory $factory
-     * @param Magento_FullPageCache_Model_Placeholder_ConfigInterface $config
+     * @param \Magento\FullPageCache\Model\Container\PlaceholderFactory $factory
+     * @param \Magento\FullPageCache\Model\Placeholder\ConfigInterface $config
      */
     public function __construct(
-        Magento_FullPageCache_Model_Container_PlaceholderFactory $factory,
-        Magento_FullPageCache_Model_Placeholder_ConfigInterface $config
+        \Magento\FullPageCache\Model\Container\PlaceholderFactory $factory,
+        \Magento\FullPageCache\Model\Placeholder\ConfigInterface $config
     ) {
         $this->_factory = $factory;
         $this->_config = $config;
@@ -34,10 +36,10 @@ class Magento_FullPageCache_Model_Placeholder_Mapper
     /**
      * Map block instance to placeholder configuration and returns new placeholder instance
      *
-     * @param Magento_Core_Block_Abstract $block
-     * @return Magento_FullPageCache_Model_Container_Placeholder|null
+     * @param \Magento\Core\Block\AbstractBlock $block
+     * @return \Magento\FullPageCache\Model\Container\Placeholder|null
      */
-    public function map(Magento_Core_Block_Abstract $block)
+    public function map(\Magento\Core\Block\AbstractBlock $block)
     {
         $type = $block->getType();
         $placeholderData = null;

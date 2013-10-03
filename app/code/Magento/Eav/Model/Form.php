@@ -15,7 +15,9 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_Eav_Model_Form
+namespace Magento\Eav\Model;
+
+abstract class Form
 {
     /**
      * Current module path name
@@ -34,21 +36,21 @@ abstract class Magento_Eav_Model_Form
     /**
      * Current store instance
      *
-     * @var Magento_Core_Model_Store
+     * @var \Magento\Core\Model\Store
      */
     protected $_store;
 
     /**
      * Current entity type instance
      *
-     * @var Magento_Eav_Model_Entity_Type
+     * @var \Magento\Eav\Model\Entity\Type
      */
     protected $_entityType;
 
     /**
      * Current entity instance
      *
-     * @var Magento_Core_Model_Abstract
+     * @var \Magento\Core\Model\AbstractModel
      */
     protected $_entity;
 
@@ -102,70 +104,70 @@ abstract class Magento_Eav_Model_Form
     protected $_ignoreInvisible = true;
 
     /**
-     * @var Magento_Validator
+     * @var \Magento\Validator
      */
     protected $_validator = null;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Eav_Model_Config
+     * @var \Magento\Eav\Model\Config
      */
     protected $_eavConfig;
 
     /**
-     * @var Magento_Core_Model_Config_Modules_Reader
+     * @var \Magento\Core\Model\Config\Modules\Reader
      */
     protected $_modulesReader;
 
     /**
-     * @var Magento_Eav_Model_AttributeDataFactory
+     * @var \Magento\Eav\Model\AttributeDataFactory
      */
     protected $_attrDataFactory;
 
     /**
-     * @var Magento_Validator_UniversalFactory $universalFactory
+     * @var \Magento\Validator\UniversalFactory $universalFactory
      */
     protected $_universalFactory;
 
     /**
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     protected $_httpRequest;
 
     /**
-     * @var Magento_Validator_ConfigFactory
+     * @var \Magento\Validator\ConfigFactory
      */
     protected $_validatorConfigFactory;
 
     /**
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
-     * @param Magento_Eav_Model_AttributeDataFactory $attrDataFactory
-     * @param Magento_Validator_UniversalFactory $universalFactory
-     * @param Magento_Core_Controller_Request_Http $httpRequest
-     * @param Magento_Validator_ConfigFactory $validatorConfigFactory
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
+     * @param \Magento\Eav\Model\AttributeDataFactory $attrDataFactory
+     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Core\Controller\Request\Http $httpRequest
+     * @param \Magento\Validator\ConfigFactory $validatorConfigFactory
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function __construct(
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Core_Model_Config_Modules_Reader $modulesReader,
-        Magento_Eav_Model_AttributeDataFactory $attrDataFactory,
-        Magento_Validator_UniversalFactory $universalFactory,
-        Magento_Core_Controller_Request_Http $httpRequest,
-        Magento_Validator_ConfigFactory $validatorConfigFactory
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Model\Config\Modules\Reader $modulesReader,
+        \Magento\Eav\Model\AttributeDataFactory $attrDataFactory,
+        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Core\Controller\Request\Http $httpRequest,
+        \Magento\Validator\ConfigFactory $validatorConfigFactory
     ) {
         if (empty($this->_moduleName)) {
-            throw new Magento_Core_Exception(__('Current module pathname is undefined'));
+            throw new \Magento\Core\Exception(__('Current module pathname is undefined'));
         }
         if (empty($this->_entityTypeCode)) {
-            throw new Magento_Core_Exception(__('Current module EAV entity is undefined'));
+            throw new \Magento\Core\Exception(__('Current module EAV entity is undefined'));
         }
         $this->_storeManager = $storeManager;
         $this->_eavConfig = $eavConfig;
@@ -189,7 +191,7 @@ abstract class Magento_Eav_Model_Form
     /**
      * Get EAV Entity Form Attribute Collection with applied filters
      *
-     * @return Magento_Eav_Model_Resource_Form_Attribute_Collection|mixed
+     * @return \Magento\Eav\Model\Resource\Form\Attribute\Collection|mixed
      */
     protected function _getFilteredFormAttributeCollection()
     {
@@ -203,8 +205,8 @@ abstract class Magento_Eav_Model_Form
     /**
      * Set current store
      *
-     * @param Magento_Core_Model_Store|string|int $store
-     * @return Magento_Eav_Model_Form
+     * @param \Magento\Core\Model\Store|string|int $store
+     * @return \Magento\Eav\Model\Form
      */
     public function setStore($store)
     {
@@ -215,10 +217,10 @@ abstract class Magento_Eav_Model_Form
     /**
      * Set entity instance
      *
-     * @param Magento_Core_Model_Abstract $entity
-     * @return Magento_Eav_Model_Form
+     * @param \Magento\Core\Model\AbstractModel $entity
+     * @return \Magento\Eav\Model\Form
      */
-    public function setEntity(Magento_Core_Model_Abstract $entity)
+    public function setEntity(\Magento\Core\Model\AbstractModel $entity)
     {
         $this->_entity = $entity;
         if ($entity->getEntityTypeId()) {
@@ -230,8 +232,8 @@ abstract class Magento_Eav_Model_Form
     /**
      * Set entity type instance
      *
-     * @param Magento_Eav_Model_Entity_Type|string|int $entityType
-     * @return Magento_Eav_Model_Form
+     * @param \Magento\Eav\Model\Entity\Type|string|int $entityType
+     * @return \Magento\Eav\Model\Form
      */
     public function setEntityType($entityType)
     {
@@ -243,7 +245,7 @@ abstract class Magento_Eav_Model_Form
      * Set form code
      *
      * @param string $formCode
-     * @return Magento_Eav_Model_Form
+     * @return \Magento\Eav\Model\Form
      */
     public function setFormCode($formCode)
     {
@@ -254,7 +256,7 @@ abstract class Magento_Eav_Model_Form
     /**
      * Return current store instance
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getStore()
     {
@@ -267,13 +269,13 @@ abstract class Magento_Eav_Model_Form
     /**
      * Return current form code
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @return string
      */
     public function getFormCode()
     {
         if (empty($this->_formCode)) {
-            throw new Magento_Core_Exception(__('Form code is not defined'));
+            throw new \Magento\Core\Exception(__('Form code is not defined'));
         }
         return $this->_formCode;
     }
@@ -282,7 +284,7 @@ abstract class Magento_Eav_Model_Form
      * Return entity type instance
      * Return EAV entity type if entity type is not defined
      *
-     * @return Magento_Eav_Model_Entity_Type
+     * @return \Magento\Eav\Model\Entity\Type
      */
     public function getEntityType()
     {
@@ -295,13 +297,13 @@ abstract class Magento_Eav_Model_Form
     /**
      * Return current entity instance
      *
-     * @throws Magento_Core_Exception
-     * @return Magento_Core_Model_Abstract
+     * @throws \Magento\Core\Exception
+     * @return \Magento\Core\Model\AbstractModel
      */
     public function getEntity()
     {
         if (is_null($this->_entity)) {
-            throw new Magento_Core_Exception(__('Entity instance is not defined'));
+            throw new \Magento\Core\Exception(__('Entity instance is not defined'));
         }
         return $this->_entity;
     }
@@ -316,7 +318,7 @@ abstract class Magento_Eav_Model_Form
         if (is_null($this->_attributes)) {
             $this->_attributes      = array();
             $this->_userAttributes  = array();
-            /** @var $attribute Magento_Eav_Model_Attribute */
+            /** @var $attribute \Magento\Eav\Model\Attribute */
             foreach ($this->_getFilteredFormAttributeCollection() as $attribute) {
                 $this->_attributes[$attribute->getAttributeCode()] = $attribute;
                 if ($attribute->getIsUserDefined()) {
@@ -336,7 +338,7 @@ abstract class Magento_Eav_Model_Form
      * Return attribute instance by code or false
      *
      * @param string $attributeCode
-     * @return Magento_Eav_Model_Entity_Attribute|bool
+     * @return \Magento\Eav\Model\Entity\Attribute|bool
      */
     public function getAttribute($attributeCode)
     {
@@ -392,10 +394,10 @@ abstract class Magento_Eav_Model_Form
     /**
      * Return attribute data model by attribute
      *
-     * @param Magento_Eav_Model_Entity_Attribute $attribute
-     * @return Magento_Eav_Model_Attribute_Data_Abstract
+     * @param \Magento\Eav\Model\Entity\Attribute $attribute
+     * @return \Magento\Eav\Model\Attribute\Data\AbstractData
      */
-    protected function _getAttributeDataModel(Magento_Eav_Model_Entity_Attribute $attribute)
+    protected function _getAttributeDataModel(\Magento\Eav\Model\Entity\Attribute $attribute)
     {
         $dataModel = $this->_attrDataFactory->create($attribute, $this->getEntity());
         $dataModel->setIsAjaxRequest($this->getIsAjaxRequest());
@@ -407,7 +409,7 @@ abstract class Magento_Eav_Model_Form
      * Prepare request with data and returns it
      *
      * @param array $data
-     * @return Zend_Controller_Request_Http
+     * @return \Zend_Controller_Request_Http
      */
     public function prepareRequest(array $data)
     {
@@ -422,15 +424,15 @@ abstract class Magento_Eav_Model_Form
     /**
      * Extract data from request and return associative data array
      *
-     * @param Zend_Controller_Request_Http $request
+     * @param \Zend_Controller_Request_Http $request
      * @param string $scope the request scope
      * @param boolean $scopeOnly search value only in scope or search value in global too
      * @return array
      */
-    public function extractData(Zend_Controller_Request_Http $request, $scope = null, $scopeOnly = true)
+    public function extractData(\Zend_Controller_Request_Http $request, $scope = null, $scopeOnly = true)
     {
         $data = array();
-        /** @var $attribute Magento_Eav_Model_Attribute */
+        /** @var $attribute \Magento\Eav\Model\Attribute */
         foreach ($this->getAllowedAttributes() as $attribute) {
             $dataModel = $this->_getAttributeDataModel($attribute);
             $dataModel->setRequestScope($scope);
@@ -444,13 +446,13 @@ abstract class Magento_Eav_Model_Form
      * Get validator
      *
      * @param array $data
-     * @return Magento_Validator
+     * @return \Magento\Validator
      */
     protected function _getValidator(array $data)
     {
         if (is_null($this->_validator)) {
             $configFiles = $this->_modulesReader->getConfigurationFiles('validation.xml');
-            /** @var $validatorFactory Magento_Validator_Config */
+            /** @var $validatorFactory \Magento\Validator\Config */
             $validatorFactory = $this->_validatorConfigFactory->create(array('configFiles' => $configFiles));
             $builder = $validatorFactory->createValidatorBuilder('eav_entity', 'form');
 
@@ -490,11 +492,11 @@ abstract class Magento_Eav_Model_Form
      * Compact data array to current entity
      *
      * @param array $data
-     * @return Magento_Eav_Model_Form
+     * @return \Magento\Eav\Model\Form
      */
     public function compactData(array $data)
     {
-        /** @var $attribute Magento_Eav_Model_Attribute */
+        /** @var $attribute \Magento\Eav\Model\Attribute */
         foreach ($this->getAllowedAttributes() as $attribute) {
             $dataModel = $this->_getAttributeDataModel($attribute);
             $dataModel->setExtractedData($data);
@@ -511,11 +513,11 @@ abstract class Magento_Eav_Model_Form
      * Restore data array from SESSION to current entity
      *
      * @param array $data
-     * @return Magento_Eav_Model_Form
+     * @return \Magento\Eav\Model\Form
      */
     public function restoreData(array $data)
     {
-        /** @var $attribute Magento_Eav_Model_Attribute */
+        /** @var $attribute \Magento\Eav\Model\Attribute */
         foreach ($this->getAllowedAttributes() as $attribute) {
             $dataModel = $this->_getAttributeDataModel($attribute);
             $dataModel->setExtractedData($data);
@@ -533,10 +535,10 @@ abstract class Magento_Eav_Model_Form
      * @param string $format
      * @return array
      */
-    public function outputData($format = Magento_Eav_Model_AttributeDataFactory::OUTPUT_FORMAT_TEXT)
+    public function outputData($format = \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_TEXT)
     {
         $data = array();
-        /** @var $attribute Magento_Eav_Model_Attribute */
+        /** @var $attribute \Magento\Eav\Model\Attribute */
         foreach ($this->getAllowedAttributes() as $attribute) {
             $dataModel = $this->_getAttributeDataModel($attribute);
             $dataModel->setExtractedData($data);
@@ -548,11 +550,11 @@ abstract class Magento_Eav_Model_Form
     /**
      * Restore entity original data
      *
-     * @return Magento_Eav_Model_Form
+     * @return \Magento\Eav\Model\Form
      */
     public function resetEntityData()
     {
-        /** @var $attribute Magento_Eav_Model_Attribute */
+        /** @var $attribute \Magento\Eav\Model\Attribute */
         foreach ($this->getAllowedAttributes() as $attribute) {
             $value = $this->getEntity()->getOrigData($attribute->getAttributeCode());
             $this->getEntity()->setData($attribute->getAttributeCode(), $value);
@@ -564,7 +566,7 @@ abstract class Magento_Eav_Model_Form
      * Set is AJAX Request flag
      *
      * @param boolean $flag
-     * @return Magento_Eav_Model_Form
+     * @return \Magento\Eav\Model\Form
      */
     public function setIsAjaxRequest($flag = true)
     {
@@ -585,12 +587,12 @@ abstract class Magento_Eav_Model_Form
     /**
      * Set default attribute values for new entity
      *
-     * @return Magento_Eav_Model_Form
+     * @return \Magento\Eav\Model\Form
      */
     public function initDefaultValues()
     {
         if (!$this->getEntity()->getId()) {
-            /** @var $attribute Magento_Eav_Model_Attribute */
+            /** @var $attribute \Magento\Eav\Model\Attribute */
             foreach ($this->getAttributes() as $attribute) {
                 $default = $attribute->getDefaultValue();
                 if ($default != '') {
@@ -605,7 +607,7 @@ abstract class Magento_Eav_Model_Form
      * Combined getter/setter whether to omit invisible attributes during rendering/validation
      *
      * @param mixed $setValue
-     * @return bool|Magento_Eav_Model_Form
+     * @return bool|\Magento\Eav\Model\Form
      */
     public function ignoreInvisible($setValue = null)
     {
@@ -619,7 +621,7 @@ abstract class Magento_Eav_Model_Form
     /**
      * Whether the specified attribute needs to skip rendering/validation
      *
-     * @param Magento_Eav_Model_Attribute $attribute
+     * @param \Magento\Eav\Model\Attribute $attribute
      * @return bool
      */
     protected function _isAttributeOmitted($attribute)

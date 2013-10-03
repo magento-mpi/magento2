@@ -5,33 +5,35 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Cron_Model_ObserverTest extends PHPUnit_Framework_TestCase
+namespace Magento\Cron\Model;
+
+class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Cron_Model_Observer
+     * @var \Magento\Cron\Model\Observer
      */
     private $_model = null;
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Cron_Model_Observer');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Cron\Model\Observer');
         $this->_model->dispatch('this argument is not used');
     }
 
     public function testDispatchScheduled()
     {
-        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Cron_Model_Resource_Schedule_Collection');
-        $collection->addFieldToFilter('status', Magento_Cron_Model_Schedule::STATUS_PENDING);
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Cron\Model\Resource\Schedule\Collection');
+        $collection->addFieldToFilter('status', \Magento\Cron\Model\Schedule::STATUS_PENDING);
         $this->assertGreaterThan(0, $collection->count(), 'Cron has failed to schedule tasks for itself for future.');
     }
 
     public function testDispatchNoFailed()
     {
-        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Cron_Model_Resource_Schedule_Collection');
-        $collection->addFieldToFilter('status', Magento_Cron_Model_Schedule::STATUS_ERROR);
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Cron\Model\Resource\Schedule\Collection');
+        $collection->addFieldToFilter('status', \Magento\Cron\Model\Schedule::STATUS_ERROR);
         foreach ($collection as $item) {
             $this->fail($item->getMessages());
         }

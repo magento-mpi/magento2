@@ -7,36 +7,38 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Index_Controller_Adminhtml_Process extends Magento_Adminhtml_Controller_Action
+namespace Magento\Index\Controller\Adminhtml;
+
+class Process extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Index_Model_ProcessFactory
+     * @var \Magento\Index\Model\ProcessFactory
      */
     protected $_processFactory;
 
     /**
-     * @var Magento_Index_Model_Indexer
+     * @var \Magento\Index\Model\Indexer
      */
     protected $_indexer;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Index_Model_ProcessFactory $processFactory
-     * @param Magento_Index_Model_Indexer $indexer
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Index\Model\ProcessFactory $processFactory
+     * @param \Magento\Index\Model\Indexer $indexer
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Index_Model_ProcessFactory $processFactory,
-        Magento_Index_Model_Indexer $indexer
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Index\Model\ProcessFactory $processFactory,
+        \Magento\Index\Model\Indexer $indexer
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_processFactory = $processFactory;
@@ -47,13 +49,13 @@ class Magento_Index_Controller_Adminhtml_Process extends Magento_Adminhtml_Contr
     /**
      * Initialize process object by request
      *
-     * @return Magento_Index_Model_Process|false
+     * @return \Magento\Index\Model\Process|false
      */
     protected function _initProcess()
     {
         $processId = $this->getRequest()->getParam('process');
         if ($processId) {
-            /** @var $process Magento_Index_Model_Process */
+            /** @var $process \Magento\Index\Model\Process */
             $process = $this->_processFactory->create()->load($processId);
             if ($process->getId() && $process->getIndexer()->isVisible()) {
                 return $process;
@@ -71,7 +73,7 @@ class Magento_Index_Controller_Adminhtml_Process extends Magento_Adminhtml_Contr
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Index::system_index');
-        $this->_addContent($this->getLayout()->createBlock('Magento_Index_Block_Adminhtml_Process'));
+        $this->_addContent($this->getLayout()->createBlock('Magento\Index\Block\Adminhtml\Process'));
         $this->renderLayout();
     }
 
@@ -80,7 +82,7 @@ class Magento_Index_Controller_Adminhtml_Process extends Magento_Adminhtml_Contr
      */
     public function editAction()
     {
-        /** @var $process Magento_Index_Model_Process */
+        /** @var $process \Magento\Index\Model\Process */
         $process = $this->_initProcess();
         if ($process) {
             $this->_title($process->getIndexCode());
@@ -105,7 +107,7 @@ class Magento_Index_Controller_Adminhtml_Process extends Magento_Adminhtml_Contr
      */
     public function saveAction()
     {
-        /** @var $process Magento_Index_Model_Process */
+        /** @var $process \Magento\Index\Model\Process */
         $process = $this->_initProcess();
         if ($process) {
             $mode = $this->getRequest()->getPost('mode');
@@ -117,9 +119,9 @@ class Magento_Index_Controller_Adminhtml_Process extends Magento_Adminhtml_Contr
                 $this->_getSession()->addSuccess(
                     __('The index has been saved.')
                 );
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_getSession()->addException($e,
                      __('There was a problem with saving process.')
                 );
@@ -138,20 +140,20 @@ class Magento_Index_Controller_Adminhtml_Process extends Magento_Adminhtml_Contr
      */
     public function reindexProcessAction()
     {
-        /** @var $process Magento_Index_Model_Process */
+        /** @var $process \Magento\Index\Model\Process */
         $process = $this->_initProcess();
         if ($process) {
             try {
-                Magento_Profiler::start('__INDEX_PROCESS_REINDEX_ALL__');
+                \Magento\Profiler::start('__INDEX_PROCESS_REINDEX_ALL__');
 
                 $process->reindexEverything();
-                Magento_Profiler::stop('__INDEX_PROCESS_REINDEX_ALL__');
+                \Magento\Profiler::stop('__INDEX_PROCESS_REINDEX_ALL__');
                 $this->_getSession()->addSuccess(
                     __('%1 index was rebuilt.', $process->getIndexer()->getName())
                 );
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_getSession()->addException($e,
                      __('There was a problem with reindexing process.')
                 );
@@ -194,7 +196,7 @@ class Magento_Index_Controller_Adminhtml_Process extends Magento_Adminhtml_Contr
             try {
                 $counter = 0;
                 foreach ($processIds as $processId) {
-                    /* @var $process Magento_Index_Model_Process */
+                    /* @var $process \Magento\Index\Model\Process */
                     $process = $this->_indexer->getProcessById($processId);
                     if ($process && $process->getIndexer()->isVisible()) {
                         $process->reindexEverything();
@@ -204,9 +206,9 @@ class Magento_Index_Controller_Adminhtml_Process extends Magento_Adminhtml_Contr
                 $this->_getSession()->addSuccess(
                     __('Total of %1 index(es) have reindexed data.', $counter)
                 );
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_getSession()->addException($e, __('Cannot initialize the indexer process.'));
             }
         }
@@ -228,7 +230,7 @@ class Magento_Index_Controller_Adminhtml_Process extends Magento_Adminhtml_Contr
                 $counter = 0;
                 $mode = $this->getRequest()->getParam('index_mode');
                 foreach ($processIds as $processId) {
-                    /* @var $process Magento_Index_Model_Process */
+                    /* @var $process \Magento\Index\Model\Process */
                     $process = $this->_processFactory->create()->load($processId);
                     if ($process->getId() && $process->getIndexer()->isVisible()) {
                         $process->setMode($mode)->save();
@@ -238,9 +240,9 @@ class Magento_Index_Controller_Adminhtml_Process extends Magento_Adminhtml_Contr
                 $this->_getSession()->addSuccess(
                     __('Total of %1 index(es) have changed index mode.', $counter)
                 );
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_getSession()->addException($e, __('Cannot initialize the indexer process.'));
             }
         }

@@ -11,29 +11,31 @@
 /**
  * Banner observer model
  */
-class Magento_Banner_Model_Observer
+namespace Magento\Banner\Model;
+
+class Observer
 {
     /**
      * Adminhtml js
      *
-     * @var Magento_Adminhtml_Helper_Js
+     * @var \Magento\Adminhtml\Helper\Js
      */
     protected $_adminhtmlJs = null;
 
     /**
      * Banner factory
      *
-     * @var Magento_Banner_Model_Resource_BannerFactory
+     * @var \Magento\Banner\Model\Resource\BannerFactory
      */
     protected $_bannerFactory = null;
 
     /**
-     * @param Magento_Adminhtml_Helper_Js $adminhtmlJs
-     * @param Magento_Banner_Model_Resource_BannerFactory $bannerFactory
+     * @param \Magento\Adminhtml\Helper\Js $adminhtmlJs
+     * @param \Magento\Banner\Model\Resource\BannerFactory $bannerFactory
      */
     public function __construct(
-        Magento_Adminhtml_Helper_Js $adminhtmlJs,
-        Magento_Banner_Model_Resource_BannerFactory $bannerFactory
+        \Magento\Adminhtml\Helper\Js $adminhtmlJs,
+        \Magento\Banner\Model\Resource\BannerFactory $bannerFactory
     ) {
         $this->_adminhtmlJs = $adminhtmlJs;
         $this->_bannerFactory = $bannerFactory;
@@ -42,10 +44,10 @@ class Magento_Banner_Model_Observer
     /**
      * Prepare catalog rule post data to save
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_Banner_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\Banner\Model\Observer
      */
-    public function prepareCatalogRuleSave(Magento_Event_Observer $observer)
+    public function prepareCatalogRuleSave(\Magento\Event\Observer $observer)
     {
         $request = $observer->getEvent()->getRequest();
         $request->setPost(
@@ -58,10 +60,10 @@ class Magento_Banner_Model_Observer
     /**
      * Bind specified banners to catalog rule
      *
-     * @param   Magento_Event_Observer $observer
-     * @return  Magento_Banner_Model_Observer
+     * @param   \Magento\Event\Observer $observer
+     * @return  \Magento\Banner\Model\Observer
      */
-    public function bindRelatedBannersToCatalogRule(Magento_Event_Observer $observer)
+    public function bindRelatedBannersToCatalogRule(\Magento\Event\Observer $observer)
     {
         $catalogRule = $observer->getEvent()->getRule();
         $banners = $catalogRule->getRelatedBanners();
@@ -76,10 +78,10 @@ class Magento_Banner_Model_Observer
     /**
      * Prepare sales rule post data to save
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_Banner_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\Banner\Model\Observer
      */
-    public function prepareSalesRuleSave(Magento_Event_Observer $observer)
+    public function prepareSalesRuleSave(\Magento\Event\Observer $observer)
     {
         $request = $observer->getEvent()->getRequest();
         $request->setPost(
@@ -92,10 +94,10 @@ class Magento_Banner_Model_Observer
     /**
      * Bind specified banners to sales rule
      *
-     * @param   Magento_Event_Observer $observer
-     * @return  Magento_Banner_Model_Observer
+     * @param   \Magento\Event\Observer $observer
+     * @return  \Magento\Banner\Model\Observer
      */
-    public function bindRelatedBannersToSalesRule(Magento_Event_Observer $observer)
+    public function bindRelatedBannersToSalesRule(\Magento\Event\Observer $observer)
     {
         $salesRule = $observer->getEvent()->getRule();
         $banners = $salesRule->getRelatedBanners();

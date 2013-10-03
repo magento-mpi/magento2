@@ -11,28 +11,30 @@
 /**
  * Customer Attributes Grid Block
  */
-class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Grid
-    extends Magento_Eav_Block_Adminhtml_Attribute_Grid_Abstract
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute;
+
+class Grid
+    extends \Magento\Eav\Block\Adminhtml\Attribute\Grid\AbstractGrid
 {
     /**
-     * @var Magento_Customer_Model_Resource_Attribute_CollectionFactory
+     * @var \Magento\Customer\Model\Resource\Attribute\CollectionFactory
      */
     protected $_attributesFactory;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Customer_Model_Resource_Attribute_CollectionFactory $attributesFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Customer\Model\Resource\Attribute\CollectionFactory $attributesFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Customer_Model_Resource_Attribute_CollectionFactory $attributesFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Customer\Model\Resource\Attribute\CollectionFactory $attributesFactory,
         array $data = array()
     ) {
         $this->_attributesFactory = $attributesFactory;
@@ -53,11 +55,11 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Grid
     /**
      * Prepare customer attributes grid collection object
      *
-     * @return Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Grid
+     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute\Grid
      */
     protected function _prepareCollection()
     {
-        /** @var $collection Magento_Customer_Model_Resource_Attribute_Collection */
+        /** @var $collection \Magento\Customer\Model\Resource\Attribute\Collection */
         $collection = $this->_attributesFactory->create();
         $collection->addSystemHiddenFilter()->addExcludeHiddenFrontendFilter();
         $this->setCollection($collection);
@@ -67,7 +69,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Grid
     /**
      * Prepare customer attributes grid columns
      *
-     * @return Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Grid
+     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute\Grid
      */
     protected function _prepareColumns()
     {

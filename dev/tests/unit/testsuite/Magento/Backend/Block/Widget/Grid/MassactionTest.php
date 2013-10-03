@@ -10,62 +10,64 @@
  */
 
 /**
- * Test class for Magento_Backend_Block_Widget_Grid_Massaction
+ * Test class for \Magento\Backend\Block\Widget\Grid\Massaction
  */
-class Magento_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Block\Widget\Grid;
+
+class MassactionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Block_Widget_Grid_Massaction
+     * @var \Magento\Backend\Block\Widget\Grid\Massaction
      */
     protected $_block;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_backendHelperMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_layoutMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_gridMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_eventManagerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_urlModelMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_requestMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Core_Model_Factory_Helper
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Factory\Helper
      */
     protected $_helperFactoryMock;
 
     protected function setUp()
     {
-        $this->_gridMock = $this->getMock('Magento_Backend_Block_Widget_Grid', array('getId'), array(), '', false);
+        $this->_gridMock = $this->getMock('Magento\Backend\Block\Widget\Grid', array('getId'), array(), '', false);
         $this->_gridMock->expects($this->any())
             ->method('getId')
             ->will($this->returnValue('test_grid'));
 
-        $this->_layoutMock = $this->getMock('Magento_Core_Model_Layout', array('getParentName', 'getBlock', 'helper'),
+        $this->_layoutMock = $this->getMock('Magento\Core\Model\Layout', array('getParentName', 'getBlock', 'helper'),
             array(), '', false, false
         );
 
-        $this->_backendHelperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false);
+        $this->_backendHelperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false);
         $this->_layoutMock->expects($this->any())
             ->method('helper')
             ->will($this->returnValue($this->_backendHelperMock));
@@ -78,19 +80,19 @@ class Magento_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework
             ->with('test_grid')
             ->will($this->returnValue($this->_gridMock));
 
-        $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array('getParam'), array(), '',
+        $this->_requestMock = $this->getMock('Magento\Core\Controller\Request\Http', array('getParam'), array(), '',
             false
         );
 
-        $this->_urlModelMock = $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false);
+        $this->_urlModelMock = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false);
 
         $this->_helperFactoryMock = $this->getMock(
-            'Magento_Core_Model_Factory_Helper', array('get'), array(), '', false, false
+            'Magento\Core\Model\Factory\Helper', array('get'), array(), '', false, false
         );
         $this->_helperFactoryMock
             ->expects($this->any())
             ->method('get')
-            ->with('Magento_Backend_Helper_Data')
+            ->with('Magento\Backend\Helper\Data')
             ->will($this->returnValue($this->_backendHelperMock));
 
         $arguments = array(
@@ -104,8 +106,8 @@ class Magento_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework
             )
         );
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_block = $objectManagerHelper->getObject('Magento_Backend_Block_Widget_Grid_Massaction', $arguments);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_block = $objectManagerHelper->getObject('Magento\Backend\Block\Widget\Grid\Massaction', $arguments);
         $this->_block->setNameInLayout('test_grid_massaction');
     }
 
@@ -137,7 +139,7 @@ class Magento_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework
     /**
      * @param $itemId
      * @param $item
-     * @param $expectedItem Magento_Object
+     * @param $expectedItem \Magento\Object
      * @dataProvider itemsDataProvider
      */
     public function testItemsProcessing($itemId, $item, $expectedItem)
@@ -159,7 +161,7 @@ class Magento_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework
         $this->assertEquals(1, $this->_block->getCount());
 
         $actualItem = $this->_block->getItem($itemId);
-        $this->assertInstanceOf('Magento_Object', $actualItem);
+        $this->assertInstanceOf('Magento\Object', $actualItem);
         $this->assertEquals($expectedItem->getData(), $actualItem->getData());
 
         $this->_block->removeItem($itemId);
@@ -173,7 +175,7 @@ class Magento_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework
             array(
                 'test_id1',
                 array("label" => "Test Item One", "url" => "*/*/test1"),
-                new Magento_Object(
+                new \Magento\Object(
                     array(
                         "label" => "Test Item One",
                         "url" => "http://localhost/index.php/backend/admin/test/test1",
@@ -183,13 +185,13 @@ class Magento_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework
             ),
             array(
                 'test_id2',
-                new Magento_Object(
+                new \Magento\Object(
                     array(
                         "label" => "Test Item Two",
                         "url" => "*/*/test2"
                     )
                 ),
-                new Magento_Object(
+                new \Magento\Object(
                     array(
                         "label" => "Test Item Two",
                         "url" => "http://localhost/index.php/backend/admin/test/test2",

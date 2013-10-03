@@ -16,10 +16,12 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  * @todo refactor in the scope of https://wiki.magento.com/display/MAGE2/Technical+Debt+%28Team-Donetsk-B%29
  *
- * @method Magento_Customer_Model_Resource_Address_Attribute_Collection getAttributeCollection() getAttributeCollection()
+ * @method \Magento\Customer\Model\Resource\Address\Attribute\Collection getAttributeCollection() getAttributeCollection()
  */
-class Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address
-    extends Magento_ImportExport_Model_Export_Entity_EavAbstract
+namespace Magento\ImportExport\Model\Export\Entity\Eav\Customer;
+
+class Address
+    extends \Magento\ImportExport\Model\Export\Entity\AbstractEav
 {
     /**#@+
      * Permanent column names
@@ -42,7 +44,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address
     /**#@+
      * Attribute collection name
      */
-    const ATTRIBUTE_COLLECTION_NAME = 'Magento_Customer_Model_Resource_Address_Attribute_Collection';
+    const ATTRIBUTE_COLLECTION_NAME = 'Magento\Customer\Model\Resource\Address\Attribute\Collection';
     /**#@-*/
 
     /**#@+
@@ -71,21 +73,21 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address
     /**
      * Customers whose addresses are exported
      *
-     * @var Magento_Customer_Model_Resource_Customer_Collection
+     * @var \Magento\Customer\Model\Resource\Customer\Collection
      */
     protected $_customerCollection;
 
     /**
      * Customer addresses collection
      *
-     * @var Magento_Customer_Model_Resource_Address_Collection
+     * @var \Magento\Customer\Model\Resource\Address\Collection
      */
     protected $_addressCollection;
 
     /**
      * Customers whose address are exported
      *
-     * @var Magento_ImportExport_Model_Export_Entity_Eav_Customer
+     * @var \Magento\ImportExport\Model\Export\Entity\Eav\Customer
      */
     protected $_customerEntity;
 
@@ -104,27 +106,27 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address
     protected $_customers = array();
 
     /**
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_App $app
-     * @param Magento_ImportExport_Model_Export_Factory $collectionFactory
-     * @param Magento_ImportExport_Model_Resource_CollectionByPagesIteratorFactory $resourceColFactory
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Customer_Model_Resource_Customer_CollectionFactory $customerColFactory
-     * @param Magento_ImportExport_Model_Export_Entity_Eav_CustomerFactory $eavCustomerFactory
-     * @param Magento_Customer_Model_Resource_Address_CollectionFactory $addressColFactory
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
+     * @param \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Customer\Model\Resource\Customer\CollectionFactory $customerColFactory
+     * @param \Magento\ImportExport\Model\Export\Entity\Eav\CustomerFactory $eavCustomerFactory
+     * @param \Magento\Customer\Model\Resource\Address\CollectionFactory $addressColFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_App $app,
-        Magento_ImportExport_Model_Export_Factory $collectionFactory,
-        Magento_ImportExport_Model_Resource_CollectionByPagesIteratorFactory $resourceColFactory,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Customer_Model_Resource_Customer_CollectionFactory $customerColFactory,
-        Magento_ImportExport_Model_Export_Entity_Eav_CustomerFactory $eavCustomerFactory,
-        Magento_Customer_Model_Resource_Address_CollectionFactory $addressColFactory,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\App $app,
+        \Magento\ImportExport\Model\Export\Factory $collectionFactory,
+        \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Customer\Model\Resource\Customer\CollectionFactory $customerColFactory,
+        \Magento\ImportExport\Model\Export\Entity\Eav\CustomerFactory $eavCustomerFactory,
+        \Magento\Customer\Model\Resource\Address\CollectionFactory $addressColFactory,
         array $data = array()
     ) {
         parent::__construct($coreStoreConfig, $app, $collectionFactory, $resourceColFactory, $locale, $eavConfig,
@@ -146,7 +148,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address
     /**
      * Initialize existent customers data
      *
-     * @return Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address
+     * @return \Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address
      */
     protected function _initCustomers()
     {
@@ -157,7 +159,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address
             $this->_customerCollection = $this->_customerEntity->filterEntityCollection($this->_customerCollection);
 
             $customers = array();
-            $addCustomer = function (Magento_Customer_Model_Customer $customer) use (&$customers) {
+            $addCustomer = function (\Magento\Customer\Model\Customer $customer) use (&$customers) {
                 $customers[$customer->getId()] = $customer->getData();
             };
 
@@ -183,7 +185,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address
     /**
      * Get customers collection
      *
-     * @return Magento_Customer_Model_Resource_Address_Collection
+     * @return \Magento\Customer\Model\Resource\Address\Collection
      */
     protected function _getEntityCollection()
     {
@@ -212,14 +214,14 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address
     /**
      * Export given customer address data plus related customer data (required for import)
      *
-     * @param Magento_Customer_Model_Address $item
+     * @param \Magento\Customer\Model\Address $item
      * @return string
      */
     public function exportItem($item)
     {
         $row = $this->_addAttributeValuesToRow($item);
 
-        /** @var $customer Magento_Customer_Model_Customer */
+        /** @var $customer \Magento\Customer\Model\Customer */
         $customer = $this->_customers[$item->getParentId()];
 
         // Fill row with default address attributes values
@@ -242,7 +244,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address
      * Set parameters (push filters from post into export customer model)
      *
      * @param array $parameters
-     * @return Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address
+     * @return \Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address
      */
     public function setParameters(array $parameters)
     {

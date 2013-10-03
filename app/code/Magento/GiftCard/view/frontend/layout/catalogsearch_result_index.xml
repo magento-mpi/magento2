@@ -11,7 +11,7 @@
     <referenceBlock name="search_result_list">
         <action method="addPriceBlockType">
             <argument name="type" xsi:type="string">giftcard</argument>
-            <argument name="block" xsi:type="string">Magento_GiftCard_Block_Catalog_Product_Price</argument>
+            <argument name="block" xsi:type="string">Magento\GiftCard\Block\Catalog\Product\Price</argument>
             <argument name="template" xsi:type="string">catalog/product/price.phtml</argument>
         </action>
     </referenceBlock>

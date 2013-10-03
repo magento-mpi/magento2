@@ -6,10 +6,12 @@
  * @license    {license_link}
  */
 
-class Magento_Test_Tools_Di_Code_Scanner_XmlScannerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Tools\Di\Code\Scanner;
+
+class XmlScannerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento\Tools\Di\Code\Scanner\XmlScanner
+     * @var \Magento\Tools\Di\Code\Scanner\XmlScanner
      */
     protected $_model;
 
@@ -25,7 +27,7 @@ class Magento_Test_Tools_Di_Code_Scanner_XmlScannerTest extends PHPUnit_Framewor
 
     protected function setUp()
     {
-        $this->_model = new Magento\Tools\Di\Code\Scanner\XmlScanner();
+        $this->_model = new \Magento\Tools\Di\Code\Scanner\XmlScanner();
         $this->_testDir = str_replace('\\', '/', realpath(__DIR__ . '/../../') . '/_files');
         $this->_testFiles =  array(
             $this->_testDir . '/app/code/Magento/SomeModule/etc/adminhtml/system.xml',
@@ -40,12 +42,12 @@ class Magento_Test_Tools_Di_Code_Scanner_XmlScannerTest extends PHPUnit_Framewor
     {
         $actual = $this->_model->collectEntities($this->_testFiles);
         $expected = array(
-            'Magento_Backend_Block_System_Config_Form_Fieldset_Modules_DisableOutput_Proxy',
-            'Magento_Core_Model_App_Proxy',
-            'Magento_Core_Model_Cache_Proxy',
-            'Magento_Backend_Block_Menu_Proxy',
-            'Magento_Core_Model_StoreManager_Proxy',
-            'Magento_Core_Model_Layout_Factory',
+            'Magento\Backend\Block\System\Config\Form\Fieldset\Modules\DisableOutput\Proxy',
+            'Magento\Core\Model\App\Proxy',
+            'Magento\Core\Model\Cache\Proxy',
+            'Magento\Backend\Block\Menu\Proxy',
+            'Magento\Core\Model\StoreManager\Proxy',
+            'Magento\Core\Model\Layout\Factory',
         );
         $this->assertEquals($expected, $actual);
     }

@@ -14,7 +14,9 @@
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Magento_Catalog_Block_Product_View_Options_Type_Date extends Magento_Catalog_Block_Product_View_Options_Abstract
+namespace Magento\Catalog\Block\Product\View\Options\Type;
+
+class Date extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
 {
 
     /**
@@ -27,34 +29,34 @@ class Magento_Catalog_Block_Product_View_Options_Type_Date extends Magento_Catal
     /**
      * Catalog product option type date
      *
-     * @var Magento_Catalog_Model_Product_Option_Type_Date
+     * @var \Magento\Catalog\Model\Product\Option\Type\Date
      */
     protected $_catalogProductOptionTypeDate;
 
     /**
      * Locale
      *
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Catalog_Model_Product_Option_Type_Date
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Catalog\Model\Product\Option\Type\Date
      * $catalogProductOptionTypeDate
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Catalog_Model_Product_Option_Type_Date $catalogProductOptionTypeDate,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Catalog\Model\Product\Option\Type\Date $catalogProductOptionTypeDate,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_locale = $locale;
@@ -108,12 +110,12 @@ class Magento_Catalog_Block_Product_View_Options_Type_Date extends Magento_Catal
         $yearEnd = $this->_catalogProductOptionTypeDate->getYearEnd();
 
         $calendar = $this->getLayout()
-            ->createBlock('Magento_Core_Block_Html_Date')
+            ->createBlock('Magento\Core\Block\Html\Date')
             ->setId('options_'.$this->getOption()->getId().'_date')
             ->setName('options['.$this->getOption()->getId().'][date]')
             ->setClass('product-custom-option datetime-picker input-text')
             ->setImage($this->getViewFileUrl('Magento_Core::calendar.gif'))
-            ->setDateFormat($this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT))
+            ->setDateFormat($this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT))
             ->setValue($value)
             ->setYearsRange($yearStart . ':' . $yearEnd);
 
@@ -199,7 +201,7 @@ class Magento_Catalog_Block_Product_View_Options_Type_Date extends Magento_Catal
      * HTML select element
      *
      * @param string $name Id/name of html select element
-     * @return Magento_Core_Block_Html_Select
+     * @return \Magento\Core\Block\Html\Select
      */
     protected function _getHtmlSelect($name, $value = null)
     {
@@ -209,7 +211,7 @@ class Magento_Catalog_Block_Product_View_Options_Type_Date extends Magento_Catal
 
         // $require = $this->getOption()->getIsRequire() ? ' required-entry' : '';
         $require = '';
-        $select = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
             ->setId('options_' . $this->getOption()->getId() . '_' . $name)
             ->setClass('product-custom-option datetime-picker' . $require)
             ->setExtraParams()

@@ -11,10 +11,12 @@
 /**
  * Backend menu block
  *
- * @method Magento_Backend_Block_Menu setAdditionalCacheKeyInfo(array $cacheKeyInfo)
+ * @method \Magento\Backend\Block\Menu setAdditionalCacheKeyInfo(array $cacheKeyInfo)
  * @method array getAdditionalCacheKeyInfo()
  */
-class Magento_Backend_Block_Menu extends Magento_Backend_Block_Template
+namespace Magento\Backend\Block;
+
+class Menu extends \Magento\Backend\Block\Template
 {
     const CACHE_TAGS = 'BACKEND_MAINMENU';
 
@@ -31,45 +33,45 @@ class Magento_Backend_Block_Menu extends Magento_Backend_Block_Template
     /**
      * Backend URL instance
      *
-     * @var Magento_Backend_Model_Url
+     * @var \Magento\Backend\Model\Url
      */
     protected $_url;
 
     /**
      * Current selected item
      *
-     * @var Magento_Backend_Model_Menu_Item|null|bool
+     * @var \Magento\Backend\Model\Menu\Item|null|bool
      */
     protected $_activeItemModel = null;
 
     /**
-     * @var Magento_Backend_Model_Menu_Filter_IteratorFactory
+     * @var \Magento\Backend\Model\Menu\Filter\IteratorFactory
      */
     protected $_iteratorFactory;
 
     /**
-     * @var Magento_Backend_Model_Auth_Session
+     * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_authSession;
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @var Magento_Backend_Model_Menu_Config
+     * @var \Magento\Backend\Model\Menu\Config
      */
     protected $_menuConfig;
 
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Backend_Model_Url $url,
-        Magento_Backend_Model_Menu_Filter_IteratorFactory $iteratorFactory,
-        Magento_Backend_Model_Auth_Session $authSession,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Backend_Model_Menu_Config $menuConfig,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Model\Url $url,
+        \Magento\Backend\Model\Menu\Filter\IteratorFactory $iteratorFactory,
+        \Magento\Backend\Model\Auth\Session $authSession,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Backend\Model\Menu\Config $menuConfig,
         array $data = array()
     ) {
         $this->_url = $url;
@@ -92,17 +94,17 @@ class Magento_Backend_Block_Menu extends Magento_Backend_Block_Template
     /**
      * Check whether given item is currently selected
      *
-     * @param Magento_Backend_Model_Menu_Item $item
+     * @param \Magento\Backend\Model\Menu\Item $item
      * @param int $level
      * @return bool
      */
-    protected function _isItemActive(Magento_Backend_Model_Menu_Item $item, $level)
+    protected function _isItemActive(\Magento\Backend\Model\Menu\Item $item, $level)
     {
         $itemModel = $this->getActiveItemModel();
         $output = false;
 
         if ($level == 0
-            && $itemModel instanceof Magento_Backend_Model_Menu_Item
+            && $itemModel instanceof \Magento\Backend\Model\Menu\Item
             && ($itemModel->getId() == $item->getId()
                 || $item->getChildren()->get($itemModel->getId())!== null)
         ) {
@@ -114,7 +116,7 @@ class Magento_Backend_Block_Menu extends Magento_Backend_Block_Template
     /**
      * Render menu item anchor label
      *
-     * @param Magento_Backend_Model_Menu_Item $menuItem
+     * @param \Magento\Backend\Model\Menu\Item $menuItem
      * @return string
      */
     protected function _getAnchorLabel($menuItem)
@@ -125,7 +127,7 @@ class Magento_Backend_Block_Menu extends Magento_Backend_Block_Template
     /**
      * Render menu item anchor title
      *
-     * @param Magento_Backend_Model_Menu_Item $menuItem
+     * @param \Magento\Backend\Model\Menu\Item $menuItem
      * @return string
      */
     protected function _renderItemAnchorTitle($menuItem)
@@ -136,7 +138,7 @@ class Magento_Backend_Block_Menu extends Magento_Backend_Block_Template
     /**
      * Render menu item onclick function
      *
-     * @param Magento_Backend_Model_Menu_Item $menuItem
+     * @param \Magento\Backend\Model\Menu\Item $menuItem
      * @return string
      */
     protected function _renderItemOnclickFunction($menuItem)
@@ -147,7 +149,7 @@ class Magento_Backend_Block_Menu extends Magento_Backend_Block_Template
     /**
      * Render menu item anchor css class
      *
-     * @param Magento_Backend_Model_Menu_Item $menuItem
+     * @param \Magento\Backend\Model\Menu\Item $menuItem
      * @param int $level
      * @return string
      */
@@ -158,7 +160,7 @@ class Magento_Backend_Block_Menu extends Magento_Backend_Block_Template
 
     /**
      * Render menu item mouse events
-     * @param Magento_Backend_Model_Menu_Item $menuItem
+     * @param \Magento\Backend\Model\Menu\Item $menuItem
      * @return string
      */
     protected function _renderMouseEvent($menuItem)
@@ -171,7 +173,7 @@ class Magento_Backend_Block_Menu extends Magento_Backend_Block_Template
     /**
      * Render item css class
      *
-     * @param Magento_Backend_Model_Menu_Item $menuItem
+     * @param \Magento\Backend\Model\Menu\Item $menuItem
      * @param int $level
      * @return string
      */
@@ -187,7 +189,7 @@ class Magento_Backend_Block_Menu extends Magento_Backend_Block_Template
 
     /**
      * Render menu item anchor
-     * @param Magento_Backend_Model_Menu_Item $menuItem
+     * @param \Magento\Backend\Model\Menu\Item $menuItem
      * @param int $level
      * @return string
      */
@@ -203,8 +205,8 @@ class Magento_Backend_Block_Menu extends Magento_Backend_Block_Template
     /**
      * Get menu filter iterator
      *
-     * @param Magento_Backend_Model_Menu $menu
-     * @return Magento_Backend_Model_Menu_Filter_Iterator
+     * @param \Magento\Backend\Model\Menu $menu
+     * @return \Magento\Backend\Model\Menu\Filter\Iterator
      */
     protected function _getMenuIterator($menu)
     {
@@ -220,7 +222,7 @@ class Magento_Backend_Block_Menu extends Magento_Backend_Block_Template
     protected function _afterToHtml($html)
     {
         $html = preg_replace_callback(
-            '#' . Magento_Backend_Model_Url::SECRET_KEY_PARAM_NAME . '/\$([^\/].*)/([^\/].*)/([^\$].*)\$#U',
+            '#' . \Magento\Backend\Model\Url::SECRET_KEY_PARAM_NAME . '/\$([^\/].*)/([^\/].*)/([^\$].*)\$#U',
             array($this, '_callbackSecretKey'),
             $html
         );
@@ -236,7 +238,7 @@ class Magento_Backend_Block_Menu extends Magento_Backend_Block_Template
      */
     protected function _callbackSecretKey($match)
     {
-        return Magento_Backend_Model_Url::SECRET_KEY_PARAM_NAME . '/'
+        return \Magento\Backend\Model\Url::SECRET_KEY_PARAM_NAME . '/'
             . $this->_url->getSecretKey($match[1], $match[2], $match[3]);
     }
 
@@ -274,7 +276,7 @@ class Magento_Backend_Block_Menu extends Magento_Backend_Block_Template
     /**
      * Get menu config model
      *
-     * @return Magento_Backend_Model_Menu
+     * @return \Magento\Backend\Model\Menu
      */
     public function getMenuModel()
     {
@@ -284,7 +286,7 @@ class Magento_Backend_Block_Menu extends Magento_Backend_Block_Template
     /**
      * Render menu
      *
-     * @param Magento_Backend_Model_Menu $menu
+     * @param \Magento\Backend\Model\Menu $menu
      * @param int $level
      * @return string HTML
      */
@@ -292,7 +294,7 @@ class Magento_Backend_Block_Menu extends Magento_Backend_Block_Template
     {
         $output = '<ul ' . (0 == $level ? 'id="nav"' : '') . ' >';
 
-        /** @var $menuItem Magento_Backend_Model_Menu_Item  */
+        /** @var $menuItem \Magento\Backend\Model\Menu\Item  */
         foreach ($this->_getMenuIterator($menu) as $menuItem) {
             $output .= '<li ' . $this->_renderMouseEvent($menuItem)
                 . ' class="' . $this->_renderItemCssClass($menuItem, $level) . '"'
@@ -313,14 +315,14 @@ class Magento_Backend_Block_Menu extends Magento_Backend_Block_Template
     /**
      * Count All Subnavigation Items
      *
-     * @param Magento_Backend_Model_Menu $items
+     * @param \Magento\Backend\Model\Menu $items
      * @return int
      */
     protected function _countItems($items)
     {
         $total = count($items);
         foreach ($items as $item) {
-            /** @var $item Magento_Backend_Model_Menu_Item */
+            /** @var $item \Magento\Backend\Model\Menu\Item */
             if ($item->hasChildren()) {
                 $total += $this->_countItems($item->getChildren());
             }
@@ -331,7 +333,7 @@ class Magento_Backend_Block_Menu extends Magento_Backend_Block_Template
     /**
      * Building Array with Column Brake Stops
      *
-     * @param Magento_Backend_Model_Menu $items
+     * @param \Magento\Backend\Model\Menu $items
      * @param int $limit
      * @return array
      * @todo: Add Depth Level limit, and better logic for columns
@@ -370,7 +372,7 @@ class Magento_Backend_Block_Menu extends Magento_Backend_Block_Template
     /**
      * Add sub menu HTML code for current menu item
      *
-     * @param $menuItem Magento_Backend_Model_Menu_Item
+     * @param $menuItem \Magento\Backend\Model\Menu\Item
      * @param $level int
      * @param $limit int
      * @return string HTML code
@@ -394,7 +396,7 @@ class Magento_Backend_Block_Menu extends Magento_Backend_Block_Template
     /**
      * Render Navigation
      *
-     * @param Magento_Backend_Model_Menu $menu
+     * @param \Magento\Backend\Model\Menu $menu
      * @param int $level
      * @param int $limit
      * @param array $colBrakes
@@ -406,7 +408,7 @@ class Magento_Backend_Block_Menu extends Magento_Backend_Block_Template
         $outputStart = '<ul ' . (0 == $level ? 'id="nav"' : '') . ' >';
         $output = '';
 
-        /** @var $menuItem Magento_Backend_Model_Menu_Item  */
+        /** @var $menuItem \Magento\Backend\Model\Menu\Item  */
         foreach ($this->_getMenuIterator($menu) as $menuItem) {
             $menuId = $menuItem->getId();
             $itemName = substr($menuId, strrpos($menuId, '::') + 2);
@@ -435,13 +437,13 @@ class Magento_Backend_Block_Menu extends Magento_Backend_Block_Template
     /**
      * Get current selected menu item
      *
-     * @return Magento_Backend_Model_Menu_Item|null|bool
+     * @return \Magento\Backend\Model\Menu\Item|null|bool
      */
     public function getActiveItemModel()
     {
         if (is_null($this->_activeItemModel)) {
             $this->_activeItemModel = $this->getMenuModel()->get($this->getActive());
-            if (false == ($this->_activeItemModel instanceof Magento_Backend_Model_Menu_Item)) {
+            if (false == ($this->_activeItemModel instanceof \Magento\Backend\Model\Menu\Item)) {
                 $this->_activeItemModel = false;
             }
         }

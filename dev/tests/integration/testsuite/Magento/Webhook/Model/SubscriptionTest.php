@@ -1,10 +1,5 @@
 <?php
 /**
- * Magento_Webhook_Model_Subscription
- *
- * @magentoAppArea adminhtml
- * @magentoDbIsolation enabled
- *
  * {license_notice}
  *
  * @category    Magento
@@ -13,7 +8,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model;
+
+/**
+ * \Magento\Webhook\Model\Subscription
+ *
+ * @magentoAppArea adminhtml
+ * @magentoDbIsolation enabled
+ */
+class SubscriptionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Constant strings representing hooks in the config files
@@ -30,7 +33,7 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
     const VALUE_ENDPOINT_URL = 'http://localhost/endpoint';
     const VALUE_ENDPOINT_ID = 'endpoint_id_value';
     const VALUE_FORMAT = 'json';
-    const VALUE_STATUS = Magento_Webhook_Model_Subscription::STATUS_INACTIVE;
+    const VALUE_STATUS = \Magento\Webhook\Model\Subscription::STATUS_INACTIVE;
     const VALUE_AUTHENTICATION_TYPE = 'hmac';
     const VALUE_API_USER_ID = null;
     const VALUE_REG_MECH = 'registration_mechanism';
@@ -39,29 +42,29 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
 
     const KEY_NAME = 'name';
     const KEY_ALIAS = 'alias';
-    const KEY_ENDPOINT_URL = Magento_Webhook_Model_Subscription::FIELD_ENDPOINT_URL;
-    const KEY_FORMAT = Magento_Webhook_Model_Subscription::FIELD_FORMAT;
+    const KEY_ENDPOINT_URL = \Magento\Webhook\Model\Subscription::FIELD_ENDPOINT_URL;
+    const KEY_FORMAT = \Magento\Webhook\Model\Subscription::FIELD_FORMAT;
     const KEY_STATUS = 'status';
-    const KEY_API_USER_ID = Magento_Webhook_Model_Subscription::FIELD_API_USER_ID;
-    const KEY_AUTHENTICATION_TYPE = Magento_Webhook_Model_Subscription::FIELD_AUTHENTICATION_TYPE;
-    const KEY_TIMEOUT_IN_SECS = Magento_Webhook_Model_Subscription::FIELD_TIMEOUT_IN_SECS;
+    const KEY_API_USER_ID = \Magento\Webhook\Model\Subscription::FIELD_API_USER_ID;
+    const KEY_AUTHENTICATION_TYPE = \Magento\Webhook\Model\Subscription::FIELD_AUTHENTICATION_TYPE;
+    const KEY_TIMEOUT_IN_SECS = \Magento\Webhook\Model\Subscription::FIELD_TIMEOUT_IN_SECS;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     protected function setUp()
     {
         // Clean out the cache
-        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var Magento_Acl_CacheInterface $aclCache */
-        $aclCache = $this->_objectManager->get('Magento_Acl_CacheInterface');
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var \Magento\Acl\CacheInterface $aclCache */
+        $aclCache = $this->_objectManager->get('Magento\Acl\CacheInterface');
         $aclCache->clean();
         // add new hooks for the tests
 
-        /** @var $configModel Magento_Core_Model_Config */
-        $configModel = $this->_objectManager->get('Magento_Core_Model_Config');
+        /** @var $configModel \Magento\Core\Model\Config */
+        $configModel = $this->_objectManager->get('Magento\Core\Model\Config');
         $configModel->setNode('global/webhook/webhooks/test/hook/label', 'Test Hook');
         $configModel->setNode('global/webhook/webhooks/test/two/label', 'Test Hook Two');
     }
@@ -69,17 +72,17 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         // Clean out the cache
-        /** @var Magento_Acl_CacheInterface $aclCache */
-        $aclCache = $this->_objectManager->get('Magento_Acl_CacheInterface');
+        /** @var \Magento\Acl\CacheInterface $aclCache */
+        $aclCache = $this->_objectManager->get('Magento\Acl\CacheInterface');
         $aclCache->clean();
     }
 
     public function testSetGetHooks()
     {
 
-        /** @var Magento_Webhook_Model_Subscription $subscription */
-        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_Subscription');
+        /** @var \Magento\Webhook\Model\Subscription $subscription */
+        $subscription = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Subscription');
         $this->assertEmpty($subscription->getTopics(),
             "New subscription shouldn't be subscribed on any hooks.");
 
@@ -102,9 +105,9 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
 
     public function testHasTopic()
     {
-        /** @var Magento_Webhook_Model_Subscription $subscription */
-        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_Subscription');
+        /** @var \Magento\Webhook\Model\Subscription $subscription */
+        $subscription = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Subscription');
         $subscription->setTopics(array(self::HOOK_IN_CONFIG))
             ->save();
 
@@ -115,64 +118,64 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
     public function testActivate()
     {
         //setup
-        /** @var Magento_Webhook_Model_Subscription $subscription */
-        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_Subscription');
-        $subscription->setStatus(Magento_Webhook_Model_Subscription::STATUS_INACTIVE)
+        /** @var \Magento\Webhook\Model\Subscription $subscription */
+        $subscription = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Subscription');
+        $subscription->setStatus(\Magento\Webhook\Model\Subscription::STATUS_INACTIVE)
             ->save();
 
         //action
         $subscription->activate();
 
         //verify
-        $this->assertEquals(Magento_PubSub_SubscriptionInterface::STATUS_ACTIVE, $subscription->getStatus());
+        $this->assertEquals(\Magento\PubSub\SubscriptionInterface::STATUS_ACTIVE, $subscription->getStatus());
         $subscriptionInDb = $this->_getSubscription($subscription->getId());
-        $this->assertEquals(Magento_PubSub_SubscriptionInterface::STATUS_INACTIVE, $subscriptionInDb->getStatus());
+        $this->assertEquals(\Magento\PubSub\SubscriptionInterface::STATUS_INACTIVE, $subscriptionInDb->getStatus());
     }
 
     public function testDeactivate()
     {
         //setup
-        /** @var Magento_Webhook_Model_Subscription $subscription */
-        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_Subscription');
-        $subscription->setStatus(Magento_Webhook_Model_Subscription::STATUS_ACTIVE)
+        /** @var \Magento\Webhook\Model\Subscription $subscription */
+        $subscription = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Subscription');
+        $subscription->setStatus(\Magento\Webhook\Model\Subscription::STATUS_ACTIVE)
             ->save();
 
         //action
         $subscription->deactivate();
 
         //verify
-        $this->assertEquals(Magento_PubSub_SubscriptionInterface::STATUS_INACTIVE, $subscription->getStatus());
+        $this->assertEquals(\Magento\PubSub\SubscriptionInterface::STATUS_INACTIVE, $subscription->getStatus());
         $subscriptionInDb = $this->_getSubscription($subscription->getId());
-        $this->assertEquals(Magento_PubSub_SubscriptionInterface::STATUS_ACTIVE, $subscriptionInDb->getStatus());
+        $this->assertEquals(\Magento\PubSub\SubscriptionInterface::STATUS_ACTIVE, $subscriptionInDb->getStatus());
     }
 
     public function testRevoke()
     {
         //setup
-        /** @var Magento_Webhook_Model_Subscription $subscription */
-        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_Subscription');
-        $subscription->setStatus(Magento_Webhook_Model_Subscription::STATUS_ACTIVE)
+        /** @var \Magento\Webhook\Model\Subscription $subscription */
+        $subscription = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Subscription');
+        $subscription->setStatus(\Magento\Webhook\Model\Subscription::STATUS_ACTIVE)
             ->save();
 
         //action
         $subscription->revoke();
 
         //verify
-        $this->assertEquals(Magento_PubSub_SubscriptionInterface::STATUS_REVOKED, $subscription->getStatus());
+        $this->assertEquals(\Magento\PubSub\SubscriptionInterface::STATUS_REVOKED, $subscription->getStatus());
         $subscriptionInDb = $this->_getSubscription($subscription->getId());
-        $this->assertEquals(Magento_PubSub_SubscriptionInterface::STATUS_ACTIVE, $subscriptionInDb->getStatus());
+        $this->assertEquals(\Magento\PubSub\SubscriptionInterface::STATUS_ACTIVE, $subscriptionInDb->getStatus());
     }
 
     public function testFindRestrictedTopics()
     {
-        /** @var Magento_Webhook_Model_Subscription $subscription */
-        $subscription = $this->_objectManager->create('Magento_Webhook_Model_Subscription');
+        /** @var \Magento\Webhook\Model\Subscription $subscription */
+        $subscription = $this->_objectManager->create('Magento\Webhook\Model\Subscription');
 
-        /** @var Magento_Webhook_Model_Webapi_User_Factory $webapiUserFactory */
-        $webapiUserFactory = $this->_objectManager->create('Magento_Webhook_Model_Webapi_User_Factory');
+        /** @var \Magento\Webhook\Model\Webapi\User\Factory $webapiUserFactory */
+        $webapiUserFactory = $this->_objectManager->create('Magento\Webhook\Model\Webapi\User\Factory');
         $userContext = array(
             'key' => 'some_key_value',
             'secret' => 'shh',
@@ -199,8 +202,8 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
 
     public function testUpdatingHooks()
     {
-        /** @var Magento_Webhook_Model_Subscription $subscription */
-        $subscription = $this->_objectManager->create('Magento_Webhook_Model_Subscription');
+        /** @var \Magento\Webhook\Model\Subscription $subscription */
+        $subscription = $this->_objectManager->create('Magento\Webhook\Model\Subscription');
         $subscription->setTopics(array(self::HOOK_IN_CONFIG))
             ->save();
 
@@ -218,8 +221,8 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
 
     public function testGetUser()
     {
-        /** @var Magento_Webhook_Model_Subscription $subscription */
-        $subscription = $this->_objectManager->create('Magento_Webhook_Model_Subscription');
+        /** @var \Magento\Webhook\Model\Subscription $subscription */
+        $subscription = $this->_objectManager->create('Magento\Webhook\Model\Subscription');
 
         // Test getUser
         $userContext = array(
@@ -228,10 +231,10 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
             'company' => 'Corporate Corporations Inc.',
             'email' => 'email.address@email.com'
         );
-        /** @var Magento_Webhook_Model_User_Factory $userFactory */
-        $userFactory = $this->_objectManager->create('Magento_Webhook_Model_User_Factory');
-        /** @var Magento_Webhook_Model_Webapi_User_Factory $webapiUserFactory */
-        $webapiUserFactory = $this->_objectManager->create('Magento_Webhook_Model_Webapi_User_Factory');
+        /** @var \Magento\Webhook\Model\User\Factory $userFactory */
+        $userFactory = $this->_objectManager->create('Magento\Webhook\Model\User\Factory');
+        /** @var \Magento\Webhook\Model\Webapi\User\Factory $webapiUserFactory */
+        $webapiUserFactory = $this->_objectManager->create('Magento\Webhook\Model\Webapi\User\Factory');
 
         $userId = $webapiUserFactory->createUser($userContext, array());
         $user = $userFactory->create(array('webapiUserId' => $userId));
@@ -241,8 +244,8 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
 
     public function testGetUserWhenNoneAssigned()
     {
-        /** @var Magento_Webhook_Model_Subscription $subscription */
-        $subscription = $this->_objectManager->create('Magento_Webhook_Model_Subscription');
+        /** @var \Magento\Webhook\Model\Subscription $subscription */
+        $subscription = $this->_objectManager->create('Magento\Webhook\Model\Subscription');
 
         $this->assertNull($subscription->getUser());
     }
@@ -250,17 +253,17 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
     public function testSetData()
     {
 
-        /** @var Magento_Webhook_Model_Subscription $subscription */
-        $subscription = $this->_objectManager->create('Magento_Webhook_Model_Subscription');
+        /** @var \Magento\Webhook\Model\Subscription $subscription */
+        $subscription = $this->_objectManager->create('Magento\Webhook\Model\Subscription');
 
         $subscription->setData('key', 'value');
         $this->assertEquals('value', $subscription->getData('key'));
 
         $keyArray = array(
-            Magento_Webhook_Model_Subscription::FIELD_ENDPOINT_URL         => self::VALUE_ENDPOINT_URL,
-            Magento_Webhook_Model_Subscription::FIELD_FORMAT               => self::VALUE_FORMAT,
-            Magento_Webhook_Model_Subscription::FIELD_AUTHENTICATION_TYPE  => self::VALUE_AUTHENTICATION_TYPE,
-            Magento_Webhook_Model_Subscription::FIELD_API_USER_ID          => self::VALUE_API_USER_ID,
+            \Magento\Webhook\Model\Subscription::FIELD_ENDPOINT_URL         => self::VALUE_ENDPOINT_URL,
+            \Magento\Webhook\Model\Subscription::FIELD_FORMAT               => self::VALUE_FORMAT,
+            \Magento\Webhook\Model\Subscription::FIELD_AUTHENTICATION_TYPE  => self::VALUE_AUTHENTICATION_TYPE,
+            \Magento\Webhook\Model\Subscription::FIELD_API_USER_ID          => self::VALUE_API_USER_ID,
         );
 
         $subscription->setData($keyArray);
@@ -287,14 +290,14 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
     public function testSetGetMethods()
     {
 
-        /** @var Magento_Webhook_Model_Subscription $subscription */
-        $subscription = $this->_objectManager->create('Magento_Webhook_Model_Subscription');
+        /** @var \Magento\Webhook\Model\Subscription $subscription */
+        $subscription = $this->_objectManager->create('Magento\Webhook\Model\Subscription');
 
         $subscription->setAlias(self::VALUE_ALIAS);
         $subscription->setEndpointId(self::VALUE_ENDPOINT_ID);
         $subscription->setName(self::VALUE_NAME);
         $subscription->setRegistrationMechanism(self::VALUE_REG_MECH);
-        $subscription->setStatus(Magento_PubSub_SubscriptionInterface::STATUS_ACTIVE);
+        $subscription->setStatus(\Magento\PubSub\SubscriptionInterface::STATUS_ACTIVE);
         $subscription->setUpdatedAt(self::VALUE_UPDATED_AT);
         $subscription->setApiUserId(self::VALUE_API_USER_ID);
         $subscription->setAuthenticationType(self::VALUE_AUTHENTICATION_TYPE);
@@ -305,7 +308,7 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(self::VALUE_ENDPOINT_ID, $subscription->getEndpointId());
         $this->assertEquals(self::VALUE_NAME, $subscription->getName());
         $this->assertEquals(self::VALUE_REG_MECH, $subscription->getRegistrationMechanism());
-        $this->assertEquals(Magento_PubSub_SubscriptionInterface::STATUS_ACTIVE, $subscription->getStatus());
+        $this->assertEquals(\Magento\PubSub\SubscriptionInterface::STATUS_ACTIVE, $subscription->getStatus());
         $this->assertEquals(self::VALUE_UPDATED_AT, $subscription->getUpdatedAt());
         $this->assertEquals(self::VALUE_API_USER_ID, $subscription->getApiUserId());
         $this->assertEquals(self::VALUE_AUTHENTICATION_TYPE, $subscription->getAuthenticationType());
@@ -317,8 +320,8 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
 
     public function testSettingData()
     {
-        /** @var Magento_Webhook_Model_Subscription $subscription */
-        $subscription = $this->_objectManager->create('Magento_Webhook_Model_Subscription');
+        /** @var \Magento\Webhook\Model\Subscription $subscription */
+        $subscription = $this->_objectManager->create('Magento\Webhook\Model\Subscription');
         $subscription->setData(self::KEY_NAME, self::VALUE_NAME);
         $subscription->setData(self::KEY_ALIAS, self::VALUE_ALIAS);
         $subscription->setData(self::KEY_ENDPOINT_URL, self::VALUE_ENDPOINT_URL);
@@ -345,8 +348,8 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
 
     public function testGettingData()
     {
-        /** @var Magento_Webhook_Model_Subscription $subscription */
-        $subscription = $this->_objectManager->create('Magento_Webhook_Model_Subscription');
+        /** @var \Magento\Webhook\Model\Subscription $subscription */
+        $subscription = $this->_objectManager->create('Magento\Webhook\Model\Subscription');
         $subscription->setName(self::VALUE_NAME);
         $subscription->setAlias(self::VALUE_ALIAS);
         $subscription->setEndpointUrl(self::VALUE_ENDPOINT_URL);
@@ -386,8 +389,8 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
             self::KEY_TIMEOUT_IN_SECS       => self::VALUE_TIMEOUT_IN_SECS,
         );
 
-        /** @var Magento_Webhook_Model_Subscription $subscription */
-        $subscription = $this->_objectManager->create('Magento_Webhook_Model_Subscription');
+        /** @var \Magento\Webhook\Model\Subscription $subscription */
+        $subscription = $this->_objectManager->create('Magento\Webhook\Model\Subscription');
         $subscription->setData($data);
 
         $subscription->save();
@@ -410,8 +413,8 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
             self::KEY_TIMEOUT_IN_SECS       => self::VALUE_TIMEOUT_IN_SECS,
         );
 
-        /** @var Magento_Webhook_Model_Subscription $subscription */
-        $subscription = $this->_objectManager->create('Magento_Webhook_Model_Subscription');
+        /** @var \Magento\Webhook\Model\Subscription $subscription */
+        $subscription = $this->_objectManager->create('Magento\Webhook\Model\Subscription');
         $subscription->setData($data);
         $subscription->save();
 
@@ -425,7 +428,7 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
         $subscription->delete();
 
         // Create a new subscription, and manually set a link to the old endpoint to see if it still exists.
-        $subscription = $this->_objectManager->create('Magento_Webhook_Model_Subscription');
+        $subscription = $this->_objectManager->create('Magento\Webhook\Model\Subscription');
         $subscription->setEndpointId($endpointId);
 
         $this->assertNull($subscription->getEndpointUrl());
@@ -435,11 +438,11 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
      * Load a subscription from the DB
      *
      * @param $subscriptionId string
-     * @return Magento_Webhook_Model_Subscription
+     * @return \Magento\Webhook\Model\Subscription
      */
     protected function _getSubscription($subscriptionId)
     {
-        $subscription = $this->_objectManager->create('Magento_Webhook_Model_Subscription');
+        $subscription = $this->_objectManager->create('Magento\Webhook\Model\Subscription');
         return $subscription->load($subscriptionId);
     }
 

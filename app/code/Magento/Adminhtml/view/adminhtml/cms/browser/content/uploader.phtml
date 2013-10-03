@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var $this Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Uploader */
+/** @var $this \Magento\Adminhtml\Block\Cms\Wysiwyg\Images\Content\Uploader */
 ?>
 
 <div id="<?php echo $this->getHtmlId() ?>" class="uploader">
@@ -81,8 +81,8 @@
                     },
                     {
                         action: 'resize',
-                        maxWidth: <?php echo Magento_File_Uploader::MAX_IMAGE_WIDTH ?>,
-                        maxHeight: <?php echo Magento_File_Uploader::MAX_IMAGE_HEIGHT ?>
+                        maxWidth: <?php echo \Magento\File\Uploader::MAX_IMAGE_WIDTH ?>,
+                        maxHeight: <?php echo \Magento\File\Uploader::MAX_IMAGE_HEIGHT ?>
                     },
                     {
                         action: 'save'

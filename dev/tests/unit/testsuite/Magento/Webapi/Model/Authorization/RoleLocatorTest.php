@@ -1,18 +1,20 @@
 <?php
 /**
- * Test class for Magento_Webapi_Model_Authorization_RoleLoactor
+ * Test class for \Magento\Webapi\Model\Authorization\RoleLoactor
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Authorization_RoleLocatorTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Model\Authorization;
+
+class RoleLocatorTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetAclRoleId()
     {
         $expectedRoleId = '557';
-        $roleLocator = new Magento_Webapi_Model_Authorization_RoleLocator(array(
+        $roleLocator = new \Magento\Webapi\Model\Authorization\RoleLocator(array(
             'roleId' => $expectedRoleId
         ));
         $this->assertEquals($expectedRoleId, $roleLocator->getAclRoleId());
@@ -20,7 +22,7 @@ class Magento_Webapi_Model_Authorization_RoleLocatorTest extends PHPUnit_Framewo
 
     public function testSetRoleId()
     {
-        $roleLocator = new Magento_Webapi_Model_Authorization_RoleLocator;
+        $roleLocator = new \Magento\Webapi\Model\Authorization\RoleLocator;
         $expectedRoleId = '557';
         $roleLocator->setRoleId($expectedRoleId);
         $this->assertAttributeEquals($expectedRoleId, '_roleId', $roleLocator);

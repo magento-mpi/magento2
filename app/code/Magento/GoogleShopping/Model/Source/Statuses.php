@@ -15,7 +15,9 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Model_Source_Statuses
+namespace Magento\GoogleShopping\Model\Source;
+
+class Statuses
 {
     /**
      * Retrieve option array with Google Content item's statuses

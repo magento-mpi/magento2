@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Email_Template_Config_XsdTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Email\Template\Config;
+
+class XsdTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test validation rules implemented by XSD schema for individual config files
@@ -172,7 +174,7 @@ class Magento_Core_Model_Email_Template_Config_XsdTest extends PHPUnit_Framework
      */
     protected function _testXmlAgainstXsd($fixtureXml, $schemaFile, array $expectedErrors)
     {
-        $dom = new Magento_Config_Dom($fixtureXml, array(), null, '%message%');
+        $dom = new \Magento\Config\Dom($fixtureXml, array(), null, '%message%');
         $actualResult = $dom->validate($schemaFile, $actualErrors);
         $this->assertEquals(empty($expectedErrors), $actualResult);
         $this->assertEquals($expectedErrors, $actualErrors);

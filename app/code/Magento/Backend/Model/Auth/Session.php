@@ -14,9 +14,11 @@
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_Backend_Model_Auth_Session
-    extends Magento_Core_Model_Session_Abstract
-    implements Magento_Backend_Model_Auth_StorageInterface
+namespace Magento\Backend\Model\Auth;
+
+class Session
+    extends \Magento\Core\Model\Session\AbstractSession
+    implements \Magento\Backend\Model\Auth\StorageInterface
 {
     const XML_PATH_SESSION_LIFETIME = 'admin/security/session_lifetime';
 
@@ -30,25 +32,25 @@ class Magento_Backend_Model_Auth_Session
     /**
      * Access Control List builder
      *
-     * @var Magento_Acl_Builder
+     * @var \Magento\Acl\Builder
      */
     protected $_aclBuilder;
 
     /**
-     * @var Magento_Backend_Model_Url_Proxy
+     * @var \Magento\Backend\Model\Url\Proxy
      */
     protected $_backendUrl;
 
     /**
-     * @param Magento_Core_Model_Session_Context $context
-     * @param Magento_Acl_Builder $aclBuilder
-     * @param Magento_Backend_Model_Url_Proxy $backendUrl
+     * @param \Magento\Core\Model\Session\Context $context
+     * @param \Magento\Acl\Builder $aclBuilder
+     * @param \Magento\Backend\Model\Url\Proxy $backendUrl
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Session_Context $context,
-        Magento_Acl_Builder $aclBuilder,
-        Magento_Backend_Model_Url_Proxy $backendUrl,
+        \Magento\Core\Model\Session\Context $context,
+        \Magento\Acl\Builder $aclBuilder,
+        \Magento\Backend\Model\Url\Proxy $backendUrl,
         array $data = array()
     ) {
         $this->_aclBuilder = $aclBuilder;
@@ -67,7 +69,7 @@ class Magento_Backend_Model_Auth_Session
      *
      * @param string $namespace
      * @param string $sessionName
-     * @return Magento_Backend_Model_Auth_Session
+     * @return \Magento\Backend\Model\Auth\Session
      * @see self::login()
      */
     public function init($namespace, $sessionName = null)
@@ -80,8 +82,8 @@ class Magento_Backend_Model_Auth_Session
     /**
      * Refresh ACL resources stored in session
      *
-     * @param  Magento_User_Model_User $user
-     * @return Magento_Backend_Model_Auth_Session
+     * @param  \Magento\User\Model\User $user
+     * @return \Magento\Backend\Model\Auth\Session
      */
     public function refreshAcl($user = null)
     {
@@ -116,12 +118,12 @@ class Magento_Backend_Model_Auth_Session
         if ($user && $acl) {
             try {
                 return $acl->isAllowed($user->getAclRole(), $resource, $privilege);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 try {
                     if (!$acl->has($resource)) {
                         return $acl->isAllowed($user->getAclRole(), null, $privilege);
                     }
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
 
                 }
             }
@@ -168,7 +170,7 @@ class Magento_Backend_Model_Auth_Session
      * Setter whether the current/next page should be treated as first page after login
      *
      * @param bool $value
-     * @return Magento_Backend_Model_Auth_Session
+     * @return \Magento\Backend\Model\Auth\Session
      */
     public function setIsFirstPageAfterLogin($value)
     {
@@ -179,7 +181,7 @@ class Magento_Backend_Model_Auth_Session
     /**
      * Process of configuring of current auth storage when login was performed
      *
-     * @return Magento_Backend_Model_Auth_Session
+     * @return \Magento\Backend\Model\Auth\Session
      */
     public function processLogin()
     {
@@ -200,7 +202,7 @@ class Magento_Backend_Model_Auth_Session
     /**
      * Process of configuring of current auth storage when logout was performed
      *
-     * @return Magento_Backend_Model_Auth_Session
+     * @return \Magento\Backend\Model\Auth\Session
      */
     public function processLogout()
     {

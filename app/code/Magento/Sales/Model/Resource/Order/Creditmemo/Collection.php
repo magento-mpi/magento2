@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Order_Creditmemo_Collection extends Magento_Sales_Model_Resource_Order_Collection_Abstract
+namespace Magento\Sales\Model\Resource\Order\Creditmemo;
+
+class Collection extends \Magento\Sales\Model\Resource\Order\Collection\AbstractCollection
 {
     /**
      * Event prefix
@@ -45,13 +47,13 @@ class Magento_Sales_Model_Resource_Order_Creditmemo_Collection extends Magento_S
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Order_Creditmemo', 'Magento_Sales_Model_Resource_Order_Creditmemo');
+        $this->_init('Magento\Sales\Model\Order\Creditmemo', 'Magento\Sales\Model\Resource\Order\Creditmemo');
     }
 
     /**
      * Used to emulate after load functionality for each item without loading them
      *
-     * @return Magento_Sales_Model_Resource_Order_Creditmemo_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Creditmemo\Collection
      */
     protected function _afterLoad()
     {
@@ -63,7 +65,7 @@ class Magento_Sales_Model_Resource_Order_Creditmemo_Collection extends Magento_S
      * Add filtration conditions
      *
      * @param array|null $filter
-     * @return Magento_Sales_Model_Resource_Order_Creditmemo_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Creditmemo\Collection
      */
     public function getFiltered($filter = null)
     {

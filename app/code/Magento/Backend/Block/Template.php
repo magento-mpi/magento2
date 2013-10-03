@@ -8,36 +8,38 @@
  * @license     {license_link}
  */
 
+namespace Magento\Backend\Block;
+
 /**
  * Backend abstract block
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-class Magento_Backend_Block_Template extends Magento_Core_Block_Template
+class Template extends \Magento\Core\Block\Template
 {
     /**
-     * @var Magento_AuthorizationInterface
+     * @var \Magento\AuthorizationInterface
      */
     protected $_authorization;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_storeManager = $context->getStoreManager();
@@ -76,7 +78,7 @@ class Magento_Backend_Block_Template extends Magento_Core_Block_Template
     /**
      * Make this public so that templates can use it properly with template engine
      * 
-     * @return Magento_AuthorizationInterface
+     * @return \Magento\AuthorizationInterface
      */
     public function getAuthorization() 
     {

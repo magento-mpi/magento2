@@ -16,24 +16,26 @@
  * @package     Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Newsletter_Model_Resource_Template extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Newsletter\Model\Resource;
+
+class Template extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Date
      *
-     * @var Magento_Core_Model_Date
+     * @var \Magento\Core\Model\Date
      */
     protected $_date;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Date $date
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Date $date
      */
     public function __construct(
-        Magento_Core_Model_Date $date,
-        Magento_Core_Model_Resource $resource
+        \Magento\Core\Model\Date $date,
+        \Magento\Core\Model\Resource $resource
     ) {
         parent::__construct($resource);
         $this->_date = $date;
@@ -51,11 +53,11 @@ class Magento_Newsletter_Model_Resource_Template extends Magento_Core_Model_Reso
     /**
      * Load an object by template code
      *
-     * @param Magento_Newsletter_Model_Template $object
+     * @param \Magento\Newsletter\Model\Template $object
      * @param string $templateCode
-     * @return Magento_Newsletter_Model_Resource_Template
+     * @return \Magento\Newsletter\Model\Resource\Template
      */
-    public function loadByCode(Magento_Newsletter_Model_Template $object, $templateCode)
+    public function loadByCode(\Magento\Newsletter\Model\Template $object, $templateCode)
     {
         $read = $this->_getReadAdapter();
         if ($read && !is_null($templateCode)) {
@@ -76,14 +78,14 @@ class Magento_Newsletter_Model_Resource_Template extends Magento_Core_Model_Reso
     /**
      * Check usage of template in queue
      *
-     * @param Magento_Newsletter_Model_Template $template
+     * @param \Magento\Newsletter\Model\Template $template
      * @return boolean
      */
-    public function checkUsageInQueue(Magento_Newsletter_Model_Template $template)
+    public function checkUsageInQueue(\Magento\Newsletter\Model\Template $template)
     {
         if ($template->getTemplateActual() !== 0 && !$template->getIsSystem()) {
             $select = $this->_getReadAdapter()->select()
-                ->from($this->getTable('newsletter_queue'), new Zend_Db_Expr('COUNT(queue_id)'))
+                ->from($this->getTable('newsletter_queue'), new \Zend_Db_Expr('COUNT(queue_id)'))
                 ->where('template_id = :template_id');
 
             $countOfQueue = $this->_getReadAdapter()->fetchOne($select, array('template_id'=>$template->getId()));
@@ -99,10 +101,10 @@ class Magento_Newsletter_Model_Resource_Template extends Magento_Core_Model_Reso
     /**
      * Check usage of template code in other templates
      *
-     * @param Magento_Newsletter_Model_Template $template
+     * @param \Magento\Newsletter\Model\Template $template
      * @return boolean
      */
-    public function checkCodeUsage(Magento_Newsletter_Model_Template $template)
+    public function checkCodeUsage(\Magento\Newsletter\Model\Template $template)
     {
         if ($template->getTemplateActual() != 0 || is_null($template->getTemplateActual())) {
             $bind = array(
@@ -111,7 +113,7 @@ class Magento_Newsletter_Model_Resource_Template extends Magento_Core_Model_Reso
                 'template_actual' => 1
             );
             $select = $this->_getReadAdapter()->select()
-                ->from($this->getMainTable(), new Zend_Db_Expr('COUNT(template_id)'))
+                ->from($this->getMainTable(), new \Zend_Db_Expr('COUNT(template_id)'))
                 ->where('template_id != :template_id')
                 ->where('template_code = :template_code')
                 ->where('template_actual = :template_actual');
@@ -127,14 +129,14 @@ class Magento_Newsletter_Model_Resource_Template extends Magento_Core_Model_Reso
     /**
      * Perform actions before object save
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Newsletter_Model_Resource_Template
-     * @throws Magento_Core_Exception
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Newsletter\Model\Resource\Template
+     * @throws \Magento\Core\Exception
      */
-    protected function _beforeSave(Magento_Core_Model_Abstract $object)
+    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
         if ($this->checkCodeUsage($object)) {
-            throw new Magento_Core_Exception(__('Duplicate template code'));
+            throw new \Magento\Core\Exception(__('Duplicate template code'));
         }
 
         if (!$object->hasTemplateActual()) {

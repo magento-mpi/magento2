@@ -12,12 +12,12 @@
 /**
  * Product list template
  *
- * @see Magento_Catalog_Block_Product_List
+ * @see \Magento\Catalog\Block\Product\ProductList
  */
 ?>
 <?php
 $_productCollection = $this->getLoadedProductCollection();
-$_helper = $this->helper('Magento_Catalog_Helper_Output');
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
 ?>
 <?php if (!$_productCollection->count()): ?>
 <p class="note-msg"><?php echo __('There are no products matching the selection.') ?></p>
@@ -65,8 +65,8 @@ $_helper = $this->helper('Magento_Catalog_Helper_Output');
                            class="link-learn"><?php echo __('Learn More') ?></a>
                     </div>
                     <ul class="add-to-links" data-role="add-to-links">
-                        <?php if ($this->helper('Magento_Wishlist_Helper_Data')->isAllow()) : ?>
-                        <li><a href="<?php echo $this->helper('Magento_Wishlist_Helper_Data')->getAddUrl($_product) ?>"
+                        <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow()) : ?>
+                        <li><a href="<?php echo $this->helper('Magento\Wishlist\Helper\Data')->getAddUrl($_product) ?>"
                                class="link-wishlist" data-action="add-to-wishlist"><?php echo __('Add to Wishlist') ?></a></li>
                         <?php endif; ?>
                         <?php if ($_compareUrl = $this->getAddToCompareUrl($_product)): ?>
@@ -119,8 +119,8 @@ $_helper = $this->helper('Magento_Catalog_Helper_Output');
                 <p class="availability out-of-stock"><span><?php echo __('Out of stock') ?></span></p>
                 <?php endif; ?>
                 <ul class="add-to-links" data-role="add-to-links">
-                    <?php if ($this->helper('Magento_Wishlist_Helper_Data')->isAllow()) : ?>
-                    <li><a href="<?php echo $this->helper('Magento_Wishlist_Helper_Data')->getAddUrl($_product) ?>"
+                    <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow()) : ?>
+                    <li><a href="<?php echo $this->helper('Magento\Wishlist\Helper\Data')->getAddUrl($_product) ?>"
                            class="link-wishlist" data-action="add-to-wishlist"><?php echo __('Add to Wishlist') ?></a></li>
                     <?php endif; ?>
                     <?php if ($_compareUrl = $this->getAddToCompareUrl($_product)): ?>

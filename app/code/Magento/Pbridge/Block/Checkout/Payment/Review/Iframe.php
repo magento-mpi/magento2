@@ -15,7 +15,9 @@
  * @package     Magento_Pbridge
  * @author      Magento
  */
-class Magento_Pbridge_Block_Checkout_Payment_Review_Iframe extends Magento_Pbridge_Block_Iframe_Abstract
+namespace Magento\Pbridge\Block\Checkout\Payment\Review;
+
+class Iframe extends \Magento\Pbridge\Block\Iframe\AbstractIframe
 {
     /**
      * Default iframe height
@@ -27,31 +29,31 @@ class Magento_Pbridge_Block_Checkout_Payment_Review_Iframe extends Magento_Pbrid
     /**
      * Pbridge session
      *
-     * @var Magento_Pbridge_Model_Session
+     * @var \Magento\Pbridge\Model\Session
      */
     protected $_pbridgeSession;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Pbridge_Model_Session $pbridgeSession
-     * @param Magento_Directory_Model_RegionFactory $regionFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Pbridge_Helper_Data $pbridgeData
-     * @param Magento_Pbridge_Model_Session $pbridgeSession
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Pbridge\Model\Session $pbridgeSession
+     * @param \Magento\Directory\Model\RegionFactory $regionFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Pbridge\Helper\Data $pbridgeData
+     * @param \Magento\Pbridge\Model\Session $pbridgeSession
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Pbridge_Model_Session $pbridgeSession,
-        Magento_Directory_Model_RegionFactory $regionFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Pbridge_Helper_Data $pbridgeData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Pbridge\Model\Session $pbridgeSession,
+        \Magento\Directory\Model\RegionFactory $regionFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Pbridge\Helper\Data $pbridgeData,
         array $data = array()
     ) {
         $this->_pbridgeSession = $pbridgeSession;

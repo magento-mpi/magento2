@@ -15,16 +15,18 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Controller_Customer_System_Config_Validatevat extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller\Customer\System\Config;
+
+class Validatevat extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Perform customer VAT ID validation
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     protected function _validate()
     {
-        return $this->_objectManager->get('Magento_Customer_Helper_Data')
+        return $this->_objectManager->get('Magento\Customer\Helper\Data')
             ->checkVatNumber(
                 $this->getRequest()->getParam('country'),
                 $this->getRequest()->getParam('vat')
@@ -49,8 +51,8 @@ class Magento_Adminhtml_Controller_Customer_System_Config_Validatevat extends Ma
      */
     public function validateAdvancedAction()
     {
-        /** @var $coreHelper Magento_Core_Helper_Data */
-        $coreHelper = $this->_objectManager->get('Magento_Core_Helper_Data');
+        /** @var $coreHelper \Magento\Core\Helper\Data */
+        $coreHelper = $this->_objectManager->get('Magento\Core\Helper\Data');
 
         $result = $this->_validate();
         $valid = $result->getIsValid();
@@ -62,7 +64,7 @@ class Magento_Adminhtml_Controller_Customer_System_Config_Validatevat extends Ma
             $storeId = (int)$storeId;
         }
 
-        $groupId = $this->_objectManager->get('Magento_Customer_Helper_Data')
+        $groupId = $this->_objectManager->get('Magento\Customer\Helper\Data')
             ->getCustomerGroupIdBasedOnVatNumber(
                 $this->getRequest()->getParam('country'), $result, $storeId
             );

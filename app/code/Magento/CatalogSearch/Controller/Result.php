@@ -11,33 +11,35 @@
 /**
  * Catalog Search Controller
  */
-class Magento_CatalogSearch_Controller_Result extends Magento_Core_Controller_Front_Action
+namespace Magento\CatalogSearch\Controller;
+
+class Result extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Catalog session
      *
-     * @var Magento_Catalog_Model_Session
+     * @var \Magento\Catalog\Model\Session
      */
     protected $_catalogSession;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Controller_Varien_Action_Context $context
-     * @param Magento_Catalog_Model_Session $catalogSession
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Catalog\Model\Session $catalogSession
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        Magento_Core_Controller_Varien_Action_Context $context,
-        Magento_Catalog_Model_Session $catalogSession,
-        Magento_Core_Model_StoreManagerInterface $storeManager
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Catalog\Model\Session $catalogSession,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_catalogSession = $catalogSession;
         $this->_storeManager = $storeManager;
@@ -47,7 +49,7 @@ class Magento_CatalogSearch_Controller_Result extends Magento_Core_Controller_Fr
     /**
      * Retrieve catalog session
      *
-     * @return Magento_Catalog_Model_Session
+     * @return \Magento\Catalog\Model\Session
      */
     protected function _getSession()
     {
@@ -58,13 +60,13 @@ class Magento_CatalogSearch_Controller_Result extends Magento_Core_Controller_Fr
      */
     public function indexAction()
     {
-        $query = $this->_objectManager->get('Magento_CatalogSearch_Helper_Data')->getQuery();
-        /* @var $query Magento_CatalogSearch_Model_Query */
+        $query = $this->_objectManager->get('Magento\CatalogSearch\Helper\Data')->getQuery();
+        /* @var $query \Magento\CatalogSearch\Model\Query */
 
         $query->setStoreId($this->_storeManager->getStore()->getId());
 
         if ($query->getQueryText() != '') {
-            if ($this->_objectManager->get('Magento_CatalogSearch_Helper_Data')->isMinQueryLength()) {
+            if ($this->_objectManager->get('Magento\CatalogSearch\Helper\Data')->isMinQueryLength()) {
                 $query->setId(0)
                     ->setIsActive(1)
                     ->setIsProcessed(1);
@@ -87,14 +89,14 @@ class Magento_CatalogSearch_Controller_Result extends Magento_Core_Controller_Fr
                 }
             }
 
-            $this->_objectManager->get('Magento_CatalogSearch_Helper_Data')->checkNotes();
+            $this->_objectManager->get('Magento\CatalogSearch\Helper\Data')->checkNotes();
 
             $this->loadLayout();
-            $this->_initLayoutMessages('Magento_Catalog_Model_Session');
-            $this->_initLayoutMessages('Magento_Checkout_Model_Session');
+            $this->_initLayoutMessages('Magento\Catalog\Model\Session');
+            $this->_initLayoutMessages('Magento\Checkout\Model\Session');
             $this->renderLayout();
 
-            if (!$this->_objectManager->get('Magento_CatalogSearch_Helper_Data')->isMinQueryLength()) {
+            if (!$this->_objectManager->get('Magento\CatalogSearch\Helper\Data')->isMinQueryLength()) {
                 $query->save();
             }
         }

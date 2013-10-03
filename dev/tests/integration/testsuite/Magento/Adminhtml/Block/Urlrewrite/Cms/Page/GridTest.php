@@ -9,31 +9,33 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Urlrewrite\Cms\Page;
+
 /**
- * Test for Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Grid
+ * Test for \Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Grid
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_GridTest extends PHPUnit_Framework_TestCase
+class GridTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test prepare grid
      */
     public function testPrepareGrid()
     {
-        /** @var Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Grid $gridBlock */
-        $gridBlock = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Grid');
+        /** @var \Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Grid $gridBlock */
+        $gridBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Grid');
         $gridBlock->toHtml();
 
         foreach (array('title', 'identifier', 'is_active') as $key) {
-            $this->assertInstanceOf('Magento_Backend_Block_Widget_Grid_Column', $gridBlock->getColumn($key),
+            $this->assertInstanceOf('Magento\Backend\Block\Widget\Grid\Column', $gridBlock->getColumn($key),
                 'Column with key "' . $key . '" is invalid');
         }
 
         $this->assertStringStartsWith('http://localhost/index.php', $gridBlock->getGridUrl(),
             'Grid URL is invalid');
 
-        $row = new Magento_Object(array('id' => 1));
+        $row = new \Magento\Object(array('id' => 1));
         $this->assertStringStartsWith('http://localhost/index.php/cms_page/1', $gridBlock->getRowUrl($row),
             'Grid row URL is invalid');
 
@@ -48,11 +50,11 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_GridTest extends PHPUnit_Frame
      */
     public function testPrepareGridForMultipleStores()
     {
-        /** @var Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Grid $gridBlock */
-        $gridBlock = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Grid');
+        /** @var \Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Grid $gridBlock */
+        $gridBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Grid');
         $gridBlock->toHtml();
-        $this->assertInstanceOf('Magento_Backend_Block_Widget_Grid_Column', $gridBlock->getColumn('store_id'),
+        $this->assertInstanceOf('Magento\Backend\Block\Widget\Grid\Column', $gridBlock->getColumn('store_id'),
             'When there is more than one store column with key "store_id" should be present');
     }
 }

@@ -6,30 +6,32 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Block_Product_View_TabsTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Block\Product\View;
+
+class TabsTest extends \PHPUnit_Framework_TestCase
 {
     public function testAddTab()
     {
-        $tabBlock = $this->getMock('Magento_Core_Block_Template', array(), array(), '', false);
+        $tabBlock = $this->getMock('Magento\Core\Block\Template', array(), array(), '', false);
         $tabBlock->expects($this->once())
             ->method('setTemplate')
             ->with('template')
             ->will($this->returnSelf());
 
-        $layout = $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false);
+        $layout = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
         $layout->expects($this->once())
             ->method('createBlock')
             ->with('block')
             ->will($this->returnValue($tabBlock));
 
-        $context = $this->getMock('Magento_Core_Block_Template_Context', array(), array(), '', false);
+        $context = $this->getMock('Magento\Core\Block\Template\Context', array(), array(), '', false);
         $context->expects($this->once())
             ->method('getLayout')
             ->will($this->returnValue($layout));
 
-        $coreData = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
+        $coreData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
 
-        $block = new Magento_Catalog_Block_Product_View_Tabs($coreData, $context);
+        $block = new \Magento\Catalog\Block\Product\View\Tabs($coreData, $context);
         $block->addTab('alias', 'title', 'block', 'template', 'header');
 
         $expectedTabs = array(

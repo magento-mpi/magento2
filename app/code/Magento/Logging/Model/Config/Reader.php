@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Logging_Model_Config_Reader extends Magento_Config_Reader_Filesystem
+namespace Magento\Logging\Model\Config;
+
+class Reader extends \Magento\Config\Reader\Filesystem
 {
     /**
      * List of identifier attributes for merging
@@ -28,22 +30,22 @@ class Magento_Logging_Model_Config_Reader extends Magento_Config_Reader_Filesyst
     );
 
     /**
-     * @param Magento_Config_FileResolverInterface $fileResolver
-     * @param Magento_Logging_Model_Config_Converter $converter
-     * @param Magento_Logging_Model_Config_SchemaLocator $schemaLocator
-     * @param Magento_Config_ValidationStateInterface $validationState
+     * @param \Magento\Config\FileResolverInterface $fileResolver
+     * @param \Magento\Logging\Model\Config\Converter $converter
+     * @param \Magento\Logging\Model\Config\SchemaLocator $schemaLocator
+     * @param \Magento\Config\ValidationStateInterface $validationState
      * @param string $fileName
      * @param array $idAttributes
      * @param string $domDocumentClass
      */
     public function __construct(
-        Magento_Config_FileResolverInterface $fileResolver,
-        Magento_Logging_Model_Config_Converter $converter,
-        Magento_Logging_Model_Config_SchemaLocator $schemaLocator,
-        Magento_Config_ValidationStateInterface $validationState,
+        \Magento\Config\FileResolverInterface $fileResolver,
+        \Magento\Logging\Model\Config\Converter $converter,
+        \Magento\Logging\Model\Config\SchemaLocator $schemaLocator,
+        \Magento\Config\ValidationStateInterface $validationState,
         $fileName = 'logging.xml',
         $idAttributes = array(),
-        $domDocumentClass = 'Magento_Config_Dom'
+        $domDocumentClass = 'Magento\Config\Dom'
     ) {
         parent::__construct(
             $fileResolver, $converter, $schemaLocator, $validationState,

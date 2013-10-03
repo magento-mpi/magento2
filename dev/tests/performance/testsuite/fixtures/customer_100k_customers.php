@@ -52,10 +52,10 @@ $pattern = array(
     '_address_default_billing_'   => '1',
     '_address_default_shipping_'  => '1'
 );
-$generator = new Magento_TestFramework_ImportExport_Fixture_Generator($pattern, $customersNumber);
-/** @var Magento_ImportExport_Model_Import $import */
-$import = Mage::getModel(
-    'Magento_ImportExport_Model_Import',
+$generator = new \Magento\TestFramework\ImportExport\Fixture\Generator($pattern, $customersNumber);
+/** @var \Magento\ImportExport\Model\Import $import */
+$import = \Mage::getModel(
+    'Magento\ImportExport\Model\Import',
     array('data' => array('entity' => 'customer_composite', 'behavior' => 'append'))
 );
 // it is not obvious, but the validateSource() will actually save import queue data to DB

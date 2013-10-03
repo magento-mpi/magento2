@@ -9,12 +9,12 @@
  */
 
 $installer = $this;
-/** @var $installer Magento_Catalog_Model_Resource_Setup */
+/** @var $installer \Magento\Catalog\Model\Resource\Setup */
 $installer->getConnection()->modifyColumn(
     $installer->getTable('catalog_category_product_index'),
     'position',
     array(
-        'type'      => Magento_DB_Ddl_Table::TYPE_INTEGER,
+        'type'      => \Magento\DB\Ddl\Table::TYPE_INTEGER,
         'unsigned'  => false,
         'nullable'  => true,
         'default'   => null,

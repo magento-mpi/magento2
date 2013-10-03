@@ -8,21 +8,21 @@
  */
 -->
 <config>
-    <preference for="Magento_Core_Model_Config_Storage_WriterInterface" type="Magento_Core_Model_Config_Storage_Writer_Db" />
-    <type name="Magento_Backend_Controller_Context">
+    <preference for="Magento\Core\Model\Config\Storage\WriterInterface" type="Magento\Core\Model\Config\Storage\Writer\Db" />
+    <type name="Magento\Backend\Controller\Context">
         <param name="translator">
-            <instance type="Magento_Core_Model_Translate_Proxy" />
+            <instance type="Magento\Core\Model\Translate\Proxy" />
         </param>
     </type>
-    <type name="Magento_Backend_Controller_Router_Default">
+    <type name="Magento\Backend\Controller\Router\DefaultRouter">
         <param name="controllerFactory">
-            <instance type="Magento_Backend_Controller_Factory" />
+            <instance type="Magento\Backend\Controller\Factory" />
         </param>
         <param name="areaCode">
             <value>adminhtml</value>
         </param>
         <param name="baseController">
-            <value>Magento_Backend_Controller_ActionAbstract</value>
+            <value>Magento\Backend\Controller\ActionAbstract</value>
         </param>
         <param name="routerId">
             <value>admin</value>
@@ -31,19 +31,19 @@
             <value>adminhtml</value>
         </param>
     </type>
-    <type name="Magento_Backend_Controller_Adminhtml_System_Config_Save">
+    <type name="Magento\Backend\Controller\Adminhtml\System\Config\Save">
         <param name="cache">
-            <instance type="Magento_Core_Model_Cache_Type_Layout" />
+            <instance type="Magento\Core\Model\Cache\Type\Layout" />
         </param>
     </type>
-    <type name="Magento_Backend_Model_Menu_Config">
-        <param name="menuDirector"><instance type="Magento_Backend_Model_Menu_Director_Director"/></param>
+    <type name="Magento\Backend\Model\Menu\Config">
+        <param name="menuDirector"><instance type="Magento\Backend\Model\Menu\Director\Director"/></param>
     </type>
-    <type name="Magento_Core_Model_RouterList">
+    <type name="Magento\Core\Model\RouterList">
         <param name="routerList">
             <value>
                 <admin>
-                    <instance>Magento_Backend_Controller_Router_Default</instance>
+                    <instance>Magento\Backend\Controller\Router\DefaultRouter</instance>
                     <disable type="bool">false</disable>
                     <sortOrder>10</sortOrder>
                 </admin>
@@ -51,19 +51,19 @@
         </param>
     </type>
 
-    <type name="Magento_Backend_Helper_Data">
+    <type name="Magento\Backend\Helper\Data">
         <param name="defaultAreaFrontName">
             <value>backend</value>
         </param>
         <param name="backendFrontName">
-            <value type="argument">Magento_Backend_Helper_Data::PARAM_BACKEND_FRONT_NAME</value>
+            <value type="argument">Magento\Backend\Helper\Data::PARAM_BACKEND_FRONT_NAME</value>
         </param>
     </type>
-    <type name="Magento_Core_Model_NoRouteHandlerList">
+    <type name="Magento\Core\Model\NoRouteHandlerList">
         <param name="handlerClassesList">
             <value>
                 <backend>
-                    <instance>Magento_Backend_Model_Router_NoRouteHandler</instance>
+                    <instance>Magento\Backend\Model\Router\NoRouteHandler</instance>
                     <sortOrder>10</sortOrder>
                 </backend>
             </value>

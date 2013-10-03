@@ -9,26 +9,28 @@
 /**
  * Cms resource setup
  */
-class Magento_Cms_Model_Resource_Setup extends Magento_Core_Model_Resource_Setup_Generic
+namespace Magento\Cms\Model\Resource;
+
+class Setup extends \Magento\Core\Model\Resource\Setup\Generic
 {
     /**
      * Block factory
      *
-     * @var Magento_Cms_Model_BlockFactory
+     * @var \Magento\Cms\Model\BlockFactory
      */
     protected $_blockFactory;
 
     /**
      * Page factory
      *
-     * @var Magento_Cms_Model_PageFactory
+     * @var \Magento\Cms\Model\PageFactory
      */
     protected $_pageFactory;
 
     public function __construct(
-        Magento_Core_Model_Resource_Setup_Context $context,
-        Magento_Cms_Model_BlockFactory $blockFactory,
-        Magento_Cms_Model_PageFactory $pageFactory,
+        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Cms\Model\BlockFactory $blockFactory,
+        \Magento\Cms\Model\PageFactory $pageFactory,
         $resourceName,
         $moduleName = 'Magento_Cms',
         $connectionName = ''
@@ -41,7 +43,7 @@ class Magento_Cms_Model_Resource_Setup extends Magento_Core_Model_Resource_Setup
     /**
      * Create block
      *
-     * @return Magento_Cms_Model_Block
+     * @return \Magento\Cms\Model\Block
      */
     public function createBlock()
     {
@@ -51,7 +53,7 @@ class Magento_Cms_Model_Resource_Setup extends Magento_Core_Model_Resource_Setup
     /**
      * Create page
      *
-     * @return Magento_Cms_Model_Page
+     * @return \Magento\Cms\Model\Page
      */
     public function createPage()
     {

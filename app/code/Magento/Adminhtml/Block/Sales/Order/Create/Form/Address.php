@@ -15,53 +15,55 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
-    extends Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract
+namespace Magento\Adminhtml\Block\Sales\Order\Create\Form;
+
+class Address
+    extends \Magento\Adminhtml\Block\Sales\Order\Create\Form\AbstractForm
 {
     /**
      * Customer Address Form instance
      *
-     * @var Magento_Customer_Model_Form
+     * @var \Magento\Customer\Model\Form
      */
     protected $_addressForm;
 
     /**
      * Adminhtml addresses
      *
-     * @var Magento_Adminhtml_Helper_Addresses
+     * @var \Magento\Adminhtml\Helper\Addresses
      */
     protected $_adminhtmlAddresses = null;
 
     /**
-     * @var Magento_Customer_Model_AddressFactory
+     * @var \Magento\Customer\Model\AddressFactory
      */
     protected $_addressFactory;
 
     /**
-     * @var Magento_Customer_Model_FormFactory
+     * @var \Magento\Customer\Model\FormFactory
      */
     protected $_customerFormFactory;
 
     /**
-     * @param Magento_Customer_Model_AddressFactory $addressFactory
-     * @param Magento_Customer_Model_FormFactory $customerFormFactory
-     * @param Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
-     * @param Magento_Adminhtml_Model_Sales_Order_Create $orderCreate
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Customer\Model\AddressFactory $addressFactory
+     * @param \Magento\Customer\Model\FormFactory $customerFormFactory
+     * @param \Magento\Adminhtml\Helper\Addresses $adminhtmlAddresses
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Customer_Model_AddressFactory $addressFactory,
-        Magento_Customer_Model_FormFactory $customerFormFactory,
-        Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Adminhtml_Model_Session_Quote $sessionQuote,
-        Magento_Adminhtml_Model_Sales_Order_Create $orderCreate,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Customer\Model\AddressFactory $addressFactory,
+        \Magento\Customer\Model\FormFactory $customerFormFactory,
+        \Magento\Adminhtml\Helper\Addresses $adminhtmlAddresses,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_addressFactory = $addressFactory;
@@ -93,7 +95,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
     /**
      * Return customer address form instance
      *
-     * @return Magento_Customer_Model_Form
+     * @return \Magento\Customer\Model\Form
      */
     protected function _getAddressForm()
     {
@@ -119,12 +121,12 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
             ->getAddressById(null)
             ->setCountryId($this->_coreData->getDefaultCountry($this->getStore()));
         $data[0] = $addressForm->setEntity($emptyAddress)
-            ->outputData(Magento_Eav_Model_AttributeDataFactory::OUTPUT_FORMAT_JSON);
+            ->outputData(\Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON);
 
         foreach ($this->getAddressCollection() as $address) {
             $addressForm->setEntity($address);
             $data[$address->getId()] = $addressForm->outputData(
-                Magento_Eav_Model_AttributeDataFactory::OUTPUT_FORMAT_JSON
+                \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON
             );
         }
         return $this->_coreData->jsonEncode($data);
@@ -133,7 +135,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
     /**
      * Prepare Form and add elements to form
      *
-     * @return Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
+     * @return \Magento\Adminhtml\Block\Sales\Order\Create\Form\Address
      */
     protected function _prepareForm()
     {
@@ -141,7 +143,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
             'no_container' => true
         ));
 
-        /* @var $addressModel Magento_Customer_Model_Address */
+        /* @var $addressModel \Magento\Customer\Model\Address */
         $addressModel = $this->_addressFactory->create();
 
         $addressForm = $this->_getAddressForm()
@@ -156,7 +158,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
 
         $prefixElement = $this->_form->getElement('prefix');
         if ($prefixElement) {
-            $prefixOptions = $this->helper('Magento_Customer_Helper_Data')->getNamePrefixOptions($this->getStore());
+            $prefixOptions = $this->helper('Magento\Customer\Helper\Data')->getNamePrefixOptions($this->getStore());
             if (!empty($prefixOptions)) {
                 $fieldset->removeField($prefixElement->getId());
                 $prefixField = $fieldset->addField($prefixElement->getId(),
@@ -173,7 +175,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
 
         $suffixElement = $this->_form->getElement('suffix');
         if ($suffixElement) {
-            $suffixOptions = $this->helper('Magento_Customer_Helper_Data')->getNameSuffixOptions($this->getStore());
+            $suffixOptions = $this->helper('Magento\Customer\Helper\Data')->getNameSuffixOptions($this->getStore());
             if (!empty($suffixOptions)) {
                 $fieldset->removeField($suffixElement->getId());
                 $suffixField = $fieldset->addField($suffixElement->getId(),
@@ -216,7 +218,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
         if ($vatIdElement && $this->getDisplayVatValidationButton() !== false) {
             $vatIdElement->setRenderer(
                 $this->getLayout()
-                    ->createBlock('Magento_Adminhtml_Block_Customer_Sales_Order_Address_Form_Renderer_Vat')
+                    ->createBlock('Magento\Adminhtml\Block\Customer\Sales\Order\Address\Form\Renderer\Vat')
                     ->setJsVariablePrefix($this->getJsVariablePrefix())
             );
         }
@@ -227,10 +229,10 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
     /**
      * Add additional data to form element
      *
-     * @param Magento_Data_Form_Element_Abstract $element
-     * @return Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract
+     * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @return \Magento\Adminhtml\Block\Sales\Order\Create\Form\AbstractForm
      */
-    protected function _addAdditionalFormElementData(Magento_Data_Form_Element_Abstract $element)
+    protected function _addAdditionalFormElementData(\Magento\Data\Form\Element\AbstractElement $element)
     {
         if ($element->getId() == 'region_id') {
             $element->setNoDisplay(true);
@@ -251,7 +253,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
     /**
      * Return customer address formated as one-line string
      *
-     * @param Magento_Customer_Model_Address $address
+     * @param \Magento\Customer\Model\Address $address
      * @return string
      */
     public function getAddressAsString($address)

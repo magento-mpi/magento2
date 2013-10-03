@@ -12,7 +12,9 @@
  * Customer balance controller for shopping cart
  *
  */
-class Magento_CustomerBalance_Controller_Cart extends Magento_Core_Controller_Front_Action
+namespace Magento\CustomerBalance\Controller;
+
+class Cart extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Only logged in users can use this functionality,
@@ -23,7 +25,7 @@ class Magento_CustomerBalance_Controller_Cart extends Magento_Core_Controller_Fr
     {
         parent::preDispatch();
 
-        if (!$this->_objectManager->get('Magento_Customer_Model_Session')->authenticate($this)) {
+        if (!$this->_objectManager->get('Magento\Customer\Model\Session')->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
         }
     }
@@ -34,19 +36,19 @@ class Magento_CustomerBalance_Controller_Cart extends Magento_Core_Controller_Fr
      */
     public function removeAction()
     {
-        if (!$this->_objectManager->get('Magento_CustomerBalance_Helper_Data')->isEnabled()) {
+        if (!$this->_objectManager->get('Magento\CustomerBalance\Helper\Data')->isEnabled()) {
             $this->_redirect('customer/account/');
             return;
         }
 
-        $quote = $this->_objectManager->get('Magento_Checkout_Model_Session')->getQuote();
+        $quote = $this->_objectManager->get('Magento\Checkout\Model\Session')->getQuote();
         if ($quote->getUseCustomerBalance()) {
-            $this->_objectManager->get('Magento_Checkout_Model_Session')->addSuccess(
+            $this->_objectManager->get('Magento\Checkout\Model\Session')->addSuccess(
                 __('The store credit payment has been removed from shopping cart.')
             );
             $quote->setUseCustomerBalance(false)->collectTotals()->save();
         } else {
-            $this->_objectManager->get('Magento_Checkout_Model_Session')->addError(
+            $this->_objectManager->get('Magento\Checkout\Model\Session')->addError(
                 __('You are not using store credit in your shopping cart.')
             );
         }

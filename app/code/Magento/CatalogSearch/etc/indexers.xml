@@ -8,5 +8,5 @@
  */
 -->
 <config>
-    <indexer name="catalogsearch_fulltext" instance="Magento_CatalogSearch_Model_Indexer_Fulltext" />
+    <indexer name="catalogsearch_fulltext" instance="Magento\CatalogSearch\Model\Indexer\Fulltext" />
 </config>

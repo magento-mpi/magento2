@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Category_Edit_Form extends Magento_Adminhtml_Block_Catalog_Category_Abstract
+namespace Magento\Adminhtml\Block\Catalog\Category\Edit;
+
+class Form extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
 {
     /**
      * Additional buttons on category page
@@ -34,7 +36,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Edit_Form extends Magento_Adminht
         if ($head = $this->getLayout()->getBlock('head')) {
             $head->addChild(
                 'magento-adminhtml-catalog-category-edit-js',
-                'Magento_Page_Block_Html_Head_Script',
+                'Magento\Page\Block\Html\Head\Script',
                 array(
                     'file' => 'Magento_Adminhtml::catalog/category/edit.js'
                 )
@@ -45,12 +47,12 @@ class Magento_Adminhtml_Block_Catalog_Category_Edit_Form extends Magento_Adminht
         $categoryId = (int) $category->getId(); // 0 when we create category, otherwise some value for editing category
 
         $this->setChild('tabs',
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Catalog_Category_Tabs', 'tabs')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Category\Tabs', 'tabs')
         );
 
         // Save button
         if (!$category->isReadonly()) {
-            $this->addChild('save_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+            $this->addChild('save_button', 'Magento\Adminhtml\Block\Widget\Button', array(
                 'label'     => __('Save Category'),
                 'onclick'   => "categorySubmit('" . $this->getSaveUrl() . "', true)",
                 'class' => 'save'
@@ -59,7 +61,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Edit_Form extends Magento_Adminht
 
         // Delete button
         if (!in_array($categoryId, $this->getRootIds()) && $category->isDeleteable()) {
-            $this->addChild('delete_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+            $this->addChild('delete_button', 'Magento\Adminhtml\Block\Widget\Button', array(
                 'label'     => __('Delete Category'),
                 'onclick'   => "categoryDelete('" . $this->getUrl('*/*/delete', array('_current' => true)) . "', true, {$categoryId})",
                 'class' => 'delete'
@@ -69,7 +71,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Edit_Form extends Magento_Adminht
         // Reset button
         if (!$category->isReadonly()) {
             $resetPath = $categoryId ? '*/*/edit' : '*/*/add';
-            $this->addChild('reset_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+            $this->addChild('reset_button', 'Magento\Adminhtml\Block\Widget\Button', array(
                 'label'     => __('Reset'),
                 'onclick'   => "categoryReset('".$this->getUrl($resetPath, array('_current'=>true))."',true)"
             ));
@@ -131,7 +133,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Edit_Form extends Magento_Adminht
      *
      * @param string $alias
      * @param array $config
-     * @return Magento_Adminhtml_Block_Catalog_Category_Edit_Form
+     * @return \Magento\Adminhtml\Block\Catalog\Category\Edit\Form
      */
     public function addAdditionalButton($alias, $config)
     {
@@ -139,7 +141,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Edit_Form extends Magento_Adminht
             $config['element_name'] = $config['name'];
         }
         $this->setChild($alias . '_button',
-                        $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')->addData($config));
+                        $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')->addData($config));
         $this->_additionalButtons[$alias] = $alias . '_button';
         return $this;
     }
@@ -148,7 +150,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Edit_Form extends Magento_Adminht
      * Remove additional button
      *
      * @param string $alias
-     * @return Magento_Adminhtml_Block_Catalog_Category_Edit_Form
+     * @return \Magento\Adminhtml\Block\Catalog\Category\Edit\Form
      */
     public function removeAdditionalButton($alias)
     {
@@ -172,7 +174,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Edit_Form extends Magento_Adminht
                 return $this->getCategoryName();
             } else {
                 $parentId = (int) $this->getRequest()->getParam('parent');
-                if ($parentId && ($parentId != Magento_Catalog_Model_Category::TREE_ROOT_ID)) {
+                if ($parentId && ($parentId != \Magento\Catalog\Model\Category::TREE_ROOT_ID)) {
                     return __('New Subcategory');
                 } else {
                     return __('New Root Category');

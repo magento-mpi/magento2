@@ -8,13 +8,14 @@
  * @license     {license_link}
  */
 
+namespace Magento\Newsletter\Model\Resource\Problem;
 
 /**
  * Newsletter problems collection
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Magento_Newsletter_Model_Resource_Problem_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * True when subscribers info joined
@@ -33,27 +34,27 @@ class Magento_Newsletter_Model_Resource_Problem_Collection extends Magento_Core_
     /**
      * Customer collection factory
      *
-     * @var Magento_Customer_Model_Resource_Customer_CollectionFactory
+     * @var \Magento\Customer\Model\Resource\Customer\CollectionFactory
      */
     protected $_customerCollectionFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Customer_Model_Resource_Customer_CollectionFactory $customerCollectionFactory
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Customer\Model\Resource\Customer\CollectionFactory $customerCollectionFactory
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Customer_Model_Resource_Customer_CollectionFactory $customerCollectionFactory,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Customer\Model\Resource\Customer\CollectionFactory $customerCollectionFactory,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
         $this->_customerCollectionFactory = $customerCollectionFactory;
@@ -65,13 +66,13 @@ class Magento_Newsletter_Model_Resource_Problem_Collection extends Magento_Core_
      */
     protected function _construct()
     {
-        $this->_init('Magento_Newsletter_Model_Problem', 'Magento_Newsletter_Model_Resource_Problem');
+        $this->_init('Magento\Newsletter\Model\Problem', 'Magento\Newsletter\Model\Resource\Problem');
     }
 
     /**
      * Adds subscribers info
      *
-     * @return Magento_Newsletter_Model_Resource_Problem_Collection
+     * @return \Magento\Newsletter\Model\Resource\Problem\Collection
      */
     public function addSubscriberInfo()
     {
@@ -88,7 +89,7 @@ class Magento_Newsletter_Model_Resource_Problem_Collection extends Magento_Core_
     /**
      * Adds queue info
      *
-     * @return Magento_Newsletter_Model_Resource_Problem_Collection
+     * @return \Magento\Newsletter\Model\Resource\Problem\Collection
      */
     public function addQueueInfo()
     {
@@ -120,7 +121,7 @@ class Magento_Newsletter_Model_Resource_Problem_Collection extends Magento_Core_
             return;
         }
 
-        /** @var Magento_Customer_Model_Resource_Customer_Collection $customers */
+        /** @var \Magento\Customer\Model\Resource\Customer\Collection $customers */
         $customers = $this->_customerCollectionFactory->create();
         $customers->addNameToSelect()
             ->addAttributeToFilter('entity_id', array("in"=>$customersIds));
@@ -142,7 +143,7 @@ class Magento_Newsletter_Model_Resource_Problem_Collection extends Magento_Core_
      *
      * @param bool $printQuery
      * @param bool $logQuery
-     * @return Magento_Newsletter_Model_Resource_Problem_Collection
+     * @return \Magento\Newsletter\Model\Resource\Problem\Collection
      */
     public function load($printQuery = false, $logQuery = false)
     {

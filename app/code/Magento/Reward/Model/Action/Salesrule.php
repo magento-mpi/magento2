@@ -15,25 +15,27 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Model_Action_Salesrule extends Magento_Reward_Model_Action_Abstract
+namespace Magento\Reward\Model\Action;
+
+class Salesrule extends \Magento\Reward\Model\Action\AbstractAction
 {
      /**
      * Quote instance, required for estimating checkout reward (rule defined static value)
      *
-     * @var Magento_Sales_Model_Quote
+     * @var \Magento\Sales\Model\Quote
      */
     protected $_quote = null;
 
     /**
-     * @var Magento_Reward_Model_Resource_RewardFactory
+     * @var \Magento\Reward\Model\Resource\RewardFactory
      */
     protected $_rewardFactory;
 
     /**
-     * @param Magento_Reward_Model_Resource_RewardFactory $rewardFactory
+     * @param \Magento\Reward\Model\Resource\RewardFactory $rewardFactory
      * @param array $data
      */
-    public function __construct(Magento_Reward_Model_Resource_RewardFactory $rewardFactory, array $data = array())
+    public function __construct(\Magento\Reward\Model\Resource\RewardFactory $rewardFactory, array $data = array())
     {
         $this->_rewardFactory = $rewardFactory;
         parent::__construct($data);
@@ -64,10 +66,10 @@ class Magento_Reward_Model_Action_Salesrule extends Magento_Reward_Model_Action_
     /**
      * Quote setter
      *
-     * @param Magento_Sales_Model_Quote $quote
-     * @return Magento_Reward_Model_Action_OrderExtra
+     * @param \Magento\Sales\Model\Quote $quote
+     * @return \Magento\Reward\Model\Action\OrderExtra
      */
-    public function setQuote(Magento_Sales_Model_Quote $quote)
+    public function setQuote(\Magento\Sales\Model\Quote $quote)
     {
         $this->_quote = $quote;
         return $this;
@@ -98,8 +100,8 @@ class Magento_Reward_Model_Action_Salesrule extends Magento_Reward_Model_Action_
     /**
      * Setter for $_entity and add some extra data to history
      *
-     * @param Magento_Object $entity
-     * @return Magento_Reward_Model_Action_Abstract
+     * @param \Magento\Object $entity
+     * @return \Magento\Reward\Model\Action\AbstractAction
      */
     public function setEntity($entity)
     {

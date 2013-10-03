@@ -11,7 +11,9 @@
 /**
  * Block that renders CSS tab
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Css extends Magento_Core_Block_Template
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code;
+
+class Css extends \Magento\Core\Block\Template
 {
     /**
      * Get file groups content

@@ -8,10 +8,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\ProductAlert\Block\Product\View;
+
 /**
  * Recurring profile view stock
  */
-class Magento_ProductAlert_Block_Product_View_Stock extends Magento_ProductAlert_Block_Product_View
+class Stock extends \Magento\ProductAlert\Block\Product\View
 {
     /**
      * Prepare stock info

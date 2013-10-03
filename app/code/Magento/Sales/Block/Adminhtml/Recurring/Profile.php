@@ -11,7 +11,9 @@
 /**
  * Adminhtml sales orders block
  */
-class Magento_Sales_Block_Adminhtml_Recurring_Profile extends Magento_Adminhtml_Block_Widget_Grid_Container
+namespace Magento\Sales\Block\Adminhtml\Recurring;
+
+class Profile extends \Magento\Adminhtml\Block\Widget\Grid\Container
 {
     /**
      * Instructions to create child grid

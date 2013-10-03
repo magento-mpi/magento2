@@ -16,7 +16,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Resource_Store_Group_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Core\Model\Resource\Store\Group;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Define resource model
@@ -25,7 +27,7 @@ class Magento_Core_Model_Resource_Store_Group_Collection extends Magento_Core_Mo
     protected function _construct()
     {
         $this->setFlag('load_default_store_group', false);
-        $this->_init('Magento_Core_Model_Store_Group', 'Magento_Core_Model_Resource_Store_Group');
+        $this->_init('Magento\Core\Model\Store\Group', 'Magento\Core\Model\Resource\Store\Group');
     }
 
     /**
@@ -33,7 +35,7 @@ class Magento_Core_Model_Resource_Store_Group_Collection extends Magento_Core_Mo
      *
      * @param boolean $loadDefault
      *
-     * @return Magento_Core_Model_Resource_Store_Group_Collection
+     * @return \Magento\Core\Model\Resource\Store\Group\Collection
      */
     public function setLoadDefault($loadDefault)
     {
@@ -53,7 +55,7 @@ class Magento_Core_Model_Resource_Store_Group_Collection extends Magento_Core_Mo
     /**
      * Add disable default store group filter to collection
      *
-     * @return Magento_Core_Model_Resource_Store_Group_Collection
+     * @return \Magento\Core\Model\Resource\Store\Group\Collection
      */
     public function setWithoutDefaultFilter()
     {
@@ -63,7 +65,7 @@ class Magento_Core_Model_Resource_Store_Group_Collection extends Magento_Core_Mo
     /**
      * Filter to discard stores without views
      *
-     * @return Magento_Core_Model_Resource_Store_Group_Collection
+     * @return \Magento\Core\Model\Resource\Store\Group\Collection
      */
     public function setWithoutStoreViewFilter()
     {
@@ -73,7 +75,7 @@ class Magento_Core_Model_Resource_Store_Group_Collection extends Magento_Core_Mo
     /**
      * Load collection data
      *
-     * @return Magento_Core_Model_Resource_Store_Group_Collection
+     * @return \Magento\Core\Model\Resource\Store\Group\Collection
      */
     public function _beforeLoad()
     {
@@ -99,7 +101,7 @@ class Magento_Core_Model_Resource_Store_Group_Collection extends Magento_Core_Mo
      *
      * @param int|array $website
      *
-     * @return Magento_Core_Model_Resource_Store_Group_Collection
+     * @return \Magento\Core\Model\Resource\Store\Group\Collection
      */
     public function addWebsiteFilter($website)
     {

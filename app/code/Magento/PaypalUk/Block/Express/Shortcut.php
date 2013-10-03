@@ -11,14 +11,16 @@
 /**
  * Paypal expess checkout shortcut link
  */
-class Magento_PaypalUk_Block_Express_Shortcut extends Magento_Paypal_Block_Express_Shortcut
+namespace Magento\PaypalUk\Block\Express;
+
+class Shortcut extends \Magento\Paypal\Block\Express\Shortcut
 {
     /**
      * Payment method code
      *
      * @var string
      */
-    protected $_paymentMethodCode = Magento_Paypal_Model_Config::METHOD_WPP_PE_EXPRESS;
+    protected $_paymentMethodCode = \Magento\Paypal\Model\Config::METHOD_WPP_PE_EXPRESS;
 
     /**
      * Start express action
@@ -32,5 +34,5 @@ class Magento_PaypalUk_Block_Express_Shortcut extends Magento_Paypal_Block_Expre
      *
      * @var string
      */
-    protected $_checkoutType = 'Magento_PaypalUk_Model_Express_Checkout';
+    protected $_checkoutType = 'Magento\PaypalUk\Model\Express\Checkout';
 }

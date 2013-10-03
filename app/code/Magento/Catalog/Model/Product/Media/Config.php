@@ -16,31 +16,33 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Media_Config implements Magento_Media_Model_Image_Config_Interface
+namespace Magento\Catalog\Model\Product\Media;
+
+class Config implements \Magento\Media\Model\Image\Config\ConfigInterface
 {
     /**
      * Dir
      *
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_dir;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Dir $dir
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Dir $dir
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Dir $dir
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Dir $dir
     ) {
         $this->_storeManager = $storeManager;
         $this->_dir = $dir;
@@ -92,26 +94,26 @@ class Magento_Catalog_Model_Product_Media_Config implements Magento_Media_Model_
 
     public function getBaseMediaPath()
     {
-        return $this->_dir->getDir(Magento_Core_Model_Dir::MEDIA) . DIRECTORY_SEPARATOR
+        return $this->_dir->getDir(\Magento\Core\Model\Dir::MEDIA) . DIRECTORY_SEPARATOR
             . 'catalog' . DIRECTORY_SEPARATOR . 'product';
     }
 
     public function getBaseMediaUrl()
     {
         return $this->_storeManager->getStore()
-            ->getBaseUrl(Magento_Core_Model_Store::URL_TYPE_MEDIA) . 'catalog/product';
+            ->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_MEDIA) . 'catalog/product';
     }
 
     public function getBaseTmpMediaPath()
     {
-        return $this->_dir->getDir(Magento_Core_Model_Dir::MEDIA) . DIRECTORY_SEPARATOR
+        return $this->_dir->getDir(\Magento\Core\Model\Dir::MEDIA) . DIRECTORY_SEPARATOR
             . $this->getBaseTmpMediaPathAddition();
     }
 
     public function getBaseTmpMediaUrl()
     {
         return $this->_storeManager->getStore()
-            ->getBaseUrl(Magento_Core_Model_Store::URL_TYPE_MEDIA) . $this->getBaseTmpMediaUrlAddition();
+            ->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_MEDIA) . $this->getBaseTmpMediaUrlAddition();
     }
 
     public function getMediaUrl($file)

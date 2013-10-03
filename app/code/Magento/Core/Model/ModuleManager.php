@@ -9,7 +9,9 @@
 /**
  * Module statuses manager
  */
-class Magento_Core_Model_ModuleManager
+namespace Magento\Core\Model;
+
+class ModuleManager
 {
     /**
      * XPath in the configuration where module statuses are stored
@@ -17,12 +19,12 @@ class Magento_Core_Model_ModuleManager
     const XML_PATH_MODULE_OUTPUT_STATUS = 'advanced/modules_disable_output/%s';
 
     /**
-     * @var Magento_Core_Model_Store_ConfigInterface
+     * @var \Magento\Core\Model\Store\ConfigInterface
      */
     private $_storeConfig;
 
     /**
-     * @var Magento_Core_Model_ModuleListInterface
+     * @var \Magento\Core\Model\ModuleListInterface
      */
     private $_moduleList;
 
@@ -32,13 +34,13 @@ class Magento_Core_Model_ModuleManager
     private $_outputConfigPaths;
 
     /**
-     * @param Magento_Core_Model_Store_ConfigInterface $storeConfig
-     * @param Magento_Core_Model_ModuleListInterface $moduleList
+     * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
+     * @param \Magento\Core\Model\ModuleListInterface $moduleList
      * @param array $outputConfigPaths
      */
     public function __construct(
-        Magento_Core_Model_Store_ConfigInterface $storeConfig,
-        Magento_Core_Model_ModuleListInterface $moduleList,
+        \Magento\Core\Model\Store\ConfigInterface $storeConfig,
+        \Magento\Core\Model\ModuleListInterface $moduleList,
         array $outputConfigPaths = array()
     ) {
         $this->_storeConfig = $storeConfig;

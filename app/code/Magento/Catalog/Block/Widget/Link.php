@@ -16,13 +16,15 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Catalog_Block_Widget_Link
-    extends Magento_Core_Block_Html_Link
-    implements Magento_Widget_Block_Interface
+namespace Magento\Catalog\Block\Widget;
+
+class Link
+    extends \Magento\Core\Block\Html\Link
+    implements \Magento\Widget\Block\BlockInterface
 {
     /**
      * Entity model name which must be used to retrieve entity specific data.
-     * @var null|Magento_Catalog_Model_Resource_Abstract
+     * @var null|\Magento\Catalog\Model\Resource\AbstractResource
      */
     protected $_entityResource = null;
 
@@ -43,31 +45,31 @@ class Magento_Catalog_Block_Widget_Link
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Url rewrite
      *
-     * @var Magento_Core_Model_Resource_Url_Rewrite
+     * @var \Magento\Core\Model\Resource\Url\Rewrite
      */
     protected $_urlRewrite;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Resource_Url_Rewrite $urlRewrite
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Core\Model\Resource\Url\Rewrite $urlRewrite
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Resource_Url_Rewrite $urlRewrite,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Core\Model\Resource\Url\Rewrite $urlRewrite,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_urlRewrite = $urlRewrite;
@@ -91,7 +93,7 @@ class Magento_Catalog_Block_Widget_Link
                 $store = $this->_storeManager->getStore();
             }
 
-            /* @var $store Magento_Core_Model_Store */
+            /* @var $store \Magento\Core\Model\Store */
             $href = "";
             if ($this->getData('id_path')) {
                 $href = $this->_urlRewrite->getRequestPathByIdPath($this->getData('id_path'), $store);

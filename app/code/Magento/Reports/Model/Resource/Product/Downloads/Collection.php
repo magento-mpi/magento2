@@ -16,7 +16,9 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Resource_Product_Downloads_Collection extends Magento_Catalog_Model_Resource_Product_Collection
+namespace Magento\Reports\Model\Resource\Product\Downloads;
+
+class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
 {
     /**
      * Identifier field name
@@ -28,7 +30,7 @@ class Magento_Reports_Model_Resource_Product_Downloads_Collection extends Magent
     /**
      * Add downloads summary grouping by product
      *
-     * @return Magento_Reports_Model_Resource_Product_Downloads_Collection
+     * @return \Magento\Reports\Model\Resource\Product\Downloads\Collection
      */
     public function addSummary()
     {
@@ -40,8 +42,8 @@ class Magento_Reports_Model_Resource_Product_Downloads_Collection extends Magent
                 array('d' =>  $this->getTable('downloadable_link_purchased_item')),
                 'e.entity_id = d.product_id',
                 array(
-                    'purchases' => new Zend_Db_Expr('SUM(d.number_of_downloads_bought)'),
-                    'downloads' => new Zend_Db_Expr('SUM(d.number_of_downloads_used)'),
+                    'purchases' => new \Zend_Db_Expr('SUM(d.number_of_downloads_bought)'),
+                    'downloads' => new \Zend_Db_Expr('SUM(d.number_of_downloads_used)'),
                 ))
             ->joinInner(
                 array('l' => $this->getTable('downloadable_link_title')),
@@ -64,7 +66,7 @@ class Magento_Reports_Model_Resource_Product_Downloads_Collection extends Magent
      *
      * @param string $attribute
      * @param string $dir
-     * @return Magento_Reports_Model_Resource_Product_Downloads_Collection
+     * @return \Magento\Reports\Model\Resource\Product\Downloads\Collection
      */
     public function setOrder($attribute, $dir = self::SORT_ORDER_DESC)
     {
@@ -81,7 +83,7 @@ class Magento_Reports_Model_Resource_Product_Downloads_Collection extends Magent
      *
      * @param string $field
      * @param string $condition
-     * @return Magento_Reports_Model_Resource_Product_Downloads_Collection
+     * @return \Magento\Reports\Model\Resource\Product\Downloads\Collection
      */
     public function addFieldToFilter($field, $condition = null)
     {

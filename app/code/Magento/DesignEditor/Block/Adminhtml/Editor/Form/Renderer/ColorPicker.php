@@ -11,8 +11,10 @@
 /**
  * Color-picker form element renderer
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_ColorPicker
-    extends Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Recursive
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer;
+
+class ColorPicker
+    extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\Recursive
 {
     /**
      * Set of templates to render
@@ -38,7 +40,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_ColorPicker
      */
     public function getFieldClass()
     {
-        /** @var $element Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_ColorPicker */
+        /** @var $element \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\ColorPicker */
         $element = $this->getElement();
 
         $elementBeforeLabel = $element->getExtType() == 'checkbox' || $element->getExtType() == 'radio';

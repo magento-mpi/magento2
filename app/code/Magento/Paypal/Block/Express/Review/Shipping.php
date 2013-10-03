@@ -11,12 +11,14 @@
 /**
  * Paypal Express Onepage checkout block for Shipping Address
  */
-class Magento_Paypal_Block_Express_Review_Shipping extends Magento_Checkout_Block_Onepage_Shipping
+namespace Magento\Paypal\Block\Express\Review;
+
+class Shipping extends \Magento\Checkout\Block\Onepage\Shipping
 {
     /**
      * Return Sales Quote Address model (shipping address)
      *
-     * @return Magento_Sales_Model_Quote_Address
+     * @return \Magento\Sales\Model\Quote\Address
      */
     public function getAddress()
     {

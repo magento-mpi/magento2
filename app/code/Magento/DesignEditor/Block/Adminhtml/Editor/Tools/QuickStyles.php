@@ -11,8 +11,10 @@
 /**
  * Block that renders Design tab
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles
-    extends Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Tabs_Abstract
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools;
+
+class QuickStyles
+    extends \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Tabs\AbstractTabs
 {
     /**
      * Tab HTML identifier

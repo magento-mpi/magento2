@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_GiftcardTest extends PHPUnit_Framework_TestCase
+namespace Magento\GiftCard\Block\Adminhtml\Catalog\Product\Edit\Tab;
+
+class GiftcardTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider getScopeValueDataProvider
@@ -22,18 +24,18 @@ class Magento_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_GiftcardTest ext
         $methods = array('getHelperFactory', 'getRequest', 'getLayout', 'getEventManager', 'getUrlBuilder',
             'getTranslator', 'getCache', 'getDesignPackage', 'getSession', 'getStoreConfig', 'getFrontController',
             'getDirs', 'getLogger', 'getFilesystem');
-        $contextMock = $this->getMockBuilder('Magento_Backend_Block_Template_Context')
+        $contextMock = $this->getMockBuilder('Magento\Backend\Block\Template\Context')
             ->disableOriginalConstructor()
             ->setMethods($methods)
             ->getMock();
 
-        $helperFactoryMock = $this->getMock('Magento_Core_Model_Factory_Helper', array('get'), array(), '', false);
+        $helperFactoryMock = $this->getMock('Magento\Core\Model\Factory\Helper', array('get'), array(), '', false);
 
         $contextMock->expects($this->any())
             ->method('getHelperFactory')
             ->will($this->returnValue($helperFactoryMock));
 
-        $storeManagerMock = $this->getMockBuilder('Magento_Core_Model_StoreManager')
+        $storeManagerMock = $this->getMockBuilder('Magento\Core\Model\StoreManager')
             ->disableOriginalConstructor()
             ->setMethods(array('isSingleStoreMode'))
             ->getMock();
@@ -41,13 +43,13 @@ class Magento_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_GiftcardTest ext
             ->method('isSingleStoreMode')
             ->will($this->returnValue($isSingleStore));
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $block = $objectManagerHelper->getObject(
-            'Magento_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard',
+            'Magento\GiftCard\Block\Adminhtml\Catalog\Product\Edit\Tab\Giftcard',
             array(
                 'context' => $contextMock,
                 'storeManager' => $storeManagerMock,
-                'templateOptions' => $this->getMockBuilder('Magento_Backend_Model_Config_Source_Email_TemplateFactory')
+                'templateOptions' => $this->getMockBuilder('Magento\Backend\Model\Config\Source\Email\TemplateFactory')
                     ->getMock()
             )
         );

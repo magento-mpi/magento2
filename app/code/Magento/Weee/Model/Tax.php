@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Weee_Model_Tax extends Magento_Core_Model_Abstract
+namespace Magento\Weee\Model;
+
+class Tax extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Including FPT only
@@ -33,63 +35,63 @@ class Magento_Weee_Model_Tax extends Magento_Core_Model_Abstract
     /**
      * Weee data
      *
-     * @var Magento_Weee_Helper_Data
+     * @var \Magento\Weee\Helper\Data
      */
     protected $_weeeData = null;
 
     /**
      * Tax data
      *
-     * @var Magento_Tax_Helper_Data
+     * @var \Magento\Tax\Helper\Data
      */
     protected $_taxData = null;
 
     /**
-     * @var Magento_Eav_Model_Entity_AttributeFactory
+     * @var \Magento\Eav\Model\Entity\AttributeFactory
      */
     protected $_attributeFactory;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Tax_Model_CalculationFactory
+     * @var \Magento\Tax\Model\CalculationFactory
      */
     protected $_calculationFactory;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @param Magento_Eav_Model_Entity_AttributeFactory $attributeFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Tax_Model_CalculationFactory $calculationFactory
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Weee_Helper_Data $weeeData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Weee_Model_Resource_Tax $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Tax\Model\CalculationFactory $calculationFactory
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Weee\Helper\Data $weeeData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Weee\Model\Resource\Tax $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Eav_Model_Entity_AttributeFactory $attributeFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Tax_Model_CalculationFactory $calculationFactory,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Weee_Helper_Data $weeeData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Weee_Model_Resource_Tax $resource,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Tax\Model\CalculationFactory $calculationFactory,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Weee\Helper\Data $weeeData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Weee\Model\Resource\Tax $resource,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_attributeFactory = $attributeFactory;
@@ -106,7 +108,7 @@ class Magento_Weee_Model_Tax extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Weee_Model_Resource_Tax');
+        $this->_init('Magento\Weee\Model\Resource\Tax');
     }
 
     public function getWeeeAmount(
@@ -180,7 +182,7 @@ class Magento_Weee_Model_Tax extends Magento_Core_Model_Abstract
             $customerTaxClass = null;
         }
 
-        /** @var Magento_Tax_Model_Calculation $calculator */
+        /** @var \Magento\Tax\Model\Calculation $calculator */
         $calculator = $this->_calculationFactory->create();
         if ($customer) {
             $calculator->setCustomer($customer);
@@ -207,7 +209,7 @@ class Magento_Weee_Model_Tax extends Magento_Core_Model_Abstract
                     ->where('entity_id = ?', (int)$product->getId())
                     ->limit(1);
 
-                $order = array('state ' . Magento_DB_Select::SQL_DESC, 'website_id ' . Magento_DB_Select::SQL_DESC);
+                $order = array('state ' . \Magento\DB\Select::SQL_DESC, 'website_id ' . \Magento\DB\Select::SQL_DESC);
                 $attributeSelect->order($order);
 
                 $value = $this->getResource()->getReadConnection()->fetchOne($attributeSelect);
@@ -219,7 +221,7 @@ class Magento_Weee_Model_Tax extends Magento_Core_Model_Abstract
                     $taxAmount = $amount = 0;
                     $amount    = $value;
                     if ($calculateTax && $this->_weeeData->isTaxable($store)) {
-                        /** @var Magento_Tax_Model_Calculation $calculator */
+                        /** @var \Magento\Tax\Model\Calculation $calculator */
                         $defaultPercent = $this->_calculationFactory->create()
                             ->getRate(
                                 $defaultRateRequest->setProductClassId($product->getTaxClassId())
@@ -233,7 +235,7 @@ class Magento_Weee_Model_Tax extends Magento_Core_Model_Abstract
                         }
                     }
 
-                    $one = new Magento_Object();
+                    $one = new \Magento\Object();
                     $one->setName(__($attribute->getFrontend()->getLabel()))
                         ->setAmount($amount)
                         ->setTaxAmount($taxAmount)
@@ -265,7 +267,7 @@ class Magento_Weee_Model_Tax extends Magento_Core_Model_Abstract
     /**
      * Update discounts for FPT amounts of all products
      *
-     * @return Magento_Weee_Model_Tax
+     * @return \Magento\Weee\Model\Tax
      */
     public function updateDiscountPercents()
     {
@@ -277,7 +279,7 @@ class Magento_Weee_Model_Tax extends Magento_Core_Model_Abstract
      * Update discounts for FPT amounts base on products condiotion
      *
      * @param  mixed $products
-     * @return Magento_Weee_Model_Tax
+     * @return \Magento\Weee\Model\Tax
      */
     public function updateProductsDiscountPercent($products)
     {

@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Install_Model_Config_Converter implements Magento_Config_ConverterInterface
+namespace Magento\Install\Model\Config;
+
+class Converter implements \Magento\Config\ConverterInterface
 {
     /**
      * {@inheritdoc}
@@ -14,7 +16,7 @@ class Magento_Install_Model_Config_Converter implements Magento_Config_Converter
      */
     public function convert($source)
     {
-        $xpath = new DOMXPath($source);
+        $xpath = new \DOMXPath($source);
 
         $result = array(
             'steps' => array(),

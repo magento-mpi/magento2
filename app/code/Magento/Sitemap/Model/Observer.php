@@ -16,7 +16,9 @@
  * @package    Magento_Sitemap
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sitemap_Model_Observer
+namespace Magento\Sitemap\Model;
+
+class Observer
 {
 
     /**
@@ -47,36 +49,36 @@ class Magento_Sitemap_Model_Observer
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Sitemap_Model_Resource_Sitemap_CollectionFactory
+     * @var \Magento\Sitemap\Model\Resource\Sitemap\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @var Magento_Core_Model_Email_TemplateFactory
+     * @var \Magento\Core\Model\Email\TemplateFactory
      */
     protected $_templateFactory;
 
     /**
-     * @var Magento_Core_Model_Translate
+     * @var \Magento\Core\Model\Translate
      */
     protected $_translateModel;
 
     /**
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Sitemap_Model_Resource_Sitemap_CollectionFactory $collectionFactory
-     * @param Magento_Core_Model_Translate $translateModel
-     * @param Magento_Core_Model_Email_TemplateFactory $templateFactory
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Sitemap\Model\Resource\Sitemap\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Model\Translate $translateModel
+     * @param \Magento\Core\Model\Email\TemplateFactory $templateFactory
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Sitemap_Model_Resource_Sitemap_CollectionFactory $collectionFactory,
-        Magento_Core_Model_Translate $translateModel,
-        Magento_Core_Model_Email_TemplateFactory $templateFactory
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Sitemap\Model\Resource\Sitemap\CollectionFactory $collectionFactory,
+        \Magento\Core\Model\Translate $translateModel,
+        \Magento\Core\Model\Email\TemplateFactory $templateFactory
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_collectionFactory = $collectionFactory;
@@ -87,7 +89,7 @@ class Magento_Sitemap_Model_Observer
     /**
      * Generate sitemaps
      *
-     * @param Magento_Cron_Model_Schedule $schedule
+     * @param \Magento\Cron\Model\Schedule $schedule
      */
     public function scheduledGenerateSitemaps($schedule)
     {
@@ -99,14 +101,14 @@ class Magento_Sitemap_Model_Observer
         }
 
         $collection = $this->_collectionFactory->create();
-        /* @var $collection Magento_Sitemap_Model_Resource_Sitemap_Collection */
+        /* @var $collection \Magento\Sitemap\Model\Resource\Sitemap\Collection */
         foreach ($collection as $sitemap) {
-            /* @var $sitemap Magento_Sitemap_Model_Sitemap */
+            /* @var $sitemap \Magento\Sitemap\Model\Sitemap */
 
             try {
                 $sitemap->generateXml();
             }
-            catch (Exception $e) {
+            catch (\Exception $e) {
                 $errors[] = $e->getMessage();
             }
         }
@@ -115,7 +117,7 @@ class Magento_Sitemap_Model_Observer
             $this->_translateModel->setTranslateInline(false);
 
             $emailTemplate = $this->_templateFactory->create();
-            /* @var $emailTemplate Magento_Core_Model_Email_Template */
+            /* @var $emailTemplate \Magento\Core\Model\Email\Template */
             $emailTemplate->setDesignConfig(array('area' => 'backend'))
                 ->sendTransactional(
                     $this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_TEMPLATE),

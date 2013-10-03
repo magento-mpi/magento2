@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Shipping_Model_Info extends Magento_Object
+namespace Magento\Shipping\Model;
+
+class Info extends \Magento\Object
 {
     /**
      * Tracking info
@@ -21,37 +23,37 @@ class Magento_Shipping_Model_Info extends Magento_Object
     /**
      * Shipping data
      *
-     * @var Magento_Shipping_Helper_Data
+     * @var \Magento\Shipping\Helper\Data
      */
     protected $_shippingData;
 
     /**
-     * @var Magento_Sales_Model_OrderFactory
+     * @var \Magento\Sales\Model\OrderFactory
      */
     protected $_orderFactory;
 
     /**
-     * @var Magento_Sales_Model_Order_ShipmentFactory
+     * @var \Magento\Sales\Model\Order\ShipmentFactory
      */
     protected $_shipmentFactory;
 
     /**
-     * @var Magento_Sales_Model_Order_Shipment_TrackFactory
+     * @var \Magento\Sales\Model\Order\Shipment\TrackFactory
      */
     protected $_trackFactory;
 
     /**
-     * @param Magento_Shipping_Helper_Data $shippingData
-     * @param Magento_Sales_Model_OrderFactory $orderFactory
-     * @param Magento_Sales_Model_Order_ShipmentFactory $shipmentFactory
-     * @param Magento_Sales_Model_Order_Shipment_TrackFactory $trackFactory
+     * @param \Magento\Shipping\Helper\Data $shippingData
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param \Magento\Sales\Model\Order\ShipmentFactory $shipmentFactory
+     * @param \Magento\Sales\Model\Order\Shipment\TrackFactory $trackFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Shipping_Helper_Data $shippingData,
-        Magento_Sales_Model_OrderFactory $orderFactory,
-        Magento_Sales_Model_Order_ShipmentFactory $shipmentFactory,
-        Magento_Sales_Model_Order_Shipment_TrackFactory $trackFactory,
+        \Magento\Shipping\Helper\Data $shippingData,
+        \Magento\Sales\Model\OrderFactory $orderFactory,
+        \Magento\Sales\Model\Order\ShipmentFactory $shipmentFactory,
+        \Magento\Sales\Model\Order\Shipment\TrackFactory $trackFactory,
         array $data = array()
     ) {
         $this->_shippingData = $shippingData;
@@ -65,11 +67,11 @@ class Magento_Shipping_Model_Info extends Magento_Object
      * Generating tracking info
      *
      * @param array $hash
-     * @return Magento_Shipping_Model_Info
+     * @return \Magento\Shipping\Model\Info
      */
     public function loadByHash($hash)
     {
-        /* @var $helper Magento_Shipping_Helper_Data */
+        /* @var $helper \Magento\Shipping\Helper\Data */
         $helper = $this->_shippingData;
         $data = $helper->decodeTrackingHash($hash);
         if (!empty($data)) {
@@ -100,11 +102,11 @@ class Magento_Shipping_Model_Info extends Magento_Object
     /**
      * Instantiate order model
      *
-     * @return Magento_Sales_Model_Order|bool
+     * @return \Magento\Sales\Model\Order|bool
      */
     protected function _initOrder()
     {
-        /** @var Magento_Sales_Model_Order $order */
+        /** @var \Magento\Sales\Model\Order $order */
         $order = $this->_orderFactory->create()->load($this->getOrderId());
 
         if (!$order->getId() || $this->getProtectCode() != $order->getProtectCode()) {
@@ -117,11 +119,11 @@ class Magento_Shipping_Model_Info extends Magento_Object
     /**
      * Instantiate ship model
      *
-     * @return Magento_Sales_Model_Order_Shipment|bool
+     * @return \Magento\Sales\Model\Order\Shipment|bool
      */
     protected function _initShipment()
     {
-        /* @var $model Magento_Sales_Model_Order_Shipment */
+        /* @var $model \Magento\Sales\Model\Order\Shipment */
         $model = $this->_shipmentFactory->create();
         $ship = $model->load($this->getShipId());
         if (!$ship->getEntityId() || $this->getProtectCode() != $ship->getProtectCode()) {
@@ -188,7 +190,7 @@ class Magento_Shipping_Model_Info extends Magento_Object
      */
     public function getTrackingInfoByTrackId()
     {
-        /** @var Magento_Sales_Model_Order_Shipment_Track $track */
+        /** @var \Magento\Sales\Model\Order\Shipment\Track $track */
         $track = $this->_trackFactory->create()->load($this->getTrackId());
         if ($track->getId() && $this->getProtectCode() == $track->getProtectCode()) {
             $this->_trackingInfo = array(array($track->getNumberDetail()));

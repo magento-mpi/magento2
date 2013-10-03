@@ -7,19 +7,21 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Config_Data implements Magento_Config_DataInterface
+namespace Magento\Config;
+
+class Data implements \Magento\Config\DataInterface
 {
     /**
      * Configuration reader model
      *
-     * @var Magento_Config_ReaderInterface
+     * @var \Magento\Config\ReaderInterface
      */
     protected $_reader;
 
     /**
      * Configuration cache model
      *
-     * @var Magento_Config_CacheInterface
+     * @var \Magento\Config\CacheInterface
      */
     protected $_cache;
 
@@ -39,13 +41,13 @@ class Magento_Config_Data implements Magento_Config_DataInterface
     protected $_data = array();
 
     /**
-     * @param Magento_Config_ReaderInterface $reader
-     * @param Magento_Config_CacheInterface $cache
+     * @param \Magento\Config\ReaderInterface $reader
+     * @param \Magento\Config\CacheInterface $cache
      * @param $cacheId
      */
     public function __construct(
-        Magento_Config_ReaderInterface $reader,
-        Magento_Config_CacheInterface $cache,
+        \Magento\Config\ReaderInterface $reader,
+        \Magento\Config\CacheInterface $cache,
         $cacheId
     ) {
         $data = $cache->load($cacheId);

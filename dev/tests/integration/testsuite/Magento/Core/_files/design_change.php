@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-$storeId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+$storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
     ->getAnyStoreView()->getId();
-/** @var $change Magento_Core_Model_Design */
-$change = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Core_Model_Design');
+/** @var $change \Magento\Core\Model\Design */
+$change = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Core\Model\Design');
 $change->setStoreId($storeId)
     ->setDesign('magento_blank')
     ->setDateFrom('2001-01-01 01:01:01')

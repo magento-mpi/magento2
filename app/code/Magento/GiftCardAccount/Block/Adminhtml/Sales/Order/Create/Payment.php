@@ -8,32 +8,34 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCardAccount_Block_Adminhtml_Sales_Order_Create_Payment extends Magento_Core_Block_Template
+namespace Magento\GiftCardAccount\Block\Adminhtml\Sales\Order\Create;
+
+class Payment extends \Magento\Core\Block\Template
 {
     /**
      * Gift card account data
      *
-     * @var Magento_GiftCardAccount_Helper_Data
+     * @var \Magento\GiftCardAccount\Helper\Data
      */
     protected $_giftCardAccountData = null;
 
     /**
-     * @var Magento_Adminhtml_Model_Sales_Order_Create
+     * @var \Magento\Adminhtml\Model\Sales\Order\Create
      */
     protected $_orderCreate = null;
 
     /**
-     * @param Magento_GiftCardAccount_Helper_Data $giftCardAccountData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Adminhtml_Model_Sales_Order_Create $orderCreate
+     * @param \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate
      * @param array $data
      */
     public function __construct(
-        Magento_GiftCardAccount_Helper_Data $giftCardAccountData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Adminhtml_Model_Sales_Order_Create $orderCreate,
+        \Magento\GiftCardAccount\Helper\Data $giftCardAccountData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);
@@ -44,7 +46,7 @@ class Magento_GiftCardAccount_Block_Adminhtml_Sales_Order_Create_Payment extends
     /**
      * Retrieve order create model
      *
-     * @return Magento_Adminhtml_Model_Sales_Order_Create
+     * @return \Magento\Adminhtml\Model\Sales\Order\Create
      */
     protected function _getOrderCreateModel()
     {

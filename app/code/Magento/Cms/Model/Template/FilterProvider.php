@@ -7,10 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Cms_Model_Template_FilterProvider
+namespace Magento\Cms\Model\Template;
+
+class FilterProvider
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -30,14 +32,14 @@ class Magento_Cms_Model_Template_FilterProvider
     protected $_instanceList;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param string $pageFilter
      * @param string $blockFilter
      */
     public function __construct(
-        Magento_ObjectManager $objectManager,
-        $pageFilter = 'Magento_Cms_Model_Template_Filter',
-        $blockFilter = 'Magento_Cms_Model_Template_Filter'
+        \Magento\ObjectManager $objectManager,
+        $pageFilter = 'Magento\Cms\Model\Template\Filter',
+        $blockFilter = 'Magento\Cms\Model\Template\Filter'
     ) {
         $this->_objectManager = $objectManager;
         $this->_pageFilter = $pageFilter;
@@ -46,16 +48,16 @@ class Magento_Cms_Model_Template_FilterProvider
 
     /**
      * @param string $instanceName
-     * @return Magento_Filter_Template
-     * @throws Exception
+     * @return \Magento\Filter\Template
+     * @throws \Exception
      */
     protected function _getFilterInstance($instanceName)
     {
         if (!isset($this->_instanceList[$instanceName])) {
             $instance = $this->_objectManager->get($instanceName);
 
-            if (!$instance instanceof Magento_Filter_Template) {
-                throw new Exception('Template filter ' . $instanceName . ' does not implement required interface');
+            if (!$instance instanceof \Magento\Filter\Template) {
+                throw new \Exception('Template filter ' . $instanceName . ' does not implement required interface');
             }
             $this->_instanceList[$instanceName] = $instance;
         }
@@ -64,7 +66,7 @@ class Magento_Cms_Model_Template_FilterProvider
     }
 
     /**
-     * @return Magento_Filter_Template
+     * @return \Magento\Filter\Template
      */
     public function getBlockFilter()
     {
@@ -72,7 +74,7 @@ class Magento_Cms_Model_Template_FilterProvider
     }
 
     /**
-     * @return Magento_Filter_Template
+     * @return \Magento\Filter\Template
      */
     public function getPageFilter()
     {

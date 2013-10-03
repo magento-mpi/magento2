@@ -16,7 +16,9 @@
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Block_Html_Select extends Magento_Core_Block_Abstract
+namespace Magento\Core\Block\Html;
+
+class Select extends \Magento\Core\Block\AbstractBlock
 {
 
     protected $_options = array();
@@ -35,7 +37,7 @@ class Magento_Core_Block_Html_Select extends Magento_Core_Block_Abstract
      * Set options for the HTML select
      *
      * @param array $options
-     * @return Magento_Core_Block_Html_Select
+     * @return \Magento\Core\Block\Html\Select
      */
     public function setOptions($options)
     {
@@ -49,7 +51,7 @@ class Magento_Core_Block_Html_Select extends Magento_Core_Block_Abstract
      * @param string $value  HTML value
      * @param string $label  HTML label
      * @param array  $params HTML attributes
-     * @return Magento_Core_Block_Html_Select
+     * @return \Magento\Core\Block\Html\Select
      */
     public function addOption($value, $label, $params=array())
     {
@@ -61,7 +63,7 @@ class Magento_Core_Block_Html_Select extends Magento_Core_Block_Abstract
      * Set element's HTML ID
      *
      * @param string $id ID
-     * @return Magento_Core_Block_Html_Select
+     * @return \Magento\Core\Block\Html\Select
      */
     public function setId($id)
     {
@@ -73,7 +75,7 @@ class Magento_Core_Block_Html_Select extends Magento_Core_Block_Abstract
      * Set element's CSS class
      *
      * @param string $class Class
-     * @return Magento_Core_Block_Html_Select
+     * @return \Magento\Core\Block\Html\Select
      */
     public function setClass($class)
     {
@@ -85,7 +87,7 @@ class Magento_Core_Block_Html_Select extends Magento_Core_Block_Abstract
      * Set element's HTML title
      *
      * @param string $title Title
-     * @return Magento_Core_Block_Html_Select
+     * @return \Magento\Core\Block\Html\Select
      */
     public function setTitle($title)
     {

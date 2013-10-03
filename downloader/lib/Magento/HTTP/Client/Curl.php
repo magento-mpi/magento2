@@ -15,8 +15,10 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_HTTP_Client_Curl
-implements Magento_HTTP_IClient
+namespace Magento\HTTP\Client;
+
+class Curl
+implements \Magento\HTTP\IClient
 {
     /**
      * Session Cookie storage, magento_root/var directory used
@@ -243,7 +245,7 @@ implements Magento_HTTP_IClient
 
     /**
      * Make POST request
-     * @see lib/Magento/HTTP/Magento_HTTP_Client#post($uri, $params)
+     * @see lib/Magento/HTTP/\Magento\HTTP\Client#post($uri, $params)
      */
     public function post($uri, $params)
     {
@@ -336,7 +338,7 @@ implements Magento_HTTP_IClient
 
     /**
      * Get response status code
-     * @see lib/Magento/HTTP/Magento_HTTP_Client#getStatus()
+     * @see lib/Magento/HTTP/\Magento\HTTP\Client#getStatus()
      */
     public function getStatus()
     {
@@ -445,7 +447,7 @@ implements Magento_HTTP_IClient
     /**
      * Throw error excpetion
      * @param $string
-     * @throws Exception
+     * @throws \Exception
      */
     public function isAuthorizationRequired()
     {
@@ -458,11 +460,11 @@ implements Magento_HTTP_IClient
     /**
      * Throw error excpetion
      * @param $string
-     * @throws Exception
+     * @throws \Exception
      */
     public function doError($string)
     {
-        throw new Exception($string);
+        throw new \Exception($string);
     }
 
 

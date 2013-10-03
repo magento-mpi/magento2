@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Index_Model_EntryPoint_Shell extends Magento_Core_Model_EntryPointAbstract
+namespace Magento\Index\Model\EntryPoint;
+
+class Shell extends \Magento\Core\Model\AbstractEntryPoint
 {
     /**
      * Filename of the entry point script
@@ -15,21 +17,21 @@ class Magento_Index_Model_EntryPoint_Shell extends Magento_Core_Model_EntryPoint
     protected $_entryFileName;
 
     /**
-     * @var Magento_Index_Model_EntryPoint_Shell_ErrorHandler
+     * @var \Magento\Index\Model\EntryPoint\Shell\ErrorHandler
      */
     protected $_errorHandler;
 
     /**
      * @param string $entryFileName filename of the entry point script
-     * @param Magento_Index_Model_EntryPoint_Shell_ErrorHandler $errorHandler
-     * @param Magento_Core_Model_Config_Primary $config
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\Index\Model\EntryPoint\Shell\ErrorHandler $errorHandler
+     * @param \Magento\Core\Model\Config\Primary $config
+     * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(
         $entryFileName,
-        Magento_Index_Model_EntryPoint_Shell_ErrorHandler $errorHandler,
-        Magento_Core_Model_Config_Primary $config,
-        Magento_ObjectManager $objectManager = null
+        \Magento\Index\Model\EntryPoint\Shell\ErrorHandler $errorHandler,
+        \Magento\Core\Model\Config\Primary $config,
+        \Magento\ObjectManager $objectManager = null
     ) {
         parent::__construct($config, $objectManager);
         $this->_entryFileName = $entryFileName;
@@ -41,9 +43,9 @@ class Magento_Index_Model_EntryPoint_Shell extends Magento_Core_Model_EntryPoint
      */
     protected function _processRequest()
     {
-        /** @var $shell Magento_Index_Model_Shell */
+        /** @var $shell \Magento\Index\Model\Shell */
         $shell = $this->_objectManager
-            ->create('Magento_Index_Model_Shell', array('entryPoint' => $this->_entryFileName));
+            ->create('Magento\Index\Model\Shell', array('entryPoint' => $this->_entryFileName));
         $shell->run();
         if ($shell->hasErrors()) {
             $this->_errorHandler->terminate(1);

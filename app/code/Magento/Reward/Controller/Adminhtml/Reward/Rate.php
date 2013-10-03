@@ -16,22 +16,24 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Controller_Adminhtml_Reward_Rate extends Magento_Adminhtml_Controller_Action
+namespace Magento\Reward\Controller\Adminhtml\Reward;
+
+class Rate extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -40,12 +42,12 @@ class Magento_Reward_Controller_Adminhtml_Reward_Rate extends Magento_Adminhtml_
     /**
      * Check if module functionality enabled
      *
-     * @return Magento_Reward_Controller_Adminhtml_Reward_Rate
+     * @return \Magento\Reward\Controller\Adminhtml\Reward\Rate
      */
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!$this->_objectManager->get('Magento_Reward_Helper_Data')->isEnabled()
+        if (!$this->_objectManager->get('Magento\Reward\Helper\Data')->isEnabled()
             && $this->getRequest()->getActionName() != 'noroute'
         ) {
             $this->_forward('noroute');
@@ -56,7 +58,7 @@ class Magento_Reward_Controller_Adminhtml_Reward_Rate extends Magento_Adminhtml_
     /**
      * Initialize layout, breadcrumbs
      *
-     * @return Magento_Reward_Controller_Adminhtml_Reward_Rate
+     * @return \Magento\Reward\Controller\Adminhtml\Reward\Rate
      */
     protected function _initAction()
     {
@@ -72,14 +74,14 @@ class Magento_Reward_Controller_Adminhtml_Reward_Rate extends Magento_Adminhtml_
     /**
      * Initialize rate object
      *
-     * @return Magento_Reward_Model_Reward_Rate
+     * @return \Magento\Reward\Model\Reward\Rate
      */
     protected function _initRate()
     {
         $this->_title(__('Reward Exchange Rates'));
 
         $rateId = $this->getRequest()->getParam('rate_id', 0);
-        $rate = $this->_objectManager->create('Magento_Reward_Model_Reward_Rate');
+        $rate = $this->_objectManager->create('Magento\Reward\Model\Reward\Rate');
         if ($rateId) {
             $rate->load($rateId);
         }
@@ -139,8 +141,8 @@ class Magento_Reward_Controller_Adminhtml_Reward_Rate extends Magento_Adminhtml_
             try {
                 $rate->save();
                 $this->_getSession()->addSuccess(__('You saved the rate.'));
-            } catch (Exception $exception) {
-                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($exception);
+            } catch (\Exception $exception) {
+                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($exception);
                 $this->_getSession()->addError(__('We cannot save Rate.'));
                 return $this->_redirect('*/*/edit', array('rate_id' => $rate->getId(), '_current' => true));
             }
@@ -159,7 +161,7 @@ class Magento_Reward_Controller_Adminhtml_Reward_Rate extends Magento_Adminhtml_
             try {
                 $rate->delete();
                 $this->_getSession()->addSuccess(__('You deleted the rate.'));
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('_current' => true));
                 return;
@@ -175,11 +177,11 @@ class Magento_Reward_Controller_Adminhtml_Reward_Rate extends Magento_Adminhtml_
      */
     public function validateAction()
     {
-        $response = new Magento_Object(array('error' => false));
+        $response = new \Magento\Object(array('error' => false));
         $post     = $this->getRequest()->getParam('rate');
         $message  = null;
-        /** @var Magento_Core_Model_StoreManagerInterface $storeManager */
-        $storeManager = $this->_objectManager->get('Magento_Core_Model_StoreManagerInterface');
+        /** @var \Magento\Core\Model\StoreManagerInterface $storeManager */
+        $storeManager = $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface');
         if ($storeManager->isSingleStoreMode()) {
             $post['website_id'] = $storeManager->getStore(true)->getWebsiteId();
         }
@@ -190,14 +192,14 @@ class Magento_Reward_Controller_Adminhtml_Reward_Rate extends Magento_Adminhtml_
             || !isset($post['value'])
             || !isset($post['equal_value'])) {
             $message = __('Please enter all Rate information.');
-        } elseif ($post['direction'] == Magento_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY
+        } elseif ($post['direction'] == \Magento\Reward\Model\Reward\Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY
                   && ((int) $post['value'] <= 0 || (float) $post['equal_value'] <= 0)) {
               if ((int) $post['value'] <= 0) {
                   $message = __('Please enter a positive integer number in the left rate field.');
               } else {
                   $message = __('Please enter a positive number in the right rate field.');
               }
-        } elseif ($post['direction'] == Magento_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_POINTS
+        } elseif ($post['direction'] == \Magento\Reward\Model\Reward\Rate::RATE_EXCHANGE_DIRECTION_TO_POINTS
                   && ((float) $post['value'] <= 0 || (int) $post['equal_value'] <= 0)) {
               if ((int) $post['equal_value'] <= 0) {
                   $message = __('Please enter a positive integer number in the right rate field.');
@@ -219,7 +221,7 @@ class Magento_Reward_Controller_Adminhtml_Reward_Rate extends Magento_Adminhtml_
 
         if ($message) {
             $this->_getSession()->addError($message);
-            $this->_initLayoutMessages('Magento_Adminhtml_Model_Session');
+            $this->_initLayoutMessages('Magento\Adminhtml\Model\Session');
             $response->setError(true);
             $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
         }

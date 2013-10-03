@@ -9,17 +9,19 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Controller_Request_HttpTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Controller\Request;
+
+class HttpTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Controller_Request_Http');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Controller\Request\Http');
     }
 
     public function testGetOriginalPathInfo()
@@ -80,8 +82,8 @@ class Magento_Core_Controller_Request_HttpTest extends PHPUnit_Framework_TestCas
     }
 
     /**
-     * @covers Magento_Core_Controller_Request_Http::rewritePathInfo
-     * @covers Magento_Core_Controller_Request_Http::getOriginalPathInfo
+     * @covers \Magento\Core\Controller\Request\Http::rewritePathInfo
+     * @covers \Magento\Core\Controller\Request\Http::getOriginalPathInfo
      * @magentoConfigFixture current_store web/url/use_store 1
      */
     public function testRewritePathInfoStoreCodeInUrl()

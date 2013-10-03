@@ -11,7 +11,9 @@
 /**
  * Banner configuration/source model
  */
-class Magento_Banner_Model_Config implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Banner\Model;
+
+class Config implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * @var array

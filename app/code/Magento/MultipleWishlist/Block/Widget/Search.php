@@ -11,8 +11,10 @@
 /**
  * Wishlist Search Widget Block
  */
-class Magento_MultipleWishlist_Block_Widget_Search extends Magento_Core_Block_Template 
-    implements Magento_Widget_Block_Interface
+namespace Magento\MultipleWishlist\Block\Widget;
+
+class Search extends \Magento\Core\Block\Template 
+    implements \Magento\Widget\Block\BlockInterface
 {
     /**
      * Search form select options
@@ -24,22 +26,22 @@ class Magento_MultipleWishlist_Block_Widget_Search extends Magento_Core_Block_Te
     /**
      * Config source search model
      *
-     * @var Magento_MultipleWishlist_Model_Config_Source_Search
+     * @var \Magento\MultipleWishlist\Model\Config\Source\Search
      */
     protected $_configSourceSearch;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_MultipleWishlist_Model_Config_Source_Search $configSourceSearch
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\MultipleWishlist\Model\Config\Source\Search $configSourceSearch
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_MultipleWishlist_Model_Config_Source_Search $configSourceSearch,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\MultipleWishlist\Model\Config\Source\Search $configSourceSearch,
         array $data = array()
     ) {
         $this->_configSourceSearch = $configSourceSearch;
@@ -85,7 +87,7 @@ class Magento_MultipleWishlist_Block_Widget_Search extends Magento_Core_Block_Te
      */
     public function useAllForms()
     {
-        $code = Magento_MultipleWishlist_Model_Config_Source_Search::WISHLIST_SEARCH_DISPLAY_ALL_FORMS;
+        $code = \Magento\MultipleWishlist\Model\Config\Source\Search::WISHLIST_SEARCH_DISPLAY_ALL_FORMS;
         return $this->_checkForm($code);
     }
 
@@ -96,7 +98,7 @@ class Magento_MultipleWishlist_Block_Widget_Search extends Magento_Core_Block_Te
      */
     public function useNameForm()
     {
-        $code = Magento_MultipleWishlist_Model_Config_Source_Search::WISHLIST_SEARCH_DISPLAY_NAME_FORM;
+        $code = \Magento\MultipleWishlist\Model\Config\Source\Search::WISHLIST_SEARCH_DISPLAY_NAME_FORM;
         return $this->useAllForms() || $this->_checkForm($code);
     }
 
@@ -107,7 +109,7 @@ class Magento_MultipleWishlist_Block_Widget_Search extends Magento_Core_Block_Te
      */
     public function useEmailForm()
     {
-        $code = Magento_MultipleWishlist_Model_Config_Source_Search::WISHLIST_SEARCH_DISPLAY_EMAIL_FORM;
+        $code = \Magento\MultipleWishlist\Model\Config\Source\Search::WISHLIST_SEARCH_DISPLAY_EMAIL_FORM;
         return $this->useAllForms() || $this->_checkForm($code);
     }
 
@@ -126,7 +128,7 @@ class Magento_MultipleWishlist_Block_Widget_Search extends Magento_Core_Block_Te
             $this->getSearchFormOptions()
         );
 
-        $select = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
             ->setName('search_by')
             ->setId($this->getBlockId() . '-search_by')
             ->setOptions($options);
@@ -157,7 +159,7 @@ class Magento_MultipleWishlist_Block_Widget_Search extends Magento_Core_Block_Te
         if (is_null($this->_selectOptions)) {
             $allForms = $this->_configSourceSearch->getTypes();
             $useForms = $this->_getEnabledFormTypes();
-            $codeAll = Magento_MultipleWishlist_Model_Config_Source_Search::WISHLIST_SEARCH_DISPLAY_ALL_FORMS;
+            $codeAll = \Magento\MultipleWishlist\Model\Config\Source\Search::WISHLIST_SEARCH_DISPLAY_ALL_FORMS;
 
             if (in_array($codeAll, $useForms)) {
                 unset($allForms[$codeAll]);

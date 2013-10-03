@@ -15,7 +15,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Helper_Cookie extends Magento_Core_Helper_Abstract
+namespace Magento\Core\Helper;
+
+class Cookie extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Cookie name for users who allowed cookie save
@@ -33,51 +35,51 @@ class Magento_Core_Helper_Cookie extends Magento_Core_Helper_Abstract
     const XML_PATH_COOKIE_RESTRICTION_LIFETIME = 'web/cookie/cookie_restriction_lifetime';
 
     /**
-     * @var Magento_Core_Model_Store
+     * @var \Magento\Core\Model\Store
      */
     protected $_currentStore;
 
     /**
-     * @var Magento_Core_Model_Cookie
+     * @var \Magento\Core\Model\Cookie
      */
     protected $_cookieModel;
 
     /**
-     * @var Magento_Core_Model_Website
+     * @var \Magento\Core\Model\Website
      */
     protected $_website;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Cookie $cookie
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Cookie $cookie
      * @param array $data
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Cookie $cookie,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Cookie $cookie,
         array $data = array())
     {
         parent::__construct($context);
         $this->_currentStore = isset($data['current_store']) ? $data['current_store'] : $storeManager->getStore();
 
-        if (!($this->_currentStore instanceof Magento_Core_Model_Store)) {
-            throw new InvalidArgumentException('Required store object is invalid');
+        if (!($this->_currentStore instanceof \Magento\Core\Model\Store)) {
+            throw new \InvalidArgumentException('Required store object is invalid');
         }
 
         $this->_cookieModel = isset($data['cookie_model'])
             ? $data['cookie_model'] : $cookie;
 
-        if (false == ($this->_cookieModel instanceof Magento_Core_Model_Cookie)) {
-            throw new InvalidArgumentException('Required cookie object is invalid');
+        if (false == ($this->_cookieModel instanceof \Magento\Core\Model\Cookie)) {
+            throw new \InvalidArgumentException('Required cookie object is invalid');
         }
 
         $this->_website = isset($data['website']) ? $data['website'] : $storeManager->getWebsite();
 
-        if (false == ($this->_website instanceof Magento_Core_Model_Website)) {
-            throw new InvalidArgumentException('Required website object is invalid');
+        if (false == ($this->_website instanceof \Magento\Core\Model\Website)) {
+            throw new \InvalidArgumentException('Required website object is invalid');
         }
     }
 

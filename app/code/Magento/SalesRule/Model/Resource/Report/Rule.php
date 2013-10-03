@@ -16,33 +16,35 @@
  * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_SalesRule_Model_Resource_Report_Rule extends Magento_Reports_Model_Resource_Report_Abstract
+namespace Magento\SalesRule\Model\Resource\Report;
+
+class Rule extends \Magento\Reports\Model\Resource\Report\AbstractReport
 {
     /**
-     * @var Magento_SalesRule_Model_Resource_Report_Rule_CreatedatFactory
+     * @var \Magento\SalesRule\Model\Resource\Report\Rule\CreatedatFactory
      */
     protected $_createdatFactory;
 
     /**
-     * @var Magento_SalesRule_Model_Resource_Report_Rule_UpdatedatFactory
+     * @var \Magento\SalesRule\Model\Resource\Report\Rule\UpdatedatFactory
      */
     protected $_updatedatFactory;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Reports_Model_FlagFactory $reportsFlagFactory
-     * @param Magento_SalesRule_Model_Resource_Report_Rule_CreatedatFactory $createdatFactory
-     * @param Magento_SalesRule_Model_Resource_Report_Rule_UpdatedatFactory $updatedatFactory
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Reports\Model\FlagFactory $reportsFlagFactory
+     * @param \Magento\SalesRule\Model\Resource\Report\Rule\CreatedatFactory $createdatFactory
+     * @param \Magento\SalesRule\Model\Resource\Report\Rule\UpdatedatFactory $updatedatFactory
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Reports_Model_FlagFactory $reportsFlagFactory,
-        Magento_SalesRule_Model_Resource_Report_Rule_CreatedatFactory $createdatFactory,
-        Magento_SalesRule_Model_Resource_Report_Rule_UpdatedatFactory $updatedatFactory
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Reports\Model\FlagFactory $reportsFlagFactory,
+        \Magento\SalesRule\Model\Resource\Report\Rule\CreatedatFactory $createdatFactory,
+        \Magento\SalesRule\Model\Resource\Report\Rule\UpdatedatFactory $updatedatFactory
     ) {
         parent::__construct($logger, $resource, $locale, $reportsFlagFactory);
         $this->_createdatFactory = $createdatFactory;
@@ -63,13 +65,13 @@ class Magento_SalesRule_Model_Resource_Report_Rule extends Magento_Reports_Model
      *
      * @param mixed $from
      * @param mixed $to
-     * @return Magento_SalesRule_Model_Resource_Report_Rule
+     * @return \Magento\SalesRule\Model\Resource\Report\Rule
      */
     public function aggregate($from = null, $to = null)
     {
         $this->_createdatFactory->create()->aggregate($from, $to);
         $this->_updatedatFactory->create()->aggregate($from, $to);
-        $this->_setFlagData(Magento_Reports_Model_Flag::REPORT_COUPONS_FLAG_CODE);
+        $this->_setFlagData(\Magento\Reports\Model\Flag::REPORT_COUPONS_FLAG_CODE);
 
         return $this;
     }
@@ -86,7 +88,7 @@ class Magento_SalesRule_Model_Resource_Report_Rule extends Magento_Reports_Model
         $select = $adapter->select()
             ->from(
                 $tableName,
-                new Zend_Db_Expr('DISTINCT rule_name')
+                new \Zend_Db_Expr('DISTINCT rule_name')
             )
             ->where('rule_name IS NOT NULL')
             ->where('rule_name <> ?', '')

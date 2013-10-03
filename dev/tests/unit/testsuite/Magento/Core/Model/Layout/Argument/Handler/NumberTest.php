@@ -10,33 +10,35 @@
  */
 
 /**
- * Test class for Magento_Core_Model_Layout_Argument_Handler_Number
+ * Test class for \Magento\Core\Model\Layout\Argument\Handler\Number
  */
-class Magento_Core_Model_Layout_Argument_Handler_NumberTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Layout\Argument\Handler;
+
+class NumberTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Layout_Argument_Handler_Boolean
+     * @var \Magento\Core\Model\Layout\Argument\Handler\Boolean
      */
     protected $_model;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManagerMock;
 
     protected function setUp()
     {
-        $helperObjectManager = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
+        $helperObjectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
         $this->_model = $helperObjectManager->getObject(
-            'Magento_Core_Model_Layout_Argument_Handler_Number',
+            'Magento\Core\Model\Layout\Argument\Handler\Number',
             array('objectManager' => $this->_objectManagerMock)
         );
     }
 
     /**
      * @dataProvider parseDataProvider()
-     * @param Magento_Core_Model_Layout_Element $argument
+     * @param \Magento\Core\Model\Layout\Element $argument
      * @param array $expectedResult
      */
     public function testParse($argument, $expectedResult)
@@ -52,7 +54,7 @@ class Magento_Core_Model_Layout_Argument_Handler_NumberTest extends PHPUnit_Fram
     {
         $layout = simplexml_load_file(
             __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'arguments.xml',
-            'Magento_Core_Model_Layout_Element'
+            'Magento\Core\Model\Layout\Element'
         );
         $result = $this->processDataProvider();
         $simpleArg = $layout->xpath('//argument[@name="testSimpleNumber"]');

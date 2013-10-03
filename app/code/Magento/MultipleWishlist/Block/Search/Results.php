@@ -15,25 +15,27 @@
  * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_MultipleWishlist_Block_Search_Results extends Magento_Core_Block_Template
+namespace Magento\MultipleWishlist\Block\Search;
+
+class Results extends \Magento\Core\Block\Template
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -43,7 +45,7 @@ class Magento_MultipleWishlist_Block_Search_Results extends Magento_Core_Block_T
     /**
      * Retrieve wishlist search results
      *
-     * @return Magento_Wishlist_Model_Resource_Collection
+     * @return \Magento\Wishlist\Model\Resource\Collection
      */
     public function getSearchResults()
     {
@@ -53,10 +55,10 @@ class Magento_MultipleWishlist_Block_Search_Results extends Magento_Core_Block_T
     /**
      * Return frontend registry link
      *
-     * @param Magento_Wishlist_Model_Wishlist $item
+     * @param \Magento\Wishlist\Model\Wishlist $item
      * @return string
      */
-    public function getWishlistLink(Magento_Wishlist_Model_Wishlist $item)
+    public function getWishlistLink(\Magento\Wishlist\Model\Wishlist $item)
     {
         return $this->getUrl('*/search/view', array('wishlist_id' => $item->getId()));
     }

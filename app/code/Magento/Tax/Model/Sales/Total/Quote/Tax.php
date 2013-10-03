@@ -11,26 +11,28 @@
 /**
  * Tax totals calculation model
  */
-class Magento_Tax_Model_Sales_Total_Quote_Tax extends Magento_Sales_Model_Quote_Address_Total_Abstract
+namespace Magento\Tax\Model\Sales\Total\Quote;
+
+class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
      * Tax module helper
      *
-     * @var Magento_Tax_Helper_Data
+     * @var \Magento\Tax\Helper\Data
      */
     protected $_taxData;
 
     /**
      * Tax calculation model
      *
-     * @var Magento_Tax_Model_Calculation
+     * @var \Magento\Tax\Model\Calculation
      */
     protected $_calculator;
 
     /**
      * Tax configuration object
      *
-     * @var Magento_Tax_Model_Config
+     * @var \Magento\Tax\Model\Config
      */
     protected $_config;
 
@@ -59,9 +61,9 @@ class Magento_Tax_Model_Sales_Total_Quote_Tax extends Magento_Sales_Model_Quote_
      * Class constructor
      */
     public function __construct(
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Tax_Model_Calculation $calculation,
-        Magento_Tax_Model_Config $taxConfig
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Tax\Model\Calculation $calculation,
+        \Magento\Tax\Model\Config $taxConfig
     ) {
         $this->setCode('tax');
         $this->_taxData = $taxData;
@@ -72,10 +74,10 @@ class Magento_Tax_Model_Sales_Total_Quote_Tax extends Magento_Sales_Model_Quote_
     /**
      * Collect tax totals for quote address
      *
-     * @param   Magento_Sales_Model_Quote_Address $address
-     * @return  Magento_Tax_Model_Sales_Total_Quote
+     * @param   \Magento\Sales\Model\Quote\Address $address
+     * @return  \Magento\Tax\Model\Sales\Total\Quote\Tax
      */
-    public function collect(Magento_Sales_Model_Quote_Address $address)
+    public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
         parent::collect($address);
         $this->_roundingDeltas      = array();
@@ -113,13 +115,13 @@ class Magento_Tax_Model_Sales_Total_Quote_Tax extends Magento_Sales_Model_Quote_
         }
 
         switch ($this->_config->getAlgorithm($this->_store)) {
-            case Magento_Tax_Model_Calculation::CALC_UNIT_BASE:
+            case \Magento\Tax\Model\Calculation::CALC_UNIT_BASE:
                 $this->_unitBaseCalculation($address, $request);
                 break;
-            case Magento_Tax_Model_Calculation::CALC_ROW_BASE:
+            case \Magento\Tax\Model\Calculation::CALC_ROW_BASE:
                 $this->_rowBaseCalculation($address, $request);
                 break;
-            case Magento_Tax_Model_Calculation::CALC_TOTAL_BASE:
+            case \Magento\Tax\Model\Calculation::CALC_TOTAL_BASE:
                 $this->_totalBaseCalculation($address, $request);
                 break;
             default:
@@ -156,7 +158,7 @@ class Magento_Tax_Model_Sales_Total_Quote_Tax extends Magento_Sales_Model_Quote_
                 $inclTax        = $taxInfoItem['incl_tax'];
                 $qty            = $taxInfoItem['qty'];
 
-                if ($this->_config->getAlgorithm($this->_store) == Magento_Tax_Model_Calculation::CALC_TOTAL_BASE) {
+                if ($this->_config->getAlgorithm($this->_store) == \Magento\Tax\Model\Calculation::CALC_TOTAL_BASE) {
                     $hiddenTax      = $this->_deltaRound($hiddenTax, $rateKey, $inclTax);
                     $baseHiddenTax  = $this->_deltaRound($baseHiddenTax, $rateKey, $inclTax, 'base');
                 } else {
@@ -189,11 +191,11 @@ class Magento_Tax_Model_Sales_Total_Quote_Tax extends Magento_Sales_Model_Quote_
     /**
      * Tax caclulation for shipping price
      *
-     * @param   Magento_Sales_Model_Quote_Address $address
-     * @param   Magento_Object $taxRateRequest
-     * @return  Magento_Tax_Model_Sales_Total_Quote
+     * @param   \Magento\Sales\Model\Quote\Address $address
+     * @param   \Magento\Object $taxRateRequest
+     * @return  \Magento\Tax\Model\Sales\Total\Quote\Tax
      */
-    protected function _calculateShippingTax(Magento_Sales_Model_Quote_Address $address, $taxRateRequest)
+    protected function _calculateShippingTax(\Magento\Sales\Model\Quote\Address $address, $taxRateRequest)
     {
         $taxRateRequest->setProductClassId($this->_config->getShippingTaxClass($this->_store));
         $rate           = $this->_calculator->getRate($taxRateRequest);
@@ -205,13 +207,13 @@ class Magento_Tax_Model_Sales_Total_Quote_Tax extends Magento_Sales_Model_Quote_
         $hiddenTax      = null;
         $baseHiddenTax  = null;
         switch ($this->_taxData->getCalculationSequence($this->_store)) {
-            case Magento_Tax_Model_Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_EXCL:
-            case Magento_Tax_Model_Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_INCL:
+            case \Magento\Tax\Model\Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_EXCL:
+            case \Magento\Tax\Model\Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_INCL:
                 $tax        = $this->_calculator->calcTaxAmount($shipping, $rate, $inclTax, false);
                 $baseTax    = $this->_calculator->calcTaxAmount($baseShipping, $rate, $inclTax, false);
                 break;
-            case Magento_Tax_Model_Calculation::CALC_TAX_AFTER_DISCOUNT_ON_EXCL:
-            case Magento_Tax_Model_Calculation::CALC_TAX_AFTER_DISCOUNT_ON_INCL:
+            case \Magento\Tax\Model\Calculation::CALC_TAX_AFTER_DISCOUNT_ON_EXCL:
+            case \Magento\Tax\Model\Calculation::CALC_TAX_AFTER_DISCOUNT_ON_INCL:
                 $discountAmount     = $address->getShippingDiscountAmount();
                 $baseDiscountAmount = $address->getBaseShippingDiscountAmount();
                 $tax = $this->_calculator->calcTaxAmount(
@@ -229,7 +231,7 @@ class Magento_Tax_Model_Sales_Total_Quote_Tax extends Magento_Sales_Model_Quote_
                 break;
         }
 
-        if ($this->_config->getAlgorithm($this->_store) == Magento_Tax_Model_Calculation::CALC_TOTAL_BASE) {
+        if ($this->_config->getAlgorithm($this->_store) == \Magento\Tax\Model\Calculation::CALC_TOTAL_BASE) {
             $tax        = $this->_deltaRound($tax, $rate, $inclTax);
             $baseTax    = $this->_deltaRound($baseTax, $rate, $inclTax, 'base');
         } else {
@@ -261,10 +263,10 @@ class Magento_Tax_Model_Sales_Total_Quote_Tax extends Magento_Sales_Model_Quote_
     /**
      * Calculate address tax amount based on one unit price and tax amount
      *
-     * @param   Magento_Sales_Model_Quote_Address $address
-     * @return  Magento_Tax_Model_Sales_Total_Quote
+     * @param   \Magento\Sales\Model\Quote\Address $address
+     * @return  \Magento\Tax\Model\Sales\Total\Quote\Tax
      */
-    protected function _unitBaseCalculation(Magento_Sales_Model_Quote_Address $address, $taxRateRequest)
+    protected function _unitBaseCalculation(\Magento\Sales\Model\Quote\Address $address, $taxRateRequest)
     {
         $items = $this->_getAddressItems($address);
         $itemTaxGroups  = array();
@@ -325,11 +327,11 @@ class Magento_Tax_Model_Sales_Total_Quote_Tax extends Magento_Sales_Model_Quote_
     /**
      * Calculate unit tax anount based on unit price
      *
-     * @param   Magento_Sales_Model_Quote_Item_Abstract $item
+     * @param   \Magento\Sales\Model\Quote\Item\AbstractItem $item
      * @param   float $rate
-     * @return  Magento_Tax_Model_Sales_Total_Quote
+     * @return  \Magento\Tax\Model\Sales\Total\Quote\Tax
      */
-    protected function _calcUnitTaxAmount(Magento_Sales_Model_Quote_Item_Abstract $item, $rate)
+    protected function _calcUnitTaxAmount(\Magento\Sales\Model\Quote\Item\AbstractItem $item, $rate)
     {
         $qty        = $item->getTotalQty();
         $inclTax    = $item->getIsPriceInclTax();
@@ -341,13 +343,13 @@ class Magento_Tax_Model_Sales_Total_Quote_Tax extends Magento_Sales_Model_Quote_
         $hiddenTax      = null;
         $baseHiddenTax  = null;
         switch ($this->_config->getCalculationSequence($this->_store)) {
-            case Magento_Tax_Model_Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_EXCL:
-            case Magento_Tax_Model_Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_INCL:
+            case \Magento\Tax\Model\Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_EXCL:
+            case \Magento\Tax\Model\Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_INCL:
                 $unitTax        = $this->_calculator->calcTaxAmount($price, $rate, $inclTax);
                 $baseUnitTax    = $this->_calculator->calcTaxAmount($basePrice, $rate, $inclTax);
                 break;
-            case Magento_Tax_Model_Calculation::CALC_TAX_AFTER_DISCOUNT_ON_EXCL:
-            case Magento_Tax_Model_Calculation::CALC_TAX_AFTER_DISCOUNT_ON_INCL:
+            case \Magento\Tax\Model\Calculation::CALC_TAX_AFTER_DISCOUNT_ON_EXCL:
+            case \Magento\Tax\Model\Calculation::CALC_TAX_AFTER_DISCOUNT_ON_INCL:
                 $discountAmount     = $item->getDiscountAmount() / $qty;
                 $baseDiscountAmount = $item->getBaseDiscountAmount() / $qty;
 
@@ -395,11 +397,11 @@ class Magento_Tax_Model_Sales_Total_Quote_Tax extends Magento_Sales_Model_Quote_
     /**
      * Calculate address total tax based on row total
      *
-     * @param   Magento_Sales_Model_Quote_Address $address
-     * @param   Magento_Object $taxRateRequest
-     * @return  Magento_Tax_Model_Sales_Total_Quote
+     * @param   \Magento\Sales\Model\Quote\Address $address
+     * @param   \Magento\Object $taxRateRequest
+     * @return  \Magento\Tax\Model\Sales\Total\Quote\Tax
      */
-    protected function _rowBaseCalculation(Magento_Sales_Model_Quote_Address $address, $taxRateRequest)
+    protected function _rowBaseCalculation(\Magento\Sales\Model\Quote\Address $address, $taxRateRequest)
     {
         $items = $this->_getAddressItems($address);
         $itemTaxGroups  = array();
@@ -460,9 +462,9 @@ class Magento_Tax_Model_Sales_Total_Quote_Tax extends Magento_Sales_Model_Quote_
     /**
      * Calculate item tax amount based on row total
      *
-     * @param   Magento_Sales_Model_Quote_Item_Abstract $item
+     * @param   \Magento\Sales\Model\Quote\Item\AbstractItem $item
      * @param   float $rate
-     * @return  Magento_Tax_Model_Sales_Total_Quote
+     * @return  \Magento\Tax\Model\Sales\Total\Quote\Tax
      */
     protected function _calcRowTaxAmount($item, $rate)
     {
@@ -475,13 +477,13 @@ class Magento_Tax_Model_Sales_Total_Quote_Tax extends Magento_Sales_Model_Quote_
         $hiddenTax      = null;
         $baseHiddenTax  = null;
         switch ($this->_taxData->getCalculationSequence($this->_store)) {
-            case Magento_Tax_Model_Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_EXCL:
-            case Magento_Tax_Model_Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_INCL:
+            case \Magento\Tax\Model\Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_EXCL:
+            case \Magento\Tax\Model\Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_INCL:
                 $rowTax     = $this->_calculator->calcTaxAmount($subtotal, $rate, $inclTax);
                 $baseRowTax = $this->_calculator->calcTaxAmount($baseSubtotal, $rate, $inclTax);
                 break;
-            case Magento_Tax_Model_Calculation::CALC_TAX_AFTER_DISCOUNT_ON_EXCL:
-            case Magento_Tax_Model_Calculation::CALC_TAX_AFTER_DISCOUNT_ON_INCL:
+            case \Magento\Tax\Model\Calculation::CALC_TAX_AFTER_DISCOUNT_ON_EXCL:
+            case \Magento\Tax\Model\Calculation::CALC_TAX_AFTER_DISCOUNT_ON_INCL:
                 $discountAmount     = $item->getDiscountAmount();
                 $baseDiscountAmount = $item->getBaseDiscountAmount();
                 $rowTax = $this->_calculator->calcTaxAmount(
@@ -527,11 +529,11 @@ class Magento_Tax_Model_Sales_Total_Quote_Tax extends Magento_Sales_Model_Quote_
     /**
      * Calculate address total tax based on address subtotal
      *
-     * @param   Magento_Sales_Model_Quote_Address $address
-     * @param   Magento_Object $taxRateRequest
-     * @return  Magento_Tax_Model_Sales_Total_Quote
+     * @param   \Magento\Sales\Model\Quote\Address $address
+     * @param   \Magento\Object $taxRateRequest
+     * @return  \Magento\Tax\Model\Sales\Total\Quote\Tax
      */
-    protected function _totalBaseCalculation(Magento_Sales_Model_Quote_Address $address, $taxRateRequest)
+    protected function _totalBaseCalculation(\Magento\Sales\Model\Quote\Address $address, $taxRateRequest)
     {
         $items          = $this->_getAddressItems($address);
         $store          = $address->getQuote()->getStore();
@@ -589,10 +591,10 @@ class Magento_Tax_Model_Sales_Total_Quote_Tax extends Magento_Sales_Model_Quote_
     /**
      * Aggregate row totals per tax rate in array
      *
-     * @param   Magento_Sales_Model_Quote_Item_Abstract $item
+     * @param   \Magento\Sales\Model\Quote\Item\AbstractItem $item
      * @param   float $rate
      * @param   array $taxGroups
-     * @return  Magento_Tax_Model_Sales_Total_Quote
+     * @return  \Magento\Tax\Model\Sales\Total\Quote\Tax
      */
     protected function _aggregateTaxPerRate($item, $rate, &$taxGroups)
     {
@@ -610,13 +612,13 @@ class Magento_Tax_Model_Sales_Total_Quote_Tax extends Magento_Sales_Model_Quote_
         $hiddenTax      = null;
         $baseHiddenTax  = null;
         switch ($this->_taxData->getCalculationSequence($this->_store)) {
-            case Magento_Tax_Model_Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_EXCL:
-            case Magento_Tax_Model_Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_INCL:
+            case \Magento\Tax\Model\Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_EXCL:
+            case \Magento\Tax\Model\Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_INCL:
                 $rowTax             = $this->_calculator->calcTaxAmount($subtotal, $rate, $inclTax, false);
                 $baseRowTax         = $this->_calculator->calcTaxAmount($baseSubtotal, $rate, $inclTax, false);
                 break;
-            case Magento_Tax_Model_Calculation::CALC_TAX_AFTER_DISCOUNT_ON_EXCL:
-            case Magento_Tax_Model_Calculation::CALC_TAX_AFTER_DISCOUNT_ON_INCL:
+            case \Magento\Tax\Model\Calculation::CALC_TAX_AFTER_DISCOUNT_ON_EXCL:
+            case \Magento\Tax\Model\Calculation::CALC_TAX_AFTER_DISCOUNT_ON_INCL:
                 if ($this->_taxData->applyTaxOnOriginalPrice($this->_store)) {
                     $discount           = $item->getOriginalDiscountAmount();
                     $baseDiscount       = $item->getBaseOriginalDiscountAmount();
@@ -708,10 +710,10 @@ class Magento_Tax_Model_Sales_Total_Quote_Tax extends Magento_Sales_Model_Quote_
     /**
      * Recalculate parent item amounts base on children data
      *
-     * @param   Magento_Sales_Model_Quote_Item_Abstract $item
-     * @return  Magento_Tax_Model_Sales_Total_Quote
+     * @param   \Magento\Sales\Model\Quote\Item\AbstractItem $item
+     * @return  \Magento\Tax\Model\Sales\Total\Quote\Tax
      */
-    protected function _recalculateParent(Magento_Sales_Model_Quote_Item_Abstract $item)
+    protected function _recalculateParent(\Magento\Sales\Model\Quote\Item\AbstractItem $item)
     {
         $rowTaxAmount       = 0;
         $baseRowTaxAmount   = 0;
@@ -727,13 +729,13 @@ class Magento_Tax_Model_Sales_Total_Quote_Tax extends Magento_Sales_Model_Quote_
     /**
      * Collect applied tax rates information on address level
      *
-     * @param   Magento_Sales_Model_Quote_Address $address
+     * @param   \Magento\Sales\Model\Quote\Address $address
      * @param   array $applied
      * @param   float $amount
      * @param   float $baseAmount
      * @param   float $rate
      */
-    protected function _saveAppliedTaxes(Magento_Sales_Model_Quote_Address $address, $applied, $amount, $baseAmount, $rate)
+    protected function _saveAppliedTaxes(\Magento\Sales\Model\Quote\Address $address, $applied, $amount, $baseAmount, $rate)
     {
         $previouslyAppliedTaxes = $address->getAppliedTaxes();
         $process = count($previouslyAppliedTaxes);
@@ -778,10 +780,10 @@ class Magento_Tax_Model_Sales_Total_Quote_Tax extends Magento_Sales_Model_Quote_
     /**
      * Add tax totals information to address object
      *
-     * @param   Magento_Sales_Model_Quote_Address $address
-     * @return  Magento_Tax_Model_Sales_Total_Quote
+     * @param   \Magento\Sales\Model\Quote\Address $address
+     * @return  \Magento\Tax\Model\Sales\Total\Quote\Tax
      */
-    public function fetch(Magento_Sales_Model_Quote_Address $address)
+    public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
         $applied    = $address->getAppliedTaxes();
         $store      = $address->getQuote()->getStore();
@@ -844,7 +846,7 @@ class Magento_Tax_Model_Sales_Total_Quote_Tax extends Magento_Sales_Model_Quote_
     {
         $calculationSequence = $this->_taxData->getCalculationSequence($store);
          switch ($calculationSequence) {
-            case Magento_Tax_Model_Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_INCL:
+            case \Magento\Tax\Model\Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_INCL:
                 $config['before'][] = 'discount';
                 break;
             default:

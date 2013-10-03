@@ -13,36 +13,38 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Create_Form_Account extends Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract
+namespace Magento\Adminhtml\Block\Sales\Order\Create\Form;
+
+class Account extends \Magento\Adminhtml\Block\Sales\Order\Create\Form\AbstractForm
 {
     /**
-     * @var Magento_Customer_Model_CustomerFactory
+     * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $_customerFactory;
 
     /**
-     * @var Magento_Customer_Model_FormFactory
+     * @var \Magento\Customer\Model\FormFactory
      */
     protected $_customerFormFactory;
 
     /**
-     * @param Magento_Customer_Model_CustomerFactory $customerFactory
-     * @param Magento_Customer_Model_FormFactory $customerFormFactory
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
-     * @param Magento_Adminhtml_Model_Sales_Order_Create $orderCreate
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Customer\Model\FormFactory $customerFormFactory
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Customer_Model_CustomerFactory $customerFactory,
-        Magento_Customer_Model_FormFactory $customerFormFactory,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Adminhtml_Model_Session_Quote $sessionQuote,
-        Magento_Adminhtml_Model_Sales_Order_Create $orderCreate,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Customer\Model\FormFactory $customerFormFactory,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_customerFactory = $customerFactory;
@@ -73,14 +75,14 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Account extends Magento_Ad
     /**
      * Prepare Form and add elements to form
      *
-     * @return Magento_Adminhtml_Block_Sales_Order_Create_Form_Account
+     * @return \Magento\Adminhtml\Block\Sales\Order\Create\Form\Account
      */
     protected function _prepareForm()
     {
-        /* @var $customerModel Magento_Customer_Model_Customer */
+        /* @var $customerModel \Magento\Customer\Model\Customer */
         $customerModel = $this->_customerFactory->create();
 
-        /* @var $customerForm Magento_Customer_Model_Form */
+        /* @var $customerForm \Magento\Customer\Model\Form */
         $customerForm   = $this->_customerFormFactory->create();
         $customerForm->setFormCode('adminhtml_checkout')
             ->setStore($this->getStore())
@@ -91,7 +93,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Account extends Magento_Ad
 
         // add system required attributes
         foreach ($customerForm->getSystemAttributes() as $attribute) {
-            /* @var $attribute Magento_Customer_Model_Attribute */
+            /* @var $attribute \Magento\Customer\Model\Attribute */
             if ($attribute->getIsRequired()) {
                 $attributes[$attribute->getAttributeCode()] = $attribute;
             }
@@ -103,7 +105,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Account extends Magento_Ad
 
         // add user defined attributes
         foreach ($customerForm->getUserAttributes() as $attribute) {
-            /* @var $attribute Magento_Customer_Model_Attribute */
+            /* @var $attribute \Magento\Customer\Model\Attribute */
             $attributes[$attribute->getAttributeCode()] = $attribute;
         }
 
@@ -120,10 +122,10 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Account extends Magento_Ad
     /**
      * Add additional data to form element
      *
-     * @param Magento_Data_Form_Element_Abstract $element
-     * @return Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract
+     * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @return \Magento\Adminhtml\Block\Sales\Order\Create\Form\AbstractForm
      */
-    protected function _addAdditionalFormElementData(Magento_Data_Form_Element_Abstract $element)
+    protected function _addAdditionalFormElementData(\Magento\Data\Form\Element\AbstractElement $element)
     {
         switch ($element->getId()) {
             case 'email':

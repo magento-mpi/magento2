@@ -8,13 +8,15 @@
  * @license     {license_link}
  */
 
+namespace Magento\Test\Tools\View\Generator;
+
 require_once realpath(__DIR__ . '/../../../../../../../../')
     . '/tools/Magento/Tools/View/Generator/ThemeDeployment.php';
 
-class Magento_Test_Tools_View_Generator_ThemeDeploymentTest extends PHPUnit_Framework_TestCase
+class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Helper_Css
+     * @var \Magento\Core\Helper\Css
      */
     protected $_cssHelper;
 
@@ -25,16 +27,16 @@ class Magento_Test_Tools_View_Generator_ThemeDeploymentTest extends PHPUnit_Fram
 
     protected function setUp()
     {
-        $filesystem =  new Magento_Filesystem(new Magento_Filesystem_Adapter_Local());
-        $dirs = new Magento_Core_Model_Dir($filesystem->normalizePath(__DIR__ . '/../../../../../../'));
-        $this->_cssHelper = new Magento_Core_Helper_Css($filesystem, $dirs);
+        $filesystem =  new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local());
+        $dirs = new \Magento\Core\Model\Dir($filesystem->normalizePath(__DIR__ . '/../../../../../../'));
+        $this->_cssHelper = new \Magento\Core\Helper\Css($filesystem, $dirs);
         $this->_tmpDir = TESTS_TEMP_DIR . DIRECTORY_SEPARATOR . 'tool_theme_deployment';
         mkdir($this->_tmpDir);
     }
 
     protected function tearDown()
     {
-        Magento_Io_File::rmdirRecursive($this->_tmpDir);
+        \Magento\Io\File::rmdirRecursive($this->_tmpDir);
     }
 
     /**
@@ -45,8 +47,8 @@ class Magento_Test_Tools_View_Generator_ThemeDeploymentTest extends PHPUnit_Fram
      */
     public function testConstructorException($permitted, $forbidden, $exceptionMessage)
     {
-        $this->setExpectedException('Magento_Exception', $exceptionMessage);
-        new Magento_tools_View_Generator_ThemeDeployment($this->_cssHelper, $this->_tmpDir, $permitted, $forbidden);
+        $this->setExpectedException('Magento\Exception', $exceptionMessage);
+        new \Magento\Tools\View\Generator\ThemeDeployment($this->_cssHelper, $this->_tmpDir, $permitted, $forbidden);
     }
 
     public static function constructorExceptionDataProvider()
@@ -79,7 +81,7 @@ class Magento_Test_Tools_View_Generator_ThemeDeploymentTest extends PHPUnit_Fram
         $forbidden = __DIR__ . '/_files/ThemeDeployment/run/forbidden.php';
         $fixture = include __DIR__ . '/_files/ThemeDeployment/run/fixture.php';
 
-        $object = new Magento_tools_View_Generator_ThemeDeployment($this->_cssHelper, $this->_tmpDir, $permitted,
+        $object = new \Magento\Tools\View\Generator\ThemeDeployment($this->_cssHelper, $this->_tmpDir, $permitted,
             $forbidden);
         $object->run($fixture['copyRules']);
 
@@ -105,8 +107,8 @@ class Magento_Test_Tools_View_Generator_ThemeDeploymentTest extends PHPUnit_Fram
     protected function _getRelativePaths($dir)
     {
         $dirLen = strlen($dir);
-        $files = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS)
+        $files = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS)
         );
         $result = array();
         foreach ($files as $file) {
@@ -136,7 +138,7 @@ class Magento_Test_Tools_View_Generator_ThemeDeploymentTest extends PHPUnit_Fram
         $forbidden = __DIR__ . '/_files/ThemeDeployment/run/forbidden.php';
         $fixture = include __DIR__ . '/_files/ThemeDeployment/run/fixture.php';
 
-        $object = new Magento_Tools_View_Generator_ThemeDeployment($this->_cssHelper, $this->_tmpDir, $permitted,
+        $object = new \Magento\Tools\View\Generator\ThemeDeployment($this->_cssHelper, $this->_tmpDir, $permitted,
             $forbidden, true);
         $object->run($fixture['copyRules']);
 
@@ -146,7 +148,7 @@ class Magento_Test_Tools_View_Generator_ThemeDeploymentTest extends PHPUnit_Fram
 
 
     /**
-     * @expectedException Magento_Exception
+     * @expectedException \Magento\Exception
      * @expectedExceptionMessage The file extension "php" must be added either to the permitted or forbidden list
      */
     public function testRunWithUnknownExtension()
@@ -155,7 +157,7 @@ class Magento_Test_Tools_View_Generator_ThemeDeploymentTest extends PHPUnit_Fram
         $forbidden = __DIR__ . '/_files/ThemeDeployment/run/forbidden_without_php.php';
         $fixture = include __DIR__ . '/_files/ThemeDeployment/run/fixture.php';
 
-        $object = new Magento_tools_View_Generator_ThemeDeployment($this->_cssHelper, $this->_tmpDir, $permitted,
+        $object = new \Magento\Tools\View\Generator\ThemeDeployment($this->_cssHelper, $this->_tmpDir, $permitted,
             $forbidden, true);
         $object->run($fixture['copyRules']);
     }
@@ -164,7 +166,7 @@ class Magento_Test_Tools_View_Generator_ThemeDeploymentTest extends PHPUnit_Fram
     {
         $permitted = __DIR__ . '/_files/ThemeDeployment/run/permitted_cased_js.php';
 
-        $object = new Magento_tools_View_Generator_ThemeDeployment($this->_cssHelper, $this->_tmpDir, $permitted);
+        $object = new \Magento\Tools\View\Generator\ThemeDeployment($this->_cssHelper, $this->_tmpDir, $permitted);
         $copyRules = array(
             array(
                 'source' => __DIR__ . '/_files/ThemeDeployment/run/source_cased_js',

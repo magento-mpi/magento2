@@ -9,16 +9,18 @@
  * @license     {license_link}
  */
 
-class Magento_Customer_Controller_AccountTest extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\Customer\Controller;
+
+class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
     public function testIndexAction()
     {
-        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
-        $session = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Session', array($logger));
+        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Session', array($logger));
         $session->login('customer@example.com', 'password');
         $this->dispatch('customer/account/index');
         $this->assertContains('<div class="my-account">', $this->getResponse()->getBody());
@@ -29,11 +31,11 @@ class Magento_Customer_Controller_AccountTest extends Magento_TestFramework_Test
      */
     public function testCreatepasswordAction()
     {
-        /** @var Magento_Customer_Model_Customer $customer */
-        $customer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Customer')->load(1);
+        /** @var \Magento\Customer\Model\Customer $customer */
+        $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Customer')->load(1);
 
-        $token = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Customer_Helper_Data')
+        $token = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Customer\Helper\Data')
             ->generateResetPasswordLinkToken();
         $customer->changeResetPasswordLinkToken($token);
 
@@ -50,11 +52,11 @@ class Magento_Customer_Controller_AccountTest extends Magento_TestFramework_Test
      */
     public function testOpenActionCreatepasswordAction()
     {
-        /** @var Magento_Customer_Model_Customer $customer */
-        $customer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Customer')->load(1);
+        /** @var \Magento\Customer\Model\Customer $customer */
+        $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Customer')->load(1);
 
-        $token = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Customer_Helper_Data')
+        $token = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Customer\Helper\Data')
             ->generateResetPasswordLinkToken();
         $customer->changeResetPasswordLinkToken($token);
 

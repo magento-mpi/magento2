@@ -13,7 +13,9 @@
  * Assumes that one element may depend on other element values.
  * Will toggle as "enabled" only if all elements it depends from toggle as true.
  */
-class Magento_Backend_Block_Widget_Form_Element_Dependence extends Magento_Backend_Block_Abstract
+namespace Magento\Backend\Block\Widget\Form\Element;
+
+class Dependence extends \Magento\Backend\Block\AbstractBlock
 {
     /**
      * name => id mapper
@@ -46,30 +48,30 @@ class Magento_Backend_Block_Widget_Form_Element_Dependence extends Magento_Backe
      *
      * @param string $fieldId - element ID in DOM
      * @param string $fieldName - element name in their fieldset/form namespace
-     * @return Magento_Backend_Block_Widget_Form_Element_Dependence
+     * @return \Magento\Backend\Block\Widget\Form\Element\Dependence
      */
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData;
 
     /**
-     * @var Magento_Backend_Model_Config_Structure_Element_Dependency_FieldFactory
+     * @var \Magento\Backend\Model\Config\Structure\Element\Dependency\FieldFactory
      */
     protected $_fieldFactory;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Context $context
-     * @param Magento_Backend_Model_Config_Structure_Element_Dependency_FieldFactory $fieldFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Backend\Model\Config\Structure\Element\Dependency\FieldFactory $fieldFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Context $context,
-        Magento_Backend_Model_Config_Structure_Element_Dependency_FieldFactory $fieldFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Context $context,
+        \Magento\Backend\Model\Config\Structure\Element\Dependency\FieldFactory $fieldFactory,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -88,13 +90,13 @@ class Magento_Backend_Block_Widget_Form_Element_Dependence extends Magento_Backe
      *
      * @param string $fieldName
      * @param string $fieldNameFrom
-     * @param Magento_Backend_Model_Config_Structure_Element_Dependency_Field|string $refField
-     * @return Magento_Backend_Block_Widget_Form_Element_Dependence
+     * @param \Magento\Backend\Model\Config\Structure\Element\Dependency\Field|string $refField
+     * @return \Magento\Backend\Block\Widget\Form\Element\Dependence
      */
     public function addFieldDependence($fieldName, $fieldNameFrom, $refField)
     {
         if (!is_object($refField)) {
-            /** @var $refField Magento_Backend_Model_Config_Structure_Element_Dependency_Field */
+            /** @var $refField \Magento\Backend\Model\Config\Structure\Element\Dependency\Field */
             $refField = $this->_fieldFactory->create(array(
                 'fieldData' => array('value' => (string)$refField),
                 'fieldPrefix' => '',
@@ -108,7 +110,7 @@ class Magento_Backend_Block_Widget_Form_Element_Dependence extends Magento_Backe
      * Add misc configuration options to the javascript dependencies controller
      *
      * @param array $options
-     * @return Magento_Backend_Block_Widget_Form_Element_Dependence
+     * @return \Magento\Backend\Block\Widget\Form\Element\Dependence
      */
     public function addConfigOptions(array $options)
     {
@@ -141,7 +143,7 @@ class Magento_Backend_Block_Widget_Form_Element_Dependence extends Magento_Backe
         $result = array();
         foreach ($this->_depends as $to => $row) {
             foreach ($row as $from => $field) {
-                /** @var $field Magento_Backend_Model_Config_Structure_Element_Dependency_Field */
+                /** @var $field \Magento\Backend\Model\Config\Structure\Element\Dependency\Field */
                 $result[$this->_fields[$to]][$this->_fields[$from]] = array(
                     'values' => $field->getValues(),
                     'negative' => $field->isNegative(),

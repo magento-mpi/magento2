@@ -15,13 +15,15 @@
  * @package    Magento_Banner
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_Backend_Block_Widget_Form_Generic
-    implements Magento_Backend_Block_Widget_Tab_Interface
+namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab;
+
+class Content extends \Magento\Backend\Block\Widget\Form\Generic
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * WYSIWYG config object
      *
-     * @var Magento_Cms_Model_Wysiwyg_Config
+     * @var \Magento\Cms\Model\Wysiwyg\Config
      */
     protected $_wysiwygConfigModel;
 
@@ -29,33 +31,33 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_Bac
     /**
      * WYSIWYG config data
      *
-     * @var Magento_Object
+     * @var \Magento\Object
      */
     protected $_wysiwygConfig;
 
     /**
      * Application model
      *
-     * @var Magento_Core_Model_App
+     * @var \Magento\Core\Model\App
      */
     protected $_app;
 
     /**
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_App $app
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\App $app
      * @param array $data
      */
     public function __construct(
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_App $app,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\App $app,
         array $data = array()
     ) {
         $this->_wysiwygConfigModel = $wysiwygConfig;
@@ -108,11 +110,11 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_Bac
     /**
      * Prepare Banners Content Tab form, define Editor settings
      *
-     * @return Magento_Adminhtml_Block_Widget_Form
+     * @return \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('banner_content_');
 
@@ -143,9 +145,9 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_Bac
     /**
      * Create default content fieldset
      *
-     * @param Magento_Data_Form $form
+     * @param \Magento\Data\Form $form
      * @param string $fieldsetHtmlClass
-     * @return Magento_Data_Form_Element_Fieldset
+     * @return \Magento\Data\Form\Element\Fieldset
      */
     protected function _createDefaultContentFieldset($form, $fieldsetHtmlClass)
     {
@@ -159,7 +161,7 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_Bac
     /**
      * Get Wysiwyg Config
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     protected function _getWysiwygConfig()
     {
@@ -167,7 +169,7 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_Bac
             $this->_wysiwygConfig = $this->_wysiwygConfigModel->getConfig(
                 array(
                     'tab_id' => $this->getTabId(),
-                    'skip_widgets' => array('Magento_Banner_Block_Widget_Banner'),
+                    'skip_widgets' => array('Magento\Banner\Block\Widget\Banner'),
                 )
             );
         }
@@ -177,10 +179,10 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_Bac
     /**
      * Create Store default content field
      *
-     * @param Magento_Data_Form_Element_Fieldset $fieldset
-     * @param Magento_Banner_Model_Banner $model
-     * @param Magento_Data_Form $form
-     * @return Magento_Data_Form_Element_Abstract
+     * @param \Magento\Data\Form\Element\Fieldset $fieldset
+     * @param \Magento\Banner\Model\Banner $model
+     * @param \Magento\Data\Form $form
+     * @return \Magento\Data\Form\Element\AbstractElement
      */
     protected function _createStoreDefaultContentField($fieldset, $model, $form)
     {
@@ -206,10 +208,10 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_Bac
     /**
      * Create default content for stores field
      *
-     * @param Magento_Data_Form_Element_Fieldset $fieldset
-     * @param Magento_Data_Form $form
-     * @param Magento_Banner_Model_Banner $model
-     * @return Magento_Data_Form_Element_Abstract
+     * @param \Magento\Data\Form\Element\Fieldset $fieldset
+     * @param \Magento\Data\Form $form
+     * @param \Magento\Banner\Model\Banner $model
+     * @return \Magento\Data\Form\Element\AbstractElement
      */
     protected function _createDefaultContentForStoresField($fieldset, $form, $model)
     {
@@ -239,9 +241,9 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_Bac
     /**
      * Create fieldset that provides ability to change content per store view
      *
-     * @param Magento_Data_Form $form
-     * @param Magento_Banner_Model_Banner $model
-     * @return Magento_Data_Form_Element_Fieldset
+     * @param \Magento\Data\Form $form
+     * @param \Magento\Banner\Model\Banner $model
+     * @return \Magento\Data\Form\Element\Fieldset
      */
     protected function _createStoresContentFieldset($form, $model)
     {
@@ -250,7 +252,7 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_Bac
             'legend' => __('Store View Specific Content'),
             'class' => 'store-scope',
         ));
-        $renderer = $this->getLayout()->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset');
+        $renderer = $this->getLayout()->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset');
         $fieldset->setRenderer($renderer);
         $this->_getWysiwygConfig()->setUseContainer(true);
         foreach ($this->_app->getWebsites() as $website) {

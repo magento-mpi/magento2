@@ -11,32 +11,34 @@
 /**
  * Export adapter factory
  */
-class Magento_ImportExport_Model_Export_Adapter_Factory
+namespace Magento\ImportExport\Model\Export\Adapter;
+
+class Factory
 {
     /**
      * Object Manager
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
 
     /**
      * @param string $className
-     * @return Magento_ImportExport_Model_Export_Adapter_Abstract
-     * @throws InvalidArgumentException
+     * @return \Magento\ImportExport\Model\Export\Adapter\AbstractAdapter
+     * @throws \InvalidArgumentException
      */
     public function create($className)
     {
         if (!$className) {
-            throw new InvalidArgumentException('Incorrect class name');
+            throw new \InvalidArgumentException('Incorrect class name');
         }
 
         return $this->_objectManager->create($className);

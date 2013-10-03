@@ -8,32 +8,34 @@
  * @license     {license_link}
  */
 
-class Magento_GiftRegistry_Block_Cart_Product_Mark extends Magento_Core_Block_Template
+namespace Magento\GiftRegistry\Block\Cart\Product;
+
+class Mark extends \Magento\Core\Block\Template
 {
     /**
-     * @var Magento_GiftRegistry_Model_EntityFactory
+     * @var \Magento\GiftRegistry\Model\EntityFactory
      */
     protected $entityFactory;
 
     /**
      * Gift registry data
      *
-     * @var Magento_GiftRegistry_Helper_Data
+     * @var \Magento\GiftRegistry\Helper\Data
      */
     protected $_giftRegistryData = null;
 
     /**
-     * @param Magento_GiftRegistry_Helper_Data $giftRegistryData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_GiftRegistry_Model_EntityFactory $entityFactory
+     * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
      * @param array $data
      */
     public function __construct(
-        Magento_GiftRegistry_Helper_Data $giftRegistryData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_GiftRegistry_Model_EntityFactory $entityFactory,
+        \Magento\GiftRegistry\Helper\Data $giftRegistryData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
         array $data = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;
@@ -65,7 +67,7 @@ class Magento_GiftRegistry_Block_Cart_Product_Mark extends Magento_Core_Block_Te
         }
 
 
-        if ($item instanceof  Magento_Sales_Model_Quote_Address_Item) {
+        if ($item instanceof  \Magento\Sales\Model\Quote\Address\Item) {
             $item = $item->getQuoteItem();
         }
 
@@ -85,8 +87,8 @@ class Magento_GiftRegistry_Block_Cart_Product_Mark extends Magento_Core_Block_Te
     /**
      * Get gifregistry params by quote item
      *
-     * @param Magento_Sales_Model_Quote_Item $newItem
-     * @return Magento_GiftRegistry_Block_Cart_Product_Mark
+     * @param \Magento\Sales\Model\Quote\Item $newItem
+     * @return \Magento\GiftRegistry\Block\Cart\Product\Mark
      */
     public function setItem($newItem)
     {

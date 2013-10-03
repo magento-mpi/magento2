@@ -9,7 +9,7 @@
  */
 
 $installer = $this;
-$installer->addAttribute(Magento_Catalog_Model_Product::ENTITY, 'country_of_manufacture', array(
+$installer->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'country_of_manufacture', array(
     'group'             => 'General',
     'type'              => 'varchar',
     'backend'           => '',
@@ -17,8 +17,8 @@ $installer->addAttribute(Magento_Catalog_Model_Product::ENTITY, 'country_of_manu
     'label'             => 'Country of Manufacture',
     'input'             => 'select',
     'class'             => '',
-    'source'            => 'Magento_Catalog_Model_Product_Attribute_Source_Countryofmanufacture',
-    'global'            => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE,
+    'source'            => 'Magento\Catalog\Model\Product\Attribute\Source\Countryofmanufacture',
+    'global'            => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
     'visible'           => true,
     'required'          => false,
     'user_defined'      => false,

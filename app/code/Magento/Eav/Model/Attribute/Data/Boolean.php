@@ -16,7 +16,9 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Attribute_Data_Boolean extends Magento_Eav_Model_Attribute_Data_Select
+namespace Magento\Eav\Model\Attribute\Data;
+
+class Boolean extends \Magento\Eav\Model\Attribute\Data\Select
 {
     /**
      * Return a text for option value

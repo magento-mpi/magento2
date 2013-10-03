@@ -11,7 +11,9 @@
 /**
  * * GiftRegistry configuration schema locator
  */
-class Magento_GiftRegistry_Model_Config_SchemaLocator implements Magento_Config_SchemaLocatorInterface
+namespace Magento\GiftRegistry\Model\Config;
+
+class SchemaLocator implements \Magento\Config\SchemaLocatorInterface
 {
     /**
      * Path to corresponding XSD file with validation rules for merged config
@@ -28,9 +30,9 @@ class Magento_GiftRegistry_Model_Config_SchemaLocator implements Magento_Config_
     protected $_perFileSchema = null;
 
     /**
-     * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
+     * @param \Magento\Core\Model\Config\Modules\Reader $moduleReader
      */
-    public function __construct(Magento_Core_Model_Config_Modules_Reader $moduleReader)
+    public function __construct(\Magento\Core\Model\Config\Modules\Reader $moduleReader)
     {
         $this->_schema = $moduleReader->getModuleDir('etc', 'Magento_GiftRegistry') . '/giftregistry.xsd';
     }

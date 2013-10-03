@@ -16,69 +16,71 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Customer_Block_Account_Dashboard_Sidebar extends Magento_Core_Block_Template
+namespace Magento\Customer\Block\Account\Dashboard;
+
+class Sidebar extends \Magento\Core\Block\Template
 {
     protected $_cartItemsCount;
 
     /**
      * Enter description here...
      *
-     * @var Magento_Wishlist_Model_Wishlist
+     * @var \Magento\Wishlist\Model\Wishlist
      */
     protected $_wishlist;
 
     protected $_compareItems;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @var Magento_Checkout_Model_Session
+     * @var \Magento\Checkout\Model\Session
      */
     protected $_checkoutSession;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Sales_Model_QuoteFactory
+     * @var \Magento\Sales\Model\QuoteFactory
      */
     protected $_quoteFactory;
 
     /**
-     * @var Magento_Wishlist_Model_WishlistFactory
+     * @var \Magento\Wishlist\Model\WishlistFactory
      */
     protected $_wishListFactory;
 
     /**
-     * @var Magento_Catalog_Model_Resource_Product_Compare_Item_CollectionFactory
+     * @var \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory
      */
     protected $_itemsCompareFactory;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Checkout_Model_Session $checkoutSession
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Sales_Model_QuoteFactory $quoteFactory
-     * @param Magento_Wishlist_Model_WishlistFactory $wishListFactory
-     * @param Magento_Catalog_Model_Resource_Product_Compare_Item_CollectionFactory $itemsCompareFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
+     * @param \Magento\Wishlist\Model\WishlistFactory $wishListFactory
+     * @param \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory $itemsCompareFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Checkout_Model_Session $checkoutSession,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Sales_Model_QuoteFactory $quoteFactory,
-        Magento_Wishlist_Model_WishlistFactory $wishListFactory,
-        Magento_Catalog_Model_Resource_Product_Compare_Item_CollectionFactory $itemsCompareFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Sales\Model\QuoteFactory $quoteFactory,
+        \Magento\Wishlist\Model\WishlistFactory $wishListFactory,
+        \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory $itemsCompareFactory,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
@@ -173,7 +175,7 @@ class Magento_Customer_Block_Account_Dashboard_Sidebar extends Magento_Core_Bloc
     }
 
     /**
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     protected function _createQuote()
     {
@@ -181,7 +183,7 @@ class Magento_Customer_Block_Account_Dashboard_Sidebar extends Magento_Core_Bloc
     }
 
     /**
-     * @return Magento_Wishlist_Model_Wishlist
+     * @return \Magento\Wishlist\Model\Wishlist
      */
     protected function _createWishList()
     {
@@ -189,7 +191,7 @@ class Magento_Customer_Block_Account_Dashboard_Sidebar extends Magento_Core_Bloc
     }
 
     /**
-     * @return Magento_Catalog_Model_Resource_Product_Compare_Item_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Compare\Item\Collection
      */
     protected function _createProductCompareCollection()
     {

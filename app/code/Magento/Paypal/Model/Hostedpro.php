@@ -11,7 +11,9 @@
 /**
  * Website Payments Pro Hosted Solution payment gateway model
  */
-class Magento_Paypal_Model_Hostedpro extends Magento_Paypal_Model_Direct
+namespace Magento\Paypal\Model;
+
+class Hostedpro extends \Magento\Paypal\Model\Direct
 {
     /**
      * Button code
@@ -33,17 +35,17 @@ class Magento_Paypal_Model_Hostedpro extends Magento_Paypal_Model_Direct
      *
      * @var string
      */
-    protected $_code = Magento_Paypal_Model_Config::METHOD_HOSTEDPRO;
+    protected $_code = \Magento\Paypal\Model\Config::METHOD_HOSTEDPRO;
 
     /**
      * @var string
      */
-    protected $_formBlockType = 'Magento_Paypal_Block_Hosted_Pro_Form';
+    protected $_formBlockType = 'Magento\Paypal\Block\Hosted\Pro\Form';
 
     /**
      * @var string
      */
-    protected $_infoBlockType = 'Magento_Paypal_Block_Hosted_Pro_Info';
+    protected $_infoBlockType = 'Magento\Paypal\Block\Hosted\Pro\Info';
 
     /**#@+
      * Availability options
@@ -55,44 +57,44 @@ class Magento_Paypal_Model_Hostedpro extends Magento_Paypal_Model_Direct
     /**#@-*/
 
     /**
-     * @var Magento_Paypal_Model_Hostedpro_RequestFactory
+     * @var \Magento\Paypal\Model\Hostedpro\RequestFactory
      */
     protected $_hostedproRequestFactory;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_ModuleListInterface $moduleList
-     * @param Magento_Payment_Helper_Data $paymentData
-     * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Centinel_Model_Service $centinelService
-     * @param Magento_Paypal_Model_Method_ProTypeFactory $proTypeFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_UrlInterface $urlBuilder
-     * @param Magento_Core_Controller_Request_Http $requestHttp
-     * @param Magento_Paypal_Model_CartFactory $cartFactory
-     * @param Magento_Paypal_Model_Hostedpro_RequestFactory $hostedproRequestFactory
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\ModuleListInterface $moduleList
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Centinel\Model\Service $centinelService
+     * @param \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\UrlInterface $urlBuilder
+     * @param \Magento\Core\Controller\Request\Http $requestHttp
+     * @param \Magento\Paypal\Model\CartFactory $cartFactory
+     * @param \Magento\Paypal\Model\Hostedpro\RequestFactory $hostedproRequestFactory
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_ModuleListInterface $moduleList,
-        Magento_Payment_Helper_Data $paymentData,
-        Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Centinel_Model_Service $centinelService,
-        Magento_Paypal_Model_Method_ProTypeFactory $proTypeFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_UrlInterface $urlBuilder,
-        Magento_Core_Controller_Request_Http $requestHttp,
-        Magento_Paypal_Model_CartFactory $cartFactory,
-        Magento_Paypal_Model_Hostedpro_RequestFactory $hostedproRequestFactory,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\ModuleListInterface $moduleList,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Centinel\Model\Service $centinelService,
+        \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\UrlInterface $urlBuilder,
+        \Magento\Core\Controller\Request\Http $requestHttp,
+        \Magento\Paypal\Model\CartFactory $cartFactory,
+        \Magento\Paypal\Model\Hostedpro\RequestFactory $hostedproRequestFactory,
         array $data = array()
     ) {
         $this->_hostedproRequestFactory = $hostedproRequestFactory;
@@ -150,14 +152,14 @@ class Magento_Paypal_Model_Hostedpro extends Magento_Paypal_Model_Direct
      * Instantiate state and set it to state object
      *
      * @param string $paymentAction
-     * @param Magento_Object $stateObject
-     * @return \Magento_Payment_Model_Abstract|null
+     * @param \Magento\Object $stateObject
+     * @return \Magento\Payment\Model\AbstractModel|null
      */
     public function initialize($paymentAction, $stateObject)
     {
         switch ($paymentAction) {
-            case Magento_Paypal_Model_Config::PAYMENT_ACTION_AUTH:
-            case Magento_Paypal_Model_Config::PAYMENT_ACTION_SALE:
+            case \Magento\Paypal\Model\Config::PAYMENT_ACTION_AUTH:
+            case \Magento\Paypal\Model\Config::PAYMENT_ACTION_SALE:
                 $payment = $this->getInfoInstance();
                 $order = $payment->getOrder();
                 $order->setCanSendNewEmailFlag(false);
@@ -166,7 +168,7 @@ class Magento_Paypal_Model_Hostedpro extends Magento_Paypal_Model_Direct
 
                 $this->_setPaymentFormUrl($payment);
 
-                $stateObject->setState(Magento_Sales_Model_Order::STATE_PENDING_PAYMENT);
+                $stateObject->setState(\Magento\Sales\Model\Order::STATE_PENDING_PAYMENT);
                 $stateObject->setStatus('pending_payment');
                 $stateObject->setIsNotified(false);
                 break;
@@ -178,27 +180,27 @@ class Magento_Paypal_Model_Hostedpro extends Magento_Paypal_Model_Direct
     /**
      * Sends API request to PayPal to get form URL, then sets this URL to $payment object.
      *
-     * @param Magento_Payment_Model_Info $payment
-     * @throws Magento_Core_Exception
+     * @param \Magento\Payment\Model\Info $payment
+     * @throws \Magento\Core\Exception
      */
-    protected function _setPaymentFormUrl(Magento_Payment_Model_Info $payment)
+    protected function _setPaymentFormUrl(\Magento\Payment\Model\Info $payment)
     {
         $request = $this->_buildFormUrlRequest($payment);
         $response = $this->_sendFormUrlRequest($request);
         if ($response) {
             $payment->setAdditionalInformation('secure_form_url', $response);
         } else {
-            throw new Magento_Core_Exception('Cannot get secure form URL from PayPal');
+            throw new \Magento\Core\Exception('Cannot get secure form URL from PayPal');
         }
     }
 
     /**
      * Returns request object with needed data for API request to PayPal to get form URL.
      *
-     * @param Magento_Payment_Model_Info $payment
-     * @return Magento_Paypal_Model_Hostedpro_Request
+     * @param \Magento\Payment\Model\Info $payment
+     * @return \Magento\Paypal\Model\Hostedpro\Request
      */
-    protected function _buildFormUrlRequest(Magento_Payment_Model_Info $payment)
+    protected function _buildFormUrlRequest(\Magento\Payment\Model\Info $payment)
     {
         $request = $this->_buildBasicRequest()
             ->setOrder($payment->getOrder())
@@ -210,10 +212,10 @@ class Magento_Paypal_Model_Hostedpro extends Magento_Paypal_Model_Direct
     /**
      * Returns form URL from request to PayPal.
      *
-     * @param Magento_Paypal_Model_Hostedpro_Request $request
+     * @param \Magento\Paypal\Model\Hostedpro\Request $request
      * @return string | false
      */
-    protected function _sendFormUrlRequest(Magento_Paypal_Model_Hostedpro_Request $request)
+    protected function _sendFormUrlRequest(\Magento\Paypal\Model\Hostedpro\Request $request)
     {
         $api = $this->_pro->getApi();
         $response = $api->call(self::BM_BUTTON_METHOD, $request->getRequestData());
@@ -227,7 +229,7 @@ class Magento_Paypal_Model_Hostedpro extends Magento_Paypal_Model_Direct
     /**
      * Return request object with basic information
      *
-     * @return Magento_Paypal_Model_Hostedpro_Request
+     * @return \Magento\Paypal\Model\Hostedpro\Request
      */
     protected function _buildBasicRequest()
     {

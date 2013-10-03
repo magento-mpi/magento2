@@ -9,17 +9,19 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Block_TextTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Block;
+
+class TextTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Block_Text
+     * @var \Magento\Core\Block\Text
      */
     protected $_block;
 
     protected function setUp()
     {
-        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_Core_Block_Text');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Core\Block\Text');
     }
 
     public function testSetGetText()

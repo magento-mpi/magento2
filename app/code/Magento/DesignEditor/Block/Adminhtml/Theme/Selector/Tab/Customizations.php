@@ -11,8 +11,10 @@
 /**
  * Theme selector tab for customized themes
  */
-class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_Tab_Customizations
-    extends Magento_DesignEditor_Block_Adminhtml_Theme_Selector_Tab_TabAbstract
+namespace Magento\DesignEditor\Block\Adminhtml\Theme\Selector\Tab;
+
+class Customizations
+    extends \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\Tab\AbstractTab
 {
     /**
      * Initialize tab block

@@ -8,10 +8,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Backend\Helper;
+
 /**
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Magento_Backend_Helper_Data extends Magento_Core_Helper_Abstract
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     const XML_PATH_USE_CUSTOM_ADMIN_URL         = 'admin/url/use_custom';
     const XML_PATH_USE_CUSTOM_ADMIN_PATH        = 'admin/url/use_custom_path';
@@ -24,12 +26,12 @@ class Magento_Backend_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_pageHelpUrl;
 
     /**
-     * @var Magento_Core_Model_ConfigInterface
+     * @var \Magento\Core\Model\ConfigInterface
      */
     protected $_config;
 
     /**
-     * @var Magento_Core_Model_Config_Primary
+     * @var \Magento\Core\Model\Config\Primary
      */
     protected $_primaryConfig;
 
@@ -45,29 +47,29 @@ class Magento_Backend_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_areaFrontName = null;
 
     /**
-     * @var Magento_Core_Model_RouterList
+     * @var \Magento\Core\Model\RouterList
      */
     protected $_routerList;
 
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @var Magento_Core_Model_AppProxy
+     * @var \Magento\Core\Model\AppProxy
      */
     protected $_app;
 
     /**
-     * @var Magento_Backend_Model_UrlProxy
+     * @var \Magento\Backend\Model\UrlProxy
      */
     protected $_backendUrl;
 
     /**
-     * @var Magento_Backend_Model_AuthProxy
+     * @var \Magento\Backend\Model\AuthProxy
      */
     protected $_auth;
 
@@ -79,28 +81,28 @@ class Magento_Backend_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_backendFrontName;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_ConfigInterface $applicationConfig
-     * @param Magento_Core_Model_Config_Primary $primaryConfig
-     * @param Magento_Core_Model_RouterList $routerList
-     * @param Magento_Core_Model_AppProxy $app
-     * @param Magento_Backend_Model_UrlProxy $backendUrl
-     * @param Magento_Backend_Model_AuthProxy $auth
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\ConfigInterface $applicationConfig
+     * @param \Magento\Core\Model\Config\Primary $primaryConfig
+     * @param \Magento\Core\Model\RouterList $routerList
+     * @param \Magento\Core\Model\AppProxy $app
+     * @param \Magento\Backend\Model\UrlProxy $backendUrl
+     * @param \Magento\Backend\Model\AuthProxy $auth
      * @param string $defaultAreaFrontName
      * @param string $backendFrontName
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_ConfigInterface $applicationConfig,
-        Magento_Core_Model_Config_Primary $primaryConfig,
-        Magento_Core_Model_RouterList $routerList,
-        Magento_Core_Model_AppProxy $app,
-        Magento_Backend_Model_UrlProxy $backendUrl,
-        Magento_Backend_Model_AuthProxy $auth,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\ConfigInterface $applicationConfig,
+        \Magento\Core\Model\Config\Primary $primaryConfig,
+        \Magento\Core\Model\RouterList $routerList,
+        \Magento\Core\Model\AppProxy $app,
+        \Magento\Backend\Model\UrlProxy $backendUrl,
+        \Magento\Backend\Model\AuthProxy $auth,
         $defaultAreaFrontName,
         $backendFrontName
     ) {
@@ -251,7 +253,7 @@ class Magento_Backend_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Invalidate cache of area front name
      *
-     * @return Magento_Backend_Helper_Data
+     * @return \Magento\Backend\Helper\Data
      */
     public function clearAreaFrontName()
     {

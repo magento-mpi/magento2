@@ -16,51 +16,53 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Attribute_Backend_Price extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
+namespace Magento\Catalog\Model\Product\Attribute\Backend;
+
+class Price extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
      * Catalog helper
      *
-     * @var Magento_Catalog_Helper_Data
+     * @var \Magento\Catalog\Helper\Data
      */
     protected $_helper;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Currency factory
      *
-     * @var Magento_Directory_Model_CurrencyFactory
+     * @var \Magento\Directory\Model\CurrencyFactory
      */
     protected $_currencyFactory;
 
     /**
      * Core config model
      *
-     * @var Magento_Core_Model_ConfigInterface
+     * @var \Magento\Core\Model\ConfigInterface
      */
     protected $_config;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Model_Config $config
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Model\Config $config
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Directory_Model_CurrencyFactory $currencyFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Model_Config $config
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Directory\Model\CurrencyFactory $currencyFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Model\Config $config
     ) {
         $this->_currencyFactory = $currencyFactory;
         $this->_storeManager = $storeManager;
@@ -73,8 +75,8 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Price extends Magento_Eav_
      * Set Attribute instance
      * Rewrite for redefine attribute scope
      *
-     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
-     * @return Magento_Catalog_Model_Product_Attribute_Backend_Price
+     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
+     * @return \Magento\Catalog\Model\Product\Attribute\Backend\Price
      */
     public function setAttribute($attribute)
     {
@@ -86,15 +88,15 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Price extends Magento_Eav_
     /**
      * Redefine Attribute scope
      *
-     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
-     * @return Magento_Catalog_Model_Product_Attribute_Backend_Price
+     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
+     * @return \Magento\Catalog\Model\Product\Attribute\Backend\Price
      */
     public function setScope($attribute)
     {
         if ($this->_helper->isPriceGlobal()) {
-            $attribute->setIsGlobal(Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL);
+            $attribute->setIsGlobal(\Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL);
         } else {
-            $attribute->setIsGlobal(Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE);
+            $attribute->setIsGlobal(\Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE);
         }
 
         return $this;
@@ -103,8 +105,8 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Price extends Magento_Eav_
     /**
      * After Save Attribute manipulation
      *
-     * @param Magento_Catalog_Model_Product $object
-     * @return Magento_Catalog_Model_Product_Attribute_Backend_Price
+     * @param \Magento\Catalog\Model\Product $object
+     * @return \Magento\Catalog\Model\Product\Attribute\Backend\Price
      */
     public function afterSave($object)
     {
@@ -118,8 +120,8 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Price extends Magento_Eav_
             return $this;
         }
 
-        if ($this->getAttribute()->getIsGlobal() == Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE) {
-            $baseCurrency = $this->_config->getValue(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE,
+        if ($this->getAttribute()->getIsGlobal() == \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE) {
+            $baseCurrency = $this->_config->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE,
                 'default');
 
             $storeIds = $object->getStoreIds();
@@ -145,8 +147,8 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Price extends Magento_Eav_
     /**
      * Validate
      *
-     * @param Magento_Catalog_Model_Product $object
-     * @throws Magento_Core_Exception
+     * @param \Magento\Catalog\Model\Product $object
+     * @throws \Magento\Core\Exception
      * @return bool
      */
     public function validate($object)
@@ -157,7 +159,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Price extends Magento_Eav_
         }
 
         if (!preg_match('/^\d*(\.|,)?\d{0,4}$/i', $value) || $value < 0) {
-            throw new Magento_Core_Exception(
+            throw new \Magento\Core\Exception(
                 __('Please enter a number 0 or greater in this field.')
             );
         }

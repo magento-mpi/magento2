@@ -11,21 +11,23 @@
 /**
  * Wishlist sharing condition
  */
-class Magento_Reminder_Model_Rule_Condition_Wishlist_Sharing
-    extends Magento_Reminder_Model_Condition_Abstract
+namespace Magento\Reminder\Model\Rule\Condition\Wishlist;
+
+class Sharing
+    extends \Magento\Reminder\Model\Condition\AbstractCondition
 {
     /**
-     * @param Magento_Rule_Model_Condition_Context $context
-     * @param Magento_Reminder_Model_Resource_Rule $ruleResource
+     * @param \Magento\Rule\Model\Condition\Context $context
+     * @param \Magento\Reminder\Model\Resource\Rule $ruleResource
      * @param array $data
      */
     public function __construct(
-        Magento_Rule_Model_Condition_Context $context,
-        Magento_Reminder_Model_Resource_Rule $ruleResource,
+        \Magento\Rule\Model\Condition\Context $context,
+        \Magento\Reminder\Model\Resource\Rule $ruleResource,
         array $data = array()
     ) {
         parent::__construct($context, $ruleResource, $data);
-        $this->setType('Magento_Reminder_Model_Rule_Condition_Wishlist_Sharing');
+        $this->setType('Magento\Reminder\Model\Rule\Condition\Wishlist\Sharing');
         $this->setValue(1);
     }
 
@@ -65,7 +67,7 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Sharing
     /**
      * Init list of available values
      *
-     * @return Magento_Reminder_Model_Rule_Condition_Wishlist_Sharing
+     * @return \Magento\Reminder\Model\Rule\Condition\Wishlist\Sharing
      */
     public function loadValueOptions()
     {
@@ -81,14 +83,14 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Sharing
      *
      * @param $customer
      * @param int|Zend_Db_Expr $website
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)
     {
         $table = $this->getResource()->getTable('wishlist');
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('list' => $table), array(new Zend_Db_Expr(1)));
+        $select->from(array('list' => $table), array(new \Zend_Db_Expr(1)));
         if ($this->getValue()) {
             $select->where("list.shared > 0");
         } else {

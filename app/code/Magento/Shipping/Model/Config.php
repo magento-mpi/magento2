@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Shipping_Model_Config extends Magento_Object
+namespace Magento\Shipping\Model;
+
+class Config extends \Magento\Object
 {
     /**
      * Shipping origin settings
@@ -24,25 +26,25 @@ class Magento_Shipping_Model_Config extends Magento_Object
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Shipping_Model_Carrier_Factory
+     * @var \Magento\Shipping\Model\Carrier\Factory
      */
     protected $_carrierFactory;
 
     /**
      * Constructor
      *
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Shipping_Model_Carrier_Factory $carrierFactory
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Shipping\Model\Carrier\Factory $carrierFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Shipping_Model_Carrier_Factory $carrierFactory,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Shipping\Model\Carrier\Factory $carrierFactory,
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -95,7 +97,7 @@ class Magento_Shipping_Model_Config extends Magento_Object
      *
      * @param   string $carrierCode
      * @param   mixed $store
-     * @return  Magento_Usa_Model_Shipping_Carrier_Abstract
+     * @return  \Magento\Usa\Model\Shipping\Carrier\AbstractCarrier
      */
     public function getCarrierInstance($carrierCode, $store = null)
     {
@@ -107,7 +109,7 @@ class Magento_Shipping_Model_Config extends Magento_Object
      *
      * @param $carrierCode
      * @param mixed $store
-     * @return Magento_Shipping_Model_Carrier_Abstract
+     * @return \Magento\Shipping\Model\Carrier\AbstractCarrier
      */
     protected function _getCarrier($carrierCode, $store = null)
     {

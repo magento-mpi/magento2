@@ -16,31 +16,33 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Layer_Filter_Decimal extends Magento_Catalog_Model_Layer_Filter_Abstract
+namespace Magento\Catalog\Model\Layer\Filter;
+
+class Decimal extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
 {
     const MIN_RANGE_POWER = 10;
 
     /**
      * Resource instance
      *
-     * @var Magento_Catalog_Model_Resource_Layer_Filter_Decimal
+     * @var \Magento\Catalog\Model\Resource\Layer\Filter\Decimal
      */
     protected $_resource;
 
     /**
      * Construct
      *
-     * @param Magento_Catalog_Model_Layer_Filter_ItemFactory $filterItemFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Model_Layer $catalogLayer
-     * @param Magento_Catalog_Model_Resource_Layer_Filter_DecimalFactory $filterDecimalFactory
+     * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Layer $catalogLayer
+     * @param \Magento\Catalog\Model\Resource\Layer\Filter\DecimalFactory $filterDecimalFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Model_Layer_Filter_ItemFactory $filterItemFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Model_Layer $catalogLayer,
-        Magento_Catalog_Model_Resource_Layer_Filter_DecimalFactory $filterDecimalFactory,
+        \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Layer $catalogLayer,
+        \Magento\Catalog\Model\Resource\Layer\Filter\DecimalFactory $filterDecimalFactory,
         array $data = array()
     ) {
         $this->_resource = $filterDecimalFactory->create();
@@ -51,7 +53,7 @@ class Magento_Catalog_Model_Layer_Filter_Decimal extends Magento_Catalog_Model_L
     /**
      * Retrieve resource instance
      *
-     * @return Magento_Catalog_Model_Resource_Layer_Filter_Decimal
+     * @return \Magento\Catalog\Model\Resource\Layer\Filter\Decimal
      */
     protected function _getResource()
     {
@@ -61,11 +63,11 @@ class Magento_Catalog_Model_Layer_Filter_Decimal extends Magento_Catalog_Model_L
     /**
      * Apply decimal range filter to product collection
      *
-     * @param Zend_Controller_Request_Abstract $request
-     * @param Magento_Catalog_Block_Layer_Filter_Decimal $filterBlock
-     * @return Magento_Catalog_Model_Layer_Filter_Decimal
+     * @param \Zend_Controller_Request_Abstract $request
+     * @param \Magento\Catalog\Block\Layer\Filter\Decimal $filterBlock
+     * @return \Magento\Catalog\Model\Layer\Filter\Decimal
      */
-    public function apply(Zend_Controller_Request_Abstract $request, $filterBlock)
+    public function apply(\Zend_Controller_Request_Abstract $request, $filterBlock)
     {
         parent::apply($request, $filterBlock);
 

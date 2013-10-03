@@ -8,60 +8,62 @@
  * @license     {license_link}
  */
 
-class Magento_Payment_Model_Method_Cc extends Magento_Payment_Model_Method_Abstract
+namespace Magento\Payment\Model\Method;
+
+class Cc extends \Magento\Payment\Model\Method\AbstractMethod
 {
-    protected $_formBlockType = 'Magento_Payment_Block_Form_Cc';
-    protected $_infoBlockType = 'Magento_Payment_Block_Info_Cc';
+    protected $_formBlockType = 'Magento\Payment\Block\Form\Cc';
+    protected $_infoBlockType = 'Magento\Payment\Block\Info\Cc';
     protected $_canSaveCc     = false;
 
     /**
-     * @var Magento_Core_Model_ModuleListInterface
+     * @var \Magento\Core\Model\ModuleListInterface
      */
     protected $_moduleList;
 
     /**
      * Locale model
      *
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
      * Centinel service model
      *
-     * @var Magento_Centinel_Model_Service
+     * @var \Magento\Centinel\Model\Service
      */
     protected $_centinelService;
 
     /**
      * Construct
      *
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_ModuleListInterface $moduleList
-     * @param Magento_Payment_Helper_Data $paymentData
-     * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Centinel_Model_Service $centinelService
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\ModuleListInterface $moduleList
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Centinel\Model\Service $centinelService
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_ModuleListInterface $moduleList,
-        Magento_Payment_Helper_Data $paymentData,
-        Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Centinel_Model_Service $centinelService,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\ModuleListInterface $moduleList,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Centinel\Model\Service $centinelService,
         array $data = array()
     ) {
         parent::__construct($eventManager, $paymentData, $coreStoreConfig, $logAdapterFactory, $data);
@@ -75,12 +77,12 @@ class Magento_Payment_Model_Method_Cc extends Magento_Payment_Model_Method_Abstr
      * Assign data to info model instance
      *
      * @param   mixed $data
-     * @return  Magento_Payment_Model_Info
+     * @return  \Magento\Payment\Model\Info
      */
     public function assignData($data)
     {
-        if (!($data instanceof Magento_Object)) {
-            $data = new Magento_Object($data);
+        if (!($data instanceof \Magento\Object)) {
+            $data = new \Magento\Object($data);
         }
         $info = $this->getInfoInstance();
         $info->setCcType($data->getCcType())
@@ -100,7 +102,7 @@ class Magento_Payment_Model_Method_Cc extends Magento_Payment_Model_Method_Abstr
     /**
      * Prepare info instance for save
      *
-     * @return Magento_Payment_Model_Abstract
+     * @return \Magento\Payment\Model\AbstractModel
      */
     public function prepareSave()
     {
@@ -117,8 +119,8 @@ class Magento_Payment_Model_Method_Cc extends Magento_Payment_Model_Method_Abstr
     /**
      * Validate payment method information object
      *
-     * @return  Magento_Payment_Model_Abstract
-     * @throws Magento_Core_Exception
+     * @return  \Magento\Payment\Model\AbstractModel
+     * @throws \Magento\Core\Exception
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
@@ -144,7 +146,7 @@ class Magento_Payment_Model_Method_Cc extends Magento_Payment_Model_Method_Abstr
         if (in_array($info->getCcType(), $availableTypes)) {
             if ($this->validateCcNum($ccNumber)
                 // Other credit card type number validation
-                || ($this->OtherCcType($info->getCcType()) && $this->validateCcNumOther($ccNumber))) {
+                || ($this->otherCcType($info->getCcType()) && $this->validateCcNumOther($ccNumber))) {
 
                 $ccTypeRegExpList = array(
                     //Solo, Switch or Maestro. International safe
@@ -178,7 +180,7 @@ class Magento_Payment_Model_Method_Cc extends Magento_Payment_Model_Method_Abstr
                     && preg_match($ccTypeRegExpList[$info->getCcType()], $ccNumber);
                 $ccType = $ccNumAndTypeMatches ? $info->getCcType() : 'OT';
 
-                if (!$ccNumAndTypeMatches && !$this->OtherCcType($info->getCcType())) {
+                if (!$ccNumAndTypeMatches && !$this->otherCcType($info->getCcType())) {
                     $errorMsg = __('Credit card number mismatch with credit card type.');
                 }
             } else {
@@ -203,7 +205,7 @@ class Magento_Payment_Model_Method_Cc extends Magento_Payment_Model_Method_Abstr
         }
 
         if ($errorMsg) {
-            throw new Magento_Core_Exception($errorMsg);
+            throw new \Magento\Core\Exception($errorMsg);
         }
 
         //This must be after all validation conditions
@@ -250,7 +252,7 @@ class Magento_Payment_Model_Method_Cc extends Magento_Payment_Model_Method_Abstr
         return true;
     }
 
-    public function OtherCcType($type)
+    public function otherCcType($type)
     {
         return $type=='OT';
     }
@@ -308,7 +310,7 @@ class Magento_Payment_Model_Method_Cc extends Magento_Payment_Model_Method_Abstr
     /**
      * Check whether there are CC types set in configuration
      *
-     * @param Magento_Sales_Model_Quote|null $quote
+     * @param \Magento\Sales\Model\Quote|null $quote
      * @return bool
      */
     public function isAvailable($quote = null)
@@ -331,7 +333,7 @@ class Magento_Payment_Model_Method_Cc extends Magento_Payment_Model_Method_Abstr
     /**
      * Instantiate centinel validator model
      *
-     * @return Magento_Centinel_Model_Service
+     * @return \Magento\Centinel\Model\Service
      */
     public function getCentinelValidator()
     {
@@ -346,12 +348,12 @@ class Magento_Payment_Model_Method_Cc extends Magento_Payment_Model_Method_Abstr
     /**
      * Return data for Centinel validation
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getCentinelValidationData()
     {
         $info = $this->getInfoInstance();
-        $params = new Magento_Object();
+        $params = new \Magento\Object();
         $params
             ->setPaymentMethodCode($this->getCode())
             ->setCardType($info->getCcType())
@@ -422,9 +424,9 @@ class Magento_Payment_Model_Method_Cc extends Magento_Payment_Model_Method_Abstr
     private function _isPlaceOrder()
     {
         $info = $this->getInfoInstance();
-        if ($info instanceof Magento_Sales_Model_Quote_Payment) {
+        if ($info instanceof \Magento\Sales\Model\Quote\Payment) {
             return false;
-        } elseif ($info instanceof Magento_Sales_Model_Order_Payment) {
+        } elseif ($info instanceof \Magento\Sales\Model\Order\Payment) {
             return true;
         }
     }

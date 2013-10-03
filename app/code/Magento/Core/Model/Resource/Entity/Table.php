@@ -13,7 +13,9 @@
  * Class describing db table resource entity
  *
  */
-class Magento_Core_Model_Resource_Entity_Table extends Magento_Core_Model_Resource_Entity_Abstract
+namespace Magento\Core\Model\Resource\Entity;
+
+class Table extends \Magento\Core\Model\Resource\Entity\AbstractEntity
 {
     /**
      * Get table

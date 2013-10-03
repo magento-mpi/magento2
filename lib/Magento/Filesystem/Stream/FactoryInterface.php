@@ -7,13 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Filesystem_Stream_FactoryInterface
+namespace Magento\Filesystem\Stream;
+
+interface FactoryInterface
 {
     /**
      * Create stream object
      *
      * @param string $key
-     * @return Magento_Filesystem_StreamInterface
+     * @return \Magento\Filesystem\StreamInterface
      */
     public function createStream($key);
 }

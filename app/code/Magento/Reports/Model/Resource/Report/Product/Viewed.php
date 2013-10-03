@@ -16,7 +16,9 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Resource_Report_Product_Viewed extends Magento_Sales_Model_Resource_Report_Abstract
+namespace Magento\Reports\Model\Resource\Report\Product;
+
+class Viewed extends \Magento\Sales\Model\Resource\Report\AbstractReport
 {
     /**
      * Aggregation key daily
@@ -34,30 +36,30 @@ class Magento_Reports_Model_Resource_Report_Product_Viewed extends Magento_Sales
     const AGGREGATION_YEARLY  = 'report_viewed_product_aggregated_yearly';
 
     /**
-     * @var Magento_Catalog_Model_Resource_Product
+     * @var \Magento\Catalog\Model\Resource\Product
      */
     protected $_productResource;
 
     /**
-     * @var Magento_Reports_Model_Resource_HelperFactory
+     * @var \Magento\Reports\Model\Resource\HelperFactory
      */
     protected $_helperFactory;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Reports_Model_FlagFactory $reportsFlagFactory
-     * @param Magento_Catalog_Model_Resource_Product $productResource
-     * @param Magento_Reports_Model_Resource_HelperFactory $helperFactory
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Reports\Model\FlagFactory $reportsFlagFactory
+     * @param \Magento\Catalog\Model\Resource\Product $productResource
+     * @param \Magento\Reports\Model\Resource\HelperFactory $helperFactory
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Reports_Model_FlagFactory $reportsFlagFactory,
-        Magento_Catalog_Model_Resource_Product $productResource,
-        Magento_Reports_Model_Resource_HelperFactory $helperFactory
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Reports\Model\FlagFactory $reportsFlagFactory,
+        \Magento\Catalog\Model\Resource\Product $productResource,
+        \Magento\Reports\Model\Resource\HelperFactory $helperFactory
     ) {
         parent::__construct($logger, $resource, $locale, $reportsFlagFactory);
         $this->_productResource = $productResource;
@@ -78,7 +80,7 @@ class Magento_Reports_Model_Resource_Report_Product_Viewed extends Magento_Sales
      *
      * @param mixed $from
      * @param mixed $to
-     * @return Magento_Sales_Model_Resource_Report_Bestsellers
+     * @return \Magento\Sales\Model\Resource\Report\Bestsellers
      */
     public function aggregate($from = null, $to = null)
     {
@@ -115,24 +117,24 @@ class Magento_Reports_Model_Resource_Report_Product_Viewed extends Magento_Sales
             'source_table.object_id'
         ));
 
-        $viewsNumExpr = new Zend_Db_Expr('COUNT(source_table.event_id)');
+        $viewsNumExpr = new \Zend_Db_Expr('COUNT(source_table.event_id)');
 
         $columns = array(
             'period'                 => $periodExpr,
             'store_id'               => 'source_table.store_id',
             'product_id'             => 'source_table.object_id',
-            'product_name'           => new Zend_Db_Expr(sprintf('MIN(%s)', $adapter->getIfNullSql(
+            'product_name'           => new \Zend_Db_Expr(sprintf('MIN(%s)', $adapter->getIfNullSql(
                 'product_name.value',
                 'product_default_name.value'
             ))),
-            'product_price' => new Zend_Db_Expr(sprintf('MIN(%s)', $adapter->getIfNullSql(
+            'product_price' => new \Zend_Db_Expr(sprintf('MIN(%s)', $adapter->getIfNullSql(
                 $adapter->getIfNullSql('product_price.value', 'product_default_price.value'), 0
             ))),
             'views_num' => $viewsNumExpr
         );
 
         $select->from(array('source_table' => $this->getTable('report_event')), $columns)
-            ->where('source_table.event_type_id = ?', Magento_Reports_Model_Event::EVENT_PRODUCT_VIEW);
+            ->where('source_table.event_type_id = ?', \Magento\Reports\Model\Event::EVENT_PRODUCT_VIEW);
 
         $select->joinInner(
             array('product' => $this->getTable('catalog_product_entity')),
@@ -207,7 +209,7 @@ class Magento_Reports_Model_Resource_Report_Product_Viewed extends Magento_Sales
         $helper->updateReportRatingPos('month', 'views_num', $mainTable, $this->getTable(self::AGGREGATION_MONTHLY));
         $helper->updateReportRatingPos('year', 'views_num', $mainTable, $this->getTable(self::AGGREGATION_YEARLY));
 
-        $this->_setFlagData(Magento_Reports_Model_Flag::REPORT_PRODUCT_VIEWED_FLAG_CODE);
+        $this->_setFlagData(\Magento\Reports\Model\Flag::REPORT_PRODUCT_VIEWED_FLAG_CODE);
 
         return $this;
     }

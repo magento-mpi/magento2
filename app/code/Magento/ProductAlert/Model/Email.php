@@ -16,7 +16,9 @@
  * @package    Magento_ProductAlert
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ProductAlert_Model_Email extends Magento_Core_Model_Abstract
+namespace Magento\ProductAlert\Model;
+
+class Email extends \Magento\Core\Model\AbstractModel
 {
     const XML_PATH_EMAIL_PRICE_TEMPLATE = 'catalog/productalert/email_price_template';
     const XML_PATH_EMAIL_STOCK_TEMPLATE = 'catalog/productalert/email_stock_template';
@@ -32,14 +34,14 @@ class Magento_ProductAlert_Model_Email extends Magento_Core_Model_Abstract
     /**
      * Website Model
      *
-     * @var Magento_Core_Model_Website
+     * @var \Magento\Core\Model\Website
      */
     protected $_website;
 
     /**
      * Customer model
      *
-     * @var Magento_Customer_Model_Customer
+     * @var \Magento\Customer\Model\Customer
      */
     protected $_customer;
 
@@ -60,75 +62,75 @@ class Magento_ProductAlert_Model_Email extends Magento_Core_Model_Abstract
     /**
      * Price block
      *
-     * @var Magento_ProductAlert_Block_Email_Price
+     * @var \Magento\ProductAlert\Block\Email\Price
      */
     protected $_priceBlock;
 
     /**
      * Stock block
      *
-     * @var Magento_ProductAlert_Block_Email_Stock
+     * @var \Magento\ProductAlert\Block\Email\Stock
      */
     protected $_stockBlock;
 
     /**
      * Product alert data
      *
-     * @var Magento_ProductAlert_Helper_Data
+     * @var \Magento\ProductAlert\Helper\Data
      */
     protected $_productAlertData = null;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Customer_Model_CustomerFactory
+     * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $_customerFactory;
 
     /**
-     * @var Magento_Core_Model_App_Emulation
+     * @var \Magento\Core\Model\App\Emulation
      */
     protected $_appEmulation;
 
     /**
-     * @var Magento_Core_Model_Email_TemplateFactory
+     * @var \Magento\Core\Model\Email\TemplateFactory
      */
     protected $_templateFactory;
 
     /**
-     * @param Magento_ProductAlert_Helper_Data $productAlertData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Customer_Model_CustomerFactory $customerFactory
-     * @param Magento_Core_Model_App_Emulation $appEmulation
-     * @param Magento_Core_Model_Email_TemplateFactory $templateFactory
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\ProductAlert\Helper\Data $productAlertData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Core\Model\App\Emulation $appEmulation
+     * @param \Magento\Core\Model\Email\TemplateFactory $templateFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_ProductAlert_Helper_Data $productAlertData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Customer_Model_CustomerFactory $customerFactory,
-        Magento_Core_Model_App_Emulation $appEmulation,
-        Magento_Core_Model_Email_TemplateFactory $templateFactory,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\ProductAlert\Helper\Data $productAlertData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Core\Model\App\Emulation $appEmulation,
+        \Magento\Core\Model\Email\TemplateFactory $templateFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_productAlertData = $productAlertData;
@@ -163,10 +165,10 @@ class Magento_ProductAlert_Model_Email extends Magento_Core_Model_Abstract
     /**
      * Set website model
      *
-     * @param Magento_Core_Model_Website $website
-     * @return Magento_ProductAlert_Model_Email
+     * @param \Magento\Core\Model\Website $website
+     * @return \Magento\ProductAlert\Model\Email
      */
-    public function setWebsite(Magento_Core_Model_Website $website)
+    public function setWebsite(\Magento\Core\Model\Website $website)
     {
         $this->_website = $website;
         return $this;
@@ -176,7 +178,7 @@ class Magento_ProductAlert_Model_Email extends Magento_Core_Model_Abstract
      * Set website id
      *
      * @param int $websiteId
-     * @return Magento_ProductAlert_Model_Email
+     * @return \Magento\ProductAlert\Model\Email
      */
     public function setWebsiteId($websiteId)
     {
@@ -188,7 +190,7 @@ class Magento_ProductAlert_Model_Email extends Magento_Core_Model_Abstract
      * Set customer by id
      *
      * @param int $customerId
-     * @return Magento_ProductAlert_Model_Email
+     * @return \Magento\ProductAlert\Model\Email
      */
     public function setCustomerId($customerId)
     {
@@ -199,10 +201,10 @@ class Magento_ProductAlert_Model_Email extends Magento_Core_Model_Abstract
     /**
      * Set customer model
      *
-     * @param Magento_Customer_Model_Customer $customer
-     * @return Magento_ProductAlert_Model_Email
+     * @param \Magento\Customer\Model\Customer $customer
+     * @return \Magento\ProductAlert\Model\Email
      */
-    public function setCustomer(Magento_Customer_Model_Customer $customer)
+    public function setCustomer(\Magento\Customer\Model\Customer $customer)
     {
         $this->_customer = $customer;
         return $this;
@@ -211,7 +213,7 @@ class Magento_ProductAlert_Model_Email extends Magento_Core_Model_Abstract
     /**
      * Clean data
      *
-     * @return Magento_ProductAlert_Model_Email
+     * @return \Magento\ProductAlert\Model\Email
      */
     public function clean()
     {
@@ -225,10 +227,10 @@ class Magento_ProductAlert_Model_Email extends Magento_Core_Model_Abstract
     /**
      * Add product (price change) to collection
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_ProductAlert_Model_Email
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\ProductAlert\Model\Email
      */
-    public function addPriceProduct(Magento_Catalog_Model_Product $product)
+    public function addPriceProduct(\Magento\Catalog\Model\Product $product)
     {
         $this->_priceProducts[$product->getId()] = $product;
         return $this;
@@ -237,10 +239,10 @@ class Magento_ProductAlert_Model_Email extends Magento_Core_Model_Abstract
     /**
      * Add product (back in stock) to collection
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_ProductAlert_Model_Email
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\ProductAlert\Model\Email
      */
-    public function addStockProduct(Magento_Catalog_Model_Product $product)
+    public function addStockProduct(\Magento\Catalog\Model\Product $product)
     {
         $this->_stockProducts[$product->getId()] = $product;
         return $this;
@@ -249,13 +251,13 @@ class Magento_ProductAlert_Model_Email extends Magento_Core_Model_Abstract
     /**
      * Retrieve price block
      *
-     * @return Magento_ProductAlert_Block_Email_Price
+     * @return \Magento\ProductAlert\Block\Email\Price
      */
     protected function _getPriceBlock()
     {
         if (is_null($this->_priceBlock)) {
             $this->_priceBlock = $this->_productAlertData
-                ->createBlock('Magento_ProductAlert_Block_Email_Price');
+                ->createBlock('Magento\ProductAlert\Block\Email\Price');
         }
         return $this->_priceBlock;
     }
@@ -263,13 +265,13 @@ class Magento_ProductAlert_Model_Email extends Magento_Core_Model_Abstract
     /**
      * Retrieve stock block
      *
-     * @return Magento_ProductAlert_Block_Email_Stock
+     * @return \Magento\ProductAlert\Block\Email\Stock
      */
     protected function _getStockBlock()
     {
         if (is_null($this->_stockBlock)) {
             $this->_stockBlock = $this->_productAlertData
-                ->createBlock('Magento_ProductAlert_Block_Email_Stock');
+                ->createBlock('Magento\ProductAlert\Block\Email\Stock');
         }
         return $this->_stockBlock;
     }
@@ -334,7 +336,7 @@ class Magento_ProductAlert_Model_Email extends Magento_Core_Model_Abstract
 
         $this->_templateFactory->create()
             ->setDesignConfig(array(
-                'area'  => Magento_Core_Model_App_Area::AREA_FRONTEND,
+                'area'  => \Magento\Core\Model\App\Area::AREA_FRONTEND,
                 'store' => $storeId
             ))->sendTransactional(
                 $templateId,

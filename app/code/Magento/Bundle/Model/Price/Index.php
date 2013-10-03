@@ -12,49 +12,51 @@
 /**
  * Bundle Product Price Index
  *
- * @method Magento_Bundle_Model_Resource_Price_Index getResource()
- * @method Magento_Bundle_Model_Price_Index setEntityId(int $value)
+ * @method \Magento\Bundle\Model\Resource\Price\Index getResource()
+ * @method \Magento\Bundle\Model\Price\Index setEntityId(int $value)
  * @method int getWebsiteId()
- * @method Magento_Bundle_Model_Price_Index setWebsiteId(int $value)
+ * @method \Magento\Bundle\Model\Price\Index setWebsiteId(int $value)
  * @method int getCustomerGroupId()
- * @method Magento_Bundle_Model_Price_Index setCustomerGroupId(int $value)
+ * @method \Magento\Bundle\Model\Price\Index setCustomerGroupId(int $value)
  * @method float getMinPrice()
- * @method Magento_Bundle_Model_Price_Index setMinPrice(float $value)
+ * @method \Magento\Bundle\Model\Price\Index setMinPrice(float $value)
  * @method float getMaxPrice()
- * @method Magento_Bundle_Model_Price_Index setMaxPrice(float $value)
+ * @method \Magento\Bundle\Model\Price\Index setMaxPrice(float $value)
  *
  * @category    Magento
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Model_Price_Index extends Magento_Core_Model_Abstract
+namespace Magento\Bundle\Model\Price;
+
+class Index extends \Magento\Core\Model\AbstractModel
 {
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -68,13 +70,13 @@ class Magento_Bundle_Model_Price_Index extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Bundle_Model_Resource_Price_Index');
+        $this->_init('Magento\Bundle\Model\Resource\Price\Index');
     }
 
     /**
      * Retrieve resource instance wrapper
      *
-     * @return Magento_Bundle_Model_Resource_Price_Index
+     * @return \Magento\Bundle\Model\Resource\Price\Index
      */
     protected function _getResource()
     {
@@ -86,7 +88,7 @@ class Magento_Bundle_Model_Price_Index extends Magento_Core_Model_Abstract
      *
      * @param int $productId
      * @param int $priceType
-     * @return Magento_Bundle_Model_Price_Index
+     * @return \Magento\Bundle\Model\Price\Index
      */
     protected function _reindexProduct($productId, $priceType)
     {
@@ -97,8 +99,8 @@ class Magento_Bundle_Model_Price_Index extends Magento_Core_Model_Abstract
     /**
      * Reindex Bundle product Price Index
      *
-     * @param Magento_Catalog_Model_Product|Magento_Catalog_Model_Product_Condition_Interface|array|int $products
-     * @return Magento_Bundle_Model_Price_Index
+     * @param \Magento\Catalog\Model\Product|\Magento\Catalog\Model\Product\Condition\ConditionInterface|array|int $products
+     * @return \Magento\Bundle\Model\Price\Index
      */
     public function reindex($products = null)
     {
@@ -109,16 +111,16 @@ class Magento_Bundle_Model_Price_Index extends Magento_Core_Model_Abstract
     /**
      * Add bundle price range index to Product collection
      *
-     * @param Magento_Catalog_Model_Resource_Product_Collection $collection
-     * @return Magento_Bundle_Model_Price_Index
+     * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
+     * @return \Magento\Bundle\Model\Price\Index
      */
     public function addPriceIndexToCollection($collection)
     {
         $productObjects = array();
         $productIds     = array();
         foreach ($collection->getItems() as $product) {
-            /* @var $product Magento_Catalog_Model_Product */
-            if ($product->getTypeId() == Magento_Catalog_Model_Product_Type::TYPE_BUNDLE) {
+            /* @var $product \Magento\Catalog\Model\Product */
+            if ($product->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
                 $productIds[] = $product->getEntityId();
                 $productObjects[$product->getEntityId()] = $product;
             }
@@ -150,8 +152,8 @@ class Magento_Bundle_Model_Price_Index extends Magento_Core_Model_Abstract
     /**
      * Add price index to bundle product after load
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_Bundle_Model_Price_Index
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\Bundle\Model\Price\Index
      */
     public function addPriceIndexToProduct($product)
     {

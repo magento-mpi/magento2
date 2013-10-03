@@ -7,7 +7,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-interface Magento_Interception_Definition
+namespace Magento\Interception;
+
+interface Definition
 {
     /**
      * Retrieve list of methods

@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Reorder extends Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract
+namespace Magento\Adminhtml\Block\Sales\Order\Create\Sidebar;
+
+class Reorder extends \Magento\Adminhtml\Block\Sales\Order\Create\Sidebar\AbstractSidebar
 {
     /**
      * Storage action on selected item
@@ -25,26 +27,26 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Reorder extends Magento
     protected $_sidebarStorageAction = 'add_order_item';
 
     /**
-     * @var Magento_Sales_Model_Resource_Order_CollectionFactory
+     * @var \Magento\Sales\Model\Resource\Order\CollectionFactory
      */
     protected $_ordersFactory;
 
     /**
-     * @param Magento_Sales_Model_Resource_Order_CollectionFactory $ordersFactory
-     * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
-     * @param Magento_Adminhtml_Model_Sales_Order_Create $orderCreate
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Sales_Model_Config $salesConfig
+     * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $ordersFactory
+     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Sales\Model\Config $salesConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Sales_Model_Resource_Order_CollectionFactory $ordersFactory,
-        Magento_Adminhtml_Model_Session_Quote $sessionQuote,
-        Magento_Adminhtml_Model_Sales_Order_Create $orderCreate,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Sales_Model_Config $salesConfig,
+        \Magento\Sales\Model\Resource\Order\CollectionFactory $ordersFactory,
+        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Sales\Model\Config $salesConfig,
         array $data = array()
     ) {
         $this->_ordersFactory = $ordersFactory;
@@ -67,7 +69,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Reorder extends Magento
     /**
      * Retrieve last order on current website
      *
-     * @return Magento_Sales_Model_Order|false
+     * @return \Magento\Sales\Model\Order|false
      */
     public function getLastOrder()
     {
@@ -121,7 +123,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Reorder extends Magento
     /**
      * Retrieve identifier of block item
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return int
      */
     public function getIdentifierId($item)

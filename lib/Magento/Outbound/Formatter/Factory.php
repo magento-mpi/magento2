@@ -9,10 +9,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Outbound_Formatter_Factory
+namespace Magento\Outbound\Formatter;
+
+class Factory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -23,11 +25,11 @@ class Magento_Outbound_Formatter_Factory
 
     /**
      * @param array $formatterMap
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(
         array $formatterMap,
-        Magento_ObjectManager $objectManager
+        \Magento\ObjectManager $objectManager
     ) {
         $this->_formatterMap = $formatterMap;
         $this->_objectManager = $objectManager;
@@ -37,19 +39,19 @@ class Magento_Outbound_Formatter_Factory
      * Get formatter for specified format
      *
      * @param string $format
-     * @return Magento_Outbound_FormatterInterface
-     * @throws LogicException
+     * @return \Magento\Outbound\FormatterInterface
+     * @throws \LogicException
      */
     public function getFormatter($format)
     {
         if (!isset($this->_formatterMap[$format])) {
-            throw new LogicException("There is no formatter for the format given: {$format}");
+            throw new \LogicException("There is no formatter for the format given: {$format}");
         }
         $formatterClassName = $this->_formatterMap[$format];
 
         $formatter =  $this->_objectManager->get($formatterClassName);
-        if (!$formatter instanceof Magento_Outbound_FormatterInterface) {
-            throw new LogicException("Formatter class for {$format} does not implement FormatterInterface.");
+        if (!$formatter instanceof \Magento\Outbound\FormatterInterface) {
+            throw new \LogicException("Formatter class for {$format} does not implement FormatterInterface.");
         }
         return $formatter;
     }

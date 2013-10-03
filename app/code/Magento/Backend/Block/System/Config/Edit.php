@@ -14,11 +14,15 @@
  * @category   Magento
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
+ */
+namespace Magento\Backend\Block\System\Config;
+
+/**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_Backend_Block_System_Config_Edit extends Magento_Backend_Block_Widget
+class Edit extends \Magento\Backend\Block\Widget
 {
-    const DEFAULT_SECTION_BLOCK = 'Magento_Backend_Block_System_Config_Form';
+    const DEFAULT_SECTION_BLOCK = 'Magento\Backend\Block\System\Config\Form';
 
     /**
      * Form block class name
@@ -37,20 +41,20 @@ class Magento_Backend_Block_System_Config_Edit extends Magento_Backend_Block_Wid
     /**
      * Configuration structure
      *
-     * @var Magento_Backend_Model_Config_Structure
+     * @var \Magento\Backend\Model\Config\Structure
      */
     protected $_configStructure;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Backend_Model_Config_Structure $configStructure
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Model\Config\Structure $configStructure
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Backend_Model_Config_Structure $configStructure,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Model\Config\Structure $configStructure,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);
@@ -60,11 +64,11 @@ class Magento_Backend_Block_System_Config_Edit extends Magento_Backend_Block_Wid
     /**
      * Prepare layout object
      *
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {
-        /** @var $section Magento_Backend_Model_Config_Structure_Element_Section */
+        /** @var $section \Magento\Backend\Model\Config\Structure\Element\Section */
         $section = $this->_configStructure->getElement($this->getRequest()->getParam('section'));
         $this->_formBlockName = $section->getFrontendModel();
         if (empty($this->_formBlockName)) {
@@ -73,7 +77,7 @@ class Magento_Backend_Block_System_Config_Edit extends Magento_Backend_Block_Wid
         $this->setTitle($section->getLabel());
         $this->setHeaderCss($section->getHeaderCss());
 
-        $this->addChild('save_button', 'Magento_Backend_Block_Widget_Button', array(
+        $this->addChild('save_button', 'Magento\Backend\Block\Widget\Button', array(
             'label'     => __('Save Config'),
             'class' => 'save primary',
             'data_attribute'  => array(

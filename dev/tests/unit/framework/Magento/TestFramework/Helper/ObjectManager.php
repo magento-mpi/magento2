@@ -11,7 +11,9 @@
 /**
  * Helper class for basic object retrieving, such as blocks, models etc...
  */
-class Magento_TestFramework_Helper_ObjectManager
+namespace Magento\TestFramework\Helper;
+
+class ObjectManager
 {
     /**
      * Special cases configuration
@@ -19,23 +21,23 @@ class Magento_TestFramework_Helper_ObjectManager
      * @var array
      */
     protected $_specialCases = array(
-        'Magento_Core_Model_Resource_Abstract' => '_getResourceModelMock',
-        'Magento_Core_Model_Translate' => '_getTranslatorMock',
+        'Magento\Core\Model\Resource\AbstractResource' => '_getResourceModelMock',
+        'Magento\Core\Model\Translate' => '_getTranslatorMock',
     );
 
     /**
      * Test object
      *
-     * @var PHPUnit_Framework_TestCase
+     * @var \PHPUnit_Framework_TestCase
      */
     protected $_testObject;
 
     /**
      * Class constructor
      *
-     * @param PHPUnit_Framework_TestCase $testObject
+     * @param \PHPUnit_Framework_TestCase $testObject
      */
-    public function __construct(PHPUnit_Framework_TestCase $testObject)
+    public function __construct(\PHPUnit_Framework_TestCase $testObject)
     {
         $this->_testObject = $testObject;
     }
@@ -45,7 +47,7 @@ class Magento_TestFramework_Helper_ObjectManager
      *
      * @param string $argClassName
      * @param array $originalArguments
-     * @return null|object|PHPUnit_Framework_MockObject_MockObject
+     * @return null|object|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _createArgumentMock($argClassName, array $originalArguments)
     {
@@ -70,7 +72,7 @@ class Magento_TestFramework_Helper_ObjectManager
     {
         $object = null;
         $interfaces = class_implements($className);
-        if (in_array('Magento_ObjectManager_ContextInterface', $interfaces)) {
+        if (in_array('Magento\ObjectManager\ContextInterface', $interfaces)) {
             $object = $this->getObject($className, $arguments);
         } elseif (isset($this->_specialCases[$className])) {
             $method = $this->_specialCases[$className];
@@ -83,11 +85,11 @@ class Magento_TestFramework_Helper_ObjectManager
     /**
      * Retrieve specific mock of core resource model
      *
-     * @return Magento_Core_Model_Resource_Resource|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Core\Model\Resource\Resource|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getResourceModelMock()
     {
-        $resourceMock = $this->_testObject->getMock('Magento_Core_Model_Resource_Resource',
+        $resourceMock = $this->_testObject->getMock('Magento\Core\Model\Resource\Resource',
             array('getIdFieldName', '__sleep', '__wakeup'),
             array(), '', false
         );
@@ -102,7 +104,7 @@ class Magento_TestFramework_Helper_ObjectManager
      * Retrieve mock of core translator model
      *
      * @param string $className
-     * @return Magento_Core_Model_Translate|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Core\Model\Translate|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getTranslatorMock($className)
     {
@@ -123,11 +125,11 @@ class Magento_TestFramework_Helper_ObjectManager
      * Get mock without call of original constructor
      *
      * @param string $className
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getMockWithoutConstructorCall($className)
     {
-        $class = new ReflectionClass($className);
+        $class = new \ReflectionClass($className);
         $mock = null;
         if ($class->isAbstract()) {
             $mock = $this->_testObject->getMockForAbstractClass($className, array(), '', false, false);
@@ -147,7 +149,7 @@ class Magento_TestFramework_Helper_ObjectManager
     public function getObject($className, array $arguments = array())
     {
         $constructArguments = $this->getConstructArguments($className, $arguments);
-        $reflectionClass = new ReflectionClass($className);
+        $reflectionClass = new \ReflectionClass($className);
         return $reflectionClass->newInstanceArgs($constructArguments);
     }
 
@@ -164,7 +166,7 @@ class Magento_TestFramework_Helper_ObjectManager
         if (!method_exists($className, '__construct')) {
             return $constructArguments;
         }
-        $method = new ReflectionMethod($className, '__construct');
+        $method = new \ReflectionMethod($className, '__construct');
 
         foreach ($method->getParameters() as $parameter) {
             $parameterName = $parameter->getName();
@@ -185,14 +187,14 @@ class Magento_TestFramework_Helper_ObjectManager
                     $argClassName =  $parameter->getClass()->getName();
                 }
                 $object = $this->_createArgumentMock($argClassName, $arguments);
-            } catch (ReflectionException $e) {
+            } catch (\ReflectionException $e) {
                 $parameterString = $parameter->__toString();
                 $firstPosition = strpos($parameterString, '<required>');
                 if ($firstPosition !== false) {
                     $parameterString = substr($parameterString, $firstPosition + 11);
                     $parameterString = substr($parameterString, 0, strpos($parameterString, ' '));
                     $object = $this->_testObject->getMock(
-                        $parameterString, array(), array(), 'Dummy_Mock_' . $parameterString, false
+                        $parameterString, array(), array(), '', false
                     );
                 }
             }

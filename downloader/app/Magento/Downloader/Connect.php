@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Downloader;
+
 error_reporting(E_ALL & ~E_NOTICE);
 
 // just a shortcut
@@ -34,27 +36,27 @@ if (strpos($_includePath, $_libDir) === false) {
  * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloader_Connect
+class Connect
 {
 
     /**
      * Object of config
      *
-     * @var Magento_Connect_Config
+     * @var \Magento\Connect\Config
      */
     protected $_config;
 
     /**
      * Object of single config
      *
-     * @var Magento_Connect_Singleconfig
+     * @var \Magento\Connect\Singleconfig
      */
     protected $_sconfig;
 
     /**
     * Object of frontend
     *
-    * @var Magento_Connect_Frontend
+    * @var \Magento\Connect\Frontend
     */
     protected $_frontend;
 
@@ -75,7 +77,7 @@ class Magento_Downloader_Connect
     /**
      * Instance of class
      *
-     * @var Magento_Downloader_Connect
+     * @var \Magento\Downloader\Connect
      */
     static protected $_instance;
 
@@ -102,7 +104,7 @@ class Magento_Downloader_Connect
     /**
      * Initialize instance
      *
-     * @return Magento_Downloader_Connect
+     * @return \Magento\Downloader\Connect
      */
     public static function getInstance()
     {
@@ -113,57 +115,57 @@ class Magento_Downloader_Connect
     }
 
     /**
-     * Retrieve object of config and set it to Magento_Connect_Command
+     * Retrieve object of config and set it to \Magento\Connect\Command
      *
-     * @return Magento_Connect_Config
+     * @return \Magento\Connect\Config
      */
     public function getConfig()
     {
         if (!$this->_config) {
-            $this->_config = new Magento_Connect_Config();
+            $this->_config = new \Magento\Connect\Config();
             $ftp=$this->_config->__get('remote_config');
             if(!empty($ftp)){
-                $packager = new Magento_Connect_Packager();
+                $packager = new \Magento\Connect\Packager();
                 list($cache, $config, $ftpObj) = $packager->getRemoteConf($ftp);
                 $this->_config=$config;
                 $this->_sconfig=$cache;
             }
             $this->_config->magento_root = dirname(__DIR__).DS.'..';
-            Magento_Connect_Command::setConfigObject($this->_config);
+            \Magento\Connect\Command::setConfigObject($this->_config);
         }
         return $this->_config;
     }
 
     /**
-     * Retrieve object of single config and set it to Magento_Connect_Command
+     * Retrieve object of single config and set it to \Magento\Connect\Command
      *
      * @param bool $reload
-     * @return Magento_Connect_Singleconfig
+     * @return \Magento\Connect\Singleconfig
      */
     public function getSingleConfig($reload = false)
     {
         if(!$this->_sconfig || $reload) {
-            $this->_sconfig = new Magento_Connect_Singleconfig(
+            $this->_sconfig = new \Magento\Connect\Singleconfig(
                 $this->getConfig()->magento_root . DIRECTORY_SEPARATOR
                 . $this->getConfig()->downloader_path . DIRECTORY_SEPARATOR
-                . Magento_Connect_Singleconfig::DEFAULT_SCONFIG_FILENAME
+                . \Magento\Connect\Singleconfig::DEFAULT_SCONFIG_FILENAME
             );
         }
-        Magento_Connect_Command::setSconfig($this->_sconfig);
+        \Magento\Connect\Command::setSconfig($this->_sconfig);
         return $this->_sconfig;
 
     }
 
     /**
-     * Retrieve object of frontend and set it to Magento_Connect_Command
+     * Retrieve object of frontend and set it to \Magento\Connect\Command
      *
-     * @return Magento_Downloader_Connect_Frontend
+     * @return \Magento\Downloader\Connect\Frontend
      */
     public function getFrontend()
     {
         if (!$this->_frontend) {
-            $this->_frontend = new Magento_Downloader_Connect_Frontend();
-            Magento_Connect_Command::setFrontendObject($this->_frontend);
+            $this->_frontend = new \Magento\Downloader\Connect\Frontend();
+            \Magento\Connect\Command::setFrontendObject($this->_frontend);
         }
         return $this->_frontend;
     }
@@ -191,7 +193,7 @@ class Magento_Downloader_Connect
     /**
      * Clean registry
      *
-     * @return Magento_Downloader_Connect
+     * @return \Magento\Downloader\Connect
      */
     public function cleanSconfig()
     {
@@ -203,7 +205,7 @@ class Magento_Downloader_Connect
      * Delete directory recursively
      *
      * @param string $path
-     * @return Magento_Downloader_Connect
+     * @return \Magento\Downloader\Connect
      */
     public function delTree($path) {
         if (@is_dir($path)) {
@@ -221,12 +223,12 @@ class Magento_Downloader_Connect
     }
 
     /**
-     * Run commands from Magento_Connect_Command
+     * Run commands from \Magento\Connect\Command
      *
      * @param string $command
      * @param array $options
      * @param array $params
-     * @return boolean|Magento_Connect_Error
+     * @return boolean|\Magento\Connect\Error
      */
     public function run($command, $options=array(), $params=array())
     {
@@ -234,18 +236,18 @@ class Magento_Downloader_Connect
         @ini_set('memory_limit', '256M');
 
         if (empty($this->_cmdCache[$command])) {
-            Magento_Connect_Command::getCommands();
+            \Magento\Connect\Command::getCommands();
             /**
-            * @var $cmd Magento_Connect_Command
+            * @var $cmd \Magento\Connect\Command
             */
-            $cmd = Magento_Connect_Command::getInstance($command);
-            if ($cmd instanceof Magento_Connect_Error) {
+            $cmd = \Magento\Connect\Command::getInstance($command);
+            if ($cmd instanceof \Magento\Connect\Error) {
                 return $cmd;
             }
             $this->_cmdCache[$command] = $cmd;
         } else {
             /**
-            * @var $cmd Magento_Connect_Command
+            * @var $cmd \Magento\Connect\Command
             */
             $cmd = $this->_cmdCache[$command];
         }
@@ -265,7 +267,7 @@ class Magento_Downloader_Connect
      * Set remote Config by URI
      *
      * @param $uri
-     * @return Magento_Downloader_Connect
+     * @return \Magento\Downloader\Connect
      */
     public function setRemoteConfig($uri)
     {
@@ -277,12 +279,12 @@ class Magento_Downloader_Connect
      * Show Errors
      *
      * @param array $errors Error messages
-     * @return Magento_Downloader_Connect
+     * @return \Magento\Downloader\Connect
      */
     public function showConnectErrors($errors)
     {
         echo '<script type="text/javascript">';
-        $run = new Magento_Downloader_Model_Connect_Request();
+        $run = new \Magento\Downloader\Model\Connect\Request();
         if ($callback = $run->get('failure_callback')) {
             if (is_array($callback)) {
                 call_user_func_array($callback, array($errors));
@@ -296,11 +298,11 @@ class Magento_Downloader_Connect
     }
 
     /**
-     * Run Magento_Connect_Command with html output console style
+     * Run \Magento\Connect\Command with html output console style
      *
-     * @throws Magento_Downloader_Exception
-     * @param array|string|Magento_Downloader_Model $runParams command, options, params, comment, success_callback, failure_callback
-     * @return bool|Magento_Connect_Error
+     * @throws \Magento\Downloader\Exception
+     * @param array|string|\Magento\Downloader\Model $runParams command, options, params, comment, success_callback, failure_callback
+     * @return bool|\Magento\Connect\Error
      */
     public function runHtmlConsole($runParams)
     {
@@ -316,14 +318,14 @@ class Magento_Downloader_Connect
         $oldLogStream = $fe->getLogStream();
         $fe->setLogStream('stdout');
 
-        if ($runParams instanceof Magento_Downloader_Model) {
+        if ($runParams instanceof \Magento\Downloader\Model) {
             $run = $runParams;
         } elseif (is_array($runParams)) {
-            $run = new Magento_Downloader_Model_Connect_Request($runParams);
+            $run = new \Magento\Downloader\Model\Connect\Request($runParams);
         } elseif (is_string($runParams)) {
-            $run = new Magento_Downloader_Model_Connect_Request(array('comment'=>$runParams));
+            $run = new \Magento\Downloader\Model\Connect\Request(array('comment'=>$runParams));
         } else {
-            throw Magento_Downloader_Exception("Invalid run parameters");
+            throw \Magento\Downloader\Exception("Invalid run parameters");
         }
 
         if (!$run->get('no-header')) {

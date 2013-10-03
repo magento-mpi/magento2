@@ -5,23 +5,25 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Paypal_Controller_StandardTest extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\Paypal\Controller;
+
+class StandardTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
-     * @var Magento_Checkout_Model_Session
+     * @var \Magento\Checkout\Model\Session
      */
     protected $_session;
 
     /**
-     * @var Magento_Sales_Model_Order
+     * @var \Magento\Sales\Model\Order
      */
     protected $_order;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->_order = $this->_objectManager->create('Magento_Sales_Model_Order');
-        $this->_session = $this->_objectManager->get('Magento_Checkout_Model_Session');
+        $this->_order = $this->_objectManager->create('Magento\Sales\Model\Order');
+        $this->_session = $this->_objectManager->get('Magento\Checkout\Model\Session');
     }
 
     /**
@@ -30,7 +32,7 @@ class Magento_Paypal_Controller_StandardTest extends Magento_TestFramework_TestC
     public function testRedirectActionIsContentGenerated()
     {
         $this->_order->load('100000001', 'increment_id');
-        $this->_order->getPayment()->setMethod(Magento_Paypal_Model_Config::METHOD_WPS);
+        $this->_order->getPayment()->setMethod(\Magento\Paypal\Model\Config::METHOD_WPS);
         $this->_order->save();
         $this->_order->load('100000001', 'increment_id');
 
@@ -52,7 +54,7 @@ class Magento_Paypal_Controller_StandardTest extends Magento_TestFramework_TestC
      */
     public function testCancelAction()
     {
-        $quote = $this->_objectManager->create('Magento_Sales_Model_Quote');
+        $quote = $this->_objectManager->create('Magento\Sales\Model\Quote');
         $quote->load('test01', 'reserved_order_id');
         $this->_session->setQuoteId($quote->getId());
         $this->_session->setPaypalStandardQuoteId($quote->getId())

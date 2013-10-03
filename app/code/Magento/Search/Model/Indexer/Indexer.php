@@ -16,7 +16,9 @@
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Search_Model_Indexer_Indexer
+namespace Magento\Search\Model\Indexer;
+
+class Indexer
 {
     /**
      * Indexation mode that provide commit after all documents are added to index.
@@ -29,7 +31,7 @@ class Magento_Search_Model_Indexer_Indexer
      * Products become visible after products bunch is indexed.
      * This is not auto commit using search engine feature.
      *
-     * @see Magento_CatalogSearch_Model_Resource_Fulltext::_getSearchableProducts() limitation
+     * @see \Magento\CatalogSearch\Model\Resource\Fulltext::_getSearchableProducts() limitation
      */
     const SEARCH_ENGINE_INDEXATION_COMMIT_MODE_PARTIAL = 1;
 
@@ -49,22 +51,22 @@ class Magento_Search_Model_Indexer_Indexer
     /**
      * Search data
      *
-     * @var Magento_Search_Helper_Data
+     * @var \Magento\Search\Helper\Data
      */
     protected $_searchData = null;
 
     /**
-     * @var Magento_Index_Model_Indexer
+     * @var \Magento\Index\Model\Indexer
      */
     protected $_indexer;
 
     /**
-     * @param Magento_Index_Model_Indexer $indexer
-     * @param Magento_Search_Helper_Data $searchData
+     * @param \Magento\Index\Model\Indexer $indexer
+     * @param \Magento\Search\Helper\Data $searchData
      */
     public function __construct(
-        Magento_Index_Model_Indexer $indexer,
-        Magento_Search_Helper_Data $searchData
+        \Magento\Index\Model\Indexer $indexer,
+        \Magento\Search\Helper\Data $searchData
     ) {
         $this->_indexer = $indexer;
         $this->_searchData = $searchData;
@@ -73,7 +75,7 @@ class Magento_Search_Model_Indexer_Indexer
     /**
      * Reindex of catalog search fulltext index using search engine
      *
-     * @return Magento_Search_Model_Indexer_Indexer
+     * @return \Magento\Search\Model\Indexer\Indexer
      */
     public function reindexAll()
     {

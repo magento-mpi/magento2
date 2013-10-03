@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Shipping_Model_Tracking_Result
+namespace Magento\Shipping\Model\Tracking;
+
+class Result
 {
 
     protected $_trackings = array();
@@ -37,9 +39,9 @@ class Magento_Shipping_Model_Tracking_Result
      */
     public function append($result)
     {
-        if ($result instanceof Magento_Shipping_Model_Tracking_Result_Abstract) {
+        if ($result instanceof \Magento\Shipping\Model\Tracking\Result\AbstractResult) {
             $this->_trackings[] = $result;
-        } elseif ($result instanceof Magento_Shipping_Model_Rate_Result) {
+        } elseif ($result instanceof \Magento\Shipping\Model\Rate\Result) {
             $trackings = $result->getAllTrackings();
             foreach ($trackings as $track) {
                 $this->append($track);

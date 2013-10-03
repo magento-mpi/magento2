@@ -8,47 +8,49 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCard_Model_Attribute_Backend_Giftcard_Amount
-    extends Magento_Catalog_Model_Product_Attribute_Backend_Price
+namespace Magento\GiftCard\Model\Attribute\Backend\Giftcard;
+
+class Amount
+    extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
 {
     /**
      * Giftcard amount backend resource model
      *
-     * @var Magento_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount
+     * @var \Magento\GiftCard\Model\Resource\Attribute\Backend\Giftcard\Amount
      */
     protected $_amountResource;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Directory helper
      *
-     * @var Magento_Directory_Helper_Data
+     * @var \Magento\Directory\Helper\Data
      */
     protected $_directoryHelper;
 
     /**
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Directory_Helper_Data $directoryHelper
-     * @param Magento_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount $amountResource
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Directory\Helper\Data $directoryHelper
+     * @param \Magento\GiftCard\Model\Resource\Attribute\Backend\Giftcard\Amount $amountResource
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Model\Logger $logger
      */
     public function __construct(
-        Magento_Core_Model_Config $config,
-        Magento_Directory_Model_CurrencyFactory $currencyFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Directory_Helper_Data $directoryHelper,
-        Magento_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount $amountResource,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Model_Logger $logger
+        \Magento\Core\Model\Config $config,
+        \Magento\Directory\Model\CurrencyFactory $currencyFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Directory\Helper\Data $directoryHelper,
+        \Magento\GiftCard\Model\Resource\Attribute\Backend\Giftcard\Amount $amountResource,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Model\Logger $logger
     ) {
         $this->_storeManager = $storeManager;
         $this->_directoryHelper = $directoryHelper;
@@ -59,9 +61,9 @@ class Magento_GiftCard_Model_Attribute_Backend_Giftcard_Amount
     /**
      * Validate data
      *
-     * @param   Magento_Catalog_Model_Product $object
-     * @return  Magento_GiftCard_Model_Attribute_Backend_Giftcard_Amount
-     * @throws Magento_Core_Exception
+     * @param   \Magento\Catalog\Model\Product $object
+     * @return  \Magento\GiftCard\Model\Attribute\Backend\Giftcard\Amount
+     * @throws \Magento\Core\Exception
      */
     public function validate($object)
     {
@@ -79,7 +81,7 @@ class Magento_GiftCard_Model_Attribute_Backend_Giftcard_Amount
             $key1 = implode('-', array($row['website_id'], $row['price']));
 
             if (!empty($dup[$key1])) {
-                throw new Magento_Core_Exception(
+                throw new \Magento\Core\Exception(
                     __('Duplicate amount found.')
                 );
             }
@@ -91,8 +93,8 @@ class Magento_GiftCard_Model_Attribute_Backend_Giftcard_Amount
     /**
      * Assign amounts to product data
      *
-     * @param   Magento_Catalog_Model_Product $object
-     * @return  Magento_GiftCard_Model_Attribute_Backend_Giftcard_Amounts
+     * @param   \Magento\Catalog\Model\Product $object
+     * @return  \Magento\GiftCard\Model\Attribute\Backend\Giftcard\Amounts
      */
     public function afterLoad($object)
     {
@@ -119,8 +121,8 @@ class Magento_GiftCard_Model_Attribute_Backend_Giftcard_Amount
     /**
      * Save amounts data
      *
-     * @param Magento_Catalog_Model_Product $object
-     * @return Magento_GiftCard_Model_Attribute_Backend_Giftcard_Amounts
+     * @param \Magento\Catalog\Model\Product $object
+     * @return \Magento\GiftCard\Model\Attribute\Backend\Giftcard\Amounts
      */
     public function afterSave($object)
     {
@@ -159,8 +161,8 @@ class Magento_GiftCard_Model_Attribute_Backend_Giftcard_Amount
     /**
      * Delete amounts data
      *
-     * @param Magento_Catalog_Model_Product $object
-     * @return Magento_GiftCard_Model_Attribute_Backend_Giftcard_Amounts
+     * @param \Magento\Catalog\Model\Product $object
+     * @return \Magento\GiftCard\Model\Attribute\Backend\Giftcard\Amounts
      */
     public function afterDelete($object)
     {

@@ -11,25 +11,27 @@
 /**
  * Source model for merchant countries supported by PayPal
  */
-class Magento_Paypal_Model_System_Config_Source_MerchantCountry implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Paypal\Model\System\Config\Source;
+
+class MerchantCountry implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @var Magento_Paypal_Model_ConfigFactory
+     * @var \Magento\Paypal\Model\ConfigFactory
      */
     protected $_configFactory;
 
     /**
-     * @var Magento_Directory_Model_Resource_Country_CollectionFactory
+     * @var \Magento\Directory\Model\Resource\Country\CollectionFactory
      */
     protected $_countryCollFactory;
 
     /**
-     * @param Magento_Paypal_Model_ConfigFactory $configFactory
-     * @param Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory
+     * @param \Magento\Paypal\Model\ConfigFactory $configFactory
+     * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
      */
     public function __construct(
-        Magento_Paypal_Model_ConfigFactory $configFactory,
-        Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory
+        \Magento\Paypal\Model\ConfigFactory $configFactory,
+        \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
     ) {
         $this->_configFactory = $configFactory;
         $this->_countryCollFactory = $countryCollFactory;

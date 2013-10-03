@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Util
+namespace Magento;
+
+class Util
 {
     /**
      * Return PHP version without optional suffix

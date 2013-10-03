@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_ImportExport_Model_Import_Config_XsdMergedTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Import\Config;
+
+class XsdMergedTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Path to xsd schema file
@@ -14,7 +16,7 @@ class Magento_ImportExport_Model_Import_Config_XsdMergedTest extends PHPUnit_Fra
     protected $_xsdSchema;
 
     /**
-     * @var Magento_TestFramework_Utility_XsdValidator
+     * @var \Magento\TestFramework\Utility\XsdValidator
      */
     protected $_xsdValidator;
 
@@ -22,7 +24,7 @@ class Magento_ImportExport_Model_Import_Config_XsdMergedTest extends PHPUnit_Fra
     {
         $this->_xsdSchema = realpath( __DIR__
             . '/../../../../../../../../../app/code/Magento/ImportExport/etc/import_merged.xsd');
-        $this->_xsdValidator = new Magento_TestFramework_Utility_XsdValidator();
+        $this->_xsdValidator = new \Magento\TestFramework\Utility\XsdValidator();
     }
 
     /**

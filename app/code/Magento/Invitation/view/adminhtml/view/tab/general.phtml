@@ -12,7 +12,7 @@
 /**
  * Invitaion view tab general block template
  *
- * @see Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General
+ * @see \Magento\Invitation\Block\Adminhtml\Invitation\View\Tab\General
  */
 ?>
     <div class="fieldset-wrapper invitation_information">
@@ -61,7 +61,7 @@
             </tr>
             <tr>
                 <th><?php  echo __('Status'); ?></th>
-                <td><?php echo $this->helper('Magento_Invitation_Helper_Data')->getInvitationStatusText($this->getInvitation()) ?></td>
+                <td><?php echo $this->helper('Magento\Invitation\Helper\Data')->getInvitationStatusText($this->getInvitation()) ?></td>
             </tr>
             <tr>
                 <th><?php  echo __('Website'); ?></th>

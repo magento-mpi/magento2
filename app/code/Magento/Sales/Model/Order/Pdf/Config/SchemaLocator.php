@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Sales_Model_Order_Pdf_Config_SchemaLocator implements Magento_Config_SchemaLocatorInterface
+namespace Magento\Sales\Model\Order\Pdf\Config;
+
+class SchemaLocator implements \Magento\Config\SchemaLocatorInterface
 {
     /**
      * Path to corresponding XSD file with validation rules for merged configs
@@ -24,9 +26,9 @@ class Magento_Sales_Model_Order_Pdf_Config_SchemaLocator implements Magento_Conf
     private $_schemaFile;
 
     /**
-     * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
+     * @param \Magento\Core\Model\Config\Modules\Reader $moduleReader
      */
-    public function __construct(Magento_Core_Model_Config_Modules_Reader $moduleReader)
+    public function __construct(\Magento\Core\Model\Config\Modules\Reader $moduleReader)
     {
         $dir = $moduleReader->getModuleDir('etc', 'Magento_Sales');
         $this->_schema = $dir . '/pdf.xsd';

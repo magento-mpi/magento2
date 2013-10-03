@@ -15,7 +15,9 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Model_Item extends Magento_Core_Model_Abstract
+namespace Magento\GoogleShopping\Model;
+
+class Item extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Registry keys for caching attributes and types
@@ -27,58 +29,58 @@ class Magento_GoogleShopping_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Service Item Instance
      *
-     * @var Magento_GoogleShopping_Model_Service_Item
+     * @var \Magento\GoogleShopping\Model\Service\Item
      */
     protected $_serviceItem = null;
 
     /**
      * Config
      *
-     * @var Magento_GoogleShopping_Model_Config
+     * @var \Magento\GoogleShopping\Model\Config
      */
     protected $_config;
 
     /**
      * Item factory
      *
-     * @var Magento_GoogleShopping_Model_Service_ItemFactory
+     * @var \Magento\GoogleShopping\Model\Service\ItemFactory
      */
     protected $_itemFactory;
 
     /**
      * Type factory
      *
-     * @var Magento_GoogleShopping_Model_TypeFactory
+     * @var \Magento\GoogleShopping\Model\TypeFactory
      */
     protected $_typeFactory;
 
     /**
      * Product factory
      *
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
-     * @param Magento_GoogleShopping_Model_Service_ItemFactory $itemFactory
-     * @param Magento_GoogleShopping_Model_TypeFactory $typeFactory
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
-     * @param Magento_GoogleShopping_Model_Config $config
+     * @param \Magento\GoogleShopping\Model\Service\ItemFactory $itemFactory
+     * @param \Magento\GoogleShopping\Model\TypeFactory $typeFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\GoogleShopping\Model\Config $config
      * @param array $data
      */
     public function __construct(
-        Magento_GoogleShopping_Model_Service_ItemFactory $itemFactory,
-        Magento_GoogleShopping_Model_TypeFactory $typeFactory,
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
-        Magento_GoogleShopping_Model_Config $config,
+        \Magento\GoogleShopping\Model\Service\ItemFactory $itemFactory,
+        \Magento\GoogleShopping\Model\TypeFactory $typeFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\GoogleShopping\Model\Config $config,
         array $data = array()
     ) {
         $this->_itemFactory = $itemFactory;
@@ -92,13 +94,13 @@ class Magento_GoogleShopping_Model_Item extends Magento_Core_Model_Abstract
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('Magento_GoogleShopping_Model_Resource_Item');
+        $this->_init('Magento\GoogleShopping\Model\Resource\Item');
     }
 
     /**
      * Return Service Item Instance
      *
-     * @return Magento_GoogleShopping_Model_Service_Item
+     * @return \Magento\GoogleShopping\Model\Service\Item
      */
     public function getServiceItem()
     {
@@ -111,8 +113,8 @@ class Magento_GoogleShopping_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Set Service Item Instance
      *
-     * @param Magento_GoogleShopping_Model_Service_Item $service
-     * @return Magento_GoogleShopping_Model_Item
+     * @param \Magento\GoogleShopping\Model\Service\Item $service
+     * @return \Magento\GoogleShopping\Model\Item
      */
     public function setServiceItem($service)
     {
@@ -133,10 +135,10 @@ class Magento_GoogleShopping_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Save item to Google Content
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_GoogleShopping_Model_Item
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\GoogleShopping\Model\Item
      */
-    public function insertItem(Magento_Catalog_Model_Product $product)
+    public function insertItem(\Magento\Catalog\Model\Product $product)
     {
         $this->setProduct($product);
         $this->getServiceItem()
@@ -149,7 +151,7 @@ class Magento_GoogleShopping_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Update Item data
      *
-     * @return Magento_GoogleShopping_Model_Item
+     * @return \Magento\GoogleShopping\Model\Item
      */
     public function updateItem()
     {
@@ -163,7 +165,7 @@ class Magento_GoogleShopping_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Delete Item from Google Content
      *
-     * @return Magento_GoogleShopping_Model_Item
+     * @return \Magento\GoogleShopping\Model\Item
      */
     public function deleteItem()
     {
@@ -174,8 +176,8 @@ class Magento_GoogleShopping_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Load Item Model by Product
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_GoogleShopping_Model_Item
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\GoogleShopping\Model\Item
      */
     public function loadByProduct($product)
     {
@@ -187,7 +189,7 @@ class Magento_GoogleShopping_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Return Google Content Item Type Model for current Item
      *
-     * @return Magento_GoogleShopping_Model_Type
+     * @return \Magento\GoogleShopping\Model\Type
      */
     public function getType()
     {
@@ -211,7 +213,7 @@ class Magento_GoogleShopping_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Product Getter. Load product if not exist.
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
@@ -226,10 +228,10 @@ class Magento_GoogleShopping_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Product Setter.
      *
-     * @param Magento_Catalog_Model_Product
-     * @return Magento_GoogleShopping_Model_Item
+     * @param \Magento\Catalog\Model\Product
+     * @return \Magento\GoogleShopping\Model\Item
      */
-    public function setProduct(Magento_Catalog_Model_Product $product)
+    public function setProduct(\Magento\Catalog\Model\Product $product)
     {
         $this->setData('product', $product);
         $this->setProductId($product->getId());

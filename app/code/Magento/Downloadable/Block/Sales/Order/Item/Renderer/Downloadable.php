@@ -15,39 +15,41 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Block_Sales_Order_Item_Renderer_Downloadable extends Magento_Sales_Block_Order_Item_Renderer_Default
+namespace Magento\Downloadable\Block\Sales\Order\Item\Renderer;
+
+class Downloadable extends \Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer
 {
     /**
-     * @var Magento_Downloadable_Model_Link_Purchased
+     * @var \Magento\Downloadable\Model\Link\Purchased
      */
     protected $_purchasedLinks;
 
     /**
-     * @var Magento_Downloadable_Model_Link_PurchasedFactory
+     * @var \Magento\Downloadable\Model\Link\PurchasedFactory
      */
     protected $_purchasedFactory;
 
     /**
-     * @var Magento_Downloadable_Model_Resource_Link_Purchased_Item_CollectionFactory
+     * @var \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory
      */
     protected $_itemsFactory;
 
     /**
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Catalog_Model_Product_OptionFactory $productOptionFactory
-     * @param Magento_Downloadable_Model_Link_PurchasedFactory $purchasedFactory
-     * @param Magento_Downloadable_Model_Resource_Link_Purchased_Item_CollectionFactory $itemsFactory
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
+     * @param \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory
+     * @param \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_String $coreString,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Catalog_Model_Product_OptionFactory $productOptionFactory,
-        Magento_Downloadable_Model_Link_PurchasedFactory $purchasedFactory,
-        Magento_Downloadable_Model_Resource_Link_Purchased_Item_CollectionFactory $itemsFactory,
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
+        \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory,
+        \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory,
         array $data = array()
     ) {
         $this->_purchasedFactory = $purchasedFactory;
@@ -76,7 +78,7 @@ class Magento_Downloadable_Block_Sales_Order_Item_Renderer_Downloadable extends 
         if ($this->_purchasedLinks->getLinkSectionTitle()) {
             return $this->_purchasedLinks->getLinkSectionTitle();
         }
-        return $this->_storeConfig->getConfig(Magento_Downloadable_Model_Link::XML_PATH_LINKS_TITLE);
+        return $this->_storeConfig->getConfig(\Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE);
     }
 
 }

@@ -15,30 +15,32 @@
  * @package    Magento_Install
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Install_Model_Config
+namespace Magento\Install\Model;
+
+class Config
 {
 
     /**
      * Config data model
      *
-     * @var  Magento_Install_Model_Config_Data
+     * @var  \Magento\Install\Model\Config\Data
      */
     protected $_dataStorage;
 
     /**
      * Directory model
      *
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_coreDir;
 
 
 
     /**
-     * @param Magento_Install_Model_Config_Data $dataStorage
-     * @param Magento_Core_Model_Dir $coreDir
+     * @param \Magento\Install\Model\Config\Data $dataStorage
+     * @param \Magento\Core\Model\Dir $coreDir
      */
-    public function __construct(Magento_Install_Model_Config_Data $dataStorage, Magento_Core_Model_Dir $coreDir)
+    public function __construct(\Magento\Install\Model\Config\Data $dataStorage, \Magento\Core\Model\Dir $coreDir)
     {
         $this->_dataStorage = $dataStorage;
         $this->_coreDir = $coreDir;
@@ -47,7 +49,7 @@ class Magento_Install_Model_Config
     /**
      * Get array of wizard steps
      *
-     * array($index => Magento_Object)
+     * array($index => \Magento\Object)
      *
      * @return array
      */
@@ -56,7 +58,7 @@ class Magento_Install_Model_Config
         $data = $this->_dataStorage->get();
         $steps = array();
         foreach ($data['steps'] as $step) {
-            $stepObject = new Magento_Object($step);
+            $stepObject = new \Magento\Object($step);
             $steps[] = $stepObject;
         }
         return $steps;

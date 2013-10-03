@@ -11,31 +11,33 @@
 /**
  * Adminhtml invoice items grid
  */
-class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Magento_Adminhtml_Block_Sales_Items_Abstract
+namespace Magento\Adminhtml\Block\Sales\Order\Invoice\Create;
+
+class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
 {
     protected $_disableSubmitButton = false;
 
     /**
      * Sales data
      *
-     * @var Magento_Sales_Helper_Data
+     * @var \Magento\Sales\Helper\Data
      */
     protected $_salesData = null;
 
     /**
-     * @param Magento_Sales_Helper_Data $salesData
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Sales\Helper\Data $salesData
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Sales_Helper_Data $salesData,
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Sales\Helper\Data $salesData,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_salesData = $salesData;
@@ -45,12 +47,12 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Magento_A
     /**
      * Prepare child blocks
      *
-     * @return Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Items
+     * @return \Magento\Adminhtml\Block\Sales\Order\Invoice\Create\Items
      */
     protected function _beforeToHtml()
     {
         $onclick = "submitAndReloadArea($('invoice_item_container'),'".$this->getUpdateUrl()."')";
-        $this->addChild('update_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('update_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'class'     => 'update-button',
             'label'     => __('Update Qty\'s'),
             'onclick'   => $onclick,
@@ -72,7 +74,7 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Magento_A
         } else {
             $_submitLabel = __('Submit Invoice');
         }
-        $this->addChild('submit_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('submit_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => $_submitLabel,
             'class'     => 'save submit-button' . $_submitButtonClass,
             'onclick'   => 'disableElements(\'submit-button\');$(\'edit_form\').submit()',
@@ -95,7 +97,7 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Magento_A
     /**
      * Retrieve invoice order
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
@@ -105,7 +107,7 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Magento_A
     /**
      * Retrieve source
      *
-     * @return Magento_Sales_Model_Order_Invoice
+     * @return \Magento\Sales\Model\Order\Invoice
      */
     public function getSource()
     {
@@ -115,7 +117,7 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Magento_A
     /**
      * Retrieve invoice model instance
      *
-     * @return Magento_Sales_Model_Order_Invoice
+     * @return \Magento\Sales\Model\Order\Invoice
      */
     public function getInvoice()
     {

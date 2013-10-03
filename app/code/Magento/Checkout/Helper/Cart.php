@@ -13,7 +13,9 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Helper_Cart extends Magento_Core_Helper_Url
+namespace Magento\Checkout\Helper;
+
+class Cart extends \Magento\Core\Helper\Url
 {
     const XML_PATH_REDIRECT_TO_CART = 'checkout/cart/redirect_to_cart';
 
@@ -25,42 +27,42 @@ class Magento_Checkout_Helper_Cart extends Magento_Core_Helper_Url
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Checkout_Model_Cart
+     * @var \Magento\Checkout\Model\Cart
      */
     protected $_checkoutCart;
 
     /**
-     * @var Magento_Checkout_Model_Session
+     * @var \Magento\Checkout\Model\Session
      */
     protected $_checkoutSession;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Checkout_Model_Cart $checkoutCart
-     * @param Magento_Checkout_Model_Session $checkoutSession
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Checkout\Model\Cart $checkoutCart
+     * @param \Magento\Checkout\Model\Session $checkoutSession
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Checkout_Model_Cart $checkoutCart,
-        Magento_Checkout_Model_Session $checkoutSession
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Checkout\Model\Cart $checkoutCart,
+        \Magento\Checkout\Model\Session $checkoutSession
     ) {
         $this->_coreData = $coreData;
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -72,7 +74,7 @@ class Magento_Checkout_Helper_Cart extends Magento_Core_Helper_Url
     /**
      * Retrieve cart instance
      *
-     * @return Magento_Checkout_Model_Cart
+     * @return \Magento\Checkout\Model\Cart
      */
     public function getCart()
     {
@@ -82,14 +84,14 @@ class Magento_Checkout_Helper_Cart extends Magento_Core_Helper_Url
     /**
      * Retrieve url for add product to cart
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param array $additional
      * @return  string
      */
     public function getAddUrl($product, $additional = array())
     {
         $continueUrl    = $this->_coreData->urlEncode($this->getCurrentUrl());
-        $urlParamName   = Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED;
+        $urlParamName   = \Magento\Core\Controller\Front\Action::PARAM_NAME_URL_ENCODED;
 
         $routeParams = array(
             $urlParamName   => $continueUrl,
@@ -116,14 +118,14 @@ class Magento_Checkout_Helper_Cart extends Magento_Core_Helper_Url
     /**
      * Retrieve url for remove product from cart
      *
-     * @param   Magento_Sales_Quote_Item $item
+     * @param   \Magento\Sales\Quote\Item $item
      * @return  string
      */
     public function getRemoveUrl($item)
     {
         $params = array(
             'id'=>$item->getId(),
-            Magento_Core_Controller_Front_Action::PARAM_NAME_BASE64_URL => $this->getCurrentBase64Url()
+            \Magento\Core\Controller\Front\Action::PARAM_NAME_BASE64_URL => $this->getCurrentBase64Url()
         );
         return $this->_getUrl('checkout/cart/delete', $params);
     }
@@ -141,7 +143,7 @@ class Magento_Checkout_Helper_Cart extends Magento_Core_Helper_Url
     /**
      * Retrieve current quote instance
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {
@@ -191,7 +193,7 @@ class Magento_Checkout_Helper_Cart extends Magento_Core_Helper_Url
     /**
      * Checks if customer should be redirected to shopping cart after adding a product
      *
-     * @param int|string|Magento_Core_Model_Store $store
+     * @param int|string|\Magento\Core\Model\Store $store
      * @return bool
      */
     public function getShouldRedirectToCart($store = null)

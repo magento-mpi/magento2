@@ -7,12 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Validator_Constraint extends Magento_Validator_ValidatorAbstract
+namespace Magento\Validator;
+
+class Constraint extends \Magento\Validator\AbstractValidator
 {
     /**
      * Wrapped validator
      *
-     * @var Magento_Validator_ValidatorInterface
+     * @var \Magento\Validator\ValidatorInterface
      */
     protected $_wrappedValidator;
 
@@ -26,10 +28,10 @@ class Magento_Validator_Constraint extends Magento_Validator_ValidatorAbstract
     /**
      * Constructor
      *
-     * @param Magento_Validator_ValidatorInterface $validator
+     * @param \Magento\Validator\ValidatorInterface $validator
      * @param string $alias
      */
-    public function __construct(Magento_Validator_ValidatorInterface $validator, $alias = null)
+    public function __construct(\Magento\Validator\ValidatorInterface $validator, $alias = null)
     {
         $this->_wrappedValidator = $validator;
         $this->_alias = $alias;
@@ -63,7 +65,7 @@ class Magento_Validator_Constraint extends Magento_Validator_ValidatorAbstract
     protected function _getValidatorValue($value)
     {
         if (is_array($value)) {
-            $value = new Magento_Object($value);
+            $value = new \Magento\Object($value);
         }
         return $value;
     }
@@ -81,8 +83,8 @@ class Magento_Validator_Constraint extends Magento_Validator_ValidatorAbstract
     /**
      * Set translator to wrapped validator.
      *
-     * @param Magento_Translate_AdapterInterface|null $translator
-     * @return Magento_Validator_ValidatorAbstract
+     * @param \Magento\Translate\AdapterInterface|null $translator
+     * @return \Magento\Validator\AbstractValidator
      */
     public function setTranslator($translator = null)
     {
@@ -93,7 +95,7 @@ class Magento_Validator_Constraint extends Magento_Validator_ValidatorAbstract
     /**
      * Get translator instance of wrapped validator
      *
-     * @return Magento_Translate_AdapterInterface|null
+     * @return \Magento\Translate\AdapterInterface|null
      */
     public function getTranslator()
     {

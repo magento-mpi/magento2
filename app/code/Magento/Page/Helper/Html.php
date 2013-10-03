@@ -13,7 +13,9 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Page_Helper_Html extends Magento_Core_Helper_Abstract
+namespace Magento\Page\Helper;
+
+class Html extends \Magento\Core\Helper\AbstractHelper
 {
     
 }

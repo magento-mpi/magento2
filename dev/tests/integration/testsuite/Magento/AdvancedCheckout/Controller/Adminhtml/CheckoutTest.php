@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\AdvancedCheckout\Controller\Adminhtml;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_AdvancedCheckout_Controller_Adminhtml_CheckoutTest extends Magento_Backend_Utility_Controller
+class CheckoutTest extends \Magento\Backend\Utility\Controller
 {
     public function testLoadBlockAction()
     {

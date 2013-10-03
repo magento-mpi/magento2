@@ -16,7 +16,9 @@
  * @package    Magento_AdminNotification
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdminNotification_Model_Feed extends Magento_Core_Model_Abstract
+namespace Magento\AdminNotification\Model;
+
+class Feed extends \Magento\Core\Model\AbstractModel
 {
     const XML_USE_HTTPS_PATH    = 'system/adminnotification/use_https';
     const XML_FEED_URL_PATH     = 'system/adminnotification/feed_url';
@@ -31,38 +33,38 @@ class Magento_AdminNotification_Model_Feed extends Magento_Core_Model_Abstract
     protected $_feedUrl;
 
     /**
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_AdminNotification_Model_InboxFactory
+     * @var \Magento\AdminNotification\Model\InboxFactory
      */
     protected $_inboxFactory;
 
     /**
-     * @var Magento_Core_Model_CacheInterface
+     * @var \Magento\Core\Model\CacheInterface
      */
     protected $_cache;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_AdminNotification_Model_InboxFactory $inboxFactory
-     * @param Magento_Core_Model_CacheInterface $cache
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\AdminNotification\Model\InboxFactory $inboxFactory
+     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_AdminNotification_Model_InboxFactory $inboxFactory,
-        Magento_Core_Model_CacheInterface $cache,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\AdminNotification\Model\InboxFactory $inboxFactory,
+        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -95,7 +97,7 @@ class Magento_AdminNotification_Model_Feed extends Magento_Core_Model_Abstract
     /**
      * Check feed for modification
      *
-     * @return Magento_AdminNotification_Model_Feed
+     * @return \Magento\AdminNotification\Model\Feed
      */
     public function checkUpdate()
     {
@@ -162,7 +164,7 @@ class Magento_AdminNotification_Model_Feed extends Magento_Core_Model_Abstract
     /**
      * Set last update time (now)
      *
-     * @return Magento_AdminNotification_Model_Feed
+     * @return \Magento\AdminNotification\Model\Feed
      */
     public function setLastUpdate()
     {
@@ -173,15 +175,15 @@ class Magento_AdminNotification_Model_Feed extends Magento_Core_Model_Abstract
     /**
      * Retrieve feed data as XML element
      *
-     * @return SimpleXMLElement
+     * @return \SimpleXMLElement
      */
     public function getFeedData()
     {
-        $curl = new Magento_HTTP_Adapter_Curl();
+        $curl = new \Magento\HTTP\Adapter\Curl();
         $curl->setConfig(array(
             'timeout'   => 2
         ));
-        $curl->write(Zend_Http_Client::GET, $this->getFeedUrl(), '1.0');
+        $curl->write(\Zend_Http_Client::GET, $this->getFeedUrl(), '1.0');
         $data = $curl->read();
         if ($data === false) {
             return false;
@@ -191,9 +193,9 @@ class Magento_AdminNotification_Model_Feed extends Magento_Core_Model_Abstract
         $curl->close();
 
         try {
-            $xml  = new SimpleXMLElement($data);
+            $xml  = new \SimpleXMLElement($data);
         }
-        catch (Exception $e) {
+        catch (\Exception $e) {
             return false;
         }
 
@@ -204,9 +206,9 @@ class Magento_AdminNotification_Model_Feed extends Magento_Core_Model_Abstract
     {
         try {
             $data = $this->getFeedData();
-            $xml  = new SimpleXMLElement($data);
-        } catch (Exception $e) {
-            $xml  = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8" ?>');
+            $xml  = new \SimpleXMLElement($data);
+        } catch (\Exception $e) {
+            $xml  = new \SimpleXMLElement('<?xml version="1.0" encoding="utf-8" ?>');
         }
 
         return $xml;

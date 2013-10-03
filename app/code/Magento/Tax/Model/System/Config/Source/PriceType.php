@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Tax_Model_System_Config_Source_PriceType implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Tax\Model\System\Config\Source;
+
+class PriceType implements \Magento\Core\Model\Option\ArrayInterface
 {
     protected $_options;
 

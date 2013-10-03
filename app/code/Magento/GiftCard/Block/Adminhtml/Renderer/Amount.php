@@ -8,9 +8,11 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCard_Block_Adminhtml_Renderer_Amount
- extends Magento_Backend_Block_Widget
- implements Magento_Data_Form_Element_Renderer_Interface
+namespace Magento\GiftCard\Block\Adminhtml\Renderer;
+
+class Amount
+ extends \Magento\Backend\Block\Widget
+ implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     protected $_element = null;
     protected $_websites = null;
@@ -20,38 +22,38 @@ class Magento_GiftCard_Block_Adminhtml_Renderer_Amount
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Directory helper
      *
-     * @var Magento_Directory_Helper_Data
+     * @var \Magento\Directory\Helper\Data
      */
     protected $_directoryHelper;
 
     /**
-     * @param Magento_Directory_Helper_Data $directoryHelper
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Directory\Helper\Data $directoryHelper
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Directory_Helper_Data $directoryHelper,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Directory\Helper\Data $directoryHelper,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_directoryHelper = $directoryHelper;
@@ -68,14 +70,14 @@ class Magento_GiftCard_Block_Adminhtml_Renderer_Amount
     /**
      *  Render Amounts Element
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    public function render(Magento_Data_Form_Element_Abstract $element)
+    public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $this->setElement($element);
         $isAddButtonDisabled = ($element->getData('readonly_disabled') === true) ? true : false;
-        $this->addChild('add_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('add_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Add Amount'),
             'onclick'   => "giftcardAmountsControl.addItem('" . $this->getElement()->getHtmlId() . "')",
             'class'     => 'action-add',
@@ -85,7 +87,7 @@ class Magento_GiftCard_Block_Adminhtml_Renderer_Amount
         return $this->toHtml();
     }
 
-    public function setElement(Magento_Data_Form_Element_Abstract $element)
+    public function setElement(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $this->_element = $element;
         return $this;
@@ -123,7 +125,7 @@ class Magento_GiftCard_Block_Adminhtml_Renderer_Amount
                 $website = $this->_storeManager->getStore($storeId)->getWebsite();
                 $websites[$website->getId()] = array(
                     'name'      => $website->getName(),
-                    'currency'  => $website->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+                    'currency'  => $website->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
                 );
             } else {
                 foreach ($this->_storeManager->getWebsites() as $website) {
@@ -132,7 +134,7 @@ class Magento_GiftCard_Block_Adminhtml_Renderer_Amount
                     }
                     $websites[$website->getId()] = array(
                         'name'      => $website->getName(),
-                        'currency'  => $website->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+                        'currency'  => $website->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
                     );
                 }
             }

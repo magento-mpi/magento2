@@ -12,24 +12,26 @@
 /**
  * Store grid column filter
  */
-class Magento_Backend_Block_Widget_Grid_Column_Filter_Store
-    extends Magento_Backend_Block_Widget_Grid_Column_Filter_Abstract
+namespace Magento\Backend\Block\Widget\Grid\Column\Filter;
+
+class Store
+    extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilter
 {
     /**
-     * @var Magento_Core_Model_System_Store
+     * @var \Magento\Core\Model\System\Store
      */
     protected $_systemStore;
 
     /**
-     * @param Magento_Backend_Block_Context $context
-     * @param Magento_Core_Model_Resource_Helper $resourceHelper
-     * @param Magento_Core_Model_System_Store $systemStore
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Core\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Core\Model\System\Store $systemStore
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Context $context,
-        Magento_Core_Model_Resource_Helper $resourceHelper,
-        Magento_Core_Model_System_Store $systemStore,
+        \Magento\Backend\Block\Context $context,
+        \Magento\Core\Model\Resource\Helper $resourceHelper,
+        \Magento\Core\Model\System\Store $systemStore,
         array $data = array()
     ) {
         $this->_systemStore = $systemStore;

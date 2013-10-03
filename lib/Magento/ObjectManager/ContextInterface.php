@@ -7,6 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_ObjectManager_ContextInterface
+namespace Magento\ObjectManager;
+
+interface ContextInterface
 {
 }

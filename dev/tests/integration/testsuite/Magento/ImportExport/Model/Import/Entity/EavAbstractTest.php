@@ -10,14 +10,16 @@
  */
 
 /**
- * Test class for Magento_ImportExport_Model_Import_Entity_EavAbstract
+ * Test class for \Magento\ImportExport\Model\Import\Entity\AbstractEav
  */
-class Magento_ImportExport_Model_Import_Entity_EavAbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Import\Entity;
+
+class EavAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Model object which used for tests
      *
-     * @var Magento_ImportExport_Model_Import_Entity_EavAbstract|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\ImportExport\Model\Import\Entity\AbstractEav|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
@@ -27,7 +29,7 @@ class Magento_ImportExport_Model_Import_Entity_EavAbstractTest extends PHPUnit_F
     protected function setUp()
     {
         parent::setUp();
-        $this->_model = $this->getMockForAbstractClass('Magento_ImportExport_Model_Import_Entity_EavAbstract', array(),
+        $this->_model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\Entity\AbstractEav', array(),
             '', false);
     }
 
@@ -38,16 +40,16 @@ class Magento_ImportExport_Model_Import_Entity_EavAbstractTest extends PHPUnit_F
     {
         $indexAttributeCode = 'gender';
 
-        /** @var $attributeCollection Magento_Customer_Model_Resource_Attribute_Collection */
-        $attributeCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Resource_Attribute_Collection');
+        /** @var $attributeCollection \Magento\Customer\Model\Resource\Attribute\Collection */
+        $attributeCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Resource\Attribute\Collection');
         $attributeCollection->addFieldToFilter(
             'attribute_code',
             array(
                 'in' => array($indexAttributeCode, 'group_id')
             )
         );
-        /** @var $attribute Magento_Customer_Model_Attribute */
+        /** @var $attribute \Magento\Customer\Model\Attribute */
         foreach ($attributeCollection as $attribute) {
             $index = ($attribute->getAttributeCode() == $indexAttributeCode) ? 'value' : 'label';
             $expectedOptions = array();

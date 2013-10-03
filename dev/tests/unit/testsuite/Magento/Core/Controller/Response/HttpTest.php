@@ -10,24 +10,26 @@
  */
 
 /**
- * Test class for Magento_Core_Controller_Response_Http
+ * Test class for \Magento\Core\Controller\Response\Http
  */
-class Magento_Core_Controller_Response_HttpTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Controller\Response;
+
+class HttpTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
      * Test for getHeader method
      *
      * @dataProvider headersDataProvider
-     * @covers Magento_Core_Controller_Response_Http::getHeader
+     * @covers \Magento\Core\Controller\Response\Http::getHeader
      *
      * @param string $header
      */
     public function testGetHeaderExists($header)
     {
-        $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
+        $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
 
-        $response = new Magento_Core_Controller_Response_Http($eventManager);
+        $response = new \Magento\Core\Controller\Response\Http($eventManager);
         $response->headersSentThrowsException = false;
         $response->setHeader($header['name'], $header['value'], $header['replace']);
         $this->assertEquals($header, $response->getHeader($header['name']));
@@ -59,14 +61,14 @@ class Magento_Core_Controller_Response_HttpTest extends PHPUnit_Framework_TestCa
     /**
      * Test for getHeader method. Validation for attempt to get not existing header
      *
-     * @covers Magento_Core_Controller_Response_Http::getHeader
+     * @covers \Magento\Core\Controller\Response\Http::getHeader
      *
      */
     public function testGetHeaderNotExists()
     {
-        $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
+        $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
 
-        $response = new Magento_Core_Controller_Response_Http($eventManager);
+        $response = new \Magento\Core\Controller\Response\Http($eventManager);
         $response->headersSentThrowsException = false;
         $response->setHeader('Name', 'value', true);
         $this->assertFalse($response->getHeader('Wrong name'));

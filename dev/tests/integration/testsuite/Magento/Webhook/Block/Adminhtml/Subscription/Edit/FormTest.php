@@ -1,9 +1,5 @@
 <?php
 /**
- * Magento_Webhook_Block_AdminHtml_Subscription_Edit_Form
- *
- * @magentoAppArea adminhtml
- *
  * {license_notice}
  *
  * @category    Magento
@@ -12,15 +8,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Block_Adminhtml_Subscription_Edit_FormTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Block\Adminhtml\Subscription\Edit;
+
+/**
+ * \Magento\Webhook\Block\Adminhtml\Subscription\Edit\Form
+ *
+ * @magentoAppArea adminhtml
+ */
+class FormTest extends \PHPUnit_Framework_TestCase
 {
     public function testPrepareForm()
     {
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Model_Layout');
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Core\Model\Layout');
 
-        /** @var Magento_Core_Model_Registry $registry */
-        $registry = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Registry');
+        /** @var \Magento\Core\Model\Registry $registry */
+        $registry = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Registry');
         $subscription = array(
             'name' => 'subscriptionName',
             'endpoint_url' => 'example.url.com',
@@ -35,15 +38,15 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Edit_FormTest extends PHPUnit
                 $subscription
             );
 
-        /** @var Magento_Webhook_Block_Adminhtml_Subscription_Edit_Form $block */
-        $block = $layout->createBlock('Magento_Webhook_Block_Adminhtml_Subscription_Edit_Form',
+        /** @var \Magento\Webhook\Block\Adminhtml\Subscription\Edit\Form $block */
+        $block = $layout->createBlock('Magento\Webhook\Block\Adminhtml\Subscription\Edit\Form',
             '', array('registry' => $registry)
         );
         $block->toHtml();
 
         $form = $block->getForm();
 
-        $this->assertInstanceOf('Magento_Data_Form', $form);
+        $this->assertInstanceOf('Magento\Data\Form', $form);
         $this->assertEquals('post', $form->getData('method'));
         $this->assertEquals('edit_form', $form->getId());
         $this->assertTrue($form->getUseContainer());
@@ -83,7 +86,7 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Edit_FormTest extends PHPUnit
 
         foreach ($expectedFieldset as $fieldId => $field) {
             $element = $form->getElement($fieldId);
-            $this->assertInstanceOf('Magento_Data_Form_Element_Abstract', $element);
+            $this->assertInstanceOf('Magento\Data\Form\Element\AbstractElement', $element);
             $this->assertEquals($field['name'], $element->getName(), 'Wrong \'' . $fieldId . '\' field name');
             $this->assertEquals($field['type'], $element->getType(), 'Wrong \'' . $fieldId . ' field type');
             $this->assertEquals(

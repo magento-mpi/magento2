@@ -9,11 +9,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\ImportExport\Block\Adminhtml\Import\Edit;
+
 /**
- * Tests for block Magento_ImportExport_Block_Adminhtml_Import_Edit_FormTest
+ * Tests for block \Magento\ImportExport\Block\Adminhtml\Import\Edit\FormTest
  * @magentoAppArea adminhtml
  */
-class Magento_ImportExport_Block_Adminhtml_Import_Edit_FormTest extends PHPUnit_Framework_TestCase
+class FormTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * List of expected fieldsets in import edit form
@@ -32,8 +34,8 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_FormTest extends PHPUnit_
      */
     protected function setUp()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $importModel = $objectManager->create('Magento_ImportExport_Model_Import');
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $importModel = $objectManager->create('Magento\ImportExport\Model\Import');
         $uniqueBehaviors = $importModel->getUniqueEntityBehaviors();
         foreach (array_keys($uniqueBehaviors) as $behavior) {
             $this->_expectedFieldsets[] = $behavior . '_fieldset';
@@ -45,10 +47,10 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_FormTest extends PHPUnit_
      */
     public function testPrepareForm()
     {
-        $formBlock = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_ImportExport_Block_Adminhtml_Import_Edit_Form');
-        $prepareForm = new ReflectionMethod(
-            'Magento_ImportExport_Block_Adminhtml_Import_Edit_Form',
+        $formBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\ImportExport\Block\Adminhtml\Import\Edit\Form');
+        $prepareForm = new \ReflectionMethod(
+            'Magento\ImportExport\Block\Adminhtml\Import\Edit\Form',
             '_prepareForm'
         );
         $prepareForm->setAccessible(true);
@@ -56,21 +58,21 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_FormTest extends PHPUnit_
 
         // check form
         $form = $formBlock->getForm();
-        $this->assertInstanceOf('Magento_Data_Form', $form, 'Incorrect import form class.');
+        $this->assertInstanceOf('Magento\Data\Form', $form, 'Incorrect import form class.');
         $this->assertTrue($form->getUseContainer(), 'Form should use container.');
 
         // check form fieldsets
         $formFieldsets = array();
         $formElements = $form->getElements();
         foreach ($formElements as $element) {
-            /** @var $element Magento_Data_Form_Element_Abstract */
+            /** @var $element \Magento\Data\Form\Element\AbstractElement */
             if (in_array($element->getId(), $this->_expectedFieldsets)) {
                 $formFieldsets[] = $element;
             }
         }
         $this->assertSameSize($this->_expectedFieldsets, $formFieldsets);
         foreach ($formFieldsets as $fieldset) {
-            $this->assertInstanceOf('Magento_Data_Form_Element_Fieldset', $fieldset, 'Incorrect fieldset class.');
+            $this->assertInstanceOf('Magento\Data\Form\Element\Fieldset', $fieldset, 'Incorrect fieldset class.');
         }
     }
 }

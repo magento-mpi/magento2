@@ -15,13 +15,15 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Attribute_Backend_Boolean extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
+namespace Magento\Catalog\Model\Product\Attribute\Backend;
+
+class Boolean extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
      * Set attribute default value if value empty
      *
-     * @param Magento_Object $object
-     * @return Magento_Catalog_Model_Product_Attribute_Backend_Boolean
+     * @param \Magento\Object $object
+     * @return \Magento\Catalog\Model\Product\Attribute\Backend\Boolean
      */
     public function beforeSave($object)
     {

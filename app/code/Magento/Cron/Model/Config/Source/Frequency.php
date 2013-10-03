@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Cron_Model_Config_Source_Frequency implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Cron\Model\Config\Source;
+
+class Frequency implements \Magento\Core\Model\Option\ArrayInterface
 {
 
     protected static $_options;

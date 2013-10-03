@@ -15,34 +15,36 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-class Magento_Invitation_Model_Adminhtml_System_Config_Backend_Limited
-    extends Magento_Core_Model_Config_Value
+namespace Magento\Invitation\Model\Adminhtml\System\Config\Backend;
+
+class Limited
+    extends \Magento\Core\Model\Config\Value
 {
     /**
      * Admin Session
      *
-     * @var Magento_Adminhtml_Model_Session
+     * @var \Magento\Adminhtml\Model\Session
      */
     protected $_session;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Adminhtml_Model_Session $session
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Adminhtml\Model\Session $session
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Config $config,
-        Magento_Adminhtml_Model_Session $session,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Config $config,
+        \Magento\Adminhtml\Model\Session $session,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
@@ -53,7 +55,7 @@ class Magento_Invitation_Model_Adminhtml_System_Config_Backend_Limited
      * Validating entered value if it will be 0 (unlimited)
      * throw notice and change it to old one
      *
-     * @return Magento_Invitation_Model_Adminhtml_System_Config_Backend_Limited
+     * @return \Magento\Invitation\Model\Adminhtml\System\Config\Backend\Limited
      */
     protected function _beforeSave()
     {

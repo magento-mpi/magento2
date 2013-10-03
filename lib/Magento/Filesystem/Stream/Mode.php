@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Filesystem_Stream_Mode
+namespace Magento\Filesystem\Stream;
+
+class Mode
 {
     /**
      * A stream mode as for the use of fopen()

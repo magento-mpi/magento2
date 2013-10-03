@@ -10,38 +10,40 @@
  * @license     {license_link}
  *
  * @method string getName()
- * @method Magento_Webhook_Model_Endpoint setName(string $value)
- * @method Magento_Webhook_Model_Endpoint setEndpointUrl(string $value)
+ * @method \Magento\Webhook\Model\Endpoint setName(string $value)
+ * @method \Magento\Webhook\Model\Endpoint setEndpointUrl(string $value)
  * @method string getUpdatedAt()
- * @method Magento_Webhook_Model_Endpoint setUpdatedAt(string $value)
- * @method Magento_Webhook_Model_Endpoint setFormat(string $value)
+ * @method \Magento\Webhook\Model\Endpoint setUpdatedAt(string $value)
+ * @method \Magento\Webhook\Model\Endpoint setFormat(string $value)
  * @method string getApiUserId()
- * @method Magento_Webhook_Model_Endpoint setApiUserId(string $value)
- * @method Magento_Webhook_Model_Endpoint setAuthenticationType(string $value)
- * @method Magento_Webhook_Model_Endpoint setTimeoutInSecs(string $value)
+ * @method \Magento\Webhook\Model\Endpoint setApiUserId(string $value)
+ * @method \Magento\Webhook\Model\Endpoint setAuthenticationType(string $value)
+ * @method \Magento\Webhook\Model\Endpoint setTimeoutInSecs(string $value)
  */
-class Magento_Webhook_Model_Endpoint extends Magento_Core_Model_Abstract implements Magento_Outbound_EndpointInterface
+namespace Magento\Webhook\Model;
+
+class Endpoint extends \Magento\Core\Model\AbstractModel implements \Magento\Outbound\EndpointInterface
 {
     /**
      * Used to create a User abstraction from a given webapi user associated with this subscription.
-     * @var Magento_Webhook_Model_User_Factory
+     * @var \Magento\Webhook\Model\User\Factory
      */
     private $_userFactory;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Webhook_Model_User_Factory $userFactory
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Webhook\Model\User\Factory $userFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Webhook_Model_User_Factory $userFactory,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Webhook\Model\User\Factory $userFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -55,7 +57,7 @@ class Magento_Webhook_Model_Endpoint extends Magento_Core_Model_Abstract impleme
     public function _construct()
     {
         parent::_construct();
-        $this->_init('Magento_Webhook_Model_Resource_Endpoint');
+        $this->_init('Magento\Webhook\Model\Resource\Endpoint');
     }
 
     /**
@@ -81,15 +83,15 @@ class Magento_Webhook_Model_Endpoint extends Magento_Core_Model_Abstract impleme
     /**
      * Prepare data to be saved to database
      *
-     * @return Magento_Core_Model_Abstract
-     * @throws Magento_Webhook_Exception
+     * @return \Magento\Core\Model\AbstractModel
+     * @throws \Magento\Webhook\Exception
      */
     protected function _beforeSave()
     {
         parent::_beforeSave();
 
         if (!$this->hasAuthenticationType()) {
-            $this->setAuthenticationType(Magento_Outbound_EndpointInterface::AUTH_TYPE_NONE);
+            $this->setAuthenticationType(\Magento\Outbound\EndpointInterface::AUTH_TYPE_NONE);
         }
 
         if ($this->hasDataChanges()) {
@@ -112,7 +114,7 @@ class Magento_Webhook_Model_Endpoint extends Magento_Core_Model_Abstract impleme
     /**
      * Returns the user abstraction associated with this subscription or null if no user has been associated yet.
      *
-     * @return Magento_Outbound_UserInterface|null
+     * @return \Magento\Outbound\UserInterface|null
      */
     public function getUser()
     {

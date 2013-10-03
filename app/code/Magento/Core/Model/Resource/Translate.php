@@ -16,27 +16,29 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Resource_Translate extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Core\Model\Resource;
+
+class Translate extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
-     * @var Magento_Core_Model_App_State
+     * @var \Magento\Core\Model\App\State
      */
     protected $_appState;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\Core\Model\StoreManager $storeManager
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_App_State $appState,
-        Magento_Core_Model_StoreManager $storeManager
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\App\State $appState,
+        \Magento\Core\Model\StoreManager $storeManager
     ) {
         parent::__construct($resource);
         $this->_appState = $appState;

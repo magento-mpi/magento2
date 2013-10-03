@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit_Framework_TestCase
+namespace Magento\DesignEditor\Controller\Varien\Router;
+
+class StandardTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test area code
@@ -34,12 +36,12 @@ class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit
     /**#@-*/
 
     /**
-     * @var Magento_DesignEditor_Controller_Varien_Router_Standard
+     * @var \Magento\DesignEditor\Controller\Varien\Router\Standard
      */
     protected $_model;
 
     /**
-     * @param Magento_Core_Controller_Request_Http $request
+     * @param \Magento\Core\Controller\Request\Http $request
      * @param bool $isVde
      * @param bool $isLoggedIn
      * @param bool $isConfiguration
@@ -49,7 +51,7 @@ class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit
      * @dataProvider matchDataProvider
      */
     public function testMatch(
-        Magento_Core_Controller_Request_Http $request,
+        \Magento\Core\Controller\Request\Http $request,
         $isVde,
         $isLoggedIn,
         $isConfiguration,
@@ -81,21 +83,20 @@ class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit
         );
 
         // test data to verify routers match logic
-        $storeManager = $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false);
-        $helperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(),
-            'Magento_Backend_Helper_DataProxy', false);
-        $matchedRequest = $this->getMock('Magento_Core_Controller_Request_Http',
+        $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
+        $helperMock = $this->getMock('Magento\Backend\Helper\DataProxy', array(), array(), '', false);
+        $matchedRequest = $this->getMock('Magento\Core\Controller\Request\Http',
             $silencedMethods,
             array($storeManager, $helperMock, $vdeUrl)
         );
         $routerMockedMethods = array('match');
 
         $matchedController = $this->getMockForAbstractClass(
-            'Magento_Core_Controller_Varien_ActionAbstract', array(), '', false);
+            'Magento\Core\Controller\Varien\AbstractAction', array(), '', false);
 
         // method "match" will be invoked for this router because it's first in the list
         $matchedRouter = $this->getMock(
-            'Magento_Core_Controller_Varien_Router_Base', $routerMockedMethods, array(), '', false
+            'Magento\Core\Controller\Varien\Router\Base', $routerMockedMethods, array(), '', false
         );
         $matchedRouter->expects($this->once())
             ->method('match')
@@ -104,7 +105,7 @@ class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit
 
         // method "match" will not be invoked for this router because controller will be found by first router
         $notMatchedRouter = $this->getMock(
-            'Magento_Core_Controller_Varien_Router_Base', $routerMockedMethods, array(), '', false
+            'Magento\Core\Controller\Varien\Router\Base', $routerMockedMethods, array(), '', false
         );
         $notMatchedRouter->expects($this->never())
             ->method('match');
@@ -116,7 +117,7 @@ class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit
         return array(
             'not vde request' => array(
                 '$request' => $this->getMock(
-                    'Magento_Core_Controller_Request_Http', $silencedMethods, array(
+                    'Magento\Core\Controller\Request\Http', $silencedMethods, array(
                         $storeManager, $helperMock, $notVdeUrl
                     )
                 ),
@@ -126,7 +127,7 @@ class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit
             ),
             'not logged as admin' => array(
                 '$request' => $this->getMock(
-                    'Magento_Core_Controller_Request_Http', $silencedMethods, array($storeManager, $helperMock, $vdeUrl)
+                    'Magento\Core\Controller\Request\Http', $silencedMethods, array($storeManager, $helperMock, $vdeUrl)
                 ),
                 '$isVde'           => true,
                 '$isLoggedIn'      => false,
@@ -134,7 +135,7 @@ class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit
             ),
             'no matched routers' => array(
                 '$request' => $this->getMock(
-                    'Magento_Core_Controller_Request_Http', $silencedMethods, array($storeManager, $helperMock, $vdeUrl)
+                    'Magento\Core\Controller\Request\Http', $silencedMethods, array($storeManager, $helperMock, $vdeUrl)
                 ),
                 '$isVde'           => true,
                 '$isLoggedIn'      => true,
@@ -153,15 +154,15 @@ class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit
     }
 
     /**
-     * @param Magento_Core_Controller_Request_Http $request
+     * @param \Magento\Core\Controller\Request\Http $request
      * @param bool $isVde
      * @param bool $isLoggedIn
      * @param bool $isConfiguration
      * @param array $routers
-     * @return Magento_DesignEditor_Controller_Varien_Router_Standard
+     * @return \Magento\DesignEditor\Controller\Varien\Router\Standard
      */
     protected function _prepareMocksForTestMatch(
-        Magento_Core_Controller_Request_Http $request,
+        \Magento\Core\Controller\Request\Http $request,
         $isVde,
         $isLoggedIn,
         $isConfiguration,
@@ -169,24 +170,24 @@ class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit
     ) {
         // default mocks - not affected on method functionality
         $controllerFactory  = $this->getMock(
-            'Magento_Core_Controller_Varien_Action_Factory', array(), array(), '', false);
-        $objectManager      = $this->getMock('Magento_ObjectManager');
-        $filesystem         = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
+            'Magento\Core\Controller\Varien\Action\Factory', array(), array(), '', false);
+        $objectManager      = $this->getMock('Magento\ObjectManager');
+        $filesystem         = $this->getMockBuilder('Magento\Filesystem')->disableOriginalConstructor()->getMock();
 
         $helper         = $this->_getHelperMock($isVde);
         $backendSession = $this->_getBackendSessionMock($isVde, $isLoggedIn);
         $stateModel     = $this->_getStateModelMock($routers);
         $configuration  = $this->_getConfigurationMock($isVde, $isLoggedIn, $isConfiguration);
-        $app            = $this->getMock('Magento_Core_Model_App', array(), array(), '', false);
+        $app            = $this->getMock('Magento\Core\Model\App', array(), array(), '', false);
         $callback = function ($name) use ($helper, $backendSession, $stateModel, $configuration) {
             switch ($name) {
-                case 'Magento_DesignEditor_Helper_Data':
+                case 'Magento\DesignEditor\Helper\Data':
                     return $helper;
-                case 'Magento_Backend_Model_Auth_Session':
+                case 'Magento\Backend\Model\Auth\Session':
                     return $backendSession;
-                case 'Magento_DesignEditor_Model_State':
+                case 'Magento\DesignEditor\Model\State':
                     return $stateModel;
-                case 'Magento_Core_Model_Config':
+                case 'Magento\Core\Model\Config':
                     return $configuration;
                 default:
                     return null;
@@ -196,7 +197,7 @@ class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit
             ->method('get')
             ->will($this->returnCallback($callback));
 
-        $frontController = $this->getMock('Magento_Core_Controller_Varien_Front',
+        $frontController = $this->getMock('Magento\Core\Controller\Varien\Front',
             array('applyRewrites', 'getRouters'), array(), '', false
         );
         if ($isVde && $isLoggedIn) {
@@ -208,21 +209,21 @@ class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit
                 ->will($this->returnValue($routers));
         }
 
-        $router = new Magento_DesignEditor_Controller_Varien_Router_Standard(
+        $router = new \Magento\DesignEditor\Controller\Varien\Router\Standard(
             $controllerFactory,
             $objectManager,
             $filesystem,
             $app,
-            $this->getMock('Magento_Core_Model_Config_Scope', array(), array(), '', false),
-            $this->getMock('Magento_Core_Model_Route_Config', array(), array(), '', false),
-            $this->getMock('Magento_Core_Model_Url_SecurityInfoInterface'),
-            $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false),
-            $this->getMock('Magento_Core_Model_Config', array(), array(), '', false),
-            $this->getMock('Magento_Core_Model_Url', array(), array(), '', false),
-            $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false),
-            $this->getMock('Magento_Core_Model_App_State', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\Config\Scope', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\Route\Config', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\Url\SecurityInfoInterface'),
+            $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\Config', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\Url', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\App\State', array(), array(), '', false),
             'frontend',
-            'Magento_Core_Controller_Varien_Action',
+            'Magento\Core\Controller\Varien\Action',
             'vde'
         );
         $router->setFront($frontController);
@@ -231,11 +232,11 @@ class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit
 
     /**
      * @param bool $isVde
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getHelperMock($isVde)
     {
-        $helper = $this->getMock('Magento_DesignEditor_Helper_Data', array('isVdeRequest'), array(), '', false);
+        $helper = $this->getMock('Magento\DesignEditor\Helper\Data', array('isVdeRequest'), array(), '', false);
         $helper->expects($this->once())
             ->method('isVdeRequest')
             ->will($this->returnValue($isVde));
@@ -245,11 +246,11 @@ class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit
     /**
      * @param bool $isVde
      * @param bool $isLoggedIn
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getBackendSessionMock($isVde, $isLoggedIn)
     {
-        $backendSession = $this->getMock('Magento_Backend_Model_Auth_Session', array('isLoggedIn'), array(), '', false);
+        $backendSession = $this->getMock('Magento\Backend\Model\Auth\Session', array('isLoggedIn'), array(), '', false);
         $backendSession->expects($isVde ? $this->once() : $this->never())
             ->method('isLoggedIn')
             ->will($this->returnValue($isLoggedIn));
@@ -258,11 +259,11 @@ class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit
 
     /**
      * @param array $routers
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getStateModelMock(array $routers)
     {
-        $stateModel = $this->getMock('Magento_DesignEditor_Model_State', array('update'), array(), '', false);
+        $stateModel = $this->getMock('Magento\DesignEditor\Model\State', array('update'), array(), '', false);
         if (array_key_exists('matched', $routers)) {
             $stateModel->expects($this->once())
                 ->method('update')
@@ -276,11 +277,11 @@ class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit
      * @param bool $isVde
      * @param bool $isLoggedIn
      * @param bool $isConfiguration
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getConfigurationMock($isVde, $isLoggedIn, $isConfiguration)
     {
-        $configuration = $this->getMock('Magento_Core_Model_Config', array('getNode'), array(), '', false);
+        $configuration = $this->getMock('Magento\Core\Model\Config', array('getNode'), array(), '', false);
         if ($isVde && $isLoggedIn) {
             $configurationData = null;
             if ($isConfiguration) {
@@ -288,7 +289,7 @@ class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit
             }
             $configuration->expects($this->at(0))
                 ->method('getNode')
-                ->with(Magento_DesignEditor_Model_Area::AREA_VDE)
+                ->with(\Magento\DesignEditor\Model\Area::AREA_VDE)
                 ->will($this->returnValue($configurationData));
 
             if ($isConfiguration) {
@@ -299,7 +300,7 @@ class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit
 
                 $configuration->expects($this->at(1))
                     ->method('getNode')
-                    ->with(Magento_Core_Model_App_Area::AREA_FRONTEND)
+                    ->with(\Magento\Core\Model\App\Area::AREA_FRONTEND)
                     ->will($this->returnValue($elementMock));
             }
         }

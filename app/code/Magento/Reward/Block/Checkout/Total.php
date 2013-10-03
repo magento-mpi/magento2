@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Reward_Block_Checkout_Total extends Magento_Checkout_Block_Total_Default
+namespace Magento\Reward\Block\Checkout;
+
+class Total extends \Magento\Checkout\Block\Total\DefaultTotal
 {
     protected $_template = 'checkout/total.phtml';
 

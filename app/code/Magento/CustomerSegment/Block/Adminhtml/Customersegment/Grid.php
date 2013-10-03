@@ -15,34 +15,36 @@
  * @package Magento_CustomerSegment
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Grid extends Magento_Backend_Block_Widget_Grid_Extended
+namespace Magento\CustomerSegment\Block\Adminhtml\Customersegment;
+
+class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
-     * @var Magento_CustomerSegment_Model_SegmentFactory
+     * @var \Magento\CustomerSegment\Model\SegmentFactory
      */
     protected $_segmentFactory;
 
     /**
-     * @var Magento_Core_Model_System_Store
+     * @var \Magento\Core\Model\System\Store
      */
     protected $_systemStore;
 
     /**
-     * @param Magento_Core_Model_System_Store $systemStore
-     * @param Magento_CustomerSegment_Model_SegmentFactory $segmentFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\CustomerSegment\Model\SegmentFactory $segmentFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_System_Store $systemStore,
-        Magento_CustomerSegment_Model_SegmentFactory $segmentFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
+        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\CustomerSegment\Model\SegmentFactory $segmentFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
         array $data = array()
     ) {
         $this->_systemStore = $systemStore;
@@ -68,11 +70,11 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Grid extends Magen
      * Add websites to customer segments collection
      * Set collection
      *
-     * @return Magento_CustomerSegment_Block_Adminhtml_Customersegment_Grid
+     * @return \Magento\CustomerSegment\Block\Adminhtml\Customersegment\Grid
      */
     protected function _prepareCollection()
     {
-        /** @var $collection Magento_CustomerSegment_Model_Resource_Segment_Collection */
+        /** @var $collection \Magento\CustomerSegment\Model\Resource\Segment\Collection */
         $collection = $this->_segmentFactory->create()
             ->getCollection();
         $collection->addWebsitesToResult();
@@ -85,7 +87,7 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Grid extends Magen
     /**
      * Add grid columns
      *
-     * @return Magento_CustomerSegment_Block_Adminhtml_Customersegment_Grid
+     * @return \Magento\CustomerSegment\Block\Adminhtml\Customersegment\Grid
      */
     protected function _prepareColumns()
     {
@@ -134,7 +136,7 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Grid extends Magen
     /**
      * Retrieve row click URL
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      *
      * @return string
      */

@@ -7,23 +7,25 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */ 
-class Magento_Core_Model_Config_Resource extends Magento_Config_Data_Scoped
-    implements Magento_Core_Model_Config_ResourceInterface
+namespace Magento\Core\Model\Config;
+
+class Resource extends \Magento\Config\Data\Scoped
+    implements \Magento\Core\Model\Config\ResourceInterface
 {
     const DEFAULT_READ_CONNECTION  = 'read';
     const DEFAULT_WRITE_CONNECTION = 'write';
     const DEFAULT_SETUP_CONNECTION = 'default';
 
     /**
-     * @param Magento_Core_Model_Resource_Config_Reader $reader
-     * @param Magento_Config_ScopeInterface $configScope
-     * @param Magento_Config_CacheInterface $cache
+     * @param \Magento\Core\Model\Resource\Config\Reader $reader
+     * @param \Magento\Config\ScopeInterface $configScope
+     * @param \Magento\Config\CacheInterface $cache
      * @param string $cacheId
      */
     public function __construct(
-        Magento_Core_Model_Resource_Config_Reader $reader,
-        Magento_Config_ScopeInterface $configScope,
-        Magento_Config_CacheInterface $cache,
+        \Magento\Core\Model\Resource\Config\Reader $reader,
+        \Magento\Config\ScopeInterface $configScope,
+        \Magento\Config\CacheInterface $cache,
         $cacheId = 'resourcesCache'
     ) {
         parent::__construct($reader, $configScope, $cache, $cacheId);

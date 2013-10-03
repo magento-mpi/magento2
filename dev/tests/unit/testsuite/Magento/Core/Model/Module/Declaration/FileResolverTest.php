@@ -5,10 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Module_Declaration_FileResolverTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Module\Declaration;
+
+class FileResolverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Module_Declaration_FileResolver
+     * @var \Magento\Core\Model\Module\Declaration\FileResolver
      */
     protected $_model;
 
@@ -16,20 +18,20 @@ class Magento_Core_Model_Module_Declaration_FileResolverTest extends PHPUnit_Fra
     {
         $baseDir = __DIR__ . str_replace('/', DIRECTORY_SEPARATOR, '/FileResolver/_files');
 
-        $applicationDirs = $this->getMock('Magento_Core_Model_Dir', array(), array('getDir'), '', false);
+        $applicationDirs = $this->getMock('Magento\Core\Model\Dir', array(), array('getDir'), '', false);
         $applicationDirs->expects($this->any())
             ->method('getDir')
             ->will($this->returnValueMap(array(
                 array(
-                    Magento_Core_Model_Dir::CONFIG,
+                    \Magento\Core\Model\Dir::CONFIG,
                     $baseDir . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR .'etc',
                 ),
                 array(
-                    Magento_Core_Model_Dir::MODULES,
+                    \Magento\Core\Model\Dir::MODULES,
                     $baseDir . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR .'code',
                 ),
             )));
-        $this->_model = new Magento_Core_Model_Module_Declaration_FileResolver($applicationDirs);
+        $this->_model = new \Magento\Core\Model\Module\Declaration\FileResolver($applicationDirs);
     }
 
     public function testGet()

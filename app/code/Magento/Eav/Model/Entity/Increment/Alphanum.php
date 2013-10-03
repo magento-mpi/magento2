@@ -18,7 +18,9 @@
  * - pad_char
  * - last_id
  */
-class Magento_Eav_Model_Entity_Increment_Alphanum extends Magento_Eav_Model_Entity_Increment_Abstract
+namespace Magento\Eav\Model\Entity\Increment;
+
+class Alphanum extends \Magento\Eav\Model\Entity\Increment\AbstractIncrement
 {
     public function getAllowedChars()
     {
@@ -44,7 +46,7 @@ class Magento_Eav_Model_Entity_Increment_Alphanum extends Magento_Eav_Model_Enti
         for ($i = $lid; $i >= 0; $i--) {
             $p = strpos($chars, $lastId{$i});
             if (false===$p) {
-                throw new Magento_Eav_Exception(__('Invalid character encountered in increment ID: %1', $lastId));
+                throw new \Magento\Eav\Exception(__('Invalid character encountered in increment ID: %1', $lastId));
             }
             if ($bumpNextChar) {
                 $p++;

@@ -5,40 +5,42 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_AdminNotification_Model_System_Message_Survey
-    implements Magento_AdminNotification_Model_System_MessageInterface
+namespace Magento\AdminNotification\Model\System\Message;
+
+class Survey
+    implements \Magento\AdminNotification\Model\System\MessageInterface
 {
     /**
-     * @var Magento_Backend_Model_Auth_Session
+     * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_authSession;
 
     /**
-     * @var Magento_AuthorizationInterface
+     * @var \Magento\AuthorizationInterface
      */
     protected $_authorization;
 
     /**
-     * @var Magento_Core_Model_UrlInterface
+     * @var \Magento\Core\Model\UrlInterface
      */
     protected $_urlBuilder;
 
     /**
-     * @var Magento_AdminNotification_Model_Survey
+     * @var \Magento\AdminNotification\Model\Survey
      */
     protected $_survey;
 
     /**
-     * @param Magento_Backend_Model_Auth_Session $authSession
-     * @param Magento_AuthorizationInterface $authorization
-     * @param Magento_Core_Model_UrlInterface $urlBuilder
-     * @param Magento_AdminNotification_Model_Survey $survey
+     * @param \Magento\Backend\Model\Auth\Session $authSession
+     * @param \Magento\AuthorizationInterface $authorization
+     * @param \Magento\Core\Model\UrlInterface $urlBuilder
+     * @param \Magento\AdminNotification\Model\Survey $survey
      */
     public function __construct(
-        Magento_Backend_Model_Auth_Session $authSession,
-        Magento_AuthorizationInterface $authorization,
-        Magento_Core_Model_UrlInterface $urlBuilder,
-        Magento_AdminNotification_Model_Survey $survey
+        \Magento\Backend\Model\Auth\Session $authSession,
+        \Magento\AuthorizationInterface $authorization,
+        \Magento\Core\Model\UrlInterface $urlBuilder,
+        \Magento\AdminNotification\Model\Survey $survey
     ) {
         $this->_authorization = $authorization;
         $this->_authSession = $authSession;
@@ -111,6 +113,6 @@ class Magento_AdminNotification_Model_System_Message_Survey
      */
     public function getSeverity()
     {
-        return Magento_AdminNotification_Model_System_MessageInterface::SEVERITY_MAJOR;
+        return \Magento\AdminNotification\Model\System\MessageInterface::SEVERITY_MAJOR;
     }
 }

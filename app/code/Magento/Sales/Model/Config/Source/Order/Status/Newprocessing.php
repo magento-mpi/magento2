@@ -11,10 +11,12 @@
 /**
  * Order Statuses source model
  */
-class Magento_Sales_Model_Config_Source_Order_Status_Newprocessing extends Magento_Sales_Model_Config_Source_Order_Status
+namespace Magento\Sales\Model\Config\Source\Order\Status;
+
+class Newprocessing extends \Magento\Sales\Model\Config\Source\Order\Status
 {
     protected $_stateStatuses = array(
-        Magento_Sales_Model_Order::STATE_NEW,
-        Magento_Sales_Model_Order::STATE_PROCESSING
+        \Magento\Sales\Model\Order::STATE_NEW,
+        \Magento\Sales\Model\Order::STATE_PROCESSING
     );
 }

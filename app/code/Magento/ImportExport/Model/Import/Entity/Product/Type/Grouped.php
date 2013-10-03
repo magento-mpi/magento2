@@ -15,8 +15,10 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ImportExport_Model_Import_Entity_Product_Type_Grouped
-    extends Magento_ImportExport_Model_Import_Entity_Product_Type_Abstract
+namespace Magento\ImportExport\Model\Import\Entity\Product\Type;
+
+class Grouped
+    extends \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
 {
     /**
      * Column names that holds values with particular meaning.
@@ -35,34 +37,34 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Grouped
     protected $_behavior;
 
     /**
-     * @var Magento_ImportExport_Model_ImportFactory
+     * @var \Magento\ImportExport\Model\ImportFactory
      */
     protected $_importFactory;
 
     /**
-     * @var Magento_Core_Model_Resource
+     * @var \Magento\Core\Model\Resource
      */
     protected $_resource;
 
     /**
-     * @var Magento_Catalog_Model_Resource_Product_LinkFactory
+     * @var \Magento\Catalog\Model\Resource\Product\LinkFactory
      */
     protected $_productLinkFactory;
 
     /**
-     * @param Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $attrSetColFac
-     * @param Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $prodAttrColFac
-     * @param Magento_ImportExport_Model_ImportFactory $importFactory
-     * @param Magento_Catalog_Model_Resource_Product_LinkFactory $productLinkFactory
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $attrSetColFac
+     * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $prodAttrColFac
+     * @param \Magento\ImportExport\Model\ImportFactory $importFactory
+     * @param \Magento\Catalog\Model\Resource\Product\LinkFactory $productLinkFactory
+     * @param \Magento\Core\Model\Resource $resource
      * @param array $params
      */
     public function __construct(
-        Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $attrSetColFac,
-        Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $prodAttrColFac,
-        Magento_ImportExport_Model_ImportFactory $importFactory,
-        Magento_Catalog_Model_Resource_Product_LinkFactory $productLinkFactory,
-        Magento_Core_Model_Resource $resource,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $attrSetColFac,
+        \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $prodAttrColFac,
+        \Magento\ImportExport\Model\ImportFactory $importFactory,
+        \Magento\Catalog\Model\Resource\Product\LinkFactory $productLinkFactory,
+        \Magento\Core\Model\Resource $resource,
         array $params
     )
     {
@@ -88,11 +90,11 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Grouped
     /**
      * Save product type specific data.
      *
-     * @return Magento_ImportExport_Model_Import_Entity_Product_Type_Abstract
+     * @return \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
      */
     public function saveData()
     {
-        $groupedLinkId = Magento_Catalog_Model_Product_Link::LINK_TYPE_GROUPED;
+        $groupedLinkId = \Magento\Catalog\Model\Product\Link::LINK_TYPE_GROUPED;
         $connection    = $this->_resource->getConnection('write');
         $resource      = $this->_productLinkFactory->create();
         $mainTable     = $resource->getMainTable();
@@ -137,16 +139,16 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Grouped
                     continue;
                 }
                 $scope = $this->_entityModel->getRowScope($rowData);
-                if (Magento_ImportExport_Model_Import_Entity_Product::SCOPE_DEFAULT == $scope) {
-                    $productData = $newSku[$rowData[Magento_ImportExport_Model_Import_Entity_Product::COL_SKU]];
+                if (\Magento\ImportExport\Model\Import\Entity\Product::SCOPE_DEFAULT == $scope) {
+                    $productData = $newSku[$rowData[\Magento\ImportExport\Model\Import\Entity\Product::COL_SKU]];
                 } else {
-                    $colAttrSet = Magento_ImportExport_Model_Import_Entity_Product::COL_ATTR_SET;
+                    $colAttrSet = \Magento\ImportExport\Model\Import\Entity\Product::COL_ATTR_SET;
                     $rowData[$colAttrSet] = $productData['attr_set_code'];
-                    $rowData[Magento_ImportExport_Model_Import_Entity_Product::COL_TYPE] = $productData['type_id'];
+                    $rowData[\Magento\ImportExport\Model\Import\Entity\Product::COL_TYPE] = $productData['type_id'];
                 }
                 $productId = $productData['entity_id'];
 
-                if ($this->_type != $rowData[Magento_ImportExport_Model_Import_Entity_Product::COL_TYPE]) {
+                if ($this->_type != $rowData[\Magento\ImportExport\Model\Import\Entity\Product::COL_TYPE]) {
                     continue;
                 }
                 $linksData['product_ids'][$productId] = true;
@@ -172,7 +174,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Grouped
                 }
             }
             // save links and relations
-            if ($linksData['product_ids'] && $this->getBehavior() != Magento_ImportExport_Model_Import::BEHAVIOR_APPEND) {
+            if ($linksData['product_ids'] && $this->getBehavior() != \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND) {
                 $connection->delete(
                     $mainTable,
                     $connection->quoteInto(
@@ -200,7 +202,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Grouped
             if ($linksData['attr_product_ids']) {
                 $savedData = $connection->fetchPairs($connection->select()
                     ->from($mainTable, array(
-                        new Zend_Db_Expr('CONCAT_WS(" ", product_id, linked_product_id)'), 'link_id'
+                        new \Zend_Db_Expr('CONCAT_WS(" ", product_id, linked_product_id)'), 'link_id'
                     ))
                     ->where(
                         'product_id IN (?) AND link_type_id = ' . $groupedLinkId,

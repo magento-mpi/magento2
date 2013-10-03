@@ -9,20 +9,22 @@
  * @license     {license_link}
  */
 
-class Magento_Test_Integrity_Modular_MenuConfigFilesTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Modular;
+
+class MenuConfigFilesTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Model_Menu_Config_Reader
+     * @var \Magento\Backend\Model\Menu\Config\Reader
      */
     protected $_model;
 
     protected function setUp()
     {
-        $moduleReader = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Config_Modules_Reader');
+        $moduleReader = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Config\Modules\Reader');
         $schemaFile = $moduleReader->getModuleDir('etc', 'Magento_Backend') . DIRECTORY_SEPARATOR . 'menu.xsd';
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Backend_Model_Menu_Config_Reader',
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Backend\Model\Menu\Config\Reader',
             array(
                 'perFileSchema' => $schemaFile,
                 'isValidated' => true,

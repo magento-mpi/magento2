@@ -16,24 +16,26 @@
  * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Pbridge_Controller_PbridgeIpn extends Magento_Core_Controller_Front_Action
+namespace Magento\Pbridge\Controller;
+
+class PbridgeIpn extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Pbridge ipn factory
      *
-     * @var Magento_Pbridge_Model_Payment_Method_Pbridge_IpnFactory
+     * @var \Magento\Pbridge\Model\Payment\Method\Pbridge\IpnFactory
      */
     protected $_pbridgeIpnFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Controller_Varien_Action_Context $context
-     * @param Magento_Pbridge_Model_Payment_Method_Pbridge_IpnFactory $pbridgeIpnFactory
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Pbridge\Model\Payment\Method\Pbridge\IpnFactory $pbridgeIpnFactory
      */
     public function __construct(
-        Magento_Core_Controller_Varien_Action_Context $context,
-        Magento_Pbridge_Model_Payment_Method_Pbridge_IpnFactory $pbridgeIpnFactory
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Pbridge\Model\Payment\Method\Pbridge\IpnFactory $pbridgeIpnFactory
     ) {
         $this->_pbridgeIpnFactory = $pbridgeIpnFactory;
         parent::__construct($context);
@@ -47,7 +49,7 @@ class Magento_Pbridge_Controller_PbridgeIpn extends Magento_Core_Controller_Fron
      */
     public function indexAction()
     {
-        /** @var Magento_Pbridge_Model_Payment_Method_Pbridge_Ipn $ipn */
+        /** @var \Magento\Pbridge\Model\Payment\Method\Pbridge\Ipn $ipn */
         $ipn = $this->_pbridgeIpnFactory->create();
 
         $ipn->setIpnFormData($this->getRequest()->getPost())

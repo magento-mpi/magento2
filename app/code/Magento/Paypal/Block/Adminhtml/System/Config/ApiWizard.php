@@ -11,7 +11,9 @@
 /**
  * Custom renderer for PayPal API credentials wizard popup
  */
-class Magento_Paypal_Block_Adminhtml_System_Config_ApiWizard extends Magento_Backend_Block_System_Config_Form_Field
+namespace Magento\Paypal\Block\Adminhtml\System\Config;
+
+class ApiWizard extends \Magento\Backend\Block\System\Config\Form\Field
 {
     /**
      * Set template to itself
@@ -28,10 +30,10 @@ class Magento_Paypal_Block_Adminhtml_System_Config_ApiWizard extends Magento_Bac
     /**
      * Unset some non-related element parameters
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    public function render(Magento_Data_Form_Element_Abstract $element)
+    public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $element->unsScope()->unsCanUseWebsiteValue()->unsCanUseDefaultValue();
         return parent::render($element);
@@ -40,10 +42,10 @@ class Magento_Paypal_Block_Adminhtml_System_Config_ApiWizard extends Magento_Bac
     /**
      * Get the button and scripts contents
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    protected function _getElementHtml(Magento_Data_Form_Element_Abstract $element)
+    protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $originalData = $element->getOriginalData();
         $this->addData(array(

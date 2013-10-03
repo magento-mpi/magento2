@@ -9,32 +9,34 @@
 /**
  * Source of layout files that explicitly override base files introduced by modules
  */
-class Magento_Core_Model_Layout_File_Source_Override_Base implements Magento_Core_Model_Layout_File_SourceInterface
+namespace Magento\Core\Model\Layout\File\Source\Override;
+
+class Base implements \Magento\Core\Model\Layout\File\SourceInterface
 {
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     private $_filesystem;
 
     /**
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     private $_dirs;
 
     /**
-     * @var Magento_Core_Model_Layout_File_Factory
+     * @var \Magento\Core\Model\Layout\File\Factory
      */
     private $_fileFactory;
 
     /**
-     * @param Magento_Filesystem $filesystem
-     * @param Magento_Core_Model_Dir $dirs
-     * @param Magento_Core_Model_Layout_File_Factory $fileFactory
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Core\Model\Dir $dirs
+     * @param \Magento\Core\Model\Layout\File\Factory $fileFactory
      */
     public function __construct(
-        Magento_Filesystem $filesystem,
-        Magento_Core_Model_Dir $dirs,
-        Magento_Core_Model_Layout_File_Factory $fileFactory
+        \Magento\Filesystem $filesystem,
+        \Magento\Core\Model\Dir $dirs,
+        \Magento\Core\Model\Layout\File\Factory $fileFactory
     ) {
         $this->_filesystem = $filesystem;
         $this->_dirs = $dirs;
@@ -44,12 +46,12 @@ class Magento_Core_Model_Layout_File_Source_Override_Base implements Magento_Cor
     /**
      * {@inheritdoc}
      */
-    public function getFiles(Magento_Core_Model_ThemeInterface $theme)
+    public function getFiles(\Magento\Core\Model\ThemeInterface $theme)
     {
         $namespace = $module = '*';
         $themePath = $theme->getFullPath();
         $files = $this->_filesystem->searchKeys(
-            $this->_dirs->getDir(Magento_Core_Model_Dir::THEMES),
+            $this->_dirs->getDir(\Magento\Core\Model\Dir::THEMES),
             "{$themePath}/{$namespace}_{$module}/layout/override/*.xml"
         );
         $result = array();

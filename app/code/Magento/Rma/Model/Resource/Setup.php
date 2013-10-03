@@ -11,38 +11,40 @@
 /**
  * Rma resource setup model
  */
-class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setup
+namespace Magento\Rma\Model\Resource;
+
+class Setup extends \Magento\Sales\Model\Resource\Setup
 {
     /**
-     * @var Magento_Catalog_Model_Resource_SetupFactory
+     * @var \Magento\Catalog\Model\Resource\SetupFactory
      */
     protected $_catalogSetupFactory;
 
     /**
-     * @var Magento_Enterprise_Model_Resource_Setup_MigrationFactory
+     * @var \Magento\Enterprise\Model\Resource\Setup\MigrationFactory
      */
     protected $_entMigrationFactory;
 
     /**
-     * @param Magento_Core_Model_Resource_Setup_Context $context
-     * @param Magento_Core_Model_CacheInterface $cache
-     * @param Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory
-     * @param Magento_Core_Helper_Data $coreHelper
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory
-     * @param Magento_Enterprise_Model_Resource_Setup_MigrationFactory $entMigrationFactory
+     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory
+     * @param \Magento\Core\Helper\Data $coreHelper
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory
+     * @param \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $entMigrationFactory
      * @param string $resourceName
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
-        Magento_Core_Model_Resource_Setup_Context $context,
-        Magento_Core_Model_CacheInterface $cache,
-        Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory,
-        Magento_Core_Helper_Data $coreHelper,
-        Magento_Core_Model_Config $config,
-        Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory,
-        Magento_Enterprise_Model_Resource_Setup_MigrationFactory $entMigrationFactory,
+        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory,
+        \Magento\Core\Helper\Data $coreHelper,
+        \Magento\Core\Model\Config $config,
+        \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory,
+        \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $entMigrationFactory,
         $resourceName,
         $moduleName = 'Magento_Rma',
         $connectionName = ''
@@ -84,10 +86,10 @@ class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
     {
         $entities = array(
             'rma_item'                           => array(
-                'entity_model'                   => 'Magento_Rma_Model_Resource_Item',
-                'attribute_model'                => 'Magento_Rma_Model_Item_Attribute',
+                'entity_model'                   => 'Magento\Rma\Model\Resource\Item',
+                'attribute_model'                => 'Magento\Rma\Model\Item\Attribute',
                 'table'                          => 'magento_rma_item_entity',
-                'increment_model'                => 'Magento_Eav_Model_Entity_Increment_Numeric',
+                'increment_model'                => 'Magento\Eav\Model\Entity\Increment\Numeric',
                 'additional_attribute_table'     => 'magento_rma_item_eav_attribute',
                 'entity_attribute_collection'    => null,
                 'increment_per_store'            => 1,
@@ -139,7 +141,7 @@ class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
                         'type'               => 'static',
                         'label'              => 'Status',
                         'input'              => 'select',
-                        'source'             => 'Magento_Rma_Model_Item_Attribute_Source_Status',
+                        'source'             => 'Magento\Rma\Model\Item\Attribute\Source\Status',
                         'visible'            => false,
                         'sort_order'         => 60,
                         'position'           => 60,
@@ -169,7 +171,7 @@ class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
                         'input'              => 'select',
                         'sort_order'         => 90,
                         'position'           => 90,
-                        'source'             => 'Magento_Eav_Model_Entity_Attribute_Source_Table',
+                        'source'             => 'Magento\Eav\Model\Entity\Attribute\Source\Table',
                         'system'             => false,
                         'option'             => array('values' => array('Exchange', 'Refund', 'Store Credit')),
                         'validate_rules'     => 'a:0:{}',
@@ -180,7 +182,7 @@ class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
                         'input'              => 'select',
                         'sort_order'         => 100,
                         'position'           => 100,
-                        'source'             => 'Magento_Eav_Model_Entity_Attribute_Source_Table',
+                        'source'             => 'Magento\Eav\Model\Entity\Attribute\Source\Table',
                         'system'             => false,
                         'option'             => array('values' => array('Unopened', 'Opened', 'Damaged')),
                         'validate_rules'     => 'a:0:{}',
@@ -191,7 +193,7 @@ class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
                         'input'              => 'select',
                         'sort_order'         => 110,
                         'position'           => 110,
-                        'source'             => 'Magento_Eav_Model_Entity_Attribute_Source_Table',
+                        'source'             => 'Magento\Eav\Model\Entity\Attribute\Source\Table',
                         'system'             => false,
                         'option'             => array('values' => array('Wrong Color', 'Wrong Size', 'Out of Service')),
                         'validate_rules'     => 'a:0:{}',
@@ -256,7 +258,7 @@ class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
 
     /**
      * @param array $data
-     * @return Magento_Catalog_Model_Resource_Setup
+     * @return \Magento\Catalog\Model\Resource\Setup
      */
     public function getCatalogSetup(array $data = array())
     {

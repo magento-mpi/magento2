@@ -11,8 +11,10 @@
 /**
  * Wishlist item management column (copy, move, etc.)
  */
-class Magento_MultipleWishlist_Block_Customer_Wishlist_Item_Column_Management
-    extends Magento_Wishlist_Block_Customer_Wishlist_Item_Column
+namespace Magento\MultipleWishlist\Block\Customer\Wishlist\Item\Column;
+
+class Management
+    extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
 {
     /**
      * Render block
@@ -27,7 +29,7 @@ class Magento_MultipleWishlist_Block_Customer_Wishlist_Item_Column_Management
     /**
      * Retrieve current customer wishlist collection
      *
-     * @return Magento_Wishlist_Model_Resource_Wishlist_Collection
+     * @return \Magento\Wishlist\Model\Resource\Wishlist\Collection
      */
     public function getWishlists()
     {
@@ -37,7 +39,7 @@ class Magento_MultipleWishlist_Block_Customer_Wishlist_Item_Column_Management
     /**
      * Retrieve default wishlist for current customer
      *
-     * @return Magento_Wishlist_Model_Wishlist
+     * @return \Magento\Wishlist\Model\Wishlist
      */
     public function getDefaultWishlist()
     {
@@ -47,7 +49,7 @@ class Magento_MultipleWishlist_Block_Customer_Wishlist_Item_Column_Management
     /**
      * Retrieve current wishlist
      *
-     * @return Magento_Wishlist_Model_Wishlist
+     * @return \Magento\Wishlist\Model\Wishlist
      */
     public function getCurrentWishlist()
     {
@@ -57,10 +59,10 @@ class Magento_MultipleWishlist_Block_Customer_Wishlist_Item_Column_Management
     /**
      * Check whether user multiple wishlist limit reached
      *
-     * @param Magento_Wishlist_Model_Resource_Wishlist_Collection $wishlists
+     * @param \Magento\Wishlist\Model\Resource\Wishlist\Collection $wishlists
      * @return bool
      */
-    public function canCreateWishlists(Magento_Wishlist_Model_Resource_Wishlist_Collection $wishlists)
+    public function canCreateWishlists(\Magento\Wishlist\Model\Resource\Wishlist\Collection $wishlists)
     {
         $customerId = $this->_customerSession->getCustomerId();
         return !$this->_wishlistData->isWishlistLimitReached($wishlists) && $customerId;

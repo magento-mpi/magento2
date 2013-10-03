@@ -15,36 +15,38 @@
  * @package     Magento_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
-    extends Magento_Backend_Block_Widget_Form_Generic
-    implements Magento_Backend_Block_Widget_Tab_Interface
+namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab;
+
+class Settings
+    extends \Magento\Backend\Block\Widget\Form\Generic
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry;
 
     /**
-     * @var Magento_Core_Model_Theme_LabelFactory
+     * @var \Magento\Core\Model\Theme\LabelFactory
      */
     protected $_themeLabelFactory;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Model_Theme_LabelFactory $themeLabelFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Model\Theme\LabelFactory $themeLabelFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Model_Theme_LabelFactory $themeLabelFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Model\Theme\LabelFactory $themeLabelFactory,
         array $data = array()
     ) {
         $this->_themeLabelFactory = $themeLabelFactory;
@@ -100,7 +102,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
     /**
      * Getter
      *
-     * @return Magento_Widget_Model_Widget_Instance
+     * @return \Magento\Widget\Model\Widget\Instance
      */
     public function getWidgetInstance()
     {
@@ -110,11 +112,11 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
     /**
      * Prepare form before rendering HTML
      *
-     * @return Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
+     * @return \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Settings
      */
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id' => 'edit_form',
@@ -137,7 +139,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
             'values'   => $this->getTypesOptionsArray()
         ));
 
-        /** @var $label Magento_Core_Model_Theme_Label */
+        /** @var $label \Magento\Core\Model\Theme\Label */
         $label = $this->_themeLabelFactory->create();
         $options = $label->getLabelsCollection(__('-- Please Select --'));
         $fieldset->addField('theme_id', 'select', array(
@@ -148,7 +150,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
             'values'   => $options
         ));
         $continueButton = $this->getLayout()
-            ->createBlock('Magento_Adminhtml_Block_Widget_Button')
+            ->createBlock('Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
                 'label'     => __('Continue'),
                 'onclick'   => "setSettings('" . $this->getContinueUrl() . "', 'type', 'theme_id')",

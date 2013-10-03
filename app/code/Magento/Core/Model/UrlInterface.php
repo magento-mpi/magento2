@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Core_Model_UrlInterface
+namespace Magento\Core\Model;
+
+interface UrlInterface
 {
     /**
      * Default controller name
@@ -31,7 +33,7 @@ interface Magento_Core_Model_UrlInterface
      * Initialize object data from retrieved url
      *
      * @param   string $url
-     * @return  Magento_Core_Model_UrlInterface
+     * @return  \Magento\Core\Model\UrlInterface
      */
     public function parseUrl($url);
 
@@ -46,7 +48,7 @@ interface Magento_Core_Model_UrlInterface
      * Set use_url_cache flag
      *
      * @param boolean $flag
-     * @return Magento_Core_Model_UrlInterface
+     * @return \Magento\Core\Model\UrlInterface
      */
     public function setUseUrlCache($flag);
 
@@ -54,7 +56,7 @@ interface Magento_Core_Model_UrlInterface
      * Set use session rule
      *
      * @param bool $useSession
-     * @return Magento_Core_Model_UrlInterface
+     * @return \Magento\Core\Model\UrlInterface
      */
     public function setUseSession($useSession);
 
@@ -62,7 +64,7 @@ interface Magento_Core_Model_UrlInterface
      * Set route front name
      *
      * @param string $name
-     * @return Magento_Core_Model_UrlInterface
+     * @return \Magento\Core\Model\UrlInterface
      */
     public function setRouteFrontName($name);
 
@@ -92,15 +94,15 @@ interface Magento_Core_Model_UrlInterface
     /**
      * Set request
      *
-     * @param Zend_Controller_Request_Http $request
-     * @return Magento_Core_Model_UrlInterface
+     * @param \Zend_Controller_Request_Http $request
+     * @return \Magento\Core\Model\UrlInterface
      */
-    public function setRequest(Zend_Controller_Request_Http $request);
+    public function setRequest(\Zend_Controller_Request_Http $request);
 
     /**
      * Zend request object
      *
-     * @return Magento_Core_Controller_Request_Http
+     * @return \Magento\Core\Controller\Request\Http
      */
     public function getRequest();
 
@@ -122,14 +124,14 @@ interface Magento_Core_Model_UrlInterface
      * Set store entity
      *
      * @param mixed $params
-     * @return Magento_Core_Model_UrlInterface
+     * @return \Magento\Core\Model\UrlInterface
      */
     public function setStore($params);
 
     /**
      * Get current store for the url instance
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getStore();
 
@@ -145,7 +147,7 @@ interface Magento_Core_Model_UrlInterface
      * Set Route Parameters
      *
      * @param array $data
-     * @return Magento_Core_Model_UrlInterface
+     * @return \Magento\Core\Model\UrlInterface
      */
     public function setRoutePath($data);
 
@@ -168,7 +170,7 @@ interface Magento_Core_Model_UrlInterface
      * Set route name
      *
      * @param string $data
-     * @return Magento_Core_Model_UrlInterface
+     * @return \Magento\Core\Model\UrlInterface
      */
     public function setRouteName($data);
 
@@ -193,7 +195,7 @@ interface Magento_Core_Model_UrlInterface
      * Reset action name and route path if has change
      *
      * @param string $data
-     * @return Magento_Core_Model_UrlInterface
+     * @return \Magento\Core\Model\UrlInterface
      */
     public function setControllerName($data);
 
@@ -210,7 +212,7 @@ interface Magento_Core_Model_UrlInterface
      * Reseted route path if action name has change
      *
      * @param string $data
-     * @return Magento_Core_Model_UrlInterface
+     * @return \Magento\Core\Model\UrlInterface
      */
     public function setActionName($data);
 
@@ -227,7 +229,7 @@ interface Magento_Core_Model_UrlInterface
      *
      * @param array $data
      * @param boolean $unsetOldParams
-     * @return Magento_Core_Model_UrlInterface
+     * @return \Magento\Core\Model\UrlInterface
      */
     public function setRouteParams(array $data, $unsetOldParams = true);
 
@@ -243,7 +245,7 @@ interface Magento_Core_Model_UrlInterface
      *
      * @param string $key
      * @param mixed $data
-     * @return Magento_Core_Model_UrlInterface
+     * @return \Magento\Core\Model\UrlInterface
      */
     public function setRouteParam($key, $data);
 
@@ -267,14 +269,14 @@ interface Magento_Core_Model_UrlInterface
     /**
      * If the host was switched but session cookie won't recognize it - add session id to query
      *
-     * @return Magento_Core_Model_UrlInterface
+     * @return \Magento\Core\Model\UrlInterface
      */
     public function checkCookieDomains();
 
     /**
      * Add session param
      *
-     * @return Magento_Core_Model_UrlInterface
+     * @return \Magento\Core\Model\UrlInterface
      */
     public function addSessionParam();
 
@@ -282,7 +284,7 @@ interface Magento_Core_Model_UrlInterface
      * Set URL query param(s)
      *
      * @param mixed $data
-     * @return Magento_Core_Model_UrlInterface
+     * @return \Magento\Core\Model\UrlInterface
      */
     public function setQuery($data);
 
@@ -298,14 +300,14 @@ interface Magento_Core_Model_UrlInterface
      * Set query Params as array
      *
      * @param array $data
-     * @return Magento_Core_Model_UrlInterface
+     * @return \Magento\Core\Model\UrlInterface
      */
     public function setQueryParams(array $data);
 
     /**
      * Purge Query params array
      *
-     * @return Magento_Core_Model_UrlInterface
+     * @return \Magento\Core\Model\UrlInterface
      */
     public function purgeQueryParams();
 
@@ -321,7 +323,7 @@ interface Magento_Core_Model_UrlInterface
      *
      * @param string $key
      * @param mixed $data
-     * @return Magento_Core_Model_UrlInterface
+     * @return \Magento\Core\Model\UrlInterface
      */
     public function setQueryParam($key, $data);
 
@@ -337,7 +339,7 @@ interface Magento_Core_Model_UrlInterface
      * Set fragment to URL
      *
      * @param string $data
-     * @return Magento_Core_Model_UrlInterface
+     * @return \Magento\Core\Model\UrlInterface
      */
     public function setFragment($data);
 

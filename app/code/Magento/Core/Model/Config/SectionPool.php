@@ -5,22 +5,24 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Model_Config_SectionPool
+namespace Magento\Core\Model\Config;
+
+class SectionPool
 {
     const CACHE_TAG = 'config_sections';
 
     /**
-     * @var Magento_Core_Model_Config_Section_ReaderPool
+     * @var \Magento\Core\Model\Config\Section\ReaderPool
      */
     protected $_readerPool;
 
     /**
-     * @var Magento_Core_Model_Config_DataFactory
+     * @var \Magento\Core\Model\Config\DataFactory
      */
     protected $_dataFactory;
 
     /**
-     * @var Magento_Cache_FrontendInterface
+     * @var \Magento\Cache\FrontendInterface
      */
     protected $_cache;
 
@@ -30,20 +32,20 @@ class Magento_Core_Model_Config_SectionPool
     protected $_cacheId;
 
     /**
-     * @var Magento_Core_Model_Config_Data[]
+     * @var \Magento\Core\Model\Config\Data[]
      */
     protected $_sections = array();
 
     /**
-     * @param Magento_Core_Model_Config_Section_ReaderPool $readerList
-     * @param Magento_Core_Model_Config_DataFactory $dataFactory
-     * @param Magento_Cache_FrontendInterface $cache
+     * @param \Magento\Core\Model\Config\Section\ReaderPool $readerList
+     * @param \Magento\Core\Model\Config\DataFactory $dataFactory
+     * @param \Magento\Cache\FrontendInterface $cache
      * @param string $cacheId
      */
     public function __construct(
-        Magento_Core_Model_Config_Section_ReaderPool $readerList,
-        Magento_Core_Model_Config_DataFactory $dataFactory,
-        Magento_Cache_FrontendInterface $cache,
+        \Magento\Core\Model\Config\Section\ReaderPool $readerList,
+        \Magento\Core\Model\Config\DataFactory $dataFactory,
+        \Magento\Cache\FrontendInterface $cache,
         $cacheId = 'default_config_cache'
     ) {
         $this->_readerPool = $readerList;
@@ -57,7 +59,7 @@ class Magento_Core_Model_Config_SectionPool
      *
      * @param string $scopeType
      * @param string $scopeCode
-     * @return Magento_Core_Model_Config_Data
+     * @return \Magento\Core\Model\Config\Data
      */
     public function getSection($scopeType, $scopeCode = null)
     {
@@ -87,6 +89,6 @@ class Magento_Core_Model_Config_SectionPool
     public function clean()
     {
         $this->_sections = array();
-        $this->_cache->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array(self::CACHE_TAG));
+        $this->_cache->clean(\Zend_Cache::CLEANING_MODE_MATCHING_TAG, array(self::CACHE_TAG));
     }
 } 

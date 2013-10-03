@@ -16,8 +16,10 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Options_Type_Radio
-    extends Magento_Bundle_Block_Catalog_Product_View_Type_Bundle_Option_Radio
+namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Composite\Fieldset\Options\Type;
+
+class Radio
+    extends \Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Radio
 {
     protected $_template = 'product/composite/fieldset/options/type/radio.phtml';
 

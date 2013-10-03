@@ -5,21 +5,23 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-interface Magento_ObjectManager_Config
+namespace Magento\ObjectManager;
+
+interface Config
 {
     /**
      * Set class relations
      *
-     * @param Magento_ObjectManager_Relations $relations
+     * @param \Magento\ObjectManager\Relations $relations
      */
-    public function setRelations(Magento_ObjectManager_Relations $relations);
+    public function setRelations(\Magento\ObjectManager\Relations $relations);
 
     /**
      * Set configuration cache instance
      *
-     * @param Magento_ObjectManager_ConfigCache $cache
+     * @param \Magento\ObjectManager\ConfigCache $cache
      */
-    public function setCache(Magento_ObjectManager_ConfigCache $cache);
+    public function setCache(\Magento\ObjectManager\ConfigCache $cache);
 
     /**
      * Retrieve list of arguments per type
@@ -51,7 +53,7 @@ interface Magento_ObjectManager_Config
      *
      * @param string $type
      * @return string
-     * @throws LogicException
+     * @throws \LogicException
      */
     public function getPreference($type);
 

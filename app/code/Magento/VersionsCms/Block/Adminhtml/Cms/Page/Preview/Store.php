@@ -16,7 +16,9 @@
  * @package    Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Preview_Store extends Magento_Backend_Block_Store_Switcher
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Preview;
+
+class Store extends \Magento\Backend\Block\Store\Switcher
 {
     /**
      * Retrieve id of currently selected store

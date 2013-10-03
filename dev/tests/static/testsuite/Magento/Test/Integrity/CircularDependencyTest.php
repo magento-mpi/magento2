@@ -10,7 +10,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_CircularDependencyTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity;
+
+class CircularDependencyTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Modules dependencies map
@@ -34,7 +36,7 @@ class Magento_Test_Integrity_CircularDependencyTest extends PHPUnit_Framework_Te
         if (!empty($this->_moduleDependencies)) {
             return true;
         }
-        $configFiles = Magento_TestFramework_Utility_Files::init()->getConfigFiles('module.xml', array(), false);
+        $configFiles = \Magento\TestFramework\Utility\Files::init()->getConfigFiles('module.xml', array(), false);
 
         foreach ($configFiles as $configFile) {
             preg_match('#/([^/]+?/[^/]+?)/etc/module\.xml$#', $configFile, $moduleName);
@@ -42,12 +44,12 @@ class Magento_Test_Integrity_CircularDependencyTest extends PHPUnit_Framework_Te
             $config = simplexml_load_file($configFile);
             $result = $config->xpath("/config/module/depends/module") ?: array();
             while (list( , $node) = each($result)) {
-                /** @var SimpleXMLElement $node */
+                /** @var \SimpleXMLElement $node */
                 $this->_moduleDependencies[$moduleName][] = (string)$node['name'];
             }
         }
 
-        $graph = new Magento_Data_Graph(array_keys($this->_moduleDependencies), array());
+        $graph = new \Magento\Data\Graph(array_keys($this->_moduleDependencies), array());
 
         foreach (array_keys($this->_moduleDependencies) as $module) {
             $this->_expandDependencies($module, $graph);
@@ -63,10 +65,10 @@ class Magento_Test_Integrity_CircularDependencyTest extends PHPUnit_Framework_Te
      * Expand modules dependencies from modules chain
      *
      * @param string $module
-     * @param Magento_Data_Graph $graph
+     * @param \Magento\Data\Graph $graph
      * @param string $path nesting path
      */
-    protected function _expandDependencies($module, Magento_Data_Graph $graph, $path = '')
+    protected function _expandDependencies($module, \Magento\Data\Graph $graph, $path = '')
     {
         if (empty($this->_moduleDependencies[$module])) {
             return;

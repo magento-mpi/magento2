@@ -16,24 +16,26 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Category_Attribute_Source_Page
-    extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
+namespace Magento\Catalog\Model\Resource\Category\Attribute\Source;
+
+class Page
+    extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**
      * Block collection factory
      *
-     * @var Magento_Cms_Model_Resource_Block_CollectionFactory
+     * @var \Magento\Cms\Model\Resource\Block\CollectionFactory
      */
     protected $_blockCollectionFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Cms_Model_Resource_Block_CollectionFactory
+     * @param \Magento\Cms\Model\Resource\Block\CollectionFactory
      * $blockCollectionFactory
      */
     public function __construct(
-        Magento_Cms_Model_Resource_Block_CollectionFactory $blockCollectionFactory
+        \Magento\Cms\Model\Resource\Block\CollectionFactory $blockCollectionFactory
     ) {
         $this->_blockCollectionFactory = $blockCollectionFactory;
     }

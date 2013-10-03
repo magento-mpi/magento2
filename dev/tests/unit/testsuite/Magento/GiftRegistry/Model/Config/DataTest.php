@@ -8,36 +8,38 @@
  * @license     {license_link}
  */
 
-class Magento_GiftRegistry_Model_Config_DataTest extends PHPUnit_Framework_TestCase
+namespace Magento\GiftRegistry\Model\Config;
+
+class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_GiftRegistry_Model_Config_Data
+     * @var \Magento\GiftRegistry\Model\Config\Data
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_readerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configScopeMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cacheMock;
 
     protected function setUp()
     {
-        $this->_readerMock = $this->getMock('Magento_GiftRegistry_Model_Config_Reader', array(), array(), '', false);
-        $this->_configScopeMock = $this->getMock('Magento_Core_Model_Config_Scope');
-        $this->_cacheMock = $this->getMockBuilder('Magento_Core_Model_Cache_Type_Config')
+        $this->_readerMock = $this->getMock('Magento\GiftRegistry\Model\Config\Reader', array(), array(), '', false);
+        $this->_configScopeMock = $this->getMock('Magento\Core\Model\Config\Scope');
+        $this->_cacheMock = $this->getMockBuilder('Magento\Core\Model\Cache\Type\Config')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_model = new Magento_GiftRegistry_Model_Config_Data(
+        $this->_model = new \Magento\GiftRegistry\Model\Config\Data(
             $this->_readerMock,
             $this->_configScopeMock,
             $this->_cacheMock

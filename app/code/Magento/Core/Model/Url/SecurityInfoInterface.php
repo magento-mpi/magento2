@@ -7,7 +7,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-interface Magento_Core_Model_Url_SecurityInfoInterface
+namespace Magento\Core\Model\Url;
+
+interface SecurityInfoInterface
 {
     /**
      * Check whether url is secure

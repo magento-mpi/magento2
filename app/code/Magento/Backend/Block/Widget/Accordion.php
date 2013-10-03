@@ -15,7 +15,9 @@
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Block_Widget_Accordion extends Magento_Backend_Block_Widget
+namespace Magento\Backend\Block\Widget;
+
+class Accordion extends \Magento\Backend\Block\Widget
 {
     protected $_items = array();
 
@@ -33,13 +35,13 @@ class Magento_Backend_Block_Widget_Accordion extends Magento_Backend_Block_Widge
     {
         $this->_items[$itemId] = $this->getLayout()
             ->createBlock(
-                'Magento_Backend_Block_Widget_Accordion_Item',
+                'Magento\Backend\Block\Widget\Accordion\Item',
                 $this->getNameInLayout() . '-' . $itemId
             )
             ->setData($config)
             ->setAccordion($this)
             ->setId($itemId);
-        if (isset($config['content']) && $config['content'] instanceof Magento_Core_Block_Abstract) {
+        if (isset($config['content']) && $config['content'] instanceof \Magento\Core\Block\AbstractBlock) {
             $this->_items[$itemId]->setChild($itemId.'_content', $config['content']);
         }
             

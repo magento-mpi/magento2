@@ -9,45 +9,47 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Block_System_Config_EditTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Block\System\Config;
+
+class EditTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Block_System_Config_Edit
+     * @var \Magento\Backend\Block\System\Config\Edit
      */
     protected $_object;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_systemConfigMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_requestMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_layoutMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_urlModelMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_sectionMock;
 
     protected function setUp()
     {
-        $this->_systemConfigMock = $this->getMock('Magento_Backend_Model_Config_Structure',
+        $this->_systemConfigMock = $this->getMock('Magento\Backend\Model\Config\Structure',
             array(), array(), '', false, false
         );
 
-        $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http',
+        $this->_requestMock = $this->getMock('Magento\Core\Controller\Request\Http',
             array(), array(), '', false, false
         );
         $this->_requestMock->expects($this->any())
@@ -55,14 +57,14 @@ class Magento_Backend_Block_System_Config_EditTest extends PHPUnit_Framework_Tes
             ->with('section')
             ->will($this->returnValue('test_section'));
 
-        $this->_layoutMock = $this->getMock('Magento_Core_Model_Layout',
+        $this->_layoutMock = $this->getMock('Magento\Core\Model\Layout',
             array(), array(), '', false, false
         );
 
-        $this->_urlModelMock = $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false, false);
+        $this->_urlModelMock = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false, false);
 
         $this->_sectionMock = $this->getMock(
-            'Magento_Backend_Model_Config_Structure_Element_Section', array(), array(), '', false
+            'Magento\Backend\Model\Config\Structure\Element\Section', array(), array(), '', false
         );
         $this->_systemConfigMock->expects($this->any())
             ->method('getElement')
@@ -79,8 +81,8 @@ class Magento_Backend_Block_System_Config_EditTest extends PHPUnit_Framework_Tes
             'configStructure' => $this->_systemConfigMock
         );
 
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_object = $helper->getObject('Magento_Backend_Block_System_Config_Edit', $data);
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_object = $helper->getObject('Magento\Backend\Block\System\Config\Edit', $data);
     }
 
     public function testGetSaveButtonHtml()

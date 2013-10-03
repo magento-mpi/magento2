@@ -12,24 +12,26 @@
 /**
  * Eav attribute set model
  *
- * @method Magento_Eav_Model_Resource_Entity_Attribute_Set getResource()
+ * @method \Magento\Eav\Model\Resource\Entity\Attribute\Set getResource()
  * @method int getEntityTypeId()
- * @method Magento_Eav_Model_Entity_Attribute_Set setEntityTypeId(int $value)
+ * @method \Magento\Eav\Model\Entity\Attribute\Set setEntityTypeId(int $value)
  * @method string getAttributeSetName()
- * @method Magento_Eav_Model_Entity_Attribute_Set setAttributeSetName(string $value)
+ * @method \Magento\Eav\Model\Entity\Attribute\Set setAttributeSetName(string $value)
  * @method int getSortOrder()
- * @method Magento_Eav_Model_Entity_Attribute_Set setSortOrder(int $value)
+ * @method \Magento\Eav\Model\Entity\Attribute\Set setSortOrder(int $value)
  *
  * @category    Magento
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Entity_Attribute_Set extends Magento_Core_Model_Abstract
+namespace Magento\Eav\Model\Entity\Attribute;
+
+class Set extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Resource instance
      *
-     * @var Magento_Eav_Model_Resource_Entity_Attribute_Set
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Set
      */
     protected $_resource;
 
@@ -40,45 +42,45 @@ class Magento_Eav_Model_Entity_Attribute_Set extends Magento_Core_Model_Abstract
     protected $_eventPrefix = 'eav_entity_attribute_set';
 
     /**
-     * @var Magento_Eav_Model_Config
+     * @var \Magento\Eav\Model\Config
      */
     protected $_eavConfig;
 
     /**
-     * @var Magento_Eav_Model_Entity_Attribute_GroupFactory
+     * @var \Magento\Eav\Model\Entity\Attribute\GroupFactory
      */
     protected $_attrGroupFactory;
 
     /**
-     * @var Magento_Eav_Model_Entity_AttributeFactory
+     * @var \Magento\Eav\Model\Entity\AttributeFactory
      */
     protected $_attributeFactory;
 
     /**
-     * @var Magento_Eav_Model_Resource_Entity_Attribute
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute
      */
     protected $_resourceAttribute;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Eav_Model_Entity_Attribute_GroupFactory $attrGroupFactory
-     * @param Magento_Eav_Model_Entity_AttributeFactory $attributeFactory
-     * @param Magento_Eav_Model_Resource_Entity_Attribute $resourceAttribute
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Eav\Model\Entity\Attribute\GroupFactory $attrGroupFactory
+     * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute $resourceAttribute
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Eav_Model_Entity_Attribute_GroupFactory $attrGroupFactory,
-        Magento_Eav_Model_Entity_AttributeFactory $attributeFactory,
-        Magento_Eav_Model_Resource_Entity_Attribute $resourceAttribute,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Eav\Model\Entity\Attribute\GroupFactory $attrGroupFactory,
+        \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
+        \Magento\Eav\Model\Resource\Entity\Attribute $resourceAttribute,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -94,14 +96,14 @@ class Magento_Eav_Model_Entity_Attribute_Set extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Eav_Model_Resource_Entity_Attribute_Set');
+        $this->_init('Magento\Eav\Model\Resource\Entity\Attribute\Set');
     }
 
     /**
      * Init attribute set from skeleton (another attribute set)
      *
      * @param int $skeletonId
-     * @return Magento_Eav_Model_Entity_Attribute_Set
+     * @return \Magento\Eav\Model\Entity\Attribute\Set
      */
     public function initFromSkeleton($skeletonId)
     {
@@ -144,7 +146,7 @@ class Magento_Eav_Model_Entity_Attribute_Set extends Magento_Core_Model_Abstract
      * Collect data for save
      *
      * @param array $data
-     * @return Magento_Eav_Model_Entity_Attribute_Set
+     * @return \Magento\Eav\Model\Entity\Attribute\Set
      */
     public function organizeData($data)
     {
@@ -218,19 +220,19 @@ class Magento_Eav_Model_Entity_Attribute_Set extends Magento_Core_Model_Abstract
      * Validate attribute set name
      *
      * @return bool
-     * @throws Magento_Eav_Exception
+     * @throws \Magento\Eav\Exception
      */
     public function validate()
     {
         $attributeSetName = $this->getAttributeSetName();
         if ($attributeSetName == '') {
-            throw new Magento_Eav_Exception(
+            throw new \Magento\Eav\Exception(
                 __('Attribute set name is empty.')
             );
         }
 
         if (!$this->_getResource()->validate($this, $attributeSetName)) {
-            throw new Magento_Eav_Exception(
+            throw new \Magento\Eav\Exception(
                 __('An attribute set with the "%1" name already exists.', $attributeSetName)
             );
         }
@@ -241,10 +243,10 @@ class Magento_Eav_Model_Entity_Attribute_Set extends Magento_Core_Model_Abstract
     /**
      * Add set info to attributes
      *
-     * @param string|Magento_Eav_Model_Entity_Type $entityType
+     * @param string|\Magento\Eav\Model\Entity\Type $entityType
      * @param array $attributes
      * @param int $setId
-     * @return Magento_Eav_Model_Entity_Attribute_Set
+     * @return \Magento\Eav\Model\Entity\Attribute\Set
      */
     public function addSetInfo($entityType, array $attributes, $setId = null)
     {
@@ -313,7 +315,7 @@ class Magento_Eav_Model_Entity_Attribute_Set extends Magento_Core_Model_Abstract
     /**
      * Get resource instance
      *
-     * @return Magento_Core_Model_Resource_Db_Abstract
+     * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _getResource()
     {

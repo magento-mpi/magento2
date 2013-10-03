@@ -6,41 +6,43 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Page_Asset_MergeStrategy_DirectTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Page\Asset\MergeStrategy;
+
+class DirectTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Page_Asset_MergeStrategy_Direct
+     * @var \Magento\Core\Model\Page\Asset\MergeStrategy\Direct
      */
     protected $_object;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_filesystem;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_dirs;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cssHelper;
 
     protected function setUp()
     {
-        $this->_cssHelper = $this->getMock('Magento_Core_Helper_Css', array(), array(), '', false);
-        $this->_filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
-        $this->_dirs = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false);
+        $this->_cssHelper = $this->getMock('Magento\Core\Helper\Css', array(), array(), '', false);
+        $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
+        $this->_dirs = $this->getMock('Magento\Core\Model\Dir', array(), array(), '', false);
 
-        $this->_object = new Magento_Core_Model_Page_Asset_MergeStrategy_Direct(
+        $this->_object = new \Magento\Core\Model\Page\Asset\MergeStrategy\Direct(
             $this->_filesystem, $this->_dirs, $this->_cssHelper
         );
     }
 
     /**
-     * @expectedException Magento_Exception
+     * @expectedException \Magento\Exception
      * @expectedExceptionMessage Unable to locate file 'no_file.js' for merging.
      */
     public function testMergeFilesNoFilesException()

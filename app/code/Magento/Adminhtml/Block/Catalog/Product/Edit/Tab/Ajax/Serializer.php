@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Ajax_Serializer extends Magento_Core_Block_Template
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Ajax;
+
+class Serializer extends \Magento\Core\Block\Template
 {
     public function _construct()
     {
@@ -26,6 +28,6 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Ajax_Serializer extends M
                 $result[$id] = $product->toArray(array('qty', 'position'));
             }
         }
-        return $result ? Zend_Json::encode($result) : '{}';
+        return $result ? \Zend_Json::encode($result) : '{}';
     }
 }

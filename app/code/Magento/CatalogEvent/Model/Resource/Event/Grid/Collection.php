@@ -16,13 +16,15 @@
  * @package     Magento_CatalogEvent
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogEvent_Model_Resource_Event_Grid_Collection
-    extends Magento_CatalogEvent_Model_Resource_Event_Collection
+namespace Magento\CatalogEvent\Model\Resource\Event\Grid;
+
+class Collection
+    extends \Magento\CatalogEvent\Model\Resource\Event\Collection
 {
     /**
      * Add category data to collection select (name, position)
      *
-     * @return Magento_CatalogEvent_Model_Resource_Event_Collection|Magento_CatalogEvent_Model_Resource_Event_Grid_Collection
+     * @return \Magento\CatalogEvent\Model\Resource\Event\Collection|\Magento\CatalogEvent\Model\Resource\Event\Grid\Collection
      */
     protected function _initSelect()
     {

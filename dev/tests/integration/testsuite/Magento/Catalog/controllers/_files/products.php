@@ -10,23 +10,24 @@
  */
 
 // Copy images to tmp media path
-/** @var Magento_Catalog_Model_Product_Media_Config $config */
-$config = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Catalog_Model_Product_Media_Config');
+/** @var \Magento\Catalog\Model\Product\Media\Config $config */
+$config = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->get('Magento\Catalog\Model\Product\Media\Config');
 $baseTmpMediaPath = $config->getBaseTmpMediaPath();
 
-/** @var Magento_Filesystem $filesystem */
-$filesystem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Filesystem');
+/** @var \Magento\Filesystem $filesystem */
+$filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Filesystem');
 $filesystem->setIsAllowCreateDirectories(true);
 $filesystem->copy(__DIR__ . '/product_image.png', $baseTmpMediaPath . '/product_image.png');
 
-/** @var $productOne Magento_Catalog_Model_Product */
-$productOne = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Catalog_Model_Product');
+/** @var $productOne \Magento\Catalog\Model\Product */
+$productOne = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Product');
 $productOne->setId(1)
-    ->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
+    ->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setAttributeSetId(4)
     ->setWebsiteIds(array(
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
             ->getStore()->getWebsiteId()
     ))
     ->setSku('simple_product_1')
@@ -46,21 +47,21 @@ $productOne->setId(1)
     ->setMetaKeyword('Simple Product 1 Meta Keyword')
     ->setMetaDescription('Simple Product 1 Meta Description')
 
-    ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
-    ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
+    ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
+    ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
 
     ->addImageToMediaGallery($baseTmpMediaPath . '/product_image.png', null, false, false)
 
     ->save();
 
-/** @var $productTwo Magento_Catalog_Model_Product */
-$productTwo = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Catalog_Model_Product');
+/** @var $productTwo \Magento\Catalog\Model\Product */
+$productTwo = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Product');
 $productTwo->setId(2)
-    ->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
+    ->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setAttributeSetId(4)
     ->setWebsiteIds(array(
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
             ->getStore()->getWebsiteId()
     ))
     ->setSku('simple_product_2')
@@ -76,7 +77,7 @@ $productTwo->setId(2)
         'is_in_stock'               => 1,
     ))
 
-    ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
-    ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
+    ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
+    ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
 
     ->save();

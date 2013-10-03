@@ -11,16 +11,18 @@
 /**
  * Adminhtml grid product price column custom renderer for last ordered items
  */
-class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Grid_Renderer_Ordered_Price
-    extends Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Price
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Grid\Renderer\Ordered;
+
+class Price
+    extends \Magento\Adminhtml\Block\Sales\Order\Create\Search\Grid\Renderer\Price
 {
     /**
      * Render price for last ordered item
      *
-     * @param   Magento_Object $row
+     * @param   \Magento\Object $row
      * @return  string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         // Show base price of product - the real price will be shown when user will configure product (if needed)
         $priceInitial = $row->getProduct()->getPrice() * 1;

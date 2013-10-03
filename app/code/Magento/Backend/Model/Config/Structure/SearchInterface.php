@@ -7,13 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Backend_Model_Config_Structure_SearchInterface
+namespace Magento\Backend\Model\Config\Structure;
+
+interface SearchInterface
 {
     /**
      * Find element by path
      *
      * @param string $path
-     * @return Magento_Backend_Model_Config_Structure_ElementInterface|null
+     * @return \Magento\Backend\Model\Config\Structure\ElementInterface|null
      */
     public function getElement($path);
 }

@@ -15,19 +15,21 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Block_Form_Login extends Magento_Core_Block_Template
+namespace Magento\Customer\Block\Form;
+
+class Login extends \Magento\Core\Block\Template
 {
     private $_username = -1;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Customer_Model_Session $customerSession,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
@@ -47,7 +49,7 @@ class Magento_Customer_Block_Form_Login extends Magento_Core_Block_Template
      */
     public function getPostActionUrl()
     {
-        return $this->helper('Magento_Customer_Helper_Data')->getLoginPostUrl();
+        return $this->helper('Magento\Customer\Helper\Data')->getLoginPostUrl();
     }
 
     /**
@@ -59,7 +61,7 @@ class Magento_Customer_Block_Form_Login extends Magento_Core_Block_Template
     {
         $url = $this->getData('create_account_url');
         if (is_null($url)) {
-            $url = $this->helper('Magento_Customer_Helper_Data')->getRegisterUrl();
+            $url = $this->helper('Magento\Customer\Helper\Data')->getRegisterUrl();
         }
         return $url;
     }
@@ -71,7 +73,7 @@ class Magento_Customer_Block_Form_Login extends Magento_Core_Block_Template
      */
     public function getForgotPasswordUrl()
     {
-        return $this->helper('Magento_Customer_Helper_Data')->getForgotPasswordUrl();
+        return $this->helper('Magento\Customer\Helper\Data')->getForgotPasswordUrl();
     }
 
     /**

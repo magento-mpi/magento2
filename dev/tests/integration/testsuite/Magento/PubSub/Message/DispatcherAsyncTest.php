@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_PubSub_Message_DispatcherAsync
+ * \Magento\PubSub\Message\DispatcherAsync
  *
  * {license_notice}
  *
@@ -8,14 +8,15 @@
  * @license     {license_link}
  */
 
+namespace Magento\PubSub\Message;
 
 /**
  * @magentoDbIsolation enabled
  */
-class Magento_PubSub_Message_DispatcherAsyncTest extends PHPUnit_Framework_TestCase
+class DispatcherAsyncTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_PubSub_Message_DispatcherAsync
+     * @var \Magento\PubSub\Message\DispatcherAsync
      */
     protected $_model;
 
@@ -24,19 +25,19 @@ class Magento_PubSub_Message_DispatcherAsyncTest extends PHPUnit_Framework_TestC
      */
     protected function setUp()
     {
-        /** @var Magento_Webhook_Model_Resource_Event_Collection $eventCollection */
-        $eventCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_Resource_Event_Collection');
+        /** @var \Magento\Webhook\Model\Resource\Event\Collection $eventCollection */
+        $eventCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Resource\Event\Collection');
         /** @var array $event */
         $events = $eventCollection->getItems();
-        /** @var Magento_Webhook_Model_Event $event */
+        /** @var \Magento\Webhook\Model\Event $event */
         foreach ($events as $event) {
             $event->complete();
             $event->save();
         }
 
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_PubSub_Message_DispatcherAsync');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\PubSub\Message\DispatcherAsync');
     }
 
     /**
@@ -52,8 +53,8 @@ class Magento_PubSub_Message_DispatcherAsyncTest extends PHPUnit_Framework_TestC
 
         $this->_model->dispatch($topic, $data);
 
-        $queue = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_PubSub_Event_QueueReaderInterface');
+        $queue = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\PubSub\Event\QueueReaderInterface');
         $event = $queue->poll();
 
         $this->assertEquals($topic, $event->getTopic());

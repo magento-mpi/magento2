@@ -9,7 +9,9 @@
 /**
  * Service model responsible for configuration of minified asset
  */
-class Magento_Core_Model_Page_Asset_MinifyService
+namespace Magento\Core\Model\Page\Asset;
+
+class MinifyService
 {
     /**#@+
      * XPaths to minification configuration
@@ -19,12 +21,12 @@ class Magento_Core_Model_Page_Asset_MinifyService
     /**#@-*/
 
     /**
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_storeConfig;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -34,31 +36,31 @@ class Magento_Core_Model_Page_Asset_MinifyService
     protected $_enabled = array();
 
     /**
-     * @var Magento_Code_Minifier[]
+     * @var \Magento\Code\Minifier[]
      */
     protected $_minifiers = array();
 
     /**
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_dirs;
 
     /**
-     * @var Magento_Core_Model_App_State
+     * @var \Magento\Core\Model\App\State
      */
     protected $_appState;
 
     /**
-     * @param Magento_Core_Model_Store_Config $config
-     * @param Magento_ObjectManager $objectManager
-     * @param Magento_Core_Model_Dir $dirs
-     * @param Magento_Core_Model_App_State $appState
+     * @param \Magento\Core\Model\Store\Config $config
+     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Core\Model\Dir $dirs
+     * @param \Magento\Core\Model\App\State $appState
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $config,
-        Magento_ObjectManager $objectManager,
-        Magento_Core_Model_Dir $dirs,
-        Magento_Core_Model_App_State $appState
+        \Magento\Core\Model\Store\Config $config,
+        \Magento\ObjectManager $objectManager,
+        \Magento\Core\Model\Dir $dirs,
+        \Magento\Core\Model\App\State $appState
     ) {
         $this->_storeConfig = $config;
         $this->_objectManager = $objectManager;
@@ -76,12 +78,12 @@ class Magento_Core_Model_Page_Asset_MinifyService
     public function getAssets($assets)
     {
         $resultAssets = array();
-        /** @var $asset Magento_Core_Model_Page_Asset_AssetInterface */
+        /** @var $asset \Magento\Core\Model\Page\Asset\AssetInterface */
         foreach ($assets as $asset) {
             $contentType = $asset->getContentType();
             if ($this->_isEnabled($contentType)) {
                 $asset = $this->_objectManager
-                    ->create('Magento_Core_Model_Page_Asset_Minified', array(
+                    ->create('Magento\Core\Model\Page\Asset\Minified', array(
                         'asset' => $asset,
                         'minifier' => $this->_getMinifier($contentType)
                     ));
@@ -95,7 +97,7 @@ class Magento_Core_Model_Page_Asset_MinifyService
      * Get minifier object configured with specified content type
      *
      * @param string $contentType
-     * @return Magento_Code_Minifier
+     * @return \Magento\Code\Minifier
      */
     protected function _getMinifier($contentType)
     {
@@ -105,18 +107,18 @@ class Magento_Core_Model_Page_Asset_MinifyService
                 'adapter' => $adapter,
             );
             switch ($this->_appState->getMode()) {
-                case Magento_Core_Model_App_State::MODE_PRODUCTION:
-                    $strategy = $this->_objectManager->create('Magento_Code_Minifier_Strategy_Lite', $strategyParams);
+                case \Magento\Core\Model\App\State::MODE_PRODUCTION:
+                    $strategy = $this->_objectManager->create('Magento\Code\Minifier\Strategy\Lite', $strategyParams);
                     break;
                 default:
                     $strategy = $this->_objectManager
-                        ->create('Magento_Code_Minifier_Strategy_Generate', $strategyParams);
+                        ->create('Magento\Code\Minifier\Strategy\Generate', $strategyParams);
             }
 
-            $this->_minifiers[$contentType] = $this->_objectManager->create('Magento_Code_Minifier',
+            $this->_minifiers[$contentType] = $this->_objectManager->create('Magento\Code\Minifier',
                 array(
                     'strategy' => $strategy,
-                    'baseDir' => $this->_dirs->getDir(Magento_Core_Model_Dir::PUB_VIEW_CACHE) . '/minify',
+                    'baseDir' => $this->_dirs->getDir(\Magento\Core\Model\Dir::PUB_VIEW_CACHE) . '/minify',
                 )
             );
         }
@@ -144,7 +146,7 @@ class Magento_Core_Model_Page_Asset_MinifyService
      *
      * @param $contentType
      * @return mixed
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     protected function _getAdapter($contentType)
     {
@@ -152,7 +154,7 @@ class Magento_Core_Model_Page_Asset_MinifyService
             sprintf(self::XML_PATH_MINIFICATION_ADAPTER, $contentType)
         );
         if (!$adapterClass) {
-            throw new Magento_Core_Exception(
+            throw new \Magento\Core\Exception(
                 "Minification adapter is not specified for '$contentType' content type"
             );
         }

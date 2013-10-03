@@ -16,7 +16,9 @@
  * @package     Magento_Sendfriend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sendfriend_Model_Resource_Sendfriend extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Sendfriend\Model\Resource;
+
+class Sendfriend extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize connection and table
@@ -30,7 +32,7 @@ class Magento_Sendfriend_Model_Resource_Sendfriend extends Magento_Core_Model_Re
     /**
      * Retrieve Sended Emails By Ip
      *
-     * @param Magento_Sendfriend_Model_Sendfriend $object
+     * @param \Magento\Sendfriend\Model\Sendfriend $object
      * @param int $ip
      * @param int $startTime
      * @param int $websiteId
@@ -40,7 +42,7 @@ class Magento_Sendfriend_Model_Resource_Sendfriend extends Magento_Core_Model_Re
     {
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()
-            ->from($this->getMainTable(), array('count' => new Zend_Db_Expr('count(*)')))
+            ->from($this->getMainTable(), array('count' => new \Zend_Db_Expr('count(*)')))
             ->where('ip=:ip
                 AND  time>=:time
                 AND  website_id=:website_id');
@@ -60,7 +62,7 @@ class Magento_Sendfriend_Model_Resource_Sendfriend extends Magento_Core_Model_Re
      * @param int $ip
      * @param int $startTime
      * @param int $websiteId
-     * @return Magento_Sendfriend_Model_Resource_Sendfriend
+     * @return \Magento\Sendfriend\Model\Resource\Sendfriend
      */
     public function addSendItem($ip, $startTime, $websiteId)
     {
@@ -79,7 +81,7 @@ class Magento_Sendfriend_Model_Resource_Sendfriend extends Magento_Core_Model_Re
      * Delete Old logs
      *
      * @param int $time
-     * @return Magento_Sendfriend_Model_Resource_Sendfriend
+     * @return \Magento\Sendfriend\Model\Resource\Sendfriend
      */
     public function deleteLogsBefore($time)
     {

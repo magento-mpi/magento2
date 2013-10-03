@@ -1,23 +1,25 @@
 <?php
 /**
- * Test for Magento_Core_Model_Resource
+ * Test for \Magento\Core\Model\Resource
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_ResourceTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model;
+
+class ResourceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Resource
+     * @var \Magento\Core\Model\Resource
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Resource');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Resource');
     }
 
     public function testGetTableName()
@@ -26,8 +28,8 @@ class Magento_Core_Model_ResourceTest extends PHPUnit_Framework_TestCase
         $tableSuffix = 'suffix';
         $tableNameOrig = 'core_website';
 
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Resource', array('tablePrefix' => 'prefix_'));
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Resource', array('tablePrefix' => 'prefix_'));
 
         $tableName = $this->_model->getTableName(array($tableNameOrig, $tableSuffix));
         $this->assertContains($tablePrefix, $tableName);
@@ -40,15 +42,15 @@ class Magento_Core_Model_ResourceTest extends PHPUnit_Framework_TestCase
      */
     public function testProfilerInit()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        /** @var Zend_Db_Adapter_Abstract $connection */
+        /** @var \Zend_Db_Adapter_Abstract $connection */
         $connection = $objectManager->create(
-            'Magento_TestFramework_Db_Adapter_Mysql',
+            'Magento\TestFramework\Db\Adapter\Mysql',
             array(
                 'config' => array(
                     'profiler' => array(
-                        'class' => 'Magento_Core_Model_Resource_Db_Profiler',
+                        'class' => 'Magento\Core\Model\Resource\Db\Profiler',
                         'enabled' => 'true'
                     ),
                     'username' => 'username',
@@ -60,10 +62,10 @@ class Magento_Core_Model_ResourceTest extends PHPUnit_Framework_TestCase
             )
         );
 
-        /** @var Magento_Core_Model_Resource_Db_Profiler $profiler */
+        /** @var \Magento\Core\Model\Resource\Db\Profiler $profiler */
         $profiler = $connection->getProfiler();
 
-        $this->assertInstanceOf('Magento_Core_Model_Resource_Db_Profiler', $profiler);
+        $this->assertInstanceOf('Magento\Core\Model\Resource\Db\Profiler', $profiler);
         $this->assertTrue($profiler->getEnabled());
     }
 }

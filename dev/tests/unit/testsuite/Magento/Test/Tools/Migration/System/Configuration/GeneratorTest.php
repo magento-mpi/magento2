@@ -8,62 +8,63 @@
  * @license    {license_link}
  */
 
+namespace Magento\Test\Tools\Migration\System\Configuration;
+
 require_once realpath(__DIR__ . '/../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/Generator.php';
 require_once realpath(__DIR__ . '/../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/FileManager.php';
 require_once realpath(__DIR__ . '/../../../../../../../../../')
-    . '/tools/Magento/Tools/Migration/System/Configuration/LoggerAbstract.php';
+    . '/tools/Magento/Tools/Migration/System/Configuration/AbstractLogger.php';
 require_once realpath(__DIR__ . '/../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/Formatter.php';
 
-
-class Magento_Test_Tools_Migration_System_Configuration_GeneratorTest extends PHPUnit_Framework_TestCase
+class GeneratorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Tools_Migration_System_Configuration_Generator
+     * @var \Magento\Tools\Migration\System\Configuration\Generator
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fileManagerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_loggerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_formatterMock;
 
     protected function setUp()
     {
         $this->_fileManagerMock = $this->getMock(
-            'Magento_Tools_Migration_System_FileManager', array(), array(), '', false);
+            'Magento\Tools\Migration\System\FileManager', array(), array(), '', false);
         $this->_loggerMock = $this->getMockForAbstractClass(
-            'Magento_Tools_Migration_System_Configuration_LoggerAbstract',
+            'Magento\Tools\Migration\System\Configuration\AbstractLogger',
             array(), '', false, false, false, array('add')
         );
-        $this->_formatterMock = $this->getMock('Magento_Tools_Migration_System_Configuration_Formatter', array(),
+        $this->_formatterMock = $this->getMock('Magento\Tools\Migration\System\Configuration\Formatter', array(),
             array(), '', false
         );
 
-        $this->_model = new Magento_Tools_Migration_System_Configuration_Generator(
+        $this->_model = new \Magento\Tools\Migration\System\Configuration\Generator(
             $this->_formatterMock, $this->_fileManagerMock, $this->_loggerMock
         );
     }
 
     public function testCreateConfigurationGeneratesConfiguration()
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->loadXML(
             preg_replace('/\n|\s{4}/', '', file_get_contents(__DIR__ . '/_files/convertedConfiguration.xml'))
         );
-        $stripComments = new DOMXPath($dom);
+        $stripComments = new \DOMXPath($dom);
         foreach ($stripComments->query('//comment()') as $comment) {
             $comment->parentNode->removeChild($comment);
         }
@@ -78,7 +79,7 @@ class Magento_Test_Tools_Migration_System_Configuration_GeneratorTest extends PH
             ->will(
                 $this->returnCallback(
                     function ($xml) {
-                        $dom = new DOMDocument();
+                        $dom = new \DOMDocument();
                         $dom->loadXML($xml);
                         $dom->preserveWhiteSpace = false;
                         $dom->formatOutput = true;
@@ -89,7 +90,7 @@ class Magento_Test_Tools_Migration_System_Configuration_GeneratorTest extends PH
 
         $this->_loggerMock->expects($this->once())->method('add')->with(
             'someFile',
-            Magento_Tools_Migration_System_Configuration_LoggerAbstract:: FILE_KEY_INVALID
+            \Magento\Tools\Migration\System\Configuration\AbstractLogger:: FILE_KEY_INVALID
         );
 
         $this->_model->createConfiguration('someFile', include __DIR__ . '/_files/mappedConfiguration.php');

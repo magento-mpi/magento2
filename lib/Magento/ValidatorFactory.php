@@ -5,16 +5,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento;
 /**
- * Factory class for \Magento_Validator
+ * Factory class for \Magento\Validator
  */
-class Magento_ValidatorFactory
+class ValidatorFactory
 {
     /**
      * Object Manager instance
      *
-     * @var \Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager = null;
 
@@ -28,10 +28,10 @@ class Magento_ValidatorFactory
     /**
      * Factory constructor
      *
-     * @param \Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param string $instanceName
      */
-    public function __construct(\Magento_ObjectManager $objectManager, $instanceName = 'Magento_Validator')
+    public function __construct(\Magento\ObjectManager $objectManager, $instanceName = 'Magento\Validator')
     {
         $this->_objectManager = $objectManager;
         $this->_instanceName = $instanceName;
@@ -41,7 +41,7 @@ class Magento_ValidatorFactory
      * Create class instance with specified parameters
      *
      * @param array $data
-     * @return \Magento_Validator
+     * @return \Magento\Validator
      */
     public function create(array $data = array())
     {

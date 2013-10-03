@@ -9,29 +9,31 @@
  */
 
 /**
- * @method Magento_Checkout_Model_Resource_Agreement _getResource()
- * @method Magento_Checkout_Model_Resource_Agreement getResource()
+ * @method \Magento\Checkout\Model\Resource\Agreement _getResource()
+ * @method \Magento\Checkout\Model\Resource\Agreement getResource()
  * @method string getName()
- * @method Magento_Checkout_Model_Agreement setName(string $value)
+ * @method \Magento\Checkout\Model\Agreement setName(string $value)
  * @method string getContent()
- * @method Magento_Checkout_Model_Agreement setContent(string $value)
+ * @method \Magento\Checkout\Model\Agreement setContent(string $value)
  * @method string getContentHeight()
- * @method Magento_Checkout_Model_Agreement setContentHeight(string $value)
+ * @method \Magento\Checkout\Model\Agreement setContentHeight(string $value)
  * @method string getCheckboxText()
- * @method Magento_Checkout_Model_Agreement setCheckboxText(string $value)
+ * @method \Magento\Checkout\Model\Agreement setCheckboxText(string $value)
  * @method int getIsActive()
- * @method Magento_Checkout_Model_Agreement setIsActive(int $value)
+ * @method \Magento\Checkout\Model\Agreement setIsActive(int $value)
  * @method int getIsHtml()
- * @method Magento_Checkout_Model_Agreement setIsHtml(int $value)
+ * @method \Magento\Checkout\Model\Agreement setIsHtml(int $value)
  *
  * @category    Magento
  * @package     Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Model_Agreement extends Magento_Core_Model_Abstract
+namespace Magento\Checkout\Model;
+
+class Agreement extends \Magento\Core\Model\AbstractModel
 {
     protected function _construct()
     {
-        $this->_init('Magento_Checkout_Model_Resource_Agreement');
+        $this->_init('Magento\Checkout\Model\Resource\Agreement');
     }
 }

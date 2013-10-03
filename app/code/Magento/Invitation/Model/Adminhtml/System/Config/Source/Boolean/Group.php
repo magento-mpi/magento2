@@ -11,8 +11,9 @@
 /**
  * Invitation source for reffered customer group system configuration
  */
-class Magento_Invitation_Model_Adminhtml_System_Config_Source_Boolean_Group
-    implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Invitation\Model\Adminhtml\System\Config\Source\Boolean;
+
+class Group implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray()
     {

@@ -15,42 +15,44 @@
  * @package     Magento_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Widget_Model_Template_Filter extends Magento_Cms_Model_Template_Filter
+namespace Magento\Widget\Model\Template;
+
+class Filter extends \Magento\Cms\Model\Template\Filter
 {
     /**
-     * @var Magento_Widget_Model_Resource_Widget
+     * @var \Magento\Widget\Model\Resource\Widget
      */
     protected $_widgetResource;
 
     /**
-     * @var Magento_Widget_Model_Widget
+     * @var \Magento\Widget\Model\Widget
      */
     protected $_widget;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_View_Url $viewUrl
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_VariableFactory $coreVariableFactory
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Layout $layout
-     * @param Magento_Widget_Model_Resource_Widget $widgetResource
-     * @param Magento_Widget_Model_Widget $widget
-     * @param Magento_Core_Model_Layout $layout
-     * @param Magento_Core_Model_LayoutFactory $layoutFactory
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\VariableFactory $coreVariableFactory
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\Widget\Model\Resource\Widget $widgetResource
+     * @param \Magento\Widget\Model\Widget $widget
+     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\Core\Model\LayoutFactory $layoutFactory
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_View_Url $viewUrl,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_VariableFactory $coreVariableFactory,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Layout $layout,
-        Magento_Core_Model_LayoutFactory $layoutFactory,
-        Magento_Widget_Model_Resource_Widget $widgetResource,
-        Magento_Widget_Model_Widget $widget
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\VariableFactory $coreVariableFactory,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Layout $layout,
+        \Magento\Core\Model\LayoutFactory $layoutFactory,
+        \Magento\Widget\Model\Resource\Widget $widgetResource,
+        \Magento\Widget\Model\Widget $widget
     ) {
         $this->_widgetResource = $widgetResource;
         $this->_widget = $widget;
@@ -101,7 +103,7 @@ class Magento_Widget_Model_Template_Filter extends Magento_Cms_Model_Template_Fi
         
         // define widget block and check the type is instance of Widget Interface
         $widget = $this->_layout->createBlock($type, $name, array('data' => $params));
-        if (!$widget instanceof Magento_Widget_Block_Interface) {
+        if (!$widget instanceof \Magento\Widget\Block\BlockInterface) {
             return '';
         }
 

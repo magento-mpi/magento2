@@ -1,6 +1,8 @@
 <?php
+namespace Magento\Webapi\Model\Acl;
+
 /**
- * Test for Magento_Webapi_Model_Acl_User model.
+ * Test for \Magento\Webapi\Model\Acl\User model.
  *
  * {license_notice}
  *
@@ -8,20 +10,20 @@
  * @license     {license_link}
  * @magentoDataFixture Magento/Webapi/_files/role.php
  */
-class Magento_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
+class UserTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_ObjectManager
+     * @var \Magento\TestFramework\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @var Magento_Webapi_Model_Acl_User
+     * @var \Magento\Webapi\Model\Acl\User
      */
     protected $_model;
 
     /**
-     * @var Magento_Webapi_Model_Acl_Role_Factory
+     * @var \Magento\Webapi\Model\Acl\Role\Factory
      */
     protected $_roleFactory;
 
@@ -30,9 +32,9 @@ class Magento_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $this->_roleFactory = $this->_objectManager->get('Magento_Webapi_Model_Acl_Role_Factory');
-        $this->_model = $this->_objectManager->create('Magento_Webapi_Model_Acl_User');
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->_roleFactory = $this->_objectManager->get('Magento\Webapi\Model\Acl\Role\Factory');
+        $this->_model = $this->_objectManager->create('Magento\Webapi\Model\Acl\User');
     }
 
     /**
@@ -48,7 +50,7 @@ class Magento_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
             ->setSecret('null@null.com')
             ->setRoleId($role->getId());
 
-        $crud = new Magento_TestFramework_Entity($this->_model, array('api_key' => '_User_Name_'));
+        $crud = new \Magento\TestFramework\Entity($this->_model, array('api_key' => '_User_Name_'));
         $crud->testCrud();
     }
 }

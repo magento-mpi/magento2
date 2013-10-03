@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Banner_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Banner\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
 
 }

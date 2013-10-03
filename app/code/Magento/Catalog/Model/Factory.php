@@ -9,21 +9,23 @@
 /**
  * Model factory
  */
-class Magento_Catalog_Model_Factory
+namespace Magento\Catalog\Model;
+
+class Factory
 {
     /**
      * Object Manager
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
      * Construct
      *
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -33,16 +35,16 @@ class Magento_Catalog_Model_Factory
      *
      * @param string $className
      * @param array $data
-     * @return Magento_Core_Model_Abstract
-     * @throws Magento_Core_Exception
+     * @return \Magento\Core\Model\AbstractModel
+     * @throws \Magento\Core\Exception
      */
     public function create($className, array $data = array())
     {
         $model = $this->_objectManager->create($className, $data);
 
-        if (!$model instanceof Magento_Core_Model_Abstract) {
-            throw new Magento_Core_Exception($className
-                . ' doesn\'t extends Magento_Core_Model_Abstract');
+        if (!$model instanceof \Magento\Core\Model\AbstractModel) {
+            throw new \Magento\Core\Exception($className
+                . ' doesn\'t extends \Magento\Core\Model\AbstractModel');
         }
         return $model;
     }

@@ -11,30 +11,32 @@
 /**
  * Reminder rules edit form conditions
  */
-class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Conditions
-    extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab;
+
+class Conditions
+    extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Fieldset block
      *
-     * @var Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset
+     * @var \Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset
      */
     protected $_fieldsetBlock;
 
     /**
      * Conditions block
      *
-     * @var Magento_Rule_Block_Conditions
+     * @var \Magento\Rule\Block\Conditions
      */
     protected $_conditionsBlock;
 
     public function __construct(
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset $fieldsetBlock,
-        Magento_Rule_Block_Conditions $conditionsBlock,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset $fieldsetBlock,
+        \Magento\Rule\Block\Conditions $conditionsBlock,
         array $data = array()
     ) {
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
@@ -45,11 +47,11 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Conditions
     /**
      * Prepare conditions form
      *
-     * @return Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Conditions
+     * @return \Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\Conditions
      */
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $model = $this->_coreRegistry->registry('current_reminder_rule');
 

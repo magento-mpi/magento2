@@ -15,7 +15,9 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Controller_Promo_Catalog extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller\Promo;
+
+class Catalog extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Dirty rules notice message
@@ -27,17 +29,17 @@ class Magento_Adminhtml_Controller_Promo_Catalog extends Magento_Adminhtml_Contr
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -58,9 +60,9 @@ class Magento_Adminhtml_Controller_Promo_Catalog extends Magento_Adminhtml_Contr
     {
         $this->_title(__('Catalog Price Rules'));
 
-        $dirtyRules = $this->_objectManager->create('Magento_CatalogRule_Model_Flag')->loadSelf();
+        $dirtyRules = $this->_objectManager->create('Magento\CatalogRule\Model\Flag')->loadSelf();
         if ($dirtyRules->getState()) {
-            $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addNotice($this->getDirtyRulesNoticeMessage());
+            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addNotice($this->getDirtyRulesNoticeMessage());
         }
 
         $this->_initAction()
@@ -81,12 +83,12 @@ class Magento_Adminhtml_Controller_Promo_Catalog extends Magento_Adminhtml_Contr
         $this->_title(__('Catalog Price Rules'));
 
         $id = $this->getRequest()->getParam('id');
-        $model = $this->_objectManager->create('Magento_CatalogRule_Model_Rule');
+        $model = $this->_objectManager->create('Magento\CatalogRule\Model\Rule');
 
         if ($id) {
             $model->load($id);
             if (! $model->getRuleId()) {
-                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError(
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
                     __('This rule no longer exists.')
                 );
                 $this->_redirect('*/*');
@@ -97,7 +99,7 @@ class Magento_Adminhtml_Controller_Promo_Catalog extends Magento_Adminhtml_Contr
         $this->_title($model->getRuleId() ? $model->getName() : __('New Catalog Price Rule'));
 
         // set entered data if was error when we do save
-        $data = $this->_objectManager->get('Magento_Adminhtml_Model_Session')->getPageData(true);
+        $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getPageData(true);
         if (!empty($data)) {
             $model->addData($data);
         }
@@ -116,7 +118,7 @@ class Magento_Adminhtml_Controller_Promo_Catalog extends Magento_Adminhtml_Contr
     {
         if ($this->getRequest()->getPost()) {
             try {
-                $model = $this->_objectManager->create('Magento_CatalogRule_Model_Rule');
+                $model = $this->_objectManager->create('Magento\CatalogRule\Model\Rule');
                 $this->_eventManager->dispatch(
                     'adminhtml_controller_catalogrule_prepare_save',
                     array('request' => $this->getRequest())
@@ -127,11 +129,11 @@ class Magento_Adminhtml_Controller_Promo_Catalog extends Magento_Adminhtml_Contr
                 if ($id) {
                     $model->load($id);
                     if ($id != $model->getId()) {
-                        throw new Magento_Core_Exception(__('Wrong rule specified.'));
+                        throw new \Magento\Core\Exception(__('Wrong rule specified.'));
                     }
                 }
 
-                $validateResult = $model->validateData(new Magento_Object($data));
+                $validateResult = $model->validateData(new \Magento\Object($data));
                 if ($validateResult !== true) {
                     foreach($validateResult as $errorMessage) {
                         $this->_getSession()->addError($errorMessage);
@@ -146,19 +148,19 @@ class Magento_Adminhtml_Controller_Promo_Catalog extends Magento_Adminhtml_Contr
 
                 $model->loadPost($data);
 
-                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->setPageData($model->getData());
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setPageData($model->getData());
 
                 $model->save();
 
-                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addSuccess(
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(
                     __('The rule has been saved.')
                 );
-                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->setPageData(false);
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setPageData(false);
                 if ($this->getRequest()->getParam('auto_apply')) {
                     $this->getRequest()->setParam('rule_id', $model->getId());
                     $this->_forward('applyRules');
                 } else {
-                    $this->_objectManager->create('Magento_CatalogRule_Model_Flag')->loadSelf()
+                    $this->_objectManager->create('Magento\CatalogRule\Model\Flag')->loadSelf()
                         ->setState(1)
                         ->save();
                     if ($this->getRequest()->getParam('back')) {
@@ -168,14 +170,14 @@ class Magento_Adminhtml_Controller_Promo_Catalog extends Magento_Adminhtml_Contr
                     $this->_redirect('*/*/');
                 }
                 return;
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_getSession()->addError(
                     __('An error occurred while saving the rule data. Please review the log and try again.')
                 );
-                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
-                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->setPageData($data);
+                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setPageData($data);
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('rule_id')));
                 return;
             }
@@ -188,29 +190,29 @@ class Magento_Adminhtml_Controller_Promo_Catalog extends Magento_Adminhtml_Contr
         $id = $this->getRequest()->getParam('id');
         if ($id) {
             try {
-                $model = $this->_objectManager->create('Magento_CatalogRule_Model_Rule');
+                $model = $this->_objectManager->create('Magento\CatalogRule\Model\Rule');
                 $model->load($id);
                 $model->delete();
-                $this->_objectManager->create('Magento_CatalogRule_Model_Flag')->loadSelf()
+                $this->_objectManager->create('Magento\CatalogRule\Model\Flag')->loadSelf()
                     ->setState(1)
                     ->save();
-                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addSuccess(
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(
                     __('The rule has been deleted.')
                 );
                 $this->_redirect('*/*/');
                 return;
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_getSession()->addError(
                     __('An error occurred while deleting the rule. Please review the log and try again.')
                 );
-                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
         }
-        $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError(
+        $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
             __('Unable to find a rule to delete.')
         );
         $this->_redirect('*/*/');
@@ -225,13 +227,13 @@ class Magento_Adminhtml_Controller_Promo_Catalog extends Magento_Adminhtml_Contr
         $model = $this->_objectManager->create($type)
             ->setId($id)
             ->setType($type)
-            ->setRule($this->_objectManager->create('Magento_CatalogRule_Model_Rule'))
+            ->setRule($this->_objectManager->create('Magento\CatalogRule\Model\Rule'))
             ->setPrefix('conditions');
         if (!empty($typeArr[1])) {
             $model->setAttribute($typeArr[1]);
         }
 
-        if ($model instanceof Magento_Rule_Model_Condition_Abstract) {
+        if ($model instanceof \Magento\Rule\Model\Condition\AbstractCondition) {
             $model->setJsFormObject($this->getRequest()->getParam('form'));
             $html = $model->asHtmlRecursive();
         } else {
@@ -243,7 +245,7 @@ class Magento_Adminhtml_Controller_Promo_Catalog extends Magento_Adminhtml_Contr
     public function chooserAction()
     {
         if ($this->getRequest()->getParam('attribute') == 'sku') {
-            $type = 'Magento_Adminhtml_Block_Promo_Widget_Chooser_Sku';
+            $type = 'Magento\Adminhtml\Block\Promo\Widget\Chooser\Sku';
         }
         if (!empty($type)) {
             $block = $this->getLayout()->createBlock($type);
@@ -262,13 +264,13 @@ class Magento_Adminhtml_Controller_Promo_Catalog extends Magento_Adminhtml_Contr
         $model = $this->_objectManager->create($type)
             ->setId($id)
             ->setType($type)
-            ->setRule($this->_objectManager->create('Magento_CatalogRule_Model_Rule'))
+            ->setRule($this->_objectManager->create('Magento\CatalogRule\Model\Rule'))
             ->setPrefix('actions');
         if (!empty($typeArr[1])) {
             $model->setAttribute($typeArr[1]);
         }
 
-        if ($model instanceof Magento_Rule_Model_Action_Abstract) {
+        if ($model instanceof \Magento\Rule\Model\Action\AbstractAction) {
             $model->setJsFormObject($this->getRequest()->getParam('form'));
             $html = $model->asHtmlRecursive();
         } else {
@@ -284,19 +286,19 @@ class Magento_Adminhtml_Controller_Promo_Catalog extends Magento_Adminhtml_Contr
     {
         $errorMessage = __('Unable to apply rules.');
         try {
-            /** @var $ruleJob Magento_CatalogRule_Model_Rule_Job */
-            $ruleJob = $this->_objectManager->get('Magento_CatalogRule_Model_Rule_Job');
+            /** @var $ruleJob \Magento\CatalogRule\Model\Rule\Job */
+            $ruleJob = $this->_objectManager->get('Magento\CatalogRule\Model\Rule\Job');
             $ruleJob->applyAll();
 
             if ($ruleJob->hasSuccess()) {
                 $this->_getSession()->addSuccess($ruleJob->getSuccess());
-                $this->_objectManager->create('Magento_CatalogRule_Model_Flag')->loadSelf()
+                $this->_objectManager->create('Magento\CatalogRule\Model\Flag')->loadSelf()
                     ->setState(0)
                     ->save();
             } elseif ($ruleJob->hasError()) {
                 $this->_getSession()->addError($errorMessage . ' ' . $ruleJob->getError());
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getSession()->addError($errorMessage);
         }
         $this->_redirect('*/*');

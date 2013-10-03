@@ -8,12 +8,12 @@
  */
 -->
 <config>
-    <type name="Magento_GiftCardAccount_Model_History">
+    <type name="Magento\GiftCardAccount\Model\History">
         <param name="adminSession">
-            <instance type="Magento_Backend_Model_Auth_Session_Proxy" />
+            <instance type="Magento\Backend\Model\Auth\Session\Proxy" />
         </param>
     </type>
-    <type name="Magento_GiftCardAccount_Model_Pool">
+    <type name="Magento\GiftCardAccount\Model\Pool">
         <param name="giftCardCodeParams">
             <value>
                 <separator>-</separator>
@@ -25,15 +25,15 @@
             </value>
         </param>
     </type>
-    <type name="Magento_GiftCardAccount_Model_Observer">
+    <type name="Magento\GiftCardAccount\Model\Observer">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Core_Model_Db_Updater">
+    <type name="Magento\Core\Model\Db\Updater">
         <param name="resourceList">
             <value>
-                <giftcardaccount_setup>Magento_Sales_Model_Resource_Setup</giftcardaccount_setup>
+                <giftcardaccount_setup>Magento\Sales\Model\Resource\Setup</giftcardaccount_setup>
             </value>
         </param>
     </type>

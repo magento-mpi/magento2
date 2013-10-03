@@ -11,42 +11,42 @@
 /**
  * Catalog attribute model
  *
- * @method Magento_Catalog_Model_Resource_Attribute _getResource()
- * @method Magento_Catalog_Model_Resource_Attribute getResource()
- * @method Magento_Catalog_Model_Resource_Eav_Attribute getFrontendInputRenderer()
+ * @method \Magento\Catalog\Model\Resource\Attribute _getResource()
+ * @method \Magento\Catalog\Model\Resource\Attribute getResource()
+ * @method \Magento\Catalog\Model\Resource\Eav\Attribute getFrontendInputRenderer()
  * @method string setFrontendInputRenderer(string $value)
  * @method int setIsGlobal(int $value)
- * @method Magento_Catalog_Model_Resource_Eav_Attribute getIsVisible()
+ * @method \Magento\Catalog\Model\Resource\Eav\Attribute getIsVisible()
  * @method int setIsVisible(int $value)
- * @method Magento_Catalog_Model_Resource_Eav_Attribute getIsSearchable()
+ * @method \Magento\Catalog\Model\Resource\Eav\Attribute getIsSearchable()
  * @method int setIsSearchable(int $value)
- * @method Magento_Catalog_Model_Resource_Eav_Attribute getSearchWeight()
+ * @method \Magento\Catalog\Model\Resource\Eav\Attribute getSearchWeight()
  * @method int setSearchWeight(int $value)
- * @method Magento_Catalog_Model_Resource_Eav_Attribute getIsFilterable()
+ * @method \Magento\Catalog\Model\Resource\Eav\Attribute getIsFilterable()
  * @method int setIsFilterable(int $value)
- * @method Magento_Catalog_Model_Resource_Eav_Attribute getIsComparable()
+ * @method \Magento\Catalog\Model\Resource\Eav\Attribute getIsComparable()
  * @method int setIsComparable(int $value)
  * @method int setIsVisibleOnFront(int $value)
- * @method Magento_Catalog_Model_Resource_Eav_Attribute getIsHtmlAllowedOnFront()
+ * @method \Magento\Catalog\Model\Resource\Eav\Attribute getIsHtmlAllowedOnFront()
  * @method int setIsHtmlAllowedOnFront(int $value)
- * @method Magento_Catalog_Model_Resource_Eav_Attribute getIsUsedForPriceRules()
+ * @method \Magento\Catalog\Model\Resource\Eav\Attribute getIsUsedForPriceRules()
  * @method int setIsUsedForPriceRules(int $value)
- * @method Magento_Catalog_Model_Resource_Eav_Attribute getIsFilterableInSearch()
+ * @method \Magento\Catalog\Model\Resource\Eav\Attribute getIsFilterableInSearch()
  * @method int setIsFilterableInSearch(int $value)
- * @method Magento_Catalog_Model_Resource_Eav_Attribute getUsedInProductListing()
+ * @method \Magento\Catalog\Model\Resource\Eav\Attribute getUsedInProductListing()
  * @method int setUsedInProductListing(int $value)
- * @method Magento_Catalog_Model_Resource_Eav_Attribute getUsedForSortBy()
+ * @method \Magento\Catalog\Model\Resource\Eav\Attribute getUsedForSortBy()
  * @method int setUsedForSortBy(int $value)
- * @method Magento_Catalog_Model_Resource_Eav_Attribute getIsConfigurable()
+ * @method \Magento\Catalog\Model\Resource\Eav\Attribute getIsConfigurable()
  * @method int setIsConfigurable(int $value)
  * @method string setApplyTo(string $value)
- * @method Magento_Catalog_Model_Resource_Eav_Attribute getIsVisibleInAdvancedSearch()
+ * @method \Magento\Catalog\Model\Resource\Eav\Attribute getIsVisibleInAdvancedSearch()
  * @method int setIsVisibleInAdvancedSearch(int $value)
- * @method Magento_Catalog_Model_Resource_Eav_Attribute getPosition()
+ * @method \Magento\Catalog\Model\Resource\Eav\Attribute getPosition()
  * @method int setPosition(int $value)
- * @method Magento_Catalog_Model_Resource_Eav_Attribute getIsWysiwygEnabled()
+ * @method \Magento\Catalog\Model\Resource\Eav\Attribute getIsWysiwygEnabled()
  * @method int setIsWysiwygEnabled(int $value)
- * @method Magento_Catalog_Model_Resource_Eav_Attribute getIsUsedForPromoRules()
+ * @method \Magento\Catalog\Model\Resource\Eav\Attribute getIsUsedForPromoRules()
  * @method int setIsUsedForPromoRules(int $value)
  * @method string getFrontendLabel()
  *
@@ -54,7 +54,9 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Eav_Attribute extends Magento_Eav_Model_Entity_Attribute
+namespace Magento\Catalog\Model\Resource\Eav;
+
+class Attribute extends \Magento\Eav\Model\Entity\Attribute
 {
     const SCOPE_STORE                           = 0;
     const SCOPE_GLOBAL                          = 1;
@@ -86,42 +88,42 @@ class Magento_Catalog_Model_Resource_Eav_Attribute extends Magento_Eav_Model_Ent
     /**
      * Index indexer
      *
-     * @var Magento_Index_Model_Indexer
+     * @var \Magento\Index\Model\Indexer
      */
     protected $_indexIndexer;
 
     /**
      * Class constructor
      *
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Eav_Model_Entity_TypeFactory $eavTypeFactory
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Eav_Model_Resource_Helper $resourceHelper
-     * @param Magento_Validator_UniversalFactory $universalFactory
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Catalog_Model_ProductFactory $catalogProductFactory
-     * @param Magento_Index_Model_Indexer $indexIndexer
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Eav\Model\Entity\TypeFactory $eavTypeFactory
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Catalog\Model\ProductFactory $catalogProductFactory
+     * @param \Magento\Index\Model\Indexer $indexIndexer
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Eav_Model_Entity_TypeFactory $eavTypeFactory,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Eav_Model_Resource_Helper $resourceHelper,
-        Magento_Validator_UniversalFactory $universalFactory,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Catalog_Model_ProductFactory $catalogProductFactory,
-        Magento_Index_Model_Indexer $indexIndexer,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Eav\Model\Entity\TypeFactory $eavTypeFactory,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Eav\Model\Resource\Helper $resourceHelper,
+        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Catalog\Model\ProductFactory $catalogProductFactory,
+        \Magento\Index\Model\Indexer $indexIndexer,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_indexIndexer = $indexIndexer;
@@ -144,14 +146,14 @@ class Magento_Catalog_Model_Resource_Eav_Attribute extends Magento_Eav_Model_Ent
 
     protected function _construct()
     {
-        $this->_init('Magento_Catalog_Model_Resource_Attribute');
+        $this->_init('Magento\Catalog\Model\Resource\Attribute');
     }
 
     /**
      * Processing object before save data
      *
-     * @throws Magento_Core_Exception
-     * @return Magento_Core_Model_Abstract
+     * @throws \Magento\Core\Exception
+     * @return \Magento\Core\Model\AbstractModel
      */
     protected function _beforeSave()
     {
@@ -162,14 +164,14 @@ class Magento_Catalog_Model_Resource_Eav_Attribute extends Magento_Eav_Model_Ent
             }
             if (($this->_data['is_global'] != $this->_origData['is_global'])
                 && $this->_getResource()->isUsedBySuperProducts($this)) {
-                throw new Magento_Core_Exception(
+                throw new \Magento\Core\Exception(
                     __('Do not change the scope. This attribute is used in configurable products.')
                 );
             }
         }
         if ($this->getFrontendInput() == 'price') {
             if (!$this->getBackendModel()) {
-                $this->setBackendModel('Magento_Catalog_Model_Product_Attribute_Backend_Price');
+                $this->setBackendModel('Magento\Catalog\Model\Product\Attribute\Backend\Price');
             }
         }
         if ($this->getFrontendInput() == 'textarea') {
@@ -183,7 +185,7 @@ class Magento_Catalog_Model_Resource_Eav_Attribute extends Magento_Eav_Model_Ent
     /**
      * Processing object after save data
      *
-     * @return Magento_Core_Model_Abstract
+     * @return \Magento\Core\Model\AbstractModel
      */
     protected function _afterSave()
     {
@@ -192,7 +194,7 @@ class Magento_Catalog_Model_Resource_Eav_Attribute extends Magento_Eav_Model_Ent
          */
         $this->_eavConfig->clear();
         $this->_indexIndexer->processEntityAction(
-            $this, self::ENTITY, Magento_Index_Model_Event::TYPE_SAVE
+            $this, self::ENTITY, \Magento\Index\Model\Event::TYPE_SAVE
         );
         return parent::_afterSave();
     }
@@ -200,16 +202,16 @@ class Magento_Catalog_Model_Resource_Eav_Attribute extends Magento_Eav_Model_Ent
     /**
      * Register indexing event before delete catalog eav attribute
      *
-     * @return Magento_Catalog_Model_Resource_Eav_Attribute
-     * @throws Magento_Core_Exception
+     * @return \Magento\Catalog\Model\Resource\Eav\Attribute
+     * @throws \Magento\Core\Exception
      */
     protected function _beforeDelete()
     {
         if ($this->_getResource()->isUsedBySuperProducts($this)) {
-            throw new Magento_Core_Exception(__('This attribute is used in configurable products.'));
+            throw new \Magento\Core\Exception(__('This attribute is used in configurable products.'));
         }
         $this->_indexIndexer->logEvent(
-            $this, self::ENTITY, Magento_Index_Model_Event::TYPE_DELETE
+            $this, self::ENTITY, \Magento\Index\Model\Event::TYPE_DELETE
         );
         return parent::_beforeDelete();
     }
@@ -217,13 +219,13 @@ class Magento_Catalog_Model_Resource_Eav_Attribute extends Magento_Eav_Model_Ent
     /**
      * Init indexing process after catalog eav attribute delete commit
      *
-     * @return Magento_Catalog_Model_Resource_Eav_Attribute
+     * @return \Magento\Catalog\Model\Resource\Eav\Attribute
      */
     protected function _afterDeleteCommit()
     {
         parent::_afterDeleteCommit();
         $this->_indexIndexer->indexEvents(
-            self::ENTITY, Magento_Index_Model_Event::TYPE_DELETE
+            self::ENTITY, \Magento\Index\Model\Event::TYPE_DELETE
         );
         return $this;
     }
@@ -303,7 +305,7 @@ class Magento_Catalog_Model_Resource_Eav_Attribute extends Magento_Eav_Model_Ent
     /**
      * Retrieve source model
      *
-     * @return Magento_Eav_Model_Entity_Attribute_Source_Abstract
+     * @return \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
      */
     public function getSourceModel()
     {
@@ -344,7 +346,7 @@ class Magento_Catalog_Model_Resource_Eav_Attribute extends Magento_Eav_Model_Ent
      */
     public function _getDefaultSourceModel()
     {
-        return 'Magento_Eav_Model_Entity_Attribute_Source_Table';
+        return 'Magento\Eav\Model\Entity\Attribute\Source\Table';
     }
 
     /**

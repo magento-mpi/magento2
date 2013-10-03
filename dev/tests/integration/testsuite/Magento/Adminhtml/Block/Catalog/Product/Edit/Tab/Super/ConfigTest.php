@@ -9,23 +9,25 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_ConfigTest extends PHPUnit_Framework_TestCase
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled
      */
     public function testGetSelectedAttributesForSimpleProductType()
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_Registry')
-            ->register('current_product', $objectManager->create('Magento_Catalog_Model_Product'));
-        /** @var $block Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config */
-        $block = $objectManager->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config');
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager->get('Magento\Core\Model\Registry')
+            ->register('current_product', $objectManager->create('Magento\Catalog\Model\Product'));
+        /** @var $block \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config */
+        $block = $objectManager->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config');
         $this->assertEquals(array(), $block->getSelectedAttributes());
     }
 
@@ -35,19 +37,19 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_ConfigTest extends 
      */
     public function testGetSelectedAttributesForConfigurableProductType()
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_Registry')
-            ->register('current_product', $objectManager->create('Magento_Catalog_Model_Product')->load(1));
-        $objectManager->get('Magento_Core_Model_Layout')->createBlock('Magento_Core_Block_Text', 'head');
-        $usedAttribute = $objectManager->get('Magento_Catalog_Model_Entity_Attribute')->loadByCode(
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Eav_Model_Config')
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager->get('Magento\Core\Model\Registry')
+            ->register('current_product', $objectManager->create('Magento\Catalog\Model\Product')->load(1));
+        $objectManager->get('Magento\Core\Model\Layout')->createBlock('Magento\Core\Block\Text', 'head');
+        $usedAttribute = $objectManager->get('Magento\Catalog\Model\Entity\Attribute')->loadByCode(
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Eav\Model\Config')
                 ->getEntityType('catalog_product')->getId(),
             'test_configurable'
         );
-        /** @var $block Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config */
-        $block = $objectManager->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config');
+        /** @var $block \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config */
+        $block = $objectManager->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config');
         $selectedAttributes = $block->getSelectedAttributes();
         $this->assertEquals(array($usedAttribute->getId()), array_keys($selectedAttributes));
         $selectedAttribute = reset($selectedAttributes);

@@ -11,7 +11,9 @@
 /**
  * Product type model
  */
-class Magento_Catalog_Model_Product_Type
+namespace Magento\Catalog\Model\Product;
+
+class Type
 {
     /**#@+
      * Available product types
@@ -31,15 +33,15 @@ class Magento_Catalog_Model_Product_Type
     /**
      * Default product type model
      */
-    const DEFAULT_TYPE_MODEL    = 'Magento_Catalog_Model_Product_Type_Simple';
+    const DEFAULT_TYPE_MODEL    = 'Magento\Catalog\Model\Product\Type\Simple';
 
     /**
      * Default price model
      */
-    const DEFAULT_PRICE_MODEL   = 'Magento_Catalog_Model_Product_Type_Price';
+    const DEFAULT_PRICE_MODEL   = 'Magento\Catalog\Model\Product\Type\Price';
 
     /**
-     * @var Magento_Catalog_Model_ProductTypes_ConfigInterface
+     * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
      */
     protected $_config;
 
@@ -74,28 +76,28 @@ class Magento_Catalog_Model_Product_Type
     /**
      * Product type factory
      *
-     * @var Magento_Catalog_Model_Product_Type_Pool
+     * @var \Magento\Catalog\Model\Product\Type\Pool
      */
     protected $_productTypePool;
 
     /**
      * Price model factory
      *
-     * @var Magento_Catalog_Model_Product_Type_Price_Factory
+     * @var \Magento\Catalog\Model\Product\Type\Price\Factory
      */
     protected $_priceFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Catalog_Model_ProductTypes_ConfigInterface $config
-     * @param Magento_Catalog_Model_Product_Type_Pool $productTypePool
-     * @param Magento_Catalog_Model_Product_Type_Price_Factory $priceFactory
+     * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $config
+     * @param \Magento\Catalog\Model\Product\Type\Pool $productTypePool
+     * @param \Magento\Catalog\Model\Product\Type\Price\Factory $priceFactory
      */
     public function __construct(
-        Magento_Catalog_Model_ProductTypes_ConfigInterface $config,
-        Magento_Catalog_Model_Product_Type_Pool $productTypePool,
-        Magento_Catalog_Model_Product_Type_Price_Factory $priceFactory
+        \Magento\Catalog\Model\ProductTypes\ConfigInterface $config,
+        \Magento\Catalog\Model\Product\Type\Pool $productTypePool,
+        \Magento\Catalog\Model\Product\Type\Price\Factory $priceFactory
     ) {
         $this->_config = $config;
         $this->_productTypePool = $productTypePool;
@@ -105,8 +107,8 @@ class Magento_Catalog_Model_Product_Type
     /**
      * Factory to product singleton product type instances
      *
-     * @param   Magento_Catalog_Model_Product $product
-     * @return  Magento_Catalog_Model_Product_Type_Abstract
+     * @param   \Magento\Catalog\Model\Product $product
+     * @return  \Magento\Catalog\Model\Product\Type\AbstractType
      */
     public function factory($product)
     {
@@ -129,7 +131,7 @@ class Magento_Catalog_Model_Product_Type
      * Product type price model factory
      *
      * @param   string $productType
-     * @return  Magento_Catalog_Model_Product_Type_Price
+     * @return  \Magento\Catalog\Model\Product\Type\Price
      */
     public function priceFactory($productType)
     {

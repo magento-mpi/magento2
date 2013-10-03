@@ -12,63 +12,65 @@
  * Layered Navigation block for search
  *
  */
-class Magento_CatalogSearch_Block_Layer extends Magento_Catalog_Block_Layer_View
+namespace Magento\CatalogSearch\Block;
+
+class Layer extends \Magento\Catalog\Block\Layer\View
 {
     /**
-     * @var Magento_CatalogSearch_Model_Resource_EngineProvider
+     * @var \Magento\CatalogSearch\Model\Resource\EngineProvider
      */
     protected $_engineProvider;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
     
     /**
      * Catalog search data
      *
-     * @var Magento_CatalogSearch_Helper_Data
+     * @var \Magento\CatalogSearch\Helper\Data
      */
     protected $_catalogSearchData = null;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Catalog search layer
      *
-     * @var Magento_CatalogSearch_Model_Layer
+     * @var \Magento\CatalogSearch\Model\Layer
      */
     protected $_catalogSearchLayer;
 
     /**
      * Construct
      *
-     * @param Magento_CatalogSearch_Model_Layer $layer
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider
-     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
-     * @param Magento_CatalogSearch_Model_Layer $catalogSearchLayer
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\CatalogSearch\Model\Layer $layer
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
+     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
+     * @param \Magento\CatalogSearch\Model\Layer $catalogSearchLayer
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_CatalogSearch_Model_Layer $layer,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider,
-        Magento_CatalogSearch_Helper_Data $catalogSearchData,
-        Magento_CatalogSearch_Model_Layer $catalogSearchLayer,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Registry $registry,
+        \Magento\CatalogSearch\Model\Layer $layer,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
+        \Magento\CatalogSearch\Helper\Data $catalogSearchData,
+        \Magento\CatalogSearch\Model\Layer $catalogSearchLayer,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_engineProvider = $engineProvider;
@@ -95,7 +97,7 @@ class Magento_CatalogSearch_Block_Layer extends Magento_Catalog_Block_Layer_View
     {
         parent::_initBlocks();
 
-        $this->_attributeFilterBlockName = 'Magento_CatalogSearch_Block_Layer_Filter_Attribute';
+        $this->_attributeFilterBlockName = 'Magento\CatalogSearch\Block\Layer\Filter\Attribute';
     }
 
     /**
@@ -110,7 +112,7 @@ class Magento_CatalogSearch_Block_Layer extends Magento_Catalog_Block_Layer_View
             return false;
         }
         $availableResCount = (int)$this->_storeManager->getStore()
-            ->getConfig(Magento_CatalogSearch_Model_Layer::XML_PATH_DISPLAY_LAYER_COUNT);
+            ->getConfig(\Magento\CatalogSearch\Model\Layer::XML_PATH_DISPLAY_LAYER_COUNT);
 
         if (!$availableResCount
             || ($availableResCount > $this->getLayer()->getProductCollection()->getSize())

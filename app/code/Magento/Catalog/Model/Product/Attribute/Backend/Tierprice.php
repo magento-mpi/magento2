@@ -16,35 +16,37 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Attribute_Backend_Tierprice
-    extends Magento_Catalog_Model_Product_Attribute_Backend_Groupprice_Abstract
+namespace Magento\Catalog\Model\Product\Attribute\Backend;
+
+class Tierprice
+    extends \Magento\Catalog\Model\Product\Attribute\Backend\Groupprice\AbstractGroupprice
 {
     /**
      * Catalog product attribute backend tierprice
      *
-     * @var Magento_Catalog_Model_Resource_Product_Attribute_Backend_Tierprice
+     * @var \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Tierprice
      */
     protected $_productAttributeBackendTierprice;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
-     * @param Magento_Catalog_Model_Resource_Product_Attribute_Backend_Tierprice $productAttributeTierprice
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Model_Product_Type $catalogProductType
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Model_Config $config
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
+     * @param \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Tierprice $productAttributeTierprice
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Product\Type $catalogProductType
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Model\Config $config
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Directory_Model_CurrencyFactory $currencyFactory,
-        Magento_Catalog_Model_Resource_Product_Attribute_Backend_Tierprice $productAttributeTierprice,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Model_Product_Type $catalogProductType,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Model_Config $config
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Directory\Model\CurrencyFactory $currencyFactory,
+        \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Tierprice $productAttributeTierprice,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Product\Type $catalogProductType,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Model\Config $config
     ) {
         $this->_productAttributeBackendTierprice = $productAttributeTierprice;
         parent::__construct($logger, $currencyFactory, $storeManager, $catalogProductType, $catalogData,
@@ -54,7 +56,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Tierprice
     /**
      * Retrieve resource instance
      *
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Backend_Tierprice
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Tierprice
      */
     protected function _getResource()
     {
@@ -98,7 +100,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Tierprice
     /**
      * Whether tier price value fixed or percent of original price
      *
-     * @param Magento_Catalog_Model_Product_Type_Price $priceObject
+     * @param \Magento\Catalog\Model\Product\Type\Price $priceObject
      * @return bool
      */
     protected function _isPriceFixed($priceObject)

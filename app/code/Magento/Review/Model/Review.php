@@ -11,21 +11,23 @@
 /**
  * Review model
  *
- * @method Magento_Review_Model_Resource_Review _getResource()
- * @method Magento_Review_Model_Resource_Review getResource()
+ * @method \Magento\Review\Model\Resource\Review _getResource()
+ * @method \Magento\Review\Model\Resource\Review getResource()
  * @method string getCreatedAt()
- * @method Magento_Review_Model_Review setCreatedAt(string $value)
- * @method Magento_Review_Model_Review setEntityId(int $value)
+ * @method \Magento\Review\Model\Review setCreatedAt(string $value)
+ * @method \Magento\Review\Model\Review setEntityId(int $value)
  * @method int getEntityPkValue()
- * @method Magento_Review_Model_Review setEntityPkValue(int $value)
+ * @method \Magento\Review\Model\Review setEntityPkValue(int $value)
  * @method int getStatusId()
- * @method Magento_Review_Model_Review setStatusId(int $value)
+ * @method \Magento\Review\Model\Review setStatusId(int $value)
  *
  * @category    Magento
  * @package     Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Review_Model_Review extends Magento_Core_Model_Abstract
+namespace Magento\Review\Model;
+
+class Review extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Event prefix for observer
@@ -47,66 +49,66 @@ class Magento_Review_Model_Review extends Magento_Core_Model_Abstract
     const STATUS_NOT_APPROVED   = 3;
 
     /**
-     * @var Magento_Review_Model_Resource_Review_Product_CollectionFactory
+     * @var \Magento\Review\Model\Resource\Review\Product\CollectionFactory
      */
     protected $_productFactory;
 
     /**
-     * @var Magento_Review_Model_Resource_Review_Status_CollectionFactory
+     * @var \Magento\Review\Model\Resource\Review\Status\CollectionFactory
      */
     protected $_statusFactory;
 
     /**
-     * @var Magento_Review_Model_Review_SummaryFactory
+     * @var \Magento\Review\Model\Review\SummaryFactory
      */
     protected $_summaryFactory;
 
     /**
-     * @var Magento_Review_Model_Review_SummaryFactory
+     * @var \Magento\Review\Model\Review\SummaryFactory
      */
     protected $_summaryModFactory;
 
     /**
-     * @var Magento_Review_Model_Review_Summary
+     * @var \Magento\Review\Model\Review\Summary
      */
     protected $_reviewSummary;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Model_UrlInterface
+     * @var \Magento\Core\Model\UrlInterface
      */
     protected $_urlModel;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Review_Model_Resource_Review_Product_CollectionFactory $productFactory
-     * @param Magento_Review_Model_Resource_Review_Status_CollectionFactory $statusFactory
-     * @param Magento_Review_Model_Resource_Review_Summary_CollectionFactory $summaryFactory
-     * @param Magento_Review_Model_Review_SummaryFactory $summaryModFactory
-     * @param Magento_Review_Model_Review_Summary $reviewSummary
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_UrlInterface $urlModel
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Review\Model\Resource\Review\Product\CollectionFactory $productFactory
+     * @param \Magento\Review\Model\Resource\Review\Status\CollectionFactory $statusFactory
+     * @param \Magento\Review\Model\Resource\Review\Summary\CollectionFactory $summaryFactory
+     * @param \Magento\Review\Model\Review\SummaryFactory $summaryModFactory
+     * @param \Magento\Review\Model\Review\Summary $reviewSummary
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\UrlInterface $urlModel
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Review_Model_Resource_Review_Product_CollectionFactory $productFactory,
-        Magento_Review_Model_Resource_Review_Status_CollectionFactory $statusFactory,
-        Magento_Review_Model_Resource_Review_Summary_CollectionFactory $summaryFactory,
-        Magento_Review_Model_Review_SummaryFactory $summaryModFactory,
-        Magento_Review_Model_Review_Summary $reviewSummary,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_UrlInterface $urlModel,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Review\Model\Resource\Review\Product\CollectionFactory $productFactory,
+        \Magento\Review\Model\Resource\Review\Status\CollectionFactory $statusFactory,
+        \Magento\Review\Model\Resource\Review\Summary\CollectionFactory $summaryFactory,
+        \Magento\Review\Model\Review\SummaryFactory $summaryModFactory,
+        \Magento\Review\Model\Review\Summary $reviewSummary,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\UrlInterface $urlModel,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_productFactory = $productFactory;
@@ -121,7 +123,7 @@ class Magento_Review_Model_Review extends Magento_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('Magento_Review_Model_Resource_Review');
+        $this->_init('Magento\Review\Model\Resource\Review');
     }
 
     public function getProductCollection()
@@ -150,7 +152,7 @@ class Magento_Review_Model_Review extends Magento_Core_Model_Abstract
         $summaryData = $this->_summaryModFactory->create()
             ->setStoreId($storeId)
             ->load($product->getId());
-        $summary = new Magento_Object();
+        $summary = new \Magento\Object();
         $summary->setData($summaryData->getData());
         $product->setRatingSummary($summary);
     }
@@ -169,15 +171,15 @@ class Magento_Review_Model_Review extends Magento_Core_Model_Abstract
     {
         $errors = array();
 
-        if (!Zend_Validate::is($this->getTitle(), 'NotEmpty')) {
+        if (!\Zend_Validate::is($this->getTitle(), 'NotEmpty')) {
             $errors[] = __('The review summary field can\'t be empty.');
         }
 
-        if (!Zend_Validate::is($this->getNickname(), 'NotEmpty')) {
+        if (!\Zend_Validate::is($this->getNickname(), 'NotEmpty')) {
             $errors[] = __('The nickname field can\'t be empty.');
         }
 
-        if (!Zend_Validate::is($this->getDetail(), 'NotEmpty')) {
+        if (!\Zend_Validate::is($this->getDetail(), 'NotEmpty')) {
             $errors[] = __('The review field can\'t be empty.');
         }
 
@@ -190,7 +192,7 @@ class Magento_Review_Model_Review extends Magento_Core_Model_Abstract
     /**
      * Perform actions after object delete
      *
-     * @return Magento_Core_Model_Abstract
+     * @return \Magento\Core\Model\AbstractModel
      */
     protected function _afterDeleteCommit()
     {
@@ -201,8 +203,8 @@ class Magento_Review_Model_Review extends Magento_Core_Model_Abstract
     /**
      * Append review summary to product collection
      *
-     * @param Magento_Catalog_Model_Resource_Product_Collection $collection
-     * @return Magento_Review_Model_Review
+     * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
+     * @return \Magento\Review\Model\Review
      */
     public function appendSummary($collection)
     {
@@ -250,7 +252,7 @@ class Magento_Review_Model_Review extends Magento_Core_Model_Abstract
     /**
      * Check if current review available on passed store
      *
-     * @param int|Magento_Core_Model_Store $store
+     * @param int|\Magento\Core\Model\Store $store
      * @return bool
      */
     public function isAvailableOnStore($store = null)

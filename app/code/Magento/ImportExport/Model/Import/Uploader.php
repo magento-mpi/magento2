@@ -15,7 +15,9 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ImportExport_Model_Import_Uploader extends Magento_Core_Model_File_Uploader
+namespace Magento\ImportExport\Model\Import;
+
+class Uploader extends \Magento\Core\Model\File\Uploader
 {
     protected $_tmpDir  = '';
     protected $_destDir = '';
@@ -28,27 +30,27 @@ class Magento_ImportExport_Model_Import_Uploader extends Magento_Core_Model_File
     const DEFAULT_FILE_TYPE = 'application/octet-stream';
 
     /**
-     * @var Magento_Core_Model_Image_AdapterFactory
+     * @var \Magento\Core\Model\Image\AdapterFactory
      */
     protected $_imageFactory;
 
     /**
-     * @var Magento_Core_Model_File_Validator_NotProtectedExtension
+     * @var \Magento\Core\Model\File\Validator\NotProtectedExtension
      */
     protected $_validator;
 
     /**
-     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
-     * @param Magento_Core_Helper_File_Storage $coreFileStorage
-     * @param Magento_Core_Model_Image_AdapterFactory $imageFactory
-     * @param Magento_Core_Model_File_Validator_NotProtectedExtension $validator
+     * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
+     * @param \Magento\Core\Helper\File\Storage $coreFileStorage
+     * @param \Magento\Core\Model\Image\AdapterFactory $imageFactory
+     * @param \Magento\Core\Model\File\Validator\NotProtectedExtension $validator
      * @param string $filePath
      */
     public function __construct(
-        Magento_Core_Helper_File_Storage_Database $coreFileStorageDb,
-        Magento_Core_Helper_File_Storage $coreFileStorage,
-        Magento_Core_Model_Image_AdapterFactory $imageFactory,
-        Magento_Core_Model_File_Validator_NotProtectedExtension $validator,
+        \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
+        \Magento\Core\Helper\File\Storage $coreFileStorage,
+        \Magento\Core\Model\Image\AdapterFactory $imageFactory,
+        \Magento\Core\Model\File\Validator\NotProtectedExtension $validator,
         $filePath = null
     ) {
         if (!is_null($filePath)) {
@@ -97,7 +99,7 @@ class Magento_ImportExport_Model_Import_Uploader extends Magento_Core_Model_File
     protected function _setUploadFile($filePath)
     {
         if (!is_readable($filePath)) {
-            throw new Magento_Core_Exception("File '{$filePath}' was not found or has read restriction.");
+            throw new \Magento\Core\Exception("File '{$filePath}' was not found or has read restriction.");
         }
         $this->_file = $this->_readFileInfo($filePath);
 
@@ -137,7 +139,7 @@ class Magento_ImportExport_Model_Import_Uploader extends Magento_Core_Model_File
 
         $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
         if (!$this->checkAllowedExtension($fileExtension)) {
-            throw new Exception('Disallowed file type.');
+            throw new \Exception('Disallowed file type.');
         }
         //run validate callbacks
         foreach ($this->_validateCallbacks as $params) {

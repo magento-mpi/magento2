@@ -16,12 +16,14 @@
  * @package     Magento_AdminGws
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdminGws_Model_Resource_Collections extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\AdminGws\Model\Resource;
+
+class Collections extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Admin gws data
      *
-     * @var Magento_AdminGws_Helper_Data
+     * @var \Magento\AdminGws\Helper\Data
      */
     protected $_adminGwsData = null;
 
@@ -30,12 +32,12 @@ class Magento_AdminGws_Model_Resource_Collections extends Magento_Core_Model_Res
      *
      *
      *
-     * @param Magento_AdminGws_Helper_Data $adminGwsData
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\AdminGws\Helper\Data $adminGwsData
+     * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
-        Magento_AdminGws_Helper_Data $adminGwsData,
-        Magento_Core_Model_Resource $resource
+        \Magento\AdminGws\Helper\Data $adminGwsData,
+        \Magento\Core\Model\Resource $resource
     ) {
         $this->_adminGwsData = $adminGwsData;
         parent::__construct($resource);

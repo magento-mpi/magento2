@@ -11,6 +11,6 @@
     <update handle="formkey"/>
     <update handle="adminhtml_locks_block"/>
     <referenceContainer name="content">
-        <block class="Magento_Pci_Block_Adminhtml_Locks" name="pci.locks.container" as="locks_container"/>
+        <block class="Magento\Pci\Block\Adminhtml\Locks" name="pci.locks.container" as="locks_container"/>
     </referenceContainer>
 </layout>

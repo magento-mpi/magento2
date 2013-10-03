@@ -1,6 +1,6 @@
 <?php
 /**
- * Unit test for model Magento_User_Model_User
+ * Unit test for model \Magento\User\Model\User
  *
  * {license_notice}
  *
@@ -9,29 +9,31 @@
  */
 
 /**
- * Test class for Magento_User_Model_User testing
+ * Test class for \Magento\User\Model\User testing
  */
-class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
+namespace Magento\User\Model;
+
+class UserTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Magento_User_Model_User */
+    /** @var \Magento\User\Model\User */
     protected $_model;
 
-    /** @var Magento_User_Helper_Data */
+    /** @var \Magento\User\Helper\Data */
     protected $_userData;
 
-    /** @var Magento_Core_Helper_Data */
+    /** @var \Magento\Core\Helper\Data */
     protected $_coreData;
 
-    /** @var Magento_Core_Model_Sender|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Core\Model\Sender|PHPUnit_Framework_MockObject_MockObject */
     protected $_senderMock;
 
-    /** @var Magento_Core_Model_Context|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Core\Model\Context|PHPUnit_Framework_MockObject_MockObject */
     protected $_contextMock;
 
-    /** @var Magento_User_Model_Resource_User|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\User\Model\Resource\User|PHPUnit_Framework_MockObject_MockObject */
     protected $_resourceMock;
 
-    /** @var Magento_Data_Collection_Db|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Data\Collection\Db|PHPUnit_Framework_MockObject_MockObject */
     protected $_collectionMock;
 
     /**
@@ -39,44 +41,44 @@ class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_userData = $this->getMockBuilder('Magento_User_Helper_Data')
+        $this->_userData = $this->getMockBuilder('Magento\User\Helper\Data')
             ->disableOriginalConstructor()
             ->setMethods(array())
             ->getMock();
-        $this->_coreData = $this->getMockBuilder('Magento_Core_Helper_Data')
+        $this->_coreData = $this->getMockBuilder('Magento\Core\Helper\Data')
             ->disableOriginalConstructor()
             ->setMethods(array())
             ->getMock();
-        $this->_senderMock = $this->getMockBuilder('Magento_Core_Model_Sender')
+        $this->_senderMock = $this->getMockBuilder('Magento\Core\Model\Sender')
             ->disableOriginalConstructor()
             ->setMethods(array('send'))
             ->getMock();
-        $this->_contextMock = $this->getMockBuilder('Magento_Core_Model_Context')
+        $this->_contextMock = $this->getMockBuilder('Magento\Core\Model\Context')
             ->disableOriginalConstructor()
             ->setMethods(array())
             ->getMock();
-        $this->_resourceMock = $this->getMockBuilder('Magento_User_Model_Resource_User')
+        $this->_resourceMock = $this->getMockBuilder('Magento\User\Model\Resource\User')
             ->disableOriginalConstructor()
             ->setMethods(array())
             ->getMock();
-        $this->_collectionMock = $this->getMockBuilder('Magento_Data_Collection_Db')
+        $this->_collectionMock = $this->getMockBuilder('Magento\Data\Collection\Db')
             ->disableOriginalConstructor()
             ->setMethods(array())
             ->getMock();
-        $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
 
-        $eventManagerMock = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
-        $objectFactoryMock = $this->getMock('Magento_Validator_Composite_VarienObjectFactory', array('create'),
+        $eventManagerMock = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
+        $objectFactoryMock = $this->getMock('Magento\Validator\Composite\VarienObjectFactory', array('create'),
             array(), '', false);
-        $roleFactoryMock = $this->getMock('Magento_User_Model_RoleFactory', array('create'),
+        $roleFactoryMock = $this->getMock('Magento\User\Model\RoleFactory', array('create'),
             array(), '', false);
-        $emailFactoryMock = $this->getMock('Magento_Core_Model_Email_InfoFactory', array('create'),
+        $emailFactoryMock = $this->getMock('Magento\Core\Model\Email\InfoFactory', array('create'),
             array(), '', false);
-        $mailerFactoryMock = $this->getMock('Magento_Core_Model_Email_Template_MailerFactory', array('create'),
+        $mailerFactoryMock = $this->getMock('Magento\Core\Model\Email\Template\MailerFactory', array('create'),
             array(), '', false);
 
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_model = $helper->getObject('Magento_User_Model_User', array(
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_model = $helper->getObject('Magento\User\Model\User', array(
             'eventManager' => $eventManagerMock,
             'userData' => $this->_userData,
             'coreData' => $this->_coreData,
@@ -108,8 +110,8 @@ class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
             ->with(
                 $this->equalTo($email),
                 $this->equalTo($firstName . ' ' . $lastName),
-                $this->equalTo(Magento_User_Model_User::XML_PATH_RESET_PASSWORD_TEMPLATE),
-                $this->equalTo(Magento_User_Model_User::XML_PATH_FORGOT_EMAIL_IDENTITY),
+                $this->equalTo(\Magento\User\Model\User::XML_PATH_RESET_PASSWORD_TEMPLATE),
+                $this->equalTo(\Magento\User\Model\User::XML_PATH_FORGOT_EMAIL_IDENTITY),
                 $this->equalTo(array('user' => $this->_model)),
                 $storeId
             );

@@ -7,82 +7,84 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Block_Template_Context extends Magento_Core_Block_Context
+namespace Magento\Core\Block\Template;
+
+class Context extends \Magento\Core\Block\Context
 {
     /**
      * Dirs instance
      *
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_dirs;
 
     /**
      * Logger instance
      *
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
      * Filesystem instance
      *
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
     /**
-     * @var Magento_Core_Model_View_FileSystem
+     * @var \Magento\Core\Model\View\FileSystem
      */
     protected $_viewFileSystem;
 
     /**
-     * @var Magento_Core_Model_TemplateEngine_Factory
+     * @var \Magento\Core\Model\TemplateEngine\Factory
      */
     protected $_engineFactory;
 
     /**
-     * @param Magento_Core_Controller_Request_Http $request
-     * @param Magento_Core_Model_Layout $layout
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_UrlInterface $urlBuilder
-     * @param Magento_Core_Model_Translate $translator
-     * @param Magento_Core_Model_CacheInterface $cache
-     * @param Magento_Core_Model_View_DesignInterface $design
-     * @param Magento_Core_Model_Session $session
-     * @param Magento_Core_Model_Store_Config $storeConfig
-     * @param Magento_Core_Controller_Varien_Front $frontController
-     * @param Magento_Core_Model_Factory_Helper $helperFactory
-     * @param Magento_Core_Model_View_Url $viewUrl
-     * @param Magento_Core_Model_View_Config $viewConfig
-     * @param Magento_Core_Model_Cache_StateInterface $cacheState
-     * @param Magento_Core_Model_App $app
-     * @param Magento_Core_Model_Dir $dirs
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Filesystem $filesystem
-     * @param Magento_Core_Model_View_FileSystem $viewFileSystem
-     * @param Magento_Core_Model_TemplateEngine_Factory $engineFactory
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\UrlInterface $urlBuilder
+     * @param \Magento\Core\Model\Translate $translator
+     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\Core\Model\Session $session
+     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Core\Controller\Varien\Front $frontController
+     * @param \Magento\Core\Model\Factory\Helper $helperFactory
+     * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\Core\Model\View\Config $viewConfig
+     * @param \Magento\Core\Model\Cache\StateInterface $cacheState
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Core\Model\Dir $dirs
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
+     * @param \Magento\Core\Model\TemplateEngine\Factory $engineFactory
      */
     public function __construct(
-        Magento_Core_Controller_Request_Http $request,
-        Magento_Core_Model_Layout $layout,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_UrlInterface $urlBuilder,
-        Magento_Core_Model_Translate $translator,
-        Magento_Core_Model_CacheInterface $cache,
-        Magento_Core_Model_View_DesignInterface $design,
-        Magento_Core_Model_Session $session,
-        Magento_Core_Model_Store_Config $storeConfig,
-        Magento_Core_Controller_Varien_Front $frontController,
-        Magento_Core_Model_Factory_Helper $helperFactory,
-        Magento_Core_Model_View_Url $viewUrl,
-        Magento_Core_Model_View_Config $viewConfig,
-        Magento_Core_Model_Cache_StateInterface $cacheState,
-        Magento_Core_Model_Dir $dirs,
-        Magento_Core_Model_Logger $logger,
-        Magento_Filesystem $filesystem,
-        Magento_Core_Model_View_FileSystem $viewFileSystem,
-        Magento_Core_Model_TemplateEngine_Factory $engineFactory,
-        Magento_Core_Model_App $app
+        \Magento\Core\Controller\Request\Http $request,
+        \Magento\Core\Model\Layout $layout,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\UrlInterface $urlBuilder,
+        \Magento\Core\Model\Translate $translator,
+        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\Core\Model\Session $session,
+        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Core\Controller\Varien\Front $frontController,
+        \Magento\Core\Model\Factory\Helper $helperFactory,
+        \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\Core\Model\View\Config $viewConfig,
+        \Magento\Core\Model\Cache\StateInterface $cacheState,
+        \Magento\Core\Model\Dir $dirs,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Filesystem $filesystem,
+        \Magento\Core\Model\View\FileSystem $viewFileSystem,
+        \Magento\Core\Model\TemplateEngine\Factory $engineFactory,
+        \Magento\Core\Model\App $app
     ) {
         parent::__construct(
             $request, $layout, $eventManager, $urlBuilder, $translator, $cache, $design, $session,
@@ -98,7 +100,7 @@ class Magento_Core_Block_Template_Context extends Magento_Core_Block_Context
 
     /**
      * Get dirs instance
-     * @return Magento_Core_Model_Dir
+     * @return \Magento\Core\Model\Dir
      */
     public function getDirs()
     {
@@ -108,7 +110,7 @@ class Magento_Core_Block_Template_Context extends Magento_Core_Block_Context
     /**
      * Get filesystem instance
      *
-     * @return Magento_Filesystem
+     * @return \Magento\Filesystem
      */
     public function getFilesystem()
     {
@@ -118,7 +120,7 @@ class Magento_Core_Block_Template_Context extends Magento_Core_Block_Context
     /**
      * Get logger instance
      *
-     * @return Magento_Core_Model_Logger
+     * @return \Magento\Core\Model\Logger
      */
     public function getLogger()
     {
@@ -128,7 +130,7 @@ class Magento_Core_Block_Template_Context extends Magento_Core_Block_Context
     /**
      * Get view file system model
      *
-     * @return Magento_Core_Model_View_FileSystem
+     * @return \Magento\Core\Model\View\FileSystem
      */
     public function getViewFileSystem()
     {
@@ -138,7 +140,7 @@ class Magento_Core_Block_Template_Context extends Magento_Core_Block_Context
     /**
      * Get the template engine factory instance
      *
-     * @return Magento_Core_Model_TemplateEngine_Factory
+     * @return \Magento\Core\Model\TemplateEngine\Factory
      */
     public function getEngineFactory()
     {

@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Catalog Quick Search Form Suggestions" type="fragment" owner="default">
-    <block class="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
-        <block class="Magento_CatalogSearch_Block_Autocomplete" name="autocomplete"/>
+    <block class="Magento\Page\Block\Html" name="root" output="1" template="page_fragment.phtml">
+        <block class="Magento\CatalogSearch\Block\Autocomplete" name="autocomplete"/>
     </block>
 </layout>

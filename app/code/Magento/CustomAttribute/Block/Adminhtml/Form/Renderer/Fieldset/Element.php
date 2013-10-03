@@ -14,24 +14,26 @@
  * @category   Magento
  * @package    Magento_CustomAttribute
  */
-class Magento_CustomAttribute_Block_Adminhtml_Form_Renderer_Fieldset_Element
-    extends Magento_Backend_Block_Widget_Form_Renderer_Fieldset_Element
+namespace Magento\CustomAttribute\Block\Adminhtml\Form\Renderer\Fieldset;
+
+class Element
+    extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element
 {
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -42,7 +44,7 @@ class Magento_CustomAttribute_Block_Adminhtml_Form_Renderer_Fieldset_Element
     /**
      * Retrieve data object related with form
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getDataObject()
     {
@@ -84,7 +86,7 @@ class Magento_CustomAttribute_Block_Adminhtml_Form_Renderer_Fieldset_Element
     /**
      * Disable field in default value using case
      *
-     * @return Magento_CustomAttribute_Block_Adminhtml_Form_Renderer_Fieldset_Element
+     * @return \Magento\CustomAttribute\Block\Adminhtml\Form\Renderer\Fieldset\Element
      */
     public function checkFieldDisable()
     {

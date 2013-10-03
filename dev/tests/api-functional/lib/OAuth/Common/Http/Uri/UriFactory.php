@@ -1,7 +1,7 @@
 <?php
 namespace OAuth\Common\Http\Uri;
 
-use RuntimeException;
+use \RuntimeException;
 
 /**
  * Factory class for uniform resource indicators
@@ -82,7 +82,7 @@ class UriFactory implements UriFactoryInterface
     /**
      * @param array $_server
      * @return string
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     private function detectPath($_server) {
         if (isset($_server['REQUEST_URI'])) {
@@ -90,7 +90,7 @@ class UriFactory implements UriFactoryInterface
         } elseif (isset($_server['REDIRECT_URL'])) {
             $uri = $_server['REDIRECT_URL'];
         } else {
-            throw new RuntimeException("Could not detect URI path from superglobal");
+            throw new \RuntimeException("Could not detect URI path from superglobal");
         }
 
         $queryStr = strpos($uri, '?');

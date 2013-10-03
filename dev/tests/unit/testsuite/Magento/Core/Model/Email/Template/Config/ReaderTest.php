@@ -5,26 +5,28 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Email_Template_Config_ReaderTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Email\Template\Config;
+
+class ReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Email_Template_Config_Reader
+     * @var \Magento\Core\Model\Email\Template\Config\Reader
      */
     protected $_model;
 
     /**
-     * @var Magento_Catalog_Model_Attribute_Config_Converter|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Catalog\Model\Attribute\Config\Converter|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_converter;
 
     /**
-     * @var Magento_Core_Model_Module_Dir_ReverseResolver|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Module\Dir\ReverseResolver|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_moduleDirResolver;
 
     protected function setUp()
     {
-        $fileResolver = $this->getMock('Magento_Config_FileResolverInterface');
+        $fileResolver = $this->getMock('Magento\Config\FileResolverInterface');
         $fileResolver
             ->expects($this->once())
             ->method('get')
@@ -35,26 +37,26 @@ class Magento_Core_Model_Email_Template_Config_ReaderTest extends PHPUnit_Framew
             )))
         ;
 
-        $this->_converter = $this->getMock('Magento_Core_Model_Email_Template_Config_Converter', array('convert'));
+        $this->_converter = $this->getMock('Magento\Core\Model\Email\Template\Config\Converter', array('convert'));
 
         $moduleReader = $this->getMock(
-            'Magento_Core_Model_Config_Modules_Reader', array('getModuleDir'), array(), '', false
+            'Magento\Core\Model\Config\Modules\Reader', array('getModuleDir'), array(), '', false
         );
         $moduleReader
             ->expects($this->once())
             ->method('getModuleDir')->with('etc', 'Magento_Core')
             ->will($this->returnValue('stub'))
         ;
-        $schemaLocator = new Magento_Core_Model_Email_Template_Config_SchemaLocator($moduleReader);
+        $schemaLocator = new \Magento\Core\Model\Email\Template\Config\SchemaLocator($moduleReader);
 
-        $validationState = $this->getMock('Magento_Config_ValidationStateInterface');
+        $validationState = $this->getMock('Magento\Config\ValidationStateInterface');
         $validationState->expects($this->once())->method('isValidated')->will($this->returnValue(false));
 
         $this->_moduleDirResolver = $this->getMock(
-            'Magento_Core_Model_Module_Dir_ReverseResolver', array(), array(), '', false
+            'Magento\Core\Model\Module\Dir\ReverseResolver', array(), array(), '', false
         );
 
-        $this->_model = new Magento_Core_Model_Email_Template_Config_Reader(
+        $this->_model = new \Magento\Core\Model\Email\Template\Config\Reader(
             $fileResolver,
             $this->_converter,
             $schemaLocator,
@@ -77,16 +79,16 @@ class Magento_Core_Model_Email_Template_Config_ReaderTest extends PHPUnit_Framew
             ->with(__DIR__ . '/_files/Fixture/ModuleTwo/etc/email_templates_two.xml')
             ->will($this->returnValue('Fixture_ModuleTwo'))
         ;
-        $constraint = function (DOMDOcument $actual) {
+        $constraint = function (\DOMDOcument $actual) {
             try {
                 $expected = __DIR__ . '/_files/email_templates_merged.xml';
-                PHPUnit_Framework_Assert::assertXmlStringEqualsXmlFile($expected, $actual->saveXML());
+                \PHPUnit_Framework_Assert::assertXmlStringEqualsXmlFile($expected, $actual->saveXML());
                 return true;
-            } catch (PHPUnit_Framework_AssertionFailedError $e) {
+            } catch (\PHPUnit_Framework_AssertionFailedError $e) {
                 return false;
             }
         };
-        $expectedResult = new stdClass();
+        $expectedResult = new \stdClass();
         $this->_converter
             ->expects($this->once())
             ->method('convert')
@@ -97,7 +99,7 @@ class Magento_Core_Model_Email_Template_Config_ReaderTest extends PHPUnit_Framew
     }
 
     /**
-     * @expectedException UnexpectedValueException
+     * @expectedException \UnexpectedValueException
      * @expectedExceptionMessage Unable to determine a module
      */
     public function testReadUnknownModule()

@@ -11,7 +11,9 @@
 /**
  * RMA Item Form Model
  */
-class Magento_Rma_Model_Item_Form extends Magento_Eav_Model_Form
+namespace Magento\Rma\Model\Item;
+
+class Form extends \Magento\Eav\Model\Form
 {
     /**
      * Current module pathname
@@ -28,29 +30,29 @@ class Magento_Rma_Model_Item_Form extends Magento_Eav_Model_Form
     protected $_entityTypeCode = 'rma_item';
 
     /**
-     * @var Magento_Rma_Model_Resource_Item_Form_Attribute_CollectionFactory
+     * @var \Magento\Rma\Model\Resource\Item\Form\Attribute\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
-     * @param Magento_Eav_Model_AttributeDataFactory $attrDataFactory
-     * @param Magento_Validator_UniversalFactory $universalFactory
-     * @param Magento_Core_Controller_Request_Http $httpRequest
-     * @param Magento_Validator_ConfigFactory $validatorConfigFactory
-     * @param Magento_Rma_Model_Resource_Item_Form_Attribute_CollectionFactory $collectionFactory
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
+     * @param \Magento\Eav\Model\AttributeDataFactory $attrDataFactory
+     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Core\Controller\Request\Http $httpRequest
+     * @param \Magento\Validator\ConfigFactory $validatorConfigFactory
+     * @param \Magento\Rma\Model\Resource\Item\Form\Attribute\CollectionFactory $collectionFactory
      */
     public function __construct(
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Core_Model_Config_Modules_Reader $modulesReader,
-        Magento_Eav_Model_AttributeDataFactory $attrDataFactory,
-        Magento_Validator_UniversalFactory $universalFactory,
-        Magento_Core_Controller_Request_Http $httpRequest,
-        Magento_Validator_ConfigFactory $validatorConfigFactory,
-        Magento_Rma_Model_Resource_Item_Form_Attribute_CollectionFactory $collectionFactory
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Model\Config\Modules\Reader $modulesReader,
+        \Magento\Eav\Model\AttributeDataFactory $attrDataFactory,
+        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Core\Controller\Request\Http $httpRequest,
+        \Magento\Validator\ConfigFactory $validatorConfigFactory,
+        \Magento\Rma\Model\Resource\Item\Form\Attribute\CollectionFactory $collectionFactory
     ) {
         $this->_collectionFactory = $collectionFactory;
         parent::__construct(
@@ -67,7 +69,7 @@ class Magento_Rma_Model_Item_Form extends Magento_Eav_Model_Form
     /**
      * Get EAV Entity Form Attribute Collection
      *
-     * @return Magento_Rma_Model_Resource_Item_Form_Attribute_Collection
+     * @return \Magento\Rma\Model\Resource\Item\Form\Attribute\Collection
      */
     protected function _getFormAttributeCollection()
     {

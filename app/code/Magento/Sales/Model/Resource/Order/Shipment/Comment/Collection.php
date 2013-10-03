@@ -16,8 +16,10 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Order_Shipment_Comment_Collection
-    extends Magento_Sales_Model_Resource_Order_Comment_Collection_Abstract
+namespace Magento\Sales\Model\Resource\Order\Shipment\Comment;
+
+class Collection
+    extends \Magento\Sales\Model\Resource\Order\Comment\Collection\AbstractCollection
 {
     /**
      * Event prefix
@@ -39,14 +41,14 @@ class Magento_Sales_Model_Resource_Order_Shipment_Comment_Collection
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Order_Shipment_Comment', 'Magento_Sales_Model_Resource_Order_Shipment_Comment');
+        $this->_init('Magento\Sales\Model\Order\Shipment\Comment', 'Magento\Sales\Model\Resource\Order\Shipment\Comment');
     }
 
     /**
      * Set shipment filter
      *
      * @param int $shipmentId
-     * @return Magento_Sales_Model_Resource_Order_Shipment_Comment_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Shipment\Comment\Collection
      */
     public function setShipmentFilter($shipmentId)
     {

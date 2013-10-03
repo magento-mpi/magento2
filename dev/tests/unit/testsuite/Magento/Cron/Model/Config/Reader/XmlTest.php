@@ -7,11 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Cron\Model\Config\Reader;
 
-class Magento_Cron_Model_Config_Reader_XmlTest extends PHPUnit_Framework_TestCase
+class XmlTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Cron_Model_Config_Reader_Xml
+     * @var \Magento\Cron\Model\Config\Reader\Xml
      */
     protected $_xmlReader;
 
@@ -20,19 +21,19 @@ class Magento_Cron_Model_Config_Reader_XmlTest extends PHPUnit_Framework_TestCas
      */
     public function setUp()
     {
-        $fileResolver = $this->getMockBuilder('Magento_Core_Model_Config_FileResolver')
+        $fileResolver = $this->getMockBuilder('Magento\Core\Model\Config\FileResolver')
             ->disableOriginalConstructor()
             ->getMock();
-        $converter = $this->getMockBuilder('Magento_Cron_Model_Config_Converter_Xml')
+        $converter = $this->getMockBuilder('Magento\Cron\Model\Config\Converter\Xml')
             ->disableOriginalConstructor()
             ->getMock();
-        $schema = $this->getMockBuilder('Magento_Cron_Model_Config_SchemaLocator')
+        $schema = $this->getMockBuilder('Magento\Cron\Model\Config\SchemaLocator')
             ->disableOriginalConstructor()
             ->getMock();
-        $validator = $this->getMockBuilder('Magento_Core_Model_Config_ValidationState')
+        $validator = $this->getMockBuilder('Magento\Core\Model\Config\ValidationState')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_xmlReader = new Magento_Cron_Model_Config_Reader_Xml($fileResolver, $converter, $schema, $validator);
+        $this->_xmlReader = new \Magento\Cron\Model\Config\Reader\Xml($fileResolver, $converter, $schema, $validator);
     }
 
     /**
@@ -40,6 +41,6 @@ class Magento_Cron_Model_Config_Reader_XmlTest extends PHPUnit_Framework_TestCas
      */
     public function testInstanceof()
     {
-        $this->assertInstanceOf('Magento_Cron_Model_Config_Reader_Xml', $this->_xmlReader);
+        $this->assertInstanceOf('Magento\Cron\Model\Config\Reader\Xml', $this->_xmlReader);
     }
 }

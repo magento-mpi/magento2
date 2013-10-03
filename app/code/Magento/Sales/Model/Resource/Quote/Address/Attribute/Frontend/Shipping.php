@@ -16,16 +16,18 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Quote_Address_Attribute_Frontend_Shipping
-    extends Magento_Sales_Model_Resource_Quote_Address_Attribute_Frontend
+namespace Magento\Sales\Model\Resource\Quote\Address\Attribute\Frontend;
+
+class Shipping
+    extends \Magento\Sales\Model\Resource\Quote\Address\Attribute\Frontend
 {
     /**
      * Fetch totals
      *
-     * @param Magento_Sales_Model_Quote_Address $address
-     * @return Magento_Sales_Model_Resource_Quote_Address_Attribute_Frontend_Shipping
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @return \Magento\Sales\Model\Resource\Quote\Address\Attribute\Frontend\Shipping
      */
-    public function fetchTotals(Magento_Sales_Model_Quote_Address $address)
+    public function fetchTotals(\Magento\Sales\Model\Quote\Address $address)
     {
         $amount = $address->getShippingAmount();
         if ($amount != 0) {

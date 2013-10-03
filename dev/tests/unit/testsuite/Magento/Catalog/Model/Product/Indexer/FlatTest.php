@@ -10,36 +10,38 @@
  */
 
 /**
- * Test class for Magento_Catalog_Model_Product_Indexer_Flat
+ * Test class for \Magento\Catalog\Model\Product\Indexer\Flat
  */
-class Magento_Catalog_Model_Product_Indexer_FlatTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Product\Indexer;
+
+class FlatTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_Product_Indexer_Flat
+     * @var \Magento\Catalog\Model\Product\Indexer\Flat
      */
     protected $_model = null;
 
     /**
-     * @var Magento_Index_Model_Event
+     * @var \Magento\Index\Model\Event
      */
     protected $_event = null;
 
     protected function setUp()
     {
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $indexerFactoryMock = $this->getMock('Magento_Catalog_Model_Product_Flat_IndexerFactory', array(), array(),
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $indexerFactoryMock = $this->getMock('Magento\Catalog\Model\Product\Flat\IndexerFactory', array(), array(),
             '', false);
-        $this->_model = $objectManagerHelper->getObject('Magento_Catalog_Model_Product_Indexer_Flat', array(
+        $this->_model = $objectManagerHelper->getObject('Magento\Catalog\Model\Product\Indexer\Flat', array(
             'flatIndexerFactory' => $indexerFactoryMock,
         ));
-        $this->_event = $this->getMock('Magento_Index_Model_Event',
+        $this->_event = $this->getMock('Magento\Index\Model\Event',
             array('getFlatHelper', 'getEntity', 'getType', 'getDataObject'), array(), '', false
         );
     }
 
     public function testMatchEventAvailability()
     {
-        $flatHelper = $this->getMock('Magento_Catalog_Helper_Product_Flat', array(), array(), '', false, false);
+        $flatHelper = $this->getMock('Magento\Catalog\Helper\Product\Flat', array(), array(), '', false, false);
         $flatHelper->expects($this->any())
             ->method('isAvailable')
             ->will($this->returnValue(false));
@@ -63,7 +65,7 @@ class Magento_Catalog_Model_Product_Indexer_FlatTest extends PHPUnit_Framework_T
     public function testMatchEventForEavAttribute($attributeValue, $addFilterable, $origData, $data, $eventType,
         $result
     ) {
-        $flatHelper = $this->getMock('Magento_Catalog_Helper_Product_Flat', array(), array(), '', false);
+        $flatHelper = $this->getMock('Magento\Catalog\Helper\Product\Flat', array(), array(), '', false);
         $flatHelper->expects($this->any())
             ->method('isAvailable')
             ->will($this->returnValue(true));
@@ -77,10 +79,10 @@ class Magento_Catalog_Model_Product_Indexer_FlatTest extends PHPUnit_Framework_T
 
         $this->_event->expects($this->any())
             ->method('getEntity')
-            ->will($this->returnValue(Magento_Catalog_Model_Resource_Eav_Attribute::ENTITY));
+            ->will($this->returnValue(\Magento\Catalog\Model\Resource\Eav\Attribute::ENTITY));
 
         if ($attributeValue) {
-            $attributeValue = $this->getMockBuilder('Magento_Catalog_Model_Resource_Eav_Attribute')
+            $attributeValue = $this->getMockBuilder('Magento\Catalog\Model\Resource\Eav\Attribute')
                 ->disableOriginalConstructor()
                 ->setMethods(array('getData', 'getOrigData'))
                 ->getMock();
@@ -118,7 +120,7 @@ class Magento_Catalog_Model_Product_Indexer_FlatTest extends PHPUnit_Framework_T
 
         $this->_event->expects($this->any())
             ->method('getType')
-            ->will($this->returnValue(Magento_Index_Model_Event::TYPE_DELETE));
+            ->will($this->returnValue(\Magento\Index\Model\Event::TYPE_DELETE));
 
         $this->assertTrue($this->_model->matchEvent($this->_event));
     }
@@ -129,7 +131,7 @@ class Magento_Catalog_Model_Product_Indexer_FlatTest extends PHPUnit_Framework_T
 
         $this->_event->expects($this->any())
             ->method('getType')
-            ->will($this->returnValue(Magento_Index_Model_Event::TYPE_SAVE));
+            ->will($this->returnValue(\Magento\Index\Model\Event::TYPE_SAVE));
 
         $this->_event->expects($this->any())
             ->method('getDataObject')
@@ -144,9 +146,9 @@ class Magento_Catalog_Model_Product_Indexer_FlatTest extends PHPUnit_Framework_T
 
         $this->_event->expects($this->any())
             ->method('getType')
-            ->will($this->returnValue(Magento_Index_Model_Event::TYPE_SAVE));
+            ->will($this->returnValue(\Magento\Index\Model\Event::TYPE_SAVE));
 
-        $store = $this->getMockBuilder('Magento_Core_Model_Store')
+        $store = $this->getMockBuilder('Magento\Core\Model\Store')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -167,9 +169,9 @@ class Magento_Catalog_Model_Product_Indexer_FlatTest extends PHPUnit_Framework_T
 
         $this->_event->expects($this->any())
             ->method('getType')
-            ->will($this->returnValue(Magento_Index_Model_Event::TYPE_SAVE));
+            ->will($this->returnValue(\Magento\Index\Model\Event::TYPE_SAVE));
 
-        $store = $this->getMockBuilder('Magento_Core_Model_Store')
+        $store = $this->getMockBuilder('Magento\Core\Model\Store')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -186,7 +188,7 @@ class Magento_Catalog_Model_Product_Indexer_FlatTest extends PHPUnit_Framework_T
 
     protected function _prepareStoreConfiguration()
     {
-        $flatHelper = $this->getMock('Magento_Catalog_Helper_Product_Flat', array(), array(), '', false);
+        $flatHelper = $this->getMock('Magento\Catalog\Helper\Product\Flat', array(), array(), '', false);
         $flatHelper->expects($this->any())
             ->method('isAvailable')
             ->will($this->returnValue(true));
@@ -200,12 +202,12 @@ class Magento_Catalog_Model_Product_Indexer_FlatTest extends PHPUnit_Framework_T
 
         $this->_event->expects($this->any())
             ->method('getEntity')
-            ->will($this->returnValue(Magento_Core_Model_Store::ENTITY));
+            ->will($this->returnValue(\Magento\Core\Model\Store::ENTITY));
     }
 
     public function testMatchEventForEmptyStoreGroup()
     {
-        $flatHelper = $this->getMock('Magento_Catalog_Helper_Product_Flat', array(), array(), '', false);
+        $flatHelper = $this->getMock('Magento\Catalog\Helper\Product\Flat', array(), array(), '', false);
         $flatHelper->expects($this->any())
             ->method('isAvailable')
             ->will($this->returnValue(true));
@@ -219,7 +221,7 @@ class Magento_Catalog_Model_Product_Indexer_FlatTest extends PHPUnit_Framework_T
 
         $this->_event->expects($this->any())
             ->method('getEntity')
-            ->will($this->returnValue(Magento_Core_Model_Store_Group::ENTITY));
+            ->will($this->returnValue(\Magento\Core\Model\Store\Group::ENTITY));
 
         $this->_event->expects($this->any())
             ->method('getDataObject')
@@ -231,7 +233,7 @@ class Magento_Catalog_Model_Product_Indexer_FlatTest extends PHPUnit_Framework_T
 
     public function testMatchEventForNotChangedStoreGroup()
     {
-        $flatHelper = $this->getMock('Magento_Catalog_Helper_Product_Flat', array(), array(), '', false);
+        $flatHelper = $this->getMock('Magento\Catalog\Helper\Product\Flat', array(), array(), '', false);
         $flatHelper->expects($this->any())
             ->method('isAvailable')
             ->will($this->returnValue(true));
@@ -245,9 +247,9 @@ class Magento_Catalog_Model_Product_Indexer_FlatTest extends PHPUnit_Framework_T
 
         $this->_event->expects($this->any())
             ->method('getEntity')
-            ->will($this->returnValue(Magento_Core_Model_Store_Group::ENTITY));
+            ->will($this->returnValue(\Magento\Core\Model\Store\Group::ENTITY));
 
-        $storeGroup = $this->getMockBuilder('Magento_Core_Model_Store_Group')
+        $storeGroup = $this->getMockBuilder('Magento\Core\Model\Store\Group')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -264,7 +266,7 @@ class Magento_Catalog_Model_Product_Indexer_FlatTest extends PHPUnit_Framework_T
 
     public function testMatchEventForChangedStoreGroup()
     {
-        $flatHelper = $this->getMock('Magento_Catalog_Helper_Product_Flat', array(), array(), '', false);
+        $flatHelper = $this->getMock('Magento\Catalog\Helper\Product\Flat', array(), array(), '', false);
         $flatHelper->expects($this->any())
             ->method('isAvailable')
             ->will($this->returnValue(true));
@@ -278,9 +280,9 @@ class Magento_Catalog_Model_Product_Indexer_FlatTest extends PHPUnit_Framework_T
 
         $this->_event->expects($this->any())
             ->method('getEntity')
-            ->will($this->returnValue(Magento_Core_Model_Store_Group::ENTITY));
+            ->will($this->returnValue(\Magento\Core\Model\Store\Group::ENTITY));
 
-        $storeGroup = $this->getMockBuilder('Magento_Core_Model_Store_Group')
+        $storeGroup = $this->getMockBuilder('Magento\Core\Model\Store\Group')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -297,7 +299,7 @@ class Magento_Catalog_Model_Product_Indexer_FlatTest extends PHPUnit_Framework_T
 
     public function testMatchEventParentFallback()
     {
-        $flatHelper = $this->getMock('Magento_Catalog_Helper_Product_Flat', array(), array(), '', false);
+        $flatHelper = $this->getMock('Magento\Catalog\Helper\Product\Flat', array(), array(), '', false);
         $flatHelper->expects($this->any())
             ->method('isAvailable')
             ->will($this->returnValue(true));

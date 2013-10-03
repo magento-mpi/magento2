@@ -15,12 +15,14 @@
  * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Labels extends Magento_Backend_Block_Template
+namespace Magento\Eav\Block\Adminhtml\Attribute\Edit\Options;
+
+class Labels extends \Magento\Backend\Block\Template
 {
-    /** @var Magento_Core_Model_StoreManager */
+    /** @var \Magento\Core\Model\StoreManager */
     protected $_storeManager;
 
-    /** @var Magento_Core_Model_Registry */
+    /** @var \Magento\Core\Model\Registry */
     protected $_registry;
 
     /**
@@ -29,17 +31,17 @@ class Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Labels extends Magento_
     protected $_template = 'Magento_Adminhtml::catalog/product/attribute/labels.phtml';
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);
@@ -50,7 +52,7 @@ class Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Labels extends Magento_
     /**
      * Retrieve stores collection with default store
      *
-     * @return Magento_Core_Model_Resource_Store_Collection
+     * @return \Magento\Core\Model\Resource\Store\Collection
      */
     public function getStores()
     {
@@ -80,7 +82,7 @@ class Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Labels extends Magento_
     /**
      * Retrieve attribute object from registry
      *
-     * @return Magento_Eav_Model_Entity_Attribute_Abstract
+     * @return \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
      */
     private function getAttributeObject()
     {

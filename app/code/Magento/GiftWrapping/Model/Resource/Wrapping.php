@@ -14,7 +14,9 @@
  * @category    Magento
  * @package     Magento_GiftWrapping
  */
-class Magento_GiftWrapping_Model_Resource_Wrapping extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\GiftWrapping\Model\Resource;
+
+class Wrapping extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Wrapping websites table name
@@ -45,10 +47,10 @@ class Magento_GiftWrapping_Model_Resource_Wrapping extends Magento_Core_Model_Re
     /**
      * Add store data to wrapping data
      *
-     * @param  Magento_Core_Model_Abstract $object
-     * @return Magento_Core_Model_Resource_Db_Abstract
+     * @param  \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
-    protected function _afterLoad(Magento_Core_Model_Abstract $object)
+    protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
     {
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()
@@ -91,7 +93,7 @@ class Magento_GiftWrapping_Model_Resource_Wrapping extends Magento_Core_Model_Re
     /**
      * Save wrapping per store view data
      *
-     * @param  Magento_GiftWrapping_Model_Wrapping $wrapping
+     * @param  \Magento\GiftWrapping\Model\Wrapping $wrapping
      * @return void
      */
     public function saveWrappingStoreData($wrapping)
@@ -125,7 +127,7 @@ class Magento_GiftWrapping_Model_Resource_Wrapping extends Magento_Core_Model_Re
     /**
      * Save attached websites
      *
-     * @param  Magento_GiftWrapping_Model_Wrapping $wrapping
+     * @param  \Magento\GiftWrapping\Model\Wrapping $wrapping
      * @return void
      */
     public function saveWrappingWebsiteData($wrapping)

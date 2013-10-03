@@ -16,8 +16,10 @@
  * @package     Magento_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerSegment_Model_Resource_Segment_Collection
-    extends Magento_Rule_Model_Resource_Rule_Collection_Abstract
+namespace Magento\CustomerSegment\Model\Resource\Segment;
+
+class Collection
+    extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCollection
 {
     /**
      * Store associated with rule entities information map
@@ -58,14 +60,14 @@ class Magento_CustomerSegment_Model_Resource_Segment_Collection
      */
     protected function _construct()
     {
-        $this->_init('Magento_CustomerSegment_Model_Segment', 'Magento_CustomerSegment_Model_Resource_Segment');
+        $this->_init('Magento\CustomerSegment\Model\Segment', 'Magento\CustomerSegment\Model\Resource\Segment');
     }
 
     /**
      * Limit segments collection by event name
      *
      * @param string $eventName
-     * @return Magento_CustomerSegment_Model_Resource_Segment_Collection
+     * @return \Magento\CustomerSegment\Model\Resource\Segment\Collection
      */
     public function addEventFilter($eventName)
     {
@@ -88,7 +90,7 @@ class Magento_CustomerSegment_Model_Resource_Segment_Collection
      * @param string $field
      * @param mixed $condition
      *
-     * @return Magento_CustomerSegment_Model_Resource_Segment_Collection
+     * @return \Magento\CustomerSegment\Model\Resource\Segment\Collection
      */
     public function addFieldToFilter($field, $condition = null)
     {
@@ -116,14 +118,14 @@ class Magento_CustomerSegment_Model_Resource_Segment_Collection
      * Get SQL for get record count.
      * Reset left join, group and having parts
      *
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function getSelectCountSql()
     {
         $countSelect = parent::getSelectCountSql();
         if ($this->getFlag('is_customer_count_added')) {
-            $countSelect->reset(Zend_Db_Select::GROUP);
-            $countSelect->reset(Zend_Db_Select::HAVING);
+            $countSelect->reset(\Zend_Db_Select::GROUP);
+            $countSelect->reset(\Zend_Db_Select::HAVING);
             $countSelect->resetJoinLeft();
         }
         return $countSelect;
@@ -132,7 +134,7 @@ class Magento_CustomerSegment_Model_Resource_Segment_Collection
     /**
      * Aggregate customer count by each segment
      *
-     * @return Magento_CustomerSegment_Model_Resource_Segment_Collection
+     * @return \Magento\CustomerSegment\Model\Resource\Segment\Collection
      */
     public function addCustomerCountToSelect()
     {
@@ -146,7 +148,7 @@ class Magento_CustomerSegment_Model_Resource_Segment_Collection
             ->joinLeft(
                 array('customer_count_table' => $this->getTable('magento_customersegment_customer')),
                 'customer_count_table.segment_id = main_table.segment_id',
-                array('customer_count' => new Zend_Db_Expr('COUNT(customer_count_table.customer_id)'))
+                array('customer_count' => new \Zend_Db_Expr('COUNT(customer_count_table.customer_id)'))
             )
             ->group('main_table.segment_id');
         return $this;
@@ -157,7 +159,7 @@ class Magento_CustomerSegment_Model_Resource_Segment_Collection
      *
      * @param integer $customerCount
      *
-     * @return Magento_CustomerSegment_Model_Resource_Segment_Collection
+     * @return \Magento\CustomerSegment\Model\Resource\Segment\Collection
      */
     public function addCustomerCountFilter($customerCount)
     {
@@ -175,11 +177,11 @@ class Magento_CustomerSegment_Model_Resource_Segment_Collection
     public function getAllIds()
     {
         $idsSelect = clone $this->getSelect();
-        $idsSelect->reset(Zend_Db_Select::ORDER);
-        $idsSelect->reset(Zend_Db_Select::LIMIT_COUNT);
-        $idsSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
+        $idsSelect->reset(\Zend_Db_Select::ORDER);
+        $idsSelect->reset(\Zend_Db_Select::LIMIT_COUNT);
+        $idsSelect->reset(\Zend_Db_Select::LIMIT_OFFSET);
         $select = $this->getConnection()->select()->from(
-            array('t' => new Zend_Db_Expr(sprintf('(%s)', $idsSelect))),
+            array('t' => new \Zend_Db_Expr(sprintf('(%s)', $idsSelect))),
             array('t.' . $this->getResource()->getIdFieldName())
         );
         return $this->getConnection()->fetchCol($select, $this->_bindParams);

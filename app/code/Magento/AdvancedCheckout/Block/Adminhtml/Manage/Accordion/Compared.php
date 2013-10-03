@@ -15,8 +15,10 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Compared
-    extends Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Abstract
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
+
+class Compared
+    extends \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\AbstractAccordion
 {
     /**
      * Javascript list type name for this grid
@@ -24,49 +26,49 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Compared
     protected $_listType = 'compared';
 
     /**
-     * @var Magento_Adminhtml_Helper_Sales
+     * @var \Magento\Adminhtml\Helper\Sales
      */
     protected $_adminhtmlSales;
 
     /**
-     * @var Magento_Catalog_Model_Product_Compare_ListFactory|null
+     * @var \Magento\Catalog\Model\Product\Compare\ListCompareFactory|null
      */
     protected $_compareListFactory;
 
     /**
-     * @var Magento_Catalog_Model_Config
+     * @var \Magento\Catalog\Model\Config
      */
     protected $_catalogConfig;
 
     /**
-     * @var Magento_CatalogInventory_Model_Stock_Status
+     * @var \Magento\CatalogInventory\Model\Stock\Status
      */
     protected $_catalogStockStatus;
 
     /**
-     * @param Magento_CatalogInventory_Model_Stock_Status $catalogStockStatus
-     * @param Magento_Catalog_Model_Config $catalogConfig
-     * @param Magento_Adminhtml_Helper_Sales $adminhtmlSales
-     * @param Magento_Data_CollectionFactory $collectionFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Catalog_Model_Product_Compare_ListFactory $compareListFactory
+     * @param \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Adminhtml\Helper\Sales $adminhtmlSales
+     * @param \Magento\Data\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Catalog\Model\Product\Compare\ListCompareFactory $compareListFactory
      * @param array $data
      */
     public function __construct(
-        Magento_CatalogInventory_Model_Stock_Status $catalogStockStatus,
-        Magento_Catalog_Model_Config $catalogConfig,
-        Magento_Adminhtml_Helper_Sales $adminhtmlSales,
-        Magento_Data_CollectionFactory $collectionFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Catalog_Model_Product_Compare_ListFactory $compareListFactory,
+        \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\Adminhtml\Helper\Sales $adminhtmlSales,
+        \Magento\Data\CollectionFactory $collectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Catalog\Model\Product\Compare\ListCompareFactory $compareListFactory,
         array $data = array()
     ) {
         $this->_catalogStockStatus = $catalogStockStatus;
@@ -90,7 +92,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Compared
     /**
      * Return items collection
      *
-     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
+     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
     public function getItemsCollection()
     {
@@ -103,7 +105,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Compared
                 ->addStoreFilter($this->_getStore()->getId())
                 ->setCustomerId($this->_getCustomer()->getId())
                 ->addAttributeToSelect($attributes)
-                ->addAttributeToFilter('status', Magento_Catalog_Model_Product_Status::STATUS_ENABLED);
+                ->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Status::STATUS_ENABLED);
             $this->_catalogStockStatus->addIsInStockFilterToCollection($collection);
             $collection = $this->_adminhtmlSales->applySalableProductTypesFilter($collection);
             $collection->addOptionsToResult();

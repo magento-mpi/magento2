@@ -16,8 +16,10 @@
  * @package     Magento_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerSegment_Model_Segment_Condition_Order_Address_Type
-    extends Magento_CustomerSegment_Model_Condition_Abstract
+namespace Magento\CustomerSegment\Model\Segment\Condition\Order\Address;
+
+class Type
+    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
 {
     /**
      * Condition Input Type
@@ -27,17 +29,17 @@ class Magento_CustomerSegment_Model_Segment_Condition_Order_Address_Type
     protected $_inputType = 'select';
 
     /**
-     * @param Magento_CustomerSegment_Model_Resource_Segment $resourceSegment
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_CustomerSegment_Model_Resource_Segment $resourceSegment,
-        Magento_Rule_Model_Condition_Context $context,
+        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
+        \Magento\Rule\Model\Condition\Context $context,
         array $data = array()
     ) {
         parent::__construct($resourceSegment, $context, $data);
-        $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Order_Address_Type');
+        $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Order\Address\Type');
         $this->setValue('shipping');
     }
 
@@ -67,7 +69,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Order_Address_Type
     /**
      * Initialize value select options
      *
-     * @return Magento_CustomerSegment_Model_Segment_Condition_Order_Address_Type
+     * @return \Magento\CustomerSegment\Model\Segment\Condition\Order\Address\Type
      */
     public function loadValueOptions()
     {
@@ -105,7 +107,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Order_Address_Type
      *
      * @param $customer
      * @param $website
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)
     {

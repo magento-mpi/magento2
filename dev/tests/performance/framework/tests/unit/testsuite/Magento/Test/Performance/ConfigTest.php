@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
-class Magento_Test_Performance_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Performance;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_Performance_Config
+     * @var \Magento\TestFramework\Performance\Config
      */
     protected $_object;
 
@@ -30,7 +32,7 @@ class Magento_Test_Performance_ConfigTest extends PHPUnit_Framework_TestCase
     {
         $this->_fixtureDir = __DIR__ . DIRECTORY_SEPARATOR . '_files';
         $this->_fixtureConfigData = require $this->_fixtureDir . '/config_data.php';
-        $this->_object = new Magento_TestFramework_Performance_Config(
+        $this->_object = new \Magento\TestFramework\Performance\Config(
             $this->_fixtureConfigData, $this->_fixtureDir, $this->_getFixtureAppBaseDir()
         );
     }
@@ -50,7 +52,7 @@ class Magento_Test_Performance_ConfigTest extends PHPUnit_Framework_TestCase
     public function testConstructorException(array $configData, $baseDir, $expectedException, $expectedExceptionMsg)
     {
         $this->setExpectedException($expectedException, $expectedExceptionMsg);
-        new Magento_TestFramework_Performance_Config($configData, $baseDir, $this->_getFixtureAppBaseDir());
+        new \Magento\TestFramework\Performance\Config($configData, $baseDir, $this->_getFixtureAppBaseDir());
     }
 
     /**
@@ -72,7 +74,7 @@ class Magento_Test_Performance_ConfigTest extends PHPUnit_Framework_TestCase
             'non-existing base dir' => array(
                 require __DIR__ . '/_files/config_data.php',
                 'non_existing_dir',
-                'Magento_Exception',
+                'Magento\Exception',
                 "Base directory 'non_existing_dir' does not exist",
             ),
             'invalid scenarios format' => array(
@@ -166,23 +168,23 @@ class Magento_Test_Performance_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertCount(3, $actualScenarios);
 
         // Assert that the data is passed to scenarios successfully
-        /** @var $scenario Magento_TestFramework_Performance_Scenario */
+        /** @var $scenario \Magento\TestFramework\Performance\Scenario */
         $scenario = $actualScenarios[0];
-        $this->assertInstanceOf('Magento_TestFramework_Performance_Scenario', $scenario);
+        $this->assertInstanceOf('Magento\TestFramework\Performance\Scenario', $scenario);
 
         $this->assertEquals('Scenario', $scenario->getTitle());
         $this->assertEquals(realpath(__DIR__ . '/_files/scenario.jmx'), $scenario->getFile());
 
         // Assert that default config is applied
         $expectedArguments = array(
-            Magento_TestFramework_Performance_Scenario::ARG_USERS             => 1,
-            Magento_TestFramework_Performance_Scenario::ARG_LOOPS             => 1,
-            Magento_TestFramework_Performance_Scenario::ARG_HOST              => '127.0.0.1',
-            Magento_TestFramework_Performance_Scenario::ARG_PATH              => '/',
-            Magento_TestFramework_Performance_Scenario::ARG_ADMIN_FRONTNAME   => 'backend',
-            Magento_TestFramework_Performance_Scenario::ARG_ADMIN_USERNAME    => 'admin',
-            Magento_TestFramework_Performance_Scenario::ARG_ADMIN_PASSWORD    => 'password1',
-            Magento_TestFramework_Performance_Scenario::ARG_BASEDIR           => $this->_getFixtureAppBaseDir(),
+            \Magento\TestFramework\Performance\Scenario::ARG_USERS             => 1,
+            \Magento\TestFramework\Performance\Scenario::ARG_LOOPS             => 1,
+            \Magento\TestFramework\Performance\Scenario::ARG_HOST              => '127.0.0.1',
+            \Magento\TestFramework\Performance\Scenario::ARG_PATH              => '/',
+            \Magento\TestFramework\Performance\Scenario::ARG_ADMIN_FRONTNAME   => 'backend',
+            \Magento\TestFramework\Performance\Scenario::ARG_ADMIN_USERNAME    => 'admin',
+            \Magento\TestFramework\Performance\Scenario::ARG_ADMIN_PASSWORD    => 'password1',
+            \Magento\TestFramework\Performance\Scenario::ARG_BASEDIR           => $this->_getFixtureAppBaseDir(),
             'arg1'                                              => 'value 1',
             'arg2'                                              => 'overridden value 2',
             'arg3'                                              => 'custom value 3'

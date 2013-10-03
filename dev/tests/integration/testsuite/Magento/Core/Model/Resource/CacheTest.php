@@ -9,33 +9,35 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Resource_CacheTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Resource;
+
+class CacheTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Resource_Cache
+     * @var \Magento\Core\Model\Resource\Cache
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_resourceMock;
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Resource_Cache');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Resource\Cache');
     }
 
 
     public function testGetTable()
     {
-        $this->_resourceMock = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
-            'Magento_Core_Model_Resource', array('tablePrefix' => 'prefix_')
+        $this->_resourceMock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Core\Model\Resource', array('tablePrefix' => 'prefix_')
         );
 
-        $this->_model =Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
-            'Magento_Core_Model_Resource_Cache', array('resource' => $this->_resourceMock)
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Core\Model\Resource\Cache', array('resource' => $this->_resourceMock)
         );
         $this->assertEquals('prefix_core_cache_option', $this->_model->getTable('core_cache_option'));
         $this->assertEquals('prefix_core_cache_option', $this->_model->getTable(array('core_cache', 'option')));
@@ -52,7 +54,7 @@ class Magento_Core_Model_Resource_CacheTest extends PHPUnit_Framework_TestCase
 
     public function testHasDataChanged()
     {
-        $object = new Magento_Object(
+        $object = new \Magento\Object(
             array(
                 'code'  => 'value1',
                 'value' => 'value2'

@@ -8,12 +8,14 @@
  * @license     {license_link}
  */
 
+namespace Magento\Backend\Model\Menu;
+
 /**
- * Menu item. Should be used to create nested menu structures with Magento_Backend_Model_Menu
+ * Menu item. Should be used to create nested menu structures with \Magento\Backend\Model\Menu
  *
  * @SuppressWarnings(PHPMD.TooManyFields)
  */
-class Magento_Backend_Model_Menu_Item
+class Item
 {
     /**
      * Menu item id
@@ -32,7 +34,7 @@ class Magento_Backend_Model_Menu_Item
     /**
      * Module of menu item
      *
-     * @var Magento_Core_Helper_Abstract
+     * @var \Magento\Core\Helper\AbstractHelper
      */
     protected $_moduleHelper;
 
@@ -88,7 +90,7 @@ class Magento_Backend_Model_Menu_Item
     /**
      * Acl
      *
-     * @var Magento_AuthorizationInterface
+     * @var \Magento\AuthorizationInterface
      */
     protected $_acl;
 
@@ -109,27 +111,27 @@ class Magento_Backend_Model_Menu_Item
     /**
      * Submenu item list
      *
-     * @var Magento_Backend_Model_Menu
+     * @var \Magento\Backend\Model\Menu
      */
     protected $_submenu;
 
     /**
-     * @var Magento_Backend_Model_MenuFactory
+     * @var \Magento\Backend\Model\MenuFactory
      */
     protected $_menuFactory;
 
     /**
-     * @var Magento_Backend_Model_Url
+     * @var \Magento\Backend\Model\Url
      */
     protected $_urlModel;
 
     /**
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_storeConfig;
 
     /**
-     * @var Magento_Backend_Model_Menu_Item_Validator
+     * @var \Magento\Backend\Model\Menu\Item\Validator
      */
     protected $_validator;
 
@@ -143,28 +145,28 @@ class Magento_Backend_Model_Menu_Item
     /**
      * Module list
      *
-     * @var Magento_Core_Model_ModuleListInterface
+     * @var \Magento\Core\Model\ModuleListInterface
      */
     protected $_moduleList;
 
     /**
-     * @param Magento_Backend_Model_Menu_Item_Validator $validator
-     * @param Magento_AuthorizationInterface $authorization
-     * @param Magento_Core_Model_Store_Config $storeConfig
-     * @param Magento_Backend_Model_MenuFactory $menuFactory
-     * @param Magento_Backend_Model_Url $urlModel
-     * @param Magento_Core_Helper_Abstract $helper
-     * @param Magento_Core_Model_ModuleListInterface $moduleList
+     * @param \Magento\Backend\Model\Menu\Item\Validator $validator
+     * @param \Magento\AuthorizationInterface $authorization
+     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Backend\Model\MenuFactory $menuFactory
+     * @param \Magento\Backend\Model\Url $urlModel
+     * @param \Magento\Core\Helper\AbstractHelper $helper
+     * @param \Magento\Core\Model\ModuleListInterface $moduleList
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Model_Menu_Item_Validator $validator,
-        Magento_AuthorizationInterface $authorization,
-        Magento_Core_Model_Store_Config $storeConfig,
-        Magento_Backend_Model_MenuFactory $menuFactory,
-        Magento_Backend_Model_Url $urlModel,
-        Magento_Core_Helper_Abstract $helper,
-        Magento_Core_Model_ModuleListInterface $moduleList,
+        \Magento\Backend\Model\Menu\Item\Validator $validator,
+        \Magento\AuthorizationInterface $authorization,
+        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Backend\Model\MenuFactory $menuFactory,
+        \Magento\Backend\Model\Url $urlModel,
+        \Magento\Core\Helper\AbstractHelper $helper,
+        \Magento\Core\Model\ModuleListInterface $moduleList,
         array $data = array()
     ) {
         $this->_validator = $validator;
@@ -222,7 +224,7 @@ class Magento_Backend_Model_Menu_Item
     /**
      * Retrieve submenu
      *
-     * @return Magento_Backend_Model_Menu
+     * @return \Magento\Backend\Model\Menu
      */
     public function getChildren()
     {
@@ -259,8 +261,8 @@ class Magento_Backend_Model_Menu_Item
      * Set Item action
      *
      * @param string $action
-     * @return Magento_Backend_Model_Menu_Item
-     * @throws InvalidArgumentException
+     * @return \Magento\Backend\Model\Menu\Item
+     * @throws \InvalidArgumentException
      */
     public function setAction($action)
     {
@@ -306,8 +308,8 @@ class Magento_Backend_Model_Menu_Item
      * Set Item title
      *
      * @param string $title
-     * @return Magento_Backend_Model_Menu_Item
-     * @throws InvalidArgumentException
+     * @return \Magento\Backend\Model\Menu\Item
+     * @throws \InvalidArgumentException
      */
     public function setTitle($title)
     {
@@ -340,8 +342,8 @@ class Magento_Backend_Model_Menu_Item
      * Set Item tooltip
      *
      * @param string $tooltip
-     * @return Magento_Backend_Model_Menu_Item
-     * @throws InvalidArgumentException
+     * @return \Magento\Backend\Model\Menu\Item
+     * @throws \InvalidArgumentException
      */
     public function setTooltip($tooltip)
     {
@@ -353,11 +355,11 @@ class Magento_Backend_Model_Menu_Item
     /**
      * Set Item module
      *
-     * @param Magento_Core_Helper_Abstract $helper
-     * @return Magento_Backend_Model_Menu_Item
-     * @throws InvalidArgumentException
+     * @param \Magento\Core\Helper\AbstractHelper $helper
+     * @return \Magento\Backend\Model\Menu\Item
+     * @throws \InvalidArgumentException
      */
-    public function setModuleHelper(Magento_Core_Helper_Abstract $helper)
+    public function setModuleHelper(\Magento\Core\Helper\AbstractHelper $helper)
     {
         $this->_validator->validateParam('module', $helper);
         $this->_moduleHelper = $helper;
@@ -368,8 +370,8 @@ class Magento_Backend_Model_Menu_Item
      * Set Item module dependency
      *
      * @param string $moduleName
-     * @return Magento_Backend_Model_Menu_Item
-     * @throws InvalidArgumentException
+     * @return \Magento\Backend\Model\Menu\Item
+     * @throws \InvalidArgumentException
      */
     public function setModuleDependency($moduleName)
     {
@@ -382,8 +384,8 @@ class Magento_Backend_Model_Menu_Item
      * Set Item config dependency
      *
      * @param string $configPath
-     * @return Magento_Backend_Model_Menu_Item
-     * @throws InvalidArgumentException
+     * @return \Magento\Backend\Model\Menu\Item
+     * @throws \InvalidArgumentException
      */
     public function setConfigDependency($configPath)
     {
@@ -440,7 +442,7 @@ class Magento_Backend_Model_Menu_Item
     {
         try {
             return $this->_acl->isAllowed((string)$this->_resource);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
     }
@@ -474,14 +476,14 @@ class Magento_Backend_Model_Menu_Item
 
     public function __wakeup()
     {
-        $objectManager = Magento_Core_Model_ObjectManager::getInstance();
+        $objectManager = \Magento\Core\Model\ObjectManager::getInstance();
         $this->_moduleHelper = $objectManager->get($this->_moduleHelperName);
-        $this->_validator = $objectManager->get('Magento_Backend_Model_Menu_Item_Validator');
-        $this->_acl = $objectManager->get('Magento_AuthorizationInterface');
-        $this->_storeConfig = $objectManager->get('Magento_Core_Model_Store_Config');
-        $this->_menuFactory = $objectManager->get('Magento_Backend_Model_MenuFactory');
-        $this->_urlModel = $objectManager->get('Magento_Backend_Model_Url');
-        $this->_moduleList = $objectManager->get('Magento_Core_Model_ModuleListInterface');
+        $this->_validator = $objectManager->get('Magento\Backend\Model\Menu\Item\Validator');
+        $this->_acl = $objectManager->get('Magento\AuthorizationInterface');
+        $this->_storeConfig = $objectManager->get('Magento\Core\Model\Store\Config');
+        $this->_menuFactory = $objectManager->get('Magento\Backend\Model\MenuFactory');
+        $this->_urlModel = $objectManager->get('Magento\Backend\Model\Url');
+        $this->_moduleList = $objectManager->get('Magento\Core\Model\ModuleListInterface');
         if ($this->_serializedSubmenu) {
             $this->_submenu = $this->_menuFactory->create();
             $this->_submenu->unserialize($this->_serializedSubmenu);

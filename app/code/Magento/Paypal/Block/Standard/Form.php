@@ -11,43 +11,45 @@
 /**
  * PayPal Standard payment "form"
  */
-class Magento_Paypal_Block_Standard_Form extends Magento_Payment_Block_Form
+namespace Magento\Paypal\Block\Standard;
+
+class Form extends \Magento\Payment\Block\Form
 {
     /**
      * Payment method code
      * @var string
      */
-    protected $_methodCode = Magento_Paypal_Model_Config::METHOD_WPS;
+    protected $_methodCode = \Magento\Paypal\Model\Config::METHOD_WPS;
 
     /**
      * Config model instance
      *
-     * @var Magento_Paypal_Model_Config
+     * @var \Magento\Paypal\Model\Config
      */
     protected $_config;
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @var Magento_Paypal_Model_ConfigFactory
+     * @var \Magento\Paypal\Model\ConfigFactory
      */
     protected $_paypalConfigFactory;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Paypal_Model_ConfigFactory $paypalConfigFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Paypal\Model\ConfigFactory $paypalConfigFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Paypal_Model_ConfigFactory $paypalConfigFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Paypal\Model\ConfigFactory $paypalConfigFactory,
         array $data = array()
     ) {
         $this->_locale = $locale;
@@ -61,8 +63,8 @@ class Magento_Paypal_Block_Standard_Form extends Magento_Payment_Block_Form
     protected function _construct()
     {
         $this->_config = $this->_paypalConfigFactory->create()->setMethod($this->getMethodCode());
-        /** @var $mark Magento_Core_Block_Template */
-        $mark = $this->_layout->createBlock('Magento_Core_Block_Template');
+        /** @var $mark \Magento\Core\Block\Template */
+        $mark = $this->_layout->createBlock('Magento\Core\Block\Template');
         $mark->setTemplate('Magento_Paypal::payment/mark.phtml')
             ->setPaymentAcceptanceMarkHref($this->_config->getPaymentMarkWhatIsPaypalUrl($this->_locale))
             ->setPaymentAcceptanceMarkSrc($this->_config->getPaymentMarkImageUrl($this->_locale->getLocaleCode()));

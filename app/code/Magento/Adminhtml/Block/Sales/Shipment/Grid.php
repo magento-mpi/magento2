@@ -13,27 +13,29 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Shipment_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Sales\Shipment;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
-     * @var Magento_Sales_Model_Resource_Order_Collection_Factory
+     * @var \Magento\Sales\Model\Resource\Order\Collection\Factory
      */
     protected $_collectionFactory;
 
     /**
-     * @param Magento_Sales_Model_Resource_Order_Collection_Factory $collectionFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
+     * @param \Magento\Sales\Model\Resource\Order\Collection\Factory $collectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
      * @param array $data
      */
     public function __construct(
-        Magento_Sales_Model_Resource_Order_Collection_Factory $collectionFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
+        \Magento\Sales\Model\Resource\Order\Collection\Factory $collectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
@@ -59,13 +61,13 @@ class Magento_Adminhtml_Block_Sales_Shipment_Grid extends Magento_Adminhtml_Bloc
      */
     protected function _getCollectionClass()
     {
-        return 'Magento_Sales_Model_Resource_Order_Shipment_Grid_Collection';
+        return 'Magento\Sales\Model\Resource\Order\Shipment\Grid\Collection';
     }
 
     /**
      * Prepare and set collection of grid
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
@@ -77,7 +79,7 @@ class Magento_Adminhtml_Block_Sales_Shipment_Grid extends Magento_Adminhtml_Bloc
     /**
      * Prepare and add columns to grid
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareColumns()
     {
@@ -175,7 +177,7 @@ class Magento_Adminhtml_Block_Sales_Shipment_Grid extends Magento_Adminhtml_Bloc
     /**
      * Prepare and set options for massaction
      *
-     * @return Magento_Adminhtml_Block_Sales_Shipment_Grid
+     * @return \Magento\Adminhtml\Block\Sales\Shipment\Grid
      */
     protected function _prepareMassaction()
     {

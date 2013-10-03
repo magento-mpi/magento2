@@ -16,37 +16,39 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Customer_Block_Account_Dashboard_Info extends Magento_Core_Block_Template
+namespace Magento\Customer\Block\Account\Dashboard;
+
+class Info extends \Magento\Core\Block\Template
 {
     /**
      * Cached subscription object
      *
-     * @var Magento_Newsletter_Model_Subscriber
+     * @var \Magento\Newsletter\Model\Subscriber
      */
     protected $_subscription;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @var Magento_Newsletter_Model_SubscriberFactory
+     * @var \Magento\Newsletter\Model\SubscriberFactory
      */
     protected $_subscriberFactory;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Newsletter_Model_SubscriberFactory $subscriberFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Newsletter_Model_SubscriberFactory $subscriberFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
@@ -68,7 +70,7 @@ class Magento_Customer_Block_Account_Dashboard_Info extends Magento_Core_Block_T
     /**
      * Get Customer Subscription Object Information
      *
-     * @return Magento_Newsletter_Model_Subscriber
+     * @return \Magento\Newsletter\Model\Subscriber
      */
     public function getSubscriptionObject()
     {
@@ -96,11 +98,11 @@ class Magento_Customer_Block_Account_Dashboard_Info extends Magento_Core_Block_T
      */
     public function isNewsletterEnabled()
     {
-        return $this->getLayout()->getBlockSingleton('Magento_Customer_Block_Form_Register')->isNewsletterEnabled();
+        return $this->getLayout()->getBlockSingleton('Magento\Customer\Block\Form\Register')->isNewsletterEnabled();
     }
 
     /**
-     * @return Magento_Newsletter_Model_Subscriber
+     * @return \Magento\Newsletter\Model\Subscriber
      */
     protected function _createSubscriber()
     {

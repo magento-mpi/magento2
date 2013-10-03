@@ -16,7 +16,9 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Newsletter_Model_Queue_Options_Status implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Newsletter\Model\Queue\Options;
+
+class Status implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Return statuses option array
@@ -26,11 +28,11 @@ class Magento_Newsletter_Model_Queue_Options_Status implements Magento_Core_Mode
     public function toOptionArray()
     {
         return array(
-            Magento_Newsletter_Model_Queue::STATUS_SENT 	=> __('Sent'),
-            Magento_Newsletter_Model_Queue::STATUS_CANCEL	=> __('Cancelled'),
-            Magento_Newsletter_Model_Queue::STATUS_NEVER 	=> __('Not Sent'),
-            Magento_Newsletter_Model_Queue::STATUS_SENDING => __('Sending'),
-            Magento_Newsletter_Model_Queue::STATUS_PAUSE 	=> __('Paused'),
+            \Magento\Newsletter\Model\Queue::STATUS_SENT 	=> __('Sent'),
+            \Magento\Newsletter\Model\Queue::STATUS_CANCEL	=> __('Cancelled'),
+            \Magento\Newsletter\Model\Queue::STATUS_NEVER 	=> __('Not Sent'),
+            \Magento\Newsletter\Model\Queue::STATUS_SENDING => __('Sending'),
+            \Magento\Newsletter\Model\Queue::STATUS_PAUSE 	=> __('Paused'),
         );
     }
 }

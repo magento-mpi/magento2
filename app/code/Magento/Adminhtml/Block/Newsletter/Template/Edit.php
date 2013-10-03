@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Newsletter_Template_Edit extends Magento_Adminhtml_Block_Widget
+namespace Magento\Adminhtml\Block\Newsletter\Template;
+
+class Edit extends \Magento\Adminhtml\Block\Widget
 {
     /**
      * Edit Block model
@@ -27,27 +29,27 @@ class Magento_Adminhtml_Block_Newsletter_Template_Edit extends Magento_Adminhtml
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Cms_Model_Wysiwyg_Config
+     * @var \Magento\Cms\Model\Wysiwyg\Config
      */
     protected $_wysiwygConfig;
 
     /**
-     * @param Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -58,7 +60,7 @@ class Magento_Adminhtml_Block_Newsletter_Template_Edit extends Magento_Adminhtml
     /**
      * Retrieve template object
      *
-     * @return Magento_Newsletter_Model_Template
+     * @return \Magento\Newsletter\Model\Template
      */
     public function getModel()
     {
@@ -68,7 +70,7 @@ class Magento_Adminhtml_Block_Newsletter_Template_Edit extends Magento_Adminhtml
     /**
      * Preparing block layout
      *
-     * @return Magento_Adminhtml_Block_Newsletter_Template_Edit
+     * @return \Magento\Adminhtml\Block\Newsletter\Template\Edit
      */
     protected function _prepareLayout()
     {
@@ -78,26 +80,26 @@ class Magento_Adminhtml_Block_Newsletter_Template_Edit extends Magento_Adminhtml
             $block->setCanLoadTinyMce(true);
         }
 
-        $this->addChild('back_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('back_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Back'),
             'onclick'   => "window.location.href = '" . $this->getUrl('*/*') . "'",
             'class'     => 'action-back'
         ));
 
-        $this->addChild('reset_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('reset_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Reset'),
             'onclick'   => 'window.location.href = window.location.href',
             'class'     => 'reset'
         ));
 
-        $this->addChild('to_plain_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('to_plain_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Convert to Plain Text'),
             'onclick'   => 'templateControl.stripTags();',
             'id'            => 'convert_button',
             'class'     => 'convert'
         ));
 
-        $this->addChild('to_html_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('to_html_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Return HTML Version'),
             'onclick'   => 'templateControl.unStripTags();',
             'id'            => 'convert_button_back',
@@ -105,25 +107,25 @@ class Magento_Adminhtml_Block_Newsletter_Template_Edit extends Magento_Adminhtml
             'class'     => 'return'
         ));
 
-        $this->addChild('save_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('save_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Save Template'),
             'onclick'   => 'templateControl.save();',
             'class'     => 'save primary'
         ));
 
-        $this->addChild('save_as_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('save_as_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Save As'),
             'onclick'   => 'templateControl.saveAs();',
             'class'     => 'save-as'
         ));
 
-        $this->addChild('preview_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('preview_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Preview Template'),
             'onclick'   => 'templateControl.preview();',
             'class'     => 'preview'
         ));
 
-        $this->addChild('delete_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('delete_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Delete Template'),
             'onclick'   => 'templateControl.deleteTemplate();',
             'class'     => 'delete'
@@ -216,7 +218,7 @@ class Magento_Adminhtml_Block_Newsletter_Template_Edit extends Magento_Adminhtml
      * Set edit flag for block
      *
      * @param boolean $value
-     * @return Magento_Adminhtml_Block_Newsletter_Template_Edit
+     * @return \Magento\Adminhtml\Block\Newsletter\Template\Edit
      */
     public function setEditMode($value = true)
     {
@@ -256,7 +258,7 @@ class Magento_Adminhtml_Block_Newsletter_Template_Edit extends Magento_Adminhtml
     public function getForm()
     {
         return $this->getLayout()
-            ->createBlock('Magento_Adminhtml_Block_Newsletter_Template_Edit_Form')
+            ->createBlock('Magento\Adminhtml\Block\Newsletter\Template\Edit\Form')
             ->toHtml();
     }
 

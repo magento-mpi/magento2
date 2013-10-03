@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_Catalog_Model_Resource_Setup */
+/** @var $installer \Magento\Catalog\Model\Resource\Setup */
 $installer  = $this;
 $indexFields = array('website_id', 'customer_group_id', 'min_price');
 $installer->getConnection()->addIndex(

@@ -11,6 +11,6 @@
     <update handle="formkey"/>
     <update handle="adminhtml_system_design_grid_block"/>
     <referenceContainer name="content">
-        <block class="Magento_Adminhtml_Block_System_Design" name="adminhtml.system.design.container"/>
+        <block class="Magento\Adminhtml\Block\System\Design" name="adminhtml.system.design.container"/>
     </referenceContainer>
 </layout>

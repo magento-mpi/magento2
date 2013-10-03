@@ -11,8 +11,10 @@
 /**
  * Total model for recurring profile initial fee
  */
-class Magento_Sales_Model_Quote_Address_Total_Nominal_Recurring_Initial
-    extends Magento_Sales_Model_Quote_Address_Total_Nominal_RecurringAbstract
+namespace Magento\Sales\Model\Quote\Address\Total\Nominal\Recurring;
+
+class Initial
+    extends \Magento\Sales\Model\Quote\Address\Total\Nominal\AbstractRecurring
 {
     /**
      * Custom row total/profile keys

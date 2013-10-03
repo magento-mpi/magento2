@@ -11,24 +11,26 @@
 /**
  * Fieldset renderer for PayPal solution
  */
-class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Payment
-    extends Magento_Backend_Block_System_Config_Form_Fieldset
+namespace Magento\Paypal\Block\Adminhtml\System\Config\Fieldset;
+
+class Payment
+    extends \Magento\Backend\Block\System\Config\Form\Fieldset
 {
     /**
-     * @var Magento_Backend_Model_Config
+     * @var \Magento\Backend\Model\Config
      */
     protected $_backendConfig;
 
     /**
-     * @param Magento_Backend_Block_Context $context
-     * @param Magento_Backend_Model_Auth_Session $authSession
-     * @param Magento_Backend_Model_Config $backendConfig
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Backend\Model\Auth\Session $authSession
+     * @param \Magento\Backend\Model\Config $backendConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Context $context,
-        Magento_Backend_Model_Auth_Session $authSession,
-        Magento_Backend_Model_Config $backendConfig,
+        \Magento\Backend\Block\Context $context,
+        \Magento\Backend\Model\Auth\Session $authSession,
+        \Magento\Backend\Model\Config $backendConfig,
         array $data = array()
     ) {
         $this->_backendConfig = $backendConfig;
@@ -38,7 +40,7 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Payment
     /**
      * Add custom css class
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
     protected function _getFrontendClass($element)
@@ -50,7 +52,7 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Payment
     /**
      * Check whether current payment method is enabled
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return bool
      */
     protected function _isPaymentEnabled($element)
@@ -70,7 +72,7 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Payment
     /**
      * Return header title part of html for payment solution
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
     protected function _getHeaderTitleHtml($element)
@@ -115,7 +117,7 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Payment
     /**
      * Return header comment part of html for payment solution
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
     protected function _getHeaderCommentHtml($element)
@@ -126,7 +128,7 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Payment
     /**
      * Get collapsed state on-load
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return bool
      */
     protected function _isCollapseState($element)

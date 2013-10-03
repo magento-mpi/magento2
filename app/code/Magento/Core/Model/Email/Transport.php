@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Core_Model_Email_Transport extends Zend_Mail_Transport_Sendmail
+namespace Magento\Core\Model\Email;
+
+class Transport extends \Zend_Mail_Transport_Sendmail
 {
 
 }

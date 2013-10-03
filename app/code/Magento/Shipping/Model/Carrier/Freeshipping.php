@@ -16,9 +16,11 @@
  * @package    Magento_Shipping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Shipping_Model_Carrier_Freeshipping
-    extends Magento_Shipping_Model_Carrier_Abstract
-    implements Magento_Shipping_Model_Carrier_Interface
+namespace Magento\Shipping\Model\Carrier;
+
+class Freeshipping
+    extends \Magento\Shipping\Model\Carrier\AbstractCarrier
+    implements \Magento\Shipping\Model\Carrier\CarrierInterface
 {
 
     /**
@@ -32,29 +34,29 @@ class Magento_Shipping_Model_Carrier_Freeshipping
     protected $_isFixed = true;
 
     /**
-     * @var Magento_Shipping_Model_Rate_ResultFactory
+     * @var \Magento\Shipping\Model\Rate\ResultFactory
      */
     protected $_rateResultFactory;
 
     /**
-     * @var Magento_Shipping_Model_Rate_Result_MethodFactory
+     * @var \Magento\Shipping\Model\Rate\Result\MethodFactory
      */
     protected $_rateMethodFactory;
 
     /**
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Shipping_Model_Rate_Result_ErrorFactory $rateErrorFactory
-     * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
-     * @param Magento_Shipping_Model_Rate_ResultFactory $rateResultFactory
-     * @param Magento_Shipping_Model_Rate_Result_MethodFactory $rateMethodFactory
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory
+     * @param \Magento\Shipping\Model\Rate\Result\MethodFactory $rateMethodFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Shipping_Model_Rate_Result_ErrorFactory $rateErrorFactory,
-        Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
-        Magento_Shipping_Model_Rate_ResultFactory $rateResultFactory,
-        Magento_Shipping_Model_Rate_Result_MethodFactory $rateMethodFactory,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory,
+        \Magento\Shipping\Model\Rate\Result\MethodFactory $rateMethodFactory,
         array $data = array()
     ) {
         $this->_rateResultFactory = $rateResultFactory;
@@ -65,16 +67,16 @@ class Magento_Shipping_Model_Carrier_Freeshipping
     /**
      * FreeShipping Rates Collector
      *
-     * @param Magento_Shipping_Model_Rate_Request $request
-     * @return Magento_Shipping_Model_Rate_Result
+     * @param \Magento\Shipping\Model\Rate\Request $request
+     * @return \Magento\Shipping\Model\Rate\Result
      */
-    public function collectRates(Magento_Shipping_Model_Rate_Request $request)
+    public function collectRates(\Magento\Shipping\Model\Rate\Request $request)
     {
         if (!$this->getConfigFlag('active')) {
             return false;
         }
 
-        /** @var Magento_Shipping_Model_Rate_Result $result */
+        /** @var \Magento\Shipping\Model\Rate\Result $result */
         $result = $this->_rateResultFactory->create();
 
         $this->_updateFreeMethodQuote($request);
@@ -82,7 +84,7 @@ class Magento_Shipping_Model_Carrier_Freeshipping
         if (($request->getFreeShipping())
             || ($request->getBaseSubtotalInclTax() >= $this->getConfigData('free_shipping_subtotal'))
         ) {
-            /** @var Magento_Shipping_Model_Rate_Result_Method $method */
+            /** @var \Magento\Shipping\Model\Rate\Result\Method $method */
             $method = $this->_rateMethodFactory->create();
 
             $method->setCarrier('freeshipping');
@@ -103,7 +105,7 @@ class Magento_Shipping_Model_Carrier_Freeshipping
     /**
      * Allows free shipping when all product items have free shipping (promotions etc.)
      *
-     * @param Magento_Shipping_Model_Rate_Request $request
+     * @param \Magento\Shipping\Model\Rate\Request $request
      * @return void
      */
     protected function _updateFreeMethodQuote($request)
@@ -112,7 +114,7 @@ class Magento_Shipping_Model_Carrier_Freeshipping
         $items = $request->getAllItems();
         $c = count($items);
         for ($i = 0; $i < $c; $i++) {
-            if ($items[$i]->getProduct() instanceof Magento_Catalog_Model_Product) {
+            if ($items[$i]->getProduct() instanceof \Magento\Catalog\Model\Product) {
                 if ($items[$i]->getFreeShipping()) {
                     $freeShipping = true;
                 } else {

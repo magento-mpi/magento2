@@ -11,7 +11,9 @@
 /**
  * Customers defined options
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Magento_Adminhtml_Block_Widget
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Options;
+
+class Option extends \Magento\Adminhtml\Block\Widget
 {
     protected $_productInstance;
 
@@ -24,48 +26,48 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Ma
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Catalog_Model_ProductOptions_ConfigInterface
+     * @var \Magento\Catalog\Model\ProductOptions\ConfigInterface
      */
     protected $_productOptionConfig;
 
     /**
-     * @var Magento_Catalog_Model_Product
+     * @var \Magento\Catalog\Model\Product
      */
     protected $_product;
 
     /**
-     * @var Magento_Backend_Model_Config_Source_Yesno
+     * @var \Magento\Backend\Model\Config\Source\Yesno
      */
     protected $_configYesNo;
 
     /**
-     * @var Magento_Catalog_Model_Config_Source_Product_Options_Type
+     * @var \Magento\Catalog\Model\Config\Source\Product\Options\Type
      */
     protected $_optionType;
 
     /**
-     * @param Magento_Backend_Model_Config_Source_Yesno $configYesNo
-     * @param Magento_Catalog_Model_Config_Source_Product_Options_Type $optionType
-     * @param Magento_Catalog_Model_Product $product
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Catalog_Model_ProductOptions_ConfigInterface $productOptionConfig
+     * @param \Magento\Backend\Model\Config\Source\Yesno $configYesNo
+     * @param \Magento\Catalog\Model\Config\Source\Product\Options\Type $optionType
+     * @param \Magento\Catalog\Model\Product $product
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Catalog\Model\ProductOptions\ConfigInterface $productOptionConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Model_Config_Source_Yesno $configYesNo,
-        Magento_Catalog_Model_Config_Source_Product_Options_Type $optionType,
-        Magento_Catalog_Model_Product $product,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Catalog_Model_ProductOptions_ConfigInterface $productOptionConfig,
+        \Magento\Backend\Model\Config\Source\Yesno $configYesNo,
+        \Magento\Catalog\Model\Config\Source\Product\Options\Type $optionType,
+        \Magento\Catalog\Model\Product $product,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Catalog\Model\ProductOptions\ConfigInterface $productOptionConfig,
         array $data = array()
     ) {
         $this->_optionType = $optionType;
@@ -101,7 +103,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Ma
     /**
      * Get Product
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
@@ -172,7 +174,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Ma
 
     public function getTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Html\Select')
             ->setData(array(
                 'id'    => $this->getFieldId() . '_${id}_type',
                 'class' => 'select select-product-option-type required-option-select',
@@ -185,7 +187,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Ma
 
     public function getRequireSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Html\Select')
             ->setData(array(
                 'id'    => $this->getFieldId() . '_${id}_is_require',
                 'class' => 'select'
@@ -236,9 +238,9 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Ma
         if (!$this->_values || $this->getIgnoreCaching()) {
             $showPrice = $this->getCanReadPrice();
             $values = array();
-            $scope = (int)$this->_storeManager->getStore()->getConfig(Magento_Core_Model_Store::XML_PATH_PRICE_SCOPE);
+            $scope = (int)$this->_storeManager->getStore()->getConfig(\Magento\Core\Model\Store::XML_PATH_PRICE_SCOPE);
             foreach ($optionsArr as $option) {
-                /* @var $option Magento_Catalog_Model_Product_Option */
+                /* @var $option \Magento\Catalog\Model\Product\Option */
 
                 $this->setItemCount($option->getOptionId());
 
@@ -259,11 +261,11 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Ma
                     $value['scopeTitleDisabled'] = is_null($option->getStoreTitle()) ? 'disabled' : null;
                 }
 
-                if ($option->getGroupByType() == Magento_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
+                if ($option->getGroupByType() == \Magento\Catalog\Model\Product\Option::OPTION_GROUP_SELECT) {
                     $i = 0;
                     $itemCount = 0;
                     foreach ($option->getValues() as $_value) {
-                        /* @var $_value Magento_Catalog_Model_Product_Option_Value */
+                        /* @var $_value \Magento\Catalog\Model\Product\Option\Value */
                         $value['optionValues'][$i] = array(
                             'item_count' => max($itemCount, $_value->getOptionTypeId()),
                             'option_id' => $_value->getOptionId(),
@@ -282,7 +284,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Ma
                                 $_value->getOptionTypeId());
                             $value['optionValues'][$i]['scopeTitleDisabled'] = is_null($_value->getStoreTitle())
                                 ? 'disabled' : null;
-                            if ($scope == Magento_Core_Model_Store::PRICE_SCOPE_WEBSITE) {
+                            if ($scope == \Magento\Core\Model\Store::PRICE_SCOPE_WEBSITE) {
                                 $value['optionValues'][$i]['checkboxScopePrice'] = $this->getCheckboxScopeHtml(
                                     $_value->getOptionId(), 'price', is_null($_value->getstorePrice()),
                                     $_value->getOptionTypeId());
@@ -302,14 +304,14 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Ma
                     $value['image_size_x'] = $option->getImageSizeX();
                     $value['image_size_y'] = $option->getImageSizeY();
                     if ($this->getProduct()->getStoreId() != '0'
-                        && $scope == Magento_Core_Model_Store::PRICE_SCOPE_WEBSITE
+                        && $scope == \Magento\Core\Model\Store::PRICE_SCOPE_WEBSITE
                     ) {
                         $value['checkboxScopePrice'] = $this->getCheckboxScopeHtml($option->getOptionId(), 'price',
                             is_null($option->getStorePrice()));
                         $value['scopePriceDisabled'] = is_null($option->getStorePrice()) ? 'disabled' : null;
                     }
                 }
-                $values[] = new Magento_Object($value);
+                $values[] = new \Magento\Object($value);
             }
             $this->_values = $values;
         }

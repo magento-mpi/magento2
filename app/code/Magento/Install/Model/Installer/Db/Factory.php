@@ -11,21 +11,23 @@
 /**
  * Installer DB factory
  */
-class Magento_Install_Model_Installer_Db_Factory
+namespace Magento\Install\Model\Installer\Db;
+
+class Factory
 {
     protected $_types = array(
-        'mysql4' => 'Magento_Install_Model_Installer_Db_Mysql4'
+        'mysql4' => 'Magento\Install\Model\Installer\Db\Mysql4'
     );
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -34,8 +36,8 @@ class Magento_Install_Model_Installer_Db_Factory
      * Get Installer Db type instance
      *
      * @param string $type
-     * @return Magento_Install_Model_Installer_Db_Abstract | bool
-     * @throws InvalidArgumentException
+     * @return \Magento\Install\Model\Installer\Db\AbstractDb | bool
+     * @throws \InvalidArgumentException
      */
     public function get($type)
     {

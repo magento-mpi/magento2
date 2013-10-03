@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Block_Dashboard extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block;
+
+class Dashboard extends \Magento\Adminhtml\Block\Template
 {
     protected $_locale;
 
@@ -21,26 +23,26 @@ class Magento_Adminhtml_Block_Dashboard extends Magento_Adminhtml_Block_Template
 
     protected function _prepareLayout()
     {
-        $this->addChild('lastOrders', 'Magento_Adminhtml_Block_Dashboard_Orders_Grid');
+        $this->addChild('lastOrders', 'Magento\Adminhtml\Block\Dashboard\Orders\Grid');
 
-        $this->addChild('totals', 'Magento_Adminhtml_Block_Dashboard_Totals');
+        $this->addChild('totals', 'Magento\Adminhtml\Block\Dashboard\Totals');
 
-        $this->addChild('sales', 'Magento_Adminhtml_Block_Dashboard_Sales');
+        $this->addChild('sales', 'Magento\Adminhtml\Block\Dashboard\Sales');
 
-        $this->addChild('lastSearches', 'Magento_Adminhtml_Block_Dashboard_Searches_Last');
+        $this->addChild('lastSearches', 'Magento\Adminhtml\Block\Dashboard\Searches\Last');
 
-        $this->addChild('topSearches', 'Magento_Adminhtml_Block_Dashboard_Searches_Top');
+        $this->addChild('topSearches', 'Magento\Adminhtml\Block\Dashboard\Searches\Top');
 
         if ($this->_storeConfig->getConfig(self::XML_PATH_ENABLE_CHARTS)) {
-            $block = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Dashboard_Diagrams');
+            $block = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Dashboard\Diagrams');
         } else {
-            $block = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Template')
+            $block = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Template')
                 ->setTemplate('dashboard/graph/disabled.phtml')
                 ->setConfigUrl($this->getUrl('adminhtml/system_config/edit', array('section'=>'admin')));
         }
         $this->setChild('diagrams', $block);
 
-        $this->addChild('grids', 'Magento_Adminhtml_Block_Dashboard_Grids');
+        $this->addChild('grids', 'Magento\Adminhtml\Block\Dashboard\Grids');
 
         parent::_prepareLayout();
     }

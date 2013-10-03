@@ -14,7 +14,9 @@
  * @category    Magento
  * @package     Magento_Gdata
  */
-class Magento_Gdata_Gshopping_ItemQuery extends Zend_Gdata_Query
+namespace Magento\Gdata\Gshopping;
+
+class ItemQuery extends \Zend_Gdata_Query
 {
     /**
      * The ID of an item
@@ -39,7 +41,7 @@ class Magento_Gdata_Gshopping_ItemQuery extends Zend_Gdata_Query
 
     /**
      * @param string $value
-     * @return Zend_Gdata_Gbase_ItemQuery Provides a fluent interface
+     * @return \Zend_Gdata_Gbase_ItemQuery Provides a fluent interface
      */
     public function setId($value)
     {
@@ -61,7 +63,7 @@ class Magento_Gdata_Gshopping_ItemQuery extends Zend_Gdata_Query
      * Set language code
      *
      * @param string $language code
-     * @return Magento_Gdata_Gshopping_ItemQuery
+     * @return \Magento\Gdata\Gshopping\ItemQuery
      */
     public function setLanguage($language)
     {
@@ -83,7 +85,7 @@ class Magento_Gdata_Gshopping_ItemQuery extends Zend_Gdata_Query
      * Set target country code
      *
      * @param string $targetCountry code
-     * @return Magento_Gdata_Gshopping_ItemQuery
+     * @return \Magento\Gdata\Gshopping\ItemQuery
      */
     public function setTargetCountry($targetCountry)
     {
@@ -105,7 +107,7 @@ class Magento_Gdata_Gshopping_ItemQuery extends Zend_Gdata_Query
      * Set default feed's URI
      *
      * @param string $uri URI
-     * @return Magento_Gdata_Gshopping_ItemQuery
+     * @return \Magento\Gdata\Gshopping\ItemQuery
      */
     public function setFeedUri($uri)
     {

@@ -8,17 +8,17 @@
  */
 -->
 <config>
-    <preference for="Magento_Core_Model_Db_UpdaterInterfaceTwo" type="Magento_Core_Model_Db_UpdaterTwo" />
-    <preference for="Magento_Core_Model_Db_UpdaterInterface" type="Magento_Core_Model_Db_UpdaterOne" />
-    <type name="Magento_Core_Model_Config_Loader_Local" shared="false">
+    <preference for="Magento\Core\Model\Db\UpdaterInterfaceTwo" type="Magento\Core\Model\Db\UpdaterTwo" />
+    <preference for="Magento\Core\Model\Db\UpdaterInterface" type="Magento\Core\Model\Db\UpdaterOne" />
+    <type name="Magento\Core\Model\Config\Loader\Local" shared="false">
         <param name="customFile">
-            <value type="argument">Magento_Core_Model_App::PARAM_CUSTOM_LOCAL_CONFIG</value>
+            <value type="argument">Magento\Core\Model\App::PARAM_CUSTOM_LOCAL_CONFIG</value>
         </param>
         <param name="newParam">
             <value>paramValue</value>
         </param>
         <param name="customConfig">
-            <instance shared="false" type="Magento_Core_Model_Config_Storage_Modules" />
+            <instance shared="false" type="Magento\Core\Model\Config\Storage_Modules" />
         </param>
         <param name="customValue">
             <value>someCustomValue</value>
@@ -32,15 +32,15 @@
         <plugin name="two" type="somePluginTwo" sortOrder="20" disabled="true"/>
         <plugin name="one" sortOrder="800"/>
     </type>
-    <virtualType name="Magento_Core_Model_Config_Loader_LocalVirtual" shared="true">
+    <virtualType name="Magento\Core\Model\Config\Loader\LocalVirtual" shared="true">
         <plugin name="three" type="somePluginThree"/>
         <plugin name="two" type="somePluginTwo" sortOrder="20" disabled="true"/>
         <plugin name="one" sortOrder="800"/>
     </virtualType>
-    <type name="Magento_Data_Collection_Db_FetchStrategy_Cache">
+    <type name="Magento\Data\Collection\Db\FetchStrategy\Cache">
         <param name="cacheTags">
             <value>
-                <const type='const'>Magento_Core_Model_Website::CACHE_TAG</const>
+                <const type='const'>Magento\Core\Model\Website::CACHE_TAG</const>
                 <boolFalse type='bool'>1</boolFalse>
                 <boolTrue type='int'>10</boolTrue>
                 <boolOne type='string' pattern="[0-9]*">1</boolOne>
@@ -49,7 +49,7 @@
             </value>
         </param>
         <param name="constParam">
-            <value type='const'>Magento_Core_Model_Website::CACHE_TAG</value>
+            <value type='const'>Magento\Core\Model\Website::CACHE_TAG</value>
         </param>
         <param name="boolFalseParam">
             <value type='int'>100</value>

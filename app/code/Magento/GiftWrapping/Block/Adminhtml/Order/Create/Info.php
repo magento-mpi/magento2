@@ -15,8 +15,10 @@
  * @package     Magento_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftWrapping_Block_Adminhtml_Order_Create_Info
-    extends Magento_GiftWrapping_Block_Adminhtml_Order_Create_Abstract
+namespace Magento\GiftWrapping\Block\Adminhtml\Order\Create;
+
+class Info
+    extends \Magento\GiftWrapping\Block\Adminhtml\Order\Create\AbstractCreate
 {
     /**
      * Prepare html output
@@ -35,7 +37,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_Create_Info
      */
     public function getDesignSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
             ->setData(array(
                 'id'    => 'giftwrapping_design',
                 'class' => 'select'

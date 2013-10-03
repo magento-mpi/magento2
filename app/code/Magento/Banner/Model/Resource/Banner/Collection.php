@@ -16,7 +16,9 @@
  * @package     Magento_Banner
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Banner_Model_Resource_Banner_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Banner\Model\Resource\Banner;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Initialize banner resource model
@@ -24,14 +26,14 @@ class Magento_Banner_Model_Resource_Banner_Collection extends Magento_Core_Model
      */
     protected function _construct()
     {
-        $this->_init('Magento_Banner_Model_Banner', 'Magento_Banner_Model_Resource_Banner');
+        $this->_init('Magento\Banner\Model\Banner', 'Magento\Banner\Model\Resource\Banner');
         $this->_map['fields']['banner_id'] = 'main_table.banner_id';
     }
 
     /**
      * Add stores column
      *
-     * @return Magento_Banner_Model_Resource_Banner_Collection
+     * @return \Magento\Banner\Model\Resource\Banner\Collection
      */
     protected function _afterLoad()
     {
@@ -46,7 +48,7 @@ class Magento_Banner_Model_Resource_Banner_Collection extends Magento_Core_Model
     /**
      * Set add stores column flag
      *
-     * @return Magento_Banner_Model_Resource_Banner_Collection
+     * @return \Magento\Banner\Model\Resource\Banner\Collection
      */
     public function addStoresVisibility()
     {
@@ -58,7 +60,7 @@ class Magento_Banner_Model_Resource_Banner_Collection extends Magento_Core_Model
      * Collect and set stores ids to each collection item
      * Used in banners grid as Visible in column info
      *
-     * @return Magento_Banner_Model_Resource_Banner_Collection
+     * @return \Magento\Banner\Model\Resource\Banner\Collection
      */
     protected function _addStoresVisibility()
     {
@@ -95,7 +97,7 @@ class Magento_Banner_Model_Resource_Banner_Collection extends Magento_Core_Model
      *
      * @param int|array $storeIds
      * @param bool $withAdmin
-     * @return Magento_Banner_Model_Resource_Banner_Collection
+     * @return \Magento\Banner\Model\Resource\Banner\Collection
      */
     public function addStoreFilter($storeIds, $withAdmin = true)
     {
@@ -122,7 +124,7 @@ class Magento_Banner_Model_Resource_Banner_Collection extends Magento_Core_Model
      *
      * @param array $bannerIds
      * @param bool $exclude
-     * @return Magento_Banner_Model_Resource_Banner_Collection
+     * @return \Magento\Banner\Model\Resource\Banner\Collection
      */
     public function addBannerIdsFilter($bannerIds, $exclude = false)
     {

@@ -11,37 +11,39 @@
 /**
  * Customer gift registry view items block
  */
-class Magento_GiftRegistry_Block_Customer_Items extends Magento_Catalog_Block_Product_Abstract
+namespace Magento\GiftRegistry\Block\Customer;
+
+class Items extends \Magento\Catalog\Block\Product\AbstractProduct
 {
     /**
      * Gift registry item factory
      *
-     * @var Magento_GiftRegistry_Model_ItemFactory
+     * @var \Magento\GiftRegistry\Model\ItemFactory
      */
     protected $itemFactory = null;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Model_Config $catalogConfig
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_GiftRegistry_Model_ItemFactory $itemFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\GiftRegistry\Model\ItemFactory $itemFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Model_Config $catalogConfig,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_GiftRegistry_Model_ItemFactory $itemFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
         array $data = array()
     ) {
         $this->itemFactory = $itemFactory;
@@ -60,7 +62,7 @@ class Magento_GiftRegistry_Block_Customer_Items extends Magento_Catalog_Block_Pr
     /**
      * Return list of gift registries
      *
-     * @return Magento_GiftRegistry_Model_Resource_Item_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Item\Collection
      */
     public function getItemCollection()
     {
@@ -75,18 +77,18 @@ class Magento_GiftRegistry_Block_Customer_Items extends Magento_Catalog_Block_Pr
     /**
      * Retrieve item formatted date
      *
-     * @param Magento_GiftRegistry_Model_Item $item
+     * @param \Magento\GiftRegistry\Model\Item $item
      * @return string
      */
     public function getFormattedDate($item)
     {
-        return $this->formatDate($item->getAddedAt(), Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
+        return $this->formatDate($item->getAddedAt(), \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
     }
 
     /**
      * Retrieve escaped item note
      *
-     * @param Magento_GiftRegistry_Model_Item $item
+     * @param \Magento\GiftRegistry\Model\Item $item
      * @return string
      */
     public function getEscapedNote($item)
@@ -97,7 +99,7 @@ class Magento_GiftRegistry_Block_Customer_Items extends Magento_Catalog_Block_Pr
     /**
      * Retrieve item qty
      *
-     * @param Magento_GiftRegistry_Model_Item $item
+     * @param \Magento\GiftRegistry\Model\Item $item
      * @return string
      */
     public function getItemQty($item)
@@ -108,7 +110,7 @@ class Magento_GiftRegistry_Block_Customer_Items extends Magento_Catalog_Block_Pr
     /**
      * Retrieve item fulfilled qty
      *
-     * @param Magento_GiftRegistry_Model_Item $item
+     * @param \Magento\GiftRegistry\Model\Item $item
      * @return string
      */
     public function getItemQtyFulfilled($item)
@@ -149,7 +151,7 @@ class Magento_GiftRegistry_Block_Customer_Items extends Magento_Catalog_Block_Pr
     /**
      * Returns product price
      *
-     * @param Magento_GiftRegistry_Model_Item $item
+     * @param \Magento\GiftRegistry\Model\Item $item
      * @return mixed
      */
     public function getPrice($item)

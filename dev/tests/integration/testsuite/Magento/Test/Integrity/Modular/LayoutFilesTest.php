@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
-class Magento_Test_Integrity_Modular_LayoutFilesTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Modular;
+
+class LayoutFilesTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Layout_Argument_HandlerFactory
+     * @var \Magento\Core\Model\Layout\Argument\HandlerFactory
      */
     protected $_handlerFactory;
 
@@ -23,8 +25,8 @@ class Magento_Test_Integrity_Modular_LayoutFilesTest extends PHPUnit_Framework_T
 
     protected function setUp()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $this->_handlerFactory = $objectManager->get('Magento_Core_Model_Layout_Argument_HandlerFactory');
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->_handlerFactory = $objectManager->get('Magento\Core\Model\Layout\Argument\HandlerFactory');
         $this->_types = $this->_handlerFactory->getTypes();
     }
 
@@ -35,7 +37,7 @@ class Magento_Test_Integrity_Modular_LayoutFilesTest extends PHPUnit_Framework_T
     {
         $layout = simplexml_load_file(
             $layout,
-            'Magento_Core_Model_Layout_Element'
+            'Magento\Core\Model\Layout\Element'
         );
         foreach ($layout->xpath('//*[@xsi:type]') as $argument) {
             $type = (string)$argument->attributes('xsi', true)->type;
@@ -43,14 +45,14 @@ class Magento_Test_Integrity_Modular_LayoutFilesTest extends PHPUnit_Framework_T
                 continue;
             }
             try {
-                /* @var $handler Magento_Core_Model_Layout_Argument_HandlerInterface */
+                /* @var $handler \Magento\Core\Model\Layout\Argument\HandlerInterface */
                 $handler = $this->_handlerFactory->getArgumentHandlerByType($type);
                 $argument = $handler->parse($argument);
                 if ($this->_isIgnored($argument)) {
                     continue;
                 }
                 $handler->process($argument);
-            } catch (InvalidArgumentException $e) {
+            } catch (\InvalidArgumentException $e) {
                 $this->fail($e->getMessage());
             }
         }
@@ -61,7 +63,7 @@ class Magento_Test_Integrity_Modular_LayoutFilesTest extends PHPUnit_Framework_T
      */
     public function layoutTypesDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getLayoutFiles();
+        return \Magento\TestFramework\Utility\Files::init()->getLayoutFiles();
     }
 
     /**
@@ -77,25 +79,25 @@ class Magento_Test_Integrity_Modular_LayoutFilesTest extends PHPUnit_Framework_T
             // ignored objects
             || isset($argument['value']['object'])
                 && in_array($argument['value']['object'], array(
-                    'Magento_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsCollection',
-                    'Magento_Catalog_Model_Resource_Product_Collection_AssociatedProduct',
-                    'Magento_Search_Model_Resource_Search_Grid_Collection',
-                    'Magento_Wishlist_Model_Resource_Item_Collection_Grid',
-                    'Magento_CustomerSegment_Model_Resource_Segment_Report_Detail_Collection',
+                    'Magento\Catalog\Model\Resource\Product\Type\Grouped\AssociatedProductsCollection',
+                    'Magento\Catalog\Model\Resource\Product\Collection\AssociatedProduct',
+                    'Magento\Search\Model\Resource\Search\Grid\Collection',
+                    'Magento\Wishlist\Model\Resource\Item\Collection\Grid',
+                    'Magento\CustomerSegment\Model\Resource\Segment\Report\Detail\Collection',
                 ))
 
             // ignored helpers
             || isset($argument['value']['helperClass']) &&
                 in_array($argument['value']['helperClass'] . '::' . $argument['value']['helperMethod'], array(
-                    'Magento_Pbridge_Helper_Data::getReviewButtonTemplate'
+                    'Magento\Pbridge\Helper\Data::getReviewButtonTemplate'
                 ))
 
             // ignored options
             || isset($argument['value']['model'])
                 && in_array($argument['value']['model'], array(
-                    'Magento_Search_Model_Adminhtml_Search_Grid_Options',
-                    'Magento_Logging_Model_Resource_Grid_ActionsGroup',
-                    'Magento_Logging_Model_Resource_Grid_Actions',
+                    'Magento\Search\Model\Adminhtml\Search\Grid\Options',
+                    'Magento\Logging\Model\Resource\Grid\ActionsGroup',
+                    'Magento\Logging\Model\Resource\Grid\Actions',
                 ));
     }
 }

@@ -1,16 +1,18 @@
 <?php
 /**
- * Test for Magento_Core_Model_Resource_Db_Profiler
+ * Test for \Magento\Core\Model\Resource\Db\Profiler
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Resource\Db;
+
+class ProfilerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Resource
+     * @var \Magento\Core\Model\Resource
      */
     protected $_model;
 
@@ -23,36 +25,36 @@ class Magento_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_Test
     {
         self::$_testResourceName = 'testtest_' . mt_rand(1000, 9999) . '_setup';
 
-        Magento_Profiler::enable();
+        \Magento\Profiler::enable();
     }
 
     public static function tearDownAfterClass()
     {
-        Magento_Profiler::disable();
+        \Magento\Profiler::disable();
     }
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Resource');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Resource');
     }
 
     /**
-     * @return Magento_TestFramework_Db_Adapter_Mysql
+     * @return \Magento\TestFramework\Db\Adapter\Mysql
      */
     protected function _getConnectionRead()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $localConfig = $objectManager->get('Magento_Core_Model_Config_Local');
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $localConfig = $objectManager->get('Magento\Core\Model\Config\Local');
         $connectionConfig = $localConfig->getConnection('default');
         $connectionConfig['profiler'] = array(
-            'class' => 'Magento_Core_Model_Resource_Db_Profiler',
+            'class' => 'Magento\Core\Model\Resource\Db\Profiler',
             'enabled' => 'true'
         );
         $connectionConfig['dbname'] = $connectionConfig['dbName'];
 
         return $objectManager->create(
-            'Magento_TestFramework_Db_Adapter_Mysql', array('config' => $connectionConfig)
+            'Magento\TestFramework\Db\Adapter\Mysql', array('config' => $connectionConfig)
         );
     }
 
@@ -67,24 +69,24 @@ class Magento_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_Test
     {
         $connection = $this->_getConnectionRead();
 
-        /** @var Magento_Core_Model_Resource $resource */
-        $resource = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Resource');
+        /** @var \Magento\Core\Model\Resource $resource */
+        $resource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Resource');
         $testTableName = $resource->getTableName('core_resource');
         $selectQuery = sprintf($selectQuery, $testTableName);
 
         $result = $connection->query($selectQuery);
-        if ($queryType == Zend_Db_Profiler::SELECT) {
+        if ($queryType == \Zend_Db_Profiler::SELECT) {
             $result->fetchAll();
         }
 
-        /** @var Magento_Core_Model_Resource_Db_Profiler $profiler */
+        /** @var \Magento\Core\Model\Resource\Db\Profiler $profiler */
         $profiler = $connection->getProfiler();
-        $this->assertInstanceOf('Magento_Core_Model_Resource_Db_Profiler', $profiler);
+        $this->assertInstanceOf('Magento\Core\Model\Resource\Db\Profiler', $profiler);
 
         $queryProfiles = $profiler->getQueryProfiles($queryType);
         $this->assertCount(1, $queryProfiles);
 
-        /** @var Zend_Db_Profiler_Query $queryProfile */
+        /** @var \Zend_Db_Profiler_Query $queryProfile */
         $queryProfile = end($queryProfiles);
         $this->assertInstanceOf('Zend_Db_Profiler_Query', $queryProfile);
 
@@ -97,13 +99,13 @@ class Magento_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_Test
     public function profileQueryDataProvider()
     {
         return array(
-            array("SELECT * FROM %s", Magento_DB_Profiler::SELECT),
+            array("SELECT * FROM %s", \Magento\DB\Profiler::SELECT),
             array("INSERT INTO %s (code, version, data_version) "
-                . "VALUES ('" . self::$_testResourceName . "', '1.1', '1.1')", Magento_DB_Profiler::INSERT),
+                . "VALUES ('" . self::$_testResourceName . "', '1.1', '1.1')", \Magento\DB\Profiler::INSERT),
             array("UPDATE %s SET version = '1.2' WHERE code = '" . self::$_testResourceName . "'",
-                Magento_DB_Profiler::UPDATE),
+                \Magento\DB\Profiler::UPDATE),
             array("DELETE FROM %s WHERE code = '" . self::$_testResourceName . "'",
-                Magento_DB_Profiler::DELETE),
+                \Magento\DB\Profiler::DELETE),
         );
     }
 
@@ -112,28 +114,28 @@ class Magento_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_Test
      */
     public function testProfilerDuringSqlException()
     {
-        /** @var Zend_Db_Adapter_Pdo_Abstract $connection */
+        /** @var \Zend_Db_Adapter_Pdo_Abstract $connection */
         $connection = $this->_getConnectionRead();
 
         try {
             $connection->query('SELECT * FROM unknown_table');
-        } catch (Zend_Db_Statement_Exception $exception) {
+        } catch (\Zend_Db_Statement_Exception $exception) {
         }
 
         if (!isset($exception)) {
             $this->fail("Expected exception didn't thrown!");
         }
 
-        /** @var Magento_Core_Model_Resource $resource */
-        $resource = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Resource');
+        /** @var \Magento\Core\Model\Resource $resource */
+        $resource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Resource');
         $testTableName = $resource->getTableName('core_resource');
         $connection->query('SELECT * FROM ' . $testTableName);
 
-        /** @var Magento_Core_Model_Resource_Db_Profiler $profiler */
+        /** @var \Magento\Core\Model\Resource\Db\Profiler $profiler */
         $profiler = $connection->getProfiler();
-        $this->assertInstanceOf('Magento_Core_Model_Resource_Db_Profiler', $profiler);
+        $this->assertInstanceOf('Magento\Core\Model\Resource\Db\Profiler', $profiler);
 
-        $queryProfiles = $profiler->getQueryProfiles(Magento_DB_Profiler::SELECT);
+        $queryProfiles = $profiler->getQueryProfiles(\Magento\DB\Profiler::SELECT);
         $this->assertCount(2, $queryProfiles);
     }
 }

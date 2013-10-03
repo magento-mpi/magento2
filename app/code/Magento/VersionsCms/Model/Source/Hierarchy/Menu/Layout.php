@@ -11,17 +11,19 @@
 /**
  * CMS Hierarchy Menu source model for Layouts
  */
-class Magento_VersionsCms_Model_Source_Hierarchy_Menu_Layout implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\VersionsCms\Model\Source\Hierarchy\Menu;
+
+class Layout implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @var Magento_VersionsCms_Model_Hierarchy_ConfigInterface
+     * @var \Magento\VersionsCms\Model\Hierarchy\ConfigInterface
      */
     protected $_hierarchyConfig;
 
     /**
-     * @param Magento_VersionsCms_Model_Hierarchy_ConfigInterface $hierarchyConfig
+     * @param \Magento\VersionsCms\Model\Hierarchy\ConfigInterface $hierarchyConfig
      */
-    public function __construct(Magento_VersionsCms_Model_Hierarchy_ConfigInterface $hierarchyConfig)
+    public function __construct(\Magento\VersionsCms\Model\Hierarchy\ConfigInterface $hierarchyConfig)
     {
         $this->_hierarchyConfig = $hierarchyConfig;
     }

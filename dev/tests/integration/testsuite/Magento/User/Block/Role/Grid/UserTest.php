@@ -9,25 +9,27 @@
  * @license     {license_link}
  */
 
+namespace Magento\User\Block\Role\Grid;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_User_Block_Role_Grid_UserTest extends PHPUnit_Framework_TestCase
+class UserTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_User_Block_Role_Grid_User
+     * @var \Magento\User\Block\Role\Grid\User
      */
     protected $_block;
 
     protected function setUp()
     {
-        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
-        $this->_block = $layout->createBlock('Magento_User_Block_Role_Grid_User');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
+        $this->_block = $layout->createBlock('Magento\User\Block\Role\Grid\User');
     }
 
     public function testPreparedCollection()
     {
         $this->_block->toHtml();
-        $this->assertInstanceOf('Magento_User_Model_Resource_Role_User_Collection', $this->_block->getCollection());
+        $this->assertInstanceOf('Magento\User\Model\Resource\Role\User\Collection', $this->_block->getCollection());
     }
 }

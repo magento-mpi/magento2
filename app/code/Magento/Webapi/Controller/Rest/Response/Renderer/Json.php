@@ -7,23 +7,25 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Rest_Response_Renderer_Json implements
-    Magento_Webapi_Controller_Rest_Response_RendererInterface
+namespace Magento\Webapi\Controller\Rest\Response\Renderer;
+
+class Json implements
+    \Magento\Webapi\Controller\Rest\Response\RendererInterface
 {
     /**
      * Adapter mime type.
      */
     const MIME_TYPE = 'application/json';
 
-    /** @var Magento_Core_Helper_Data */
+    /** @var \Magento\Core\Helper\Data */
     protected $_helper;
 
     /**
      * Initialize dependencies.
      *
-     * @param Magento_Core_Helper_Data $helper
+     * @param \Magento\Core\Helper\Data $helper
      */
-    public function __construct(Magento_Core_Helper_Data $helper)
+    public function __construct(\Magento\Core\Helper\Data $helper)
     {
         $this->_helper = $helper;
     }

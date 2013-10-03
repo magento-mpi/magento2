@@ -12,7 +12,9 @@
 /**
  * Catalog Rule Product Condition data model
  */
-class Magento_CatalogRule_Model_Rule_Condition_Product extends Magento_Rule_Model_Condition_Product_Abstract
+namespace Magento\CatalogRule\Model\Rule\Condition;
+
+class Product extends \Magento\Rule\Model\Condition\Product\AbstractProduct
 {
 
 }

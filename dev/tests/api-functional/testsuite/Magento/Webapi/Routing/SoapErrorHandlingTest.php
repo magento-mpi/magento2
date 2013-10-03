@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Routing_SoapErrorHandlingTest extends Magento_TestFramework_TestCase_WebapiAbstract
+namespace Magento\Webapi\Routing;
+
+class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
     protected function setUp()
     {
@@ -111,7 +113,7 @@ class Magento_Webapi_Routing_SoapErrorHandlingTest extends Magento_TestFramework
                 $this->_checkSoapFault(
                     $e,
                     'The method "returnIncompatibleDataType" of service '
-                        . '"Magento_TestModule3_Service_ErrorV1Interface" must return an array.',
+                        . '"Magento\TestModule3\Service\ErrorV1Interface" must return an array.',
                     'env:Receiver',
                     null,
                     array(),
@@ -147,14 +149,14 @@ class Magento_Webapi_Routing_SoapErrorHandlingTest extends Magento_TestFramework
     ) {
         $this->assertContains($expectedMessage, $soapFault->getMessage(), "Fault message is invalid.");
 
-        $errorDetailsNode = Magento_Webapi_Model_Soap_Fault::NODE_ERROR_DETAILS;
+        $errorDetailsNode = \Magento\Webapi\Model\Soap\Fault::NODE_ERROR_DETAILS;
         $errorDetails = isset($soapFault->detail->$errorDetailsNode) ? $soapFault->detail->$errorDetailsNode : null;
         if (!is_null($expectedErrorCode) || !empty($expectedErrorParams) || $isTraceExpected) {
             /** Check SOAP fault details */
             $this->assertNotNull($errorDetails, "Details must be present.");
 
             /** Check additional error parameters */
-            $paramsNode = Magento_Webapi_Model_Soap_Fault::NODE_ERROR_DETAIL_PARAMETERS;
+            $paramsNode = \Magento\Webapi\Model\Soap\Fault::NODE_ERROR_DETAIL_PARAMETERS;
             if ($expectedErrorParams) {
                 $this->assertEquals(
                     $expectedErrorParams,
@@ -166,8 +168,8 @@ class Magento_Webapi_Routing_SoapErrorHandlingTest extends Magento_TestFramework
             }
 
             /** Check error trace */
-            $traceNode = Magento_Webapi_Model_Soap_Fault::NODE_ERROR_DETAIL_TRACE;
-            if (!Mage::app()->isDeveloperMode()) {
+            $traceNode = \Magento\Webapi\Model\Soap\Fault::NODE_ERROR_DETAIL_TRACE;
+            if (!\Mage::app()->isDeveloperMode()) {
                 /** Developer mode changes tested behavior and it cannot properly be tested for now */
                 if ($isTraceExpected) {
                     $this->assertNotNull($errorDetails->$traceNode, "Exception trace was expected.");

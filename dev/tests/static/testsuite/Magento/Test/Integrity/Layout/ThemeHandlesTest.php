@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Layout_ThemeHandlesTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Layout;
+
+class ThemeHandlesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var array|null
@@ -34,7 +36,7 @@ class Magento_Test_Integrity_Layout_ThemeHandlesTest extends PHPUnit_Framework_T
      */
     public function designHandlesDataProvider()
     {
-        $files = Magento_TestFramework_Utility_Files::init()->getLayoutFiles(array(
+        $files = \Magento\TestFramework\Utility\Files::init()->getLayoutFiles(array(
             'include_code' => false,
             'area' => 'frontend'
         ), false);
@@ -54,7 +56,7 @@ class Magento_Test_Integrity_Layout_ThemeHandlesTest extends PHPUnit_Framework_T
     protected function _getBaseFrontendHandles()
     {
         if ($this->_baseFrontendHandles === null) {
-            $files = Magento_TestFramework_Utility_Files::init()->getLayoutFiles(array(
+            $files = \Magento\TestFramework\Utility\Files::init()->getLayoutFiles(array(
                 'include_design' => false,
                 'area' => 'frontend'
             ), false);

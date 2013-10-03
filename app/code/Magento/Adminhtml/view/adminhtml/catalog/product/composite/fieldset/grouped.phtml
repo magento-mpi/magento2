@@ -9,8 +9,8 @@
  */
  ?>
 
-<?php /* @var $this Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Grouped */ ?>
-<?php $_skipSaleableCheck = $this->helper('Magento_Catalog_Helper_Product')->getSkipSaleableCheck(); ?>
+<?php /* @var $this \Magento\Adminhtml\Block\Catalog\Product\Composite\Fieldset\Grouped */ ?>
+<?php $_skipSaleableCheck = $this->helper('Magento\Catalog\Helper\Product')->getSkipSaleableCheck(); ?>
 <div id="catalog_product_composite_configure_fields_grouped" class="grid <?php echo $this->getIsLastFieldset() ? 'last-fieldset' : '' ?>">
     <h4><?php echo __('Associated Products') ?></h4>
     <div class="product-options">
@@ -44,7 +44,7 @@
             <?php if ($_hasAssociatedProducts): ?>
                 <?php $i = 0 ?>
             <?php foreach ($_associatedProducts as $_item): ?>
-                <?php $_finalPriceInclTax = $this->helper('Magento_Tax_Helper_Data')->getPrice($_item, $_item->getFinalPrice(), true) ?>
+                <?php $_finalPriceInclTax = $this->helper('Magento\Tax\Helper\Data')->getPrice($_item, $_item->getFinalPrice(), true) ?>
                 <tr class="<?php echo (++$i % 2) ? 'even' : 'odd' ?>">
                     <td><?php echo $_item->getId() ?></td>
                     <td><?php echo $this->escapeHtml($_item->getSku()) ?></td>

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Search_Helper_ClientInterface
+namespace Magento\Search\Helper;
+
+interface ClientInterface
 {
     /**
      * Return search client options

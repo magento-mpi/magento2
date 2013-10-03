@@ -15,8 +15,10 @@
  * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_MultipleWishlist_Block_Customer_Wishlist_Item_Column_Selector_Cart
-    extends Magento_MultipleWishlist_Block_Customer_Wishlist_Item_Column_Selector
+namespace Magento\MultipleWishlist\Block\Customer\Wishlist\Item\Column\Selector;
+
+class Cart
+    extends \Magento\MultipleWishlist\Block\Customer\Wishlist\Item\Column\Selector
 {
     /**
      * Retrieve block html

@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceContainer name="content">
-        <block class="Magento_Adminhtml_Block_System_Account_Edit" name="adminhtml.system.account.edit"/>
+        <block class="Magento\Adminhtml\Block\System\Account\Edit" name="adminhtml.system.account.edit"/>
     </referenceContainer>
 </layout>

@@ -9,32 +9,34 @@
 /**
  * Simple merge strategy - merge anyway
  */
-class Magento_Core_Model_Page_Asset_MergeStrategy_Direct implements Magento_Core_Model_Page_Asset_MergeStrategyInterface
+namespace Magento\Core\Model\Page\Asset\MergeStrategy;
+
+class Direct implements \Magento\Core\Model\Page\Asset\MergeStrategyInterface
 {
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     private $_filesystem;
 
     /**
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     private $_dirs;
 
     /**
-     * @var Magento_Core_Helper_Css
+     * @var \Magento\Core\Helper\Css
      */
     private $_cssHelper;
 
     /**
-     * @param Magento_Filesystem $filesystem
-     * @param Magento_Core_Model_Dir $dirs
-     * @param Magento_Core_Helper_Css $cssHelper
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Core\Model\Dir $dirs
+     * @param \Magento\Core\Helper\Css $cssHelper
      */
     public function __construct(
-        Magento_Filesystem $filesystem,
-        Magento_Core_Model_Dir $dirs,
-        Magento_Core_Helper_Css $cssHelper
+        \Magento\Filesystem $filesystem,
+        \Magento\Core\Model\Dir $dirs,
+        \Magento\Core\Helper\Css $cssHelper
     ) {
         $this->_filesystem = $filesystem;
         $this->_dirs = $dirs;
@@ -59,16 +61,16 @@ class Magento_Core_Model_Page_Asset_MergeStrategy_Direct implements Magento_Core
      * @param string $targetFile
      * @param string $contentType
      * @return string
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     protected function _composeMergedContent(array $publicFiles, $targetFile, $contentType)
     {
         $result = array();
-        $isCss = $contentType == Magento_Core_Model_View_Publisher::CONTENT_TYPE_CSS;
+        $isCss = $contentType == \Magento\Core\Model\View\Publisher::CONTENT_TYPE_CSS;
 
         foreach ($publicFiles as $file) {
             if (!$this->_filesystem->has($file)) {
-                throw new Magento_Exception("Unable to locate file '{$file}' for merging.");
+                throw new \Magento\Exception("Unable to locate file '{$file}' for merging.");
             }
             $content = $this->_filesystem->read($file);
             if ($isCss) {

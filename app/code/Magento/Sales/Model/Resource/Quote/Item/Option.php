@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Quote_Item_Option extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Sales\Model\Resource\Quote\Item;
+
+class Option extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Main table and field initialization

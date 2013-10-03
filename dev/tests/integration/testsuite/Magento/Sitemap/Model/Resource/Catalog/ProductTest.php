@@ -9,13 +9,16 @@
  * @license     {license_link}
  */
 
+
+
+namespace Magento\Sitemap\Model\Resource\Catalog;
 /**
- * Test class for Magento_Sitemap_Model_Resource_Catalog_Product.
+ * Test class for \Magento\Sitemap\Model\Resource\Catalog\Product.
  * - test products collection generation for sitemap
  *
  * @magentoDataFixture Magento/Sitemap/_files/sitemap_products.php
  */
-class Magento_Sitemap_Model_Resource_Catalog_ProductTest extends PHPUnit_Framework_TestCase
+class ProductTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test getCollection None images
@@ -26,9 +29,9 @@ class Magento_Sitemap_Model_Resource_Catalog_ProductTest extends PHPUnit_Framewo
      */
     public function testGetCollectionNone()
     {
-        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sitemap_Model_Resource_Catalog_Product');
-        $products = $model->getCollection(Magento_Core_Model_AppInterface::DISTRO_STORE_ID);
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sitemap\Model\Resource\Catalog\Product');
+        $products = $model->getCollection(\Magento\Core\Model\AppInterface::DISTRO_STORE_ID);
 
         $this->_checkProductCollection($products, 3, array(1, 4, 5));
 
@@ -52,9 +55,9 @@ class Magento_Sitemap_Model_Resource_Catalog_ProductTest extends PHPUnit_Framewo
      */
     public function testGetCollectionAll()
     {
-        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sitemap_Model_Resource_Catalog_Product');
-        $products = $model->getCollection(Magento_Core_Model_AppInterface::DISTRO_STORE_ID);
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sitemap\Model\Resource\Catalog\Product');
+        $products = $model->getCollection(\Magento\Core\Model\AppInterface::DISTRO_STORE_ID);
 
         $this->_checkProductCollection($products, 3, array(1, 4, 5));
 
@@ -104,9 +107,9 @@ class Magento_Sitemap_Model_Resource_Catalog_ProductTest extends PHPUnit_Framewo
      */
     public function testGetCollectionBase()
     {
-        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sitemap_Model_Resource_Catalog_Product');
-        $products = $model->getCollection(Magento_Core_Model_AppInterface::DISTRO_STORE_ID);
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sitemap\Model\Resource\Catalog\Product');
+        $products = $model->getCollection(\Magento\Core\Model\AppInterface::DISTRO_STORE_ID);
 
         $this->_checkProductCollection($products, 3, array(1, 4, 5));
 

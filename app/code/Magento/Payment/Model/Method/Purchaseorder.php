@@ -8,22 +8,25 @@
  * @license     {license_link}
  */
 
-class Magento_Payment_Model_Method_Purchaseorder extends Magento_Payment_Model_Method_Abstract
+
+namespace Magento\Payment\Model\Method;
+
+class Purchaseorder extends \Magento\Payment\Model\Method\AbstractMethod
 {
     protected $_code  = 'purchaseorder';
-    protected $_formBlockType = 'Magento_Payment_Block_Form_Purchaseorder';
-    protected $_infoBlockType = 'Magento_Payment_Block_Info_Purchaseorder';
+    protected $_formBlockType = 'Magento\Payment\Block\Form\Purchaseorder';
+    protected $_infoBlockType = 'Magento\Payment\Block\Info\Purchaseorder';
 
     /**
      * Assign data to info model instance
      *
      * @param   mixed $data
-     * @return  Magento_Payment_Model_Method_Purchaseorder
+     * @return  \Magento\Payment\Model\Method\Purchaseorder
      */
     public function assignData($data)
     {
-        if (!($data instanceof Magento_Object)) {
-            $data = new Magento_Object($data);
+        if (!($data instanceof \Magento\Object)) {
+            $data = new \Magento\Object($data);
         }
 
         $this->getInfoInstance()->setPoNumber($data->getPoNumber());

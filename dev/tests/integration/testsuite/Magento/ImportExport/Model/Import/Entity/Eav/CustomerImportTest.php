@@ -12,12 +12,14 @@
 /**
  * Tests for customer V2 import model
  */
-class Magento_ImportExport_Model_Import_Entity_Eav_CustomerImportTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Import\Entity\Eav;
+
+class CustomerImportTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Model object which used for tests
      *
-     * @var Magento_ImportExport_Model_Import_Entity_Eav_Customer
+     * @var \Magento\ImportExport\Model\Import\Entity\Eav\Customer
      */
     protected $_model;
 
@@ -25,17 +27,17 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerImportTest extends PH
     {
         parent::setUp();
 
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_ImportExport_Model_Import_Entity_Eav_Customer');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ImportExport\Model\Import\Entity\Eav\Customer');
     }
 
     /**
      * Test importData() method
      *
-     * @covers Magento_ImportExport_Model_Import_Entity_Eav_Customer::_importData
-     * @covers Magento_ImportExport_Model_Import_Entity_Eav_Customer::_prepareDataForUpdate
-     * @covers Magento_ImportExport_Model_Import_Entity_Eav_Customer::_saveCustomerEntity
-     * @covers Magento_ImportExport_Model_Import_Entity_Eav_Customer::_saveCustomerAttributes
+     * @covers \Magento\ImportExport\Model\Import\Entity\Eav\Customer::_importData
+     * @covers \Magento\ImportExport\Model\Import\Entity\Eav\Customer::_prepareDataForUpdate
+     * @covers \Magento\ImportExport\Model\Import\Entity\Eav\Customer::_saveCustomerEntity
+     * @covers \Magento\ImportExport\Model\Import\Entity\Eav\Customer::_saveCustomerAttributes
      *
      * @magentoDataFixture Magento/ImportExport/_files/customer.php
      */
@@ -44,11 +46,11 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerImportTest extends PH
         // 3 customers will be imported.
         // 1 of this customers is already exist, but its first and last name were changed in file
         $expectAddedCustomers = 5;
-        $source = new Magento_ImportExport_Model_Import_Source_Csv(__DIR__ . '/_files/customers_to_import.csv');
+        $source = new \Magento\ImportExport\Model\Import\Source\Csv(__DIR__ . '/_files/customers_to_import.csv');
 
-        /** @var $customersCollection Magento_Customer_Model_Resource_Customer_Collection */
-        $customersCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Resource_Customer_Collection');
+        /** @var $customersCollection \Magento\Customer\Model\Resource\Customer\Collection */
+        $customersCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Resource\Customer\Collection');
         $customersCollection->addAttributeToSelect('firstname', 'inner')
             ->addAttributeToSelect('lastname', 'inner');
 
@@ -59,7 +61,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerImportTest extends PH
 
         $this->_model->setParameters(
                 array(
-                    'behavior' => Magento_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE
+                    'behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE
                 )
             )
             ->setSource($source)
@@ -73,10 +75,10 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerImportTest extends PH
 
         $this->assertEquals($expectAddedCustomers, $addedCustomers, 'Added unexpected amount of customers');
 
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        $existingCustomer = $objectManager->get('Magento_Core_Model_Registry')
+        $existingCustomer = $objectManager->get('Magento\Core\Model\Registry')
             ->registry('_fixture/Magento_ImportExport_Customer');
 
         $updatedCustomer = $customers[$existingCustomer->getId()];
@@ -103,25 +105,25 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerImportTest extends PH
     /**
      * Test importData() method (delete behavior)
      *
-     * @covers Magento_ImportExport_Model_Import_Entity_Eav_Customer::_importData
-     * @covers Magento_ImportExport_Model_Import_Entity_Eav_Customer::_deleteCustomers
+     * @covers \Magento\ImportExport\Model\Import\Entity\Eav\Customer::_importData
+     * @covers \Magento\ImportExport\Model\Import\Entity\Eav\Customer::_deleteCustomers
      *
      * @magentoDataFixture Magento/ImportExport/_files/customers.php
      */
     public function testDeleteData()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
-            ->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
-        $source = new Magento_ImportExport_Model_Import_Source_Csv(__DIR__ . '/_files/customers_to_import.csv');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+            ->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
+        $source = new \Magento\ImportExport\Model\Import\Source\Csv(__DIR__ . '/_files/customers_to_import.csv');
 
-        /** @var $customerCollection Magento_Customer_Model_Resource_Customer_Collection */
-        $customerCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Resource_Customer_Collection');
+        /** @var $customerCollection \Magento\Customer\Model\Resource\Customer\Collection */
+        $customerCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Resource\Customer\Collection');
         $this->assertEquals(3, $customerCollection->count(), 'Count of existing customers are invalid');
 
         $this->_model->setParameters(
                 array(
-                    'behavior' => Magento_ImportExport_Model_Import::BEHAVIOR_DELETE
+                    'behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE
                 )
             )
             ->setSource($source)
@@ -137,7 +139,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerImportTest extends PH
     /**
      * Test entity type code value
      *
-     * @covers Magento_ImportExport_Model_Import_Entity_Eav_Customer::getAttributeCollection
+     * @covers \Magento\ImportExport\Model\Import\Entity\Eav\Customer::getAttributeCollection
      */
     public function testGetEntityTypeCode()
     {

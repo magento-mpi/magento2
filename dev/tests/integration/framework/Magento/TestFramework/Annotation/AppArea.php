@@ -5,12 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_TestFramework_Annotation_AppArea
+namespace Magento\TestFramework\Annotation;
+
+class AppArea
 {
     const ANNOTATION_NAME = 'magentoAppArea';
 
     /**
-     * @var Magento_TestFramework_Application
+     * @var \Magento\TestFramework\Application
      */
     private $_application;
 
@@ -20,9 +22,9 @@ class Magento_TestFramework_Annotation_AppArea
      * @var array
      */
     private $_allowedAreas = array(
-        Magento_Core_Model_App_Area::AREA_GLOBAL,
-        Magento_Core_Model_App_Area::AREA_ADMINHTML,
-        Magento_Core_Model_App_Area::AREA_FRONTEND,
+        \Magento\Core\Model\App\Area::AREA_GLOBAL,
+        \Magento\Core\Model\App\Area::AREA_ADMINHTML,
+        \Magento\Core\Model\App\Area::AREA_FRONTEND,
         'install',
         'webapi_rest',
         'webapi_soap',
@@ -30,9 +32,9 @@ class Magento_TestFramework_Annotation_AppArea
     );
 
     /**
-     * @param Magento_TestFramework_Application $application
+     * @param \Magento\TestFramework\Application $application
      */
-    public function __construct(Magento_TestFramework_Application $application)
+    public function __construct(\Magento\TestFramework\Application $application)
     {
         $this->_application = $application;
     }
@@ -42,7 +44,7 @@ class Magento_TestFramework_Annotation_AppArea
      *
      * @param array $annotations
      * @return string
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     protected function _getTestAppArea($annotations)
     {
@@ -50,10 +52,10 @@ class Magento_TestFramework_Annotation_AppArea
                     ? current($annotations['method'][self::ANNOTATION_NAME])
                     : (isset($annotations['class'][self::ANNOTATION_NAME])
                         ? current($annotations['class'][self::ANNOTATION_NAME])
-                        : Magento_TestFramework_Application::DEFAULT_APP_AREA);
+                        : \Magento\TestFramework\Application::DEFAULT_APP_AREA);
 
         if (false == in_array($area, $this->_allowedAreas)) {
-            throw new Magento_Exception(
+            throw new \Magento\Exception(
                 'Invalid "@magentoAppArea" annotation, can be "' . implode('", "', $this->_allowedAreas) . '" only.'
             );
         }
@@ -64,9 +66,9 @@ class Magento_TestFramework_Annotation_AppArea
     /**
      * Start test case event observer
      *
-     * @param PHPUnit_Framework_TestCase $test
+     * @param \PHPUnit_Framework_TestCase $test
      */
-    public function startTest(PHPUnit_Framework_TestCase $test)
+    public function startTest(\PHPUnit_Framework_TestCase $test)
     {
         $area = $this->_getTestAppArea($test->getAnnotations());
         if ($this->_application->getArea() !== $area) {

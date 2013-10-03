@@ -16,23 +16,25 @@
  * @package     Magento_Index
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Index_Model_Resource_Setup extends Magento_Core_Model_Resource_Setup
+namespace Magento\Index\Model\Resource;
+
+class Setup extends \Magento\Core\Model\Resource\Setup
 {
     /**
-     * @var Magento_Index_Model_Indexer_ConfigInterface
+     * @var \Magento\Index\Model\Indexer\ConfigInterface
      */
     protected $_indexerConfig;
 
     /**
-     * @param Magento_Core_Model_Resource_Setup_Context $context
-     * @param Magento_Index_Model_Indexer_ConfigInterface $indexerConfig
+     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Index\Model\Indexer\ConfigInterface $indexerConfig
      * @param $resourceName
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
-        Magento_Core_Model_Resource_Setup_Context $context,
-        Magento_Index_Model_Indexer_ConfigInterface $indexerConfig,
+        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Index\Model\Indexer\ConfigInterface $indexerConfig,
         $resourceName,
         $moduleName = 'Magento_Index',
         $connectionName = ''
@@ -55,7 +57,7 @@ class Magento_Index_Model_Resource_Setup extends Magento_Core_Model_Resource_Set
     /**
      * Sync indexes declarations in config and in DB
      *
-     * @return Magento_Index_Model_Resource_Setup
+     * @return \Magento\Index\Model\Resource\Setup
      */
     protected function _syncIndexes()
     {
@@ -81,7 +83,7 @@ class Magento_Index_Model_Resource_Setup extends Magento_Core_Model_Resource_Set
             foreach ($insert as $code) {
                 $insertData[] = array(
                     'indexer_code' => $code,
-                    'status' => Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX
+                    'status' => \Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX
                 );
             }
             if (method_exists($connection, 'insertArray')) {

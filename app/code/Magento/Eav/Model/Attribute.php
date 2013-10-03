@@ -11,14 +11,16 @@
 /**
  * EAV attribute resource model (Using Forms)
  *
- * @method Magento_Eav_Model_Attribute_Data_Abstract|null getDataModel() Get data model linked to attribute or null.
+ * @method \Magento\Eav\Model\Attribute\Data\AbstractData|null getDataModel() Get data model linked to attribute or null.
  * @method string|null getFrontendInput() Get attribute type for user interface form or null
  *
  * @category   Magento
  * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_Eav_Model_Attribute extends Magento_Eav_Model_Entity_Attribute
+namespace Magento\Eav\Model;
+
+abstract class Attribute extends \Magento\Eav\Model\Entity\Attribute
 {
     /**
      * Name of the module
@@ -36,15 +38,15 @@ abstract class Magento_Eav_Model_Attribute extends Magento_Eav_Model_Entity_Attr
     /**
      * Active Website instance
      *
-     * @var Magento_Core_Model_Website
+     * @var \Magento\Core\Model\Website
      */
     protected $_website;
 
     /**
      * Set active website instance
      *
-     * @param Magento_Core_Model_Website|int $website
-     * @return Magento_Eav_Model_Attribute
+     * @param \Magento\Core\Model\Website|int $website
+     * @return \Magento\Eav\Model\Attribute
      */
     public function setWebsite($website)
     {
@@ -55,7 +57,7 @@ abstract class Magento_Eav_Model_Attribute extends Magento_Eav_Model_Entity_Attr
     /**
      * Return active website instance
      *
-     * @return Magento_Core_Model_Website
+     * @return \Magento\Core\Model\Website
      */
     public function getWebsite()
     {
@@ -69,7 +71,7 @@ abstract class Magento_Eav_Model_Attribute extends Magento_Eav_Model_Entity_Attr
     /**
      * Processing object after save data
      *
-     * @return Magento_Eav_Model_Attribute
+     * @return \Magento\Eav\Model\Attribute
      */
     protected function _afterSave()
     {
@@ -112,7 +114,7 @@ abstract class Magento_Eav_Model_Attribute extends Magento_Eav_Model_Entity_Attr
      * Set validate rules
      *
      * @param array|string $rules
-     * @return Magento_Eav_Model_Attribute
+     * @return \Magento\Eav\Model\Attribute
      */
     public function setValidateRules($rules)
     {

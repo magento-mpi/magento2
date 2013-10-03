@@ -11,8 +11,10 @@
 /**
  * Last viewed/orderd items conditions combine
  */
-class Magento_CustomerSegment_Model_Segment_Condition_Product_Combine_History
-    extends Magento_CustomerSegment_Model_Condition_Combine_Abstract
+namespace Magento\CustomerSegment\Model\Segment\Condition\Product\Combine;
+
+class History
+    extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine
 {
     /**
      * Flag of using condition combine (for conditions of Product_Attribute)
@@ -30,25 +32,25 @@ class Magento_CustomerSegment_Model_Segment_Condition_Product_Combine_History
     protected $_inputType = 'select';
 
     /**
-     * @var Magento_CustomerSegment_Model_ConditionFactory
+     * @var \Magento\CustomerSegment\Model\ConditionFactory
      */
     protected $_conditionFactory;
 
     /**
-     * @param Magento_CustomerSegment_Model_Resource_Segment $resourceSegment
-     * @param Magento_CustomerSegment_Model_ConditionFactory $conditionFactory
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
+     * @param \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_CustomerSegment_Model_Resource_Segment $resourceSegment,
-        Magento_CustomerSegment_Model_ConditionFactory $conditionFactory,
-        Magento_Rule_Model_Condition_Context $context,
+        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
+        \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
+        \Magento\Rule\Model\Condition\Context $context,
         array $data = array()
     ) {
         $this->_conditionFactory = $conditionFactory;
         parent::__construct($resourceSegment, $context, $data);
-        $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Product_Combine_History');
+        $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Product\Combine\History');
         $this->setValue(self::VIEWED);
     }
 
@@ -84,7 +86,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Product_Combine_History
     /**
      * Initialize value select options
      *
-     * @return Magento_CustomerSegment_Model_Segment_Condition_Product_Combine_History
+     * @return \Magento\CustomerSegment\Model\Segment\Condition\Product\Combine\History
      */
     public function loadValueOptions()
     {
@@ -100,18 +102,18 @@ class Magento_CustomerSegment_Model_Segment_Condition_Product_Combine_History
      *
      * Modify value_option array if needed
      *
-     * @param Magento_Rule_Model_Rule $rule
-     * @return Magento_CustomerSegment_Model_Segment_Condition_Product_Combine_History
+     * @param \Magento\Rule\Model\Rule $rule
+     * @return \Magento\CustomerSegment\Model\Segment\Condition\Product\Combine\History
      */
     public function setRule($rule)
     {
         $this->setData('rule', $rule);
-        if ($rule instanceof Magento_CustomerSegment_Model_Segment && $rule->getApplyTo() !== null) {
+        if ($rule instanceof \Magento\CustomerSegment\Model\Segment && $rule->getApplyTo() !== null) {
             $option = $this->loadValueOptions()->getValueOption();
             $applyTo = $rule->getApplyTo();
-            if (Magento_CustomerSegment_Model_Segment::APPLY_TO_VISITORS == $applyTo) {
+            if (\Magento\CustomerSegment\Model\Segment::APPLY_TO_VISITORS == $applyTo) {
                 unset($option[self::ORDERED]);
-            } elseif (Magento_CustomerSegment_Model_Segment::APPLY_TO_VISITORS_AND_REGISTERED == $applyTo) {
+            } elseif (\Magento\CustomerSegment\Model\Segment::APPLY_TO_VISITORS_AND_REGISTERED == $applyTo) {
                 $option[self::VIEWED] .= '*';
             }
             $this->setValueOption($option);
@@ -132,7 +134,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Product_Combine_History
     /**
      * Prepare operator select options
      *
-     * @return Magento_CustomerSegment_Model_Segment_Condition_Product_Combine_History
+     * @return \Magento\CustomerSegment\Model\Segment\Condition\Product\Combine\History
      */
     public function loadOperatorOptions()
     {
@@ -160,8 +162,8 @@ class Magento_CustomerSegment_Model_Segment_Condition_Product_Combine_History
      * Build query for matching last viewed/orderd items
      *
      * @param $customer
-     * @param int | Zend_Db_Expr $website
-     * @return Magento_DB_Select
+     * @param int | \Zend_Db_Expr $website
+     * @return \Magento\DB\Select
      */
     protected function _prepareConditionsSql($customer, $website)
     {
@@ -171,7 +173,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Product_Combine_History
             case self::ORDERED:
                 $select->from(
                     array('item' => $this->getResource()->getTable('sales_flat_order_item')),
-                    array(new Zend_Db_Expr(1))
+                    array(new \Zend_Db_Expr(1))
                 );
                 $select->joinInner(
                     array('sales_order' => $this->getResource()->getTable('sales_flat_order')),
@@ -184,7 +186,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Product_Combine_History
             default:
                 $select->from(
                     array('item' => $this->getResource()->getTable('report_viewed_product_index')),
-                    array(new Zend_Db_Expr(1))
+                    array(new \Zend_Db_Expr(1))
                 );
                 if ($customer) {
                     // Leave ability to check this condition not only by customer_id but also by quote_id

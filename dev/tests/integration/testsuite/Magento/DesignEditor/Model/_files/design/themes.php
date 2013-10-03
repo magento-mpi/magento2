@@ -9,18 +9,18 @@
  * @license     {license_link}
  */
 
-Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
-    Magento_Core_Model_App::PARAM_APP_DIRS => array(
-        Magento_Core_Model_Dir::THEMES => dirname(__DIR__) . '/design'
+\Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
+    \Magento\Core\Model\App::PARAM_APP_DIRS => array(
+        \Magento\Core\Model\Dir::THEMES => dirname(__DIR__) . '/design'
     )
 ));
 
-Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
-    ->loadAreaPart(Magento_Core_Model_App_Area::AREA_ADMINHTML, Magento_Core_Model_App_Area::PART_CONFIG);
+\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+    ->loadAreaPart(\Magento\Core\Model\App\Area::AREA_ADMINHTML, \Magento\Core\Model\App\Area::PART_CONFIG);
 
-/** @var $registration Magento_Core_Model_Theme_Registration */
-$registration = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Core_Model_Theme_Registration');
+/** @var $registration \Magento\Core\Model\Theme\Registration */
+$registration = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Core\Model\Theme\Registration');
 $registration->register(
     __DIR__,
     implode(DIRECTORY_SEPARATOR, array('*', '*', 'theme.xml'))

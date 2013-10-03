@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Install_Model_Installer_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Install\Model\Installer;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var string
@@ -14,14 +16,14 @@ class Magento_Install_Model_Installer_ConfigTest extends PHPUnit_Framework_TestC
 
     public static function setUpBeforeClass()
     {
-        self::$_tmpDir = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')
-            ->getDir(Magento_Core_Model_Dir::VAR_DIR) . DIRECTORY_SEPARATOR . __CLASS__;
+        self::$_tmpDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')
+            ->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DIRECTORY_SEPARATOR . "ConfigTest";
         mkdir(self::$_tmpDir);
     }
 
     public static function tearDownAfterClass()
     {
-        Magento_Io_File::rmdirRecursive(self::$_tmpDir);
+        \Magento\Io\File::rmdirRecursive(self::$_tmpDir);
     }
 
     public function testInstall()
@@ -30,7 +32,7 @@ class Magento_Install_Model_Installer_ConfigTest extends PHPUnit_Framework_TestC
         $expectedFile = self::$_tmpDir . '/local.xml';
 
         $request = $this->getMock(
-            'Magento_Core_Controller_Request_Http',
+            'Magento\Core\Controller\Request\Http',
             array('getDistroBaseUrl'),
             array(),
             '',
@@ -39,16 +41,16 @@ class Magento_Install_Model_Installer_ConfigTest extends PHPUnit_Framework_TestC
 
         $request->expects($this->once())->method('getDistroBaseUrl')->will($this->returnValue('http://example.com/'));
         $expectedContents = "test; <![CDATA[d-d-d-d-d]]>; <![CDATA[http://example.com/]]>; {{unknown}}";
-        $dirs = new Magento_Core_Model_Dir(
+        $dirs = new \Magento\Core\Model\Dir(
             self::$_tmpDir,
             array(),
-            array(Magento_Core_Model_Dir::CONFIG => self::$_tmpDir)
+            array(\Magento\Core\Model\Dir::CONFIG => self::$_tmpDir)
         );
 
         $this->assertFileNotExists($expectedFile);
-        $filesystem = new Magento_Filesystem(new Magento_Filesystem_Adapter_Local);
-        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Install_Model_Installer_Config', array(
+        $filesystem = new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local);
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Install\Model\Installer\Config', array(
             'request' => $request, 'dirs' => $dirs, 'filesystem' => $filesystem
         ));
         $model->install();
@@ -58,12 +60,12 @@ class Magento_Install_Model_Installer_ConfigTest extends PHPUnit_Framework_TestC
 
     public function testGetFormData()
     {
-        /** @var $model Magento_Install_Model_Installer_Config */
-        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Install_Model_Installer_Config');
-        /** @var $result Magento_Object */
+        /** @var $model \Magento\Install\Model\Installer\Config */
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Install\Model\Installer\Config');
+        /** @var $result \Magento\Object */
         $result = $model->getFormData();
-        $this->assertInstanceOf('Magento_Object', $result);
+        $this->assertInstanceOf('Magento\Object', $result);
         $data = $result->getData();
         $this->assertArrayHasKey('db_host', $data);
     }

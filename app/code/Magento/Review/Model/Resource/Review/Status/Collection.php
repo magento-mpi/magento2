@@ -15,7 +15,9 @@
  * @package     Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Review_Model_Resource_Review_Status_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Review\Model\Resource\Review\Status;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Review status table
@@ -30,7 +32,7 @@ class Magento_Review_Model_Resource_Review_Status_Collection extends Magento_Cor
      */
     protected function _construct()
     {
-        $this->_init('Magento_Review_Model_Review_Status', 'Magento_Review_Model_Resource_Review_Status');
+        $this->_init('Magento\Review\Model\Review\Status', 'Magento\Review\Model\Resource\Review\Status');
     }
 
     /**

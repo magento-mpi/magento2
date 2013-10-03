@@ -11,19 +11,21 @@
 /**
  * Quick style CSS renderer
  */
-class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer
+namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles;
+
+class Renderer
 {
     /**
      * Quick style renderer factory
      *
-     * @var Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer_Factory
+     * @var \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\Factory
      */
     protected $_quickStyleFactory;
 
     /**
-     * @param Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer_Factory $factory
+     * @param \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\Factory $factory
      */
-    public function __construct(Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer_Factory $factory)
+    public function __construct(\Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\Factory $factory)
     {
         $this->_quickStyleFactory = $factory;
     }
@@ -48,7 +50,7 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer
      *
      * @param array $data
      * @param string $content
-     * @return Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer
+     * @return \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer
      */
     protected function _rendererCssRecursively($data, &$content)
     {

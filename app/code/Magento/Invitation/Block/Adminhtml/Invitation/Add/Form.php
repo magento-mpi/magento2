@@ -14,56 +14,58 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-class Magento_Invitation_Block_Adminhtml_Invitation_Add_Form extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\Invitation\Block\Adminhtml\Invitation\Add;
+
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Magento Store
      *
-     * @var Magento_Core_Model_System_Store
+     * @var \Magento\Core\Model\System\Store
      */
     protected $_store;
 
     /**
      * Customer Group Factory
      *
-     * @var Magento_Customer_Model_GroupFactory
+     * @var \Magento\Customer\Model\GroupFactory
      */
     protected $_groupFactory;
 
     /**
      * Admin Session
      *
-     * @var Magento_Adminhtml_Model_Session
+     * @var \Magento\Adminhtml\Model\Session
      */
     protected $_session;
 
     /**
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_System_Store $store
-     * @param Magento_Customer_Model_GroupFactory $groupFactory
-     * @param Magento_Adminhtml_Model_Session $session
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\System\Store $store
+     * @param \Magento\Customer\Model\GroupFactory $groupFactory
+     * @param \Magento\Adminhtml\Model\Session $session
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_System_Store $store,
-        Magento_Customer_Model_GroupFactory $groupFactory,
-        Magento_Adminhtml_Model_Session $session,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\System\Store $store,
+        \Magento\Customer\Model\GroupFactory $groupFactory,
+        \Magento\Adminhtml\Model\Session $session,
         array $data = array()
     ) {
         parent::__construct($registry,$formFactory,$coreData,$context,$data);
@@ -86,11 +88,11 @@ class Magento_Invitation_Block_Adminhtml_Invitation_Add_Form extends Magento_Bac
     /**
      * Prepare invitation form
      *
-     * @return Magento_Invitation_Block_Adminhtml_Invitation_Add_Form
+     * @return \Magento\Invitation\Block\Adminhtml\Invitation\Add\Form
      */
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id' => 'edit_form',
@@ -124,7 +126,7 @@ class Magento_Invitation_Block_Adminhtml_Invitation_Add_Form extends Magento_Bac
                 'values' => $this->_store->getStoreValuesForForm(),
             ));
             $renderer = $this->getLayout()
-                ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+                ->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
         }
 

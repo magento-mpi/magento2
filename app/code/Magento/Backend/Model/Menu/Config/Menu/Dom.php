@@ -11,15 +11,17 @@
 /**
  * Menu configuration files handler
  */
-class Magento_Backend_Model_Menu_Config_Menu_Dom extends Magento_Config_Dom
+namespace Magento\Backend\Model\Menu\Config\Menu;
+
+class Dom extends \Magento\Config\Dom
 {
 
     /**
      * Getter for node by path
      *
      * @param string $nodePath
-     * @throws Magento_Exception an exception is possible if original document contains multiple fixed nodes
-     * @return DOMElement | null
+     * @throws \Magento\Exception an exception is possible if original document contains multiple fixed nodes
+     * @return \DOMElement | null
      */
     protected function _getMatchedNode($nodePath)
     {

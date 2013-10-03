@@ -13,7 +13,9 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Checkout\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     const XML_PATH_GUEST_CHECKOUT = 'checkout/options/guest_checkout';
     const XML_PATH_CUSTOMER_MUST_BE_LOGGED = 'checkout/options/customer_must_be_logged';
@@ -23,61 +25,61 @@ class Magento_Checkout_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Checkout_Model_Session
+     * @var \Magento\Checkout\Model\Session
      */
     protected $_checkoutSession;
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @var Magento_Checkout_Model_Resource_Agreement_CollectionFactory
+     * @var \Magento\Checkout\Model\Resource\Agreement\CollectionFactory
      */
     protected $_agreementCollFactory;
 
     /**
-     * @var Magento_Core_Model_Email_TemplateFactory
+     * @var \Magento\Core\Model\Email\TemplateFactory
      */
     protected $_emailTemplFactory;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Checkout_Model_Session $checkoutSession
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Checkout_Model_Resource_Agreement_CollectionFactory $agreementCollFactory
-     * @param Magento_Core_Model_Email_TemplateFactory $emailTemplFactory
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Checkout\Model\Resource\Agreement\CollectionFactory $agreementCollFactory
+     * @param \Magento\Core\Model\Email\TemplateFactory $emailTemplFactory
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Checkout_Model_Session $checkoutSession,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Checkout_Model_Resource_Agreement_CollectionFactory $agreementCollFactory,
-        Magento_Core_Model_Email_TemplateFactory $emailTemplFactory
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Checkout\Model\Resource\Agreement\CollectionFactory $agreementCollFactory,
+        \Magento\Core\Model\Email\TemplateFactory $emailTemplFactory
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -92,7 +94,7 @@ class Magento_Checkout_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve checkout session model
      *
-     * @return Magento_Checkout_Model_Session
+     * @return \Magento\Checkout\Model\Session
      */
     public function getCheckout()
     {
@@ -102,7 +104,7 @@ class Magento_Checkout_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve checkout quote model object
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {
@@ -147,7 +149,7 @@ class Magento_Checkout_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Get sales item (quote item, order item etc) price including tax based on row total and tax amount
      *
-     * @param   Magento_Object $item
+     * @param   \Magento\Object $item
      * @return  float
      */
     public function getPriceInclTax($item)
@@ -164,7 +166,7 @@ class Magento_Checkout_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Get sales item (quote item, order item etc) row total price including tax
      *
-     * @param   Magento_Object $item
+     * @param   \Magento\Object $item
      * @return  float
      */
     public function getSubtotalInclTax($item)
@@ -193,19 +195,19 @@ class Magento_Checkout_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Send email id payment was failed
      *
-     * @param Magento_Sales_Model_Quote $checkout
+     * @param \Magento\Sales\Model\Quote $checkout
      * @param string $message
      * @param string $checkoutType
-     * @return Magento_Checkout_Helper_Data
+     * @return \Magento\Checkout\Helper\Data
      */
     public function sendPaymentFailedEmail($checkout, $message, $checkoutType = 'onepage')
     {
-        /* @var $translate Magento_Core_Model_Translate */
+        /* @var $translate \Magento\Core\Model\Translate */
         $this->_translator->setTranslateInline(false);
 
-        /** @var Magento_Core_Model_Email_Template $mailTemplate */
+        /** @var \Magento\Core\Model\Email\Template $mailTemplate */
         $mailTemplate = $this->_emailTemplFactory->create();
-        /* @var $mailTemplate Magento_Core_Model_Email_Template */
+        /* @var $mailTemplate \Magento\Core\Model\Email\Template */
 
         $template = $this->_coreStoreConfig->getConfig('checkout/payment_failed/template', $checkout->getStoreId());
 
@@ -244,7 +246,7 @@ class Magento_Checkout_Helper_Data extends Magento_Core_Helper_Abstract
 
         $items = '';
         foreach ($checkout->getAllVisibleItems() as $_item) {
-            /* @var $_item Magento_Sales_Model_Quote_Item */
+            /* @var $_item \Magento\Sales\Model\Quote\Item */
             $items .= $_item->getProduct()->getName() . '  x '. $_item->getQty() . '  '
                     . $checkout->getStoreCurrencyCode() . ' '
                     . $_item->getProduct()->getFinalPrice($_item->getQty()) . "\n";
@@ -253,7 +255,7 @@ class Magento_Checkout_Helper_Data extends Magento_Core_Helper_Abstract
 
         foreach ($sendTo as $recipient) {
             $mailTemplate->setDesignConfig(array(
-                'area' => Magento_Core_Model_App_Area::AREA_FRONTEND,
+                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
                 'store' => $checkout->getStoreId()
             ))
                 ->sendTransactional(
@@ -318,11 +320,11 @@ class Magento_Checkout_Helper_Data extends Magento_Core_Helper_Abstract
      * Check is allowed Guest Checkout
      * Use config settings and observer
      *
-     * @param Magento_Sales_Model_Quote $quote
-     * @param int|Magento_Core_Model_Store $store
+     * @param \Magento\Sales\Model\Quote $quote
+     * @param int|\Magento\Core\Model\Store $store
      * @return bool
      */
-    public function isAllowedGuestCheckout(Magento_Sales_Model_Quote $quote, $store = null)
+    public function isAllowedGuestCheckout(\Magento\Sales\Model\Quote $quote, $store = null)
     {
         if ($store === null) {
             $store = $quote->getStoreId();
@@ -330,7 +332,7 @@ class Magento_Checkout_Helper_Data extends Magento_Core_Helper_Abstract
         $guestCheckout = $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_GUEST_CHECKOUT, $store);
 
         if ($guestCheckout == true) {
-            $result = new Magento_Object();
+            $result = new \Magento\Object();
             $result->setIsAllowed($guestCheckout);
             $this->_eventManager->dispatch('checkout_allow_guest', array(
                 'quote'  => $quote,

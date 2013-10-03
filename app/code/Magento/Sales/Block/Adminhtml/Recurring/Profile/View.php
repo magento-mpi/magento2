@@ -11,25 +11,27 @@
 /**
  * Recurring profile view page
  */
-class Magento_Sales_Block_Adminhtml_Recurring_Profile_View extends Magento_Backend_Block_Widget_Container
+namespace Magento\Sales\Block\Adminhtml\Recurring\Profile;
+
+class View extends \Magento\Backend\Block\Widget\Container
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -39,7 +41,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_View extends Magento_Backe
     /**
      * Create buttons
      * TODO: implement ACL restrictions
-     * @return Magento_Sales_Block_Adminhtml_Recurring_Profile_View
+     * @return \Magento\Sales\Block\Adminhtml\Recurring\Profile\View
      */
     protected function _prepareLayout()
     {
@@ -98,7 +100,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_View extends Magento_Backe
     /**
      * Set title and a hack for tabs container
      *
-     * @return Magento_Sales_Block_Adminhtml_Recurring_Profile_View
+     * @return \Magento\Sales\Block\Adminhtml\Recurring\Profile\View
      */
     protected function _beforeToHtml()
     {

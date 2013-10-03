@@ -11,7 +11,9 @@
 /**
  * Frontend form key content block
  */
-class Magento_Core_Block_Formkey extends Magento_Core_Block_Template
+namespace Magento\Core\Block;
+
+class Formkey extends \Magento\Core\Block\Template
 {
     /**
      * Get form key

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Acl_Role_InRoleUserUpdater implements Magento_Core_Model_Layout_Argument_UpdaterInterface
+namespace Magento\Webapi\Model\Acl\Role;
+
+class InRoleUserUpdater implements \Magento\Core\Model\Layout\Argument\UpdaterInterface
 {
     /**
      * @var int
@@ -15,19 +17,19 @@ class Magento_Webapi_Model_Acl_Role_InRoleUserUpdater implements Magento_Core_Mo
     protected $_roleId;
 
     /**
-     * @var Magento_Webapi_Model_Resource_Acl_User
+     * @var \Magento\Webapi\Model\Resource\Acl\User
      */
     protected $_userResource;
 
     /**
      * Constructor.
      *
-     * @param Magento_Core_Controller_Request_Http $request
-     * @param Magento_Webapi_Model_Resource_Acl_User $userResource
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\Webapi\Model\Resource\Acl\User $userResource
      */
     public function __construct(
-        Magento_Core_Controller_Request_Http $request,
-        Magento_Webapi_Model_Resource_Acl_User $userResource
+        \Magento\Core\Controller\Request\Http $request,
+        \Magento\Webapi\Model\Resource\Acl\User $userResource
     ) {
         $this->_roleId = (int)$request->getParam('role_id');
         $this->_userResource = $userResource;

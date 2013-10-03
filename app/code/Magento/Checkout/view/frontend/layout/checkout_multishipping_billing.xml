@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Multishipping Checkout Billing Information Step" type="page" parent="checkout_multishipping">
     <update handle="checkout_multishipping"/>
     <referenceContainer name="content">
-        <block class="Magento_Checkout_Block_Multishipping_Billing" name="checkout_billing" template="multishipping/billing.phtml">
+        <block class="Magento\Checkout\Block\Multishipping\Billing" name="checkout_billing" template="multishipping/billing.phtml">
             <action method="setMethodFormTemplate">
                 <argument name="method" xsi:type="string">purchaseorder</argument>
                 <argument name="template" xsi:type="string">Magento_Payment::form/purchaseorder.phtml</argument>

@@ -8,13 +8,16 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Message_Notice extends Magento_Core_Model_Message_Abstract
+
+namespace Magento\Core\Model\Message;
+
+class Notice extends \Magento\Core\Model\Message\AbstractMessage
 {
     /**
      * @param string $code
      */
     public function __construct($code)
     {
-        parent::__construct(Magento_Core_Model_Message::NOTICE, $code);
+        parent::__construct(\Magento\Core\Model\Message::NOTICE, $code);
     }
 }

@@ -10,9 +10,10 @@
  * @license     {license_link}
  */
 
-require_once __DIR__ . '/Files.php';
+namespace Magento\TestFramework\Utility;
 
-class Magento_TestFramework_Utility_Classes
+require_once __DIR__ . '/Files.php';
+class Classes
 {
     /**
      * virtual class declarations collected from the whole system
@@ -48,11 +49,11 @@ class Magento_TestFramework_Utility_Classes
      *
      * The node must contain specified attribute
      *
-     * @param SimpleXMLElement $xml
+     * @param \SimpleXMLElement $xml
      * @param string $xPath
      * @return array
      */
-    public static function getXmlNodeValues(SimpleXMLElement $xml, $xPath)
+    public static function getXmlNodeValues(\SimpleXMLElement $xml, $xPath)
     {
         $result = array();
         $nodes = $xml->xpath($xPath) ?: array();
@@ -65,11 +66,11 @@ class Magento_TestFramework_Utility_Classes
     /**
      * Get XML node names using specified xPath
      *
-     * @param SimpleXMLElement $xml
+     * @param \SimpleXMLElement $xml
      * @param string $xpath
      * @return array
      */
-    public static function getXmlNodeNames(SimpleXMLElement $xml, $xpath)
+    public static function getXmlNodeNames(\SimpleXMLElement $xml, $xpath)
     {
         $result = array();
         $nodes = $xml->xpath($xpath) ?: array();
@@ -82,12 +83,12 @@ class Magento_TestFramework_Utility_Classes
     /**
      * Get XML node attribute values using specified xPath
      *
-     * @param SimpleXMLElement $xml
+     * @param \SimpleXMLElement $xml
      * @param string $xPath
      * @param string $attributeName
      * @return array
      */
-    public static function getXmlAttributeValues(SimpleXMLElement $xml, $xPath, $attributeName)
+    public static function getXmlAttributeValues(\SimpleXMLElement $xml, $xPath, $attributeName)
     {
         $result = array();
         $nodes = $xml->xpath($xPath) ?: array();
@@ -115,10 +116,10 @@ class Magento_TestFramework_Utility_Classes
     /**
      * Find classes in a configuration XML-file (assumes any files under Namespace/Module/etc/*.xml)
      *
-     * @param SimpleXMLElement $xml
+     * @param \SimpleXMLElement $xml
      * @return array
      */
-    public static function collectClassesInConfig(SimpleXMLElement $xml)
+    public static function collectClassesInConfig(\SimpleXMLElement $xml)
     {
         // @todo this method must be refactored after implementation of MAGETWO-7689 (valid configuration)
         $classes = self::getXmlNodeValues($xml, '
@@ -132,7 +133,7 @@ class Magento_TestFramework_Utility_Classes
             '/logging/*/expected_models/* | /logging/*/actions/*/expected_models/* | /config/*/di/preferences/*'
         ));
 
-        $classes = array_map(array('Magento_TestFramework_Utility_Classes', 'getCallbackClass'), $classes);
+        $classes = array_map(array('Magento\TestFramework\Utility\Classes', 'getCallbackClass'), $classes);
         $classes = array_map('trim', $classes);
         $classes = array_unique($classes);
         $classes = array_filter($classes, function ($value) {
@@ -145,10 +146,10 @@ class Magento_TestFramework_Utility_Classes
     /**
      * Find classes in a layout configuration XML-file
      *
-     * @param SimpleXMLElement $xml
+     * @param \SimpleXMLElement $xml
      * @return array
      */
-    public static function collectLayoutClasses(SimpleXMLElement $xml)
+    public static function collectLayoutClasses(\SimpleXMLElement $xml)
     {
         $classes = self::getXmlAttributeValues($xml, '/layout//block[@type]', 'type');
         $classes = array_merge($classes, self::getXmlNodeValues($xml,
@@ -174,14 +175,16 @@ class Magento_TestFramework_Utility_Classes
      */
     public static function collectModuleClasses($subTypePattern = '[A-Za-z]+')
     {
-        $pattern = '/^' . preg_quote(Magento_TestFramework_Utility_Files::init()->getPathToSource(), '/')
+        $pattern = '/^' . preg_quote(\Magento\TestFramework\Utility\Files::init()->getPathToSource(), '/')
             . '\/app\/code\/([A-Za-z]+)\/([A-Za-z]+)\/(' . $subTypePattern . '\/.+)\.php$/';
         $result = array();
-        foreach (Magento_TestFramework_Utility_Files::init()->getPhpFiles(true, false, false, false) as $file) {
+        foreach (\Magento\TestFramework\Utility\Files::init()->getPhpFiles(true, false, false, false) as $file) {
             if (preg_match($pattern, $file, $matches)) {
                 $module = "{$matches[1]}_{$matches[2]}";
-                $class = "{$module}_" . str_replace('/', '_', $matches[3]);
-                $result[$class] = $module;
+                $class = "{$module}" . \Magento\Autoload\IncludePath::NS_SEPARATOR .
+                    str_replace('/', '\\', $matches[3]);
+                $key = str_replace('_', '\\', $class);
+                $result[$key] = $module;
             }
         }
         return $result;
@@ -197,11 +200,11 @@ class Magento_TestFramework_Utility_Classes
         if (!empty(self::$_virtualClasses)) {
             return self::$_virtualClasses;
         }
-        $configFiles = Magento_TestFramework_Utility_Files::init()->getDiConfigs();
+        $configFiles = \Magento\TestFramework\Utility\Files::init()->getDiConfigs();
         foreach ($configFiles as $fileName) {
-            $configDom = new DOMDocument();
+            $configDom = new \DOMDocument();
             $configDom->load($fileName);
-            $xPath = new DOMXPath($configDom);
+            $xPath = new \DOMXPath($configDom);
             $vTypes = $xPath->query('/config/virtualType');
             for ($i = 0; $i < $vTypes->length; $i++) {
                 $name = $vTypes->item($i)->attributes->getNamedItem('name')->textContent;
@@ -232,10 +235,66 @@ class Magento_TestFramework_Utility_Classes
      */
     public static function isAutogenerated($className)
     {
-        if (preg_match('/.*_[a-zA-Z0-9]{1,}(Factory|Proxy)$/', $className)) {
+        if (preg_match('/.*\\\\[a-zA-Z0-9]{1,}(Factory|Proxy)$/', $className)) {
             return true;
         }
 
         return false;
     }
+
+    /**
+     * Scan contents as PHP-code and find class name occurrences
+     *
+     * @param string $contents
+     * @param array &$classes
+     * @return array
+     */
+    public static function collectPhpCodeClasses($contents, &$classes = array())
+    {
+        self::getAllMatches($contents, '/
+            # ::getModel ::getSingleton ::getResourceModel ::getResourceSingleton
+            \:\:get(?:Resource)?(?:Model | Singleton)\(\s*[\'"]([^\'"]+)[\'"]\s*[\),]
+
+            # addBlock createBlock getBlockSingleton
+            | (?:addBlock | createBlock | getBlockSingleton)\(\s*[\'"]([^\'"]+)[\'"]\s*[\),]
+
+            # various methods, first argument
+            | \->(?:initReport | setDataHelperName | setEntityModelClass | _?initLayoutMessages
+                | setAttributeModel | setBackendModel | setFrontendModel | setSourceModel | setModel
+            )\(\s*[\'"]([^\'"]+)[\'"]\s*[\),]
+
+            # various methods, second argument
+            | \->add(?:ProductConfigurationHelper | OptionsRenderCfg)\(.+,\s*[\'"]([^\'"]+)[\'"]\s*[\),]
+
+            # models in install or setup
+            | [\'"](?:resource_model | attribute_model | entity_model | entity_attribute_collection
+                | source | backend | frontend | input_renderer | frontend_input_renderer
+            )[\'"]\s*=>\s*[\'"]([^\'"]+)[\'"]
+
+            # misc
+            | function\s_getCollectionClass\(\)\s+{\s+return\s+[\'"]([a-z\d_\/]+)[\'"]
+            | (?:_parentResourceModelName | _checkoutType | _apiType)\s*=\s*\'([a-z\d_\/]+)\'
+            | \'renderer\'\s*=>\s*\'([a-z\d_\/]+)\'
+            | protected\s+\$_(?:form|info|backendForm|iframe)BlockType\s*=\s*[\'"]([^\'"]+)[\'"]
+
+            /Uix',
+            $classes
+        );
+
+        // check ->_init | parent::_init
+        $skipForInit = implode('|',
+            array(
+                'id', '[\w\d_]+_id', 'pk', 'code', 'status', 'serial_number',
+                'entity_pk_value', 'currency_code', 'unique_key',
+            )
+        );
+        self::getAllMatches($contents, '/
+            (?:parent\:\: | \->)_init\(\s*[\'"]([^\'"]+)[\'"]\s*\)
+            | (?:parent\:\: | \->)_init\(\s*[\'"]([^\'"]+)[\'"]\s*,\s*[\'"]((?!(' . $skipForInit . '))[^\'"]+)[\'"]\s*\)
+            /Uix',
+            $classes
+        );
+        return $classes;
+    }
+
 }

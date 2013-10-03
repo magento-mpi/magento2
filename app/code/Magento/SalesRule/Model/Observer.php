@@ -8,67 +8,69 @@
  * @license     {license_link}
  */
 
-class Magento_SalesRule_Model_Observer
+namespace Magento\SalesRule\Model;
+
+class Observer
 {
     /**
-     * @var Magento_SalesRule_Model_RuleFactory
+     * @var \Magento\SalesRule\Model\RuleFactory
      */
     protected $_ruleFactory;
 
     /**
-     * @var Magento_SalesRule_Model_RuleFactory
+     * @var \Magento\SalesRule\Model\RuleFactory
      */
     protected $_ruleCustomerFactory;
 
     /**
-     * @var Magento_SalesRule_Model_Coupon
+     * @var \Magento\SalesRule\Model\Coupon
      */
     protected $_coupon;
 
     /**
-     * @var Magento_SalesRule_Model_Resource_Coupon_Usage
+     * @var \Magento\SalesRule\Model\Resource\Coupon\Usage
      */
     protected $_couponUsage;
 
     /**
-     * @var Magento_SalesRule_Model_Resource_Report_Rule
+     * @var \Magento\SalesRule\Model\Resource\Report\Rule
      */
     protected $_reportRule;
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @var Magento_SalesRule_Model_Resource_Rule_CollectionFactory
+     * @var \Magento\SalesRule\Model\Resource\Rule\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @var Magento_Backend_Model_Session
+     * @var \Magento\Backend\Model\Session
      */
     protected $_backendSession;
 
     /**
-     * @param Magento_SalesRule_Model_RuleFactory $ruleFactory
-     * @param Magento_SalesRule_Model_Rule_CustomerFactory $ruleCustomerFactory
-     * @param Magento_SalesRule_Model_Coupon $coupon
-     * @param Magento_SalesRule_Model_Resource_Coupon_Usage $couponUsage
-     * @param Magento_SalesRule_Model_Resource_Report_Rule $reportRule
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_SalesRule_Model_Resource_Rule_CollectionFactory $collectionFactory
-     * @param Magento_Backend_Model_Session $backendSession
+     * @param \Magento\SalesRule\Model\RuleFactory $ruleFactory
+     * @param \Magento\SalesRule\Model\Rule\CustomerFactory $ruleCustomerFactory
+     * @param \Magento\SalesRule\Model\Coupon $coupon
+     * @param \Magento\SalesRule\Model\Resource\Coupon\Usage $couponUsage
+     * @param \Magento\SalesRule\Model\Resource\Report\Rule $reportRule
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\SalesRule\Model\Resource\Rule\CollectionFactory $collectionFactory
+     * @param \Magento\Backend\Model\Session $backendSession
      */
     public function __construct(
-        Magento_SalesRule_Model_RuleFactory $ruleFactory,
-        Magento_SalesRule_Model_Rule_CustomerFactory $ruleCustomerFactory,
-        Magento_SalesRule_Model_Coupon $coupon,
-        Magento_SalesRule_Model_Resource_Coupon_Usage $couponUsage,
-        Magento_SalesRule_Model_Resource_Report_Rule $reportRule,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_SalesRule_Model_Resource_Rule_CollectionFactory $collectionFactory,
-        Magento_Backend_Model_Session $backendSession
+        \Magento\SalesRule\Model\RuleFactory $ruleFactory,
+        \Magento\SalesRule\Model\Rule\CustomerFactory $ruleCustomerFactory,
+        \Magento\SalesRule\Model\Coupon $coupon,
+        \Magento\SalesRule\Model\Resource\Coupon\Usage $couponUsage,
+        \Magento\SalesRule\Model\Resource\Report\Rule $reportRule,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\SalesRule\Model\Resource\Rule\CollectionFactory $collectionFactory,
+        \Magento\Backend\Model\Session $backendSession
     ) {
         $this->_ruleFactory = $ruleFactory;
         $this->_ruleCustomerFactory = $ruleCustomerFactory;
@@ -81,7 +83,7 @@ class Magento_SalesRule_Model_Observer
     }
 
     /**
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return $this
      */
     public function salesOrderAfterPlace($observer)
@@ -104,7 +106,7 @@ class Magento_SalesRule_Model_Observer
             if (!$ruleId) {
                 continue;
             }
-            /** @var Magento_SalesRule_Model_Rule $rule */
+            /** @var \Magento\SalesRule\Model\Rule $rule */
             $rule = $this->_ruleFactory->create();
             $rule->load($ruleId);
             if ($rule->getId()) {
@@ -112,7 +114,7 @@ class Magento_SalesRule_Model_Observer
                 $rule->save();
 
                 if ($customerId) {
-                    /** @var Magento_SalesRule_Model_Rule_Customer $ruleCustomer */
+                    /** @var \Magento\SalesRule\Model\Rule\Customer $ruleCustomer */
                     $ruleCustomer = $this->_ruleCustomerFactory->create();
                     $ruleCustomer->loadByCustomerRule($customerId, $ruleId);
 
@@ -142,8 +144,8 @@ class Magento_SalesRule_Model_Observer
     /**
      * Refresh sales coupons report statistics for last day
      *
-     * @param Magento_Cron_Model_Schedule $schedule
-     * @return Magento_SalesRule_Model_Observer
+     * @param \Magento\Cron\Model\Schedule $schedule
+     * @return \Magento\SalesRule\Model\Observer
      */
     public function aggregateSalesReportCouponsData($schedule)
     {
@@ -160,18 +162,18 @@ class Magento_SalesRule_Model_Observer
      * If rules were found they will be set to inactive and notice will be add to admin session
      *
      * @param string $attributeCode
-     * @return Magento_SalesRule_Model_Observer
+     * @return \Magento\SalesRule\Model\Observer
      */
     protected function _checkSalesRulesAvailability($attributeCode)
     {
-        /* @var $collection Magento_SalesRule_Model_Resource_Rule_Collection */
+        /* @var $collection \Magento\SalesRule\Model\Resource\Rule\Collection */
         $collection = $this->_collectionFactory->create()->addAttributeInConditionFilter($attributeCode);
 
         $disabledRulesCount = 0;
         foreach ($collection as $rule) {
-            /* @var $rule Magento_SalesRule_Model_Rule */
+            /* @var $rule \Magento\SalesRule\Model\Rule */
             $rule->setIsActive(0);
-            /* @var $rule->getConditions() Magento_SalesRule_Model_Rule_Condition_Combine */
+            /* @var $rule->getConditions() \Magento\SalesRule\Model\Rule\Condition\Combine */
             $this->_removeAttributeFromConditions($rule->getConditions(), $attributeCode);
             $this->_removeAttributeFromConditions($rule->getActions(), $attributeCode);
             $rule->save();
@@ -193,17 +195,17 @@ class Magento_SalesRule_Model_Observer
     /**
      * Remove catalog attribute condition by attribute code from rule conditions
      *
-     * @param Magento_Rule_Model_Condition_Combine $combine
+     * @param \Magento\Rule\Model\Condition\Combine $combine
      * @param string $attributeCode
      */
     protected function _removeAttributeFromConditions($combine, $attributeCode)
     {
         $conditions = $combine->getConditions();
         foreach ($conditions as $conditionId => $condition) {
-            if ($condition instanceof Magento_Rule_Model_Condition_Combine) {
+            if ($condition instanceof \Magento\Rule\Model\Condition\Combine) {
                 $this->_removeAttributeFromConditions($condition, $attributeCode);
             }
-            if ($condition instanceof Magento_SalesRule_Model_Rule_Condition_Product) {
+            if ($condition instanceof \Magento\SalesRule\Model\Rule\Condition\Product) {
                 if ($condition->getAttribute() == $attributeCode) {
                     unset($conditions[$conditionId]);
                 }
@@ -215,10 +217,10 @@ class Magento_SalesRule_Model_Observer
     /**
      * After save attribute if it is not used for promo rules already check rules for containing this attribute
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_SalesRule_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\SalesRule\Model\Observer
      */
-    public function catalogAttributeSaveAfter(Magento_Event_Observer $observer)
+    public function catalogAttributeSaveAfter(\Magento\Event\Observer $observer)
     {
         $attribute = $observer->getEvent()->getAttribute();
         if ($attribute->dataHasChangedFor('is_used_for_promo_rules') && !$attribute->getIsUsedForPromoRules()) {
@@ -232,10 +234,10 @@ class Magento_SalesRule_Model_Observer
      * After delete attribute check rules that contains deleted attribute
      * If rules was found they will seted to inactive and added notice to admin session
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_SalesRule_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\SalesRule\Model\Observer
      */
-    public function catalogAttributeDeleteAfter(Magento_Event_Observer $observer)
+    public function catalogAttributeDeleteAfter(\Magento\Event\Observer $observer)
     {
         $attribute = $observer->getEvent()->getAttribute();
         if ($attribute->getIsUsedForPromoRules()) {
@@ -248,8 +250,8 @@ class Magento_SalesRule_Model_Observer
     /**
      * Add coupon's rule name to order data
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_SalesRule_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\SalesRule\Model\Observer
      */
     public function addSalesRuleNameToOrder($observer)
     {
@@ -267,7 +269,7 @@ class Magento_SalesRule_Model_Observer
             return $this;
         }
 
-        /** @var Magento_SalesRule_Model_Rule $rule */
+        /** @var \Magento\SalesRule\Model\Rule $rule */
         $rule = $this->_ruleFactory->create()->load($ruleId);
         $order->setCouponRuleName($rule->getName());
 

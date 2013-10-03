@@ -11,8 +11,10 @@
 /**
  * System Configuration Attribute Inheritance Mapper
  */
-class Magento_Backend_Model_Config_Structure_Mapper_Attribute_Inheritance
-    implements Magento_Backend_Model_Config_Structure_MapperInterface
+namespace Magento\Backend\Model\Config\Structure\Mapper\Attribute;
+
+class Inheritance
+    implements \Magento\Backend\Model\Config\Structure\MapperInterface
 {
     /**
      * Apply map

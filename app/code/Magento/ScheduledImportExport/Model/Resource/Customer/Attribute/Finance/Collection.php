@@ -15,8 +15,10 @@
  * @package     Magento_ScheduledImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection
-    extends Magento_Data_Collection
+namespace Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance;
+
+class Collection
+    extends \Magento\Data\Collection
 {
     /**#@+
      * Customer entity finance attribute ids
@@ -36,26 +38,26 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Co
     protected $_orderField;
 
     /**
-     * @var Magento_Eav_Model_AttributeFactory
+     * @var \Magento\Eav\Model\AttributeFactory
      */
     protected $_attributeFactory;
 
     /**
      * Import export data
      *
-     * @var Magento_ScheduledImportExport_Helper_Data
+     * @var \Magento\ScheduledImportExport\Helper\Data
      */
     protected $_importExportData = null;
 
     /**
-     * @param Magento_ScheduledImportExport_Helper_Data $importExportData
-     * @param Magento_Eav_Model_AttributeFactory $attributeFactory
-     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param \Magento\ScheduledImportExport\Helper\Data $importExportData
+     * @param \Magento\Eav\Model\AttributeFactory $attributeFactory
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
      */
     public function __construct(
-        Magento_ScheduledImportExport_Helper_Data $importExportData,
-        Magento_Eav_Model_AttributeFactory $attributeFactory,
-        Magento_Core_Model_EntityFactory $entityFactory
+        \Magento\ScheduledImportExport\Helper\Data $importExportData,
+        \Magento\Eav\Model\AttributeFactory $attributeFactory,
+        \Magento\Core\Model\EntityFactory $entityFactory
     ) {
         $this->_importExportData = $importExportData;
         $this->_attributeFactory = $attributeFactory;
@@ -70,7 +72,7 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Co
                 'is_required'    => false,
             );
             $this->addItem(
-                $this->_attributeFactory->createAttribute('Magento_Eav_Model_Entity_Attribute', $storeCreditData)
+                $this->_attributeFactory->createAttribute('Magento\Eav\Model\Entity\Attribute', $storeCreditData)
             );
         }
 
@@ -83,7 +85,7 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Co
                 'is_required'    => false,
             );
             $this->addItem(
-                $this->_attributeFactory->createAttribute('Magento_Eav_Model_Entity_Attribute', $rewardPointsData)
+                $this->_attributeFactory->createAttribute('Magento\Eav\Model\Entity\Attribute', $rewardPointsData)
             );
         }
     }
@@ -93,7 +95,7 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Co
      *
      * @param  string $field
      * @param  string $direction
-     * @return Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection
+     * @return \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection
      */
     public function setOrder($field, $direction = self::SORT_ORDER_DESC)
     {
@@ -110,11 +112,11 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Co
     /**
      * Compare two collection items
      *
-     * @param Magento_Object $a
-     * @param Magento_Object $b
+     * @param \Magento\Object $a
+     * @param \Magento\Object $b
      * @return int
      */
-    public function compareAttributes(Magento_Object $a, Magento_Object $b)
+    public function compareAttributes(\Magento\Object $a, \Magento\Object $b)
     {
         return strnatcmp($a->getData($this->_orderField), $b->getData($this->_orderField));
     }

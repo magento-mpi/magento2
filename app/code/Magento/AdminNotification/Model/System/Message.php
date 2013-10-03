@@ -6,12 +6,14 @@
  * @license   {license_link}
  */
 
-class Magento_AdminNotification_Model_System_Message extends Magento_Core_Model_Abstract
-    implements Magento_AdminNotification_Model_System_MessageInterface
+namespace Magento\AdminNotification\Model\System;
+
+class Message extends \Magento\Core\Model\AbstractModel
+    implements \Magento\AdminNotification\Model\System\MessageInterface
 {
     protected function _construct()
     {
-        $this->_init('Magento_AdminNotification_Model_Resource_System_Message');
+        $this->_init('Magento\AdminNotification\Model\Resource\System\Message');
     }
 
     /**

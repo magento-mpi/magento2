@@ -7,18 +7,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Soap_Request extends Magento_Webapi_Controller_Request
+namespace Magento\Webapi\Controller\Soap;
+
+class Request extends \Magento\Webapi\Controller\Request
 {
-    /** @var Magento_Core_Model_App */
+    /** @var \Magento\Core\Model\App */
     protected $_application;
 
     /**
      * Initialize dependencies.
      *
-     * @param Magento_Core_Model_App $application
+     * @param \Magento\Core\Model\App $application
      * @param string|null $uri
      */
-    public function __construct(Magento_Core_Model_App $application, $uri = null)
+    public function __construct(\Magento\Core\Model\App $application, $uri = null)
     {
         parent::__construct($application, $uri);
     }
@@ -28,12 +30,12 @@ class Magento_Webapi_Controller_Soap_Request extends Magento_Webapi_Controller_R
      * TODO : This is getting called twice within a single request. Need to cache.
      *
      * @return array
-     * @throws Magento_Webapi_Exception When GET parameters are invalid
+     * @throws \Magento\Webapi\Exception When GET parameters are invalid
      */
     public function getRequestedServices()
     {
-        $wsdlParam = Magento_Webapi_Model_Soap_Server::REQUEST_PARAM_WSDL;
-        $servicesParam = Magento_Webapi_Model_Soap_Server::REQUEST_PARAM_SERVICES;
+        $wsdlParam = \Magento\Webapi\Model\Soap\Server::REQUEST_PARAM_WSDL;
+        $servicesParam = \Magento\Webapi\Model\Soap\Server::REQUEST_PARAM_SERVICES;
         $requestParams = array_keys($this->getParams());
         $allowedParams = array($wsdlParam, $servicesParam);
         $notAllowedParameters = array_diff($requestParams, $allowedParams);
@@ -41,7 +43,7 @@ class Magento_Webapi_Controller_Soap_Request extends Magento_Webapi_Controller_R
             $notAllowed = implode(', ', $notAllowedParameters);
             $message =
                 __('Not allowed parameters: %1. Please use only %2 and %3.', $notAllowed, $wsdlParam, $servicesParam);
-            throw new Magento_Webapi_Exception($message);
+            throw new \Magento\Webapi\Exception($message);
         }
 
         $param = $this->getParam($servicesParam);
@@ -56,7 +58,7 @@ class Magento_Webapi_Controller_Soap_Request extends Magento_Webapi_Controller_R
      *      'testModule1AllSoapAndRest' => 'V1',
      *       'testModule2AllSoapNoRest' => 'V1',
      *      )</pre>
-     * @throws Magento_Webapi_Exception
+     * @throws \Magento\Webapi\Exception
      */
     protected function _convertRequestParamToServiceArray($param)
     {
@@ -67,7 +69,7 @@ class Magento_Webapi_Controller_Soap_Request extends Magento_Webapi_Controller_R
         //Check if the $param is of valid format
         if (empty($param) || !preg_match($regexp, $param)) {
             $message = __('Incorrect format of WSDL request URI or Requested services are missing.');
-            throw new Magento_Webapi_Exception($message);
+            throw new \Magento\Webapi\Exception($message);
         }
         //Split the $param string to create an array of 'service' => 'version'
         $serviceVersionArray = explode($serviceSeparator, $param);

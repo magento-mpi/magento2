@@ -11,9 +11,11 @@
 /**
  * Editor toolbar
  *
- * @method Magento_DesignEditor_Block_Adminhtml_Editor_Container setTheme(Magento_Core_Model_Theme $theme)
+ * @method \Magento\DesignEditor\Block\Adminhtml\Editor\Container setTheme(\Magento\Core\Model\Theme $theme)
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Container extends Magento_Backend_Block_Widget_Container
+namespace Magento\DesignEditor\Block\Adminhtml\Editor;
+
+class Container extends \Magento\Backend\Block\Widget\Container
 {
     /**
      * Frame Url
@@ -49,7 +51,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Container extends Magento_Back
     /**
      * @param string $url
      *
-     * @return Magento_DesignEditor_Block_Adminhtml_Editor_Container
+     * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Container
      */
     public function setFrameUrl($url)
     {

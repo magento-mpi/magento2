@@ -10,19 +10,21 @@
  */
 
 /**
- * Test class for Magento_ScheduledImportExport_Model_Export
+ * Test class for \Magento\ScheduledImportExport\Model\Export
  */
-class Magento_ScheduledImportExport_Model_ExportTest extends PHPUnit_Framework_TestCase
+namespace Magento\ScheduledImportExport\Model;
+
+class ExportTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Enterprise data export model
      *
-     * @var Magento_ScheduledImportExport_Model_Export
+     * @var \Magento\ScheduledImportExport\Model\Export
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_exportConfigMock;
 
@@ -38,18 +40,18 @@ class Magento_ScheduledImportExport_Model_ExportTest extends PHPUnit_Framework_T
      */
     protected function setUp()
     {
-        $dateModelMock = $this->getMock('Magento_Core_Model_Date', array('date'), array(), '', false);
+        $dateModelMock = $this->getMock('Magento\Core\Model\Date', array('date'), array(), '', false);
         $dateModelMock->expects($this->any())
             ->method('date')
             ->will($this->returnCallback(array($this, 'getDateCallback')));
 
-        $this->_model = new Magento_ScheduledImportExport_Model_Export(
-            $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false),
-            $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false),
-            $this->getMock('Magento_Core_Model_Log_AdapterFactory', array(), array(), '', false),
-            $this->getMock('Magento_ImportExport_Model_Export_ConfigInterface', array(), array(), '', false),
-            $this->getMock('Magento_ImportExport_Model_Export_Entity_Factory', array(), array(), '', false),
-            $this->getMock('Magento_ImportExport_Model_Export_Adapter_Factory', array(), array(), '', false),
+        $this->_model = new \Magento\ScheduledImportExport\Model\Export(
+            $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\Dir', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\Log\AdapterFactory', array(), array(), '', false),
+            $this->getMock('Magento\ImportExport\Model\Export\ConfigInterface', array(), array(), '', false),
+            $this->getMock('Magento\ImportExport\Model\Export\Entity\Factory', array(), array(), '', false),
+            $this->getMock('Magento\ImportExport\Model\Export\Adapter\Factory', array(), array(), '', false),
             $dateModelMock,
             array()
         );
@@ -69,7 +71,7 @@ class Magento_ScheduledImportExport_Model_ExportTest extends PHPUnit_Framework_T
     public function testGetDateModel()
     {
         $this->assertInstanceOf(
-            'Magento_Core_Model_Date',
+            'Magento\Core\Model\Date',
             $this->_model->getDateModel(),
             'Date model getter retrieve instance with wrong type'
         );
@@ -189,20 +191,20 @@ class Magento_ScheduledImportExport_Model_ExportTest extends PHPUnit_Framework_T
      * Retrieve operation mock
      *
      * @param array $operationData
-     * @return Magento_ScheduledImportExport_Model_Scheduled_Operation|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getOperationMock(array $operationData)
     {
-        /** @var $operation Magento_ScheduledImportExport_Model_Scheduled_Operation */
+        /** @var $operation \Magento\ScheduledImportExport\Model\Scheduled\Operation */
         $operation = $this->getMock(
-            'Magento_ScheduledImportExport_Model_Scheduled_Operation', null, array(), '', false);
+            'Magento\ScheduledImportExport\Model\Scheduled\Operation', null, array(), '', false);
         $operation->setData($operationData);
 
         return $operation;
     }
 
     /**
-     * Callback to use instead Magento_Core_Model_Date::date()
+     * Callback to use instead \Magento\Core\Model\Date::date()
      *
      * @param string $format
      * @param int|string $input

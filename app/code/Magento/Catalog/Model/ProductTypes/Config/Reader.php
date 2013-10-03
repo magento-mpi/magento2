@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Catalog_Model_ProductTypes_Config_Reader extends Magento_Config_Reader_Filesystem
+namespace Magento\Catalog\Model\ProductTypes\Config;
+
+class Reader extends \Magento\Config\Reader\Filesystem
 {
     /**
      * List of id attributes for merge
@@ -22,22 +24,22 @@ class Magento_Catalog_Model_ProductTypes_Config_Reader extends Magento_Config_Re
     );
 
     /**
-     * @param Magento_Config_FileResolverInterface $fileResolver
-     * @param Magento_Catalog_Model_ProductTypes_Config_Converter $converter
-     * @param Magento_Catalog_Model_ProductTypes_Config_SchemaLocator $schemaLocator
-     * @param Magento_Config_ValidationStateInterface $validationState
+     * @param \Magento\Config\FileResolverInterface $fileResolver
+     * @param \Magento\Catalog\Model\ProductTypes\Config\Converter $converter
+     * @param \Magento\Catalog\Model\ProductTypes\Config\SchemaLocator $schemaLocator
+     * @param \Magento\Config\ValidationStateInterface $validationState
      * @param string $fileName
      * @param array $idAttributes
      * @param string $domDocumentClass
      */
     public function __construct(
-        Magento_Config_FileResolverInterface $fileResolver,
-        Magento_Catalog_Model_ProductTypes_Config_Converter $converter,
-        Magento_Catalog_Model_ProductTypes_Config_SchemaLocator $schemaLocator,
-        Magento_Config_ValidationStateInterface $validationState,
+        \Magento\Config\FileResolverInterface $fileResolver,
+        \Magento\Catalog\Model\ProductTypes\Config\Converter $converter,
+        \Magento\Catalog\Model\ProductTypes\Config\SchemaLocator $schemaLocator,
+        \Magento\Config\ValidationStateInterface $validationState,
         $fileName = 'product_types.xml',
         $idAttributes = array(),
-        $domDocumentClass = 'Magento_Config_Dom'
+        $domDocumentClass = 'Magento\Config\Dom'
     ) {
         parent::__construct(
             $fileResolver, $converter, $schemaLocator, $validationState, $fileName, $idAttributes, $domDocumentClass

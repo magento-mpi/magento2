@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Test_Integrity_Magento_Widget_TemplateFilesTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Magento\Widget;
+
+class TemplateFilesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Check if all the declared widget templates actually exist
@@ -20,12 +22,12 @@ class Magento_Test_Integrity_Magento_Widget_TemplateFilesTest extends PHPUnit_Fr
      */
     public function testWidgetTemplates($class, $template)
     {
-        /** @var $blockFactory Magento_Core_Model_BlockFactory */
-        $blockFactory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_BlockFactory');
-        /** @var Magento_Core_Block_Template $block */
+        /** @var $blockFactory \Magento\Core\Model\BlockFactory */
+        $blockFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\BlockFactory');
+        /** @var \Magento\Core\Block\Template $block */
         $block = $blockFactory->createBlock($class);
-        $this->assertInstanceOf('Magento_Core_Block_Template', $block);
+        $this->assertInstanceOf('Magento\Core\Block\Template', $block);
         $block->setTemplate((string)$template);
         $this->assertFileExists($block->getTemplateFile());
     }
@@ -38,16 +40,16 @@ class Magento_Test_Integrity_Magento_Widget_TemplateFilesTest extends PHPUnit_Fr
     public function widgetTemplatesDataProvider()
     {
         $result = array();
-        /** @var $model Magento_Widget_Model_Widget */
-        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Widget_Model_Widget');
+        /** @var $model \Magento\Widget\Model\Widget */
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Widget\Model\Widget');
         foreach ($model->getWidgetsArray() as $row) {
-            /** @var $instance Magento_Widget_Model_Widget_Instance */
-            $instance = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Widget_Model_Widget_Instance');
+            /** @var $instance \Magento\Widget\Model\Widget\Instance */
+            $instance = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Widget\Model\Widget\Instance');
             $config = $instance->setType($row['type'])->getWidgetConfigAsArray();
             $class = $row['type'];
-            if (is_subclass_of($class, 'Magento_Core_Block_Template')) {
+            if (is_subclass_of($class, 'Magento\Core\Block\Template')) {
                 if (isset($config['parameters']) && isset($config['parameters']['template'])
                     && isset($config['parameters']['template']['values'])) {
                     $templates = $config['parameters']['template']['values'];

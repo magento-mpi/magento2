@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_SetupInterface
+namespace Magento\Core\Model\Resource;
+
+class Setup implements \Magento\Core\Model\Resource\SetupInterface
 {
     /**
      * Setup resource name
@@ -32,7 +34,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
     /**
      * Setup Connection
      *
-     * @var Magento_DB_Adapter_Pdo_Mysql
+     * @var \Magento\DB\Adapter\Pdo\Mysql
      */
     protected $_connection = null;
     /**
@@ -51,44 +53,44 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
     /**
      * Modules configuration
      *
-     * @var Magento_Core_Model_Resource
+     * @var \Magento\Core\Model\Resource
      */
     protected $_resourceModel;
 
     /**
      * Modules configuration reader
      *
-     * @var Magento_Core_Model_Config_Modules_Reader
+     * @var \Magento\Core\Model\Config\Modules\Reader
      */
     protected $_modulesReader;
 
     /**
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @var Magento_Core_Model_Resource_Resource
+     * @var \Magento\Core\Model\Resource\Resource
      */
     protected $_resourceResource;
 
     /**
-     * @var Magento_Core_Model_Resource_Theme_CollectionFactory
+     * @var \Magento\Core\Model\Resource\Theme\CollectionFactory
      */
     protected $_themeResourceFactory;
 
     /**
-     * @var Magento_Core_Model_Theme_CollectionFactory
+     * @var \Magento\Core\Model\Theme\CollectionFactory
      */
     protected $_themeFactory;
 
     /**
-     * @var Magento_Core_Model_Resource_Setup_MigrationFactory
+     * @var \Magento\Core\Model\Resource\Setup\MigrationFactory
      */
     protected $_migrationFactory;
 
@@ -100,13 +102,13 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
     protected $_connectionName = 'core_setup';
 
     /**
-     * @param Magento_Core_Model_Resource_Setup_Context $context
+     * @param \Magento\Core\Model\Resource\Setup\Context $context
      * @param $resourceName
      * @param $moduleName
      * @param string $connectionName
      */
     public function __construct(
-        Magento_Core_Model_Resource_Setup_Context $context,
+        \Magento\Core\Model\Resource\Setup\Context $context,
         $resourceName,
         $moduleName,
         $connectionName = ''
@@ -127,7 +129,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
     /**
      * Get connection object
      *
-     * @return Magento_DB_Adapter_Interface
+     * @return \Magento\DB\Adapter\AdapterInterface
      */
     public function getConnection()
     {
@@ -142,7 +144,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      *
      * @param string $tableName
      * @param string $realTableName
-     * @return Magento_Core_Model_Resource_Setup
+     * @return \Magento\Core\Model\Resource\Setup
      */
     public function setTable($tableName, $realTableName)
     {
@@ -183,7 +185,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
     /**
      * Apply data updates to the system after upgrading.
      *
-     * @return Magento_Core_Model_Resource_Setup
+     * @return \Magento\Core\Model\Resource\Setup
      */
     public function applyDataUpdates()
     {
@@ -203,7 +205,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
     /**
      * Apply module resource install, upgrade and data scripts
      *
-     * @return Magento_Core_Model_Resource_Setup|bool
+     * @return \Magento\Core\Model\Resource\Setup|bool
      */
     public function applyUpdates()
     {
@@ -235,7 +237,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      * Run data install scripts
      *
      * @param string $newVersion
-     * @return Magento_Core_Model_Resource_Setup
+     * @return \Magento\Core\Model\Resource\Setup
      */
     protected function _installData($newVersion)
     {
@@ -251,7 +253,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      *
      * @param string $oldVersion
      * @param string $newVersion
-     * @return Magento_Core_Model_Resource_Setup
+     * @return \Magento\Core\Model\Resource\Setup
      */
     protected function _upgradeData($oldVersion, $newVersion)
     {
@@ -265,7 +267,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      * Run resource installation file
      *
      * @param string $newVersion
-     * @return Magento_Core_Model_Resource_Setup
+     * @return \Magento\Core\Model\Resource\Setup
      */
     protected function _installResourceDb($newVersion)
     {
@@ -281,7 +283,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      *
      * @param string $oldVersion
      * @param string $newVersion
-     * @return Magento_Core_Model_Resource_Setup
+     * @return \Magento\Core\Model\Resource\Setup
      */
     protected function _upgradeResourceDb($oldVersion, $newVersion)
     {
@@ -296,7 +298,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      *
      * @param string $newVersion
      * @param string $oldVersion
-     * @return Magento_Core_Model_Resource_Setup
+     * @return \Magento\Core\Model\Resource\Setup
      */
     protected function _rollbackResourceDb($newVersion, $oldVersion)
     {
@@ -308,7 +310,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      * Uninstall resource
      *
      * @param string $version existing resource version
-     * @return Magento_Core_Model_Resource_Setup
+     * @return \Magento\Core\Model\Resource\Setup
      */
     protected function _uninstallResourceDb($version)
     {
@@ -397,7 +399,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      *
      * @param string $actionType
      * @param string $version
-     * @return Magento_Core_Model_Resource_Setup
+     * @return \Magento\Core\Model\Resource\Setup
      */
     protected function _setResourceVersion($actionType, $version)
     {
@@ -423,7 +425,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      * @param string $fromVersion
      * @param string $toVersion
      * @return bool|string
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     protected function _modifyResourceDb($actionType, $fromVersion, $toVersion)
     {
@@ -475,8 +477,8 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
                 } else {
                     $this->_logger->log("Failed resource setup: {$fileName}");
                 }
-            } catch (Exception $e) {
-                throw new Magento_Exception(sprintf('Error in file: "%s" - %s', $fileName, $e->getMessage()), 0, $e);
+            } catch (\Exception $e) {
+                throw new \Magento\Exception(sprintf('Error in file: "%s" - %s', $fileName, $e->getMessage()), 0, $e);
             }
             $version = $file['toVersion'];
             $this->getConnection()->allowDdlCache();
@@ -587,7 +589,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      * @param string|int $rowId
      * @param null|string $parentField
      * @param int|string $parentId
-     * @return Magento_Core_Model_Resource_Setup
+     * @return \Magento\Core\Model\Resource\Setup
      */
     public function deleteTableRow($table, $idField, $rowId, $parentField = null, $parentId = 0)
     {
@@ -617,7 +619,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      * @param mixed|null $value
      * @param string $parentField
      * @param string|integer $parentId
-     * @return Magento_Eav_Model_Entity_Setup
+     * @return \Magento\Eav\Model\Entity\Setup
      */
     public function updateTableRow($table, $idField, $rowId, $field, $value = null, $parentField = null, $parentId = 0)
     {
@@ -665,9 +667,9 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      * @param string $value
      * @param int|string $scope
      * @param int $scopeId
-     * @return Magento_Core_Model_Resource_Setup
+     * @return \Magento\Core\Model\Resource\Setup
      */
-    public function setConfigData($path, $value, $scope = Magento_Core_Model_Store::DEFAULT_CODE, $scopeId = 0)
+    public function setConfigData($path, $value, $scope = \Magento\Core\Model\Store::DEFAULT_CODE, $scopeId = 0)
     {
         $table = $this->getTable('core_config_data');
         // this is a fix for mysql 4.1
@@ -688,7 +690,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      *
      * @param string $path
      * @param string $scope (default|stores|websites|config)
-     * @return Magento_Core_Model_Resource_Setup
+     * @return \Magento\Core\Model\Resource\Setup
      */
     public function deleteConfigData($path, $scope = null)
     {
@@ -704,7 +706,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      * Run plain SQL query(ies)
      *
      * @param string $sql
-     * @return Magento_Core_Model_Resource_Setup
+     * @return \Magento\Core\Model\Resource\Setup
      */
     public function run($sql)
     {
@@ -715,7 +717,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
     /**
      * Prepare database before install/upgrade
      *
-     * @return Magento_Core_Model_Resource_Setup
+     * @return \Magento\Core\Model\Resource\Setup
      */
     public function startSetup()
     {
@@ -726,7 +728,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
     /**
      * Prepare database after install/upgrade
      *
-     * @return Magento_Core_Model_Resource_Setup
+     * @return \Magento\Core\Model\Resource\Setup
      */
     public function endSetup()
     {
@@ -775,7 +777,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      * Run each time after applying of all updates,
      * if setup model setted  $_callAfterApplyAllUpdates flag to true
      *
-     * @return Magento_Core_Model_Resource_Setup
+     * @return \Magento\Core\Model\Resource\Setup
      */
     public function afterApplyAllUpdates()
     {
@@ -783,7 +785,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
     }
 
     /**
-     * @return Magento_Core_Model_Event_Manager
+     * @return \Magento\Core\Model\Event\Manager
      */
     public function getEventManager()
     {

@@ -5,24 +5,26 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Phrase_Renderer_TranslateTest extends PHPUnit_Framework_TestCase
+namespace Magento\Phrase\Renderer;
+
+class TranslateTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Translate|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Translate|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_translator;
 
     /**
-     * @var Magento_Phrase_Renderer_Translate
+     * @var \Magento\Phrase\Renderer\Translate
      */
     protected $_renderer;
 
     protected function setUp()
     {
-        $this->_translator = $this->getMock('Magento_Core_Model_Translate', array(), array(), '', false);
+        $this->_translator = $this->getMock('Magento\Core\Model\Translate', array(), array(), '', false);
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_renderer = $objectManagerHelper->getObject('Magento_Phrase_Renderer_Translate', array(
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_renderer = $objectManagerHelper->getObject('Magento\Phrase\Renderer\Translate', array(
             'translator' => $this->_translator,
         ));
     }

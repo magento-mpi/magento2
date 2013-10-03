@@ -12,32 +12,34 @@
 /**
  * Background image renderer test
  */
-class Magento_DesignEditor_Model_Editor_QuickStyles_Renderer_BackgroundImageTest
-    extends PHPUnit_Framework_TestCase
+namespace Magento\DesignEditor\Model\Editor\QuickStyles\Renderer;
+
+class BackgroundImageTest
+    extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @cover Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer_BackgroundImage::toCss
+     * @cover \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\BackgroundImage::toCss
      * @dataProvider backgroundImageData
      */
     public function testToCss($expectedResult, $data)
     {
-        /** @var $rendererModel Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer_BackgroundImage */
+        /** @var $rendererModel \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\BackgroundImage */
         $rendererModel = $this->getMock(
-            'Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer_BackgroundImage', null, array(), '', false
+            'Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\BackgroundImage', null, array(), '', false
         );
 
         $this->assertEquals($expectedResult, $rendererModel->toCss($data));
     }
 
     /**
-     * @cover Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer_BackgroundImage::toCss
+     * @cover \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\BackgroundImage::toCss
      * @dataProvider backgroundImageDataClearDefault
      */
     public function testToCssClearDefault($expectedResult, $data)
     {
-        /** @var $rendererModel Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer_BackgroundImage */
+        /** @var $rendererModel \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\BackgroundImage */
         $rendererModel = $this->getMock(
-            'Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer_BackgroundImage', null, array(), '', false
+            'Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\BackgroundImage', null, array(), '', false
         );
 
         $this->assertEquals($expectedResult, $rendererModel->toCss($data));

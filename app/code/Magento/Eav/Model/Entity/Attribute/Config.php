@@ -5,16 +5,18 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Eav_Model_Entity_Attribute_Config extends Magento_Config_Data
+namespace Magento\Eav\Model\Entity\Attribute;
+
+class Config extends \Magento\Config\Data
 {
     /**
-     * @param Magento_Eav_Model_Entity_Attribute_Config_Reader $reader
-     * @param Magento_Config_CacheInterface $cache
+     * @param \Magento\Eav\Model\Entity\Attribute\Config\Reader $reader
+     * @param \Magento\Config\CacheInterface $cache
      * @param string $cacheId
      */
     public function __construct(
-        Magento_Eav_Model_Entity_Attribute_Config_Reader $reader,
-        Magento_Config_CacheInterface $cache,
+        \Magento\Eav\Model\Entity\Attribute\Config\Reader $reader,
+        \Magento\Config\CacheInterface $cache,
         $cacheId = "eav_attributes"
     ) {
         parent::__construct($reader, $cache, $cacheId);
@@ -23,10 +25,10 @@ class Magento_Eav_Model_Entity_Attribute_Config extends Magento_Config_Data
     /**
      * Retrieve list of locked fields for attribute
      *
-     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
      * @return array
      */
-    public function getLockedFields(Magento_Catalog_Model_Resource_Eav_Attribute $attribute)
+    public function getLockedFields(\Magento\Catalog\Model\Resource\Eav\Attribute $attribute)
     {
         $allFields = $this->get(
             $attribute->getEntityType()->getEntityTypeCode() . '/attributes/' . $attribute->getAttributeCode()

@@ -10,7 +10,9 @@
 /**
  * Catalog Event homepage block
  */
-class Magento_CatalogEvent_Block_Event_Lister extends Magento_CatalogEvent_Block_Event_Abstract
+namespace Magento\CatalogEvent\Block\Event;
+
+class Lister extends \Magento\CatalogEvent\Block\Event\AbstractEvent
 {
     /**
      * Events list
@@ -22,33 +24,33 @@ class Magento_CatalogEvent_Block_Event_Lister extends Magento_CatalogEvent_Block
     /**
      * Catalog event data
      *
-     * @var Magento_CatalogEvent_Helper_Data
+     * @var \Magento\CatalogEvent\Helper\Data
      */
     protected $_catalogEventData;
 
     /**
      * Event collection factory
      *
-     * @var Magento_CatalogEvent_Model_Resource_Event_CollectionFactory
+     * @var \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory
      */
     protected $_eventCollectionFactory;
     
     /**
      * Construct
      * 
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_CatalogEvent_Helper_Data $catalogEventData
-     * @param Magento_CatalogEvent_Model_Resource_Event_CollectionFactory $eventCollectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\CatalogEvent\Helper\Data $catalogEventData
+     * @param \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory $eventCollectionFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_CatalogEvent_Helper_Data $catalogEventData,
-        Magento_CatalogEvent_Model_Resource_Event_CollectionFactory $eventCollectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\CatalogEvent\Helper\Data $catalogEventData,
+        \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory $eventCollectionFactory,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $locale, $data);
@@ -92,16 +94,16 @@ class Magento_CatalogEvent_Block_Event_Lister extends Magento_CatalogEvent_Block
     {
         if ($this->_events === null) {
             $this->_events = array();
-            $categories = $this->helper('Magento_Catalog_Helper_Category')->getStoreCategories('position', true, false);
-            if (($categories instanceof Magento_Eav_Model_Entity_Collection_Abstract) ||
-                ($categories instanceof Magento_Core_Model_Resource_Db_Collection_Abstract)) {
+            $categories = $this->helper('Magento\Catalog\Helper\Category')->getStoreCategories('position', true, false);
+            if (($categories instanceof \Magento\Eav\Model\Entity\Collection\AbstractCollection) ||
+                ($categories instanceof \Magento\Core\Model\Resource\Db\Collection\AbstractCollection)) {
                 $allIds = $categories->getAllIds();
             } else {
                 $allIds = array();
             }
 
             if (!empty($allIds)) {
-                /** @var Magento_CatalogEvent_Model_Resource_Event_Collection $eventCollection */
+                /** @var \Magento\CatalogEvent\Model\Resource\Event\Collection $eventCollection */
                 $eventCollection = $this->_eventCollectionFactory->create();
                 $eventCollection->addFieldToFilter('category_id', array('in' => $allIds))
                     ->addVisibilityFilter()
@@ -134,23 +136,23 @@ class Magento_CatalogEvent_Block_Event_Lister extends Magento_CatalogEvent_Block
     /**
      * Retreive category url
      *
-     * @param Magento_Catalog_Model_Category $category
+     * @param \Magento\Catalog\Model\Category $category
      * @return string
      */
     public function getCategoryUrl($category)
     {
-        return $this->helper('Magento_Catalog_Helper_Category')->getCategoryUrl($category);
+        return $this->helper('Magento\Catalog\Helper\Category')->getCategoryUrl($category);
     }
 
     /**
      * Retrieve catalog category image url
      *
-     * @param Magento_CatalogEvent_Model_Event $event
+     * @param \Magento\CatalogEvent\Model\Event $event
      * @return string
      */
     public function getEventImageUrl($event)
     {
-        return $this->helper('Magento_CatalogEvent_Helper_Data')->getEventImageUrl($event);
+        return $this->helper('Magento\CatalogEvent\Helper\Data')->getEventImageUrl($event);
     }
 
     /**

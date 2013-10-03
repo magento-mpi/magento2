@@ -15,22 +15,24 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CurrencySymbol_Controller_Adminhtml_System_Currency extends Magento_Adminhtml_Controller_Action
+namespace Magento\CurrencySymbol\Controller\Adminhtml\System;
+
+class Currency extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -39,12 +41,12 @@ class Magento_CurrencySymbol_Controller_Adminhtml_System_Currency extends Magent
     /**
      * Init currency by currency code from request
      *
-     * @return Magento_CurrencySymbol_Controller_Adminhtml_System_Currency
+     * @return \Magento\CurrencySymbol\Controller\Adminhtml\System\Currency
      */
     protected function _initCurrency()
     {
         $code = $this->getRequest()->getParam('currency');
-        $currency = $this->_objectManager->create('Magento_Directory_Model_Currency')->load($code);
+        $currency = $this->_objectManager->create('Magento\Directory\Model\Currency')->load($code);
 
         $this->_coreRegistry->register('currency', $currency);
         return $this;
@@ -59,26 +61,26 @@ class Magento_CurrencySymbol_Controller_Adminhtml_System_Currency extends Magent
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_CurrencySymbol::system_currency_rates');
-        $this->_addContent($this->getLayout()->createBlock('Magento_CurrencySymbol_Block_Adminhtml_System_Currency'));
+        $this->_addContent($this->getLayout()->createBlock('Magento\CurrencySymbol\Block\Adminhtml\System\Currency'));
         $this->renderLayout();
     }
 
     public function fetchRatesAction()
     {
-        /** @var Magento_Backend_Model_Session $backendSession */
-        $backendSession = $this->_objectManager->get('Magento_Backend_Model_Session');
+        /** @var \Magento\Backend\Model\Session $backendSession */
+        $backendSession = $this->_objectManager->get('Magento\Backend\Model\Session');
         try {
             $service = $this->getRequest()->getParam('rate_services');
             $this->_getSession()->setCurrencyRateService($service);
             if (!$service) {
-                throw new Exception(__('Please specify a correct Import Service.'));
+                throw new \Exception(__('Please specify a correct Import Service.'));
             }
             try {
-                /** @var Magento_Directory_Model_Currency_Import_Interface $importModel */
-                $importModel = $this->_objectManager->get('Magento_Directory_Model_Currency_Import_Factory')
+                /** @var \Magento\Directory\Model\Currency\Import\ImportInterface $importModel */
+                $importModel = $this->_objectManager->get('Magento\Directory\Model\Currency\Import\Factory')
                     ->create($service);
-            } catch (Exception $e) {
-                throw new Magento_Core_Exception(__('We can\'t initialize the import model.'));
+            } catch (\Exception $e) {
+                throw new \Magento\Core\Exception(__('We can\'t initialize the import model.'));
             }
             $rates = $importModel->fetchRates();
             $errors = $importModel->getMessages();
@@ -93,7 +95,7 @@ class Magento_CurrencySymbol_Controller_Adminhtml_System_Currency extends Magent
 
             $backendSession->setRates($rates);
         }
-        catch (Exception $e){
+        catch (\Exception $e){
             $backendSession->addError($e->getMessage());
         }
         $this->_redirect('*/*/');
@@ -103,13 +105,13 @@ class Magento_CurrencySymbol_Controller_Adminhtml_System_Currency extends Magent
     {
         $data = $this->getRequest()->getParam('rate');
         if (is_array($data)) {
-            /** @var Magento_Backend_Model_Session $backendSession */
-            $backendSession = $this->_objectManager->get('Magento_Backend_Model_Session');
+            /** @var \Magento\Backend\Model\Session $backendSession */
+            $backendSession = $this->_objectManager->get('Magento\Backend\Model\Session');
             try {
                 foreach ($data as $currencyCode => $rate) {
                     foreach( $rate as $currencyTo => $value ) {
                         $value = abs($this->_objectManager
-                                ->get('Magento_Core_Model_LocaleInterface')
+                                ->get('Magento\Core\Model\LocaleInterface')
                                 ->getNumber($value)
                         );
                         $data[$currencyCode][$currencyTo] = $value;
@@ -121,10 +123,10 @@ class Magento_CurrencySymbol_Controller_Adminhtml_System_Currency extends Magent
                     }
                 }
 
-                $this->_objectManager->create('Magento_Directory_Model_Currency')->saveRates($data);
+                $this->_objectManager->create('Magento\Directory\Model\Currency')->saveRates($data);
                 $backendSession->addSuccess(__('All valid rates have been saved.'));
-            } catch (Exception $e) {
-                $this->_objectManager->get('Magento_Backend_Model_Session')->addError($e->getMessage());
+            } catch (\Exception $e) {
+                $this->_objectManager->get('Magento\Backend\Model\Session')->addError($e->getMessage());
             }
         }
 

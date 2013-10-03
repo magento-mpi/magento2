@@ -8,8 +8,10 @@
  * @license     {license_link}
  */
 
-class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_Date
-    extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Attribute\Type;
+
+class Date
+    extends \Magento\Adminhtml\Block\Widget\Form
 {
 
     protected $_template = 'edit/type/date.phtml';
@@ -21,7 +23,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_Date
      */
     public function getDateFormatSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Html\Select')
             ->setData(array(
                 'id'    =>  '{{prefix}}_attribute_{{id}}_date_format',
                 'class' => 'select global-scope'
@@ -41,19 +43,19 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_Date
     {
          return array(
             array(
-                'value' => Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT,
+                'value' => \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT,
                 'label' => __('Short')
             ),
             array(
-                'value' => Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM,
+                'value' => \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM,
                 'label' => __('Medium')
             ),
             array(
-                'value' => Magento_Core_Model_LocaleInterface::FORMAT_TYPE_LONG,
+                'value' => \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_LONG,
                 'label' => __('Long')
             ),
             array(
-                'value' => Magento_Core_Model_LocaleInterface::FORMAT_TYPE_FULL,
+                'value' => \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_FULL,
                 'label' => __('Full')
             )
         );

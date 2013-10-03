@@ -15,36 +15,38 @@
  * @package     Magento_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Widget_Controller_Adminhtml_Widget extends Magento_Adminhtml_Controller_Action
+namespace Magento\Widget\Controller\Adminhtml;
+
+class Widget extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry;
 
     /**
-     * @var Magento_Widget_Model_Widget_Config
+     * @var \Magento\Widget\Model\Widget\Config
      */
     protected $_widgetConfig;
 
     /**
-     * @var Magento_Widget_Model_Widget
+     * @var \Magento\Widget\Model\Widget
      */
     protected $_widget;
 
     /**
-     * @param Magento_Widget_Model_Widget_Config $widgetConfig
-     * @param Magento_Widget_Model_Widget $widget
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Widget\Model\Widget\Config $widgetConfig
+     * @param \Magento\Widget\Model\Widget $widget
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Widget_Model_Widget_Config $widgetConfig,
-        Magento_Widget_Model_Widget $widget,
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Widget\Model\Widget\Config $widgetConfig,
+        \Magento\Widget\Model\Widget $widget,
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_widgetConfig = $widgetConfig;
         $this->_widget = $widget;
@@ -74,7 +76,7 @@ class Magento_Widget_Controller_Adminhtml_Widget extends Magento_Adminhtml_Contr
         try {
             $this->loadLayout('empty');
             if ($paramsJson = $this->getRequest()->getParam('widget')) {
-                $request = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonDecode($paramsJson);
+                $request = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonDecode($paramsJson);
                 if (is_array($request)) {
                     $optionsBlock = $this->getLayout()->getBlock('wysiwyg_widget.options');
                     if (isset($request['widget_type'])) {
@@ -86,9 +88,9 @@ class Magento_Widget_Controller_Adminhtml_Widget extends Magento_Adminhtml_Contr
                 }
                 $this->renderLayout();
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
-            $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
+            $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
         }
     }
 

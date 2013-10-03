@@ -11,7 +11,9 @@
 /**
  * Order invoice configuration model
  */
-class Magento_Sales_Model_Order_Invoice_Config extends Magento_Sales_Model_Order_Total_Config_Base
+namespace Magento\Sales\Model\Order\Invoice;
+
+class Config extends \Magento\Sales\Model\Order\Total\Config\Base
 {
     /**
      * Cache key for collectors

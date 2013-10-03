@@ -6,39 +6,41 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_CustomerSegment_Model_Resource_Segment_Report_Detail_Collection
-    extends Magento_CustomerSegment_Model_Resource_Report_Customer_Collection
+namespace Magento\CustomerSegment\Model\Resource\Segment\Report\Detail;
+
+class Collection
+    extends \Magento\CustomerSegment\Model\Resource\Report\Customer\Collection
 {
     /**
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_registryManager;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Eav_Model_EntityFactory $eavEntityFactory
-     * @param Magento_Eav_Model_Resource_Helper $resourceHelper
-     * @param Magento_Validator_UniversalFactory $universalFactory
-     * @param Magento_Core_Model_Fieldset_Config $fieldsetConfig
-     * @param Magento_Core_Model_Registry $registryManager
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
+     * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Core\Model\Fieldset\Config $fieldsetConfig
+     * @param \Magento\Core\Model\Registry $registryManager
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Core_Model_Resource $resource,
-        Magento_Eav_Model_EntityFactory $eavEntityFactory,
-        Magento_Eav_Model_Resource_Helper $resourceHelper,
-        Magento_Validator_UniversalFactory $universalFactory,
-        Magento_Core_Model_Fieldset_Config $fieldsetConfig,
-        Magento_Core_Model_Registry $registryManager
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Eav\Model\EntityFactory $eavEntityFactory,
+        \Magento\Eav\Model\Resource\Helper $resourceHelper,
+        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Core\Model\Fieldset\Config $fieldsetConfig,
+        \Magento\Core\Model\Registry $registryManager
     ) {
         $this->_registryManager = $registryManager;
         parent::__construct(
@@ -56,7 +58,7 @@ class Magento_CustomerSegment_Model_Resource_Segment_Report_Detail_Collection
     }
 
     /**
-     * @return Magento_CustomerSegment_Model_Resource_Segment_Report_Detail_Collection
+     * @return \Magento\CustomerSegment\Model\Resource\Segment\Report\Detail\Collection
      */
     protected function _initSelect()
     {

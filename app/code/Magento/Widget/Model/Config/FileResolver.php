@@ -7,27 +7,29 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Widget_Model_Config_FileResolver implements Magento_Config_FileResolverInterface
+namespace Magento\Widget\Model\Config;
+
+class FileResolver implements \Magento\Config\FileResolverInterface
 {
     /**
      * Module configuration file reader
      *
-     * @var Magento_Core_Model_Config_Modules_Reader
+     * @var \Magento\Core\Model\Config\Modules\Reader
      */
     protected $_moduleReader;
 
     /**
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_applicationDirs;
 
     /**
-     * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
-     * @param Magento_Core_Model_Dir $applicationDirs
+     * @param \Magento\Core\Model\Config\Modules\Reader $moduleReader
+     * @param \Magento\Core\Model\Dir $applicationDirs
      */
     public function __construct(
-        Magento_Core_Model_Config_Modules_Reader $moduleReader,
-        Magento_Core_Model_Dir $applicationDirs
+        \Magento\Core\Model\Config\Modules\Reader $moduleReader,
+        \Magento\Core\Model\Dir $applicationDirs
     ) {
         $this->_moduleReader = $moduleReader;
         $this->_applicationDirs = $applicationDirs;
@@ -44,7 +46,7 @@ class Magento_Widget_Model_Config_FileResolver implements Magento_Config_FileRes
                 $fileList = $this->_moduleReader->getConfigurationFiles($filename);
                 break;
             case 'design':
-                $fileList = glob($this->_applicationDirs->getDir(Magento_Core_Model_Dir::THEMES)
+                $fileList = glob($this->_applicationDirs->getDir(\Magento\Core\Model\Dir::THEMES)
                 . "/*/*/etc/$filename", GLOB_NOSORT | GLOB_BRACE);
                 break;
             default:

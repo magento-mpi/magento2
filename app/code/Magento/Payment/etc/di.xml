@@ -8,43 +8,43 @@
  */
 -->
 <config>
-    <type name="Magento_Payment_Model_Method_Abstract">
+    <type name="Magento\Payment\Model\Method\AbstractMethod">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Paypal_Model_Cart">
+    <type name="Magento\Paypal\Model\Cart">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Paypal_Model_Payment_Transaction">
+    <type name="Magento\Paypal\Model\Payment\Transaction">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Payment_Model_Config_Reader">
+    <type name="Magento\Payment\Model\Config\Reader">
         <param name="fileName">
             <value>payment.xml</value>
         </param>
         <param name="converter">
-            <instance type="Magento_Payment_Model_Config_Converter" />
+            <instance type="Magento\Payment\Model\Config\Converter" />
         </param>
         <param name="schemaLocator">
-            <instance type="Magento_Payment_Model_Config_SchemaLocator" />
+            <instance type="Magento\Payment\Model\Config\SchemaLocator" />
         </param>
     </type>
-    <virtualType name="Magento_Payment_Model_Config_Data" type="Magento_Config_Data">
+    <virtualType name="Magento\Payment\Model\Config\Data" type="Magento\Config\Data">
         <param name='reader'>
-            <instance type="Magento_Payment_Model_Config_Reader" />
+            <instance type="Magento\Payment\Model\Config\Reader" />
         </param>
         <param name="cacheId">
             <value>payment_config</value>
         </param>
     </virtualType>
-    <type name="Magento_Payment_Model_Config">
+    <type name="Magento\Payment\Model\Config">
         <param name="dataStorage">
-            <instance type="Magento_Payment_Model_Config_Data" />
+            <instance type="Magento\Payment\Model\Config\Data" />
         </param>
     </type>
 </config>

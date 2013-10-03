@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Reward_Model_ObserverTest extends PHPUnit_Framework_TestCase
+namespace Magento\Reward\Model;
+
+class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoDataFixture Magento/ImportExport/_files/customer.php
@@ -20,17 +22,17 @@ class Magento_Reward_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     public function testSaveRewardPoints($pointsDelta, $expectedBalance)
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        $customer = $objectManager->get('Magento_Core_Model_Registry')
+        $customer = $objectManager->get('Magento\Core\Model\Registry')
             ->registry('_fixture/Magento_ImportExport_Customer');
 
         $this->_saveRewardPoints($customer, $pointsDelta);
 
-        /** @var $reward Magento_Reward_Model_Reward */
-        $reward = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Reward_Model_Reward');
+        /** @var $reward \Magento\Reward\Model\Reward */
+        $reward = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Reward\Model\Reward');
         $reward->setCustomer($customer)
             ->loadByCustomer();
 
@@ -52,36 +54,36 @@ class Magento_Reward_Model_ObserverTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param Magento_Customer_Model_Customer $customer
+     * @param \Magento\Customer\Model\Customer $customer
      * @param mixed $pointsDelta
      */
-    protected function _saveRewardPoints(Magento_Customer_Model_Customer $customer, $pointsDelta = '')
+    protected function _saveRewardPoints(\Magento\Customer\Model\Customer $customer, $pointsDelta = '')
     {
         $reward = array(
             'points_delta' => $pointsDelta
         );
 
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var $request Magento_TestFramework_Request */
-        $request = $objectManager->get('Magento_TestFramework_Request');
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var $request \Magento\TestFramework\Request */
+        $request = $objectManager->get('Magento\TestFramework\Request');
         $request->setPost(
             array('reward' => $reward)
         );
 
-        $event = new Magento_Event(
+        $event = new \Magento\Event(
             array(
                 'request'  => $request,
                 'customer' => $customer
             )
         );
 
-        $eventObserver = new Magento_Event_Observer(
+        $eventObserver = new \Magento\Event\Observer(
             array('event' => $event)
         );
 
-        $rewardObserver = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Reward_Model_Observer');
+        $rewardObserver = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Reward\Model\Observer');
         $rewardObserver->saveRewardPoints($eventObserver);
     }
 }

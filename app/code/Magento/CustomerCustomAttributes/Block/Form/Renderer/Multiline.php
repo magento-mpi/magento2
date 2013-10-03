@@ -16,6 +16,8 @@
  * @package     Magento_CustomerCustomAttributes
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerCustomAttributes_Block_Form_Renderer_Multiline extends Magento_CustomAttribute_Block_Form_Renderer_Multiline
+namespace Magento\CustomerCustomAttributes\Block\Form\Renderer;
+
+class Multiline extends \Magento\CustomAttribute\Block\Form\Renderer\Multiline
 {
 }

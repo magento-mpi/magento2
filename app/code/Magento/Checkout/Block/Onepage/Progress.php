@@ -15,7 +15,9 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Onepage_Progress extends Magento_Checkout_Block_Onepage_Abstract
+namespace Magento\Checkout\Block\Onepage;
+
+class Progress extends \Magento\Checkout\Block\Onepage\AbstractOnepage
 {
     public function getBilling()
     {
@@ -51,7 +53,7 @@ class Magento_Checkout_Block_Onepage_Progress extends Magento_Checkout_Block_One
      * Get is step completed. if is set 'toStep' then all steps after him is not completed.
      *
      * @param string $currentStep
-     *  @see: Magento_Checkout_Block_Onepage_Abstract::_getStepCodes() for allowed values
+     *  @see: \Magento\Checkout\Block\Onepage\AbstractOnepage::_getStepCodes() for allowed values
      * @return bool
      */
     public function isStepComplete($currentStep)

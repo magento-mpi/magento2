@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_GiftRegistry_Model_Item_OptionTest extends PHPUnit_Framework_TestCase
+namespace Magento\GiftRegistry\Model\Item;
+
+class OptionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param mixed $product
@@ -19,7 +21,7 @@ class Magento_GiftRegistry_Model_Item_OptionTest extends PHPUnit_Framework_TestC
      */
     public function testSetProduct($product, $expectedProduct, $expectedProductId)
     {
-        $model = $this->getMock('Magento_GiftRegistry_Model_Item_Option',
+        $model = $this->getMock('Magento\GiftRegistry\Model\Item\Option',
             array('getValue'), array(), '', false);
         $model->setProduct($product);
 
@@ -30,7 +32,7 @@ class Magento_GiftRegistry_Model_Item_OptionTest extends PHPUnit_Framework_TestC
     public function setProductDataProvider()
     {
         $product = $this->getMock(
-            'Magento_Catalog_Model_Product',
+            'Magento\Catalog\Model\Product',
             array('getId', '__sleep', '__wakeup'),
             array(),
             '',

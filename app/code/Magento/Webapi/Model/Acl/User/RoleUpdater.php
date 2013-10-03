@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Acl_User_RoleUpdater implements Magento_Core_Model_Layout_Argument_UpdaterInterface
+namespace Magento\Webapi\Model\Acl\User;
+
+class RoleUpdater implements \Magento\Core\Model\Layout\Argument\UpdaterInterface
 {
     /**
      * @var int
@@ -15,19 +17,19 @@ class Magento_Webapi_Model_Acl_User_RoleUpdater implements Magento_Core_Model_La
     protected $_userId;
 
     /**
-     * @var Magento_Webapi_Model_Acl_User_Factory
+     * @var \Magento\Webapi\Model\Acl\User\Factory
      */
     protected $_userFactory;
 
     /**
      * Constructor.
      *
-     * @param Magento_Core_Controller_Request_Http $request
-     * @param Magento_Webapi_Model_Acl_User_Factory $userFactory
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\Webapi\Model\Acl\User\Factory $userFactory
      */
     public function __construct(
-        Magento_Core_Controller_Request_Http $request,
-        Magento_Webapi_Model_Acl_User_Factory $userFactory
+        \Magento\Core\Controller\Request\Http $request,
+        \Magento\Webapi\Model\Acl\User\Factory $userFactory
     ) {
         $this->_userId = (int)$request->getParam('user_id');
         $this->_userFactory = $userFactory;

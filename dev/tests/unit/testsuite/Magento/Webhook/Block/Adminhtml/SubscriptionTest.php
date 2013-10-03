@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Block_Adminhtml_Subscription
+ * \Magento\Webhook\Block\Adminhtml\Subscription
  *
  * {license_notice}
  *
@@ -9,12 +9,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Block_Adminhtml_SubscriptionTest extends Magento_Test_Block_Adminhtml
+namespace Magento\Webhook\Block\Adminhtml;
+
+class SubscriptionTest extends \Magento\Test\Block\Adminhtml
 {
     public function testConstruct()
     {
-        $block = new Magento_Webhook_Block_Adminhtml_Subscription(
-            $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false),
+        $block = new \Magento\Webhook\Block\Adminhtml\Subscription(
+            $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false),
             $this->_context
         );
         $this->assertEquals('Subscriptions', $block->getHeaderText());

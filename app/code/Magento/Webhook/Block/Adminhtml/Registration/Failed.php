@@ -9,21 +9,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Block_Adminhtml_Registration_Failed extends Magento_Backend_Block_Template
+namespace Magento\Webhook\Block\Adminhtml\Registration;
+
+class Failed extends \Magento\Backend\Block\Template
 {
-    /** @var  Magento_Backend_Model_Session */
+    /** @var  \Magento\Backend\Model\Session */
     protected $_session;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Model_Session $session
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Model\Session $session
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Model_Session $session,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Model\Session $session,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);

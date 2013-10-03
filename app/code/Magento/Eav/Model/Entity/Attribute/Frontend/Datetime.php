@@ -9,20 +9,22 @@
  */
 
 
-class Magento_Eav_Model_Entity_Attribute_Frontend_Datetime extends Magento_Eav_Model_Entity_Attribute_Frontend_Abstract
+namespace Magento\Eav\Model\Entity\Attribute\Frontend;
+
+class Datetime extends \Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend
 {
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @param Magento_Eav_Model_Entity_Attribute_Source_BooleanFactory $attrBooleanFactory
-     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param \Magento\Eav\Model\Entity\Attribute\Source\BooleanFactory $attrBooleanFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
      */
     function __construct(
-        Magento_Eav_Model_Entity_Attribute_Source_BooleanFactory $attrBooleanFactory,
-        Magento_Core_Model_LocaleInterface $locale
+        \Magento\Eav\Model\Entity\Attribute\Source\BooleanFactory $attrBooleanFactory,
+        \Magento\Core\Model\LocaleInterface $locale
     ) {
         parent::__construct($attrBooleanFactory);
         $this->_locale = $locale;
@@ -34,18 +36,18 @@ class Magento_Eav_Model_Entity_Attribute_Frontend_Datetime extends Magento_Eav_M
      * @param $object
      * @return mixed
      */
-    public function getValue(Magento_Object $object)
+    public function getValue(\Magento\Object $object)
     {
         $data = '';
         $value = parent::getValue($object);
         $format = $this->_locale->getDateFormat(
-            Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM
+            \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM
         );
 
         if ($value) {
             try {
-                $data = $this->_locale->date($value, Zend_Date::ISO_8601, null, false)->toString($format);
-            } catch (Exception $e) {
+                $data = $this->_locale->date($value, \Zend_Date::ISO_8601, null, false)->toString($format);
+            } catch (\Exception $e) {
                 $data = $this->_locale->date($value, null, null, false)->toString($format);
             }
         }

@@ -11,7 +11,9 @@
 /**
  * Cms manage pages controller
  */
-class Magento_VersionsCms_Controller_Adminhtml_Cms_Page extends Magento_Adminhtml_Controller_Cms_Page
+namespace Magento\VersionsCms\Controller\Adminhtml\Cms;
+
+class Page extends \Magento\Adminhtml\Controller\Cms\Page
 {
     /**
      * @var array
@@ -19,40 +21,40 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page extends Magento_Adminhtm
     protected $_handles = array();
 
     /**
-     * @var Magento_VersionsCms_Model_Config
+     * @var \Magento\VersionsCms\Model\Config
      */
     protected $_cmsConfig;
 
     /**
-     * @var Magento_Backend_Model_Auth_Session
+     * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_backendAuthSession;
 
     /**
-     * @var Magento_VersionsCms_Model_Page_Version
+     * @var \Magento\VersionsCms\Model\Page\Version
      */
     protected $_pageVersion;
 
     /**
-     * @var Magento_Cms_Model_PageFactory
+     * @var \Magento\Cms\Model\PageFactory
      */
     protected $_pageFactory;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_VersionsCms_Model_Config $cmsConfig
-     * @param Magento_Backend_Model_Auth_Session $backendAuthSession
-     * @param Magento_VersionsCms_Model_Page_Version $pageVersion
-     * @param Magento_Cms_Model_PageFactory $pageFactory
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\VersionsCms\Model\Config $cmsConfig
+     * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
+     * @param \Magento\VersionsCms\Model\Page\Version $pageVersion
+     * @param \Magento\Cms\Model\PageFactory $pageFactory
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_VersionsCms_Model_Config $cmsConfig,
-        Magento_Backend_Model_Auth_Session $backendAuthSession,
-        Magento_VersionsCms_Model_Page_Version $pageVersion,
-        Magento_Cms_Model_PageFactory $pageFactory
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\VersionsCms\Model\Config $cmsConfig,
+        \Magento\Backend\Model\Auth\Session $backendAuthSession,
+        \Magento\VersionsCms\Model\Page\Version $pageVersion,
+        \Magento\Cms\Model\PageFactory $pageFactory
     ) {
         $this->_cmsConfig = $cmsConfig;
         $this->_backendAuthSession = $backendAuthSession;
@@ -64,7 +66,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page extends Magento_Adminhtm
     /**
      * Init actions
      *
-     * @return Magento_VersionsCms_Controller_Adminhtml_Cms_Page
+     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
      */
     protected function _initAction()
     {
@@ -79,7 +81,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page extends Magento_Adminhtm
             ->generateLayoutXml()
             ->generateLayoutBlocks();
 
-        $this->_initLayoutMessages('Magento_Adminhtml_Model_Session');
+        $this->_initLayoutMessages('Magento\Adminhtml\Model\Session');
 
         //load layout, set active menu and breadcrumbs
         $this->_setActiveMenu('Magento_VersionsCms::versionscms_page_page')
@@ -95,14 +97,15 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page extends Magento_Adminhtm
      * Prepare and place cms page model into registry
      * with loaded data if id parameter present
      *
-     * @return Magento_VersionsCms_Model_Page
+     * @param string $idFieldName
+     * @return \Magento\Cms\Model\Page
      */
     protected function _initPage()
     {
         $this->_title(__('Pages'));
 
         $pageId = (int)$this->getRequest()->getParam('page_id');
-        /** @var Magento_Cms_Model_Page $page */
+        /** @var \Magento\Cms\Model\Page $page */
         $page = $this->_pageFactory->create();
 
         if ($pageId) {
@@ -146,7 +149,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page extends Magento_Adminhtm
     /**
      * Action for versions ajax tab
      *
-     * @return Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Revision
+     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Revision
      */
     public function versionsAction()
     {
@@ -182,10 +185,10 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page extends Magento_Adminhtm
                 $this->_getSession()->addSuccess(
                     __('A total of %1 record(s) have been deleted.', count($ids))
                 );
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
-            } catch (Exception $e) {
-                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            } catch (\Exception $e) {
+                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
                 $this->_getSession()->addError(__('Something went wrong while deleting these versions.'));
             }
         }

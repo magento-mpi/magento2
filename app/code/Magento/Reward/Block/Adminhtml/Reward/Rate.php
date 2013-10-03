@@ -16,7 +16,9 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Block_Adminhtml_Reward_Rate extends Magento_Backend_Block_Widget_Grid_Container
+namespace Magento\Reward\Block\Adminhtml\Reward;
+
+class Rate extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Block constructor

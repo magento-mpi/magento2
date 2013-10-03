@@ -14,16 +14,18 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Block_System_Config_Form_Field_Heading
-    extends Magento_Backend_Block_Abstract implements Magento_Data_Form_Element_Renderer_Interface
+namespace Magento\Backend\Block\System\Config\Form\Field;
+
+class Heading
+    extends \Magento\Backend\Block\AbstractBlock implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     /**
      * Render element html
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    public function render(Magento_Data_Form_Element_Abstract $element)
+    public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         return sprintf('<tr class="system-fieldset-sub-head" id="row_%s"><td colspan="5"><h4 id="%s">%s</h4></td></tr>',
             $element->getHtmlId(), $element->getHtmlId(), $element->getLabel()

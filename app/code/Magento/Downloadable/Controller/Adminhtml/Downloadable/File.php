@@ -15,27 +15,29 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Controller_Adminhtml_Downloadable_File extends Magento_Adminhtml_Controller_Action
+namespace Magento\Downloadable\Controller\Adminhtml\Downloadable;
+
+class File extends \Magento\Adminhtml\Controller\Action
 {
     /**
-     * @var Magento_Downloadable_Model_Link
+     * @var \Magento\Downloadable\Model\Link
      */
     protected $_link;
 
     /**
-     * @var Magento_Downloadable_Model_Sample
+     * @var \Magento\Downloadable\Model\Sample
      */
     protected $_sample;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Downloadable_Model_Link $link
-     * @param Magento_Downloadable_Model_Sample $sample
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Downloadable\Model\Link $link
+     * @param \Magento\Downloadable\Model\Sample $sample
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Downloadable_Model_Link $link,
-        Magento_Downloadable_Model_Sample $sample
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Downloadable\Model\Link $link,
+        \Magento\Downloadable\Model\Sample $sample
     ) {
         $this->_link = $link;
         $this->_sample = $sample;
@@ -58,7 +60,7 @@ class Magento_Downloadable_Controller_Adminhtml_Downloadable_File extends Magent
         }
         $result = array();
         try {
-            $uploader = $this->_objectManager->create('Magento_Core_Model_File_Uploader', array('type' => $type));
+            $uploader = $this->_objectManager->create('Magento\Core\Model\File\Uploader', array('type' => $type));
             $uploader->setAllowRenameFiles(true);
             $uploader->setFilesDispersion(true);
             $result = $uploader->save($tmpPath);
@@ -71,7 +73,7 @@ class Magento_Downloadable_Controller_Adminhtml_Downloadable_File extends Magent
 
             if (isset($result['file'])) {
                 $fullPath = rtrim($tmpPath, DS) . DS . ltrim($result['file'], DS);
-                $this->_objectManager->get('Magento_Core_Helper_File_Storage_Database')->saveFile($fullPath);
+                $this->_objectManager->get('Magento\Core\Helper\File\Storage\Database')->saveFile($fullPath);
             }
 
             $result['cookie'] = array(
@@ -81,11 +83,11 @@ class Magento_Downloadable_Controller_Adminhtml_Downloadable_File extends Magent
                 'path'     => $this->_getSession()->getCookiePath(),
                 'domain'   => $this->_getSession()->getCookieDomain()
             );
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $result = array('error'=>$e->getMessage(), 'errorcode'=>$e->getCode());
         }
 
-        $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
     }
 
     /**

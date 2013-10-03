@@ -15,26 +15,28 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Block_Widget_Grid_Column extends Magento_Backend_Block_Widget
+namespace Magento\Backend\Block\Widget\Grid;
+
+class Column extends \Magento\Backend\Block\Widget
 {
     /**
      * Parent grid
      *
-     * @var Magento_Backend_Block_Widget_Grid
+     * @var \Magento\Backend\Block\Widget\Grid
      */
     protected $_grid;
 
     /**
      * Column renderer
      *
-     * @var Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
+     * @var \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
      */
     protected $_renderer;
 
     /**
      * Column filter
      *
-     * @var Magento_Backend_Block_Widget_Grid_Column_Filter_Abstract
+     * @var \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilter
      */
     protected $_filter;
 
@@ -51,26 +53,26 @@ class Magento_Backend_Block_Widget_Grid_Column extends Magento_Backend_Block_Wid
      * @var array
      */
     protected $_rendererTypes = array(
-        'action'           => 'Magento_Backend_Block_Widget_Grid_Column_Renderer_Action',
-        'button'           => 'Magento_Backend_Block_Widget_Grid_Column_Renderer_Button',
-        'checkbox'         => 'Magento_Backend_Block_Widget_Grid_Column_Renderer_Checkbox',
-        'concat'           => 'Magento_Backend_Block_Widget_Grid_Column_Renderer_Concat',
-        'country'          => 'Magento_Backend_Block_Widget_Grid_Column_Renderer_Country',
-        'currency'         => 'Magento_Backend_Block_Widget_Grid_Column_Renderer_Currency',
-        'date'             => 'Magento_Backend_Block_Widget_Grid_Column_Renderer_Date',
-        'datetime'         => 'Magento_Backend_Block_Widget_Grid_Column_Renderer_Datetime',
-        'default'          => 'Magento_Backend_Block_Widget_Grid_Column_Renderer_Text',
-        'draggable-handle' => 'Magento_Backend_Block_Widget_Grid_Column_Renderer_DraggableHandle',
-        'input'            => 'Magento_Backend_Block_Widget_Grid_Column_Renderer_Input',
-        'massaction'       => 'Magento_Backend_Block_Widget_Grid_Column_Renderer_Massaction',
-        'number'           => 'Magento_Backend_Block_Widget_Grid_Column_Renderer_Number',
-        'options'          => 'Magento_Backend_Block_Widget_Grid_Column_Renderer_Options',
-        'price'            => 'Magento_Backend_Block_Widget_Grid_Column_Renderer_Price',
-        'radio'            => 'Magento_Backend_Block_Widget_Grid_Column_Renderer_Radio',
-        'select'           => 'Magento_Backend_Block_Widget_Grid_Column_Renderer_Select',
-        'store'            => 'Magento_Backend_Block_Widget_Grid_Column_Renderer_Store',
-        'text'             => 'Magento_Backend_Block_Widget_Grid_Column_Renderer_Longtext',
-        'wrapline'         => 'Magento_Backend_Block_Widget_Grid_Column_Renderer_Wrapline',
+        'action'           => 'Magento\Backend\Block\Widget\Grid\Column\Renderer\Action',
+        'button'           => 'Magento\Backend\Block\Widget\Grid\Column\Renderer\Button',
+        'checkbox'         => 'Magento\Backend\Block\Widget\Grid\Column\Renderer\Checkbox',
+        'concat'           => 'Magento\Backend\Block\Widget\Grid\Column\Renderer\Concat',
+        'country'          => 'Magento\Backend\Block\Widget\Grid\Column\Renderer\Country',
+        'currency'         => 'Magento\Backend\Block\Widget\Grid\Column\Renderer\Currency',
+        'date'             => 'Magento\Backend\Block\Widget\Grid\Column\Renderer\Date',
+        'datetime'         => 'Magento\Backend\Block\Widget\Grid\Column\Renderer\Datetime',
+        'default'          => 'Magento\Backend\Block\Widget\Grid\Column\Renderer\Text',
+        'draggable-handle' => 'Magento\Backend\Block\Widget\Grid\Column\Renderer\DraggableHandle',
+        'input'            => 'Magento\Backend\Block\Widget\Grid\Column\Renderer\Input',
+        'massaction'       => 'Magento\Backend\Block\Widget\Grid\Column\Renderer\Massaction',
+        'number'           => 'Magento\Backend\Block\Widget\Grid\Column\Renderer\Number',
+        'options'          => 'Magento\Backend\Block\Widget\Grid\Column\Renderer\Options',
+        'price'            => 'Magento\Backend\Block\Widget\Grid\Column\Renderer\Price',
+        'radio'            => 'Magento\Backend\Block\Widget\Grid\Column\Renderer\Radio',
+        'select'           => 'Magento\Backend\Block\Widget\Grid\Column\Renderer\Select',
+        'store'            => 'Magento\Backend\Block\Widget\Grid\Column\Renderer\Store',
+        'text'             => 'Magento\Backend\Block\Widget\Grid\Column\Renderer\Longtext',
+        'wrapline'         => 'Magento\Backend\Block\Widget\Grid\Column\Renderer\Wrapline',
     );
 
     /**
@@ -79,21 +81,21 @@ class Magento_Backend_Block_Widget_Grid_Column extends Magento_Backend_Block_Wid
      * @var array
      */
     protected $_filterTypes = array(
-        'datetime' => 'Magento_Backend_Block_Widget_Grid_Column_Filter_Datetime',
-        'date' => 'Magento_Backend_Block_Widget_Grid_Column_Filter_Date',
-        'range' => 'Magento_Backend_Block_Widget_Grid_Column_Filter_Range',
-        'number' => 'Magento_Backend_Block_Widget_Grid_Column_Filter_Range',
-        'currency' => 'Magento_Backend_Block_Widget_Grid_Column_Filter_Range',
-        'price' => 'Magento_Backend_Block_Widget_Grid_Column_Filter_Price',
-        'country' => 'Magento_Backend_Block_Widget_Grid_Column_Filter_Country',
-        'options' => 'Magento_Backend_Block_Widget_Grid_Column_Filter_Select',
-        'massaction' => 'Magento_Backend_Block_Widget_Grid_Column_Filter_Massaction',
-        'checkbox' => 'Magento_Backend_Block_Widget_Grid_Column_Filter_Checkbox',
-        'radio' => 'Magento_Backend_Block_Widget_Grid_Column_Filter_Radio',
-        'skip-list' => 'Magento_Backend_Block_Widget_Grid_Column_Filter_SkipList',
-        'store' => 'Magento_Backend_Block_Widget_Grid_Column_Filter_Store',
-        'theme' => 'Magento_Backend_Block_Widget_Grid_Column_Filter_Theme',
-        'default' => 'Magento_Backend_Block_Widget_Grid_Column_Filter_Text',
+        'datetime' => 'Magento\Backend\Block\Widget\Grid\Column\Filter\Datetime',
+        'date' => 'Magento\Backend\Block\Widget\Grid\Column\Filter\Date',
+        'range' => 'Magento\Backend\Block\Widget\Grid\Column\Filter\Range',
+        'number' => 'Magento\Backend\Block\Widget\Grid\Column\Filter\Range',
+        'currency' => 'Magento\Backend\Block\Widget\Grid\Column\Filter\Range',
+        'price' => 'Magento\Backend\Block\Widget\Grid\Column\Filter\Price',
+        'country' => 'Magento\Backend\Block\Widget\Grid\Column\Filter\Country',
+        'options' => 'Magento\Backend\Block\Widget\Grid\Column\Filter\Select',
+        'massaction' => 'Magento\Backend\Block\Widget\Grid\Column\Filter\Massaction',
+        'checkbox' => 'Magento\Backend\Block\Widget\Grid\Column\Filter\Checkbox',
+        'radio' => 'Magento\Backend\Block\Widget\Grid\Column\Filter\Radio',
+        'skip-list' => 'Magento\Backend\Block\Widget\Grid\Column\Filter\SkipList',
+        'store' => 'Magento\Backend\Block\Widget\Grid\Column\Filter\Store',
+        'theme' => 'Magento\Backend\Block\Widget\Grid\Column\Filter\Theme',
+        'default' => 'Magento\Backend\Block\Widget\Grid\Column\Filter\Text',
     );
 
     /**
@@ -124,8 +126,8 @@ class Magento_Backend_Block_Widget_Grid_Column extends Magento_Backend_Block_Wid
     /**
      * Set grid block to column
      *
-     * @param Magento_Backend_Block_Widget_Grid $grid
-     * @return Magento_Backend_Block_Widget_Grid_Column
+     * @param \Magento\Backend\Block\Widget\Grid $grid
+     * @return \Magento\Backend\Block\Widget\Grid\Column
      */
     public function setGrid($grid)
     {
@@ -138,7 +140,7 @@ class Magento_Backend_Block_Widget_Grid_Column extends Magento_Backend_Block_Wid
     /**
      * Get grid block
      *
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     public function getGrid()
     {
@@ -266,10 +268,10 @@ class Magento_Backend_Block_Widget_Grid_Column extends Magento_Backend_Block_Wid
     /**
      * Retrieve row column field value for display
      *
-     * @param   Magento_Object $row
+     * @param   \Magento\Object $row
      * @return  string
      */
-    public function getRowField(Magento_Object $row)
+    public function getRowField(\Magento\Object $row)
     {
         $renderedValue = $this->getRenderer()->render($row);
         if ($this->getHtmlDecorators()) {
@@ -294,10 +296,10 @@ class Magento_Backend_Block_Widget_Grid_Column extends Magento_Backend_Block_Wid
     /**
      * Retrieve row column field value for export
      *
-     * @param   Magento_Object $row
+     * @param   \Magento\Object $row
      * @return  string
      */
-    public function getRowFieldExport(Magento_Object $row)
+    public function getRowFieldExport(\Magento\Object $row)
     {
         $renderedValue = $this->getRenderer()->renderExport($row);
 
@@ -360,8 +362,8 @@ class Magento_Backend_Block_Widget_Grid_Column extends Magento_Backend_Block_Wid
     /**
      * Set column renderer
      *
-     * @param Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract $renderer
-     * @return Magento_Backend_Block_Widget_Grid_Column
+     * @param \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer $renderer
+     * @return \Magento\Backend\Block\Widget\Grid\Column
      */
     public function setRenderer($renderer)
     {
@@ -398,7 +400,7 @@ class Magento_Backend_Block_Widget_Grid_Column extends Magento_Backend_Block_Wid
     /**
      * Retrieve column renderer
      *
-     * @return Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
+     * @return \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
      */
     public function getRenderer()
     {
@@ -453,7 +455,7 @@ class Magento_Backend_Block_Widget_Grid_Column extends Magento_Backend_Block_Wid
     /**
      * Get filter block
      *
-     * @return Magento_Backend_Block_Widget_Grid_Column_Filter_Abstract|bool
+     * @return \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilter|bool
      */
     public function getFilter()
     {

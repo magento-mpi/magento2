@@ -15,27 +15,29 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super;
+
+class Settings extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var Magento_Catalog_Model_Product_Type_Configurable
+     * @var \Magento\Catalog\Model\Product\Type\Configurable
      */
     protected $_configurableType;
 
     /**
-     * @param Magento_Catalog_Model_Product_Type_Configurable $configurableType
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Catalog\Model\Product\Type\Configurable $configurableType
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Model_Product_Type_Configurable $configurableType,
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Catalog\Model\Product\Type\Configurable $configurableType,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_configurableType = $configurableType;
@@ -49,9 +51,9 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Ma
     protected function _prepareLayout()
     {
         $onclick = "jQuery('[data-form=edit-product]').attr('action', "
-            . $this->helper('Magento_Core_Helper_Data')->jsonEncode($this->getContinueUrl())
+            . $this->helper('Magento\Core\Helper\Data')->jsonEncode($this->getContinueUrl())
             . ").addClass('ignore-validate').submit();";
-        $this->addChild('continue_button', 'Magento_Backend_Block_Widget_Button', array(
+        $this->addChild('continue_button', 'Magento\Backend\Block\Widget\Button', array(
             'label'   => __('Generate Variations'),
             'onclick' => $onclick,
             'class'   => 'save',
@@ -62,7 +64,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Ma
     /**
      * Retrieve currently edited product object
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
@@ -72,11 +74,11 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Ma
     /**
      * Prepare form before rendering HTML
      *
-     * @return Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings
+     * @return \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Settings
      */
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $fieldset = $form->addFieldset('settings', array(
             'legend' => __('Select Configurable Attributes')
@@ -92,7 +94,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Ma
             ? $this->_configurableType->getUsedProductAttributes($product)
             : array();
         foreach ($usedAttributes as $attribute) {
-            /** @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
+            /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
             if ($this->_configurableType->canUseAttribute($attribute, $product)) {
                 $fieldset->addField('attribute_' . $attribute->getAttributeId(), 'checkbox', array(
                     'label' => $attribute->getFrontendLabel(),

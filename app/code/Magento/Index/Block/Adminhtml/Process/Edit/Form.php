@@ -8,11 +8,13 @@
  * @license     {license_link}
  */
 
-class Magento_Index_Block_Adminhtml_Process_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\Index\Block\Adminhtml\Process\Edit;
+
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id' => 'edit_form',

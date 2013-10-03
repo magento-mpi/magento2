@@ -17,12 +17,14 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Invitation_Model_Resource_Report_Invitation_Customer_Collection_Initial
-        extends Magento_Reports_Model_Resource_Report_Collection
+namespace Magento\Invitation\Model\Resource\Report\Invitation\Customer\Collection;
+
+class Initial
+        extends \Magento\Reports\Model\Resource\Report\Collection
 {
     /**
      *  Report sub-collection class name
      * @var string
      */
-    protected $_reportCollection = 'Magento_Invitation_Model_Resource_Report_Invitation_Customer_Collection';
+    protected $_reportCollection = 'Magento\Invitation\Model\Resource\Report\Invitation\Customer\Collection';
 }

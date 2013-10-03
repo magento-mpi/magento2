@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_TemplateEngine_Twig_FullFileNameTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\TemplateEngine\Twig;
+
+class FullFileNameTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var int
@@ -23,7 +25,7 @@ class Magento_Core_Model_TemplateEngine_Twig_FullFileNameTest extends PHPUnit_Fr
     private $_prevFrameworkNoticeEnabled;
 
     /** 
-     * @var PHPUnit_Framework_MockObject_MockObject Magento_Core_Model_App_State
+     * @var \PHPUnit_Framework_MockObject_MockObject \Magento\Core\Model\App\State
      */
     private $_appStateMock;
 
@@ -32,12 +34,12 @@ class Magento_Core_Model_TemplateEngine_Twig_FullFileNameTest extends PHPUnit_Fr
         // prevent PHPUnit from converting real code exceptions
         $this->_prevErrorLevel = error_reporting();
         error_reporting(0);
-        $this->_prevFrameworkNoticeEnabled = PHPUnit_Framework_Error_Notice::$enabled;
-        PHPUnit_Framework_Error_Notice::$enabled = false;
-        $this->_prevFrameworkWarningEnabled = PHPUnit_Framework_Error_Warning::$enabled;
-        PHPUnit_Framework_Error_Warning::$enabled = false;
+        $this->_prevFrameworkNoticeEnabled = \PHPUnit_Framework_Error_Notice::$enabled;
+        \PHPUnit_Framework_Error_Notice::$enabled = false;
+        $this->_prevFrameworkWarningEnabled = \PHPUnit_Framework_Error_Warning::$enabled;
+        \PHPUnit_Framework_Error_Warning::$enabled = false;
         
-        $this->_appStateMock = $this->getMockBuilder('Magento_Core_Model_App_State')
+        $this->_appStateMock = $this->getMockBuilder('Magento\Core\Model\App\State')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -45,35 +47,35 @@ class Magento_Core_Model_TemplateEngine_Twig_FullFileNameTest extends PHPUnit_Fr
         $this->_appStateMock
             ->expects($this->any())
             ->method('getMode')
-            ->will($this->returnValue(Magento_Core_Model_App_State::MODE_DEVELOPER));
+            ->will($this->returnValue(\Magento\Core\Model\App\State::MODE_DEVELOPER));
     }
 
     protected function tearDown()
     {
         error_reporting($this->_prevErrorLevel);
-        PHPUnit_Framework_Error_Warning::$enabled = $this->_prevFrameworkWarningEnabled;
-        PHPUnit_Framework_Error_Notice::$enabled = $this->_prevFrameworkNoticeEnabled;
+        \PHPUnit_Framework_Error_Warning::$enabled = $this->_prevFrameworkWarningEnabled;
+        \PHPUnit_Framework_Error_Notice::$enabled = $this->_prevFrameworkNoticeEnabled;
     }
 
     public function testFileExistencePositive()
     {
-        $loader = new Magento_Core_Model_TemplateEngine_Twig_FullFileName($this->_appStateMock);
+        $loader = new \Magento\Core\Model\TemplateEngine\Twig\FullFileName($this->_appStateMock);
         
         $this->assertNotNull($loader->getSource(__FILE__));
     }
 
     /**
-     * @expectedException Twig_Error_Loader
+     * @expectedException \Twig_Error_Loader
      */
     public function testFileExistenceNegative()
     {
-        $loader = new Magento_Core_Model_TemplateEngine_Twig_FullFileName($this->_appStateMock);
+        $loader = new \Magento\Core\Model\TemplateEngine\Twig\FullFileName($this->_appStateMock);
         $loader->getSource(__FILE__ . 'jnk');
     }
 
     public function testGetCacheKey()
     {
-        $loader = new Magento_Core_Model_TemplateEngine_Twig_FullFileName($this->_appStateMock);
+        $loader = new \Magento\Core\Model\TemplateEngine\Twig\FullFileName($this->_appStateMock);
 
         $keyActual = "SomeKey";
         $keyExpected = $loader->getCacheKey($keyActual);
@@ -83,7 +85,7 @@ class Magento_Core_Model_TemplateEngine_Twig_FullFileNameTest extends PHPUnit_Fr
 
     public function testExists()
     {
-        $loader = new Magento_Core_Model_TemplateEngine_Twig_FullFileName($this->_appStateMock);
+        $loader = new \Magento\Core\Model\TemplateEngine\Twig\FullFileName($this->_appStateMock);
 
         $exists = $loader->exists(__FILE__);
         $this->assertEquals($exists, true);
@@ -91,7 +93,7 @@ class Magento_Core_Model_TemplateEngine_Twig_FullFileNameTest extends PHPUnit_Fr
 
     public function testExistsBadFile()
     {
-        $loader = new Magento_Core_Model_TemplateEngine_Twig_FullFileName($this->_appStateMock);
+        $loader = new \Magento\Core\Model\TemplateEngine\Twig\FullFileName($this->_appStateMock);
 
         $name = 'bad-file';
         $exists = $loader->exists($name);
@@ -100,18 +102,18 @@ class Magento_Core_Model_TemplateEngine_Twig_FullFileNameTest extends PHPUnit_Fr
 
     public function testIsFreshPositive()
     {
-        $loader = new Magento_Core_Model_TemplateEngine_Twig_FullFileName($this->_appStateMock);
+        $loader = new \Magento\Core\Model\TemplateEngine\Twig\FullFileName($this->_appStateMock);
 
         $this->assertEquals(true, $loader->isFresh(__FILE__, PHP_INT_MAX));
         $this->assertEquals(false, $loader->isFresh(__FILE__, 0));
     }
 
     /**
-     * @expectedException Twig_Error_Loader
+     * @expectedException \Twig_Error_Loader
      */
     public function testIsFreshNegative()
     {
-        $loader = new Magento_Core_Model_TemplateEngine_Twig_FullFileName($this->_appStateMock);
+        $loader = new \Magento\Core\Model\TemplateEngine\Twig\FullFileName($this->_appStateMock);
 
         $this->assertEquals(false, $loader->isFresh('bad-file', 0));
     }
@@ -119,13 +121,13 @@ class Magento_Core_Model_TemplateEngine_Twig_FullFileNameTest extends PHPUnit_Fr
     public function testIsFreshAppModes() 
     {
         // set to return production mode
-        $productionStateMock = $this->getMockBuilder('Magento_Core_Model_App_State')
+        $productionStateMock = $this->getMockBuilder('Magento\Core\Model\App\State')
             ->disableOriginalConstructor()
             ->getMock();
         $productionStateMock->expects($this->any())
             ->method('getMode')
-            ->will($this->returnValue(Magento_Core_Model_App_State::MODE_PRODUCTION));
-        $loader = new Magento_Core_Model_TemplateEngine_Twig_FullFileName($productionStateMock);
+            ->will($this->returnValue(\Magento\Core\Model\App\State::MODE_PRODUCTION));
+        $loader = new \Magento\Core\Model\TemplateEngine\Twig\FullFileName($productionStateMock);
 
         // in production mode, even a bad file will return as fresh
         $this->assertEquals(true, $loader->isFresh('bad-file', 0));

@@ -15,7 +15,9 @@
  * @package  Magento_Bundle
  * @author   Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Model_Product_Price extends Magento_Catalog_Model_Product_Type_Price
+namespace Magento\Bundle\Model\Product;
+
+class Price extends \Magento\Catalog\Model\Product\Type\Price
 {
     const PRICE_TYPE_FIXED      = 1;
     const PRICE_TYPE_DYNAMIC    = 0;
@@ -35,27 +37,27 @@ class Magento_Bundle_Model_Product_Price extends Magento_Catalog_Model_Product_T
     /**
      * Tax data
      *
-     * @var Magento_Tax_Helper_Data
+     * @var \Magento\Tax\Helper\Data
      */
     protected $_taxData = null;
 
     /**
      *  Construct
      *
-     * @param Magento_CatalogRule_Model_Resource_RuleFactory $ruleFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Tax_Helper_Data $taxData
+     * @param \Magento\CatalogRule\Model\Resource\RuleFactory $ruleFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Tax\Helper\Data $taxData
      */
     public function __construct(
-        Magento_CatalogRule_Model_Resource_RuleFactory $ruleFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Tax_Helper_Data $taxData
+        \Magento\CatalogRule\Model\Resource\RuleFactory $ruleFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Tax\Helper\Data $taxData
     ) {
         $this->_taxData = $taxData;
         parent::__construct($ruleFactory, $storeManager, $locale, $customerSession, $eventManager);
@@ -69,7 +71,7 @@ class Magento_Bundle_Model_Product_Price extends Magento_Catalog_Model_Product_T
     /**
      * Return product base price
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return string
      */
     public function getPrice($product)
@@ -84,7 +86,7 @@ class Magento_Bundle_Model_Product_Price extends Magento_Catalog_Model_Product_T
     /**
      * Get Total price  for Bundle items
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param null|float $qty
      * @return float
      */
@@ -119,7 +121,7 @@ class Magento_Bundle_Model_Product_Price extends Magento_Catalog_Model_Product_T
      * Get product final price
      *
      * @param   double                     $qty
-     * @param   Magento_Catalog_Model_Product $product
+     * @param   \Magento\Catalog\Model\Product $product
      * @return  double
      */
     public function getFinalPrice($qty = null, $product)
@@ -143,9 +145,9 @@ class Magento_Bundle_Model_Product_Price extends Magento_Catalog_Model_Product_T
     /**
      * Returns final price of a child product
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param float                      $productQty
-     * @param Magento_Catalog_Model_Product $childProduct
+     * @param \Magento\Catalog\Model\Product $childProduct
      * @param float                      $childProductQty
      * @return decimal
      */
@@ -157,7 +159,7 @@ class Magento_Bundle_Model_Product_Price extends Magento_Catalog_Model_Product_T
     /**
      * Retrieve Price considering tier price
      *
-     * @param  Magento_Catalog_Model_Product $product
+     * @param  \Magento\Catalog\Model\Product $product
      * @param  string|null                $which
      * @param  bool|null                  $includeTax
      * @param  bool                       $takeTierPrice
@@ -186,14 +188,14 @@ class Magento_Bundle_Model_Product_Price extends Magento_Catalog_Model_Product_T
 
             if ($options) {
                 foreach ($options as $option) {
-                    /* @var $option Magento_Bundle_Model_Option */
+                    /* @var $option \Magento\Bundle\Model\Option */
                     $selections = $option->getSelections();
                     if ($selections) {
                         $selectionMinimalPrices = array();
                         $selectionMaximalPrices = array();
 
                         foreach ($option->getSelections() as $selection) {
-                            /* @var $selection Magento_Bundle_Model_Selection */
+                            /* @var $selection \Magento\Bundle\Model\Selection */
                             if (!$selection->isSalable()) {
                                 /**
                                  * @todo CatalogInventory Show out of stock Products
@@ -246,12 +248,12 @@ class Magento_Bundle_Model_Product_Price extends Magento_Catalog_Model_Product_T
             $customOptions = $product->getOptions();
             if ($product->getPriceType() == self::PRICE_TYPE_FIXED && $customOptions) {
                 foreach ($customOptions as $customOption) {
-                    /* @var $customOption Magento_Catalog_Model_Product_Option */
+                    /* @var $customOption \Magento\Catalog\Model\Product\Option */
                     $values = $customOption->getValues();
                     if ($values) {
                         $prices = array();
                         foreach ($values as $value) {
-                            /* @var $value Magento_Catalog_Model_Product_Option_Value */
+                            /* @var $value \Magento\Catalog\Model\Product\Option\Value */
                             $valuePrice = $value->getPrice(true);
 
                             $prices[] = $valuePrice;
@@ -263,8 +265,8 @@ class Magento_Bundle_Model_Product_Price extends Magento_Catalog_Model_Product_T
 
                             $multiTypes = array(
                                 //Magento_Catalog_Model_Product_Option::OPTION_TYPE_DROP_DOWN,
-                                Magento_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX,
-                                Magento_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE
+                                \Magento\Catalog\Model\Product\Option::OPTION_TYPE_CHECKBOX,
+                                \Magento\Catalog\Model\Product\Option::OPTION_TYPE_MULTIPLE
                             );
 
                             if (in_array($customOption->getType(), $multiTypes)) {
@@ -299,7 +301,7 @@ class Magento_Bundle_Model_Product_Price extends Magento_Catalog_Model_Product_T
     /**
      * Calculate Minimal price of bundle (counting all required options)
      *
-     * @param  Magento_Catalog_Model_Product $product
+     * @param  \Magento\Catalog\Model\Product $product
      * @return decimal
      */
     public function getMinimalPrice($product)
@@ -310,7 +312,7 @@ class Magento_Bundle_Model_Product_Price extends Magento_Catalog_Model_Product_T
     /**
      * Calculate maximal price of bundle
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return decimal
      */
     public function getMaximalPrice($product)
@@ -321,8 +323,8 @@ class Magento_Bundle_Model_Product_Price extends Magento_Catalog_Model_Product_T
     /**
      * Get Options with attached Selections collection
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_Bundle_Model_Resource_Option_Collection
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\Bundle\Model\Resource\Option\Collection
      */
     public function getOptions($product)
     {
@@ -345,10 +347,10 @@ class Magento_Bundle_Model_Product_Price extends Magento_Catalog_Model_Product_T
      * Calculate price of selection
      *
      * @deprecated after 1.6.2.0
-     * @see Magento_Bundle_Model_Product_Price::getSelectionFinalTotalPrice()
+     * @see \Magento\Bundle\Model\Product\Price::getSelectionFinalTotalPrice()
      *
-     * @param Magento_Catalog_Model_Product $bundleProduct
-     * @param Magento_Catalog_Model_Product $selectionProduct
+     * @param \Magento\Catalog\Model\Product $bundleProduct
+     * @param \Magento\Catalog\Model\Product $selectionProduct
      * @param float|null                 $selectionQty
      * @param null|bool                  $multiplyQty      Whether to multiply selection's price by its quantity
      * @return float
@@ -361,8 +363,8 @@ class Magento_Bundle_Model_Product_Price extends Magento_Catalog_Model_Product_T
     /**
      * Calculate selection price for front view (with applied special of bundle)
      *
-     * @param Magento_Catalog_Model_Product $bundleProduct
-     * @param Magento_Catalog_Model_Product $selectionProduct
+     * @param \Magento\Catalog\Model\Product $bundleProduct
+     * @param \Magento\Catalog\Model\Product $selectionProduct
      * @param decimal                    $qty
      * @return decimal
      */
@@ -375,8 +377,8 @@ class Magento_Bundle_Model_Product_Price extends Magento_Catalog_Model_Product_T
      * Calculate final price of selection
      * with take into account tier price
      *
-     * @param  Magento_Catalog_Model_Product $bundleProduct
-     * @param  Magento_Catalog_Model_Product $selectionProduct
+     * @param  \Magento\Catalog\Model\Product $bundleProduct
+     * @param  \Magento\Catalog\Model\Product $selectionProduct
      * @param  decimal                    $bundleQty
      * @param  decimal                    $selectionQty
      * @param  bool                       $multiplyQty
@@ -421,7 +423,7 @@ class Magento_Bundle_Model_Product_Price extends Magento_Catalog_Model_Product_T
     /**
      * Apply group price for bundle product
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param float $finalPrice
      * @return float
      */
@@ -441,7 +443,7 @@ class Magento_Bundle_Model_Product_Price extends Magento_Catalog_Model_Product_T
     /**
      * Get product group price
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return float|null
      */
     public function getGroupPrice($product)
@@ -477,7 +479,7 @@ class Magento_Bundle_Model_Product_Price extends Magento_Catalog_Model_Product_T
     /**
      * Apply tier price for bundle
      *
-     * @param   Magento_Catalog_Model_Product $product
+     * @param   \Magento\Catalog\Model\Product $product
      * @param   decimal                    $qty
      * @param   decimal                    $finalPrice
      * @return  decimal
@@ -502,12 +504,12 @@ class Magento_Bundle_Model_Product_Price extends Magento_Catalog_Model_Product_T
      * Get product tier price by qty
      *
      * @param   decimal                    $qty
-     * @param   Magento_Catalog_Model_Product $product
+     * @param   \Magento\Catalog\Model\Product $product
      * @return  decimal
      */
     public function getTierPrice($qty=null, $product)
     {
-        $allGroups = Magento_Customer_Model_Group::CUST_GROUP_ALL;
+        $allGroups = \Magento\Customer\Model\Group::CUST_GROUP_ALL;
         $prices = $product->getData('tier_price');
 
         if (is_null($prices)) {

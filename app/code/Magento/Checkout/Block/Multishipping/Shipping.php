@@ -15,25 +15,27 @@
  * @package    Magento_Checkout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Multishipping_Shipping extends Magento_Sales_Block_Items_Abstract
+namespace Magento\Checkout\Block\Multishipping;
+
+class Shipping extends \Magento\Sales\Block\Items\AbstractItems
 {
     /**
-     * @var Magento_Filter_Object_GridFactory
+     * @var \Magento\Filter\Object\GridFactory
      */
     protected $_filterGridFactory;
 
     /**
-     * @param Magento_Filter_Object_GridFactory $filterGridFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Checkout_Model_Type_Multishipping $multishipping
+     * @param \Magento\Filter\Object\GridFactory $filterGridFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Checkout\Model\Type\Multishipping $multishipping
      * @param array $data
      */
     public function __construct(
-        Magento_Filter_Object_GridFactory $filterGridFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Checkout_Model_Type_Multishipping $multishipping,
+        \Magento\Filter\Object\GridFactory $filterGridFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Checkout\Model\Type\Multishipping $multishipping,
         array $data = array()
     ) {
         $this->_filterGridFactory = $filterGridFactory;
@@ -44,7 +46,7 @@ class Magento_Checkout_Block_Multishipping_Shipping extends Magento_Sales_Block_
     /**
      * Get multishipping checkout model
      *
-     * @return Magento_Checkout_Model_Type_Multishipping
+     * @return \Magento\Checkout\Model\Type\Multishipping
      */
     public function getCheckout()
     {
@@ -85,7 +87,7 @@ class Magento_Checkout_Block_Multishipping_Shipping extends Magento_Sales_Block_
             $items[] = $item;
         }
         $itemsFilter = $this->_filterGridFactory->create();
-        $itemsFilter->addFilter(new Magento_Filter_Sprintf('%d'), 'qty');
+        $itemsFilter->addFilter(new \Magento\Filter\Sprintf('%d'), 'qty');
         return $itemsFilter->filter($items);
     }
 
@@ -130,6 +132,6 @@ class Magento_Checkout_Block_Multishipping_Shipping extends Magento_Sales_Block_
 
     public function getShippingPrice($address, $price, $flag)
     {
-        return $address->getQuote()->getStore()->convertPrice($this->helper('Magento_Tax_Helper_Data')->getShippingPrice($price, $flag, $address), true);
+        return $address->getQuote()->getStore()->convertPrice($this->helper('Magento\Tax\Helper\Data')->getShippingPrice($price, $flag, $address), true);
     }
 }

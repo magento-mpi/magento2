@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_FullPageCache_Model_DesignPackage_Info
+namespace Magento\FullPageCache\Model\DesignPackage;
+
+class Info
 {
     /**
      * FPC design exception cache key
@@ -29,24 +31,24 @@ class Magento_FullPageCache_Model_DesignPackage_Info
     /**
      * Design package rules
      *
-     * @var Magento_FullPageCache_Model_DesignPackage_Rules
+     * @var \Magento\FullPageCache\Model\DesignPackage\Rules
      */
     protected $_designPackageRules;
 
     /**
      * FPC cache model
      *
-     * @var Magento_FullPageCache_Model_Cache
+     * @var \Magento\FullPageCache\Model\Cache
      */
     protected $_fpcCache;
 
     /**
-     * @param Magento_FullPageCache_Model_Cache $fpcCache
-     * @param Magento_FullPageCache_Model_DesignPackage_Rules $packageRules
+     * @param \Magento\FullPageCache\Model\Cache $fpcCache
+     * @param \Magento\FullPageCache\Model\DesignPackage\Rules $packageRules
      */
     public function __construct(
-        Magento_FullPageCache_Model_Cache $fpcCache,
-        Magento_FullPageCache_Model_DesignPackage_Rules $packageRules
+        \Magento\FullPageCache\Model\Cache $fpcCache,
+        \Magento\FullPageCache\Model\DesignPackage\Rules $packageRules
     ) {
         $this->_fpcCache = $fpcCache;
         $this->_designPackageRules = $packageRules;

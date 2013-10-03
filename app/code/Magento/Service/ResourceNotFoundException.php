@@ -7,22 +7,24 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Service_ResourceNotFoundException extends Magento_Service_Exception
+namespace Magento\Service;
+
+class ResourceNotFoundException extends \Magento\Service\Exception
 {
     /**
      * Create custom message for resource not found exception.
      *
      * @param string $message
      * @param int $code
-     * @param Exception $previous
+     * @param \Exception $previous
      * @param array $parameters
      * @param string|int|null $resourceId
      */
     public function __construct(
         $message = '',
-        // TODO Specify default exception code when Service Exception Handling policy is defined
+        // TODO Specify default exception code when Service \Exception Handling policy is defined
         $code = 0,
-        Exception $previous = null,
+        \Exception $previous = null,
         $parameters = array(),
         $resourceId = null
     ) {

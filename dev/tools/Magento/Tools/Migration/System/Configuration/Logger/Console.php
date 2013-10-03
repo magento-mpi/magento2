@@ -11,8 +11,10 @@
 /**
  * Migration logger. Output result print to console
  */
-class Magento_Tools_Migration_System_Configuration_Logger_Console
-    extends Magento_Tools_Migration_System_Configuration_LoggerAbstract
+namespace Magento\Tools\Migration\System\Configuration\Logger;
+
+class Console
+    extends \Magento\Tools\Migration\System\Configuration\AbstractLogger
 {
     /**
      * Print logs to console

@@ -16,23 +16,25 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Category_Attribute_Source_Sortby
-    extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
+namespace Magento\Catalog\Model\Category\Attribute\Source;
+
+class Sortby
+    extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**
      * Catalog config
      *
-     * @var Magento_Catalog_Model_Config
+     * @var \Magento\Catalog\Model\Config
      */
     protected $_catalogConfig;
 
     /**
      * Construct
      *
-     * @param Magento_Catalog_Model_Config $catalogConfig
+     * @param \Magento\Catalog\Model\Config $catalogConfig
      */
     public function __construct(
-        Magento_Catalog_Model_Config $catalogConfig
+        \Magento\Catalog\Model\Config $catalogConfig
     ) {
         $this->_catalogConfig = $catalogConfig;
     }
@@ -40,7 +42,7 @@ class Magento_Catalog_Model_Category_Attribute_Source_Sortby
     /**
      * Retrieve Catalog Config Singleton
      *
-     * @return Magento_Catalog_Model_Config
+     * @return \Magento\Catalog\Model\Config
      */
     protected function _getCatalogConfig() {
         return $this->_catalogConfig;

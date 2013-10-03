@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Payment_Model_Config
+ * \Magento\Payment\Model\Config
  *
  * {license_notice}
  *
@@ -10,20 +10,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Payment_Model_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Payment\Model;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Payment_Model_Config
+     * @var \Magento\Payment\Model\Config
      */
     protected $_model = null;
 
     protected function setUp()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var $cache Magento_Core_Model_Cache */
-        $cache = $objectManager->create('Magento_Core_Model_Cache');
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var $cache \Magento\Core\Model\Cache */
+        $cache = $objectManager->create('Magento\Core\Model\Cache');
         $cache->clean();
-        $fileResolverMock = $this->getMockBuilder('Magento_Config_FileResolverInterface')
+        $fileResolverMock = $this->getMockBuilder('Magento\Config\FileResolverInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $fileList = array(
@@ -33,10 +35,10 @@ class Magento_Payment_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $fileResolverMock->expects($this->any())
             ->method('get')
             ->will($this->returnValue($fileList));
-        $reader = $objectManager->create('Magento_Payment_Model_Config_Reader',
+        $reader = $objectManager->create('Magento\Payment\Model\Config\Reader',
             array('fileResolver'=>$fileResolverMock));
-        $data = $objectManager->create('Magento_Payment_Model_Config_Data', array('reader'=> $reader));
-        $this->_model = $objectManager->create('Magento_Payment_Model_Config', array('dataStorage'=>$data));
+        $data = $objectManager->create('Magento\Payment\Model\Config\Data', array('reader'=> $reader));
+        $this->_model = $objectManager->create('Magento\Payment\Model\Config', array('dataStorage'=>$data));
     }
 
     public function testGetCcTypes()

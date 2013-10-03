@@ -15,8 +15,10 @@
  * @package     Magento_GoogleShopping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes
-    extends Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element
+namespace Magento\GoogleShopping\Block\Adminhtml\Types\Edit;
+
+class Attributes
+    extends \Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset\Element
 {
 
     protected $_template = 'types/edit/attributes.phtml';
@@ -24,29 +26,29 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes
     /**
      * Config
      *
-     * @var Magento_GoogleShopping_Model_Config
+     * @var \Magento\GoogleShopping\Model\Config
      */
     protected $_config;
 
     /**
      * Attribute factory
      *
-     * @var Magento_GoogleShopping_Model_AttributeFactory
+     * @var \Magento\GoogleShopping\Model\AttributeFactory
      */
     protected $_attributeFactory;
 
     /**
-     * @param Magento_GoogleShopping_Model_Config $config
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_GoogleShopping_Model_AttributeFactory $attributeFactory
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\GoogleShopping\Model\Config $config
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\GoogleShopping\Model\AttributeFactory $attributeFactory
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_GoogleShopping_Model_Config $config,
-        Magento_Core_Helper_Data $coreData,
-        Magento_GoogleShopping_Model_AttributeFactory $attributeFactory,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\GoogleShopping\Model\Config $config,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\GoogleShopping\Model\AttributeFactory $attributeFactory,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_config = $config;
@@ -58,17 +60,17 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes
     /**
      * Preparing global layout
      *
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {
-        $this->addChild('add_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('add_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Add New Attribute'),
             'class' => 'add',
             'id'    => 'add_new_attribute',
             'on_click' => 'gContentAttribute.add()'
         ));
-        $this->addChild('delete_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('delete_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Remove'),
             'class' => 'delete delete-product-option',
             'on_click' => 'gContentAttribute.remove(event)'
@@ -125,7 +127,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes
             );
         }
 
-        $select = $this->getLayout()->createBlock('Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Select')
+        $select = $this->getLayout()->createBlock('Magento\GoogleShopping\Block\Adminhtml\Types\Edit\Select')
             ->setId($this->getFieldId().'_{{index}}_gattribute')
             ->setName($this->getFieldName().'[{{index}}][gcontent_attribute]')
             ->setOptions($options);
@@ -141,7 +143,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes
      */
     public function getAttributesSelectHtml($escapeJsQuotes = false)
     {
-        $select = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Html\Select')
             ->setId($this->getFieldId().'_{{index}}_attribute')
             ->setName($this->getFieldName().'[{{index}}][attribute_id]')
             ->setOptions($this->_getAttributes($this->getAttributeSetId(), $escapeJsQuotes));
@@ -182,7 +184,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes
         $result = array();
 
         foreach ($attributes as $attribute) {
-            /* @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
+            /* @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
             $result[$attribute->getAttributeId()] = $escapeJsQuotes
                 ? $this->jsQuoteEscape($attribute->getFrontendLabel())
                 : $attribute->getFrontendLabel();

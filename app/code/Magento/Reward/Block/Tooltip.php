@@ -11,53 +11,55 @@
 /**
  * Advertising Tooltip block to show different messages for gaining reward points
  */
-class Magento_Reward_Block_Tooltip extends Magento_Core_Block_Template
+namespace Magento\Reward\Block;
+
+class Tooltip extends \Magento\Core\Block\Template
 {
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @var Magento_Reward_Helper_Data
+     * @var \Magento\Reward\Helper\Data
      */
     protected $_rewardHelper;
 
     /**
      * Reward instance
      *
-     * @var Magento_Reward_Model_Reward
+     * @var \Magento\Reward\Model\Reward
      */
     protected $_rewardInstance;
 
     /**
      * Reward action instance
      *
-     * @var Magento_Reward_Model_Action_Abstract
+     * @var \Magento\Reward\Model\Action\AbstractAction
      */
     protected $_actionInstance;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Reward_Helper_Data $rewardHelper
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Reward_Model_Reward $rewardInstance
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Reward\Helper\Data $rewardHelper
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Reward\Model\Reward $rewardInstance
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Template_Context $context,
-        Magento_Reward_Helper_Data $rewardHelper,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Reward_Model_Reward $rewardInstance,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Helper_Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Reward\Helper\Data $rewardHelper,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Reward\Model\Reward $rewardInstance,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Helper\Data $coreData,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);
@@ -68,7 +70,7 @@ class Magento_Reward_Block_Tooltip extends Magento_Core_Block_Template
     }
 
     /**
-     * @return $this|Magento_Core_Block_Abstract
+     * @return $this|\Magento\Core\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {

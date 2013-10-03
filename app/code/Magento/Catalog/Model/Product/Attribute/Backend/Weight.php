@@ -16,22 +16,24 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Attribute_Backend_Weight extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
+namespace Magento\Catalog\Model\Product\Attribute\Backend;
+
+class Weight extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
 
     /**
      * Validate
      *
-     * @param Magento_Catalog_Model_Product $object
-     * @throws Magento_Core_Exception
+     * @param \Magento\Catalog\Model\Product $object
+     * @throws \Magento\Core\Exception
      * @return bool
      */
     public function validate($object)
     {
         $attrCode = $this->getAttribute()->getAttributeCode();
         $value = $object->getData($attrCode);
-        if (!empty($value) && !Zend_Validate::is($value, 'Between', array('min' => 0, 'max' => 99999999.9999))) {
-            throw new Magento_Core_Exception(
+        if (!empty($value) && !\Zend_Validate::is($value, 'Between', array('min' => 0, 'max' => 99999999.9999))) {
+            throw new \Magento\Core\Exception(
                 __('Please enter a number 0 or greater in this field.')
             );
         }

@@ -7,14 +7,16 @@
  */
 
 /**
- * Factory class for \Magento_Validator_Constraint
+ * Factory class for \Magento\Validator\Constraint
  */
-class Magento_Validator_ConstraintFactory
+namespace Magento\Validator;
+
+class ConstraintFactory
 {
     /**
      * Object Manager instance
      *
-     * @var \Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager = null;
 
@@ -28,10 +30,10 @@ class Magento_Validator_ConstraintFactory
     /**
      * Factory constructor
      *
-     * @param \Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param string $instanceName
      */
-    public function __construct(\Magento_ObjectManager $objectManager, $instanceName = 'Magento_Validator_Constraint')
+    public function __construct(\Magento\ObjectManager $objectManager, $instanceName = 'Magento\Validator\Constraint')
     {
         $this->_objectManager = $objectManager;
         $this->_instanceName = $instanceName;
@@ -41,7 +43,7 @@ class Magento_Validator_ConstraintFactory
      * Create class instance with specified parameters
      *
      * @param array $data
-     * @return \Magento_Validator_Constraint
+     * @return \Magento\Validator\Constraint
      */
     public function create(array $data = array())
     {

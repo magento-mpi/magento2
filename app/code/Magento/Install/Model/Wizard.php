@@ -11,7 +11,9 @@
 /**
  * Installation wizard model
  */
-class Magento_Install_Model_Wizard
+namespace Magento\Install\Model;
+
+class Wizard
 {
     /**
      * Wizard configuration
@@ -23,14 +25,14 @@ class Magento_Install_Model_Wizard
     /**
      * Url builder
      *
-     * @var Magento_Core_Model_UrlInterface
+     * @var \Magento\Core\Model\UrlInterface
      */
     protected $_urlBuilder;
 
     /**
      * Init install wizard
      */
-    public function __construct(Magento_Core_Model_UrlInterface $urlBuilder, Magento_Install_Model_Config $installConfig)
+    public function __construct(\Magento\Core\Model\UrlInterface $urlBuilder, \Magento\Install\Model\Config $installConfig)
     {
         $this->_steps = $installConfig->getWizardSteps();
         $this->_urlBuilder = $urlBuilder;
@@ -72,10 +74,10 @@ class Magento_Install_Model_Wizard
     /**
      * Get wizard step by request
      *
-     * @param   Zend_Controller_Request_Abstract $request
-     * @return  Magento_Object|bool
+     * @param   \Zend_Controller_Request_Abstract $request
+     * @return  \Magento\Object|bool
      */
-    public function getStepByRequest(Zend_Controller_Request_Abstract $request)
+    public function getStepByRequest(\Zend_Controller_Request_Abstract $request)
     {
         foreach ($this->_steps as $step) {
             if ($step->getController() == $request->getControllerName()
@@ -90,7 +92,7 @@ class Magento_Install_Model_Wizard
      * Get wizard step by name
      *
      * @param   string $name
-     * @return  Magento_Object|bool
+     * @return  \Magento\Object|bool
      */
     public function getStepByName($name)
     {

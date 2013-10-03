@@ -15,37 +15,39 @@
  * @package     Magento_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerSegment_Controller_Adminhtml_Report_Customer_Customersegment
-    extends Magento_Adminhtml_Controller_Action
+namespace Magento\CustomerSegment\Controller\Adminhtml\Report\Customer;
+
+class Customersegment
+    extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Admin session
      *
-     * @var Magento_Backend_Model_Auth_Session
+     * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_adminSession;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry;
 
     /**
-     * @var Magento_CustomerSegment_Model_Resource_Segment_CollectionFactory
+     * @var \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @param Magento_CustomerSegment_Model_Resource_Segment_CollectionFactory $collectionFactory
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory $collectionFactory
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_CustomerSegment_Model_Resource_Segment_CollectionFactory $collectionFactory,
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory $collectionFactory,
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_coreRegistry = $coreRegistry;
@@ -55,7 +57,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Report_Customer_Customersegme
     /**
      * Init layout and adding breadcrumbs
      *
-     * @return Magento_CustomerSegment_Controller_Adminhtml_Report_Customer_Customersegment
+     * @return \Magento\CustomerSegment\Controller\Adminhtml\Report\Customer\Customersegment
      */
     protected function _initAction()
     {
@@ -77,7 +79,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Report_Customer_Customersegme
      * or adding error to session storage if object was not loaded
      *
      * @param bool $outputMessage
-     * @return Magento_CustomerSegment_Model_Segment|false
+     * @return \Magento\CustomerSegment\Model\Segment|false
      */
     protected function _initSegment($outputMessage = true)
     {
@@ -89,8 +91,8 @@ class Magento_CustomerSegment_Controller_Adminhtml_Report_Customer_Customersegme
                 ->setViewMode($this->getRequest()->getParam('view_mode'));
         }
 
-        /* @var $segment Magento_CustomerSegment_Model_Segment */
-        $segment = $this->_objectManager->create('Magento_CustomerSegment_Model_Segment');
+        /* @var $segment \Magento\CustomerSegment\Model\Segment */
+        $segment = $this->_objectManager->create('Magento\CustomerSegment\Model\Segment');
         if ($segmentId) {
             $segment->load($segmentId);
         }
@@ -164,7 +166,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Report_Customer_Customersegme
                 }
                 /* @translation __('Viewing combined "%1" report from segments: %2') */
                 if ($segments) {
-                    $viewModeLabel = $this->_objectManager->get('Magento_CustomerSegment_Helper_Data')
+                    $viewModeLabel = $this->_objectManager->get('Magento\CustomerSegment\Helper\Data')
                         ->getViewModeLabel($this->_getAdminSession()->getViewMode());
                     $this->_session->addNotice(
                         __('Viewing combined "%1" report from segments: %2.', $viewModeLabel, implode(', ', $segments))
@@ -189,13 +191,13 @@ class Magento_CustomerSegment_Controller_Adminhtml_Report_Customer_Customersegme
         $segment = $this->_initSegment();
         if ($segment) {
             try {
-                if ($segment->getApplyTo() != Magento_CustomerSegment_Model_Segment::APPLY_TO_VISITORS) {
+                if ($segment->getApplyTo() != \Magento\CustomerSegment\Model\Segment::APPLY_TO_VISITORS) {
                     $segment->matchCustomers();
                 }
                 $this->_session->addSuccess(__('Customer Segment data has been refreshed.'));
                 $this->_redirect('*/*/detail', array('_current' => true));
                 return;
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_session->addError($e->getMessage());
             }
         }
@@ -254,12 +256,12 @@ class Magento_CustomerSegment_Controller_Adminhtml_Report_Customer_Customersegme
     /**
      * Retrieve admin session model
      *
-     * @return Magento_Backend_Model_Auth_Session
+     * @return \Magento\Backend\Model\Auth\Session
      */
     protected function _getAdminSession()
     {
         if (is_null($this->_adminSession)) {
-            $this->_adminSession = $this->_objectManager->create('Magento_Backend_Model_Auth_Session');
+            $this->_adminSession = $this->_objectManager->create('Magento\Backend\Model\Auth\Session');
         }
         return $this->_adminSession;
     }
@@ -272,6 +274,6 @@ class Magento_CustomerSegment_Controller_Adminhtml_Report_Customer_Customersegme
     protected function _isAllowed()
     {
         return  $this->_authorization->isAllowed('Magento_CustomerSegment::customersegment')
-                && $this->_objectManager->get('Magento_CustomerSegment_Helper_Data')->isEnabled();
+                && $this->_objectManager->get('Magento\CustomerSegment\Helper\Data')->isEnabled();
     }
 }

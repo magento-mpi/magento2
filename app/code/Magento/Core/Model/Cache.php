@@ -13,29 +13,31 @@
  * support id and tags preffix support,
  */
 
-class Magento_Core_Model_Cache implements Magento_Core_Model_CacheInterface
+namespace Magento\Core\Model;
+
+class Cache implements \Magento\Core\Model\CacheInterface
 {
     /**
      * @var string
      */
-    protected $_frontendIdentifier = Magento_Core_Model_Cache_Frontend_Pool::DEFAULT_FRONTEND_ID;
+    protected $_frontendIdentifier = \Magento\Core\Model\Cache\Frontend\Pool::DEFAULT_FRONTEND_ID;
 
     /**
-     * @var Magento_Core_Model_Cache_Frontend_Pool
+     * @var \Magento\Core\Model\Cache\Frontend\Pool
      */
     protected $_frontendPool;
 
     /**
      * Cache frontend API
      *
-     * @var Magento_Cache_FrontendInterface
+     * @var \Magento\Cache\FrontendInterface
      */
     protected $_frontend;
 
     /**
-     * @param Magento_Core_Model_Cache_Frontend_Pool $frontendPool
+     * @param \Magento\Core\Model\Cache\Frontend\Pool $frontendPool
      */
-    public function __construct(Magento_Core_Model_Cache_Frontend_Pool $frontendPool)
+    public function __construct(\Magento\Core\Model\Cache\Frontend\Pool $frontendPool)
     {
         $this->_frontendPool = $frontendPool;
         $this->_frontend = $frontendPool->get($this->_frontendIdentifier);
@@ -44,7 +46,7 @@ class Magento_Core_Model_Cache implements Magento_Core_Model_CacheInterface
     /**
      * Get cache frontend API object
      *
-     * @return Magento_Cache_FrontendInterface
+     * @return \Magento\Cache\FrontendInterface
      */
     public function getFrontend()
     {
@@ -96,11 +98,11 @@ class Magento_Core_Model_Cache implements Magento_Core_Model_CacheInterface
     public function clean($tags = array())
     {
         if ($tags) {
-            $result = $this->_frontend->clean(Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, (array)$tags);
+            $result = $this->_frontend->clean(\Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, (array)$tags);
         } else {
             /** @deprecated special case of cleaning by empty tags is deprecated after 2.0.0.0-dev42 */
             $result = false;
-            /** @var $cacheFrontend Magento_Cache_FrontendInterface */
+            /** @var $cacheFrontend \Magento\Cache\FrontendInterface */
             foreach ($this->_frontendPool as $cacheFrontend) {
                 if ($cacheFrontend->clean()) {
                     $result = true;

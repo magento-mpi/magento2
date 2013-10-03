@@ -15,7 +15,9 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Layer_Filter_Category extends Magento_Catalog_Model_Layer_Filter_Abstract
+namespace Magento\Catalog\Model\Layer\Filter;
+
+class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
 {
     /**
      * Active Category Id
@@ -27,49 +29,49 @@ class Magento_Catalog_Model_Layer_Filter_Category extends Magento_Catalog_Model_
     /**
      * Applied Category
      *
-     * @var Magento_Catalog_Model_Category
+     * @var \Magento\Catalog\Model\Category
      */
     protected $_appliedCategory = null;
 
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * Category factory
      *
-     * @var Magento_Catalog_Model_CategoryFactory
+     * @var \Magento\Catalog\Model\CategoryFactory
      */
     protected $_categoryFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Catalog_Model_Layer_Filter_ItemFactory $filterItemFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Model_Layer $catalogLayer
-     * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Layer $catalogLayer
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Model_Layer_Filter_ItemFactory $filterItemFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Model_Layer $catalogLayer,
-        Magento_Catalog_Model_CategoryFactory $categoryFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Registry $coreRegistry,
+        \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Layer $catalogLayer,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_categoryFactory = $categoryFactory;
@@ -102,11 +104,11 @@ class Magento_Catalog_Model_Layer_Filter_Category extends Magento_Catalog_Model_
     /**
      * Apply category filter to layer
      *
-     * @param   Zend_Controller_Request_Abstract $request
-     * @param   Magento_Core_Block_Abstract $filterBlock
-     * @return  Magento_Catalog_Model_Layer_Filter_Category
+     * @param   \Zend_Controller_Request_Abstract $request
+     * @param   \Magento\Core\Block\AbstractBlock $filterBlock
+     * @return  \Magento\Catalog\Model\Layer\Filter\Category
      */
-    public function apply(Zend_Controller_Request_Abstract $request, $filterBlock)
+    public function apply(\Zend_Controller_Request_Abstract $request, $filterBlock)
     {
         $filter = (int)$request->getParam($this->getRequestVar());
         if (!$filter) {
@@ -134,7 +136,7 @@ class Magento_Catalog_Model_Layer_Filter_Category extends Magento_Catalog_Model_
     /**
      * Validate category for be using as filter
      *
-     * @param   Magento_Catalog_Model_Category $category
+     * @param   \Magento\Catalog\Model\Category $category
      * @return unknown
      */
     protected function _isValidCategory($category)
@@ -155,12 +157,12 @@ class Magento_Catalog_Model_Layer_Filter_Category extends Magento_Catalog_Model_
     /**
      * Get selected category object
      *
-     * @return Magento_Catalog_Model_Category
+     * @return \Magento\Catalog\Model\Category
      */
     public function getCategory()
     {
         if (!is_null($this->_categoryId)) {
-            /** @var Magento_Catalog_Model_Category $category */
+            /** @var \Magento\Catalog\Model\Category $category */
             $category = $this->_categoryFactory->create()
                 ->load($this->_categoryId);
             if ($category->getId()) {
@@ -178,7 +180,7 @@ class Magento_Catalog_Model_Layer_Filter_Category extends Magento_Catalog_Model_
     protected function _getItemsData()
     {
         $categoty   = $this->getCategory();
-        /** @var $category Magento_Catalog_Model_Categeory */
+        /** @var $category \Magento\Catalog\Model\Categeory */
         $categories = $categoty->getChildrenCategories();
 
         $this->getLayer()->getProductCollection()

@@ -8,38 +8,40 @@
  * @license     {license_link}
  */
 
+namespace Magento\Sales\Block\Recurring\Profile\Related\Orders;
+
 /**
  * Recurring profile related orders grid
  */
-class Magento_Sales_Block_Recurring_Profile_Related_Orders_Grid extends Magento_Sales_Block_Recurring_Profile_View
+class Grid extends \Magento\Sales\Block\Recurring\Profile\View
 {
     /**
-     * @var Magento_Sales_Model_Resource_Order_Collection
+     * @var \Magento\Sales\Model\Resource\Order\Collection
      */
     protected $_orderCollection;
     /**
-     * @var Magento_Sales_Model_Order_Config
+     * @var \Magento\Sales\Model\Order\Config
      */
     protected $_config;
 
     /**
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Sales_Model_Resource_Order_Collection $collection
-     * @param Magento_Sales_Model_Order_Config $config
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Sales\Model\Resource\Order\Collection $collection
+     * @param \Magento\Sales\Model\Order\Config $config
+     * @param \Magento\Core\Helper\Data $coreData
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Sales_Model_Resource_Order_Collection $collection,
-        Magento_Sales_Model_Order_Config $config,
-        Magento_Core_Helper_Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Sales\Model\Resource\Order\Collection $collection,
+        \Magento\Sales\Model\Order\Config $config,
+        \Magento\Core\Helper\Data $coreData,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $storeManager, $locale, $coreData, $data);
@@ -78,35 +80,35 @@ class Magento_Sales_Block_Recurring_Profile_Related_Orders_Grid extends Magento_
             'in' => $this->_config->getVisibleOnFrontStates()
         ));
 
-        $pager = $this->getLayout()->createBlock('Magento_Page_Block_Html_Pager')
+        $pager = $this->getLayout()->createBlock('Magento\Page\Block\Html\Pager')
             ->setCollection($this->_relatedOrders)->setIsOutputRequired(false);
         $this->setChild('pager', $pager);
 
         $this->setGridColumns(array(
-            new Magento_Object(array(
+            new \Magento\Object(array(
                 'index' => 'increment_id',
                 'title' => __('Order #'),
                 'is_nobr' => true,
                 'width' => 1,
             )),
-            new Magento_Object(array(
+            new \Magento\Object(array(
                 'index' => 'created_at',
                 'title' => __('Date'),
                 'is_nobr' => true,
                 'width' => 1,
             )),
-            new Magento_Object(array(
+            new \Magento\Object(array(
                 'index' => 'customer_name',
                 'title' => __('Customer Name'),
             )),
-            new Magento_Object(array(
+            new \Magento\Object(array(
                 'index' => 'base_grand_total',
                 'title' => __('Order Total'),
                 'is_nobr' => true,
                 'width' => 1,
                 'is_amount' => true,
             )),
-            new Magento_Object(array(
+            new \Magento\Object(array(
                 'index' => 'status',
                 'title' => __('Order Status'),
                 'is_nobr' => true,
@@ -116,11 +118,11 @@ class Magento_Sales_Block_Recurring_Profile_Related_Orders_Grid extends Magento_
 
         $orders = array();
         foreach ($this->_relatedOrders as $order) {
-            $orders[] = new Magento_Object(array(
+            $orders[] = new \Magento\Object(array(
                 'increment_id' => $order->getIncrementId(),
                 'created_at' => $this->formatDate($order->getCreatedAt()),
                 'customer_name' => $order->getCustomerName(),
-                'base_grand_total' => $this->helper('Magento_Core_Helper_Data')->formatCurrency(
+                'base_grand_total' => $this->helper('Magento\Core\Helper\Data')->formatCurrency(
                     $order->getBaseGrandTotal(), false
                 ),
                 'status' => $order->getStatusLabel(),

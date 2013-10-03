@@ -11,7 +11,9 @@
 /**
  * PaypalUk data helper
  */
-class Magento_PaypalUk_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\PaypalUk\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
 
 }

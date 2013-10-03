@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Report_Product_Viewed_Grid extends Magento_Adminhtml_Block_Report_Grid_Abstract
+namespace Magento\Adminhtml\Block\Report\Product\Viewed;
+
+class Grid extends \Magento\Adminhtml\Block\Report\Grid\AbstractGrid
 {
     /**
      * Column for grid to be grouped by
@@ -29,7 +31,7 @@ class Magento_Adminhtml_Block_Report_Product_Viewed_Grid extends Magento_Adminht
      *
      * @var string
      */
-    protected $_resourceCollectionName  = 'Magento_Reports_Model_Resource_Report_Product_Viewed_Collection';
+    protected $_resourceCollectionName  = 'Magento\Reports\Model\Resource\Report\Product\Viewed\Collection';
 
     /**
      * Init grid parameters
@@ -43,7 +45,7 @@ class Magento_Adminhtml_Block_Report_Product_Viewed_Grid extends Magento_Adminht
     /**
      * Custom columns preparation
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareColumns()
     {
@@ -53,7 +55,7 @@ class Magento_Adminhtml_Block_Report_Product_Viewed_Grid extends Magento_Adminht
             'width'         => 100,
             'sortable'      => false,
             'period_type'   => $this->getPeriodType(),
-            'renderer'      => 'Magento_Adminhtml_Block_Report_Sales_Grid_Column_Renderer_Date',
+            'renderer'      => 'Magento\Adminhtml\Block\Report\Sales\Grid\Column\Renderer\Date',
             'totals_label'  => __('Total'),
             'html_decorators' => array('nobr'),
             'header_css_class'  => 'col-period',
@@ -105,9 +107,9 @@ class Magento_Adminhtml_Block_Report_Product_Viewed_Grid extends Magento_Adminht
     /**
      * Don't use orders in collection
      *
-     * @param Magento_Reports_Model_Resource_Report_Collection_Abstract $collection
-     * @param Magento_Object $filterData
-     * @return Magento_Adminhtml_Block_Report_Grid_Abstract
+     * @param \Magento\Reports\Model\Resource\Report\Collection\AbstractCollection $collection
+     * @param \Magento\Object $filterData
+     * @return \Magento\Adminhtml\Block\Report\Grid\AbstractGrid
      */
     protected function _addOrderStatusFilter($collection, $filterData)
     {

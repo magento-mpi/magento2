@@ -11,26 +11,28 @@
 /**
  * Installation event observer
  */
-class Magento_Install_Model_Observer
+namespace Magento\Install\Model;
+
+class Observer
 {
     /**
      * Install Session
      *
-     * @var Magento_Core_Model_Session_Generic
+     * @var \Magento\Core\Model\Session\Generic
      */
     protected $_session;
 
     /**
-     * @param Magento_Core_Model_Session_Generic $session
+     * @param \Magento\Core\Model\Session\Generic $session
      */
-    public function __construct(Magento_Core_Model_Session_Generic $session)
+    public function __construct(\Magento\Core\Model\Session\Generic $session)
     {
         $this->_session = $session;
     }
 
 
     /**
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return $this
      */
     public function bindLocale($observer)

@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Shipping_Model_Tracking_Result_Error extends Magento_Shipping_Model_Tracking_Result_Abstract
+namespace Magento\Shipping\Model\Tracking\Result;
+
+class Error extends \Magento\Shipping\Model\Tracking\Result\AbstractResult
 {
     public function getAllData()
     {

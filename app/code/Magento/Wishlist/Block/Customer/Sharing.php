@@ -16,7 +16,9 @@
  * @package    Magento_Wishlist
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Wishlist_Block_Customer_Sharing extends Magento_Core_Block_Template
+namespace Magento\Wishlist\Block\Customer;
+
+class Sharing extends \Magento\Core\Block\Template
 {
     /**
      * Entered Data cache
@@ -28,27 +30,27 @@ class Magento_Wishlist_Block_Customer_Sharing extends Magento_Core_Block_Templat
     /**
      * Wishlist configuration
      *
-     * @var Magento_Wishlist_Model_Config
+     * @var \Magento\Wishlist\Model\Config
      */
     protected $_wishlistConfig;
 
     /**
-     * @var Magento_Core_Model_Session_Generic
+     * @var \Magento\Core\Model\Session\Generic
      */
     protected $_wishlistSession;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Wishlist_Model_Config $wishlistConfig
-     * @param Magento_Core_Model_Session_Generic $wishlistlSession
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Wishlist\Model\Config $wishlistConfig
+     * @param \Magento\Core\Model\Session\Generic $wishlistlSession
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Wishlist_Model_Config $wishlistConfig,
-        Magento_Core_Model_Session_Generic $wishlistlSession,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Wishlist\Model\Config $wishlistConfig,
+        \Magento\Core\Model\Session\Generic $wishlistlSession,
         array $data = array()
     ) {
         $this->_wishlistConfig = $wishlistConfig;
@@ -59,7 +61,7 @@ class Magento_Wishlist_Block_Customer_Sharing extends Magento_Core_Block_Templat
     /**
      * Prepare Global Layout
      *
-     * @return Magento_Wishlist_Block_Customer_Sharing
+     * @return \Magento\Wishlist\Block\Customer\Sharing
      */
     protected function _prepareLayout()
     {

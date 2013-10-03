@@ -10,23 +10,25 @@
  */
 
 /**
- * Test Class for Magento_Search_Model_Factory_Factory
+ * Test Class for \Magento\Search\Model\Factory\Factory
  */
-class Magento_Search_Model_SolrFactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Search\Model;
+
+class SolrFactoryTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Search_Model_SolrFactory|PHPUnit_Framework_MockObject_MockObject*/
+    /** @var \Magento\Search\Model\SolrFactory|\PHPUnit_Framework_MockObject_MockObject*/
     protected $_factoryObject;
 
-    /** @var Magento_ObjectManager|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\ObjectManager|\PHPUnit_Framework_MockObject_MockObject */
     protected $_objectManager;
 
-    /** @var Magento_Search_Model_SolrFactory|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Search\Model\SolrFactory|\PHPUnit_Framework_MockObject_MockObject */
     protected $_solrFactoryMock;
 
     /** @var SolrClient */
     protected $_solrClientMock;
 
-    /** @var Magento_Search_Model_Adapter_PhpExtension */
+    /** @var \Magento\Search\Model\Adapter\PhpExtension */
     protected $_solrAdapteryMock;
 
     /**
@@ -34,13 +36,13 @@ class Magento_Search_Model_SolrFactoryTest extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->_objectManager = $this->getMockBuilder('Magento_ObjectManager')->getMock();
-        $this->_solrFactoryMock = $this->getMock('Magento_Search_Model_SolrFactory',
+        $this->_objectManager = $this->getMockBuilder('Magento\ObjectManager')->getMock();
+        $this->_solrFactoryMock = $this->getMock('Magento\Search\Model\SolrFactory',
             array(), array(), '', false, false);
-        $this->_solrAdapteryMock = $this->getMock('Magento_Search_Model_Adapter_PhpExtension',
+        $this->_solrAdapteryMock = $this->getMock('Magento\Search\Model\Adapter\PhpExtension',
             array(), array(), '', false, false);
 
-        $this->_factoryObject = new Magento_Search_Model_SolrFactory($this->_objectManager);
+        $this->_factoryObject = new \Magento\Search\Model\SolrFactory($this->_objectManager);
     }
 
     /**
@@ -64,7 +66,7 @@ class Magento_Search_Model_SolrFactoryTest extends PHPUnit_Framework_TestCase
     {
         $this->_objectManager->expects($this->once())
             ->method('create')
-            ->with('Magento_Search_Model_Adapter_PhpExtension')
+            ->with('Magento\Search\Model\Adapter\PhpExtension')
             ->will($this->returnValue($this->_solrAdapteryMock));
         $this->_factoryObject->createAdapter();
     }

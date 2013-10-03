@@ -16,25 +16,27 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Catalog_Block_Product_Widget_Link
-    extends Magento_Catalog_Block_Widget_Link
+namespace Magento\Catalog\Block\Product\Widget;
+
+class Link
+    extends \Magento\Catalog\Block\Widget\Link
 {
     /**
      * Construct
      *
-     * @param Magento_Catalog_Model_Resource_Product $catalogProduct
-     * @param Magento_Core_Model_Resource_Url_Rewrite $urlRewrite
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Catalog\Model\Resource\Product $catalogProduct
+     * @param \Magento\Core\Model\Resource\Url\Rewrite $urlRewrite
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Model_Resource_Product $catalogProduct,
-        Magento_Core_Model_Resource_Url_Rewrite $urlRewrite,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Catalog\Model\Resource\Product $catalogProduct,
+        \Magento\Core\Model\Resource\Url\Rewrite $urlRewrite,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         parent::__construct($urlRewrite, $storeManager, $coreData, $context, $data);

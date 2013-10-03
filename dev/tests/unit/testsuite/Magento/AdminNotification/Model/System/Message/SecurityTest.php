@@ -5,50 +5,52 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_AdminNotification_Model_System_Message_SecurityTest extends PHPUnit_Framework_TestCase
+namespace Magento\AdminNotification\Model\System\Message;
+
+class SecurityTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cacheMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeConfigMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_curlFactoryMock;
 
     /**
-     * @var Magento_AdminNotification_Model_System_Message_Security
+     * @var \Magento\AdminNotification\Model\System\Message\Security
      */
     protected $_messageModel;
 
     protected function setUp()
     {
         //Prepare objects for constructor
-        $this->_cacheMock = $this->getMock('Magento_Core_Model_CacheInterface');
-        $this->_storeConfigMock = $this->getMock('Magento_Core_Model_Store_Config',
+        $this->_cacheMock = $this->getMock('Magento\Core\Model\CacheInterface');
+        $this->_storeConfigMock = $this->getMock('Magento\Core\Model\Store\Config',
             array('getConfig'), array(), '', false);
-        $this->_curlFactoryMock = $this->getMock('Magento_HTTP_Adapter_CurlFactory',
+        $this->_curlFactoryMock = $this->getMock('Magento\HTTP\Adapter\CurlFactory',
             array('create'), array(), '', false);
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $arguments = array(
             'cache' => $this->_cacheMock,
             'storeConfig' => $this->_storeConfigMock,
             'curlFactory' => $this->_curlFactoryMock,
         );
         $this->_messageModel = $objectManagerHelper->getObject(
-            'Magento_AdminNotification_Model_System_Message_Security',
+            'Magento\AdminNotification\Model\System\Message\Security',
             $arguments);
     }
 
@@ -65,7 +67,7 @@ class Magento_AdminNotification_Model_System_Message_SecurityTest extends PHPUni
         $this->_cacheMock->expects($this->any())->method('load')->will($this->returnValue($cached));
         $this->_cacheMock->expects($this->any())->method('save')->will($this->returnValue(null));
 
-        $httpAdapterMock = $this->getMock('Magento_HTTP_Adapter_Curl', array(), array(), '', false);
+        $httpAdapterMock = $this->getMock('Magento\HTTP\Adapter\Curl', array(), array(), '', false);
         $httpAdapterMock->expects($this->any())->method('read')->will($this->returnValue($response));
         $this->_curlFactoryMock->expects($this->any())->method('create')->will($this->returnValue($httpAdapterMock));
 

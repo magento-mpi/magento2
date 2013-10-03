@@ -9,21 +9,23 @@
 /**
  * Product type price factory
  */
-class Magento_Catalog_Model_Product_Type_Price_Factory
+namespace Magento\Catalog\Model\Product\Type\Price;
+
+class Factory
 {
     /**
      * Object Manager
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
      * Construct
      *
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -33,16 +35,16 @@ class Magento_Catalog_Model_Product_Type_Price_Factory
      *
      * @param string $className
      * @param array $data
-     * @return Magento_Catalog_Model_Product_Type_Price
-     * @throws Magento_Core_Exception
+     * @return \Magento\Catalog\Model\Product\Type\Price
+     * @throws \Magento\Core\Exception
      */
     public function create($className, array $data = array())
     {
         $price = $this->_objectManager->create($className, $data);
 
-        if (!$price instanceof Magento_Catalog_Model_Product_Type_Price) {
-            throw new Magento_Core_Exception($className
-                . ' doesn\'t extends Magento_Catalog_Model_Product_Type_Price');
+        if (!$price instanceof \Magento\Catalog\Model\Product\Type\Price) {
+            throw new \Magento\Core\Exception($className
+                . ' doesn\'t extends \Magento\Catalog\Model\Product\Type\Price');
         }
         return $price;
     }

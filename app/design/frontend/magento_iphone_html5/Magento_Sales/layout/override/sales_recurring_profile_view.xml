@@ -16,7 +16,7 @@
         </action>
     </referenceBlock>
     <referenceBlock name="sales.recurring.profile.view">
-        <block class="Magento_Sales_Block_Recurring_Profile_View_Reference" name="sales.recurring.profile.view.general" as="general" template="recurring/profile/view/info.phtml">
+        <block class="Magento\Sales\Block\Recurring\Profile\View\Reference" name="sales.recurring.profile.view.general" as="general" template="recurring/profile/view/info.phtml">
             <action method="addToParentGroup">
                 <argument name="value" xsi:type="string">info_blocks_row_1</argument>
             </action>
@@ -27,7 +27,7 @@
                 <argument translate="true" name="value" xsi:type="string">Reference</argument>
             </action>
         </block>
-        <block class="Magento_Sales_Block_Recurring_Profile_View_Item" name="sales.recurring.profile.view.item" as="item" template="recurring/profile/view/info.phtml">
+        <block class="Magento\Sales\Block\Recurring\Profile\View\Item" name="sales.recurring.profile.view.item" as="item" template="recurring/profile/view/info.phtml">
             <action method="addToParentGroup">
                 <argument name="value" xsi:type="string">info_blocks_row_1</argument>
             </action>
@@ -38,7 +38,7 @@
                 <argument translate="true" name="value" xsi:type="string">Purchased Item</argument>
             </action>
         </block>
-        <block class="Magento_Sales_Block_Recurring_Profile_View_Schedule" name="sales.recurring.profile.view.schedule" as="profile" template="recurring/profile/view/info.phtml">
+        <block class="Magento\Sales\Block\Recurring\Profile\View\Schedule" name="sales.recurring.profile.view.schedule" as="profile" template="recurring/profile/view/info.phtml">
             <action method="addToParentGroup">
                 <argument name="value" xsi:type="string">info_blocks_row_2</argument>
             </action>
@@ -49,7 +49,7 @@
                 <argument translate="true" name="value" xsi:type="string">Profile Schedule</argument>
             </action>
         </block>
-        <block class="Magento_Sales_Block_Recurring_Profile_View_Fees" name="sales.recurring.profile.view.fees" as="fees" template="recurring/profile/view/info.phtml">
+        <block class="Magento\Sales\Block\Recurring\Profile\View\Fees" name="sales.recurring.profile.view.fees" as="fees" template="recurring/profile/view/info.phtml">
             <action method="addToParentGroup">
                 <argument name="value" xsi:type="string">info_blocks_row_2</argument>
             </action>
@@ -60,7 +60,7 @@
                 <argument translate="true" name="value" xsi:type="string">Profile Payments</argument>
             </action>
         </block>
-        <block class="Magento_Sales_Block_Recurring_Profile_View_Address" name="sales.recurring.profile.view.billing" as="billing_address" template="recurring/profile/view/info.phtml">
+        <block class="Magento\Sales\Block\Recurring\Profile\View\Address" name="sales.recurring.profile.view.billing" as="billing_address" template="recurring/profile/view/info.phtml">
             <action method="addToParentGroup">
                 <argument name="value" xsi:type="string">info_blocks_row_3</argument>
             </action>
@@ -71,7 +71,7 @@
                 <argument translate="true" name="value" xsi:type="string">Billing Address</argument>
             </action>
         </block>
-        <block class="Magento_Sales_Block_Recurring_Profile_View_Address" name="sales.recurring.profile.view.shipping" as="shipping_address" template="recurring/profile/view/info.phtml">
+        <block class="Magento\Sales\Block\Recurring\Profile\View\Address" name="sales.recurring.profile.view.shipping" as="shipping_address" template="recurring/profile/view/info.phtml">
             <action method="setAddressType">
                 <argument name="value" xsi:type="string">shipping</argument>
             </action>

@@ -18,8 +18,8 @@ $entityValues = $this->getEntityValues();
 ?>
 <div class="my-wishlist">
     <div class="page-title title-buttons">
-        <?php if ($this->helper('Magento_Wishlist_Helper_Data')->isRssAllow() && $this->hasWishlistItems()): ?>
-            <a href="<?php echo $this->helper('Magento_Wishlist_Helper_Data')->getRssUrl(); ?>" class="link-rss"><?php echo __('RSS Feed') ?></a>
+        <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isRssAllow() && $this->hasWishlistItems()): ?>
+            <a href="<?php echo $this->helper('Magento\Wishlist\Helper\Data')->getRssUrl(); ?>" class="link-rss"><?php echo __('RSS Feed') ?></a>
         <?php endif; ?>
         <h1><?php echo __('My Wish List') ?></h1>
     </div>
@@ -40,7 +40,7 @@ $entityValues = $this->getEntityValues();
                     <tbody>
                         <tr>
                             <th>
-                                <a class="product-image" href="<?php echo $this->getProductUrl($item) ?>" title="<?php echo $this->escapeHtml($product->getName()) ?>"><img src="<?php echo $this->helper('Magento_Catalog_Helper_Image')->init($product, 'small_image')->resize(226); ?>" width="113" alt="<?php echo $this->escapeHtml($product->getName()) ?>" /></a>
+                                <a class="product-image" href="<?php echo $this->getProductUrl($item) ?>" title="<?php echo $this->escapeHtml($product->getName()) ?>"><img src="<?php echo $this->helper('Magento\Catalog\Helper\Image')->init($product, 'small_image')->resize(226); ?>" width="113" alt="<?php echo $this->escapeHtml($product->getName()) ?>" /></a>
                                 <?php if ($isVisibleProduct): ?>
                                     <a class="btn-edit" href="<?php echo $this->getItemConfigureUrl($item) ?>"><?php echo __('Edit') ?></a>
                                 <?php endif ?>
@@ -80,7 +80,7 @@ $entityValues = $this->getEntityValues();
                                     <div class="input-box">
                                         <select id="giftregistry_entity_<?php echo $item->getId() ?>" name="entity" title="<?php echo __('Gift Registry') ?>" >
                                             <?php foreach ($entityValues as $_entity):?>
-                                                <option value="<?php echo $_entity->getValue()?>" title="<?php echo $this->escapeHtml($_entity->getTitle())?>"><?php echo $this->escapeHtml($this->helper('Magento_Core_Helper_String')->truncate($_entity->getTitle(), 40))?></option>
+                                                <option value="<?php echo $_entity->getValue()?>" title="<?php echo $this->escapeHtml($_entity->getTitle())?>"><?php echo $this->escapeHtml($this->helper('Magento\Core\Helper\String')->truncate($_entity->getTitle(), 40))?></option>
                                             <?php endforeach;?>
                                         </select>
                                     </div>
@@ -131,10 +131,10 @@ $entityValues = $this->getEntityValues();
     }
 
     function focusComment(obj) {
-        if( obj.value == '<?php echo $this->helper('Magento_Wishlist_Helper_Data')->defaultCommentString() ?>' ) {
+        if( obj.value == '<?php echo $this->helper('Magento\Wishlist\Helper\Data')->defaultCommentString() ?>' ) {
             obj.value = '';
         } else if( obj.value == '' ) {
-            obj.value = '<?php echo $this->helper('Magento_Wishlist_Helper_Data')->defaultCommentString() ?>';
+            obj.value = '<?php echo $this->helper('Magento\Wishlist\Helper\Data')->defaultCommentString() ?>';
         }
     }
 

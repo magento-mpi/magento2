@@ -11,17 +11,19 @@
 /**
  * Locale timezone source
  */
-class Magento_Backend_Model_Config_Source_Locale_Timezone implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Backend\Model\Config\Source\Locale;
+
+class Timezone implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param \Magento\Core\Model\LocaleInterface $locale
      */
-    public function __construct(Magento_Core_Model_LocaleInterface $locale)
+    public function __construct(\Magento\Core\Model\LocaleInterface $locale)
     {
         $this->_locale = $locale;
     }

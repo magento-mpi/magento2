@@ -9,48 +9,50 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model\Layer\Filter\Price;
+
 /**
- * Test class for Magento_Catalog_Model_Layer_Filter_Price.
+ * Test class for \Magento\Catalog\Model\Layer\Filter\Price.
  *
  * @magentoDataFixture Magento/Catalog/Model/Layer/Filter/Price/_files/products_advanced.php
  */
-class Magento_Catalog_Model_Layer_Filter_Price_AlgorithmAdvancedTest extends PHPUnit_Framework_TestCase
+class AlgorithmAdvancedTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Algorithm model
      *
-     * @var Magento_Catalog_Model_Layer_Filter_Price_Algorithm
+     * @var \Magento\Catalog\Model\Layer\Filter\Price\Algorithm
      */
     protected $_model;
 
     protected function setUp()
     {
-         $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Layer_Filter_Price_Algorithm');
+         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Layer\Filter\Price\Algorithm');
     }
 
     /**
      * Prepare price filter model
      *
-     * @param Magento_TestFramework_Request|null $request
+     * @param \Magento\TestFramework\Request|null $request
      */
     protected function _prepareFilter($request = null)
     {
-        /** @var $layer Magento_Catalog_Model_Layer */
-        $layer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Layer');
+        /** @var $layer \Magento\Catalog\Model\Layer */
+        $layer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Layer');
         $layer->setCurrentCategory(4);
-        $layer->setState(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Layer_State'));
-        /** @var $filter Magento_Catalog_Model_Layer_Filter_Price */
-        $filter = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Layer_Filter_Price');
-        $filter->setLayer($layer)->setAttributeModel(new Magento_Object(array('attribute_code' => 'price')));
+        $layer->setState(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Layer\State'));
+        /** @var $filter \Magento\Catalog\Model\Layer\Filter\Price */
+        $filter = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Layer\Filter\Price');
+        $filter->setLayer($layer)->setAttributeModel(new \Magento\Object(array('attribute_code' => 'price')));
         if (!is_null($request)) {
             $filter->apply(
                 $request,
-                Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-                    ->createBlock('Magento_Core_Block_Text')
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+                    ->createBlock('Magento\Core\Block\Text')
             );
             $interval = $filter->getInterval();
             if ($interval) {
@@ -68,10 +70,10 @@ class Magento_Catalog_Model_Layer_Filter_Price_AlgorithmAdvancedTest extends PHP
 
     public function testWithoutLimits()
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var $request Magento_TestFramework_Request */
-        $request = $objectManager->get('Magento_TestFramework_Request');
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var $request \Magento\TestFramework\Request */
+        $request = $objectManager->get('Magento\TestFramework\Request');
         $request->setParam('price', null);
         $this->_prepareFilter();
         $this->assertEquals(array(
@@ -83,10 +85,10 @@ class Magento_Catalog_Model_Layer_Filter_Price_AlgorithmAdvancedTest extends PHP
     public function testWithLimits()
     {
         $this->markTestIncomplete('Bug MAGE-6561');
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var $request Magento_TestFramework_Request */
-        $request = $objectManager->get('Magento_TestFramework_Request');
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var $request \Magento\TestFramework\Request */
+        $request = $objectManager->get('Magento\TestFramework\Request');
         $request->setParam('price', '10-100');
         $this->_prepareFilter($request);
         $this->assertEquals(array(

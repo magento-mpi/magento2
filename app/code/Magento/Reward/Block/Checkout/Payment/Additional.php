@@ -16,53 +16,55 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Block_Checkout_Payment_Additional extends Magento_Core_Block_Template
+namespace Magento\Reward\Block\Checkout\Payment;
+
+class Additional extends \Magento\Core\Block\Template
 {
     /**
      * Reward data
      *
-     * @var Magento_Reward_Helper_Data
+     * @var \Magento\Reward\Helper\Data
      */
     protected $_rewardData = null;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Reward_Model_RewardFactory
+     * @var \Magento\Reward\Model\RewardFactory
      */
     protected $_rewardFactory;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @var Magento_Checkout_Model_Session
+     * @var \Magento\Checkout\Model\Session
      */
     protected $_checkoutSession;
 
     /**
-     * @param Magento_Checkout_Model_Session $checkoutSession
-     * @param Magento_Reward_Helper_Data $rewardData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Reward_Model_RewardFactory $rewardFactory
-     * @param Magento_Customer_Model_Session $customerSession
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Reward\Helper\Data $rewardData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Reward\Model\RewardFactory $rewardFactory
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      */
     public function __construct(
-        Magento_Checkout_Model_Session $checkoutSession,
-        Magento_Reward_Helper_Data $rewardData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Reward_Model_RewardFactory $rewardFactory,
-        Magento_Customer_Model_Session $customerSession,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Reward\Helper\Data $rewardData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Reward\Model\RewardFactory $rewardFactory,
+        \Magento\Customer\Model\Session $customerSession,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
@@ -76,7 +78,7 @@ class Magento_Reward_Block_Checkout_Payment_Additional extends Magento_Core_Bloc
     /**
      * Getter
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function getCustomer()
     {
@@ -86,7 +88,7 @@ class Magento_Reward_Block_Checkout_Payment_Additional extends Magento_Core_Bloc
     /**
      * Getter
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {
@@ -96,7 +98,7 @@ class Magento_Reward_Block_Checkout_Payment_Additional extends Magento_Core_Bloc
     /**
      * Getter
      *
-     * @return Magento_Reward_Model_Reward
+     * @return \Magento\Reward\Model\Reward
      */
     public function getReward()
     {
@@ -129,7 +131,7 @@ class Magento_Reward_Block_Checkout_Payment_Additional extends Magento_Core_Bloc
      */
     public function getCanUseRewardPoints()
     {
-        /** @var $helper Magento_Reward_Helper_Data */
+        /** @var $helper \Magento\Reward\Helper\Data */
         $helper = $this->_rewardData;
         if (!$helper->getHasRates() || !$helper->isEnabledOnFront()) {
             return false;

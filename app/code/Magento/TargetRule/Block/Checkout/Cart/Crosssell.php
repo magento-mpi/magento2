@@ -16,7 +16,9 @@
  * @package    Magento_TargetRule
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRule_Block_Product_Abstract
+namespace Magento\TargetRule\Block\Checkout\Cart;
+
+class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
 {
     /**
      * Default MAP renderer type
@@ -35,7 +37,7 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
     /**
      * object of just added product to cart
      *
-     * @var Magento_Catalog_Model_Product
+     * @var \Magento\Catalog\Model\Product
      */
     protected $_lastAddedProduct;
 
@@ -47,88 +49,88 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
     protected $_byLastAddedProduct = false;
 
     /**
-     * @var Magento_TargetRule_Model_Index
+     * @var \Magento\TargetRule\Model\Index
      */
     protected $_index;
 
     /**
-     * @var Magento_TargetRule_Model_IndexFactory
+     * @var \Magento\TargetRule\Model\IndexFactory
      */
     protected $_indexFactory;
 
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
-     * @var Magento_Catalog_Model_Product_LinkFactory
+     * @var \Magento\Catalog\Model\Product\LinkFactory
      */
     protected $_productLinkFactory;
 
     /**
-     * @var Magento_Checkout_Model_Session
+     * @var \Magento\Checkout\Model\Session
      */
     protected $_checkoutSession;
 
     /**
-     * @var Magento_Catalog_Model_Product_Visibility
+     * @var \Magento\Catalog\Model\Product\Visibility
      */
     protected $_visibility;
 
     /**
-     * @var Magento_CatalogInventory_Model_Stock_Status
+     * @var \Magento\CatalogInventory\Model\Stock\Status
      */
     protected $_status;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Catalog_Model_Resource_Product_CollectionFactory
+     * @var \Magento\Catalog\Model\Resource\Product\CollectionFactory
      */
     protected $_productCollectionFactory;
 
     /**
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Model_Config $catalogConfig
-     * @param Magento_TargetRule_Model_Resource_Index $index
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_TargetRule_Helper_Data $targetRuleData
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Model_Product_Visibility $visibility
-     * @param Magento_CatalogInventory_Model_Stock_Status $status
-     * @param Magento_Checkout_Model_Session $session
-     * @param Magento_Catalog_Model_Product_LinkFactory $productLinkFactory
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_TargetRule_Model_IndexFactory $indexFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\TargetRule\Model\Resource\Index $index
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\TargetRule\Helper\Data $targetRuleData
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Product\Visibility $visibility
+     * @param \Magento\CatalogInventory\Model\Stock\Status $status
+     * @param \Magento\Checkout\Model\Session $session
+     * @param \Magento\Catalog\Model\Product\LinkFactory $productLinkFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\TargetRule\Model\IndexFactory $indexFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Model_Config $catalogConfig,
-        Magento_TargetRule_Model_Resource_Index $index,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_TargetRule_Helper_Data $targetRuleData,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Model_Product_Visibility $visibility,
-        Magento_CatalogInventory_Model_Stock_Status $status,
-        Magento_Checkout_Model_Session $session,
-        Magento_Catalog_Model_Product_LinkFactory $productLinkFactory,
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_TargetRule_Model_IndexFactory $indexFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\TargetRule\Model\Resource\Index $index,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\TargetRule\Helper\Data $targetRuleData,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Product\Visibility $visibility,
+        \Magento\CatalogInventory\Model\Stock\Status $status,
+        \Magento\Checkout\Model\Session $session,
+        \Magento\Catalog\Model\Product\LinkFactory $productLinkFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\TargetRule\Model\IndexFactory $indexFactory,
         array $data = array()
     )
     {
@@ -152,7 +154,7 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
      */
     public function getProductListType()
     {
-        return Magento_TargetRule_Model_Rule::CROSS_SELLS;
+        return \Magento\TargetRule\Model\Rule::CROSS_SELLS;
     }
 
     /**
@@ -168,7 +170,7 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
     /**
      * Retrieve just added to cart product object
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getLastAddedProduct()
     {
@@ -186,7 +188,7 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
     /**
      * Retrieve quote instance
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {
@@ -203,7 +205,7 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
         if (is_null($this->_products)) {
             $this->_products = array();
             foreach ($this->getQuote()->getAllItems() as $quoteItem) {
-                /* @var $quoteItem Magento_Sales_Model_Quote_Item */
+                /* @var $quoteItem \Magento\Sales\Model\Quote\Item */
                 $product = $quoteItem->getProduct();
                 $this->_products[$product->getEntityId()] = $product;
             }
@@ -234,8 +236,8 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
         $productIds = array();
         foreach ($this->getQuote()->getAllItems() as $quoteItem) {
             $productTypeOpt = $quoteItem->getOptionByCode('product_type');
-            if ($productTypeOpt instanceof Magento_Sales_Model_Quote_Item_Option
-                && $productTypeOpt->getValue() == Magento_Catalog_Model_Product_Type_Grouped::TYPE_CODE
+            if ($productTypeOpt instanceof \Magento\Sales\Model\Quote\Item\Option
+                && $productTypeOpt->getValue() == \Magento\Catalog\Model\Product\Type\Grouped::TYPE_CODE
                 && $productTypeOpt->getProductId()
             ) {
                 $productIds[] = $productTypeOpt->getProductId();
@@ -248,7 +250,7 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
     /**
      * Retrieve Target Rule Index instance
      *
-     * @return Magento_TargetRule_Model_Index
+     * @return \Magento\TargetRule\Model\Index
      */
     protected function _getTargetRuleIndex()
     {
@@ -265,7 +267,7 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
      */
     public function getPositionLimit()
     {
-        return $this->_targetRuleData->getMaximumNumberOfProduct(Magento_TargetRule_Model_Rule::CROSS_SELLS);
+        return $this->_targetRuleData->getMaximumNumberOfProduct(\Magento\TargetRule\Model\Rule::CROSS_SELLS);
     }
 
     /**
@@ -275,18 +277,18 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
      */
     public function getPositionBehavior()
     {
-        return $this->_targetRuleData->getShowProducts(Magento_TargetRule_Model_Rule::CROSS_SELLS);
+        return $this->_targetRuleData->getShowProducts(\Magento\TargetRule\Model\Rule::CROSS_SELLS);
     }
 
     /**
      * Get link collection for cross-sell
      *
-     * @throws Magento_Core_Exception
-     * @return Magento_Catalog_Model_Resource_Product_Link_Product_Collection|null
+     * @throws \Magento\Core\Exception
+     * @return \Magento\Catalog\Model\Resource\Product\Link\Product\Collection|null
      */
     protected function _getTargetLinkCollection()
     {
-        /* @var $collection Magento_Catalog_Model_Resource_Product_Link_Product_Collection */
+        /* @var $collection \Magento\Catalog\Model\Resource\Product\Link\Product\Collection */
         $collection = $this->_productLinkFactory->create()
             ->useCrossSellLinks()
             ->getProductCollection()
@@ -320,7 +322,7 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
     /**
      * Retrieve Product Ids from Cross-sell rules based products index by product object
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param int $limit
      * @param array $excludeProductIds
      * @return array
@@ -328,7 +330,7 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
     protected function _getProductIdsFromIndexByProduct($product, $count, $excludeProductIds = array())
     {
         return $this->_getTargetRuleIndex()
-            ->setType(Magento_TargetRule_Model_Rule::CROSS_SELLS)
+            ->setType(\Magento\TargetRule\Model\Rule::CROSS_SELLS)
             ->setLimit($count)
             ->setProduct($product)
             ->setExcludeProductIds($excludeProductIds)
@@ -339,11 +341,11 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
      * Retrieve Product Collection by Product Ids
      *
      * @param array $productIds
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     protected function _getProductCollectionByIds($productIds)
     {
-        /* @var $collection Magento_Catalog_Model_Resource_Product_Collection */
+        /* @var $collection \Magento\Catalog\Model\Resource\Product\Collection */
         $collection = $this->_productCollectionFactory->create();
         $collection->addFieldToFilter('entity_id', array('in' => $productIds));
         $this->_addProductAttributesAndPrices($collection);
@@ -357,7 +359,7 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
     /**
      * Retrieve Product Ids from Cross-sell rules based products index by products in shopping cart
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param int $limit
      * @param array $excludeProductIds
      * @return array

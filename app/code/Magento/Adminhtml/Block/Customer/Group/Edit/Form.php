@@ -15,34 +15,36 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Group_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\Adminhtml\Block\Customer\Group\Edit;
+
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var Magento_Backend_Model_Session
+     * @var \Magento\Backend\Model\Session
      */
     protected $_backendSession;
 
     /**
-     * @var Magento_Tax_Model_Class_Source_Customer
+     * @var \Magento\Tax\Model\TaxClass\Source\Customer
      */
     protected $_taxCustomer;
 
     /**
-     * @param Magento_Backend_Model_Session $backendSession
-     * @param Magento_Tax_Model_Class_Source_Customer $taxCustomer
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Backend\Model\Session $backendSession
+     * @param \Magento\Tax\Model\TaxClass\Source\Customer $taxCustomer
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Model_Session $backendSession,
-        Magento_Tax_Model_Class_Source_Customer $taxCustomer,
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Backend\Model\Session $backendSession,
+        \Magento\Tax\Model\TaxClass\Source\Customer $taxCustomer,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_taxCustomer = $taxCustomer;
@@ -57,7 +59,7 @@ class Magento_Adminhtml_Block_Customer_Group_Edit_Form extends Magento_Backend_B
     {
         parent::_prepareLayout();
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
 
         $customerGroup = $this->_coreRegistry->registry('current_group');
@@ -65,14 +67,14 @@ class Magento_Adminhtml_Block_Customer_Group_Edit_Form extends Magento_Backend_B
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Group Information')));
 
         $validateClass = sprintf('required-entry validate-length maximum-length-%d',
-            Magento_Customer_Model_Group::GROUP_CODE_MAX_LENGTH);
+            \Magento\Customer\Model\Group::GROUP_CODE_MAX_LENGTH);
         $name = $fieldset->addField('customer_group_code', 'text',
             array(
                 'name'  => 'code',
                 'label' => __('Group Name'),
                 'title' => __('Group Name'),
                 'note'  => __('Maximum length must be less then %1 symbols',
-                    Magento_Customer_Model_Group::GROUP_CODE_MAX_LENGTH),
+                    \Magento\Customer\Model\Group::GROUP_CODE_MAX_LENGTH),
                 'class' => $validateClass,
                 'required' => true,
             )

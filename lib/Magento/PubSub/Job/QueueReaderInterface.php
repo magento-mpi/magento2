@@ -9,12 +9,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_PubSub_Job_QueueReaderInterface
+namespace Magento\PubSub\Job;
+
+interface QueueReaderInterface
 {
     /**
      * Return the top job from the queue.
      *
-     * @return Magento_PubSub_JobInterface|null
+     * @return \Magento\PubSub\JobInterface|null
      */
     public function poll();
 }

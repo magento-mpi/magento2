@@ -15,7 +15,9 @@
  * @package     Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Checkout_Model_Cart_Interface
+namespace Magento\Checkout\Model;
+
+class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartInterface
 {
     /**
      * Shopping cart items summary quantity(s)
@@ -34,67 +36,67 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
-     * @var Magento_Checkout_Model_Resource_Cart
+     * @var \Magento\Checkout\Model\Resource\Cart
      */
     protected $_resourceCart;
 
     /**
-     * @var Magento_Checkout_Model_Session
+     * @var \Magento\Checkout\Model\Session
      */
     protected $_checkoutSession;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @var Magento_Core_Model_Message
+     * @var \Magento\Core\Model\Message
      */
     protected $_message;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Checkout_Model_Resource_Cart $resourceCart
-     * @param Magento_Checkout_Model_Session $checkoutSession
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Core_Model_Message $message
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Checkout\Model\Resource\Cart $resourceCart
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\Message $message
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Checkout_Model_Resource_Cart $resourceCart,
-        Magento_Checkout_Model_Session $checkoutSession,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Core_Model_Message $message,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Checkout\Model\Resource\Cart $resourceCart,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\Message $message,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -111,7 +113,7 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
     /**
      * Get shopping cart resource model
      *
-     * @return Magento_Checkout_Model_Resource_Cart
+     * @return \Magento\Checkout\Model\Resource\Cart
      */
     protected function _getResource()
     {
@@ -121,7 +123,7 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
     /**
      * Retrieve checkout session model
      *
-     * @return Magento_Checkout_Model_Session
+     * @return \Magento\Checkout\Model\Session
      */
     public function getCheckoutSession()
     {
@@ -131,7 +133,7 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
     /**
      * Retrieve customer session model
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function getCustomerSession()
     {
@@ -141,7 +143,7 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
     /**
      * List of shopping cart items
      *
-     * @return Magento_Eav_Model_Entity_Collection_Abstract|array
+     * @return \Magento\Eav\Model\Entity\Collection\AbstractCollection|array
      */
     public function getItems()
     {
@@ -172,7 +174,7 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
     /**
      * Get quote object associated with cart. By default it is current customer session quote
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {
@@ -185,10 +187,10 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
     /**
      * Set quote object associated with the cart
      *
-     * @param Magento_Sales_Model_Quote $quote
-     * @return Magento_Checkout_Model_Cart
+     * @param \Magento\Sales\Model\Quote $quote
+     * @return \Magento\Checkout\Model\Cart
      */
-    public function setQuote(Magento_Sales_Model_Quote $quote)
+    public function setQuote(\Magento\Sales\Model\Quote $quote)
     {
         $this->setData('quote', $quote);
         return $this;
@@ -197,13 +199,13 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
     /**
      * Initialize cart quote state to be able use it on cart page
      *
-     * @return Magento_Checkout_Model_Cart
+     * @return \Magento\Checkout\Model\Cart
      */
     public function init()
     {
         $quote = $this->getQuote()->setCheckoutMethod('');
 
-        if ($this->_checkoutSession->getCheckoutState() !== Magento_Checkout_Model_Session::CHECKOUT_STATE_BEGIN) {
+        if ($this->_checkoutSession->getCheckoutState() !== \Magento\Checkout\Model\Session::CHECKOUT_STATE_BEGIN) {
             $quote->removeAllAddresses()->removePayment();
             $this->_checkoutSession->resetCheckout();
         }
@@ -219,13 +221,13 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
     /**
      * Convert order item to quote item
      *
-     * @param Magento_Sales_Model_Order_Item $orderItem
+     * @param \Magento\Sales\Model\Order\Item $orderItem
      * @param mixed $qtyFlag if is null set product qty like in order
-     * @return Magento_Checkout_Model_Cart
+     * @return \Magento\Checkout\Model\Cart
      */
     public function addOrderItem($orderItem, $qtyFlag=null)
     {
-        /* @var $orderItem Magento_Sales_Model_Order_Item */
+        /* @var $orderItem \Magento\Sales\Model\Order\Item */
         if (is_null($orderItem->getParentItem())) {
             $product = $this->_productFactory->create()
                 ->setStoreId($this->_storeManager->getStore()->getId())
@@ -235,7 +237,7 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
             }
 
             $info = $orderItem->getProductOptionByCode('info_buyRequest');
-            $info = new Magento_Object($info);
+            $info = new \Magento\Object($info);
             if (is_null($qtyFlag)) {
                 $info->setQty($orderItem->getQtyOrdered());
             } else {
@@ -251,13 +253,13 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
      * Get product object based on requested product information
      *
      * @param   mixed $productInfo
-     * @return  Magento_Catalog_Model_Product
-     * @throws Magento_Core_Exception
+     * @return  \Magento\Catalog\Model\Product
+     * @throws \Magento\Core\Exception
      */
     protected function _getProduct($productInfo)
     {
         $product = null;
-        if ($productInfo instanceof Magento_Catalog_Model_Product) {
+        if ($productInfo instanceof \Magento\Catalog\Model\Product) {
             $product = $productInfo;
         } elseif (is_int($productInfo) || is_string($productInfo)) {
             $product = $this->_productFactory->create()
@@ -270,7 +272,7 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
             || !is_array($product->getWebsiteIds())
             || !in_array($currentWebsiteId, $product->getWebsiteIds())
         ) {
-            throw new Magento_Core_Exception(__('We can\'t find the product.'));
+            throw new \Magento\Core\Exception(__('We can\'t find the product.'));
         }
         return $product;
     }
@@ -279,16 +281,16 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
      * Get request for product add to cart procedure
      *
      * @param   mixed $requestInfo
-     * @return  Magento_Object
+     * @return  \Magento\Object
      */
     protected function _getProductRequest($requestInfo)
     {
-        if ($requestInfo instanceof Magento_Object) {
+        if ($requestInfo instanceof \Magento\Object) {
             $request = $requestInfo;
         } elseif (is_numeric($requestInfo)) {
-            $request = new Magento_Object(array('qty' => $requestInfo));
+            $request = new \Magento\Object(array('qty' => $requestInfo));
         } else {
-            $request = new Magento_Object($requestInfo);
+            $request = new \Magento\Object($requestInfo);
         }
 
         if (!$request->hasQty()) {
@@ -301,10 +303,10 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
     /**
      * Add product to shopping cart (quote)
      *
-     * @param int|Magento_Catalog_Model_Product $productInfo
+     * @param int|\Magento\Catalog\Model\Product $productInfo
      * @param mixed $requestInfo
-     * @return Magento_Checkout_Model_Cart
-     * @throws Magento_Core_Exception
+     * @return \Magento\Checkout\Model\Cart
+     * @throws \Magento\Core\Exception
      */
     public function addProduct($productInfo, $requestInfo=null)
     {
@@ -326,7 +328,7 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
         if ($productId) {
             try {
                 $result = $this->getQuote()->addProduct($product, $request);
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_checkoutSession->setUseNotice(false);
                 $result = $e->getMessage();
             }
@@ -344,10 +346,10 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
                 if ($this->_checkoutSession->getUseNotice() === null) {
                     $this->_checkoutSession->setUseNotice(true);
                 }
-                throw new Magento_Core_Exception($result);
+                throw new \Magento\Core\Exception($result);
             }
         } else {
-            throw new Magento_Core_Exception(__('The product does not exist.'));
+            throw new \Magento\Core\Exception(__('The product does not exist.'));
         }
 
         $this->_eventManager->dispatch('checkout_cart_product_add_after', array(
@@ -362,7 +364,7 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
      * Adding products to cart by ids
      *
      * @param   array $productIds
-     * @return  Magento_Checkout_Model_Cart
+     * @return  \Magento\Checkout\Model\Cart
      */
     public function addProductsByIds($productIds)
     {
@@ -379,7 +381,7 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
                 if ($product->getId() && $product->isVisibleInCatalog()) {
                     try {
                         $this->getQuote()->addProduct($product);
-                    } catch (Exception $e){
+                    } catch (\Exception $e){
                         $allAdded = false;
                     }
                 } else {
@@ -432,7 +434,7 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
                 continue;
             }
 
-            /* @var $stockItem Magento_CatalogInventory_Model_Stock_Item */
+            /* @var $stockItem \Magento\CatalogInventory\Model\Stock\Item */
             $stockItem = $product->getStockItem();
             if (!$stockItem) {
                 continue;
@@ -449,8 +451,8 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
      * Update cart items information
      *
      * @param   array $data
-     * @return  Magento_Checkout_Model_Cart
-     * @throws Magento_Core_Exception
+     * @return  \Magento\Checkout\Model\Cart
+     * @throws \Magento\Core\Exception
      */
     public function updateItems($data)
     {
@@ -476,7 +478,7 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
                 $itemInQuote = $this->getQuote()->getItemById($item->getId());
 
                 if (!$itemInQuote && $item->getHasError()) {
-                    throw new Magento_Core_Exception($item->getMessage());
+                    throw new \Magento\Core\Exception($item->getMessage());
                 }
 
                 if (isset($itemInfo['before_suggest_qty']) && ($itemInfo['before_suggest_qty'] != $qty)) {
@@ -501,7 +503,7 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
      * Remove item from cart
      *
      * @param   int $itemId
-     * @return  Magento_Checkout_Model_Cart
+     * @return  \Magento\Checkout\Model\Cart
      */
     public function removeItem($itemId)
     {
@@ -512,7 +514,7 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
     /**
      * Save cart
      *
-     * @return Magento_Checkout_Model_Cart
+     * @return \Magento\Checkout\Model\Cart
      */
     public function save()
     {
@@ -541,7 +543,7 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
     /**
      * Mark all quote items as deleted (empty shopping cart)
      *
-     * @return Magento_Checkout_Model_Cart
+     * @return \Magento\Checkout\Model\Cart
      */
     public function truncate()
     {
@@ -615,23 +617,23 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
 
     /**
      * Update item in shopping cart (quote)
-     * $requestInfo - either qty (int) or buyRequest in form of array or Magento_Object
+     * $requestInfo - either qty (int) or buyRequest in form of array or \Magento\Object
      * $updatingParams - information on how to perform update, passed to Quote->updateItem() method
      *
-     * @see Magento_Sales_Model_Quote::updateItem()
+     * @see \Magento\Sales\Model\Quote::updateItem()
      *
      * @param int $itemId
-     * @param int|array|Magento_Object $requestInfo
-     * @param null|array|Magento_Object $updatingParams
-     * @return Magento_Sales_Model_Quote_Item|string
-     * @throws Magento_Core_Exception
+     * @param int|array|\Magento\Object $requestInfo
+     * @param null|array|\Magento\Object $updatingParams
+     * @return \Magento\Sales\Model\Quote\Item|string
+     * @throws \Magento\Core\Exception
      */
     public function updateItem($itemId, $requestInfo = null, $updatingParams = null)
     {
         try {
             $item = $this->getQuote()->getItemById($itemId);
             if (!$item) {
-                throw new Magento_Core_Exception(__('This quote item does not exist.'));
+                throw new \Magento\Core\Exception(__('This quote item does not exist.'));
             }
             $productId = $item->getProduct()->getId();
             $product = $this->_getProduct($productId);
@@ -649,7 +651,7 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
             }
 
             $result = $this->getQuote()->updateItem($itemId, $request, $updatingParams);
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_checkoutSession->setUseNotice(false);
             $result = $e->getMessage();
         }
@@ -661,7 +663,7 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
             if ($this->_checkoutSession->getUseNotice() === null) {
                 $this->_checkoutSession->setUseNotice(true);
             }
-            throw new Magento_Core_Exception($result);
+            throw new \Magento\Core\Exception($result);
         }
 
         $this->_eventManager->dispatch('checkout_cart_product_update_after', array(

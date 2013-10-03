@@ -8,13 +8,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Acl_LoaderInterface
+namespace Magento\Acl;
+
+interface LoaderInterface
 {
     /**
      * Populate ACL with data from external storage
      *
      * @abstract
-     * @param Magento_Acl $acl
+     * @param \Magento\Acl $acl
      */
-    public function populateAcl(Magento_Acl $acl);
+    public function populateAcl(\Magento\Acl $acl);
 }

@@ -8,11 +8,13 @@
  * @license     {license_link}
  */
 
-class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_Country
-    extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Attribute\Type;
+
+class Country
+    extends \Magento\Adminhtml\Block\Widget\Form
 {
     /**
-     * @var Magento_Backend_Model_Config_Source_Yesno
+     * @var \Magento\Backend\Model\Config\Source\Yesno
      */
     protected $sourceYesNo;
 
@@ -24,15 +26,15 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_Coun
     protected $_template = 'edit/type/country.phtml';
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Backend_Model_Config_Source_Yesno $sourceYesNo
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Model\Config\Source\Yesno $sourceYesNo
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Backend_Model_Config_Source_Yesno $sourceYesNo,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Model\Config\Source\Yesno $sourceYesNo,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);
@@ -46,7 +48,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_Coun
      */
     public function getRegionShowSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Html\Select')
             ->setData(array(
                 'id'    => '{{prefix}}_attribute_{{id}}_show_region',
                 'class' => 'select global-scope'

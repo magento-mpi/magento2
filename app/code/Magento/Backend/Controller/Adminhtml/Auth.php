@@ -11,7 +11,9 @@
 /**
  * Auth backend controller
  */
-class Magento_Backend_Controller_Adminhtml_Auth extends Magento_Backend_Controller_ActionAbstract
+namespace Magento\Backend\Controller\Adminhtml;
+
+class Auth extends \Magento\Backend\Controller\AbstractAction
 {
     /**
      * Administrator login action
@@ -36,7 +38,7 @@ class Magento_Backend_Controller_Adminhtml_Auth extends Magento_Backend_Controll
     {
         $this->_auth->logout();
         $this->_auth->getAuthStorage()->addSuccess(__('You have logged out.'));
-        $this->getResponse()->setRedirect($this->_objectManager->get('Magento_Backend_Helper_Data')->getHomePageUrl());
+        $this->getResponse()->setRedirect($this->_objectManager->get('Magento\Backend\Helper\Data')->getHomePageUrl());
     }
 
     /**
@@ -54,9 +56,9 @@ class Magento_Backend_Controller_Adminhtml_Auth extends Magento_Backend_Controll
      */
     protected function _getDeniedJson()
     {
-        return $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(array(
+        return $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array(
             'ajaxExpired' => 1,
-            'ajaxRedirect' => $this->_objectManager->get('Magento_Backend_Helper_Data')->getHomePageUrl()
+            'ajaxRedirect' => $this->_objectManager->get('Magento\Backend\Helper\Data')->getHomePageUrl()
         ));
     }
 
@@ -75,7 +77,7 @@ class Magento_Backend_Controller_Adminhtml_Auth extends Magento_Backend_Controll
     protected function _getDeniedIframe()
     {
         return '<script type="text/javascript">parent.window.location = \''
-            . $this->_objectManager->get('Magento_Backend_Helper_Data')->getHomePageUrl() . '\';</script>';
+            . $this->_objectManager->get('Magento\Backend\Helper\Data')->getHomePageUrl() . '\';</script>';
     }
 
     /**

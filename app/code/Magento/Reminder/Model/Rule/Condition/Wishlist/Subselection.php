@@ -11,30 +11,32 @@
 /**
  * Wishlist subselection condition
  */
-class Magento_Reminder_Model_Rule_Condition_Wishlist_Subselection
-    extends Magento_Reminder_Model_Condition_Combine_Abstract
+namespace Magento\Reminder\Model\Rule\Condition\Wishlist;
+
+class Subselection
+    extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
 {
     /**
      * Subcombine Factory
      *
-     * @var Magento_Reminder_Model_Rule_Condition_Wishlist_SubcombineFactory
+     * @var \Magento\Reminder\Model\Rule\Condition\Wishlist\SubcombineFactory
      */
     protected $_subcombineFactory;
 
     /**
-     * @param Magento_Rule_Model_Condition_Context $context
-     * @param Magento_Reminder_Model_Resource_Rule $ruleResource
-     * @param Magento_Reminder_Model_Rule_Condition_Wishlist_SubcombineFactory $subcombineFactory
+     * @param \Magento\Rule\Model\Condition\Context $context
+     * @param \Magento\Reminder\Model\Resource\Rule $ruleResource
+     * @param \Magento\Reminder\Model\Rule\Condition\Wishlist\SubcombineFactory $subcombineFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Rule_Model_Condition_Context $context,
-        Magento_Reminder_Model_Resource_Rule $ruleResource,
-        Magento_Reminder_Model_Rule_Condition_Wishlist_SubcombineFactory $subcombineFactory,
+        \Magento\Rule\Model\Condition\Context $context,
+        \Magento\Reminder\Model\Resource\Rule $ruleResource,
+        \Magento\Reminder\Model\Rule\Condition\Wishlist\SubcombineFactory $subcombineFactory,
         array $data = array()
     ) {
         parent::__construct($context, $ruleResource, $data);
-        $this->setType('Magento_Reminder_Model_Rule_Condition_Wishlist_Subselection');
+        $this->setType('Magento\Reminder\Model\Rule\Condition\Wishlist\Subselection');
         $this->_subcombineFactory = $subcombineFactory;
     }
 
@@ -61,7 +63,7 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Subselection
     /**
      * Prepare operator select options
      *
-     * @return Magento_Reminder_Model_Rule_Condition_Wishlist_Subselection
+     * @return \Magento\Reminder\Model\Rule\Condition\Wishlist\Subselection
      */
     public function loadOperatorOptions()
     {
@@ -90,7 +92,7 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Subselection
      *
      * @param $customer
      * @param int|Zend_Db_Expr $website
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     protected function _prepareConditionsSql($customer, $website)
     {
@@ -98,7 +100,7 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Subselection
         $wishlistItemTable = $this->getResource()->getTable('wishlist_item');
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('item' => $wishlistItemTable), array(new Zend_Db_Expr(1)));
+        $select->from(array('item' => $wishlistItemTable), array(new \Zend_Db_Expr(1)));
 
         $select->joinInner(
             array('list' => $wishlistTable),

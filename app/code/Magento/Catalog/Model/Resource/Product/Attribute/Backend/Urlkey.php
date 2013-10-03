@@ -16,25 +16,27 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Product_Attribute_Backend_Urlkey
-    extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
+namespace Magento\Catalog\Model\Resource\Product\Attribute\Backend;
+
+class Urlkey
+    extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
      * Catalog url
      *
-     * @var Magento_Catalog_Model_Url
+     * @var \Magento\Catalog\Model\Url
      */
     protected $_catalogUrl;
 
     /**
      * Construct
      *
-     * @param Magento_Catalog_Model_Url $catalogUrl
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Catalog\Model\Url $catalogUrl
+     * @param \Magento\Core\Model\Logger $logger
      */
     public function __construct(
-        Magento_Catalog_Model_Url $catalogUrl,
-        Magento_Core_Model_Logger $logger
+        \Magento\Catalog\Model\Url $catalogUrl,
+        \Magento\Core\Model\Logger $logger
     ) {
         $this->_catalogUrl = $catalogUrl;
         parent::__construct($logger);
@@ -43,8 +45,8 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Backend_Urlkey
     /**
      * Before save
      *
-     * @param Magento_Object $object
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Backend_Urlkey
+     * @param \Magento\Object $object
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Urlkey
      */
     public function beforeSave($object)
     {
@@ -63,8 +65,8 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Backend_Urlkey
     /**
      * Refresh product rewrites
      *
-     * @param Magento_Object $object
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Backend_Urlkey
+     * @param \Magento\Object $object
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Urlkey
      */
     public function afterSave($object)
     {

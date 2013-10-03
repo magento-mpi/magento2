@@ -13,41 +13,43 @@
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Magento_Catalog_Helper_Product_Configuration extends Magento_Core_Helper_Abstract
-    implements Magento_Catalog_Helper_Product_Configuration_Interface
+namespace Magento\Catalog\Helper\Product;
+
+class Configuration extends \Magento\Core\Helper\AbstractHelper
+    implements \Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface
 {
     /**
-     * @var Magento_Catalog_Model_ProductTypes_ConfigInterface
+     * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
      */
     protected $_config;
 
     /**
      * Core string
      *
-     * @var Magento_Core_Helper_String
+     * @var \Magento\Core\Helper\String
      */
     protected $_coreString = null;
 
     /**
      * Product option factory
      *
-     * @var Magento_Catalog_Model_Product_OptionFactory
+     * @var \Magento\Catalog\Model\Product\OptionFactory
      */
     protected $_productOptionFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Catalog_Model_Product_OptionFactory $productOptionFactory
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Catalog_Model_ProductTypes_ConfigInterface $config
+     * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $config
      */
     public function __construct(
-        Magento_Catalog_Model_Product_OptionFactory $productOptionFactory,
-        Magento_Core_Helper_String $coreString,
-        Magento_Core_Helper_Context $context,
-        Magento_Catalog_Model_ProductTypes_ConfigInterface $config
+        \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Catalog\Model\ProductTypes\ConfigInterface $config
     ) {
         $this->_productOptionFactory = $productOptionFactory;
         $this->_coreString = $coreString;
@@ -58,10 +60,10 @@ class Magento_Catalog_Helper_Product_Configuration extends Magento_Core_Helper_A
     /**
      * Retrieves product configuration options
      *
-     * @param Magento_Catalog_Model_Product_Configuration_Item_Interface $item
+     * @param \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item
      * @return array
      */
-    public function getCustomOptions(Magento_Catalog_Model_Product_Configuration_Item_Interface $item)
+    public function getCustomOptions(\Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item)
     {
         $product = $item->getProduct();
         $options = array();
@@ -114,16 +116,16 @@ class Magento_Catalog_Helper_Product_Configuration extends Magento_Core_Helper_A
     /**
      * Retrieves configuration options for configurable product
      *
-     * @param Magento_Catalog_Model_Product_Configuration_Item_Interface $item
+     * @param \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item
      * @return array
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
-    public function getConfigurableOptions(Magento_Catalog_Model_Product_Configuration_Item_Interface $item)
+    public function getConfigurableOptions(\Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item)
     {
         $product = $item->getProduct();
         $typeId = $product->getTypeId();
-        if ($typeId != Magento_Catalog_Model_Product_Type_Configurable::TYPE_CODE) {
-             throw new Magento_Core_Exception(__('The product type to extract configurable options is incorrect.'));
+        if ($typeId != \Magento\Catalog\Model\Product\Type\Configurable::TYPE_CODE) {
+             throw new \Magento\Core\Exception(__('The product type to extract configurable options is incorrect.'));
         }
         $attributes = $product->getTypeInstance()
             ->getSelectedAttributesInfo($product);
@@ -133,21 +135,21 @@ class Magento_Catalog_Helper_Product_Configuration extends Magento_Core_Helper_A
     /**
      * Retrieves configuration options for grouped product
      *
-     * @param Magento_Catalog_Model_Product_Configuration_Item_Interface $item
+     * @param \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item
      * @return array
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
-    public function getGroupedOptions(Magento_Catalog_Model_Product_Configuration_Item_Interface $item)
+    public function getGroupedOptions(\Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item)
     {
         $product = $item->getProduct();
         $typeId = $product->getTypeId();
-        if ($typeId != Magento_Catalog_Model_Product_Type_Grouped::TYPE_CODE) {
-             throw new Magento_Core_Exception(__('The product type to extract configurable options is incorrect.'));
+        if ($typeId != \Magento\Catalog\Model\Product\Type\Grouped::TYPE_CODE) {
+             throw new \Magento\Core\Exception(__('The product type to extract configurable options is incorrect.'));
         }
 
         $options = array();
         /**
-         * @var Magento_Catalog_Model_Product_Type_Grouped
+         * @var \Magento\Catalog\Model\Product\Type\Grouped
          */
         $typeInstance = $product->getTypeInstance();
         $associatedProducts = $typeInstance->getAssociatedProducts($product);
@@ -178,17 +180,17 @@ class Magento_Catalog_Helper_Product_Configuration extends Magento_Core_Helper_A
     /**
      * Retrieves product options list
      *
-     * @param Magento_Catalog_Model_Product_Configuration_Item_Interface $item
+     * @param \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item
      * @return array
      */
-    public function getOptions(Magento_Catalog_Model_Product_Configuration_Item_Interface $item)
+    public function getOptions(\Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item)
     {
         $typeId = $item->getProduct()->getTypeId();
         switch ($typeId) {
-            case Magento_Catalog_Model_Product_Type_Configurable::TYPE_CODE:
+            case \Magento\Catalog\Model\Product\Type\Configurable::TYPE_CODE:
                 return $this->getConfigurableOptions($item);
                 break;
-            case Magento_Catalog_Model_Product_Type_Grouped::TYPE_CODE:
+            case \Magento\Catalog\Model\Product\Type\Grouped::TYPE_CODE:
                 return $this->getGroupedOptions($item);
                 break;
         }
@@ -250,7 +252,7 @@ class Magento_Catalog_Helper_Product_Configuration extends Magento_Core_Helper_A
                 try {
                     $group = $this->_productOptionFactory->create()->groupFactory($optionInfo['option_type']);
                     return array('value' => $group->getCustomizedView($optionInfo));
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     return $_default;
                 }
             }
@@ -286,7 +288,7 @@ class Magento_Catalog_Helper_Product_Configuration extends Magento_Core_Helper_A
     /**
      * Get allowed product types for configurable product
      *
-     * @return SimpleXMLElement
+     * @return \SimpleXMLElement
      */
     public function getConfigurableAllowedTypes()
     {

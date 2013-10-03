@@ -16,7 +16,9 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Model_Resource_Price_Index extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Bundle\Model\Resource\Price;
+
+class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * EAV attributes cache
@@ -42,54 +44,54 @@ class Magento_Bundle_Model_Resource_Price_Index extends Magento_Core_Model_Resou
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @var Magento_Catalog_Model_Config
+     * @var \Magento\Catalog\Model\Config
      */
     protected $_config;
 
     /**
-     * @var Magento_Customer_Model_GroupFactory
+     * @var \Magento\Customer\Model\GroupFactory
      */
     protected $_customerGroup;
 
     /**
-     * @var Magento_CatalogRule_Model_Resource_RuleFactory
+     * @var \Magento\CatalogRule\Model\Resource\RuleFactory
      */
     protected $_catalogRuleFactory;
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Class constructor
      *
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_CatalogRule_Model_Resource_RuleFactory $catalogRuleFactory
-     * @param Magento_Customer_Model_GroupFactory $customerGroup
-     * @param Magento_Catalog_Model_Config $config
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\CatalogRule\Model\Resource\RuleFactory $catalogRuleFactory
+     * @param \Magento\Customer\Model\GroupFactory $customerGroup
+     * @param \Magento\Catalog\Model\Config $config
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_CatalogRule_Model_Resource_RuleFactory $catalogRuleFactory,
-        Magento_Customer_Model_GroupFactory $customerGroup,
-        Magento_Catalog_Model_Config $config,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Resource $resource
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\CatalogRule\Model\Resource\RuleFactory $catalogRuleFactory,
+        \Magento\Customer\Model\GroupFactory $customerGroup,
+        \Magento\Catalog\Model\Config $config,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Resource $resource
     ) {
         $this->_eventManager = $eventManager;
         parent::__construct($resource);
@@ -113,13 +115,13 @@ class Magento_Bundle_Model_Resource_Price_Index extends Magento_Core_Model_Resou
      * Retrieve attribute object
      *
      * @param string $attributeCode
-     * @return Magento_Catalog_Model_Resource_Eav_Attribute
+     * @return \Magento\Catalog\Model\Resource\Eav\Attribute
      */
     protected function _getAttribute($attributeCode)
     {
         if (!isset($this->_attributes[$attributeCode])) {
             $this->_attributes[$attributeCode] = $this->_config
-                ->getAttribute(Magento_Catalog_Model_Product::ENTITY, $attributeCode);
+                ->getAttribute(\Magento\Catalog\Model\Product::ENTITY, $attributeCode);
         }
         return $this->_attributes[$attributeCode];
     }
@@ -156,7 +158,7 @@ class Magento_Bundle_Model_Resource_Price_Index extends Magento_Core_Model_Resou
     /**
      * Retrieve product ids array by product condition
      *
-     * @param Magento_Catalog_Model_Product|Magento_Catalog_Model_Product_Condition_Interface|array|int $product
+     * @param \Magento\Catalog\Model\Product|\Magento\Catalog\Model\Product\Condition\ConditionInterface|array|int $product
      * @param int $lastEntityId
      * @param int $limit
      * @return array
@@ -169,11 +171,11 @@ class Magento_Bundle_Model_Resource_Price_Index extends Magento_Core_Model_Resou
                 array('e' => $this->getTable('catalog_product_entity')),
                 array('entity_id')
             )
-            ->where('e.type_id=?', Magento_Catalog_Model_Product_Type::TYPE_BUNDLE);
-        if ($product instanceof Magento_Catalog_Model_Product) {
+            ->where('e.type_id=?', \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE);
+        if ($product instanceof \Magento\Catalog\Model\Product) {
             $select->where('e.entity_id=?', $product->getId());
-        } elseif ($product instanceof Magento_Catalog_Model_Product_Condition_Interface) {
-            $value = new Zend_Db_Expr($product->getIdsSelect($this->_getReadAdapter()));
+        } elseif ($product instanceof \Magento\Catalog\Model\Product\Condition\ConditionInterface) {
+            $value = new \Zend_Db_Expr($product->getIdsSelect($this->_getReadAdapter()));
             $select->where('e.entity_id IN(?)', $value);
         } elseif (is_numeric($product) || is_array($product)) {
             $select->where('e.entity_id IN(?)', $product);
@@ -206,8 +208,8 @@ class Magento_Bundle_Model_Resource_Price_Index extends Magento_Core_Model_Resou
     /**
      * Reindex Bundle product Price Index
      *
-     * @param Magento_Catalog_Model_Product|Magento_Catalog_Model_Product_Condition_Interface|array|int $products
-     * @return Magento_Bundle_Model_Resource_Price_Index
+     * @param \Magento\Catalog\Model\Product|\Magento\Catalog\Model\Product\Condition\ConditionInterface|array|int $products
+     * @return \Magento\Bundle\Model\Resource\Price\Index
      */
     public function reindex($products = null)
     {
@@ -232,7 +234,7 @@ class Magento_Bundle_Model_Resource_Price_Index extends Magento_Core_Model_Resou
      *
      * @param int $productId
      * @param int $priceType
-     * @return Magento_Bundle_Model_Resource_Price_Index
+     * @return \Magento\Bundle\Model\Resource\Price\Index
      */
     protected function _reindexProduct($productId, $priceType)
     {
@@ -254,13 +256,13 @@ class Magento_Bundle_Model_Resource_Price_Index extends Magento_Core_Model_Resou
             $priceData = $this->getProductsPriceData($productId, $website);
             $priceData = $priceData[$productId];
 
-            /* @var $website Magento_Core_Model_Website */
+            /* @var $website \Magento\Core\Model\Website */
             foreach ($this->_getCustomerGroups() as $group) {
-                /* @var $group Magento_Customer_Model_Group */
-                if ($priceType == Magento_Bundle_Model_Product_Price::PRICE_TYPE_FIXED) {
+                /* @var $group \Magento\Customer\Model\Group */
+                if ($priceType == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_FIXED) {
                     $basePrice     = $this->_getBasePrice($productId, $priceData, $website, $group);
                     $customOptions = $this->getCustomOptions($productId, $website);
-                } elseif ($priceType == Magento_Bundle_Model_Product_Price::PRICE_TYPE_DYNAMIC) {
+                } elseif ($priceType == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_DYNAMIC) {
                     $basePrice = 0;
                 }
 
@@ -268,7 +270,7 @@ class Magento_Bundle_Model_Resource_Price_Index extends Magento_Core_Model_Resou
                     $productId, $priceType, $basePrice, $priceData, $priceIndex, $website, $group
                 );
 
-                if ($priceType == Magento_Bundle_Model_Product_Price::PRICE_TYPE_FIXED) {
+                if ($priceType == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_FIXED) {
                     list($minPrice, $maxPrice) =
                         $this->_calculateCustomOptions($customOptions, $basePrice, $minPrice, $maxPrice);
                 }
@@ -288,7 +290,7 @@ class Magento_Bundle_Model_Resource_Price_Index extends Magento_Core_Model_Resou
      * @param int $groupId
      * @param float $minPrice
      * @param float $maxPrice
-     * @return Magento_Bundle_Model_Resource_Price_Index
+     * @return \Magento\Bundle\Model\Resource\Price\Index
      */
     protected function _savePriceIndex($productId, $websiteId, $groupId, $minPrice, $maxPrice)
     {
@@ -356,10 +358,10 @@ class Magento_Bundle_Model_Resource_Price_Index extends Magento_Core_Model_Resou
      * Retrieve salable product statuses
      *
      * @param int|array $products
-     * @param Magento_Core_Model_Website $website
+     * @param \Magento\Core\Model\Website $website
      * @return array
      */
-    public function getProductsSalableStatus($products, Magento_Core_Model_Website $website)
+    public function getProductsSalableStatus($products, \Magento\Core\Model\Website $website)
     {
         $read = $this->_getReadAdapter();
         $productsData = array();
@@ -438,10 +440,10 @@ class Magento_Bundle_Model_Resource_Price_Index extends Magento_Core_Model_Resou
      * Retrieve product(s) price data
      *
      * @param int|array $products
-     * @param Magento_Core_Model_Website $website
+     * @param \Magento\Core\Model\Website $website
      * @return array
      */
-    public function getProductsPriceData($products, Magento_Core_Model_Website $website)
+    public function getProductsPriceData($products, \Magento\Core\Model\Website $website)
     {
         $productsData = array();
         $read = $this->_getReadAdapter();
@@ -470,13 +472,13 @@ class Magento_Bundle_Model_Resource_Price_Index extends Magento_Core_Model_Resou
     /**
      * Add attribute data to select
      *
-     * @param Magento_DB_Select $select
+     * @param \Magento\DB\Select $select
      * @param string $attributeCode
-     * @param Magento_Core_Model_Website $website
-     * @return Magento_Bundle_Model_Resource_Price_Index
+     * @param \Magento\Core\Model\Website $website
+     * @return \Magento\Bundle\Model\Resource\Price\Index
      */
-    protected function _addAttributeDataToSelect(Magento_DB_Select $select, $attributeCode,
-        Magento_Core_Model_Website $website)
+    protected function _addAttributeDataToSelect(\Magento\DB\Select $select, $attributeCode,
+        \Magento\Core\Model\Website $website)
     {
         $attribute  = $this->_getAttribute($attributeCode);
         $store      = $website->getDefaultStore();
@@ -522,8 +524,8 @@ class Magento_Bundle_Model_Resource_Price_Index extends Magento_Core_Model_Resou
      *
      * @param int $productId
      * @param array $priceData
-     * @param Magento_Core_Model_Website $website
-     * @param Magento_Customer_Model_Group $customerGroup
+     * @param \Magento\Core\Model\Website $website
+     * @param \Magento\Customer\Model\Group $customerGroup
      * @return float
      */
     protected function _getBasePrice($productId, array $priceData, $website, $customerGroup)
@@ -546,10 +548,10 @@ class Magento_Bundle_Model_Resource_Price_Index extends Magento_Core_Model_Resou
      * Retrieve custom options for product
      *
      * @param int $productId
-     * @param Magento_Core_Model_Website $website
+     * @param \Magento\Core\Model\Website $website
      * @return array
      */
-    public function getCustomOptions($productId, Magento_Core_Model_Website $website)
+    public function getCustomOptions($productId, \Magento\Core\Model\Website $website)
     {
         $options = array();
         $store   = $website->getDefaultStore();
@@ -710,9 +712,9 @@ class Magento_Bundle_Model_Resource_Price_Index extends Magento_Core_Model_Resou
                 $minPrice += min($optionPrices);
             }
             $multiTypes = array(
-                Magento_Catalog_Model_Product_Option::OPTION_TYPE_DROP_DOWN,
-                Magento_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX,
-                Magento_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE
+                \Magento\Catalog\Model\Product\Option::OPTION_TYPE_DROP_DOWN,
+                \Magento\Catalog\Model\Product\Option::OPTION_TYPE_CHECKBOX,
+                \Magento\Catalog\Model\Product\Option::OPTION_TYPE_MULTIPLE
             );
             if ($optionPrices) {
                 if (in_array($option['type'], $multiTypes)) {
@@ -737,8 +739,8 @@ class Magento_Bundle_Model_Resource_Price_Index extends Magento_Core_Model_Resou
      * @param float $basePrice
      * @param array $priceData
      * @param array $priceIndex
-     * @param Magento_Core_Model_Website $website
-     * @param Magento_Customer_Model_Group $group
+     * @param \Magento\Core\Model\Website $website
+     * @param \Magento\Customer\Model\Group $group
      * @return array
      */
     public function _calculateBundleSelections(array $options, array $salableStatus, $productId, $priceType, $basePrice,
@@ -758,12 +760,12 @@ class Magento_Bundle_Model_Resource_Price_Index extends Magento_Core_Model_Resou
                     continue;
                 }
 
-                if ($priceType == Magento_Bundle_Model_Product_Price::PRICE_TYPE_FIXED) {
+                if ($priceType == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_FIXED) {
                     $basePrice = $this->_getBasePrice($productId, $priceData, $website, $group);
                 }
 
                 // calculate selection price
-                if ($priceType == Magento_Bundle_Model_Product_Price::PRICE_TYPE_DYNAMIC) {
+                if ($priceType == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_DYNAMIC) {
                     $priceIndexKey = join('-', array(
                         $selection['product_id'],
                         $website->getId(),
@@ -817,10 +819,10 @@ class Magento_Bundle_Model_Resource_Price_Index extends Magento_Core_Model_Resou
      *
      * @param float $finalPrice
      * @param array $priceData
-     * @param Magento_Core_Model_Website $website
+     * @param \Magento\Core\Model\Website $website
      * @return float
      */
-    public function _calculateSpecialPrice($finalPrice, array $priceData, Magento_Core_Model_Website $website)
+    public function _calculateSpecialPrice($finalPrice, array $priceData, \Magento\Core\Model\Website $website)
     {
         $store              = $website->getDefaultStore();
         $specialPrice       = $priceData['special_price'];

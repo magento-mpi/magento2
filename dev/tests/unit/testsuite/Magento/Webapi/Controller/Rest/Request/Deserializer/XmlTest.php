@@ -5,27 +5,29 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Rest_Request_Deserializer_XmlTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Controller\Rest\Request\Deserializer;
+
+class XmlTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_xmlParserMock;
 
-    /** @var Magento_Webapi_Controller_Rest_Request_Deserializer_Xml */
+    /** @var \Magento\Webapi\Controller\Rest\Request\Deserializer\Xml */
     protected $_xmlDeserializer;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_appMock;
 
     protected function setUp()
     {
         /** Prepare mocks for SUT constructor. */
-        $this->_xmlParserMock = $this->getMock('Magento_Xml_Parser', array('xmlToArray', 'loadXML'));
-        $this->_appMock = $this->getMockBuilder('Magento_Core_Model_App')
+        $this->_xmlParserMock = $this->getMock('Magento\Xml\Parser', array('xmlToArray', 'loadXML'));
+        $this->_appMock = $this->getMockBuilder('Magento\Core\Model\App')
             ->setMethods(array('isDeveloperMode'))
             ->disableOriginalConstructor()
             ->getMock();
         /** Initialize SUT. */
-        $this->_xmlDeserializer = new Magento_Webapi_Controller_Rest_Request_Deserializer_Xml(
+        $this->_xmlDeserializer = new \Magento\Webapi\Controller\Rest\Request\Deserializer\Xml(
             $this->_xmlParserMock,
             $this->_appMock
         );
@@ -101,11 +103,11 @@ class Magento_Webapi_Controller_Rest_Request_Deserializer_XmlTest extends PHPUni
         try {
             $this->_xmlDeserializer->deserialize($invalidXml);
             $this->fail("Exception is expected to be raised");
-        } catch (Magento_Webapi_Exception $e) {
+        } catch (\Magento\Webapi\Exception $e) {
             $exceptionMessage = 'Decoding Error: End tag for "key1" was omitted.';
-            $this->assertInstanceOf('Magento_Webapi_Exception', $e, 'Exception type is invalid');
+            $this->assertInstanceOf('Magento\Webapi\Exception', $e, 'Exception type is invalid');
             $this->assertEquals($exceptionMessage, $e->getMessage(), 'Exception message is invalid');
-            $this->assertEquals(Magento_Webapi_Exception::HTTP_BAD_REQUEST, $e->getHttpCode(), 'HTTP code is invalid');
+            $this->assertEquals(\Magento\Webapi\Exception::HTTP_BAD_REQUEST, $e->getHttpCode(), 'HTTP code is invalid');
         }
     }
 
@@ -123,10 +125,10 @@ class Magento_Webapi_Controller_Rest_Request_Deserializer_XmlTest extends PHPUni
         try {
             $this->_xmlDeserializer->deserialize($invalidXml);
             $this->fail("Exception is expected to be raised");
-        } catch (Magento_Webapi_Exception $e) {
-            $this->assertInstanceOf('Magento_Webapi_Exception', $e, 'Exception type is invalid');
+        } catch (\Magento\Webapi\Exception $e) {
+            $this->assertInstanceOf('Magento\Webapi\Exception', $e, 'Exception type is invalid');
             $this->assertEquals('Decoding error.', $e->getMessage(), 'Exception message is invalid');
-            $this->assertEquals(Magento_Webapi_Exception::HTTP_BAD_REQUEST, $e->getHttpCode(), 'HTTP code is invalid');
+            $this->assertEquals(\Magento\Webapi\Exception::HTTP_BAD_REQUEST, $e->getHttpCode(), 'HTTP code is invalid');
         }
     }
 }

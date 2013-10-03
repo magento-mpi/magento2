@@ -35,15 +35,15 @@
         <?php if ($_item->getParentItem()) continue; ?>
         <tbody>
             <?php echo $this->getItemHtml($_item) ?>
-            <?php if ($this->helper('Magento_GiftMessage_Helper_Message')->getIsMessagesAvailable('order_item', $_item) && $_item->getGiftMessageId()): ?>
+            <?php if ($this->helper('Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable('order_item', $_item) && $_item->getGiftMessageId()): ?>
             <tr class="border<?php echo ($_index++ > $_count ?' last':'') ?>" id="order-item-gift-message-<?php echo $_item->getId() ?>" role="region" aria-expanded="false" tabindex="-1" style="display:none;">
-                <?php $_giftMessage = $this->helper('Magento_GiftMessage_Helper_Message')->getGiftMessageForEntity($_item); ?>
+                <?php $_giftMessage = $this->helper('Magento\GiftMessage\Helper\Message')->getGiftMessageForEntity($_item); ?>
                 <td class="gift-message-row" colspan="7">
                     <a href="#" title="<?php echo __('Close') ?>" aria-controls="order-item-gift-message-<?php echo $_item->getId()?>" data-item-id="<?php echo $_item->getId()?>" class="btn-close"><?php echo __('Close') ?></a>
                     <dl class="gift-message">
                         <dt><strong><?php echo __('From:') ?></strong> <?php echo $this->escapeHtml($_giftMessage->getSender()) ?></dt>
                         <dt><strong><?php echo __('To:') ?></strong> <?php echo $this->escapeHtml($_giftMessage->getRecipient()) ?></dt>
-                        <dd><?php echo $this->helper('Magento_GiftMessage_Helper_Message')->getEscapedGiftMessage($_item) ?></dd>
+                        <dd><?php echo $this->helper('Magento\GiftMessage\Helper\Message')->getEscapedGiftMessage($_item) ?></dd>
                     </dl>
                 </td>
             </tr>

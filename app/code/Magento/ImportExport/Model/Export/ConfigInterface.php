@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_ImportExport_Model_Export_ConfigInterface
+namespace Magento\ImportExport\Model\Export;
+
+interface ConfigInterface
 {
     /**
      * Retrieve import entities configuration

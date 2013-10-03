@@ -16,7 +16,9 @@
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Block_Order_Email_Items extends Magento_Sales_Block_Items_Abstract
+namespace Magento\Sales\Block\Order\Email;
+
+class Items extends \Magento\Sales\Block\Items\AbstractItems
 {
 
 }

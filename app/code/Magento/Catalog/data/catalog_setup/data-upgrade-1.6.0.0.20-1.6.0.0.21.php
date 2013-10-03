@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $this Magento_Catalog_Model_Resource_Setup */
+/** @var $this \Magento\Catalog\Model\Resource\Setup */
 
 $newGeneralTabName = 'Product Details';
 $newPriceTabName = 'Advanced Pricing';
@@ -47,7 +47,7 @@ $tabNames = array(
     )
 );
 
-$entityTypeId = $this->getEntityTypeId(Magento_Catalog_Model_Product::ENTITY);
+$entityTypeId = $this->getEntityTypeId(\Magento\Catalog\Model\Product::ENTITY);
 $attributeSetId = $this->getAttributeSetId($entityTypeId, 'Default');
 
 //Rename attribute tabs
@@ -79,7 +79,7 @@ $attributesOrder = array(
     'description' => array($newGeneralTabName => 90, 'is_required' => 0),
     'status' => array(
         $newGeneralTabName => 100, 'is_required' => 0, 'default_value' => 1,
-        'frontend_input_renderer' => 'Magento_Data_Form_Element_Hidden'
+        'frontend_input_renderer' => 'Magento\Data\Form\Element\Hidden'
     ),
     //Autosettings tab
     'short_description' => array($autosettingsTabName => 0, 'is_required' => 0),

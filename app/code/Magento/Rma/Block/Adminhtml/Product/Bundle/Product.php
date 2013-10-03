@@ -8,20 +8,22 @@
  * @license     {license_link}
  */
 
-class Magento_Rma_Block_Adminhtml_Product_Bundle_Product
-    extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Text
+namespace Magento\Rma\Block\Adminhtml\Product\Bundle;
+
+class Product
+    extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Text
 {
     /**
      * Render product name to add Configure link
      *
-     * @param   Magento_Object $row
+     * @param   \Magento\Object $row
      * @return  string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         $rendered       =  parent::render($row);
         $link           = '';
-        if ($row->getProductType() == Magento_Catalog_Model_Product_Type::TYPE_BUNDLE) {
+        if ($row->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
             $link = sprintf(
                 '<a href="javascript:void(0)" class="product_to_add" id="productId_%s">%s</a>',
                 $row->getId(),

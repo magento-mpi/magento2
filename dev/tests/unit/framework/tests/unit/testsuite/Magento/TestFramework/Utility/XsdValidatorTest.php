@@ -5,10 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_TestFramework_Utility_XsdValidatorTest extends PHPUnit_Framework_TestCase
+namespace Magento\TestFramework\Utility;
+
+class XsdValidatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_Utility_XsdValidator
+     * @var \Magento\TestFramework\Utility\XsdValidator
      */
     protected $_validator;
 
@@ -20,7 +22,7 @@ class Magento_TestFramework_Utility_XsdValidatorTest extends PHPUnit_Framework_T
 
     protected function setUp()
     {
-        $this->_validator = new Magento_TestFramework_Utility_XsdValidator();
+        $this->_validator = new \Magento\TestFramework\Utility\XsdValidator();
         $this->_xsdSchema = realpath( __DIR__ . '/_files/valid.xsd');
     }
 

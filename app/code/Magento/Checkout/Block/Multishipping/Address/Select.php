@@ -15,7 +15,9 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Multishipping_Address_Select extends Magento_Checkout_Block_Multishipping_Abstract
+namespace Magento\Checkout\Block\Multishipping\Address;
+
+class Select extends \Magento\Checkout\Block\Multishipping\AbstractMultishipping
 {
     protected function _prepareLayout()
     {

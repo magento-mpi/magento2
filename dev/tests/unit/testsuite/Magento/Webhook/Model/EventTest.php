@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Event
+ * \Magento\Webhook\Model\Event
  *
  * {license_notice}
  *
@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_EventTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model;
+
+class EventTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * A string used for testing time formats.  Any string will do but it should look something like this.
@@ -17,22 +19,22 @@ class Magento_Webhook_Model_EventTest extends PHPUnit_Framework_TestCase
     const SOME_FORMATTED_TIME = '2013-07-10 12:35:28';
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_mockContext;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Webhook_Model_Event
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Webhook\Model\Event
      */
     protected $_event;
 
     protected function setUp()
     {
-        $this->_mockContext = $this->getMockBuilder('Magento_Core_Model_Context')
+        $this->_mockContext = $this->getMockBuilder('Magento\Core\Model\Context')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mockEventManager = $this->getMockBuilder('Magento_Core_Model_Event_Manager')
+        $mockEventManager = $this->getMockBuilder('Magento\Core\Model\Event\Manager')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -40,9 +42,9 @@ class Magento_Webhook_Model_EventTest extends PHPUnit_Framework_TestCase
             ->method('getEventDispatcher')
             ->will($this->returnValue($mockEventManager));
 
-        $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
 
-        $this->_event = $this->getMockBuilder('Magento_Webhook_Model_Event')
+        $this->_event = $this->getMockBuilder('Magento\Webhook\Model\Event')
             ->setConstructorArgs(array($this->_mockContext, $coreRegistry))
             ->setMethods(
                 array('_init', 'isDeleted', 'isObjectNew', 'getId', '_hasModelChanged', '_getResource')
@@ -59,7 +61,7 @@ class Magento_Webhook_Model_EventTest extends PHPUnit_Framework_TestCase
             ->withAnyParameters()
             ->will($this->returnValue(true));
 
-        $mockResource = $this->getMockBuilder('Magento_Webhook_Model_Resource_Event')
+        $mockResource = $this->getMockBuilder('Magento\Webhook\Model\Resource\Event')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -83,7 +85,7 @@ class Magento_Webhook_Model_EventTest extends PHPUnit_Framework_TestCase
 
         $this->assertSame(self::SOME_FORMATTED_TIME, $this->_event->getCreatedAt());
         $this->assertNull($this->_event->getUpdatedAt());
-        $this->assertSame(Magento_PubSub_EventInterface::STATUS_READY_TO_SEND, $this->_event->getStatus());
+        $this->assertSame(\Magento\PubSub\EventInterface::STATUS_READY_TO_SEND, $this->_event->getStatus());
     }
 
     /**
@@ -116,7 +118,7 @@ class Magento_Webhook_Model_EventTest extends PHPUnit_Framework_TestCase
             ->withAnyParameters()
             ->will($this->returnValue(true));
 
-        $mockResource = $this->getMockBuilder('Magento_Webhook_Model_Resource_Event')
+        $mockResource = $this->getMockBuilder('Magento\Webhook\Model\Resource\Event')
             ->disableOriginalConstructor()
             ->getMock();
         $mockResource->expects($this->any())
@@ -139,7 +141,7 @@ class Magento_Webhook_Model_EventTest extends PHPUnit_Framework_TestCase
 
         $this->assertSame(self::SOME_FORMATTED_TIME, $this->_event->getUpdatedAt());
         $this->assertNull($this->_event->getCreatedAt());
-        $this->assertSame(Magento_PubSub_EventInterface::STATUS_READY_TO_SEND, $this->_event->getStatus());
+        $this->assertSame(\Magento\PubSub\EventInterface::STATUS_READY_TO_SEND, $this->_event->getStatus());
     }
 
     public function testGettersAndSetters()
@@ -155,7 +157,7 @@ class Magento_Webhook_Model_EventTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($this->_event->hasDataChanges());
         $this->assertEquals($data, $this->_event->getHeaders());
 
-        $this->assertSame(Magento_PubSub_EventInterface::STATUS_READY_TO_SEND, $this->_event->getStatus());
+        $this->assertSame(\Magento\PubSub\EventInterface::STATUS_READY_TO_SEND, $this->_event->getStatus());
         $this->_event->setStatus($data);
         $this->assertTrue($this->_event->hasDataChanges());
         $this->assertEquals($data, $this->_event->getStatus());

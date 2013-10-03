@@ -15,7 +15,9 @@
  * @package    Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Message
+namespace Magento\Core\Model;
+
+class Message
 {
     const ERROR     = 'error';
     const WARNING   = 'warning';
@@ -26,16 +28,16 @@ class Magento_Core_Model_Message
     {
         switch (strtolower($type)) {
             case self::ERROR :
-                $message = new Magento_Core_Model_Message_Error($code);
+                $message = new \Magento\Core\Model\Message\Error($code);
                 break;
             case self::WARNING :
-                $message = new Magento_Core_Model_Message_Warning($code);
+                $message = new \Magento\Core\Model\Message\Warning($code);
                 break;
             case self::SUCCESS :
-                $message = new Magento_Core_Model_Message_Success($code);
+                $message = new \Magento\Core\Model\Message\Success($code);
                 break;
             default:
-                $message = new Magento_Core_Model_Message_Notice($code);
+                $message = new \Magento\Core\Model\Message\Notice($code);
                 break;
         }
         $message->setClass($class);

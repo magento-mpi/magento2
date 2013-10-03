@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Helper;
+
+class ThemeTest extends \PHPUnit_Framework_TestCase
 {
     const ROOT = '/zzz';
     const APP = '/zzz/qqq';
@@ -25,24 +27,24 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
      */
     public function testGetSafePath($filePath, $basePath, $expectedResult)
     {
-        /** @var $dirs Magento_Core_Model_Dir */
-        $dirs = $this->getMock('Magento_Core_Model_Dir', null, array(), '', false);
+        /** @var $dirs \Magento\Core\Model\Dir */
+        $dirs = $this->getMock('Magento\Core\Model\Dir', null, array(), '', false);
 
-        /** @var $layoutMergeFactory Magento_Core_Model_Layout_MergeFactory */
-        $layoutMergeFactory = $this->getMock('Magento_Core_Model_Layout_MergeFactory', array('create'),
+        /** @var $layoutMergeFactory \Magento\Core\Model\Layout\MergeFactory */
+        $layoutMergeFactory = $this->getMock('Magento\Core\Model\Layout\MergeFactory', array('create'),
             array(), '', false
         );
 
-        /** @var $themeCollection Magento_Core_Model_Resource_Theme_Collection */
-        $themeCollection = $this->getMock('Magento_Core_Model_Resource_Theme_Collection', null, array(), '', false);
+        /** @var $themeCollection \Magento\Core\Model\Resource\Theme\Collection */
+        $themeCollection = $this->getMock('Magento\Core\Model\Resource\Theme\Collection', null, array(), '', false);
 
-        /** @var $context Magento_Core_Helper_Context */
-        $context = $this->getMock('Magento_Core_Helper_Context', null, array(), '', false);
+        /** @var $context \Magento\Core\Helper\Context */
+        $context = $this->getMock('Magento\Core\Helper\Context', null, array(), '', false);
 
-        $fileSystem = $this->getMockBuilder('Magento_Core_Model_View_FileSystem')->disableOriginalConstructor()
+        $fileSystem = $this->getMockBuilder('Magento\Core\Model\View\FileSystem')->disableOriginalConstructor()
             ->getMock();
 
-        $helper = new Magento_Core_Helper_Theme(
+        $helper = new \Magento\Core\Helper\Theme(
             $context,
             $dirs,
             $layoutMergeFactory,
@@ -87,12 +89,12 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
         $layoutMergeFactory = $this->_getLayoutMergeFactory($layoutStr);
 
         // 5.
-        /** @var $themeCollection Magento_Core_Model_Resource_Theme_Collection */
-        $themeCollection = $this->getMock('Magento_Core_Model_Resource_Theme_Collection', null, array(), '', false);
+        /** @var $themeCollection \Magento\Core\Model\Resource\Theme\Collection */
+        $themeCollection = $this->getMock('Magento\Core\Model\Resource\Theme\Collection', null, array(), '', false);
 
         // 6.
-        /** @var $context Magento_Core_Helper_Context */
-        $context = $this->getMock('Magento_Core_Helper_Context', null, array(), '', false);
+        /** @var $context \Magento\Core\Helper\Context */
+        $context = $this->getMock('Magento\Core\Helper\Context', null, array(), '', false);
 
         // 7. Get view file system model mock
         $params = array(
@@ -113,7 +115,7 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
         $fileSystem = $this->_getFileSystem($map);
 
         // 8. Run tested method
-        $helper = new Magento_Core_Helper_Theme(
+        $helper = new \Magento\Core\Helper\Theme(
             $context,
             $dirs,
             $layoutMergeFactory,
@@ -133,8 +135,8 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                '<block class="Magento_Page_Block_Html_Head" name="head">
-                    <block class="Magento_Page_Block_Html_Head_Css" name="magento-loader-js">
+                '<block class="Magento\Page\Block\Html\Head" name="head">
+                    <block class="Magento\Page\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments><argument name="file" xsi:type="string">test1.css</argument></arguments>
                     </block>
                 </block>',
@@ -147,8 +149,8 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
                 )
             ),
             array(
-                '<block class="Magento_Page_Block_Html_Head" name="head">
-                    <block class="Magento_Page_Block_Html_Head_Css" name="magento-loader-js">
+                '<block class="Magento\Page\Block\Html\Head" name="head">
+                    <block class="Magento\Page\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments>
                             <argument name="file" xsi:type="string">Magento_Core::test3.css</argument>
                         </arguments>
@@ -164,7 +166,7 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
             ),
             array(
                 '<referenceBlock name="head">
-                    <block class="Magento_Page_Block_Html_Head_Css" name="magento-loader-js">
+                    <block class="Magento\Page\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments><argument name="file" xsi:type="string">test21.css</argument></arguments>
                     </block>
                 </referenceBlock>',
@@ -178,7 +180,7 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
             ),
             array(
                 '<referenceBlock name="head">
-                    <block class="Magento_Page_Block_Html_Head_Css" name="magento-loader-js">
+                    <block class="Magento\Page\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments>
                             <argument name="file" xsi:type="string">Magento_Core::test23.css</argument>
                         </arguments>
@@ -194,7 +196,7 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
             ),
             array(
                 '<block type="Some_Block_Class">
-                    <block class="Magento_Page_Block_Html_Head_Css" name="magento-loader-js">
+                    <block class="Magento\Page\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments>
                             <argument name="file" xsi:type="string">Magento_Core::test23.css</argument>
                         </arguments>
@@ -205,7 +207,7 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
             ),
             array(
                 '<block type="Some_Block_Class">
-                    <block class="Magento_Page_Block_Html_Head_Css" name="magento-loader-js">
+                    <block class="Magento\Page\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments>
                             <argument name="file" xsi:type="string">Magento_Core::test23.css</argument>
                         </arguments>
@@ -215,7 +217,7 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
             ),
             array(
                 '<referenceBlock name="some_block_name">
-                    <block class="Magento_Page_Block_Html_Head_Css" name="magento-loader-js">
+                    <block class="Magento\Page\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments><argument name="file" xsi:type="string">test23.css</argument></arguments>
                     </block>
                 </referenceBlock>',
@@ -223,7 +225,7 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
             ),
             array(
                 '<referenceBlock name="some_block_name">
-                    <block class="Magento_Page_Block_Html_Head_Css" name="magento-loader-js">
+                    <block class="Magento\Page\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments>
                             <argument name="file" xsi:type="string">Magento_Core::test23.css</argument>
                         </arguments>
@@ -232,39 +234,39 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
                 array(),
             ),
             array(
-                '<block class="Magento_Page_Block_Html_Head" name="head">
-                    <block class="Magento_Page_Block_Html_Head_Css" name="magento-loader-js">
+                '<block class="Magento\Page\Block\Html\Head" name="head">
+                    <block class="Magento\Page\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments><argument name="file" xsi:type="string">test.css</argument></arguments>
                     </block>
-                    <block class="Magento_Page_Block_Html_Head_Css" name="magento-loader-js">
+                    <block class="Magento\Page\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments>
                             <argument name="file" xsi:type="string">Magento_Core::test.css</argument>
                         </arguments>
                     </block>
                 </block>
                 <referenceBlock name="head">
-                    <block class="Magento_Page_Block_Html_Head_Css" name="magento-loader-js">
+                    <block class="Magento\Page\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments><argument name="file" xsi:type="string">testh.css</argument></arguments>
                     </block>
-                    <block class="Magento_Page_Block_Html_Head_Css" name="magento-loader-js">
+                    <block class="Magento\Page\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments><argument name="file" xsi:type="string">Magento_Core::test.css</argument></arguments>
                     </block>
                 </referenceBlock>
                 <block type="Some_Block_Class">
-                    <block class="Magento_Page_Block_Html_Head_Css" name="magento-loader-js">
+                    <block class="Magento\Page\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments><argument name="file" xsi:type="string">testa.css</argument></arguments>
                     </block>
-                    <block class="Magento_Page_Block_Html_Head_Css" name="magento-loader-js">
+                    <block class="Magento\Page\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments>
                             <argument name="file" xsi:type="string">Magento_Core::testa.css</argument>
                         </arguments>
                     </block>
                 </block>
                 <referenceBlock name="some_block_name">
-                    <block class="Magento_Page_Block_Html_Head_Css" name="magento-loader-js">
+                    <block class="Magento\Page\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments><argument name="file" xsi:type="string">testb.css</argument></arguments>
                     </block>
-                    <block class="Magento_Page_Block_Html_Head_Css" name="magento-loader-js">
+                    <block class="Magento\Page\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments>
                             <argument name="file" xsi:type="string">Magento_Core::testb.css</argument>
                         </arguments>
@@ -409,7 +411,7 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
 
     /**
      * depends testGetCssFiles
-     * @expectedException LogicException
+     * @expectedException \LogicException
      * @expectedExceptionMessage Invalid view file directory "some_path/test.test"
      */
     public function testGetGroupedCssFilesException()
@@ -428,13 +430,13 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
     /**
      * @param int $themeId
      * @param string $themeArea
-     * @return Magento_Core_Model_Theme|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Core\Model\Theme|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getTheme($themeId, $themeArea)
     {
-        /** @var $theme Magento_Core_Model_Theme|PHPUnit_Framework_MockObject_MockObject */
+        /** @var $theme \Magento\Core\Model\Theme|\PHPUnit_Framework_MockObject_MockObject */
         $theme = $this->getMock(
-            'Magento_Core_Model_Theme',
+            'Magento\Core\Model\Theme',
             array('getThemeId', 'getArea', 'getThemeTitle', '__wakeup'),
             array(),
             '',
@@ -455,12 +457,12 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param array $map
-     * @return Magento_Core_Model_View_FileSystem|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Core\Model\View\FileSystem|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getFileSystem($map)
     {
-        /** @var $fileSystem Magento_Core_Model_View_FileSystem|PHPUnit_Framework_MockObject_MockObject */
-        $fileSystem = $this->getMockBuilder('Magento_Core_Model_View_FileSystem', array())
+        /** @var $fileSystem \Magento\Core\Model\View\FileSystem|\PHPUnit_Framework_MockObject_MockObject */
+        $fileSystem = $this->getMockBuilder('Magento\Core\Model\View\FileSystem', array())
             ->disableOriginalConstructor()->getMock();
         $fileSystem->expects($this->any())
             ->method('getViewFile')
@@ -471,12 +473,12 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param string $layoutStr
-     * @return Magento_Core_Model_Layout_MergeFactory|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Core\Model\Layout\MergeFactory|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getLayoutMergeFactory($layoutStr)
     {
-        /** @var $layoutMerge Magento_Core_Model_Layout_Merge */
-        $layoutMerge = $this->getMock('Magento_Core_Model_Layout_Merge',
+        /** @var $layoutMerge \Magento\Core\Model\Layout\Merge */
+        $layoutMerge = $this->getMock('Magento\Core\Model\Layout\Merge',
             array('getFileLayoutUpdatesXml'), array(), '', false
         );
         $xml = '<layouts xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' . $layoutStr . '</layouts>';
@@ -485,8 +487,8 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
             ->method('getFileLayoutUpdatesXml')
             ->will($this->returnValue($layoutElement));
 
-        /** @var $layoutMergeFactory Magento_Core_Model_Layout_MergeFactory */
-        $layoutMergeFactory = $this->getMock('Magento_Core_Model_Layout_MergeFactory',
+        /** @var $layoutMergeFactory \Magento\Core\Model\Layout\MergeFactory */
+        $layoutMergeFactory = $this->getMock('Magento\Core\Model\Layout\MergeFactory',
             array('create'), array(), '', false
         );
         $layoutMergeFactory->expects($this->any())
@@ -497,27 +499,27 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return Magento_Core_Model_Dir|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Core\Model\Dir|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getDirs()
     {
-        /** @var $dirs Magento_Core_Model_Dir */
-        $dirs = $this->getMock('Magento_Core_Model_Dir', array('getDir'), array(), '', false);
+        /** @var $dirs \Magento\Core\Model\Dir */
+        $dirs = $this->getMock('Magento\Core\Model\Dir', array('getDir'), array(), '', false);
         $dirs->expects($this->any())
             ->method('getDir')
             ->will($this->returnValueMap(array(
-                array(Magento_Core_Model_Dir::ROOT, self::ROOT),
-                array(Magento_Core_Model_Dir::APP, self::APP),
-                array(Magento_Core_Model_Dir::MODULES, self::MODULES),
-                array(Magento_Core_Model_Dir::THEMES, self::THEMES),
-                array(Magento_Core_Model_Dir::PUB_LIB, self::PUB_LIB),
+                array(\Magento\Core\Model\Dir::ROOT, self::ROOT),
+                array(\Magento\Core\Model\Dir::APP, self::APP),
+                array(\Magento\Core\Model\Dir::MODULES, self::MODULES),
+                array(\Magento\Core\Model\Dir::THEMES, self::THEMES),
+                array(\Magento\Core\Model\Dir::PUB_LIB, self::PUB_LIB),
             )));
 
         return $dirs;
     }
 
     /**
-     * @return Magento_Core_Model_Resource_Theme_Collection|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Core\Model\Resource\Theme\Collection|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getThemeCollection()
     {
@@ -525,8 +527,8 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
         $theme12 = $this->_getTheme('12', 'area12');
         $theme13 = $this->_getTheme('13', 'area13');
 
-        /** @var $themeCollection Magento_Core_Model_Resource_Theme_Collection */
-        $themeCollection = $this->getMock('Magento_Core_Model_Resource_Theme_Collection',
+        /** @var $themeCollection \Magento\Core\Model\Resource\Theme\Collection */
+        $themeCollection = $this->getMock('Magento\Core\Model\Resource\Theme\Collection',
             array('getThemeByFullPath'), array(), '', false
         );
         $themeCollection->expects($this->any())
@@ -542,7 +544,7 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param array $files
-     * @return Magento_Core_Helper_Theme|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Core\Helper\Theme|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getHelper($files)
     {
@@ -555,20 +557,20 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
         $dirs = $this->_getDirs();
 
         // 5. Get layout merge model and factory
-        /** @var $layoutMergeFactory Magento_Core_Model_Layout_MergeFactory|PHPUnit_Framework_MockObject_MockObject */
-        $layoutMergeFactory = $this->getMock('Magento_Core_Model_Layout_MergeFactory',
+        /** @var $layoutMergeFactory \Magento\Core\Model\Layout\MergeFactory|\PHPUnit_Framework_MockObject_MockObject */
+        $layoutMergeFactory = $this->getMock('Magento\Core\Model\Layout\MergeFactory',
             array('create'), array(), '', false
         );
 
-        /** @var $context Magento_Core_Helper_Context */
-        $context = $this->getMock('Magento_Core_Helper_Context', null, array(), '', false);
+        /** @var $context \Magento\Core\Helper\Context */
+        $context = $this->getMock('Magento\Core\Helper\Context', null, array(), '', false);
 
-        /** @var $fileSystem Magento_Core_Model_View_FileSystem|PHPUnit_Framework_MockObject_MockObject */
-        $fileSystem = $this->getMockBuilder('Magento_Core_Model_View_FileSystem', array())
+        /** @var $fileSystem \Magento\Core\Model\View\FileSystem|\PHPUnit_Framework_MockObject_MockObject */
+        $fileSystem = $this->getMockBuilder('Magento\Core\Model\View\FileSystem', array())
             ->disableOriginalConstructor()->getMock();
 
-        /** @var $helper Magento_Core_Helper_Theme|PHPUnit_Framework_MockObject_MockObject */
-        $helper = $this->getMock('Magento_Core_Helper_Theme', array('getCssFiles'), array(
+        /** @var $helper \Magento\Core\Helper\Theme|\PHPUnit_Framework_MockObject_MockObject */
+        $helper = $this->getMock('Magento\Core\Helper\Theme', array('getCssFiles'), array(
             $context, $dirs, $layoutMergeFactory, $themeCollection, $fileSystem
         ));
         $helper->expects($this->once())

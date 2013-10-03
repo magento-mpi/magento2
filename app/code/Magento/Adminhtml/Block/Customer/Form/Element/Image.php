@@ -16,7 +16,9 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Form_Element_Image extends Magento_Adminhtml_Block_Customer_Form_Element_File
+namespace Magento\Adminhtml\Block\Customer\Form\Element;
+
+class Image extends \Magento\Adminhtml\Block\Customer\Form\Element\File
 {
     /**
      * Return Delete CheckBox Label

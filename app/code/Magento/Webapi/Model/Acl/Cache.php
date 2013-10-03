@@ -7,13 +7,15 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Webapi_Model_Acl_Cache extends Magento_Core_Model_Acl_Cache
+namespace Magento\Webapi\Model\Acl;
+
+class Cache extends \Magento\Core\Model\Acl\Cache
 {
     /**
-     * @param Magento_Core_Model_Cache_Type_Config $cache
+     * @param \Magento\Core\Model\Cache\Type\Config $cache
      * @param string $cacheKey
      */
-    public function __construct(Magento_Core_Model_Cache_Type_Config $cache, $cacheKey)
+    public function __construct(\Magento\Core\Model\Cache\Type\Config $cache, $cacheKey)
     {
         parent::__construct($cache, $cacheKey);
     }

@@ -14,28 +14,30 @@
  * @method getArea()
  * @method getTheme()
  */
-class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Layout extends Magento_Core_Block_Html_Select
+namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser;
+
+class Layout extends \Magento\Core\Block\Html\Select
 {
     /**
-     * @var Magento_Core_Model_Layout_MergeFactory
+     * @var \Magento\Core\Model\Layout\MergeFactory
      */
     protected $_layoutMergeFactory;
 
     /**
-     * @var Magento_Core_Model_Resource_Theme_CollectionFactory
+     * @var \Magento\Core\Model\Resource\Theme\CollectionFactory
      */
     protected $_themesFactory;
 
     /**
-     * @param Magento_Core_Block_Context $context
-     * @param Magento_Core_Model_Layout_MergeFactory $layoutMergeFactory
-     * @param Magento_Core_Model_Resource_Theme_CollectionFactory $themesFactory
+     * @param \Magento\Core\Block\Context $context
+     * @param \Magento\Core\Model\Layout\MergeFactory $layoutMergeFactory
+     * @param \Magento\Core\Model\Resource\Theme\CollectionFactory $themesFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Context $context,
-        Magento_Core_Model_Layout_MergeFactory $layoutMergeFactory,
-        Magento_Core_Model_Resource_Theme_CollectionFactory $themesFactory,
+        \Magento\Core\Block\Context $context,
+        \Magento\Core\Model\Layout\MergeFactory $layoutMergeFactory,
+        \Magento\Core\Model\Resource\Theme\CollectionFactory $themesFactory,
         array $data = array()
     ) {
         $this->_layoutMergeFactory = $layoutMergeFactory;
@@ -46,7 +48,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Layout extends
     /**
      * Add necessary options
      *
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _beforeToHtml()
     {
@@ -75,11 +77,11 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Layout extends
      * Retrieve theme instance by its identifier
      *
      * @param int $themeId
-     * @return Magento_Core_Model_Theme|null
+     * @return \Magento\Core\Model\Theme|null
      */
     protected function _getThemeInstance($themeId)
     {
-        /** @var Magento_Core_Model_Resource_Theme_Collection $themeCollection */
+        /** @var \Magento\Core\Model\Resource\Theme\Collection $themeCollection */
         $themeCollection = $this->_themesFactory->create();
         return $themeCollection->getItemById($themeId);
     }
@@ -88,7 +90,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Layout extends
      * Retrieve new layout merge model instance
      *
      * @param array $arguments
-     * @return Magento_Core_Model_Layout_Merge
+     * @return \Magento\Core\Model\Layout\Merge
      */
     protected function _getLayoutMerge(array $arguments)
     {
@@ -105,7 +107,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Layout extends
     {
         foreach ($pageTypes as $pageTypeName => $pageTypeInfo) {
             $params = array();
-            if ($pageTypeInfo['type'] == Magento_Core_Model_Layout_Merge::TYPE_FRAGMENT) {
+            if ($pageTypeInfo['type'] == \Magento\Core\Model\Layout\Merge::TYPE_FRAGMENT) {
                 $params['class'] = 'fragment';
             }
             $this->addOption($pageTypeName, str_repeat('. ', $level) . $pageTypeInfo['label'], $params);

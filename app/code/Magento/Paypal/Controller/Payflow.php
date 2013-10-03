@@ -9,46 +9,48 @@
 /**
  * Payflow Checkout Controller
  */
-class Magento_Paypal_Controller_Payflow extends Magento_Core_Controller_Front_Action
+namespace Magento\Paypal\Controller;
+
+class Payflow extends \Magento\Core\Controller\Front\Action
 {
     /**
-     * @var Magento_Checkout_Model_Session
+     * @var \Magento\Checkout\Model\Session
      */
     protected $_checkoutSession;
 
     /**
-     * @var Magento_Sales_Model_OrderFactory
+     * @var \Magento\Sales\Model\OrderFactory
      */
     protected $_orderFactory;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @var Magento_Paypal_Model_PayflowlinkFactory
+     * @var \Magento\Paypal\Model\PayflowlinkFactory
      */
     protected $_payflowlinkFactory;
 
     /**
-     * @var Magento_Paypal_Helper_Checkout
+     * @var \Magento\Paypal\Helper\Checkout
      */
     protected $_checkoutHelper;
 
     /**
-     * @param Magento_Core_Controller_Varien_Action_Context $context
-     * @param Magento_Checkout_Model_Session $checkoutSession
-     * @param Magento_Sales_Model_OrderFactory $orderFactory
-     * @param Magento_Paypal_Model_PayflowlinkFactory $payflowlinkFactory
-     * @param Magento_Paypal_Helper_Checkout $checkoutHelper
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param \Magento\Paypal\Model\PayflowlinkFactory $payflowlinkFactory
+     * @param \Magento\Paypal\Helper\Checkout $checkoutHelper
      */
     public function __construct(
-        Magento_Core_Controller_Varien_Action_Context $context,
-        Magento_Checkout_Model_Session $checkoutSession,
-        Magento_Sales_Model_OrderFactory $orderFactory,
-        Magento_Paypal_Model_PayflowlinkFactory $payflowlinkFactory,
-        Magento_Paypal_Helper_Checkout $checkoutHelper
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Sales\Model\OrderFactory $orderFactory,
+        \Magento\Paypal\Model\PayflowlinkFactory $payflowlinkFactory,
+        \Magento\Paypal\Helper\Checkout $checkoutHelper
     ) {
         $this->_checkoutSession = $checkoutSession;
         $this->_orderFactory = $orderFactory;
@@ -83,8 +85,8 @@ class Magento_Paypal_Controller_Payflow extends Magento_Core_Controller_Front_Ac
 
             if ($order && $order->getIncrementId() == $this->_checkoutSession->getLastRealOrderId()) {
                 $allowedOrderStates = array(
-                    Magento_Sales_Model_Order::STATE_PROCESSING,
-                    Magento_Sales_Model_Order::STATE_COMPLETE
+                    \Magento\Sales\Model\Order::STATE_PROCESSING,
+                    \Magento\Sales\Model\Order::STATE_COMPLETE
                 );
                 if (in_array($order->getState(), $allowedOrderStates)) {
                     $this->_checkoutSession->unsLastRealOrderId();
@@ -115,11 +117,11 @@ class Magento_Paypal_Controller_Payflow extends Magento_Core_Controller_Front_Ac
     {
         $data = $this->getRequest()->getPost();
         if (isset($data['INVNUM'])) {
-            /** @var $paymentModel Magento_Paypal_Model_Payflowlink */
+            /** @var $paymentModel \Magento\Paypal\Model\Payflowlink */
             $paymentModel = $this->_payflowlinkFactory->create();
             try {
                 $paymentModel->process($data);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_logger->logException($e);
             }
         }

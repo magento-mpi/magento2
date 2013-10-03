@@ -10,49 +10,51 @@
  */
 
 /**
- * Test class for Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Options
+ * Test class for \Magento\Adminhtml\Block\Catalog\Product\Composite\Fieldset\Options
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_OptionsTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Block\Catalog\Product\Composite\Fieldset;
+
+class OptionsTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_Helper_ObjectManager
+     * @var \Magento\TestFramework\Helper\ObjectManager
      */
     protected $_objectHelper;
 
     /**
-     * @var Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Options
+     * @var \Magento\Adminhtml\Block\Catalog\Product\Composite\Fieldset\Options
      */
     protected $_optionsBlock;
 
     /**
-     * @var Magento_Catalog_Model_Resource_Product_Option
+     * @var \Magento\Catalog\Model\Resource\Product\Option
      */
     protected $_optionResource;
 
     protected function setUp()
     {
-        $this->_objectHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_optionResource = $this->getMock('Magento_Catalog_Model_Resource_Product_Option',
+        $this->_objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_optionResource = $this->getMock('Magento\Catalog\Model\Resource\Product\Option',
             array(), array(), '', false);
     }
 
     public function testGetOptionHtml()
     {
-        $layout = $this->getMock('Magento_Core_Model_Layout', array('getChildName', 'getBlock', 'renderElement'),
+        $layout = $this->getMock('Magento\Core\Model\Layout', array('getChildName', 'getBlock', 'renderElement'),
             array(), '', false);
-        $context = $this->_objectHelper->getObject('Magento_Core_Block_Template_Context', array(
+        $context = $this->_objectHelper->getObject('Magento\Core\Block\Template\Context', array(
             'layout' => $layout
         ));
-        $optionFactoryMock = $this->getMock('Magento_Catalog_Model_Product_Option_ValueFactory', array('create'),
+        $optionFactoryMock = $this->getMock('Magento\Catalog\Model\Product\Option\ValueFactory', array('create'),
             array(), '', false);
 
-        $option = $this->_objectHelper->getObject('Magento_Catalog_Model_Product_Option', array(
+        $option = $this->_objectHelper->getObject('Magento\Catalog\Model\Product\Option', array(
             'resource' => $this->_optionResource,
             'optionValueFactory' => $optionFactoryMock,
         ));
-        $dateBlock = $this->getMock('Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Options',
+        $dateBlock = $this->getMock('Magento\Adminhtml\Block\Catalog\Product\Composite\Fieldset\Options',
             array('setSkipJsReloadPrice'), array('context' => $context, 'option' => $option), '', false);
         $dateBlock->expects($this->any())
             ->method('setSkipJsReloadPrice')->will($this->returnValue($dateBlock));
@@ -65,34 +67,34 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_OptionsTest ext
             ->method('renderElement')->with('date', false)->will($this->returnValue('html'));
 
         $this->_optionsBlock = $this->_objectHelper->getObject(
-            'Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Options',
+            'Magento\Adminhtml\Block\Catalog\Product\Composite\Fieldset\Options',
             array(
                 'context' => $context,
                 'option' => $option,
             )
         );
 
-        $itemOptionFactoryMock = $this->getMock('Magento_Catalog_Model_Product_Configuration_Item_OptionFactory',
+        $itemOptFactoryMock = $this->getMock('Magento\Catalog\Model\Product\Configuration\Item\OptionFactory',
             array('create'), array(), '', false);
-        $stockItemFactoryMock = $this->getMock('Magento_CatalogInventory_Model_Stock_ItemFactory',
+        $stockItemFactoryMock = $this->getMock('Magento\CatalogInventory\Model\Stock\ItemFactory',
             array('create'), array(), '', false);
-        $productFactoryMock = $this->getMock('Magento_Catalog_Model_ProductFactory',
+        $productFactoryMock = $this->getMock('Magento\Catalog\Model\ProductFactory',
             array('create'), array(), '', false);
-        $categoryFactoryMock = $this->getMock('Magento_Catalog_Model_CategoryFactory',
+        $categoryFactoryMock = $this->getMock('Magento\Catalog\Model\CategoryFactory',
             array('create'), array(), '', false);
 
         $this->_optionsBlock->setProduct(
             $this->_objectHelper->getObject(
-                'Magento_Catalog_Model_Product',
+                'Magento\Catalog\Model\Product',
                 array(
                     'collectionFactory' => $this->getMock(
-                        'Magento_Data_CollectionFactory',
+                        'Magento\Data\CollectionFactory',
                         array(),
                         array(),
                         '',
                         false
                     ),
-                    'itemOptionFactory' => $itemOptionFactoryMock,
+                    'itemOptionFactory' => $itemOptFactoryMock,
                     'stockItemFactory' => $stockItemFactoryMock,
                     'productFactory' => $productFactoryMock,
                     'categoryFactory' => $categoryFactoryMock,
@@ -100,7 +102,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_OptionsTest ext
             )
         );
 
-        $option = $this->_objectHelper->getObject('Magento_Catalog_Model_Product_Option', array(
+        $option = $this->_objectHelper->getObject('Magento\Catalog\Model\Product\Option', array(
             'resource' => $this->_optionResource,
             'optionValueFactory' => $optionFactoryMock,
         ));

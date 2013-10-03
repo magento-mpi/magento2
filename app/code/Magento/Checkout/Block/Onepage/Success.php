@@ -15,58 +15,60 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Onepage_Success extends Magento_Core_Block_Template
+namespace Magento\Checkout\Block\Onepage;
+
+class Success extends \Magento\Core\Block\Template
 {
     /**
-     * @var Magento_Checkout_Model_Session
+     * @var \Magento\Checkout\Model\Session
      */
     protected $_checkoutSession;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @var Magento_Sales_Model_OrderFactory
+     * @var \Magento\Sales\Model\OrderFactory
      */
     protected $_orderFactory;
 
     /**
-     * @var Magento_Sales_Model_Billing_AgreementFactory
+     * @var \Magento\Sales\Model\Billing\AgreementFactory
      */
     protected $_agreementFactory;
 
     /**
-     * @var Magento_Sales_Model_Resource_Recurring_Profile_Collection
+     * @var \Magento\Sales\Model\Resource\Recurring\Profile\Collection
      */
     protected $_profileCollFactory;
 
     /**
-     * @var Magento_Sales_Model_Order_Config
+     * @var \Magento\Sales\Model\Order\Config
      */
     protected $_orderConfig;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Checkout_Model_Session $checkoutSession
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Sales_Model_OrderFactory $orderFactory
-     * @param Magento_Sales_Model_Billing_AgreementFactory $agreementFactory
-     * @param Magento_Sales_Model_Resource_Recurring_Profile_Collection $profileCollFactory
-     * @param Magento_Sales_Model_Order_Config $orderConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory
+     * @param \Magento\Sales\Model\Resource\Recurring\Profile\Collection $profileCollFactory
+     * @param \Magento\Sales\Model\Order\Config $orderConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Checkout_Model_Session $checkoutSession,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Sales_Model_OrderFactory $orderFactory,
-        Magento_Sales_Model_Billing_AgreementFactory $agreementFactory,
-        Magento_Sales_Model_Resource_Recurring_Profile_Collection $profileCollFactory,
-        Magento_Sales_Model_Order_Config $orderConfig,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Sales\Model\OrderFactory $orderFactory,
+        \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory,
+        \Magento\Sales\Model\Resource\Recurring\Profile\Collection $profileCollFactory,
+        \Magento\Sales\Model\Order\Config $orderConfig,
         array $data = array()
     ) {
         $this->_checkoutSession = $checkoutSession;
@@ -94,7 +96,7 @@ class Magento_Checkout_Block_Onepage_Success extends Magento_Core_Block_Template
      * @param $profile
      * @return string
      */
-    public function getProfileUrl(Magento_Object $profile)
+    public function getProfileUrl(\Magento\Object $profile)
     {
         return $this->getUrl('sales/recurring_profile/view', array('profile' => $profile->getId()));
     }

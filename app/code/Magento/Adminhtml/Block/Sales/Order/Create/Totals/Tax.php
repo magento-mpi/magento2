@@ -14,7 +14,9 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Create_Totals_Tax extends Magento_Adminhtml_Block_Sales_Order_Create_Totals_Default
+namespace Magento\Adminhtml\Block\Sales\Order\Create\Totals;
+
+class Tax extends \Magento\Adminhtml\Block\Sales\Order\Create\Totals\DefaultTotals
 {
     protected $_template = 'sales/order/create/totals/tax.phtml';
 }

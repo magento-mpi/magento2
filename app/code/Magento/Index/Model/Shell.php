@@ -15,7 +15,9 @@
  * @package     Magento_Index
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Index_Model_Shell extends Magento_Core_Model_ShellAbstract
+namespace Magento\Index\Model;
+
+class Shell extends \Magento\Core\Model\AbstractShell
 {
     /**
      * Error status - whether errors have happened
@@ -25,21 +27,21 @@ class Magento_Index_Model_Shell extends Magento_Core_Model_ShellAbstract
     protected $_hasErrors = false;
 
     /**
-     * @var Magento_Index_Model_Indexer
+     * @var \Magento\Index\Model\Indexer
      */
     protected $_indexer;
 
     /**
-     * @param Magento_Index_Model_Indexer $indexer
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Index\Model\Indexer $indexer
+     * @param \Magento\Filesystem $filesystem
      * @param string $entryPoint
-     * @param Magento_Core_Model_Dir $dir
+     * @param \Magento\Core\Model\Dir $dir
      */
     public function __construct(
-        Magento_Index_Model_Indexer $indexer,
-        Magento_Filesystem $filesystem,
+        \Magento\Index\Model\Indexer $indexer,
+        \Magento\Filesystem $filesystem,
         $entryPoint,
-        Magento_Core_Model_Dir $dir
+        \Magento\Core\Model\Dir $dir
     ) {
         $this->_indexer = $indexer;
         parent::__construct($filesystem, $entryPoint, $dir);
@@ -48,7 +50,7 @@ class Magento_Index_Model_Shell extends Magento_Core_Model_ShellAbstract
     /**
      * Runs this model, assumed to be run by command-line
      *
-     * @return Magento_Index_Model_Shell
+     * @return \Magento\Index\Model\Shell
      */
     public function run()
     {
@@ -73,13 +75,13 @@ class Magento_Index_Model_Shell extends Magento_Core_Model_ShellAbstract
     /**
      * Shows information about indexes
      *
-     * @return Magento_Index_Model_Shell
+     * @return \Magento\Index\Model\Shell
      */
     protected function _runShowInfo()
     {
         $processes = $this->_parseIndexerString('all');
         foreach ($processes as $process) {
-            /* @var $process Magento_Index_Model_Process */
+            /* @var $process \Magento\Index\Model\Process */
             echo sprintf('%-30s', $process->getIndexerCode());
             echo $process->getIndexer()->getName() . "\n";
         }
@@ -89,7 +91,7 @@ class Magento_Index_Model_Shell extends Magento_Core_Model_ShellAbstract
     /**
      * Shows information about statuses or modes
      *
-     * @return Magento_Index_Model_Shell
+     * @return \Magento\Index\Model\Shell
      */
     protected function _runShowStatusOrMode()
     {
@@ -99,18 +101,18 @@ class Magento_Index_Model_Shell extends Magento_Core_Model_ShellAbstract
             $processes  = $this->_parseIndexerString($this->getArg('mode'));
         }
         foreach ($processes as $process) {
-            /* @var $process Magento_Index_Model_Process */
+            /* @var $process \Magento\Index\Model\Process */
             $status = 'unknown';
             if ($this->getArg('status')) {
                 switch ($process->getStatus()) {
-                    case Magento_Index_Model_Process::STATUS_PENDING:
+                    case \Magento\Index\Model\Process::STATUS_PENDING:
                         $status = 'Pending';
                         break;
-                    case Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX:
+                    case \Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX:
                         $status = 'Require Reindex';
                         break;
 
-                    case Magento_Index_Model_Process::STATUS_RUNNING:
+                    case \Magento\Index\Model\Process::STATUS_RUNNING:
                         $status = 'Running';
                         break;
 
@@ -120,10 +122,10 @@ class Magento_Index_Model_Shell extends Magento_Core_Model_ShellAbstract
                 }
             } else {
                 switch ($process->getMode()) {
-                    case Magento_Index_Model_Process::MODE_REAL_TIME:
+                    case \Magento\Index\Model\Process::MODE_REAL_TIME:
                         $status = 'Update on Save';
                         break;
-                    case Magento_Index_Model_Process::MODE_MANUAL:
+                    case \Magento\Index\Model\Process::MODE_MANUAL:
                         $status = 'Manual Update';
                         break;
                 }
@@ -136,26 +138,26 @@ class Magento_Index_Model_Shell extends Magento_Core_Model_ShellAbstract
     /**
      * Sets new mode for indexes
      *
-     * @return Magento_Index_Model_Shell
+     * @return \Magento\Index\Model\Shell
      */
     protected function _runSetMode()
     {
         if ($this->getArg('mode-realtime')) {
-            $mode       = Magento_Index_Model_Process::MODE_REAL_TIME;
+            $mode       = \Magento\Index\Model\Process::MODE_REAL_TIME;
             $processes  = $this->_parseIndexerString($this->getArg('mode-realtime'));
         } else {
-            $mode       = Magento_Index_Model_Process::MODE_MANUAL;
+            $mode       = \Magento\Index\Model\Process::MODE_MANUAL;
             $processes  = $this->_parseIndexerString($this->getArg('mode-manual'));
         }
         foreach ($processes as $process) {
-            /* @var $process Magento_Index_Model_Process */
+            /* @var $process \Magento\Index\Model\Process */
             try {
                 $process->setMode($mode)->save();
                 echo $process->getIndexer()->getName() . " index was successfully changed index mode\n";
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 echo $e->getMessage() . "\n";
                 $this->_hasErrors = true;
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 echo $process->getIndexer()->getName() . " index process unknown error:\n";
                 echo $e . "\n";
                 $this->_hasErrors = true;
@@ -167,7 +169,7 @@ class Magento_Index_Model_Shell extends Magento_Core_Model_ShellAbstract
     /**
      * Reindexes indexer(s)
      *
-     * @return Magento_Index_Model_Shell
+     * @return \Magento\Index\Model\Shell
      */
     protected function _runReindex()
     {
@@ -178,14 +180,14 @@ class Magento_Index_Model_Shell extends Magento_Core_Model_ShellAbstract
         }
 
         foreach ($processes as $process) {
-            /* @var $process Magento_Index_Model_Process */
+            /* @var $process \Magento\Index\Model\Process */
             try {
                 $process->reindexEverything();
                 echo $process->getIndexer()->getName() . " index was rebuilt successfully\n";
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 echo $e->getMessage() . "\n";
                 $this->_hasErrors = true;
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 echo $process->getIndexer()->getName() . " index process unknown error:\n";
                 echo $e . "\n";
                 $this->_hasErrors = true;

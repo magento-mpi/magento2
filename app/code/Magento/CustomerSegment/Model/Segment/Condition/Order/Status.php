@@ -11,8 +11,10 @@
 /**
  * Order status condition
  */
-class Magento_CustomerSegment_Model_Segment_Condition_Order_Status
-    extends Magento_CustomerSegment_Model_Condition_Abstract
+namespace Magento\CustomerSegment\Model\Segment\Condition\Order;
+
+class Status
+    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
 {
     /**
      * Any option value
@@ -25,33 +27,33 @@ class Magento_CustomerSegment_Model_Segment_Condition_Order_Status
     protected $_inputType = 'select';
 
     /**
-     * @var Magento_Eav_Model_Config
+     * @var \Magento\Eav\Model\Config
      */
     protected $_eavConfig;
 
     /**
-     * @var Magento_Sales_Model_Order_Config
+     * @var \Magento\Sales\Model\Order\Config
      */
     protected $_orderConfig;
 
     /**
-     * @param Magento_CustomerSegment_Model_Resource_Segment $resourceSegment
-     * @param Magento_Sales_Model_Order_Config $orderConfig
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
+     * @param \Magento\Sales\Model\Order\Config $orderConfig
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_CustomerSegment_Model_Resource_Segment $resourceSegment,
-        Magento_Sales_Model_Order_Config $orderConfig,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Rule_Model_Condition_Context $context,
+        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
+        \Magento\Sales\Model\Order\Config $orderConfig,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Rule\Model\Condition\Context $context,
         array $data = array()
     ) {
         $this->_orderConfig = $orderConfig;
         $this->_eavConfig = $eavConfig;
         parent::__construct($resourceSegment, $context, $data);
-        $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Order_Status');
+        $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Order\Status');
         $this->setValue(null);
     }
 
@@ -91,7 +93,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Order_Status
     /**
      * Init value select options
      *
-     * @return Magento_CustomerSegment_Model_Segment_Condition_Order_Status
+     * @return \Magento\CustomerSegment\Model\Segment\Condition\Order\Status
      */
     public function loadValueOptions()
     {
@@ -117,7 +119,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Order_Status
     /**
      * Get order status attribute object
      *
-     * @return Magento_Eav_Model_Entity_Attribute
+     * @return \Magento\Eav\Model\Entity\Attribute
      */
     public function getAttributeObject()
     {

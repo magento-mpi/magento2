@@ -11,8 +11,10 @@
 /**
  * Form element renderer to display background uploader element for VDE
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploader
-    extends Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Composite_Abstract
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element;
+
+class BackgroundUploader
+    extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Composite\AbstractComposite
 {
     /**
      * Control type
@@ -22,7 +24,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploade
     /**
      * Add form elements
      *
-     * @return Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploader
+     * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\BackgroundUploader
      */
     protected function _addFields()
     {
@@ -63,11 +65,11 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploade
     /**
      * Add element types used in composite font element
      *
-     * @return Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploader
+     * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\BackgroundUploader
      */
     protected function _addElementTypes()
     {
-        $this->addType('image-uploader', 'Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_ImageUploader');
+        $this->addType('image-uploader', 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\ImageUploader');
 
         return $this;
     }
@@ -75,21 +77,21 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploade
     /**
      * Get component of 'checkbox' type (actually 'tile')
      *
-     * @return Magento_Data_Form_Element_Checkbox
-     * @throws Magento_Core_Exception
+     * @return \Magento\Data\Form\Element\Checkbox
+     * @throws \Magento\Core\Exception
      */
     public function getCheckboxElement()
     {
         $checkboxId = $this->getComponentId('tile');
 
-        /** @var $element Magento_Data_Form_Element_Abstract */
+        /** @var $element \Magento\Data\Form\Element\AbstractElement */
         foreach ($this->getElements() as $element) {
             if ($element->getData('name') == $checkboxId) {
                 return $element;
             }
         }
 
-        throw new Magento_Core_Exception(
+        throw new \Magento\Core\Exception(
             __('Element "%1" is not found in "%2".', $checkboxId, $this->getData('name'))
         );
     }
@@ -97,19 +99,19 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploade
     /**
      * Get component of 'image-uploader' type
      *
-     * @return Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_ImageUploader
-     * @throws Magento_Core_Exception
+     * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\ImageUploader
+     * @throws \Magento\Core\Exception
      */
     public function getImageUploaderElement()
     {
         $imageUploaderId = $this->getComponentId('image-uploader');
-        /** @var $e Magento_Data_Form_Element_Abstract */
+        /** @var $e \Magento\Data\Form\Element\AbstractElement */
         foreach ($this->getElements() as $e) {
             if ($e->getData('name') == $imageUploaderId) {
                 return $e;
             }
         }
-        throw new Magento_Core_Exception(
+        throw new \Magento\Core\Exception(
             __('Element "%1" is not found in "%2".', $imageUploaderId, $this->getData('name'))
         );
     }

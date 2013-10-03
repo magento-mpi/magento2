@@ -11,7 +11,9 @@
 /**
  * Interface for form element that can contain other elements
  */
-interface Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_ContainerInterface
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element;
+
+interface ContainerInterface
 {
     /**
      * Add fields to composite composite element
@@ -21,7 +23,7 @@ interface Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_ContainerInte
      * @param array $config
      * @param boolean $after
      * @param boolean $isAdvanced
-     * @return Magento_Data_Form_Element_Abstract
+     * @return \Magento\Data\Form\Element\AbstractElement
      */
     public function addField($elementId, $type, $config, $after = false, $isAdvanced = false);
 }

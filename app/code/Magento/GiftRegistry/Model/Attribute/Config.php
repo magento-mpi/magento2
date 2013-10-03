@@ -11,19 +11,21 @@
 /**
  * Gift registry attributes config model
  */
-class Magento_GiftRegistry_Model_Attribute_Config implements Magento_GiftRegistry_Model_Attribute_ConfigInterface
+namespace Magento\GiftRegistry\Model\Attribute;
+
+class Config implements \Magento\GiftRegistry\Model\Attribute\ConfigInterface
 {
     /**
      * Modules configuration model
      *
-     * @var Magento_GiftRegistry_Model_Config_Data
+     * @var \Magento\GiftRegistry\Model\Config\Data
      */
     protected $_dataContainer;
 
     /**
-     * @param Magento_GiftRegistry_Model_Config_Data $dataContainer
+     * @param \Magento\GiftRegistry\Model\Config\Data $dataContainer
      */
-    public function __construct(Magento_GiftRegistry_Model_Config_Data $dataContainer)
+    public function __construct(\Magento\GiftRegistry\Model\Config\Data $dataContainer)
     {
         $this->_dataContainer = $dataContainer;
     }

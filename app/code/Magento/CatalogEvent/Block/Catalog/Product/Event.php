@@ -9,38 +9,40 @@
 /**
  * Catalog Event on category page
  */
-class Magento_CatalogEvent_Block_Catalog_Product_Event extends Magento_CatalogEvent_Block_Event_Abstract
+namespace Magento\CatalogEvent\Block\Catalog\Product;
+
+class Event extends \Magento\CatalogEvent\Block\Event\AbstractEvent
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry;
 
     /**
      * Catalog event data
      *
-     * @var Magento_CatalogEvent_Helper_Data
+     * @var \Magento\CatalogEvent\Helper\Data
      */
     protected $_catalogEventData;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_CatalogEvent_Helper_Data $catalogEventData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\CatalogEvent\Helper\Data $catalogEventData
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Core_Model_Registry $registry,
-        Magento_CatalogEvent_Helper_Data $catalogEventData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\CatalogEvent\Helper\Data $catalogEventData,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $locale, $data);
@@ -52,7 +54,7 @@ class Magento_CatalogEvent_Block_Catalog_Product_Event extends Magento_CatalogEv
     /**
      * Return current category event
      *
-     * @return Magento_CategoryEvent_Model_Event
+     * @return \Magento\CategoryEvent\Model\Event
      */
     public function getEvent()
     {
@@ -66,7 +68,7 @@ class Magento_CatalogEvent_Block_Catalog_Product_Event extends Magento_CatalogEv
     /**
      * Return current category
      *
-     * @return Magento_Catalog_Model_Category
+     * @return \Magento\Catalog\Model\Category
      */
     public function getProduct()
     {

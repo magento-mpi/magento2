@@ -15,35 +15,37 @@
  * @category   Magento
  * @package    Magento_Eav
  */
-class Magento_Eav_Model_Entity extends Magento_Eav_Model_Entity_Abstract
+namespace Magento\Eav\Model;
+
+class Entity extends \Magento\Eav\Model\Entity\AbstractEntity
 {
-    const DEFAULT_ENTITY_MODEL      = 'Magento_Eav_Model_Entity';
-    const DEFAULT_ATTRIBUTE_MODEL   = 'Magento_Eav_Model_Entity_Attribute';
-    const DEFAULT_BACKEND_MODEL     = 'Magento_Eav_Model_Entity_Attribute_Backend_Default';
-    const DEFAULT_FRONTEND_MODEL    = 'Magento_Eav_Model_Entity_Attribute_Frontend_Default';
-    const DEFAULT_SOURCE_MODEL      = 'Magento_Eav_Model_Entity_Attribute_Source_Config';
+    const DEFAULT_ENTITY_MODEL      = 'Magento\Eav\Model\Entity';
+    const DEFAULT_ATTRIBUTE_MODEL   = 'Magento\Eav\Model\Entity\Attribute';
+    const DEFAULT_BACKEND_MODEL     = 'Magento\Eav\Model\Entity\Attribute\Backend\DefaultBackend';
+    const DEFAULT_FRONTEND_MODEL    = 'Magento\Eav\Model\Entity\Attribute\Frontend\DefaultFrontend';
+    const DEFAULT_SOURCE_MODEL      = 'Magento\Eav\Model\Entity\Attribute\Source\Config';
 
     const DEFAULT_ENTITY_TABLE      = 'eav_entity';
     const DEFAULT_ENTITY_ID_FIELD   = 'entity_id';
 
     /**
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Eav_Model_Resource_Helper $resourceHelper
-     * @param Magento_Validator_UniversalFactory $universalFactory
-     * @param Magento_Core_Model_Resource $coreResource
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Core\Model\Resource $coreResource
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Eav_Model_Resource_Helper $resourceHelper,
-        Magento_Validator_UniversalFactory $universalFactory,
-        Magento_Core_Model_Resource $coreResource,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Eav\Model\Resource\Helper $resourceHelper,
+        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Core\Model\Resource $coreResource,
         $data = array()
     ) {
         parent::__construct(

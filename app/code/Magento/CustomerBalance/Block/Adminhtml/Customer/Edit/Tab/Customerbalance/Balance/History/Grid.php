@@ -11,47 +11,49 @@
 /**
  * Customer balance history grid
  */
-class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_History_Grid
-    extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance\History;
+
+class Grid
+    extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
-     * @var Magento_CustomerBalance_Model_Resource_Balance_Collection
+     * @var \Magento\CustomerBalance\Model\Resource\Balance\Collection
      */
     protected $_collection;
 
     /**
-     * @var Magento_CustomerBalance_Model_Balance_History
+     * @var \Magento\CustomerBalance\Model\Balance\History
      */
     protected $_history;
 
     /**
-     * @var Magento_CustomerBalance_Model_Balance_HistoryFactory
+     * @var \Magento\CustomerBalance\Model\Balance\HistoryFactory
      */
     protected $_historyFactory;
 
     /**
-     * @var Magento_Core_Model_System_Store
+     * @var \Magento\Core\Model\System\Store
      */
     protected $_systemStore;
 
     /**
-     * @param Magento_Core_Model_System_Store $systemStore
-     * @param Magento_CustomerBalance_Model_Balance_History $history
-     * @param Magento_CustomerBalance_Model_Balance_HistoryFactory $historyFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\CustomerBalance\Model\Balance\History $history
+     * @param \Magento\CustomerBalance\Model\Balance\HistoryFactory $historyFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_System_Store $systemStore,
-        Magento_CustomerBalance_Model_Balance_History $history,
-        Magento_CustomerBalance_Model_Balance_HistoryFactory $historyFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
+        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\CustomerBalance\Model\Balance\History $history,
+        \Magento\CustomerBalance\Model\Balance\HistoryFactory $historyFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
         array $data = array()
     ) {
         $this->_systemStore = $systemStore;
@@ -75,7 +77,7 @@ class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_
     /**
      * Prepare grid collection
      *
-     * @return Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_History_Grid
+     * @return \Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance_History_Grid
      */
     protected function _prepareCollection()
     {
@@ -90,7 +92,7 @@ class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_
     /**
      * Prepare grid columns
      *
-     * @return Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_History_Grid
+     * @return \Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance_History_Grid
      */
     protected function _prepareColumns()
     {
@@ -129,7 +131,7 @@ class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_
             'type'      => 'price',
             'sortable'  => false,
             'filter'    => false,
-            'renderer'  => 'Magento_CustomerBalance_Block_Adminhtml_Widget_Grid_Column_Renderer_Currency',
+            'renderer'  => 'Magento\CustomerBalance\Block\Adminhtml\Widget\Grid\Column\Renderer\Currency',
         ));
 
         $this->addColumn('balance_amount', array(
@@ -138,7 +140,7 @@ class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_
             'index'     => 'balance_amount',
             'sortable'  => false,
             'filter'    => false,
-            'renderer'  => 'Magento_CustomerBalance_Block_Adminhtml_Widget_Grid_Column_Renderer_Currency',
+            'renderer'  => 'Magento\CustomerBalance\Block\Adminhtml\Widget\Grid\Column\Renderer\Currency',
         ));
 
         $this->addColumn('is_customer_notified', array(

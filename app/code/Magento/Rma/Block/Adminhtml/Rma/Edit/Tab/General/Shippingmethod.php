@@ -11,8 +11,10 @@
 /**
  * Shipping Method Block at RMA page
  */
-class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
-    extends Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Abstract
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General;
+
+class Shippingmethod
+    extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\AbstractGeneral
 {
     /**
      * PSL Button statuses
@@ -24,52 +26,52 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
     /**
      * Variable to store RMA instance
      *
-     * @var null|Magento_Rma_Model_Rma
+     * @var null|\Magento\Rma\Model\Rma
      */
     protected $_rma;
 
     /**
      * Rma data
      *
-     * @var Magento_Rma_Helper_Data
+     * @var \Magento\Rma\Helper\Data
      */
     protected $_rmaData;
 
     /**
      * Tax data
      *
-     * @var Magento_Tax_Helper_Data
+     * @var \Magento\Tax\Helper\Data
      */
     protected $_taxData;
 
     /**
-     * @var Magento_Rma_Model_ShippingFactory
+     * @var \Magento\Rma\Model\ShippingFactory
      */
     protected $_shippingFactory;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Rma_Helper_Data $rmaData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Rma_Model_ShippingFactory $shippingFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Rma\Helper\Data $rmaData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Rma\Model\ShippingFactory $shippingFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Rma_Helper_Data $rmaData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Rma_Model_ShippingFactory $shippingFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Rma\Helper\Data $rmaData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Rma\Model\ShippingFactory $shippingFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_taxData = $taxData;
@@ -81,11 +83,11 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
 
     public function _construct()
     {
-        $buttonStatus       = Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod::PSL_DISALLOWED;
+        $buttonStatus       = \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shippingmethod::PSL_DISALLOWED;
         if ($this->_getShippingAvailability() && $this->getRma() && $this->getRma()->isAvailableForPrintLabel()) {
-            $buttonStatus   = Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod::PSL_ALLOWED;
+            $buttonStatus   = \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shippingmethod::PSL_ALLOWED;
         } elseif($this->getRma() && $this->getRma()->getButtonDisabledStatus()) {
-            $buttonStatus   = Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod::PSL_DISABLED;
+            $buttonStatus   = \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shippingmethod::PSL_DISABLED;
         }
 
         $this->setIsPsl($buttonStatus);
@@ -94,7 +96,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
     /**
      * Declare rma instance
      *
-     * @return  Magento_Rma_Model_Item
+     * @return  \Magento\Rma\Model\Item
      */
     public function getRma()
     {
@@ -121,11 +123,11 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
     /**
      * Retrieve shipment model instance
      *
-     * @return Magento_Rma_Model_Shipping
+     * @return \Magento\Rma\Model\Shipping
      */
     public function getShipment()
     {
-        /** @var $shipping Magento_Rma_Model_Shipping */
+        /** @var $shipping \Magento\Rma\Model\Shipping */
         $shipping = $this->_shippingFactory->create();
         return $shipping->getShippingLabelByRma($this->getRma());
     }
@@ -193,7 +195,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
         $url        = $this->getUrl('*/rma/printLabel', $data);
 
         return $this->getLayout()
-            ->createBlock('Magento_Adminhtml_Block_Widget_Button')
+            ->createBlock('Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
                 'label'   => __('Print Shipping Label'),
                 'onclick' => 'setLocation(\'' . $url . '\')'
@@ -209,7 +211,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
     public function getShowPackagesButton()
     {
         return $this->getLayout()
-            ->createBlock('Magento_Adminhtml_Block_Widget_Button')
+            ->createBlock('Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
                 'label'   => __('Show Packages'),
                 'onclick' => 'showPackedWindow();'
@@ -228,7 +230,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
         $url        = $this->getUrl('*/rma/printPackage', $data);
 
         return $this->getLayout()
-            ->createBlock('Magento_Adminhtml_Block_Widget_Button')
+            ->createBlock('Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
                 'label'   => __('Print'),
                 'onclick' => 'setLocation(\'' . $url . '\')'
@@ -267,7 +269,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
         $carrierCode= $this->getShipment()->getCarrierCode();
         $carrier    = $this->_rmaData->getCarrier($carrierCode, $this->getRma()->getStoreId());
         if ($carrier) {
-            $params = new Magento_Object(array('country_recipient' => $countryId));
+            $params = new \Magento\Object(array('country_recipient' => $countryId));
             $confirmationTypes = $carrier->getDeliveryConfirmationTypes($params);
             $containerType = !empty($confirmationTypes[$code]) ? $confirmationTypes[$code] : '';
             return $containerType;
@@ -315,9 +317,9 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
         $carrierCode= $this->getShipment()->getCarrierCode();
         $carrier    = $this->_rmaData->getCarrier($carrierCode, $storeId);
 
-        $countryShipper = $this->_storeConfig->getConfig(Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $storeId);
+        $countryShipper = $this->_storeConfig->getConfig(\Magento\Shipping\Model\Shipping::XML_PATH_STORE_COUNTRY_ID, $storeId);
         if ($carrier) {
-            $params = new Magento_Object(array(
+            $params = new \Magento\Object(array(
                 'method'            => $carrier->getMethod(),
                 'country_shipper'   => $countryShipper,
                 'country_recipient' => $address->getCountryId(),

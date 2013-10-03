@@ -9,17 +9,19 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Model_Resource_UrlTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Resource;
+
+class UrlTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_Resource_Url
+     * @var \Magento\Catalog\Model\Resource\Url
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Resource_Url');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Resource\Url');
     }
 
     /**

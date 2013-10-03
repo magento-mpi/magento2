@@ -11,8 +11,10 @@
 /**
  * Backend grid item renderer currency
  */
-class Magento_Backend_Block_Widget_Grid_Column_Renderer_Price
-    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
+
+class Price
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     protected $_defaultWidth = 100;
     /**
@@ -21,18 +23,18 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Price
     protected static $_currencies = array();
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @param Magento_Backend_Block_Context $context
-     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Context $context,
-        Magento_Core_Model_LocaleInterface $locale,
+        \Magento\Backend\Block\Context $context,
+        \Magento\Core\Model\LocaleInterface $locale,
         array $data = array()
     ) {
         $this->_locale = $locale;
@@ -42,10 +44,10 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Price
     /**
      * Renders grid column
      *
-     * @param   Magento_Object $row
+     * @param   \Magento\Object $row
      * @return  string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         if ($data = $row->getData($this->getColumn()->getIndex())) {
             $currencyCode = $this->_getCurrencyCode($row);
@@ -65,7 +67,7 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Price
     /**
      * Returns currency code for the row, false on error
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string|bool
      */
     protected function _getCurrencyCode($row)
@@ -82,7 +84,7 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Price
     /**
      * Returns rate for the row, 1 by default
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return float|int
      */
     protected function _getRate($row)

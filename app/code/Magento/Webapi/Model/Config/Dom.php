@@ -6,14 +6,16 @@
  * @license     {license_link}
  */
 
-class Magento_Webapi_Model_Config_Dom extends Magento_Config_Dom
+namespace Magento\Webapi\Model\Config;
+
+class Dom extends \Magento\Config\Dom
 {
 
     /**
      * Getter for node by path
      *
      * @param string $nodePath
-     * @return DOMElement|null
+     * @return \DOMElement|null
      */
     protected function _getMatchedNode($nodePath)
     {

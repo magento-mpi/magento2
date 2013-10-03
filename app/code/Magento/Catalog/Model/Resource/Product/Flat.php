@@ -16,7 +16,9 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Product_Flat extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Catalog\Model\Resource\Product;
+
+class Flat extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Store scope Id
@@ -28,28 +30,28 @@ class Magento_Catalog_Model_Resource_Product_Flat extends Magento_Core_Model_Res
     /**
      * Catalog config
      *
-     * @var Magento_Catalog_Model_Config
+     * @var \Magento\Catalog\Model\Config
      */
     protected $_catalogConfig;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Class constructor
      *
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Model_Config $catalogConfig
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Model_Config $catalogConfig,
-        Magento_Core_Model_Resource $resource
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\Core\Model\Resource $resource
     ) {
         $this->_storeManager = $storeManager;
         $this->_catalogConfig = $catalogConfig;
@@ -80,7 +82,7 @@ class Magento_Catalog_Model_Resource_Product_Flat extends Magento_Core_Model_Res
      * Set store for resource model
      *
      * @param mixed $store
-     * @return Magento_Catalog_Model_Resource_Product_Flat
+     * @return \Magento\Catalog\Model\Resource\Product\Flat
      */
     public function setStoreId($store)
     {
@@ -113,7 +115,7 @@ class Magento_Catalog_Model_Resource_Product_Flat extends Magento_Core_Model_Res
      */
     public function getTypeId()
     {
-        return $this->_catalogConfig->getEntityType(Magento_Catalog_Model_Product::ENTITY)
+        return $this->_catalogConfig->getEntityType(\Magento\Catalog\Model\Product::ENTITY)
             ->getEntityTypeId();
     }
 
@@ -173,13 +175,13 @@ class Magento_Catalog_Model_Resource_Product_Flat extends Magento_Core_Model_Res
      * Check whether the attribute is a real field in entity table
      * Rewrited for EAV Collection
      *
-     * @param integer|string|Magento_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param integer|string|\Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
      * @return bool
      */
     public function isAttributeStatic($attribute)
     {
         $attributeCode = null;
-        if ($attribute instanceof Magento_Eav_Model_Entity_Attribute_Interface) {
+        if ($attribute instanceof \Magento\Eav\Model\Entity\Attribute\AttributeInterface) {
             $attributeCode = $attribute->getAttributeCode();
         } elseif (is_string($attribute)) {
             $attributeCode = $attribute;
@@ -214,11 +216,11 @@ class Magento_Catalog_Model_Resource_Product_Flat extends Magento_Core_Model_Res
      * Special for non static flat table
      *
      * @param mixed $attribute
-     * @return Magento_Eav_Model_Entity_Attribute_Abstract
+     * @return \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
      */
     public function getAttribute($attribute)
     {
-        return $this->_catalogConfig->getAttribute(Magento_Catalog_Model_Product::ENTITY, $attribute);
+        return $this->_catalogConfig->getAttribute(\Magento\Catalog\Model\Product::ENTITY, $attribute);
     }
 
     /**

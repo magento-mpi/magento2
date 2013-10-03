@@ -16,36 +16,38 @@
  * @package    Magento_Downloadable
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Block_Adminhtml_Sales_Items_Column_Downloadable_Name extends Magento_Adminhtml_Block_Sales_Items_Column_Name
+namespace Magento\Downloadable\Block\Adminhtml\Sales\Items\Column\Downloadable;
+
+class Name extends \Magento\Adminhtml\Block\Sales\Items\Column\Name
 {
     protected $_purchased = null;
 
     /**
-     * @var Magento_Downloadable_Model_Link_PurchasedFactory
+     * @var \Magento\Downloadable\Model\Link\PurchasedFactory
      */
     protected $_purchasedFactory;
 
     /**
-     * @var Magento_Downloadable_Model_Resource_Link_Purchased_Item_CollectionFactory
+     * @var \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory
      */
     protected $_itemsFactory;
 
     /**
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Catalog_Model_Product_OptionFactory $optionFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Downloadable_Model_Link_PurchasedFactory $purchasedFactory
-     * @param Magento_Downloadable_Model_Resource_Link_Purchased_Item_CollectionFactory $itemsFactory
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Catalog\Model\Product\OptionFactory $optionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory
+     * @param \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_String $coreString,
-        Magento_Catalog_Model_Product_OptionFactory $optionFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Downloadable_Model_Link_PurchasedFactory $purchasedFactory,
-        Magento_Downloadable_Model_Resource_Link_Purchased_Item_CollectionFactory $itemsFactory,
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Catalog\Model\Product\OptionFactory $optionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory,
+        \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory,
         array $data = array()
     ) {
         $this->_purchasedFactory = $purchasedFactory;
@@ -66,7 +68,7 @@ class Magento_Downloadable_Block_Adminhtml_Sales_Items_Column_Downloadable_Name 
         if ($this->_purchased && $this->_purchased->getLinkSectionTitle()) {
             return $this->_purchased->getLinkSectionTitle();
         }
-        return $this->_storeConfig->getConfig(Magento_Downloadable_Model_Link::XML_PATH_LINKS_TITLE);
+        return $this->_storeConfig->getConfig(\Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE);
     }
 }
 ?>

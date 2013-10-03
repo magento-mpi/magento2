@@ -16,7 +16,9 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Model_Resource_Rma_Grid_Collection extends Magento_Rma_Model_Resource_Rma_Collection
+namespace Magento\Rma\Model\Resource\Rma\Grid;
+
+class Collection extends \Magento\Rma\Model\Resource\Rma\Collection
 {
 /**
      * Event prefix
@@ -45,7 +47,7 @@ class Magento_Rma_Model_Resource_Rma_Grid_Collection extends Magento_Rma_Model_R
     /**
      * Get SQL for get record count
      *
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function getSelectCountSql()
     {
@@ -53,9 +55,9 @@ class Magento_Rma_Model_Resource_Rma_Grid_Collection extends Magento_Rma_Model_R
 
         $unionSelect = clone $this->getSelect();
 
-        $unionSelect->reset(Zend_Db_Select::ORDER);
-        $unionSelect->reset(Zend_Db_Select::LIMIT_COUNT);
-        $unionSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
+        $unionSelect->reset(\Zend_Db_Select::ORDER);
+        $unionSelect->reset(\Zend_Db_Select::LIMIT_COUNT);
+        $unionSelect->reset(\Zend_Db_Select::LIMIT_OFFSET);
 
         $countSelect = clone $this->getSelect();
         $countSelect->reset();
@@ -69,7 +71,7 @@ class Magento_Rma_Model_Resource_Rma_Grid_Collection extends Magento_Rma_Model_R
      *
      * @param string $attribute
      * @param mixed $condition
-     * @return Magento_Rma_Model_Resource_Rma_Grid_Collection
+     * @return \Magento\Rma\Model\Resource\Rma\Grid\Collection
      */
     public function addAttributeToFilter($attribute, $condition = null)
     {

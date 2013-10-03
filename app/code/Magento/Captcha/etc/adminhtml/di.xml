@@ -8,14 +8,14 @@
  */
 -->
 <config>
-    <type name="Magento_Captcha_Model_Default">
+    <type name="Magento\Captcha\Model\DefaultModel">
         <param name="session">
-            <instance type="Magento_Backend_Model_Auth_Session" />
+            <instance type="Magento\Backend\Model\Auth\Session" />
         </param>
     </type>
-    <type name="Magento_Captcha_Model_Observer">
+    <type name="Magento\Captcha\Model\Observer">
         <param name="session">
-            <instance type="Magento_Backend_Model_Session" />
+            <instance type="Magento\Backend\Model\Session" />
         </param>
     </type>
 </config>

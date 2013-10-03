@@ -12,24 +12,26 @@
 /**
  * Test for an PDO MySQL adapter
  */
-class Magento_DB_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
+namespace Magento\DB\Adapter\Pdo;
+
+class MysqlTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Database adapter instance
      *
-     * @var Magento_DB_Adapter_Pdo_Mysql
+     * @var \Magento\DB\Adapter\Pdo\Mysql
      */
     protected $_dbAdapter = null;
 
     /**
      * Test lost connection re-initializing
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function testWaitTimeout()
     {
-        if (!($this->_getDbAdapter() instanceof Magento_DB_Adapter_Pdo_Mysql)) {
-            $this->markTestSkipped('This test is for Magento_DB_Adapter_Pdo_Mysql');
+        if (!($this->_getDbAdapter() instanceof \Magento\DB\Adapter\Pdo\Mysql)) {
+            $this->markTestSkipped('This test is for \Magento\DB\Adapter\Pdo\Mysql');
         }
         try {
             $defaultWaitTimeout = $this->_getWaitTimeout();
@@ -40,11 +42,11 @@ class Magento_DB_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
             // Sleep for time greater than wait_timeout and try to perform query
             sleep($minWaitTimeout + 1);
             $result = $this->_executeQuery('SELECT 1');
-            $this->assertInstanceOf('Magento_DB_Statement_Pdo_Mysql', $result);
+            $this->assertInstanceOf('Magento\DB\Statement\Pdo\Mysql', $result);
             // Restore wait_timeout
             $this->_setWaitTimeout($defaultWaitTimeout);
             $this->assertEquals($defaultWaitTimeout, $this->_getWaitTimeout(), 'Default wait timeout was not restored');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // Reset connection on failure to restore global variables
             $this->_getDbAdapter()->closeConnection();
             throw $e;
@@ -76,8 +78,8 @@ class Magento_DB_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
      * Execute SQL query and return result statement instance
      *
      * @param string $sql
-     * @return Zend_Db_Statement_Interface
-     * @throws Exception
+     * @return \Zend_Db_Statement_Interface
+     * @throws \Exception
      */
     protected function _executeQuery($sql)
     {
@@ -88,14 +90,14 @@ class Magento_DB_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
         $phpErrorReporting = error_reporting();
         /** @var $pdoConnection PDO */
         $pdoConnection = $this->_getDbAdapter()->getConnection();
-        $pdoWarningsEnabled = $pdoConnection->getAttribute(PDO::ATTR_ERRMODE) & PDO::ERRMODE_WARNING;
+        $pdoWarningsEnabled = $pdoConnection->getAttribute(\PDO::ATTR_ERRMODE) & \PDO::ERRMODE_WARNING;
         if (!$pdoWarningsEnabled) {
             error_reporting($phpErrorReporting & ~E_WARNING);
         }
         try {
             $result = $this->_getDbAdapter()->query($sql);
             error_reporting($phpErrorReporting);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             error_reporting($phpErrorReporting);
             throw $e;
         }
@@ -105,14 +107,14 @@ class Magento_DB_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
     /**
      * Retrieve database adapter instance
      *
-     * @return Magento_DB_Adapter_Pdo_Mysql
+     * @return \Magento\DB\Adapter\Pdo\Mysql
      */
     protected function _getDbAdapter()
     {
         if (is_null($this->_dbAdapter)) {
-            /** @var $coreResource Magento_Core_Model_Resource */
-            $coreResource = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                ->get('Magento_Core_Model_Resource');
+            /** @var $coreResource \Magento\Core\Model\Resource */
+            $coreResource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->get('Magento\Core\Model\Resource');
             $this->_dbAdapter = $coreResource->getConnection('default_setup');
         }
         return $this->_dbAdapter;

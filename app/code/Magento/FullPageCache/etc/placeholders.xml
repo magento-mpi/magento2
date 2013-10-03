@@ -9,79 +9,79 @@
 -->
 <config>
     <placeholder name="last_viewed_products" code="VIEWED_PRODUCTS" cacheLifeTime="86400">
-        <container instance="Magento_FullPageCache_Model_Container_Viewedproducts" />
-        <block instance="Magento_Reports_Block_Product_Viewed" />
+        <container instance="Magento\FullPageCache\Model\Container\Viewedproducts" />
+        <block instance="Magento\Reports\Block\Product\Viewed" />
     </placeholder>
     <placeholder name="last_viewed_products_widget" code="VIEWED_PRODUCTS_WIDGET" cacheLifeTime="86400">
-        <container instance="Magento_FullPageCache_Model_Container_Viewedproducts" />
-        <block instance="Magento_Reports_Block_Product_Widget_Viewed" />
+        <container instance="Magento\FullPageCache\Model\Container\Viewedproducts" />
+        <block instance="Magento\Reports\Block\Product\Widget\Viewed" />
     </placeholder>
     <placeholder name="catalog_navigation" code="CATALOG_NAVIGATION" cacheLifeTime="86400">
-        <container instance="Magento_FullPageCache_Model_Container_Catalognavigation" />
-        <block instance="Magento_Catalog_Block_Navigation" name="catalog.topnav" />
+        <container instance="Magento\FullPageCache\Model\Container\Catalognavigation" />
+        <block instance="Magento\Catalog\Block\Navigation" name="catalog.topnav" />
     </placeholder>
     <placeholder name="catalog_breadcrumbs" code="PAGE_BREADCRUMBS" cacheLifeTime="86400">
-        <container instance="Magento_FullPageCache_Model_Container_Breadcrumbs" />
-        <block instance="Magento_Page_Block_Html_Breadcrumbs" name="breadcrumbs" />
+        <container instance="Magento\FullPageCache\Model\Container\Breadcrumbs" />
+        <block instance="Magento\Page\Block\Html\Breadcrumbs" name="breadcrumbs" />
     </placeholder>
     <placeholder name="cart_sidebar" code="CART_SIDEBAR" cacheLifeTime="86400">
-        <container instance="Magento_FullPageCache_Model_Container_Sidebar_Cart" />
-        <block instance="Magento_Checkout_Block_Cart_Sidebar" />
+        <container instance="Magento\FullPageCache\Model\Container\Sidebar\Cart" />
+        <block instance="Magento\Checkout\Block\Cart\Sidebar" />
     </placeholder>
     <placeholder name="compare_list_sidebar" code="COMPARELIST_SIDEBAR" cacheLifeTime="86400">
-        <container instance="Magento_FullPageCache_Model_Container_Sidebar_Comparelist" />
-        <block instance="Magento_Catalog_Block_Product_Compare_Sidebar" />
+        <container instance="Magento\FullPageCache\Model\Container\Sidebar\Comparelist" />
+        <block instance="Magento\Catalog\Block\Product\Compare\Sidebar" />
     </placeholder>
     <placeholder name="messages" code="MESSAGES" cacheLifeTime="86400">
-        <container instance="Magento_FullPageCache_Model_Container_Messages" />
-        <block instance="Magento_Core_Block_Messages" name="messages" />
+        <container instance="Magento\FullPageCache\Model\Container\Messages" />
+        <block instance="Magento\Core\Block\Messages" name="messages" />
     </placeholder>
     <placeholder name="global_messages" code="GLOBAL_MESSAGES" cacheLifeTime="86400">
-        <container instance="Magento_FullPageCache_Model_Container_Messages" />
-        <block instance="Magento_Core_Block_Messages" name="global_messages" />
+        <container instance="Magento\FullPageCache\Model\Container\Messages" />
+        <block instance="Magento\Core\Block\Messages" name="global_messages" />
     </placeholder>
     <placeholder name="recently_compared_sidebar" code="RECENTLYCOMPARED_SIDEBAR" cacheLifeTime="86400">
-        <container instance="Magento_FullPageCache_Model_Container_Sidebar_Recentlycompared" />
-        <block instance="Magento_Reports_Block_Product_Compared" />
+        <container instance="Magento\FullPageCache\Model\Container\Sidebar\Recentlycompared" />
+        <block instance="Magento\Reports\Block\Product\Compared" />
     </placeholder>
     <placeholder name="welcome_message" code="WELCOME" cacheLifeTime="86400">
-        <container instance="Magento_FullPageCache_Model_Container_Welcome" />
-        <block instance="Magento_Page_Block_Html_Welcome" />
+        <container instance="Magento\FullPageCache\Model\Container\Welcome" />
+        <block instance="Magento\Page\Block\Html\Welcome" />
     </placeholder>
     <placeholder name="account_links" code="ACCLINKS" cacheLifeTime="86400">
-        <container instance="Magento_FullPageCache_Model_Container_Accountlinks" />
-        <block instance="Magento_Page_Block_Template_Links" name="account.links" />
+        <container instance="Magento\FullPageCache\Model\Container\Accountlinks" />
+        <block instance="Magento\Page\Block\Template\Links" name="account.links" />
     </placeholder>
     <placeholder name="wishlist" code="WISHLIST" cacheLifeTime="86400">
-        <container instance="Magento_FullPageCache_Model_Container_Wishlist" />
-        <block instance="Magento_Wishlist_Block_Customer_Sidebar" />
+        <container instance="Magento\FullPageCache\Model\Container\Wishlist" />
+        <block instance="Magento\Wishlist\Block\Customer\Sidebar" />
     </placeholder>
     <placeholder name="orders" code="ORDERS" cacheLifeTime="86400">
-        <container instance="Magento_FullPageCache_Model_Container_Orders" />
-        <block instance="Magento_Sales_Block_Reorder_Sidebar" />
+        <container instance="Magento\FullPageCache\Model\Container\Orders" />
+        <block instance="Magento\Sales\Block\Reorder\Sidebar" />
     </placeholder>
     <placeholder name="wishlist_links" code="WISHLISTLINKS" cacheLifeTime="86400">
-        <container instance="Magento_FullPageCache_Model_Container_Wishlistlinks" />
-        <block instance="Magento_Wishlist_Block_Link" />
+        <container instance="Magento\FullPageCache\Model\Container\Wishlistlinks" />
+        <block instance="Magento\Wishlist\Block\Link" />
     </placeholder>
     <placeholder name="widget_magento_banner" code="WIDGET_ENTERPRISE_BANNER" cacheLifeTime="86400">
-        <container instance="Magento_FullPageCache_Model_Container_Banner" />
-        <block instance="Magento_Banner_Block_Widget_Banner" />
+        <container instance="Magento\FullPageCache\Model\Container\Banner" />
+        <block instance="Magento\Banner\Block\Widget\Banner" />
     </placeholder>
     <placeholder name="catalog_product_item_related" code="CATALOG_PRODUCT_ITEM_RELATED" cacheLifeTime="86400">
-        <container instance="Magento_FullPageCache_Model_Container_CatalogProductItem" />
-        <block instance="Magento_TargetRule_Block_Catalog_Product_Item" name="catalog.product.related.item" />
+        <container instance="Magento\FullPageCache\Model\Container\CatalogProductItem" />
+        <block instance="Magento\TargetRule\Block\Catalog\Product\Item" name="catalog.product.related.item" />
     </placeholder>
     <placeholder name="catalog_product_item_upsell" code="CATALOG_PRODUCT_ITEM_UPSELL" cacheLifeTime="86400">
-        <container instance="Magento_FullPageCache_Model_Container_CatalogProductItem" />
-        <block instance="Magento_TargetRule_Block_Catalog_Product_Item" name="catalog.product.upsell.item" />
+        <container instance="Magento\FullPageCache\Model\Container\CatalogProductItem" />
+        <block instance="Magento\TargetRule\Block\Catalog\Product\Item" name="catalog.product.upsell.item" />
     </placeholder>
     <placeholder name="catalog_product_list_related" code="CATALOG_PRODUCT_LIST_RELATED" cacheLifeTime="86400">
-        <container instance="Magento_FullPageCache_Model_Container_CatalogProductList" />
-        <block instance="Magento_Catalog_Block_Product_List_Related" name="catalog.product.related" />
+        <container instance="Magento\FullPageCache\Model\Container\CatalogProductList" />
+        <block instance="Magento\Catalog\Block\Product\ProductList\Related" name="catalog.product.related" />
     </placeholder>
     <placeholder name="catalog_product_list_upsell" code="CATALOG_PRODUCT_LIST_UPSELL" cacheLifeTime="86400">
-        <container instance="Magento_FullPageCache_Model_Container_CatalogProductList" />
-        <block instance="Magento_Catalog_Block_Product_List_Upsell" name="product.info.upsell" />
+        <container instance="Magento\FullPageCache\Model\Container\CatalogProductList" />
+        <block instance="Magento\Catalog\Block\Product\ProductList\Upsell" name="product.info.upsell" />
     </placeholder>
 </config>

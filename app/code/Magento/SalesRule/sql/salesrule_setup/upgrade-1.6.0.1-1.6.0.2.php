@@ -9,7 +9,7 @@
  */
 
 /**
- * @var $installer Magento_Core_Model_Resource_Setup
+ * @var $installer \Magento\Core\Model\Resource\Setup
  */
 $installer = $this;
 
@@ -18,10 +18,10 @@ $installer->getConnection()
         $installer->getTable('salesrule_coupon'),
         'created_at',
         array(
-            'type'     => Magento_DB_Ddl_Table::TYPE_TIMESTAMP,
+            'type'     => \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
             'comment'  => 'Coupon Code Creation Date',
             'nullable' => false,
-            'default'  => Magento_DB_Ddl_Table::TIMESTAMP_INIT
+            'default'  => \Magento\DB\Ddl\Table::TIMESTAMP_INIT
         )
     );
 
@@ -29,7 +29,7 @@ $installer->getConnection()->addColumn(
         $installer->getTable('salesrule_coupon'),
         'type',
         array(
-            'type'     => Magento_DB_Ddl_Table::TYPE_SMALLINT,
+            'type'     => \Magento\DB\Ddl\Table::TYPE_SMALLINT,
             'comment'  => 'Coupon Code Type',
             'default'  => 0
         )
@@ -40,7 +40,7 @@ $installer->getConnection()
         $installer->getTable('salesrule'),
         'use_auto_generation',
         array(
-            'type'     => Magento_DB_Ddl_Table::TYPE_SMALLINT,
+            'type'     => \Magento\DB\Ddl\Table::TYPE_SMALLINT,
             'comment'  => 'Use Auto Generation',
             'nullable' => false,
             'default'  => 0
@@ -52,7 +52,7 @@ $installer->getConnection()
         $installer->getTable('salesrule'),
         'uses_per_coupon',
         array(
-            'type'     => Magento_DB_Ddl_Table::TYPE_INTEGER,
+            'type'     => \Magento\DB\Ddl\Table::TYPE_INTEGER,
             'comment'  => 'Uses Per Coupon',
             'nullable' => false,
             'default'  => 0
@@ -64,7 +64,7 @@ $installer->getConnection()
         $installer->getTable('coupon_aggregated'),
         'rule_name',
         array(
-            'type'     => Magento_DB_Ddl_Table::TYPE_TEXT,
+            'type'     => \Magento\DB\Ddl\Table::TYPE_TEXT,
             'length'   => 255,
             'comment'  => 'Rule Name',
         )
@@ -75,7 +75,7 @@ $installer->getConnection()
         $installer->getTable('coupon_aggregated_order'),
         'rule_name',
         array(
-            'type'     => Magento_DB_Ddl_Table::TYPE_TEXT,
+            'type'     => \Magento\DB\Ddl\Table::TYPE_TEXT,
             'length'   => 255,
             'comment'  => 'Rule Name',
         )
@@ -86,7 +86,7 @@ $installer->getConnection()
         $installer->getTable('coupon_aggregated_updated'),
         'rule_name',
         array(
-            'type'     => Magento_DB_Ddl_Table::TYPE_TEXT,
+            'type'     => \Magento\DB\Ddl\Table::TYPE_TEXT,
             'length'   => 255,
             'comment'  => 'Rule Name',
         )
@@ -98,10 +98,10 @@ $installer->getConnection()
         $installer->getIdxName(
             'coupon_aggregated',
             array('rule_name'),
-            Magento_DB_Adapter_Interface::INDEX_TYPE_INDEX
+            \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX
         ),
         array('rule_name'),
-        Magento_DB_Adapter_Interface::INDEX_TYPE_INDEX
+        \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX
     );
 
 $installer->getConnection()
@@ -110,10 +110,10 @@ $installer->getConnection()
         $installer->getIdxName(
             'coupon_aggregated_order',
             array('rule_name'),
-            Magento_DB_Adapter_Interface::INDEX_TYPE_INDEX
+            \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX
         ),
         array('rule_name'),
-        Magento_DB_Adapter_Interface::INDEX_TYPE_INDEX
+        \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX
     );
 
 $installer->getConnection()
@@ -122,8 +122,8 @@ $installer->getConnection()
         $installer->getIdxName(
             'coupon_aggregated_updated',
             array('rule_name'),
-            Magento_DB_Adapter_Interface::INDEX_TYPE_INDEX
+            \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX
         ),
         array('rule_name'),
-        Magento_DB_Adapter_Interface::INDEX_TYPE_INDEX
+        \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX
     );

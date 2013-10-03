@@ -11,25 +11,25 @@
 
 require __DIR__ . '/../../../Magento/Catalog/_files/products.php';
 
-/** @var $product Magento_Catalog_Model_Product */
-$product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Catalog_Model_Product');
+/** @var $product \Magento\Catalog\Model\Product */
+$product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Product');
 $product->load(1);
 
-$requestInfo = new Magento_Object(array(
+$requestInfo = new \Magento\Object(array(
     'qty' => 1
 ));
 
-/** @var $cart Magento_Checkout_Model_Cart */
-$cart = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Checkout_Model_Cart');
+/** @var $cart \Magento\Checkout\Model\Cart */
+$cart = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Checkout\Model\Cart');
 $cart->addProduct($product, $requestInfo);
 $cart->save();
 
-/** @var $objectManager Magento_TestFramework_ObjectManager */
-$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-$objectManager->get('Magento_Core_Model_Registry')->unregister('_singleton/Magento_Checkout_Model_Session');
+/** @var $objectManager \Magento\TestFramework\ObjectManager */
+$objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+$objectManager->get('Magento\Core\Model\Registry')->unregister('_singleton/Magento\Checkout\Model\Session');
 
-/** @var $objectManager Magento_TestFramework_ObjectManager */
-$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-$objectManager->removeSharedInstance('Magento_Checkout_Model_Session');
+/** @var $objectManager \Magento\TestFramework\ObjectManager */
+$objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+$objectManager->removeSharedInstance('Magento\Checkout\Model\Session');

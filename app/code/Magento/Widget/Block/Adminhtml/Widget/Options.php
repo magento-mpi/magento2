@@ -16,7 +16,9 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\Widget\Block\Adminhtml\Widget;
+
+class Options extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Element type used by default if configuration is omitted
@@ -25,32 +27,32 @@ class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Backend_Bloc
     protected $_defaultElementType = 'text';
     
     /**
-     * @var Magento_Widget_Model_Widget
+     * @var \Magento\Widget\Model\Widget
      */
     protected $_widget;
 
     /**
-     * @var Magento_Widget_Model_Widget_Instance_OptionsFactory
-     * @var Magento_Core_Model_Option_ArrayPool
+     * @var \Magento\Widget\Model\Widget\Instance\OptionsFactory
+     * @var \Magento\Core\Model\Option\ArrayPool
      */
     protected $_sourceModelPool;
 
     /**
-     * @param Magento_Core_Model_Option_ArrayPool $sourceModelPool
-     * @param Magento_Widget_Model_Widget $widget
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Core\Model\Option\ArrayPool $sourceModelPool
+     * @param \Magento\Widget\Model\Widget $widget
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Option_ArrayPool $sourceModelPool,
-        Magento_Widget_Model_Widget $widget,
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Core\Model\Option\ArrayPool $sourceModelPool,
+        \Magento\Widget\Model\Widget $widget,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_sourceModelPool = $sourceModelPool;
@@ -74,14 +76,14 @@ class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Backend_Bloc
     /**
      * Form getter/instantiation
      *
-     * @return Magento_Data_Form
+     * @return \Magento\Data\Form
      */
     public function getForm()
     {
-        if ($this->_form instanceof Magento_Data_Form) {
+        if ($this->_form instanceof \Magento\Data\Form) {
             return $this->_form;
         }
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $this->setForm($form);
         return $form;
@@ -90,11 +92,11 @@ class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Backend_Bloc
     /**
      * Fieldset getter/instantiation
      *
-     * @return Magento_Data_Form_Element_Fieldset
+     * @return \Magento\Data\Form\Element\Fieldset
      */
     public function getMainFieldset()
     {
-        if ($this->_getData('main_fieldset') instanceof Magento_Data_Form_Element_Fieldset) {
+        if ($this->_getData('main_fieldset') instanceof \Magento\Data\Form\Element\Fieldset) {
             return $this->_getData('main_fieldset');
         }
         $mainFieldsetHtmlId = 'options_fieldset' . md5($this->getWidgetType());
@@ -106,7 +108,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Backend_Bloc
         $this->setData('main_fieldset', $fieldset);
 
         // add dependence javascript block
-        $block = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Form_Element_Dependence');
+        $block = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Form\Element\Dependence');
         $this->setChild('form_after', $block);
 
         return $fieldset;
@@ -115,14 +117,14 @@ class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Backend_Bloc
     /**
      * Add fields to main fieldset based on specified widget type
      *
-     * @throws Magento_Core_Exception
-     * @return Magento_Adminhtml_Block_Widget_Form
+     * @throws \Magento\Core\Exception
+     * @return \Magento\Adminhtml\Block\Widget\Form
      */
     public function addFields()
     {
         // get configuration node and translation helper
         if (!$this->getWidgetType()) {
-            throw new Magento_Core_Exception(__('Please specify a Widget Type.'));
+            throw new \Magento\Core\Exception(__('Please specify a Widget Type.'));
         }
         $config = $this->_widget->getConfigAsObject($this->getWidgetType());
         if (!$config->getParameters()) {
@@ -138,8 +140,8 @@ class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Backend_Bloc
     /**
      * Add field to Options form based on parameter configuration
      *
-     * @param Magento_Object $parameter
-     * @return Magento_Data_Form_Element_Abstract
+     * @param \Magento\Object $parameter
+     * @return \Magento\Data\Form\Element\AbstractElement
      */
     protected function _addField($parameter)
     {
@@ -205,7 +207,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Backend_Bloc
         // extra html preparations
         if ($helper = $parameter->getHelperBlock()) {
             $helperBlock = $this->getLayout()->createBlock($helper->getType(), '', array('data' => $helper->getData()));
-            if ($helperBlock instanceof Magento_Object) {
+            if ($helperBlock instanceof \Magento\Object) {
                 $helperBlock->setConfig($helper->getData())
                     ->setFieldsetId($fieldset->getId())
                     ->prepareElementHtml($field);

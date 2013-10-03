@@ -11,7 +11,9 @@
 /**
  * Catalog product view processor
  */
-class Magento_FullPageCache_Model_Processor_Product extends Magento_FullPageCache_Model_Processor_Default
+namespace Magento\FullPageCache\Model\Processor;
+
+class Product extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
 {
     /**
      * Key for saving product id in metadata
@@ -21,50 +23,50 @@ class Magento_FullPageCache_Model_Processor_Product extends Magento_FullPageCach
     /**
      * FPC cache instance
      *
-     * @var Magento_FullPageCache_Model_Cache
+     * @var \Magento\FullPageCache\Model\Cache
      */
     protected $_fpcCache;
 
     /**
      * Cache processor
      *
-     * @var Magento_FullPageCache_Model_Processor
+     * @var \Magento\FullPageCache\Model\Processor
      */
     protected $_fpcProcessor;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_FullPageCache_Model_Processor $fpcProcessor
-     * @param Magento_Core_Model_Session $coreSession
-     * @param Magento_Core_Model_App_State $appState
-     * @param Magento_FullPageCache_Model_Container_PlaceholderFactory $placeholderFactory
-     * @param Magento_FullPageCache_Model_ContainerFactory $containerFactory
-     * @param Magento_FullPageCache_Model_Cache $fpcCache
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\FullPageCache\Model\Processor $fpcProcessor
+     * @param \Magento\Core\Model\Session $coreSession
+     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\FullPageCache\Model\Container\PlaceholderFactory $placeholderFactory
+     * @param \Magento\FullPageCache\Model\ContainerFactory $containerFactory
+     * @param \Magento\FullPageCache\Model\Cache $fpcCache
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_FullPageCache_Model_Processor $fpcProcessor,
-        Magento_Core_Model_Session $coreSession,
-        Magento_Core_Model_App_State $appState,
-        Magento_FullPageCache_Model_Container_PlaceholderFactory $placeholderFactory,
-        Magento_FullPageCache_Model_ContainerFactory $containerFactory,
-        Magento_FullPageCache_Model_Cache $fpcCache,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\FullPageCache\Model\Processor $fpcProcessor,
+        \Magento\Core\Model\Session $coreSession,
+        \Magento\Core\Model\App\State $appState,
+        \Magento\FullPageCache\Model\Container\PlaceholderFactory $placeholderFactory,
+        \Magento\FullPageCache\Model\ContainerFactory $containerFactory,
+        \Magento\FullPageCache\Model\Cache $fpcCache,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         parent::__construct($fpcProcessor, $coreSession, $appState, $placeholderFactory, $containerFactory);
         $this->_fpcCache = $fpcCache;
@@ -75,28 +77,28 @@ class Magento_FullPageCache_Model_Processor_Product extends Magento_FullPageCach
     /**
      * Prepare response body before caching
      *
-     * @param Zend_Controller_Response_Http $response
+     * @param \Zend_Controller_Response_Http $response
      * @return string
      */
-    public function prepareContent(Zend_Controller_Response_Http $response)
+    public function prepareContent(\Zend_Controller_Response_Http $response)
     {
         $countLimit = $this->_coreStoreConfig->getConfig(
-            Magento_Reports_Block_Product_Viewed::XML_PATH_RECENTLY_VIEWED_COUNT
+            \Magento\Reports\Block\Product\Viewed::XML_PATH_RECENTLY_VIEWED_COUNT
         );
         // save recently viewed product count limit
         $cacheId = $this->_fpcProcessor->getRecentlyViewedCountCacheId();
         if (!$this->_fpcCache->getFrontend()->test($cacheId)) {
-            $this->_fpcCache->save($countLimit, $cacheId, array(Magento_FullPageCache_Model_Processor::CACHE_TAG));
+            $this->_fpcCache->save($countLimit, $cacheId, array(\Magento\FullPageCache\Model\Processor::CACHE_TAG));
         }
         // save current product id
         $product = $this->_coreRegistry->registry('current_product');
         if ($product) {
             $cacheId = $this->_fpcProcessor->getRequestCacheId() . '_current_product_id';
             $this->_fpcCache->save(
-                $product->getId(), $cacheId, array(Magento_FullPageCache_Model_Processor::CACHE_TAG)
+                $product->getId(), $cacheId, array(\Magento\FullPageCache\Model\Processor::CACHE_TAG)
             );
             $this->_fpcProcessor->setMetadata(self::METADATA_PRODUCT_ID, $product->getId());
-            Magento_FullPageCache_Model_Cookie::registerViewedProducts($product->getId(), $countLimit);
+            \Magento\FullPageCache\Model\Cookie::registerViewedProducts($product->getId(), $countLimit);
         }
 
         return parent::prepareContent($response);

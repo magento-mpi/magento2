@@ -9,41 +9,43 @@
  * @license     {license_link}
  */
 
-class Magento_User_Model_Acl_Loader_RoleTest extends PHPUnit_Framework_TestCase
+namespace Magento\User\Model\Acl\Loader;
+
+class RoleTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_User_Model_Acl_Loader_Role
+     * @var \Magento\User\Model\Acl\Loader\Role
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_resourceMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_adapterMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_roleFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_groupFactoryMock;
 
     protected function setUp()
     {
-        $this->_resourceMock = $this->getMock('Magento_Core_Model_Resource', array(), array(), '', false, false);
-        $this->_groupFactoryMock = $this->getMock('Magento_User_Model_Acl_Role_GroupFactory',
+        $this->_resourceMock = $this->getMock('Magento\Core\Model\Resource', array(), array(), '', false, false);
+        $this->_groupFactoryMock = $this->getMock('Magento\User\Model\Acl\Role\GroupFactory',
             array('create'), array(), '', false
         );
         $this->_roleFactoryMock = $this->getMock(
-            'Magento_User_Model_Acl_Role_UserFactory', array('create'), array(), '', false
+            'Magento\User\Model\Acl\Role\UserFactory', array('create'), array(), '', false
         );
 
         $this->_resourceMock->expects($this->once())
@@ -52,12 +54,12 @@ class Magento_User_Model_Acl_Loader_RoleTest extends PHPUnit_Framework_TestCase
             ->will($this->returnArgument(1));
 
 
-        $selectMock = $this->getMock('Magento_DB_Select', array(), array(), '', false);
+        $selectMock = $this->getMock('Magento\DB\Select', array(), array(), '', false);
         $selectMock->expects($this->any())
             ->method('from')
             ->will($this->returnValue($selectMock));
 
-        $this->_adapterMock = $this->getMock('Magento_DB_Adapter_Pdo_Mysql', array(), array(), '', false);
+        $this->_adapterMock = $this->getMock('Magento\DB\Adapter\Pdo\Mysql', array(), array(), '', false);
         $this->_adapterMock->expects($this->once())
             ->method('select')
             ->will($this->returnValue($selectMock));
@@ -66,7 +68,7 @@ class Magento_User_Model_Acl_Loader_RoleTest extends PHPUnit_Framework_TestCase
             ->method('getConnection')
             ->will($this->returnValue($this->_adapterMock));
 
-        $this->_model = new Magento_User_Model_Acl_Loader_Role(
+        $this->_model = new \Magento\User\Model\Acl\Loader\Role(
             $this->_groupFactoryMock,
             $this->_roleFactoryMock,
             $this->_resourceMock
@@ -86,7 +88,7 @@ class Magento_User_Model_Acl_Loader_RoleTest extends PHPUnit_Framework_TestCase
         $this->_groupFactoryMock->expects($this->once())->method('create')->with(array('roleId' => 'G1'));
         $this->_roleFactoryMock->expects($this->once())->method('create')->with(array('roleId' => 'U1'));
 
-        $aclMock = $this->getMock('Magento_Acl');
+        $aclMock = $this->getMock('Magento\Acl');
         $aclMock->expects($this->at(0))->method('addRole')->with($this->anything(), null);
         $aclMock->expects($this->at(2))->method('addRole')->with($this->anything(), 'G1');
 
@@ -104,7 +106,7 @@ class Magento_User_Model_Acl_Loader_RoleTest extends PHPUnit_Framework_TestCase
         $this->_roleFactoryMock->expects($this->never())->method('getModelInstance');
         $this->_groupFactoryMock->expects($this->never())->method('getModelInstance');
 
-        $aclMock = $this->getMock('Magento_Acl');
+        $aclMock = $this->getMock('Magento\Acl');
         $aclMock->expects($this->at(0))->method('hasRole')->with('U1')
             ->will($this->returnValue(true));
         $aclMock->expects($this->at(1))->method('addRoleParent')->with('U1', 'G1');

@@ -16,10 +16,12 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_System_Store_Grid_Render_Store
-    extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\Adminhtml\Block\System\Store\Grid\Render;
+
+class Store
+    extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         if (!$row->getData($this->getColumn()->getIndex())) {
             return null;

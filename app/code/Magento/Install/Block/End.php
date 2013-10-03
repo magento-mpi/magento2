@@ -13,7 +13,9 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Install_Block_End extends Magento_Install_Block_Abstract
+namespace Magento\Install\Block;
+
+class End extends \Magento\Install\Block\AbstractBlock
 {
     /**
      * @var string
@@ -21,12 +23,12 @@ class Magento_Install_Block_End extends Magento_Install_Block_Abstract
     protected $_template = 'end.phtml';
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
     /**
-     * @var Magento_AdminNotification_Model_Survey
+     * @var \Magento\AdminNotification\Model\Survey
      */
     protected $_survey;
 
@@ -38,25 +40,25 @@ class Magento_Install_Block_End extends Magento_Install_Block_Abstract
     protected $_cryptKey;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Config $coreConfig
-     * @param Magento_AdminNotification_Model_Survey $survey
-     * @param Magento_Core_Model_Session_Generic $cryptKey
-     * @param Magento_Install_Model_Installer $installer
-     * @param Magento_Install_Model_Wizard $installWizard
-     * @param Magento_Core_Model_Session_Generic $session
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\AdminNotification\Model\Survey $survey
+     * @param \Magento\Core\Model\Session\Generic $cryptKey
+     * @param \Magento\Install\Model\Installer $installer
+     * @param \Magento\Install\Model\Wizard $installWizard
+     * @param \Magento\Core\Model\Session\Generic $session
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Config $coreConfig,
-        Magento_AdminNotification_Model_Survey $survey,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Config $coreConfig,
+        \Magento\AdminNotification\Model\Survey $survey,
         $cryptKey,
-        Magento_Install_Model_Installer $installer,
-        Magento_Install_Model_Wizard $installWizard,
-        Magento_Core_Model_Session_Generic $session,
+        \Magento\Install\Model\Installer $installer,
+        \Magento\Install\Model\Wizard $installWizard,
+        \Magento\Core\Model\Session\Generic $session,
         array $data = array()
     ) {
         $this->_cryptKey = $cryptKey;

@@ -7,9 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-require_once __DIR__ . '/../../../../../../../../tools/Magento/Tools/View/Generator/CopyRule.php';
+namespace Magento\Test\Tools\View\Generator;
 
-class Magento_Test_Tools_View_Generator_CopyRuleTest extends PHPUnit_Framework_TestCase
+require_once __DIR__ . '/../../../../../../../../tools/Magento/Tools/View/Generator/CopyRule.php';
+class CopyRuleTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var Generator_CopyRule
@@ -17,37 +18,37 @@ class Magento_Test_Tools_View_Generator_CopyRuleTest extends PHPUnit_Framework_T
     protected $_object;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_filesystem;
 
     /**
-     * @var Magento_Core_Model_Theme_Collection
+     * @var \Magento\Core\Model\Theme\Collection
      */
     protected $_themeCollection;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fallbackRule;
 
     protected function setUp()
     {
-        $this->_filesystem = $this->getMock('Magento_Filesystem', array('searchKeys', 'isDirectory'), array(
-            $this->getMockForAbstractClass('Magento_Filesystem_AdapterInterface')
+        $this->_filesystem = $this->getMock('Magento\Filesystem', array('searchKeys', 'isDirectory'), array(
+            $this->getMockForAbstractClass('Magento\Filesystem\AdapterInterface')
         ));
         $this->_themeCollection = $this->getMock(
-            'Magento_Core_Model_Theme_Collection',
+            'Magento\Core\Model\Theme\Collection',
             array('isLoaded'),
             array(
                 $this->_filesystem,
-                new Magento_Core_Model_Dir(__DIR__),
-                $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false)
+                new \Magento\Core\Model\Dir(__DIR__),
+                $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
             )
         );
         $this->_themeCollection->expects($this->any())->method('isLoaded')->will($this->returnValue(true));
-        $this->_fallbackRule = $this->getMockForAbstractClass('Magento_Core_Model_Design_Fallback_Rule_RuleInterface');
-        $this->_object = new Magento_Tools_View_Generator_CopyRule(
+        $this->_fallbackRule = $this->getMockForAbstractClass('Magento\Core\Model\Design\Fallback\Rule\RuleInterface');
+        $this->_object = new \Magento\Tools\View\Generator\CopyRule(
             $this->_filesystem,
             $this->_themeCollection,
             $this->_fallbackRule

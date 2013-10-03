@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceBlock name="category.edit">
-        <block class="Magento_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons" name="event.buttons">
+        <block class="Magento\CatalogEvent\Block\Adminhtml\Catalog\Category\Edit\Buttons" name="event.buttons">
             <action method="addButtons"/>
         </block>
     </referenceBlock>

@@ -17,14 +17,18 @@
  * @category   Magento
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
+ */
+namespace Magento\Backend\Block\System\Config;
+
+/**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_Backend_Block_System_Config_Tabs extends Magento_Backend_Block_Widget
+class Tabs extends \Magento\Backend\Block\Widget
 {
     /**
      * Tabs
      *
-     * @var Magento_Backend_Model_Config_Structure_Element_Iterator
+     * @var \Magento\Backend\Model\Config\Structure\Element\Iterator
      */
     protected $_tabs;
 
@@ -57,15 +61,15 @@ class Magento_Backend_Block_System_Config_Tabs extends Magento_Backend_Block_Wid
     protected $_storeCode;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Backend_Model_Config_Structure $configStructure
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Model\Config\Structure $configStructure
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Backend_Model_Config_Structure $configStructure,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Model\Config\Structure $configStructure,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);
@@ -75,13 +79,13 @@ class Magento_Backend_Block_System_Config_Tabs extends Magento_Backend_Block_Wid
         $this->setTitle(__('Configuration'));
         $this->_currentSectionId = $this->getRequest()->getParam('section');
 
-        $this->helper('Magento_Backend_Helper_Data')->addPageHelpUrl($this->getRequest()->getParam('section') . '/');
+        $this->helper('Magento\Backend\Helper\Data')->addPageHelpUrl($this->getRequest()->getParam('section') . '/');
     }
 
     /**
      * Get all tabs
      *
-     * @return Magento_Backend_Model_Config_Structure_Element_Iterator
+     * @return \Magento\Backend\Model\Config\Structure\Element\Iterator
      */
     public function getTabs()
     {
@@ -91,10 +95,10 @@ class Magento_Backend_Block_System_Config_Tabs extends Magento_Backend_Block_Wid
     /**
      * Retrieve section url by section id
      *
-     * @param Magento_Backend_Model_Config_Structure_Element_Section $section
+     * @param \Magento\Backend\Model\Config\Structure\Element\Section $section
      * @return string
      */
-    public function getSectionUrl(Magento_Backend_Model_Config_Structure_Element_Section $section)
+    public function getSectionUrl(\Magento\Backend\Model\Config\Structure\Element\Section $section)
     {
         return $this->getUrl('*/*/*', array('_current' => true, 'section' => $section->getId()));
     }
@@ -102,10 +106,10 @@ class Magento_Backend_Block_System_Config_Tabs extends Magento_Backend_Block_Wid
     /**
      * Check whether section should be displayed as active
      *
-     * @param Magento_Backend_Model_Config_Structure_Element_Section $section
+     * @param \Magento\Backend\Model\Config\Structure\Element\Section $section
      * @return bool
      */
-    public function isSectionActive(Magento_Backend_Model_Config_Structure_Element_Section $section)
+    public function isSectionActive(\Magento\Backend\Model\Config\Structure\Element\Section $section)
     {
         return $section->getId() == $this->_currentSectionId;
     }

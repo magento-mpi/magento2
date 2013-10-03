@@ -12,7 +12,9 @@
  * Cache cleaner backend model
  *
  */
-class Magento_Backend_Model_Config_Backend_Cache extends Magento_Core_Model_Config_Value
+namespace Magento\Backend\Model\Config\Backend;
+
+class Cache extends \Magento\Core\Model\Config\Value
 {
     /**
      * Cache tags to clean

@@ -1,16 +1,18 @@
 <?php
 /**
- * Test class for Magento_Profiler_Driver_Factory
+ * Test class for \Magento\Profiler\Driver\Factory
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Profiler_Driver_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Profiler\Driver;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Profiler_Driver_Factory
+     * @var \Magento\Profiler\Driver\Factory
      */
     protected $_factory;
 
@@ -26,7 +28,7 @@ class Magento_Profiler_Driver_FactoryTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_factory = new Magento_Profiler_Driver_Factory(
+        $this->_factory = new \Magento\Profiler\Driver\Factory(
             $this->_defaultDriverPrefix,
             $this->_defaultDriverType
         );
@@ -40,7 +42,7 @@ class Magento_Profiler_Driver_FactoryTest extends PHPUnit_Framework_TestCase
 
     public function testDefaultConstructor()
     {
-        $factory = new Magento_Profiler_Driver_Factory();
+        $factory = new \Magento\Profiler\Driver\Factory();
         $this->assertAttributeNotEmpty('_defaultDriverPrefix', $factory);
         $this->assertAttributeNotEmpty('_defaultDriverType', $factory);
     }
@@ -54,7 +56,7 @@ class Magento_Profiler_Driver_FactoryTest extends PHPUnit_Framework_TestCase
     {
         $driver = $this->_factory->create($config);
         $this->assertInstanceOf($expectedClass, $driver);
-        $this->assertInstanceOf('Magento_Profiler_DriverInterface', $driver);
+        $this->assertInstanceOf('Magento\Profiler\DriverInterface', $driver);
     }
 
     /**
@@ -63,10 +65,10 @@ class Magento_Profiler_Driver_FactoryTest extends PHPUnit_Framework_TestCase
     public function createDataProvider()
     {
         $defaultDriverClass = $this->getMockClass(
-            'Magento_Profiler_DriverInterface', array(), array(), 'Magento_Profiler_Driver_Test_Default'
+            'Magento\Profiler\DriverInterface', array(), array(), 'Magento_Profiler_Driver_Test_Default'
         );
         $testDriverClass = $this->getMockClass(
-            'Magento_Profiler_DriverInterface', array(), array(), 'Magento_Profiler_Driver_Test_Test'
+            'Magento\Profiler\DriverInterface', array(), array(), 'Magento_Profiler_Driver_Test_Test'
         );
         return array(
             'Prefix and concrete type' => array(
@@ -89,7 +91,7 @@ class Magento_Profiler_Driver_FactoryTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Cannot create profiler driver, class "Magento_Profiler_Driver_Test_Baz" doesn't exist.
      */
     public function testCreateUndefinedClass()
@@ -100,8 +102,8 @@ class Magento_Profiler_Driver_FactoryTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Driver class "stdClass" must implement Magento_Profiler_DriverInterface.
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Driver class "stdClass" must implement \Magento\Profiler\DriverInterface.
      */
     public function testCreateInvalidClass()
     {

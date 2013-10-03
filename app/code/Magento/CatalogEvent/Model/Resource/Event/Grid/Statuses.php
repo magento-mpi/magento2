@@ -15,7 +15,9 @@
  * @package    Enterpise_CatalogEvent
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogEvent_Model_Resource_Event_Grid_Statuses implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\CatalogEvent\Model\Resource\Event\Grid;
+
+class Statuses implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Return statuses option array
@@ -25,9 +27,9 @@ class Magento_CatalogEvent_Model_Resource_Event_Grid_Statuses implements Magento
     public function toOptionArray()
     {
         return array(
-            Magento_CatalogEvent_Model_Event::STATUS_UPCOMING => __('Upcoming'),
-            Magento_CatalogEvent_Model_Event::STATUS_OPEN 	  => __('Open'),
-            Magento_CatalogEvent_Model_Event::STATUS_CLOSED   => __('Closed'),
+            \Magento\CatalogEvent\Model\Event::STATUS_UPCOMING => __('Upcoming'),
+            \Magento\CatalogEvent\Model\Event::STATUS_OPEN 	  => __('Open'),
+            \Magento\CatalogEvent\Model\Event::STATUS_CLOSED   => __('Closed'),
         );
     }
 }

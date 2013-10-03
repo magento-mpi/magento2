@@ -16,8 +16,10 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management
-    extends Magento_Adminhtml_Block_Template
+namespace Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward;
+
+class Management
+    extends \Magento\Adminhtml\Block\Template
 {
 
     protected $_template = 'customer/edit/management.phtml';
@@ -25,17 +27,17 @@ class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management
     /**
      * Prepare layout
      *
-     * @return Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management
+     * @return \Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management
      */
     protected function _prepareLayout()
     {
         $total = $this->getLayout()
-            ->createBlock('Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Balance');
+            ->createBlock('Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance');
 
         $this->setChild('balance', $total);
 
         $update = $this->getLayout()
-            ->createBlock('Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Update');
+            ->createBlock('Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Update');
 
         $this->setChild('update', $update);
 

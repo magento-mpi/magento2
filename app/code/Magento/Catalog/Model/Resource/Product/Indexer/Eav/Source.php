@@ -16,29 +16,31 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Product_Indexer_Eav_Source
-    extends Magento_Catalog_Model_Resource_Product_Indexer_Eav_Abstract
+namespace Magento\Catalog\Model\Resource\Product\Indexer\Eav;
+
+class Source
+    extends \Magento\Catalog\Model\Resource\Product\Indexer\Eav\AbstractEav
 {
     /**
      * Catalog resource helper
      *
-     * @var Magento_Catalog_Model_Resource_Helper
+     * @var \Magento\Catalog\Model\Resource\Helper
      */
     protected $_resourceHelper;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Catalog_Model_Resource_Helper $resourceHelper
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Catalog\Model\Resource\Helper $resourceHelper
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Catalog_Model_Resource_Helper $resourceHelper
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Catalog\Model\Resource\Helper $resourceHelper
     ) {
         $this->_resourceHelper = $resourceHelper;
         parent::__construct($resource, $eavConfig, $eventManager);
@@ -85,7 +87,7 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav_Source
      *
      * @param array $entityIds      the entity ids limitation
      * @param int $attributeId      the attribute id limitation
-     * @return Magento_Catalog_Model_Resource_Product_Indexer_Eav_Source
+     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Eav\Source
      */
     protected function _prepareIndex($entityIds = null, $attributeId = null)
     {
@@ -100,7 +102,7 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav_Source
      *
      * @param array $entityIds      the entity ids limitation
      * @param int $attributeId      the attribute id limitation
-     * @return Magento_Catalog_Model_Resource_Product_Indexer_Eav_Source
+     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Eav\Source
      */
     protected function _prepareSelectIndex($entityIds = null, $attributeId = null)
     {
@@ -117,7 +119,7 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav_Source
             return $this;
         }
 
-        /**@var $subSelect Magento_DB_Select*/
+        /**@var $subSelect \Magento\DB\Select*/
         $subSelect = $adapter->select()
             ->from(
                 array('s' => $this->getTable('core_store')),
@@ -134,10 +136,10 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav_Source
             $subSelect->where('d.entity_id IN(?)', $entityIds);
         }
 
-        /**@var $select Magento_DB_Select*/
+        /**@var $select \Magento\DB\Select*/
         $select = $adapter->select()
             ->from(
-                array('pid' => new Zend_Db_Expr(sprintf('(%s)',$subSelect->assemble()))),
+                array('pid' => new \Zend_Db_Expr(sprintf('(%s)',$subSelect->assemble()))),
                 array()
             )
             ->joinLeft(
@@ -162,9 +164,9 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav_Source
          */
         $this->_eventManager->dispatch('prepare_catalog_product_index_select', array(
             'select'        => $select,
-            'entity_field'  => new Zend_Db_Expr('pid.entity_id'),
-            'website_field' => new Zend_Db_Expr('pid.website_id'),
-            'store_field'   => new Zend_Db_Expr('pid.store_id')
+            'entity_field'  => new \Zend_Db_Expr('pid.entity_id'),
+            'website_field' => new \Zend_Db_Expr('pid.website_id'),
+            'store_field'   => new \Zend_Db_Expr('pid.store_id')
         ));
 
         $query = $select->insertFromSelect($idxTable);
@@ -178,7 +180,7 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav_Source
      *
      * @param array $entityIds      the entity ids limitation
      * @param int $attributeId      the attribute id limitation
-     * @return Magento_Catalog_Model_Resource_Product_Indexer_Eav_Source
+     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Eav\Source
      */
     protected function _prepareMultiselectIndex($entityIds = null, $attributeId = null)
     {
@@ -220,11 +222,11 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav_Source
                 'pvs.entity_id = pvd.entity_id AND pvs.attribute_id = pvd.attribute_id'
                     . ' AND pvs.store_id=cs.store_id',
                 array('value' => $productValueExpression))
-            ->where('pvd.store_id=?', Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID)
-            ->where('cs.store_id!=?', Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID)
+            ->where('pvd.store_id=?', \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID)
+            ->where('cs.store_id!=?', \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID)
             ->where('pvd.attribute_id IN(?)', $attrIds);
 
-        $statusCond = $adapter->quoteInto('=?', Magento_Catalog_Model_Product_Status::STATUS_ENABLED);
+        $statusCond = $adapter->quoteInto('=?', \Magento\Catalog\Model\Product\Status::STATUS_ENABLED);
         $this->_addAttributeToSelect($select, 'status', 'pvd.entity_id', 'cs.store_id', $statusCond);
 
         if (!is_null($entityIds)) {
@@ -236,9 +238,9 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav_Source
          */
         $this->_eventManager->dispatch('prepare_catalog_product_index_select', array(
             'select'        => $select,
-            'entity_field'  => new Zend_Db_Expr('pvd.entity_id'),
-            'website_field' => new Zend_Db_Expr('cs.website_id'),
-            'store_field'   => new Zend_Db_Expr('cs.store_id')
+            'entity_field'  => new \Zend_Db_Expr('pvd.entity_id'),
+            'website_field' => new \Zend_Db_Expr('cs.website_id'),
+            'store_field'   => new \Zend_Db_Expr('cs.store_id')
         ));
 
         $i     = 0;
@@ -274,7 +276,7 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav_Source
      * Save a data to temporary source index table
      *
      * @param array $data
-     * @return Magento_Catalog_Model_Resource_Product_Indexer_Eav_Source
+     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Eav\Source
      */
     protected function _saveIndexData(array $data)
     {

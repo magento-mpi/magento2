@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Validator_Constraint_Option_Callback implements Magento_Validator_Constraint_OptionInterface
+namespace Magento\Validator\Constraint\Option;
+
+class Callback implements \Magento\Validator\Constraint\OptionInterface
 {
     /**
      * @var callable
@@ -58,7 +60,7 @@ class Magento_Validator_Constraint_Option_Callback implements Magento_Validator_
      * Get callback value
      *
      * @return mixed
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function getValue()
     {
@@ -66,17 +68,17 @@ class Magento_Validator_Constraint_Option_Callback implements Magento_Validator_
 
         if (is_array($callable) && isset($callable[0]) && is_string($callable[0])) {
             if (!class_exists($callable[0])) {
-                throw new InvalidArgumentException(sprintf('Class "%s" was not found', $callable[0]));
+                throw new \InvalidArgumentException(sprintf('Class "%s" was not found', $callable[0]));
             }
             if ($this->_createInstance) {
                 $callable[0] = new $callable[0]();
             }
         } elseif ($this->_createInstance) {
-            throw new InvalidArgumentException('Callable expected to be an array with class name as first element');
+            throw new \InvalidArgumentException('Callable expected to be an array with class name as first element');
         }
 
         if (!is_callable($callable)) {
-            throw new InvalidArgumentException('Callback does not callable');
+            throw new \InvalidArgumentException('Callback does not callable');
         }
 
         if ($this->_arguments) {

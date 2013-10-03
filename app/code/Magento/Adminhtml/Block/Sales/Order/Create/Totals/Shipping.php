@@ -14,34 +14,36 @@
  * @author Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Sales_Order_Create_Totals_Shipping
-    extends Magento_Adminhtml_Block_Sales_Order_Create_Totals_Default
+namespace Magento\Adminhtml\Block\Sales\Order\Create\Totals;
+
+class Shipping
+    extends \Magento\Adminhtml\Block\Sales\Order\Create\Totals\DefaultTotals
 {
     protected $_template = 'sales/order/create/totals/shipping.phtml';
 
     /**
-     * @var Magento_Tax_Model_Config
+     * @var \Magento\Tax\Model\Config
      */
     protected $_taxConfig;
 
     /**
-     * @param Magento_Tax_Model_Config $taxConfig
-     * @param Magento_Sales_Helper_Data $salesData
-     * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
-     * @param Magento_Adminhtml_Model_Sales_Order_Create $orderCreate
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Sales_Model_Config $salesConfig
+     * @param \Magento\Tax\Model\Config $taxConfig
+     * @param \Magento\Sales\Helper\Data $salesData
+     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Sales\Model\Config $salesConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Tax_Model_Config $taxConfig,
-        Magento_Sales_Helper_Data $salesData,
-        Magento_Adminhtml_Model_Session_Quote $sessionQuote,
-        Magento_Adminhtml_Model_Sales_Order_Create $orderCreate,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Sales_Model_Config $salesConfig,
+        \Magento\Tax\Model\Config $taxConfig,
+        \Magento\Sales\Helper\Data $salesData,
+        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Sales\Model\Config $salesConfig,
         array $data = array()
     ) {
         $this->_taxConfig = $taxConfig;

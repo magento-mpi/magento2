@@ -15,27 +15,29 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Model_Search_Order extends Magento_Object
+namespace Magento\Adminhtml\Model\Search;
+
+class Order extends \Magento\Object
 {
     /**
      * Adminhtml data
      *
-     * @var Magento_Adminhtml_Helper_Data
+     * @var \Magento\Adminhtml\Helper\Data
      */
     protected $_adminhtmlData = null;
 
     /**
-     * @var Magento_Sales_Model_Resource_Order_CollectionFactory
+     * @var \Magento\Sales\Model\Resource\Order\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @param Magento_Sales_Model_Resource_Order_CollectionFactory $collectionFactory
-     * @param Magento_Adminhtml_Helper_Data $adminhtmlData
+     * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $collectionFactory
+     * @param \Magento\Adminhtml\Helper\Data $adminhtmlData
      */
     public function __construct(
-        Magento_Sales_Model_Resource_Order_CollectionFactory $collectionFactory,
-        Magento_Adminhtml_Helper_Data $adminhtmlData
+        \Magento\Sales\Model\Resource\Order\CollectionFactory $collectionFactory,
+        \Magento\Adminhtml\Helper\Data $adminhtmlData
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_adminhtmlData = $adminhtmlData;
@@ -44,7 +46,7 @@ class Magento_Adminhtml_Model_Search_Order extends Magento_Object
     /**
      * Load search results
      *
-     * @return Magento_Adminhtml_Model_Search_Order
+     * @return \Magento\Adminhtml\Model\Search\Order
      */
     public function load()
     {

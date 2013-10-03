@@ -15,7 +15,9 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Block_Widget_Grid_Serializer extends Magento_Core_Block_Template
+namespace Magento\Backend\Block\Widget\Grid;
+
+class Serializer extends \Magento\Core\Block\Template
 {
     /**
      * Preparing global layout
@@ -28,7 +30,7 @@ class Magento_Backend_Block_Widget_Grid_Serializer extends Magento_Core_Block_Te
         if (is_string($grid)) {
             $grid = $this->getLayout()->getBlock($grid);
         }
-        if ($grid instanceof Magento_Backend_Block_Widget_Grid) {
+        if ($grid instanceof \Magento\Backend\Block\Widget\Grid) {
             $this->setGridBlock($grid)
                 ->setSerializeData($grid->{$this->getCallback()}());
         }

@@ -5,22 +5,24 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_ObjectManager_Factory_Factory implements Magento_ObjectManager_Factory
+namespace Magento\ObjectManager\Factory;
+
+class Factory implements \Magento\ObjectManager\Factory
 {
     /**
-     * @var Magento_ObjectManager_ObjectManager
+     * @var \Magento\ObjectManager\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @var Magento_ObjectManager_Config
+     * @var \Magento\ObjectManager\Config
      */
     protected $_config;
 
     /**
      * Definition list
      *
-     * @var Magento_ObjectManager_Definition
+     * @var \Magento\ObjectManager\Definition
      */
     protected $_definitions;
 
@@ -39,20 +41,20 @@ class Magento_ObjectManager_Factory_Factory implements Magento_ObjectManager_Fac
     protected $_globalArguments = array();
 
     /**
-     * @param Magento_ObjectManager_Config $config
-     * @param Magento_ObjectManager_ObjectManager $objectManager
-     * @param Magento_ObjectManager_Definition $definitions
+     * @param \Magento\ObjectManager\Config $config
+     * @param \Magento\ObjectManager\ObjectManager $objectManager
+     * @param \Magento\ObjectManager\Definition $definitions
      * @param array $globalArguments
      */
     public function __construct(
-        Magento_ObjectManager_Config $config,
-        Magento_ObjectManager_ObjectManager $objectManager = null,
-        Magento_ObjectManager_Definition $definitions = null,
+        \Magento\ObjectManager\Config $config,
+        \Magento\ObjectManager\ObjectManager $objectManager = null,
+        \Magento\ObjectManager\Definition $definitions = null,
         $globalArguments = array()
     ) {
         $this->_objectManager = $objectManager;
         $this->_config = $config;
-        $this->_definitions = $definitions ?: new Magento_ObjectManager_Definition_Runtime();
+        $this->_definitions = $definitions ?: new \Magento\ObjectManager\Definition\Runtime();
         $this->_globalArguments = $globalArguments;
     }
 
@@ -63,8 +65,8 @@ class Magento_ObjectManager_Factory_Factory implements Magento_ObjectManager_Fac
      * @param array $parameters
      * @param array $arguments
      * @return array
-     * @throws LogicException
-     * @throws BadMethodCallException
+     * @throws \LogicException
+     * @throws \BadMethodCallException
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
@@ -83,7 +85,7 @@ class Magento_ObjectManager_Factory_Factory implements Magento_ObjectManager_Fac
                     $argument = array('instance' => $paramType);
                 } else {
                     $this->_creationStack = array();
-                    throw new BadMethodCallException(
+                    throw new \BadMethodCallException(
                         'Missing required argument $' . $paramName . ' for ' . $requestedType . '.'
                     );
                 }
@@ -93,14 +95,14 @@ class Magento_ObjectManager_Factory_Factory implements Magento_ObjectManager_Fac
             if ($paramType && !is_object($argument) && $argument !== $paramDefault) {
                 if (!is_array($argument) || !isset($argument['instance'])) {
                     $this->_creationStack = array();
-                    throw new InvalidArgumentException(
+                    throw new \InvalidArgumentException(
                         'Invalid parameter configuration provided for $' . $paramName . ' argument in ' . $requestedType
                     );
                 }
                 $argumentType = $argument['instance'];
                 if (isset($this->_creationStack[$argumentType])) {
                     $this->_creationStack = array();
-                    throw new LogicException(
+                    throw new \LogicException(
                         'Circular dependency: ' . $argumentType . ' depends on ' . $requestedType . ' and viceversa.'
                     );
                 }
@@ -124,9 +126,9 @@ class Magento_ObjectManager_Factory_Factory implements Magento_ObjectManager_Fac
     /**
      * Set object manager
      *
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function setObjectManager(Magento_ObjectManager $objectManager)
+    public function setObjectManager(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -137,8 +139,8 @@ class Magento_ObjectManager_Factory_Factory implements Magento_ObjectManager_Fac
      * @param string $requestedType
      * @param array $arguments
      * @return object
-     * @throws LogicException
-     * @throws BadMethodCallException
+     * @throws \LogicException
+     * @throws \BadMethodCallException
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */

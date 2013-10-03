@@ -9,17 +9,19 @@
  * @license     {license_link}
  */
 
-class Magento_CatalogSearch_Helper_DataTest extends PHPUnit_Framework_TestCase
+namespace Magento\CatalogSearch\Helper;
+
+class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_CatalogSearch_Helper_Data
+     * @var \Magento\CatalogSearch\Helper\Data
      */
     protected $_helper;
 
     protected function setUp()
     {
-        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_CatalogSearch_Helper_Data');
+        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\CatalogSearch\Helper\Data');
     }
 
     public function testGetResultUrl()
@@ -37,7 +39,7 @@ class Magento_CatalogSearch_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function testCheckNotesResult()
     {
-        $this->assertInstanceOf('Magento_CatalogSearch_Helper_Data', $this->_helper->checkNotes());
+        $this->assertInstanceOf('Magento\CatalogSearch\Helper\Data', $this->_helper->checkNotes());
     }
 
     /**
@@ -46,17 +48,17 @@ class Magento_CatalogSearch_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testCheckNotesEscapesHtmlWhenQueryIsCut()
     {
-        /** @var Magento_TestFramework_ObjectManager  $objectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var $mock Magento_CatalogSearch_Helper_Data */
+        /** @var \Magento\TestFramework\ObjectManager  $objectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var $mock \Magento\CatalogSearch\Helper\Data */
         $mock = $this->getMock(
-            'Magento_CatalogSearch_Helper_Data',
+            'Magento\CatalogSearch\Helper\Data',
             array('getQueryText'),
             array(
-                $objectManager->get('Magento_Core_Helper_Context'),
-                $objectManager->get('Magento_Core_Helper_String'),
-                $objectManager->get('Magento_Core_Model_Store_ConfigInterface'),
-                $objectManager->get('Magento_CatalogSearch_Model_QueryFactory'),
+                $objectManager->get('Magento\Core\Helper\Context'),
+                $objectManager->get('Magento\Core\Helper\String'),
+                $objectManager->get('Magento\Core\Model\Store\ConfigInterface'),
+                $objectManager->get('Magento\CatalogSearch\Model\QueryFactory'),
         ));
         $mock->expects($this->any())
             ->method('getQueryText')

@@ -13,32 +13,34 @@
  * @package     Magento_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  * @method string getName() Consumer name (joined from consumer table)
- * @method Magento_Oauth_Model_Resource_Token_Collection getCollection()
- * @method Magento_Oauth_Model_Resource_Token_Collection getResourceCollection()
- * @method Magento_Oauth_Model_Resource_Token getResource()
- * @method Magento_Oauth_Model_Resource_Token _getResource()
+ * @method \Magento\Oauth\Model\Resource\Token\Collection getCollection()
+ * @method \Magento\Oauth\Model\Resource\Token\Collection getResourceCollection()
+ * @method \Magento\Oauth\Model\Resource\Token getResource()
+ * @method \Magento\Oauth\Model\Resource\Token _getResource()
  * @method int getConsumerId()
- * @method Magento_Oauth_Model_Token setConsumerId() setConsumerId(int $consumerId)
+ * @method \Magento\Oauth\Model\Token setConsumerId() setConsumerId(int $consumerId)
  * @method int getAdminId()
- * @method Magento_Oauth_Model_Token setAdminId() setAdminId(int $adminId)
+ * @method \Magento\Oauth\Model\Token setAdminId() setAdminId(int $adminId)
  * @method int getCustomerId()
- * @method Magento_Oauth_Model_Token setCustomerId() setCustomerId(int $customerId)
+ * @method \Magento\Oauth\Model\Token setCustomerId() setCustomerId(int $customerId)
  * @method string getType()
- * @method Magento_Oauth_Model_Token setType() setType(string $type)
+ * @method \Magento\Oauth\Model\Token setType() setType(string $type)
  * @method string getCallbackUrl()
- * @method Magento_Oauth_Model_Token setCallbackUrl() setCallbackUrl(string $callbackUrl)
+ * @method \Magento\Oauth\Model\Token setCallbackUrl() setCallbackUrl(string $callbackUrl)
  * @method string getCreatedAt()
- * @method Magento_Oauth_Model_Token setCreatedAt() setCreatedAt(string $createdAt)
+ * @method \Magento\Oauth\Model\Token setCreatedAt() setCreatedAt(string $createdAt)
  * @method string getToken()
- * @method Magento_Oauth_Model_Token setToken() setToken(string $token)
+ * @method \Magento\Oauth\Model\Token setToken() setToken(string $token)
  * @method string getSecret()
- * @method Magento_Oauth_Model_Token setSecret() setSecret(string $tokenSecret)
+ * @method \Magento\Oauth\Model\Token setSecret() setSecret(string $tokenSecret)
  * @method int getRevoked()
- * @method Magento_Oauth_Model_Token setRevoked() setRevoked(int $revoked)
+ * @method \Magento\Oauth\Model\Token setRevoked() setRevoked(int $revoked)
  * @method int getAuthorized()
- * @method Magento_Oauth_Model_Token setAuthorized() setAuthorized(int $authorized)
+ * @method \Magento\Oauth\Model\Token setAuthorized() setAuthorized(int $authorized)
  */
-class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
+namespace Magento\Oauth\Model;
+
+class Token extends \Magento\Core\Model\AbstractModel
 {
     /**#@+
      * Token types
@@ -62,28 +64,28 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
     const USER_TYPE_ADMIN = 'admin';
     const USER_TYPE_CUSTOMER = 'customer';
 
-    /** @var Magento_Oauth_Helper_Service */
+    /** @var \Magento\Oauth\Helper\Service */
     protected $_oauthData;
 
-    /** @var Magento_Oauth_Model_Consumer_Factory */
+    /** @var \Magento\Oauth\Model\Consumer\Factory */
     protected $_consumerFactory;
 
     /**
-     * @param Magento_Oauth_Model_Consumer_Factory $consumerFactory
-     * @param Magento_Oauth_Helper_Service $oauthData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Oauth\Model\Consumer\Factory $consumerFactory
+     * @param \Magento\Oauth\Helper\Service $oauthData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Oauth_Model_Consumer_Factory $consumerFactory,
-        Magento_Oauth_Helper_Service $oauthData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Oauth\Model\Consumer\Factory $consumerFactory,
+        \Magento\Oauth\Helper\Service $oauthData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -98,13 +100,13 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Oauth_Model_Resource_Token');
+        $this->_init('Magento\Oauth\Model\Resource\Token');
     }
 
     /**
      * "After save" actions
      *
-     * @return Magento_Oauth_Model_Token
+     * @return \Magento\Oauth\Model\Token
      */
     protected function _afterSave()
     {
@@ -121,21 +123,21 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
      * Generate an oauth_verifier for a consumer, if the consumer doesn't already have one.
      *
      * @param int $consumerId - The id of the consumer associated with the verifier to be generated.
-     * @return Magento_Oauth_Model_Token
+     * @return \Magento\Oauth\Model\Token
      */
     public function createVerifierToken($consumerId)
     {
         $tokenData = $this->getResource()
-            ->selectTokenByType($consumerId, Magento_Oauth_Model_Token::TYPE_VERIFIER);
+            ->selectTokenByType($consumerId, \Magento\Oauth\Model\Token::TYPE_VERIFIER);
         $this->setData($tokenData ? $tokenData : array());
         if (!$this->getId()) {
             $this->setData(array(
                 'consumer_id' => $consumerId,
-                'type' => Magento_Oauth_Model_Token::TYPE_VERIFIER,
+                'type' => \Magento\Oauth\Model\Token::TYPE_VERIFIER,
                 'token' => $this->_oauthData->generateToken(),
                 'secret' => $this->_oauthData->generateTokenSecret(),
                 'verifier' => $this->_oauthData->generateVerifier(),
-                'callback_url' => Magento_Oauth_Helper_Service::CALLBACK_ESTABLISHED
+                'callback_url' => \Magento\Oauth\Helper\Service::CALLBACK_ESTABLISHED
             ));
             $this->save();
         }
@@ -147,23 +149,23 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
      *
      * @param int $userId Authorization user identifier
      * @param string $userType Authorization user type
-     * @return Magento_Oauth_Model_Token
-     * @throws Magento_Oauth_Exception
+     * @return \Magento\Oauth\Model\Token
+     * @throws \Magento\Oauth\Exception
      */
     public function authorize($userId, $userType)
     {
         if (!$this->getId() || !$this->getConsumerId()) {
-            throw new Magento_Oauth_Exception('Token is not ready to be authorized');
+            throw new \Magento\Oauth\Exception('Token is not ready to be authorized');
         }
         if ($this->getAuthorized()) {
-            throw new Magento_Oauth_Exception('Token is already authorized');
+            throw new \Magento\Oauth\Exception('Token is already authorized');
         }
         if (self::USER_TYPE_ADMIN == $userType) {
             $this->setAdminId($userId);
         } elseif (self::USER_TYPE_CUSTOMER == $userType) {
             $this->setCustomerId($userId);
         } else {
-            throw new Magento_Oauth_Exception('User type is unknown');
+            throw new \Magento\Oauth\Exception('User type is unknown');
         }
 
         $this->setVerifier($this->_oauthData->generateVerifier());
@@ -178,13 +180,13 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
     /**
      * Convert token to access type
      *
-     * @return Magento_Oauth_Model_Token
-     * @throws Magento_Oauth_Exception
+     * @return \Magento\Oauth\Model\Token
+     * @throws \Magento\Oauth\Exception
      */
     public function convertToAccess()
     {
-        if (Magento_Oauth_Model_Token::TYPE_REQUEST != $this->getType()) {
-            throw new Magento_Oauth_Exception('Can not convert due to token is not request type');
+        if (\Magento\Oauth\Model\Token::TYPE_REQUEST != $this->getType()) {
+            throw new \Magento\Oauth\Exception('Can not convert due to token is not request type');
         }
 
         $this->setType(self::TYPE_ACCESS);
@@ -200,7 +202,7 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
      *
      * @param int $entityId Token identifier
      * @param string $callbackUrl Callback URL
-     * @return Magento_Oauth_Model_Token
+     * @return \Magento\Oauth\Model\Token
      */
     public function createRequestToken($entityId, $callbackUrl)
     {
@@ -220,7 +222,7 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
      * Get OAuth user type
      *
      * @return string
-     * @throws Magento_Oauth_Exception
+     * @throws \Magento\Oauth\Exception
      */
     public function getUserType()
     {
@@ -229,7 +231,7 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
         } elseif ($this->getCustomerId()) {
             return self::USER_TYPE_CUSTOMER;
         } else {
-            throw new Magento_Oauth_Exception('User type is unknown');
+            throw new \Magento\Oauth\Exception('User type is unknown');
         }
     }
 
@@ -248,14 +250,14 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
     /**
      * Before save actions
      *
-     * @return Magento_Oauth_Model_Consumer
+     * @return \Magento\Oauth\Model\Consumer
      */
     protected function _beforeSave()
     {
         $this->validate();
 
         if ($this->isObjectNew() && null === $this->getCreatedAt()) {
-            $this->setCreatedAt(Magento_Date::now());
+            $this->setCreatedAt(\Magento\Date::now());
         }
         parent::_beforeSave();
         return $this;
@@ -265,34 +267,34 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
      * Validate data
      *
      * @return array|bool
-     * @throws Magento_Oauth_Exception Throw exception on fail validation
+     * @throws \Magento\Oauth\Exception Throw exception on fail validation
      */
     public function validate()
     {
-        /** @var $validatorUrl Magento_Core_Model_Url_Validator */
-        $validatorUrl = Mage::getSingleton('Magento_Core_Model_Url_Validator');
-        if (Magento_Oauth_Helper_Service::CALLBACK_ESTABLISHED != $this->getCallbackUrl()
+        /** @var $validatorUrl \Magento\Core\Model\Url\Validator */
+        $validatorUrl = \Mage::getSingleton('Magento\Core\Model\Url\Validator');
+        if (\Magento\Oauth\Helper\Service::CALLBACK_ESTABLISHED != $this->getCallbackUrl()
             && !$validatorUrl->isValid($this->getCallbackUrl())
         ) {
             $messages = $validatorUrl->getMessages();
-            throw new Magento_Oauth_Exception(array_shift($messages));
+            throw new \Magento\Oauth\Exception(array_shift($messages));
         }
 
-        /** @var $validatorLength Magento_Oauth_Model_Consumer_Validator_KeyLength */
-        $validatorLength = Mage::getModel(
-            'Magento_Oauth_Model_Consumer_Validator_KeyLength');
+        /** @var $validatorLength \Magento\Oauth\Model\Consumer\Validator\KeyLength */
+        $validatorLength = \Mage::getModel(
+            'Magento\Oauth\Model\Consumer\Validator\KeyLength');
         $validatorLength->setLength(self::LENGTH_SECRET);
         $validatorLength->setName('Token Secret Key');
         if (!$validatorLength->isValid($this->getSecret())) {
             $messages = $validatorLength->getMessages();
-            throw new Magento_Oauth_Exception(array_shift($messages));
+            throw new \Magento\Oauth\Exception(array_shift($messages));
         }
 
         $validatorLength->setLength(self::LENGTH_TOKEN);
         $validatorLength->setName('Token Key');
         if (!$validatorLength->isValid($this->getToken())) {
             $messages = $validatorLength->getMessages();
-            throw new Magento_Oauth_Exception(array_shift($messages));
+            throw new \Magento\Oauth\Exception(array_shift($messages));
         }
 
         if (null !== ($verifier = $this->getVerifier())) {
@@ -300,7 +302,7 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
             $validatorLength->setName('Verifier Key');
             if (!$validatorLength->isValid($verifier)) {
                 $messages = $validatorLength->getMessages();
-                throw new Magento_Oauth_Exception(array_shift($messages));
+                throw new \Magento\Oauth\Exception(array_shift($messages));
             }
         }
         return true;
@@ -309,7 +311,7 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
     /**
      * Get Token Consumer
      *
-     * @return Magento_Oauth_Model_Consumer
+     * @return \Magento\Oauth\Model\Consumer
      */
     public function getConsumer()
     {
@@ -335,7 +337,7 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
      * Set the token's verifier.
      *
      * @param string $verifier
-     * @return Magento_Oauth_Model_Token
+     * @return \Magento\Oauth\Model\Token
      */
     public function setVerifier($verifier)
     {

@@ -9,25 +9,27 @@
 /**
  * Decorator that filters out layout files that belong to modules, output of which is prohibited
  */
-class Magento_Core_Model_Layout_File_Source_Decorator_ModuleOutput implements Magento_Core_Model_Layout_File_SourceInterface
+namespace Magento\Core\Model\Layout\File\Source\Decorator;
+
+class ModuleOutput implements \Magento\Core\Model\Layout\File\SourceInterface
 {
     /**
-     * @var Magento_Core_Model_Layout_File_SourceInterface
+     * @var \Magento\Core\Model\Layout\File\SourceInterface
      */
     private $_subject;
 
     /**
-     * @var Magento_Core_Model_ModuleManager
+     * @var \Magento\Core\Model\ModuleManager
      */
     private $_moduleManager;
 
     /**
-     * @param Magento_Core_Model_Layout_File_SourceInterface $subject
-     * @param Magento_Core_Model_ModuleManager $moduleManager
+     * @param \Magento\Core\Model\Layout\File\SourceInterface $subject
+     * @param \Magento\Core\Model\ModuleManager $moduleManager
      */
     public function __construct(
-        Magento_Core_Model_Layout_File_SourceInterface $subject,
-        Magento_Core_Model_ModuleManager $moduleManager
+        \Magento\Core\Model\Layout\File\SourceInterface $subject,
+        \Magento\Core\Model\ModuleManager $moduleManager
     ) {
         $this->_subject = $subject;
         $this->_moduleManager = $moduleManager;
@@ -38,7 +40,7 @@ class Magento_Core_Model_Layout_File_Source_Decorator_ModuleOutput implements Ma
      *
      * {@inheritdoc}
      */
-    public function getFiles(Magento_Core_Model_ThemeInterface $theme)
+    public function getFiles(\Magento\Core\Model\ThemeInterface $theme)
     {
         $result = array();
         foreach ($this->_subject->getFiles($theme) as $file) {

@@ -7,22 +7,24 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Adminhtml_Webapi_Role extends Magento_Adminhtml_Controller_Action
+namespace Magento\Webapi\Controller\Adminhtml\Webapi;
+
+class Role extends \Magento\Adminhtml\Controller\Action
 {
     /**
-     * @var Magento_Core_Model_Validator_Factory
+     * @var \Magento\Core\Model\Validator\Factory
      */
     protected $_validatorFactory;
 
     /**
      * Initialize dependencies.
      *
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Validator_Factory $validatorFactory
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Validator\Factory $validatorFactory
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Validator_Factory $validatorFactory
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Validator\Factory $validatorFactory
     ) {
         parent::__construct($context);
         $this->_validatorFactory = $validatorFactory;
@@ -31,7 +33,7 @@ class Magento_Webapi_Controller_Adminhtml_Webapi_Role extends Magento_Adminhtml_
     /**
      * Init.
      *
-     * @return Magento_Webapi_Controller_Adminhtml_Webapi_Role
+     * @return \Magento\Webapi\Controller\Adminhtml\Webapi\Role
      */
     protected function _initAction()
     {
@@ -86,8 +88,8 @@ class Magento_Webapi_Controller_Adminhtml_Webapi_Role extends Magento_Adminhtml_
 
         $roleId = $this->getRequest()->getParam('role_id');
 
-        /** @var Magento_Webapi_Model_Acl_Role $role */
-        $role = $this->_objectManager->create('Magento_Webapi_Model_Acl_Role');
+        /** @var \Magento\Webapi\Model\Acl\Role $role */
+        $role = $this->_objectManager->create('Magento\Webapi\Model\Acl\Role');
         if ($roleId) {
             $role->load($roleId);
             if (!$role->getId()) {
@@ -116,13 +118,13 @@ class Magento_Webapi_Controller_Adminhtml_Webapi_Role extends Magento_Adminhtml_
             $role->setData($data);
         }
 
-        /** @var Magento_Webapi_Block_Adminhtml_Role_Edit $editBlock */
+        /** @var \Magento\Webapi\Block\Adminhtml\Role\Edit $editBlock */
         $editBlock = $this->getLayout()->getBlock('webapi.role.edit');
         if ($editBlock) {
             $editBlock->setApiRole($role);
         }
 
-        /** @var Magento_Webapi_Block_Adminhtml_Role_Edit_Tabs $tabsBlock */
+        /** @var \Magento\Webapi\Block\Adminhtml\Role\Edit\Tabs $tabsBlock */
         $tabsBlock = $this->getLayout()->getBlock('webapi.role.edit.tabs');
         if ($tabsBlock) {
             $tabsBlock->setApiRole($role);
@@ -139,11 +141,11 @@ class Magento_Webapi_Controller_Adminhtml_Webapi_Role extends Magento_Adminhtml_
         $roleId = $this->getRequest()->getParam('role_id', false);
 
         try {
-            $this->_objectManager->create('Magento_Webapi_Model_Acl_Role')->load($roleId)->delete();
+            $this->_objectManager->create('Magento\Webapi\Model\Acl\Role')->load($roleId)->delete();
             $this->_getSession()->addSuccess(
                 __('The API role has been deleted.')
             );
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getSession()->addError(
                 __('An error occurred while deleting this role.')
             );
@@ -160,8 +162,8 @@ class Magento_Webapi_Controller_Adminhtml_Webapi_Role extends Magento_Adminhtml_
         $data = $this->getRequest()->getPost();
         if ($data) {
             $roleId = $this->getRequest()->getPost('role_id', false);
-            /** @var Magento_Webapi_Model_Acl_Role $role */
-            $role = $this->_objectManager->create('Magento_Webapi_Model_Acl_Role')->load($roleId);
+            /** @var \Magento\Webapi\Model\Acl\Role $role */
+            $role = $this->_objectManager->create('Magento\Webapi\Model\Acl\Role')->load($roleId);
             if (!$role->getId() && $roleId) {
                 $this->_getSession()->addError(
                     __('This role no longer exists.')
@@ -189,7 +191,7 @@ class Magento_Webapi_Controller_Adminhtml_Webapi_Role extends Magento_Adminhtml_
                 } else {
                     $this->_redirect('*/*/edit', array('role_id' => $role->getId()));
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $this->_getSession()->setWebapiRoleData($data);
                 $this->_redirect('*/*/edit', array('role_id' => $role->getId()));
@@ -200,15 +202,15 @@ class Magento_Webapi_Controller_Adminhtml_Webapi_Role extends Magento_Adminhtml_
     /**
      * Validate Web API role data.
      *
-     * @param Magento_Webapi_Model_Acl_Role $role
-     * @throws Magento_Validator_Exception
+     * @param \Magento\Webapi\Model\Acl\Role $role
+     * @throws \Magento\Validator\ValidatorException
      */
     protected function _validateRole($role)
     {
         $group = $role->isObjectNew() ? 'create' : 'update';
         $validator = $this->_validatorFactory->createValidator('api_role', $group);
         if (!$validator->isValid($role)) {
-            throw new Magento_Validator_Exception($validator->getMessages());
+            throw new \Magento\Validator\ValidatorException($validator->getMessages());
         }
     }
 
@@ -223,7 +225,7 @@ class Magento_Webapi_Controller_Adminhtml_Webapi_Role extends Magento_Adminhtml_
         // parse resource list
         $resources = explode(',', $this->getRequest()->getParam('resource', false));
         $isAll = $this->getRequest()->getParam('all');
-        $rootResource = $this->_objectManager->get('Magento_Core_Model_Acl_RootResource');
+        $rootResource = $this->_objectManager->get('Magento\Core\Model\Acl\RootResource');
         if ($isAll) {
             $resources = array($rootResource->getId());
         } elseif (in_array($rootResource->getId(), $resources)) {
@@ -236,8 +238,8 @@ class Magento_Webapi_Controller_Adminhtml_Webapi_Role extends Magento_Adminhtml_
         $saveResourcesFlag = true;
         if (!$isNewRole) {
             // Check changes
-            /** @var Magento_Webapi_Model_Resource_Acl_Rule $ruleResource */
-            $ruleResource = $this->_objectManager->get('Magento_Webapi_Model_Resource_Acl_Rule');
+            /** @var \Magento\Webapi\Model\Resource\Acl\Rule $ruleResource */
+            $ruleResource = $this->_objectManager->get('Magento\Webapi\Model\Resource\Acl\Rule');
             $oldResources = $ruleResource->getResourceIdsByRole($roleId);
             if (count($oldResources) == count($resources) && !array_diff($oldResources, $resources)) {
                 $saveResourcesFlag = false;
@@ -245,7 +247,7 @@ class Magento_Webapi_Controller_Adminhtml_Webapi_Role extends Magento_Adminhtml_
         }
 
         if ($saveResourcesFlag) {
-            $this->_objectManager->create('Magento_Webapi_Model_Acl_Rule')
+            $this->_objectManager->create('Magento\Webapi\Model\Acl\Rule')
                 ->setRoleId($roleId)
                 ->setResources($resources)
                 ->saveResources();
@@ -265,12 +267,12 @@ class Magento_Webapi_Controller_Adminhtml_Webapi_Role extends Magento_Adminhtml_
 
         if ($roleUsers != $oldRoleUsers) {
             foreach ($oldRoleUsers as $userId) {
-                $user = $this->_objectManager->create('Magento_Webapi_Model_Acl_User')->load($userId);
+                $user = $this->_objectManager->create('Magento\Webapi\Model\Acl\User')->load($userId);
                 $user->setRoleId(null)->save();
             }
 
             foreach ($roleUsers as $userId) {
-                $user = $this->_objectManager->create('Magento_Webapi_Model_Acl_User')->load($userId);
+                $user = $this->_objectManager->create('Magento\Webapi\Model\Acl\User')->load($userId);
                 $user->setRoleId($roleId)->save();
             }
         }

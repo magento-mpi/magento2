@@ -11,7 +11,9 @@
 /**
  * Sales order view block
  */
-class Magento_Sales_Block_Order_Invoice extends Magento_Sales_Block_Order_Invoice_Items
+namespace Magento\Sales\Block\Order;
+
+class Invoice extends \Magento\Sales\Block\Order\Invoice\Items
 {
     /**
      * @var string
@@ -19,22 +21,22 @@ class Magento_Sales_Block_Order_Invoice extends Magento_Sales_Block_Order_Invoic
     protected $_template = 'order/invoice.phtml';
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Customer_Model_Session $customerSession
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Customer_Model_Session $customerSession,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Customer\Model\Session $customerSession,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
@@ -49,7 +51,7 @@ class Magento_Sales_Block_Order_Invoice extends Magento_Sales_Block_Order_Invoic
         }
         $this->setChild(
             'payment_info',
-            $this->helper('Magento_Payment_Helper_Data')->getInfoBlock($this->getOrder()->getPayment())
+            $this->helper('Magento\Payment\Helper\Data')->getInfoBlock($this->getOrder()->getPayment())
         );
     }
 
@@ -64,7 +66,7 @@ class Magento_Sales_Block_Order_Invoice extends Magento_Sales_Block_Order_Invoic
     /**
      * Retrieve current order model instance
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {

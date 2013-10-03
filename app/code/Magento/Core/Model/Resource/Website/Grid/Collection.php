@@ -15,12 +15,14 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Resource_Website_Grid_Collection extends Magento_Core_Model_Resource_Website_Collection
+namespace Magento\Core\Model\Resource\Website\Grid;
+
+class Collection extends \Magento\Core\Model\Resource\Website\Collection
 {
     /**
      * Join website and store names
      *
-     * @return Magento_Core_Model_Resource_Db_Collection_Abstract|Magento_Core_Model_Resource_Website_Grid_Collection
+     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection|\Magento\Core\Model\Resource\Website\Grid\Collection
      */
     protected function  _initSelect()
     {

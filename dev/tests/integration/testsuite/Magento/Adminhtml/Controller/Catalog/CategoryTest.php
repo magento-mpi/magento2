@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Controller\Catalog;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Controller_Catalog_CategoryTest extends Magento_Backend_Utility_Controller
+class CategoryTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * @magentoDataFixture Magento/Core/_files/store.php
@@ -24,9 +26,9 @@ class Magento_Adminhtml_Controller_Catalog_CategoryTest extends Magento_Backend_
      */
     public function testSaveAction($inputData, $defaultAttributes, $attributesSaved = array())
     {
-        /** @var $store Magento_Core_Model_Store */
-        $store = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Store');
+        /** @var $store \Magento\Core\Model\Store */
+        $store = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Store');
         $store->load('fixturestore', 'code');
         $storeId = $store->getId();
 
@@ -36,12 +38,12 @@ class Magento_Adminhtml_Controller_Catalog_CategoryTest extends Magento_Backend_
         $this->dispatch('backend/admin/catalog_category/save');
 
         $this->assertSessionMessages(
-            $this->equalTo(array('You saved the category.')), Magento_Core_Model_Message::SUCCESS
+            $this->equalTo(array('You saved the category.')), \Magento\Core\Model\Message::SUCCESS
         );
 
-        /** @var $category Magento_Catalog_Model_Category */
-        $category = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Category');
+        /** @var $category \Magento\Catalog\Model\Category */
+        $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Category');
         $category->setStoreId($storeId);
         $category->load(2);
 
@@ -85,7 +87,7 @@ class Magento_Adminhtml_Controller_Catalog_CategoryTest extends Magento_Backend_
                 $body
             );
         } else {
-            $result = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Data')
+            $result = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data')
                 ->jsonDecode($body);
             $this->assertArrayHasKey('messages', $result);
             $this->assertFalse($result['error']);
@@ -287,7 +289,7 @@ class Magento_Adminhtml_Controller_Catalog_CategoryTest extends Magento_Backend_
         ));
         $this->dispatch('backend/admin/catalog_category/save');
         $this->assertSessionMessages(
-            $this->equalTo(array('Unable to save the category')), Magento_Core_Model_Message::ERROR
+            $this->equalTo(array('Unable to save the category')), \Magento\Core\Model\Message::ERROR
         );
     }
 }

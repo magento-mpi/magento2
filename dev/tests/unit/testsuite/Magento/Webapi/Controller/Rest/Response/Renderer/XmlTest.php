@@ -7,17 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Rest_Response_Renderer_XmlTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Controller\Rest\Response\Renderer;
+
+class XmlTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Webapi_Controller_Rest_Response_Renderer_Xml */
+    /** @var \Magento\Webapi\Controller\Rest\Response\Renderer\Xml */
     protected $_restXmlRenderer;
 
     protected function setUp()
     {
         /** Prepare object for SUT constructor. */
-        $xmlGenerator = new Magento_Xml_Generator();
+        $xmlGenerator = new \Magento\Xml\Generator();
         /** Initialize SUT. */
-        $this->_restXmlRenderer = new Magento_Webapi_Controller_Rest_Response_Renderer_Xml($xmlGenerator);
+        $this->_restXmlRenderer = new \Magento\Webapi\Controller\Rest\Response\Renderer\Xml($xmlGenerator);
         parent::setUp();
     }
 
@@ -97,9 +99,9 @@ class Magento_Webapi_Controller_Rest_Response_Renderer_XmlTest extends PHPUnit_F
                 'Invalid XML render with simple data.'
             ),
             array(
-                new Magento_Object(array('key' => 'value')),
+                new \Magento\Object(array('key' => 'value')),
                 '<?xml version="1.0"?><response><key>value</key></response>',
-                'Invalid XML render with Magento_Object data.'
+                'Invalid XML render with \Magento\Object data.'
             ),
         );
     }

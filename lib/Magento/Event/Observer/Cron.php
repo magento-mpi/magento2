@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category   Magento
- * @package    Magento_Event
+ * @package    \Magento\Event
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -13,20 +13,22 @@
  * Event cron observer object
  * 
  * @category   Magento
- * @package    Magento_Event
+ * @package    \Magento\Event
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Event_Observer_Cron extends Magento_Event_Observer
+namespace Magento\Event\Observer;
+
+class Cron extends \Magento\Event\Observer
 {
     /**
      * Checkes the observer's cron string against event's name
      * 
      * Supports $this->setCronExpr('* 0-5,10-59/5 2-10,15-25 january-june/2 mon-fri')
      *
-     * @param Magento_Event $event
+     * @param \Magento\Event $event
      * @return boolean
      */
-    public function isValidFor(Magento_Event $event)
+    public function isValidFor(\Magento\Event $event)
     {
         $e = preg_split('#\s+#', $this->getCronExpr(), null, PREG_SPLIT_NO_EMPTY);
         if (sizeof($e)!==5) {

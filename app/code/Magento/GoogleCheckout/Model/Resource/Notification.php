@@ -16,7 +16,9 @@
  * @package     Magento_GoogleCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleCheckout_Model_Resource_Notification extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\GoogleCheckout\Model\Resource;
+
+class Notification extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Intialize resource model.
@@ -47,14 +49,14 @@ class Magento_GoogleCheckout_Model_Resource_Notification extends Magento_Core_Mo
      * Start notification processing
      *
      * @param string $serialNumber
-     * @return Magento_GoogleCheckout_Model_Resource_Notification
+     * @return \Magento\GoogleCheckout\Model\Resource\Notification
      */
     public function startProcess($serialNumber)
     {
         $data = array(
             'serial_number' => $serialNumber,
-            'started_at'    => Magento_Date::now(),
-            'status'        => Magento_GoogleCheckout_Model_Notification::STATUS_INPROCESS
+            'started_at'    => \Magento\Date::now(),
+            'status'        => \Magento\GoogleCheckout\Model\Notification::STATUS_INPROCESS
         );
         $this->_getWriteAdapter()->insert($this->getMainTable(), $data);
         return $this;
@@ -64,12 +66,12 @@ class Magento_GoogleCheckout_Model_Resource_Notification extends Magento_Core_Mo
      * Stop notification processing
      *
      * @param string $serialNumber
-     * @return Magento_GoogleCheckout_Model_Resource_Notification
+     * @return \Magento\GoogleCheckout\Model\Resource\Notification
      */
     public function stopProcess($serialNumber)
     {
         $this->_getWriteAdapter()->update($this->getMainTable(),
-            array('status' => Magento_GoogleCheckout_Model_Notification::STATUS_PROCESSED),
+            array('status' => \Magento\GoogleCheckout\Model\Notification::STATUS_PROCESSED),
             array('serial_number = ?' => $serialNumber)
         );
         return $this;
@@ -79,12 +81,12 @@ class Magento_GoogleCheckout_Model_Resource_Notification extends Magento_Core_Mo
      * Update notification processing
      *
      * @param string $serialNumber
-     * @return Magento_GoogleCheckout_Model_Resource_Notification
+     * @return \Magento\GoogleCheckout\Model\Resource\Notification
      */
     public function updateProcess($serialNumber)
     {
         $this->_getWriteAdapter()->update($this->getMainTable(),
-            array('started_at' => Magento_Date::now()),
+            array('started_at' => \Magento\Date::now()),
             array('serial_number = ?' => $serialNumber)
         );
 

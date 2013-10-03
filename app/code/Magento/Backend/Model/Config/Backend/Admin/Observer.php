@@ -8,50 +8,52 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Config_Backend_Admin_Observer
+namespace Magento\Backend\Model\Config\Backend\Admin;
+
+class Observer
 {
     /**
      * Backend data
      *
-     * @var Magento_Backend_Helper_Data
+     * @var \Magento\Backend\Helper\Data
      */
     protected $_backendData;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry;
 
     /**
-     * @var Magento_Backend_Model_Auth_Session
+     * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_authSession;
 
     /**
-     * @var Magento_Core_Model_App
+     * @var \Magento\Core\Model\App
      */
     protected $_app;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Backend_Helper_Data $backendData
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Backend_Model_Auth_Session $authSession
-     * @param Magento_Core_Model_App $app
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Backend\Helper\Data $backendData
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Backend\Model\Auth\Session $authSession
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        Magento_Backend_Helper_Data $backendData,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Backend_Model_Auth_Session $authSession,
-        Magento_Core_Model_App $app,
-        Magento_Core_Model_StoreManagerInterface $storeManager
+        \Magento\Backend\Helper\Data $backendData,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Backend\Model\Auth\Session $authSession,
+        \Magento\Core\Model\App $app,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_backendData = $backendData;
         $this->_coreRegistry = $coreRegistry;

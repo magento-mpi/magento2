@@ -15,34 +15,36 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Tree extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Cms\Wysiwyg\Images;
+
+class Tree extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * Cms wysiwyg images
      *
-     * @var Magento_Cms_Helper_Wysiwyg_Images
+     * @var \Magento\Cms\Helper\Wysiwyg\Images
      */
     protected $_cmsWysiwygImages = null;
 
     /**
-     * @param Magento_Cms_Helper_Wysiwyg_Images $cmsWysiwygImages
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Cms\Helper\Wysiwyg\Images $cmsWysiwygImages
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Cms_Helper_Wysiwyg_Images $cmsWysiwygImages,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Cms\Helper\Wysiwyg\Images $cmsWysiwygImages,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -69,7 +71,7 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Tree extends Magento_Adminhtml_
                 'cls'   => 'folder'
             );
         }
-        return Zend_Json::encode($jsonArray);
+        return \Zend_Json::encode($jsonArray);
     }
 
     /**

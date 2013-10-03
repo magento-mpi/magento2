@@ -22,7 +22,7 @@ return array
     'type_modelinstance_invalid_value' => array(
         '<?xml version="1.0"?><config><type name="some_name" modelInstance="123" /></config>',
         array("Element 'type', attribute 'modelInstance': [facet 'pattern'] The value '123' is not accepted by the"
-            . " pattern '[a-zA-Z_]+'.",
+            . " pattern '[a-zA-Z_\\\\\\\\]+'.",
         "Element 'type', attribute 'modelInstance': '123' is not a valid value of the atomic type 'modelName'.")),
     'type_indexpriority_invalid_value' => array(
         '<?xml version="1.0"?><config><type name="some_name" indexPriority="-1" /></config>',
@@ -41,12 +41,12 @@ return array
     'type_pricemodel_instance_invalid_value' => array(
         '<?xml version="1.0"?><config><type name="some_name"><priceModel instance="123123" /></type></config>',
         array("Element 'priceModel', attribute 'instance': [facet 'pattern'] The value '123123' is not accepted "
-            . "by the pattern '[a-zA-Z_]+'.",
+            . "by the pattern '[a-zA-Z_\\\\\\\\]+'.",
         "Element 'priceModel', attribute 'instance': '123123' is not a valid value of the atomic type 'modelName'.")),
     'type_indexermodel_instance_invalid_value' => array(
         '<?xml version="1.0"?><config><type name="some_name"><indexerModel instance="123" /></type></config>',
         array("Element 'indexerModel', attribute 'instance': [facet 'pattern'] The value '123' is not accepted by "
-            . "the pattern '[a-zA-Z_]+'.",
+            . "the pattern '[a-zA-Z_\\\\\\\\]+'.",
         "Element 'indexerModel', attribute 'instance': '123' is not a valid value of the atomic type 'modelName'.")),
     'type_indexermodel_without_required_instance_attribute' => array(
         '<?xml version="1.0"?><config><type name="some_name"><indexerModel /></type></config>',
@@ -57,7 +57,7 @@ return array
     'stockindexermodel_instance_invalid_value' => array(
         '<?xml version="1.0"?><config><type name="some_name"><stockIndexerModel instance="1234"/></type></config>',
         array("Element 'stockIndexerModel', attribute 'instance': [facet 'pattern'] The value '1234' is not "
-            . "accepted by the pattern '[a-zA-Z_]+'.",
+            . "accepted by the pattern '[a-zA-Z_\\\\\\\\]+'.",
         "Element 'stockIndexerModel', attribute 'instance': '1234' is not a valid value of the atomic "
             . "type 'modelName'.")),
     'allowedselectiontypes_without_required_type_handle' => array(

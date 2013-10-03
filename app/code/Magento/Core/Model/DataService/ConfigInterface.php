@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Core_Model_DataService_ConfigInterface
+namespace Magento\Core\Model\DataService;
+
+interface ConfigInterface
 {
     /**
      * Get the class information for a given service call

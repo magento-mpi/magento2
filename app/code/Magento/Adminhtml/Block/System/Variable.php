@@ -16,7 +16,9 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_System_Variable extends Magento_Adminhtml_Block_Widget_Grid_Container
+namespace Magento\Adminhtml\Block\System;
+
+class Variable extends \Magento\Adminhtml\Block\Widget\Grid\Container
 {
     /**
      * Block constructor

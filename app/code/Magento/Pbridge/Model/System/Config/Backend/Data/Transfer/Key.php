@@ -15,22 +15,24 @@
  * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Pbridge_Model_System_Config_Backend_Data_Transfer_Key extends Magento_Core_Model_Config_Value
+namespace Magento\Pbridge\Model\System\Config\Backend\Data\Transfer;
+
+class Key extends \Magento\Core\Model\Config\Value
 {
     /**
      * Checks data transfer key length
      *
-     * @return Magento_Pbridge_Model_System_Config_Backend_Data_Transfer_Key
+     * @return \Magento\Pbridge\Model\System\Config\Backend\Data\Transfer\Key
      */
     protected function _beforeSave()
     {
         /**
          * Maximum allowed length is hardcoded because currently we use only CIPHER_RIJNDAEL_256
-         * @see Magento_Pci_Model_Encryption::_getCrypt
-         * @throws Magento_Core_Exception
+         * @see \Magento\Pci\Model\Encryption::_getCrypt
+         * @throws \Magento\Core\Exception
          */
         if (strlen($this->getValue()) > 32) { // strlen() intentionally, to count bytes rather than characters
-            throw new Magento_Core_Exception(
+            throw new \Magento\Core\Exception(
                 __('Maximum data transfer key length is 32. Please correct your settings.'));
         }
 

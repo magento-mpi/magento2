@@ -11,7 +11,9 @@
 /**
  * CatalogRule data helper
  */
-class Magento_CatalogRule_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\CatalogRule\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Algorithm for calculating price rule

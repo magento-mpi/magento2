@@ -16,14 +16,16 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Product_Indexer_Price extends Magento_Index_Model_Resource_Abstract
+namespace Magento\Catalog\Model\Resource\Product\Indexer;
+
+class Price extends \Magento\Index\Model\Resource\AbstractResource
 {
     /**
      * Default Product Type Price indexer resource model
      *
      * @var string
      */
-    protected $_defaultPriceIndexer = 'Magento_Catalog_Model_Resource_Product_Indexer_Price_Default';
+    protected $_defaultPriceIndexer = 'Magento\Catalog\Model\Resource\Product\Indexer\Price\DefaultPrice';
 
     /**
      * Product Type Price indexer resource models
@@ -35,64 +37,64 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Price extends Magento_Index
     /**
      * Catalog product type
      *
-     * @var Magento_Catalog_Model_Product_Type
+     * @var \Magento\Catalog\Model\Product\Type
      */
     protected $_catalogProductType;
 
     /**
      * Locale
      *
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Currency factory
      *
-     * @var Magento_Directory_Model_CurrencyFactory
+     * @var \Magento\Directory\Model\CurrencyFactory
      */
     protected $_currencyFactory;
 
     /**
      * Core config model
      *
-     * @var Magento_Core_Model_ConfigInterface
+     * @var \Magento\Core\Model\ConfigInterface
      */
     protected $_config;
 
     /**
      * Indexer price factory
      *
-     * @var Magento_Catalog_Model_Resource_Product_Indexer_Price_Factory
+     * @var \Magento\Catalog\Model\Resource\Product\Indexer\Price\Factory
      */
     protected $_indexerPriceFactory;
 
     /**
      * Class constructor
      *
-     * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Catalog_Model_Product_Type $catalogProductType
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Catalog_Model_Resource_Product_Indexer_Price_Factory $indexerPriceFactory
+     * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Catalog\Model\Product\Type $catalogProductType
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Catalog\Model\Resource\Product\Indexer\Price\Factory $indexerPriceFactory
      */
     public function __construct(
-        Magento_Directory_Model_CurrencyFactory $currencyFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Catalog_Model_Product_Type $catalogProductType,
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Config $config,
-        Magento_Catalog_Model_Resource_Product_Indexer_Price_Factory $indexerPriceFactory
+        \Magento\Directory\Model\CurrencyFactory $currencyFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Catalog\Model\Product\Type $catalogProductType,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\Config $config,
+        \Magento\Catalog\Model\Resource\Product\Indexer\Price\Factory $indexerPriceFactory
     ) {
         $this->_currencyFactory = $currencyFactory;
         $this->_storeManager = $storeManager;
@@ -137,10 +139,10 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Price extends Magento_Index
      * Process produce delete
      * If the deleted product was found in a composite product(s) update it
      *
-     * @param Magento_Index_Model_Event $event
-     * @return Magento_Catalog_Model_Resource_Product_Indexer_Price
+     * @param \Magento\Index\Model\Event $event
+     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Price
      */
-    public function catalogProductDelete(Magento_Index_Model_Event $event)
+    public function catalogProductDelete(\Magento\Index\Model\Event $event)
     {
         $data = $event->getNewData();
         if (empty($data['reindex_price_parent_ids'])) {
@@ -169,8 +171,8 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Price extends Magento_Index
      * Copy data from temporary index table to main table by defined ids
      *
      * @param array $processIds
-     * @return Magento_Catalog_Model_Resource_Product_Indexer_Price
-     * @throws Exception
+     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Price
+     * @throws \Exception
      */
     protected function _copyIndexDataToMainTable($processIds)
     {
@@ -188,7 +190,7 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Price extends Magento_Index
             // insert new index
             $this->insertFromTable($this->getIdxTable(), $this->getMainTable());
             $this->commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->rollBack();
             throw $e;
         }
@@ -201,10 +203,10 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Price extends Magento_Index
      * Method is responsible for index support
      * when product was saved and changed attribute(s) has an effect on price.
      *
-     * @param Magento_Index_Model_Event $event
-     * @return Magento_Catalog_Model_Resource_Product_Indexer_Price
+     * @param \Magento\Index\Model\Event $event
+     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Price
      */
-    public function catalogProductSave(Magento_Index_Model_Event $event)
+    public function catalogProductSave(\Magento\Index\Model\Event $event)
     {
         $productId = $event->getEntityPk();
         $data = $event->getNewData();
@@ -259,10 +261,10 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Price extends Magento_Index
     /**
      * Process product mass update action
      *
-     * @param Magento_Index_Model_Event $event
-     * @return Magento_Catalog_Model_Resource_Product_Indexer_Price
+     * @param \Magento\Index\Model\Event $event
+     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Price
      */
-    public function catalogProductMassAction(Magento_Index_Model_Event $event)
+    public function catalogProductMassAction(\Magento\Index\Model\Event $event)
     {
         $data = $event->getNewData();
         if (empty($data['reindex_price_product_ids'])) {
@@ -303,7 +305,7 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Price extends Magento_Index
      * Reindex product prices for specified product ids
      *
      * @param array | int $ids
-     * @return Magento_Catalog_Model_Resource_Product_Indexer_Price
+     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Price
      */
     public function reindexProductIds($ids)
     {
@@ -376,14 +378,14 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Price extends Magento_Index
      * Retrieve Price indexer by Product Type
      *
      * @param string $productTypeId
-     * @return Magento_Catalog_Model_Resource_Product_Indexer_Price_Interface
-     * @throws Magento_Core_Exception
+     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Price\PriceInterface
+     * @throws \Magento\Core\Exception
      */
     protected function _getIndexer($productTypeId)
     {
         $types = $this->getTypeIndexers();
         if (!isset($types[$productTypeId])) {
-            throw new Magento_Core_Exception(__('We found an unsupported product type "%1".', $productTypeId));
+            throw new \Magento\Core\Exception(__('We found an unsupported product type "%1".', $productTypeId));
         }
         return $types[$productTypeId];
     }
@@ -419,7 +421,7 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Price extends Magento_Index
     /**
      * Rebuild all index data
      *
-     * @return Magento_Catalog_Model_Resource_Product_Indexer_Price
+     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Price
      */
     public function reindexAll()
     {
@@ -433,13 +435,13 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Price extends Magento_Index
 
             $indexers = $this->getTypeIndexers();
             foreach ($indexers as $indexer) {
-                /** @var $indexer Magento_Catalog_Model_Resource_Product_Indexer_Price_Interface */
+                /** @var $indexer \Magento\Catalog\Model\Resource\Product\Indexer\Price\PriceInterface */
                 $indexer->reindexAll();
             }
 
             $this->syncData();
             $this->commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->rollBack();
             throw $e;
         }
@@ -470,7 +472,7 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Price extends Magento_Index
      * Prepare tier price index table
      *
      * @param int|array $entityIds the entity ids limitation
-     * @return Magento_Catalog_Model_Resource_Product_Indexer_Price
+     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Price
      */
     protected function _prepareTierPriceIndex($entityIds = null)
     {
@@ -496,7 +498,7 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Price extends Magento_Index
                 'cw.website_id = cwd.website_id',
                 array())
             ->where('cw.website_id != 0')
-            ->columns(new Zend_Db_Expr("MIN({$websiteExpression})"))
+            ->columns(new \Zend_Db_Expr("MIN({$websiteExpression})"))
             ->group(array('tp.entity_id', 'cg.customer_group_id', 'cw.website_id'));
 
         if (!empty($entityIds)) {
@@ -513,7 +515,7 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Price extends Magento_Index
      * Prepare group price index table
      *
      * @param int|array $entityIds the entity ids limitation
-     * @return Magento_Catalog_Model_Resource_Product_Indexer_Price
+     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Price
      */
     protected function _prepareGroupPriceIndex($entityIds = null)
     {
@@ -539,7 +541,7 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Price extends Magento_Index
                 'cw.website_id = cwd.website_id',
                 array())
             ->where('cw.website_id != 0')
-            ->columns(new Zend_Db_Expr("MIN({$websiteExpression})"))
+            ->columns(new \Zend_Db_Expr("MIN({$websiteExpression})"))
             ->group(array('gp.entity_id', 'cg.customer_group_id', 'cw.website_id'));
 
         if (!empty($entityIds)) {
@@ -559,7 +561,7 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Price extends Magento_Index
      *
      * @param array|int $parentIds
      * @param unknown_type $excludeIds
-     * @return Magento_Catalog_Model_Resource_Product_Indexer_Price
+     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Price
      */
     protected function _copyRelationIndexData($parentIds, $excludeIds = null)
     {
@@ -597,12 +599,12 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Price extends Magento_Index
     /**
      * Prepare website current dates table
      *
-     * @return Magento_Catalog_Model_Resource_Product_Indexer_Price
+     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Price
      */
     protected function _prepareWebsiteDateTable()
     {
         $write = $this->_getWriteAdapter();
-        $baseCurrency = $this->_config->getValue(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE, 'default');
+        $baseCurrency = $this->_config->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, 'default');
 
         $select = $write->select()
             ->from(
@@ -617,7 +619,7 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Price extends Magento_Index
 
         $data = array();
         foreach ($write->fetchAll($select) as $item) {
-            /** @var $website Magento_Core_Model_Website */
+            /** @var $website \Magento\Core\Model\Website */
             $website = $this->_storeManager->getWebsite($item['website_id']);
 
             if ($website->getBaseCurrencyCode() != $baseCurrency) {
@@ -631,7 +633,7 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Price extends Magento_Index
                 $rate = 1;
             }
 
-            /** @var $store Magento_Core_Model_Store */
+            /** @var $store \Magento\Core\Model\Store */
             $store = $this->_storeManager->getStore($item['store_id']);
             if ($store) {
                 $timestamp = $this->_locale->storeTimeStamp($store);

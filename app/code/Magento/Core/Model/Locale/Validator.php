@@ -15,19 +15,21 @@
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Locale_Validator
+namespace Magento\Core\Model\Locale;
+
+class Validator
 {
     /**
-     * @var Magento_Core_Model_Locale_Config
+     * @var \Magento\Core\Model\Locale\Config
      */
     protected $_localeConfig;
 
     /**
      * Constructor
      *
-     * @param Magento_Core_Model_Locale_Config $localeConfig
+     * @param \Magento\Core\Model\Locale\Config $localeConfig
      */
-    public function __construct(Magento_Core_Model_Locale_Config $localeConfig)
+    public function __construct(\Magento\Core\Model\Locale\Config $localeConfig)
     {
         $this->_localeConfig = $localeConfig;
     }

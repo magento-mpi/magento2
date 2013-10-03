@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class for Magento_FullPageCache_Model_Processor_Restriction
+ * Test class for \Magento\FullPageCache\Model\Processor\Restriction
  *
  * {license_notice}
  *
@@ -9,15 +9,17 @@
  * @license     {license_link}
  */
 
-class Magento_FullPageCache_Model_Processor_RestrictionTest extends PHPUnit_Framework_TestCase
+namespace Magento\FullPageCache\Model\Processor;
+
+class RestrictionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_FullPageCache_Model_Processor_Restriction
+     * @var \Magento\FullPageCache\Model\Processor\Restriction
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cacheStateMock;
 
@@ -29,17 +31,17 @@ class Magento_FullPageCache_Model_Processor_RestrictionTest extends PHPUnit_Fram
     protected $_requestId = 'test_id';
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_environmentMock;
 
     protected function setUp()
     {
         $this->_environmentMock = $this->getMock(
-            'Magento_FullPageCache_Model_Environment', array(), array(), '', false
+            'Magento\FullPageCache\Model\Environment', array(), array(), '', false
         );
-        $this->_cacheStateMock = $this->getMock('Magento_Core_Model_Cache_StateInterface');
-        $this->_model = new Magento_FullPageCache_Model_Processor_Restriction(
+        $this->_cacheStateMock = $this->getMock('Magento\Core\Model\Cache\StateInterface');
+        $this->_model = new \Magento\FullPageCache\Model\Processor\Restriction(
             $this->_cacheStateMock, $this->_environmentMock
         );
     }
@@ -87,7 +89,7 @@ class Magento_FullPageCache_Model_Processor_RestrictionTest extends PHPUnit_Fram
 
         $this->_environmentMock->expects($this->once())
             ->method('hasCookie')
-            ->with(Magento_FullPageCache_Model_Processor_RestrictionInterface::NO_CACHE_COOKIE)
+            ->with(\Magento\FullPageCache\Model\Processor\RestrictionInterface::NO_CACHE_COOKIE)
             ->will($this->returnValue(true));
 
         $this->assertFalse($this->_model->isAllowed($this->_requestId));
@@ -102,7 +104,7 @@ class Magento_FullPageCache_Model_Processor_RestrictionTest extends PHPUnit_Fram
 
         $this->_environmentMock->expects($this->once())
             ->method('hasCookie')
-            ->with(Magento_FullPageCache_Model_Processor_RestrictionInterface::NO_CACHE_COOKIE)
+            ->with(\Magento\FullPageCache\Model\Processor\RestrictionInterface::NO_CACHE_COOKIE)
             ->will($this->returnValue(false));
 
         $this->_environmentMock->expects($this->once())
@@ -122,13 +124,13 @@ class Magento_FullPageCache_Model_Processor_RestrictionTest extends PHPUnit_Fram
 
         $this->_environmentMock->expects($this->once())
             ->method('hasCookie')
-            ->with(Magento_FullPageCache_Model_Processor_RestrictionInterface::NO_CACHE_COOKIE)
+            ->with(\Magento\FullPageCache\Model\Processor\RestrictionInterface::NO_CACHE_COOKIE)
             ->will($this->returnValue(false));
 
 
         $valueMap = array(
             array('no_cache', false),
-            array(Magento_Core_Model_Session_Abstract::SESSION_ID_QUERY_PARAM, true),
+            array(\Magento\Core\Model\Session\AbstractSession::SESSION_ID_QUERY_PARAM, true),
         );
 
         $this->_environmentMock->expects($this->exactly(2))
@@ -145,7 +147,7 @@ class Magento_FullPageCache_Model_Processor_RestrictionTest extends PHPUnit_Fram
 
         $this->_environmentMock->expects($this->once())
             ->method('hasCookie')
-            ->with(Magento_FullPageCache_Model_Processor_RestrictionInterface::NO_CACHE_COOKIE)
+            ->with(\Magento\FullPageCache\Model\Processor\RestrictionInterface::NO_CACHE_COOKIE)
             ->will($this->returnValue(false));
 
         $this->_environmentMock->expects($this->exactly(2))
@@ -165,7 +167,7 @@ class Magento_FullPageCache_Model_Processor_RestrictionTest extends PHPUnit_Fram
 
         $this->_environmentMock->expects($this->once())
             ->method('hasCookie')
-            ->with(Magento_FullPageCache_Model_Processor_RestrictionInterface::NO_CACHE_COOKIE)
+            ->with(\Magento\FullPageCache\Model\Processor\RestrictionInterface::NO_CACHE_COOKIE)
             ->will($this->returnValue(false));
 
         $this->_environmentMock->expects($this->exactly(2))

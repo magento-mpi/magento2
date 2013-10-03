@@ -9,16 +9,18 @@
 /**
  * Resource helper class
  */
-class Magento_Logging_Model_Resource_Helper extends Magento_Core_Model_Resource_Helper
+namespace Magento\Logging\Model\Resource;
+
+class Helper extends \Magento\Core\Model\Resource\Helper
 {
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Core\Model\Resource $resource
      * @param string $modulePrefix
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
+        \Magento\Core\Model\Resource $resource,
         $modulePrefix = 'Logging'
     ) {
         parent::__construct($resource, $modulePrefix);

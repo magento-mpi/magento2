@@ -15,7 +15,9 @@
  * @package    Magento_Install
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Install_Model_Installer_Filesystem extends Magento_Install_Model_Installer_Abstract
+namespace Magento\Install\Model\Installer;
+
+class Filesystem extends \Magento\Install\Model\Installer\AbstractInstaller
 {
     /**#@+
      * @deprecated since 1.7.1.0
@@ -25,19 +27,19 @@ class Magento_Install_Model_Installer_Filesystem extends Magento_Install_Model_I
     /**#@- */
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
     /**
      * Install Config
      *
-     * @var Magento_Install_Model_Config
+     * @var \Magento\Install\Model\Config
      */
     protected $_installConfig;
 
     /**
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_dir;
 
@@ -49,16 +51,16 @@ class Magento_Install_Model_Installer_Filesystem extends Magento_Install_Model_I
     protected $_appRootDir;
 
     /**
-     * @param Magento_Install_Model_InstallerProxy $installer
-     * @param Magento_Filesystem $filesystem
-     * @param Magento_Install_Model_Config $installConfig
-     * @param Magento_Core_Model_Dir $dir
+     * @param \Magento\Install\Model\InstallerProxy $installer
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Install\Model\Config $installConfig
+     * @param \Magento\Core\Model\Dir $dir
      */
     public function __construct(
-        Magento_Install_Model_InstallerProxy $installer,
-        Magento_Filesystem $filesystem,
-        Magento_Install_Model_Config $installConfig,
-        Magento_Core_Model_Dir $dir
+        \Magento\Install\Model\InstallerProxy $installer,
+        \Magento\Filesystem $filesystem,
+        \Magento\Install\Model\Config $installConfig,
+        \Magento\Core\Model\Dir $dir
     ) {
         parent::__construct($installer);
         $this->_filesystem = $filesystem;
@@ -72,7 +74,7 @@ class Magento_Install_Model_Installer_Filesystem extends Magento_Install_Model_I
     public function install()
     {
         if (!$this->_checkFilesystem()) {
-            throw new Exception();
+            throw new \Exception();
         };
         return $this;
     }
@@ -107,13 +109,13 @@ class Magento_Install_Model_Installer_Filesystem extends Magento_Install_Model_I
      * @param   bool $existence
      * @param   string $mode
      * @return  bool
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     protected function _checkPath($path, $recursive, $existence, $mode)
     {
         $appRootDir = $this->_dir->getDir('app');
         if (!is_readable($appRootDir)) {
-            throw new Magento_Exception("Application root directory '$appRootDir' is not readable.");
+            throw new \Magento\Exception("Application root directory '$appRootDir' is not readable.");
         }
         return $this->_checkFullPath(dirname($appRootDir) . $path, $recursive, $existence);
     }

@@ -16,17 +16,19 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Model_Source_Customer_Groups implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Reward\Model\Source\Customer;
+
+class Groups implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @var Magento_Customer_Model_Resource_Group_CollectionFactory
+     * @var \Magento\Customer\Model\Resource\Group\CollectionFactory
      */
     protected $_groupsFactory;
 
     /**
-     * @param Magento_Customer_Model_Resource_Group_CollectionFactory $groupsFactory
+     * @param \Magento\Customer\Model\Resource\Group\CollectionFactory $groupsFactory
      */
-    public function __construct(Magento_Customer_Model_Resource_Group_CollectionFactory $groupsFactory)
+    public function __construct(\Magento\Customer\Model\Resource\Group\CollectionFactory $groupsFactory)
     {
         $this->_groupsFactory = $groupsFactory;
     }

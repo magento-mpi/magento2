@@ -11,12 +11,14 @@
 /**
  * Customer session model
  */
-class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
+namespace Magento\Customer\Model;
+
+class Session extends \Magento\Core\Model\Session\AbstractSession
 {
     /**
      * Customer object
      *
-     * @var Magento_Customer_Model_Customer
+     * @var \Magento\Customer\Model\Customer
      */
     protected $_customer;
 
@@ -30,70 +32,70 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
     /**
      * Customer data
      *
-     * @var Magento_Customer_Helper_Data
+     * @var \Magento\Customer\Helper\Data
      */
     protected $_customerData = null;
 
     /**
      * Core url
      *
-     * @var Magento_Core_Helper_Url
+     * @var \Magento\Core\Helper\Url
      */
     protected $_coreUrl = null;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Customer_Model_Config_Share
+     * @var \Magento\Customer\Model\Config\Share
      */
     protected $_configShare;
 
     /**
-     * @var Magento_Core_Model_Session
+     * @var \Magento\Core\Model\Session
      */
     protected $_session;
 
     /**
-     * @var Magento_Customer_Model_Resource_Customer
+     * @var \Magento\Customer\Model\Resource\Customer
      */
     protected $_customerResource;
 
     /**
-     * @var Magento_Customer_Model_CustomerFactory
+     * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $_customerFactory;
 
     /**
-     * @var Magento_Core_Model_UrlFactory
+     * @var \Magento\Core\Model\UrlFactory
      */
     protected $_urlFactory;
 
     /**
-     * @param Magento_Core_Model_Session_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Customer_Model_Config_Share $configShare
-     * @param Magento_Core_Helper_Url $coreUrl
-     * @param Magento_Customer_Helper_DataProxy $customerData
-     * @param Magento_Core_Model_Session $session
-     * @param Magento_Customer_Model_Resource_CustomerProxy $customerResource
-     * @param Magento_Customer_Model_CustomerFactory $customerFactory
-     * @param Magento_Core_Model_UrlFactory $urlFactory
+     * @param \Magento\Core\Model\Session\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Customer\Model\Config\Share $configShare
+     * @param \Magento\Core\Helper\Url $coreUrl
+     * @param \Magento\Customer\Helper\DataProxy $customerData
+     * @param \Magento\Core\Model\Session $session
+     * @param \Magento\Customer\Model\Resource\CustomerProxy $customerResource
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Core\Model\UrlFactory $urlFactory
      * @param array $data
      * @param null $sessionName
      */
     public function __construct(
-        Magento_Core_Model_Session_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Customer_Model_Config_Share $configShare,
-        Magento_Core_Helper_Url $coreUrl,
-        Magento_Customer_Helper_DataProxy $customerData,
-        Magento_Core_Model_Session $session,
-        Magento_Customer_Model_Resource_CustomerProxy $customerResource,
-        Magento_Customer_Model_CustomerFactory $customerFactory,
-        Magento_Core_Model_UrlFactory $urlFactory,
+        \Magento\Core\Model\Session\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Customer\Model\Config\Share $configShare,
+        \Magento\Core\Helper\Url $coreUrl,
+        \Magento\Customer\Helper\DataProxy $customerData,
+        \Magento\Core\Model\Session $session,
+        \Magento\Customer\Model\Resource\CustomerProxy $customerResource,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Core\Model\UrlFactory $urlFactory,
         array $data = array(),
         $sessionName = null
     ) {
@@ -118,7 +120,7 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
     /**
      * Retrieve customer sharing configuration model
      *
-     * @return Magento_Customer_Model_Config_Share
+     * @return \Magento\Customer\Model\Config\Share
      */
     public function getCustomerConfigShare()
     {
@@ -128,10 +130,10 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
     /**
      * Set customer object and setting customer id in session
      *
-     * @param   Magento_Customer_Model_Customer $customer
-     * @return  Magento_Customer_Model_Session
+     * @param   \Magento\Customer\Model\Customer $customer
+     * @return  \Magento\Customer\Model\Session
      */
-    public function setCustomer(Magento_Customer_Model_Customer $customer)
+    public function setCustomer(\Magento\Customer\Model\Customer $customer)
     {
         // check if customer is not confirmed
         if ($customer->isConfirmationRequired()) {
@@ -152,11 +154,11 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
     /**
      * Retrieve customer model object
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function getCustomer()
     {
-        if ($this->_customer instanceof Magento_Customer_Model_Customer) {
+        if ($this->_customer instanceof \Magento\Customer\Model\Customer) {
             return $this->_customer;
         }
 
@@ -173,7 +175,7 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
      * Set customer id
      *
      * @param int|null $id
-     * @return Magento_Customer_Model_Session
+     * @return \Magento\Customer\Model\Session
      */
     public function setCustomerId($id)
     {
@@ -198,7 +200,7 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
      * Set customer group id
      *
      * @param int|null $id
-     * @return Magento_Customer_Model_Session
+     * @return \Magento\Customer\Model\Session
      */
     public function setCustomerGroupId($id)
     {
@@ -220,7 +222,7 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
         if ($this->isLoggedIn() && $this->getCustomer()) {
             return $this->getCustomer()->getGroupId();
         }
-        return Magento_Customer_Model_Group::NOT_LOGGED_IN_ID;
+        return \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID;
     }
 
     /**
@@ -256,7 +258,7 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
      */
     public function login($username, $password)
     {
-        /** @var $customer Magento_Customer_Model_Customer */
+        /** @var $customer \Magento\Customer\Model\Customer */
         $customer = $this->_createCustomer()->setWebsiteId($this->_storeManager->getStore()->getWebsiteId());
 
         if ($customer->authenticate($username, $password)) {
@@ -293,7 +295,7 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
     /**
      * Logout customer
      *
-     * @return Magento_Customer_Model_Session
+     * @return \Magento\Customer\Model\Session
      */
     public function logout()
     {
@@ -307,11 +309,11 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
     /**
      * Authenticate controller action by login customer
      *
-     * @param   Magento_Core_Controller_Varien_Action $action
+     * @param   \Magento\Core\Controller\Varien\Action $action
      * @param   bool $loginUrl
      * @return  bool
      */
-    public function authenticate(Magento_Core_Controller_Varien_Action $action, $loginUrl = null)
+    public function authenticate(\Magento\Core\Controller\Varien\Action $action, $loginUrl = null)
     {
         if ($this->isLoggedIn()) {
             return true;
@@ -320,7 +322,7 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
         if (isset($loginUrl)) {
             $action->getResponse()->setRedirect($loginUrl);
         } else {
-            $action->setRedirectWithCookieCheck(Magento_Customer_Helper_Data::ROUTE_ACCOUNT_LOGIN,
+            $action->setRedirectWithCookieCheck(\Magento\Customer\Helper\Data::ROUTE_ACCOUNT_LOGIN,
                 $this->_customerData->getLoginUrlParams()
             );
         }
@@ -333,7 +335,7 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
      *
      * @param string $key
      * @param string $url
-     * @return Magento_Customer_Model_Session
+     * @return \Magento\Customer\Model\Session
      */
     protected function _setAuthUrl($key, $url)
     {
@@ -346,12 +348,12 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
     /**
      * Logout without dispatching event
      *
-     * @return Magento_Customer_Model_Session
+     * @return \Magento\Customer\Model\Session
      */
     protected function _logout()
     {
         $this->setId(null);
-        $this->setCustomerGroupId(Magento_Customer_Model_Group::NOT_LOGGED_IN_ID);
+        $this->setCustomerGroupId(\Magento\Customer\Model\Group::NOT_LOGGED_IN_ID);
         $this->getCookie()->delete($this->getSessionName());
         return $this;
     }
@@ -360,7 +362,7 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
      * Set Before auth url
      *
      * @param string $url
-     * @return Magento_Customer_Model_Session
+     * @return \Magento\Customer\Model\Session
      */
     public function setBeforeAuthUrl($url)
     {
@@ -371,7 +373,7 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
      * Set After auth url
      *
      * @param string $url
-     * @return Magento_Customer_Model_Session
+     * @return \Magento\Customer\Model\Session
      */
     public function setAfterAuthUrl($url)
     {
@@ -381,7 +383,7 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
     /**
      * Reset core session hosts after reseting session ID
      *
-     * @return Magento_Customer_Model_Session
+     * @return \Magento\Customer\Model\Session
      */
     public function renewSession()
     {
@@ -391,7 +393,7 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
     }
 
     /**
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     protected function _createCustomer()
     {
@@ -399,7 +401,7 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
     }
 
     /**
-     * @return Magento_Core_Model_Url
+     * @return \Magento\Core\Model\Url
      */
     protected function _createUrl()
     {

@@ -16,7 +16,9 @@
  * @package     Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Review_Model_Resource_Review extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Review\Model\Resource;
+
+class Review extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Review table
@@ -68,38 +70,38 @@ class Magento_Review_Model_Resource_Review extends Magento_Core_Model_Resource_D
     private $_deleteCache   = array();
 
     /**
-     * @var Magento_Core_Model_Date
+     * @var \Magento\Core\Model\Date
      */
     protected $_date;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Rating_Model_RatingFactory
+     * @var \Magento\Rating\Model\RatingFactory
      */
     protected $_ratingFactory;
 
     /**
-     * @var Magento_Rating_Model_Resource_Rating_Option
+     * @var \Magento\Rating\Model\Resource\Rating\Option
      */
     protected $_ratingOptions;
 
     /**
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Date $date
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Rating_Model_RatingFactory $ratingFactory
-     * @param Magento_Rating_Model_Resource_Rating_Option $ratingOptions
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Rating\Model\RatingFactory $ratingFactory
+     * @param \Magento\Rating\Model\Resource\Rating\Option $ratingOptions
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Date $date,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Rating_Model_RatingFactory $ratingFactory,
-        Magento_Rating_Model_Resource_Rating_Option $ratingOptions
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\Date $date,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Rating\Model\RatingFactory $ratingFactory,
+        \Magento\Rating\Model\Resource\Rating\Option $ratingOptions
     ) {
         $this->_date = $date;
         $this->_storeManager = $storeManager;
@@ -130,7 +132,7 @@ class Magento_Review_Model_Resource_Review extends Magento_Core_Model_Resource_D
      * @param string $field
      * @param mixed $value
      * @param unknown_type $object
-     * @return Zend_Db_Select
+     * @return \Zend_Db_Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {
@@ -145,10 +147,10 @@ class Magento_Review_Model_Resource_Review extends Magento_Core_Model_Resource_D
     /**
      * Perform actions before object save
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return $this|Magento_Core_Model_Resource_Db_Abstract
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return $this|\Magento\Core\Model\Resource\Db\AbstractDb
      */
-    protected function _beforeSave(Magento_Core_Model_Abstract $object)
+    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
         if (!$object->getId()) {
             $object->setCreatedAt($this->_date->gmtDate());
@@ -166,10 +168,10 @@ class Magento_Review_Model_Resource_Review extends Magento_Core_Model_Resource_D
     /**
      * Perform actions after object save
      *
-     * @param Magento_Object $object
-     * @return Magento_Review_Model_Resource_Review
+     * @param \Magento\Object $object
+     * @return \Magento\Review\Model\Resource\Review
      */
-    protected function _afterSave(Magento_Core_Model_Abstract $object)
+    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
         $adapter = $this->_getWriteAdapter();
         /**
@@ -231,10 +233,10 @@ class Magento_Review_Model_Resource_Review extends Magento_Core_Model_Resource_D
     /**
      * Perform actions after object load
      *
-     * @param Magento_Object $object
-     * @return Magento_Review_Model_Resource_Review
+     * @param \Magento\Object $object
+     * @return \Magento\Review\Model\Resource\Review
      */
-    protected function _afterLoad(Magento_Core_Model_Abstract $object)
+    protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
     {
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()
@@ -252,10 +254,10 @@ class Magento_Review_Model_Resource_Review extends Magento_Core_Model_Resource_D
     /**
      * Action before delete
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Review_Model_Resource_Review
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Review\Model\Resource\Review
      */
-    protected function _beforeDelete(Magento_Core_Model_Abstract $object)
+    protected function _beforeDelete(\Magento\Core\Model\AbstractModel $object)
     {
         // prepare rating ids, that depend on review
         $this->_deleteCache = array(
@@ -268,10 +270,10 @@ class Magento_Review_Model_Resource_Review extends Magento_Core_Model_Resource_D
     /**
      * Perform actions after object delete
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Review_Model_Resource_Review
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Review\Model\Resource\Review
      */
-    public function afterDeleteCommit(Magento_Core_Model_Abstract $object)
+    public function afterDeleteCommit(\Magento\Core\Model\AbstractModel $object)
     {
         $this->aggregate($object);
 
@@ -299,7 +301,7 @@ class Magento_Review_Model_Resource_Review extends Magento_Core_Model_Resource_D
         $select = $adapter->select()
             ->from($this->_reviewTable,
                 array(
-                    'review_count' => new Zend_Db_Expr('COUNT(*)')
+                    'review_count' => new \Zend_Db_Expr('COUNT(*)')
                 ))
             ->where("{$this->_reviewTable}.entity_pk_value = :pk_value");
         $bind = array(':pk_value' => $entityPkValue);
@@ -311,7 +313,7 @@ class Magento_Review_Model_Resource_Review extends Magento_Core_Model_Resource_D
         }
         if ($approvedOnly) {
             $select->where("{$this->_reviewTable}.status_id = :status_id");
-            $bind[':status_id'] = Magento_Review_Model_Review::STATUS_APPROVED;
+            $bind[':status_id'] = \Magento\Review\Model\Review::STATUS_APPROVED;
         }
         return $adapter->fetchOne($select, $bind);
     }
@@ -319,7 +321,7 @@ class Magento_Review_Model_Resource_Review extends Magento_Core_Model_Resource_D
     /**
      * Aggregate
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      */
     public function aggregate($object)
     {
@@ -356,7 +358,7 @@ class Magento_Review_Model_Resource_Review extends Magento_Core_Model_Resource_D
             );
             $oldData = $readAdapter->fetchRow($select, $bind);
 
-            $data = new Magento_Object();
+            $data = new \Magento\Object();
 
             $data->setReviewsCount($reviewsCount)
                 ->setEntityPkValue($object->getEntityPkValue())
@@ -373,7 +375,7 @@ class Magento_Review_Model_Resource_Review extends Magento_Core_Model_Resource_D
                     $writeAdapter->insert($this->_aggregateTable, $data->getData());
                 }
                 $writeAdapter->commit();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $writeAdapter->rollBack();
             }
         }
@@ -404,7 +406,7 @@ class Magento_Review_Model_Resource_Review extends Magento_Core_Model_Resource_D
      *
      * @param array $ratingIds
      * @param int $entityPkValue
-     * @return Magento_Review_Model_Resource_Review
+     * @return \Magento\Review\Model\Resource\Review
      */
     protected function _aggregateRatings($ratingIds, $entityPkValue)
     {
@@ -453,17 +455,17 @@ class Magento_Review_Model_Resource_Review extends Magento_Core_Model_Resource_D
      * Better to call this method in transaction, because operation performed on two separated tables
      *
      * @param int $productId
-     * @return Magento_Review_Model_Resource_Review
+     * @return \Magento\Review\Model\Resource\Review
      */
     public function deleteReviewsByProductId($productId)
     {
         $this->_getWriteAdapter()->delete($this->_reviewTable, array(
             'entity_pk_value=?' => $productId,
-            'entity_id=?' => $this->getEntityIdByCode(Magento_Review_Model_Review::ENTITY_PRODUCT_CODE)
+            'entity_id=?' => $this->getEntityIdByCode(\Magento\Review\Model\Review::ENTITY_PRODUCT_CODE)
         ));
         $this->_getWriteAdapter()->delete($this->getTable('review_entity_summary'), array(
             'entity_pk_value=?' => $productId,
-            'entity_type=?' => $this->getEntityIdByCode(Magento_Review_Model_Review::ENTITY_PRODUCT_CODE)
+            'entity_type=?' => $this->getEntityIdByCode(\Magento\Review\Model\Review::ENTITY_PRODUCT_CODE)
         ));
         return $this;
     }

@@ -16,7 +16,9 @@
  * @package     Magento_Sitemap
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sitemap_Model_Resource_Cms_Page extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Sitemap\Model\Resource\Cms;
+
+class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Init resource model (catalog/category)
@@ -46,7 +48,7 @@ class Magento_Sitemap_Model_Resource_Cms_Page extends Magento_Core_Model_Resourc
                 array()
             )
             ->where('main_table.is_active = 1')
-            ->where('main_table.identifier != ?', Magento_Cms_Model_Page::NOROUTE_PAGE_ID)
+            ->where('main_table.identifier != ?', \Magento\Cms\Model\Page::NOROUTE_PAGE_ID)
             ->where('store_table.store_id IN(?)', array(0, $storeId));
 
         $query = $this->_getWriteAdapter()->query($select);
@@ -62,11 +64,11 @@ class Magento_Sitemap_Model_Resource_Cms_Page extends Magento_Core_Model_Resourc
      * Prepare page object
      *
      * @param array $data
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     protected function _prepareObject(array $data)
     {
-        $object = new Magento_Object();
+        $object = new \Magento\Object();
         $object->setId($data[$this->getIdFieldName()]);
         $object->setUrl($data['url']);
         $object->setUpdatedAt($data['updated_at']);

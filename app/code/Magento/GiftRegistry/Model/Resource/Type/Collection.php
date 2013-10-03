@@ -16,7 +16,9 @@
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftRegistry_Model_Resource_Type_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\GiftRegistry\Model\Resource\Type;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * If the table was joined flag
@@ -31,16 +33,16 @@ class Magento_GiftRegistry_Model_Resource_Type_Collection extends Magento_Core_M
      */
     protected function _construct()
     {
-        $this->_init('Magento_GiftRegistry_Model_Type', 'Magento_GiftRegistry_Model_Resource_Type');
+        $this->_init('Magento\GiftRegistry\Model\Type', 'Magento\GiftRegistry\Model\Resource\Type');
     }
 
     /**
      * Add store data to collection
      *
      * @param int $storeId
-     * @return Magento_GiftRegistry_Model_Resource_Type_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Type\Collection
      */
-    public function addStoreData($storeId = Magento_Core_Model_AppInterface::ADMIN_STORE_ID)
+    public function addStoreData($storeId = \Magento\Core\Model\AppInterface::ADMIN_STORE_ID)
     {
         $infoTable = $this->getTable('magento_giftregistry_type_info');
         $adapter   = $this->getConnection();
@@ -49,7 +51,7 @@ class Magento_GiftRegistry_Model_Resource_Type_Collection extends Magento_Core_M
         $select->from(array('m' => $this->getMainTable()))
             ->joinInner(
                 array('d' => $infoTable),
-                $adapter->quoteInto('m.type_id = d.type_id AND d.store_id = ?', Magento_Core_Model_AppInterface::ADMIN_STORE_ID),
+                $adapter->quoteInto('m.type_id = d.type_id AND d.store_id = ?', \Magento\Core\Model\AppInterface::ADMIN_STORE_ID),
                 array())
             ->joinLeft(
                 array('s' => $infoTable),
@@ -70,7 +72,7 @@ class Magento_GiftRegistry_Model_Resource_Type_Collection extends Magento_Core_M
     /**
      * Filter collection by listed param
      *
-     * @return Magento_GiftRegistry_Model_Resource_Type_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Type\Collection
      */
     public function applyListedFilter()
     {
@@ -83,7 +85,7 @@ class Magento_GiftRegistry_Model_Resource_Type_Collection extends Magento_Core_M
     /**
      * Apply sorting by sort_order param
      *
-     * @return Magento_GiftRegistry_Model_Resource_Type_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Type\Collection
      */
     public function applySortOrder()
     {

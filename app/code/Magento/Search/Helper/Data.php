@@ -16,8 +16,10 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Search_Helper_Data extends Magento_Core_Helper_Abstract
-    implements Magento_Search_Helper_ClientInterface
+namespace Magento\Search\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
+    implements \Magento\Search\Helper\ClientInterface
 {
     /**
      * Define if search engine is used for layered navigation
@@ -67,60 +69,60 @@ class Magento_Search_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Tax data
      *
-     * @var Magento_Tax_Helper_Data
+     * @var \Magento\Tax\Helper\Data
      */
     protected $_taxData = null;
 
     /**
-     * @var Magento_CatalogSearch_Model_Resource_EngineProvider
+     * @var \Magento\CatalogSearch\Model\Resource\EngineProvider
      */
     protected $_engineProvider;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_ConfigInterface
+     * @var \Magento\Core\Model\Store\ConfigInterface
      */
     protected $_coreStoreConfig;
 
     /**
      * Locale
      *
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Core_Model_Config $coreConfig
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Core_Model_Config $coreConfig,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Core_Model_StoreManagerInterface $storeManager
+        \Magento\Core\Helper\Context $context,
+        \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_engineProvider = $engineProvider;
         $this->_taxData = $taxData;
@@ -260,7 +262,7 @@ class Magento_Search_Helper_Data extends Magento_Core_Helper_Abstract
     public function isThirdPartSearchEngine()
     {
         $engine = $this->getSearchConfigData('engine');
-        if ($engine == Magento_Search_Model_Adminhtml_System_Config_Source_Engine::SOLR) {
+        if ($engine == \Magento\Search\Model\Adminhtml\System\Config\Source\Engine::SOLR) {
             return true;
         }
 
@@ -321,8 +323,8 @@ class Magento_Search_Helper_Data extends Magento_Core_Helper_Abstract
      *
      * @deprecated since 1.12.0.0
      *
-     * @param Magento_Search_Model_Resource_Collection $collection
-     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param \Magento\Search\Model\Resource\Collection $collection
+     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
      * @param string|array $value
      * @return array
      */
@@ -337,7 +339,7 @@ class Magento_Search_Helper_Data extends Magento_Core_Helper_Abstract
         }
 
         $locale = $this->_storeManager->getStore()
-            ->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE);
+            ->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_LOCALE);
         $languageSuffix = $this->getLanguageSuffix($locale);
 
         $field = $attribute->getAttributeCode();
@@ -353,18 +355,18 @@ class Magento_Search_Helper_Data extends Magento_Core_Helper_Abstract
         } elseif ($backendType == 'datetime') {
             $field = 'attr_datetime_'. $field;
 
-            $format = $this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+            $format = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
             if (is_array($value)) {
                 foreach ($value as &$val) {
                     if (!is_empty_date($val)) {
-                        $date = new Zend_Date($val, $format);
-                        $val = $date->toString(Zend_Date::ISO_8601) . 'Z';
+                        $date = new \Zend_Date($val, $format);
+                        $val = $date->toString(\Zend_Date::ISO_8601) . 'Z';
                     }
                 }
             } else {
                 if (!is_empty_date($value)) {
-                    $date = new Zend_Date($value, $format);
-                    $value = $date->toString(Zend_Date::ISO_8601) . 'Z';
+                    $date = new \Zend_Date($value, $format);
+                    $value = $date->toString(\Zend_Date::ISO_8601) . 'Z';
                 }
             }
         } elseif (in_array($backendType, $this->_textFieldTypes)) {
@@ -473,7 +475,7 @@ class Magento_Search_Helper_Data extends Magento_Core_Helper_Abstract
      *
      * @deprecated after 1.11.2.0
      *
-     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
      *
      * @return string
      */

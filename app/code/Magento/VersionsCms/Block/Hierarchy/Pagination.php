@@ -11,39 +11,41 @@
 /**
  * Cms Widget Pagination Block
  */
-class Magento_VersionsCms_Block_Hierarchy_Pagination extends Magento_Core_Block_Template
+namespace Magento\VersionsCms\Block\Hierarchy;
+
+class Pagination extends \Magento\Core\Block\Template
 {
     /**
      * Current Hierarchy Node Page Instance
      *
-     * @var Magento_VersionsCms_Model_Hierarchy_Node
+     * @var \Magento\VersionsCms\Model\Hierarchy\Node
      */
     protected $_node;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry;
 
     /**
-     * @var Magento_VersionsCms_Model_Hierarchy_NodeFactory
+     * @var \Magento\VersionsCms\Model\Hierarchy\NodeFactory
      */
     protected $_nodeFactory;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_VersionsCms_Model_Hierarchy_NodeFactory $nodeFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_VersionsCms_Model_Hierarchy_NodeFactory $nodeFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -77,17 +79,17 @@ class Magento_VersionsCms_Block_Hierarchy_Pagination extends Magento_Core_Block_
     /**
      * Add context menu params to block data
      *
-     * @return Magento_Core_Block_Template
+     * @return \Magento\Core\Block\Template
      */
     protected function _loadNodePaginationParams()
     {
         $this->setPaginationEnabled(false);
 
-        if ($this->_node instanceof Magento_Core_Model_Abstract) {
+        if ($this->_node instanceof \Magento\Core\Model\AbstractModel) {
             $params = $this->_node->getMetadataPagerParams();
             if ($params !== null
                 && isset($params['pager_visibility'])
-                && $params['pager_visibility'] == Magento_VersionsCms_Helper_Hierarchy::METADATA_VISIBILITY_YES
+                && $params['pager_visibility'] == \Magento\VersionsCms\Helper\Hierarchy::METADATA_VISIBILITY_YES
             ) {
                 $this->addData(array(
                     'jump' => isset($params['pager_jump']) ? $params['pager_jump'] : 0,
@@ -153,11 +155,11 @@ class Magento_VersionsCms_Block_Hierarchy_Pagination extends Magento_Core_Block_
     /**
      * Retrieve node label or number
      *
-     * @param Magento_VersionsCms_Model_Hierarchy_Node $node
+     * @param \Magento\VersionsCms\Model\Hierarchy\Node $node
      * @param string $custom instead of page number
      * @return string
      */
-    public function getNodeLabel(Magento_VersionsCms_Model_Hierarchy_Node $node, $custom = null)
+    public function getNodeLabel(\Magento\VersionsCms\Model\Hierarchy\Node $node, $custom = null)
     {
         if ($this->getUseNodeLabels()) {
             return $node->getLabel();
@@ -181,7 +183,7 @@ class Magento_VersionsCms_Block_Hierarchy_Pagination extends Magento_Core_Block_
     /**
      * Retrieve First node page
      *
-     * @return Magento_VersionsCms_Model_Hierarchy_Node
+     * @return \Magento\VersionsCms\Model\Hierarchy\Node
      */
     public function getFirstNode()
     {
@@ -201,7 +203,7 @@ class Magento_VersionsCms_Block_Hierarchy_Pagination extends Magento_Core_Block_
     /**
      * Retrieve First node page
      *
-     * @return Magento_VersionsCms_Model_Hierarchy_Node
+     * @return \Magento\VersionsCms\Model\Hierarchy\Node
      */
     public function getLastNode()
     {
@@ -221,7 +223,7 @@ class Magento_VersionsCms_Block_Hierarchy_Pagination extends Magento_Core_Block_
     /**
      * Retrieve Previous  node page
      *
-     * @return Magento_VersionsCms_Model_Hierarchy_Node
+     * @return \Magento\VersionsCms\Model\Hierarchy\Node
      */
     public function getPreviousNode()
     {
@@ -241,7 +243,7 @@ class Magento_VersionsCms_Block_Hierarchy_Pagination extends Magento_Core_Block_
     /**
      * Retrieve Next node page
      *
-     * @return Magento_VersionsCms_Model_Hierarchy_Node
+     * @return \Magento\VersionsCms\Model\Hierarchy\Node
      */
     public function getNextNode()
     {
@@ -261,7 +263,7 @@ class Magento_VersionsCms_Block_Hierarchy_Pagination extends Magento_Core_Block_
     /**
      * Retrieve Previous Jump node page
      *
-     * @return Magento_VersionsCms_Model_Hierarchy_Node
+     * @return \Magento\VersionsCms\Model\Hierarchy\Node
      */
     public function getPreviousJumpNode()
     {
@@ -281,7 +283,7 @@ class Magento_VersionsCms_Block_Hierarchy_Pagination extends Magento_Core_Block_
     /**
      * Retrieve Next Jump node page
      *
-     * @return Magento_VersionsCms_Model_Hierarchy_Node
+     * @return \Magento\VersionsCms\Model\Hierarchy\Node
      */
     public function getNextJumpNode()
     {

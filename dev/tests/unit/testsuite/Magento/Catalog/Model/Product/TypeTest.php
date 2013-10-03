@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Product;
+
+class TypeTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_Helper_ObjectManager
+     * @var \Magento\TestFramework\Helper\ObjectManager
      */
     protected $_objectHelper;
 
@@ -29,27 +31,27 @@ class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
     );
 
     /**
-     * @var Magento_Catalog_Model_Product_Type
+     * @var \Magento\Catalog\Model\Product\Type
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_objectHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $config = $this->getMock('Magento_Catalog_Model_ProductTypes_ConfigInterface');
+        $this->_objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $config = $this->getMock('Magento\Catalog\Model\ProductTypes\ConfigInterface');
 
         $config->expects($this->any())
             ->method('getAll')
             ->will($this->returnValue($this->_productTypes));
 
-        $this->_model = $this->_objectHelper->getObject('Magento_Catalog_Model_Product_Type', array(
+        $this->_model = $this->_objectHelper->getObject('Magento\Catalog\Model\Product\Type', array(
             'config' => $config,
         ));
     }
 
     public function testGetTypes()
     {
-        $property = new ReflectionProperty($this->_model, '_types');
+        $property = new \ReflectionProperty($this->_model, '_types');
         $property->setAccessible(true);
         $this->assertNull($property->getValue($this->_model));
         $this->assertEquals($this->_productTypes, $this->_model->getTypes());
@@ -96,7 +98,7 @@ class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
 
     public function testGetCompositeTypes()
     {
-        $property = new ReflectionProperty($this->_model, '_compositeTypes');
+        $property = new \ReflectionProperty($this->_model, '_compositeTypes');
         $property->setAccessible(true);
         $this->assertNull($property->getValue($this->_model));
 

@@ -11,25 +11,27 @@
 /**
  * Edit revision page
  */
-class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit extends Magento_Adminhtml_Block_Cms_Page_Edit
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision;
+
+class Edit extends \Magento\Adminhtml\Block\Cms\Page\Edit
 {
     /**
-     * @var Magento_VersionsCms_Model_Config
+     * @var \Magento\VersionsCms\Model\Config
      */
     protected $_cmsConfig;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_VersionsCms_Model_Config $cmsConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_VersionsCms_Model_Config $cmsConfig,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\VersionsCms\Model\Config $cmsConfig,
         array $data = array()
     ) {
         $this->_cmsConfig = $cmsConfig;
@@ -39,7 +41,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit extends Magento
     /**
      * Constructor. Modifying default CE buttons.
      *
-     * @return Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit
      */
     protected function _construct()
     {

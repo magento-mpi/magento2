@@ -9,28 +9,30 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model\Layer\Filter;
+
 /**
- * Test class for Magento_Catalog_Model_Layer_Filter_Price.
+ * Test class for \Magento\Catalog\Model\Layer\Filter\Price.
  *
  * @magentoDataFixture Magento/Catalog/_files/categories.php
  */
-class Magento_Catalog_Model_Layer_Filter_PriceTest extends PHPUnit_Framework_TestCase
+class PriceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_Layer_Filter_Price
+     * @var \Magento\Catalog\Model\Layer\Filter\Price
      */
     protected $_model;
 
     protected function setUp()
     {
-        $category = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Category');
+        $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Category');
         $category->load(4);
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Layer_Filter_Price');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Layer\Filter\Price');
         $this->_model->setData(array(
-            'layer' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Layer', array(
+            'layer' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Layer', array(
                 'data' => array('current_category' => $category)
             )),
         ));
@@ -80,14 +82,14 @@ class Magento_Catalog_Model_Layer_Filter_PriceTest extends PHPUnit_Framework_Tes
     public function testApplyNothing()
     {
         $this->assertEmpty($this->_model->getData('price_range'));
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var $request Magento_TestFramework_Request */
-        $request = $objectManager->get('Magento_TestFramework_Request');
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var $request \Magento\TestFramework\Request */
+        $request = $objectManager->get('Magento\TestFramework\Request');
         $this->_model->apply(
             $request,
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-                ->createBlock('Magento_Core_Block_Text')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+                ->createBlock('Magento\Core\Block\Text')
         );
 
         $this->assertEmpty($this->_model->getData('price_range'));
@@ -96,15 +98,15 @@ class Magento_Catalog_Model_Layer_Filter_PriceTest extends PHPUnit_Framework_Tes
     public function testApplyInvalid()
     {
         $this->assertEmpty($this->_model->getData('price_range'));
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var $request Magento_TestFramework_Request */
-        $request = $objectManager->get('Magento_TestFramework_Request');
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var $request \Magento\TestFramework\Request */
+        $request = $objectManager->get('Magento\TestFramework\Request');
         $request->setParam('price', 'non-numeric');
         $this->_model->apply(
             $request,
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-                ->createBlock('Magento_Core_Block_Text')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+                ->createBlock('Magento\Core\Block\Text')
         );
 
         $this->assertEmpty($this->_model->getData('price_range'));
@@ -115,15 +117,15 @@ class Magento_Catalog_Model_Layer_Filter_PriceTest extends PHPUnit_Framework_Tes
      */
     public function testApplyManual()
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var $request Magento_TestFramework_Request */
-        $request = $objectManager->get('Magento_TestFramework_Request');
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var $request \Magento\TestFramework\Request */
+        $request = $objectManager->get('Magento\TestFramework\Request');
         $request->setParam('price', '10-20');
         $this->_model->apply(
             $request,
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-                ->createBlock('Magento_Core_Block_Text')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+                ->createBlock('Magento\Core\Block\Text')
         );
 
         $this->assertEquals(array(10, 20), $this->_model->getData('interval'));
@@ -131,7 +133,7 @@ class Magento_Catalog_Model_Layer_Filter_PriceTest extends PHPUnit_Framework_Tes
 
     public function testGetSetCustomerGroupId()
     {
-        $this->assertEquals(Magento_Customer_Model_Group::NOT_LOGGED_IN_ID, $this->_model->getCustomerGroupId());
+        $this->assertEquals(\Magento\Customer\Model\Group::NOT_LOGGED_IN_ID, $this->_model->getCustomerGroupId());
 
         $customerGroupId = 123;
         $this->_model->setCustomerGroupId($customerGroupId);

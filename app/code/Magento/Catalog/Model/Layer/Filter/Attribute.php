@@ -13,40 +13,42 @@
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Magento_Catalog_Model_Layer_Filter_Attribute extends Magento_Catalog_Model_Layer_Filter_Abstract
+namespace Magento\Catalog\Model\Layer\Filter;
+
+class Attribute extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
 {
     const OPTIONS_ONLY_WITH_RESULTS = 1;
 
     /**
      * Resource instance
      *
-     * @var Magento_Catalog_Model_Resource_Layer_Filter_Attribute
+     * @var \Magento\Catalog\Model\Resource\Layer\Filter\Attribute
      */
     protected $_resource;
 
     /**
      * Core string
      *
-     * @var Magento_Core_Helper_String
+     * @var \Magento\Core\Helper\String
      */
     protected $_coreString = null;
 
     /**
      * Construct
      *
-     * @param Magento_Catalog_Model_Layer_Filter_ItemFactory $filterItemFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Model_Layer $catalogLayer
-     * @param Magento_Catalog_Model_Resource_Layer_Filter_AttributeFactory $filterAttributeFactory
-     * @param Magento_Core_Helper_String $coreString
+     * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Layer $catalogLayer
+     * @param \Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory $filterAttributeFactory
+     * @param \Magento\Core\Helper\String $coreString
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Model_Layer_Filter_ItemFactory $filterItemFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Model_Layer $catalogLayer,
-        Magento_Catalog_Model_Resource_Layer_Filter_AttributeFactory $filterAttributeFactory,
-        Magento_Core_Helper_String $coreString,
+        \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Layer $catalogLayer,
+        \Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory $filterAttributeFactory,
+        \Magento\Core\Helper\String $coreString,
         array $data = array()
     ) {
         $this->_resource = $filterAttributeFactory->create();
@@ -58,7 +60,7 @@ class Magento_Catalog_Model_Layer_Filter_Attribute extends Magento_Catalog_Model
     /**
      * Retrieve resource instance
      *
-     * @return Magento_Catalog_Model_Resource_Layer_Filter_Attribute
+     * @return \Magento\Catalog\Model\Resource\Layer\Filter\Attribute
      */
     protected function _getResource()
     {
@@ -79,11 +81,11 @@ class Magento_Catalog_Model_Layer_Filter_Attribute extends Magento_Catalog_Model
     /**
      * Apply attribute option filter to product collection
      *
-     * @param   Zend_Controller_Request_Abstract $request
-     * @param   Magento_Object $filterBlock
-     * @return  Magento_Catalog_Model_Layer_Filter_Attribute
+     * @param   \Zend_Controller_Request_Abstract $request
+     * @param   \Magento\Object $filterBlock
+     * @return  \Magento\Catalog\Model\Layer\Filter\Attribute
      */
-    public function apply(Zend_Controller_Request_Abstract $request, $filterBlock)
+    public function apply(\Zend_Controller_Request_Abstract $request, $filterBlock)
     {
         $filter = $request->getParam($this->_requestVar);
         if (is_array($filter)) {
@@ -101,7 +103,7 @@ class Magento_Catalog_Model_Layer_Filter_Attribute extends Magento_Catalog_Model
     /**
      * Check whether specified attribute can be used in LN
      *
-     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
      * @return bool
      */
     protected function _getIsFilterableAttribute($attribute)

@@ -12,25 +12,27 @@
 /**
  * Rma Item Form Renderer Block for select
  */
-class Magento_Rma_Block_Form_Renderer_Image extends Magento_CustomAttribute_Block_Form_Renderer_Image
+namespace Magento\Rma\Block\Form\Renderer;
+
+class Image extends \Magento\CustomAttribute\Block\Form\Renderer\Image
 {
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -44,7 +46,7 @@ class Magento_Rma_Block_Form_Renderer_Image extends Magento_CustomAttribute_Bloc
      */
     public function getImageUrl()
     {
-        $url = $this->_storeManager->getStore()->getBaseUrl('media') . Magento_Rma_Model_Item::ITEM_IMAGE_URL;
+        $url = $this->_storeManager->getStore()->getBaseUrl('media') . \Magento\Rma\Model\Item::ITEM_IMAGE_URL;
         $file = $this->getValue();
         $url = $url . $file;
         return $url;

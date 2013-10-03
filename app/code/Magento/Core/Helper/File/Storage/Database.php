@@ -15,17 +15,19 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Helper_File_Storage_Database extends Magento_Core_Helper_Abstract
+namespace Magento\Core\Helper\File\Storage;
+
+class Database extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Database storage model
-     * @var null|Magento_Core_Model_File_Storage_Database
+     * @var null|\Magento\Core\Model\File\Storage\Database
      */
     protected $_databaseModel = null;
 
     /**
      * Storage resource model
-     * @var null|Magento_Core_Model_Resource_File_Storage_Database
+     * @var null|\Magento\Core\Model\Resource\File\Storage\Database
      */
     protected $_resourceModel = null;
 
@@ -44,38 +46,38 @@ class Magento_Core_Helper_File_Storage_Database extends Magento_Core_Helper_Abst
     protected $_mediaBaseDirectory;
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
     /**
-     * @var Magento_Core_Model_File_Storage_DatabaseFactory
+     * @var \Magento\Core\Model\File\Storage\DatabaseFactory
      */
     protected $_dbStorageFactory;
 
     /**
-     * @var Magento_Core_Model_File_Storage_File_Proxy
+     * @var \Magento\Core\Model\File\Storage\File\Proxy
      */
     protected $_fileStorage;
 
     /**
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_dir;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_File_Storage_DatabaseFactory $dbStorageFactory
-     * @param Magento_Core_Model_File_Storage_File $fileStorage
-     * @param Magento_Core_Model_Dir $dir
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\File\Storage\DatabaseFactory $dbStorageFactory
+     * @param \Magento\Core\Model\File\Storage\File $fileStorage
+     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_File_Storage_DatabaseFactory $dbStorageFactory,
-        Magento_Core_Model_File_Storage_File $fileStorage,
-        Magento_Core_Model_Dir $dir,
-        Magento_Filesystem $filesystem
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\File\Storage\DatabaseFactory $dbStorageFactory,
+        \Magento\Core\Model\File\Storage\File $fileStorage,
+        \Magento\Core\Model\Dir $dir,
+        \Magento\Filesystem $filesystem
     ) {
         parent::__construct($context);
         $this->_filesystem = $filesystem;
@@ -94,8 +96,8 @@ class Magento_Core_Helper_File_Storage_Database extends Magento_Core_Helper_Abst
     {
         if (null === $this->_useDb) {
             $currentStorage = (int) $this->_app->getConfig()
-                ->getValue(Magento_Core_Model_File_Storage::XML_PATH_STORAGE_MEDIA, 'default');
-            $this->_useDb = ($currentStorage == Magento_Core_Model_File_Storage::STORAGE_MEDIA_DATABASE);
+                ->getValue(\Magento\Core\Model\File\Storage::XML_PATH_STORAGE_MEDIA, 'default');
+            $this->_useDb = ($currentStorage == \Magento\Core\Model\File\Storage::STORAGE_MEDIA_DATABASE);
         }
 
         return $this->_useDb;
@@ -104,7 +106,7 @@ class Magento_Core_Helper_File_Storage_Database extends Magento_Core_Helper_Abst
     /**
      * Get database storage model
      *
-     * @return Magento_Core_Model_File_Storage_Database
+     * @return \Magento\Core\Model\File\Storage\Database
      */
     public function getStorageDatabaseModel()
     {
@@ -118,7 +120,7 @@ class Magento_Core_Helper_File_Storage_Database extends Magento_Core_Helper_Abst
     /**
      * Get file storage model
      *
-     * @return Magento_Core_Model_File_Storage_File
+     * @return \Magento\Core\Model\File\Storage\File
      */
     public function getStorageFileModel()
     {
@@ -128,7 +130,7 @@ class Magento_Core_Helper_File_Storage_Database extends Magento_Core_Helper_Abst
     /**
      * Get storage model
      *
-     * @return Magento_Core_Model_Resource_File_Storage_Database
+     * @return \Magento\Core\Model\Resource\File\Storage\Database
      */
     public function getResourceStorageModel()
     {
@@ -224,7 +226,7 @@ class Magento_Core_Helper_File_Storage_Database extends Magento_Core_Helper_Abst
      */
     public function saveFileToFilesystem($filename) {
         if ($this->checkDbUsage()) {
-            /** @var $file Magento_Core_Model_File_Storage_Database */
+            /** @var $file \Magento\Core\Model\File\Storage\Database */
             $file = $this->_dbStorageFactory->create()
                 ->loadByFilename($this->_removeAbsPathFromFileName($filename));
             if (!$file->getId()) {
@@ -272,9 +274,9 @@ class Magento_Core_Helper_File_Storage_Database extends Magento_Core_Helper_Abst
     }
 
     /**
-     * Saves uploaded by Magento_Core_Model_File_Uploader file to DB with existence tests
+     * Saves uploaded by \Magento\Core\Model\File\Uploader file to DB with existence tests
      *
-     * param $result should be result from Magento_Core_Model_File_Uploader::save() method
+     * param $result should be result from \Magento\Core\Model\File\Uploader::save() method
      * Checks in DB, whether uploaded file exists ($result['file'])
      * If yes, renames file on FS (!!!!!)
      * Saves file with unique name into DB

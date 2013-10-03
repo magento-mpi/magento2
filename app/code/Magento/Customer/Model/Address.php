@@ -12,50 +12,52 @@
  * Customer address model
  *
  * @method int getParentId() getParentId()
- * @method Magento_Customer_Model_Address setParentId() setParentId(int $parentId)
+ * @method \Magento\Customer\Model\Address setParentId() setParentId(int $parentId)
  */
-class Magento_Customer_Model_Address extends Magento_Customer_Model_Address_Abstract
+namespace Magento\Customer\Model;
+
+class Address extends \Magento\Customer\Model\Address\AbstractAddress
 {
     /**
      * Customer entity
      *
-     * @var Magento_Customer_Model_Customer
+     * @var \Magento\Customer\Model\Customer
      */
     protected $_customer;
 
     /**
-     * @var Magento_Customer_Model_CustomerFactory
+     * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $_customerFactory;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Directory_Helper_Data $directoryData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Customer_Model_Address_Config $addressConfig
-     * @param Magento_Directory_Model_RegionFactory $regionFactory
-     * @param Magento_Directory_Model_CountryFactory $countryFactory
-     * @param Magento_Customer_Model_CustomerFactory $customerFactory
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Directory\Helper\Data $directoryData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Customer\Model\Address\Config $addressConfig
+     * @param \Magento\Directory\Model\RegionFactory $regionFactory
+     * @param \Magento\Directory\Model\CountryFactory $countryFactory
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Directory_Helper_Data $directoryData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Customer_Model_Address_Config $addressConfig,
-        Magento_Directory_Model_RegionFactory $regionFactory,
-        Magento_Directory_Model_CountryFactory $countryFactory,
-        Magento_Customer_Model_CustomerFactory $customerFactory,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Directory\Helper\Data $directoryData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Customer\Model\Address\Config $addressConfig,
+        \Magento\Directory\Model\RegionFactory $regionFactory,
+        \Magento\Directory\Model\CountryFactory $countryFactory,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_customerFactory = $customerFactory;
@@ -67,7 +69,7 @@ class Magento_Customer_Model_Address extends Magento_Customer_Model_Address_Abst
 
     protected function _construct()
     {
-        $this->_init('Magento_Customer_Model_Resource_Address');
+        $this->_init('Magento\Customer\Model\Resource\Address');
     }
 
     /**
@@ -84,7 +86,7 @@ class Magento_Customer_Model_Address extends Magento_Customer_Model_Address_Abst
      * Declare address customer identifier
      *
      * @param integer $id
-     * @return Magento_Customer_Model_Address
+     * @return \Magento\Customer\Model\Address
      */
     public function setCustomerId($id)
     {
@@ -96,7 +98,7 @@ class Magento_Customer_Model_Address extends Magento_Customer_Model_Address_Abst
     /**
      * Retrieve address customer
      *
-     * @return Magento_Customer_Model_Customer|bool
+     * @return \Magento\Customer\Model\Customer|bool
      */
     public function getCustomer()
     {
@@ -113,10 +115,10 @@ class Magento_Customer_Model_Address extends Magento_Customer_Model_Address_Abst
     /**
      * Specify address customer
      *
-     * @param Magento_Customer_Model_Customer $customer
-     * @return Magento_Customer_Model_Address
+     * @param \Magento\Customer\Model\Customer $customer
+     * @return \Magento\Customer\Model\Address
      */
-    public function setCustomer(Magento_Customer_Model_Customer $customer)
+    public function setCustomer(\Magento\Customer\Model\Customer $customer)
     {
         $this->_customer = $customer;
         $this->setCustomerId($customer->getId());
@@ -126,7 +128,7 @@ class Magento_Customer_Model_Address extends Magento_Customer_Model_Address_Abst
     /**
      * Delete customer address
      *
-     * @return Magento_Customer_Model_Address
+     * @return \Magento\Customer\Model\Address
      */
     public function delete()
     {
@@ -160,7 +162,7 @@ class Magento_Customer_Model_Address extends Magento_Customer_Model_Address_Abst
     /**
      * Return Entity Type instance
      *
-     * @return Magento_Eav_Model_Entity_Type
+     * @return \Magento\Eav\Model\Entity\Type
      */
     public function getEntityType()
     {
@@ -196,7 +198,7 @@ class Magento_Customer_Model_Address extends Magento_Customer_Model_Address_Abst
      * Set Region ID. $regionId is automatically converted to integer
      *
      * @param int $regionId
-     * @return Magento_Customer_Model_Address
+     * @return \Magento\Customer\Model\Address
      */
     public function setRegionId($regionId)
     {
@@ -205,7 +207,7 @@ class Magento_Customer_Model_Address extends Magento_Customer_Model_Address_Abst
     }
 
     /**
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     protected function _createCustomer()
     {

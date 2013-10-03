@@ -12,46 +12,48 @@
  * @deprecated after 1.11.2.0
  * Gift registry view block
  */
-class Magento_GiftRegistry_Block_View extends Magento_GiftRegistry_Block_Customer_Items
+namespace Magento\GiftRegistry\Block;
+
+class View extends \Magento\GiftRegistry\Block\Customer\Items
 {
     /**
-     * @var Magento_Directory_Model_CountryFactory
+     * @var \Magento\Directory\Model\CountryFactory
      */
     protected $countryFactory;
 
     /**
-     * @var Magento_GiftRegistry_Model_TypeFactory
+     * @var \Magento\GiftRegistry\Model\TypeFactory
      */
     protected $typeFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Model_Config $catalogConfig
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_GiftRegistry_Model_ItemFactory $itemFactory
-     * @param Magento_Directory_Model_CountryFactory $countryFactory
-     * @param Magento_GiftRegistry_Model_TypeFactory $typeFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\GiftRegistry\Model\ItemFactory $itemFactory
+     * @param \Magento\Directory\Model\CountryFactory $countryFactory
+     * @param \Magento\GiftRegistry\Model\TypeFactory $typeFactory
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Model_Config $catalogConfig,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_GiftRegistry_Model_ItemFactory $itemFactory,
-        Magento_Directory_Model_CountryFactory $countryFactory,
-        Magento_GiftRegistry_Model_TypeFactory $typeFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
+        \Magento\Directory\Model\CountryFactory $countryFactory,
+        \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
         array $data = array()
     ) {
         $this->countryFactory = $countryFactory;
@@ -63,7 +65,7 @@ class Magento_GiftRegistry_Block_View extends Magento_GiftRegistry_Block_Custome
     /**
      * Return current gift registry entity
      *
-     * @return Magento_GiftRegistry_Model_Entity
+     * @return \Magento\GiftRegistry\Model\Entity
      */
     public function getEntity()
     {
@@ -79,7 +81,7 @@ class Magento_GiftRegistry_Block_View extends Magento_GiftRegistry_Block_Custome
     public function getFormattedDate($date)
     {
         if ($date) {
-            return $this->formatDate($date, Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
+            return $this->formatDate($date, \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
         }
         return '';
     }
@@ -103,7 +105,7 @@ class Magento_GiftRegistry_Block_View extends Magento_GiftRegistry_Block_Custome
      * Retrieve comma-separated list of entity registrant roles
      *
      * @param string $attributeCode
-     * @param Magento_GiftRegistry_Model_Type $type
+     * @param \Magento\GiftRegistry\Model\Type $type
      * @return string
      */
     public function getRegistrantRoles($attributeCode, $type)

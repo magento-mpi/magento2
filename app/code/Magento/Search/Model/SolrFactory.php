@@ -6,17 +6,19 @@
  * @license     {license_link}
  */
 
-class Magento_Search_Model_SolrFactory implements Magento_Search_Model_FactoryInterface
+namespace Magento\Search\Model;
+
+class SolrFactory implements \Magento\Search\Model\FactoryInterface
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -35,10 +37,10 @@ class Magento_Search_Model_SolrFactory implements Magento_Search_Model_FactoryIn
     /**
      * Return search adapter
      *
-     * @return Magento_Search_Model_Adapter_PhpExtension
+     * @return \Magento\Search\Model\Adapter\PhpExtension
      */
     public function createAdapter()
     {
-        return $this->_objectManager->create('Magento_Search_Model_Adapter_PhpExtension');
+        return $this->_objectManager->create('Magento\Search\Model\Adapter\PhpExtension');
     }
 }

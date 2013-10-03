@@ -10,25 +10,25 @@
  */
 
 $addressData = include(__DIR__ . '/../../../Magento/Sales/_files/address_data.php');
-/** @var $billingAddress Magento_Sales_Model_Order_Address */
-$billingAddress = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Sales_Model_Order_Address', array('data' => $addressData));
+/** @var $billingAddress \Magento\Sales\Model\Order\Address */
+$billingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Sales\Model\Order\Address', array('data' => $addressData));
 $billingAddress->setAddressType('billing');
 
 $shippingAddress = clone $billingAddress;
 $shippingAddress->setId(null)
     ->setAddressType('shipping');
 
-/** @var $payment Magento_Sales_Model_Order_Payment */
-$payment = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Sales_Model_Order_Payment');
+/** @var $payment \Magento\Sales\Model\Order\Payment */
+$payment = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Sales\Model\Order\Payment');
 $payment->setMethod('checkmo');
 
-/** @var $orderItem Magento_Sales_Model_Order_Item */
-$orderItem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Sales_Model_Order_Item');
+/** @var $orderItem \Magento\Sales\Model\Order\Item */
+$orderItem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Sales\Model\Order\Item');
 $orderItem->setProductId(1)
-    ->setProductType(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
+    ->setProductType(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setName('product name')
     ->setSku('smp00001')
     ->setBasePrice(100)
@@ -36,9 +36,9 @@ $orderItem->setProductId(1)
     ->setQtyShipped(1)
     ->setIsQtyDecimal(true);
 
-/** @var $order Magento_Sales_Model_Order */
-$order = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Sales_Model_Order');
+/** @var $order \Magento\Sales\Model\Order */
+$order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Sales\Model\Order');
 $order->addItem($orderItem)
     ->setIncrementId('100000001')
     ->setSubtotal(100)
@@ -47,7 +47,7 @@ $order->addItem($orderItem)
     ->setBillingAddress($billingAddress)
     ->setShippingAddress($shippingAddress)
     ->setStoreId(
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
             ->getStore()->getId()
     )
     ->setPayment($payment);

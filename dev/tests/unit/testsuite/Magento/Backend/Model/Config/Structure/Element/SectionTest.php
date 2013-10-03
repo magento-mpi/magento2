@@ -9,37 +9,39 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Config_Structure_Element_SectionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Config\Structure\Element;
+
+class SectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Model_Config_Structure_Element_Section
+     * @var \Magento\Backend\Model\Config\Structure\Element\Section
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_applicationMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_authorizationMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_iteratorMock;
 
     protected function setUp()
     {
         $this->_iteratorMock = $this->getMock(
-            'Magento_Backend_Model_Config_Structure_Element_Iterator_Field', array(), array(), '', false
+            'Magento\Backend\Model\Config\Structure\Element\Iterator\Field', array(), array(), '', false
         );
-        $this->_applicationMock = $this->getMock('Magento_Core_Model_App', array(), array(), '', false);
-        $this->_authorizationMock = $this->getMock('Magento_AuthorizationInterface');
+        $this->_applicationMock = $this->getMock('Magento\Core\Model\App', array(), array(), '', false);
+        $this->_authorizationMock = $this->getMock('Magento\AuthorizationInterface');
 
-        $this->_model = new Magento_Backend_Model_Config_Structure_Element_Section(
+        $this->_model = new \Magento\Backend\Model\Config\Structure\Element\Section(
             $this->_applicationMock, $this->_iteratorMock, $this->_authorizationMock
         );
     }

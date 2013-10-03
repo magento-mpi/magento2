@@ -13,7 +13,9 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Install_Block_Download extends Magento_Install_Block_Abstract
+namespace Magento\Install\Block;
+
+class Download extends \Magento\Install\Block\AbstractBlock
 {
     /**
      * @var string
@@ -21,26 +23,26 @@ class Magento_Install_Block_Download extends Magento_Install_Block_Abstract
     protected $_template = 'download.phtml';
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Install_Model_Installer $installer
-     * @param Magento_Install_Model_Wizard $installWizard
-     * @param Magento_Core_Model_Session_Generic $session
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Install\Model\Installer $installer
+     * @param \Magento\Install\Model\Wizard $installWizard
+     * @param \Magento\Core\Model\Session\Generic $session
+     * @param \Magento\Core\Model\Config $coreConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Install_Model_Installer $installer,
-        Magento_Install_Model_Wizard $installWizard,
-        Magento_Core_Model_Session_Generic $session,
-        Magento_Core_Model_Config $coreConfig,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Install\Model\Installer $installer,
+        \Magento\Install\Model\Wizard $installWizard,
+        \Magento\Core\Model\Session\Generic $session,
+        \Magento\Core\Model\Config $coreConfig,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $installer, $installWizard, $session, $data);

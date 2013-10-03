@@ -16,12 +16,14 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Resource_Abstract
+namespace Magento\Catalog\Model\Resource;
+
+class Category extends \Magento\Catalog\Model\Resource\AbstractResource
 {
     /**
      * Category tree object
      *
-     * @var Magento_Data_Tree_Db
+     * @var \Magento\Data\Tree\Db
      */
     protected $_tree;
 
@@ -49,54 +51,54 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
      * Category collection factory
      *
-     * @var Magento_Catalog_Model_Resource_Category_CollectionFactory
+     * @var \Magento\Catalog\Model\Resource\Category\CollectionFactory
      */
     protected $_categoryCollectionFactory;
 
     /**
      * Category tree factory
      *
-     * @var Magento_Catalog_Model_Resource_Category_TreeFactory
+     * @var \Magento\Catalog\Model\Resource\Category\TreeFactory
      */
     protected $_categoryTreeFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Eav_Model_Resource_Helper $resourceHelper
-     * @param Magento_Validator_UniversalFactory $universalFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Model_Factory $modelFactory
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Catalog_Model_Resource_Category_TreeFactory $categoryTreeFactory
-     * @param Magento_Catalog_Model_Resource_Category_CollectionFactory $categoryCollectionFactory
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Factory $modelFactory
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Catalog\Model\Resource\Category\TreeFactory $categoryTreeFactory
+     * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Eav_Model_Resource_Helper $resourceHelper,
-        Magento_Validator_UniversalFactory $universalFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Model_Factory $modelFactory,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Catalog_Model_Resource_Category_TreeFactory $categoryTreeFactory,
-        Magento_Catalog_Model_Resource_Category_CollectionFactory $categoryCollectionFactory,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Eav\Model\Resource\Helper $resourceHelper,
+        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Factory $modelFactory,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Catalog\Model\Resource\Category\TreeFactory $categoryTreeFactory,
+        \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory,
         $data = array()
     ) {
         parent::__construct(
@@ -113,7 +115,7 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
         $this->_categoryTreeFactory = $categoryTreeFactory;
         $this->_categoryCollectionFactory = $categoryCollectionFactory;
         $this->_eventManager = $eventManager;
-        $this->setType(Magento_Catalog_Model_Category::ENTITY)
+        $this->setType(\Magento\Catalog\Model\Category::ENTITY)
             ->setConnection(
                 $this->_resource->getConnection('catalog_read'),
                 $this->_resource->getConnection('catalog_write')
@@ -125,7 +127,7 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
      * Set store Id
      *
      * @param integer $storeId
-     * @return Magento_Catalog_Model_Resource_Category
+     * @return \Magento\Catalog\Model\Resource\Category
      */
     public function setStoreId($storeId)
     {
@@ -149,7 +151,7 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
     /**
      * Retrieve category tree object
      *
-     * @return Magento_Data_Tree_Db
+     * @return \Magento\Data\Tree\Db
      */
     protected function _getTree()
     {
@@ -165,10 +167,10 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
      * update children count for parent category
      * delete child categories
      *
-     * @param Magento_Object $object
-     * @return Magento_Catalog_Model_Resource_Category
+     * @param \Magento\Object $object
+     * @return \Magento\Catalog\Model\Resource\Category
      */
-    protected function _beforeDelete(Magento_Object $object)
+    protected function _beforeDelete(\Magento\Object $object)
     {
         parent::_beforeDelete($object);
 
@@ -178,7 +180,7 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
         $parentIds = $object->getParentIds();
         if ($parentIds) {
             $childDecrease = $object->getChildrenCount() + 1; // +1 is itself
-            $data = array('children_count' => new Zend_Db_Expr('children_count - ' . $childDecrease));
+            $data = array('children_count' => new \Zend_Db_Expr('children_count - ' . $childDecrease));
             $where = array('entity_id IN(?)' => $parentIds);
             $this->_getWriteAdapter()->update( $this->getEntityTable(), $data, $where);
         }
@@ -189,10 +191,10 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
     /**
      * Delete children categories of specific category
      *
-     * @param Magento_Object $object
-     * @return Magento_Catalog_Model_Resource_Category
+     * @param \Magento\Object $object
+     * @return \Magento\Catalog\Model\Resource\Category
      */
-    public function deleteChildren(Magento_Object $object)
+    public function deleteChildren(\Magento\Object $object)
     {
         $adapter = $this->_getWriteAdapter();
         $pathField = $adapter->quoteIdentifier('path');
@@ -222,10 +224,10 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
      * Process category data before saving
      * prepare path and increment children count for parent categories
      *
-     * @param Magento_Object $object
-     * @return Magento_Catalog_Model_Resource_Category
+     * @param \Magento\Object $object
+     * @return \Magento\Catalog\Model\Resource\Category
      */
-    protected function _beforeSave(Magento_Object $object)
+    protected function _beforeSave(\Magento\Object $object)
     {
         parent::_beforeSave($object);
 
@@ -250,7 +252,7 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
 
             $this->_getWriteAdapter()->update(
                 $this->getEntityTable(),
-                array('children_count'  => new Zend_Db_Expr('children_count+1')),
+                array('children_count'  => new \Zend_Db_Expr('children_count+1')),
                 array('entity_id IN(?)' => $toUpdateChild)
             );
 
@@ -262,10 +264,10 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
      * Process category data after save category object
      * save related products ids and update path value
      *
-     * @param Magento_Object $object
-     * @return Magento_Catalog_Model_Resource_Category
+     * @param \Magento\Object $object
+     * @return \Magento\Catalog\Model\Resource\Category
      */
-    protected function _afterSave(Magento_Object $object)
+    protected function _afterSave(\Magento\Object $object)
     {
         /**
          * Add identifier for new category
@@ -282,8 +284,8 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
     /**
      * Update path field
      *
-     * @param Magento_Catalog_Model_Category $object
-     * @return Magento_Catalog_Model_Resource_Category
+     * @param \Magento\Catalog\Model\Category $object
+     * @return \Magento\Catalog\Model\Resource\Category
      */
     protected function _savePath($object)
     {
@@ -327,8 +329,8 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
     /**
      * Save category products relation
      *
-     * @param Magento_Catalog_Model_Category $category
-     * @return Magento_Catalog_Model_Resource_Category
+     * @param \Magento\Catalog\Model\Category $category
+     * @return \Magento\Catalog\Model\Resource\Category
      */
     protected function _saveCategoryProducts($category)
     {
@@ -426,7 +428,7 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
     /**
      * Get positions of associated to category products
      *
-     * @param Magento_Catalog_Model_Category $category
+     * @param \Magento\Catalog\Model\Category $category
      * @return array
      */
     public function getProductsPosition($category)
@@ -493,7 +495,7 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
     /**
      * Get count of active/not active children categories
      *
-     * @param Magento_Catalog_Model_Category $category
+     * @param \Magento\Catalog\Model\Category $category
      * @param bool $isActiveFlag
      * @return int
      */
@@ -538,7 +540,7 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
     {
         if ($this->_isActiveAttributeId === null) {
             $bind = array(
-                'catalog_category' => Magento_Catalog_Model_Category::ENTITY,
+                'catalog_category' => \Magento\Catalog\Model\Category::ENTITY,
                 'is_active'        => 'is_active',
             );
             $select = $this->_getReadAdapter()->select()
@@ -557,7 +559,7 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
      * Return entities where attribute value is
      *
      * @param array|int $entityIdsFilter
-     * @param Magento_Eav_Model_Entity_Attribute $attribute
+     * @param \Magento\Eav\Model\Entity\Attribute $attribute
      * @param mixed $expectedValue
      * @return array
      */
@@ -579,7 +581,7 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
     /**
      * Get products count in category
      *
-     * @param Magento_Catalog_Model_Category $category
+     * @param \Magento\Catalog\Model\Category $category
      * @return int
      */
     public function getProductCount($category)
@@ -589,7 +591,7 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
         $select = $this->getReadConnection()->select()
             ->from(
                 array('main_table' => $productTable),
-                array(new Zend_Db_Expr('COUNT(main_table.product_id)'))
+                array(new \Zend_Db_Expr('COUNT(main_table.product_id)'))
             )
             ->where('main_table.category_id = :category_id');
 
@@ -607,12 +609,12 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
      * @param boolean|string $sorted
      * @param boolean $asCollection
      * @param boolean $toLoad
-     * @return Magento_Data_Tree_Node_Collection|Magento_Catalog_Model_Resource_Category_Collection
+     * @return \Magento\Data\Tree\Node\Collection|\Magento\Catalog\Model\Resource\Category\Collection
      */
     public function getCategories($parent, $recursionLevel = 0, $sorted = false, $asCollection = false, $toLoad = true)
     {
         $tree = $this->_categoryTreeFactory->create();
-        /* @var $tree Magento_Catalog_Model_Resource_Category_Tree */
+        /* @var $tree \Magento\Catalog\Model\Resource\Category\Tree */
         $nodes = $tree->loadNode($parent)
             ->loadChildren($recursionLevel)
             ->getChildren();
@@ -628,13 +630,13 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
     /**
      * Return parent categories of category
      *
-     * @param Magento_Catalog_Model_Category $category
+     * @param \Magento\Catalog\Model\Category $category
      * @return array
      */
     public function getParentCategories($category)
     {
         $pathIds = array_reverse(explode(',', $category->getPathInStore()));
-        /** @var Magento_Catalog_Model_Resource_Category_Collection $categories */
+        /** @var \Magento\Catalog\Model\Resource\Category\Collection $categories */
         $categories = $this->_categoryCollectionFactory->create();
         return $categories->setStore($this->_storeManager->getStore())
             ->addAttributeToSelect('name')
@@ -648,8 +650,8 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
     /**
      * Return parent category of current category with own custom design settings
      *
-     * @param Magento_Catalog_Model_Category $category
-     * @return Magento_Catalog_Model_Category
+     * @param \Magento\Catalog\Model\Category $category
+     * @return \Magento\Catalog\Model\Category
      */
     public function getParentDesignCategory($category)
     {
@@ -674,20 +676,20 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
     /**
      * Return child categories
      *
-     * @param Magento_Catalog_Model_Category $category
-     * @return Magento_Catalog_Model_Resource_Category_Collection
+     * @param \Magento\Catalog\Model\Category $category
+     * @return \Magento\Catalog\Model\Resource\Category\Collection
      */
     public function getChildrenCategories($category)
     {
         $collection = $category->getCollection();
-        /* @var $collection Magento_Catalog_Model_Resource_Category_Collection */
+        /* @var $collection \Magento\Catalog\Model\Resource\Category\Collection */
         $collection->addAttributeToSelect('url_key')
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('all_children')
             ->addAttributeToSelect('is_anchor')
             ->addAttributeToFilter('is_active', 1)
             ->addIdFilter($category->getChildren())
-            ->setOrder('position', Magento_DB_Select::SQL_ASC)
+            ->setOrder('position', \Magento\DB\Select::SQL_ASC)
             ->joinUrlRewrite()
             ->load();
 
@@ -697,7 +699,7 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
     /**
      * Return children ids of category
      *
-     * @param Magento_Catalog_Model_Category $category
+     * @param \Magento\Catalog\Model\Category $category
      * @param boolean $recursive
      * @return array
      */
@@ -738,7 +740,7 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
     /**
      * Return all children ids of category (with category id)
      *
-     * @param Magento_Catalog_Model_Category $category
+     * @param \Magento\Catalog\Model\Category $category
      * @return array
      */
     public function getAllChildren($category)
@@ -753,7 +755,7 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
     /**
      * Check is category in list of store categories
      *
-     * @param Magento_Catalog_Model_Category $category
+     * @param \Magento\Catalog\Model\Category $category
      * @return boolean
      */
     public function isInRootCategoryList($category)
@@ -802,12 +804,12 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
     /**
      * Move category to another parent node
      *
-     * @param Magento_Catalog_Model_Category $category
-     * @param Magento_Catalog_Model_Category $newParent
+     * @param \Magento\Catalog\Model\Category $category
+     * @param \Magento\Catalog\Model\Category $newParent
      * @param null|int $afterCategoryId
-     * @return Magento_Catalog_Model_Resource_Category
+     * @return \Magento\Catalog\Model\Resource\Category
      */
-    public function changeParent(Magento_Catalog_Model_Category $category, Magento_Catalog_Model_Category $newParent,
+    public function changeParent(\Magento\Catalog\Model\Category $category, \Magento\Catalog\Model\Category $newParent,
         $afterCategoryId = null
     ) {
         $childrenCount  = $this->getChildrenCount($category->getId()) + 1;
@@ -821,7 +823,7 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
          */
         $adapter->update(
             $table,
-            array('children_count' => new Zend_Db_Expr('children_count - ' . $childrenCount)),
+            array('children_count' => new \Zend_Db_Expr('children_count - ' . $childrenCount)),
             array('entity_id IN(?)' => $category->getParentIds())
         );
 
@@ -830,7 +832,7 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
          */
         $adapter->update(
             $table,
-            array('children_count' => new Zend_Db_Expr('children_count + ' . $childrenCount)),
+            array('children_count' => new \Zend_Db_Expr('children_count + ' . $childrenCount)),
             array('entity_id IN(?)' => $newParent->getPathIds())
         );
 
@@ -846,10 +848,10 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
         $adapter->update(
             $table,
             array(
-                'path' => new Zend_Db_Expr('REPLACE(' . $pathField . ','.
+                'path' => new \Zend_Db_Expr('REPLACE(' . $pathField . ','.
                     $adapter->quote($category->getPath() . '/'). ', '.$adapter->quote($newPath . '/').')'
                 ),
-                'level' => new Zend_Db_Expr( $levelFiled . ' + ' . $levelDisposition)
+                'level' => new \Zend_Db_Expr( $levelFiled . ' + ' . $levelDisposition)
             ),
             array($pathField . ' LIKE ?' => $category->getPath() . '/%')
         );
@@ -874,8 +876,8 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
      * Process positions of old parent category children and new parent category children.
      * Get position for moved category
      *
-     * @param Magento_Catalog_Model_Category $category
-     * @param Magento_Catalog_Model_Category $newParent
+     * @param \Magento\Catalog\Model\Category $category
+     * @param \Magento\Catalog\Model\Category $newParent
      * @param null|int $afterCategoryId
      * @return int
      */
@@ -886,7 +888,7 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
         $positionField  = $adapter->quoteIdentifier('position');
 
         $bind = array(
-            'position' => new Zend_Db_Expr($positionField . ' - 1')
+            'position' => new \Zend_Db_Expr($positionField . ' - 1')
         );
         $where = array(
             'parent_id = ?'         => $category->getParentId(),
@@ -904,7 +906,7 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
             $position = $adapter->fetchOne($select, array('entity_id' => $afterCategoryId));
 
             $bind = array(
-                'position' => new Zend_Db_Expr($positionField . ' + 1')
+                'position' => new \Zend_Db_Expr($positionField . ' + 1')
             );
             $where = array(
                 'parent_id = ?' => $newParent->getId(),
@@ -914,7 +916,7 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
         } elseif ($afterCategoryId !== null) {
             $position = 0;
             $bind = array(
-                'position' => new Zend_Db_Expr($positionField . ' + 1')
+                'position' => new \Zend_Db_Expr($positionField . ' + 1')
             );
             $where = array(
                 'parent_id = ?' => $newParent->getId(),
@@ -923,7 +925,7 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
             $adapter->update($table, $bind, $where);
         } else {
             $select = $adapter->select()
-                ->from($table, array('position' => new Zend_Db_Expr('MIN(' . $positionField . ')')))
+                ->from($table, array('position' => new \Zend_Db_Expr('MIN(' . $positionField . ')')))
                 ->where('parent_id = :parent_id');
             $position = $adapter->fetchOne($select, array('parent_id' => $newParent->getId()));
         }

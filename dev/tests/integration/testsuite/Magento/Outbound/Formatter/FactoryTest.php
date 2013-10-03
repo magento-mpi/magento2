@@ -1,33 +1,35 @@
 <?php
 /**
- * Magento_Outbound_Formatter_Factory
+ * \Magento\Outbound\Formatter\Factory
  *
  * {license_notice}
  *
  * @copyright          {copyright}
  * @license            {license_link}
  */
-class Magento_Outbound_Formatter_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Outbound\Formatter;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Outbound_Formatter_Factory */
+    /** @var \Magento\Outbound\Formatter\Factory */
     protected $_formatterFactory;
 
     protected function setUp()
     {
-        $this->_formatterFactory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Outbound_Formatter_Factory');
+        $this->_formatterFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Outbound\Formatter\Factory');
     }
 
     public function testGetFormatter()
     {
-        $formatter = $this->_formatterFactory->getFormatter(Magento_Outbound_EndpointInterface::FORMAT_JSON);
-        $this->assertInstanceOf('Magento_Outbound_Formatter_Json', $formatter);
+        $formatter = $this->_formatterFactory->getFormatter(\Magento\Outbound\EndpointInterface::FORMAT_JSON);
+        $this->assertInstanceOf('Magento\Outbound\Formatter\Json', $formatter);
     }
 
     public function testGetFormatterIsCached()
     {
-        $formatter = $this->_formatterFactory->getFormatter(Magento_Outbound_EndpointInterface::FORMAT_JSON);
-        $formatter2 = $this->_formatterFactory->getFormatter(Magento_Outbound_EndpointInterface::FORMAT_JSON);
+        $formatter = $this->_formatterFactory->getFormatter(\Magento\Outbound\EndpointInterface::FORMAT_JSON);
+        $formatter2 = $this->_formatterFactory->getFormatter(\Magento\Outbound\EndpointInterface::FORMAT_JSON);
         $this->assertSame($formatter, $formatter2);
     }
 }

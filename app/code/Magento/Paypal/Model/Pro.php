@@ -12,7 +12,9 @@
  * PayPal Website Payments Pro implementation for payment method instances
  * This model was created because right now PayPal Direct and PayPal Express payment methods cannot have same abstract
  */
-class Magento_Paypal_Model_Pro
+namespace Magento\Paypal\Model;
+
+class Pro
 {
     /**
      * Possible payment review actions (for FMF only)
@@ -23,21 +25,21 @@ class Magento_Paypal_Model_Pro
     /**
      * Config instance
      *
-     * @var Magento_Paypal_Model_Config
+     * @var \Magento\Paypal\Model\Config
      */
     protected $_config;
 
     /**
      * API instance
      *
-     * @var Magento_Paypal_Model_Api_Nvp
+     * @var \Magento\Paypal\Model\Api\Nvp
      */
     protected $_api;
 
     /**
      * PayPal info object
      *
-     * @var Magento_Paypal_Model_Info
+     * @var \Magento\Paypal\Model\Info
      */
     protected $_infoInstance;
 
@@ -46,39 +48,39 @@ class Magento_Paypal_Model_Pro
      *
      * @var string
      */
-    protected $_apiType = 'Magento_Paypal_Model_Api_Nvp';
+    protected $_apiType = 'Magento\Paypal\Model\Api\Nvp';
 
     /**
      * Config model type
      *
      * @var string
      */
-    protected $_configType = 'Magento_Paypal_Model_Config';
+    protected $_configType = 'Magento\Paypal\Model\Config';
 
     /**
-     * @var Magento_Paypal_Model_Config_Factory
+     * @var \Magento\Paypal\Model\Config\Factory
      */
     protected $_configFactory;
 
     /**
-     * @var Magento_Paypal_Model_Api_Type_Factory
+     * @var \Magento\Paypal\Model\Api\Type\Factory
      */
     protected $_apiFactory;
 
     /**
-     * @var Magento_Paypal_Model_InfoFactory
+     * @var \Magento\Paypal\Model\InfoFactory
      */
     protected $_infoFactory;
 
     /**
-     * @param Magento_Paypal_Model_Config_Factory $configFactory
-     * @param Magento_Paypal_Model_Api_Type_Factory $apiFactory
-     * @param Magento_Paypal_Model_InfoFactory $infoFactory
+     * @param \Magento\Paypal\Model\Config\Factory $configFactory
+     * @param \Magento\Paypal\Model\Api\Type\Factory $apiFactory
+     * @param \Magento\Paypal\Model\InfoFactory $infoFactory
      */
     public function __construct(
-        Magento_Paypal_Model_Config_Factory $configFactory,
-        Magento_Paypal_Model_Api_Type_Factory $apiFactory,
-        Magento_Paypal_Model_InfoFactory $infoFactory
+        \Magento\Paypal\Model\Config\Factory $configFactory,
+        \Magento\Paypal\Model\Api\Type\Factory $apiFactory,
+        \Magento\Paypal\Model\InfoFactory $infoFactory
     ) {
         $this->_configFactory = $configFactory;
         $this->_apiFactory = $apiFactory;
@@ -112,11 +114,11 @@ class Magento_Paypal_Model_Pro
     /**
      * Config instance setter
      *
-     * @param Magento_Paypal_Model_Config $instace
+     * @param \Magento\Paypal\Model\Config $instace
      * @param int $storeId
      * @return $this
      */
-    public function setConfig(Magento_Paypal_Model_Config $instace, $storeId = null)
+    public function setConfig(\Magento\Paypal\Model\Config $instace, $storeId = null)
     {
         $this->_config = $instace;
         if (null !== $storeId) {
@@ -128,7 +130,7 @@ class Magento_Paypal_Model_Pro
     /**
      * Config instance getter
      *
-     * @return Magento_Paypal_Model_Config
+     * @return \Magento\Paypal\Model\Config
      */
     public function getConfig()
     {
@@ -139,7 +141,7 @@ class Magento_Paypal_Model_Pro
      * API instance getter
      * Sets current store id to current config instance and passes it to API
      *
-     * @return Magento_Paypal_Model_Api_Nvp
+     * @return \Magento\Paypal\Model\Api\Nvp
      */
     public function getApi()
     {
@@ -153,7 +155,7 @@ class Magento_Paypal_Model_Pro
     /**
      * Destroy existing NVP Api object
      *
-     * @return Magento_Paypal_Model_Pro
+     * @return \Magento\Paypal\Model\Pro
      */
     public function resetApi()
     {
@@ -165,7 +167,7 @@ class Magento_Paypal_Model_Pro
     /**
      * Instantiate and return info model
      *
-     * @return Magento_Paypal_Model_Info
+     * @return \Magento\Paypal\Model\Info
      */
     public function getInfo()
     {
@@ -178,11 +180,11 @@ class Magento_Paypal_Model_Pro
     /**
      * Transfer transaction/payment information from API instance to order payment
      *
-     * @param \Magento_Object|\Magento_Paypal_Model_Api_Abstract $from
-     * @param Magento_Payment_Model_Info $to
-     * @return Magento_Paypal_Model_Pro
+     * @param \Magento\Object|\Magento\Paypal\Model\Api\AbstractApi $from
+     * @param \Magento\Payment\Model\Info $to
+     * @return \Magento\Paypal\Model\Pro
      */
-    public function importPaymentInfo(Magento_Object $from, Magento_Payment_Model_Info $to)
+    public function importPaymentInfo(\Magento\Object $from, \Magento\Payment\Model\Info $to)
     {
         // update PayPal-specific payment information in the payment object
         $this->getInfo()->importToPayment($from, $to);
@@ -191,7 +193,7 @@ class Magento_Paypal_Model_Pro
          * Detect payment review and/or frauds
          * PayPal pro API returns fraud results only in the payment call response
          */
-        if ($from->getDataUsingMethod(Magento_Paypal_Model_Info::IS_FRAUD)) {
+        if ($from->getDataUsingMethod(\Magento\Paypal\Model\Info::IS_FRAUD)) {
             $to->setIsTransactionPending(true);
             $to->setIsFraudDetected(true);
         } elseif ($this->getInfo()->isPaymentReviewRequired($to)) {
@@ -211,10 +213,10 @@ class Magento_Paypal_Model_Pro
     /**
      * Void transaction
      *
-     * @param Magento_Object $payment
-     * @throws Magento_Core_Exception
+     * @param \Magento\Object $payment
+     * @throws \Magento\Core\Exception
      */
-    public function void(Magento_Object $payment)
+    public function void(\Magento\Object $payment)
     {
         $authTransactionId = $this->_getParentTransactionId($payment);
         if ($authTransactionId) {
@@ -222,7 +224,7 @@ class Magento_Paypal_Model_Pro
             $api->setPayment($payment)->setAuthorizationId($authTransactionId)->callDoVoid();
             $this->importPaymentInfo($api, $payment);
         } else {
-            throw new Magento_Core_Exception(__('You need an authorization transaction to void.'));
+            throw new \Magento\Core\Exception(__('You need an authorization transaction to void.'));
         }
     }
 
@@ -230,11 +232,11 @@ class Magento_Paypal_Model_Pro
      * Attempt to capture payment
      * Will return false if the payment is not supposed to be captured
      *
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      * @param float $amount
      * @return false|null
      */
-    public function capture(Magento_Object $payment, $amount)
+    public function capture(\Magento\Object $payment, $amount)
     {
         $authTransactionId = $this->_getParentTransactionId($payment);
         if (!$authTransactionId) {
@@ -255,11 +257,11 @@ class Magento_Paypal_Model_Pro
     /**
      * Refund a capture transaction
      *
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      * @param float $amount
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
-    public function refund(Magento_Object $payment, $amount)
+    public function refund(\Magento\Object $payment, $amount)
     {
         $captureTxnId = $this->_getParentTransactionId($payment);
         if ($captureTxnId) {
@@ -272,22 +274,22 @@ class Magento_Paypal_Model_Pro
             $canRefundMore = $payment->getCreditmemo()->getInvoice()->canRefund();
             $isFullRefund = !$canRefundMore
                 && (0 == ((float)$order->getBaseTotalOnlineRefunded() + (float)$order->getBaseTotalOfflineRefunded()));
-            $api->setRefundType($isFullRefund ? Magento_Paypal_Model_Config::REFUND_TYPE_FULL
-                : Magento_Paypal_Model_Config::REFUND_TYPE_PARTIAL
+            $api->setRefundType($isFullRefund ? \Magento\Paypal\Model\Config::REFUND_TYPE_FULL
+                : \Magento\Paypal\Model\Config::REFUND_TYPE_PARTIAL
             );
             $api->callRefundTransaction();
             $this->_importRefundResultToPayment($api, $payment, $canRefundMore);
         } else {
-            throw new Magento_Core_Exception(__('We can\'t issue a refund transaction because there is no capture transaction.'));
+            throw new \Magento\Core\Exception(__('We can\'t issue a refund transaction because there is no capture transaction.'));
         }
     }
 
     /**
      * Cancel payment
      *
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      */
-    public function cancel(Magento_Object $payment)
+    public function cancel(\Magento\Object $payment)
     {
         if (!$payment->getOrder()->getInvoiceCollection()->count()) {
             $this->void($payment);
@@ -297,35 +299,35 @@ class Magento_Paypal_Model_Pro
     /**
      * Check whether can do payment review
      *
-     * @param Magento_Payment_Model_Info $payment
+     * @param \Magento\Payment\Model\Info $payment
      * @return bool
      */
-    public function canReviewPayment(Magento_Payment_Model_Info $payment)
+    public function canReviewPayment(\Magento\Payment\Model\Info $payment)
     {
-        $pendingReason = $payment->getAdditionalInformation(Magento_Paypal_Model_Info::PENDING_REASON_GLOBAL);
+        $pendingReason = $payment->getAdditionalInformation(\Magento\Paypal\Model\Info::PENDING_REASON_GLOBAL);
         return $this->_isPaymentReviewRequired($payment)
-            && $pendingReason != Magento_Paypal_Model_Info::PAYMENTSTATUS_REVIEW;
+            && $pendingReason != \Magento\Paypal\Model\Info::PAYMENTSTATUS_REVIEW;
     }
 
     /**
      * Check whether payment review is required
      *
-     * @param Magento_Payment_Model_Info $payment
+     * @param \Magento\Payment\Model\Info $payment
      * @return bool
      */
-    protected function _isPaymentReviewRequired(Magento_Payment_Model_Info $payment)
+    protected function _isPaymentReviewRequired(\Magento\Payment\Model\Info $payment)
     {
-        return Magento_Paypal_Model_Info::isPaymentReviewRequired($payment);
+        return \Magento\Paypal\Model\Info::isPaymentReviewRequired($payment);
     }
 
     /**
      * Perform the payment review
      *
-     * @param Magento_Payment_Model_Info $payment
+     * @param \Magento\Payment\Model\Info $payment
      * @param string $action
      * @return bool
      */
-    public function reviewPayment(Magento_Payment_Model_Info $payment, $action)
+    public function reviewPayment(\Magento\Payment\Model\Info $payment, $action)
     {
         $api = $this->getApi()->setTransactionId($payment->getLastTransId());
 
@@ -346,11 +348,11 @@ class Magento_Paypal_Model_Pro
     /**
      * Fetch transaction details info
      *
-     * @param Magento_Payment_Model_Info $payment
+     * @param \Magento\Payment\Model\Info $payment
      * @param string $transactionId
      * @return array
      */
-    public function fetchTransactionInfo(Magento_Payment_Model_Info $payment, $transactionId)
+    public function fetchTransactionInfo(\Magento\Payment\Model\Info $payment, $transactionId)
     {
         $api = $this->getApi()
             ->setTransactionId($transactionId)
@@ -364,10 +366,10 @@ class Magento_Paypal_Model_Pro
     /**
      * Validate RP data
      *
-     * @param Magento_Payment_Model_Recurring_Profile $profile
-     * @throws Magento_Core_Exception
+     * @param \Magento\Payment\Model\Recurring\Profile $profile
+     * @throws \Magento\Core\Exception
      */
-    public function validateRecurringProfile(Magento_Payment_Model_Recurring_Profile $profile)
+    public function validateRecurringProfile(\Magento\Payment\Model\Recurring\Profile $profile)
     {
         $errors = array();
         if (strlen($profile->getSubscriberName()) > 32) { // up to 32 single-byte chars
@@ -382,22 +384,22 @@ class Magento_Paypal_Model_Pro
             $errors[] = __('The schedule description is too long.');
         }
         if ($errors) {
-            throw new Magento_Core_Exception(implode(' ', $errors));
+            throw new \Magento\Core\Exception(implode(' ', $errors));
         }
     }
 
     /**
      * Submit RP to the gateway
      *
-     * @param Magento_Payment_Model_Recurring_Profile $profile
-     * @param Magento_Payment_Model_Info $paymentInfo
-     * @throws Magento_Core_Exception
+     * @param \Magento\Payment\Model\Recurring\Profile $profile
+     * @param \Magento\Payment\Model\Info $paymentInfo
+     * @throws \Magento\Core\Exception
      */
-    public function submitRecurringProfile(Magento_Payment_Model_Recurring_Profile $profile,
-        Magento_Payment_Model_Info $paymentInfo
+    public function submitRecurringProfile(\Magento\Payment\Model\Recurring\Profile $profile,
+        \Magento\Payment\Model\Info $paymentInfo
     ) {
         $api = $this->getApi();
-        Magento_Object_Mapper::accumulateByMap($profile, $api, array(
+        \Magento\Object\Mapper::accumulateByMap($profile, $api, array(
             'token', // EC fields
             // TODO: DP fields
             // profile fields
@@ -409,9 +411,9 @@ class Magento_Paypal_Model_Pro
         $api->callCreateRecurringPaymentsProfile();
         $profile->setReferenceId($api->getRecurringProfileId());
         if ($api->getIsProfileActive()) {
-            $profile->setState(Magento_Sales_Model_Recurring_Profile::STATE_ACTIVE);
+            $profile->setState(\Magento\Sales\Model\Recurring\Profile::STATE_ACTIVE);
         } elseif ($api->getIsProfilePending()) {
-            $profile->setState(Magento_Sales_Model_Recurring_Profile::STATE_PENDING);
+            $profile->setState(\Magento\Sales\Model\Recurring\Profile::STATE_PENDING);
         }
     }
 
@@ -419,9 +421,9 @@ class Magento_Paypal_Model_Pro
      * Fetch RP details
      *
      * @param string $referenceId
-     * @param Magento_Object $result
+     * @param \Magento\Object $result
      */
-    public function getRecurringProfileDetails($referenceId, Magento_Object $result)
+    public function getRecurringProfileDetails($referenceId, \Magento\Object $result)
     {
         $api = $this->getApi();
         $api->setRecurringProfileId($referenceId)
@@ -432,9 +434,9 @@ class Magento_Paypal_Model_Pro
     /**
      * Update RP data
      *
-     * @param Magento_Payment_Model_Recurring_Profile $profile
+     * @param \Magento\Payment\Model\Recurring\Profile $profile
      */
-    public function updateRecurringProfile(Magento_Payment_Model_Recurring_Profile $profile)
+    public function updateRecurringProfile(\Magento\Payment\Model\Recurring\Profile $profile)
     {
 
     }
@@ -442,22 +444,22 @@ class Magento_Paypal_Model_Pro
     /**
      * Manage status
      *
-     * @param Magento_Payment_Model_Recurring_Profile $profile
+     * @param \Magento\Payment\Model\Recurring\Profile $profile
      */
-    public function updateRecurringProfileStatus(Magento_Payment_Model_Recurring_Profile $profile)
+    public function updateRecurringProfileStatus(\Magento\Payment\Model\Recurring\Profile $profile)
     {
         $api = $this->getApi();
         $action = null;
         switch ($profile->getNewState()) {
-            case Magento_Sales_Model_Recurring_Profile::STATE_CANCELED: $action = 'cancel'; break;
-            case Magento_Sales_Model_Recurring_Profile::STATE_SUSPENDED: $action = 'suspend'; break;
-            case Magento_Sales_Model_Recurring_Profile::STATE_ACTIVE: $action = 'activate'; break;
+            case \Magento\Sales\Model\Recurring\Profile::STATE_CANCELED: $action = 'cancel'; break;
+            case \Magento\Sales\Model\Recurring\Profile::STATE_SUSPENDED: $action = 'suspend'; break;
+            case \Magento\Sales\Model\Recurring\Profile::STATE_ACTIVE: $action = 'activate'; break;
         }
         $state = $profile->getState();
         $api->setRecurringProfileId($profile->getReferenceId())
-            ->setIsAlreadyCanceled($state == Magento_Sales_Model_Recurring_Profile::STATE_CANCELED)
-            ->setIsAlreadySuspended($state == Magento_Sales_Model_Recurring_Profile::STATE_SUSPENDED)
-            ->setIsAlreadyActive($state == Magento_Sales_Model_Recurring_Profile::STATE_ACTIVE)
+            ->setIsAlreadyCanceled($state == \Magento\Sales\Model\Recurring\Profile::STATE_CANCELED)
+            ->setIsAlreadySuspended($state == \Magento\Sales\Model\Recurring\Profile::STATE_SUSPENDED)
+            ->setIsAlreadyActive($state == \Magento\Sales\Model\Recurring\Profile::STATE_ACTIVE)
             ->setAction($action)
             ->callManageRecurringPaymentsProfileStatus()
         ;
@@ -466,8 +468,8 @@ class Magento_Paypal_Model_Pro
     /**
      * Import capture results to payment
      *
-     * @param Magento_Paypal_Model_Api_Nvp
-     * @param Magento_Sales_Model_Order_Payment
+     * @param \Magento\Paypal\Model\Api\Nvp
+     * @param \Magento\Sales\Model\Order\Payment
      */
     protected function _importCaptureResultToPayment($api, $payment)
     {
@@ -478,8 +480,8 @@ class Magento_Paypal_Model_Pro
     /**
      * Import refund results to payment
      *
-     * @param Magento_Paypal_Model_Api_Nvp
-     * @param Magento_Sales_Model_Order_Payment
+     * @param \Magento\Paypal\Model\Api\Nvp
+     * @param \Magento\Sales\Model\Order\Payment
      * @param bool $canRefundMore
      */
     protected function _importRefundResultToPayment($api, $payment, $canRefundMore)
@@ -493,10 +495,10 @@ class Magento_Paypal_Model_Pro
     /**
      * Parent transaction id getter
      *
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      * @return string
      */
-    protected function _getParentTransactionId(Magento_Object $payment)
+    protected function _getParentTransactionId(\Magento\Object $payment)
     {
         return $payment->getParentTransactionId();
     }

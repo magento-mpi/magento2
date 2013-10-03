@@ -15,7 +15,9 @@
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Log_Adapter
+namespace Magento\Core\Model\Log;
+
+class Adapter
 {
 
     /**
@@ -40,17 +42,17 @@ class Magento_Core_Model_Log_Adapter
     protected $_debugReplacePrivateDataKeys = array();
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
      * Set log file name
      *
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Core\Model\Logger $logger
      * @param string $fileName
      */
-    public function __construct(Magento_Core_Model_Logger $logger, $fileName)
+    public function __construct(\Magento\Core\Model\Logger $logger, $fileName)
     {
         $this->_logFileName = $fileName;
         $this->_logger = $logger;
@@ -60,7 +62,7 @@ class Magento_Core_Model_Log_Adapter
      * Perform forced log data to file
      *
      * @param mixed $data
-     * @return Magento_Core_Model_Log_Adapter
+     * @return \Magento\Core\Model\Log\Adapter
      */
     public function log($data = null)
     {
@@ -74,7 +76,7 @@ class Magento_Core_Model_Log_Adapter
         }
         $data = $this->_filterDebugData($data);
         $data['__pid'] = getmypid();
-        $this->_logger->logFile($data, Zend_Log::DEBUG, $this->_logFileName);
+        $this->_logger->logFile($data, \Zend_Log::DEBUG, $this->_logFileName);
         return $this;
     }
 
@@ -83,7 +85,7 @@ class Magento_Core_Model_Log_Adapter
      *
      * @param string|array $key
      * @param mixed $value
-     * @return Magento_Core_Model_Log_Adapter
+     * @return \Magento\Core\Model\Log\Adapter
      * @todo replace whole data
      */
     public function setData($key, $value = null)
@@ -101,7 +103,7 @@ class Magento_Core_Model_Log_Adapter
      * Setter for private data keys, that should be replaced in debug data with '***'
      *
      * @param array $keys
-     * @return Magento_Core_Model_Log_Adapter
+     * @return \Magento\Core\Model\Log\Adapter
      */
     public function setFilterDataKeys($keys)
     {

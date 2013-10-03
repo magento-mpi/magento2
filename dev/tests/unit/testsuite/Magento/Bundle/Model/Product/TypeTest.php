@@ -9,22 +9,24 @@
  * @license     {license_link}
  */
 
-class Magento_Bundle_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
+namespace Magento\Bundle\Model\Product;
+
+class TypeTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Bundle_Model_Product_Type
+     * @var \Magento\Bundle\Model\Product\Type
      */
     protected $_model;
 
     protected function setUp()
     {
-        $objectHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_model = $objectHelper->getObject('Magento_Bundle_Model_Product_Type', array(
-            'productFactory' => $this->getMock('Magento_Catalog_Model_ProductFactory'),
-            'bundleModelSelection' => $this->getMock('Magento_Bundle_Model_SelectionFactory'),
-            'bundleFactory' => $this->getMock('Magento_Bundle_Model_Resource_BundleFactory'),
-            'bundleCollection' => $this->getMock('Magento_Bundle_Model_Resource_Selection_CollectionFactory'),
-            'bundleOption' => $this->getMock('Magento_Bundle_Model_OptionFactory'),
+        $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_model = $objectHelper->getObject('Magento\Bundle\Model\Product\Type', array(
+            'productFactory' => $this->getMock('Magento\Catalog\Model\ProductFactory'),
+            'bundleModelSelection' => $this->getMock('Magento\Bundle\Model\SelectionFactory'),
+            'bundleFactory' => $this->getMock('Magento\Bundle\Model\Resource\BundleFactory'),
+            'bundleCollection' => $this->getMock('Magento\Bundle\Model\Resource\Selection\CollectionFactory'),
+            'bundleOption' => $this->getMock('Magento\Bundle\Model\OptionFactory'),
         ));
     }
 

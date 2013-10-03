@@ -67,7 +67,7 @@
             </xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
-            <xs:pattern value="[a-zA-Z_]+" />
+            <xs:pattern value="[a-zA-Z\\]+" />
         </xs:restriction>
     </xs:simpleType>
 

@@ -9,22 +9,24 @@
  * @license     {license_link}
  */
 
+namespace Magento\Sales\Model\Order\Payment;
+
 /**
  * Tests transaction model:
  *
- * @see Magento_Sales_Model_Order_Payment_Transaction
+ * @see \Magento\Sales\Model\Order\Payment\Transaction
  * @magentoDataFixture Magento/Sales/_files/transactions.php
  */
-class Magento_Sales_Model_Order_Payment_TransactionTest extends PHPUnit_Framework_TestCase
+class TransactionTest extends \PHPUnit_Framework_TestCase
 {
     public function testLoadByTxnId()
     {
-        $order = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Order');
+        $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Order');
         $order->loadByIncrementId('100000001');
 
-        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Order_Payment_Transaction');
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Order\Payment\Transaction');
         $model->setOrderPaymentObject($order->getPayment())
             ->loadByTxnId('invalid_transaction_id');
 

@@ -15,7 +15,9 @@
  * @package    Magento_GiftMessage
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftMessage_Block_Adminhtml_Sales_Order_View_Items extends Magento_Adminhtml_Block_Template
+namespace Magento\GiftMessage\Block\Adminhtml\Sales\Order\View;
+
+class Items extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Gift message array
@@ -27,7 +29,7 @@ class Magento_GiftMessage_Block_Adminhtml_Sales_Order_View_Items extends Magento
     /**
      * Get Order Item
      *
-     * @return Magento_Sales_Model_Order_Item
+     * @return \Magento\Sales\Model\Order\Item
      */
     public function getItem()
     {
@@ -115,12 +117,12 @@ class Magento_GiftMessage_Block_Adminhtml_Sales_Order_View_Items extends Magento
     /**
      * Initialize gift message for entity
      *
-     * @return Magento_Adminhtml_Block_Sales_Order_Edit_Items_Grid_Renderer_Name_Giftmessage
+     * @return \Magento\Adminhtml\Block\Sales\Order_Edit_Items_Grid_Renderer_Name_Giftmessage
      */
     protected function _initMessage()
     {
         $this->_giftMessage[$this->getItem()->getGiftMessageId()] =
-            $this->helper('Magento_GiftMessage_Helper_Message')->getGiftMessage($this->getItem()->getGiftMessageId());
+            $this->helper('Magento\GiftMessage\Helper\Message')->getGiftMessage($this->getItem()->getGiftMessageId());
 
         // init default values for giftmessage form
         if(!$this->getMessage()->getSender()) {
@@ -136,7 +138,7 @@ class Magento_GiftMessage_Block_Adminhtml_Sales_Order_View_Items extends Magento
     /**
      * Retrive gift message for entity
      *
-     * @return Magento_GiftMessage_Model_Message
+     * @return \Magento\GiftMessage\Model\Message
      */
     public function getMessage()
     {

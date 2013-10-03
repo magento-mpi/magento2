@@ -9,17 +9,19 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Config_Structure_Mapper_ExtendsTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Config\Structure\Mapper;
+
+class ExtendsTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Model_Config_Structure_Mapper_Extends
+     * @var \Magento\Backend\Model\Config\Structure\Mapper\ExtendsMapper
      */
     protected $_sut;
 
     protected function setUp()
     {
-        $this->_sut = new Magento_Backend_Model_Config_Structure_Mapper_Extends(
-            new Magento_Backend_Model_Config_Structure_Mapper_Helper_RelativePathConverter()
+        $this->_sut = new \Magento\Backend\Model\Config\Structure\Mapper\ExtendsMapper(
+            new \Magento\Backend\Model\Config\Structure\Mapper\Helper\RelativePathConverter()
         );
     }
 

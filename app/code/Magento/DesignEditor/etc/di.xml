@@ -8,32 +8,32 @@
  */
 -->
 <config>
-    <type name="Magento_Core_Model_RouterList">
+    <type name="Magento\Core\Model\RouterList">
         <param name="routerList">
             <value>
                 <vde>
-                    <instance>Magento_DesignEditor_Controller_Varien_Router_Standard</instance>
+                    <instance>Magento\DesignEditor\Controller\Varien\Router\Standard</instance>
                     <disable type="bool">false</disable>
                     <sortOrder>40</sortOrder>
                 </vde>
             </value>
         </param>
     </type>
-    <type name="Magento_DesignEditor_Controller_Varien_Router_Standard">
+    <type name="Magento\DesignEditor\Controller\Varien\Router\Standard">
         <param name="areaCode">
             <value>frontend</value>
         </param>
         <param name="baseController">
-            <value>Magento_Core_Controller_Varien_Action</value>
+            <value>Magento\Core\Controller\Varien\Action</value>
         </param>
         <param name="routerId">
             <value>vde</value>
         </param>
     </type>
-    <type name="Magento_Core_Model_Theme_CopyService">
-        <plugin name="design_editor_theme_copy_service_plugin" type="Magento_DesignEditor_Model_Plugin_ThemeCopyService"/>
+    <type name="Magento\Core\Model\Theme\CopyService">
+        <plugin name="design_editor_theme_copy_service_plugin" type="Magento\DesignEditor\Model\Plugin\ThemeCopyService"/>
     </type>
-    <type name="Magento_DesignEditor_Helper_Data">
+    <type name="Magento\DesignEditor\Helper\Data">
         <param name="frontName">
             <value>vde</value>
         </param>

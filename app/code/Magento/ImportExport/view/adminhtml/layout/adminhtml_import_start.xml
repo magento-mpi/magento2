@@ -8,5 +8,5 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <block class="Magento_ImportExport_Block_Adminhtml_Import_Frame_Result" template="import/frame/result.phtml" name="import.frame.result" as="import_frame_result" output="1"/>
+    <block class="Magento\ImportExport\Block\Adminhtml\Import\Frame\Result" template="import/frame/result.phtml" name="import.frame.result" as="import_frame_result" output="1"/>
 </layout>

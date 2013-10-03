@@ -12,13 +12,15 @@
 /**
  * Dummy layout argument updater model
  */
-class Magento_Core_Model_LayoutArgumentObjectUpdater implements Magento_Core_Model_Layout_Argument_UpdaterInterface
+namespace Magento\Core\Model;
+
+class LayoutArgumentObjectUpdater implements \Magento\Core\Model\Layout\Argument\UpdaterInterface
 {
     /**
      * Update specified argument
      *
-     * @param Magento_Data_Collection $argument
-     * @return Magento_Data_Collection
+     * @param Magento\Data\Collection $argument
+     * @return Magento\Data\Collection
      */
     public function update($argument)
     {

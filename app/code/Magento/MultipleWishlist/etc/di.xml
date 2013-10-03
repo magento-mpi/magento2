@@ -9,20 +9,20 @@
 -->
 <config>
     <!-- TODO: this preference should be check -->
-    <preference for="Magento_Wishlist_Helper_Data" type="Magento_MultipleWishlist_Helper_Data"/>
-    <type name="Magento_MultipleWishlist_Model_Item_Collection">
+    <preference for="Magento\Wishlist\Helper\Data" type="Magento\MultipleWishlist\Helper\Data"/>
+    <type name="Magento\MultipleWishlist\Model\Item\Collection">
         <param name="resource">
-            <instance type="Magento_MultipleWishlist_Model_Resource_Item" />
+            <instance type="Magento\MultipleWishlist\Model\Resource\Item" />
         </param>
     </type>
-    <type name="Magento_MultipleWishlist_Controller_Index">
+    <type name="Magento\MultipleWishlist\Controller\Index">
         <param name="wishlistSession">
-            <instance type="Magento_Wishlist_Model_Session" />
+            <instance type="Magento\Wishlist\Model\Session" />
         </param>
     </type>
-    <type name="Magento_MultipleWishlist_Block_Customer_Sharing">
+    <type name="Magento\MultipleWishlist\Block\Customer\Sharing">
         <param name="wishlistSession">
-            <instance type="Magento_Wishlist_Model_Session" />
+            <instance type="Magento\Wishlist\Model\Session" />
         </param>
     </type>
 </config>

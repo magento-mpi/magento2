@@ -3,24 +3,26 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Validator
+ * @package     \Magento\Validator
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Test case for Magento_Validator_Constraint
+ * Test case for \Magento\Validator\Constraint
  */
-class Magento_Validator_ConstraintTest extends PHPUnit_Framework_TestCase
+namespace Magento\Validator;
+
+class ConstraintTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Validator_Constraint
+     * @var \Magento\Validator\Constraint
      */
     protected $_constraint;
 
     /**
-     * @var Magento_Validator_ValidatorInterface|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Validator\ValidatorInterface|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_validatorMock;
 
@@ -29,10 +31,10 @@ class Magento_Validator_ConstraintTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_validatorMock = $this->getMockBuilder('Magento_Validator_ValidatorAbstract')
+        $this->_validatorMock = $this->getMockBuilder('Magento\Validator\AbstractValidator')
             ->setMethods(array('isValid', 'getMessages'))
             ->getMock();
-        $this->_constraint = new Magento_Validator_Constraint($this->_validatorMock);
+        $this->_constraint = new \Magento\Validator\Constraint($this->_validatorMock);
     }
 
     /**
@@ -42,7 +44,7 @@ class Magento_Validator_ConstraintTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEmpty($this->_constraint->getAlias());
         $alias = 'foo';
-        $constraint = new Magento_Validator_Constraint($this->_validatorMock, $alias);
+        $constraint = new \Magento\Validator\Constraint($this->_validatorMock, $alias);
         $this->assertEquals($alias, $constraint->getAlias());
     }
 
@@ -96,8 +98,8 @@ class Magento_Validator_ConstraintTest extends PHPUnit_Framework_TestCase
      */
     public function testSetTranslator()
     {
-        /** @var Magento_Translate_AdapterAbstract $translator */
-        $translator = $this->getMockBuilder('Magento_Translate_AdapterInterface')
+        /** @var \Magento\Translate\AbstractAdapter $translator */
+        $translator = $this->getMockBuilder('Magento\Translate\AdapterInterface')
             ->getMockForAbstractClass();
         $this->_constraint->setTranslator($translator);
         $this->assertEquals($translator, $this->_validatorMock->getTranslator());

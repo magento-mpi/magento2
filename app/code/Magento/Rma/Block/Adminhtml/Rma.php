@@ -15,7 +15,9 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Adminhtml_Rma extends Magento_Adminhtml_Block_Widget_Grid_Container
+namespace Magento\Rma\Block\Adminhtml;
+
+class Rma extends \Magento\Adminhtml\Block\Widget\Grid\Container
 {
     /**
      * Initialize RMA management page

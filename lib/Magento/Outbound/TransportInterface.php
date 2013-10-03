@@ -10,13 +10,15 @@
  * @license     {license_link}
  */
 
-interface Magento_Outbound_TransportInterface
+namespace Magento\Outbound;
+
+interface TransportInterface
 {
     /**
      * Dispatch message and return response
      *
-     * @param Magento_Outbound_MessageInterface $message
-     * @return Magento_Outbound_Transport_Http_Response
+     * @param \Magento\Outbound\MessageInterface $message
+     * @return \Magento\Outbound\Transport\Http\Response
      */
-    public function dispatch(Magento_Outbound_MessageInterface $message);
+    public function dispatch(\Magento\Outbound\MessageInterface $message);
 }

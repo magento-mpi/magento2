@@ -5,18 +5,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Reward_Model_Observer_PlaceOrder_Restriction_Frontend
-    implements Magento_Reward_Model_Observer_PlaceOrder_RestrictionInterface
+namespace Magento\Reward\Model\Observer\PlaceOrder\Restriction;
+
+class Frontend
+    implements \Magento\Reward\Model\Observer\PlaceOrder\RestrictionInterface
 {
     /**
-     * @var Magento_Reward_Helper_Data
+     * @var \Magento\Reward\Helper\Data
      */
     protected $_helper;
 
     /**
-     * @param Magento_Reward_Helper_Data $helper
+     * @param \Magento\Reward\Helper\Data $helper
      */
-    public function __construct(Magento_Reward_Helper_Data $helper)
+    public function __construct(\Magento\Reward\Helper\Data $helper)
     {
         $this->_helper = $helper;
     }

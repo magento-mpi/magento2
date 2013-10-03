@@ -7,23 +7,25 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Service_AuthorizationException extends Magento_Service_Exception
+namespace Magento\Service;
+
+class AuthorizationException extends \Magento\Service\Exception
 {
     /**
      * Create custom message for authorization exception.
      *
      * @param string $message
      * @param int $code
-     * @param Exception $previous
+     * @param \Exception $previous
      * @param array $parameters
      * @param string|int|null $userId
      * @param string|int|null $resourceId
      */
     public function __construct(
         $message = '',
-        // TODO Specify default exception code when Service Exception Handling policy is defined
+        // TODO Specify default exception code when Service \Exception Handling policy is defined
         $code = 0,
-        Exception $previous = null,
+        \Exception $previous = null,
         $parameters = array(),
         $userId = null,
         $resourceId = null

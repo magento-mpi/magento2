@@ -11,29 +11,31 @@
 /**
  * Customer segments grid and edit controller
  */
-class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magento_Adminhtml_Controller_Action
+namespace Magento\CustomerSegment\Controller\Adminhtml;
+
+class Customersegment extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry;
 
     /**
-     * @var Magento_CustomerSegment_Model_ConditionFactory
+     * @var \Magento\CustomerSegment\Model\ConditionFactory
      */
     protected $_conditionFactory;
 
     /**
-     * @param Magento_CustomerSegment_Model_ConditionFactory $conditionFactory
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_CustomerSegment_Model_ConditionFactory $conditionFactory,
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_conditionFactory = $conditionFactory;
         $this->_coreRegistry = $coreRegistry;
@@ -45,17 +47,17 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
      *
      * @param string $requestParam
      * @param bool $requireValidId
-     * @throws Magento_Core_Exception
-     * @return Magento_CustomerSegment_Model_Segment
+     * @throws \Magento\Core\Exception
+     * @return \Magento\CustomerSegment\Model\Segment
      */
     protected function _initSegment($requestParam = 'id', $requireValidId = false)
     {
         $segmentId = $this->getRequest()->getParam($requestParam, 0);
-        $segment = $this->_objectManager->create('Magento_CustomerSegment_Model_Segment');
+        $segment = $this->_objectManager->create('Magento\CustomerSegment\Model\Segment');
         if ($segmentId || $requireValidId) {
             $segment->load($segmentId);
             if (!$segment->getId()) {
-                throw new Magento_Core_Exception(__('You requested the wrong customer segment.'));
+                throw new \Magento\Core\Exception(__('You requested the wrong customer segment.'));
             }
         }
         $this->_coreRegistry->register('current_customer_segment', $segment);
@@ -94,7 +96,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
 
         try {
             $model = $this->_initSegment();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_session->addError($e->getMessage());
             $this->_redirect('*/*/');
             return;
@@ -112,7 +114,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
 
         $this->_initAction();
 
-        $block =  $this->getLayout()->createBlock('Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit')
+        $block =  $this->getLayout()->createBlock('Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit')
             ->setData('form_action_url', $this->getUrl('*/*/save'));
 
         $this->getLayout()->getBlock('head')
@@ -124,7 +126,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
                 $model->getId() ? __('Edit Segment') : __('New Segment'))
             ->_addContent($block)
             ->_addLeft(
-                $this->getLayout()->createBlock('Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tabs'))
+                $this->getLayout()->createBlock('Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit\Tabs'))
             ->renderLayout();
     }
 
@@ -135,14 +137,14 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
     {
         try {
             $model = $this->_initSegment();
-            if ($model->getApplyTo() != Magento_CustomerSegment_Model_Segment::APPLY_TO_VISITORS) {
+            if ($model->getApplyTo() != \Magento\CustomerSegment\Model\Segment::APPLY_TO_VISITORS) {
                 $model->matchCustomers();
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*/');
             return;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getSession()->addException($e,
                 __('Segment Customers matching error')
             );
@@ -155,7 +157,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
     /**
      * Init active menu and set breadcrumb
      *
-     * @return Magento_CustomerSegment_Controller_Adminhtml_Customersegment
+     * @return \Magento\CustomerSegment\Controller\Adminhtml\Customersegment
      */
     protected function _initAction()
     {
@@ -177,7 +179,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
         $typeArr = explode('|', str_replace('-', '/', $this->getRequest()->getParam('type')));
         $type = $typeArr[0];
 
-        $segment = $this->_objectManager->create('Magento_CustomerSegment_Model_Segment');
+        $segment = $this->_objectManager->create('Magento\CustomerSegment\Model\Segment');
         $segment->setApplyTo((int) $this->getRequest()->getParam('apply_to'));
 
         $model = $this->_conditionFactory->create($type)
@@ -189,7 +191,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
             $model->setAttribute($typeArr[1]);
         }
 
-        if ($model instanceof Magento_Rule_Model_Condition_Abstract) {
+        if ($model instanceof \Magento\Rule\Model\Condition\AbstractCondition) {
             $model->setJsFormObject($this->getRequest()->getParam('form'));
             $html = $model->asHtmlRecursive();
         } else {
@@ -215,7 +217,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
                     $data['apply_to'] = (int)$data['apply_to'];
                 }
 
-                $validateResult = $model->validateData(new Magento_Object($data));
+                $validateResult = $model->validateData(new \Magento\Object($data));
                 if ($validateResult !== true) {
                     foreach ($validateResult as $errorMessage) {
                         $this->_getSession()->addError($errorMessage);
@@ -234,7 +236,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
                 $model->loadPost($data);
                 $this->_session->setPageData($model->getData());
                 $model->save();
-                if ($model->getApplyTo() != Magento_CustomerSegment_Model_Segment::APPLY_TO_VISITORS) {
+                if ($model->getApplyTo() != \Magento\CustomerSegment\Model\Segment::APPLY_TO_VISITORS) {
                     $model->matchCustomers();
                 }
 
@@ -249,14 +251,14 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
                     return;
                 }
 
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_session->addError($e->getMessage());
                 $this->_session->setPageData($data);
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('segment_id')));
                 return;
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_session->addError(__("We're unable to save the segment."));
-                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             }
         }
         $this->_redirect('*/*/');
@@ -271,13 +273,13 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
             $model = $this->_initSegment('id', true);
             $model->delete();
             $this->_session->addSuccess(__('You deleted the segment.'));
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_session->addError($e->getMessage());
             $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
             return;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_session->addError(__("We're unable to delete the segement."));
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
         }
         $this->_redirect('*/*/');
     }
@@ -291,7 +293,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
     {
         return $this->_authorization
             ->isAllowed('Magento_CustomerSegment::customersegment')
-            && $this->_objectManager->get('Magento_CustomerSegment_Helper_Data')->isEnabled();
+            && $this->_objectManager->get('Magento\CustomerSegment\Helper\Data')->isEnabled();
     }
 
     /**
@@ -299,7 +301,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
      */
     public function chooserDaterangeAction()
     {
-        $block = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Promo_Widget_Chooser_Daterange');
+        $block = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Promo\Widget\Chooser\Daterange');
         if ($block) {
             // set block data from request
             $block->setTargetElementId($this->getRequest()->getParam('value_element_id'));

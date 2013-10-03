@@ -15,24 +15,26 @@
  * @package    Magento_CatalogSearch
  * @module     Catalog
  */
-class Magento_CatalogSearch_Controller_Ajax extends Magento_Core_Controller_Front_Action
+namespace Magento\CatalogSearch\Controller;
+
+class Ajax extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Url
      *
-     * @var Magento_Core_Model_Url
+     * @var \Magento\Core\Model\Url
      */
     protected $_url;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Controller_Varien_Action_Context $context
-     * @param Magento_Core_Model_Url $url
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Core\Model\Url $url
      */
     public function __construct(
-        Magento_Core_Controller_Varien_Action_Context $context,
-        Magento_Core_Model_Url $url
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Core\Model\Url $url
     ) {
         $this->_url = $url;
         parent::__construct($context);

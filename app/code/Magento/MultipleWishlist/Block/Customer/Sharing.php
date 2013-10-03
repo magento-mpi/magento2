@@ -15,29 +15,31 @@
  * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_MultipleWishlist_Block_Customer_Sharing extends Magento_Wishlist_Block_Customer_Sharing
+namespace Magento\MultipleWishlist\Block\Customer;
+
+class Sharing extends \Magento\Wishlist\Block\Customer\Sharing
 {
     /**
      * Wishlist data
      *
-     * @var Magento_Wishlist_Helper_Data
+     * @var \Magento\Wishlist\Helper\Data
      */
     protected $_wishlistData = null;
 
     /**
-     * @param Magento_Wishlist_Helper_Data $wishlistData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Wishlist_Model_Config $wishlistConfig
-     * @param Magento_Core_Model_Session_Generic $wishlistlSession
+     * @param \Magento\Wishlist\Helper\Data $wishlistData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Wishlist\Model\Config $wishlistConfig
+     * @param \Magento\Core\Model\Session\Generic $wishlistlSession
      * @param array $data
      */
     public function __construct(
-        Magento_Wishlist_Helper_Data $wishlistData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Wishlist_Model_Config $wishlistConfig,
-        Magento_Core_Model_Session_Generic $wishlistlSession,
+        \Magento\Wishlist\Helper\Data $wishlistData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Wishlist\Model\Config $wishlistConfig,
+        \Magento\Core\Model\Session\Generic $wishlistlSession,
         array $data = array()
     ) {
         $this->_wishlistData = $wishlistData;

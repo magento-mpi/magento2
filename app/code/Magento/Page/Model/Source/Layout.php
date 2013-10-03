@@ -15,18 +15,20 @@
  * @package    Magento_Page
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Page_Model_Source_Layout implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Page\Model\Source;
+
+class Layout implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @var Magento_Page_Model_Config
+     * @var \Magento\Page\Model\Config
      */
     protected $_config;
 
     /**
-     * @param Magento_Page_Model_Config $config
+     * @param \Magento\Page\Model\Config $config
      */
     public function __construct(
-        Magento_Page_Model_Config $config
+        \Magento\Page\Model\Config $config
     ) {
         $this->_config = $config;
     }

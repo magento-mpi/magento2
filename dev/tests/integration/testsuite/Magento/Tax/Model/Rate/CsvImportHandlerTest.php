@@ -9,17 +9,19 @@
  * @license     {license_link}
  */
 
-class Magento_Tax_Model_Rate_CsvImportHandlerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Tax\Model\Rate;
+
+class CsvImportHandlerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Tax_Model_Rate_CsvImportHandler
+     * @var \Magento\Tax\Model\Rate\CsvImportHandler
      */
     protected $_importHandler;
 
     protected function setUp()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $this->_importHandler = $objectManager->create('Magento_Tax_Model_Rate_CsvImportHandler');
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->_importHandler = $objectManager->create('Magento\Tax\Model\Rate\CsvImportHandler');
     }
 
     protected function tearDown()
@@ -36,15 +38,15 @@ class Magento_Tax_Model_Rate_CsvImportHandlerTest extends PHPUnit_Framework_Test
             . DIRECTORY_SEPARATOR . 'correct_rates_import_file.csv';
         $this->_importHandler->importFromCsvFile(array('tmp_name' => $importFileName));
 
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         // assert that both tax rates, specified in import file, have been imported correctly
-        $importedRuleCA = $objectManager->create('Magento_Tax_Model_Calculation_Rate')
+        $importedRuleCA = $objectManager->create('Magento\Tax\Model\Calculation\Rate')
             ->loadByCode('US-CA-*-Rate Import Test');
         $this->assertNotEmpty($importedRuleCA->getId());
         $this->assertEquals(8.25, (float)$importedRuleCA->getRate());
         $this->assertEquals('US', $importedRuleCA->getTaxCountryId());
 
-        $importedRuleFL = $objectManager->create('Magento_Tax_Model_Calculation_Rate')
+        $importedRuleFL = $objectManager->create('Magento\Tax\Model\Calculation\Rate')
             ->loadByCode('US-FL-*-Rate Import Test');
         $this->assertNotEmpty($importedRuleFL->getId());
         $this->assertEquals(15, (float)$importedRuleFL->getRate());
@@ -53,7 +55,7 @@ class Magento_Tax_Model_Rate_CsvImportHandlerTest extends PHPUnit_Framework_Test
 
     /**
      * @magentoDbIsolation enabled
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      * @expectedExceptionMessage One of the countries has invalid code.
      */
     public function testImportFromCsvFileThrowsExceptionWhenCountryCodeIsInvalid()

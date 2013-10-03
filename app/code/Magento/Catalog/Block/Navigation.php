@@ -14,7 +14,9 @@
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Magento_Catalog_Block_Navigation extends Magento_Core_Block_Template
+namespace Magento\Catalog\Block;
+
+class Navigation extends \Magento\Core\Block\Template
 {
     protected $_categoryInstance = null;
 
@@ -35,76 +37,76 @@ class Magento_Catalog_Block_Navigation extends Magento_Core_Block_Template
     /**
      * Catalog category
      *
-     * @var Magento_Catalog_Helper_Category
+     * @var \Magento\Catalog\Helper\Category
      */
     protected $_catalogCategory = null;
 
     /**
      * Catalog category flat
      *
-     * @var Magento_Catalog_Helper_Category_Flat
+     * @var \Magento\Catalog\Helper\Category\Flat
      */
     protected $_catalogCategoryFlat = null;
 
     /**
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_registry;
 
     /**
      * Customer session
      *
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
      * Catalog layer
      *
-     * @var Magento_Catalog_Model_Layer
+     * @var \Magento\Catalog\Model\Layer
      */
     protected $_catalogLayer;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Product collection factory
      *
-     * @var Magento_Catalog_Model_Resource_Product_CollectionFactory
+     * @var \Magento\Catalog\Model\Resource\Product\CollectionFactory
      */
     protected $_productCollectionFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
-     * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Model_Layer $catalogLayer
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Catalog_Helper_Category_Flat $catalogCategoryFlat
-     * @param Magento_Catalog_Helper_Category $catalogCategory
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Layer $catalogLayer
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Catalog\Helper\Category\Flat $catalogCategoryFlat
+     * @param \Magento\Catalog\Helper\Category $catalogCategory
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Model_CategoryFactory $categoryFactory,
-        Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Model_Layer $catalogLayer,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Catalog_Helper_Category_Flat $catalogCategoryFlat,
-        Magento_Catalog_Helper_Category $catalogCategory,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Layer $catalogLayer,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Catalog\Helper\Category\Flat $catalogCategoryFlat,
+        \Magento\Catalog\Helper\Category $catalogCategory,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_productCollectionFactory = $productCollectionFactory;
@@ -123,8 +125,8 @@ class Magento_Catalog_Block_Navigation extends Magento_Core_Block_Template
         $this->addData(array(
             'cache_lifetime'    => false,
             'cache_tags'        => array(
-                Magento_Catalog_Model_Category::CACHE_TAG,
-                Magento_Core_Model_Store_Group::CACHE_TAG
+                \Magento\Catalog\Model\Category::CACHE_TAG,
+                \Magento\Core\Model\Store\Group::CACHE_TAG
             ),
         ));
     }
@@ -132,7 +134,7 @@ class Magento_Catalog_Block_Navigation extends Magento_Core_Block_Template
     /**
      * Get current category
      *
-     * @return Magento_Catalog_Model_Category
+     * @return \Magento\Catalog\Model\Category
      */
     public function getCategory()
     {
@@ -189,7 +191,7 @@ class Magento_Catalog_Block_Navigation extends Magento_Core_Block_Template
     /**
      * Get catagories of current store
      *
-     * @return Magento_Data_Tree_Node_Collection
+     * @return \Magento\Data\Tree\Node\Collection
      */
     public function getStoreCategories()
     {
@@ -200,12 +202,12 @@ class Magento_Catalog_Block_Navigation extends Magento_Core_Block_Template
     /**
      * Retrieve child categories of current category
      *
-     * @return Magento_Data_Tree_Node_Collection
+     * @return \Magento\Data\Tree\Node\Collection
      */
     public function getCurrentChildCategories()
     {
         $categories = $this->_catalogLayer->getCurrentCategory()->getChildrenCategories();
-        /** @var Magento_Catalog_Model_Resource_Product_Collection $productCollection */
+        /** @var \Magento\Catalog\Model\Resource\Product\Collection $productCollection */
         $productCollection = $this->_productCollectionFactory->create();
         $this->_catalogLayer->prepareProductCollection($productCollection);
         $productCollection->addCountToCategories($categories);
@@ -215,7 +217,7 @@ class Magento_Catalog_Block_Navigation extends Magento_Core_Block_Template
     /**
      * Checkin activity of category
      *
-     * @param   Magento_Object $category
+     * @param   \Magento\Object $category
      * @return  bool
      */
     public function isCategoryActive($category)
@@ -229,12 +231,12 @@ class Magento_Catalog_Block_Navigation extends Magento_Core_Block_Template
     /**
      * Get url for category data
      *
-     * @param Magento_Catalog_Model_Category $category
+     * @param \Magento\Catalog\Model\Category $category
      * @return string
      */
     public function getCategoryUrl($category)
     {
-        if ($category instanceof Magento_Catalog_Model_Category) {
+        if ($category instanceof \Magento\Catalog\Model\Category) {
             $url = $category->getUrl();
         } else {
             $url = $this->_categoryInstance
@@ -275,7 +277,7 @@ class Magento_Catalog_Block_Navigation extends Magento_Core_Block_Template
     /**
      * Render category to html
      *
-     * @param Magento_Catalog_Model_Category $category
+     * @param \Magento\Catalog\Model\Category $category
      * @param int Nesting level number
      * @param boolean Whether ot not this item is last, affects list item class
      * @param boolean Whether ot not this item is first, affects list item class
@@ -395,7 +397,7 @@ class Magento_Catalog_Block_Navigation extends Magento_Core_Block_Template
     /**
      * Enter description here...
      *
-     * @return Magento_Catalog_Model_Category
+     * @return \Magento\Catalog\Model\Category
      */
     public function getCurrentCategory()
     {
@@ -418,7 +420,7 @@ class Magento_Catalog_Block_Navigation extends Magento_Core_Block_Template
     /**
      * Enter description here...
      *
-     * @param Magento_Catalog_Model_Category $category
+     * @param \Magento\Catalog\Model\Category $category
      * @return string
      */
     public function drawOpenCategoryItem($category) {

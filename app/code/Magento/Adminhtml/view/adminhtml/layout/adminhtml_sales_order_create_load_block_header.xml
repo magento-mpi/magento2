@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceContainer name="content">
-        <block class="Magento_Adminhtml_Block_Sales_Order_Create_Header" name="header"/>
+        <block class="Magento\Adminhtml\Block\Sales\Order\Create\Header" name="header"/>
     </referenceContainer>
 </layout>

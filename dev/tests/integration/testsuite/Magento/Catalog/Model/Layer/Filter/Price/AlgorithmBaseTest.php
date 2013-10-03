@@ -9,45 +9,47 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model\Layer\Filter\Price;
+
 /**
- * Test class for Magento_Catalog_Model_Layer_Filter_Price.
+ * Test class for \Magento\Catalog\Model\Layer\Filter\Price.
  *
  * @magentoDataFixture Magento/Catalog/Model/Layer/Filter/Price/_files/products_base.php
  */
-class Magento_Catalog_Model_Layer_Filter_Price_AlgorithmBaseTest extends PHPUnit_Framework_TestCase
+class AlgorithmBaseTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Algorithm model
      *
-     * @var Magento_Catalog_Model_Layer_Filter_Price_Algorithm
+     * @var \Magento\Catalog\Model\Layer\Filter\Price\Algorithm
      */
     protected $_model;
 
     /**
      * Layer model
      *
-     * @var Magento_Catalog_Model_Layer
+     * @var \Magento\Catalog\Model\Layer
      */
     protected $_layer;
 
     /**
      * Price filter model
      *
-     * @var Magento_Catalog_Model_Layer_Filter_Price
+     * @var \Magento\Catalog\Model\Layer\Filter\Price
      */
     protected $_filter;
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Layer_Filter_Price_Algorithm');
-        $this->_layer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Layer');
-        $this->_filter = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Layer_Filter_Price');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Layer\Filter\Price\Algorithm');
+        $this->_layer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Layer');
+        $this->_filter = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Layer\Filter\Price');
         $this->_filter
             ->setLayer($this->_layer)
-            ->setAttributeModel(new Magento_Object(array('attribute_code' => 'price')));
+            ->setAttributeModel(new \Magento\Object(array('attribute_code' => 'price')));
     }
 
     /**

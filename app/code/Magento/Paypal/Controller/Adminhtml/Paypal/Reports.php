@@ -11,41 +11,43 @@
 /**
  * PayPal Settlement Reports Controller
  */
-class Magento_Paypal_Controller_Adminhtml_Paypal_Reports extends Magento_Adminhtml_Controller_Action
+namespace Magento\Paypal\Controller\Adminhtml\Paypal;
+
+class Reports extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry;
 
     /**
-     * @var Magento_Paypal_Model_Report_Settlement_RowFactory
+     * @var \Magento\Paypal\Model\Report\Settlement\RowFactory
      */
     protected $_rowFactory;
 
     /**
-     * @var Magento_Paypal_Model_Report_SettlementFactory
+     * @var \Magento\Paypal\Model\Report\SettlementFactory
      */
     protected $_settlementFactory;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Paypal_Model_Report_Settlement_RowFactory $rowFactory
-     * @param Magento_Paypal_Model_Report_SettlementFactory $settlementFactory
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Paypal\Model\Report\Settlement\RowFactory $rowFactory
+     * @param \Magento\Paypal\Model\Report\SettlementFactory $settlementFactory
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Paypal_Model_Report_Settlement_RowFactory $rowFactory,
-        Magento_Paypal_Model_Report_SettlementFactory $settlementFactory
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Paypal\Model\Report\Settlement\RowFactory $rowFactory,
+        \Magento\Paypal\Model\Report\SettlementFactory $settlementFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_rowFactory = $rowFactory;
@@ -86,43 +88,43 @@ class Magento_Paypal_Controller_Adminhtml_Paypal_Reports extends Magento_Adminht
         $this->_initAction()
             ->_title(__('View Transaction'))
             ->_addContent($this->getLayout()
-                ->createBlock('Magento_Paypal_Block_Adminhtml_Settlement_Details', 'settlementDetails'))
+                ->createBlock('Magento\Paypal\Block\Adminhtml\Settlement\Details', 'settlementDetails'))
             ->renderLayout();
     }
 
     /**
      * Forced fetch reports action
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function fetchAction()
     {
         try {
             $reports = $this->_settlementFactory->create();
-            /* @var $reports Magento_Paypal_Model_Report_Settlement */
+            /* @var $reports \Magento\Paypal\Model\Report\Settlement */
             $credentials = $reports->getSftpCredentials();
             if (empty($credentials)) {
-                throw new Magento_Core_Exception(__('We found nothing to fetch because of an empty configuration.'));
+                throw new \Magento\Core\Exception(__('We found nothing to fetch because of an empty configuration.'));
             }
             foreach ($credentials as $config) {
                 try {
                     $fetched = $reports->fetchAndSave(
-                        Magento_Paypal_Model_Report_Settlement::createConnection($config)
+                        \Magento\Paypal\Model\Report\Settlement::createConnection($config)
                     );
                     $this->_getSession()->addSuccess(
                         __("We fetched %1 report rows from '%2@%3'.", $fetched,
                             $config['username'], $config['hostname'])
                     );
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     $this->_getSession()->addError(
                         __("We couldn't fetch reports from '%1@%2'.", $config['username'], $config['hostname'])
                     );
                     $this->_logger->logException($e);
                 }
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_logger->logException($e);
         }
         $this->_redirect('*/*/index');
@@ -130,7 +132,7 @@ class Magento_Paypal_Controller_Adminhtml_Paypal_Reports extends Magento_Adminht
 
     /**
      * Initialize titles, navigation
-     * @return Magento_Paypal_Controller_Adminhtml_Paypal_Reports
+     * @return \Magento\Paypal\Controller\Adminhtml\Paypal\Reports
      */
     protected function _initAction()
     {

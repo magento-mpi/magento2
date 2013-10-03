@@ -9,31 +9,32 @@
 /**
  * Stock item collection resource model
  */
-class Magento_CatalogInventory_Model_Resource_Stock_Item_Collection
-    extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\CatalogInventory\Model\Resource\Stock\Item;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Store model manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Resource\Db\Abstract $resource
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
 
@@ -46,18 +47,18 @@ class Magento_CatalogInventory_Model_Resource_Stock_Item_Collection
      */
     protected function _construct()
     {
-        $this->_init('Magento_CatalogInventory_Model_Stock_Item', 'Magento_CatalogInventory_Model_Resource_Stock_Item');
+        $this->_init('Magento\CatalogInventory\Model\Stock\Item', 'Magento\CatalogInventory\Model\Resource\Stock\Item');
     }
 
     /**
      * Add stock filter to collection
      *
      * @param mixed $stock
-     * @return Magento_CatalogInventory_Model_Resource_Stock_Item_Collection
+     * @return \Magento\CatalogInventory\Model\Resource\Stock\Item\Collection
      */
     public function addStockFilter($stock)
     {
-        if ($stock instanceof Magento_CatalogInventory_Model_Stock) {
+        if ($stock instanceof \Magento\CatalogInventory\Model\Stock) {
             $this->addFieldToFilter('main_table.stock_id', $stock->getId());
         } else {
             $this->addFieldToFilter('main_table.stock_id', $stock);
@@ -69,13 +70,13 @@ class Magento_CatalogInventory_Model_Resource_Stock_Item_Collection
      * Add product filter to collection
      *
      * @param array $products
-     * @return Magento_CatalogInventory_Model_Resource_Stock_Item_Collection
+     * @return \Magento\CatalogInventory\Model\Resource\Stock\Item\Collection
      */
     public function addProductsFilter($products)
     {
         $productIds = array();
         foreach ($products as $product) {
-            if ($product instanceof Magento_Catalog_Model_Product) {
+            if ($product instanceof \Magento\Catalog\Model\Product) {
                 $productIds[] = $product->getId();
             } else {
                 $productIds[] = $product;
@@ -93,7 +94,7 @@ class Magento_CatalogInventory_Model_Resource_Stock_Item_Collection
      * Join Stock Status to collection
      *
      * @param int $storeId
-     * @return Magento_CatalogInventory_Model_Resource_Stock_Item_Collection
+     * @return \Magento\CatalogInventory\Model\Resource\Stock\Item\Collection
      */
     public function joinStockStatus($storeId = null)
     {
@@ -113,7 +114,7 @@ class Magento_CatalogInventory_Model_Resource_Stock_Item_Collection
      * Add Managed Stock products filter to collection
      *
      * @param boolean $isStockManagedInConfig
-     * @return Magento_CatalogInventory_Model_Resource_Stock_Item_Collection
+     * @return \Magento\CatalogInventory\Model\Resource\Stock\Item\Collection
      */
     public function addManagedFilter($isStockManagedInConfig)
     {
@@ -131,8 +132,8 @@ class Magento_CatalogInventory_Model_Resource_Stock_Item_Collection
      *
      * @param string $comparisonMethod
      * @param float $qty
-     * @return Magento_CatalogInventory_Model_Resource_Stock_Item_Collection
-     * @throws Magento_Core_Exception
+     * @return \Magento\CatalogInventory\Model\Resource\Stock\Item\Collection
+     * @throws \Magento\Core\Exception
      */
     public function addQtyFilter($comparisonMethod, $qty)
     {
@@ -145,7 +146,7 @@ class Magento_CatalogInventory_Model_Resource_Stock_Item_Collection
             '<>' => 'neq'
         );
         if (!isset($methods[$comparisonMethod])) {
-            throw new Magento_Core_Exception(__('%1 is not a correct comparison method.', $comparisonMethod));
+            throw new \Magento\Core\Exception(__('%1 is not a correct comparison method.', $comparisonMethod));
         }
 
         return $this->addFieldToFilter('main_table.qty', array($methods[$comparisonMethod] => $qty));
@@ -154,7 +155,7 @@ class Magento_CatalogInventory_Model_Resource_Stock_Item_Collection
     /**
      * Initialize select object
      *
-     * @return Magento_CatalogInventory_Model_Resource_Stock_Item_Collection
+     * @return \Magento\CatalogInventory\Model\Resource\Stock\Item\Collection
      */
     protected function _initSelect()
     {

@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Webapi_EventHandler
+ * \Magento\Webhook\Model\Webapi\EventHandler
  *
  * {license_notice}
  *
@@ -9,27 +9,29 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Webapi_EventHandlerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Webapi;
+
+class EventHandlerTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Webhook_Model_Webapi_EventHandler */
+    /** @var \Magento\Webhook\Model\Webapi\EventHandler */
     protected $_eventHandler;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_collection;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_resourceAclUser;
 
     protected function setUp()
     {
-        $this->_collection = $this->getMockBuilder('Magento_Webhook_Model_Resource_Subscription_Collection')
+        $this->_collection = $this->getMockBuilder('Magento\Webhook\Model\Resource\Subscription\Collection')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_resourceAclUser = $this->getMockBuilder('Magento_Webapi_Model_Resource_Acl_User')
+        $this->_resourceAclUser = $this->getMockBuilder('Magento\Webapi\Model\Resource\Acl\User')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_eventHandler = new Magento_Webhook_Model_Webapi_EventHandler(
+        $this->_eventHandler = new \Magento\Webhook\Model\Webapi\EventHandler(
             $this->_collection,
             $this->_resourceAclUser
         );
@@ -44,7 +46,7 @@ class Magento_Webhook_Model_Webapi_EventHandlerTest extends PHPUnit_Framework_Te
         $this->_eventHandler->userChanged($user);
     }
 
-    public function testUserChanged_noSubscription()
+    public function testUserChangedNoSubscription()
     {
         $this->_setMockSubscriptions(array());
         $user = $this->_createMockUser(1);
@@ -64,7 +66,7 @@ class Magento_Webhook_Model_Webapi_EventHandlerTest extends PHPUnit_Framework_Te
         $this->_eventHandler->roleChanged($role);
     }
 
-    public function testRoleChanged_twoUsers()
+    public function testRoleChangedTwoUsers()
     {
         $subscription = $this->_createMockSubscription();
         $this->_setMockSubscriptions($subscription);
@@ -76,7 +78,7 @@ class Magento_Webhook_Model_Webapi_EventHandlerTest extends PHPUnit_Framework_Te
         $this->_eventHandler->roleChanged($role);
     }
 
-    public function testRoleChanged_twoSubscriptions()
+    public function testRoleChangedTwoSubscriptions()
     {
         $subscriptions = array($this->_createMockSubscription(), $this->_createMockSubscription());
         $this->_setMockSubscriptions($subscriptions);
@@ -116,7 +118,7 @@ class Magento_Webhook_Model_Webapi_EventHandlerTest extends PHPUnit_Framework_Te
 
     protected function _createMockRole($roleId)
     {
-        $role = $this->getMockBuilder('Magento_Webapi_Model_Acl_Role')
+        $role = $this->getMockBuilder('Magento\Webapi\Model\Acl\Role')
             ->disableOriginalConstructor()
             ->getMock();
         $role->expects($this->any())
@@ -127,7 +129,7 @@ class Magento_Webhook_Model_Webapi_EventHandlerTest extends PHPUnit_Framework_Te
 
     protected function _createMockUser($userId)
     {
-        $user = $this->getMockBuilder('Magento_Webapi_Model_Acl_User')
+        $user = $this->getMockBuilder('Magento\Webapi\Model\Acl\User')
             ->disableOriginalConstructor()
             ->getMock();
         $user->expects($this->any())
@@ -138,7 +140,7 @@ class Magento_Webhook_Model_Webapi_EventHandlerTest extends PHPUnit_Framework_Te
 
     protected function _createMockSubscription()
     {
-        $subscription = $this->getMockBuilder('Magento_Webhook_Model_Subscription')
+        $subscription = $this->getMockBuilder('Magento\Webhook\Model\Subscription')
             ->disableOriginalConstructor()
             ->getMock();
 

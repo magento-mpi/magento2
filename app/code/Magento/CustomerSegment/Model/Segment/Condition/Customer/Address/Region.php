@@ -12,8 +12,10 @@
  * Customer address region selector
  *
  */
-class Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_Region
-    extends Magento_CustomerSegment_Model_Condition_Abstract
+namespace Magento\CustomerSegment\Model\Segment\Condition\Customer\Address;
+
+class Region
+    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
 {
     /**
      * Input type
@@ -23,33 +25,33 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_Region
     protected $_inputType = 'select';
 
     /**
-     * @var Magento_CustomerSegment_Model_ConditionFactory
+     * @var \Magento\CustomerSegment\Model\ConditionFactory
      */
     protected $_conditionFactory;
 
     /**
-     * @var Magento_Eav_Model_Config
+     * @var \Magento\Eav\Model\Config
      */
     protected $_eavConfig;
 
     /**
-     * @param Magento_CustomerSegment_Model_Resource_Segment $resourceSegment
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_CustomerSegment_Model_ConditionFactory $conditionFactory
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_CustomerSegment_Model_Resource_Segment $resourceSegment,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_CustomerSegment_Model_ConditionFactory $conditionFactory,
-        Magento_Rule_Model_Condition_Context $context,
+        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
+        \Magento\Rule\Model\Condition\Context $context,
         array $data = array()
     ) {
         $this->_eavConfig = $eavConfig;
         $this->_conditionFactory = $conditionFactory;
         parent::__construct($resourceSegment, $context, $data);
-        $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_Region');
+        $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Customer\Address\Region');
         $this->setValue(1);
     }
 
@@ -119,7 +121,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_Region
      *
      * @param $customer
      * @param $website
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)
     {

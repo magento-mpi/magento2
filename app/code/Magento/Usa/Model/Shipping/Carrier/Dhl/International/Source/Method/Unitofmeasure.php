@@ -15,8 +15,9 @@
  * @package    Magento_Usa
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Usa_Model_Shipping_Carrier_Dhl_International_Source_Method_Unitofmeasure
-    extends Magento_Usa_Model_Shipping_Carrier_Dhl_International_Source_Method_Generic
+namespace Magento\Usa\Model\Shipping\Carrier\Dhl\International\Source\Method;
+
+class Unitofmeasure extends \Magento\Usa\Model\Shipping\Carrier\Dhl\International\Source\Method\Generic
 {
     /**
      * Carrier code

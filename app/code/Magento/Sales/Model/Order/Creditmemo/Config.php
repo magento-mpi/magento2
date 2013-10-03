@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Sales_Model_Order_Creditmemo_Config extends Magento_Sales_Model_Order_Total_Config_Base
+namespace Magento\Sales\Model\Order\Creditmemo;
+
+class Config extends \Magento\Sales\Model\Order\Total\Config\Base
 {
     /**
      * Cache key for collectors

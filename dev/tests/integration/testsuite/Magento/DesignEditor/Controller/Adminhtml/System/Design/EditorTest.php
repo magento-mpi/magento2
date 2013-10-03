@@ -9,20 +9,22 @@
  * @license     {license_link}
  */
 
+namespace Magento\DesignEditor\Controller\Adminhtml\System\Design;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_DesignEditor_Controller_Adminhtml_System_Design_EditorTest extends Magento_Backend_Utility_Controller
+class EditorTest extends \Magento\Backend\Utility\Controller
 {
     /**
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_dataHelper;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->_dataHelper = $this->_objectManager->get('Magento_Core_Helper_Data');
+        $this->_dataHelper = $this->_objectManager->get('Magento\Core\Helper\Data');
     }
 
     public function testIndexAction()
@@ -41,7 +43,7 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_EditorTest extends
         $this->dispatch('backend/admin/system_design_editor/launch');
         $this->assertSessionMessages($this->equalTo(
             array('We can\'t find theme "' . $wrongThemeId . '".')),
-            Magento_Core_Model_Message::ERROR
+            \Magento\Core\Model\Message::ERROR
         );
         $expected = 'http://localhost/index.php/backend/admin/system_design_editor/index/';
         $this->assertRedirect($this->stringStartsWith($expected));

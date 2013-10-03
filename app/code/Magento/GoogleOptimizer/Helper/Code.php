@@ -7,22 +7,24 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Magento_GoogleOptimizer_Helper_Code
+namespace Magento\GoogleOptimizer\Helper;
+
+class Code
 {
     /**
-     * @var Magento_GoogleOptimizer_Model_Code
+     * @var \Magento\GoogleOptimizer\Model\Code
      */
     protected $_codeModel;
 
     /**
-     * @var Magento_Core_Model_Abstract
+     * @var \Magento\Core\Model\AbstractModel
      */
     protected $_entity;
 
     /**
-     * @param Magento_GoogleOptimizer_Model_Code $code
+     * @param \Magento\GoogleOptimizer\Model\Code $code
      */
-    public function __construct(Magento_GoogleOptimizer_Model_Code $code)
+    public function __construct(\Magento\GoogleOptimizer\Model\Code $code)
     {
         $this->_codeModel = $code;
     }
@@ -30,15 +32,15 @@ class Magento_GoogleOptimizer_Helper_Code
     /**
      * Get loaded Code object by Entity
      *
-     * @param Magento_Core_Model_Abstract $entity
-     * @return Magento_GoogleOptimizer_Model_Code
+     * @param \Magento\Core\Model\AbstractModel $entity
+     * @return \Magento\GoogleOptimizer\Model\Code
      */
-    public function getCodeObjectByEntity(Magento_Core_Model_Abstract $entity)
+    public function getCodeObjectByEntity(\Magento\Core\Model\AbstractModel $entity)
     {
         $this->_entity = $entity;
 
         $this->_checkEntityIsEmpty();
-        if ($entity instanceof Magento_Cms_Model_Page) {
+        if ($entity instanceof \Magento\Cms\Model\Page) {
             $this->_codeModel->loadByEntityIdAndType($entity->getId(), $this->_getEntityType());
         } else {
             $this->_codeModel->loadByEntityIdAndType($entity->getId(), $this->_getEntityType(), $entity->getStoreId());
@@ -51,14 +53,14 @@ class Magento_GoogleOptimizer_Helper_Code
      * Get Entity Type by Entity object
      *
      * @return string
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function _getEntityType()
     {
         $type = $this->_getTypeString();
 
         if (empty($type)) {
-            throw new InvalidArgumentException('The model class is not valid');
+            throw new \InvalidArgumentException('The model class is not valid');
         }
 
         return $type;
@@ -72,16 +74,16 @@ class Magento_GoogleOptimizer_Helper_Code
     protected function _getTypeString()
     {
         $type = '';
-        if ($this->_entity instanceof Magento_Catalog_Model_Category) {
-            $type = Magento_GoogleOptimizer_Model_Code::ENTITY_TYPE_CATEGORY;
+        if ($this->_entity instanceof \Magento\Catalog\Model\Category) {
+            $type = \Magento\GoogleOptimizer\Model\Code::ENTITY_TYPE_CATEGORY;
         }
 
-        if ($this->_entity instanceof Magento_Catalog_Model_Product) {
-            $type = Magento_GoogleOptimizer_Model_Code::ENTITY_TYPE_PRODUCT;
+        if ($this->_entity instanceof \Magento\Catalog\Model\Product) {
+            $type = \Magento\GoogleOptimizer\Model\Code::ENTITY_TYPE_PRODUCT;
         }
 
-        if ($this->_entity instanceof Magento_Cms_Model_Page) {
-            $type = Magento_GoogleOptimizer_Model_Code::ENTITY_TYPE_PAGE;
+        if ($this->_entity instanceof \Magento\Cms\Model\Page) {
+            $type = \Magento\GoogleOptimizer\Model\Code::ENTITY_TYPE_PAGE;
         }
         return $type;
     }
@@ -90,12 +92,12 @@ class Magento_GoogleOptimizer_Helper_Code
      * Check if Entity is Empty
      *
      * @return $this
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function _checkEntityIsEmpty()
     {
         if (!$this->_entity->getId()) {
-            throw new InvalidArgumentException('The model is empty');
+            throw new \InvalidArgumentException('The model is empty');
         }
         return $this;
     }

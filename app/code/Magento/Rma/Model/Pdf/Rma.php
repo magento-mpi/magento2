@@ -11,7 +11,9 @@
 /**
  * Rma PDF model
  */
-class Magento_Rma_Model_Pdf_Rma extends Magento_Sales_Model_Order_Pdf_Abstract
+namespace Magento\Rma\Model\Pdf;
+
+class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
 {
     /**
      * Variable to store store-depended string values of attributes
@@ -23,24 +25,24 @@ class Magento_Rma_Model_Pdf_Rma extends Magento_Sales_Model_Order_Pdf_Abstract
     /**
      * Rma data
      *
-     * @var Magento_Rma_Helper_Data
+     * @var \Magento\Rma\Helper\Data
      */
     protected $_rmaData;
 
     /**
      * Rma eav
      *
-     * @var Magento_Rma_Helper_Eav
+     * @var \Magento\Rma\Helper\Eav
      */
     protected $_rmaEav;
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -50,35 +52,35 @@ class Magento_Rma_Model_Pdf_Rma extends Magento_Sales_Model_Order_Pdf_Abstract
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
-     * @param Magento_Rma_Helper_Eav $rmaEav
-     * @param Magento_Rma_Helper_Data $rmaData
-     * @param Magento_Payment_Helper_Data $paymentData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
-     * @param Magento_Core_Model_Translate $translate
-     * @param Magento_Core_Model_Dir $dirs
-     * @param Magento_Sales_Model_Order_Pdf_Config $pdfConfig
-     * @param Magento_Sales_Model_Order_Pdf_Total_Factory $totalFactory
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Rma\Helper\Eav $rmaEav
+     * @param \Magento\Rma\Helper\Data $rmaData
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Core\Model\Translate $translate
+     * @param \Magento\Core\Model\Dir $dirs
+     * @param \Magento\Sales\Model\Order\Pdf\Config $pdfConfig
+     * @param \Magento\Sales\Model\Order\Pdf\Total\Factory $totalFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Rma_Helper_Eav $rmaEav,
-        Magento_Rma_Helper_Data $rmaData,
-        Magento_Payment_Helper_Data $paymentData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_String $coreString,
-        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
-        Magento_Core_Model_Translate $translate,
-        Magento_Core_Model_Dir $dirs,
-        Magento_Sales_Model_Order_Pdf_Config $pdfConfig,
-        Magento_Sales_Model_Order_Pdf_Total_Factory $totalFactory,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
+        \Magento\Rma\Helper\Eav $rmaEav,
+        \Magento\Rma\Helper\Data $rmaData,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\Core\Model\Translate $translate,
+        \Magento\Core\Model\Dir $dirs,
+        \Magento\Sales\Model\Order\Pdf\Config $pdfConfig,
+        \Magento\Sales\Model\Order\Pdf\Total\Factory $totalFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_rmaEav = $rmaEav;
@@ -93,20 +95,20 @@ class Magento_Rma_Model_Pdf_Rma extends Magento_Sales_Model_Order_Pdf_Abstract
      * Retrieve PDF
      *
      * @param array $rmaArray
-     * @throws Magento_Core_Exception
-     * @return Zend_Pdf
+     * @throws \Magento\Core\Exception
+     * @return \Zend_Pdf
      */
     public function getPdf($rmaArray = array())
     {
         $this->_beforeGetPdf();
 
-        $pdf = new Zend_Pdf();
+        $pdf = new \Zend_Pdf();
         $this->_setPdf($pdf);
-        $style = new Zend_Pdf_Style();
+        $style = new \Zend_Pdf_Style();
         $this->_setFontBold($style, 10);
 
         if (!(is_array($rmaArray) && (count($rmaArray) == 1))) {
-            throw new Magento_Core_Exception(__('Only one RMA is available for printing'));
+            throw new \Magento\Core\Exception(__('Only one RMA is available for printing'));
         }
         $rma = $rmaArray[0];
 
@@ -121,11 +123,11 @@ class Magento_Rma_Model_Pdf_Rma extends Magento_Sales_Model_Order_Pdf_Abstract
         /* Add image */
         $this->insertLogo($page, $storeId);
 
-        $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
+        $page->setFillColor(new \Zend_Pdf_Color_GrayScale(0));
         $this->_setFontRegular($page, 5);
 
         $page->setLineWidth(0.5);
-        $page->setLineColor(new Zend_Pdf_Color_GrayScale(0.5));
+        $page->setLineColor(new \Zend_Pdf_Color_GrayScale(0.5));
         $page->drawLine(125, 825, 125, 790);
 
         $page->setLineWidth(0);
@@ -133,10 +135,10 @@ class Magento_Rma_Model_Pdf_Rma extends Magento_Sales_Model_Order_Pdf_Abstract
         $this->y = 820;
 
         /* Add head */
-        $page->setFillColor(new Zend_Pdf_Color_GrayScale(0.5));
+        $page->setFillColor(new \Zend_Pdf_Color_GrayScale(0.5));
         $page->drawRectangle(25, $this->y - 30, 570, $this->y - 75);
 
-        $page->setFillColor(new Zend_Pdf_Color_GrayScale(1));
+        $page->setFillColor(new \Zend_Pdf_Color_GrayScale(1));
         $this->_setFontRegular($page);
 
         $page->drawText(
@@ -183,13 +185,13 @@ class Magento_Rma_Model_Pdf_Rma extends Magento_Sales_Model_Order_Pdf_Abstract
             ->_formatAddress($this->_rmaData
             ->getReturnAddress('pdf', array(), $this->getStoreId()));
 
-        $page->setFillColor(new Zend_Pdf_Color_Rgb(0.93, 0.92, 0.92));
-        $page->setLineColor(new Zend_Pdf_Color_GrayScale(0.5));
+        $page->setFillColor(new \Zend_Pdf_Color_Rgb(0.93, 0.92, 0.92));
+        $page->setLineColor(new \Zend_Pdf_Color_GrayScale(0.5));
         $page->setLineWidth(0.5);
         $page->drawRectangle(25, $this->y, 290, $this->y - 15);
         $page->drawRectangle(305, $this->y, 570, $this->y - 15);
 
-        $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
+        $page->setFillColor(new \Zend_Pdf_Color_GrayScale(0));
         $this->_setFontRegular($page);
         $page->drawText(__('Shipping Address:'), 35, $this->y - 10, 'UTF-8');
 
@@ -197,10 +199,10 @@ class Magento_Rma_Model_Pdf_Rma extends Magento_Sales_Model_Order_Pdf_Abstract
 
         $y = $this->y - 15 - (max(count($shippingAddress), count($returnAddress)) * 10 + 5);
 
-        $page->setFillColor(new Zend_Pdf_Color_GrayScale(1));
+        $page->setFillColor(new \Zend_Pdf_Color_GrayScale(1));
         $page->drawRectangle(25, $this->y - 15, 290, $y);
         $page->drawRectangle(305, $this->y - 15, 570, $y);
-        $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
+        $page->setFillColor(new \Zend_Pdf_Color_GrayScale(0));
         $this->_setFontRegular($page);
 
         $yStartAddresses = $this->y - 25;
@@ -228,7 +230,7 @@ class Magento_Rma_Model_Pdf_Rma extends Magento_Sales_Model_Order_Pdf_Abstract
 
         /* Add body */
 
-        /** @var $collection Magento_Rma_Model_Resource_Item_Collection */
+        /** @var $collection \Magento\Rma\Model\Resource\Item\Collection */
         $collection = $rma->getItemsForDisplay();
 
         foreach ($collection as $item){
@@ -252,11 +254,11 @@ class Magento_Rma_Model_Pdf_Rma extends Magento_Sales_Model_Order_Pdf_Abstract
     /**
      * Create new page, assign to PDF object and repeat table head there
      *
-     * @return Zend_Pdf_Page
+     * @return \Zend_Pdf_Page
      */
     protected function _addNewPage()
     {
-        $page = $this->_getPdf()->newPage(Zend_Pdf_Page::SIZE_A4);
+        $page = $this->_getPdf()->newPage(\Zend_Pdf_Page::SIZE_A4);
         $this->_getPdf()->pages[] = $page;
         $this->y = 800;
 
@@ -267,18 +269,18 @@ class Magento_Rma_Model_Pdf_Rma extends Magento_Sales_Model_Order_Pdf_Abstract
     /**
      * Add items table head
      *
-     * @param Zend_Pdf_Page $page
+     * @param \Zend_Pdf_Page $page
      */
     protected function _addItemTableHead($page)
     {
         $this->_setFontRegular($page);
-        $page->setFillColor(new Zend_Pdf_Color_RGB(0.93, 0.92, 0.92));
-        $page->setLineColor(new Zend_Pdf_Color_GrayScale(0.5));
+        $page->setFillColor(new \Zend_Pdf_Color_RGB(0.93, 0.92, 0.92));
+        $page->setLineColor(new \Zend_Pdf_Color_GrayScale(0.5));
         $page->setLineWidth(0.5);
         $page->drawRectangle(25, $this->y, 570, $this->y-15);
         $this->y -=10;
 
-        $page->setFillColor(new Zend_Pdf_Color_RGB(0.4, 0.4, 0.4));
+        $page->setFillColor(new \Zend_Pdf_Color_RGB(0.4, 0.4, 0.4));
         $page->drawText(
             __('Product Name'),
             $this->getProductNameX(),
@@ -322,7 +324,7 @@ class Magento_Rma_Model_Pdf_Rma extends Magento_Sales_Model_Order_Pdf_Abstract
             'UTF-8'
         );
 
-        $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
+        $page->setFillColor(new \Zend_Pdf_Color_GrayScale(0));
 
         $this->y -=15;
     }
@@ -330,8 +332,8 @@ class Magento_Rma_Model_Pdf_Rma extends Magento_Sales_Model_Order_Pdf_Abstract
     /**
      * Draw one line - rma item
      *
-     * @param Magento_Rma_Model_Item $item
-     * @param Zend_Pdf_Page $page
+     * @param \Magento\Rma\Model\Item $item
+     * @param \Zend_Pdf_Page $page
      */
     protected function _drawRmaItem($item, $page)
     {
@@ -384,7 +386,7 @@ class Magento_Rma_Model_Pdf_Rma extends Magento_Sales_Model_Order_Pdf_Abstract
      * Draw additional lines for item's custom options
      *
      * @param array $optionsArray
-     * @param Zend_Pdf_Page $page
+     * @param \Zend_Pdf_Page $page
      */
     protected function _drawCustomOptions($optionsArray = array(), $page)
     {

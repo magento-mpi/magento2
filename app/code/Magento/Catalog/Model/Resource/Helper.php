@@ -16,15 +16,17 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Helper extends Magento_Eav_Model_Resource_Helper
+namespace Magento\Catalog\Model\Resource;
+
+class Helper extends \Magento\Eav\Model\Resource\Helper
 {
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Core\Model\Resource $resource
      * @param string $modulePrefix
      */
-    public function __construct(Magento_Core_Model_Resource $resource, $modulePrefix = 'Magento_Catalog')
+    public function __construct(\Magento\Core\Model\Resource $resource, $modulePrefix = 'Magento_Catalog')
     {
         parent::__construct($resource, $modulePrefix);
     }

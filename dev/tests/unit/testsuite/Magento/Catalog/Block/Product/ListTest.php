@@ -9,13 +9,16 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Block_Product_ListTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Block\Product;
+
+class ListTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetMode()
     {
-        $childBlock = new Magento_Object;
+        $childBlock = new \Magento\Object;
 
-        $block = $this->getMock('Magento_Catalog_Block_Product_List', array('getChildBlock'), array(), '', false);
+        $block = $this->getMock('Magento\Catalog\Block\Product\ProductList', array('getChildBlock'),
+            array(), '', false);
         $block->expects($this->atLeastOnce())
             ->method('getChildBlock')
             ->with('toolbar')

@@ -13,22 +13,24 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Helper_String extends Magento_Core_Helper_Abstract
+namespace Magento\Core\Helper;
+
+class String extends \Magento\Core\Helper\AbstractHelper
 {
     const ICONV_CHARSET = 'UTF-8';
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Locale $locale
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Locale $locale
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Locale $locale)
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Locale $locale)
     {
         parent::__construct($context);
         $this->_locale = $locale;
@@ -111,7 +113,7 @@ class Magento_Core_Helper_String extends Magento_Core_Helper_Abstract
      */
     public function splitInjection($str, $length = 50, $needle = '-', $insert = ' ')
     {
-        $str = $this->str_split($str, $length);
+        $str = $this->strSplit($str, $length);
         $newStr = '';
         foreach ($str as $part) {
             if ($this->strlen($part) >= $length) {
@@ -147,7 +149,7 @@ class Magento_Core_Helper_String extends Magento_Core_Helper_Abstract
     }
 
     /**
-     * Binary-safe variant of str_split()
+     * Binary-safe variant of strSplit()
      * + option not to break words
      * + option to trim spaces (between each word)
      * + option to set character(s) (pcre pattern) to be considered as words separator
@@ -159,7 +161,7 @@ class Magento_Core_Helper_String extends Magento_Core_Helper_Abstract
      * @param string $wordSeparatorRegex
      * @return array
      */
-    public function str_split($str, $length = 1, $keepWords = false, $trim = false, $wordSeparatorRegex = '\s')
+    public function strSplit($str, $length = 1, $keepWords = false, $trim = false, $wordSeparatorRegex = '\s')
     {
         $result = array();
         $strlen = $this->strlen($str);
@@ -212,7 +214,7 @@ class Magento_Core_Helper_String extends Magento_Core_Helper_Abstract
                 }
                 // break too long part recursively
                 else {
-                    foreach ($this->str_split($part, $length, false, $trim, $wordSeparatorRegex) as $subpart) {
+                    foreach ($this->strSplit($part, $length, false, $trim, $wordSeparatorRegex) as $subpart) {
                         $i++;
                         $result[$i] = $subpart;
                     }

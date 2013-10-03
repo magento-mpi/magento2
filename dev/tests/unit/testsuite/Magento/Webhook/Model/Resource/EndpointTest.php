@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Resource_Endpoint
+ * \Magento\Webhook\Model\Resource\Endpoint
  *
  * {license_notice}
  *
@@ -9,20 +9,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Resource_EndpointTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Resource;
+
+class EndpointTest extends \PHPUnit_Framework_TestCase
 {
     const TABLE_NAME = 'outbound_endpoint_table';
 
-    /** @var  Magento_Webhook_Model_Resource_Endpoint */
+    /** @var  \Magento\Webhook\Model\Resource\Endpoint */
     private $_endpoint;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_adapterMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_selectMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_resourceMock;
 
     /** @var string[] */
@@ -31,7 +33,7 @@ class Magento_Webhook_Model_Resource_EndpointTest extends PHPUnit_Framework_Test
     protected function setUp()
     {
         // Select mock
-        $this->_selectMock = $this->_makeMock('Magento_DB_Select');
+        $this->_selectMock = $this->_makeMock('Magento\DB\Select');
         // Select stubs
         $this->_selectMock->expects($this->once())
             ->method('from')
@@ -39,7 +41,7 @@ class Magento_Webhook_Model_Resource_EndpointTest extends PHPUnit_Framework_Test
             ->will($this->returnSelf());
 
         // Adapter mock
-        $this->_adapterMock = $this->_makeMock('Magento_DB_Adapter_Pdo_Mysql');
+        $this->_adapterMock = $this->_makeMock('Magento\DB\Adapter\Pdo\Mysql');
         // Adapter stubs
         $this->_adapterMock->expects($this->once())
             ->method('select')
@@ -51,7 +53,7 @@ class Magento_Webhook_Model_Resource_EndpointTest extends PHPUnit_Framework_Test
             ->will($this->returnValue(1));
 
         // Resources mock
-        $this->_resourceMock = $this->_makeMock('Magento_Core_Model_Resource');
+        $this->_resourceMock = $this->_makeMock('Magento\Core\Model\Resource');
         // Resources stubs
         $stubReturnMap = array(
             array('core_read', $this->_adapterMock),
@@ -65,7 +67,7 @@ class Magento_Webhook_Model_Resource_EndpointTest extends PHPUnit_Framework_Test
             ->with('outbound_endpoint')
             ->will($this->returnValue(self::TABLE_NAME));
 
-        $this->_endpoint = new Magento_Webhook_Model_Resource_Endpoint($this->_resourceMock);
+        $this->_endpoint = new \Magento\Webhook\Model\Resource\Endpoint($this->_resourceMock);
     }
 
     public function testGetApiUserEndpoints()
@@ -106,7 +108,7 @@ class Magento_Webhook_Model_Resource_EndpointTest extends PHPUnit_Framework_Test
      * Generates a mock object of the given class
      *
      * @param string $className
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     private function _makeMock($className)
     {

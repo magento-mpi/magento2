@@ -16,41 +16,43 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Block_Adminhtml_Reward_Rate_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\Reward\Block\Adminhtml\Reward\Rate\Edit;
+
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Reward_Model_Source_WebsiteFactory
+     * @var \Magento\Reward\Model\Source\WebsiteFactory
      */
     protected $_websitesFactory;
 
     /**
-     * @var Magento_Reward_Model_Source_Customer_GroupsFactory
+     * @var \Magento\Reward\Model\Source\Customer\GroupsFactory
      */
     protected $_groupsFactory;
 
     /**
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Reward_Model_Source_WebsiteFactory $websitesFactory
-     * @param Magento_Reward_Model_Source_Customer_GroupsFactory $groupsFactory
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Reward\Model\Source\WebsiteFactory $websitesFactory
+     * @param \Magento\Reward\Model\Source\Customer\GroupsFactory $groupsFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Reward_Model_Source_WebsiteFactory $websitesFactory,
-        Magento_Reward_Model_Source_Customer_GroupsFactory $groupsFactory,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Reward\Model\Source\WebsiteFactory $websitesFactory,
+        \Magento\Reward\Model\Source\Customer\GroupsFactory $groupsFactory,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -62,7 +64,7 @@ class Magento_Reward_Block_Adminhtml_Reward_Rate_Edit_Form extends Magento_Backe
     /**
      * Getter
      *
-     * @return Magento_Reward_Model_Reward_Rate
+     * @return \Magento\Reward\Model\Reward\Rate
      */
     public function getRate()
     {
@@ -72,11 +74,11 @@ class Magento_Reward_Block_Adminhtml_Reward_Rate_Edit_Form extends Magento_Backe
     /**
      * Prepare form
      *
-     * @return Magento_Reward_Block_Adminhtml_Reward_Rate_Edit_Form
+     * @return \Magento\Reward\Block\Adminhtml\Reward\Rate\Edit\Form
      */
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id' => 'edit_form',
@@ -97,7 +99,7 @@ class Magento_Reward_Block_Adminhtml_Reward_Rate_Edit_Form extends Magento_Backe
                 'values' => $this->_websitesFactory->create()->toOptionArray(),
             ));
             $renderer = $this->getLayout()
-                ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+                ->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
         }
 
@@ -116,10 +118,10 @@ class Magento_Reward_Block_Adminhtml_Reward_Rate_Edit_Form extends Magento_Backe
         ));
 
         $rateRenderer = $this->getLayout()
-            ->createBlock('Magento_Reward_Block_Adminhtml_Reward_Rate_Edit_Form_Renderer_Rate')
+            ->createBlock('Magento\Reward\Block\Adminhtml\Reward\Rate\Edit\Form\Renderer\Rate')
             ->setRate($this->getRate());
         $direction = $this->getRate()->getDirection();
-        if ($direction == Magento_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY) {
+        if ($direction == \Magento\Reward\Model\Reward\Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY) {
             $fromIndex = 'points';
             $toIndex = 'currency_amount';
         } else {

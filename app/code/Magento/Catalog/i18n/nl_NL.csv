@@ -175,7 +175,7 @@
 "Category move operation is not possible: parent category is equal to child category.","Categorie verplaatsoperatie is niet mogelijk: broncategorie is gelijk aan kindcategorie."
 "Category move operation is not possible: the current category was not found.","Categorie verplaatsoperatie is niet mogelijk: de huidige categorie werd niet gevonden."
 "Category move operation is not possible: the new parent category was not found.","Categorie verplaatsoperatie is niet mogelijk: de nieuwe broncategorie werd niet gevonden."
-"Category must be an instance of Magento_Catalog_Model_Category.","Categorie moet een instantie zijn van Magento_Catalog_Model_Category."
+"Category must be an instance of \Magento\Catalog\Model\Category.","Categorie moet een instantie zijn van \Magento\Catalog\Model\Category."
 "Center","Centrum"
 "Change","Verander"
 "Change or Retrieve attribute store view","Verander of Herstel attribuut winkelbezichtiging"

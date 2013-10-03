@@ -14,51 +14,53 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-class Magento_Invitation_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Invitation\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     protected $_isRegistrationAllowed = null;
 
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData;
 
     /**
      * Customer data
      *
-     * @var Magento_Customer_Helper_Data
+     * @var \Magento\Customer\Helper\Data
      */
     protected $_customerData;
 
     /**
      * Invitation Status
      *
-     * @var Magento_Invitation_Model_Source_Invitation_Status
+     * @var \Magento\Invitation\Model\Source\Invitation\Status
      */
     protected $_invitationStatus;
 
     /**
      * Url builder
      *
-     * @var Magento_Core_Model_Url
+     * @var \Magento\Core\Model\Url
      */
     protected $_urlBuilder;
 
     /**
-     * @param Magento_Customer_Helper_Data $customerData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Invitation_Model_Source_Invitation_Status $invitationStatus
-     * @param Magento_Core_Model_Url $urlBuilder
+     * @param \Magento\Customer\Helper\Data $customerData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus
+     * @param \Magento\Core\Model\Url $urlBuilder
      */
     public function __construct(
-        Magento_Customer_Helper_Data $customerData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_Context $context,
-        Magento_Invitation_Model_Source_Invitation_Status $invitationStatus,
-        Magento_Core_Model_Url $urlBuilder
+        \Magento\Customer\Helper\Data $customerData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus,
+        \Magento\Core\Model\Url $urlBuilder
     ) {
         parent::__construct($context);
         $this->_customerData = $customerData;
@@ -71,7 +73,7 @@ class Magento_Invitation_Helper_Data extends Magento_Core_Helper_Abstract
      * Return text for invitation status
      *
      * @param $invitation
-     * @return Magento_Invitation_Model_Invitation
+     * @return \Magento\Invitation\Model\Invitation
      */
     public function getInvitationStatusText($invitation)
     {
@@ -81,7 +83,7 @@ class Magento_Invitation_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Return invitation url
      *
-     * @param Magento_Invitation_Model_Invitation $invitation
+     * @param \Magento\Invitation\Model\Invitation $invitation
      * @return string
      */
     public function getInvitationUrl($invitation)

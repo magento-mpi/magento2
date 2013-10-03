@@ -16,8 +16,10 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_Eav_Model_Resource_Attribute_Collection
-    extends Magento_Eav_Model_Resource_Entity_Attribute_Collection
+namespace Magento\Eav\Model\Resource\Attribute;
+
+abstract class Collection
+    extends \Magento\Eav\Model\Resource\Entity\Attribute\Collection
 {
     /**
      * code of password hash in customer's EAV tables
@@ -27,44 +29,44 @@ abstract class Magento_Eav_Model_Resource_Attribute_Collection
     /**
      * Current website scope instance
      *
-     * @var Magento_Core_Model_Website
+     * @var \Magento\Core\Model\Website
      */
     protected $_website;
 
     /**
      * Attribute Entity Type Filter
      *
-     * @var Magento_Eav_Model_Entity_Type
+     * @var \Magento\Eav\Model\Entity\Type
      */
     protected $_entityType;
 
     /**
-     * @var Magento_Eav_Model_Config
+     * @var \Magento\Eav\Model\Config
      */
     protected $_eavConfig;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_storeManager = $storeManager;
         $this->_eavConfig = $eavConfig;
@@ -101,7 +103,7 @@ abstract class Magento_Eav_Model_Resource_Attribute_Collection
     /**
      * Return eav entity type instance
      *
-     * @return Magento_Eav_Model_Entity_Type
+     * @return \Magento\Eav\Model\Entity\Type
      */
     public function getEntityType()
     {
@@ -114,8 +116,8 @@ abstract class Magento_Eav_Model_Resource_Attribute_Collection
     /**
      * Set Website scope
      *
-     * @param Magento_Core_Model_Website|int $website
-     * @return Magento_Eav_Model_Resource_Attribute_Collection
+     * @param \Magento\Core\Model\Website|int $website
+     * @return \Magento\Eav\Model\Resource\Attribute\Collection
      */
     public function setWebsite($website)
     {
@@ -127,7 +129,7 @@ abstract class Magento_Eav_Model_Resource_Attribute_Collection
     /**
      * Return current website scope instance
      *
-     * @return Magento_Core_Model_Website
+     * @return \Magento\Core\Model\Website
      */
     public function getWebsite()
     {
@@ -140,7 +142,7 @@ abstract class Magento_Eav_Model_Resource_Attribute_Collection
     /**
      * Initialize collection select
      *
-     * @return Magento_Eav_Model_Resource_Attribute_Collection
+     * @return \Magento\Eav\Model\Resource\Attribute\Collection
      */
     protected function _initSelect()
     {
@@ -218,7 +220,7 @@ abstract class Magento_Eav_Model_Resource_Attribute_Collection
      * Entity type is defined.
      *
      * @param  int $type
-     * @return Magento_Eav_Model_Resource_Attribute_Collection
+     * @return \Magento\Eav\Model\Resource\Attribute\Collection
      */
     public function setEntityTypeFilter($type)
     {
@@ -228,7 +230,7 @@ abstract class Magento_Eav_Model_Resource_Attribute_Collection
     /**
      * Specify filter by "is_visible" field
      *
-     * @return Magento_Eav_Model_Resource_Attribute_Collection
+     * @return \Magento\Eav\Model\Resource\Attribute\Collection
      */
     public function addVisibleFilter()
     {
@@ -238,7 +240,7 @@ abstract class Magento_Eav_Model_Resource_Attribute_Collection
     /**
      * Exclude system hidden attributes
      *
-     * @return Magento_Eav_Model_Resource_Attribute_Collection
+     * @return \Magento\Eav\Model\Resource\Attribute\Collection
      */
     public function addSystemHiddenFilter()
     {
@@ -252,7 +254,7 @@ abstract class Magento_Eav_Model_Resource_Attribute_Collection
     /**
      * Exclude system hidden attributes but include password hash
      *
-     * @return Magento_Customer_Model_Resource_Attribute_Collection
+     * @return \Magento\Customer\Model\Resource\Attribute\Collection
      */
     public function addSystemHiddenFilterWithPasswordHash()
     {
@@ -271,7 +273,7 @@ abstract class Magento_Eav_Model_Resource_Attribute_Collection
     /**
      * Add exclude hidden frontend input attribute filter to collection
      *
-     * @return Magento_Eav_Model_Resource_Attribute_Collection
+     * @return \Magento\Eav\Model\Resource\Attribute\Collection
      */
     public function addExcludeHiddenFrontendFilter()
     {

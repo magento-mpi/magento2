@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller\Sales\Order;
+
+class Create extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Additional initialization
@@ -24,23 +26,23 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
     protected function _construct()
     {
         // During order creation in the backend admin has ability to add any products to order
-        $this->_objectManager->get('Magento_Catalog_Helper_Product')->setSkipSaleableCheck(true);
+        $this->_objectManager->get('Magento\Catalog\Helper\Product')->setSkipSaleableCheck(true);
     }
 
     /**
      * Retrieve session object
      *
-     * @return Magento_Adminhtml_Model_Session_Quote
+     * @return \Magento\Adminhtml\Model\Session\Quote
      */
     protected function _getSession()
     {
-        return $this->_objectManager->get('Magento_Adminhtml_Model_Session_Quote');
+        return $this->_objectManager->get('Magento\Adminhtml\Model\Session\Quote');
     }
 
     /**
      * Retrieve quote object
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     protected function _getQuote()
     {
@@ -50,27 +52,27 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
     /**
      * Retrieve order create model
      *
-     * @return Magento_Adminhtml_Model_Sales_Order_Create
+     * @return \Magento\Adminhtml\Model\Sales\Order\Create
      */
     protected function _getOrderCreateModel()
     {
-        return $this->_objectManager->get('Magento_Adminhtml_Model_Sales_Order_Create');
+        return $this->_objectManager->get('Magento\Adminhtml\Model\Sales\Order\Create');
     }
 
     /**
      * Retrieve gift message save model
      *
-     * @return Magento_Adminhtml_Model_Giftmessage_Save
+     * @return \Magento\Adminhtml\Model\Giftmessage\Save
      */
     protected function _getGiftmessageSaveModel()
     {
-        return $this->_objectManager->get('Magento_Adminhtml_Model_Giftmessage_Save');
+        return $this->_objectManager->get('Magento\Adminhtml\Model\Giftmessage\Save');
     }
 
     /**
      * Initialize order creation session data
      *
-     * @return Magento_Adminhtml_Controller_Sales_Order_Create
+     * @return \Magento\Adminhtml\Controller\Sales\Order\Create
      */
     protected function _initSession()
     {
@@ -101,7 +103,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
     /**
      * Processing request data
      *
-     * @return Magento_Adminhtml_Controller_Sales_Order_Create
+     * @return \Magento\Adminhtml\Controller\Sales\Order\Create
      */
     protected function _processData()
     {
@@ -112,7 +114,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
      * Process request data with additional logic for saving quote and creating order
      *
      * @param string $action
-     * @return Magento_Adminhtml_Controller_Sales_Order_Create
+     * @return \Magento\Adminhtml\Controller\Sales\Order\Create
      */
     protected function _processActionData($action = null)
     {
@@ -260,7 +262,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
         if ($data = $this->getRequest()->getPost('add_products')) {
             $this->_getGiftmessageSaveModel()
                 ->importAllowQuoteItemsFromProducts(
-                    $this->_objectManager->get('Magento_Core_Helper_Data')->jsonDecode($data)
+                    $this->_objectManager->get('Magento\Core\Helper\Data')->jsonDecode($data)
                 );
         }
 
@@ -297,10 +299,10 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
      */
     protected function _processFiles($items)
     {
-        /* @var $productHelper Magento_Catalog_Helper_Product */
-        $productHelper = $this->_objectManager->get('Magento_Catalog_Helper_Product');
+        /* @var $productHelper \Magento\Catalog\Helper\Product */
+        $productHelper = $this->_objectManager->get('Magento\Catalog\Helper\Product');
         foreach ($items as $id => $item) {
-            $buyRequest = new Magento_Object($item);
+            $buyRequest = new \Magento\Object($item);
             $params = array('files_prefix' => 'item_' . $id . '_');
             $buyRequest = $productHelper->addParamsToBuyRequest($buyRequest, $params);
             if ($buyRequest->hasData()) {
@@ -328,8 +330,8 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
     {
         $this->_getSession()->clear();
         $orderId = $this->getRequest()->getParam('order_id');
-        $order = $this->_objectManager->create('Magento_Sales_Model_Order')->load($orderId);
-        if (!$this->_objectManager->get('Magento_Sales_Helper_Reorder')->canReorder($order)) {
+        $order = $this->_objectManager->create('Magento\Sales\Model\Order')->load($orderId);
+        if (!$this->_objectManager->get('Magento\Sales\Helper\Reorder')->canReorder($order)) {
             return $this->_forward('noRoute');
         }
 
@@ -362,11 +364,11 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
             $this->_initSession()
                 ->_processData();
         }
-        catch (Magento_Core_Exception $e){
+        catch (\Magento\Core\Exception $e){
             $this->_reloadQuote();
             $this->_getSession()->addError($e->getMessage());
         }
-        catch (Exception $e){
+        catch (\Exception $e){
             $this->_reloadQuote();
             $this->_getSession()->addException($e, $e->getMessage());
         }
@@ -395,7 +397,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
         $this->loadLayoutUpdates()->generateLayoutXml()->generateLayoutBlocks();
         $result = $this->getLayout()->renderElement('content');
         if ($request->getParam('as_js_varname')) {
-            $this->_objectManager->get('Magento_Adminhtml_Model_Session')->setUpdateResult($result);
+            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setUpdateResult($result);
             $this->_redirect('*/*/showUpdateResult');
         } else {
             $this->getResponse()->setBody($result);
@@ -412,13 +414,13 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
             $this->_initSession()
                 ->_processData();
         }
-        catch (Exception $e){
+        catch (\Exception $e){
             $this->_reloadQuote();
             $errorMessage = $e->getMessage();
         }
 
         // Form result for client javascript
-        $updateResult = new Magento_Object();
+        $updateResult = new \Magento\Object();
         if ($errorMessage) {
             $updateResult->setError(true);
             $updateResult->setMessage($errorMessage);
@@ -427,7 +429,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
         }
 
         $updateResult->setJsVarName($this->getRequest()->getParam('as_js_varname'));
-        $this->_objectManager->get('Magento_Adminhtml_Model_Session')->setCompositeProductResult($updateResult);
+        $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setCompositeProductResult($updateResult);
         $this->_redirect('*/catalog_product/showUpdateResult');
     }
 
@@ -466,11 +468,11 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
             $this->_processActionData('save');
             $paymentData = $this->getRequest()->getPost('payment');
             if ($paymentData) {
-                $paymentData['checks'] = Magento_Payment_Model_Method_Abstract::CHECK_USE_INTERNAL
-                    | Magento_Payment_Model_Method_Abstract::CHECK_USE_FOR_COUNTRY
-                    | Magento_Payment_Model_Method_Abstract::CHECK_USE_FOR_CURRENCY
-                    | Magento_Payment_Model_Method_Abstract::CHECK_ORDER_TOTAL_MIN_MAX
-                    | Magento_Payment_Model_Method_Abstract::CHECK_ZERO_TOTAL;
+                $paymentData['checks'] = \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_INTERNAL
+                    | \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_FOR_COUNTRY
+                    | \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_FOR_CURRENCY
+                    | \Magento\Payment\Model\Method\AbstractMethod::CHECK_ORDER_TOTAL_MIN_MAX
+                    | \Magento\Payment\Model\Method\AbstractMethod::CHECK_ZERO_TOTAL;
                 $this->_getOrderCreateModel()->setPaymentData($paymentData);
                 $this->_getOrderCreateModel()->getQuote()->getPayment()->addData($paymentData);
             }
@@ -481,27 +483,27 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
                 ->createOrder();
 
             $this->_getSession()->clear();
-            $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addSuccess(__('You created the order.'));
+            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(__('You created the order.'));
             if ($this->_authorization->isAllowed('Magento_Sales::actions_view')) {
                 $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
             } else {
                 $this->_redirect('*/sales_order/index');
             }
-        } catch (Magento_Payment_Model_Info_Exception $e) {
+        } catch (\Magento\Payment\Model\Info\Exception $e) {
             $this->_getOrderCreateModel()->saveQuote();
             $message = $e->getMessage();
             if( !empty($message) ) {
                 $this->_getSession()->addError($message);
             }
             $this->_redirect('*/*/');
-        } catch (Magento_Core_Exception $e){
+        } catch (\Magento\Core\Exception $e){
             $message = $e->getMessage();
             if( !empty($message) ) {
                 $this->_getSession()->addError($message);
             }
             $this->_redirect('*/*/');
         }
-        catch (Exception $e){
+        catch (\Exception $e){
             $this->_getSession()->addException($e, __('Order saving error: %1', $e->getMessage()));
             $this->_redirect('*/*/');
         }
@@ -536,22 +538,22 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
     /*
      * Ajax handler to response configuration fieldset of composite product in order
      *
-     * @return Magento_Adminhtml_Controller_Sales_Order_Create
+     * @return \Magento\Adminhtml\Controller\Sales\Order\Create
      */
     public function configureProductToAddAction()
     {
         // Prepare data
         $productId  = (int) $this->getRequest()->getParam('id');
 
-        $configureResult = new Magento_Object();
+        $configureResult = new \Magento\Object();
         $configureResult->setOk(true);
         $configureResult->setProductId($productId);
-        $sessionQuote = $this->_objectManager->get('Magento_Adminhtml_Model_Session_Quote');
+        $sessionQuote = $this->_objectManager->get('Magento\Adminhtml\Model\Session\Quote');
         $configureResult->setCurrentStoreId($sessionQuote->getStore()->getId());
         $configureResult->setCurrentCustomerId($sessionQuote->getCustomerId());
 
         // Render page
-        $this->_objectManager->get('Magento_Adminhtml_Helper_Catalog_Product_Composite')
+        $this->_objectManager->get('Magento\Adminhtml\Helper\Catalog\Product\Composite')
             ->renderConfigureResult($this, $configureResult);
 
         return $this;
@@ -560,41 +562,41 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
     /*
      * Ajax handler to response configuration fieldset of composite product in quote items
      *
-     * @return Magento_Adminhtml_Controller_Sales_Order_Create
+     * @return \Magento\Adminhtml\Controller\Sales\Order\Create
      */
     public function configureQuoteItemsAction()
     {
         // Prepare data
-        $configureResult = new Magento_Object();
+        $configureResult = new \Magento\Object();
         try {
             $quoteItemId = (int) $this->getRequest()->getParam('id');
             if (!$quoteItemId) {
-                throw new Magento_Core_Exception(__('Quote item id is not received.'));
+                throw new \Magento\Core\Exception(__('Quote item id is not received.'));
             }
 
-            $quoteItem = $this->_objectManager->create('Magento_Sales_Model_Quote_Item')->load($quoteItemId);
+            $quoteItem = $this->_objectManager->create('Magento\Sales\Model\Quote\Item')->load($quoteItemId);
             if (!$quoteItem->getId()) {
-                throw new Magento_Core_Exception(__('Quote item is not loaded.'));
+                throw new \Magento\Core\Exception(__('Quote item is not loaded.'));
             }
 
             $configureResult->setOk(true);
-            $optionCollection = $this->_objectManager->create('Magento_Sales_Model_Quote_Item_Option')->getCollection()
+            $optionCollection = $this->_objectManager->create('Magento\Sales\Model\Quote\Item\Option')->getCollection()
                     ->addItemFilter(array($quoteItemId));
             $quoteItem->setOptions($optionCollection->getOptionsByItem($quoteItem));
 
             $configureResult->setBuyRequest($quoteItem->getBuyRequest());
             $configureResult->setCurrentStoreId($quoteItem->getStoreId());
             $configureResult->setProductId($quoteItem->getProductId());
-            $sessionQuote = $this->_objectManager->get('Magento_Adminhtml_Model_Session_Quote');
+            $sessionQuote = $this->_objectManager->get('Magento\Adminhtml\Model\Session\Quote');
             $configureResult->setCurrentCustomerId($sessionQuote->getCustomerId());
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $configureResult->setError(true);
             $configureResult->setMessage($e->getMessage());
         }
 
         // Render page
-        $this->_objectManager->get('Magento_Adminhtml_Helper_Catalog_Product_Composite')
+        $this->_objectManager->get('Magento\Adminhtml\Helper\Catalog\Product\Composite')
             ->renderConfigureResult($this, $configureResult);
 
         return $this;
@@ -608,7 +610,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
      */
     public function showUpdateResultAction()
     {
-        $session = $this->_objectManager->get('Magento_Adminhtml_Model_Session');
+        $session = $this->_objectManager->get('Magento\Adminhtml\Model\Session');
         if ($session->hasUpdateResult() && is_scalar($session->getUpdateResult())) {
             $this->getResponse()->setBody($session->getUpdateResult());
             $session->unsUpdateResult();

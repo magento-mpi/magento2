@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Backend_Model_Config_Source_Web_Protocol implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Backend\Model\Config\Source\Web;
+
+class Protocol implements \Magento\Core\Model\Option\ArrayInterface
 {
 
     public function toOptionArray()

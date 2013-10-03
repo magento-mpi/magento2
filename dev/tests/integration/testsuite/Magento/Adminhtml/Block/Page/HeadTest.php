@@ -6,17 +6,19 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Page;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Page_HeadTest extends PHPUnit_Framework_TestCase
+class HeadTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstruct()
     {
         $this->assertInstanceOf(
-            'Magento_Adminhtml_Block_Page_Head',
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-                ->createBlock('Magento_Adminhtml_Block_Page_Head')
+            'Magento\Adminhtml\Block\Page\Head',
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+                ->createBlock('Magento\Adminhtml\Block\Page\Head')
         );
     }
 }

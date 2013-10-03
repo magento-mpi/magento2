@@ -11,8 +11,10 @@
 /**
  * File uploader form element renderer
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Uploader
-    extends Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Recursive
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer;
+
+class Uploader
+    extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\Recursive
 {
     /**
      * Set of templates to render

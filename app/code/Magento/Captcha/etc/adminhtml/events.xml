@@ -9,9 +9,9 @@
 -->
 <config>
     <event name="controller_action_predispatch_adminhtml_auth_forgotpassword">
-        <observer name="captcha" instance="Magento_Captcha_Model_Observer" method="checkUserForgotPasswordBackend" />
+        <observer name="captcha" instance="Magento\Captcha\Model\Observer" method="checkUserForgotPasswordBackend" />
     </event>
     <event name="controller_action_predispatch_customer_account_forgotpasswordpost">
-        <observer name="captcha" instance="Magento_Captcha_Model_Observer" method="checkForgotPassword" />
+        <observer name="captcha" instance="Magento\Captcha\Model\Observer" method="checkForgotPassword" />
     </event>
 </config>

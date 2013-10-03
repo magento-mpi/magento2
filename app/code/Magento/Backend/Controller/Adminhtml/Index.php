@@ -11,7 +11,9 @@
 /**
  * Index backend controller
  */
-class Magento_Backend_Controller_Adminhtml_Index extends Magento_Backend_Controller_ActionAbstract
+namespace Magento\Backend\Controller\Adminhtml;
+
+class Index extends \Magento\Backend\Controller\AbstractAction
 {
     /**
      * Admin area entry point

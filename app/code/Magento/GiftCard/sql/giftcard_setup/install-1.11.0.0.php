@@ -9,7 +9,7 @@
  */
 
 $installer = $this;
-/* @var $installer Magento_Catalog_Model_Resource_Setup */
+/* @var $installer \Magento\Catalog\Model\Resource\Setup */
 
 $installer->startSetup();
 
@@ -18,30 +18,30 @@ $installer->startSetup();
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('magento_giftcard_amount'))
-    ->addColumn('value_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('value_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Value Id')
-    ->addColumn('website_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('website_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Website Id')
-    ->addColumn('value', Magento_DB_Ddl_Table::TYPE_DECIMAL, '12,4', array(
+    ->addColumn('value', \Magento\DB\Ddl\Table::TYPE_DECIMAL, '12,4', array(
         'nullable'  => false,
         'default'   => '0.0000',
         ), 'Value')
-    ->addColumn('entity_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('entity_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Entity Id')
-    ->addColumn('entity_type_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('entity_type_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         ), 'Entity Type Id')
-    ->addColumn('attribute_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('attribute_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         ), 'Attribute Id')
@@ -53,13 +53,13 @@ $table = $installer->getConnection()
         array('attribute_id'))
     ->addForeignKey($installer->getFkName('magento_giftcard_amount', 'entity_id', 'catalog_product_entity', 'entity_id'),
         'entity_id', $installer->getTable('catalog_product_entity'), 'entity_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('magento_giftcard_amount', 'website_id', 'core_website', 'website_id'),
         'website_id', $installer->getTable('core_website'), 'website_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('magento_giftcard_amount', 'attribute_id', 'eav_attribute', 'attribute_id'),
         'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Enterprise Giftcard Amount');
 $installer->getConnection()->createTable($table);
 
@@ -69,13 +69,13 @@ $installer->getConnection()->createTable($table);
 $installer->addAttribute('catalog_product', 'giftcard_amounts', array(
         'group'             => 'Prices',
         'type'              => 'decimal',
-        'backend'           => 'Magento_GiftCard_Model_Attribute_Backend_Giftcard_Amount',
+        'backend'           => 'Magento\GiftCard\Model\Attribute\Backend\Giftcard\Amount',
         'frontend'          => '',
         'label'             => 'Amounts',
         'input'             => 'price',
         'class'             => '',
         'source'            => '',
-        'global'            => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE,
+        'global'            => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
         'visible'           => true,
         'required'          => false,
         'user_defined'      => false,
@@ -99,8 +99,8 @@ $installer->addAttribute('catalog_product', 'allow_open_amount', array(
         'label'             => 'Allow Open Amount',
         'input'             => 'select',
         'class'             => '',
-        'source'            => 'Magento_GiftCard_Model_Source_Open',
-        'global'            => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE,
+        'source'            => 'Magento\GiftCard\Model\Source\Open',
+        'global'            => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
         'visible'           => true,
         'required'          => true,
         'user_defined'      => false,
@@ -118,13 +118,13 @@ $installer->addAttribute('catalog_product', 'allow_open_amount', array(
 $installer->addAttribute('catalog_product', 'open_amount_min', array(
         'group'             => 'Prices',
         'type'              => 'decimal',
-        'backend'           => 'Magento_Catalog_Model_Product_Attribute_Backend_Price',
+        'backend'           => 'Magento\Catalog\Model\Product\Attribute\Backend\Price',
         'frontend'          => '',
         'label'             => 'Open Amount Min Value',
         'input'             => 'price',
         'class'             => 'validate-number',
         'source'            => '',
-        'global'            => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE,
+        'global'            => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
         'visible'           => true,
         'required'          => false,
         'user_defined'      => false,
@@ -142,13 +142,13 @@ $installer->addAttribute('catalog_product', 'open_amount_min', array(
 $installer->addAttribute('catalog_product', 'open_amount_max', array(
         'group'             => 'Prices',
         'type'              => 'decimal',
-        'backend'           => 'Magento_Catalog_Model_Product_Attribute_Backend_Price',
+        'backend'           => 'Magento\Catalog\Model\Product\Attribute\Backend\Price',
         'frontend'          => '',
         'label'             => 'Open Amount Max Value',
         'input'             => 'price',
         'class'             => 'validate-number',
         'source'            => '',
-        'global'            => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE,
+        'global'            => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
         'visible'           => true,
         'required'          => false,
         'user_defined'      => false,
@@ -172,8 +172,8 @@ $installer->addAttribute('catalog_product', 'giftcard_type', array(
         'label'             => 'Card Type',
         'input'             => 'select',
         'class'             => '',
-        'source'            => 'Magento_GiftCard_Model_Source_Type',
-        'global'            => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
+        'source'            => 'Magento\GiftCard\Model\Source\Type',
+        'global'            => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL,
         'visible'           => false,
         'required'          => true,
         'user_defined'      => false,
@@ -196,7 +196,7 @@ $installer->addAttribute('catalog_product', 'is_redeemable', array(
         'input'             => 'text',
         'class'             => '',
         'source'            => '',
-        'global'            => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE,
+        'global'            => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
         'visible'           => false,
         'required'          => false,
         'user_defined'      => false,
@@ -219,7 +219,7 @@ $installer->addAttribute('catalog_product', 'use_config_is_redeemable', array(
         'input'             => 'text',
         'class'             => '',
         'source'            => '',
-        'global'            => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE,
+        'global'            => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
         'visible'           => false,
         'required'          => false,
         'user_defined'      => false,
@@ -242,7 +242,7 @@ $installer->addAttribute('catalog_product', 'lifetime', array(
         'input'             => 'text',
         'class'             => '',
         'source'            => '',
-        'global'            => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE,
+        'global'            => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
         'visible'           => false,
         'required'          => false,
         'user_defined'      => false,
@@ -265,7 +265,7 @@ $installer->addAttribute('catalog_product', 'use_config_lifetime', array(
         'input'             => 'text',
         'class'             => '',
         'source'            => '',
-        'global'            => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE,
+        'global'            => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
         'visible'           => false,
         'required'          => false,
         'user_defined'      => false,
@@ -288,7 +288,7 @@ $installer->addAttribute('catalog_product', 'email_template', array(
         'input'             => 'text',
         'class'             => '',
         'source'            => '',
-        'global'            => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
+        'global'            => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
         'visible'           => false,
         'required'          => false,
         'user_defined'      => false,
@@ -311,7 +311,7 @@ $installer->addAttribute('catalog_product', 'use_config_email_template', array(
         'input'             => 'text',
         'class'             => '',
         'source'            => '',
-        'global'            => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
+        'global'            => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
         'visible'           => false,
         'required'          => false,
         'user_defined'      => false,
@@ -334,7 +334,7 @@ $installer->addAttribute('catalog_product', 'allow_message', array(
         'input'             => 'text',
         'class'             => '',
         'source'            => '',
-        'global'            => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
+        'global'            => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
         'visible'           => false,
         'required'          => false,
         'user_defined'      => false,
@@ -357,7 +357,7 @@ $installer->addAttribute('catalog_product', 'use_config_allow_message', array(
         'input'             => 'text',
         'class'             => '',
         'source'            => '',
-        'global'            => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
+        'global'            => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
         'visible'           => false,
         'required'          => false,
         'user_defined'      => false,

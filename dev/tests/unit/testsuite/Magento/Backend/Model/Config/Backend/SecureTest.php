@@ -5,16 +5,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Backend_Model_Config_Backend_SecureTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Config\Backend;
+
+class SecureTest extends \PHPUnit_Framework_TestCase
 {
     public function testSaveMergedJsCssMustBeCleaned()
     {
-        $eventDispatcher = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
-        $appState = $this->getMock('Magento_Core_Model_App_State', array(), array(), '', false);
-        $storeManager = $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false);
-        $cacheManager = $this->getMock('Magento_Core_Model_CacheInterface');
-        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
-        $context = new Magento_Core_Model_Context(
+        $eventDispatcher = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
+        $appState = $this->getMock('Magento\Core\Model\App\State', array(), array(), '', false);
+        $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
+        $cacheManager = $this->getMock('Magento\Core\Model\CacheInterface');
+        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $context = new \Magento\Core\Model\Context(
             $logger,
             $eventDispatcher,
             $cacheManager,
@@ -22,18 +24,18 @@ class Magento_Backend_Model_Config_Backend_SecureTest extends PHPUnit_Framework_
             $storeManager
         );
 
-        $resource = $this->getMock('Magento_Core_Model_Resource_Config_Data', array(), array(), '', false);
+        $resource = $this->getMock('Magento\Core\Model\Resource\Config\Data', array(), array(), '', false);
         $resource->expects($this->any())
             ->method('addCommitCallback')
             ->will($this->returnValue($resource));
-        $resourceCollection = $this->getMock('Magento_Data_Collection_Db', array(), array(), '', false);
-        $mergeService = $this->getMock('Magento_Core_Model_Page_Asset_MergeService', array(), array(), '', false);
-        $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
-        $coreConfig = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
-        $storeManager = $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false);
+        $resourceCollection = $this->getMock('Magento\Data\Collection\Db', array(), array(), '', false);
+        $mergeService = $this->getMock('Magento\Core\Model\Page\Asset\MergeService', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
+        $coreConfig = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
+        $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
 
         $model = $this->getMock(
-            'Magento_Backend_Model_Config_Backend_Secure',
+            'Magento\Backend\Model\Config\Backend\Secure',
             array('getOldValue'),
             array(
                 $context,

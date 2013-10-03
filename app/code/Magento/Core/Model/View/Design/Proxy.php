@@ -11,33 +11,35 @@
 /**
  * Design proxy
  */
-class Magento_Core_Model_View_Design_Proxy implements Magento_Core_Model_View_DesignInterface
+namespace Magento\Core\Model\View\Design;
+
+class Proxy implements \Magento\Core\Model\View\DesignInterface
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @var Magento_Core_Model_View_Design
+     * @var \Magento\Core\Model\View\Design
      */
     protected $_model;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
 
     /**
-     * @return Magento_Core_Model_View_Design
+     * @return \Magento\Core\Model\View\Design
      */
     protected function _getInstance()
     {
         if (null === $this->_model) {
-            $this->_model = $this->_objectManager->get('Magento_Core_Model_View_Design');
+            $this->_model = $this->_objectManager->get('Magento\Core\Model\View\Design');
         }
         return $this->_model;
     }
@@ -46,7 +48,7 @@ class Magento_Core_Model_View_Design_Proxy implements Magento_Core_Model_View_De
      * Set package area
      *
      * @param string $area
-     * @return Magento_Core_Model_View_DesignInterface
+     * @return \Magento\Core\Model\View\DesignInterface
      */
     public function setArea($area)
     {
@@ -66,9 +68,9 @@ class Magento_Core_Model_View_Design_Proxy implements Magento_Core_Model_View_De
     /**
      * Set theme path
      *
-     * @param Magento_Core_Model_Theme|int|string $theme
+     * @param \Magento\Core\Model\Theme|int|string $theme
      * @param string $area
-     * @return Magento_Core_Model_View_DesignInterface
+     * @return \Magento\Core\Model\View\DesignInterface
      */
     public function setDesignTheme($theme, $area = null)
     {
@@ -90,7 +92,7 @@ class Magento_Core_Model_View_Design_Proxy implements Magento_Core_Model_View_De
     /**
      * Set default design theme
      *
-     * @return Magento_Core_Model_View_DesignInterface
+     * @return \Magento\Core\Model\View\DesignInterface
      */
     public function setDefaultDesignTheme()
     {
@@ -100,7 +102,7 @@ class Magento_Core_Model_View_Design_Proxy implements Magento_Core_Model_View_De
     /**
      * Design theme model getter
      *
-     * @return Magento_Core_Model_Theme
+     * @return \Magento\Core\Model\Theme
      */
     public function getDesignTheme()
     {

@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model;
+
+class StoreTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var array
@@ -17,7 +19,7 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
     protected $_modelParams;
 
     /**
-     * @var Magento_Core_Model_Store|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Store|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
@@ -27,29 +29,29 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return PHPUnit_Framework_MockObject_MockObject|Magento_Core_Model_Store
+     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Store
      */
     protected function _getStoreModel()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_modelParams = array(
-            'coreFileStorageDatabase' => $objectManager->get('Magento_Core_Helper_File_Storage_Database'),
-            'context'                 => $objectManager->get('Magento_Core_Model_Context'),
-            'registry'                => $objectManager->get('Magento_Core_Model_Registry'),
-            'configCacheType'         => $objectManager->get('Magento_Core_Model_Cache_Type_Config'),
-            'url'                     => $objectManager->get('Magento_Core_Model_Url'),
-            'appState'                => $objectManager->get('Magento_Core_Model_App_State'),
-            'request'                 => $objectManager->get('Magento_Core_Controller_Request_Http'),
-            'configDataResource'      => $objectManager->get('Magento_Core_Model_Resource_Config_Data'),
-            'dir'                     => $objectManager->get('Magento_Core_Model_Dir'),
-            'coreStoreConfig'         => $objectManager->get('Magento_Core_Model_Store_Config'),
-            'coreConfig'              => $objectManager->get('Magento_Core_Model_Config'),
-            'resource'                => $objectManager->get('Magento_Core_Model_Resource_Store'),
-            'storeManager'            => $objectManager->get('Magento_Core_Model_StoreManager'),
+            'coreFileStorageDatabase' => $objectManager->get('Magento\Core\Helper\File\Storage\Database'),
+            'context'                 => $objectManager->get('Magento\Core\Model\Context'),
+            'registry'                => $objectManager->get('Magento\Core\Model\Registry'),
+            'configCacheType'         => $objectManager->get('Magento\Core\Model\Cache\Type\Config'),
+            'url'                     => $objectManager->get('Magento\Core\Model\Url'),
+            'appState'                => $objectManager->get('Magento\Core\Model\App\State'),
+            'request'                 => $objectManager->get('Magento\Core\Controller\Request\Http'),
+            'configDataResource'      => $objectManager->get('Magento\Core\Model\Resource\Config\Data'),
+            'dir'                     => $objectManager->get('Magento\Core\Model\Dir'),
+            'coreStoreConfig'         => $objectManager->get('Magento\Core\Model\Store\Config'),
+            'coreConfig'              => $objectManager->get('Magento\Core\Model\Config'),
+            'resource'                => $objectManager->get('Magento\Core\Model\Resource\Store'),
+            'storeManager'            => $objectManager->get('Magento\Core\Model\StoreManager'),
         );
 
         return $this->getMock(
-            'Magento_Core_Model_Store',
+            'Magento\Core\Model\Store',
             array('getUrl'),
             $this->_modelParams
         );
@@ -85,22 +87,22 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
     {
         /* config operations require store to be loaded */
         $this->_model->load('default');
-        $value = $this->_model->getConfig(Magento_Core_Model_Store::XML_PATH_STORE_IN_URL);
-        $this->_model->setConfig(Magento_Core_Model_Store::XML_PATH_STORE_IN_URL, 'test');
-        $this->assertEquals('test', $this->_model->getConfig(Magento_Core_Model_Store::XML_PATH_STORE_IN_URL));
-        $this->_model->setConfig(Magento_Core_Model_Store::XML_PATH_STORE_IN_URL, $value);
+        $value = $this->_model->getConfig(\Magento\Core\Model\Store::XML_PATH_STORE_IN_URL);
+        $this->_model->setConfig(\Magento\Core\Model\Store::XML_PATH_STORE_IN_URL, 'test');
+        $this->assertEquals('test', $this->_model->getConfig(\Magento\Core\Model\Store::XML_PATH_STORE_IN_URL));
+        $this->_model->setConfig(\Magento\Core\Model\Store::XML_PATH_STORE_IN_URL, $value);
 
         /* Call set before get */
-        $this->_model->setConfig(Magento_Core_Model_Store::XML_PATH_USE_REWRITES, 1);
-        $this->assertEquals(1, $this->_model->getConfig(Magento_Core_Model_Store::XML_PATH_USE_REWRITES));
-        $this->_model->setConfig(Magento_Core_Model_Store::XML_PATH_USE_REWRITES, 0);
+        $this->_model->setConfig(\Magento\Core\Model\Store::XML_PATH_USE_REWRITES, 1);
+        $this->assertEquals(1, $this->_model->getConfig(\Magento\Core\Model\Store::XML_PATH_USE_REWRITES));
+        $this->_model->setConfig(\Magento\Core\Model\Store::XML_PATH_USE_REWRITES, 0);
     }
 
     public function testSetGetWebsite()
     {
         $this->assertFalse($this->_model->getWebsite());
-        $website = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_StoreManagerInterface')->getWebsite();
+        $website = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\StoreManagerInterface')->getWebsite();
         $this->_model->setWebsite($website);
         $actualResult = $this->_model->getWebsite();
         $this->assertSame($website, $actualResult);
@@ -109,7 +111,7 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
     public function testSetGetGroup()
     {
         $this->assertFalse($this->_model->getGroup());
-        $storeGroup = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+        $storeGroup = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
             ->getGroup();
         $this->_model->setGroup($storeGroup);
         $actualResult = $this->_model->getGroup();
@@ -130,8 +132,8 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
     {
         /* config operations require store to be loaded */
         $this->_model->load('default');
-        $this->_model->setConfig(Magento_Core_Model_Store::XML_PATH_USE_REWRITES, $useRewrites);
-        $this->_model->setConfig(Magento_Core_Model_Store::XML_PATH_STORE_IN_URL, $useStoreCode);
+        $this->_model->setConfig(\Magento\Core\Model\Store::XML_PATH_USE_REWRITES, $useRewrites);
+        $this->_model->setConfig(\Magento\Core\Model\Store::XML_PATH_STORE_IN_URL, $useStoreCode);
 
         $actual = $this->_model->getBaseUrl($type);
         $this->assertEquals($expected, $actual);
@@ -143,34 +145,34 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
     public function getBaseUrlDataProvider()
     {
         return array(
-            array(Magento_Core_Model_Store::URL_TYPE_WEB, false, false, 'http://localhost/'),
-            array(Magento_Core_Model_Store::URL_TYPE_WEB, false, true,  'http://localhost/'),
-            array(Magento_Core_Model_Store::URL_TYPE_WEB, true,  false, 'http://localhost/'),
-            array(Magento_Core_Model_Store::URL_TYPE_WEB, true,  true,  'http://localhost/'),
-            array(Magento_Core_Model_Store::URL_TYPE_LINK, false, false, 'http://localhost/index.php/'),
-            array(Magento_Core_Model_Store::URL_TYPE_LINK, false, true,  'http://localhost/index.php/default/'),
-            array(Magento_Core_Model_Store::URL_TYPE_LINK, true,  false, 'http://localhost/'),
-            array(Magento_Core_Model_Store::URL_TYPE_LINK, true,  true,  'http://localhost/default/'),
-            array(Magento_Core_Model_Store::URL_TYPE_DIRECT_LINK, false, false, 'http://localhost/index.php/'),
-            array(Magento_Core_Model_Store::URL_TYPE_DIRECT_LINK, false, true,  'http://localhost/index.php/'),
-            array(Magento_Core_Model_Store::URL_TYPE_DIRECT_LINK, true,  false, 'http://localhost/'),
-            array(Magento_Core_Model_Store::URL_TYPE_DIRECT_LINK, true,  true,  'http://localhost/'),
-            array(Magento_Core_Model_Store::URL_TYPE_STATIC, false, false, 'http://localhost/pub/static/'),
-            array(Magento_Core_Model_Store::URL_TYPE_STATIC, false, true,  'http://localhost/pub/static/'),
-            array(Magento_Core_Model_Store::URL_TYPE_STATIC, true,  false, 'http://localhost/pub/static/'),
-            array(Magento_Core_Model_Store::URL_TYPE_STATIC, true,  true,  'http://localhost/pub/static/'),
-            array(Magento_Core_Model_Store::URL_TYPE_CACHE, false, false, 'http://localhost/pub/cache/'),
-            array(Magento_Core_Model_Store::URL_TYPE_CACHE, false, true,  'http://localhost/pub/cache/'),
-            array(Magento_Core_Model_Store::URL_TYPE_CACHE, true,  false, 'http://localhost/pub/cache/'),
-            array(Magento_Core_Model_Store::URL_TYPE_CACHE, true,  true,  'http://localhost/pub/cache/'),
-            array(Magento_Core_Model_Store::URL_TYPE_LIB, false, false, 'http://localhost/pub/lib/'),
-            array(Magento_Core_Model_Store::URL_TYPE_LIB, false, true,  'http://localhost/pub/lib/'),
-            array(Magento_Core_Model_Store::URL_TYPE_LIB, true,  false, 'http://localhost/pub/lib/'),
-            array(Magento_Core_Model_Store::URL_TYPE_LIB, true,  true,  'http://localhost/pub/lib/'),
-            array(Magento_Core_Model_Store::URL_TYPE_MEDIA, false, false, 'http://localhost/pub/media/'),
-            array(Magento_Core_Model_Store::URL_TYPE_MEDIA, false, true,  'http://localhost/pub/media/'),
-            array(Magento_Core_Model_Store::URL_TYPE_MEDIA, true,  false, 'http://localhost/pub/media/'),
-            array(Magento_Core_Model_Store::URL_TYPE_MEDIA, true,  true,  'http://localhost/pub/media/'),
+            array(\Magento\Core\Model\Store::URL_TYPE_WEB, false, false, 'http://localhost/'),
+            array(\Magento\Core\Model\Store::URL_TYPE_WEB, false, true,  'http://localhost/'),
+            array(\Magento\Core\Model\Store::URL_TYPE_WEB, true,  false, 'http://localhost/'),
+            array(\Magento\Core\Model\Store::URL_TYPE_WEB, true,  true,  'http://localhost/'),
+            array(\Magento\Core\Model\Store::URL_TYPE_LINK, false, false, 'http://localhost/index.php/'),
+            array(\Magento\Core\Model\Store::URL_TYPE_LINK, false, true,  'http://localhost/index.php/default/'),
+            array(\Magento\Core\Model\Store::URL_TYPE_LINK, true,  false, 'http://localhost/'),
+            array(\Magento\Core\Model\Store::URL_TYPE_LINK, true,  true,  'http://localhost/default/'),
+            array(\Magento\Core\Model\Store::URL_TYPE_DIRECT_LINK, false, false, 'http://localhost/index.php/'),
+            array(\Magento\Core\Model\Store::URL_TYPE_DIRECT_LINK, false, true,  'http://localhost/index.php/'),
+            array(\Magento\Core\Model\Store::URL_TYPE_DIRECT_LINK, true,  false, 'http://localhost/'),
+            array(\Magento\Core\Model\Store::URL_TYPE_DIRECT_LINK, true,  true,  'http://localhost/'),
+            array(\Magento\Core\Model\Store::URL_TYPE_STATIC, false, false, 'http://localhost/pub/static/'),
+            array(\Magento\Core\Model\Store::URL_TYPE_STATIC, false, true,  'http://localhost/pub/static/'),
+            array(\Magento\Core\Model\Store::URL_TYPE_STATIC, true,  false, 'http://localhost/pub/static/'),
+            array(\Magento\Core\Model\Store::URL_TYPE_STATIC, true,  true,  'http://localhost/pub/static/'),
+            array(\Magento\Core\Model\Store::URL_TYPE_CACHE, false, false, 'http://localhost/pub/cache/'),
+            array(\Magento\Core\Model\Store::URL_TYPE_CACHE, false, true,  'http://localhost/pub/cache/'),
+            array(\Magento\Core\Model\Store::URL_TYPE_CACHE, true,  false, 'http://localhost/pub/cache/'),
+            array(\Magento\Core\Model\Store::URL_TYPE_CACHE, true,  true,  'http://localhost/pub/cache/'),
+            array(\Magento\Core\Model\Store::URL_TYPE_LIB, false, false, 'http://localhost/pub/lib/'),
+            array(\Magento\Core\Model\Store::URL_TYPE_LIB, false, true,  'http://localhost/pub/lib/'),
+            array(\Magento\Core\Model\Store::URL_TYPE_LIB, true,  false, 'http://localhost/pub/lib/'),
+            array(\Magento\Core\Model\Store::URL_TYPE_LIB, true,  true,  'http://localhost/pub/lib/'),
+            array(\Magento\Core\Model\Store::URL_TYPE_MEDIA, false, false, 'http://localhost/pub/media/'),
+            array(\Magento\Core\Model\Store::URL_TYPE_MEDIA, false, true,  'http://localhost/pub/media/'),
+            array(\Magento\Core\Model\Store::URL_TYPE_MEDIA, true,  false, 'http://localhost/pub/media/'),
+            array(\Magento\Core\Model\Store::URL_TYPE_MEDIA, true,  true,  'http://localhost/pub/media/'),
         );
     }
 
@@ -179,23 +181,23 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
      */
     public function testGetBaseUrlInPub()
     {
-        Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
-            Magento_Core_Model_App::PARAM_APP_URIS => array(Magento_Core_Model_Dir::PUB => '')
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
+            \Magento\Core\Model\App::PARAM_APP_URIS => array(\Magento\Core\Model\Dir::PUB => '')
         ));
         $this->_model = $this->_getStoreModel();
         $this->_model->load('default');
 
         $this->assertEquals(
             'http://localhost/static/',
-            $this->_model->getBaseUrl(Magento_Core_Model_Store::URL_TYPE_STATIC)
+            $this->_model->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_STATIC)
         );
         $this->assertEquals(
             'http://localhost/lib/',
-            $this->_model->getBaseUrl(Magento_Core_Model_Store::URL_TYPE_LIB)
+            $this->_model->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_LIB)
         );
         $this->assertEquals(
             'http://localhost/media/',
-            $this->_model->getBaseUrl(Magento_Core_Model_Store::URL_TYPE_MEDIA)
+            $this->_model->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_MEDIA)
         );
     }
 
@@ -213,13 +215,13 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
     {
         /* config operations require store to be loaded */
         $this->_model->load('default');
-        $this->_model->setConfig(Magento_Core_Model_Store::XML_PATH_USE_REWRITES, false);
-        $this->_model->setConfig(Magento_Core_Model_Store::XML_PATH_STORE_IN_URL, $useStoreCode);
+        $this->_model->setConfig(\Magento\Core\Model\Store::XML_PATH_USE_REWRITES, false);
+        $this->_model->setConfig(\Magento\Core\Model\Store::XML_PATH_STORE_IN_URL, $useStoreCode);
 
         // emulate custom entry point
         $_SERVER['SCRIPT_FILENAME'] = 'custom_entry.php';
         if ($useCustomEntryPoint) {
-            $property = new ReflectionProperty($this->_model, '_isCustomEntryPoint');
+            $property = new \ReflectionProperty($this->_model, '_isCustomEntryPoint');
             $property->setAccessible(true);
             $property->setValue($this->_model, $useCustomEntryPoint);
         }
@@ -233,14 +235,14 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
     public function getBaseUrlForCustomEntryPointDataProvider()
     {
         return array(
-            array(Magento_Core_Model_Store::URL_TYPE_LINK, false, false, 'http://localhost/custom_entry.php/'),
-            array(Magento_Core_Model_Store::URL_TYPE_LINK, false, true,  'http://localhost/custom_entry.php/default/'),
-            array(Magento_Core_Model_Store::URL_TYPE_LINK, true, false, 'http://localhost/index.php/'),
-            array(Magento_Core_Model_Store::URL_TYPE_LINK, true, true,  'http://localhost/index.php/default/'),
-            array(Magento_Core_Model_Store::URL_TYPE_DIRECT_LINK, false, false, 'http://localhost/custom_entry.php/'),
-            array(Magento_Core_Model_Store::URL_TYPE_DIRECT_LINK, false, true,  'http://localhost/custom_entry.php/'),
-            array(Magento_Core_Model_Store::URL_TYPE_DIRECT_LINK, true,  false, 'http://localhost/index.php/'),
-            array(Magento_Core_Model_Store::URL_TYPE_DIRECT_LINK, true,  true,  'http://localhost/index.php/'),
+            array(\Magento\Core\Model\Store::URL_TYPE_LINK, false, false, 'http://localhost/custom_entry.php/'),
+            array(\Magento\Core\Model\Store::URL_TYPE_LINK, false, true,  'http://localhost/custom_entry.php/default/'),
+            array(\Magento\Core\Model\Store::URL_TYPE_LINK, true, false, 'http://localhost/index.php/'),
+            array(\Magento\Core\Model\Store::URL_TYPE_LINK, true, true,  'http://localhost/index.php/default/'),
+            array(\Magento\Core\Model\Store::URL_TYPE_DIRECT_LINK, false, false, 'http://localhost/custom_entry.php/'),
+            array(\Magento\Core\Model\Store::URL_TYPE_DIRECT_LINK, false, true,  'http://localhost/custom_entry.php/'),
+            array(\Magento\Core\Model\Store::URL_TYPE_DIRECT_LINK, true,  false, 'http://localhost/index.php/'),
+            array(\Magento\Core\Model\Store::URL_TYPE_DIRECT_LINK, true,  true,  'http://localhost/index.php/'),
         );
     }
 
@@ -252,12 +254,12 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @todo refactor Magento_Core_Model_Store::getPriceFilter, it can return two different types
+     * @todo refactor \Magento\Core\Model\Store::getPriceFilter, it can return two different types
      */
     public function testGetPriceFilter()
     {
         $this->_model->load('default');
-        $this->assertInstanceOf('Magento_Directory_Model_Currency_Filter', $this->_model->getPriceFilter());
+        $this->assertInstanceOf('Magento\Directory\Model\Currency\Filter', $this->_model->getPriceFilter());
     }
 
     public function testIsCanDelete()
@@ -296,9 +298,9 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
         );
 
         /* emulate admin store */
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
-            ->getStore()->setId(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
-        $crud = new Magento_TestFramework_Entity($this->_model, array('name' => 'new name'));
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            ->getStore()->setId(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
+        $crud = new \Magento\TestFramework\Entity($this->_model, array('name' => 'new name'));
         $crud->testCrud();
     }
 
@@ -308,7 +310,7 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
      * @dataProvider saveValidationDataProvider
      * @magentoAppIsolation enabled
      * @magentoDbIsolation enabled
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      */
     public function testSaveValidation($badStoreData)
     {
@@ -325,8 +327,8 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
         $this->_model->setData($data);
 
         /* emulate admin store */
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
-            ->getStore()->setId(Magento_Core_Model_App::ADMIN_STORE_ID);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            ->getStore()->setId(\Magento\Core\Model\App::ADMIN_STORE_ID);
         $this->_model->save();
     }
 
@@ -353,7 +355,7 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
      */
     public function testIsUseStoreInUrl($isInstalled, $storeInUrl, $storeId, $expectedResult)
     {
-        $appStateMock = $this->getMock('Magento_Core_Model_App_State', array(), array(), '', false, false);
+        $appStateMock = $this->getMock('Magento\Core\Model\App\State', array(), array(), '', false, false);
         $appStateMock->expects($this->any())
             ->method('isInstalled')
             ->will($this->returnValue($isInstalled));
@@ -361,10 +363,10 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
         $params = $this->_modelParams;
         $params['appState'] = $appStateMock;
 
-        $model = $this->getMock('Magento_Core_Model_Store', array('getConfig'), $params);
+        $model = $this->getMock('Magento\Core\Model\Store', array('getConfig'), $params);
 
         $model->expects($this->any())->method('getConfig')
-            ->with($this->stringContains(Magento_Core_Model_Store::XML_PATH_STORE_IN_URL))
+            ->with($this->stringContains(\Magento\Core\Model\Store::XML_PATH_STORE_IN_URL))
             ->will($this->returnValue($storeInUrl));
         $model->setStoreId($storeId);
         $this->assertEquals($model->isUseStoreInUrl(), $expectedResult);

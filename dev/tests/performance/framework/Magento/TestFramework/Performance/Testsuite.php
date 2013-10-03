@@ -11,7 +11,9 @@
 /**
  * Performance test suite represents set of performance testing scenarios
  */
-class Magento_TestFramework_Performance_Testsuite
+namespace Magento\TestFramework\Performance;
+
+class Testsuite
 {
     /**
      * Do not perform scenario warm up
@@ -19,19 +21,19 @@ class Magento_TestFramework_Performance_Testsuite
     const SETTING_SKIP_WARM_UP = 'skip_warm_up';
 
     /**
-     * @var Magento_TestFramework_Performance_Config
+     * @var \Magento\TestFramework\Performance\Config
      */
     protected $_config;
 
     /**
      * Application instance to apply fixtures to
      *
-     * @var Magento_TestFramework_Application
+     * @var \Magento\TestFramework\Application
      */
     protected $_application;
 
     /**
-     * @var Magento_TestFramework_Performance_Scenario_HandlerInterface
+     * @var \Magento\TestFramework\Performance\Scenario\HandlerInterface
      */
     protected $_scenarioHandler;
 
@@ -39,8 +41,8 @@ class Magento_TestFramework_Performance_Testsuite
      * @var array
      */
     protected $_warmUpArguments = array(
-        Magento_TestFramework_Performance_Scenario::ARG_USERS => 1,
-        Magento_TestFramework_Performance_Scenario::ARG_LOOPS => 2,
+        \Magento\TestFramework\Performance\Scenario::ARG_USERS => 1,
+        \Magento\TestFramework\Performance\Scenario::ARG_LOOPS => 2,
     );
 
     /**
@@ -63,13 +65,13 @@ class Magento_TestFramework_Performance_Testsuite
     /**
      * Constructor
      *
-     * @param Magento_TestFramework_Performance_Config $config
-     * @param Magento_TestFramework_Application $application
-     * @param Magento_TestFramework_Performance_Scenario_HandlerInterface $scenarioHandler
+     * @param \Magento\TestFramework\Performance\Config $config
+     * @param \Magento\TestFramework\Application $application
+     * @param \Magento\TestFramework\Performance\Scenario\HandlerInterface $scenarioHandler
      */
-    public function __construct(Magento_TestFramework_Performance_Config $config,
-        Magento_TestFramework_Application $application,
-        Magento_TestFramework_Performance_Scenario_HandlerInterface $scenarioHandler
+    public function __construct(\Magento\TestFramework\Performance\Config $config,
+        \Magento\TestFramework\Application $application,
+        \Magento\TestFramework\Performance\Scenario\HandlerInterface $scenarioHandler
     ) {
         $this->_config = $config;
         $this->_application = $application;
@@ -84,7 +86,7 @@ class Magento_TestFramework_Performance_Testsuite
         $this->_reportFiles = array();
         $scenarios = $this->_getOptimizedScenarioList();
         foreach ($scenarios as $scenario) {
-            /** @var $scenario Magento_TestFramework_Performance_Scenario */
+            /** @var $scenario \Magento\TestFramework\Performance\Scenario */
             $this->_application->applyFixtures($scenario->getFixtures());
 
             $this->_notifyScenarioRun($scenario);
@@ -93,7 +95,7 @@ class Magento_TestFramework_Performance_Testsuite
             $settings = $scenario->getSettings();
             if (empty($settings[self::SETTING_SKIP_WARM_UP])) {
                 try {
-                    $scenarioWarmUp = new Magento_TestFramework_Performance_Scenario(
+                    $scenarioWarmUp = new \Magento\TestFramework\Performance\Scenario(
                         $scenario->getTitle(),
                         $scenario->getFile(),
                         $this->_warmUpArguments + $scenario->getArguments(),
@@ -101,7 +103,7 @@ class Magento_TestFramework_Performance_Testsuite
                         $scenario->getFixtures()
                     );
                     $this->_scenarioHandler->run($scenarioWarmUp);
-                } catch (Magento_TestFramework_Performance_Scenario_FailureException $scenarioFailure) {
+                } catch (\Magento\TestFramework\Performance\Scenario\FailureException $scenarioFailure) {
                     // do not notify about failed warm up
                 }
             }
@@ -110,7 +112,7 @@ class Magento_TestFramework_Performance_Testsuite
             $reportFile = $this->_getScenarioReportFile($scenario);
             try {
                 $this->_scenarioHandler->run($scenario, $reportFile);
-            } catch (Magento_TestFramework_Performance_Scenario_FailureException $scenarioFailure) {
+            } catch (\Magento\TestFramework\Performance\Scenario\FailureException $scenarioFailure) {
                 $this->_notifyScenarioFailure($scenarioFailure);
             }
         }
@@ -120,10 +122,10 @@ class Magento_TestFramework_Performance_Testsuite
      * Returns unique report file for the scenario.
      * Used in order to generate unique report file paths for different scenarios that are represented by same files.
      *
-     * @param Magento_TestFramework_Performance_Scenario $scenario
+     * @param \Magento\TestFramework\Performance\Scenario $scenario
      * @return string
      */
-    protected function _getScenarioReportFile(Magento_TestFramework_Performance_Scenario $scenario)
+    protected function _getScenarioReportFile(\Magento\TestFramework\Performance\Scenario $scenario)
     {
         $basePath = $this->_config->getReportDir() . DIRECTORY_SEPARATOR
             . pathinfo($scenario->getFile(), PATHINFO_FILENAME);
@@ -164,19 +166,19 @@ class Magento_TestFramework_Performance_Testsuite
      * Validate whether a callback refers to a valid function/method that can be invoked
      *
      * @param callable $callback
-     * @throws BadFunctionCallException
+     * @throws \BadFunctionCallException
      */
     protected function _validateCallback($callback)
     {
         if (!is_callable($callback)) {
-            throw new BadFunctionCallException('Callback is invalid.');
+            throw new \BadFunctionCallException('Callback is invalid.');
         }
     }
 
     /**
      * Notify about scenario run event
      *
-     * @param Magento_TestFramework_Performance_Scenario $scenario
+     * @param \Magento\TestFramework\Performance\Scenario $scenario
      */
     protected function _notifyScenarioRun($scenario)
     {
@@ -188,10 +190,10 @@ class Magento_TestFramework_Performance_Testsuite
     /**
      * Notify about scenario failure event
      *
-     * @param Magento_TestFramework_Performance_Scenario_FailureException $scenarioFailure
+     * @param \Magento\TestFramework\Performance\Scenario\FailureException $scenarioFailure
      */
     protected function _notifyScenarioFailure(
-        Magento_TestFramework_Performance_Scenario_FailureException $scenarioFailure
+        \Magento\TestFramework\Performance\Scenario\FailureException $scenarioFailure
     ) {
         if ($this->_onScenarioFailure) {
             call_user_func($this->_onScenarioFailure, $scenarioFailure);
@@ -205,11 +207,11 @@ class Magento_TestFramework_Performance_Testsuite
      */
     protected function _getOptimizedScenarioList()
     {
-        $optimizer = new Magento_TestFramework_Performance_Testsuite_Optimizer();
+        $optimizer = new \Magento\TestFramework\Performance\Testsuite\Optimizer();
         $scenarios = $this->_config->getScenarios();
         $fixtureSets = array();
         foreach ($scenarios as $scenario) {
-            /** @var $scenario Magento_TestFramework_Performance_Scenario */
+            /** @var $scenario \Magento\TestFramework\Performance\Scenario */
             $fixtureSets[] = $scenario->getFixtures();
         }
         $keys = $optimizer->optimizeFixtureSets($fixtureSets);

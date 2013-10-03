@@ -12,7 +12,9 @@
 /**
  * Persistent Config Model
  */
-class Magento_Persistent_Model_Persistent_Config
+namespace Magento\Persistent\Model\Persistent;
+
+class Config
 {
     /**
      * Path to config file
@@ -21,51 +23,51 @@ class Magento_Persistent_Model_Persistent_Config
      */
     protected $_configFilePath;
 
-    /** @var Magento_Config_DomFactory  */
+    /** @var \Magento\Config\DomFactory  */
     protected $_domFactory;
 
-    /** @var Magento_Core_Model_Config_Modules_Reader  */
+    /** @var \Magento\Core\Model\Config\Modules\Reader  */
     protected $_moduleReader;
 
-    /** @var DOMXPath  */
+    /** @var \DOMXPath  */
     protected $_configDomXPath = null;
 
     /**
      * Layout model
      *
-     * @var Magento_Core_Model_Layout
+     * @var \Magento\Core\Model\Layout
      */
     protected $_layout;
 
     /**
      * App state model
      *
-     * @var Magento_Core_Model_App_State
+     * @var \Magento\Core\Model\App\State
      */
     protected $_appState;
 
     /**
      * Model factory
      *
-     * @var Magento_Persistent_Model_Factory
+     * @var \Magento\Persistent\Model\Factory
      */
     protected $_persistentFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Config_DomFactory $domFactory
-     * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
-     * @param Magento_Core_Model_Layout $layout
-     * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Persistent_Model_Factory $persistentFactory
+     * @param \Magento\Config\DomFactory $domFactory
+     * @param \Magento\Core\Model\Config\Modules\Reader $moduleReader
+     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\Persistent\Model\Factory $persistentFactory
      */
     public function __construct(
-        Magento_Config_DomFactory $domFactory,
-        Magento_Core_Model_Config_Modules_Reader $moduleReader,
-        Magento_Core_Model_Layout $layout,
-        Magento_Core_Model_App_State $appState,
-        Magento_Persistent_Model_Factory $persistentFactory
+        \Magento\Config\DomFactory $domFactory,
+        \Magento\Core\Model\Config\Modules\Reader $moduleReader,
+        \Magento\Core\Model\Layout $layout,
+        \Magento\Core\Model\App\State $appState,
+        \Magento\Persistent\Model\Factory $persistentFactory
     ) {
         $this->_domFactory = $domFactory;
         $this->_moduleReader = $moduleReader;
@@ -78,7 +80,7 @@ class Magento_Persistent_Model_Persistent_Config
      * Set path to config file that should be loaded
      *
      * @param string $path
-     * @return Magento_Persistent_Model_Persistent_Config
+     * @return \Magento\Persistent\Model\Persistent\Config
      */
     public function setConfigFilePath($path)
     {
@@ -89,18 +91,18 @@ class Magento_Persistent_Model_Persistent_Config
     /**
      * Get persistent XML config xpath
      *
-     * @return DOMXPath
-     * @throws Magento_Core_Exception
+     * @return \DOMXPath
+     * @throws \Magento\Core\Exception
      */
     protected function _getConfigDomXPath()
     {
         if (is_null($this->_configDomXPath)) {
             $filePath = $this->_configFilePath;
             if (!is_file($filePath) || !is_readable($filePath)) {
-                throw new Magento_Core_Exception(__('We cannot load the configuration from file %1.', $filePath));
+                throw new \Magento\Core\Exception(__('We cannot load the configuration from file %1.', $filePath));
             }
             $xml = file_get_contents($filePath);
-            /** @var Magento_Config_Dom $configDom */
+            /** @var \Magento\Config\Dom $configDom */
             $configDom = $this->_domFactory->createDom(
                 array(
                     'xml' => $xml,
@@ -111,7 +113,7 @@ class Magento_Persistent_Model_Persistent_Config
                         ->getModuleDir('etc', 'Magento_Persistent') . '/persistent.xsd'
                 )
             );
-            $this->_configDomXPath = new DOMXPath($configDom->getDom());
+            $this->_configDomXPath = new \DOMXPath($configDom->getDom());
         }
         return $this->_configDomXPath;
 
@@ -175,7 +177,7 @@ class Magento_Persistent_Model_Persistent_Config
     /**
      * Run all methods declared in persistent configuration
      *
-     * @return Magento_Persistent_Model_Persistent_Config
+     * @return \Magento\Persistent\Model\Persistent\Config
      */
     public function fire()
     {
@@ -199,8 +201,8 @@ class Magento_Persistent_Model_Persistent_Config
      *
      * @param array $info
      * @param bool $instance
-     * @return Magento_Persistent_Model_Persistent_Config
-     * @throws Magento_Core_Exception
+     * @return \Magento\Persistent\Model\Persistent\Config
+     * @throws \Magento\Core\Exception
      */
     public function fireOne($info, $instance = false)
     {
@@ -216,8 +218,8 @@ class Magento_Persistent_Model_Persistent_Config
 
         if (method_exists($object, $method)) {
             $object->$method($instance);
-        } elseif ($this->_appState->getMode() == Magento_Core_Model_App_State::MODE_DEVELOPER) {
-            throw new Magento_Core_Exception('Method "' . $method.'" is not defined in "' . get_class($object) . '"');
+        } elseif ($this->_appState->getMode() == \Magento\Core\Model\App\State::MODE_DEVELOPER) {
+            throw new \Magento\Core\Exception('Method "' . $method.'" is not defined in "' . get_class($object) . '"');
         }
 
         return $this;

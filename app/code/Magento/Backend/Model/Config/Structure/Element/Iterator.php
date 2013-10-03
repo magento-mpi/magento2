@@ -8,19 +8,21 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Config_Structure_Element_Iterator implements Iterator
+namespace Magento\Backend\Model\Config\Structure\Element;
+
+class Iterator implements \Iterator
 {
     /**
      * List of element data
      *
-     * @var Magento_Backend_Model_Config_Structure_ElementInterface[]
+     * @var \Magento\Backend\Model\Config\Structure\ElementInterface[]
      */
     protected $_elements;
 
     /**
      * Config structure element flyweight
      *
-     * @var Magento_Backend_Model_Config_Structure_ElementAbstract
+     * @var \Magento\Backend\Model\Config\Structure\AbstractElement
      */
     protected $_flyweight;
 
@@ -39,9 +41,9 @@ class Magento_Backend_Model_Config_Structure_Element_Iterator implements Iterato
     protected $_lastId;
 
     /**
-     * @param Magento_Backend_Model_Config_Structure_ElementAbstract $element
+     * @param \Magento\Backend\Model\Config\Structure\AbstractElement $element
      */
-    public function __construct(Magento_Backend_Model_Config_Structure_ElementAbstract $element)
+    public function __construct(\Magento\Backend\Model\Config\Structure\AbstractElement $element)
     {
         $this->_flyweight = $element;
     }
@@ -65,7 +67,7 @@ class Magento_Backend_Model_Config_Structure_Element_Iterator implements Iterato
     /**
      * Return the current element
      *
-     * @return Magento_Backend_Model_Config_Structure_ElementInterface
+     * @return \Magento\Backend\Model\Config\Structure\ElementInterface
      */
     public function current()
     {
@@ -120,7 +122,7 @@ class Magento_Backend_Model_Config_Structure_Element_Iterator implements Iterato
     }
 
     /**
-     * Rewind the Iterator to the first element
+     * Rewind the \Iterator to the first element
      *
      * @return void Any returned value is ignored.
      */
@@ -138,10 +140,10 @@ class Magento_Backend_Model_Config_Structure_Element_Iterator implements Iterato
     /**
      * Check whether element is last in list
      *
-     * @param Magento_Backend_Model_Config_Structure_ElementInterface $element
+     * @param \Magento\Backend\Model\Config\Structure\ElementInterface $element
      * @return bool
      */
-    public function isLast(Magento_Backend_Model_Config_Structure_ElementInterface $element)
+    public function isLast(\Magento\Backend\Model\Config\Structure\ElementInterface $element)
     {
         return $element->getId() == $this->_lastId;
     }

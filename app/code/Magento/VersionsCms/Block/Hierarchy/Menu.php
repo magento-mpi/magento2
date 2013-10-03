@@ -11,7 +11,9 @@
 /**
  * Cms Hierarchy Context Menu
  */
-class Magento_VersionsCms_Block_Hierarchy_Menu extends Magento_Core_Block_Template
+namespace Magento\VersionsCms\Block\Hierarchy;
+
+class Menu extends \Magento\Core\Block\Template
 {
     const TAG_UL    = 'ul';
     const TAG_OL    = 'ol';
@@ -48,34 +50,34 @@ class Magento_VersionsCms_Block_Hierarchy_Menu extends Magento_Core_Block_Templa
     /**
      * Current Hierarchy Node Page Instance
      *
-     * @var Magento_VersionsCms_Model_Hierarchy_Node
+     * @var \Magento\VersionsCms\Model\Hierarchy\Node
      */
     protected $_node;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry;
 
     /**
-     * @var Magento_VersionsCms_Model_Hierarchy_NodeFactory
+     * @var \Magento\VersionsCms\Model\Hierarchy\NodeFactory
      */
     protected $_nodeFactory;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_VersionsCms_Model_Hierarchy_NodeFactory $nodeFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_VersionsCms_Model_Hierarchy_NodeFactory $nodeFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -119,13 +121,13 @@ class Magento_VersionsCms_Block_Hierarchy_Menu extends Magento_Core_Block_Templa
     /**
      * Add context menu params to block data
      *
-     * @return Magento_Core_Block_Template
+     * @return \Magento\Core\Block\Template
      */
     protected function _loadNodeMenuParams()
     {
         $this->setMenuEnabled(false);
 
-        if ($this->_node instanceof Magento_Core_Model_Abstract) {
+        if ($this->_node instanceof \Magento\Core\Model\AbstractModel) {
             $params = $this->_node->getMetadataContextMenuParams();
             if ($params !== null && isset($params['menu_visibility']) && $params['menu_visibility'] == 1) {
                 $this->addData(array(
@@ -189,7 +191,7 @@ class Magento_VersionsCms_Block_Hierarchy_Menu extends Magento_Core_Block_Templa
     /**
      * Retrieve Node Replace pairs
      *
-     * @param Magento_VersionsCms_Model_Hierarchy_Node $node
+     * @param \Magento\VersionsCms\Model\Hierarchy\Node $node
      * @return array
      */
     protected function _getNodeReplacePairs($node)
@@ -258,7 +260,7 @@ class Magento_VersionsCms_Block_Hierarchy_Menu extends Magento_Core_Block_Templa
     /**
      * Retrieve List Item begin tag
      *
-     * @param Magento_VersionsCms_Model_Hierarchy_Node $node
+     * @param \Magento\VersionsCms\Model\Hierarchy\Node $node
      * @param bool $hasChilds Whether item contains nested list or not
      * @return string
      */
@@ -301,7 +303,7 @@ class Magento_VersionsCms_Block_Hierarchy_Menu extends Magento_Core_Block_Templa
     /**
      * Retrieve Node label with link
      *
-     * @param Magento_VersionsCms_Model_Hierarchy_Node $node
+     * @param \Magento\VersionsCms\Model\Hierarchy\Node $node
      * @return string
      */
     protected function _getNodeLabel($node)
@@ -315,7 +317,7 @@ class Magento_VersionsCms_Block_Hierarchy_Menu extends Magento_Core_Block_Templa
     /**
      * Retrieve Node label with link
      *
-     * @param Magento_VersionsCms_Model_Hierarchy_Node $node
+     * @param \Magento\VersionsCms\Model\Hierarchy\Node $node
      * @return string
      */
     protected function _getLink($node)
@@ -339,7 +341,7 @@ class Magento_VersionsCms_Block_Hierarchy_Menu extends Magento_Core_Block_Templa
     /**
      * Retrieve Node label for current node
      *
-     * @param Magento_VersionsCms_Model_Hierarchy_Node $node
+     * @param \Magento\VersionsCms\Model\Hierarchy\Node $node
      * @return string
      */
     protected function _getSpan($node)
@@ -416,7 +418,7 @@ class Magento_VersionsCms_Block_Hierarchy_Menu extends Magento_Core_Block_Templa
         $html = $this->_getListTagBegin($addStyles);
 
         foreach ($tree[$parentNodeId] as $nodeId => $node) {
-            /* @var $node Magento_VersionsCms_Model_Hierarchy_Node */
+            /* @var $node \Magento\VersionsCms\Model\Hierarchy\Node */
             $nested = $this->drawMenu($tree, $nodeId);
             $hasChilds = ($nested != '');
             $html .= $this->_getItemTagBegin($node, $hasChilds) . $this->_getNodeLabel($node);

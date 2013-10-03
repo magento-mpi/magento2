@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Layout;
+
+class UpdateTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test formatted time data
@@ -19,7 +21,7 @@ class Magento_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
     public function testBeforeSave()
     {
         $resourceModel = $this->getMock(
-            'Magento_Core_Model_Resource_Layout_Update',
+            'Magento\Core\Model\Resource\Layout\Update',
             array('formatDate', 'getIdFieldName', 'beginTransaction', 'save', 'addCommitCallback', 'commit'),
             array(),
             '',
@@ -33,9 +35,9 @@ class Magento_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
             ->method('addCommitCallback')
             ->will($this->returnSelf());
 
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
-        /** @var $model Magento_Core_Model_Layout_Update */
-        $model = $helper->getObject('Magento_Core_Model_Layout_Update', array('resource' => $resourceModel));
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        /** @var $model \Magento\Core\Model\Layout\Update */
+        $model = $helper->getObject('Magento\Core\Model\Layout\Update', array('resource' => $resourceModel));
         $model->setId(0); // set any data to set _hasDataChanges flag
         $model->save();
 

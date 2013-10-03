@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
  
-class Magento_Newsletter_Model_Message extends Magento_Core_Model_Message
+namespace Magento\Newsletter\Model;
+
+class Message extends \Magento\Core\Model\Message
 {
     
 }

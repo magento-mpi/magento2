@@ -9,19 +9,22 @@
  * @license     {license_link}
  */
 
+
+namespace Magento\Adminhtml\Controller\Customer;
+
 /**
  * @magentoAppArea adminhtml
  * @magentoDataFixture customerGroupDataFixture
  */
-class Magento_Adminhtml_Controller_Customer_GroupTest extends Magento_Backend_Utility_Controller
+class GroupTest extends \Magento\Backend\Utility\Controller
 {
     protected static $_customerGroupId;
 
     public static function customerGroupDataFixture()
     {
-        /** @var Magento_Customer_Model_Group $group */
-        $group = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Group');
+        /** @var \Magento\Customer\Model\Group $group */
+        $group = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Group');
 
         $groupData = array(
             'customer_group_code' => 'New Customer Group',
@@ -48,7 +51,7 @@ class Magento_Adminhtml_Controller_Customer_GroupTest extends Magento_Backend_Ut
          * Check that success message is set
          */
         $this->assertSessionMessages(
-            $this->equalTo(array('The customer group has been deleted.')), Magento_Core_Model_Message::SUCCESS
+            $this->equalTo(array('The customer group has been deleted.')), \Magento\Core\Model\Message::SUCCESS
         );
     }
 
@@ -61,7 +64,7 @@ class Magento_Adminhtml_Controller_Customer_GroupTest extends Magento_Backend_Ut
          * Check that error message is set
          */
         $this->assertSessionMessages(
-            $this->equalTo(array('The customer group no longer exists.')), Magento_Core_Model_Message::ERROR
+            $this->equalTo(array('The customer group no longer exists.')), \Magento\Core\Model\Message::ERROR
         );
     }
 }

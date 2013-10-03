@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Xml_Generator
+namespace Magento\Xml;
+
+class Generator
 {
     /**
      * This value is used to replace numeric keys while formatting data for xml output.
@@ -22,7 +24,7 @@ class Magento_Xml_Generator
 
     public function __construct()
     {
-        $this->_dom = new DOMDocument('1.0');
+        $this->_dom = new \DOMDocument('1.0');
         $this->_dom->formatOutput=true;
         $this->_currentDom = $this->_dom;
         return $this;
@@ -56,7 +58,7 @@ class Magento_Xml_Generator
         foreach ($content as $_key=>$_item) {
             try{
                 $node = $this->getDom()->createElement($_key);
-            } catch (DOMException $e) {
+            } catch (\DOMException $e) {
               //  echo $e->getMessage();
                 var_dump($_item);
                 die;
@@ -107,7 +109,7 @@ class Magento_Xml_Generator
      * Set xml node name to use instead of numeric index during numeric arrays conversion.
      *
      * @param $name
-     * @return Magento_Xml_Generator
+     * @return \Magento\Xml\Generator
      */
     public function setIndexedArrayItemName($name)
     {

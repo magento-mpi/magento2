@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Subscription_Factory
+ * \Magento\Webhook\Model\Subscription\Factory
  *
  * {license_notice}
  *
@@ -9,31 +9,33 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Subscription_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Subscription;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     private $_mockObjectManager;
 
-    /** @var Magento_Webhook_Model_Subscription_Factory */
+    /** @var \Magento\Webhook\Model\Subscription\Factory */
     private $_factory;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     private $_mockSubscription;
 
     protected function setUp()
     {
-        $this->_mockObjectManager = $this->getMockBuilder('Magento_ObjectManager')
+        $this->_mockObjectManager = $this->getMockBuilder('Magento\ObjectManager')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_mockSubscription = $this->getMockBuilder('Magento_Webhook_Model_Subscription')
+        $this->_mockSubscription = $this->getMockBuilder('Magento\Webhook\Model\Subscription')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_factory = new Magento_Webhook_Model_Subscription_Factory($this->_mockObjectManager);
+        $this->_factory = new \Magento\Webhook\Model\Subscription\Factory($this->_mockObjectManager);
     }
 
     public function testCreate()
     {
-        $mockSubscription = $this->getMockBuilder('Magento_Webhook_Model_Subscription')
+        $mockSubscription = $this->getMockBuilder('Magento\Webhook\Model\Subscription')
             ->disableOriginalConstructor()
             ->getMock();
         $dataArray = array('test' => 'data');
@@ -42,7 +44,7 @@ class Magento_Webhook_Model_Subscription_FactoryTest extends PHPUnit_Framework_T
             ->with($dataArray);
         $this->_mockObjectManager->expects($this->once())
             ->method('create')
-            ->with($this->equalTo('Magento_Webhook_Model_Subscription'), $this->equalTo(array()))
+            ->with($this->equalTo('Magento\Webhook\Model\Subscription'), $this->equalTo(array()))
             ->will($this->returnValue($mockSubscription));
         $this->assertSame($mockSubscription, $this->_factory->create($dataArray));
     }

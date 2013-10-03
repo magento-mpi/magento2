@@ -11,17 +11,17 @@
 /**
  * Product media data template
  *
- * @see Magento_Catalog_Block_Product_View_BaseImage
+ * @see \Magento\Catalog\Block\Product\View\BaseImage
  */
 ?>
 <?php
     $_product = $this->getProduct();
-    $_helper = $this->helper('Magento_Catalog_Helper_Output');
+    $_helper = $this->helper('Magento\Catalog\Helper\Output');
 ?>
 <?php if ($_product->getImage() != 'no_selection' && $_product->getImage()): ?>
 <p class="product-image product-image-zoom">
     <?php
-        $_img = '<img data-role="base-image" id="image" src="'.$this->helper('Magento_Catalog_Helper_Image')->init($_product, 'image').'" alt="'.$this->escapeHtml($this->getImageLabel()).'" title="'.$this->escapeHtml($this->getImageLabel()).'" />';
+        $_img = '<img data-role="base-image" id="image" src="'.$this->helper('Magento\Catalog\Helper\Image')->init($_product, 'image').'" alt="'.$this->escapeHtml($this->getImageLabel()).'" title="'.$this->escapeHtml($this->getImageLabel()).'" />';
         echo $_helper->productAttribute($_product, $_img, 'image');
     ?>
 </p>

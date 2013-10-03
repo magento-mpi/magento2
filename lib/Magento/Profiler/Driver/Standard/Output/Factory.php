@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Profiler_Driver_Standard_Output_Factory
+namespace Magento\Profiler\Driver\Standard\Output;
+
+class Factory
 {
     /**
      * Default output type
@@ -30,7 +32,7 @@ class Magento_Profiler_Driver_Standard_Output_Factory
      * @param string $defaultOutputType
      */
     public function __construct(
-        $defaultOutputPrefix = 'Magento_Profiler_Driver_Standard_Output_',
+        $defaultOutputPrefix = 'Magento\Profiler\Driver\Standard\Output\\',
         $defaultOutputType = 'html'
     ) {
         $this->_defaultOutputPrefix = $defaultOutputPrefix;
@@ -41,8 +43,8 @@ class Magento_Profiler_Driver_Standard_Output_Factory
      * Create instance of standard profiler driver output
      *
      * @param array $config
-     * @return Magento_Profiler_Driver_Standard_OutputInterface
-     * @throws InvalidArgumentException If driver cannot be created
+     * @return \Magento\Profiler\Driver\Standard\OutputInterface
+     * @throws \InvalidArgumentException If driver cannot be created
      */
     public function create(array $config)
     {
@@ -52,15 +54,15 @@ class Magento_Profiler_Driver_Standard_Output_Factory
         } else {
             $class = $this->_defaultOutputPrefix . ucfirst($type);
             if (!class_exists($class)) {
-                throw new InvalidArgumentException(
+                throw new \InvalidArgumentException(
                     sprintf("Cannot create standard driver output, class \"%s\" doesn't exist.", $class
                 ));
             }
         }
         $output = new $class($config);
-        if (!$output instanceof Magento_Profiler_Driver_Standard_OutputInterface) {
-            throw new InvalidArgumentException(sprintf(
-                "Output class \"%s\" must implement Magento_Profiler_Driver_Standard_OutputInterface.",
+        if (!$output instanceof \Magento\Profiler\Driver\Standard\OutputInterface) {
+            throw new \InvalidArgumentException(sprintf(
+                "Output class \"%s\" must implement \Magento\Profiler\Driver\Standard\OutputInterface.",
                 get_class($output)
             ));
         }

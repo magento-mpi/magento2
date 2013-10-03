@@ -5,53 +5,55 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Model_Config_Section_Reader_Store
+namespace Magento\Core\Model\Config\Section\Reader;
+
+class Store
 {
     /**
-     * @var Magento_Core_Model_Config_Initial
+     * @var \Magento\Core\Model\Config\Initial
      */
     protected $_initialConfig;
 
     /**
-     * @var Magento_Core_Model_Config_SectionPool
+     * @var \Magento\Core\Model\Config\SectionPool
      */
     protected $_sectionPool;
 
     /**
-     * @var Magento_Core_Model_Config_Section_Store_Converter
+     * @var \Magento\Core\Model\Config\Section\Store\Converter
      */
     protected $_converter;
 
     /**
-     * @var Magento_Core_Model_Resource_Config_Value_Collection_ScopedFactory
+     * @var \Magento\Core\Model\Resource\Config\Value\Collection\ScopedFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @var Magento_Core_Model_StoreFactory
+     * @var \Magento\Core\Model\StoreFactory
      */
     protected $_storeFactory;
 
     /**
-     * @var Magento_Core_Model_App_State
+     * @var \Magento\Core\Model\App\State
      */
     protected $_appState;
 
     /**
-     * @param Magento_Core_Model_Config_Initial $initialConfig
-     * @param Magento_Core_Model_Config_SectionPool $sectionPool
-     * @param Magento_Core_Model_Config_Section_Store_Converter $converter
-     * @param Magento_Core_Model_Resource_Config_Value_Collection_ScopedFactory $collectionFactory
-     * @param Magento_Core_Model_StoreFactory $storeFactory
-     * @param Magento_Core_Model_App_State $appState
+     * @param \Magento\Core\Model\Config\Initial $initialConfig
+     * @param \Magento\Core\Model\Config\SectionPool $sectionPool
+     * @param \Magento\Core\Model\Config\Section\Store\Converter $converter
+     * @param \Magento\Core\Model\Resource\Config\Value\Collection\ScopedFactory $collectionFactory
+     * @param \Magento\Core\Model\StoreFactory $storeFactory
+     * @param \Magento\Core\Model\App\State $appState
      */
     public function __construct(
-        Magento_Core_Model_Config_Initial $initialConfig,
-        Magento_Core_Model_Config_SectionPool $sectionPool,
-        Magento_Core_Model_Config_Section_Store_Converter $converter,
-        Magento_Core_Model_Resource_Config_Value_Collection_ScopedFactory $collectionFactory,
-        Magento_Core_Model_StoreFactory $storeFactory,
-        Magento_Core_Model_App_State $appState
+        \Magento\Core\Model\Config\Initial $initialConfig,
+        \Magento\Core\Model\Config\SectionPool $sectionPool,
+        \Magento\Core\Model\Config\Section\Store\Converter $converter,
+        \Magento\Core\Model\Resource\Config\Value\Collection\ScopedFactory $collectionFactory,
+        \Magento\Core\Model\StoreFactory $storeFactory,
+        \Magento\Core\Model\App\State $appState
     ) {
         $this->_initialConfig = $initialConfig;
         $this->_sectionPool = $sectionPool;

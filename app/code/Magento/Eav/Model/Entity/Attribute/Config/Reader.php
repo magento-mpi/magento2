@@ -7,7 +7,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Eav_Model_Entity_Attribute_Config_Reader extends Magento_Config_Reader_Filesystem
+namespace Magento\Eav\Model\Entity\Attribute\Config;
+
+class Reader extends \Magento\Config\Reader\Filesystem
 {
     /**
      * Xml merging attributes
@@ -21,16 +23,16 @@ class Magento_Eav_Model_Entity_Attribute_Config_Reader extends Magento_Config_Re
     );
 
     /**
-     * @param Magento_Config_FileResolverInterface $fileResolver
-     * @param Magento_Eav_Model_Entity_Attribute_Config_Converter $converter
-     * @param Magento_Eav_Model_Entity_Attribute_Config_SchemaLocator $schemaLocator
-     * @param Magento_Config_ValidationStateInterface $validationState
+     * @param \Magento\Config\FileResolverInterface $fileResolver
+     * @param \Magento\Eav\Model\Entity\Attribute\Config\Converter $converter
+     * @param \Magento\Eav\Model\Entity\Attribute\Config\SchemaLocator $schemaLocator
+     * @param \Magento\Config\ValidationStateInterface $validationState
      */
     public function __construct(
-        Magento_Config_FileResolverInterface $fileResolver,
-        Magento_Eav_Model_Entity_Attribute_Config_Converter $converter,
-        Magento_Eav_Model_Entity_Attribute_Config_SchemaLocator $schemaLocator,
-        Magento_Config_ValidationStateInterface $validationState
+        \Magento\Config\FileResolverInterface $fileResolver,
+        \Magento\Eav\Model\Entity\Attribute\Config\Converter $converter,
+        \Magento\Eav\Model\Entity\Attribute\Config\SchemaLocator $schemaLocator,
+        \Magento\Config\ValidationStateInterface $validationState
     ) {
         parent::__construct($fileResolver, $converter, $schemaLocator, $validationState, 'eav_attributes.xml', array());
     }

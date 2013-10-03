@@ -15,27 +15,29 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Create_Messages extends Magento_Adminhtml_Block_Messages
+namespace Magento\Adminhtml\Block\Sales\Order\Create;
+
+class Messages extends \Magento\Adminhtml\Block\Messages
 {
     /**
-     * @var Magento_Adminhtml_Model_Session_Quote
+     * @var \Magento\Adminhtml\Model\Session\Quote
      */
     protected $_sessionQuote;
 
     /**
-     * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Message $message
-     * @param Magento_Core_Model_Message_CollectionFactory $messageFactory
+     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Message $message
+     * @param \Magento\Core\Model\Message\CollectionFactory $messageFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Adminhtml_Model_Session_Quote $sessionQuote,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Message $message,
-        Magento_Core_Model_Message_CollectionFactory $messageFactory,
+        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Message $message,
+        \Magento\Core\Model\Message\CollectionFactory $messageFactory,
         array $data = array()
     ) {
         $this->_sessionQuote = $sessionQuote;
@@ -43,7 +45,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Messages extends Magento_Adminh
     }
 
     /**
-     * @return Magento_Core_Block_Messages
+     * @return \Magento\Core\Block\Messages
      */
     protected function _prepareLayout()
     {

@@ -11,7 +11,9 @@
 /**
  * Customer balance history block
  */
-class Magento_CustomerBalance_Block_Account_History extends Magento_Core_Block_Template
+namespace Magento\CustomerBalance\Block\Account;
+
+class History extends \Magento\Core\Block\Template
 {
     /**
      * Balance history action names
@@ -21,34 +23,34 @@ class Magento_CustomerBalance_Block_Account_History extends Magento_Core_Block_T
     protected $_actionNames = null;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @var Magento_CustomerBalance_Model_Balance_HistoryFactory
+     * @var \Magento\CustomerBalance\Model\Balance\HistoryFactory
      */
     protected $_historyFactory;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_CustomerBalance_Model_Balance_HistoryFactory $historyFactory
-     * @param Magento_Customer_Model_Session $custoomerSession
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\CustomerBalance\Model\Balance\HistoryFactory $historyFactory
+     * @param \Magento\Customer\Model\Session $custoomerSession
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_CustomerBalance_Model_Balance_HistoryFactory $historyFactory,
-        Magento_Customer_Model_Session $custoomerSession,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\CustomerBalance\Model\Balance\HistoryFactory $historyFactory,
+        \Magento\Customer\Model\Session $custoomerSession,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;

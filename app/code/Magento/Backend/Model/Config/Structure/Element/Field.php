@@ -9,8 +9,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Backend_Model_Config_Structure_Element_Field
-    extends Magento_Backend_Model_Config_Structure_ElementAbstract
+namespace Magento\Backend\Model\Config\Structure\Element;
+
+class Field
+    extends \Magento\Backend\Model\Config\Structure\AbstractElement
 {
 
     /**
@@ -31,61 +33,61 @@ class Magento_Backend_Model_Config_Structure_Element_Field
     /**
      * Backend model factory
      *
-     * @var Magento_Backend_Model_Config_BackendFactory
+     * @var \Magento\Backend\Model\Config\BackendFactory
      */
     protected $_backendFactory;
 
     /**
      * Source model factory
      *
-     * @var Magento_Backend_Model_Config_SourceFactory
+     * @var \Magento\Backend\Model\Config\SourceFactory
      */
     protected $_sourceFactory;
 
     /**
      * Comment model factory
      *
-     * @var Magento_Backend_Model_Config_CommentFactory
+     * @var \Magento\Backend\Model\Config\CommentFactory
      */
     protected $_commentFactory;
 
     /**
      *
-     * @var Magento_Backend_Model_Config_Structure_Element_Dependency_Mapper
+     * @var \Magento\Backend\Model\Config\Structure\Element\Dependency\Mapper
      */
     protected $_dependencyMapper;
 
     /**
      * Block factory
      *
-     * @var Magento_Core_Model_BlockFactory
+     * @var \Magento\Core\Model\BlockFactory
      */
     protected $_blockFactory;
 
     /**
      * dataservice graph
      *
-     * @var Magento_Core_Model_DataService_Graph
+     * @var \Magento\Core\Model\DataService\Graph
      */
      protected $_dataServiceGraph;
 
     /**
-     * @param Magento_Core_Model_App $application
-     * @param Magento_Backend_Model_Config_BackendFactory $backendFactory
-     * @param Magento_Backend_Model_Config_SourceFactory $sourceFactory
-     * @param Magento_Backend_Model_Config_CommentFactory $commentFactory
-     * @param Magento_Core_Model_BlockFactory $blockFactory
-     * @param Magento_Core_Model_DataService_Graph $dataServiceGraph,
-     * @param Magento_Backend_Model_Config_Structure_Element_Dependency_Mapper $dependencyMapper
+     * @param \Magento\Core\Model\App $application
+     * @param \Magento\Backend\Model\Config\BackendFactory $backendFactory
+     * @param \Magento\Backend\Model\Config\SourceFactory $sourceFactory
+     * @param \Magento\Backend\Model\Config\CommentFactory $commentFactory
+     * @param \Magento\Core\Model\BlockFactory $blockFactory
+     * @param \Magento\Core\Model\DataService\Graph $dataServiceGraph,
+     * @param \Magento\Backend\Model\Config\Structure\Element\Dependency\Mapper $dependencyMapper
      */
     public function __construct(
-        Magento_Core_Model_App $application,
-        Magento_Backend_Model_Config_BackendFactory $backendFactory,
-        Magento_Backend_Model_Config_SourceFactory $sourceFactory,
-        Magento_Backend_Model_Config_CommentFactory $commentFactory,
-        Magento_Core_Model_BlockFactory $blockFactory,
-        Magento_Core_Model_DataService_Graph $dataServiceGraph,
-        Magento_Backend_Model_Config_Structure_Element_Dependency_Mapper $dependencyMapper
+        \Magento\Core\Model\App $application,
+        \Magento\Backend\Model\Config\BackendFactory $backendFactory,
+        \Magento\Backend\Model\Config\SourceFactory $sourceFactory,
+        \Magento\Backend\Model\Config\CommentFactory $commentFactory,
+        \Magento\Core\Model\BlockFactory $blockFactory,
+        \Magento\Core\Model\DataService\Graph $dataServiceGraph,
+        \Magento\Backend\Model\Config\Structure\Element\Dependency\Mapper $dependencyMapper
     ) {
         parent::__construct($application);
         $this->_backendFactory = $backendFactory;
@@ -237,7 +239,7 @@ class Magento_Backend_Model_Config_Structure_Element_Field
     /**
      * Retrieve backend model
      *
-     * @return Magento_Core_Model_Config_Value
+     * @return \Magento\Core\Model\Config\Value
      */
     public function getBackendModel()
     {
@@ -308,7 +310,7 @@ class Magento_Backend_Model_Config_Structure_Element_Field
     /**
      * Populate form element with field data
      *
-     * @param Magento_Data_Form_Element_Abstract $formField
+     * @param \Magento\Data\Form\Element\AbstractElement $formField
      */
     public function populateInput($formField)
     {
@@ -464,7 +466,7 @@ class Magento_Backend_Model_Config_Structure_Element_Field
      */
     private function _fillInConstantPlaceholders($value)
     {
-        if (is_string($value) && preg_match('/^{{([A-Z][A-Za-z\d_]+::[A-Z\d_]+)}}$/', $value, $matches)) {
+        if (is_string($value) && preg_match('/^{{(\\\\[A-Z][\\\\A-Za-z\d_]+::[A-Z\d_]+)}}$/', $value, $matches)) {
             $value = constant($matches[1]);
         }
         return $value;
@@ -485,7 +487,7 @@ class Magento_Backend_Model_Config_Structure_Element_Field
         }
 
         $sourceModel = $this->_sourceFactory->create($sourceModel);
-        if ($sourceModel instanceof Magento_Object) {
+        if ($sourceModel instanceof \Magento\Object) {
             $sourceModel->setPath($this->getPath());
         }
         if ($method) {

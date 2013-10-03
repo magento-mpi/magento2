@@ -13,7 +13,7 @@
     <?php echo $this->getFormatedPrice() ?></dt>
 <dd<?php if ($_option->getDecoratedIsLast()):?> class="last"<?php endif; ?>>
     <div class="input-box">
-        <?php if ($_option->getType() == Magento_Catalog_Model_Product_Option::OPTION_TYPE_FIELD): ?>
+        <?php if ($_option->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_FIELD): ?>
         <?php $_textValidate = null;
         if($_option->getIsRequire()){
             $_textValidate['required'] = true;
@@ -23,7 +23,7 @@
         }
         ?>
         <input type="text" id="options_<?php echo $_option->getId() ?>_text" class="input-text  product-custom-option"  <?php if(!empty($_textValidate))echo 'data-validate='.json_encode($_textValidate) ; ?>  name="options[<?php echo $_option->getId() ?>]" value="<?php echo $this->escapeHtml($this->getDefaultValue()) ?>" />
-        <?php elseif ($_option->getType() == Magento_Catalog_Model_Product_Option::OPTION_TYPE_AREA): ?>
+        <?php elseif ($_option->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_AREA): ?>
         <?php $_textAreaValidate = null;
         if($_option->getIsRequire()){
             $_textAreaValidate['required'] = true;

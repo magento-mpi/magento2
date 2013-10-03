@@ -10,22 +10,24 @@
  */
 
 /**
- * Test class for Magento_GiftRegistry_Block_Form_Element
+ * Test class for \Magento\GiftRegistry\Block\Form\Element
  */
-class Magento_GiftRegistry_Block_Form_ElementTest extends PHPUnit_Framework_TestCase
+namespace Magento\GiftRegistry\Block\Form;
+
+class ElementTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetCalendarDateHtml()
     {
-        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_GiftRegistry_Block_Form_Element');
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\GiftRegistry\Block\Form\Element');
 
         $value = null;
-        $formatType = Magento_Core_Model_LocaleInterface::FORMAT_TYPE_FULL;
+        $formatType = \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_FULL;
 
         $html = $block->getCalendarDateHtml('date_name', 'date_id', $value, $formatType);
 
-        $dateFormat = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_LocaleInterface')->getDateFormat($formatType);
+        $dateFormat = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\LocaleInterface')->getDateFormat($formatType);
 
         $this->assertContains('dateFormat: "' . $dateFormat . '",', $html);
         $this->assertContains('value=""', $html);

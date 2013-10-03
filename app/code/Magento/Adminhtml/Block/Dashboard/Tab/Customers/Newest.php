@@ -16,27 +16,29 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Dashboard_Tab_Customers_Newest extends Magento_Adminhtml_Block_Dashboard_Grid
+namespace Magento\Adminhtml\Block\Dashboard\Tab\Customers;
+
+class Newest extends \Magento\Adminhtml\Block\Dashboard\Grid
 {
     /**
-     * @var Magento_Reports_Model_Resource_Customer_CollectionFactory
+     * @var \Magento\Reports\Model\Resource\Customer\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @param Magento_Reports_Model_Resource_Customer_CollectionFactory $collectionFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
+     * @param \Magento\Reports\Model\Resource\Customer\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
      * @param array $data
      */
     public function __construct(
-        Magento_Reports_Model_Resource_Customer_CollectionFactory $collectionFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
+        \Magento\Reports\Model\Resource\Customer\CollectionFactory $collectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
@@ -99,7 +101,7 @@ class Magento_Adminhtml_Block_Dashboard_Tab_Customers_Newest extends Magento_Adm
             'type'      => 'currency',
             'currency_code'  => $baseCurrencyCode,
             'index'     => 'orders_avg_amount',
-            'renderer'  =>'Magento_Adminhtml_Block_Report_Grid_Column_Renderer_Currency'
+            'renderer'  =>'Magento\Adminhtml\Block\Report\Grid\Column\Renderer\Currency'
         ));
 
         $this->addColumn('orders_sum_amount', array(
@@ -109,7 +111,7 @@ class Magento_Adminhtml_Block_Dashboard_Tab_Customers_Newest extends Magento_Adm
             'type'      => 'currency',
             'currency_code'  => $baseCurrencyCode,
             'index'     => 'orders_sum_amount',
-            'renderer'  =>'Magento_Adminhtml_Block_Report_Grid_Column_Renderer_Currency'
+            'renderer'  =>'Magento\Adminhtml\Block\Report\Grid\Column\Renderer\Currency'
         ));
 
         $this->setFilterVisibility(false);

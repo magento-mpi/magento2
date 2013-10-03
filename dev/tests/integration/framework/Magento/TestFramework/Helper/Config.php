@@ -12,7 +12,9 @@
 /**
  * Helper with routines to work with Magento config
  */
-class Magento_TestFramework_Helper_Config
+namespace Magento\TestFramework\Helper;
+
+class Config
 {
     /**
      * Returns enabled modules in the system
@@ -22,8 +24,8 @@ class Magento_TestFramework_Helper_Config
     public function getEnabledModules()
     {
         $result = array();
-        $moduleList = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_ModuleListInterface');
+        $moduleList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\ModuleListInterface');
         foreach ($moduleList->getModules() as $module) {
             $result[] = $module['name'];
         }

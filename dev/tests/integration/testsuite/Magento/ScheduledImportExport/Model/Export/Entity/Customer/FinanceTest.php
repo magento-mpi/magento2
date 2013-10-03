@@ -9,15 +9,17 @@
  * @license     {license_link}
  */
 
+namespace Magento\ScheduledImportExport\Model\Export\Entity\Customer;
+
 /**
  * @magentoConfigFixture current_store magento_reward/general/is_enabled            1
  * @magentoConfigFixture current_store customer/magento_customerbalance/is_enabled  1
  */
-class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest extends PHPUnit_Framework_TestCase
+class FinanceTest extends \PHPUnit_Framework_TestCase
 {
     protected function tearDown()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
             ->reinitStores();
     }
 
@@ -28,10 +30,10 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
      */
     public function testExport()
     {
-        $customerFinance = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance');
-        $customerFinance->setWriter(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_ImportExport_Model_Export_Adapter_Csv'));
+        $customerFinance = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance');
+        $customerFinance->setWriter(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ImportExport\Model\Export\Adapter\Csv'));
         $customerFinance->setParameters(array());
         $csvExportString = $customerFinance->export();
 
@@ -39,8 +41,8 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
         list($csvHeader, $csvData) = $this->_getCsvData($csvExportString);
         $this->assertCount(
             count(
-                Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                    ->get('Magento_Core_Model_StoreManagerInterface')->getWebsites()
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                    ->get('Magento\Core\Model\StoreManagerInterface')->getWebsites()
             ),
             $csvData
         );
@@ -49,7 +51,7 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
         $correctHeader = $customerFinance->getPermanentAttributes();
         $attributeCollection = $customerFinance->getAttributeCollection();
         foreach ($customerFinance->filterAttributeCollection($attributeCollection) as $attribute) {
-            /** @var $attribute Magento_Eav_Model_Entity_Attribute */
+            /** @var $attribute \Magento\Eav\Model\Entity\Attribute */
             $correctHeader[] = $attribute->getAttributeCode();
         }
 
@@ -57,11 +59,11 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
         sort($correctHeader);
         $this->assertEquals($correctHeader, $csvHeader);
 
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        $websites = $objectManager->get('Magento_Core_Model_StoreManagerInterface')->getWebsites();
-        /** @var $website Magento_Core_Model_Website */
+        $websites = $objectManager->get('Magento\Core\Model\StoreManagerInterface')->getWebsites();
+        /** @var $website \Magento\Core\Model\Website */
         foreach ($websites as $website) {
             $websiteCode = $website->getCode();
             // CSV data
@@ -70,18 +72,19 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
 
             // prepare correct data
             $correctCustomerData = array(
-                Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance::COLUMN_EMAIL
-                    => $objectManager->get('Magento_Core_Model_Registry')->registry('customer_finance_email'),
-                Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance::COLUMN_WEBSITE
-                    => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                        ->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getWebsite()->getCode(),
-                Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance::COLUMN_FINANCE_WEBSITE
+                \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::COLUMN_EMAIL
+                    => $objectManager->get('Magento\Core\Model\Registry')->registry('customer_finance_email'),
+                \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::COLUMN_WEBSITE
+                    => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                        ->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getWebsite()->getCode(),
+                \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::COLUMN_FINANCE_WEBSITE
                     => $websiteCode,
-                Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection::
+                \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::
                     COLUMN_CUSTOMER_BALANCE
-                    => $objectManager->get('Magento_Core_Model_Registry')->registry('customer_balance_' . $websiteCode),
-                Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_REWARD_POINTS
-                    => $objectManager->get('Magento_Core_Model_Registry')
+                    => $objectManager->get('Magento\Core\Model\Registry')->registry('customer_balance_' . $websiteCode),
+                \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::
+                    COLUMN_REWARD_POINTS
+                    => $objectManager->get('Magento\Core\Model\Registry')
                         ->registry('reward_point_balance_' . $websiteCode),
             );
 
@@ -96,12 +99,12 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
      */
     public function testGetAttributeCollection()
     {
-        $customerFinance = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance');
+        $customerFinance = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance');
         $attributeCollection = $customerFinance->getAttributeCollection();
 
         $this->assertInstanceOf(
-            'Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection',
+            'Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection',
             $attributeCollection
         );
     }
@@ -141,7 +144,8 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
      */
     protected function _getRecordByFinanceWebsite(array $records, $website)
     {
-        $financeWebsiteKey = Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance::COLUMN_FINANCE_WEBSITE;
+        $financeWebsiteKey = \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::
+            COLUMN_FINANCE_WEBSITE;
         foreach ($records as $record) {
             if ($record[$financeWebsiteKey] == $website) {
                 return $record;

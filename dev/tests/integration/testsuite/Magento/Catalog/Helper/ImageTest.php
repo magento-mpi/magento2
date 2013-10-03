@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Helper_ImageTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Helper;
+
+class ImageTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Helper_Image
+     * @var \Magento\Catalog\Helper\Image
      */
     protected $_helper;
 
@@ -27,15 +29,15 @@ class Magento_Catalog_Helper_ImageTest extends PHPUnit_Framework_TestCase
     protected static $_sampleCachedUrl = '';
 
     /**
-     * @var Magento_Catalog_Model_Product
+     * @var \Magento\Catalog\Model\Product
      */
     protected static $_product;
 
     public static function setUpBeforeClass()
     {
         // image fixtures
-        self::$_fixtureMediaDir = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Catalog_Model_Product_Media_Config')->getBaseMediaPath();
+        self::$_fixtureMediaDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Catalog\Model\Product\Media\Config')->getBaseMediaPath();
         mkdir(self::$_fixtureMediaDir . '/m/a', 0777, true);
         $fixtureDir = dirname(__DIR__) . '/_files';
         copy("{$fixtureDir}/magento_image.jpg", self::$_fixtureMediaDir . '/m/a/magento_image.jpg');
@@ -44,20 +46,20 @@ class Magento_Catalog_Helper_ImageTest extends PHPUnit_Framework_TestCase
 
         // watermark fixture
         mkdir(
-            self::$_fixtureMediaDir . '/watermark/stores/' . Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                ->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getId(),
+            self::$_fixtureMediaDir . '/watermark/stores/' . \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getId(),
             0777,
             true
         );
         copy(
             "{$fixtureDir}/watermark.jpg",
-            self::$_fixtureMediaDir . '/watermark/stores/' . Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                ->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getId() . '/watermark.jpg'
+            self::$_fixtureMediaDir . '/watermark/stores/' . \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getId() . '/watermark.jpg'
         );
 
         // sample product with images
-        self::$_product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        self::$_product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         self::$_product
             ->addData(array(
                 'image'       => '/m/a/magento_image.jpg',
@@ -67,16 +69,16 @@ class Magento_Catalog_Helper_ImageTest extends PHPUnit_Framework_TestCase
         ;
 
         // sample image cached URL
-        $helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Catalog_Helper_Image');
+        $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Catalog\Helper\Image');
         self::$_sampleCachedUrl = (string)$helper->init(self::$_product, 'image');
     }
 
     public static function tearDownAfterClass()
     {
-        Magento_Io_File::rmdirRecursive(self::$_fixtureMediaDir);
-        Magento_Io_File::rmdirRecursive(
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                ->get('Magento_Catalog_Model_Product_Media_Config')->getBaseTmpMediaPath()
+        \Magento\Io\File::rmdirRecursive(self::$_fixtureMediaDir);
+        \Magento\Io\File::rmdirRecursive(
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->get('Magento\Catalog\Model\Product\Media\Config')->getBaseTmpMediaPath()
         );
     }
 
@@ -86,8 +88,8 @@ class Magento_Catalog_Helper_ImageTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Catalog_Helper_Image');
+        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Catalog\Helper\Image');
     }
 
     /**
@@ -188,9 +190,9 @@ class Magento_Catalog_Helper_ImageTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPlaceholder()
     {
-        /** @var $model Magento_Catalog_Model_Product */
-        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        /** @var $model \Magento\Catalog\Model\Product */
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $this->_helper->init($model, 'image');
         $placeholder = $this->_helper->getPlaceholder();
         $this->assertEquals('Magento_Catalog::images/product/placeholder/image.jpg', $placeholder);
@@ -216,7 +218,7 @@ class Magento_Catalog_Helper_ImageTest extends PHPUnit_Framework_TestCase
      * Initialize image by specified type
      *
      * @param string $imageType
-     * @return Magento_Catalog_Helper_Image
+     * @return \Magento\Catalog\Helper\Image
      */
     protected function _init($imageType = 'image')
     {

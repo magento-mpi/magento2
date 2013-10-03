@@ -16,24 +16,26 @@
  * @package     Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Newsletter_Model_Resource_Queue extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Newsletter\Model\Resource;
+
+class Queue extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Subscriber collection
      *
-     * @var Magento_Newsletter_Model_Resource_Subscriber_Collection
+     * @var \Magento\Newsletter\Model\Resource\Subscriber\Collection
      */
     protected $_subscriberCollection;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Newsletter_Model_Resource_Subscriber_Collection $subscriberCollection
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Newsletter\Model\Resource\Subscriber\Collection $subscriberCollection
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
-        Magento_Newsletter_Model_Resource_Subscriber_Collection $subscriberCollection
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Newsletter\Model\Resource\Subscriber\Collection $subscriberCollection
     ) {
         parent::__construct($resource);
         $this->_subscriberCollection = $subscriberCollection;
@@ -51,18 +53,18 @@ class Magento_Newsletter_Model_Resource_Queue extends Magento_Core_Model_Resourc
     /**
      * Add subscribers to queue
      *
-     * @param Magento_Newsletter_Model_Queue $queue
+     * @param \Magento\Newsletter\Model\Queue $queue
      * @param array $subscriberIds
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
-    public function addSubscribersToQueue(Magento_Newsletter_Model_Queue $queue, array $subscriberIds)
+    public function addSubscribersToQueue(\Magento\Newsletter\Model\Queue $queue, array $subscriberIds)
     {
         if (count($subscriberIds)==0) {
-            throw new Magento_Core_Exception(__('There are no subscribers selected.'));
+            throw new \Magento\Core\Exception(__('There are no subscribers selected.'));
         }
 
         if (!$queue->getId() && $queue->getQueueStatus()!=Magento_Newsletter_Model_Queue::STATUS_NEVER) {
-            throw new Magento_Core_Exception(__('You selected an invalid queue.'));
+            throw new \Magento\Core\Exception(__('You selected an invalid queue.'));
         }
 
         $adapter = $this->_getWriteAdapter();
@@ -86,7 +88,7 @@ class Magento_Newsletter_Model_Resource_Queue extends Magento_Core_Model_Resourc
             }
             $adapter->commit();
         }
-        catch (Exception $e) {
+        catch (\Exception $e) {
             $adapter->rollBack();
         }
     }
@@ -94,9 +96,9 @@ class Magento_Newsletter_Model_Resource_Queue extends Magento_Core_Model_Resourc
     /**
      * Removes subscriber from queue
      *
-     * @param Magento_Newsletter_Model_Queue $queue
+     * @param \Magento\Newsletter\Model\Queue $queue
      */
-    public function removeSubscribersFromQueue(Magento_Newsletter_Model_Queue $queue)
+    public function removeSubscribersFromQueue(\Magento\Newsletter\Model\Queue $queue)
     {
         $adapter = $this->_getWriteAdapter();
         try {
@@ -111,7 +113,7 @@ class Magento_Newsletter_Model_Resource_Queue extends Magento_Core_Model_Resourc
 
             $adapter->commit();
         }
-        catch (Exception $e) {
+        catch (\Exception $e) {
             $adapter->rollBack();
             throw $e;
         }
@@ -120,10 +122,10 @@ class Magento_Newsletter_Model_Resource_Queue extends Magento_Core_Model_Resourc
     /**
      * Links queue to store
      *
-     * @param Magento_Newsletter_Model_Queue $queue
-     * @return Magento_Newsletter_Model_Resource_Queue
+     * @param \Magento\Newsletter\Model\Queue $queue
+     * @return \Magento\Newsletter\Model\Resource\Queue
      */
-    public function setStores(Magento_Newsletter_Model_Queue $queue)
+    public function setStores(\Magento\Newsletter\Model\Queue $queue)
     {
         $adapter = $this->_getWriteAdapter();
         $adapter->delete(
@@ -168,10 +170,10 @@ class Magento_Newsletter_Model_Resource_Queue extends Magento_Core_Model_Resourc
     /**
      * Returns queue linked stores
      *
-     * @param Magento_Newsletter_Model_Queue $queue
+     * @param \Magento\Newsletter\Model\Queue $queue
      * @return array
      */
-    public function getStores(Magento_Newsletter_Model_Queue $queue)
+    public function getStores(\Magento\Newsletter\Model\Queue $queue)
     {
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()->from($this->getTable('newsletter_queue_store_link'), 'store_id')
@@ -187,10 +189,10 @@ class Magento_Newsletter_Model_Resource_Queue extends Magento_Core_Model_Resourc
     /**
      * Saving template after saving queue action
      *
-     * @param Magento_Core_Model_Abstract $queue
-     * @return Magento_Newsletter_Model_Resource_Queue
+     * @param \Magento\Core\Model\AbstractModel $queue
+     * @return \Magento\Newsletter\Model\Resource\Queue
      */
-    protected function _afterSave(Magento_Core_Model_Abstract $queue)
+    protected function _afterSave(\Magento\Core\Model\AbstractModel $queue)
     {
         if ($queue->getSaveStoresFlag()) {
             $this->setStores($queue);

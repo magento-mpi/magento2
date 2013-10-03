@@ -11,7 +11,9 @@
 /**
  * Address Total Collector model
  */
-class Magento_Sales_Model_Quote_Address_Total_Collector extends Magento_Sales_Model_Config_Ordered
+namespace Magento\Sales\Model\Quote\Address\Total;
+
+class Collector extends \Magento\Sales\Model\Config\Ordered
 {
     /**
      * Path to sort order values of checkout totals
@@ -28,7 +30,7 @@ class Magento_Sales_Model_Quote_Address_Total_Collector extends Magento_Sales_Mo
     /**
      * Corresponding store object
      *
-     * @var Magento_Core_Model_Store
+     * @var \Magento\Core\Model\Store
      */
     protected $_store;
 
@@ -54,34 +56,34 @@ class Magento_Sales_Model_Quote_Address_Total_Collector extends Magento_Sales_Mo
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_ConfigInterface
+     * @var \Magento\Core\Model\Store\ConfigInterface
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Sales_Model_Quote_Address_TotalFactory
+     * @var \Magento\Sales\Model\Quote\Address\TotalFactory
      */
     protected $_totalFactory;
 
     /**
      * Init corresponding total models
      *
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
-     * @param Magento_Sales_Model_Config $salesConfig
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Sales_Model_Quote_Address_TotalFactory $totalFactory
-     * @param Magento_Core_Model_Store|null $store
-     * @param Magento_Simplexml_Element|null $sourceData
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Sales\Model\Config $salesConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Sales\Model\Quote\Address\TotalFactory $totalFactory
+     * @param \Magento\Core\Model\Store|null $store
+     * @param \Magento\Simplexml\Element|null $sourceData
      */
     public function __construct(
-        Magento_Core_Model_Cache_Type_Config $configCacheType,
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
-        Magento_Sales_Model_Config $salesConfig,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Sales_Model_Quote_Address_TotalFactory $totalFactory,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\Sales\Model\Config $salesConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Sales\Model\Quote\Address\TotalFactory $totalFactory,
         $store = null,
         $sourceData = null
     ) {
@@ -118,15 +120,15 @@ class Magento_Sales_Model_Quote_Address_Total_Collector extends Magento_Sales_Mo
      * @param string $class
      * @param string $totalCode
      * @param array $totalConfig
-     * @return Magento_Sales_Model_Quote_Address_Total_Abstract
-     * @throws Magento_Core_Exception
+     * @return \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
+     * @throws \Magento\Core\Exception
      */
     protected function _initModelInstance($class, $totalCode, $totalConfig)
     {
         $model = $this->_totalFactory->create($class);
-        if (!$model instanceof Magento_Sales_Model_Quote_Address_Total_Abstract) {
-            throw new Magento_Core_Exception(
-                __('The address total model should be extended from Magento_Sales_Model_Quote_Address_Total_Abstract.')
+        if (!$model instanceof \Magento\Sales\Model\Quote\Address\Total\AbstractTotal) {
+            throw new \Magento\Core\Exception(
+                __('The address total model should be extended from \Magento\Sales\Model\Quote\Address\Total\Abstract.')
             );
         }
 
@@ -143,7 +145,7 @@ class Magento_Sales_Model_Quote_Address_Total_Collector extends Magento_Sales_Mo
     /**
      * Initialize retrievers array
      *
-     * @return Magento_Sales_Model_Quote_Address_Total_Collector
+     * @return \Magento\Sales\Model\Quote\Address\Total\Collector
      */
     protected function _initRetrievers()
     {

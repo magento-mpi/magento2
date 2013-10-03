@@ -12,7 +12,9 @@
  * Date range promo widget chooser
  * Currently works without localized format
  */
-class Magento_Adminhtml_Block_Promo_Widget_Chooser_Daterange extends Magento_Backend_Block_Abstract
+namespace Magento\Adminhtml\Block\Promo\Widget\Chooser;
+
+class Daterange extends \Magento\Backend\Block\AbstractBlock
 {
     /**
      * HTML ID of the element that will obtain the joined chosen values
@@ -38,25 +40,25 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser_Daterange extends Magento_Bac
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @var Magento_Data_Form_Factory
+     * @var \Magento\Data\Form\Factory
      */
     protected $_formFactory;
 
     /**
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Context $context
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Context $context,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Context $context,
         array $data = array()
     ) {
         $this->_formFactory = $formFactory;
@@ -77,7 +79,7 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser_Daterange extends Magento_Bac
         }
 
         $idSuffix = $this->_coreData->uniqHash();
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $dateFields = array(
             'from' => __('From'),
@@ -85,7 +87,7 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser_Daterange extends Magento_Bac
         );
         foreach ($dateFields as $key => $label) {
             $form->addField("{$key}_{$idSuffix}", 'date', array(
-                'format'   => Magento_Date::DATE_INTERNAL_FORMAT, // hardcoded because hardcoded values delimiter
+                'format'   => \Magento\Date::DATE_INTERNAL_FORMAT, // hardcoded because hardcoded values delimiter
                 'label'    => $label,
                 'image'    => $this->getViewFileUrl('images/grid-cal.gif'),
                 'onchange' => "dateTimeChoose_{$idSuffix}()", // won't work through Event.observe()
@@ -104,7 +106,7 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser_Daterange extends Magento_Bac
      * Target element ID setter
      *
      * @param string $value
-     * @return Magento_Adminhtml_Block_Promo_Widget_Chooser_Daterange
+     * @return \Magento\Adminhtml\Block\Promo\Widget\Chooser\Daterange
      */
     public function setTargetElementId($value)
     {
@@ -117,7 +119,7 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser_Daterange extends Magento_Bac
      *
      * @param string $from
      * @param string $to
-     * @return Magento_Adminhtml_Block_Promo_Widget_Chooser_Daterange
+     * @return \Magento\Adminhtml\Block\Promo\Widget\Chooser\Daterange
      */
     public function setRangeValues($from, $to)
     {
@@ -130,7 +132,7 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser_Daterange extends Magento_Bac
      * Automatically attempts to split the string by delimiter
      *
      * @param string $delimitedString
-     * @return Magento_Adminhtml_Block_Promo_Widget_Chooser_Daterange
+     * @return \Magento\Adminhtml\Block\Promo\Widget\Chooser\Daterange
      */
     public function setRangeValue($delimitedString)
     {
@@ -146,7 +148,7 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser_Daterange extends Magento_Bac
      * Range delimiter setter
      *
      * @param string $value
-     * @return Magento_Adminhtml_Block_Promo_Widget_Chooser_Daterange
+     * @return \Magento\Adminhtml\Block\Promo\Widget\Chooser\Daterange
      */
     public function setRangeDelimiter($value)
     {

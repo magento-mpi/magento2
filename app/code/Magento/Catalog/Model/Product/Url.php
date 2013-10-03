@@ -16,70 +16,72 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Url extends Magento_Object
+namespace Magento\Catalog\Model\Product;
+
+class Url extends \Magento\Object
 {
     const CACHE_TAG = 'url_rewrite';
 
     /**
      * Static URL instance
      *
-     * @var Magento_Core_Model_Url
+     * @var \Magento\Core\Model\Url
      */
     protected $_url;
 
     /**
      * Static URL Rewrite Instance
      *
-     * @var Magento_Core_Model_Url_Rewrite
+     * @var \Magento\Core\Model\Url\Rewrite
      */
     protected $_urlRewrite;
 
     /**
      * Catalog product url
      *
-     * @var Magento_Catalog_Helper_Product_Url
+     * @var \Magento\Catalog\Helper\Product\Url
      */
     protected $_catalogProductUrl = null;
 
     /**
      * Catalog category
      *
-     * @var Magento_Catalog_Helper_Category
+     * @var \Magento\Catalog\Helper\Category
      */
     protected $_catalogCategory = null;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * App model
      *
-     * @var Magento_Core_Model_App
+     * @var \Magento\Core\Model\App
      */
     protected $_app;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Url_RewriteFactory $urlRewriteFactory
-     * @param Magento_Core_Model_UrlInterface $url
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Helper_Category $catalogCategory
-     * @param Magento_Catalog_Helper_Product_Url $catalogProductUrl
-     * @param Magento_Core_Model_App $app
+     * @param \Magento\Core\Model\Url\RewriteFactory $urlRewriteFactory
+     * @param \Magento\Core\Model\UrlInterface $url
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Helper\Category $catalogCategory
+     * @param \Magento\Catalog\Helper\Product\Url $catalogProductUrl
+     * @param \Magento\Core\Model\App $app
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Url_RewriteFactory $urlRewriteFactory,
-        Magento_Core_Model_UrlInterface $url,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Helper_Category $catalogCategory,
-        Magento_Catalog_Helper_Product_Url $catalogProductUrl,
-        Magento_Core_Model_App $app,
+        \Magento\Core\Model\Url\RewriteFactory $urlRewriteFactory,
+        \Magento\Core\Model\UrlInterface $url,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Helper\Category $catalogCategory,
+        \Magento\Catalog\Helper\Product\Url $catalogProductUrl,
+        \Magento\Core\Model\App $app,
         array $data = array()
     ) {
         $this->_urlRewrite = $urlRewriteFactory->create();
@@ -94,7 +96,7 @@ class Magento_Catalog_Model_Product_Url extends Magento_Object
     /**
      * Retrieve URL Instance
      *
-     * @return Magento_Core_Model_Url
+     * @return \Magento\Core\Model\Url
      */
     public function getUrlInstance()
     {
@@ -104,7 +106,7 @@ class Magento_Catalog_Model_Product_Url extends Magento_Object
     /**
      * Retrieve URL Rewrite Instance
      *
-     * @return Magento_Core_Model_Url_Rewrite
+     * @return \Magento\Core\Model\Url\Rewrite
      */
     public function getUrlRewrite()
     {
@@ -128,11 +130,11 @@ class Magento_Catalog_Model_Product_Url extends Magento_Object
     /**
      * Retrieve URL in current store
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param array $params the URL route params
      * @return string
      */
-    public function getUrlInStore(Magento_Catalog_Model_Product $product, $params = array())
+    public function getUrlInStore(\Magento\Catalog\Model\Product $product, $params = array())
     {
         $params['_store_to_url'] = true;
         return $this->getUrl($product, $params);
@@ -141,7 +143,7 @@ class Magento_Catalog_Model_Product_Url extends Magento_Object
     /**
      * Retrieve Product URL
      *
-     * @param  Magento_Catalog_Model_Product $product
+     * @param  \Magento\Catalog\Model\Product $product
      * @param  bool $useSid forced SID mode
      * @return string
      */
@@ -177,11 +179,11 @@ class Magento_Catalog_Model_Product_Url extends Magento_Object
     /**
      * Retrieve Product Url path (with category if exists)
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @param Magento_Catalog_Model_Category $category
+     * @param \Magento\Catalog\Model\Product $product
+     * @param \Magento\Catalog\Model\Category $category
      *
      * @return string
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function getUrlPath($product, $category=null)
     {
@@ -190,8 +192,8 @@ class Magento_Catalog_Model_Product_Url extends Magento_Object
         if (is_null($category)) {
             /** @todo get default category */
             return $path;
-        } elseif (!$category instanceof Magento_Catalog_Model_Category) {
-            throw new Magento_Core_Exception('Invalid category object supplied');
+        } elseif (!$category instanceof \Magento\Catalog\Model\Category) {
+            throw new \Magento\Core\Exception('Invalid category object supplied');
         }
 
         return $this->_catalogCategory->getCategoryUrlPath($category->getUrlPath())
@@ -201,11 +203,11 @@ class Magento_Catalog_Model_Product_Url extends Magento_Object
     /**
      * Retrieve Product URL using UrlDataObject
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param array $params
      * @return string
      */
-    public function getUrl(Magento_Catalog_Model_Product $product, $params = array())
+    public function getUrl(\Magento\Catalog\Model\Product $product, $params = array())
     {
         $routePath      = '';
         $routeParams    = $params;

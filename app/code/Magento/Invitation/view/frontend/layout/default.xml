@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceBlock name="account.links">
-        <block class="Magento_Invitation_Block_Link" name="invitation_link_top">
+        <block class="Magento\Invitation\Block\Link" name="invitation_link_top">
             <arguments>
                 <argument name="label" xsi:type="string">Send Invitations</argument>
                 <argument name="id" xsi:type="string">invitation-send-link</argument>

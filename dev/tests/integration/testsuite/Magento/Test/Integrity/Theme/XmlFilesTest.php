@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Test_Integrity_Theme_XmlFilesTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Theme;
+
+class XmlFilesTest extends \PHPUnit_Framework_TestCase
 {
     const NO_VIEW_XML_FILES_MARKER = 'no-view-xml';
 
@@ -24,7 +26,7 @@ class Magento_Test_Integrity_Theme_XmlFilesTest extends PHPUnit_Framework_TestCa
         }
         $this->_validateConfigFile(
             $file,
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')->getDir('lib')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')->getDir('lib')
                 . '/Magento/Config/etc/view.xsd'
         );
     }
@@ -36,7 +38,7 @@ class Magento_Test_Integrity_Theme_XmlFilesTest extends PHPUnit_Framework_TestCa
     {
         $result = array();
         $files = glob(
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')->getDir('design')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')->getDir('design')
                 . '/*/*/view.xml'
         );
         foreach ($files as $file) {
@@ -61,7 +63,7 @@ class Magento_Test_Integrity_Theme_XmlFilesTest extends PHPUnit_Framework_TestCa
     {
         $result = array();
         $files = glob(
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')->getDir('design')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')->getDir('design')
                 . '/*/*', GLOB_ONLYDIR
         );
         foreach ($files as $themeDir) {
@@ -78,7 +80,7 @@ class Magento_Test_Integrity_Theme_XmlFilesTest extends PHPUnit_Framework_TestCa
     {
         $this->_validateConfigFile(
             $file,
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')->getDir('lib')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')->getDir('lib')
                 . '/Magento/Config/etc/theme.xsd'
         );
     }
@@ -91,7 +93,7 @@ class Magento_Test_Integrity_Theme_XmlFilesTest extends PHPUnit_Framework_TestCa
      */
     public function testThemeConfigFileHasSingleTheme($file)
     {
-        /** @var $configXml SimpleXMLElement */
+        /** @var $configXml \SimpleXMLElement */
         $configXml = simplexml_load_file($file);
         $actualThemes = $configXml->xpath('/theme');
         $this->assertCount(1, $actualThemes, 'Single theme declaration is expected.');
@@ -104,7 +106,7 @@ class Magento_Test_Integrity_Theme_XmlFilesTest extends PHPUnit_Framework_TestCa
     {
         $result = array();
         $files = glob(
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')->getDir('design')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')->getDir('design')
                 . '/*/*/theme.xml'
         );
         foreach ($files as $file) {
@@ -118,11 +120,11 @@ class Magento_Test_Integrity_Theme_XmlFilesTest extends PHPUnit_Framework_TestCa
      *
      * @param string $file
      * @param string $schemaFile
-     * @throws PHPUnit_Framework_AssertionFailedError if file is invalid
+     * @throws \PHPUnit_Framework_AssertionFailedError if file is invalid
      */
     protected function _validateConfigFile($file, $schemaFile)
     {
-        $domConfig = new Magento_Config_Dom(file_get_contents($file));
+        $domConfig = new \Magento\Config\Dom(file_get_contents($file));
         $result = $domConfig->validate($schemaFile, $errors);
         $message = "Invalid XML-file: {$file}\n";
         foreach ($errors as $error) {

@@ -15,7 +15,9 @@
  * @package    Magento_CatalogPermissions
  */
 
-class Magento_CatalogPermissions_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\CatalogPermissions\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     const XML_PATH_ENABLED = 'catalog/magento_catalogpermissions/enabled';
     const XML_PATH_GRANT_CATALOG_CATEGORY_VIEW = 'catalog/magento_catalogpermissions/grant_catalog_category_view';
@@ -31,33 +33,33 @@ class Magento_CatalogPermissions_Helper_Data extends Magento_Core_Helper_Abstrac
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_ConfigInterface
+     * @var \Magento\Core\Model\Store\ConfigInterface
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      */
     public function __construct(
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
     ) {
         $this->_customerSession = $customerSession;
         $this->_eventManager = $eventManager;

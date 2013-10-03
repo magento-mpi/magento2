@@ -16,7 +16,9 @@
  * @package    Magento_Media
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Media_Helper_Data extends Magento_Core_Helper_Data
+namespace Magento\Media\Helper;
+
+class Data extends \Magento\Core\Helper\Data
 {
 
 }

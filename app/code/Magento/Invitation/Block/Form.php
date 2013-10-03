@@ -14,25 +14,27 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-class Magento_Invitation_Block_Form extends Magento_Core_Block_Template
+namespace Magento\Invitation\Block;
+
+class Form extends \Magento\Core\Block\Template
 {
     /**
      * Invitation Config
      * 
-     * @var Magento_Invitation_Model_Config
+     * @var \Magento\Invitation\Model\Config
      */
     protected $_config;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Invitation_Model_Config $config
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Invitation\Model\Config $config
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData, 
-        Magento_Core_Block_Template_Context $context,
-        Magento_Invitation_Model_Config $config,
+        \Magento\Core\Helper\Data $coreData, 
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Invitation\Model\Config $config,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);

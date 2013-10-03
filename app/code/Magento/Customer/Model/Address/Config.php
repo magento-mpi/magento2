@@ -16,9 +16,11 @@
  * @package    Magento_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Address_Config extends Magento_Config_Data
+namespace Magento\Customer\Model\Address;
+
+class Config extends \Magento\Config\Data
 {
-    const DEFAULT_ADDRESS_RENDERER  = 'Magento_Customer_Block_Address_Renderer_Default';
+    const DEFAULT_ADDRESS_RENDERER  = 'Magento\Customer\Block\Address\Renderer\DefaultRenderer';
     const XML_PATH_ADDRESS_TEMPLATE = 'customer/address_templates/';
     const DEFAULT_ADDRESS_FORMAT    = 'oneline';
 
@@ -32,7 +34,7 @@ class Magento_Customer_Model_Address_Config extends Magento_Config_Data
     /**
      * Current store instance
      *
-     * @var Magento_Core_Model_Store
+     * @var \Magento\Core\Model\Store
      */
     protected $_store           = null;
 
@@ -45,27 +47,27 @@ class Magento_Customer_Model_Address_Config extends Magento_Config_Data
     protected $_defaultTypes    = array();
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Customer_Helper_Address
+     * @var \Magento\Customer\Helper\Address
      */
     protected $_addressHelper;
 
     /**
-     * @param Magento_Customer_Model_Address_Config_Reader $reader
-     * @param Magento_Config_CacheInterface $cache
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Customer_Helper_Address $addressHelper
+     * @param \Magento\Customer\Model\Address\Config\Reader $reader
+     * @param \Magento\Config\CacheInterface $cache
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Customer\Helper\Address $addressHelper
      * @param string $cacheId
      */
     public function __construct(
-        Magento_Customer_Model_Address_Config_Reader $reader,
-        Magento_Config_CacheInterface $cache,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Customer_Helper_Address $addressHelper,
+        \Magento\Customer\Model\Address\Config\Reader $reader,
+        \Magento\Config\CacheInterface $cache,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Customer\Helper\Address $addressHelper,
         $cacheId = 'address_format'
     ) {
         parent::__construct($reader, $cache, $cacheId);
@@ -76,8 +78,8 @@ class Magento_Customer_Model_Address_Config extends Magento_Config_Data
     /**
      * Set store
      *
-     * @param null|string|bool|int|Magento_Core_Model_Store $store
-     * @return Magento_Customer_Model_Address_Config
+     * @param null|string|bool|int|\Magento\Core\Model\Store $store
+     * @return \Magento\Customer\Model\Address\Config
      */
     public function setStore($store)
     {
@@ -88,7 +90,7 @@ class Magento_Customer_Model_Address_Config extends Magento_Config_Data
     /**
      * Retrieve store
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getStore()
     {
@@ -111,7 +113,7 @@ class Magento_Customer_Model_Address_Config extends Magento_Config_Data
             $this->_types[$storeId] = array();
             foreach ($this->get() as $typeCode => $typeConfig) {
                 $path = sprintf('%s%s', self::XML_PATH_ADDRESS_TEMPLATE, $typeCode);
-                $type = new Magento_Object();
+                $type = new \Magento\Object();
                 if (isset($typeConfig['escapeHtml'])
                     && ($typeConfig['escapeHtml'] == 'true' || $typeConfig['escapeHtml'] == '1')
                 ) {
@@ -144,14 +146,14 @@ class Magento_Customer_Model_Address_Config extends Magento_Config_Data
     /**
      * Retrieve default address format
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     protected function _getDefaultFormat()
     {
         $store = $this->getStore();
         $storeId = $store->getId();
         if (!isset($this->_defaultType[$storeId])) {
-            $this->_defaultType[$storeId] = new Magento_Object();
+            $this->_defaultType[$storeId] = new \Magento\Object();
             $this->_defaultType[$storeId]->setCode('default')
                 ->setDefaultFormat('{{depend prefix}}{{var prefix}} {{/depend}}{{var firstname}} {{depend middlename}}'
                         . '{{var middlename}} {{/depend}}{{var lastname}}{{depend suffix}} {{var suffix}}{{/depend}}, '
@@ -170,7 +172,7 @@ class Magento_Customer_Model_Address_Config extends Magento_Config_Data
      * Retrieve address format by code
      *
      * @param string $typeCode
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getFormatByCode($typeCode)
     {

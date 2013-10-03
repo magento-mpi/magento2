@@ -11,30 +11,32 @@
 /**
  * PayPal online logo with additional options
  */
-class Magento_Paypal_Block_Logo extends Magento_Core_Block_Template
+namespace Magento\Paypal\Block;
+
+class Logo extends \Magento\Core\Block\Template
 {
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @var Magento_Paypal_Model_Config
+     * @var \Magento\Paypal\Model\Config
      */
     protected $_paypalConfig;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Paypal_Model_Config $paypalConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Paypal\Model\Config $paypalConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Paypal_Model_Config $paypalConfig,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Paypal\Model\Config $paypalConfig,
         array $data = array()
     ) {
         $this->_locale = $locale;
@@ -55,7 +57,7 @@ class Magento_Paypal_Block_Logo extends Magento_Core_Block_Template
     /**
      * Getter for paypal config
      *
-     * @return Magento_Paypal_Model_Config
+     * @return \Magento\Paypal\Model\Config
      */
     protected function _getConfig()
     {

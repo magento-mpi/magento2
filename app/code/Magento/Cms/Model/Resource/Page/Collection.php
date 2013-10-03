@@ -16,7 +16,9 @@
  * @package     Magento_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Cms_Model_Resource_Page_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Cms\Model\Resource\Page;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Load data for preview flag
@@ -29,27 +31,27 @@ class Magento_Cms_Model_Resource_Page_Collection extends Magento_Core_Model_Reso
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
         $this->_storeManager = $storeManager;
@@ -61,7 +63,7 @@ class Magento_Cms_Model_Resource_Page_Collection extends Magento_Core_Model_Reso
      */
     protected function _construct()
     {
-        $this->_init('Magento_Cms_Model_Page', 'Magento_Cms_Model_Resource_Page');
+        $this->_init('Magento\Cms\Model\Page', 'Magento\Cms\Model\Resource\Page');
         $this->_map['fields']['page_id'] = 'main_table.page_id';
         $this->_map['fields']['store']   = 'store_table.store_id';
     }
@@ -98,7 +100,7 @@ class Magento_Cms_Model_Resource_Page_Collection extends Magento_Core_Model_Reso
      * Set first store flag
      *
      * @param bool $flag
-     * @return Magento_Cms_Model_Resource_Page_Collection
+     * @return \Magento\Cms\Model\Resource\Page\Collection
      */
     public function setFirstStoreFlag($flag = false)
     {
@@ -109,7 +111,7 @@ class Magento_Cms_Model_Resource_Page_Collection extends Magento_Core_Model_Reso
     /**
      * Perform operations after collection load
      *
-     * @return Magento_Cms_Model_Resource_Page_Collection
+     * @return \Magento\Cms\Model\Resource\Page\Collection
      */
     protected function _afterLoad()
     {
@@ -147,14 +149,14 @@ class Magento_Cms_Model_Resource_Page_Collection extends Magento_Core_Model_Reso
     /**
      * Add filter by store
      *
-     * @param int|Magento_Core_Model_Store $store
+     * @param int|\Magento\Core\Model\Store $store
      * @param bool $withAdmin
-     * @return Magento_Cms_Model_Resource_Page_Collection
+     * @return \Magento\Cms\Model\Resource\Page\Collection
      */
     public function addStoreFilter($store, $withAdmin = true)
     {
         if (!$this->getFlag('store_filter_added')) {
-            if ($store instanceof Magento_Core_Model_Store) {
+            if ($store instanceof \Magento\Core\Model\Store) {
                 $store = array($store->getId());
             }
 
@@ -163,7 +165,7 @@ class Magento_Cms_Model_Resource_Page_Collection extends Magento_Core_Model_Reso
             }
 
             if ($withAdmin) {
-                $store[] = Magento_Core_Model_AppInterface::ADMIN_STORE_ID;
+                $store[] = \Magento\Core\Model\AppInterface::ADMIN_STORE_ID;
             }
 
             $this->addFilter('store', array('in' => $store), 'public');
@@ -191,13 +193,13 @@ class Magento_Cms_Model_Resource_Page_Collection extends Magento_Core_Model_Reso
      * Get SQL for get record count.
      * Extra GROUP BY strip added.
      *
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function getSelectCountSql()
     {
         $countSelect = parent::getSelectCountSql();
 
-        $countSelect->reset(Zend_Db_Select::GROUP);
+        $countSelect->reset(\Zend_Db_Select::GROUP);
 
         return $countSelect;
     }

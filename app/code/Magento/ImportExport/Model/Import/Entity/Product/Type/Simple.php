@@ -15,8 +15,10 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ImportExport_Model_Import_Entity_Product_Type_Simple
-    extends Magento_ImportExport_Model_Import_Entity_Product_Type_Abstract
+namespace Magento\ImportExport\Model\Import\Entity\Product\Type;
+
+class Simple
+    extends \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
 {
     /**
      * Attributes' codes which will be allowed anyway, independently from its visibility property.

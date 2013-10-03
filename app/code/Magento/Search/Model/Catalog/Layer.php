@@ -12,39 +12,70 @@
 /**
  * Catalog layer model integrated with search engine
  */
-class Magento_Search_Model_Catalog_Layer extends Magento_Catalog_Model_Layer
+namespace Magento\Search\Model\Catalog;
+
+class Layer extends \Magento\Catalog\Model\Layer
 {
     /**
-     * @var Magento_CatalogSearch_Model_Resource_EngineProvider
+     * @var \Magento\CatalogSearch\Model\Resource\EngineProvider
      */
     protected $_engineProvider;
 
     /**
      * Catalog search data
      *
-     * @var Magento_CatalogSearch_Helper_Data
+     * @var \Magento\CatalogSearch\Helper\Data
      */
     protected $_catalogSearchData;
 
     /**
-     * @param Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider
-     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
+     * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
+     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
+     * @param \Magento\Catalog\Model\Layer\StateFactory $layerStateFactory
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
+     * @param \Magento\Catalog\Model\Resource\Product $catalogProduct
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider,
-        Magento_CatalogSearch_Helper_Data $catalogSearchData,
+        \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
+        \Magento\CatalogSearch\Helper\Data $catalogSearchData,
+        \Magento\Catalog\Model\Layer\StateFactory $layerStateFactory,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
+        \Magento\Catalog\Model\Resource\Product $catalogProduct,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_engineProvider = $engineProvider;
         $this->_catalogSearchData = $catalogSearchData;
-        parent::__construct($data);
+        parent::__construct(
+            $layerStateFactory,
+            $categoryFactory,
+            $attributeCollectionFactory,
+            $catalogProduct,
+            $storeManager,
+            $catalogProductVisibility,
+            $catalogConfig,
+            $customerSession,
+            $coreRegistry,
+            $data
+        );
     }
 
     /**
      * Retrieve current layer product collection
      *
-     * @return Magento_Search_Model_Resource_Collection
+     * @return \Magento\Search\Model\Resource\Collection
      */
     public function getProductCollection()
     {
@@ -71,7 +102,7 @@ class Magento_Search_Model_Catalog_Layer extends Magento_Catalog_Model_Layer
     public function getStateTags(array $additionalTags = array())
     {
         $additionalTags = array_merge($additionalTags, array(
-            Magento_Catalog_Model_Category::CACHE_TAG . $this->getCurrentCategory()->getId() . '_SEARCH'
+            \Magento\Catalog\Model\Category::CACHE_TAG . $this->getCurrentCategory()->getId() . '_SEARCH'
         ));
 
         return parent::getStateTags($additionalTags);

@@ -16,7 +16,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Resource_File_Storage_File
+namespace Magento\Core\Model\Resource\File\Storage;
+
+class File
 {
     /**
      * Prefix of model events names
@@ -26,29 +28,29 @@ class Magento_Core_Model_Resource_File_Storage_File
     protected $_mediaBaseDirectory = null;
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
     /**
-     * @var Magento_Core_Helper_File_Storage_Database
+     * @var \Magento\Core\Helper\File\Storage\Database
      */
     protected $_dbHelper;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @param Magento_Filesystem $filesystem
-     * @param Magento_Core_Helper_File_Storage_Database $dbHelper
-     * @param Magento_Core_Model_Logger $log
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Core\Helper\File\Storage\Database $dbHelper
+     * @param \Magento\Core\Model\Logger $log
      */
     public function __construct(
-        Magento_Filesystem $filesystem,
-        Magento_Core_Helper_File_Storage_Database $dbHelper,
-        Magento_Core_Model_Logger $log
+        \Magento\Filesystem $filesystem,
+        \Magento\Core\Helper\File\Storage\Database $dbHelper,
+        \Magento\Core\Model\Logger $log
     ) {
         $this->_dbHelper = $dbHelper;
         $this->_logger = $log;
@@ -111,7 +113,7 @@ class Magento_Core_Model_Resource_File_Storage_File
      * Clear files and directories in storage
      *
      * @param string $dir
-     * @return Magento_Core_Model_Resource_File_Storage_File
+     * @return \Magento\Core\Model\Resource\File\Storage\File
      */
     public function clear($dir = '')
     {
@@ -132,7 +134,7 @@ class Magento_Core_Model_Resource_File_Storage_File
      * Save directory to storage
      *
      * @param array $dir
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @return bool
      */
     public function saveDir($dir)
@@ -148,9 +150,9 @@ class Magento_Core_Model_Resource_File_Storage_File
 
         try {
             $this->_filesystem->ensureDirectoryExists($path);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_logger->log($e->getMessage());
-            throw new Magento_Core_Exception(__('Unable to create directory: %1', $path));
+            throw new \Magento\Core\Exception(__('Unable to create directory: %1', $path));
         }
 
         return true;
@@ -162,7 +164,7 @@ class Magento_Core_Model_Resource_File_Storage_File
      * @param string $filePath
      * @param string $content
      * @param bool $overwrite
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @return bool
      */
     public function saveFile($filePath, $content, $overwrite = false)
@@ -176,9 +178,9 @@ class Magento_Core_Model_Resource_File_Storage_File
                 $this->_filesystem->write($filePath, $content);
                 return true;
             }
-        } catch (Magento_Filesystem_Exception $e) {
+        } catch (\Magento\Filesystem\Exception $e) {
             $this->_logger->log($e->getMessage());
-            throw new Magento_Core_Exception(__('Unable to save file: %1', $filePath));
+            throw new \Magento\Core\Exception(__('Unable to save file: %1', $filePath));
         }
 
         return false;
@@ -192,6 +194,6 @@ class Magento_Core_Model_Resource_File_Storage_File
      */
     protected function _getRelativePath($path)
     {
-        return ltrim(str_replace($this->getMediaBaseDirectory(), '', $path), Magento_Filesystem::DIRECTORY_SEPARATOR);
+        return ltrim(str_replace($this->getMediaBaseDirectory(), '', $path), \Magento\Filesystem::DIRECTORY_SEPARATOR);
     }
 }

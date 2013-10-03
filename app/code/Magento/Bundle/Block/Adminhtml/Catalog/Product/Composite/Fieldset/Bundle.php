@@ -15,8 +15,10 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Bundle
-    extends Magento_Bundle_Block_Catalog_Product_View_Type_Bundle
+namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Composite\Fieldset;
+
+class Bundle
+    extends \Magento\Bundle\Block\Catalog\Product\View\Type\Bundle
 {
     /**
      * Returns string with json config for bundle product

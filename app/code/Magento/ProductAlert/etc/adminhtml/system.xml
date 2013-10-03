@@ -16,31 +16,31 @@
                 <label>Product Alerts</label>
                 <field id="allow_price" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Allow Alert When Product Price Changes</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="allow_stock" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Allow Alert When Product Comes Back in Stock</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="email_price_template" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Price Alert Email Template</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Email_Template</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Email\Template</source_model>
                 </field>
                 <field id="email_stock_template" translate="label" type="select" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Stock Alert Email Template</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Email_Template</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Email\Template</source_model>
                 </field>
                 <field id="email_identity" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Alert Email Sender</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Email_Identity</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Email\Identity</source_model>
                 </field>
             </group>
             <group id="productalert_cron" translate="label" type="text" sortOrder="260" showInDefault="1" showInWebsite="0" showInStore="0">
                 <label>Product Alerts Run Settings</label>
                 <field id="frequency" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Frequency</label>
-                    <source_model>Magento_Cron_Model_Config_Source_Frequency</source_model>
-                    <backend_model>Magento_Cron_Model_Config_Backend_Product_Alert</backend_model>
+                    <source_model>Magento\Cron\Model\Config\Source\Frequency</source_model>
+                    <backend_model>Magento\Cron\Model\Config\Backend\Product\Alert</backend_model>
                 </field>
                 <field id="time" translate="label" type="time" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Start Time</label>
@@ -51,11 +51,11 @@
                 </field>
                 <field id="error_email_identity" translate="label" type="select" sortOrder="4" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Error Email Sender</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Email_Identity</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Email\Identity</source_model>
                 </field>
                 <field id="error_email_template" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Error Email Template</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Email_Template</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Email\Template</source_model>
                 </field>
             </group>
         </section>

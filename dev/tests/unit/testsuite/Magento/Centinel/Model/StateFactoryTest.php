@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Centinel_Model_StateFactory
+ * \Magento\Centinel\Model\StateFactory
  *
  * {license_notice}
  *
@@ -10,48 +10,50 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Centinel_Model_StateFactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Centinel\Model;
+
+class StateFactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreateState()
     {
-        $objectManager = $this->getMock('Magento_ObjectManager');
+        $objectManager = $this->getMock('Magento\ObjectManager');
         $objectManager->expects($this->at(0))
             ->method('create')
-            ->with('Magento_Centinel_Model_State_Visa')
-            ->will($this->returnValue($this->getMock('Magento_Centinel_Model_State_Visa')));
+            ->with('Magento\Centinel\Model\State\Visa')
+            ->will($this->returnValue($this->getMock('Magento\Centinel\Model\State\Visa')));
         $objectManager->expects($this->at(1))
             ->method('create')
-            ->with('Magento_Centinel_Model_State_Mastercard')
-            ->will($this->returnValue($this->getMock('Magento_Centinel_Model_State_Mastercard')));
+            ->with('Magento\Centinel\Model\State\Mastercard')
+            ->will($this->returnValue($this->getMock('Magento\Centinel\Model\State\Mastercard')));
         $objectManager->expects($this->at(2))
             ->method('create')
-            ->with('Magento_Centinel_Model_State_Jcb')
-            ->will($this->returnValue($this->getMock('Magento_Centinel_Model_State_Jcb')));
+            ->with('Magento\Centinel\Model\State\Jcb')
+            ->will($this->returnValue($this->getMock('Magento\Centinel\Model\State\Jcb')));
         $objectManager->expects($this->at(3))
             ->method('create')
-            ->with('Magento_Centinel_Model_State_Mastercard')
-            ->will($this->returnValue($this->getMock('Magento_Centinel_Model_State_Mastercard')));
+            ->with('Magento\Centinel\Model\State\Mastercard')
+            ->will($this->returnValue($this->getMock('Magento\Centinel\Model\State\Mastercard')));
 
-        $factory = new Magento_Centinel_Model_StateFactory(
+        $factory = new \Magento\Centinel\Model\StateFactory(
             $objectManager,
             array(
-                'VI'  => 'Magento_Centinel_Model_State_Visa',
-                'MC'  => 'Magento_Centinel_Model_State_Mastercard',
-                'JCB' => 'Magento_Centinel_Model_State_Jcb',
-                'SM'  => 'Magento_Centinel_Model_State_Mastercard',
+                'VI'  => 'Magento\Centinel\Model\State\Visa',
+                'MC'  => 'Magento\Centinel\Model\State\Mastercard',
+                'JCB' => 'Magento\Centinel\Model\State\Jcb',
+                'SM'  => 'Magento\Centinel\Model\State\Mastercard',
             )
         );
-        $this->assertInstanceOf('Magento_Centinel_Model_State_Visa', $factory->createState('VI'));
-        $this->assertInstanceOf('Magento_Centinel_Model_State_Mastercard', $factory->createState('MC'));
-        $this->assertInstanceOf('Magento_Centinel_Model_State_Jcb', $factory->createState('JCB'));
-        $this->assertInstanceOf('Magento_Centinel_Model_State_Mastercard', $factory->createState('SM'));
+        $this->assertInstanceOf('Magento\Centinel\Model\State\Visa', $factory->createState('VI'));
+        $this->assertInstanceOf('Magento\Centinel\Model\State\Mastercard', $factory->createState('MC'));
+        $this->assertInstanceOf('Magento\Centinel\Model\State\Jcb', $factory->createState('JCB'));
+        $this->assertInstanceOf('Magento\Centinel\Model\State\Mastercard', $factory->createState('SM'));
         $this->assertFalse($factory->createState('LOL'));
     }
 
     public function testCreateStateMapIsEmpty()
     {
-        $objectManager = $this->getMock('Magento_ObjectManager');
-        $factory = new Magento_Centinel_Model_StateFactory(
+        $objectManager = $this->getMock('Magento\ObjectManager');
+        $factory = new \Magento\Centinel\Model\StateFactory(
             $objectManager
         );
         $this->assertFalse($factory->createState('VI'));

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category     Magento
- * @package      Magento_Backup
+ * @package      \Magento\Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,28 +12,30 @@
  * Class to work with database backups
  *
  * @category    Magento
- * @package     Magento_Backup
+ * @package     \Magento\Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backup_Db extends Magento_Backup_Abstract
+namespace Magento\Backup;
+
+class Db extends \Magento\Backup\AbstractBackup
 {
     /**
-     * @var Magento_Backup_Model_BackupFactory
+     * @var \Magento\Backup\Model\BackupFactory
      */
     protected $_backupFactory;
 
     /**
-     * @var Magento_Backup_Model_DbFactory
+     * @var \Magento\Backup\Model\DbFactory
      */
     protected $_backupDbFactory;
 
     /**
-     * @param Magento_Backup_Model_BackupFactory $backupFactory
-     * @param Magento_Backup_Model_DbFactory $backupDbFactory
+     * @param \Magento\Backup\Model\BackupFactory $backupFactory
+     * @param \Magento\Backup\Model\DbFactory $backupDbFactory
      */
     public function __construct(
-        Magento_Backup_Model_BackupFactory $backupFactory,
-        Magento_Backup_Model_DbFactory $backupDbFactory
+        \Magento\Backup\Model\BackupFactory $backupFactory,
+        \Magento\Backup\Model\DbFactory $backupDbFactory
     ) {
         $this->_backupFactory = $backupFactory;
         $this->_backupDbFactory = $backupDbFactory;
@@ -51,10 +53,10 @@ class Magento_Backup_Db extends Magento_Backup_Abstract
 
         $this->_lastOperationSucceed = false;
 
-        $archiveManager = new Magento_Archive();
+        $archiveManager = new \Magento\Archive();
         $source = $archiveManager->unpack($this->getBackupPath(), $this->getBackupsDir());
 
-        $file = new Magento_Backup_Filesystem_Iterator_File($source);
+        $file = new \Magento\Backup\Filesystem\Iterator\File($source);
         foreach ($file as $statement) {
             $this->getResourceModel()->runCommand($statement);
         }

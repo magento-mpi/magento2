@@ -5,10 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Config_FileResolverTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Config;
+
+class FileResolverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Config_FileResolver
+     * @var \Magento\Core\Model\Config\FileResolver
      */
     protected $_model;
 
@@ -17,13 +19,13 @@ class Magento_Core_Model_Config_FileResolverTest extends PHPUnit_Framework_TestC
         $appConfigDir = __DIR__ . DIRECTORY_SEPARATOR . 'FileResolver'
             . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'etc';
 
-        $applicationDirs = $this->getMock('Magento_Core_Model_Dir', array(), array('getDir'), '', false);
+        $applicationDirs = $this->getMock('Magento\Core\Model\Dir', array(), array('getDir'), '', false);
         $applicationDirs->expects($this->any())
             ->method('getDir')
-            ->with(Magento_Core_Model_Dir::CONFIG)
+            ->with(\Magento\Core\Model\Dir::CONFIG)
             ->will($this->returnValue($appConfigDir));
 
-        $moduleReader = $this->getMock('Magento_Core_Model_Config_Modules_Reader', array(),
+        $moduleReader = $this->getMock('Magento\Core\Model\Config\Modules\Reader', array(),
             array('getConfigurationFiles'), '', false);
         $moduleReader->expects($this->any())
             ->method('getConfigurationFiles')
@@ -52,7 +54,7 @@ class Magento_Core_Model_Config_FileResolverTest extends PHPUnit_Framework_TestC
                     ),
                 )
             ));
-        $this->_model = new Magento_Core_Model_Config_FileResolver($moduleReader, $applicationDirs);
+        $this->_model = new \Magento\Core\Model\Config\FileResolver($moduleReader, $applicationDirs);
     }
 
     /**

@@ -15,11 +15,13 @@
  * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloader_Model_Config extends Magento_Downloader_Model_Config_Abstract
+namespace Magento\Downloader\Model;
+
+class Config extends \Magento\Downloader\Model\Config\AbstractConfig
 {
     /**
      * Get channel config class
-     * @return Magento_Downloader_Model_Config_Interface
+     * @return \Magento\Downloader\Model\Config\ConfigInterface
      */
     public function getChannelConfig()
     {
@@ -28,11 +30,11 @@ class Magento_Downloader_Model_Config extends Magento_Downloader_Model_Config_Ab
         if (!empty($channel)) {
             try {
                 return $this->controller()->model('config_'.$channel, true);
-            } catch (Exception $e) {
-                throw new Exception('Not valid config.ini file.');
+            } catch (\Exception $e) {
+                throw new \Exception('Not valid config.ini file.');
             }
         } else {
-            throw new Exception('Not valid config.ini file.');
+            throw new \Exception('Not valid config.ini file.');
         }
     }
 
@@ -40,7 +42,7 @@ class Magento_Downloader_Model_Config extends Magento_Downloader_Model_Config_Ab
     * Save post data to config
     *
     * @param array $p
-    * @return Magento_Downloader_Model_Config
+    * @return \Magento\Downloader\Model\Config
     */
     public function saveConfigPost($p)
     {

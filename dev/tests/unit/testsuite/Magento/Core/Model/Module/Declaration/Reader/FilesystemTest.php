@@ -5,34 +5,37 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Module_Declaration_Reader_FilesystemTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Module\Declaration\Reader;
+
+class FilesystemTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Module_Declaration_Reader_Filesystem
+     * @var \Magento\Core\Model\Module\Declaration\Reader\Filesystem
      */
     protected $_model;
 
     protected function setUp()
     {
         $baseDir = __DIR__ . str_replace('/', DIRECTORY_SEPARATOR, '/../FileResolver/_files');
-        $applicationDirs = $this->getMock('Magento_Core_Model_Dir', array(), array('getDir'), '', false);
+        $applicationDirs = $this->getMock('Magento\Core\Model\Dir', array(), array('getDir'), '', false);
         $applicationDirs->expects($this->any())->method('getDir')
             ->will($this->returnValueMap(array(
                 array(
-                    Magento_Core_Model_Dir::CONFIG, $baseDir . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR .'etc',
+                    \Magento\Core\Model\Dir::CONFIG,
+                    $baseDir . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR .'etc',
                 ),
                 array(
-                    Magento_Core_Model_Dir::MODULES,
+                    \Magento\Core\Model\Dir::MODULES,
                         $baseDir . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR .'code',
                 ),
             )));
-        $fileResolver = new Magento_Core_Model_Module_Declaration_FileResolver($applicationDirs);
-        $converter = new Magento_Core_Model_Module_Declaration_Converter_Dom();
+        $fileResolver = new \Magento\Core\Model\Module\Declaration\FileResolver($applicationDirs);
+        $converter = new \Magento\Core\Model\Module\Declaration\Converter\Dom();
         $schemaLocatorMock = $this->getMock(
-            'Magento_Core_Model_Module_Declaration_SchemaLocator', array(), array(), '', false
+            'Magento\Core\Model\Module\Declaration\SchemaLocator', array(), array(), '', false
         );
-        $validationStateMock = $this->getMock('Magento_Config_ValidationStateInterface');
-        $this->_model = new Magento_Core_Model_Module_Declaration_Reader_Filesystem(
+        $validationStateMock = $this->getMock('Magento\Config\ValidationStateInterface');
+        $this->_model = new \Magento\Core\Model\Module\Declaration\Reader\Filesystem(
             $fileResolver, $converter, $schemaLocatorMock, $validationStateMock
         );
     }

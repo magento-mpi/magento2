@@ -15,8 +15,10 @@
  * @package     Magento_ScheduledImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation_Collection
-    extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation;
+
+class Collection
+    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Initialize resource collection model
@@ -25,15 +27,15 @@ class Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation_Collectio
     protected function _construct()
     {
         $this->_init(
-            'Magento_ScheduledImportExport_Model_Scheduled_Operation',
-            'Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation'
+            'Magento\ScheduledImportExport\Model\Scheduled\Operation',
+            'Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation'
         );
     }
 
     /**
      * Call afterLoad method for each item
      *
-     * @return Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation_Collection
+     * @return \Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Collection
      */
     protected function _afterLoad()
     {

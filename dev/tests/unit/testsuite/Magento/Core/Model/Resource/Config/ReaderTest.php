@@ -5,10 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Resource_Config_ReaderTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Resource\Config;
+
+class ReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Resource_Config_Reader
+     * @var \Magento\Core\Model\Resource\Config\Reader
      */
     protected $_model;
 
@@ -18,27 +20,27 @@ class Magento_Core_Model_Resource_Config_ReaderTest extends PHPUnit_Framework_Te
     protected $_filePath;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fileResolverMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_converterMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_schemaLocatorMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configLocalMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_validationStateMock;
 
@@ -46,20 +48,20 @@ class Magento_Core_Model_Resource_Config_ReaderTest extends PHPUnit_Framework_Te
     {
         $this->_filePath = __DIR__ . '/_files' . DIRECTORY_SEPARATOR;
 
-        $this->_fileResolverMock = $this->getMock('Magento_Config_FileResolverInterface');
-        $this->_validationStateMock = $this->getMock('Magento_Config_ValidationStateInterface');
-        $this->_schemaLocatorMock = $this->getMock('Magento_Core_Model_Resource_Config_SchemaLocator',
+        $this->_fileResolverMock = $this->getMock('Magento\Config\FileResolverInterface');
+        $this->_validationStateMock = $this->getMock('Magento\Config\ValidationStateInterface');
+        $this->_schemaLocatorMock = $this->getMock('Magento\Core\Model\Resource\Config\SchemaLocator',
             array(), array(), '', false);
 
         $this->_converterMock = $this->getMock(
-            'Magento_Core_Model_Resource_Config_Converter', array(), array(), '', false
+            'Magento\Core\Model\Resource\Config\Converter', array(), array(), '', false
         );
 
         $this->_configLocalMock = $this->getMock(
-            'Magento_Core_Model_Config_Local', array(), array(), '', false
+            'Magento\Core\Model\Config\Local', array(), array(), '', false
         );
 
-        $this->_model = new Magento_Core_Model_Resource_Config_Reader(
+        $this->_model = new \Magento\Core\Model\Resource\Config\Reader(
             $this->_fileResolverMock,
             $this->_converterMock,
             $this->_schemaLocatorMock,
@@ -70,7 +72,7 @@ class Magento_Core_Model_Resource_Config_ReaderTest extends PHPUnit_Framework_Te
     }
 
     /**
-     * @covers Magento_Core_Model_Resource_Config_Reader::read
+     * @covers \Magento\Core\Model\Resource\Config\Reader::read
      */
     public function testRead()
     {

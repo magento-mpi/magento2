@@ -9,21 +9,23 @@
 /**
  * Product type factory
  */
-class Magento_Catalog_Model_Product_Type_Pool
+namespace Magento\Catalog\Model\Product\Type;
+
+class Pool
 {
     /**
      * Object Manager
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
      * Construct
      *
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -33,16 +35,16 @@ class Magento_Catalog_Model_Product_Type_Pool
      *
      * @param string $className
      * @param array $data
-     * @return Magento_Catalog_Model_Product_Type_Abstract
-     * @throws Magento_Core_Exception
+     * @return \Magento\Catalog\Model\Product\Type\AbstractType
+     * @throws \Magento\Core\Exception
      */
     public function get($className, array $data = array())
     {
         $product = $this->_objectManager->get($className, $data);
 
-        if (!$product instanceof Magento_Catalog_Model_Product_Type_Abstract) {
-            throw new Magento_Core_Exception($className
-                . ' doesn\'t extends Magento_Catalog_Model_Product_Type_Abstract');
+        if (!$product instanceof \Magento\Catalog\Model\Product\Type\AbstractType) {
+            throw new \Magento\Core\Exception($className
+                . ' doesn\'t extends \Magento\Catalog\Model\Product\Type\AbstractType');
         }
         return $product;
     }

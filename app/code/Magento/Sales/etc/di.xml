@@ -8,127 +8,127 @@
  */
 -->
 <config>
-    <type name="Magento_Sales_Model_Resource_Report" shared="false" />
-    <type name="Magento_Sales_Model_Convert_Order">
+    <type name="Magento\Sales\Model\Resource\Report" shared="false" />
+    <type name="Magento\Sales\Model\Convert\Order">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Sales_Model_Convert_Quote">
+    <type name="Magento\Sales\Model\Convert\Quote">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Sales_Model_Observer">
+    <type name="Magento\Sales\Model\Observer">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Sales_Model_Order_Creditmemo">
+    <type name="Magento\Sales\Model\Order\Creditmemo">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Sales_Model_Order_Invoice">
+    <type name="Magento\Sales\Model\Order\Invoice">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Sales_Model_Order_Item">
+    <type name="Magento\Sales\Model\Order\Item">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Sales_Model_Order_Payment_Transaction">
+    <type name="Magento\Sales\Model\Order\Payment\Transaction">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Sales_Model_Order_Payment">
+    <type name="Magento\Sales\Model\Order\Payment">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Sales_Model_Order">
+    <type name="Magento\Sales\Model\Order">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Sales_Model_Quote_Address_Total_Discount">
+    <type name="Magento\Sales\Model\Quote\Address\Total\Discount">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Sales_Model_Quote_Config">
+    <type name="Magento\Sales\Model\Quote\Config">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Sales_Model_Quote_Item">
+    <type name="Magento\Sales\Model\Quote\Item">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Sales_Model_Quote_Payment">
+    <type name="Magento\Sales\Model\Quote\Payment">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Sales_Model_Quote">
+    <type name="Magento\Sales\Model\Quote">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Sales_Model_Resource_Order_Abstract">
+    <type name="Magento\Sales\Model\Resource\Order\AbstractOrder">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Sales_Model_Resource_Sale_Collection">
+    <type name="Magento\Sales\Model\Resource\Sale\Collection">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Sales_Model_Service_Quote">
+    <type name="Magento\Sales\Model\Service\Quote">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Sales_Model_Order_Pdf_Config_Reader">
+    <type name="Magento\Sales\Model\Order\Pdf\Config\Reader">
         <param name="fileName">
             <value>pdf.xml</value>
         </param>
         <param name="converter">
-            <instance type="Magento_Sales_Model_Order_Pdf_Config_Converter" />
+            <instance type="Magento\Sales\Model\Order\Pdf\Config\Converter" />
         </param>
         <param name="schemaLocator">
-            <instance type="Magento_Sales_Model_Order_Pdf_Config_SchemaLocator" />
+            <instance type="Magento\Sales\Model\Order\Pdf\Config\SchemaLocator" />
         </param>
     </type>
-    <virtualType name="pdfConfigDataStorage" type="Magento_Config_Data">
+    <virtualType name="pdfConfigDataStorage" type="Magento\Config\Data">
         <param name="reader">
-            <instance type="Magento_Sales_Model_Order_Pdf_Config_Reader" />
+            <instance type="Magento\Sales\Model\Order\Pdf\Config\Reader" />
         </param>
         <param name="cacheId">
             <value>sales_pdf_config</value>
         </param>
     </virtualType>
-    <type name="Magento_Sales_Model_Order_Pdf_Config">
+    <type name="Magento\Sales\Model\Order\Pdf\Config">
         <param name="dataStorage">
             <instance type="pdfConfigDataStorage" />
         </param>
     </type>
-    <type name="Magento_Catalog_Model_Resource_Product_Flat_Indexer">
+    <type name="Magento\Catalog\Model\Resource\Product\Flat\Indexer">
         <param name="flatAttributeGroups">
             <value>
                 <sales_quote_item>sales_quote_item</sales_quote_item>
             </value>
         </param>
     </type>
-    <type name="Magento_Core_Model_Db_Updater">
+    <type name="Magento\Core\Model\Db\Updater">
         <param name="resourceList">
             <value>
-                <sales_setup>Magento_Sales_Model_Resource_Setup</sales_setup>
+                <sales_setup>Magento\Sales\Model\Resource\Setup</sales_setup>
             </value>
         </param>
     </type>

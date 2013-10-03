@@ -11,23 +11,25 @@
 /**
  * Tool block with buttons
  */
-class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Preview_Buttons extends Magento_Adminhtml_Block_Widget_Container
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Preview;
+
+class Buttons extends \Magento\Adminhtml\Block\Widget\Container
 {
     /**
-     * @var Magento_VersionsCms_Model_Config
+     * @var \Magento\VersionsCms\Model\Config
      */
     protected $_cmsConfig;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_VersionsCms_Model_Config $cmsConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_VersionsCms_Model_Config $cmsConfig,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\VersionsCms\Model\Config $cmsConfig,
         array $data = array()
     ) {
         $this->_cmsConfig = $cmsConfig;
@@ -37,7 +39,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Preview_Buttons extends Magen
     /**
      * Adding two main buttons
      *
-     * @return Magento_VersionsCms_Block_Adminhtml_Cms_Page_Preview_Buttons
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Preview\Buttons
      */
     protected function _construct()
     {

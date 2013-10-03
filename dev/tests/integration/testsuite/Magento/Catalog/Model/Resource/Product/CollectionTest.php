@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Model_Resource_Product_CollectionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Resource\Product;
+
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_Resource_Product_Collection
+     * @var \Magento\Catalog\Model\Resource\Product\Collection
      */
     protected $_collection;
 
@@ -22,8 +24,8 @@ class Magento_Catalog_Model_Resource_Product_CollectionTest extends PHPUnit_Fram
      */
     protected function setUp()
     {
-        $this->_collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Resource_Product_Collection');
+        $this->_collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Resource\Product\Collection');
     }
 
     /**
@@ -34,7 +36,7 @@ class Magento_Catalog_Model_Resource_Product_CollectionTest extends PHPUnit_Fram
         $this->_collection->setOrder($order);
         $this->_collection->load(); // perform real SQL query
 
-        $selectOrder = $this->_collection->getSelect()->getPart(Zend_Db_Select::ORDER);
+        $selectOrder = $this->_collection->getSelect()->getPart(\Zend_Db_Select::ORDER);
         foreach ($expectedOrder as $field) {
             $orderBy = array_shift($selectOrder);
             $this->assertArrayHasKey(0, $orderBy);

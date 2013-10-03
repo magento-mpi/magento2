@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var $this Magento_Rma_Block_Return_Create */
+/** @var $this \Magento\Rma\Block\Returns\Create */
 ?>
 <?php $_order =  $this->getOrder(); ?>
 <?php $_data = $this->getFormData(); ?>
@@ -33,7 +33,7 @@
                     $i = 1;
                     ?>
                     <?php endif; ?>
-                <?php if ($_item->getProductType() == Magento_Catalog_Model_Product_Type::TYPE_BUNDLE): ?>
+                <?php if ($_item->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE): ?>
                     <?php $bundleID = $_item->getId(); ?>
                     <?php endif; ?>
                 <?php if (!$_item->getParentItemId() || $_item->getParentItemId() != $bundleID): ?>
@@ -162,7 +162,7 @@
                 <h5 style="float:left;"><?php echo $_order->getCustomerEmail()?></h5>
             </li>
             <li>
-                <label><?php echo $this->helper('Magento_Rma_Helper_Data')->getContactEmailLabel() ?></label>
+                <label><?php echo $this->helper('Magento\Rma\Helper\Data')->getContactEmailLabel() ?></label>
                 <div class="input-box">
                      <input type="text" name="customer_custom_email" id="email" title="Contact Email Address" class="input-text" data-validate="{'validate-email':true}" value="<?php echo $this->getContactEmail()?>">
                 </div>
@@ -210,7 +210,7 @@
                         firstItemId: '<?php echo $firstItemId; ?>',
                         productType: '<?php echo $productType?>',
                         availableQuantity: '<?php echo ($availableQty) ? $availableQty : 0 ?>',
-                        prodTypeBundle: '<?php echo Magento_Catalog_Model_Product_Type::TYPE_BUNDLE ?>'
+                        prodTypeBundle: '<?php echo \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE ?>'
                     }).validation({ignore: ':hidden:not(input[id$="_value"])'});
                 });
         })(jQuery);

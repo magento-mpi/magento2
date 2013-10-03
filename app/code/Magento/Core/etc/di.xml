@@ -8,29 +8,29 @@
  */
 -->
 <config>
-    <preference for="Magento_Acl_CacheInterface" type="Magento_Core_Model_Acl_Cache" />
-    <preference for="Magento_AuthorizationInterface" type="Magento_Authorization" />
-    <preference for="Magento_Authorization_Policy" type="Magento_Authorization_Policy_Default" />
-    <preference for="Magento_Authorization_RoleLocator" type="Magento_Authorization_RoleLocator_Default" />
-    <preference for="Magento_Core_Model_Session_Abstract" type="Magento_Core_Model_Session" />
-    <preference for="Magento_Core_Model_LocaleInterface" type="Magento_Core_Model_Locale" />
-    <preference for="Magento_Core_Model_Page_Asset_MergeStrategyInterface" type="Magento_Core_Model_Page_Asset_MergeStrategy_Direct" />
-    <preference for="Twig_LoaderInterface" type="Magento_Core_Model_TemplateEngine_Twig_FullFileName" />
-    <preference for="Magento_Core_Model_DataService_ConfigInterface" type="Magento_Core_Model_DataService_Config" />
-    <preference for="Magento_Core_Model_ConfigInterface" type="Magento_Core_Model_Config" />
-    <preference for="Magento_Core_Model_Config_DataInterface" type="Magento_Core_Model_Config_Data" />
-    <preference for="Magento_Core_Model_Config_Storage_WriterInterface" type="Magento_Core_Model_Config_Storage_Writer_Db" />
-    <preference for="Magento_PubSub_Event_QueueWriterInterface" type="Magento_PubSub_Event_QueueWriter" />
-    <preference for="Magento_PubSub_Event_FactoryInterface" type="Magento_PubSub_Event_Factory" />
-    <preference for="Magento_PubSub_Message_DispatcherAsyncInterface" type="Magento_PubSub_Message_DispatcherAsync" />
-    <preference for="Magento_Config_ConverterInterface" type="Magento_Config_Converter_Dom"/>
-    <preference for="Magento_Phrase_RendererInterface" type="Magento_Phrase_Renderer_Composite" />
-    <preference for="Magento_Core_Model_Url_SecurityInfoInterface" type="Magento_Core_Model_Url_SecurityInfo_Proxy" />
-    <preference for="Magento_Core_Model_Module_ResourceResolverInterface" type="Magento_Core_Model_Module_ResourceResolver" />
-    <type name="Magento_Data_Structure" shared="false" />
-    <type name="Magento_Data_Collection_Db_FetchStrategy_Cache">
+    <preference for="Magento\Acl\CacheInterface" type="Magento\Core\Model\Acl\Cache" />
+    <preference for="Magento\AuthorizationInterface" type="Magento\Authorization" />
+    <preference for="Magento\Authorization\Policy" type="Magento\Authorization\Policy\DefaultPolicy" />
+    <preference for="Magento\Authorization\RoleLocator" type="Magento\Authorization\RoleLocator\DefaultRoleLocator" />
+    <preference for="Magento\Core\Model\Session\AbstractSession" type="Magento\Core\Model\Session" />
+    <preference for="Magento\Core\Model\LocaleInterface" type="Magento\Core\Model\Locale" />
+    <preference for="Magento\Core\Model\Page\Asset\MergeStrategyInterface" type="Magento\Core\Model\Page\Asset\MergeStrategy\Direct" />
+    <preference for="Twig_LoaderInterface" type="Magento\Core\Model\TemplateEngine\Twig\FullFileName" />
+    <preference for="Magento\Core\Model\DataService\ConfigInterface" type="Magento\Core\Model\DataService\Config" />
+    <preference for="Magento\Core\Model\ConfigInterface" type="Magento\Core\Model\Config" />
+    <preference for="Magento\Core\Model\Config\DataInterface" type="Magento\Core\Model\Config\Data" />
+    <preference for="Magento\Core\Model\Config\Storage\WriterInterface" type="Magento\Core\Model\Config\Storage\Writer\Db" />
+    <preference for="Magento\PubSub\Event\QueueWriterInterface" type="Magento\PubSub\Event\QueueWriter" />
+    <preference for="Magento\PubSub\Event\FactoryInterface" type="Magento\PubSub\Event\Factory" />
+    <preference for="Magento\PubSub\Message\DispatcherAsyncInterface" type="Magento\PubSub\Message\DispatcherAsync" />
+    <preference for="Magento\Config\ConverterInterface" type="Magento\Config\Converter\Dom"/>
+    <preference for="Magento\Phrase\RendererInterface" type="Magento\Phrase\Renderer\Composite" />
+    <preference for="Magento\Core\Model\Url\SecurityInfoInterface" type="Magento\Core\Model\Url\SecurityInfo\Proxy" />
+    <preference for="Magento\Core\Model\Module\ResourceResolverInterface" type="Magento\Core\Model\Module\ResourceResolver" />
+    <type name="Magento\Data\Structure" shared="false" />
+    <type name="Magento\Data\Collection\Db\FetchStrategy\Cache">
         <param name="cache">
-            <instance type="Magento_Core_Model_Cache_Type_Collection" />
+            <instance type="Magento\Core\Model\Cache\Type\Collection" />
         </param>
         <param name="cacheIdPrefix">
             <value>collection_</value>
@@ -39,143 +39,143 @@
             <value>86400</value>
         </param>
     </type>
-    <type name="Magento_Core_Model_Store">
+    <type name="Magento\Core\Model\Store">
         <param name="isCustomEntryPoint">
-            <value type="argument">Magento_Core_Model_Store::CUSTOM_ENTRY_POINT_PARAM</value>
+            <value type="argument">Magento\Core\Model\Store::CUSTOM_ENTRY_POINT_PARAM</value>
         </param>
         <param name="url">
-            <instance type="Magento_Core_Model_Url_Proxy" />
+            <instance type="Magento\Core\Model\Url\Proxy" />
         </param>
     </type>
-    <type name="Magento_Core_Model_Acl_Cache">
+    <type name="Magento\Core\Model\Acl\Cache">
         <param name="cacheKey">
             <value>global_acl_resources</value>
         </param>
     </type>
-    <virtualType name="Magento_Core_Model_Resource_Website_Collection_FetchStrategy" type="Magento_Data_Collection_Db_FetchStrategy_Cache">
+    <virtualType name="Magento\Core\Model\Resource\Website\Collection\FetchStrategy" type="Magento\Data\Collection\Db\FetchStrategy\Cache">
         <param name="cache">
-            <instance type="Magento_Core_Model_Cache_Type_Collection" />
+            <instance type="Magento\Core\Model\Cache\Type\Collection" />
         </param>
         <param name="cacheIdPrefix">
             <value>app_</value>
         </param>
         <param name="cacheTags">
             <value>
-                <storeTag type="const">Magento_Core_Model_Website::CACHE_TAG</storeTag>
+                <storeTag type="const">Magento\Core\Model\Website::CACHE_TAG</storeTag>
             </value>
         </param>
         <param name="cacheLifetime">
             <value type="bool">false</value>
         </param>
     </virtualType>
-    <virtualType name="Magento_Core_Model_Resource_Store_Group_Collection_FetchStrategy" type="Magento_Data_Collection_Db_FetchStrategy_Cache">
+    <virtualType name="Magento\Core\Model\Resource\Store\Group\Collection\FetchStrategy" type="Magento\Data\Collection\Db\FetchStrategy\Cache">
         <param name="cache">
-            <instance type="Magento_Core_Model_Cache_Type_Collection" />
+            <instance type="Magento\Core\Model\Cache\Type\Collection" />
         </param>
         <param name="cacheIdPrefix">
             <value>app_</value>
         </param>
         <param name="cacheTags">
             <value>
-                <storeTag type="const">Magento_Core_Model_Store_Group::CACHE_TAG</storeTag>
+                <storeTag type="const">Magento\Core\Model\Store\Group::CACHE_TAG</storeTag>
             </value>
         </param>
         <param name="cacheLifetime">
             <value type="bool">false</value>
         </param>
     </virtualType>
-    <virtualType name="Magento_Core_Model_Resource_Store_Collection_FetchStrategy" type="Magento_Data_Collection_Db_FetchStrategy_Cache">
+    <virtualType name="Magento\Core\Model\Resource\Store\Collection\FetchStrategy" type="Magento\Data\Collection\Db\FetchStrategy\Cache">
         <param name="cache">
-            <instance type="Magento_Core_Model_Cache_Type_Collection" />
+            <instance type="Magento\Core\Model\Cache\Type\Collection" />
         </param>
         <param name="cacheIdPrefix">
             <value>app_</value>
         </param>
         <param name="cacheTags">
             <value>
-                <storeTag type="const">Magento_Core_Model_Store::CACHE_TAG</storeTag>
+                <storeTag type="const">Magento\Core\Model\Store::CACHE_TAG</storeTag>
             </value>
         </param>
         <param name="cacheLifetime">
             <value type="bool">false</value>
         </param>
     </virtualType>
-    <type name="Magento_Core_Model_Resource_Website_Collection">
+    <type name="Magento\Core\Model\Resource\Website\Collection">
         <param name="fetchStrategy">
-            <instance type="Magento_Core_Model_Resource_Website_Collection_FetchStrategy" />
+            <instance type="Magento\Core\Model\Resource\Website\Collection\FetchStrategy" />
         </param>
     </type>
-    <type name="Magento_Core_Model_Resource_Store_Group_Collection">
+    <type name="Magento\Core\Model\Resource\Store\Group\Collection">
         <param name="fetchStrategy">
-            <instance type="Magento_Core_Model_Resource_Store_Group_Collection_FetchStrategy" />
+            <instance type="Magento\Core\Model\Resource\Store\Group\Collection\FetchStrategy" />
         </param>
     </type>
-    <type name="Magento_Core_Model_Resource_Store_Collection">
+    <type name="Magento\Core\Model\Resource\Store\Collection">
         <param name="fetchStrategy">
-            <instance type="Magento_Core_Model_Resource_Store_Collection_FetchStrategy" />
+            <instance type="Magento\Core\Model\Resource\Store\Collection\FetchStrategy" />
         </param>
     </type>
-    <type name="Magento_Core_Model_Page_Asset_Collection" shared="false" />
-    <type name="Magento_Core_Model_Theme_Collection" shared="false" />
-    <type name="Magento_Core_Model_Observer">
+    <type name="Magento\Core\Model\Page\Asset\Collection" shared="false" />
+    <type name="Magento\Core\Model\Theme\Collection" shared="false" />
+    <type name="Magento\Core\Model\Observer">
         <param name="config">
-            <instance type="Magento_Core_Model_Config" />
+            <instance type="Magento\Core\Model\Config" />
         </param>
     </type>
-    <type name="Magento_Core_Model_Layout_Merge">
+    <type name="Magento\Core\Model\Layout\Merge">
         <param name="fileSource">
-            <instance type="Magento_Core_Model_Layout_File_Source_Aggregated" />
+            <instance type="Magento\Core\Model\Layout\File\Source\Aggregated" />
         </param>
         <param name="cache">
-            <instance type="Magento_Core_Model_Cache_Type_Layout" />
+            <instance type="Magento\Core\Model\Cache\Type\Layout" />
         </param>
     </type>
-    <type name="Magento_Core_Model_Resource_Layout_Update">
+    <type name="Magento\Core\Model\Resource\Layout\Update">
         <param name="cache">
-            <instance type="Magento_Core_Model_Cache_Type_Layout" />
+            <instance type="Magento\Core\Model\Cache\Type\Layout" />
         </param>
     </type>
-    <virtualType name="layoutFileSourceBaseFiltered" type="Magento_Core_Model_Layout_File_Source_Decorator_ModuleOutput">
+    <virtualType name="layoutFileSourceBaseFiltered" type="Magento\Core\Model\Layout\File\Source\Decorator\ModuleOutput">
         <param name="subject">
-            <instance type="Magento_Core_Model_Layout_File_Source_Base" />
+            <instance type="Magento\Core\Model\Layout\File\Source\Base" />
         </param>
     </virtualType>
-    <virtualType name="layoutFileSourceBaseSorted" type="Magento_Core_Model_Layout_File_Source_Decorator_ModuleDependency">
+    <virtualType name="layoutFileSourceBaseSorted" type="Magento\Core\Model\Layout\File\Source\Decorator\ModuleDependency">
         <param name="subject">
             <instance type="layoutFileSourceBaseFiltered" />
         </param>
     </virtualType>
-    <virtualType name="layoutFileSourceThemeFiltered" type="Magento_Core_Model_Layout_File_Source_Decorator_ModuleOutput">
+    <virtualType name="layoutFileSourceThemeFiltered" type="Magento\Core\Model\Layout\File\Source\Decorator\ModuleOutput">
         <param name="subject">
-            <instance type="Magento_Core_Model_Layout_File_Source_Theme" />
+            <instance type="Magento\Core\Model\Layout\File\Source\Theme" />
         </param>
     </virtualType>
-    <virtualType name="layoutFileSourceThemeSorted" type="Magento_Core_Model_Layout_File_Source_Decorator_ModuleDependency">
+    <virtualType name="layoutFileSourceThemeSorted" type="Magento\Core\Model\Layout\File\Source\Decorator\ModuleDependency">
         <param name="subject">
             <instance type="layoutFileSourceThemeFiltered" />
         </param>
     </virtualType>
-    <virtualType name="layoutFileSourceOverrideBaseFiltered" type="Magento_Core_Model_Layout_File_Source_Decorator_ModuleOutput">
+    <virtualType name="layoutFileSourceOverrideBaseFiltered" type="Magento\Core\Model\Layout\File\Source\Decorator\ModuleOutput">
         <param name="subject">
-            <instance type="Magento_Core_Model_Layout_File_Source_Override_Base" />
+            <instance type="Magento\Core\Model\Layout\File\Source\Override\Base" />
         </param>
     </virtualType>
-    <virtualType name="layoutFileSourceOverrideBaseSorted" type="Magento_Core_Model_Layout_File_Source_Decorator_ModuleDependency">
+    <virtualType name="layoutFileSourceOverrideBaseSorted" type="Magento\Core\Model\Layout\File\Source\Decorator\ModuleDependency">
         <param name="subject">
             <instance type="layoutFileSourceOverrideBaseFiltered" />
         </param>
     </virtualType>
-    <virtualType name="layoutFileSourceOverrideThemeFiltered" type="Magento_Core_Model_Layout_File_Source_Decorator_ModuleOutput">
+    <virtualType name="layoutFileSourceOverrideThemeFiltered" type="Magento\Core\Model\Layout\File\Source\Decorator\ModuleOutput">
         <param name="subject">
-            <instance type="Magento_Core_Model_Layout_File_Source_Override_Theme" />
+            <instance type="Magento\Core\Model\Layout\File\Source\Override\Theme" />
         </param>
     </virtualType>
-    <virtualType name="layoutFileSourceOverrideThemeSorted" type="Magento_Core_Model_Layout_File_Source_Decorator_ModuleDependency">
+    <virtualType name="layoutFileSourceOverrideThemeSorted" type="Magento\Core\Model\Layout\File\Source\Decorator\ModuleDependency">
         <param name="subject">
             <instance type="layoutFileSourceOverrideThemeFiltered" />
         </param>
     </virtualType>
-    <type name="Magento_Core_Model_Layout_File_Source_Aggregated">
+    <type name="Magento\Core\Model\Layout\File\Source\Aggregated">
         <param name="baseFiles">
             <instance type="layoutFileSourceBaseSorted" />
         </param>
@@ -189,79 +189,79 @@
             <instance type="layoutFileSourceOverrideThemeSorted" />
         </param>
     </type>
-    <type name="Magento_Core_Model_Theme_Image">
+    <type name="Magento\Core\Model\Theme\Image">
         <param name="uploader">
-            <instance type="Magento_Core_Model_Theme_Image_UploaderProxy" />
+            <instance type="Magento\Core\Model\Theme\Image\UploaderProxy" />
         </param>
     </type>
-    <type name="Magento_Phrase_Renderer_Composite">
+    <type name="Magento\Phrase\Renderer\Composite">
         <param name="renderers">
-            <instance type="Magento_Phrase_Renderer_Translate" />
+            <instance type="Magento\Phrase\Renderer\Translate" />
         </param>
     </type>
-    <type name="Magento_Phrase_Renderer_Translate">
+    <type name="Magento\Phrase\Renderer\Translate">
         <param name="translator">
-            <instance type="Magento_Core_Model_Translate" />
+            <instance type="Magento\Core\Model\Translate" />
         </param>
     </type>
-    <type name="Magento_Core_Model_Translate_InlineParser">
+    <type name="Magento\Core\Model\Translate\InlineParser">
         <param name="inputFilter">
-            <instance type="Magento_Core_Model_Input_Filter_MaliciousCode" />
+            <instance type="Magento\Core\Model\Input\Filter\MaliciousCode" />
         </param>
     </type>
-    <type name="Magento_Core_Model_Config_SectionPool">
+    <type name="Magento\Core\Model\Config\SectionPool">
         <param name="cache">
-            <instance type="Magento_Core_Model_Cache_Type_Config" />
+            <instance type="Magento\Core\Model\Cache\Type\Config" />
         </param>
     </type>
-    <type name="Magento_Core_Model_Config_Section_Reader_Website">
+    <type name="Magento\Core\Model\Config\Section\Reader\Website">
         <param name="sectionPool">
-            <instance type="Magento_Core_Model_Config_SectionPool_Proxy" />
+            <instance type="Magento\Core\Model\Config\SectionPool\Proxy" />
         </param>
     </type>
-    <type name="Magento_Core_Model_Config_Section_Reader_Store">
+    <type name="Magento\Core\Model\Config\Section\Reader\Store">
         <param name="sectionPool">
-            <instance type="Magento_Core_Model_Config_SectionPool_Proxy" />
+            <instance type="Magento\Core\Model\Config\SectionPool\Proxy" />
         </param>
     </type>
-    <type name="Magento_Core_Model_RouterList" shared="true">
+    <type name="Magento\Core\Model\RouterList" shared="true">
         <param name="routerList">
             <value>
                 <standard>
-                    <instance>Magento_Core_Controller_Varien_Router_Base</instance>
+                    <instance>Magento\Core\Controller\Varien\Router\Base</instance>
                     <disable type="bool">false</disable>
                     <sortOrder>20</sortOrder>
                 </standard>
                 <default>
-                    <instance>Magento_Core_Controller_Varien_Router_Default</instance>
+                    <instance>Magento\Core\Controller\Varien\Router\DefaultRouter</instance>
                     <disable type="bool">false</disable>
                     <sortOrder>100</sortOrder>
                 </default>
             </value>
         </param>
     </type>
-    <type name="Magento_Core_Controller_Varien_Router_Base">
+    <type name="Magento\Core\Controller\Varien\Router\Base">
         <param name="areaCode">
             <value>frontend</value>
         </param>
         <param name="baseController">
-            <value>Magento_Core_Controller_Varien_Action</value>
+            <value>Magento\Core\Controller\Varien\Action</value>
         </param>
         <param name="routerId">
             <value>standard</value>
         </param>
     </type>
-    <type name="Magento_Core_Model_NoRouteHandlerList">
+    <type name="Magento\Core\Model\NoRouteHandlerList">
         <param name="handlerClassesList">
             <value>
                 <default>
-                    <instance>Magento_Core_Model_Router_NoRouteHandler</instance>
+                    <instance>Magento\Core\Model\Router\NoRouteHandler</instance>
                     <sortOrder>100</sortOrder>
                 </default>
             </value>
         </param>
     </type>
-    <type name="Magento_Core_Model_Session_Validator">
+    <type name="Magento\Core\Model\Session\Validator">
         <param name="skippedUserAgentList">
             <value>
                 <flash>Shockwave Flash</flash>
@@ -269,12 +269,12 @@
             </value>
         </param>
     </type>
-    <type name="Magento_Core_Controller_Varien_Action_Context">
+    <type name="Magento\Core\Controller\Varien\Action\Context">
         <param name="isRenderInherited">
             <value type="bool">false</value>
         </param>
     </type>
-    <type name="Magento_Core_Model_View_Design">
+    <type name="Magento\Core\Model\View\Design">
         <param name="themes">
             <value>
                 <frontend>magento_demo</frontend>
@@ -283,110 +283,110 @@
             </value>
         </param>
     </type>
-    <type name="Magento_Core_Model_View_Publisher">
+    <type name="Magento\Core\Model\View\Publisher">
         <param name="allowFilesDuplication">
             <value type="bool">true</value>
         </param>
     </type>
-    <type name="Magento_Core_Model_Fieldset_Config_Reader">
+    <type name="Magento\Core\Model\Fieldset\Config\Reader">
         <param name="fileName">
             <value>fieldset.xml</value>
         </param>
         <param name="schemaLocator">
-            <instance type="Magento_Core_Model_Fieldset_Config_SchemaLocator" />
+            <instance type="Magento\Core\Model\Fieldset\Config\SchemaLocator" />
         </param>
     </type>
-    <type name="Magento_Core_Model_Fieldset_Config_Data">
+    <type name="Magento\Core\Model\Fieldset\Config\Data">
         <param name="reader">
-            <instance type="Magento_Core_Model_Fieldset_Config_Reader" />
+            <instance type="Magento\Core\Model\Fieldset\Config\Reader" />
         </param>
         <param name="cacheId">
             <value>fieldset_config</value>
         </param>
     </type>
-    <type name="Magento_Core_Model_Locale_Hierarchy_Config">
+    <type name="Magento\Core\Model\Locale\Hierarchy\Config">
         <param name="reader">
-            <instance type="Magento_Core_Model_Locale_Hierarchy_Config_Reader" />
+            <instance type="Magento\Core\Model\Locale\Hierarchy\Config\Reader" />
         </param>
     </type>
-    <type name="Magento_Core_Model_Resource_Helper">
+    <type name="Magento\Core\Model\Resource\Helper">
         <param name="modulePrefix">
             <value>core</value>
         </param>
     </type>
-    <type name="Magento_Core_Helper_Data">
+    <type name="Magento\Core\Helper\Data">
         <param name="encryptor">
-            <instance type="Magento_Core_Model_Encryption" />
+            <instance type="Magento\Core\Model\Encryption" />
         </param>
         <param name="locale">
-            <instance type="Magento_Core_Model_Locale_Proxy" />
+            <instance type="Magento\Core\Model\Locale\Proxy" />
         </param>
         <param name="dateModel">
-            <instance type="Magento_Core_Model_Date_Proxy" />
+            <instance type="Magento\Core\Model\Date\Proxy" />
         </param>
     </type>
-    <type name="Magento_Core_Model_Resource_Setup_Migration">
+    <type name="Magento\Core\Model\Resource\Setup\Migration">
         <param name="confPathToMapFile">
             <value>app/etc/aliases_to_classes_map.json</value>
         </param>
     </type>
-    <type name="Magento_Core_Model_Encryption">
+    <type name="Magento\Core\Model\Encryption">
         <param name="cryptKey">
-            <value type="argument">Magento_Core_Model_Encryption::PARAM_CRYPT_KEY</value>
+            <value type="argument">Magento\Core\Model\Encryption::PARAM_CRYPT_KEY</value>
         </param>
     </type>
-    <type name="Magento_Core_Model_Session_Context">
+    <type name="Magento\Core\Model\Session\Context">
         <param name="saveMethod">
-            <value type="argument">Magento_Core_Model_Session_Abstract::PARAM_SESSION_SAVE_METHOD</value>
+            <value type="argument">Magento\Core\Model\Session\AbstractSession::PARAM_SESSION_SAVE_METHOD</value>
         </param>
         <param name="savePath">
-            <value type="argument">Magento_Core_Model_Session_Abstract::PARAM_SESSION_SAVE_PATH</value>
+            <value type="argument">Magento\Core\Model\Session\AbstractSession::PARAM_SESSION_SAVE_PATH</value>
         </param>
         <param name="cacheLimiter">
-            <value type="argument">Magento_Core_Model_Session_Abstract::PARAM_SESSION_CACHE_LIMITER</value>
+            <value type="argument">Magento\Core\Model\Session\AbstractSession::PARAM_SESSION_CACHE_LIMITER</value>
         </param>
         <param name="url">
-            <instance type="Magento_Core_Model_Url_Proxy" />
+            <instance type="Magento\Core\Model\Url\Proxy" />
         </param>
     </type>
-    <type name="Magento_Core_Model_StoreManager">
+    <type name="Magento\Core\Model\StoreManager">
         <param name="request">
-            <instance type="Magento_Core_Controller_Request_Http_Proxy" />
+            <instance type="Magento\Core\Controller\Request\Http\Proxy" />
         </param>
     </type>
-    <type name="Magento_Core_Model_Config_Section_Processor_Placeholder">
+    <type name="Magento\Core\Model\Config\Section\Processor\Placeholder">
         <param name="request">
-            <instance type="Magento_Core_Controller_Request_Http_Proxy" />
+            <instance type="Magento\Core\Controller\Request\Http\Proxy" />
         </param>
     </type>
-    <type name="Magento_Core_Helper_Context">
+    <type name="Magento\Core\Helper\Context">
         <param name="urlBuilder">
-            <instance type="Magento_Core_Model_Url_Proxy" />
+            <instance type="Magento\Core\Model\Url\Proxy" />
         </param>
     </type>
-    <type name="Magento_Core_Helper_String">
+    <type name="Magento\Core\Helper\String">
         <param name="locale">
-            <instance type="Magento_Core_Model_Locale_Proxy" />
+            <instance type="Magento\Core\Model\Locale\Proxy" />
         </param>
     </type>
-    <type name="Magento_Core_Helper_File_Storage">
+    <type name="Magento\Core\Helper\File\Storage">
         <param name="storage">
-            <instance type="Magento_Core_Model_File_Storage_Proxy" />
+            <instance type="Magento\Core\Model\File\Storage\Proxy" />
         </param>
     </type>
-    <type name="Magento_Core_Helper_File_Storage_Database">
+    <type name="Magento\Core\Helper\File\Storage\Database">
         <param name="fileStorage">
-            <instance type="Magento_Core_Model_File_Storage_File_Proxy" />
+            <instance type="Magento\Core\Model\File\Storage\File\Proxy" />
         </param>
     </type>
-    <type name="Magento_Core_Model_Session_Abstract">
+    <type name="Magento\Core\Model\Session\AbstractSession">
         <param name="url">
-            <instance type="Magento_Core_Model_Url_Proxy" />
+            <instance type="Magento\Core\Model\Url\Proxy" />
         </param>
     </type>
-    <type name="Magento_Core_Model_View_Service">
+    <type name="Magento\Core\Model\View\Service">
         <param name="design">
-            <instance type="Magento_Core_Model_View_Design_Proxy" />
+            <instance type="Magento\Core\Model\View\Design\Proxy" />
         </param>
     </type>
 </config>

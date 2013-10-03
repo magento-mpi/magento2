@@ -9,32 +9,34 @@
  */
 
 /**
- * @method Magento_FullPageCache_Model_Resource_Crawler _getResource()
- * @method Magento_FullPageCache_Model_Resource_Crawler getResource()
+ * @method \Magento\FullPageCache\Model\Resource\Crawler _getResource()
+ * @method \Magento\FullPageCache\Model\Resource\Crawler getResource()
  * @method int getStoreId()
- * @method Magento_FullPageCache_Model_Crawler setStoreId(int $value)
+ * @method \Magento\FullPageCache\Model\Crawler setStoreId(int $value)
  * @method int getCategoryId()
- * @method Magento_FullPageCache_Model_Crawler setCategoryId(int $value)
+ * @method \Magento\FullPageCache\Model\Crawler setCategoryId(int $value)
  * @method int getProductId()
- * @method Magento_FullPageCache_Model_Crawler setProductId(int $value)
+ * @method \Magento\FullPageCache\Model\Crawler setProductId(int $value)
  * @method string getIdPath()
- * @method Magento_FullPageCache_Model_Crawler setIdPath(string $value)
+ * @method \Magento\FullPageCache\Model\Crawler setIdPath(string $value)
  * @method string getRequestPath()
- * @method Magento_FullPageCache_Model_Crawler setRequestPath(string $value)
+ * @method \Magento\FullPageCache\Model\Crawler setRequestPath(string $value)
  * @method string getTargetPath()
- * @method Magento_FullPageCache_Model_Crawler setTargetPath(string $value)
+ * @method \Magento\FullPageCache\Model\Crawler setTargetPath(string $value)
  * @method int getIsSystem()
- * @method Magento_FullPageCache_Model_Crawler setIsSystem(int $value)
+ * @method \Magento\FullPageCache\Model\Crawler setIsSystem(int $value)
  * @method string getOptions()
- * @method Magento_FullPageCache_Model_Crawler setOptions(string $value)
+ * @method \Magento\FullPageCache\Model\Crawler setOptions(string $value)
  * @method string getDescription()
- * @method Magento_FullPageCache_Model_Crawler setDescription(string $value)
+ * @method \Magento\FullPageCache\Model\Crawler setDescription(string $value)
  *
  * @category    Magento
  * @package     Magento_FullPageCache
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_FullPageCache_Model_Crawler extends Magento_Core_Model_Abstract
+namespace Magento\FullPageCache\Model;
+
+class Crawler extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Crawler settings
@@ -57,38 +59,38 @@ class Magento_FullPageCache_Model_Crawler extends Magento_Core_Model_Abstract
     /**
      * Website restriction data
      *
-     * @var Magento_WebsiteRestriction_Helper_Data
+     * @var \Magento\WebsiteRestriction\Helper\Data
      */
     protected $_websiteRestricData = null;
 
     /**
-     * @var Magento_Core_Model_Cache_StateInterface
+     * @var \Magento\Core\Model\Cache\StateInterface
      */
     protected $_cacheState;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_WebsiteRestriction_Helper_Data $websiteRestricData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Cache_StateInterface $cacheState
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\WebsiteRestriction\Helper\Data $websiteRestricData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Cache\StateInterface $cacheState
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_WebsiteRestriction_Helper_Data $websiteRestricData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Cache_StateInterface $cacheState,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\WebsiteRestriction\Helper\Data $websiteRestricData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Cache\StateInterface $cacheState,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -102,7 +104,7 @@ class Magento_FullPageCache_Model_Crawler extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_FullPageCache_Model_Resource_Crawler');
+        $this->_init('Magento\FullPageCache\Model\Resource\Crawler');
     }
 
     /**
@@ -142,7 +144,7 @@ class Magento_FullPageCache_Model_Crawler extends Magento_Core_Model_Abstract
                 'cookie'   => $cookie,
             );
             if ($store->getConfig(self::XML_PATH_CRAWL_MULTICURRENCY)
-                && $store->getConfig(Magento_FullPageCache_Model_Processor::XML_PATH_CACHE_MULTICURRENCY)) {
+                && $store->getConfig(\Magento\FullPageCache\Model\Processor::XML_PATH_CACHE_MULTICURRENCY)) {
                 $currencies = $store->getAvailableCurrencyCodes(true);
                 foreach ($currencies as $currencyCode) {
                     if ($currencyCode != $defaultCurrency) {
@@ -161,7 +163,7 @@ class Magento_FullPageCache_Model_Crawler extends Magento_Core_Model_Abstract
     /**
      * Crawl all system urls
      *
-     * @return Magento_FullPageCache_Model_Crawler
+     * @return \Magento\FullPageCache\Model\Crawler
      */
     public function crawl()
     {
@@ -169,7 +171,7 @@ class Magento_FullPageCache_Model_Crawler extends Magento_Core_Model_Abstract
             return $this;
         }
         $storesInfo  = $this->getStoresInfo();
-        $adapter     = new Magento_HTTP_Adapter_Curl();
+        $adapter     = new \Magento\HTTP\Adapter\Curl();
 
         foreach ($storesInfo as $info) {
             $options = array(CURLOPT_USERAGENT => self::USER_AGENT);

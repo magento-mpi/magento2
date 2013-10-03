@@ -11,44 +11,46 @@
 /**
  * Gift registry advanced search block
  */
-class Magento_GiftRegistry_Block_Search_Advanced extends Magento_GiftRegistry_Block_Form_Element
+namespace Magento\GiftRegistry\Block\Search;
+
+class Advanced extends \Magento\GiftRegistry\Block\Form\Element
 {
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $customerSession;
 
     /**
-     * @var Magento_GiftRegistry_Model_Attribute_Config
+     * @var \Magento\GiftRegistry\Model\Attribute\Config
      */
     protected $attributeConfig;
 
     protected $_attributes = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
-     * @param Magento_Directory_Model_Country $country
-     * @param Magento_Directory_Model_RegionFactory $region
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_GiftRegistry_Model_Attribute_Config $attributeConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\Directory\Model\Country $country
+     * @param \Magento\Directory\Model\RegionFactory $region
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Cache_Type_Config $configCacheType,
-        Magento_Directory_Model_Country $country,
-        Magento_Directory_Model_RegionFactory $region,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_GiftRegistry_Model_Attribute_Config $attributeConfig,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Directory\Model\Country $country,
+        \Magento\Directory\Model\RegionFactory $region,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
         array $data = array()
     ) {
         parent::__construct(
@@ -65,7 +67,7 @@ class Magento_GiftRegistry_Block_Search_Advanced extends Magento_GiftRegistry_Bl
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 

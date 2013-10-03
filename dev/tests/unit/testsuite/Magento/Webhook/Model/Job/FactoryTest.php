@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Job_Factory
+ * \Magento\Webhook\Model\Job\Factory
  *
  * {license_notice}
  *
@@ -9,35 +9,37 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Job_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Job;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Webhook_Model_Job_Factory */
+    /** @var \Magento\Webhook\Model\Job\Factory */
     private $_jobFactory;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     private $_mockObjectManager;
 
     protected function setUp()
     {
-        $this->_mockObjectManager = $this->getMockBuilder('Magento_ObjectManager')
+        $this->_mockObjectManager = $this->getMockBuilder('Magento\ObjectManager')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_jobFactory = new Magento_Webhook_Model_Job_Factory($this->_mockObjectManager);
+        $this->_jobFactory = new \Magento\Webhook\Model\Job\Factory($this->_mockObjectManager);
     }
 
     public function testCreate()
     {
-        $subscription = $this->getMockBuilder('Magento_PubSub_SubscriptionInterface')
+        $subscription = $this->getMockBuilder('Magento\PubSub\SubscriptionInterface')
             ->disableOriginalConstructor()
             ->getMock();
-        $event = $this->getMockBuilder('Magento_PubSub_EventInterface')
+        $event = $this->getMockBuilder('Magento\PubSub\EventInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $job = 'JOB';
         $this->_mockObjectManager->expects($this->once())
             ->method('create')
             ->with(
-                $this->equalTo('Magento_Webhook_Model_Job'),
+                $this->equalTo('Magento\Webhook\Model\Job'),
                 $this->equalTo(
                     array(
                          'data' => array(

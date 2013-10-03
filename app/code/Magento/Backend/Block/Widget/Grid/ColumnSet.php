@@ -12,12 +12,16 @@
  *
  * @category    Magento
  * @package     Magento_Core
+ */
+namespace Magento\Backend\Block\Widget\Grid;
+
+/**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_Backend_Block_Widget_Grid_ColumnSet extends Magento_Core_Block_Template
+class ColumnSet extends \Magento\Core\Block\Template
 {
     /**
-     * @var Magento_Backend_Model_Widget_Grid_Row_UrlGenerator
+     * @var \Magento\Backend\Model\Widget\Grid\Row\UrlGenerator
      */
     protected $_rowUrlGenerator;
 
@@ -90,33 +94,33 @@ class Magento_Backend_Block_Widget_Grid_ColumnSet extends Magento_Core_Block_Tem
     protected $_template = 'Magento_Backend::widget/grid/column_set.phtml';
 
     /**
-     * @var Magento_Backend_Model_Widget_Grid_SubTotals
+     * @var \Magento\Backend\Model\Widget\Grid\SubTotals
      */
     protected $_subTotals = null;
 
     /**
-     * @var Magento_Backend_Model_Widget_Grid_Totals
+     * @var \Magento\Backend\Model\Widget\Grid\Totals
      */
     protected $_totals = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Backend\Model\Widget\Grid\Row\UrlGeneratorFactory
      * $generatorFactory
-     * @param Magento_Backend_Model_Widget_Grid_SubTotals $subtotals
-     * @param Magento_Backend_Model_Widget_Grid_Totals $totals
+     * @param \Magento\Backend\Model\Widget\Grid\SubTotals $subtotals
+     * @param \Magento\Backend\Model\Widget\Grid\Totals $totals
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory $generatorFactory,
-        Magento_Backend_Model_Widget_Grid_SubTotals $subtotals,
-        Magento_Backend_Model_Widget_Grid_Totals $totals,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Backend\Model\Widget\Grid\Row\UrlGeneratorFactory $generatorFactory,
+        \Magento\Backend\Model\Widget\Grid\SubTotals $subtotals,
+        \Magento\Backend\Model\Widget\Grid\Totals $totals,
         array $data = array()
     ) {
-        $generatorClassName = 'Magento_Backend_Model_Widget_Grid_Row_UrlGenerator';
+        $generatorClassName = 'Magento\Backend\Model\Widget\Grid\Row\UrlGenerator';
         if (isset($data['rowUrl'])) {
             $rowUrlParams = $data['rowUrl'];
             if (isset($rowUrlParams['generatorClass'])) {
@@ -177,7 +181,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSet extends Magento_Core_Block_Tem
      * Set sortability flag for columns
      *
      * @param bool $value
-     * @return Magento_Backend_Block_Widget_Grid_ColumnSet
+     * @return \Magento\Backend\Block\Widget\Grid\ColumnSet
      */
     public function setSortable($value)
     {
@@ -194,7 +198,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSet extends Magento_Core_Block_Tem
      *
      * @param string $type
      * @param string $className
-     * @return Magento_Backend_Block_Widget_Grid_ColumnSet
+     * @return \Magento\Backend\Block\Widget\Grid\ColumnSet
      */
     public function setRendererType($type, $className)
     {
@@ -209,7 +213,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSet extends Magento_Core_Block_Tem
      *
      * @param string $type
      * @param string $className
-     * @return Magento_Backend_Block_Widget_Grid_ColumnSet
+     * @return \Magento\Backend\Block\Widget\Grid\ColumnSet
      */
     public function setFilterType($type, $className)
     {
@@ -222,7 +226,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSet extends Magento_Core_Block_Tem
     /**
      * Prepare block for rendering
      *
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _beforeToHtml()
     {
@@ -243,7 +247,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSet extends Magento_Core_Block_Tem
     /**
      * Return row url for js event handlers
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return string
      */
     public function getRowUrl($item)
@@ -258,7 +262,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSet extends Magento_Core_Block_Tem
     /**
      * Get children of specified item
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return array
      */
     public function getMultipleRows($item)
@@ -269,7 +273,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSet extends Magento_Core_Block_Tem
     /**
      * Has children of specified item
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return bool
      */
     public function hasMultipleRows($item)
@@ -293,7 +297,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSet extends Magento_Core_Block_Tem
     /**
      * Check whether subtotal should be rendered
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return boolean
      */
     public function shouldRenderSubTotal($item)
@@ -318,8 +322,8 @@ class Magento_Backend_Block_Widget_Grid_ColumnSet extends Magento_Core_Block_Tem
     /**
      * Retrieve rowspan number
      *
-     * @param Magento_Object $item
-     * @param Magento_Backend_Block_Widget_Grid_Column $column
+     * @param \Magento\Object $item
+     * @param \Magento\Backend\Block\Widget\Grid\Column $column
      * @return integer|boolean
      */
     public function getRowspan($item, $column)
@@ -336,7 +340,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSet extends Magento_Core_Block_Tem
      *
      * @param string|object $column
      * @param string $value
-     * @return boolean|Magento_Backend_Block_Widget_Grid
+     * @return boolean|\Magento\Backend\Block\Widget\Grid
      */
     public function isColumnGrouped($column, $value = null)
     {
@@ -353,8 +357,8 @@ class Magento_Backend_Block_Widget_Grid_ColumnSet extends Magento_Core_Block_Tem
     /**
      * Check whether should render empty cell
      *
-     * @param Magento_Object $item
-     * @param Magento_Backend_Block_Widget_Grid_Column $column
+     * @param \Magento\Object $item
+     * @param \Magento\Backend\Block\Widget\Grid\Column $column
      * @return boolean
      */
     public function shouldRenderEmptyCell($item, $column)
@@ -375,8 +379,8 @@ class Magento_Backend_Block_Widget_Grid_ColumnSet extends Magento_Core_Block_Tem
     /**
      * Check whether should render cell
      *
-     * @param Magento_Object $item
-     * @param Magento_Backend_Block_Widget_Grid_Column $column
+     * @param \Magento\Object $item
+     * @param \Magento\Backend\Block\Widget\Grid\Column $column
      * @return boolean
      */
     public function shouldRenderCell($item, $column)
@@ -434,7 +438,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSet extends Magento_Core_Block_Tem
      * Set empty text CSS class
      *
      * @param string $cssClass
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     public function setEmptyTextClass($cssClass)
     {
@@ -466,7 +470,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSet extends Magento_Core_Block_Tem
      * Set label for empty cell
      *
      * @param string $label
-     * @return Magento_Backend_Block_Widget_Grid_ColumnSet
+     * @return \Magento\Backend\Block\Widget\Grid\ColumnSet
      */
     public function setEmptyCellLabel($label)
     {
@@ -477,7 +481,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSet extends Magento_Core_Block_Tem
     /**
      * Set flag whether is collapsed
      * @param $isCollapsed
-     * @return Magento_Backend_Block_Widget_Grid_ColumnSet
+     * @return \Magento\Backend\Block\Widget\Grid\ColumnSet
      */
     public function setIsCollapsed($isCollapsed)
     {
@@ -496,7 +500,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSet extends Magento_Core_Block_Tem
 
     /**
      * Return grid of current column set
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     public function getGrid()
     {
@@ -505,7 +509,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSet extends Magento_Core_Block_Tem
 
     /**
      * Return collection of current grid
-     * @return Magento_Data_Collection
+     * @return \Magento\Data\Collection
      */
     public function getCollection()
     {
@@ -516,7 +520,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSet extends Magento_Core_Block_Tem
      * Set subtotals
      *
      * @param boolean $flag
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     public function setCountSubTotals($flag = true)
     {
@@ -538,7 +542,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSet extends Magento_Core_Block_Tem
      * Set totals
      *
      * @param boolean $flag
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     public function setCountTotals($flag = true)
     {
@@ -559,8 +563,8 @@ class Magento_Backend_Block_Widget_Grid_ColumnSet extends Magento_Core_Block_Tem
     /**
      * Retrieve subtotal for item
      *
-     * @param $item Magento_Object
-     * @return Magento_Object
+     * @param $item \Magento\Object
+     * @return \Magento\Object
      */
     public function getSubTotals($item)
     {
@@ -572,7 +576,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSet extends Magento_Core_Block_Tem
     /**
      * Retrieve subtotal items
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getTotals()
     {
@@ -584,13 +588,13 @@ class Magento_Backend_Block_Widget_Grid_ColumnSet extends Magento_Core_Block_Tem
     /**
      * Update item with first sub-item data
      *
-     * @param $item Magento_Object
+     * @param $item \Magento\Object
      */
-    public function updateItemByFirstMultiRow(Magento_Object $item)
+    public function updateItemByFirstMultiRow(\Magento\Object $item)
     {
         $multiRows = $this->getMultipleRows($item);
-        if (is_object($multiRows) && $multiRows instanceof Magento_Data_Collection) {
-            /** @var $multiRows Magento_Data_Collection */
+        if (is_object($multiRows) && $multiRows instanceof \Magento\Data\Collection) {
+            /** @var $multiRows \Magento\Data\Collection */
             $item->addData($multiRows->getFirstItem()->getData());
         } elseif (is_array($multiRows)) {
             $firstItem = $multiRows[0];

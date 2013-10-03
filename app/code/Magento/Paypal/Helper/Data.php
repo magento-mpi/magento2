@@ -9,7 +9,9 @@
 /**
  * Paypal Data helper
  */
-class Magento_Paypal_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Paypal\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Cache for shouldAskToCreateBillingAgreement()
@@ -21,24 +23,24 @@ class Magento_Paypal_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData;
 
     /**
-     * @var Magento_Sales_Model_Billing_AgreementFactory
+     * @var \Magento\Sales\Model\Billing\AgreementFactory
      */
     protected $_agreementFactory;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Sales_Model_Billing_AgreementFactory $agreementFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_Context $context,
-        Magento_Sales_Model_Billing_AgreementFactory $agreementFactory
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory
     ) {
         $this->_coreData = $coreData;
         $this->_agreementFactory = $agreementFactory;
@@ -48,11 +50,11 @@ class Magento_Paypal_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Check whether customer should be asked confirmation whether to sign a billing agreement
      *
-     * @param Magento_Paypal_Model_Config $config
+     * @param \Magento\Paypal\Model\Config $config
      * @param int $customerId
      * @return bool
      */
-    public function shouldAskToCreateBillingAgreement(Magento_Paypal_Model_Config $config, $customerId)
+    public function shouldAskToCreateBillingAgreement(\Magento\Paypal\Model\Config $config, $customerId)
     {
         if (null === self::$_shouldAskToCreateBillingAgreement) {
             self::$_shouldAskToCreateBillingAgreement = false;
@@ -68,10 +70,10 @@ class Magento_Paypal_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Return backend config for element like JSON
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    public function getElementBackendConfig(Magento_Data_Form_Element_Abstract $element)
+    public function getElementBackendConfig(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $config = $element->getFieldConfig();
         if (!array_key_exists('backend_congif', $config)) {

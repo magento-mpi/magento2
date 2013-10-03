@@ -9,7 +9,7 @@
 -->
 <widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../../../Magento/Widget/etc/widget.xsd">
-    <widget id="event_lister" class="Magento_CatalogEvent_Block_Widget_Lister"
+    <widget id="event_lister" class="Magento\CatalogEvent\Block\Widget\Lister"
             placeholder_image="Magento_CatalogEvent::widget_lister.gif">
         <label translate="true">Catalog Events Carousel</label>
         <description translate="true">List all open Catalog Events as a Paginated Carousel</description>

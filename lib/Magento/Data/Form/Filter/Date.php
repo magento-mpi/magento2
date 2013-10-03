@@ -16,7 +16,9 @@
  * @package     Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Data_Form_Filter_Date implements Magento_Data_Form_Filter_Interface
+namespace Magento\Data\Form\Filter;
+
+class Date implements \Magento\Data\Form\Filter\FilterInterface
 {
     /**
      * Date format
@@ -28,20 +30,20 @@ class Magento_Data_Form_Filter_Date implements Magento_Data_Form_Filter_Interfac
     /**
      * Local
      *
-     * @var Zend_Locale
+     * @var \Zend_Locale
      */
     protected $_locale;
 
     /**
      * Initialize filter
      *
-     * @param string $format    Zend_Date input/output format
-     * @param Zend_Locale $locale
+     * @param string $format    \Zend_Date input/output format
+     * @param \Zend_Locale $locale
      */
     public function __construct($format = null, $locale = null)
     {
         if (is_null($format)) {
-            $format = Magento_Date::DATE_INTERNAL_FORMAT;
+            $format = \Magento\Date::DATE_INTERNAL_FORMAT;
         }
         $this->_dateFormat  = $format;
         $this->_locale      = $locale;
@@ -55,12 +57,12 @@ class Magento_Data_Form_Filter_Date implements Magento_Data_Form_Filter_Interfac
      */
     public function inputFilter($value)
     {
-        $filterInput = new Zend_Filter_LocalizedToNormalized(array(
+        $filterInput = new \Zend_Filter_LocalizedToNormalized(array(
             'date_format'   => $this->_dateFormat,
             'locale'        => $this->_locale
         ));
-        $filterInternal = new Zend_Filter_NormalizedToLocalized(array(
-            'date_format'   => Magento_Date::DATE_INTERNAL_FORMAT,
+        $filterInternal = new \Zend_Filter_NormalizedToLocalized(array(
+            'date_format'   => \Magento\Date::DATE_INTERNAL_FORMAT,
             'locale'        => $this->_locale
         ));
 
@@ -77,11 +79,11 @@ class Magento_Data_Form_Filter_Date implements Magento_Data_Form_Filter_Interfac
      */
     public function outputFilter($value)
     {
-        $filterInput = new Zend_Filter_LocalizedToNormalized(array(
-            'date_format'   => Magento_Date::DATE_INTERNAL_FORMAT,
+        $filterInput = new \Zend_Filter_LocalizedToNormalized(array(
+            'date_format'   => \Magento\Date::DATE_INTERNAL_FORMAT,
             'locale'        => $this->_locale
         ));
-        $filterInternal = new Zend_Filter_NormalizedToLocalized(array(
+        $filterInternal = new \Zend_Filter_NormalizedToLocalized(array(
             'date_format'   => $this->_dateFormat,
             'locale'        => $this->_locale
         ));

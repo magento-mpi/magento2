@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_ObjectManager_Definition
+namespace Magento\ObjectManager;
+
+interface Definition
 {
     /**
      * Get list of method parameters

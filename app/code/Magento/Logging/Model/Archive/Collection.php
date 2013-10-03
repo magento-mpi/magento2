@@ -11,7 +11,9 @@
 /**
  * Archive files collection
  */
-class Magento_Logging_Model_Archive_Collection extends Magento_Data_Collection_Filesystem
+namespace Magento\Logging\Model\Archive;
+
+class Collection extends \Magento\Data\Collection\Filesystem
 {
     /**
      * Filenames regex filter
@@ -23,25 +25,25 @@ class Magento_Logging_Model_Archive_Collection extends Magento_Data_Collection_F
     /**
      * Locale model
      *
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
      * Set target dir for scanning
      *
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Logging_Model_Archive $archive
-     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Logging\Model\Archive $archive
+     * @param \Magento\Core\Model\LocaleInterface $locale
      */
     public function __construct(
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Logging_Model_Archive $archive,
-        Magento_Core_Model_LocaleInterface $locale
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Logging\Model\Archive $archive,
+        \Magento\Core\Model\LocaleInterface $locale
     ) {
         parent::__construct($entityFactory);
         $basePath = $archive->getBasePath();
-        $file = new Magento_Io_File();
+        $file = new \Magento\Io\File();
         $file->setAllowCreateFolders(true)->createDestinationDir($basePath);
         $this->addTargetDir($basePath);
         $this->_locale = $locale;
@@ -49,7 +51,7 @@ class Magento_Logging_Model_Archive_Collection extends Magento_Data_Collection_F
 
     /**
      * Row generator
-     * Add 'time' column as Zend_Date object
+     * Add 'time' column as \Zend_Date object
      * Add 'timestamp' column as unix timestamp - used in date filter
      *
      * @param string $filename
@@ -58,12 +60,12 @@ class Magento_Logging_Model_Archive_Collection extends Magento_Data_Collection_F
     protected function _generateRow($filename)
     {
         $row = parent::_generateRow($filename);
-        $date = new Zend_Date(str_replace('.csv', '', $row['basename']), 'yyyyMMddHH', $this->_locale->getLocaleCode());
+        $date = new \Zend_Date(str_replace('.csv', '', $row['basename']), 'yyyyMMddHH', $this->_locale->getLocaleCode());
         $row['time'] = $date;
         /**
          * Used in date filter, becouse $date contains hours
          */
-        $dateWithoutHours = new Zend_Date(str_replace('.csv', '', $row['basename']), 'yyyyMMdd',
+        $dateWithoutHours = new \Zend_Date(str_replace('.csv', '', $row['basename']), 'yyyyMMdd',
             $this->_locale->getLocaleCode());
         $row['timestamp'] = $dateWithoutHours->toString('yyyy-MM-dd');
         return $row;

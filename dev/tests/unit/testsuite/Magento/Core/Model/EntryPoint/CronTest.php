@@ -5,36 +5,38 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_EntryPoint_CronTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\EntryPoint;
+
+class CronTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManagerMock;
 
     protected function setUp()
     {
-        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
-        $config = $this->getMock('Magento_Core_Model_Config_Primary', array(), array(), '', false);
+        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
+        $config = $this->getMock('Magento\Core\Model\Config\Primary', array(), array(), '', false);
 
-        $this->_model = new Magento_Core_Model_EntryPoint_Cron($config, $this->_objectManagerMock);
+        $this->_model = new \Magento\Core\Model\EntryPoint\Cron($config, $this->_objectManagerMock);
     }
 
     public function testProcessRequest()
     {
-        $appMock = $this->getMock('Magento_Core_Model_App', array(), array(), '', false);
-        $eventManagerMock = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
-        $configScopeMock = $this->getMock('Magento_Core_Model_Config_Scope', array(), array(), '', false);
+        $appMock = $this->getMock('Magento\Core\Model\App', array(), array(), '', false);
+        $eventManagerMock = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
+        $configScopeMock = $this->getMock('Magento\Core\Model\Config\Scope', array(), array(), '', false);
 
         $map = array(
-            array('Magento_Core_Model_App', $appMock),
-            array('Magento_Core_Model_Event_Manager', $eventManagerMock),
-            array('Magento_Core_Model_Config_Scope', $configScopeMock),
+            array('Magento\Core\Model\App', $appMock),
+            array('Magento\Core\Model\Event\Manager', $eventManagerMock),
+            array('Magento\Core\Model\Config\Scope', $configScopeMock),
         );
 
         $this->_objectManagerMock->expects($this->any())->method('get')->will($this->returnValueMap($map));

@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Dashboard_Bar extends Magento_Adminhtml_Block_Dashboard_Abstract
+namespace Magento\Adminhtml\Block\Dashboard;
+
+class Bar extends \Magento\Adminhtml\Block\Dashboard\AbstractDashboard
 {
     protected $_totals = array();
     protected $_currentCurrencyCode = null;
@@ -63,7 +65,7 @@ class Magento_Adminhtml_Block_Dashboard_Bar extends Magento_Adminhtml_Block_Dash
     /**
      * Setting currency model
      *
-     * @param Magento_Directory_Model_Currency $currency
+     * @param \Magento\Directory\Model\Currency $currency
      */
     public function setCurrency($currency)
     {
@@ -73,7 +75,7 @@ class Magento_Adminhtml_Block_Dashboard_Bar extends Magento_Adminhtml_Block_Dash
     /**
      * Retrieve currency model if not set then return currency model for current store
      *
-     * @return Magento_Directory_Model_Currency
+     * @return \Magento\Directory\Model\Currency
      */
     public function getCurrency()
     {

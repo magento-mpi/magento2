@@ -16,7 +16,9 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Product_Action extends Magento_Catalog_Model_Resource_Abstract
+namespace Magento\Catalog\Model\Resource\Product;
+
+class Action extends \Magento\Catalog\Model\Resource\AbstractResource
 {
     /**
      * Intialize connection
@@ -25,7 +27,7 @@ class Magento_Catalog_Model_Resource_Product_Action extends Magento_Catalog_Mode
     protected function _construct()
     {
         $resource = $this->_resource;
-        $this->setType(Magento_Catalog_Model_Product::ENTITY)
+        $this->setType(\Magento\Catalog\Model\Product::ENTITY)
             ->setConnection(
                 $resource->getConnection('catalog_read'),
                 $resource->getConnection('catalog_write')
@@ -38,11 +40,11 @@ class Magento_Catalog_Model_Resource_Product_Action extends Magento_Catalog_Mode
      * @param array $entityIds
      * @param array $attrData
      * @param int $storeId
-     * @return Magento_Catalog_Model_Resource_Product_Action
+     * @return \Magento\Catalog\Model\Resource\Product\Action
      */
     public function updateAttributes($entityIds, $attrData, $storeId)
     {
-        $object = new Magento_Object();
+        $object = new \Magento\Object();
         $object->setIdFieldName('entity_id')
             ->setStoreId($storeId);
 
@@ -68,7 +70,7 @@ class Magento_Catalog_Model_Resource_Product_Action extends Magento_Catalog_Mode
                 $this->_processAttributeValues();
             }
             $this->_getWriteAdapter()->commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getWriteAdapter()->rollBack();
             throw $e;
         }

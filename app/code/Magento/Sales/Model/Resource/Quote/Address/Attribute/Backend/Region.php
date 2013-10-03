@@ -11,27 +11,33 @@
 /**
  * Quote address attribute backend region resource model
  */
-class Magento_Sales_Model_Resource_Quote_Address_Attribute_Backend_Region
-    extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
+namespace Magento\Sales\Model\Resource\Quote\Address\Attribute\Backend;
+
+class Region
+    extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
-     * @var Magento_Directory_Model_RegionFactory
+     * @var \Magento\Directory\Model\RegionFactory
      */
     protected $_regionFactory;
 
     /**
-     * @param Magento_Directory_Model_RegionFactory $regionFactory
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Directory\Model\RegionFactory $regionFactory
      */
-    public function __construct(Magento_Directory_Model_RegionFactory $regionFactory)
-    {
+    public function __construct(
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Directory\Model\RegionFactory $regionFactory
+    ) {
         $this->_regionFactory = $regionFactory;
+        parent::__construct($logger);
     }
 
     /**
      * Set region to the attribute
      *
-     * @param Magento_Object $object
-     * @return Magento_Sales_Model_Resource_Quote_Address_Attribute_Backend_Region
+     * @param \Magento\Object $object
+     * @return \Magento\Sales\Model\Resource\Quote\Address\Attribute\Backend\Region
      */
     public function beforeSave($object)
     {

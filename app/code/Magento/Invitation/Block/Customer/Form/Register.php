@@ -11,46 +11,48 @@
 /**
  * Customer registration form block
  */
-class Magento_Invitation_Block_Customer_Form_Register extends Magento_Customer_Block_Form_Register
+namespace Magento\Invitation\Block\Customer\Form;
+
+class Register extends \Magento\Customer\Block\Form\Register
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * Customer Session
      *
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_session;
 
     /**
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Customer_Model_AddressFactory $addressFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory
-     * @param Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory
-     * @param Magento_Customer_Model_Session $session
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Customer\Model\AddressFactory $addressFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
+     * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
+     * @param \Magento\Customer\Model\Session $session
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Model_Cache_Type_Config $configCacheType,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Customer_Model_AddressFactory $addressFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory,
-        Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory,
-        Magento_Customer_Model_Session $session,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Customer\Model\AddressFactory $addressFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
+        \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
+        \Magento\Customer\Model\Session $session,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -61,14 +63,14 @@ class Magento_Invitation_Block_Customer_Form_Register extends Magento_Customer_B
     /**
      * Retrieve form data
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getFormData()
     {
         $data = $this->getData('form_data');
         if (is_null($data)) {
             $customerFormData = $this->_customerSession->getCustomerFormData(true);
-            $data = new Magento_Object($customerFormData);
+            $data = new \Magento\Object($customerFormData);
             if (empty($customerFormData)) {
                 $invitation = $this->getCustomerInvitation();
 
@@ -96,7 +98,7 @@ class Magento_Invitation_Block_Customer_Form_Register extends Magento_Customer_B
     /**
      * Retrieve customer invitation
      *
-     * @return Magento_Invitation_Model_Invitation
+     * @return \Magento\Invitation\Model\Invitation
      */
     public function getCustomerInvitation()
     {

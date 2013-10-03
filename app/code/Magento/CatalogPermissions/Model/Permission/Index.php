@@ -11,26 +11,28 @@
 /**
  * Permission indexer
  *
- * @method Magento_CatalogPermissions_Model_Resource_Permission_Index _getResource()
- * @method Magento_CatalogPermissions_Model_Resource_Permission_Index getResource()
+ * @method \Magento\CatalogPermissions\Model\Resource\Permission\Index _getResource()
+ * @method \Magento\CatalogPermissions\Model\Resource\Permission\Index getResource()
  * @method int getCategoryId()
- * @method Magento_CatalogPermissions_Model_Permission_Index setCategoryId(int $value)
+ * @method \Magento\CatalogPermissions\Model\Permission\Index setCategoryId(int $value)
  * @method int getWebsiteId()
- * @method Magento_CatalogPermissions_Model_Permission_Index setWebsiteId(int $value)
+ * @method \Magento\CatalogPermissions\Model\Permission\Index setWebsiteId(int $value)
  * @method int getCustomerGroupId()
- * @method Magento_CatalogPermissions_Model_Permission_Index setCustomerGroupId(int $value)
+ * @method \Magento\CatalogPermissions\Model\Permission\Index setCustomerGroupId(int $value)
  * @method int getGrantCatalogCategoryView()
- * @method Magento_CatalogPermissions_Model_Permission_Index setGrantCatalogCategoryView(int $value)
+ * @method \Magento\CatalogPermissions\Model\Permission\Index setGrantCatalogCategoryView(int $value)
  * @method int getGrantCatalogProductPrice()
- * @method Magento_CatalogPermissions_Model_Permission_Index setGrantCatalogProductPrice(int $value)
+ * @method \Magento\CatalogPermissions\Model\Permission\Index setGrantCatalogProductPrice(int $value)
  * @method int getGrantCheckoutItems()
- * @method Magento_CatalogPermissions_Model_Permission_Index setGrantCheckoutItems(int $value)
+ * @method \Magento\CatalogPermissions\Model\Permission\Index setGrantCheckoutItems(int $value)
  *
  * @category    Magento
  * @package     Magento_CatalogPermissions
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogPermissions_Model_Permission_Index extends Magento_Index_Model_Indexer_Abstract
+namespace Magento\CatalogPermissions\Model\Permission;
+
+class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
 {
     /**
      * Reindex products permissions event type
@@ -60,7 +62,7 @@ class Magento_CatalogPermissions_Model_Permission_Index extends Magento_Index_Mo
     protected $_matchedEntities = array(
         self::ENTITY_PRODUCT  => array(self::EVENT_TYPE_REINDEX_PRODUCTS),
         self::ENTITY_CATEGORY => array(self::EVENT_TYPE_REINDEX_PRODUCTS),
-        self::ENTITY_CONFIG   => array(Magento_Index_Model_Event::TYPE_SAVE),
+        self::ENTITY_CONFIG   => array(\Magento\Index\Model\Event::TYPE_SAVE),
     );
 
     /**
@@ -72,14 +74,14 @@ class Magento_CatalogPermissions_Model_Permission_Index extends Magento_Index_Mo
 
     protected function _construct()
     {
-        $this->_init('Magento_CatalogPermissions_Model_Resource_Permission_Index');
+        $this->_init('Magento\CatalogPermissions\Model\Resource\Permission\Index');
     }
 
     /**
      * Reindex category permissions
      *
      * @param string $categoryPath
-     * @return Magento_CatalogPermissions_Model_Permission_Index
+     * @return \Magento\CatalogPermissions\Model\Permission\Index
      */
     public function reindex($categoryPath)
     {
@@ -91,7 +93,7 @@ class Magento_CatalogPermissions_Model_Permission_Index extends Magento_Index_Mo
      * Reindex products permissions
      *
      * @param array|string $productIds
-     * @return Magento_CatalogPermissions_Model_Permission_Index
+     * @return \Magento\CatalogPermissions\Model\Permission\Index
      */
     public function reindexProducts($productIds = null)
     {
@@ -103,7 +105,7 @@ class Magento_CatalogPermissions_Model_Permission_Index extends Magento_Index_Mo
      * Reindex products permissions for standalone mode
      *
      * @param array|string $productIds
-     * @return Magento_CatalogPermissions_Model_Permission_Index
+     * @return \Magento\CatalogPermissions\Model\Permission\Index
      */
     public function reindexProductsStandalone($productIds = null)
     {
@@ -127,8 +129,8 @@ class Magento_CatalogPermissions_Model_Permission_Index extends Magento_Index_Mo
     /**
      * Add index to product count select in product collection
      *
-     * @param Magento_Catalog_Model_Resource_Product_Collection $collection
-     * @return Magento_CatalogPermissions_Model_Permission_Index
+     * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
+     * @return \Magento\CatalogPermissions\Model\Permission\Index
      */
     public function addIndexToProductCount($collection, $customerGroupId)
     {
@@ -139,10 +141,10 @@ class Magento_CatalogPermissions_Model_Permission_Index extends Magento_Index_Mo
     /**
      * Add index to category collection
      *
-     * @param Magento_Catalog_Model_Resource_Category_Collection|Magento_Catalog_Model_Resource_Category_Flat_Collection $collection
+     * @param \Magento\Catalog\Model\Resource\Category\Collection|\Magento\Catalog\Model\Resource\Category\Flat\Collection $collection
      * @param int $customerGroupId
      * @param int $websiteId
-     * @return Magento_CatalogPermissions_Model_Permission_Index
+     * @return \Magento\CatalogPermissions\Model\Permission\Index
      */
     public function addIndexToCategoryCollection($collection, $customerGroupId, $websiteId)
     {
@@ -153,9 +155,9 @@ class Magento_CatalogPermissions_Model_Permission_Index extends Magento_Index_Mo
     /**
      * Apply price grant on price index select
      *
-     * @param Magento_Object $data
+     * @param \Magento\Object $data
      * @param int $customerGroupId
-     * @return Magento_CatalogPermissions_Model_Permission_Index
+     * @return \Magento\CatalogPermissions\Model\Permission\Index
      */
     public function applyPriceGrantToPriceIndex($data, $customerGroupId)
     {
@@ -179,8 +181,8 @@ class Magento_CatalogPermissions_Model_Permission_Index extends Magento_Index_Mo
     /**
      * Add index select in product collection
      *
-     * @param Magento_Catalog_Model_Resource_Product_Collection $collection
-     * @return Magento_CatalogPermissions_Model_Permission_Index
+     * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
+     * @return \Magento\CatalogPermissions\Model\Permission\Index
      */
     public function addIndexToProductCollection($collection, $customerGroupId)
     {
@@ -191,9 +193,9 @@ class Magento_CatalogPermissions_Model_Permission_Index extends Magento_Index_Mo
      /**
      * Add permission index to product model
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param int $customerGroupId
-     * @return Magento_CatalogPermissions_Model_Permission_Index
+     * @return \Magento\CatalogPermissions\Model\Permission\Index
      */
     public function addIndexToProduct($product, $customerGroupId)
     {
@@ -227,9 +229,9 @@ class Magento_CatalogPermissions_Model_Permission_Index extends Magento_Index_Mo
     /**
      * Register indexer required data inside event object
      *
-     * @param Magento_Index_Model_Event $event
+     * @param \Magento\Index\Model\Event $event
      */
-    protected function _registerEvent(Magento_Index_Model_Event $event)
+    protected function _registerEvent(\Magento\Index\Model\Event $event)
     {
         switch ($event->getType()) {
             case self::EVENT_TYPE_REINDEX_PRODUCTS:
@@ -248,9 +250,9 @@ class Magento_CatalogPermissions_Model_Permission_Index extends Magento_Index_Mo
     /**
      * Process event based on event state data
      *
-     * @param Magento_Index_Model_Event $event
+     * @param \Magento\Index\Model\Event $event
      */
-    protected function _processEvent(Magento_Index_Model_Event $event)
+    protected function _processEvent(\Magento\Index\Model\Event $event)
     {
         switch ($event->getType()) {
             case self::EVENT_TYPE_REINDEX_PRODUCTS:
@@ -269,7 +271,7 @@ class Magento_CatalogPermissions_Model_Permission_Index extends Magento_Index_Mo
                         break;
                 }
                 break;
-            case Magento_Index_Model_Event::TYPE_SAVE:
+            case \Magento\Index\Model\Event::TYPE_SAVE:
                 switch ($event->getEntity()) {
                     case self::ENTITY_CONFIG:
                         $this->reindexProductsStandalone();

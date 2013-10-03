@@ -7,8 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_TestFramework_TestCase_Webapi_Adapter_Soap
-    implements Magento_TestFramework_TestCase_Webapi_AdapterInterface
+namespace Magento\TestFramework\TestCase\Webapi\Adapter;
+
+class Soap
+    implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
 {
     const WSDL_BASE_PATH = '/soap?wsdl=1';
 
@@ -20,7 +22,7 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Soap
     protected $_soapClients = array();
 
     /**
-     * @var Magento_Webapi_Model_Soap_Config
+     * @var \Magento\Webapi\Model\Soap\Config
      */
     protected $_soapConfig;
 
@@ -29,9 +31,9 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Soap
      */
     public function __construct()
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $this->_soapConfig = $objectManager->get('Magento_Webapi_Model_Soap_Config');
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->_soapConfig = $objectManager->get('Magento\Webapi\Model\Soap\Config');
     }
 
     /**
@@ -75,7 +77,7 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Soap
      */
     public function instantiateSoapClient($wsdlUrl)
     {
-        $token = Magento_TestFramework_Authentication_OauthHelper::getAccessToken();
+        $token = \Magento\TestFramework\Authentication\OauthHelper::getAccessToken();
         $opts = array(
             'http'=>array(
                 'header'=>"Authorization: Bearer " . $token['key']
@@ -117,7 +119,7 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Soap
      *
      * @param array $serviceInfo
      * @return string
-     * @throws LogicException
+     * @throws \LogicException
      */
     protected function _getSoapOperation($serviceInfo)
     {
@@ -129,7 +131,7 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Soap
                 $serviceInfo['method']
             );
         } else {
-            throw new LogicException("SOAP operation cannot be identified.");
+            throw new \LogicException("SOAP operation cannot be identified.");
         }
         return $soapOperation;
     }
@@ -139,7 +141,7 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Soap
      *
      * @param array $serviceInfo
      * @return string
-     * @throws LogicException
+     * @throws \LogicException
      */
     protected function _getSoapServiceVersion($serviceInfo)
     {
@@ -150,14 +152,14 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Soap
             */
             return '';
         } else if (isset($serviceInfo['serviceInterface'])) {
-            preg_match(Magento_Webapi_Model_Config::SERVICE_CLASS_PATTERN, $serviceInfo['serviceInterface'], $matches);
+            preg_match(\Magento\Webapi\Model\Config::SERVICE_CLASS_PATTERN, $serviceInfo['serviceInterface'], $matches);
             if (isset($matches[4])) {
                 $version = $matches[4];
             } else {
-                throw new LogicException("Service interface name is invalid.");
+                throw new \LogicException("Service interface name is invalid.");
             }
         } else {
-            throw new LogicException("Service version cannot be identified.");
+            throw new \LogicException("Service version cannot be identified.");
         }
         /** Normalize version */
         $version = 'V' . ltrim($version, 'vV');
@@ -169,7 +171,7 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Soap
      *
      * @param array $serviceInfo
      * @return string
-     * @throws LogicException
+     * @throws \LogicException
      */
     protected function _getSoapServiceName($serviceInfo)
     {
@@ -178,7 +180,7 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Soap
         } else if (isset($serviceInfo['serviceInterface'])) {
             $serviceName = $this->_soapConfig->getServiceName($serviceInfo['serviceInterface'], false);
         } else {
-            throw new LogicException("Service name cannot be identified.");
+            throw new \LogicException("Service name cannot be identified.");
         }
         return $serviceName;
     }

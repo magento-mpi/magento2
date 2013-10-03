@@ -8,21 +8,21 @@
  */
 -->
 <config>
-    <preference for="Magento_VersionsCms_Model_Hierarchy_ConfigInterface" type="Magento_VersionsCms_Model_Hierarchy_Config" />
-    <type name="Magento_VersionsCms_Model_Config">
+    <preference for="Magento\VersionsCms\Model\Hierarchy\ConfigInterface" type="Magento\VersionsCms\Model\Hierarchy\Config" />
+    <type name="Magento\VersionsCms\Model\Config">
         <param name="authorization">
-            <instance type="Magento_Authorization_Proxy" />
+            <instance type="Magento\Authorization\Proxy" />
         </param>
     </type>
-    <type name="Magento_VersionsCms_Model_Observer">
+    <type name="Magento\VersionsCms\Model\Observer">
         <param name="authorization">
-            <instance type="Magento_Authorization_Proxy" />
+            <instance type="Magento\Authorization\Proxy" />
         </param>
     </type>
-    <type name="Magento_Core_Model_Db_Updater">
+    <type name="Magento\Core\Model\Db\Updater">
         <param name="resourceList">
             <value>
-                <versionscms_setup>Magento_VersionsCms_Model_Resource_Setup</versionscms_setup>
+                <versionscms_setup>Magento\VersionsCms\Model\Resource\Setup</versionscms_setup>
             </value>
         </param>
     </type>

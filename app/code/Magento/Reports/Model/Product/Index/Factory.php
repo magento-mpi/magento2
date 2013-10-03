@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Reports_Model_Product_Index_Factory
+namespace Magento\Reports\Model\Product\Index;
+
+class Factory
 {
     const TYPE_COMPARED = 'compared';
     const TYPE_VIEWED = 'viewed';
@@ -16,33 +18,33 @@ class Magento_Reports_Model_Product_Index_Factory
      * @var array
      */
     protected $_typeClasses = array(
-        self::TYPE_COMPARED => 'Magento_Reports_Model_Product_Index_Compared',
-        self::TYPE_VIEWED => 'Magento_Reports_Model_Product_Index_Viewed'
+        self::TYPE_COMPARED => 'Magento\Reports\Model\Product\Index\Compared',
+        self::TYPE_VIEWED => 'Magento\Reports\Model\Product\Index\Viewed'
     );
 
     /**
-     * @var Magento_Reports_Model_Product_Index_Abstract[]
+     * @var \Magento\Reports\Model\Product\Index\Abstract[]
      */
     protected $_instances;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
 
     /**
      * @param string $type
-     * @return Magento_Reports_Model_Product_Index_Abstract
-     * @throws InvalidArgumentException
+     * @return \Magento\Reports\Model\Product\Index\AbstractIndex
+     * @throws \InvalidArgumentException
      */
     public function get($type)
     {
         if (!isset($this->_instances[$type])) {
             if (!isset($this->_typeClasses[$type])) {
-                throw new InvalidArgumentException("{$type} is not index model");
+                throw new \InvalidArgumentException("{$type} is not index model");
             }
             $this->_instances[$type] = $this->_objectManager->create($this->_typeClasses[$type]);
         }

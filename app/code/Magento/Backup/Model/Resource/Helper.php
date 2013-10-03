@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backup_Model_Resource_Helper extends Magento_Core_Model_Resource_Helper
+namespace Magento\Backup\Model\Resource;
+
+class Helper extends \Magento\Core\Model\Resource\Helper
 {
     /**
      * Tables foreign key data array
@@ -21,18 +23,18 @@ class Magento_Backup_Model_Resource_Helper extends Magento_Core_Model_Resource_H
     /**
      * Core Date
      *
-     * @var Magento_Core_Model_Date
+     * @var \Magento\Core\Model\Date
      */
     protected $_coreDate;
 
     /**
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Date $coreDate
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Date $coreDate
      * @param $modulePrefix
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Date $coreDate,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\Date $coreDate,
         $modulePrefix
     ) {
         parent::__construct($resource, $modulePrefix);

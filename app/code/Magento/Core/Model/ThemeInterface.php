@@ -11,7 +11,9 @@
 /**
  * Minimal required interface a theme has to implement
  */
-interface Magento_Core_Model_ThemeInterface
+namespace Magento\Core\Model;
+
+interface ThemeInterface
 {
     /**
      * Separator between theme_path elements
@@ -47,7 +49,7 @@ interface Magento_Core_Model_ThemeInterface
     /**
      * Retrieve parent theme instance
      *
-     * @return Magento_Core_Model_ThemeInterface|null
+     * @return \Magento\Core\Model\ThemeInterface|null
      */
     public function getParentTheme();
 

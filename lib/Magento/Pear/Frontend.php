@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category   Magento
- * @package    Magento_Pear
+ * @package    \Magento\Pear
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -12,11 +12,13 @@
  * Pear frontend routines
  * *
  * @category   Magento
- * @package    Magento_Pear
+ * @package    \Magento\Pear
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Pear_Frontend// extends PEAR_Frontend
+namespace Magento\Pear;
+
+class Frontend
 {
     protected $_logStream = null;
     protected $_outStream = null;

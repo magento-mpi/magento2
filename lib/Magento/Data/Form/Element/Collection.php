@@ -15,7 +15,9 @@
  * @package     Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Data_Form_Element_Collection implements ArrayAccess, IteratorAggregate
+namespace Magento\Data\Form\Element;
+
+class Collection implements \ArrayAccess, \IteratorAggregate
 {
 
     /**
@@ -28,33 +30,33 @@ class Magento_Data_Form_Element_Collection implements ArrayAccess, IteratorAggre
     /**
      * Elements container
      *
-     * @var Magento_Data_Form_Abstract
+     * @var \Magento\Data\Form\AbstractForm
      */
     private $_container;
 
     /**
      * Class constructor
      *
-     * @param Magento_Data_Form_Abstract $container
+     * @param \Magento\Data\Form\AbstractForm $container
      */
-    public function __construct(Magento_Data_Form_Abstract $container)
+    public function __construct(\Magento\Data\Form\AbstractForm $container)
     {
         $this->_elements = array();
         $this->_container = $container;
     }
 
     /**
-     * Implementation of IteratorAggregate::getIterator()
+     * Implementation of \IteratorAggregate::getIterator()
      *
-     * @return ArrayIterator
+     * @return \ArrayIterator
      */
     public function getIterator()
     {
-        return new ArrayIterator($this->_elements);
+        return new \ArrayIterator($this->_elements);
     }
 
     /**
-     * Implementation of ArrayAccess:offsetSet()
+     * Implementation of \ArrayAccess:offsetSet()
      *
      * @param mixed $key
      * @param mixed $value
@@ -65,7 +67,7 @@ class Magento_Data_Form_Element_Collection implements ArrayAccess, IteratorAggre
     }
 
     /**
-     * Implementation of ArrayAccess:offsetGet()
+     * Implementation of \ArrayAccess:offsetGet()
      *
      * @param mixed $key
      */
@@ -75,7 +77,7 @@ class Magento_Data_Form_Element_Collection implements ArrayAccess, IteratorAggre
     }
 
     /**
-     * Implementation of ArrayAccess:offsetUnset()
+     * Implementation of \ArrayAccess:offsetUnset()
      *
      * @param mixed $key
      */
@@ -85,7 +87,7 @@ class Magento_Data_Form_Element_Collection implements ArrayAccess, IteratorAggre
     }
 
     /**
-     * Implementation of ArrayAccess:offsetExists()
+     * Implementation of \ArrayAccess:offsetExists()
      *
      * @param mixed $key
      * @return boolean
@@ -99,15 +101,15 @@ class Magento_Data_Form_Element_Collection implements ArrayAccess, IteratorAggre
      * Add element to collection
      *
      * @todo get it straight with $after
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @param bool|string $after
      *
-     * @return Magento_Data_Form_Element_Collection
+     * @return \Magento\Data\Form\Element\Collection
      */
-    public function add(Magento_Data_Form_Element_Abstract $element, $after = false)
+    public function add(\Magento\Data\Form\Element\AbstractElement $element, $after = false)
     {
         // Set the Form for the node
-        if ($this->_container->getForm() instanceof Magento_Data_Form) {
+        if ($this->_container->getForm() instanceof \Magento\Data\Form) {
             $element->setContainer($this->_container);
             $element->setForm($this->_container->getForm());
         }
@@ -139,7 +141,7 @@ class Magento_Data_Form_Element_Collection implements ArrayAccess, IteratorAggre
      * Sort elements by values using a user-defined comparison function
      *
      * @param mixed $callback
-     * @return Magento_Data_Form_Element_Collection
+     * @return \Magento\Data\Form\Element\Collection
      */
     public function usort($callback)
     {
@@ -151,7 +153,7 @@ class Magento_Data_Form_Element_Collection implements ArrayAccess, IteratorAggre
      * Remove element from collection
      *
      * @param mixed $elementId
-     * @return Magento_Data_Form_Element_Collection
+     * @return \Magento\Data\Form\Element\Collection
      */
     public function remove($elementId)
     {
@@ -179,7 +181,7 @@ class Magento_Data_Form_Element_Collection implements ArrayAccess, IteratorAggre
      * Find element by ID
      *
      * @param mixed $elementId
-     * @return Magento_Data_Form_Element_Abstract|null
+     * @return \Magento\Data\Form\Element\AbstractElement|null
      */
     public function searchById($elementId)
     {

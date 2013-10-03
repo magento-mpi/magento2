@@ -8,10 +8,12 @@
  * @license     {license_link}
  */
 
-class Magento_Authorization_Policy_AclTest extends PHPUnit_Framework_TestCase
+namespace Magento\Authorization\Policy;
+
+class AclTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Authorization_Policy_Acl
+     * @var \Magento\Authorization\Policy\Acl
      */
     protected $_model;
 
@@ -21,10 +23,10 @@ class Magento_Authorization_Policy_AclTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_aclMock = $this->getMock('Magento_Acl');
-        $this->_aclBuilderMock = $this->getMock('Magento_Acl_Builder', array(), array(), '', false);
+        $this->_aclMock = $this->getMock('Magento\Acl');
+        $this->_aclBuilderMock = $this->getMock('Magento\Acl\Builder', array(), array(), '', false);
         $this->_aclBuilderMock->expects($this->any())->method('getAcl')->will($this->returnValue($this->_aclMock));
-        $this->_model = new Magento_Authorization_Policy_Acl($this->_aclBuilderMock);
+        $this->_model = new \Magento\Authorization\Policy\Acl($this->_aclBuilderMock);
     }
 
     public function testIsAllowedReturnsTrueIfResourceIsAllowedToRole()
@@ -42,7 +44,7 @@ class Magento_Authorization_Policy_AclTest extends PHPUnit_Framework_TestCase
         $this->_aclMock->expects($this->once())
             ->method('isAllowed')
             ->with('some_role', 'some_resource')
-            ->will($this->throwException(new Zend_Acl_Role_Registry_Exception));
+            ->will($this->throwException(new \Zend_Acl_Role_Registry_Exception));
 
         $this->_aclMock->expects($this->once())
             ->method('has')
@@ -57,7 +59,7 @@ class Magento_Authorization_Policy_AclTest extends PHPUnit_Framework_TestCase
         $this->_aclMock->expects($this->at(0))
             ->method('isAllowed')
             ->with('some_role', 'some_resource')
-            ->will($this->throwException(new Zend_Acl_Role_Registry_Exception));
+            ->will($this->throwException(new \Zend_Acl_Role_Registry_Exception));
 
         $this->_aclMock->expects($this->once())
             ->method('has')

@@ -7,29 +7,31 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_GoogleAdwords_Model_Observer
+namespace Magento\GoogleAdwords\Model;
+
+class Observer
 {
     /**
-     * @var Magento_GoogleAdwords_Helper_Data
+     * @var \Magento\GoogleAdwords\Helper\Data
      */
     protected $_helper;
 
     /**
-     * @var Magento_Sales_Model_Resource_Order_Collection
+     * @var \Magento\Sales\Model\Resource\Order\Collection
      */
     protected $_collection;
 
     /**
      * Constructor
      *
-     * @param Magento_GoogleAdwords_Helper_Data $helper
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Sales_Model_Resource_Order_Collection $collection
+     * @param \Magento\GoogleAdwords\Helper\Data $helper
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Sales\Model\Resource\Order\Collection $collection
      */
     public function __construct(
-        Magento_GoogleAdwords_Helper_Data $helper,
-        Magento_Core_Model_Registry $registry,
-        Magento_Sales_Model_Resource_Order_Collection $collection
+        \Magento\GoogleAdwords\Helper\Data $helper,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Sales\Model\Resource\Order\Collection $collection
     ) {
         $this->_helper = $helper;
         $this->_collection = $collection;
@@ -39,10 +41,10 @@ class Magento_GoogleAdwords_Model_Observer
     /**
      * Set base grand total of order to registry
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_GoogleAdwords_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\GoogleAdwords\Model\Observer
      */
-    public function setConversionValue(Magento_Event_Observer $observer)
+    public function setConversionValue(\Magento\Event\Observer $observer)
     {
         if (!($this->_helper->isGoogleAdwordsActive() && $this->_helper->isDynamicConversionValue())) {
             return $this;
@@ -53,11 +55,11 @@ class Magento_GoogleAdwords_Model_Observer
         }
         $this->_collection->addFieldToFilter('entity_id', array('in' => $orderIds));
         $conversionValue = 0;
-        /** @var $order Magento_Sales_Model_Order */
+        /** @var $order \Magento\Sales\Model\Order */
         foreach ($this->_collection as $order) {
             $conversionValue += $order->getBaseGrandTotal();
         }
-        $this->_registry->register(Magento_GoogleAdwords_Helper_Data::CONVERSION_VALUE_REGISTRY_NAME, $conversionValue);
+        $this->_registry->register(\Magento\GoogleAdwords\Helper\Data::CONVERSION_VALUE_REGISTRY_NAME, $conversionValue);
         return $this;
     }
 }

@@ -15,23 +15,25 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Multishipping_State extends Magento_Core_Block_Template
+namespace Magento\Checkout\Block\Multishipping;
+
+class State extends \Magento\Core\Block\Template
 {
     /**
-     * @var Magento_Checkout_Model_Type_Multishipping_State
+     * @var \Magento\Checkout\Model\Type\Multishipping\State
      */
     protected $_multishippingState;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Checkout_Model_Type_Multishipping_State $multishippingState
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Checkout\Model\Type\Multishipping\State $multishippingState
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Checkout_Model_Type_Multishipping_State $multishippingState,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Checkout\Model\Type\Multishipping\State $multishippingState,
         array $data = array()
     ) {
         $this->_multishippingState = $multishippingState;

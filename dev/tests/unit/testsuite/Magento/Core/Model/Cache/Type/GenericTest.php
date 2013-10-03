@@ -7,9 +7,11 @@
  */
 
 /**
- * The test covers Magento_Core_Model_Cache_Type_* classes all at once, as all of them are similar
+ * The test covers \Magento\Core\Model\Cache_Type_* classes all at once, as all of them are similar
  */
-class Magento_Core_Model_Cache_Type_GenericTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Cache\Type;
+
+class GenericTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string $className
@@ -17,9 +19,9 @@ class Magento_Core_Model_Cache_Type_GenericTest extends PHPUnit_Framework_TestCa
      */
     public function testConstructor($className)
     {
-        $frontendMock = $this->getMock('Magento_Cache_FrontendInterface');
+        $frontendMock = $this->getMock('Magento\Cache\FrontendInterface');
 
-        $poolMock = $this->getMock('Magento_Core_Model_Cache_Type_FrontendPool', array(), array(), '', false);
+        $poolMock = $this->getMock('Magento\Core\Model\Cache\Type\FrontendPool', array(), array(), '', false);
         $poolMock->expects($this->atLeastOnce())
             ->method('get')
             ->with($className::TYPE_IDENTIFIER)
@@ -43,12 +45,12 @@ class Magento_Core_Model_Cache_Type_GenericTest extends PHPUnit_Framework_TestCa
     public static function constructorDataProvider()
     {
         return array(
-            array('Magento_Core_Model_Cache_Type_Block'),
-            array('Magento_Core_Model_Cache_Type_Collection'),
-            array('Magento_Core_Model_Cache_Type_Config'),
-            array('Magento_Core_Model_Cache_Type_Layout'),
-            array('Magento_Core_Model_Cache_Type_Translate'),
-            array('Magento_Core_Model_Cache_Type_Block'),
+            array('Magento\Core\Model\Cache\Type\Block'),
+            array('Magento\Core\Model\Cache\Type\Collection'),
+            array('Magento\Core\Model\Cache\Type\Config'),
+            array('Magento\Core\Model\Cache\Type\Layout'),
+            array('Magento\Core\Model\Cache\Type\Translate'),
+            array('Magento\Core\Model\Cache\Type\Block'),
         );
     }
 }

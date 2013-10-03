@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Main extends Magento_Backend_Block_Template
+namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Toolbar;
+
+class Main extends \Magento\Backend\Block\Template
 {
     /**
      * @var string
@@ -25,7 +27,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Main extends
 
     protected function _prepareLayout()
     {
-        $this->addChild('addButton', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('addButton', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Add New Set'),
             'onclick'   => 'setLocation(\'' . $this->getUrl('*/*/add') . '\')',
             'class' => 'add',

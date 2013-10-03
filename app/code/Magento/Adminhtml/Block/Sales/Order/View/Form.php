@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Sales_Order_View_Form extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Sales\Order\View;
+
+class Form extends \Magento\Adminhtml\Block\Template
 {
 
     protected $_template = 'sales/order/view/form.phtml';

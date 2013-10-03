@@ -3,11 +3,13 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Backup
+ * @package     \Magento\Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 
-class Magento_Backup_Exception extends Zend_Exception
+namespace Magento\Backup;
+
+class Exception extends \Zend_Exception
 {}

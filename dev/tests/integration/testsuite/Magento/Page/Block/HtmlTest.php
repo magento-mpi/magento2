@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Page_Block_HtmlTest extends PHPUnit_Framework_TestCase
+namespace Magento\Page\Block;
+
+class HtmlTest extends \PHPUnit_Framework_TestCase
 {
     /**
      *
@@ -17,25 +19,25 @@ class Magento_Page_Block_HtmlTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPrintLogoUrl($configData, $returnValue)
     {
-        $storeConfig = $this->getMockBuilder('Magento_Core_Model_Store_Config')
+        $storeConfig = $this->getMockBuilder('Magento\Core\Model\Store\Config')
             ->disableOriginalConstructor()
             ->getMock();
         $storeConfig->expects($this->any())
             ->method('getConfig')
             ->will($this->returnValueMap($configData));
 
-        $securityInfoMock = $this->getMock('Magento_Core_Model_Url_SecurityInfoInterface');
-        $urlHelperMock = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
+        $securityInfoMock = $this->getMock('Magento\Core\Model\Url\SecurityInfoInterface');
+        $urlHelperMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
         $urlBuilder = $this->getMock(
-            'Magento_Core_Model_Url',
+            'Magento\Core\Model\Url',
             array('getBaseUrl'),
             array(
                 $securityInfoMock,
                 $storeConfig,
                 $urlHelperMock,
-                $this->getMock('Magento_Core_Model_App', array(), array(), '', false),
-                $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false),
-                $this->getMock('Magento_Core_Model_Session', array(), array(), '', false),
+                $this->getMock('Magento\Core\Model\App', array(), array(), '', false),
+                $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false),
+                $this->getMock('Magento\Core\Model\Session', array(), array(), '', false),
                 array()
             )
         );
@@ -43,16 +45,16 @@ class Magento_Page_Block_HtmlTest extends PHPUnit_Framework_TestCase
             ->method('getBaseUrl')
             ->will($this->returnValue('http://localhost/pub/media/'));
 
-        $context = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Block_Template_Context', array(
+        $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Block\Template\Context', array(
             'storeConfig' => $storeConfig,
             'urlBuilder' => $urlBuilder,
         ));
-        $storeManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_StoreManagerInterface');
-        $locale = $this->getMock('Magento_Core_Model_LocaleInterface', array(), array(), '', false);
-        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Page_Block_Html', array(
+        $storeManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\StoreManagerInterface');
+        $locale = $this->getMock('Magento\Core\Model\LocaleInterface', array(), array(), '', false);
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Page\Block\Html', array(
                 'storeManager'  => $storeManager,
                 'locale'        => $locale,
                 'urlHelperMock' => $urlHelperMock,

@@ -10,32 +10,34 @@
  */
 
 /**
- * Test class for Magento_Rule_Model_Condition_Abstract
+ * Test class for \Magento\Rule\Model\Condition\AbstractCondition
  */
-class Magento_Rule_Model_Condition_AbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Rule\Model\Condition;
+
+class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetValueElement()
     {
-        $layoutMock = $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false);
+        $layoutMock = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
 
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $context = $objectManager->create('Magento_Rule_Model_Condition_Context', array('layout' => $layoutMock));
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $context = $objectManager->create('Magento\Rule\Model\Condition\Context', array('layout' => $layoutMock));
 
-        /** @var Magento_Rule_Model_Condition_Abstract $model */
-        $model = $this->getMockForAbstractClass('Magento_Rule_Model_Condition_Abstract', array($context), '',
+        /** @var \Magento\Rule\Model\Condition\AbstractCondition $model */
+        $model = $this->getMockForAbstractClass('Magento\Rule\Model\Condition\AbstractCondition', array($context), '',
             true, true, true, array('getValueElementRenderer')
         );
-        $editableBlock = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Rule_Block_Editable');
+        $editableBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Rule\Block\Editable');
         $model->expects($this->any())
              ->method('getValueElementRenderer')
              ->will($this->returnValue($editableBlock));
 
-        $rule = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Rule_Model_Rule');
-        $model->setRule($rule->setForm(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Data_Form')));
+        $rule = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Rule\Model\Rule');
+        $model->setRule($rule->setForm(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Data\Form')));
 
-        $property = new ReflectionProperty('Magento_Rule_Model_Condition_Abstract', '_inputType');
+        $property = new \ReflectionProperty('Magento\Rule\Model\Condition\AbstractCondition', '_inputType');
         $property->setAccessible(true);
         $property->setValue($model, 'date');
 

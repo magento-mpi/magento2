@@ -7,10 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Rest_Request_Deserializer_Factory
+namespace Magento\Webapi\Controller\Rest\Request\Deserializer;
+
+class Factory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -20,11 +22,11 @@ class Magento_Webapi_Controller_Rest_Request_Deserializer_Factory
     protected $_deserializers;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param array $deserializers
      */
     public function __construct(
-        Magento_ObjectManager $objectManager,
+        \Magento\ObjectManager $objectManager,
         array $deserializers = array()
     ) {
         $this->_objectManager = $objectManager;
@@ -35,13 +37,13 @@ class Magento_Webapi_Controller_Rest_Request_Deserializer_Factory
      * Retrieve proper deserializer for the specified content type.
      *
      * @param string $contentType
-     * @return Magento_Webapi_Controller_Rest_Request_DeserializerInterface
-     * @throws LogicException|Magento_Webapi_Exception
+     * @return \Magento\Webapi\Controller\Rest\Request\DeserializerInterface
+     * @throws \LogicException|\Magento\Webapi\Exception
      */
     public function get($contentType)
     {
         if (empty($this->_deserializers)) {
-            throw new LogicException('Request deserializer adapter is not set.');
+            throw new \LogicException('Request deserializer adapter is not set.');
         }
         foreach ($this->_deserializers as $deserializerMetadata) {
             $deserializerType = $deserializerMetadata['type'];
@@ -52,15 +54,15 @@ class Magento_Webapi_Controller_Rest_Request_Deserializer_Factory
         }
 
         if (!isset($deserializerClass) || empty($deserializerClass)) {
-            throw new Magento_Webapi_Exception(
+            throw new \Magento\Webapi\Exception(
                 __('Server cannot understand Content-Type HTTP header media type %1', $contentType)
             );
         }
 
         $deserializer = $this->_objectManager->get($deserializerClass);
-        if (!$deserializer instanceof Magento_Webapi_Controller_Rest_Request_DeserializerInterface) {
-            throw new LogicException(
-                'The deserializer must implement "Magento_Webapi_Controller_Rest_Request_DeserializerInterface".');
+        if (!$deserializer instanceof \Magento\Webapi\Controller\Rest\Request\DeserializerInterface) {
+            throw new \LogicException(
+                'The deserializer must implement "Magento\Webapi\Controller\Rest\Request\DeserializerInterface".');
         }
         return $deserializer;
     }

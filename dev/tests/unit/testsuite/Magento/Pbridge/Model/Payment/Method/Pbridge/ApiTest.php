@@ -1,17 +1,19 @@
 <?php
 /**
- * Unit test for Magento_Pbridge_Model_Payment_Method_Pbridge_Api
+ * Unit test for \Magento\Pbridge\Model\Payment\Method\Pbridge\Api
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Pbridge_Model_Payment_Method_Pbridge_ApiTest extends PHPUnit_Framework_TestCase
+namespace Magento\Pbridge\Model\Payment\Method\Pbridge;
+
+class ApiTest extends \PHPUnit_Framework_TestCase
 {
     protected function tearDown()
     {
-        Magento_Profiler::reset();
+        \Magento\Profiler::reset();
     }
 
     protected function setUp()
@@ -21,11 +23,11 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_ApiTest extends PHPUnit_Frame
 
     /**
      * @param array $data
-     * @return PHPUnit_Framework_MockObject_MockObject|Magento_Pbridge_Model_Payment_Method_Pbridge_Api
+     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Pbridge\Model\Payment\Method\Pbridge\Api
      */
     protected function _getApiMock(array $data)
     {
-        $mock = $this->getMockBuilder('Magento_Pbridge_Model_Payment_Method_Pbridge_Api')
+        $mock = $this->getMockBuilder('Magento\Pbridge\Model\Payment\Method\Pbridge\Api')
             ->disableOriginalConstructor()
             ->setMethods(array('_call'))
             ->getMock();
@@ -36,11 +38,11 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_ApiTest extends PHPUnit_Frame
     }
 
     /**
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getProfilerDriverMock()
     {
-        return $this->getMockBuilder('Magento_Profiler_DriverInterface')
+        return $this->getMockBuilder('Magento\Profiler\DriverInterface')
             ->setMethods(array('start', 'stop', 'reset'))
             ->getMockForAbstractClass();
     }
@@ -62,9 +64,9 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_ApiTest extends PHPUnit_Frame
         $profilerDriver->expects($this->once())
             ->method('stop')
             ->with('pbridge_' . $action);
-        Magento_Profiler::add($profilerDriver);
+        \Magento\Profiler::add($profilerDriver);
 
-        $request = new Magento_Object();
+        $request = new \Magento\Object();
         $request->setData('payment_action', $action);
         $api = $this->_getApiMock($request->getData());
         $api->$method($request);
@@ -95,7 +97,7 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_ApiTest extends PHPUnit_Frame
         $profilerDriver->expects($this->once())
             ->method('stop')
             ->with('pbridge_validate_token');
-        Magento_Profiler::add($profilerDriver);
+        \Magento\Profiler::add($profilerDriver);
 
         $api = $this->_getApiMock(array(
             'client_identifier' => 10,

@@ -7,25 +7,27 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Email_Template_Config
+namespace Magento\Core\Model\Email\Template;
+
+class Config
 {
     /**
-     * @var Magento_Core_Model_Email_Template_Config_Data
+     * @var \Magento\Core\Model\Email\Template\Config\Data
      */
     protected $_dataStorage;
 
     /**
-     * @var Magento_Core_Model_Config_Modules_Reader
+     * @var \Magento\Core\Model\Config\Modules\Reader
      */
     protected $_moduleReader;
 
     /**
-     * @param Magento_Core_Model_Email_Template_Config_Data $dataStorage
-     * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
+     * @param \Magento\Core\Model\Email\Template\Config\Data $dataStorage
+     * @param \Magento\Core\Model\Config\Modules\Reader $moduleReader
      */
     public function __construct(
-        Magento_Core_Model_Email_Template_Config_Data $dataStorage,
-        Magento_Core_Model_Config_Modules_Reader $moduleReader
+        \Magento\Core\Model\Email\Template\Config\Data $dataStorage,
+        \Magento\Core\Model\Config\Modules\Reader $moduleReader
     ) {
         $this->_dataStorage = $dataStorage;
         $this->_moduleReader = $moduleReader;
@@ -93,16 +95,16 @@ class Magento_Core_Model_Email_Template_Config
      * @param string $templateId Name of an email template
      * @param string $fieldName Name of a field value of which to return
      * @return string
-     * @throws UnexpectedValueException
+     * @throws \UnexpectedValueException
      */
     protected function _getInfo($templateId, $fieldName)
     {
         $data = $this->_dataStorage->get();
         if (!isset($data[$templateId])) {
-            throw new UnexpectedValueException("Email template '$templateId' is not defined.");
+            throw new \UnexpectedValueException("Email template '$templateId' is not defined.");
         }
         if (!isset($data[$templateId][$fieldName])) {
-            throw new UnexpectedValueException("Field '$fieldName' is not defined for email template '$templateId'.");
+            throw new \UnexpectedValueException("Field '$fieldName' is not defined for email template '$templateId'.");
         }
         return $data[$templateId][$fieldName];
     }

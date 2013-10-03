@@ -11,7 +11,9 @@
 /**
  * Theme change resource model
  */
-class Magento_DesignEditor_Model_Theme_Resource_Change extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\DesignEditor\Model\Theme\Resource;
+
+class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization
@@ -24,10 +26,10 @@ class Magento_DesignEditor_Model_Theme_Resource_Change extends Magento_Core_Mode
     /**
      * {@inheritdoc}
      *
-     * @param Magento_Core_Model_Abstract $change
+     * @param \Magento\Core\Model\AbstractModel $change
      * @return $this
      */
-    protected function _beforeSave(Magento_Core_Model_Abstract $change)
+    protected function _beforeSave(\Magento\Core\Model\AbstractModel $change)
     {
         if (!$change->getChangeTime()) {
             $change->setChangeTime($this->formatDate(true));

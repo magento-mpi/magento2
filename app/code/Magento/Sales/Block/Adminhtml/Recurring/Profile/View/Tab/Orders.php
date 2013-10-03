@@ -11,45 +11,47 @@
 /**
  * Recurring profile orders grid
  */
-class Magento_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Orders
-    extends Magento_Adminhtml_Block_Widget_Grid
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Sales\Block\Adminhtml\Recurring\Profile\View\Tab;
+
+class Orders
+    extends \Magento\Adminhtml\Block\Widget\Grid
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Sales_Model_Resource_Order_Grid_CollectionFactory
+     * @var \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory
      */
     protected $_orderCollection;
 
     /**
-     * @var Magento_Sales_Model_Order_ConfigFactory
+     * @var \Magento\Sales\Model\Order\ConfigFactory
      */
     protected $_orderConfig;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Sales_Model_Resource_Order_Grid_CollectionFactory $orderCollection
-     * @param Magento_Sales_Model_Order_ConfigFactory $orderConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory $orderCollection
+     * @param \Magento\Sales\Model\Order\ConfigFactory $orderConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Sales_Model_Resource_Order_Grid_CollectionFactory $orderCollection,
-        Magento_Sales_Model_Order_ConfigFactory $orderConfig,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory $orderCollection,
+        \Magento\Sales\Model\Order\ConfigFactory $orderConfig,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -72,7 +74,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Orders
     /**
      * Prepare grid collection object
      *
-     * @return Magento_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Orders
+     * @return \Magento\Sales\Block\Adminhtml\Recurring\Profile\View\Tab\Orders
      */
     protected function _prepareCollection()
     {
@@ -87,7 +89,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Orders
      *
      * TODO: fix up this mess
      *
-     * @return Magento_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Orders
+     * @return \Magento\Sales\Block\Adminhtml\Recurring\Profile\View\Tab\Orders
      */
     protected function _prepareColumns()
     {
@@ -174,7 +176,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Orders
     /**
      * Return row url for js event handlers
      *
-     * @param Magento_Object
+     * @param \Magento\Object
      * @return string
      */
     public function getRowUrl($row)

@@ -12,7 +12,9 @@
 /**
  * Bootstrap of the HTTP environment
  */
-class Magento_TestFramework_Bootstrap_Environment
+namespace Magento\TestFramework\Bootstrap;
+
+class Environment
 {
     /**
      * Emulate properties typical to an HTTP request

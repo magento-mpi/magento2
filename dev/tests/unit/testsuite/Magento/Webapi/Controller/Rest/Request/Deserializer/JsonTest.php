@@ -7,30 +7,32 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Rest_Request_Deserializer_JsonTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Controller\Rest\Request\Deserializer;
+
+class JsonTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_helperFactoryMock;
 
-    /** @var Magento_Webapi_Controller_Rest_Request_Deserializer_Json */
+    /** @var \Magento\Webapi\Controller\Rest\Request\Deserializer\Json */
     protected $_jsonDeserializer;
 
-    /** @var Magento_Core_Helper_Data */
+    /** @var \Magento\Core\Helper\Data */
     protected $_helperMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_appMock;
 
     protected function setUp()
     {
         /** Prepare mocks for SUT constructor. */
-        $this->_helperMock = $this->getMockBuilder('Magento_Core_Helper_Data')->disableOriginalConstructor()->getMock();
-        $this->_appMock = $this->getMockBuilder('Magento_Core_Model_App')
+        $this->_helperMock = $this->getMockBuilder('Magento\Core\Helper\Data')->disableOriginalConstructor()->getMock();
+        $this->_appMock = $this->getMockBuilder('Magento\Core\Model\App')
             ->setMethods(array('isDeveloperMode'))
             ->disableOriginalConstructor()
             ->getMock();
         /** Initialize SUT. */
-        $this->_jsonDeserializer = new Magento_Webapi_Controller_Rest_Request_Deserializer_Json(
+        $this->_jsonDeserializer = new \Magento\Webapi\Controller\Rest\Request\Deserializer\Json(
             $this->_helperMock,
             $this->_appMock
         );
@@ -79,7 +81,7 @@ class Magento_Webapi_Controller_Rest_Request_Deserializer_JsonTest extends PHPUn
         /** Prepare mocks for SUT constructor. */
         $this->_helperMock->expects($this->once())
             ->method('jsonDecode')
-            ->will($this->throwException(new Zend_Json_Exception));
+            ->will($this->throwException(new \Zend_Json_Exception));
         $this->_appMock->expects($this->once())
             ->method('isDeveloperMode')
             ->will($this->returnValue(false));
@@ -88,10 +90,10 @@ class Magento_Webapi_Controller_Rest_Request_Deserializer_JsonTest extends PHPUn
         try {
             $this->_jsonDeserializer->deserialize($inputInvalidJson);
             $this->fail("Exception is expected to be raised");
-        } catch (Magento_Webapi_Exception $e) {
-            $this->assertInstanceOf('Magento_Webapi_Exception', $e, 'Exception type is invalid');
+        } catch (\Magento\Webapi\Exception $e) {
+            $this->assertInstanceOf('Magento\Webapi\Exception', $e, 'Exception type is invalid');
             $this->assertEquals('Decoding error.', $e->getMessage(), 'Exception message is invalid');
-            $this->assertEquals(Magento_Webapi_Exception::HTTP_BAD_REQUEST, $e->getHttpCode(), 'HTTP code is invalid');
+            $this->assertEquals(\Magento\Webapi\Exception::HTTP_BAD_REQUEST, $e->getHttpCode(), 'HTTP code is invalid');
         }
     }
 
@@ -102,7 +104,7 @@ class Magento_Webapi_Controller_Rest_Request_Deserializer_JsonTest extends PHPUn
             ->method('jsonDecode')
             ->will(
             $this->throwException(
-                new Zend_Json_Exception('Decoding error:' . PHP_EOL . 'Decoding failed: Syntax error')
+                new \Zend_Json_Exception('Decoding error:' . PHP_EOL . 'Decoding failed: Syntax error')
             )
         );
         $this->_appMock->expects($this->once())
@@ -113,10 +115,10 @@ class Magento_Webapi_Controller_Rest_Request_Deserializer_JsonTest extends PHPUn
         try {
             $this->_jsonDeserializer->deserialize($inputInvalidJson);
             $this->fail("Exception is expected to be raised");
-        } catch (Magento_Webapi_Exception $e) {
-            $this->assertInstanceOf('Magento_Webapi_Exception', $e, 'Exception type is invalid');
+        } catch (\Magento\Webapi\Exception $e) {
+            $this->assertInstanceOf('Magento\Webapi\Exception', $e, 'Exception type is invalid');
             $this->assertContains('Decoding error:', $e->getMessage(), 'Exception message is invalid');
-            $this->assertEquals(Magento_Webapi_Exception::HTTP_BAD_REQUEST, $e->getHttpCode(), 'HTTP code is invalid');
+            $this->assertEquals(\Magento\Webapi\Exception::HTTP_BAD_REQUEST, $e->getHttpCode(), 'HTTP code is invalid');
         }
     }
 }

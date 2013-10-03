@@ -1,10 +1,5 @@
 <?php
 /**
- * Magento_Webhook_Controller_Adminhtml_Webhook_Registration
- *
- * @magentoAppArea adminhtml
- * @magentoDbIsolation enabled
- *
  * {license_notice}
  *
  * @category    Magento
@@ -13,9 +8,17 @@
  * @license     {license_link}
  *
  */
-class Magento_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends Magento_Backend_Utility_Controller
+namespace Magento\Webhook\Controller\Adminhtml\Webhook;
+
+/**
+ * \Magento\Webhook\Controller\Adminhtml\Webhook\Registration
+ *
+ * @magentoAppArea adminhtml
+ * @magentoDbIsolation enabled
+ */
+class RegistrationTest extends \Magento\Backend\Utility\Controller
 {
-    /** @var  Magento_Webhook_Model_Subscription */
+    /** @var  \Magento\Webhook\Model\Subscription */
     private $_subscription;
     
     protected function setUp()
@@ -78,7 +81,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends Mage
         $this->dispatch('backend/admin/webhook_registration/register');
         $this->assertSessionMessages(
             $this->equalTo(array("API Key, API Secret and Contact Email are required fields.")),
-            Magento_Core_Model_Message::ERROR
+            \Magento\Core\Model\Message::ERROR
         );
         $this->assertRedirect($this->stringContains('webhook_registration/failed'));
     }
@@ -132,7 +135,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends Mage
         $this->dispatch('backend/admin/webhook_registration/register');
         $this->assertSessionMessages(
             $this->equalTo(array("The subscription 'dummy' has been activated.")),
-            Magento_Core_Model_Message::SUCCESS
+            \Magento\Core\Model\Message::SUCCESS
         );
         $this->assertRedirect($this->stringContains('webhook_registration/succeeded'));
     }
@@ -178,7 +181,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends Mage
         $this->getRequest()->setParam('id', $subscriptionId);
         $this->dispatch('backend/admin/webhook_registration/register');
         $this->assertSessionMessages(
-            $this->equalTo(array("Invalid Email address provided")), Magento_Core_Model_Message::ERROR
+            $this->equalTo(array("Invalid Email address provided")), \Magento\Core\Model\Message::ERROR
         );
     }
 
@@ -190,7 +193,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends Mage
         $this->assertContains('page-popup adminhtml-webhook-registration-succeeded', $response);
         $this->assertSessionMessages(
             $this->equalTo(array("The subscription 'dummy' has been activated.")),
-            Magento_Core_Model_Message::SUCCESS
+            \Magento\Core\Model\Message::SUCCESS
         );
     }
 
@@ -199,9 +202,9 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends Mage
      */
     private function _createDummySubscription()
     {
-        /** @var $factory Magento_Webhook_Model_Subscription_Factory */
-        $factory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Webhook_Model_Subscription_Factory');
+        /** @var $factory \Magento\Webhook\Model\Subscription\Factory */
+        $factory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Webhook\Model\Subscription\Factory');
         $this->_subscription = $factory->create()
             ->setName('dummy')
             ->save();

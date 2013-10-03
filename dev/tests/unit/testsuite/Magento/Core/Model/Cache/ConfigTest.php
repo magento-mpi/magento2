@@ -5,22 +5,24 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Cache_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Cache;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Cache_Config_Data|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Cache\Config\Data|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storage;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Core_Model_Cache_Config_Data
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Cache\Config\Data
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_storage = $this->getMock('Magento_Core_Model_Cache_Config_Data', array('get'), array(), '', false);
-        $this->_model = new Magento_Core_Model_Cache_Config($this->_storage);
+        $this->_storage = $this->getMock('Magento\Core\Model\Cache\Config\Data', array('get'), array(), '', false);
+        $this->_model = new \Magento\Core\Model\Cache\Config($this->_storage);
     }
 
     public function testGetTypes()

@@ -11,7 +11,9 @@
 /**
  * Builds URLs for publicly accessible files
  */
-class Magento_Core_Model_View_Url
+namespace Magento\Core\Model\View;
+
+class Url
 {
     /**
      * XPath for configuration setting of signing static files
@@ -19,32 +21,32 @@ class Magento_Core_Model_View_Url
     const XML_PATH_STATIC_FILE_SIGNATURE = 'dev/static/sign';
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
     /**
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_dirs;
 
     /**
-     * @var Magento_Core_Model_View_Service
+     * @var \Magento\Core\Model\View\Service
      */
     protected $_viewService;
 
     /**
-     * @var Magento_Core_Model_View_Publisher
+     * @var \Magento\Core\Model\View\Publisher
      */
     protected $_publisher;
 
     /**
-     * @var Magento_Core_Model_View_DeployedFilesManager
+     * @var \Magento\Core\Model\View\DeployedFilesManager
      */
     protected $_deployedFileManager;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
@@ -52,20 +54,20 @@ class Magento_Core_Model_View_Url
     /**
      * View files URL model
      *
-     * @param Magento_Filesystem $filesystem
-     * @param Magento_Core_Model_Dir $dirs
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_View_Service $viewService
-     * @param Magento_Core_Model_View_Publisher $publisher
-     * @param Magento_Core_Model_View_DeployedFilesManager $deployedFileManager
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Core\Model\Dir $dirs
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\View\Service $viewService
+     * @param \Magento\Core\Model\View\Publisher $publisher
+     * @param \Magento\Core\Model\View\DeployedFilesManager $deployedFileManager
      */
     public function __construct(
-        Magento_Filesystem $filesystem,
-        Magento_Core_Model_Dir $dirs,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_View_Service $viewService,
-        Magento_Core_Model_View_Publisher $publisher,
-        Magento_Core_Model_View_DeployedFilesManager $deployedFileManager
+        \Magento\Filesystem $filesystem,
+        \Magento\Core\Model\Dir $dirs,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\View\Service $viewService,
+        \Magento\Core\Model\View\Publisher $publisher,
+        \Magento\Core\Model\View\DeployedFilesManager $deployedFileManager
     ) {
         $this->_filesystem = $filesystem;
         $this->_dirs = $dirs;
@@ -117,15 +119,15 @@ class Magento_Core_Model_View_Url
      * @param string $publicFilePath
      * @param bool|null $isSecure
      * @return string
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     public function getPublicFileUrl($publicFilePath, $isSecure = null)
     {
         foreach (array(
-                Magento_Core_Model_Store::URL_TYPE_LIB     => Magento_Core_Model_Dir::PUB_LIB,
-                Magento_Core_Model_Store::URL_TYPE_MEDIA   => Magento_Core_Model_Dir::MEDIA,
-                Magento_Core_Model_Store::URL_TYPE_STATIC  => Magento_Core_Model_Dir::STATIC_VIEW,
-                Magento_Core_Model_Store::URL_TYPE_CACHE   => Magento_Core_Model_Dir::PUB_VIEW_CACHE,
+                \Magento\Core\Model\Store::URL_TYPE_LIB     => \Magento\Core\Model\Dir::PUB_LIB,
+                \Magento\Core\Model\Store::URL_TYPE_MEDIA   => \Magento\Core\Model\Dir::MEDIA,
+                \Magento\Core\Model\Store::URL_TYPE_STATIC  => \Magento\Core\Model\Dir::STATIC_VIEW,
+                \Magento\Core\Model\Store::URL_TYPE_CACHE   => \Magento\Core\Model\Dir::PUB_VIEW_CACHE,
             ) as $urlType => $dirType
         ) {
             $dir = $this->_dirs->getDir($dirType);
@@ -141,7 +143,7 @@ class Magento_Core_Model_View_Url
                 return $url;
             }
         }
-        throw new Magento_Exception(
+        throw new \Magento\Exception(
             "Cannot build URL for the file '$publicFilePath' because it does not reside in a public directory."
         );
     }
@@ -159,7 +161,7 @@ class Magento_Core_Model_View_Url
     /**
      * Get files manager that is able to return file public path
      *
-     * @return Magento_Core_Model_View_PublicFilesManagerInterface
+     * @return \Magento\Core\Model\View\PublicFilesManagerInterface
      */
     protected function _getFilesManager()
     {

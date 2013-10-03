@@ -9,30 +9,33 @@
  * @license     {license_link}
  */
 
-class Magento_Test_Performance_Scenario_Handler_FileFormatTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Performance\Scenario\Handler;
+
+class FileFormatTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_Performance_Scenario_Handler_FileFormat
+     * @var \Magento\TestFramework\Performance\Scenario\Handler\FileFormat
      */
     protected $_object;
 
     /**
-     * @var Magento_TestFramework_Performance_Scenario_HandlerInterface|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\TestFramework\Performance\Scenario\HandlerInterface|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_handler;
 
     /**
-     * @var Magento_TestFramework_Performance_Scenario
+     * @var \Magento\TestFramework\Performance\Scenario
      */
     protected $_scenario;
 
     protected function setUp()
     {
-        $this->_handler = $this->getMockForAbstractClass('Magento_TestFramework_Performance_Scenario_HandlerInterface');
-        $this->_object = new Magento_TestFramework_Performance_Scenario_Handler_FileFormat();
+        $this->_handler = $this->getMockForAbstractClass(
+            'Magento\TestFramework\Performance\Scenario\HandlerInterface');
+        $this->_object = new \Magento\TestFramework\Performance\Scenario\Handler\FileFormat();
         $this->_object->register('jmx', $this->_handler);
         $this->_scenario =
-            new Magento_TestFramework_Performance_Scenario('Scenario', 'scenario.jmx', array(), array(), array());
+            new \Magento\TestFramework\Performance\Scenario('Scenario', 'scenario.jmx', array(), array(), array());
     }
 
     protected function tearDown()
@@ -61,13 +64,13 @@ class Magento_Test_Performance_Scenario_Handler_FileFormatTest extends PHPUnit_F
     }
 
     /**
-     * @expectedException Magento_Exception
+     * @expectedException \Magento\Exception
      * @expectedExceptionMessage Unable to run scenario 'Scenario', format is not supported.
      */
     public function testRunUnsupportedFormat()
     {
         $scenario =
-            new Magento_TestFramework_Performance_Scenario('Scenario', 'scenario.txt', array(), array(), array());
+            new \Magento\TestFramework\Performance\Scenario('Scenario', 'scenario.txt', array(), array(), array());
         $this->_object->run($scenario);
     }
 }

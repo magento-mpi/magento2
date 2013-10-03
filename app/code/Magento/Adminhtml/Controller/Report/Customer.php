@@ -16,7 +16,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Controller_Report_Customer extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller\Report;
+
+class Customer extends \Magento\Adminhtml\Controller\Action
 {
     public function _initAction()
     {
@@ -57,7 +59,7 @@ class Magento_Adminhtml_Controller_Report_Customer extends Magento_Adminhtml_Con
     {
         $this->loadLayout();
         $fileName = 'new_accounts.csv';
-        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock  */
+        /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
     }
@@ -69,7 +71,7 @@ class Magento_Adminhtml_Controller_Report_Customer extends Magento_Adminhtml_Con
     {
         $this->loadLayout();
         $fileName = 'new_accounts.xml';
-        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock  */
+        /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
     }
@@ -92,7 +94,7 @@ class Magento_Adminhtml_Controller_Report_Customer extends Magento_Adminhtml_Con
     {
         $this->loadLayout();
         $fileName = 'customers_orders.csv';
-        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock  */
+        /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
     }
@@ -104,7 +106,7 @@ class Magento_Adminhtml_Controller_Report_Customer extends Magento_Adminhtml_Con
     {
         $this->loadLayout();
         $fileName   = 'customers_orders.xml';
-        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock  */
+        /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
     }
@@ -127,7 +129,7 @@ class Magento_Adminhtml_Controller_Report_Customer extends Magento_Adminhtml_Con
     {
         $this->loadLayout();
         $fileName = 'customer_totals.csv';
-        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock  */
+        /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
     }
@@ -139,7 +141,7 @@ class Magento_Adminhtml_Controller_Report_Customer extends Magento_Adminhtml_Con
     {
         $this->loadLayout();
         $fileName = 'customer_totals.xml';
-        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock  */
+        /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
     }

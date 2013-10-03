@@ -9,27 +9,29 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Page;
+
 /**
- * Test Magento_Adminhtml_Block_Page_Header
+ * Test \Magento\Adminhtml\Block\Page\Header
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Page_HeaderTest extends PHPUnit_Framework_TestCase
+class HeaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Adminhtml_Block_Page_Header
+     * @var \Magento\Adminhtml\Block\Page\Header
      */
     protected $_block;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_Adminhtml_Block_Page_Header');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Adminhtml\Block\Page\Header');
     }
 
     public function testGetHomeLink()
     {
-        $expected = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Helper_Data')
+        $expected = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Helper\Data')
             ->getHomePageUrl();
         $this->assertEquals($expected, $this->_block->getHomeLink());
     }

@@ -5,16 +5,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_ImportExport_Model_Import_SourceAbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Import;
+
+class SourceAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_ImportExport_Model_Import_SourceAbstract|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\ImportExport\Model\Import\AbstractSource|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model = null;
 
     protected function setUp()
     {
-        $this->_model = $this->getMockForAbstractClass('Magento_ImportExport_Model_Import_SourceAbstract', array(array(
+        $this->_model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\AbstractSource', array(array(
             'key1', 'key2', 'key3'
         )));
     }
@@ -22,11 +24,11 @@ class Magento_ImportExport_Model_Import_SourceAbstractTest extends PHPUnit_Frame
     /**
      * @param array $argument
      * @dataProvider constructExceptionDataProvider
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testConstructException($argument)
     {
-        $this->getMockForAbstractClass('Magento_ImportExport_Model_Import_SourceAbstract', array($argument));
+        $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\AbstractSource', array($argument));
     }
 
     /**
@@ -82,7 +84,7 @@ class Magento_ImportExport_Model_Import_SourceAbstractTest extends PHPUnit_Frame
     }
 
     /**
-     * @expectedException OutOfBoundsException
+     * @expectedException \OutOfBoundsException
      */
     public function testSeekableInterfaceException()
     {

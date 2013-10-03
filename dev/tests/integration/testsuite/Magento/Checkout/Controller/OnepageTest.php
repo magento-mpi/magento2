@@ -9,18 +9,20 @@
  * @license     {license_link}
  */
 
+namespace Magento\Checkout\Controller;
+
 /**
  * @magentoDataFixture Magento/Sales/_files/quote.php
  */
-class Magento_Checkout_Controller_OnepageTest extends Magento_TestFramework_TestCase_ControllerAbstract
+class OnepageTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     protected function setUp()
     {
         parent::setUp();
-        $quote = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Quote');
+        $quote = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Quote');
         $quote->load('test01', 'reserved_order_id');
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Checkout_Model_Session')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Checkout\Model\Session')
             ->setQuoteId($quote->getId());
     }
 
@@ -47,13 +49,14 @@ class Magento_Checkout_Controller_OnepageTest extends Magento_TestFramework_Test
             'shipping' => array('is_show' => true),
             'shipping_method' => array('is_show' => true),
         );
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Checkout_Model_Session')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Checkout\Model\Session')
             ->setSteps($steps);
 
         $this->dispatch('checkout/onepage/progress');
         $html = $this->getResponse()->getBody();
         $this->assertContains('Checkout', $html);
-        $methodTitle = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Checkout_Model_Session')
+        $methodTitle = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Checkout\Model\Session')
             ->getQuote()
             ->getPayment()
             ->getMethodInstance()

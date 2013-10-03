@@ -6,24 +6,26 @@
  * @license   {license_link}
  */
 
-class Magento_Core_Model_Url_SecurityInfoTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Url;
+
+class SecurityInfoTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeMock;
 
     /**
-     * @var Magento_Core_Model_Url_SecurityInfo
+     * @var \Magento\Core\Model\Url\SecurityInfo
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_storeMock = $this->getMock('Magento_Core_Model_Store', array('getConfig'), array(), '', false);
-        $storeManagerMock = $this->getMock('Magento_Core_Model_StoreManagerInterface');
+        $this->_storeMock = $this->getMock('Magento\Core\Model\Store', array('getConfig'), array(), '', false);
+        $storeManagerMock = $this->getMock('Magento\Core\Model\StoreManagerInterface');
         $storeManagerMock->expects($this->any())->method('getStore')->will($this->returnValue($this->_storeMock));
-        $this->_model = new Magento_Core_Model_Url_SecurityInfo(
+        $this->_model = new \Magento\Core\Model\Url\SecurityInfo(
             $storeManagerMock, array('/account', '/cart')
         );
     }

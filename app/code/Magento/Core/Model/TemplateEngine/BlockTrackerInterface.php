@@ -7,11 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Core_Model_TemplateEngine_BlockTrackerInterface
+namespace Magento\Core\Model\TemplateEngine;
+
+interface BlockTrackerInterface
 {
     /**
      * Get the current block
-     * @return Magento_Core_Block_Template
+     * @return \Magento\Core\Block\Template
      */
     public function getCurrentBlock();
 }

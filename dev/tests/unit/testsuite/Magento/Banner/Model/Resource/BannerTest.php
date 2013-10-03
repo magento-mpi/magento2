@@ -6,51 +6,59 @@
  * @license     {license_link}
  */
 
-class Magento_Banner_Model_Resource_BannerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Banner\Model\Resource;
+
+class BannerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Banner_Model_Resource_Banner
+     * @var \Magento\Banner\Model\Resource\Banner
      */
     private $_resourceModel;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_resource;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_eventManager;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_bannerConfig;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_readAdapter;
 
     protected function setUp()
     {
-        $select = new Zend_Db_Select($this->getMockForAbstractClass('Zend_Db_Adapter_Abstract', array(), '', false));
+        $select = new \Zend_Db_Select($this->getMockForAbstractClass('Zend_Db_Adapter_Abstract', array(), '', false));
 
         $writeAdapter = $this->getMockForAbstractClass(
-            'Magento_DB_Adapter_Interface', array(), '', false, true, true, array('getTransactionLevel', 'fetchOne')
+            'Magento\DB\Adapter\AdapterInterface',
+            array(),
+            '',
+            false,
+            true,
+            true,
+            array('getTransactionLevel', 'fetchOne')
         );
         $writeAdapter->expects($this->once())->method('getTransactionLevel')->will($this->returnValue(0));
         $writeAdapter->expects($this->never())->method('fetchOne');
 
         $this->_readAdapter = $this->getMockForAbstractClass(
-            'Magento_DB_Adapter_Interface', array(), '', false, true, true,
+            'Magento\DB\Adapter\AdapterInterface', array(), '', false, true, true,
             array('select', 'prepareSqlCondition', 'fetchOne')
         );
         $this->_readAdapter->expects($this->once())->method('select')->will($this->returnValue($select));
 
         $this->_resource = $this->getMock(
-            'Magento_Core_Model_Resource', array('getConnection', 'getTableName'), array(), '', false
+            'Magento\Core\Model\Resource', array('getConnection', 'getTableName'), array(), '', false
         );
         $this->_resource->expects($this->any())->method('getTableName')->will($this->returnArgument(0));
         $this->_resource
@@ -64,7 +72,7 @@ class Magento_Banner_Model_Resource_BannerTest extends PHPUnit_Framework_TestCas
         ;
 
         $this->_eventManager = $this->getMock(
-            'Magento_Core_Model_Event_Manager',
+            'Magento\Core\Model\Event\Manager',
             array('dispatch'),
             array(),
             '',
@@ -72,16 +80,16 @@ class Magento_Banner_Model_Resource_BannerTest extends PHPUnit_Framework_TestCas
         );
 
         $this->_bannerConfig = $this->getMock(
-            'Magento_Banner_Model_Config', array('explodeTypes'), array(), '', false
+            'Magento\Banner\Model\Config', array('explodeTypes'), array(), '', false
         );
 
-        $salesruleColFactory = $this->getMock('Magento_Banner_Model_Resource_Salesrule_CollectionFactory',
+        $salesruleColFactory = $this->getMock('Magento\Banner\Model\Resource\Salesrule\CollectionFactory',
             array('create'), array(), '', false);
 
-        $catRuleColFactory = $this->getMock('Magento_Banner_Model_Resource_Catalogrule_CollectionFactory',
+        $catRuleColFactory = $this->getMock('Magento\Banner\Model\Resource\Catalogrule\CollectionFactory',
             array('create'), array(), '', false);
 
-        $this->_resourceModel = new Magento_Banner_Model_Resource_Banner(
+        $this->_resourceModel = new \Magento\Banner\Model\Resource\Banner(
             $this->_resource,
             $this->_eventManager,
             $this->_bannerConfig,

@@ -12,7 +12,9 @@
  * Admin Actions Log grid container
  *
  */
-class Magento_Logging_Block_Adminhtml_Archive extends Magento_Adminhtml_Block_Widget_Container
+namespace Magento\Logging\Block\Adminhtml;
+
+class Archive extends \Magento\Adminhtml\Block\Widget\Container
 {
     /**
      * Header text getter

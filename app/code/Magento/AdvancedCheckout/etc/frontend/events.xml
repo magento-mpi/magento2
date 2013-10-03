@@ -9,9 +9,9 @@
 -->
 <config>
     <event name="controller_action_layout_generate_blocks_before">
-        <observer name="magento_advancedcheckout" instance="Magento_AdvancedCheckout_Model_Observer" method="collectTotalsFailedItems" />
+        <observer name="magento_advancedcheckout" instance="Magento\AdvancedCheckout\Model\Observer" method="collectTotalsFailedItems" />
     </event>
     <event name="core_block_abstract_to_html_before">
-        <observer name="magento_advancedcheckout" instance="Magento_AdvancedCheckout_Model_Observer" method="addCartLink" />
+        <observer name="magento_advancedcheckout" instance="Magento\AdvancedCheckout\Model\Observer" method="addCartLink" />
     </event>
 </config>

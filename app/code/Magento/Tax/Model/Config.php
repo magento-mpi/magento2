@@ -15,7 +15,9 @@
  * @package    Magento_Tax
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Tax_Model_Config
+namespace Magento\Tax\Model;
+
+class Config
 {
     // tax classes
     const CONFIG_XML_PATH_SHIPPING_TAX_CLASS = 'tax/classes/shipping_tax_class';
@@ -88,15 +90,15 @@ class Magento_Tax_Model_Config
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
     }
@@ -119,7 +121,7 @@ class Magento_Tax_Model_Config
      * Override "price includes tax" variable regardless of system configuration of any store
      *
      * @param bool|null $value
-     * @return Magento_Tax_Model_Config
+     * @return \Magento\Tax\Model\Config
      */
     public function setPriceIncludesTax($value)
     {
@@ -171,22 +173,22 @@ class Magento_Tax_Model_Config
      * Get taxes/discounts calculation sequence.
      * This sequence depends on "Apply Customer Tax" and "Apply Discount On Prices" configuration options.
      *
-     * @param   null|int|string|Magento_Core_Model_Store $store
+     * @param   null|int|string|\Magento\Core\Model\Store $store
      * @return  string
      */
     public function getCalculationSequence($store=null)
     {
         if ($this->applyTaxAfterDiscount($store)) {
             if ($this->discountTax($store)) {
-                $seq = Magento_Tax_Model_Calculation::CALC_TAX_AFTER_DISCOUNT_ON_INCL;
+                $seq = \Magento\Tax\Model\Calculation::CALC_TAX_AFTER_DISCOUNT_ON_INCL;
             } else {
-                $seq = Magento_Tax_Model_Calculation::CALC_TAX_AFTER_DISCOUNT_ON_EXCL;
+                $seq = \Magento\Tax\Model\Calculation::CALC_TAX_AFTER_DISCOUNT_ON_EXCL;
             }
         } else {
             if ($this->discountTax($store)) {
-                $seq = Magento_Tax_Model_Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_INCL;
+                $seq = \Magento\Tax\Model\Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_INCL;
             } else {
-                $seq = Magento_Tax_Model_Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_EXCL;
+                $seq = \Magento\Tax\Model\Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_EXCL;
             }
         }
         return $seq;
@@ -196,7 +198,7 @@ class Magento_Tax_Model_Config
      * Specify flag what we need use shipping price exclude tax
      *
      * @param   bool $flag
-     * @return  Magento_Tax_Model_Config
+     * @return  \Magento\Tax\Model\Config
      */
     public function setNeedUseShippingExcludeTax($flag)
     {

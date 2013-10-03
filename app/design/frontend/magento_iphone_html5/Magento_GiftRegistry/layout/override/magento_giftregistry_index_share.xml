@@ -15,6 +15,6 @@
         </action>
     </referenceBlock>
     <referenceContainer name="my.account.wrapper">
-        <block class="Magento_GiftRegistry_Block_Customer_Share" name="giftregistry.customer.share" template="customer/share.phtml"/>
+        <block class="Magento\GiftRegistry\Block\Customer\Share" name="giftregistry.customer.share" template="customer/share.phtml"/>
     </referenceContainer>
 </layout>

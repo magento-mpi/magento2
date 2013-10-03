@@ -13,29 +13,31 @@
  * Admin Actions Log Archive grid
  *
  */
-class Magento_Logging_Block_Adminhtml_Details_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Logging\Block\Adminhtml\Details;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Core_Model_Registry $coreRegistry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -55,12 +57,12 @@ class Magento_Logging_Block_Adminhtml_Details_Grid extends Magento_Adminhtml_Blo
     /**
      * Prepare grid collection
      *
-     * @return Magento_Logging_Block_Events_Archive_Grid
+     * @return \Magento\Logging\Block\Events\Archive\Grid
      */
     protected function _prepareCollection()
     {
         $event = $this->_coreRegistry->registry('current_event');
-        $collection = Mage::getResourceModel('Magento_Logging_Model_Resource_Event_Changes_Collection')
+        $collection = \Mage::getResourceModel('Magento\Logging\Model\Resource\Event\Changes\Collection')
             ->addFieldToFilter('event_id', $event->getId());
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -69,14 +71,14 @@ class Magento_Logging_Block_Adminhtml_Details_Grid extends Magento_Adminhtml_Blo
     /**
      * Prepare grid columns
      *
-     * @return Magento_Logging_Block_Events_Archive_Grid
+     * @return \Magento\Logging\Block\Events\Archive\Grid
      */
     protected function _prepareColumns()
     {
         $this->addColumn('source_name', array(
             'header'    => __('Source Data'),
             'sortable'  => false,
-            'renderer'  => 'Magento_Logging_Block_Adminhtml_Details_Renderer_Sourcename',
+            'renderer'  => 'Magento\Logging\Block\Adminhtml\Details\Renderer\Sourcename',
             'index'     => 'source_name',
             'width'     => 1
         ));
@@ -84,14 +86,14 @@ class Magento_Logging_Block_Adminhtml_Details_Grid extends Magento_Adminhtml_Blo
         $this->addColumn('original_data', array(
             'header'    => __('Value Before Change'),
             'sortable'  => false,
-            'renderer'  => 'Magento_Logging_Block_Adminhtml_Details_Renderer_Diff',
+            'renderer'  => 'Magento\Logging\Block\Adminhtml\Details\Renderer\Diff',
             'index'     => 'original_data'
         ));
 
         $this->addColumn('result_data', array(
             'header'    => __('Value After Change'),
             'sortable'  => false,
-            'renderer'  => 'Magento_Logging_Block_Adminhtml_Details_Renderer_Diff',
+            'renderer'  => 'Magento\Logging\Block\Adminhtml\Details\Renderer\Diff',
             'index'     => 'result_data'
         ));
 

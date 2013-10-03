@@ -50,7 +50,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $this->_factoryMock->expects($this->any())->method('createDictionaryWriter')
             ->will($this->returnValue($this->_writerMock));
 
-        $objectManagerHelper = new \Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_generator = $objectManagerHelper->getObject('Magento\Tools\I18n\Code\Dictionary\Generator', array(
             'parser' => $this->_parserMock,
             'contextualParser' => $this->_contextualParserMock,

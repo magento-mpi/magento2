@@ -11,7 +11,9 @@
 /**
  * Base helper
  */
-class Magento_VersionsCms_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\VersionsCms\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Array of admin users in system
@@ -21,17 +23,17 @@ class Magento_VersionsCms_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_usersHash = null;
 
     /**
-     * @var Magento_User_Model_Resource_User_CollectionFactory
+     * @var \Magento\User\Model\Resource\User\CollectionFactory
      */
     protected $_userCollFactory;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_User_Model_Resource_User_CollectionFactory $userCollFactory
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\User\Model\Resource\User\CollectionFactory $userCollFactory
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_User_Model_Resource_User_CollectionFactory $userCollFactory
+        \Magento\Core\Helper\Context $context,
+        \Magento\User\Model\Resource\User\CollectionFactory $userCollFactory
     ) {
         $this->_userCollFactory = $userCollFactory;
         parent::__construct($context);
@@ -68,9 +70,9 @@ class Magento_VersionsCms_Helper_Data extends Magento_Core_Helper_Abstract
     public function getVersionAccessLevels()
     {
         return array(
-            Magento_VersionsCms_Model_Page_Version::ACCESS_LEVEL_PRIVATE => __('Private'),
-            Magento_VersionsCms_Model_Page_Version::ACCESS_LEVEL_PROTECTED => __('Protected'),
-            Magento_VersionsCms_Model_Page_Version::ACCESS_LEVEL_PUBLIC => __('Public')
+            \Magento\VersionsCms\Model\Page\Version::ACCESS_LEVEL_PRIVATE => __('Private'),
+            \Magento\VersionsCms\Model\Page\Version::ACCESS_LEVEL_PROTECTED => __('Protected'),
+            \Magento\VersionsCms\Model\Page\Version::ACCESS_LEVEL_PUBLIC => __('Public')
         );
     }
 
@@ -79,7 +81,7 @@ class Magento_VersionsCms_Helper_Data extends Magento_Core_Helper_Abstract
      * and add to each element new onChange method.
      * Element will be skipped if its type passed in $excludeTypes parameter.
      *
-     * @param Magento_Data_Form_Abstract $container
+     * @param \Magento\Data\Form\AbstractForm $container
      * @param string $onChange
      * @param string|array $excludeTypes
      */

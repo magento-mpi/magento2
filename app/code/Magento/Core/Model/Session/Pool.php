@@ -14,17 +14,19 @@
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Session_Pool
+namespace Magento\Core\Model\Session;
+
+class Pool
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -34,14 +36,14 @@ class Magento_Core_Model_Session_Pool
      *
      * @param string $instanceName
      * @param array $data
-     * @throws LogicException
-     * @return Magento_Core_Model_Session_Abstract
+     * @throws \LogicException
+     * @return \Magento\Core\Model\Session\AbstractSession
      */
     public function get($instanceName, $data = array())
     {
         $object = $this->_objectManager->get($instanceName, array('data' => $data));
-        if (!$object instanceof Magento_Core_Model_Session_Abstract) {
-            throw new LogicException($instanceName . ' doesn\'t extend Magento_Core_Model_Session_Abstract');
+        if (!$object instanceof \Magento\Core\Model\Session\AbstractSession) {
+            throw new \LogicException($instanceName . ' doesn\'t extend \Magento\Core\Model\Session\AbstractSession');
         }
 
         return $object;

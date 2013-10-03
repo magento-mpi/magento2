@@ -11,45 +11,47 @@
 /**
  * Customer attributes condition
  */
-class Magento_CustomerSegment_Model_Segment_Condition_Customer_Attributes
-    extends Magento_CustomerSegment_Model_Condition_Abstract
+namespace Magento\CustomerSegment\Model\Segment\Condition\Customer;
+
+class Attributes
+    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
 {
     /**
-     * @var Magento_Eav_Model_Config
+     * @var \Magento\Eav\Model\Config
      */
     protected $_eavConfig;
 
     /**
-     * @var Magento_Customer_Model_Resource_Customer
+     * @var \Magento\Customer\Model\Resource\Customer
      */
     protected $_resourceCustomer;
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Customer_Model_Resource_Customer $resourceCustomer
-     * @param Magento_CustomerSegment_Model_Resource_Segment $resourceSegment
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Customer\Model\Resource\Customer $resourceCustomer
+     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Customer_Model_Resource_Customer $resourceCustomer,
-        Magento_CustomerSegment_Model_Resource_Segment $resourceSegment,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Rule_Model_Condition_Context $context,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Customer\Model\Resource\Customer $resourceCustomer,
+        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Rule\Model\Condition\Context $context,
         array $data = array()
     ) {
         $this->_locale = $locale;
         $this->_resourceCustomer = $resourceCustomer;
         $this->_eavConfig = $eavConfig;
         parent::__construct($resourceSegment, $context, $data);
-        $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Customer_Attributes');
+        $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Customer\Attributes');
         $this->setValue(null);
     }
 
@@ -82,7 +84,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Attributes
     /**
      * Retrieve attribute object
      *
-     * @return Magento_Eav_Model_Entity_Attribute
+     * @return \Magento\Eav\Model\Entity\Attribute
      */
     public function getAttributeObject()
     {
@@ -92,7 +94,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Attributes
     /**
      * Load condition options for castomer attributes
      *
-     * @return Magento_CustomerSegment_Model_Segment_Condition_Customer_Attributes
+     * @return \Magento\CustomerSegment\Model\Segment\Condition\Customer\Attributes
      */
     public function loadAttributeOptions()
     {
@@ -202,7 +204,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Attributes
     /**
      * Retrieve value element
      *
-     * @return Magento_Data_Form_Element_Abstract
+     * @return \Magento\Data\Form\Element\AbstractElement
      */
     public function getValueElement()
     {
@@ -236,7 +238,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Attributes
     /**
      * Retrieve attribute element
      *
-     * @return Magento_Data_Form_Element_Abstract
+     * @return \Magento\Data\Form\Element\AbstractElement
      */
     public function getAttributeElement()
     {
@@ -307,11 +309,11 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Attributes
     {
         if ($this->getOperator() == '==') {
             $dateObj = $this->_locale
-                ->date($this->getValue(), Magento_Date::DATE_INTERNAL_FORMAT, null, false)
+                ->date($this->getValue(), \Magento\Date::DATE_INTERNAL_FORMAT, null, false)
                 ->setHour(0)->setMinute(0)->setSecond(0);
             $value = array(
-                'start' => $dateObj->toString(Magento_Date::DATETIME_INTERNAL_FORMAT),
-                'end' => $dateObj->addDay(1)->toString(Magento_Date::DATETIME_INTERNAL_FORMAT)
+                'start' => $dateObj->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT),
+                'end' => $dateObj->addDay(1)->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT)
             );
             return $value;
         }
@@ -336,14 +338,14 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Attributes
      *
      * @param $customer
      * @param $website
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)
     {
         $attribute = $this->getAttributeObject();
         $table = $attribute->getBackendTable();
         $select = $this->getResource()->createSelect();
-        $select->from(array('main'=>$table), array(new Zend_Db_Expr(1)));
+        $select->from(array('main'=>$table), array(new \Zend_Db_Expr(1)));
         $select->where($this->_createCustomerFilter($customer, 'main.entity_id'));
         $select->limit(1);
 
@@ -370,9 +372,9 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Attributes
             } else {
                 $ifCondition = 'COUNT(*) = 0';
             }
-            $select->reset(Zend_Db_Select::COLUMNS);
+            $select->reset(\Zend_Db_Select::COLUMNS);
             $condition = $this->getResource()->getReadConnection()->getCheckSql($ifCondition, '1', '0');
-            $select->columns(new Zend_Db_Expr($condition));
+            $select->columns(new \Zend_Db_Expr($condition));
             $select->where('main.attribute_id = ?', $attribute->getId());
         }
         return $select;

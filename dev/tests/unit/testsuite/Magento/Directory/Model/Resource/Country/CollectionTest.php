@@ -9,22 +9,25 @@
  * @license     {license_link}
  */
 
-class Magento_Directory_Model_Resource_Country_CollectionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Directory\Model\Resource\Country;
+
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Directory_Model_Resource_Country_Collection
+     * @var \Magento\Directory\Model\Resource\Country\Collection
      */
     protected $_model;
 
     protected function setUp()
     {
-        $connection = $this->getMock('Magento_DB_Adapter_Pdo_Mysql', array(), array(), '', false);
+        $connection = $this->getMock('Magento\DB\Adapter\Pdo\Mysql', array(), array(), '', false);
         $select = $this->getMock('Zend_Db_Select', array(), array(), '', false);
         $connection->expects($this->once())
             ->method('select')
             ->will($this->returnValue($select));
 
-        $resource = $this->getMockForAbstractClass('Magento_Core_Model_Resource_Db_Abstract', array(), '', false, true,
+        $resource = $this->getMockForAbstractClass('Magento\Core\Model\Resource\Db\AbstractDb', array(), '',
+            false, true,
             true, array('getReadConnection', 'getMainTable', 'getTable'));
         $resource->expects($this->any())
             ->method('getReadConnection')
@@ -33,18 +36,18 @@ class Magento_Directory_Model_Resource_Country_CollectionTest extends PHPUnit_Fr
             ->method('getTable')
             ->will($this->returnArgument(0));
 
-        $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
-        $stringHelper = $this->getMock('Magento_Core_Helper_String', array(), array(), '', false);
-        $localeMock = $this->getMock('Magento_Core_Model_LocaleInterface');
+        $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
+        $stringHelper = $this->getMock('Magento\Core\Helper\String', array(), array(), '', false);
+        $localeMock = $this->getMock('Magento\Core\Model\LocaleInterface');
         $localeMock->expects($this->any())->method('getCountryTranslation')->will($this->returnArgument(0));
 
-        $fetchStrategy = $this->getMockForAbstractClass('Magento_Data_Collection_Db_FetchStrategyInterface');
-        $entityFactory = $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false);
-        $storeConfigMock = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
-        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
-        $countryFactory = $this->getMock('Magento_Directory_Model_Resource_CountryFactory',
+        $fetchStrategy = $this->getMockForAbstractClass('Magento\Data\Collection\Db\FetchStrategyInterface');
+        $entityFactory = $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false);
+        $storeConfigMock = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $countryFactory = $this->getMock('Magento\Directory\Model\Resource\CountryFactory',
             array(), array(), '', false);
-        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $arguments = array(
             'logger' => $logger,
             'eventManager' => $eventManager,
@@ -56,7 +59,7 @@ class Magento_Directory_Model_Resource_Country_CollectionTest extends PHPUnit_Fr
             'countryFactory' => $countryFactory,
             'resource' => $resource,
         );
-        $this->_model = $objectManager->getObject('Magento_Directory_Model_Resource_Country_Collection', $arguments);
+        $this->_model = $objectManager->getObject('Magento\Directory\Model\Resource\Country\Collection', $arguments);
     }
 
     /**
@@ -69,7 +72,7 @@ class Magento_Directory_Model_Resource_Country_CollectionTest extends PHPUnit_Fr
     public function testToOptionArray($optionsArray, $emptyLabel, $foregroundCountries, $expectedResults)
     {
         foreach ($optionsArray as $itemData) {
-            $this->_model->addItem(new Magento_Object($itemData));
+            $this->_model->addItem(new \Magento\Object($itemData));
         }
 
         $this->_model->setForegroundCountries($foregroundCountries);

@@ -12,7 +12,9 @@
  * Sales archive grids containers
  *
  */
-class Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Container extends Magento_Adminhtml_Block_Widget_Grid_Container
+namespace Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order;
+
+class Container extends \Magento\Adminhtml\Block\Widget\Grid\Container
 {
     protected function _prepareLayout()
     {

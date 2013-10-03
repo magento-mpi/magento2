@@ -15,7 +15,9 @@
  * @package    Magento_Banner
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Banner_Controller_Adminhtml_Banner_Widget extends Magento_Adminhtml_Controller_Action
+namespace Magento\Banner\Controller\Adminhtml\Banner;
+
+class Widget extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Chooser Source action
@@ -25,7 +27,7 @@ class Magento_Banner_Controller_Adminhtml_Banner_Widget extends Magento_Adminhtm
         $uniqId = $this->getRequest()->getParam('uniq_id');
 
         $bannersGrid = $this->getLayout()->createBlock(
-            'Magento_Banner_Block_Adminhtml_Widget_Chooser', '', array('data' => array('id' => $uniqId))
+            'Magento\Banner\Block\Adminhtml\Widget\Chooser', '', array('data' => array('id' => $uniqId))
         );
         $html = $bannersGrid->toHtml();
 

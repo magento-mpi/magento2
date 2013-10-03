@@ -14,7 +14,9 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Date
+namespace Magento\Core\Model;
+
+class Date
 {
     /**
      * Current config offset in seconds
@@ -31,12 +33,12 @@ class Magento_Core_Model_Date
     private $_systemOffset = 0;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
@@ -45,8 +47,8 @@ class Magento_Core_Model_Date
      *
      */
     public function __construct(
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_LocaleInterface $locale
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale
     ) {
         $this->_systemOffset = $this->calculateOffset();
         $this->_storeManager = $storeManager;
@@ -155,7 +157,7 @@ class Magento_Core_Model_Date
         }
 
         $date      = $this->_locale->date($result);
-        $timestamp = $date->get(Zend_Date::TIMESTAMP) - $date->get(Zend_Date::TIMEZONE_SECS);
+        $timestamp = $date->get(\Zend_Date::TIMESTAMP) - $date->get(\Zend_Date::TIMEZONE_SECS);
 
         unset($date);
         return $timestamp;
@@ -180,7 +182,7 @@ class Magento_Core_Model_Date
         }
 
         $date      = $this->_locale->date($result);
-        $timestamp = $date->get(Zend_Date::TIMESTAMP) + $date->get(Zend_Date::TIMEZONE_SECS);
+        $timestamp = $date->get(\Zend_Date::TIMESTAMP) + $date->get(\Zend_Date::TIMEZONE_SECS);
 
         unset($date);
         return $timestamp;

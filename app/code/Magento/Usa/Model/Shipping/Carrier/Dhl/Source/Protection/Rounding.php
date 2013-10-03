@@ -9,8 +9,9 @@
  */
 
 
-class Magento_Usa_Model_Shipping_Carrier_Dhl_Source_Protection_Rounding
-    extends Magento_Usa_Model_Shipping_Carrier_Dhl_Source_Generic
+namespace Magento\Usa\Model\Shipping\Carrier\Dhl\Source\Protection;
+
+class Rounding extends \Magento\Usa\Model\Shipping\Carrier\Dhl\Source\Generic
 {
     public function toOptionArray()
     {

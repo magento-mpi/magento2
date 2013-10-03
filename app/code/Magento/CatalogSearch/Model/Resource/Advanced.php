@@ -16,33 +16,35 @@
  * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogSearch_Model_Resource_Advanced extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\CatalogSearch\Model\Resource;
+
+class Advanced extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Event\Manager $eventManager
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Event_Manager $eventManager
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Event\Manager $eventManager
     ) {
         $this->_storeManager = $storeManager;
         $this->_eventManager = $eventManager;
@@ -62,13 +64,13 @@ class Magento_CatalogSearch_Model_Resource_Advanced extends Magento_Core_Model_R
      * Prepare response object and dispatch prepare price event
      * Return response object
      *
-     * @param Magento_DB_Select $select
-     * @return Magento_Object
+     * @param \Magento\DB\Select $select
+     * @return \Magento\Object
      */
     protected function _dispatchPreparePriceEvent($select)
     {
         // prepare response object for event
-        $response = new Magento_Object();
+        $response = new \Magento\Object();
         $response->setAdditionalCalculations(array());
 
         // prepare event arguments
@@ -87,9 +89,9 @@ class Magento_CatalogSearch_Model_Resource_Advanced extends Magento_Core_Model_R
     /**
      * Prepare search condition for attribute
      *
-     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
      * @param string|array $value
-     * @param Magento_CatalogSearch_Model_Resource_Advanced_Collection $collection
+     * @param \Magento\CatalogSearch\Model\Resource\Advanced\Collection $collection
      * @return mixed
      */
     public function prepareCondition($attribute, $value, $collection)
@@ -120,8 +122,8 @@ class Magento_CatalogSearch_Model_Resource_Advanced extends Magento_Core_Model_R
     /**
      * Add filter by attribute rated price
      *
-     * @param Magento_CatalogSearch_Model_Resource_Advanced_Collection $collection
-     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param \Magento\CatalogSearch\Model\Resource\Advanced\Collection $collection
+     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
      * @param string|array $value
      * @param int $rate
      * @return bool
@@ -133,11 +135,11 @@ class Magento_CatalogSearch_Model_Resource_Advanced extends Magento_Core_Model_R
         $conditions = array();
         if (strlen($value['from']) > 0) {
             $conditions[] = $adapter->quoteInto(
-                'price_index.min_price %s * %s >= ?', $value['from'], Zend_Db::FLOAT_TYPE);
+                'price_index.min_price %s * %s >= ?', $value['from'], \Zend_Db::FLOAT_TYPE);
         }
         if (strlen($value['to']) > 0) {
             $conditions[] = $adapter->quoteInto(
-                'price_index.min_price %s * %s <= ?', $value['to'], Zend_Db::FLOAT_TYPE);
+                'price_index.min_price %s * %s <= ?', $value['to'], \Zend_Db::FLOAT_TYPE);
         }
 
         if (!$conditions) {
@@ -159,8 +161,8 @@ class Magento_CatalogSearch_Model_Resource_Advanced extends Magento_Core_Model_R
     /**
      * Add filter by indexable attribute
      *
-     * @param Magento_CatalogSearch_Model_Resource_Advanced_Collection $collection
-     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param \Magento\CatalogSearch\Model\Resource\Advanced\Collection $collection
+     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
      * @param string|array $value
      * @return bool
      */

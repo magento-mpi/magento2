@@ -11,54 +11,56 @@
 /**
  * Config locale allowed currencies backend
  */
-class Magento_Backend_Model_Config_Backend_Locale extends Magento_Core_Model_Config_Value
+namespace Magento\Backend\Model\Config\Backend;
+
+class Locale extends \Magento\Core\Model\Config\Value
 {
     /**
-     * @var Magento_Core_Model_Resource_Config_Data_CollectionFactory
+     * @var \Magento\Core\Model\Resource\Config\Data\CollectionFactory
      */
     protected $_configsFactory;
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @var Magento_Core_Model_Website_Factory
+     * @var \Magento\Core\Model\Website\Factory
      */
     protected $_websiteFactory;
 
     /**
-     * @var Magento_Core_Model_StoreFactory
+     * @var \Magento\Core\Model\StoreFactory
      */
     protected $_storeFactory;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_Resource_Config_Data_CollectionFactory $configsFactory
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Core_Model_Website_Factory $websiteFactory
-     * @param Magento_Core_Model_StoreFactory $storeFactory
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Resource\Config\Data\CollectionFactory $configsFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\Website\Factory $websiteFactory
+     * @param \Magento\Core\Model\StoreFactory $storeFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_Resource_Config_Data_CollectionFactory $configsFactory,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Core_Model_Website_Factory $websiteFactory,
-        Magento_Core_Model_StoreFactory $storeFactory,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Resource\Config\Data\CollectionFactory $configsFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\Website\Factory $websiteFactory,
+        \Magento\Core\Model\StoreFactory $storeFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_configsFactory = $configsFactory;
@@ -69,12 +71,12 @@ class Magento_Backend_Model_Config_Backend_Locale extends Magento_Core_Model_Con
     }
 
     /**
-     * @return Magento_Backend_Model_Config_Backend_Locale
-     * @throws Magento_Core_Exception
+     * @return \Magento\Backend\Model\Config\Backend\Locale
+     * @throws \Magento\Core\Exception
      */
     protected function _afterSave()
     {
-        /** @var $collection Magento_Core_Model_Resource_Config_Data_Collection */
+        /** @var $collection \Magento\Core\Model\Resource\Config\Data\Collection */
         $collection = $this->_configsFactory->create();
         $collection->addPathFilter('currency/options');
 
@@ -100,14 +102,14 @@ class Magento_Backend_Model_Config_Backend_Locale extends Magento_Core_Model_Con
                             break;
 
                         case 'website':
-                            /** @var $website Magento_Core_Model_Website */
+                            /** @var $website \Magento\Core\Model\Website */
                             $website = $this->_websiteFactory->create();
                             $websiteName = $website->load($data->getScopeId())->getName();
                             $scopeName = __('website(%1) scope', $websiteName);
                             break;
 
                         case 'store':
-                            /** @var $store Magento_Core_Model_Store */
+                            /** @var $store \Magento\Core\Model\Store */
                             $store = $this->_storeFactory->create();
                             $storeName = $store->load($data->getScopeId())->getName();
                             $scopeName = __('store(%1) scope', $storeName);
@@ -119,7 +121,7 @@ class Magento_Backend_Model_Config_Backend_Locale extends Magento_Core_Model_Con
             }
         }
         if ($exceptions) {
-            throw new Magento_Core_Exception(join("\n", $exceptions));
+            throw new \Magento\Core\Exception(join("\n", $exceptions));
         }
 
         return $this;

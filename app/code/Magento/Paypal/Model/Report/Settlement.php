@@ -12,20 +12,22 @@
  * Paypal Settlement Report model
  *
  * Perform fetching reports from remote servers with following saving them to database
- * Prepare report rows for Magento_Paypal_Model_Report_Settlement_Row model
+ * Prepare report rows for \Magento\Paypal\Model\Report\Settlement\Row model
  *
- * @method Magento_Paypal_Model_Resource_Report_Settlement _getResource()
- * @method Magento_Paypal_Model_Resource_Report_Settlement getResource()
+ * @method \Magento\Paypal\Model\Resource\Report\Settlement _getResource()
+ * @method \Magento\Paypal\Model\Resource\Report\Settlement getResource()
  * @method string getReportDate()
- * @method Magento_Paypal_Model_Report_Settlement setReportDate(string $value)
+ * @method \Magento\Paypal\Model\Report\Settlement setReportDate(string $value)
  * @method string getAccountId()
- * @method Magento_Paypal_Model_Report_Settlement setAccountId(string $value)
+ * @method \Magento\Paypal\Model\Report\Settlement setAccountId(string $value)
  * @method string getFilename()
- * @method Magento_Paypal_Model_Report_Settlement setFilename(string $value)
+ * @method \Magento\Paypal\Model\Report\Settlement setFilename(string $value)
  * @method string getLastModified()
- * @method Magento_Paypal_Model_Report_Settlement setLastModified(string $value)
+ * @method \Magento\Paypal\Model\Report\Settlement setLastModified(string $value)
  */
-class Magento_Paypal_Model_Report_Settlement extends Magento_Core_Model_Abstract
+namespace Magento\Paypal\Model\Report;
+
+class Settlement extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Default PayPal SFTP host
@@ -141,31 +143,31 @@ class Magento_Paypal_Model_Report_Settlement extends Magento_Core_Model_Abstract
     );
 
     /**
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_coreDir;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Dir $coreDir
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Dir $coreDir
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Dir $coreDir,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Dir $coreDir,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreDir = $coreDir;
@@ -180,13 +182,13 @@ class Magento_Paypal_Model_Report_Settlement extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Paypal_Model_Resource_Report_Settlement');
+        $this->_init('Magento\Paypal\Model\Resource\Report\Settlement');
     }
 
     /**
      * Stop saving process if file with same report date, account ID and last modified date was already ferched
      *
-     * @return Magento_Core_Model_Abstract
+     * @return \Magento\Core\Model\AbstractModel
      */
     protected function _beforeSave()
     {
@@ -204,19 +206,19 @@ class Magento_Paypal_Model_Report_Settlement extends Magento_Core_Model_Abstract
      * Goes to specified host/path and fetches reports from there.
      * Save reports to database.
      *
-     * @param Magento_Io_Sftp $connection
+     * @param \Magento\Io\Sftp $connection
      * @return int Number of report rows that were fetched and saved successfully
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
-    public function fetchAndSave(Magento_Io_Sftp $connection)
+    public function fetchAndSave(\Magento\Io\Sftp $connection)
     {
         $fetched = 0;
         $listing = $this->_filterReportsList($connection->rawls());
         foreach ($listing as $filename => $attributes) {
-            $localCsv = tempnam($this->_coreDir->getDir(Magento_Core_Model_Dir::TMP), 'PayPal_STL');
+            $localCsv = tempnam($this->_coreDir->getDir(\Magento\Core\Model\Dir::TMP), 'PayPal_STL');
             if ($connection->read($filename, $localCsv)) {
                 if (!is_writable($localCsv)) {
-                    throw new Magento_Core_Exception(__('We cannot create a target file for reading reports.'));
+                    throw new \Magento\Core\Exception(__('We cannot create a target file for reading reports.'));
                 }
 
                 $encoded = file_get_contents($localCsv);
@@ -229,8 +231,8 @@ class Magento_Paypal_Model_Report_Settlement extends Magento_Core_Model_Abstract
 
                 // Set last modified date, this value will be overwritten during parsing
                 if (isset($attributes['mtime'])) {
-                    $lastModified = new Zend_Date($attributes['mtime']);
-                    $this->setReportLastModified($lastModified->toString(Magento_Date::DATETIME_INTERNAL_FORMAT));
+                    $lastModified = new \Zend_Date($attributes['mtime']);
+                    $this->setReportLastModified($lastModified->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT));
                 }
 
                 $this->setReportDate($this->_fileNameToDate($filename))
@@ -256,17 +258,17 @@ class Magento_Paypal_Model_Report_Settlement extends Magento_Core_Model_Abstract
      * Connect to an SFTP server using specified configuration
      *
      * @param array $config
-     * @return Magento_Io_Sftp
-     * @throws InvalidArgumentException
+     * @return \Magento\Io\Sftp
+     * @throws \InvalidArgumentException
      */
     public static function createConnection(array $config)
     {
         if (!isset($config['hostname']) || !isset($config['username'])
             || !isset($config['password']) || !isset($config['path'])
         ) {
-            throw new InvalidArgumentException('Required config elements: hostname, username, password, path');
+            throw new \InvalidArgumentException('Required config elements: hostname, username, password, path');
         }
-        $connection = new Magento_Io_Sftp();
+        $connection = new \Magento\Io\Sftp();
         $connection->open(array(
             'host'     => $config['hostname'],
             'username' => $config['username'],
@@ -281,7 +283,7 @@ class Magento_Paypal_Model_Report_Settlement extends Magento_Core_Model_Abstract
      *
      * @param string $localCsv Path to CSV file
      * @param string $format CSV format(column names)
-     * @return Magento_Paypal_Model_Report_Settlement
+     * @return \Magento\Paypal\Model\Report\Settlement
      */
     public function parseCsv($localCsv, $format = 'new')
     {
@@ -299,8 +301,8 @@ class Magento_Paypal_Model_Report_Settlement extends Magento_Core_Model_Abstract
             $lineType = $line[0];
             switch($lineType) {
                 case 'RH': // Report header.
-                    $lastModified = new Zend_Date($line[1]);
-                    $this->setReportLastModified($lastModified->toString(Magento_Date::DATETIME_INTERNAL_FORMAT));
+                    $lastModified = new \Zend_Date($line[1]);
+                    $this->setReportLastModified($lastModified->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT));
                     //$this->setAccountId($columns[2]); -- probably we'll just take that from the section header...
                     break;
                 case 'FH': // File header.
@@ -342,7 +344,7 @@ class Magento_Paypal_Model_Report_Settlement extends Magento_Core_Model_Abstract
     /**
      * Load report by unique key (accoutn + report date)
      *
-     * @return Magento_Paypal_Model_Report_Settlement
+     * @return \Magento\Paypal\Model\Report\Settlement
      */
     public function loadByAccountAndDate()
     {
@@ -416,7 +418,7 @@ class Magento_Paypal_Model_Report_Settlement extends Magento_Core_Model_Abstract
         $configs = array();
         $uniques = array();
         foreach ($this->_storeManager->getStores() as $store) {
-            /*@var $store Magento_Core_Model_Store */
+            /*@var $store \Magento\Core\Model\Store */
             $active = (bool)$store->getConfig('paypal/fetch_reports/active');
             if (!$active && $automaticMode) {
                 continue;

@@ -12,30 +12,32 @@
  * Customer balance block
  *
  */
-class Magento_CustomerBalance_Block_Account_Balance extends Magento_Core_Block_Template
+namespace Magento\CustomerBalance\Block\Account;
+
+class Balance extends \Magento\Core\Block\Template
 {
     /**
-     * @var Magento_CustomerBalance_Model_BalanceFactory
+     * @var \Magento\CustomerBalance\Model\BalanceFactory
      */
     protected $_balanceFactory;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_session;
 
     /**
-     * @param Magento_CustomerBalance_Model_BalanceFactory $balanceFactory
-     * @param Magento_Customer_Model_Session $session
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
+     * @param \Magento\Customer\Model\Session $session
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_CustomerBalance_Model_BalanceFactory $balanceFactory,
-        Magento_Customer_Model_Session $session,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
+        \Magento\Customer\Model\Session $session,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_session = $session;

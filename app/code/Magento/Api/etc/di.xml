@@ -10,7 +10,7 @@
  */
 -->
 <config>
-    <type name="Magento_Log_Model_Visitor">
+    <type name="Magento\Log\Model\Visitor">
         <param name="ignores">
             <value>
                 <api>api</api>

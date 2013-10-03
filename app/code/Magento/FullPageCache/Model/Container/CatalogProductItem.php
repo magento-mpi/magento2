@@ -11,43 +11,45 @@
 /**
  * Placeholder container for catalog product items
  */
-class Magento_FullPageCache_Model_Container_CatalogProductItem
-    extends Magento_FullPageCache_Model_Container_Advanced_Quote
+namespace Magento\FullPageCache\Model\Container;
+
+class CatalogProductItem
+    extends \Magento\FullPageCache\Model\Container\Advanced\Quote
 {
     const BLOCK_NAME_RELATED           = 'CATALOG_PRODUCT_ITEM_RELATED';
     const BLOCK_NAME_UPSELL            = 'CATALOG_PRODUCT_ITEM_UPSELL';
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_FullPageCache_Model_Cache $fpcCache
-     * @param Magento_FullPageCache_Model_Container_Placeholder $placeholder
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_FullPageCache_Helper_Url $urlHelper
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Layout $layout
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\FullPageCache\Model\Cache $fpcCache
+     * @param \Magento\FullPageCache\Model\Container\Placeholder $placeholder
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\FullPageCache\Helper\Url $urlHelper
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_FullPageCache_Model_Cache $fpcCache,
-        Magento_FullPageCache_Model_Container_Placeholder $placeholder,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_FullPageCache_Helper_Url $urlHelper,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Layout $layout,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Model_ProductFactory $productFactory
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\FullPageCache\Model\Cache $fpcCache,
+        \Magento\FullPageCache\Model\Container\Placeholder $placeholder,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\FullPageCache\Helper\Url $urlHelper,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Layout $layout,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\ProductFactory $productFactory
     ) {
         parent::__construct(
             $eventManager, $fpcCache, $placeholder, $coreRegistry, $urlHelper, $coreStoreConfig, $layout
@@ -59,7 +61,7 @@ class Magento_FullPageCache_Model_Container_CatalogProductItem
     /**
      * Parent (container) block
      *
-     * @var null|Magento_TargetRule_Block_Catalog_Product_List_Abstract
+     * @var null|\Magento\TargetRule\Block\Catalog\Product\ProductList\AbstractProductList
      */
     protected $_parentBlock;
 
@@ -109,9 +111,9 @@ class Magento_FullPageCache_Model_Container_CatalogProductItem
     {
         $blockName = $this->_placeholder->getName();
         if ($blockName == self::BLOCK_NAME_RELATED) {
-            return 'Magento_TargetRule_Block_Catalog_Product_List_Related';
+            return 'Magento\TargetRule\Block\Catalog\Product\ProductList\Related';
         } elseif ($blockName == self::BLOCK_NAME_UPSELL) {
-            return 'Magento_TargetRule_Block_Catalog_Product_List_Upsell';
+            return 'Magento\TargetRule\Block\Catalog\Product\ProductList\Upsell';
         }
 
         return null;
@@ -127,7 +129,7 @@ class Magento_FullPageCache_Model_Container_CatalogProductItem
         if (is_null($this->_infoCacheId)) {
             $this->_infoCacheId = 'CATALOG_PRODUCT_LIST_SHARED_'
                 . md5($this->_placeholder->getName()
-                    . $this->_getCookieValue(Magento_FullPageCache_Model_Cookie::COOKIE_CART, '')
+                    . $this->_getCookieValue(\Magento\FullPageCache\Model\Cookie::COOKIE_CART, '')
                     . $this->_getProductId());
         }
         return $this->_infoCacheId;
@@ -136,7 +138,7 @@ class Magento_FullPageCache_Model_Container_CatalogProductItem
     /**
      * Saves informational cache, containing parameters used to show lists.
      *
-     * @return Magento_FullPageCache_Model_Container_CatalogProductItem
+     * @return \Magento\FullPageCache\Model\Container\CatalogProductItem
      */
     protected function _saveInfoCache()
     {
@@ -146,7 +148,7 @@ class Magento_FullPageCache_Model_Container_CatalogProductItem
         }
 
         $data = array();
-        $cacheRecord = Magento_FullPageCache_Model_Container_Abstract::_loadCache($this->_getCacheId());
+        $cacheRecord = \Magento\FullPageCache\Model\Container\AbstractContainer::_loadCache($this->_getCacheId());
         if ($cacheRecord) {
             $cacheRecord = json_decode($cacheRecord, true);
             if ($cacheRecord) {
@@ -156,7 +158,7 @@ class Magento_FullPageCache_Model_Container_CatalogProductItem
         $data[$this->_getInfoCacheId()] = self::$_sharedInfoData[$placeholderName]['info'];
         $data = json_encode($data);
 
-        $tags = array(Magento_FullPageCache_Model_Processor::CACHE_TAG);
+        $tags = array(\Magento\FullPageCache\Model\Processor::CACHE_TAG);
         $lifetime = $this->_placeholder->getAttribute('cache_lifetime');
         if (!$lifetime) {
             $lifetime = false;
@@ -194,7 +196,7 @@ class Magento_FullPageCache_Model_Container_CatalogProductItem
      *
      * @param string $key
      * @param mixed $value
-     * @return Magento_FullPageCache_Model_Container_CatalogProductItem
+     * @return \Magento\FullPageCache\Model\Container\CatalogProductItem
      */
     protected function _setSharedParam($key, $value)
     {
@@ -210,7 +212,7 @@ class Magento_FullPageCache_Model_Container_CatalogProductItem
     /**
      * Get parent (container) block
      *
-     * @return false|Magento_TargetRule_Block_Catalog_Product_List_Abstract
+     * @return false|\Magento\TargetRule\Block\Catalog\Product\ProductList\AbstractProductList
      */
     protected function _getParentBlock()
     {
@@ -340,7 +342,7 @@ class Magento_FullPageCache_Model_Container_CatalogProductItem
             return '';
         }
 
-        /** @var $item Magento_Catalog_Model_Product */
+        /** @var $item \Magento\Catalog\Model\Product */
         $item = $this->_productFactory
             ->create()
             ->setStoreId($this->_storeManager->getStore()->getId())

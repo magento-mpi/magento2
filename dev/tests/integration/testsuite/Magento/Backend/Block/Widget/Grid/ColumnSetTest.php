@@ -9,23 +9,26 @@
  * @license     {license_link}
  */
 
+
+namespace Magento\Backend\Block\Widget\Grid;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_TestCase
+class ColumnSetTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Block_Widget_Grid_ColumnSet
+     * @var \Magento\Backend\Block\Widget\Grid\ColumnSet
      */
     protected $_block;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_layoutMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_columnMock;
 
@@ -33,20 +36,20 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
     {
         parent::setUp();
 
-        $this->_columnMock = $this->getMock('Magento_Backend_Block_Widget_Grid_Column',
+        $this->_columnMock = $this->getMock('Magento\Backend\Block\Widget\Grid\Column',
             array('setSortable', 'setRendererType', 'setFilterType', 'addHeaderCssClass', 'setGrid'),
             array(), '', false
         );
-        $this->_layoutMock = $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false);
+        $this->_layoutMock = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
         $this->_layoutMock->expects($this->any())->method('getChildBlocks')->will($this->returnValue(
             array($this->_columnMock)
         ));
 
-        $context = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Block_Template_Context', array('layout' => $this->_layoutMock));
-        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+        $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Block\Template\Context', array('layout' => $this->_layoutMock));
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
             ->createBlock(
-                'Magento_Backend_Block_Widget_Grid_ColumnSet', '', array('context' => $context)
+                'Magento\Backend\Block\Widget\Grid\ColumnSet', '', array('context' => $context)
             );
         $this->_block->setTemplate(null);
     }

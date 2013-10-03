@@ -12,24 +12,26 @@
 /**
  * Replacement for the native cookie model that doesn't send cookie headers in testing environment
  */
-class Magento_TestFramework_Cookie extends Magento_Core_Model_Cookie
+namespace Magento\TestFramework;
+
+class Cookie extends \Magento\Core\Model\Cookie
 {
     /**
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Controller_Request_Http $request
-     * @param Magento_Core_Controller_Response_Http $response
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\Core\Controller\Response\Http $response
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Controller_Request_Http $request = null,
-        Magento_Core_Controller_Response_Http $response = null
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Controller\Request\Http $request = null,
+        \Magento\Core\Controller\Response\Http $response = null
     ) {
         $this->_storeManager = $storeManager;
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $request = $request ?: $objectManager->get('Magento_Core_Controller_Request_Http');
-        $response = $response ?: $objectManager->get('Magento_Core_Controller_Response_Http');
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $request = $request ?: $objectManager->get('Magento\Core\Controller\Request\Http');
+        $response = $response ?: $objectManager->get('Magento\Core\Controller\Response\Http');
         parent::__construct($request, $response, $coreStoreConfig, $storeManager);
     }
 
@@ -43,7 +45,7 @@ class Magento_TestFramework_Cookie extends Magento_Core_Model_Cookie
      * @param string $domain
      * @param int|bool $secure
      * @param bool $httponly
-     * @return Magento_TestFramework_Cookie
+     * @return \Magento\TestFramework\Cookie
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
@@ -61,7 +63,7 @@ class Magento_TestFramework_Cookie extends Magento_Core_Model_Cookie
      * @param string $domain
      * @param int|bool $secure
      * @param int|bool $httponly
-     * @return Magento_TestFramework_Cookie
+     * @return \Magento\TestFramework\Cookie
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */

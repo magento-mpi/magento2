@@ -8,7 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_SettingsTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super;
+
+class SettingsTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param null|int $productId
@@ -20,29 +22,29 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_SettingsTest extend
      */
     public function testGetContinueUrl($productId, $expectedUrl)
     {
-        $product = $this->getMockBuilder('Magento_Catalog_Model_Product')
+        $product = $this->getMockBuilder('Magento\Catalog\Model\Product')
             ->disableOriginalConstructor()
             ->setMethods(array('getId', '__wakeup'))
             ->getMock();
         $product->expects($this->any())->method('getId')->will($this->returnValue($productId));
 
-        $urlModel = $this->getMockBuilder('Magento_Backend_Model_Url')
+        $urlModel = $this->getMockBuilder('Magento\Backend\Model\Url')
             ->disableOriginalConstructor()
             ->setMethods(array('getUrl'))
             ->getMock();
         $urlModel->expects($this->any())->method('getUrl')->with($this->equalTo($expectedUrl))
             ->will($this->returnValue('url'));
 
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_Registry')->register('current_product', $product);
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager->get('Magento\Core\Model\Registry')->register('current_product', $product);
 
-        $context = $objectManager->create('Magento_Backend_Block_Template_Context', array('urlBuilder' => $urlModel));
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = $objectManager->get('Magento_Core_Model_Layout');
-        /** @var $block Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings */
+        $context = $objectManager->create('Magento\Backend\Block\Template\Context', array('urlBuilder' => $urlModel));
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = $objectManager->get('Magento\Core\Model\Layout');
+        /** @var $block \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Settings */
         $block = $layout->createBlock(
-            'Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings',
+            'Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Settings',
             'block',
             array(
                'context' => $context

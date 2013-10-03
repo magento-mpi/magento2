@@ -7,81 +7,83 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterface
+namespace Magento\Core\Helper;
+
+class Context implements \Magento\ObjectManager\ContextInterface
 {
     /**
-     * @var Magento_Core_Model_Translate
+     * @var \Magento\Core\Model\Translate
      */
     protected $_translator;
 
     /**
-     * @var Magento_Core_Model_ModuleManager
+     * @var \Magento\Core\Model\ModuleManager
      */
     protected $_moduleManager;
 
     /** 
-     * @var  Magento_Core_Model_Event_Manager 
+     * @var  \Magento\Core\Model\Event\Manager 
      */
     protected $_eventManager;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @var Magento_Core_Controller_Request_HttpProxy
+     * @var \Magento\Core\Controller\Request\HttpProxy
      */
     protected $_httpRequest;
 
     /**
-     * @var Magento_Core_Model_Cache_Config
+     * @var \Magento\Core\Model\Cache\Config
      */
     protected $_cacheConfig;
 
     /**
-     * @var Magento_Core_Model_EncryptionFactory
+     * @var \Magento\Core\Model\EncryptionFactory
      */
     protected $_encryptorFactory;
 
     /**
-     * @var Magento_Core_Model_Fieldset_Config
+     * @var \Magento\Core\Model\Fieldset\Config
      */
     protected $_fieldsetConfig;
 
     /**
-     * @var Magento_Core_Model_App
+     * @var \Magento\Core\Model\App
      */
     protected $_app;
 
     /**
-     * @var Magento_Core_Model_UrlInterface
+     * @var \Magento\Core\Model\UrlInterface
      */
     protected $_urlBuilder;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Translate $translator
-     * @param Magento_Core_Model_ModuleManager $moduleManager
-     * @param Magento_Core_Controller_Request_HttpProxy $httpRequest
-     * @param Magento_Core_Model_Cache_Config $cacheConfig
-     * @param Magento_Core_Model_EncryptionFactory $encryptorFactory
-     * @param Magento_Core_Model_Fieldset_Config $fieldsetConfig
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_App $app
-     * @param Magento_Core_Model_UrlInterface $urlBuilder
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Translate $translator
+     * @param \Magento\Core\Model\ModuleManager $moduleManager
+     * @param \Magento\Core\Controller\Request\HttpProxy $httpRequest
+     * @param \Magento\Core\Model\Cache\Config $cacheConfig
+     * @param \Magento\Core\Model\EncryptionFactory $encryptorFactory
+     * @param \Magento\Core\Model\Fieldset\Config $fieldsetConfig
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Core\Model\UrlInterface $urlBuilder
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Translate $translator,
-        Magento_Core_Model_ModuleManager $moduleManager,
-        Magento_Core_Controller_Request_HttpProxy $httpRequest,
-        Magento_Core_Model_Cache_Config $cacheConfig,
-        Magento_Core_Model_EncryptionFactory $encryptorFactory,
-        Magento_Core_Model_Fieldset_Config $fieldsetConfig,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_App $app,
-        Magento_Core_Model_UrlInterface $urlBuilder
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Translate $translator,
+        \Magento\Core\Model\ModuleManager $moduleManager,
+        \Magento\Core\Controller\Request\HttpProxy $httpRequest,
+        \Magento\Core\Model\Cache\Config $cacheConfig,
+        \Magento\Core\Model\EncryptionFactory $encryptorFactory,
+        \Magento\Core\Model\Fieldset\Config $fieldsetConfig,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\App $app,
+        \Magento\Core\Model\UrlInterface $urlBuilder
     ) {
         $this->_translator = $translator;
         $this->_moduleManager = $moduleManager;
@@ -96,7 +98,7 @@ class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterf
     }
 
     /**
-     * @return Magento_Core_Model_Translate
+     * @return \Magento\Core\Model\Translate
      */
     public function getTranslator()
     {
@@ -104,7 +106,7 @@ class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterf
     }
 
     /**
-     * @return Magento_Core_Model_ModuleManager
+     * @return \Magento\Core\Model\ModuleManager
      */
     public function getModuleManager()
     {
@@ -112,7 +114,7 @@ class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterf
     }
 
     /**
-     * @return Magento_Core_Model_App
+     * @return \Magento\Core\Model\App
      */
     public function getApp()
     {
@@ -120,7 +122,7 @@ class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterf
     }
 
     /**
-     * @return Magento_Core_Model_UrlInterface
+     * @return \Magento\Core\Model\UrlInterface
      */
     public function getUrlBuilder()
     {
@@ -128,7 +130,7 @@ class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterf
     }
 
     /**
-     * @return Magento_Core_Controller_Request_HttpProxy
+     * @return \Magento\Core\Controller\Request\HttpProxy
      */
     public function getRequest()
     {
@@ -136,7 +138,7 @@ class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterf
     }
 
     /**
-     * @return Magento_Core_Model_Cache_Config
+     * @return \Magento\Core\Model\Cache\Config
      */
     public function getCacheConfig()
     {
@@ -144,7 +146,7 @@ class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterf
     }
 
     /**
-     * @return Magento_Core_Model_EncryptionFactory
+     * @return \Magento\Core\Model\EncryptionFactory
      */
     public function getEncryptorFactory()
     {
@@ -152,7 +154,7 @@ class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterf
     }
 
     /**
-     * @return Magento_Core_Model_Event_Manager
+     * @return \Magento\Core\Model\Event\Manager
      */
     public function getEventManager()
     {
@@ -160,7 +162,7 @@ class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterf
     }
 
     /**
-     * @return Magento_Core_Model_Fieldset_Config
+     * @return \Magento\Core\Model\Fieldset\Config
      */
     public function getFieldsetConfig()
     {
@@ -168,7 +170,7 @@ class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterf
     }
     
     /**
-     * @return Magento_Core_Model_Logger
+     * @return \Magento\Core\Model\Logger
      */
     public function getLogger()
     {

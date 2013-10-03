@@ -8,7 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Magento_Widget_SkinFilesTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Magento\Widget;
+
+class SkinFilesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider widgetPlaceholderImagesDataProvider
@@ -16,8 +18,8 @@ class Magento_Test_Integrity_Magento_Widget_SkinFilesTest extends PHPUnit_Framew
     public function testWidgetPlaceholderImages($skinImage)
     {
         $this->assertFileExists(
-            Magento_TestFramework_Helper_Bootstrap::getObjectmanager()
-                ->get('Magento_Core_Model_View_FileSystem')->getViewFile(
+            \Magento\TestFramework\Helper\Bootstrap::getObjectmanager()
+                ->get('Magento\Core\Model\View\FileSystem')->getViewFile(
                     $skinImage,
                     array('area' => 'adminhtml')
                 )
@@ -30,13 +32,13 @@ class Magento_Test_Integrity_Magento_Widget_SkinFilesTest extends PHPUnit_Framew
     public function widgetPlaceholderImagesDataProvider()
     {
         $result = array();
-        /** @var $model Magento_Widget_Model_Widget */
-        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Widget_Model_Widget');
+        /** @var $model \Magento\Widget\Model\Widget */
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Widget\Model\Widget');
         foreach ($model->getWidgetsArray() as $row) {
-            /** @var $instance Magento_Widget_Model_Widget_Instance */
-            $instance = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Widget_Model_Widget_Instance');
+            /** @var $instance \Magento\Widget\Model\Widget\Instance */
+            $instance = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Widget\Model\Widget\Instance');
             $config = $instance->setType($row['type'])->getWidgetConfigAsArray();
             if (isset($config['placeholder_image'])) {
                 $result[] = array((string)$config['placeholder_image']);

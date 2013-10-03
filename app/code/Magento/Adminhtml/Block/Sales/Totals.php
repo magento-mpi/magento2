@@ -8,18 +8,20 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Block_Sales_Totals extends Magento_Sales_Block_Order_Totals
+namespace Magento\Adminhtml\Block\Sales;
+
+class Totals extends \Magento\Sales\Block\Order\Totals
 {
     /**
      * Format total value based on order currency
      *
-     * @param   Magento_Object $total
+     * @param   \Magento\Object $total
      * @return  string
      */
     public function formatValue($total)
     {
         if (!$total->getIsFormated()) {
-            return $this->helper('Magento_Adminhtml_Helper_Sales')->displayPrices(
+            return $this->helper('Magento\Adminhtml\Helper\Sales')->displayPrices(
                 $this->getOrder(),
                 $total->getBaseValue(),
                 $total->getValue()
@@ -31,12 +33,12 @@ class Magento_Adminhtml_Block_Sales_Totals extends Magento_Sales_Block_Order_Tot
     /**
      * Initialize order totals array
      *
-     * @return Magento_Sales_Block_Order_Totals
+     * @return \Magento\Sales\Block\Order\Totals
      */
     protected function _initTotals()
     {
         $this->_totals = array();
-        $this->_totals['subtotal'] = new Magento_Object(array(
+        $this->_totals['subtotal'] = new \Magento\Object(array(
             'code'      => 'subtotal',
             'value'     => $this->getSource()->getSubtotal(),
             'base_value'=> $this->getSource()->getBaseSubtotal(),
@@ -48,7 +50,7 @@ class Magento_Adminhtml_Block_Sales_Totals extends Magento_Sales_Block_Order_Tot
          */
         if (!$this->getSource()->getIsVirtual() && ((float) $this->getSource()->getShippingAmount() || $this->getSource()->getShippingDescription()))
         {
-            $this->_totals['shipping'] = new Magento_Object(array(
+            $this->_totals['shipping'] = new \Magento\Object(array(
                 'code'      => 'shipping',
                 'value'     => $this->getSource()->getShippingAmount(),
                 'base_value'=> $this->getSource()->getBaseShippingAmount(),
@@ -65,7 +67,7 @@ class Magento_Adminhtml_Block_Sales_Totals extends Magento_Sales_Block_Order_Tot
             } else {
                 $discountLabel = __('Discount');
             }
-            $this->_totals['discount'] = new Magento_Object(array(
+            $this->_totals['discount'] = new \Magento\Object(array(
                 'code'      => 'discount',
                 'value'     => $this->getSource()->getDiscountAmount(),
                 'base_value'=> $this->getSource()->getBaseDiscountAmount(),
@@ -73,7 +75,7 @@ class Magento_Adminhtml_Block_Sales_Totals extends Magento_Sales_Block_Order_Tot
             ));
         }
 
-        $this->_totals['grand_total'] = new Magento_Object(array(
+        $this->_totals['grand_total'] = new \Magento\Object(array(
             'code'      => 'grand_total',
             'strong'    => true,
             'value'     => $this->getSource()->getGrandTotal(),

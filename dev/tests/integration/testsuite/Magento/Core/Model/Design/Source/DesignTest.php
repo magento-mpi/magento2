@@ -9,17 +9,19 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Design_Source_DesignTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Design\Source;
+
+class DesignTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetAllOptions()
     {
-        /** @var $model Magento_Core_Model_Design_Source_Design */
-        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Design_Source_Design');
+        /** @var $model \Magento\Core\Model\Design\Source\Design */
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Design\Source\Design');
 
-        /** @var $expectedCollection Magento_Core_Model_Theme_Collection */
-        $expectedCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Resource_Theme_Collection');
+        /** @var $expectedCollection \Magento\Core\Model\Theme\Collection */
+        $expectedCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Resource\Theme\Collection');
         $expectedCollection->addFilter('area', 'frontend');
 
         $expectedItemsCount = count($expectedCollection);

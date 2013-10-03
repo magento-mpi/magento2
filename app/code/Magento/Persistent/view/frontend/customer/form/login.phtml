@@ -14,7 +14,7 @@
  *
  * @see app/code/Magento/Customer/view/frontend/form/login.phtml
  */
-/** @var $this Magento_Customer_Block_Form_Login */
+/** @var $this \Magento\Customer\Block\Form\Login */
 ?>
 <div class="account-login">
     <div class="page-title">
@@ -67,7 +67,7 @@
                 </div>
             </div>
         </div>
-        <?php if ($this->helper('Magento_Checkout_Helper_Data')->isContextCheckout()): ?>
+        <?php if ($this->helper('Magento\Checkout\Helper\Data')->isContextCheckout()): ?>
             <input name="context" type="hidden" value="checkout" />
         <?php endif; ?>
     </form>
@@ -80,7 +80,7 @@
                 "<?php echo $this->getViewFileUrl('mage/validation/validation.js') ?>",
                 function() {
                     $('#login-form').validation().find('div.new-users button')
-                        .on('click', function() {window.location='<?php echo $this->helper('Magento_Persistent_Helper_Data')->getCreateAccountUrl($this->getCreateAccountUrl()) ?>';});
+                        .on('click', function() {window.location='<?php echo $this->helper('Magento\Persistent\Helper\Data')->getCreateAccountUrl($this->getCreateAccountUrl()) ?>';});
                 });
         })(jQuery);
     </script>

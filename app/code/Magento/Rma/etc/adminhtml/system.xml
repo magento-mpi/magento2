@@ -16,15 +16,15 @@
                 <label>RMA Settings</label>
                 <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enable RMA on Frontend</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="enabled_on_product" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enable RMA on Product Level</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="use_store_address" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Use Store Address</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="store_name" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Contact Name</label>
@@ -65,7 +65,7 @@
                 <field id="country_id" translate="label" type="select" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Country</label>
                     <frontend_class>countries</frontend_class>
-                    <source_model>Magento_Directory_Model_Config_Source_Country</source_model>
+                    <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
                     <depends>
                         <field id="use_store_address">0</field>
                     </depends>
@@ -77,19 +77,19 @@
                 <label>RMA</label>
                 <field id="enabled" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enabled</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="identity" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>RMA Email Sender</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Email_Identity</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Email\Identity</source_model>
                 </field>
                 <field id="template" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>RMA Email Template</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Email_Template</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Email\Template</source_model>
                 </field>
                 <field id="guest_template" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>RMA Email Template for Guest</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Email_Template</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Email\Template</source_model>
                 </field>
                 <field id="copy_to" translate="label comment" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Send RMA Email Copy To</label>
@@ -97,26 +97,26 @@
                 </field>
                 <field id="copy_method" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Send RMA Email Copy Method</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Email_Method</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Email\Method</source_model>
                 </field>
             </group>
             <group id="magento_rma_auth" translate="label" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>RMA Authorization</label>
                 <field id="enabled" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enabled</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="identity" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>RMA Authorization Email Sender</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Email_Identity</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Email\Identity</source_model>
                 </field>
                 <field id="template" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>RMA Authorization Email Template</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Email_Template</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Email\Template</source_model>
                 </field>
                 <field id="guest_template" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>RMA Authorization Email Template for Guest</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Email_Template</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Email\Template</source_model>
                 </field>
                 <field id="copy_to" translate="label comment" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Send RMA Authorization Email Copy To</label>
@@ -124,26 +124,26 @@
                 </field>
                 <field id="copy_method" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Send RMA Authorization Email Copy Method</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Email_Method</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Email\Method</source_model>
                 </field>
             </group>
             <group id="magento_rma_comment" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>RMA Admin Comments</label>
                 <field id="enabled" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enabled</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="identity" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>RMA Comment Email Sender</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Email_Identity</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Email\Identity</source_model>
                 </field>
                 <field id="template" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>RMA Comment Email Template</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Email_Template</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Email\Template</source_model>
                 </field>
                 <field id="guest_template" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>RMA Comment Email Template for Guest</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Email_Template</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Email\Template</source_model>
                 </field>
                 <field id="copy_to" translate="label comment" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Send RMA Comment Email Copy To</label>
@@ -151,26 +151,26 @@
                 </field>
                 <field id="copy_method" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Send RMA Email Copy Method</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Email_Method</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Email\Method</source_model>
                 </field>
             </group>
             <group id="magento_rma_customer_comment" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>RMA Customer Comments</label>
                 <field id="enabled" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enabled</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="identity" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>RMA Comment Email Sender</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Email_Identity</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Email\Identity</source_model>
                 </field>
                 <field id="recipient" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>RMA Comment Email Recipient</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Email_Identity</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Email\Identity</source_model>
                 </field>
                 <field id="template" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>RMA Comment Email Template</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Email_Template</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Email\Template</source_model>
                 </field>
                 <field id="copy_to" translate="label comment" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Send RMA Comment Email Copy To</label>
@@ -178,7 +178,7 @@
                 </field>
                 <field id="copy_method" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Send RMA Email Copy Method</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Email_Method</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Email\Method</source_model>
                 </field>
             </group>
         </section>
@@ -186,25 +186,25 @@
             <group id="dhl">
                 <field id="active_rma" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enabled for RMA</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                 </field>
             </group>
             <group id="fedex">
                 <field id="active_rma" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enabled for RMA</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                 </field>
             </group>
             <group id="ups">
                 <field id="active_rma" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enabled for RMA</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                 </field>
             </group>
             <group id="usps">
                 <field id="active_rma" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enabled for RMA</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                 </field>
             </group>
         </section>

@@ -9,14 +9,16 @@
  * @license     {license_link}
  */
 
-class Magento_Wishlist_Block_Customer_Wishlist_ItemsTest extends PHPUnit_Framework_TestCase
+namespace Magento\Wishlist\Block\Customer\Wishlist;
+
+class ItemsTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetColumns()
     {
-        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
-        $block = $layout->addBlock('Magento_Wishlist_Block_Customer_Wishlist_Items', 'test');
-        $child = $this->getMock('Magento_Core_Block_Text', array('isEnabled'),
-            array(Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Block_Context')));
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
+        $block = $layout->addBlock('Magento\Wishlist\Block\Customer\Wishlist\Items', 'test');
+        $child = $this->getMock('Magento\Core\Block\Text', array('isEnabled'),
+            array(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Block\Context')));
         $child->expects($this->any())
             ->method('isEnabled')
             ->will($this->returnValue(true));

@@ -16,28 +16,30 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Resource_Url_Rewrite_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Core\Model\Resource\Url\Rewrite;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
         $this->_storeManager = $storeManager;
@@ -49,7 +51,7 @@ class Magento_Core_Model_Resource_Url_Rewrite_Collection extends Magento_Core_Mo
      */
     protected function _construct()
     {
-        $this->_init('Magento_Core_Model_Url_Rewrite', 'Magento_Core_Model_Resource_Url_Rewrite');
+        $this->_init('Magento\Core\Model\Url\Rewrite', 'Magento\Core\Model\Resource\Url\Rewrite');
     }
 
     /**
@@ -57,7 +59,7 @@ class Magento_Core_Model_Resource_Url_Rewrite_Collection extends Magento_Core_Mo
      *
      * @param mixed $store
      * @param bool $withAdmin
-     * @return Magento_Core_Model_Resource_Url_Rewrite_Collection
+     * @return \Magento\Core\Model\Resource\Url\Rewrite\Collection
      */
     public function addStoreFilter($store, $withAdmin = true)
     {
@@ -77,7 +79,7 @@ class Magento_Core_Model_Resource_Url_Rewrite_Collection extends Magento_Core_Mo
      *  Add filter by catalog product Id
      *
      * @param int $productId
-     * @return Magento_Core_Model_Resource_Url_Rewrite_Collection
+     * @return \Magento\Core\Model\Resource\Url\Rewrite\Collection
      */
     public function filterAllByProductId($productId)
     {
@@ -91,7 +93,7 @@ class Magento_Core_Model_Resource_Url_Rewrite_Collection extends Magento_Core_Mo
     /**
      * Add filter by all catalog category
      *
-     * @return Magento_Core_Model_Resource_Url_Rewrite_Collection
+     * @return \Magento\Core\Model\Resource\Url\Rewrite\Collection
      */
     public function filterAllByCategory()
     {

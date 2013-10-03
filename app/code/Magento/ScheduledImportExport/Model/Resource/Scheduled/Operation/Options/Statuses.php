@@ -8,18 +8,20 @@
  * @license     {license_link}
  */
 
-class Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation_Options_Statuses
-    implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Options;
+
+class Statuses
+    implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @var Magento_ScheduledImportExport_Model_Scheduled_Operation_Data
+     * @var \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data
      */
     protected $_modelData;
 
     /**
-     * @param Magento_ScheduledImportExport_Model_Scheduled_Operation_Data $model
+     * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data $model
      */
-    public function __construct(Magento_ScheduledImportExport_Model_Scheduled_Operation_Data $model)
+    public function __construct(\Magento\ScheduledImportExport\Model\Scheduled\Operation\Data $model)
     {
         $this->_modelData = $model;
     }

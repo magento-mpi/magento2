@@ -9,7 +9,9 @@
 /**
  * OAuth Service Helper
  */
-class Magento_Oauth_Helper_Service extends Magento_Core_Helper_Abstract
+namespace Magento\Oauth\Helper;
+
+class Service extends \Magento\Core\Helper\AbstractHelper
 {
     /**#@+
      * Cleanup xpath config settings
@@ -48,22 +50,22 @@ class Magento_Oauth_Helper_Service extends Magento_Core_Helper_Abstract
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
-    /** @var Magento_Core_Model_Store_Config */
+    /** @var \Magento\Core\Model\Store\Config */
     protected $_storeConfig;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Store_Config $storeConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Store\Config $storeConfig
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $storeConfig
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Store\Config $storeConfig
     ) {
         parent::__construct($context);
         $this->_coreData = $coreData;
@@ -87,7 +89,7 @@ class Magento_Oauth_Helper_Service extends Magento_Core_Helper_Abstract
             // fallback to mt_rand() if openssl is not installed
             $randomString = $this->_coreData->getRandomString(
                 $length,
-                Magento_Core_Helper_Data::CHARS_DIGITS . Magento_Core_Helper_Data::CHARS_LOWERS
+                \Magento\Core\Helper\Data::CHARS_DIGITS . \Magento\Core\Helper\Data::CHARS_LOWERS
             );
         }
 
@@ -101,7 +103,7 @@ class Magento_Oauth_Helper_Service extends Magento_Core_Helper_Abstract
      */
     public function generateToken()
     {
-        return $this->_generateRandomString(Magento_Oauth_Model_Token::LENGTH_TOKEN);
+        return $this->_generateRandomString(\Magento\Oauth\Model\Token::LENGTH_TOKEN);
     }
 
     /**
@@ -111,7 +113,7 @@ class Magento_Oauth_Helper_Service extends Magento_Core_Helper_Abstract
      */
     public function generateTokenSecret()
     {
-        return $this->_generateRandomString(Magento_Oauth_Model_Token::LENGTH_SECRET);
+        return $this->_generateRandomString(\Magento\Oauth\Model\Token::LENGTH_SECRET);
     }
 
     /**
@@ -121,7 +123,7 @@ class Magento_Oauth_Helper_Service extends Magento_Core_Helper_Abstract
      */
     public function generateVerifier()
     {
-        return $this->_generateRandomString(Magento_Oauth_Model_Token::LENGTH_VERIFIER);
+        return $this->_generateRandomString(\Magento\Oauth\Model\Token::LENGTH_VERIFIER);
     }
 
     /**
@@ -131,7 +133,7 @@ class Magento_Oauth_Helper_Service extends Magento_Core_Helper_Abstract
      */
     public function generateConsumerKey()
     {
-        return $this->_generateRandomString(Magento_Oauth_Model_Consumer::KEY_LENGTH);
+        return $this->_generateRandomString(\Magento\Oauth\Model\Consumer::KEY_LENGTH);
     }
 
     /**
@@ -141,7 +143,7 @@ class Magento_Oauth_Helper_Service extends Magento_Core_Helper_Abstract
      */
     public function generateConsumerSecret()
     {
-        return $this->_generateRandomString(Magento_Oauth_Model_Consumer::SECRET_LENGTH);
+        return $this->_generateRandomString(\Magento\Oauth\Model\Consumer::SECRET_LENGTH);
     }
 
     /**

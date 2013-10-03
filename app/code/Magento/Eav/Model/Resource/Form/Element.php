@@ -16,7 +16,9 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Resource_Form_Element extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Eav\Model\Resource\Form;
+
+class Element extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize connection and define main table
@@ -35,8 +37,8 @@ class Magento_Eav_Model_Resource_Form_Element extends Magento_Core_Model_Resourc
      *
      * @param string $field
      * @param mixed $value
-     * @param Magento_Eav_Model_Form_Element $object
-     * @return Magento_DB_Select
+     * @param \Magento\Eav\Model\Form\Element $object
+     * @return \Magento\DB\Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {

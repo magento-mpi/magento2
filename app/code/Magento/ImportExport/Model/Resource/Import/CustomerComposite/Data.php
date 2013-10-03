@@ -15,15 +15,17 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ImportExport_Model_Resource_Import_CustomerComposite_Data
-    extends Magento_ImportExport_Model_Resource_Import_Data
+namespace Magento\ImportExport\Model\Resource\Import\CustomerComposite;
+
+class Data
+    extends \Magento\ImportExport\Model\Resource\Import\Data
 {
     /**
      * Entity type
      *
      * @var string
      */
-    protected $_entityType = Magento_ImportExport_Model_Import_Entity_CustomerComposite::COMPONENT_ENTITY_CUSTOMER;
+    protected $_entityType = \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COMPONENT_ENTITY_CUSTOMER;
 
     /**
      * Customer attributes
@@ -35,13 +37,13 @@ class Magento_ImportExport_Model_Resource_Import_CustomerComposite_Data
     /**
      * Class constructor
      *
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Helper_Data $coreHelper
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Helper\Data $coreHelper
      * @param array $arguments
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Helper_Data $coreHelper,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Helper\Data $coreHelper,
         array $arguments = array()
     ) {
         parent::__construct($resource, $coreHelper, $arguments);
@@ -85,9 +87,9 @@ class Magento_ImportExport_Model_Resource_Import_CustomerComposite_Data
      */
     protected function _prepareRow(array $rowData)
     {
-        $entityCustomer = Magento_ImportExport_Model_Import_Entity_CustomerComposite::COMPONENT_ENTITY_CUSTOMER;
+        $entityCustomer = \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COMPONENT_ENTITY_CUSTOMER;
         if ($this->_entityType == $entityCustomer) {
-            if ($rowData['_scope'] == Magento_ImportExport_Model_Import_Entity_CustomerComposite::SCOPE_DEFAULT) {
+            if ($rowData['_scope'] == \Magento\ImportExport\Model\Import\Entity\CustomerComposite::SCOPE_DEFAULT) {
                 return $rowData;
             } else {
                 return null;
@@ -106,10 +108,10 @@ class Magento_ImportExport_Model_Resource_Import_CustomerComposite_Data
     protected function _prepareAddressRowData(array $rowData)
     {
         $excludedAttributes = array(
-            Magento_ImportExport_Model_Import_Entity_CustomerComposite::COLUMN_DEFAULT_BILLING,
-            Magento_ImportExport_Model_Import_Entity_CustomerComposite::COLUMN_DEFAULT_SHIPPING
+            \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COLUMN_DEFAULT_BILLING,
+            \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COLUMN_DEFAULT_SHIPPING
         );
-        $prefix = Magento_ImportExport_Model_Import_Entity_CustomerComposite::COLUMN_ADDRESS_PREFIX;
+        $prefix = \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COLUMN_ADDRESS_PREFIX;
 
         $result = array();
         foreach ($rowData as $key => $value) {

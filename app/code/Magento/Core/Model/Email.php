@@ -20,7 +20,9 @@
  * - module (for template)
  *
  */
-class Magento_Core_Model_Email extends Magento_Object
+namespace Magento\Core\Model;
+
+class Email extends \Magento\Object
 {
     protected $_tplVars = array();
     protected $_block;
@@ -28,25 +30,25 @@ class Magento_Core_Model_Email extends Magento_Object
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
      * Layout factory
      *
-     * @var Magento_Core_Model_LayoutFactory
+     * @var \Magento\Core\Model\LayoutFactory
      */
     protected $_layoutFactory;
 
     /**
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_LayoutFactory $layoutFactory
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\LayoutFactory $layoutFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_LayoutFactory $layoutFactory,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\LayoutFactory $layoutFactory,
         array $data = array()
     ) {
         $this->_layoutFactory = $layoutFactory;
@@ -80,8 +82,8 @@ class Magento_Core_Model_Email extends Magento_Object
     {
         $body = $this->getData('body');
         if (empty($body) && $this->getTemplate()) {
-            $this->_block = $this->_layoutFactory->create()->createBlock('Magento_Core_Block_Template', 'email')
-                ->setArea(Magento_Core_Model_App_Area::AREA_FRONTEND)
+            $this->_block = $this->_layoutFactory->create()->createBlock('Magento\Core\Block\Template', 'email')
+                ->setArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)
                 ->setTemplate($this->getTemplate());
             foreach ($this->getTemplateVars() as $var=>$value) {
                 $this->_block->assign($var, $value);
@@ -109,7 +111,7 @@ class Magento_Core_Model_Email extends Magento_Object
             return $this;
         }
 
-        $mail = new Zend_Mail();
+        $mail = new \Zend_Mail();
 
         if (strtolower($this->getType()) == 'html') {
             $mail->setBodyHtml($this->getBody());

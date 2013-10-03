@@ -17,43 +17,37 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Catalog_Model_Product_Attribute_Backend_Startdate extends Magento_Eav_Model_Entity_Attribute_Backend_Datetime
-{
-    /**
-     * Locale model
-     *
-     * @var Magento_Core_Model_LocaleInterface
-     */
-    protected $_locale;
+namespace Magento\Catalog\Model\Product\Attribute\Backend;
 
+class Startdate extends \Magento\Eav\Model\Entity\Attribute\Backend\Datetime
+{
     /**
      * Date model
      *
-     * @var Magento_Core_Model_Date
+     * @var \Magento\Core\Model\Date
      */
     protected $_date;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Date $date
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\Logger $logger
      */
     public function __construct(
-        Magento_Core_Model_Date $date,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Core_Model_Logger $logger
+        \Magento\Core\Model\Date $date,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\Logger $logger
     ) {
         $this->_date = $date;
-        $this->_locale = $locale;
-        parent::__construct($logger);
+        parent::__construct($logger, $locale);
     }
 
     /**
      * Get attribute value for save.
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return string|bool
      */
     protected function _getValueForSave($object)
@@ -74,8 +68,8 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Startdate extends Magento_
     * Before save hook.
     * Prepare attribute value for save
     *
-    * @param Magento_Object $object
-    * @return Magento_Catalog_Model_Product_Attribute_Backend_Startdate
+    * @param \Magento\Object $object
+    * @return \Magento\Catalog\Model\Product\Attribute\Backend\Startdate
     */
     public function beforeSave($object)
     {
@@ -93,8 +87,8 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Startdate extends Magento_
     * Product from date attribute validate function.
     * In case invalid data throws exception.
     *
-    * @param Magento_Object $object
-    * @throws Magento_Eav_Model_Entity_Attribute_Exception
+    * @param \Magento\Object $object
+    * @throws \Magento\Eav\Model\Entity\Attribute\Exception
     * @return bool
     */
     public function validate($object)
@@ -113,7 +107,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Startdate extends Magento_
 
             if ($value > $maxValue) {
                 $message = __('The From Date value should be less than or equal to the To Date value.');
-                $eavExc  = new Magento_Eav_Model_Entity_Attribute_Exception($message);
+                $eavExc  = new \Magento\Eav\Model\Entity\Attribute\Exception($message);
                 $eavExc->setAttributeCode($attr->getName());
                 throw $eavExc;
             }

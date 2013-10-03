@@ -15,21 +15,23 @@
  * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_MultipleWishlist_Model_Resource_Item_Collection_Updater
-    implements Magento_Core_Model_Layout_Argument_UpdaterInterface
+namespace Magento\MultipleWishlist\Model\Resource\Item\Collection;
+
+class Updater
+    implements \Magento\Core\Model\Layout\Argument\UpdaterInterface
 {
     /**
      * Wishlist data
      *
-     * @var Magento_Wishlist_Helper_Data
+     * @var \Magento\Wishlist\Helper\Data
      */
     protected $_wishlistData = null;
 
     /**
-     * @param Magento_Wishlist_Helper_Data $wishlistData
+     * @param \Magento\Wishlist\Helper\Data $wishlistData
      */
     public function __construct(
-        Magento_Wishlist_Helper_Data $wishlistData
+        \Magento\Wishlist\Helper\Data $wishlistData
     ) {
         $this->_wishlistData = $wishlistData;
     }
@@ -37,7 +39,7 @@ class Magento_MultipleWishlist_Model_Resource_Item_Collection_Updater
     /**
      * Add filtration by customer id
      *
-     * @param Magento_Data_Collection_Db $argument
+     * @param \Magento\Data\Collection\Db $argument
      * @return mixed
      */
     public function update($argument)

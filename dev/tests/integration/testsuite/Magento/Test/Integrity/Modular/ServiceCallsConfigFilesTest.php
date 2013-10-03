@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Test_Integrity_Modular_ServiceCallsConfigFilesTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Modular;
+
+class ServiceCallsConfigFilesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var string
@@ -16,21 +18,21 @@ class Magento_Test_Integrity_Modular_ServiceCallsConfigFilesTest extends PHPUnit
     protected $_schemaFile;
 
     /**
-     * @var  Magento_Core_Model_DataService_Config_Reader
+     * @var  \Magento\Core\Model\DataService\Config\Reader
      */
     protected $_reader;
 
     /**
-     * @var Magento_TestFramework_ObjectManager
+     * @var \Magento\TestFramework\ObjectManager
      */
     protected $_objectManager;
 
     protected function setUp()
     {
-        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $serviceCallsFiles = $this->getServiceCallsConfigFiles();
         if (!empty($serviceCallsFiles)) {
-            $this->_reader = $this->_objectManager->create('Magento_Core_Model_DataService_Config_Reader', array(
+            $this->_reader = $this->_objectManager->create('Magento\Core\Model\DataService\Config\Reader', array(
                 'configFiles' => $serviceCallsFiles));
             $this->_schemaFile = $this->_reader->getSchemaFile();
         }
@@ -38,13 +40,13 @@ class Magento_Test_Integrity_Modular_ServiceCallsConfigFilesTest extends PHPUnit
 
     protected function tearDown()
     {
-        $this->_objectManager->removeSharedInstance('Magento_Core_Model_DataService_Config_Reader');
+        $this->_objectManager->removeSharedInstance('Magento\Core\Model\DataService\Config\Reader');
     }
 
     public function getServiceCallsConfigFiles()
     {
         return glob(
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')->getDir('app')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')->getDir('app')
                 . '/*/*/*/etc/service_calls.xml'
         );
     }
@@ -71,7 +73,7 @@ class Magento_Test_Integrity_Modular_ServiceCallsConfigFilesTest extends PHPUnit
         if ($skip) {
             $this->markTestSkipped('There is no service_calls.xml files in the system');
         }
-        $domConfig = new Magento_Config_Dom(file_get_contents($file));
+        $domConfig = new \Magento\Config\Dom(file_get_contents($file));
         $result = $domConfig->validate($this->_schemaFile, $errors);
         $message = "Invalid XML-file: {$file}\n";
         foreach ($errors as $error) {
@@ -90,7 +92,7 @@ class Magento_Test_Integrity_Modular_ServiceCallsConfigFilesTest extends PHPUnit
 
         try {
             $this->_reader->validate();
-        } catch (Magento_Exception $e) {
+        } catch (\Magento\Exception $e) {
             $this->fail($e->getMessage());
         }
     }

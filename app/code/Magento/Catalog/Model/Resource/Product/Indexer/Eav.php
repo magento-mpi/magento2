@@ -16,7 +16,9 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Product_Indexer_Eav extends Magento_Catalog_Model_Resource_Product_Indexer_Abstract
+namespace Magento\Catalog\Model\Resource\Product\Indexer;
+
+class Eav extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractIndexer
 {
     /**
      * EAV Indexers by type
@@ -28,30 +30,30 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav extends Magento_Catalog
     /**
      * Eav source factory
      *
-     * @var Magento_Catalog_Model_Resource_Product_Indexer_Eav_SourceFactory
+     * @var \Magento\Catalog\Model\Resource\Product\Indexer\Eav\SourceFactory
      */
     protected $_eavSourceFactory;
 
     /**
      * Eav decimal factory
      *
-     * @var Magento_Catalog_Model_Resource_Product_Indexer_Eav_DecimalFactory
+     * @var \Magento\Catalog\Model\Resource\Product\Indexer\Eav\DecimalFactory
      */
     protected $_eavDecimalFactory;
 
     /**
      * Class constructor
      *
-     * @param Magento_Catalog_Model_Resource_Product_Indexer_Eav_DecimalFactory $eavDecimalFactory
-     * @param Magento_Catalog_Model_Resource_Product_Indexer_Eav_SourceFactory $eavSourceFactory
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Catalog\Model\Resource\Product\Indexer\Eav\DecimalFactory $eavDecimalFactory
+     * @param \Magento\Catalog\Model\Resource\Product\Indexer\Eav\SourceFactory $eavSourceFactory
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
-        Magento_Catalog_Model_Resource_Product_Indexer_Eav_DecimalFactory $eavDecimalFactory,
-        Magento_Catalog_Model_Resource_Product_Indexer_Eav_SourceFactory $eavSourceFactory,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Core_Model_Resource $resource
+        \Magento\Catalog\Model\Resource\Product\Indexer\Eav\DecimalFactory $eavDecimalFactory,
+        \Magento\Catalog\Model\Resource\Product\Indexer\Eav\SourceFactory $eavSourceFactory,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Model\Resource $resource
     ) {
         $this->_eavDecimalFactory = $eavDecimalFactory;
         $this->_eavSourceFactory = $eavSourceFactory;
@@ -88,14 +90,14 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav extends Magento_Catalog
      * Retrieve indexer instance by type
      *
      * @param string $type
-     * @return Magento_Catalog_Model_Resource_Product_Indexer_Eav_Abstract
-     * @throws Magento_Core_Exception
+     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Eav\AbstractEav
+     * @throws \Magento\Core\Exception
      */
     public function getIndexer($type)
     {
         $indexers = $this->getIndexers();
         if (!isset($indexers[$type])) {
-            throw new Magento_Core_Exception(__('We found an unknown EAV indexer type "%1".', $type));
+            throw new \Magento\Core\Exception(__('We found an unknown EAV indexer type "%1".', $type));
         }
         return $indexers[$type];
     }
@@ -105,10 +107,10 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav extends Magento_Catalog
      * Method is responsible for index support
      * when product was saved and assigned categories was changed.
      *
-     * @param Magento_Index_Model_Event $event
-     * @return Magento_Catalog_Model_Resource_Product_Indexer_Eav
+     * @param \Magento\Index\Model\Event $event
+     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Eav
      */
-    public function catalogProductSave(Magento_Index_Model_Event $event)
+    public function catalogProductSave(\Magento\Index\Model\Event $event)
     {
         $productId = $event->getEntityPk();
         $data = $event->getNewData();
@@ -121,7 +123,7 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav extends Magento_Catalog
         }
 
         foreach ($this->getIndexers() as $indexer) {
-            /** @var $indexer Magento_Catalog_Model_Resource_Product_Indexer_Eav_Abstract */
+            /** @var $indexer \Magento\Catalog\Model\Resource\Product\Indexer\Eav\AbstractEav */
             $indexer->reindexEntities($productId);
         }
 
@@ -131,10 +133,10 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav extends Magento_Catalog
     /**
      * Process Product Delete
      *
-     * @param Magento_Index_Model_Event $event
-     * @return Magento_Catalog_Model_Resource_Product_Indexer_Eav
+     * @param \Magento\Index\Model\Event $event
+     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Eav
      */
-    public function catalogProductDelete(Magento_Index_Model_Event $event)
+    public function catalogProductDelete(\Magento\Index\Model\Event $event)
     {
         $data = $event->getNewData();
         if (empty($data['reindex_eav_parent_ids'])) {
@@ -142,7 +144,7 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav extends Magento_Catalog
         }
 
         foreach ($this->getIndexers() as $indexer) {
-            /** @var $indexer Magento_Catalog_Model_Resource_Product_Indexer_Eav_Abstract */
+            /** @var $indexer \Magento\Catalog\Model\Resource\Product\Indexer\Eav\AbstractEav */
             $indexer->reindexEntities($data['reindex_eav_parent_ids']);
         }
 
@@ -152,10 +154,10 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav extends Magento_Catalog
     /**
      * Process Product Mass Update
      *
-     * @param Magento_Index_Model_Event $event
-     * @return Magento_Catalog_Model_Resource_Product_Indexer_Eav
+     * @param \Magento\Index\Model\Event $event
+     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Eav
      */
-    public function catalogProductMassAction(Magento_Index_Model_Event $event)
+    public function catalogProductMassAction(\Magento\Index\Model\Event $event)
     {
         $data = $event->getNewData();
         if (empty($data['reindex_eav_product_ids'])) {
@@ -163,7 +165,7 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav extends Magento_Catalog
         }
 
         foreach ($this->getIndexers() as $indexer) {
-            /** @var $indexer Magento_Catalog_Model_Resource_Product_Indexer_Eav_Abstract */
+            /** @var $indexer \Magento\Catalog\Model\Resource\Product\Indexer\Eav\AbstractEav */
             $indexer->reindexEntities($data['reindex_eav_product_ids']);
         }
 
@@ -173,10 +175,10 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav extends Magento_Catalog
     /**
      * Process Catalog Eav Attribute Save
      *
-     * @param Magento_Index_Model_Event $event
-     * @return Magento_Catalog_Model_Resource_Product_Indexer_Eav
+     * @param \Magento\Index\Model\Event $event
+     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Eav
      */
-    public function catalogEavAttributeSave(Magento_Index_Model_Event $event)
+    public function catalogEavAttributeSave(\Magento\Index\Model\Event $event)
     {
         $data = $event->getNewData();
         if (empty($data['reindex_attribute'])) {
@@ -193,13 +195,13 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav extends Magento_Catalog
     /**
      * Rebuild all index data
      *
-     * @return Magento_Catalog_Model_Resource_Product_Indexer_Eav
+     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Eav
      */
     public function reindexAll()
     {
         $this->useIdxTable(true);
         foreach ($this->getIndexers() as $indexer) {
-            /** @var $indexer Magento_Catalog_Model_Resource_Product_Indexer_Eav_Abstract */
+            /** @var $indexer \Magento\Catalog\Model\Resource\Product\Indexer\Eav\AbstractEav */
             $indexer->reindexAll();
         }
 

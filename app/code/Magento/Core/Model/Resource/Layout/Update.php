@@ -11,20 +11,22 @@
 /**
  * Layout update resource model
  */
-class Magento_Core_Model_Resource_Layout_Update extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Core\Model\Resource\Layout;
+
+class Update extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
-     * @var Magento_Cache_FrontendInterface
+     * @var \Magento\Cache\FrontendInterface
      */
     private $_cache;
 
     /**
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Cache_FrontendInterface $cache
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Cache\FrontendInterface $cache
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
-        Magento_Cache_FrontendInterface $cache
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Cache\FrontendInterface $cache
     ) {
         parent::__construct($resource);
         $this->_cache = $cache;
@@ -42,11 +44,11 @@ class Magento_Core_Model_Resource_Layout_Update extends Magento_Core_Model_Resou
      * Retrieve layout updates by handle
      *
      * @param string $handle
-     * @param Magento_Core_Model_Theme $theme
-     * @param Magento_Core_Model_Store $store
+     * @param \Magento\Core\Model\Theme $theme
+     * @param \Magento\Core\Model\Store $store
      * @return string
      */
-    public function fetchUpdatesByHandle($handle, Magento_Core_Model_Theme $theme, Magento_Core_Model_Store $store)
+    public function fetchUpdatesByHandle($handle, \Magento\Core\Model\Theme $theme, \Magento\Core\Model\Store $store)
     {
         $bind = array(
             'layout_update_handle' => $handle,
@@ -66,7 +68,7 @@ class Magento_Core_Model_Resource_Layout_Update extends Magento_Core_Model_Resou
      * Get select to fetch updates by handle
      *
      * @param bool $loadAllUpdates
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     protected function _getFetchUpdatesByHandleSelect($loadAllUpdates = false)
     {
@@ -81,7 +83,7 @@ class Magento_Core_Model_Resource_Layout_Update extends Magento_Core_Model_Resou
             ->where('link.store_id IN (0, :store_id)')
             ->where('link.theme_id = :theme_id')
             ->where('layout_update.handle = :layout_update_handle')
-            ->order('layout_update.sort_order ' . Magento_DB_Select::SQL_ASC);
+            ->order('layout_update.sort_order ' . \Magento\DB\Select::SQL_ASC);
 
         if (!$loadAllUpdates) {
             $select->where('link.is_temporary = 0');
@@ -93,10 +95,10 @@ class Magento_Core_Model_Resource_Layout_Update extends Magento_Core_Model_Resou
     /**
      * Update a "layout update link" if relevant data is provided
      *
-     * @param Magento_Core_Model_Layout_Update|Magento_Core_Model_Abstract $object
-     * @return Magento_Core_Model_Resource_Layout_Update
+     * @param \Magento\Core\Model\Layout\Update|\Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Core\Model\Resource\Layout\Update
      */
-    protected function _afterSave(Magento_Core_Model_Abstract $object)
+    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
         $data = $object->getData();
         if (isset($data['store_id']) && isset($data['theme_id'])) {

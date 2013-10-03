@@ -11,30 +11,32 @@
 /**
  * Catalog Search engine provider
  */
-class Magento_CatalogSearch_Model_Resource_EngineProvider
+namespace Magento\CatalogSearch\Model\Resource;
+
+class EngineProvider
 {
     /**
-     * @var Magento_CatalogSearch_Model_Resource_EngineInterface
+     * @var \Magento\CatalogSearch\Model\Resource\EngineInterface
      */
     protected $_engine;
 
     /**
-     * @var Magento_CatalogSearch_Model_Resource_EngineFactory
+     * @var \Magento\CatalogSearch\Model\Resource\EngineFactory
      */
     protected $_engineFactory;
 
     /**
-     * @var Magento_Core_Model_Store_ConfigInterface
+     * @var \Magento\Core\Model\Store\ConfigInterface
      */
     protected $_storeConfig;
 
     /**
-     * @param Magento_CatalogSearch_Model_Resource_EngineFactory $engineFactory
-     * @param Magento_Core_Model_Store_ConfigInterface $storeConfig
+     * @param \Magento\CatalogSearch\Model\Resource\EngineFactory $engineFactory
+     * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
      */
     public function __construct(
-        Magento_CatalogSearch_Model_Resource_EngineFactory $engineFactory,
-        Magento_Core_Model_Store_ConfigInterface $storeConfig
+        \Magento\CatalogSearch\Model\Resource\EngineFactory $engineFactory,
+        \Magento\Core\Model\Store\ConfigInterface $storeConfig
     ) {
         $this->_engineFactory = $engineFactory;
         $this->_storeConfig = $storeConfig;
@@ -43,7 +45,7 @@ class Magento_CatalogSearch_Model_Resource_EngineProvider
     /**
      * Get engine singleton
      *
-     * @return Magento_CatalogSearch_Model_Resource_EngineInterface
+     * @return \Magento\CatalogSearch\Model\Resource\EngineInterface
      */
     public function get()
     {
@@ -62,7 +64,7 @@ class Magento_CatalogSearch_Model_Resource_EngineProvider
                 }
             }
             if (!$this->_engine) {
-                $this->_engine = $this->_engineFactory->create('Magento_CatalogSearch_Model_Resource_Fulltext_Engine');
+                $this->_engine = $this->_engineFactory->create('Magento\CatalogSearch\Model\Resource\Fulltext\Engine');
             }
         }
 

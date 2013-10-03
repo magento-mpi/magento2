@@ -14,12 +14,14 @@
  * @category   Magento
  * @package    Magento_GiftRegistry
  */
-class Magento_GiftRegistry_Block_Search_Widget_Form
-    extends Magento_GiftRegistry_Block_Search_Quick
-    implements Magento_Widget_Block_Interface
+namespace Magento\GiftRegistry\Block\Search\Widget;
+
+class Form
+    extends \Magento\GiftRegistry\Block\Search\Quick
+    implements \Magento\Widget\Block\BlockInterface
 {
     /**
-     * @var Magento_GiftRegistry_Model_Source_Search
+     * @var \Magento\GiftRegistry\Model\Source\Search
      */
     protected $sourceSearch;
 
@@ -29,21 +31,21 @@ class Magento_GiftRegistry_Block_Search_Widget_Form
     protected $_selectOptions;
 
     /**
-     * @param Magento_GiftRegistry_Helper_Data $giftRegistryData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_GiftRegistry_Model_TypeFactory $typeFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_GiftRegistry_Model_Source_Search $sourceSearch
+     * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\GiftRegistry\Model\TypeFactory $typeFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\GiftRegistry\Model\Source\Search $sourceSearch
      * @param array $data
      */
     public function __construct(
-        Magento_GiftRegistry_Helper_Data $giftRegistryData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_GiftRegistry_Model_TypeFactory $typeFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_GiftRegistry_Model_Source_Search $sourceSearch,
+        \Magento\GiftRegistry\Helper\Data $giftRegistryData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\GiftRegistry\Model\Source\Search $sourceSearch,
         array $data = array()
     ) {
         parent::__construct($giftRegistryData, $coreData, $context, $typeFactory, $storeManager, $data);
@@ -88,7 +90,7 @@ class Magento_GiftRegistry_Block_Search_Widget_Form
      */
     public function useAllForms()
     {
-        $code = Magento_GiftRegistry_Model_Source_Search::SEARCH_ALL_FORM;
+        $code = \Magento\GiftRegistry\Model\Source\Search::SEARCH_ALL_FORM;
         return $this->_checkForm($code);
     }
 
@@ -99,7 +101,7 @@ class Magento_GiftRegistry_Block_Search_Widget_Form
      */
     public function useNameForm()
     {
-        $code = Magento_GiftRegistry_Model_Source_Search::SEARCH_NAME_FORM;
+        $code = \Magento\GiftRegistry\Model\Source\Search::SEARCH_NAME_FORM;
         return $this->useAllForms() || $this->_checkForm($code);
     }
 
@@ -110,7 +112,7 @@ class Magento_GiftRegistry_Block_Search_Widget_Form
      */
     public function useEmailForm()
     {
-        $code = Magento_GiftRegistry_Model_Source_Search::SEARCH_EMAIL_FORM;
+        $code = \Magento\GiftRegistry\Model\Source\Search::SEARCH_EMAIL_FORM;
         return $this->useAllForms() || $this->_checkForm($code);
     }
 
@@ -121,7 +123,7 @@ class Magento_GiftRegistry_Block_Search_Widget_Form
      */
     public function useIdForm()
     {
-        $code = Magento_GiftRegistry_Model_Source_Search::SEARCH_ID_FORM;
+        $code = \Magento\GiftRegistry\Model\Source\Search::SEARCH_ID_FORM;
         return $this->useAllForms() || $this->_checkForm($code);
     }
 
@@ -140,7 +142,7 @@ class Magento_GiftRegistry_Block_Search_Widget_Form
             $this->getSearchFormOptions()
         );
 
-        $select = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
             ->setName('search_by')
             ->setId('search-by')
             ->setOptions($options);
@@ -159,7 +161,7 @@ class Magento_GiftRegistry_Block_Search_Widget_Form
         if (is_null($this->_selectOptions)) {
             $allForms = $this->sourceSearch->getTypes();
             $useForms = $this->_getFormTypes();
-            $codeAll = Magento_GiftRegistry_Model_Source_Search::SEARCH_ALL_FORM;
+            $codeAll = \Magento\GiftRegistry\Model\Source\Search::SEARCH_ALL_FORM;
 
             if (in_array($codeAll, $useForms)) {
                 unset($allForms[$codeAll]);

@@ -11,33 +11,35 @@
 /**
  * Backend system config array field renderer
  */
-class Magento_Backend_Block_System_Config_Form_Field_Regexceptions
-    extends Magento_Backend_Block_System_Config_Form_Field_Array_Abstract
+namespace Magento\Backend\Block\System\Config\Form\Field;
+
+class Regexceptions
+    extends \Magento\Backend\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray
 {
     /**
-     * @var Magento_Data_Form_Element_Factory
+     * @var \Magento\Data\Form\Element\Factory
      */
     protected $_elementFactory;
 
     /**
-     * @var Magento_Core_Model_Theme_LabelFactory
+     * @var \Magento\Core\Model\Theme\LabelFactory
      */
     protected $_labelFactory;
 
     /**
-     * @param Magento_Data_Form_Element_Factory $elementFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_App $application
-     * @param Magento_Core_Model_Theme_LabelFactory $labelFactory
+     * @param \Magento\Data\Form\Element\Factory $elementFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\App $application
+     * @param \Magento\Core\Model\Theme\LabelFactory $labelFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Data_Form_Element_Factory $elementFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_App $application,
-        Magento_Core_Model_Theme_LabelFactory $labelFactory,
+        \Magento\Data\Form\Element\Factory $elementFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\App $application,
+        \Magento\Core\Model\Theme\LabelFactory $labelFactory,
         array $data = array()
     ) {
         $this->_elementFactory = $elementFactory;
@@ -59,7 +61,7 @@ class Magento_Backend_Block_System_Config_Form_Field_Regexceptions
             'style' => 'width:120px',
         ));
         $this->_addAfter = false;
-        $this->_addButtonLabel = __('Add Exception');
+        $this->_addButtonLabel = __('Add \Exception');
         parent::_construct();
     }
 
@@ -72,7 +74,7 @@ class Magento_Backend_Block_System_Config_Form_Field_Regexceptions
     public function renderCellTemplate($columnName)
     {
         if ($columnName == 'value' && isset($this->_columns[$columnName])) {
-            /** @var $label Magento_Core_Model_Theme_Label */
+            /** @var $label \Magento\Core\Model\Theme\Label */
             $label = $this->_labelFactory->create();
             $options = $label->getLabelsCollection(__('-- No Theme --'));
             $element = $this->_elementFactory->create('select');

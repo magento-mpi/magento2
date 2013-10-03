@@ -16,7 +16,9 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Resource_Form_Attribute_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Eav\Model\Resource\Form\Attribute;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Current module pathname
@@ -35,44 +37,44 @@ class Magento_Eav_Model_Resource_Form_Attribute_Collection extends Magento_Core_
     /**
      * Current store instance
      *
-     * @var Magento_Core_Model_Store
+     * @var \Magento\Core\Model\Store
      */
     protected $_store;
 
     /**
      * Eav Entity Type instance
      *
-     * @var Magento_Eav_Model_Entity_Type
+     * @var \Magento\Eav\Model\Entity\Type
      */
     protected $_entityType;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Eav_Model_Config
+     * @var \Magento\Eav\Model\Config
      */
     protected $_eavConfig;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_storeManager = $storeManager;
         $this->_eavConfig = $eavConfig;
@@ -82,15 +84,15 @@ class Magento_Eav_Model_Resource_Form_Attribute_Collection extends Magento_Core_
     /**
      * Resource initialization
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     protected function _construct()
     {
         if (empty($this->_moduleName)) {
-            throw new Magento_Core_Exception(__('Current module pathname is undefined'));
+            throw new \Magento\Core\Exception(__('Current module pathname is undefined'));
         }
         if (empty($this->_entityTypeCode)) {
-            throw new Magento_Core_Exception(__('Current module EAV entity is undefined'));
+            throw new \Magento\Core\Exception(__('Current module EAV entity is undefined'));
         }
     }
 
@@ -110,8 +112,8 @@ class Magento_Eav_Model_Resource_Form_Attribute_Collection extends Magento_Core_
     /**
      * Set current store to collection
      *
-     * @param Magento_Core_Model_Store|string|int $store
-     * @return Magento_Eav_Model_Resource_Form_Attribute_Collection
+     * @param \Magento\Core\Model\Store|string|int $store
+     * @return \Magento\Eav\Model\Resource\Form\Attribute\Collection
      */
     public function setStore($store)
     {
@@ -122,7 +124,7 @@ class Magento_Eav_Model_Resource_Form_Attribute_Collection extends Magento_Core_
     /**
      * Return current store instance
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getStore()
     {
@@ -135,8 +137,8 @@ class Magento_Eav_Model_Resource_Form_Attribute_Collection extends Magento_Core_
     /**
      * Set entity type instance to collection
      *
-     * @param Magento_Eav_Model_Entity_Type|string|int $entityType
-     * @return Magento_Eav_Model_Resource_Form_Attribute_Collection
+     * @param \Magento\Eav\Model\Entity\Type|string|int $entityType
+     * @return \Magento\Eav\Model\Resource\Form\Attribute\Collection
      */
     public function setEntityType($entityType)
     {
@@ -147,7 +149,7 @@ class Magento_Eav_Model_Resource_Form_Attribute_Collection extends Magento_Core_
     /**
      * Return current entity type instance
      *
-     * @return Magento_Eav_Model_Entity_Type
+     * @return \Magento\Eav\Model\Entity\Type
      */
     public function getEntityType()
     {
@@ -161,7 +163,7 @@ class Magento_Eav_Model_Resource_Form_Attribute_Collection extends Magento_Core_
      * Add Form Code filter to collection
      *
      * @param string $code
-     * @return Magento_Eav_Model_Resource_Form_Attribute_Collection
+     * @return \Magento\Eav\Model\Resource\Form\Attribute\Collection
      */
     public function addFormCodeFilter($code)
     {
@@ -172,7 +174,7 @@ class Magento_Eav_Model_Resource_Form_Attribute_Collection extends Magento_Core_
      * Set order by attribute sort order
      *
      * @param string $direction
-     * @return Magento_Eav_Model_Resource_Form_Attribute_Collection
+     * @return \Magento\Eav\Model\Resource\Form\Attribute\Collection
      */
     public function setSortOrder($direction = self::SORT_ORDER_ASC)
     {
@@ -183,7 +185,7 @@ class Magento_Eav_Model_Resource_Form_Attribute_Collection extends Magento_Core_
     /**
      * Add joins to select
      *
-     * @return Magento_Eav_Model_Resource_Form_Attribute_Collection
+     * @return \Magento\Eav\Model\Resource\Form\Attribute\Collection
      */
     protected function _beforeLoad()
     {
@@ -235,12 +237,12 @@ class Magento_Eav_Model_Resource_Form_Attribute_Collection extends Magento_Core_
                     if (isset($eaColumns[$columnName])) {
                         $code = sprintf('scope_%s', $columnName);
                         $expression = $connection->getCheckSql('sa.%s IS NULL', 'ea.%s', 'sa.%s');
-                        $saColumns[$code] = new Zend_Db_Expr(sprintf($expression,
+                        $saColumns[$code] = new \Zend_Db_Expr(sprintf($expression,
                             $columnName, $columnName, $columnName));
                     } elseif (isset($caColumns[$columnName])) {
                         $code = sprintf('scope_%s', $columnName);
                         $expression = $connection->getCheckSql('sa.%s IS NULL', 'ca.%s', 'sa.%s');
-                        $saColumns[$code] = new Zend_Db_Expr(sprintf($expression,
+                        $saColumns[$code] = new \Zend_Db_Expr(sprintf($expression,
                             $columnName, $columnName, $columnName));
                     }
                 }

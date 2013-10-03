@@ -10,19 +10,21 @@
  */
 
 /**
- * Test class for Magento_ScheduledImportExport_Model_Import
+ * Test class for \Magento\ScheduledImportExport\Model\Import
  */
-class Magento_ScheduledImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
+namespace Magento\ScheduledImportExport\Model;
+
+class ImportTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Enterprise data import model
      *
-     * @var Magento_ScheduledImportExport_Model_Import
+     * @var \Magento\ScheduledImportExport\Model\Import
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_importConfigMock;
 
@@ -31,22 +33,22 @@ class Magento_ScheduledImportExport_Model_ImportTest extends PHPUnit_Framework_T
      */
     protected function setUp()
     {
-        $this->_importConfigMock = $this->getMock('Magento_ImportExport_Model_Import_ConfigInterface');
-        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
-        $indexer = $this->getMock('Magento_Index_Model_Indexer', array(), array(), '', false);
-        $this->_model = new Magento_ScheduledImportExport_Model_Import(
+        $this->_importConfigMock = $this->getMock('Magento\ImportExport\Model\Import\ConfigInterface');
+        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $indexer = $this->getMock('Magento\Index\Model\Indexer', array(), array(), '', false);
+        $this->_model = new \Magento\ScheduledImportExport\Model\Import(
             $logger,
-            $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false),
-            $this->getMock('Magento_Core_Model_Log_AdapterFactory', array(), array(), '', false),
-            $this->getMock('Magento_ImportExport_Helper_Data', array(), array(), '', false),
-            $this->getMock('Magento_Core_Model_Config', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\Dir', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\Log\AdapterFactory', array(), array(), '', false),
+            $this->getMock('Magento\ImportExport\Helper\Data', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\Config', array(), array(), '', false),
             $this->_importConfigMock,
-            $this->getMock('Magento_ImportExport_Model_Import_Entity_Factory', array(), array(), '', false),
-            $this->getMock('Magento_ImportExport_Model_Resource_Import_Data', array(), array(), '', false),
-            $this->getMock('Magento_ImportExport_Model_Export_Adapter_CsvFactory', array(), array(), '', false),
+            $this->getMock('Magento\ImportExport\Model\Import\Entity\Factory', array(), array(), '', false),
+            $this->getMock('Magento\ImportExport\Model\Resource\Import\Data', array(), array(), '', false),
+            $this->getMock('Magento\ImportExport\Model\Export\Adapter\CsvFactory', array(), array(), '', false),
             $this->getMock('Zend_File_Transfer_Adapter_HttpFactory', array(), array(), '', false),
-            $this->getMock('Magento_Core_Model_File_UploaderFactory', array(), array(), '', false),
-            $this->getMock('Magento_ImportExport_Model_Source_Import_Behavior_Factory', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\File\UploaderFactory', array(), array(), '', false),
+            $this->getMock('Magento\ImportExport\Model\Source\Import\Behavior\Factory', array(), array(), '', false),
             $indexer
         );
     }
@@ -71,9 +73,9 @@ class Magento_ScheduledImportExport_Model_ImportTest extends PHPUnit_Framework_T
             'start_time'     => '00:00:00',
             'id'             => 1
         );
-        /** @var $operation Magento_ScheduledImportExport_Model_Scheduled_Operation */
+        /** @var $operation \Magento\ScheduledImportExport\Model\Scheduled\Operation */
         $operation = $this->getMock(
-            'Magento_ScheduledImportExport_Model_Scheduled_Operation', null, array(), '', false);
+            'Magento\ScheduledImportExport\Model\Scheduled\Operation', null, array(), '', false);
         $operation->setData($operationData);
         $this->_model->initialize($operation);
 

@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Quote_Address_Item_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Sales\Model\Resource\Quote\Address\Item;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource initialization
@@ -24,13 +26,13 @@ class Magento_Sales_Model_Resource_Quote_Address_Item_Collection extends Magento
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Quote_Address_Item', 'Magento_Sales_Model_Resource_Quote_Address_Item');
+        $this->_init('Magento\Sales\Model\Quote\Address\Item', 'Magento\Sales\Model\Resource\Quote\Address\Item');
     }
 
     /**
      * Set parent items
      *
-     * @return Magento_Sales_Model_Resource_Quote_Address_Item_Collection
+     * @return \Magento\Sales\Model\Resource\Quote\Address\Item\Collection
      */
     protected function _afterLoad()
     {
@@ -51,7 +53,7 @@ class Magento_Sales_Model_Resource_Quote_Address_Item_Collection extends Magento
      * Set address filter
      *
      * @param int $addressId
-     * @return Magento_Sales_Model_Resource_Quote_Address_Item_Collection
+     * @return \Magento\Sales\Model\Resource\Quote\Address\Item\Collection
      */
     public function setAddressFilter($addressId)
     {

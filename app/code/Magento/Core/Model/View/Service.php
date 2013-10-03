@@ -11,7 +11,9 @@
 /**
  * Design service model
  */
-class Magento_Core_Model_View_Service
+namespace Magento\Core\Model\View;
+
+class Service
 {
     /**
      * Scope separator
@@ -19,22 +21,22 @@ class Magento_Core_Model_View_Service
     const SCOPE_SEPARATOR = '::';
 
     /**
-     * @var Magento_Core_Model_App_State
+     * @var \Magento\Core\Model\App\State
      */
     protected $_appState;
 
     /**
-     * @var Magento_Core_Model_View_DesignInterface
+     * @var \Magento\Core\Model\View\DesignInterface
      */
     private $_design;
 
     /**
-     * @var Magento_Core_Model_Theme_FlyweightFactory
+     * @var \Magento\Core\Model\Theme\FlyweightFactory
      */
     protected $_themeFactory;
 
     /**
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_dir;
 
@@ -42,16 +44,16 @@ class Magento_Core_Model_View_Service
      * View files system model
      *
      *
-     * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Core_Model_View_DesignInterface $design
-     * @param Magento_Core_Model_Theme_FlyweightFactory $themeFactory
-     * @param Magento_Core_Model_Dir $dir
+     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\Core\Model\Theme\FlyweightFactory $themeFactory
+     * @param \Magento\Core\Model\Dir $dir
      */
     public function __construct(
-        Magento_Core_Model_App_State $appState,
-        Magento_Core_Model_View_DesignInterface $design,
-        Magento_Core_Model_Theme_FlyweightFactory $themeFactory,
-        Magento_Core_Model_Dir $dir
+        \Magento\Core\Model\App\State $appState,
+        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\Core\Model\Theme\FlyweightFactory $themeFactory,
+        \Magento\Core\Model\Dir $dir
     ) {
         $this->_appState = $appState;
         $this->_design = $design;
@@ -62,25 +64,25 @@ class Magento_Core_Model_View_Service
     /**
      * Identify file scope if it defined in file name and override 'module' parameter in $params array
      *
-     * It accepts $fileId e.g. Magento_Core::prototype/magento.css and splits it to module part and path part.
+     * It accepts $fileId e.g. \Magento\Core::prototype/magento.css and splits it to module part and path part.
      * Then sets module path to $params['module'] and returns path part.
      *
      * @param string $fileId
      * @param array &$params
      * @return string
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     public function extractScope($fileId, array &$params)
     {
         if (preg_match('/\.\//', str_replace('\\', '/', $fileId))) {
-            throw new Magento_Exception("File name '{$fileId}' is forbidden for security reasons.");
+            throw new \Magento\Exception("File name '{$fileId}' is forbidden for security reasons.");
         }
         if (strpos($fileId, self::SCOPE_SEPARATOR) === false) {
             $file = $fileId;
         } else {
             $fileId = explode(self::SCOPE_SEPARATOR, $fileId);
             if (empty($fileId[0])) {
-                throw new Magento_Exception('Scope separator "::" cannot be used without scope identifier.');
+                throw new \Magento\Exception('Scope separator "::" cannot be used without scope identifier.');
             }
             $params['module'] = $fileId[0];
             $file = $fileId[1];
@@ -95,7 +97,7 @@ class Magento_Core_Model_View_Service
      */
     public function isViewFileOperationAllowed()
     {
-        return $this->getAppMode() != Magento_Core_Model_App_State::MODE_PRODUCTION;
+        return $this->getAppMode() != \Magento\Core\Model\App\State::MODE_PRODUCTION;
     }
 
     /**
@@ -115,7 +117,7 @@ class Magento_Core_Model_View_Service
      */
     public function getPublicDir()
     {
-        return $this->_dir->getDir(Magento_Core_Model_Dir::STATIC_VIEW);
+        return $this->_dir->getDir(\Magento\Core\Model\Dir::STATIC_VIEW);
     }
 
     /**

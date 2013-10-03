@@ -15,12 +15,14 @@
  * @package     Magento_Page
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Page_Block_Html_Topmenu extends Magento_Core_Block_Template
+namespace Magento\Page\Block\Html;
+
+class Topmenu extends \Magento\Core\Block\Template
 {
     /**
      * Top menu data tree
      *
-     * @var Magento_Data_Tree_Node
+     * @var \Magento\Data\Tree\Node
      */
     protected $_menu;
 
@@ -29,7 +31,7 @@ class Magento_Page_Block_Html_Topmenu extends Magento_Core_Block_Template
      */
     public function _construct()
     {
-        $this->_menu = new Magento_Data_Tree_Node(array(), 'root', new Magento_Data_Tree());
+        $this->_menu = new \Magento\Data\Tree\Node(array(), 'root', new \Magento\Data\Tree());
 
         // enabling the cache for this topmenu to not expire until changes made in admin area
         // this is to prevent the menu from being rebuild every request and to prevent new categories from showing up
@@ -37,7 +39,7 @@ class Magento_Page_Block_Html_Topmenu extends Magento_Core_Block_Template
         $this->addData(array(
             'cache_lifetime'    => false,
             'cache_tags'        => array(
-                Magento_Core_Model_Store_Group::CACHE_TAG
+                \Magento\Core\Model\Store\Group::CACHE_TAG
             ),
         ));
     }
@@ -60,7 +62,7 @@ class Magento_Page_Block_Html_Topmenu extends Magento_Core_Block_Template
 
         $html = $this->_getHtml($this->_menu, $childrenWrapClass, $limit);
 
-        $transportObject = new Magento_Object(array('html' => $html));
+        $transportObject = new \Magento\Object(array('html' => $html));
         $this->_eventManager->dispatch('page_block_html_topmenu_gethtml_after', array(
             'menu'            => $this->_menu,
             'transportObject' => $transportObject,
@@ -72,14 +74,14 @@ class Magento_Page_Block_Html_Topmenu extends Magento_Core_Block_Template
     /**
      * Count All Subnavigation Items
      *
-     * @param Magento_Backend_Model_Menu $items
+     * @param \Magento\Backend\Model\Menu $items
      * @return int
      */
     protected function _countItems($items)
     {
         $total = $items->count();
         foreach ($items as $item) {
-            /** @var $item Magento_Backend_Model_Menu_Item */
+            /** @var $item \Magento\Backend\Model\Menu\Item */
             if ($item->hasChildren()) {
                 $total += $this->_countItems($item->getChildren());
             }
@@ -90,7 +92,7 @@ class Magento_Page_Block_Html_Topmenu extends Magento_Core_Block_Template
     /**
      * Building Array with Column Brake Stops
      *
-     * @param Magento_Backend_Model_Menu $items
+     * @param \Magento\Backend\Model\Menu $items
      * @param int $limit
      * @return array
      * @todo: Add Depth Level limit, and better logic for columns
@@ -133,7 +135,7 @@ class Magento_Page_Block_Html_Topmenu extends Magento_Core_Block_Template
     /**
      * Add sub menu HTML code for current menu item
      *
-     * @param $menuItem Magento_Backend_Model_Menu_Item
+     * @param $menuItem \Magento\Backend\Model\Menu\Item
      * @param $level int
      * @param $limit int
      * @return string HTML code
@@ -165,11 +167,11 @@ class Magento_Page_Block_Html_Topmenu extends Magento_Core_Block_Template
     /**
      * Recursively generates top menu html from data that is specified in $menuTree
      *
-     * @param Magento_Data_Tree_Node $menuTree
+     * @param \Magento\Data\Tree\Node $menuTree
      * @param string $childrenWrapClass
      * @return string
      */
-    protected function _getHtml(Magento_Data_Tree_Node $menuTree, $childrenWrapClass, $limit, $colBrakes = array())
+    protected function _getHtml(\Magento\Data\Tree\Node $menuTree, $childrenWrapClass, $limit, $colBrakes = array())
     {
         $html = '';
 
@@ -222,10 +224,10 @@ class Magento_Page_Block_Html_Topmenu extends Magento_Core_Block_Template
     /**
      * Generates string with all attributes that should be present in menu item element
      *
-     * @param Magento_Data_Tree_Node $item
+     * @param \Magento\Data\Tree\Node $item
      * @return string
      */
-    protected function _getRenderedMenuItemAttributes(Magento_Data_Tree_Node $item)
+    protected function _getRenderedMenuItemAttributes(\Magento\Data\Tree\Node $item)
     {
         $html = '';
         $attributes = $this->_getMenuItemAttributes($item);
@@ -240,10 +242,10 @@ class Magento_Page_Block_Html_Topmenu extends Magento_Core_Block_Template
     /**
      * Returns array of menu item's attributes
      *
-     * @param Magento_Data_Tree_Node $item
+     * @param \Magento\Data\Tree\Node $item
      * @return array
      */
-    protected function _getMenuItemAttributes(Magento_Data_Tree_Node $item)
+    protected function _getMenuItemAttributes(\Magento\Data\Tree\Node $item)
     {
         $menuItemClasses = $this->_getMenuItemClasses($item);
         $attributes = array(
@@ -256,10 +258,10 @@ class Magento_Page_Block_Html_Topmenu extends Magento_Core_Block_Template
     /**
      * Returns array of menu item's classes
      *
-     * @param Magento_Data_Tree_Node $item
+     * @param \Magento\Data\Tree\Node $item
      * @return array
      */
-    protected function _getMenuItemClasses(Magento_Data_Tree_Node $item)
+    protected function _getMenuItemClasses(\Magento\Data\Tree\Node $item)
     {
         $classes = array();
 

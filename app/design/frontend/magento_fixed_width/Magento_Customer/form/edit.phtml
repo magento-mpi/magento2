@@ -18,7 +18,7 @@
     <h2 class="legend"><?php echo __('Account Information') ?></h2>
     <ul class="form-list">
         <li class="fields">
-            <?php echo $this->getLayout()->createBlock('Magento_Customer_Block_Widget_Name')->setObject($this->getCustomer())->toHtml() ?>
+            <?php echo $this->getLayout()->createBlock('Magento\Customer\Block\Widget\Name')->setObject($this->getCustomer())->toHtml() ?>
         </li>
         <li>
             <label for="email" class="required"><em>*</em><?php echo __('Email Address') ?></label>
@@ -26,9 +26,9 @@
                 <input type="text" name="email" id="email" value="<?php echo $this->escapeHtml($this->getCustomer()->getEmail()) ?>" title="<?php echo __('Email Address') ?>" class="input-text" data-validate="{required:true, 'validate-email':true}" />
             </div>
         </li>
-        <?php $_dob = $this->getLayout()->createBlock('Magento_Customer_Block_Widget_Dob') ?>
-        <?php $_taxvat = $this->getLayout()->createBlock('Magento_Customer_Block_Widget_Taxvat') ?>
-        <?php $_gender = $this->getLayout()->createBlock('Magento_Customer_Block_Widget_Gender') ?>
+        <?php $_dob = $this->getLayout()->createBlock('Magento\Customer\Block\Widget\Dob') ?>
+        <?php $_taxvat = $this->getLayout()->createBlock('Magento\Customer\Block\Widget\Taxvat') ?>
+        <?php $_gender = $this->getLayout()->createBlock('Magento\Customer\Block\Widget\Gender') ?>
         <?php if($_dob->isEnabled() || $_taxvat->isEnabled() || $_gender->isEnabled()): ?>
         <li class="fields">
             <?php if ($_dob->isEnabled()): ?>

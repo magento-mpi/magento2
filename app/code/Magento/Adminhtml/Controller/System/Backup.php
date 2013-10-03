@@ -15,22 +15,24 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller\System;
+
+class Backup extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -69,7 +71,7 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
     /**
      * Create backup action
      *
-     * @return Magento_Adminhtml_Controller_Action
+     * @return \Magento\Adminhtml\Controller\Action
      */
     public function createAction()
     {
@@ -77,23 +79,23 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
             return $this->getUrl('*/*/index');
         }
 
-        $response = new Magento_Object();
+        $response = new \Magento\Object();
 
         /**
-         * @var Magento_Backup_Helper_Data $helper
+         * @var \Magento\Backup\Helper\Data $helper
          */
-        $helper = $this->_objectManager->get('Magento_Backup_Helper_Data');
+        $helper = $this->_objectManager->get('Magento\Backup\Helper\Data');
 
         try {
             $type = $this->getRequest()->getParam('type');
 
-            if ($type == Magento_Backup_Helper_Data::TYPE_SYSTEM_SNAPSHOT
+            if ($type == \Magento\Backup\Helper\Data::TYPE_SYSTEM_SNAPSHOT
                 && $this->getRequest()->getParam('exclude_media')
             ) {
-                $type = Magento_Backup_Helper_Data::TYPE_SNAPSHOT_WITHOUT_MEDIA;
+                $type = \Magento\Backup\Helper\Data::TYPE_SNAPSHOT_WITHOUT_MEDIA;
             }
 
-            $backupManager = Magento_Backup::getBackupInstance($type)
+            $backupManager = \Magento\Backup::getBackupInstance($type)
                 ->setBackupExtension($helper->getExtensionByType($type))
                 ->setTime(time())
                 ->setBackupsDir($helper->getBackupsDir());
@@ -116,8 +118,8 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
                 }
             }
 
-            if ($type != Magento_Backup_Helper_Data::TYPE_DB) {
-                $backupManager->setRootDir($this->_objectManager->get('Magento_Core_Model_Dir')->getDir())
+            if ($type != \Magento\Backup\Helper\Data::TYPE_DB) {
+                $backupManager->setRootDir($this->_objectManager->get('Magento\Core\Model\Dir')->getDir())
                     ->addIgnorePaths($helper->getBackupIgnorePaths());
             }
 
@@ -128,13 +130,13 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
             $this->_getSession()->addSuccess($successMessage);
 
             $response->setRedirectUrl($this->getUrl('*/*/index'));
-        } catch (Magento_Backup_Exception_NotEnoughFreeSpace $e) {
+        } catch (\Magento\Backup\Exception\NotEnoughFreeSpace $e) {
             $errorMessage = __('You need more free space to create a backup.');
-        } catch (Magento_Backup_Exception_NotEnoughPermissions $e) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')->log($e->getMessage());
+        } catch (\Magento\Backup\Exception\NotEnoughPermissions $e) {
+            $this->_objectManager->get('Magento\Core\Model\Logger')->log($e->getMessage());
             $errorMessage = __('You need more permissions to create a backup.');
-        } catch (Exception  $e) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')->log($e->getMessage());
+        } catch (\Exception  $e) {
+            $this->_objectManager->get('Magento\Core\Model\Logger')->log($e->getMessage());
             $errorMessage = __('Something went wrong creating the backup.');
         }
 
@@ -153,12 +155,12 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
     /**
      * Download backup action
      *
-     * @return Magento_Adminhtml_Controller_Action
+     * @return \Magento\Adminhtml\Controller\Action
      */
     public function downloadAction()
     {
-        /* @var $backup Magento_Backup_Model_Backup */
-        $backup = $this->_objectManager->create('Magento_Backup_Model_Backup')->loadByTimeAndType(
+        /* @var $backup \Magento\Backup\Model\Backup */
+        $backup = $this->_objectManager->create('Magento\Backup\Model\Backup')->loadByTimeAndType(
             $this->getRequest()->getParam('time'),
             $this->getRequest()->getParam('type')
         );
@@ -167,7 +169,7 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
             return $this->_redirect('*/*');
         }
 
-        $fileName = $this->_objectManager->get('Magento_Backup_Helper_Data')
+        $fileName = $this->_objectManager->get('Magento\Backup\Helper\Data')
             ->generateBackupDownloadName($backup);
 
         $this->_prepareDownloadResponse($fileName, null, 'application/octet-stream', $backup->getSize());
@@ -181,11 +183,11 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
     /**
      * Rollback Action
      *
-     * @return Magento_Adminhtml_Controller_Action
+     * @return \Magento\Adminhtml\Controller\Action
      */
     public function rollbackAction()
     {
-        if (!$this->_objectManager->get('Magento_Backup_Helper_Data')->isRollbackAllowed()) {
+        if (!$this->_objectManager->get('Magento\Backup\Helper\Data')->isRollbackAllowed()) {
             return $this->_forward('denied');
         }
 
@@ -193,12 +195,12 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
             return $this->getUrl('*/*/index');
         }
 
-        $helper = $this->_objectManager->get('Magento_Backup_Helper_Data');
-        $response = new Magento_Object();
+        $helper = $this->_objectManager->get('Magento\Backup\Helper\Data');
+        $response = new \Magento\Object();
 
         try {
-            /* @var $backup Magento_Backup_Model_Backup */
-            $backup = $this->_objectManager->create('Magento_Backup_Model_Backup')->loadByTimeAndType(
+            /* @var $backup \Magento\Backup\Model\Backup */
+            $backup = $this->_objectManager->create('Magento\Backup\Model\Backup')->loadByTimeAndType(
                 $this->getRequest()->getParam('time'),
                 $this->getRequest()->getParam('type')
             );
@@ -208,21 +210,21 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
             }
 
             if (!$backup->getTime()) {
-                throw new Magento_Backup_Exception_CantLoadSnapshot();
+                throw new \Magento\Backup\Exception\CantLoadSnapshot();
             }
 
             $type = $backup->getType();
 
-            $backupManager = Magento_Backup::getBackupInstance($type)
+            $backupManager = \Magento\Backup::getBackupInstance($type)
                 ->setBackupExtension($helper->getExtensionByType($type))
                 ->setTime($backup->getTime())
                 ->setBackupsDir($helper->getBackupsDir())
                 ->setName($backup->getName(), false)
-                ->setResourceModel($this->_objectManager->create('Magento_Backup_Model_Resource_Db'));
+                ->setResourceModel($this->_objectManager->create('Magento\Backup\Model\Resource\Db'));
 
             $this->_coreRegistry->register('backup_manager', $backupManager);
 
-            $passwordValid = $this->_objectManager->create('Magento_Backup_Model_Backup')->validateUserPassword(
+            $passwordValid = $this->_objectManager->create('Magento\Backup\Model\Backup')->validateUserPassword(
                 $this->getRequest()->getParam('password')
             );
 
@@ -246,9 +248,9 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
                 }
             }
 
-            if ($type != Magento_Backup_Helper_Data::TYPE_DB) {
+            if ($type != \Magento\Backup\Helper\Data::TYPE_DB) {
 
-                $backupManager->setRootDir($this->_objectManager->get('Magento_Core_Model_Dir')->getDir())
+                $backupManager->setRootDir($this->_objectManager->get('Magento\Core\Model\Dir')->getDir())
                     ->addIgnorePaths($helper->getRollbackIgnorePaths());
 
                 if ($this->getRequest()->getParam('use_ftp', false)) {
@@ -270,17 +272,17 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
             $adminSession->getCookie()->delete($adminSession->getSessionName());
 
             $response->setRedirectUrl($this->getUrl('*'));
-        } catch (Magento_Backup_Exception_CantLoadSnapshot $e) {
+        } catch (\Magento\Backup\Exception\CantLoadSnapshot $e) {
             $errorMsg = __('The backup file was not found.');
-        } catch (Magento_Backup_Exception_FtpConnectionFailed $e) {
+        } catch (\Magento\Backup\Exception\FtpConnectionFailed $e) {
             $errorMsg = __('We couldn\'t connect to the FTP.');
-        } catch (Magento_Backup_Exception_FtpValidationFailed $e) {
+        } catch (\Magento\Backup\Exception\FtpValidationFailed $e) {
             $errorMsg = __('Failed to validate FTP');
-        } catch (Magento_Backup_Exception_NotEnoughPermissions $e) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')->log($e->getMessage());
+        } catch (\Magento\Backup\Exception\NotEnoughPermissions $e) {
+            $this->_objectManager->get('Magento\Core\Model\Logger')->log($e->getMessage());
             $errorMsg = __('You need more permissions to create a backup.');
-        } catch (Exception $e) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')->log($e->getMessage());
+        } catch (\Exception $e) {
+            $this->_objectManager->get('Magento\Core\Model\Logger')->log($e->getMessage());
             $errorMsg = __('Failed to rollback');
         }
 
@@ -299,7 +301,7 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
     /**
      * Delete backups mass action
      *
-     * @return Magento_Adminhtml_Controller_Action
+     * @return \Magento\Adminhtml\Controller\Action
      */
     public function massDeleteAction()
     {
@@ -309,9 +311,9 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
             return $this->_redirect('*/*/index');
         }
 
-        /** @var $backupModel Magento_Backup_Model_Backup */
-        $backupModel = $this->_objectManager->create('Magento_Backup_Model_Backup');
-        $resultData = new Magento_Object();
+        /** @var $backupModel \Magento\Backup\Model\Backup */
+        $backupModel = $this->_objectManager->create('Magento\Backup\Model\Backup');
+        $resultData = new \Magento\Object();
         $resultData->setIsSuccess(false);
         $resultData->setDeleteResult(array());
         $this->_coreRegistry->register('backup_manager', $resultData);
@@ -345,9 +347,9 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
                     __('The selected backup(s) has been deleted.')
                 );
             } else {
-                throw new Exception($deleteFailMessage);
+                throw new \Exception($deleteFailMessage);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $resultData->setIsSuccess(false);
             $this->_getSession()->addError($deleteFailMessage);
         }

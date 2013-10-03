@@ -11,12 +11,14 @@
 /**
  * System config email field backend model
  */
-class Magento_Backend_Model_Config_Backend_Locale_Timezone extends Magento_Core_Model_Config_Value
+namespace Magento\Backend\Model\Config\Backend\Locale;
+
+class Timezone extends \Magento\Core\Model\Config\Value
 {
     protected function _beforeSave()
     {
-        if (!in_array($this->getValue(), DateTimeZone::listIdentifiers(DateTimeZone::ALL_WITH_BC))) {
-            throw new Magento_Core_Exception(__('Please correct the timezone.'));
+        if (!in_array($this->getValue(), \DateTimeZone::listIdentifiers(\DateTimeZone::ALL_WITH_BC))) {
+            throw new \Magento\Core\Exception(__('Please correct the timezone.'));
         }
         return $this;
     }

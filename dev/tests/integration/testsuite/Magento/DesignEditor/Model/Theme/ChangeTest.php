@@ -9,7 +9,9 @@
 /**
  * Theme change test
  */
-class Magento_DesignEditor_Model_Theme_ChangeTest extends PHPUnit_Framework_TestCase
+namespace Magento\DesignEditor\Model\Theme;
+
+class ChangeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test crud operations for change model using valid data
@@ -18,12 +20,12 @@ class Magento_DesignEditor_Model_Theme_ChangeTest extends PHPUnit_Framework_Test
      */
     public function testCrud()
     {
-        /** @var $changeModel Magento_DesignEditor_Model_Theme_Change */
-        $changeModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_DesignEditor_Model_Theme_Change');
+        /** @var $changeModel \Magento\DesignEditor\Model\Theme\Change */
+        $changeModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\DesignEditor\Model\Theme\Change');
         $changeModel->setData($this->_getChangeValidData());
 
-        $crud = new Magento_TestFramework_Entity($changeModel, array('change_time' => '2012-06-10 20:00:01'));
+        $crud = new \Magento\TestFramework\Entity($changeModel, array('change_time' => '2012-06-10 20:00:01'));
         $crud->testCrud();
     }
 
@@ -34,9 +36,9 @@ class Magento_DesignEditor_Model_Theme_ChangeTest extends PHPUnit_Framework_Test
      */
     protected function _getChangeValidData()
     {
-        /** @var $theme Magento_Core_Model_Theme */
-        /** @var $themeModel Magento_Core_Model_Theme */
-        $theme = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Model_Theme');
+        /** @var $theme \Magento\Core\Model\Theme */
+        /** @var $themeModel \Magento\Core\Model\Theme */
+        $theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Core\Model\Theme');
         $themeModel = $theme->getCollection()->getFirstItem();
 
         return array(

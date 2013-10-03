@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Payment_Method_Converter
+namespace Magento\Sales\Model\Payment\Method;
+
+class Converter
 {
     /**
      * List of fields that has to be encrypted
@@ -33,12 +35,12 @@ class Magento_Sales_Model_Payment_Method_Converter
     );
 
     /**
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_encryptor;
 
     public function __construct(
-        Magento_Core_Helper_Data $coreData
+        \Magento\Core\Helper\Data $coreData
     ) {
         $this->_encryptor = $coreData;
     }
@@ -46,11 +48,11 @@ class Magento_Sales_Model_Payment_Method_Converter
     /**
      * Check if specified field is encrypted
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      * @param string $filedName
      * @return bool
      */
-    protected function _shouldBeEncrypted(Magento_Core_Model_Abstract $object, $filedName)
+    protected function _shouldBeEncrypted(\Magento\Core\Model\AbstractModel $object, $filedName)
     {
         $method = $object->getData('method');
         return isset($this->_encryptFields[$method][$filedName]) &&
@@ -61,11 +63,11 @@ class Magento_Sales_Model_Payment_Method_Converter
     /**
      * Decode data
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      * @param string $filedName
      * @return mixed
      */
-    public function decode(Magento_Core_Model_Abstract $object, $filedName)
+    public function decode(\Magento\Core\Model\AbstractModel $object, $filedName)
     {
         $value = $object->getData($filedName);
 
@@ -79,11 +81,11 @@ class Magento_Sales_Model_Payment_Method_Converter
     /**
      * Encode data
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      * @param string $filedName
      * @return mixed
      */
-    public function encode(Magento_Core_Model_Abstract $object, $filedName)
+    public function encode(\Magento\Core\Model\AbstractModel $object, $filedName)
     {
         $value = $object->getData($filedName);
 

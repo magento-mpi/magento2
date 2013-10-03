@@ -16,15 +16,17 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Newsletter_Template_Grid_Renderer_Action extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Action
+namespace Magento\Adminhtml\Block\Newsletter\Template\Grid\Renderer;
+
+class Action extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Action
 {
     /**
      * Renderer for "Action" column in Newsletter templates grid
      *
-     * @var Magento_Newsletter_Model_Template $row
+     * @var \Magento\Newsletter\Model\Template $row
      * @return string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         if($row->isValidForSend()) {
             $actions[] = array(

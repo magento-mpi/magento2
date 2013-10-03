@@ -11,26 +11,28 @@
 /**
  * Events model
  *
- * @method Magento_Reports_Model_Resource_Event _getResource()
- * @method Magento_Reports_Model_Resource_Event getResource()
+ * @method \Magento\Reports\Model\Resource\Event _getResource()
+ * @method \Magento\Reports\Model\Resource\Event getResource()
  * @method string getLoggedAt()
- * @method Magento_Reports_Model_Event setLoggedAt(string $value)
+ * @method \Magento\Reports\Model\Event setLoggedAt(string $value)
  * @method int getEventTypeId()
- * @method Magento_Reports_Model_Event setEventTypeId(int $value)
+ * @method \Magento\Reports\Model\Event setEventTypeId(int $value)
  * @method int getObjectId()
- * @method Magento_Reports_Model_Event setObjectId(int $value)
+ * @method \Magento\Reports\Model\Event setObjectId(int $value)
  * @method int getSubjectId()
- * @method Magento_Reports_Model_Event setSubjectId(int $value)
+ * @method \Magento\Reports\Model\Event setSubjectId(int $value)
  * @method int getSubtype()
- * @method Magento_Reports_Model_Event setSubtype(int $value)
+ * @method \Magento\Reports\Model\Event setSubtype(int $value)
  * @method int getStoreId()
- * @method Magento_Reports_Model_Event setStoreId(int $value)
+ * @method \Magento\Reports\Model\Event setStoreId(int $value)
  *
  * @category    Magento
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Event extends Magento_Core_Model_Abstract
+namespace Magento\Reports\Model;
+
+class Event extends \Magento\Core\Model\AbstractModel
 {
     const EVENT_PRODUCT_VIEW    = 1;
     const EVENT_PRODUCT_SEND    = 2;
@@ -40,31 +42,31 @@ class Magento_Reports_Model_Event extends Magento_Core_Model_Abstract
     const EVENT_WISHLIST_SHARE  = 6;
 
     /**
-     * @var Magento_Core_Model_DateFactory
+     * @var \Magento\Core\Model\DateFactory
      */
     protected $_dateFactory;
 
     /**
-     * @var Magento_Reports_Model_Event_TypeFactory
+     * @var \Magento\Reports\Model\Event\TypeFactory
      */
     protected $_eventTypeFactory;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_DateFactory $dateFactory
-     * @param Magento_Reports_Model_Event_TypeFactory $eventTypeFactory
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\DateFactory $dateFactory
+     * @param \Magento\Reports\Model\Event\TypeFactory $eventTypeFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_DateFactory $dateFactory,
-        Magento_Reports_Model_Event_TypeFactory $eventTypeFactory,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\DateFactory $dateFactory,
+        \Magento\Reports\Model\Event\TypeFactory $eventTypeFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -78,13 +80,13 @@ class Magento_Reports_Model_Event extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Reports_Model_Resource_Event');
+        $this->_init('Magento\Reports\Model\Resource\Event');
     }
 
     /**
      * Before Event save process
      *
-     * @return Magento_Reports_Model_Event
+     * @return \Magento\Reports\Model\Event
      */
     protected function _beforeSave()
     {
@@ -99,7 +101,7 @@ class Magento_Reports_Model_Event extends Magento_Core_Model_Abstract
      * @param int $visitorId
      * @param int $customerId
      * @param array $types
-     * @return Magento_Reports_Model_Event
+     * @return \Magento\Reports\Model\Event
      */
     public function updateCustomerType($visitorId, $customerId, $types = null)
     {
@@ -121,7 +123,7 @@ class Magento_Reports_Model_Event extends Magento_Core_Model_Abstract
     /**
      * Clean events (visitors)
      *
-     * @return Magento_Reports_Model_Event
+     * @return \Magento\Reports\Model\Event
      */
     public function clean()
     {

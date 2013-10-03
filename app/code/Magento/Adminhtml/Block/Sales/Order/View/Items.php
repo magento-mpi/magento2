@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_View_Items extends Magento_Adminhtml_Block_Sales_Items_Abstract
+namespace Magento\Adminhtml\Block\Sales\Order\View;
+
+class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
 {
     /**
      * Retrieve required options from parent
@@ -23,7 +25,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Items extends Magento_Adminhtml_B
     protected function _beforeToHtml()
     {
         if (!$this->getParentBlock()) {
-            throw new Magento_Core_Exception(__('Invalid parent block for this block'));
+            throw new \Magento\Core\Exception(__('Invalid parent block for this block'));
         }
         $this->setOrder($this->getParentBlock()->getOrder());
         parent::_beforeToHtml();

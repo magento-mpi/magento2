@@ -9,18 +9,20 @@
  * @license     {license_link}
  */
 
+namespace Magento\Backend\Block\Widget\Grid;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Backend_Block_Widget_Grid_ExtendedTest extends PHPUnit_Framework_TestCase
+class ExtendedTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Block_Widget_Grid_Extended
+     * @var \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected $_block;
 
     /**
-     * @var Magento_Core_Model_Layout
+     * @var \Magento\Core\Model\Layout
      */
     protected $_layoutMock;
 
@@ -28,12 +30,12 @@ class Magento_Backend_Block_Widget_Grid_ExtendedTest extends PHPUnit_Framework_T
     {
         parent::setUp();
 
-        $this->_layoutMock = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_Layout');
-        $context = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Backend_Block_Template_Context', array('layout' => $this->_layoutMock));
+        $this->_layoutMock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\Layout');
+        $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Backend\Block\Template\Context', array('layout' => $this->_layoutMock));
         $this->_block = $this->_layoutMock->createBlock(
-            'Magento_Backend_Block_Widget_Grid_Extended', 'grid', array('context' => $context)
+            'Magento\Backend\Block\Widget\Grid\Extended', 'grid', array('context' => $context)
         );
 
         $this->_block->addColumn('column1',
@@ -50,7 +52,7 @@ class Magento_Backend_Block_Widget_Grid_ExtendedTest extends PHPUnit_Framework_T
     public function testAddColumnAddsChildToColumnSet()
     {
         $this->assertInstanceOf(
-            'Magento_Backend_Block_Widget_Grid_Column',
+            'Magento\Backend\Block\Widget\Grid\Column',
             $this->_block->getColumnSet()->getChildBlock('column1')
         );
         $this->assertCount(2, $this->_block->getColumnSet()->getChildNames());

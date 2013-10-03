@@ -11,58 +11,60 @@
 /**
  * Quote data convert model
  */
-class Magento_Sales_Model_Convert_Quote extends Magento_Object
+namespace Magento\Sales\Model\Convert;
+
+class Quote extends \Magento\Object
 {
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @var Magento_Sales_Model_OrderFactory
+     * @var \Magento\Sales\Model\OrderFactory
      */
     protected $_orderFactory;
 
     /**
-     * @var Magento_Sales_Model_Order_AddressFactory
+     * @var \Magento\Sales\Model\Order\AddressFactory
      */
     protected $_orderAddressFactory;
 
     /**
-     * @var Magento_Sales_Model_Order_PaymentFactory
+     * @var \Magento\Sales\Model\Order\PaymentFactory
      */
     protected $_orderPaymentFactory;
 
     /**
-     * @var Magento_Sales_Model_Order_ItemFactory
+     * @var \Magento\Sales\Model\Order\ItemFactory
      */
     protected $_orderItemFactory;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Sales_Model_OrderFactory $orderFactory
-     * @param Magento_Sales_Model_Order_AddressFactory $orderAddressFactory
-     * @param Magento_Sales_Model_Order_PaymentFactory $orderPaymentFactory
-     * @param Magento_Sales_Model_Order_ItemFactory $orderItemFactory
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param \Magento\Sales\Model\Order\AddressFactory $orderAddressFactory
+     * @param \Magento\Sales\Model\Order\PaymentFactory $orderPaymentFactory
+     * @param \Magento\Sales\Model\Order\ItemFactory $orderItemFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Sales_Model_OrderFactory $orderFactory,
-        Magento_Sales_Model_Order_AddressFactory $orderAddressFactory,
-        Magento_Sales_Model_Order_PaymentFactory $orderPaymentFactory,
-        Magento_Sales_Model_Order_ItemFactory $orderItemFactory,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Sales\Model\OrderFactory $orderFactory,
+        \Magento\Sales\Model\Order\AddressFactory $orderAddressFactory,
+        \Magento\Sales\Model\Order\PaymentFactory $orderPaymentFactory,
+        \Magento\Sales\Model\Order\ItemFactory $orderItemFactory,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -77,16 +79,16 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
     /**
      * Convert quote model to order model
      *
-     * @param Magento_Sales_Model_Quote $quote
-     * @param null|Magento_Sales_Model_Order $order
-     * @return Magento_Sales_Model_Order
+     * @param \Magento\Sales\Model\Quote $quote
+     * @param null|\Magento\Sales\Model\Order $order
+     * @return \Magento\Sales\Model\Order
      */
-    public function toOrder(Magento_Sales_Model_Quote $quote, $order = null)
+    public function toOrder(\Magento\Sales\Model\Quote $quote, $order = null)
     {
-        if (!($order instanceof Magento_Sales_Model_Order)) {
+        if (!($order instanceof \Magento\Sales\Model\Order)) {
             $order = $this->_orderFactory->create();
         }
-        /* @var $order Magento_Sales_Model_Order */
+        /* @var $order \Magento\Sales\Model\Order */
 
         $order->setIncrementId($quote->getReservedOrderId())
             ->setStoreId($quote->getStoreId())
@@ -102,13 +104,13 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
     /**
      * Convert quote address model to order
      *
-     * @param Magento_Sales_Model_Quote_Address $address
-     * @param null|Magento_Sales_Model_Order $order
-     * @return  Magento_Sales_Model_Order
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @param null|\Magento\Sales\Model\Order $order
+     * @return  \Magento\Sales\Model\Order
      */
-    public function addressToOrder(Magento_Sales_Model_Quote_Address $address, $order = null)
+    public function addressToOrder(\Magento\Sales\Model\Quote\Address $address, $order = null)
     {
-        if (!($order instanceof Magento_Sales_Model_Order)) {
+        if (!($order instanceof \Magento\Sales\Model\Order)) {
             $order = $this->toOrder($address->getQuote());
         }
 
@@ -129,10 +131,10 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
     /**
      * Convert quote address to order address
      *
-     * @param   Magento_Sales_Model_Quote_Address $address
-     * @return  Magento_Sales_Model_Order_Address
+     * @param   \Magento\Sales\Model\Quote\Address $address
+     * @return  \Magento\Sales\Model\Order\Address
      */
-    public function addressToOrderAddress(Magento_Sales_Model_Quote_Address $address)
+    public function addressToOrderAddress(\Magento\Sales\Model\Quote\Address $address)
     {
         $orderAddress = $this->_orderAddressFactory->create()
             ->setStoreId($address->getStoreId())
@@ -156,10 +158,10 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
     /**
      * Convert quote payment to order payment
      *
-     * @param   Magento_Sales_Model_Quote_Payment $payment
-     * @return  Magento_Sales_Model_Quote_Payment
+     * @param   \Magento\Sales\Model\Quote\Payment $payment
+     * @return  \Magento\Sales\Model\Quote\Payment
      */
-    public function paymentToOrderPayment(Magento_Sales_Model_Quote_Payment $payment)
+    public function paymentToOrderPayment(\Magento\Sales\Model\Quote\Payment $payment)
     {
         $orderPayment = $this->_orderPaymentFactory->create()
             ->setStoreId($payment->getStoreId())
@@ -178,10 +180,10 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
     /**
      * Convert quote item to order item
      *
-     * @param   Magento_Sales_Model_Quote_Item_Abstract $item
-     * @return  Magento_Sales_Model_Order_Item
+     * @param   \Magento\Sales\Model\Quote\Item\AbstractItem $item
+     * @return  \Magento\Sales\Model\Order\Item
      */
-    public function itemToOrderItem(Magento_Sales_Model_Quote_Item_Abstract $item)
+    public function itemToOrderItem(\Magento\Sales\Model\Quote\Item\AbstractItem $item)
     {
         $orderItem = $this->_orderItemFactory->create()
             ->setStoreId($item->getStoreId())

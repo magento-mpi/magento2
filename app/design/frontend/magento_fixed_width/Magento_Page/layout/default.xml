@@ -14,12 +14,12 @@
     </referenceBlock>
     <move element="breadcrumbs" destination="breadcrumbs.container"/>
     <referenceBlock name="head">
-        <block class="Magento_Page_Block_Html_Head_Css" name="css-styles-css">
+        <block class="Magento\Page\Block\Html\Head\Css" name="css-styles-css">
             <arguments>
                 <argument name="file" xsi:type="string">css/styles.css</argument>
             </arguments>
         </block>
-        <block class="Magento_Page_Block_Html_Head_Css" name="css-styles-ie-css">
+        <block class="Magento\Page\Block\Html\Head\Css" name="css-styles-ie-css">
             <arguments>
                 <argument name="file" xsi:type="string">css/styles-ie.css</argument>
                 <argument name="properties" xsi:type="array">
@@ -28,7 +28,7 @@
                 </argument>
             </arguments>
         </block>
-        <block class="Magento_Page_Block_Html_Head_Css" name="css-print-css">
+        <block class="Magento\Page\Block\Html\Head\Css" name="css-print-css">
             <arguments>
                 <argument name="file" xsi:type="string">css/print.css</argument>
                 <argument name="properties" xsi:type="array">
@@ -38,18 +38,18 @@
         </block>
     </referenceBlock>
     <referenceBlock name="header">
-        <block class="Magento_Page_Block_Links" name="account.links" as="accountLinks" before="top.links">
+        <block class="Magento\Page\Block\Links" name="account.links" as="accountLinks" before="top.links">
             <arguments>
                 <argument name="css_class" xsi:type="string">links</argument>
             </arguments>
         </block>
-        <block class="Magento_Page_Block_Links" name="checkout.links" as="checkoutLinks" after="top.links">
+        <block class="Magento\Page\Block\Links" name="checkout.links" as="checkoutLinks" after="top.links">
             <arguments>
                 <argument name="css_class" xsi:type="string">links</argument>
             </arguments>
         </block>
         <container name="top.switches" as="switches" label="Store Language" after="checkout.links"/>
-        <block class="Magento_Page_Block_Html_Welcome" name="welcome" as="welcome" after="top.container"/>
+        <block class="Magento\Page\Block\Html\Welcome" name="welcome" as="welcome" after="top.container"/>
     </referenceBlock>
     <move element="store_language" destination="top.switches"/>
     <move element="store_switcher" destination="footer" as="store_switcher" after="-"/>

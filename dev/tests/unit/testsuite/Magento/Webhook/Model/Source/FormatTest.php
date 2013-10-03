@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Source_Format
+ * \Magento\Webhook\Model\Source\Format
  *
  * {license_notice}
  *
@@ -10,11 +10,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Source_FormatTest extends Magento_Webhook_Model_Source_Pkg
+namespace Magento\Webhook\Model\Source;
+
+class FormatTest extends \Magento\Webhook\Model\Source\Pkg
 {
     public function testGetFormatsForForm()
     {
-        $unitUnderTest = new Magento_Webhook_Model_Source_Format(array('type' => 'blah'));
+        $unitUnderTest = new \Magento\Webhook\Model\Source\Format(array('type' => 'blah'));
         $elements = $unitUnderTest->getFormatsForForm();
         $this->_assertElements($elements);
 

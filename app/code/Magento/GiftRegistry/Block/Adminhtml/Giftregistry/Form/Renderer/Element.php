@@ -14,26 +14,28 @@
  * @category   Magento
  * @package    Magento_GiftRegistry
  */
-class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Form_Renderer_Element
-    extends Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element
+namespace Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Form\Renderer;
+
+class Element
+    extends \Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset\Element
 {
     protected $_template = 'form/renderer/element.phtml';
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $storeManager;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);
@@ -43,7 +45,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Form_Renderer_Element
     /**
      * Retrieve data object related with form
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getDataObject()
     {
@@ -83,7 +85,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Form_Renderer_Element
     /**
      * Disable field in default value using case
      *
-     * @return Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Form_Renderer_Fieldset_Element
+     * @return \Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Form\Renderer\Fieldset\Element
      */
     public function checkFieldDisable()
     {

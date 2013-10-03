@@ -8,41 +8,43 @@
  * @license     {license_link}
  */
 
-class Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\GiftWrapping\Block\Adminhtml\Giftwrapping\Edit;
+
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Model_System_Store
+     * @var \Magento\Core\Model\System\Store
      */
     protected $_systemStore;
 
     /**
-     * @var Magento_Directory_Helper_Data
+     * @var \Magento\Directory\Helper\Data
      */
     protected $_directoryHelper;
 
     /**
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_System_Store $systemStore
-     * @param Magento_Directory_Helper_Data $directoryHelper
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Directory\Helper\Data $directoryHelper
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_System_Store $systemStore,
-        Magento_Directory_Helper_Data $directoryHelper,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Directory\Helper\Data $directoryHelper,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -72,9 +74,9 @@ class Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Magent
     {
         parent::_prepareLayout();
 
-        Magento_Data_Form::setFieldsetElementRenderer(
+        \Magento\Data\Form::setFieldsetElementRenderer(
             $this->getLayout()->createBlock(
-                'Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Form_Renderer_Element',
+                'Magento\GiftWrapping\Block\Adminhtml\Giftwrapping\Form\Renderer\Element',
                 $this->getNameInLayout() . '_element_gift_wrapping'
             )
         );
@@ -83,7 +85,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Magent
     /**
      * Prepare edit form
      *
-     * @return Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form
+     * @return \Magento\GiftWrapping\Block\Adminhtml\Giftwrapping\Edit\Form
      */
     protected function _prepareForm()
     {
@@ -93,7 +95,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Magent
         if ($model->getId()) {
             $actionParams['id'] = $model->getId();
         }
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id' => 'edit_form',
@@ -125,7 +127,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Magent
                 'value'    => $model->getWebsiteIds(),
             ));
             $renderer = $this->getLayout()->createBlock(
-                'Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element'
+                'Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element'
             );
             $field->setRenderer($renderer);
         }
@@ -140,7 +142,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Magent
             )
         ));
 
-        $fieldset->addType('price', 'Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Price');
+        $fieldset->addType('price', 'Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Price');
         $fieldset->addField('base_price', 'price', array(
             'label'    => __('Price'),
             'name'     => 'base_price',
@@ -149,7 +151,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Magent
             'after_element_html' => '<strong>[' .  $this->_directoryHelper->getBaseCurrencyCode() . ']</strong>'
         ));
 
-        $uploadButton = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+        $uploadButton = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
                 'label' => __('Upload File'),
                 'id' => 'upload_image_button',
@@ -186,6 +188,6 @@ class Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Magent
      */
     protected function _getAdditionalElementTypes()
     {
-        return array('image' => 'Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Helper_Image');
+        return array('image' => 'Magento\GiftWrapping\Block\Adminhtml\Giftwrapping\Helper\Image');
     }
 }

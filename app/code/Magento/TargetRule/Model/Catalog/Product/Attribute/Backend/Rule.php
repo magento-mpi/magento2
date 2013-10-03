@@ -15,14 +15,16 @@
  * @category   Magento
  * @package    Magento_TargetRule
  */
-class Magento_TargetRule_Model_Catalog_Product_Attribute_Backend_Rule
-    extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
+namespace Magento\TargetRule\Model\Catalog\Product\Attribute\Backend;
+
+class Rule
+    extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
      * Before attribute save prepare data
      *
-     * @param Magento_Catalog_Model_Product $object
-     * @return Magento_TargetRule_Model_Catalog_Product_Attribute_Backend_Rule
+     * @param \Magento\Catalog\Model\Product $object
+     * @return \Magento\TargetRule\Model\Catalog\Product\Attribute\Backend\Rule
      */
     public function beforeSave($object)
     {

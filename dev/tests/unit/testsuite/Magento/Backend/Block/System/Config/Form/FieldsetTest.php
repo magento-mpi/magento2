@@ -9,25 +9,27 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Block\System\Config\Form;
+
+class FieldsetTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Block_System_Config_Form_Fieldset
+     * @var \Magento\Backend\Block\System\Config\Form\Fieldset
      */
     protected $_object;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_elementMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_requestMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_urlModelMock;
 
@@ -37,31 +39,31 @@ class Magento_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Fram
     protected $_testData;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_layoutMock;
 
     /**
-     * @var Magento_TestFramework_Helper_ObjectManager
+     * @var \Magento\TestFramework\Helper\ObjectManager
      */
     protected $_testHelper;
 
     /**
-     * @var Magento_Core_Model_Factory_Helper
+     * @var \Magento\Core\Model\Factory\Helper
      */
     protected $_helperFactoryMock;
 
     protected function setUp()
     {
-        $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false,
+        $this->_requestMock = $this->getMock('Magento\Core\Controller\Request\Http', array(), array(), '', false,
             false);
-        $this->_urlModelMock = $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false, false);
-        $this->_layoutMock = $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false, false);
-        $groupMock = $this->getMock('Magento_Backend_Model_Config_Structure_Element_Group', array(), array(), '',
+        $this->_urlModelMock = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false, false);
+        $this->_layoutMock = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false, false);
+        $groupMock = $this->getMock('Magento\Backend\Model\Config\Structure\Element\Group', array(), array(), '',
             false);
         $groupMock->expects($this->once())->method('getFieldsetCss')->will($this->returnValue('test_fieldset_css'));
         $this->_helperFactoryMock = $this->getMock(
-            'Magento_Core_Model_Factory_Helper', array('get'), array(), '', false, false
+            'Magento\Core\Model\Factory\Helper', array('get'), array(), '', false, false
         );
 
         $data = array(
@@ -73,8 +75,8 @@ class Magento_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Fram
                 'group' => $groupMock
             )
         );
-        $this->_testHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_object = $this->_testHelper->getObject('Magento_Backend_Block_System_Config_Form_Fieldset', $data);
+        $this->_testHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_object = $this->_testHelper->getObject('Magento\Backend\Block\System\Config\Form\Fieldset', $data);
 
         $this->_testData = array(
             'htmlId' => 'test_field_id',
@@ -85,7 +87,7 @@ class Magento_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Fram
             'comment' => 'test_comment',
         );
 
-        $this->_elementMock = $this->getMock('Magento_Data_Form_Element_Text',
+        $this->_elementMock = $this->getMock('Magento\Data\Form\Element\Text',
             array('getHtmlId' , 'getName', 'getExpanded', 'getElements', 'getLegend', 'getComment'),
             array(),
             '',
@@ -108,15 +110,15 @@ class Magento_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Fram
 
     public function testRenderWithoutStoredElements()
     {
-        $helperMock = $this->getMock('Magento_Core_Helper_Js', array(), array(), '', false, false);
+        $helperMock = $this->getMock('Magento\Core\Helper\Js', array(), array(), '', false, false);
 
         $this->_helperFactoryMock
             ->expects($this->once())
             ->method('get')
-            ->with('Magento_Core_Helper_Js')
+            ->with('Magento\Core\Helper\Js')
             ->will($this->returnValue($helperMock));
 
-        $collection = $this->_testHelper->getObject('Magento_Data_Form_Element_Collection');
+        $collection = $this->_testHelper->getObject('Magento\Data\Form\Element\Collection');
         $this->_elementMock->expects($this->any())->method('getElements')->will($this->returnValue($collection));
         $actualHtml = $this->_object->render($this->_elementMock);
         $this->assertContains($this->_testData['htmlId'], $actualHtml);
@@ -126,16 +128,16 @@ class Magento_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Fram
 
     public function testRenderWithStoredElements()
     {
-        $helperMock = $this->getMock('Magento_Core_Helper_Js', array(), array(), '', false, false);
+        $helperMock = $this->getMock('Magento\Core\Helper\Js', array(), array(), '', false, false);
         $helperMock->expects($this->any())->method('getScript')->will($this->returnArgument(0));
 
         $this->_helperFactoryMock
             ->expects($this->once())
             ->method('get')
-            ->with('Magento_Core_Helper_Js')
+            ->with('Magento\Core\Helper\Js')
             ->will($this->returnValue($helperMock));
 
-        $fieldMock = $this->getMock('Magento_Data_Form_Element_Text',
+        $fieldMock = $this->getMock('Magento\Data\Form\Element\Text',
             array('getId', 'getTooltip', 'toHtml'),
             array(),
             '',
@@ -148,11 +150,11 @@ class Magento_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Fram
         $fieldMock->expects($this->any())->method('getTooltip')->will($this->returnValue('test_field_tootip'));
         $fieldMock->expects($this->any())->method('toHtml')->will($this->returnValue('test_field_toHTML'));
 
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $factory = $this->getMock('Magento_Data_Form_Element_Factory', array(), array(), '', false);
-        $factoryColl = $this->getMock('Magento_Data_Form_Element_CollectionFactory', array(), array(), '', false);
-        $formMock = $this->getMock('Magento_Data_Form_Abstract', array(), array($factory, $factoryColl));
-        $collection = $helper->getObject('Magento_Data_Form_Element_Collection', array(
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $factory = $this->getMock('Magento\Data\Form\Element\Factory', array(), array(), '', false);
+        $factoryColl = $this->getMock('Magento\Data\Form\Element\CollectionFactory', array(), array(), '', false);
+        $formMock = $this->getMock('Magento\Data\Form\AbstractForm', array(), array($factory, $factoryColl));
+        $collection = $helper->getObject('Magento\Data\Form\Element\Collection', array(
             'container' => $formMock
         ));
         $collection->add($fieldMock);

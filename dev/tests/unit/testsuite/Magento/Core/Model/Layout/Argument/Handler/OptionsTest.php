@@ -10,17 +10,19 @@
  */
 
 /**
- * Test class for Magento_Core_Model_Layout_Argument_Handler_Options
+ * Test class for \Magento\Core\Model\Layout\Argument\Handler\Options
  */
-class Magento_Core_Model_Layout_Argument_Handler_OptionsTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Layout\Argument\Handler;
+
+class OptionsTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Layout_Argument_Handler_Options
+     * @var \Magento\Core\Model\Layout\Argument\Handler\Options
      */
     protected $_model;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManagerMock;
 
@@ -28,17 +30,17 @@ class Magento_Core_Model_Layout_Argument_Handler_OptionsTest extends PHPUnit_Fra
     {
         include_once(__DIR__ . DIRECTORY_SEPARATOR . 'TestOptions.php');
 
-        $helperObjectManager = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
+        $helperObjectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
         $this->_model = $helperObjectManager->getObject(
-            'Magento_Core_Model_Layout_Argument_Handler_Options',
+            'Magento\Core\Model\Layout\Argument\Handler\Options',
             array('objectManager' => $this->_objectManagerMock)
         );
     }
 
     /**
      * @dataProvider parseDataProvider()
-     * @param Magento_Core_Model_Layout_Element $argument
+     * @param \Magento\Core\Model\Layout\Element $argument
      * @param array $expectedResult
      */
     public function testParse($argument, $expectedResult)
@@ -54,7 +56,7 @@ class Magento_Core_Model_Layout_Argument_Handler_OptionsTest extends PHPUnit_Fra
     {
         $layout = simplexml_load_file(
             __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'arguments.xml',
-            'Magento_Core_Model_Layout_Element'
+            'Magento\Core\Model\Layout\Element'
         );
         $optionsArguments = $layout->xpath('//argument[@name="testOptions"]');
         return array(
@@ -63,7 +65,7 @@ class Magento_Core_Model_Layout_Argument_Handler_OptionsTest extends PHPUnit_Fra
                 array(
                     'type' => 'options',
                     'value' => array(
-                        'model' => 'Magento_Core_Model_Layout_Argument_Handler_TestOptions',
+                        'model' => 'Magento\Core\Model\Layout\Argument\Handler\TestOptions',
                     )
                 )
             ),
@@ -78,7 +80,7 @@ class Magento_Core_Model_Layout_Argument_Handler_OptionsTest extends PHPUnit_Fra
     public function testProcess($argument, $expectedResult)
     {
         $optionsMock = $this->getMock(
-            'Magento_Core_Model_Layout_Argument_Handler_TestOptions', array(), array(), '', false, false
+            'Magento\Core\Model\Layout\Argument\Handler\TestOptions', array(), array(), '', false, false
         );
         $optionsMock->expects($this->once())
             ->method('toOptionArray')
@@ -86,7 +88,7 @@ class Magento_Core_Model_Layout_Argument_Handler_OptionsTest extends PHPUnit_Fra
 
         $this->_objectManagerMock->expects($this->once())
             ->method('create')
-            ->with('Magento_Core_Model_Layout_Argument_Handler_TestOptions')
+            ->with('Magento\Core\Model\Layout\Argument\Handler\TestOptions')
             ->will($this->returnValue($optionsMock));
 
         $this->assertEquals($this->_model->process($argument), $expectedResult);
@@ -101,7 +103,7 @@ class Magento_Core_Model_Layout_Argument_Handler_OptionsTest extends PHPUnit_Fra
             array(
                 array(
                     'value' => array(
-                        'model' => 'Magento_Core_Model_Layout_Argument_Handler_TestOptions',
+                        'model' => 'Magento\Core\Model\Layout\Argument\Handler\TestOptions',
                     )
                 ),
                 array(

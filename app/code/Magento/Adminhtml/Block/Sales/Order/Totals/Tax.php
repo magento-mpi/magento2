@@ -15,44 +15,46 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Totals_Tax extends Magento_Tax_Block_Sales_Order_Tax
+namespace Magento\Adminhtml\Block\Sales\Order\Totals;
+
+class Tax extends \Magento\Tax\Block\Sales\Order\Tax
 {
     /**
-     * @var Magento_Tax_Helper_Data
+     * @var \Magento\Tax\Helper\Data
      */
     protected $_taxHelper;
 
     /**
-     * @var Magento_Tax_Model_Calculation
+     * @var \Magento\Tax\Model\Calculation
      */
     protected $_taxCalculation;
 
     /**
-     * @var Magento_Tax_Model_Sales_Order_Tax_Factory
+     * @var \Magento\Tax\Model\Sales\Order\Tax\Factory
      */
     protected $_taxOrderFactory;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Tax_Model_Config $taxConfig
-     * @param Magento_Tax_Helper_Data $taxHelper
-     * @param Magento_Tax_Model_Calculation $taxCalculation
-     * @param Magento_Tax_Model_Sales_Order_Tax_Factory $taxOrderFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Tax\Model\Config $taxConfig
+     * @param \Magento\Tax\Helper\Data $taxHelper
+     * @param \Magento\Tax\Model\Calculation $taxCalculation
+     * @param \Magento\Tax\Model\Sales\Order\Tax\Factory $taxOrderFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Tax_Model_Config $taxConfig,
-        Magento_Tax_Helper_Data $taxHelper,
-        Magento_Tax_Model_Calculation $taxCalculation,
-        Magento_Tax_Model_Sales_Order_Tax_Factory $taxOrderFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Tax\Model\Config $taxConfig,
+        \Magento\Tax\Helper\Data $taxHelper,
+        \Magento\Tax\Model\Calculation $taxCalculation,
+        \Magento\Tax\Model\Sales\Order\Tax\Factory $taxOrderFactory,
         array $data = array()
     ) {
         $this->_taxHelper = $taxHelper;
@@ -69,10 +71,10 @@ class Magento_Adminhtml_Block_Sales_Order_Totals_Tax extends Magento_Tax_Block_S
      */
     public function getFullTaxInfo()
     {
-        /** @var $source Magento_Sales_Model_Order */
+        /** @var $source \Magento\Sales\Model\Order */
         $source = $this->getOrder();
         $taxClassAmount = array();
-        if ($source instanceof Magento_Sales_Model_Order) {
+        if ($source instanceof \Magento\Sales\Model\Order) {
             $taxClassAmount = $this->_taxHelper->getCalculatedTaxes($source);
             $shippingTax    = $this->_taxHelper->getShippingTax($source);
             $taxClassAmount = array_merge($taxClassAmount, $shippingTax);
@@ -93,7 +95,7 @@ class Magento_Adminhtml_Block_Sales_Order_Totals_Tax extends Magento_Tax_Block_S
      */
     public function displayAmount($amount, $baseAmount)
     {
-        return $this->_helperFactory->get('Magento_Adminhtml_Helper_Sales')->displayPrices(
+        return $this->_helperFactory->get('Magento\Adminhtml\Helper\Sales')->displayPrices(
             $this->getSource(), $baseAmount, $amount, false, '<br />'
         );
     }
@@ -101,7 +103,7 @@ class Magento_Adminhtml_Block_Sales_Order_Totals_Tax extends Magento_Tax_Block_S
     /**
      * Get store object for process configuration settings
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getStore()
     {

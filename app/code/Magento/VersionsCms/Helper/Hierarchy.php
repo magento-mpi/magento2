@@ -11,7 +11,9 @@
 /**
  * CMS Hierarchy data helper
  */
-class Magento_VersionsCms_Helper_Hierarchy extends Magento_Core_Helper_Abstract
+namespace Magento\VersionsCms\Helper;
+
+class Hierarchy extends \Magento\Core\Helper\AbstractHelper
 {
     const XML_PATH_HIERARCHY_ENABLED    = 'cms/hierarchy/enabled';
     const XML_PATH_METADATA_ENABLED     = 'cms/hierarchy/metadata_enabled';
@@ -26,24 +28,24 @@ class Magento_VersionsCms_Helper_Hierarchy extends Magento_Core_Helper_Abstract
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_StoreManagerInterface $storeManager
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_storeManager = $storeManager;
@@ -211,15 +213,15 @@ class Magento_VersionsCms_Helper_Hierarchy extends Magento_Core_Helper_Abstract
      */
     public function getParentScope($scope, $scopeId)
     {
-        if ($scope === Magento_VersionsCms_Model_Hierarchy_Node::NODE_SCOPE_STORE) {
+        if ($scope === \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_STORE) {
             return array(
-                Magento_VersionsCms_Model_Hierarchy_Node::NODE_SCOPE_WEBSITE,
+                \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_WEBSITE,
                 $this->_storeManager->getStore($scopeId)->getWebsiteId(),
             );
-        } elseif ($scope === Magento_VersionsCms_Model_Hierarchy_Node::NODE_SCOPE_WEBSITE) {
+        } elseif ($scope === \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_WEBSITE) {
             return array(
-                Magento_VersionsCms_Model_Hierarchy_Node::NODE_SCOPE_DEFAULT,
-                Magento_VersionsCms_Model_Hierarchy_Node::NODE_SCOPE_DEFAULT_ID,
+                \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_DEFAULT,
+                \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_DEFAULT_ID,
             );
         }
 

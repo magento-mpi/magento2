@@ -15,7 +15,9 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Connect_Loader_Ftp
+namespace Magento\Connect\Loader;
+
+class Ftp
 {
 
     const TEMPORARY_DIR = 'var/package/tmp';
@@ -27,7 +29,7 @@ class Magento_Connect_Loader_Ftp
     /**
     * Object of Ftp
     *
-    * @var Magento_Connect_Ftp
+    * @var \Magento\Connect\Ftp
     */
     protected $_ftp = null;
 
@@ -48,7 +50,7 @@ class Magento_Connect_Loader_Ftp
     */
     public function __construct()
     {
-        $this->_ftp = new Magento_Connect_Ftp();
+        $this->_ftp = new \Magento\Connect\Ftp();
     }
 
     public function getFtp()

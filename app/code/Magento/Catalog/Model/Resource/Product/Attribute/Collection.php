@@ -16,33 +16,35 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Product_Attribute_Collection
-    extends Magento_Eav_Model_Resource_Entity_Attribute_Collection
+namespace Magento\Catalog\Model\Resource\Product\Attribute;
+
+class Collection
+    extends \Magento\Eav\Model\Resource\Entity\Attribute\Collection
 {
     /**
      * Entity factory1
      *
-     * @var Magento_Eav_Model_EntityFactory
+     * @var \Magento\Eav\Model\EntityFactory
      */
     protected $_eavEntityFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Eav_Model_EntityFactory $eavEntityFactory
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        Magento_Eav_Model_EntityFactory $eavEntityFactory,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null
+        \Magento\Eav\Model\EntityFactory $eavEntityFactory,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_eavEntityFactory = $eavEntityFactory;
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
@@ -54,24 +56,24 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Collection
      */
     protected function _construct()
     {
-        $this->_init('Magento_Catalog_Model_Resource_Eav_Attribute', 'Magento_Eav_Model_Resource_Entity_Attribute');
+        $this->_init('Magento\Catalog\Model\Resource\Eav\Attribute', 'Magento\Eav\Model\Resource\Entity\Attribute');
     }
 
     /**
      * initialize select object
      *
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Collection
      */
     protected function _initSelect()
     {
-        $entityTypeId = (int)$this->_eavEntityFactory->create()->setType(Magento_Catalog_Model_Product::ENTITY)
+        $entityTypeId = (int)$this->_eavEntityFactory->create()->setType(\Magento\Catalog\Model\Product::ENTITY)
             ->getTypeId();
         $columns = $this->getConnection()->describeTable($this->getResource()->getMainTable());
         unset($columns['attribute_id']);
         $retColumns = array();
         foreach ($columns as $labelColumn => $columnData) {
             $retColumns[$labelColumn] = $labelColumn;
-            if ($columnData['DATA_TYPE'] == Magento_DB_Ddl_Table::TYPE_TEXT) {
+            if ($columnData['DATA_TYPE'] == \Magento\DB\Ddl\Table::TYPE_TEXT) {
                 $retColumns[$labelColumn] = 'main_table.' . $labelColumn;
             }
         }
@@ -90,7 +92,7 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Collection
      * Entity type is defined.
      *
      * @param  int $typeId
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Collection
      */
     public function setEntityTypeFilter($typeId)
     {
@@ -119,7 +121,7 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Collection
     /**
      * Remove price from attribute list
      *
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Collection
      */
     public function removePriceFilter()
     {
@@ -129,7 +131,7 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Collection
     /**
      * Specify "is_visible_in_advanced_search" filter
      *
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Collection
      */
     public function addDisplayInAdvancedSearchFilter()
     {
@@ -139,7 +141,7 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Collection
     /**
      * Specify "is_filterable" filter
      *
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Collection
      */
     public function addIsFilterableFilter()
     {
@@ -149,7 +151,7 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Collection
     /**
      * Add filterable in search filter
      *
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Collection
      */
     public function addIsFilterableInSearchFilter()
     {
@@ -159,7 +161,7 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Collection
     /**
      * Specify filter by "is_visible" field
      *
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Collection
      */
     public function addVisibleFilter()
     {
@@ -169,7 +171,7 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Collection
     /**
      * Specify "is_searchable" filter
      *
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Collection
      */
     public function addIsSearchableFilter()
     {
@@ -180,7 +182,7 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Collection
      * Specify filter for attributes that have to be indexed
      *
      * @param bool $addRequiredCodes
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Collection
      */
     public function addToIndexFilter($addRequiredCodes = false)
     {
@@ -205,7 +207,7 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Collection
     /**
      * Specify filter for attributes used in quick search
      *
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Collection
      */
     public function addSearchableAttributeFilter()
     {

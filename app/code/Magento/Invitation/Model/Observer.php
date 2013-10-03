@@ -14,7 +14,9 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-class Magento_Invitation_Model_Observer
+namespace Magento\Invitation\Model;
+
+class Observer
 {
     /**
      * Flag that indicates customer registration page
@@ -26,42 +28,42 @@ class Magento_Invitation_Model_Observer
     /**
      * Invitation configuration
      *
-     * @var Magento_Invitation_Model_Config
+     * @var \Magento\Invitation\Model\Config
      */
     protected $_config;
 
     /**
      * Invitation data
      *
-     * @var Magento_Invitation_Helper_Data
+     * @var \Magento\Invitation\Helper\Data
      */
     protected $_invitationData;
 
     /**
      * Backend Session
      *
-     * @var Magento_Backend_Model_Auth_Session
+     * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_session;
 
     /**
      * Request object
      *
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     protected $_request;
 
     /**
-     * @param Magento_Invitation_Helper_Data $invitationData
-     * @param Magento_Invitation_Model_Config $config
-     * @param Magento_Backend_Model_Auth_Session $session
-     * @param Magento_Core_Controller_Request_Http $request
+     * @param \Magento\Invitation\Helper\Data $invitationData
+     * @param \Magento\Invitation\Model\Config $config
+     * @param \Magento\Backend\Model\Auth\Session $session
+     * @param \Magento\Core\Controller\Request\Http $request
      */
     public function __construct(
-        Magento_Invitation_Helper_Data $invitationData,
-        Magento_Invitation_Model_Config $config,
-        Magento_Backend_Model_Auth_Session $session,
-        Magento_Core_Controller_Request_Http $request
+        \Magento\Invitation\Helper\Data $invitationData,
+        \Magento\Invitation\Model\Config $config,
+        \Magento\Backend\Model\Auth\Session $session,
+        \Magento\Core\Controller\Request\Http $request
     ) {
         $this->_invitationData = $invitationData;
         $this->_config = $config;
@@ -73,16 +75,16 @@ class Magento_Invitation_Model_Observer
      * Handler for invitation mass update
      *
      * @param array $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchInvitationMassUpdate($config, $eventModel)
     {
         $messages = $this->_session->getMessages();
         $errors = $messages->getErrors();
-        $notices = $messages->getItemsByType(Magento_Core_Model_Message::NOTICE);
+        $notices = $messages->getItemsByType(\Magento\Core\Model\Message::NOTICE);
         $status = (empty($errors) && empty($notices))
-            ? Magento_Logging_Model_Event::RESULT_SUCCESS : Magento_Logging_Model_Event::RESULT_FAILURE;
+            ? \Magento\Logging\Model\Event::RESULT_SUCCESS : \Magento\Logging\Model\Event::RESULT_FAILURE;
         return $eventModel->setStatus($status)
             ->setInfo($this->_request->getParam('invitations'));
     }

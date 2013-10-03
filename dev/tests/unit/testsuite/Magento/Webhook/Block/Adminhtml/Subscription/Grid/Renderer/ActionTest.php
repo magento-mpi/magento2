@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Block_Adminhtml_Subscription_Grid_Renderer_Action
+ * \Magento\Webhook\Block\Adminhtml\Subscription\Grid\Renderer\Action
  *
  * {license_notice}
  *
@@ -9,15 +9,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Block_Adminhtml_Subscription_Grid_Renderer_ActionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Block\Adminhtml\Subscription\Grid\Renderer;
+
+class ActionTest extends \PHPUnit_Framework_TestCase
 {
     public function testRenderWrongType()
     {
-        $context = $this->getMockBuilder('Magento_Backend_Block_Context')
+        $context = $this->getMockBuilder('Magento\Backend\Block\Context')
             ->disableOriginalConstructor()
             ->getMock();
-        $gridRenderer = new Magento_Webhook_Block_Adminhtml_Subscription_Grid_Renderer_Action($context);
-        $row = $this->getMockBuilder('Magento_Object')
+        $gridRenderer = new \Magento\Webhook\Block\Adminhtml\Subscription\Grid\Renderer\Action($context);
+        $row = $this->getMockBuilder('Magento\Object')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -33,12 +35,12 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Grid_Renderer_ActionTest exte
      */
     public function testRender($status, $contains)
     {
-        $urlBuilder = $this->getMock('Magento_Core_Model_Url', array('getUrl'), array(), '', false);
+        $urlBuilder = $this->getMock('Magento\Core\Model\Url', array('getUrl'), array(), '', false);
         $urlBuilder->expects($this->any())
             ->method('getUrl')
             ->will($this->returnArgument(0));
-        $translator = $this->getMock('Magento_Core_Model_Translate', array('translate'), array(), '', false);
-        $context = $this->getMockBuilder('Magento_Backend_Block_Context')
+        $translator = $this->getMock('Magento\Core\Model\Translate', array('translate'), array(), '', false);
+        $context = $this->getMockBuilder('Magento\Backend\Block\Context')
             ->disableOriginalConstructor()
             ->getMock();
         $context->expects($this->once())
@@ -47,8 +49,8 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Grid_Renderer_ActionTest exte
         $context->expects($this->any())
             ->method('getTranslator')
             ->will($this->returnValue($translator));
-        $gridRenderer = new Magento_Webhook_Block_Adminhtml_Subscription_Grid_Renderer_Action($context);
-        $row = $this->getMockBuilder('Magento_Webhook_Model_Subscription')
+        $gridRenderer = new \Magento\Webhook\Block\Adminhtml\Subscription\Grid\Renderer\Action($context);
+        $row = $this->getMockBuilder('Magento\Webhook\Model\Subscription')
             ->disableOriginalConstructor()
             ->getMock();
         $row->expects($this->any())
@@ -73,9 +75,9 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Grid_Renderer_ActionTest exte
     public function renderDataProvider()
     {
         return array(
-            array(Magento_Webhook_Model_Subscription::STATUS_ACTIVE, 'revoke'),
-            array(Magento_Webhook_Model_Subscription::STATUS_REVOKED, 'activate'),
-            array(Magento_Webhook_Model_Subscription::STATUS_INACTIVE, 'activate'),
+            array(\Magento\Webhook\Model\Subscription::STATUS_ACTIVE, 'revoke'),
+            array(\Magento\Webhook\Model\Subscription::STATUS_REVOKED, 'activate'),
+            array(\Magento\Webhook\Model\Subscription::STATUS_INACTIVE, 'activate'),
         );
     }
 }

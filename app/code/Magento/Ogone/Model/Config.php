@@ -11,29 +11,31 @@
 /**
  * Config model
  */
-class Magento_Ogone_Model_Config extends Magento_Payment_Model_Config
+namespace Magento\Ogone\Model;
+
+class Config extends \Magento\Payment\Model\Config
 {
     const OGONE_PAYMENT_PATH = 'payment/ogone/';
 
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @var Magento_Core_Model_UrlInterface
+     * @var \Magento\Core\Model\UrlInterface
      */
     protected $_urlBuilder;
 
     /**
-     * @param Magento_Core_Model_UrlInterface $urlBuilder
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Model\UrlInterface $urlBuilder
+     * @param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
-        Magento_Core_Model_UrlInterface $urlBuilder,
-        Magento_Core_Helper_Data $coreData
+        \Magento\Core\Model\UrlInterface $urlBuilder,
+        \Magento\Core\Helper\Data $coreData
     ) {
         $this->_urlBuilder = $urlBuilder;
         $this->_coreData = $coreData;

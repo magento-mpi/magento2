@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <virtualType name="Magento_Reports_Model_Session" type="Magento_Core_Model_Session_Generic">
+    <virtualType name="Magento\Reports\Model\Session" type="Magento\Core\Model\Session\Generic">
         <param name="sessionNamespace">
             <value>reports</value>
         </param>
@@ -16,7 +16,7 @@
             <value>adminhtml</value>
         </param>
     </virtualType>
-    <type name="Magento_Core_Model_Session_Generic">
+    <type name="Magento\Core\Model\Session\Generic">
         <param name="sessionNamespace">
             <value>reports</value>
         </param>

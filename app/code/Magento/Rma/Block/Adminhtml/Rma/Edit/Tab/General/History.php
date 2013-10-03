@@ -11,33 +11,35 @@
 /**
  * Comments History Block at RMA page
  */
-class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_History
-    extends Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Abstract
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General;
+
+class History
+    extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\AbstractGeneral
 {
     /**
-     * @var Magento_Rma_Model_Config
+     * @var \Magento\Rma\Model\Config
      */
     protected $_rmaConfig;
 
     /**
-     * @var Magento_Rma_Model_Resource_Rma_Status_History_CollectionFactory
+     * @var \Magento\Rma\Model\Resource\Rma\Status\History\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Rma_Model_Config $rmaConfig
-     * @param Magento_Rma_Model_Resource_Rma_Status_History_CollectionFactory $collectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Rma\Model\Config $rmaConfig
+     * @param \Magento\Rma\Model\Resource\Rma\Status\History\CollectionFactory $collectionFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Rma_Model_Config $rmaConfig,
-        Magento_Rma_Model_Resource_Rma_Status_History_CollectionFactory $collectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Rma\Model\Config $rmaConfig,
+        \Magento\Rma\Model\Resource\Rma\Status\History\CollectionFactory $collectionFactory,
         array $data = array()
     ) {
         $this->_rmaConfig = $rmaConfig;
@@ -48,12 +50,12 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_History
     /**
      * Prepare child blocks
      *
-     * @return Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_History
+     * @return \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\History
      */
     protected function _prepareLayout()
     {
         $onclick = "submitAndReloadArea($('rma-history-block').parentNode, '".$this->getSubmitUrl()."')";
-        $button = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+        $button = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
                 'label'   => __('Submit Comment'),
                 'class'   => 'save',
@@ -97,11 +99,11 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_History
     }
 
     /**
-     * @return Magento_Rma_Model_Resource_Rma_Status_History_Collection
+     * @return \Magento\Rma\Model\Resource\Rma\Status\History\Collection
      */
     public function getComments()
     {
-        /** @var $collection Magento_Rma_Model_Resource_Rma_Status_History_Collection */
+        /** @var $collection \Magento\Rma\Model\Resource\Rma\Status\History\Collection */
         $collection = $this->_collectionFactory->create();
         return $collection->addFieldToFilter('rma_entity_id', $this->_coreRegistry->registry('current_rma')->getId());
     }

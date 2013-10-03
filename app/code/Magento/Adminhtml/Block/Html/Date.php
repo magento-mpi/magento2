@@ -15,6 +15,8 @@
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Html_Date extends Magento_Core_Block_Html_Date
+namespace Magento\Adminhtml\Block\Html;
+
+class Date extends \Magento\Core\Block\Html\Date
 {
 }

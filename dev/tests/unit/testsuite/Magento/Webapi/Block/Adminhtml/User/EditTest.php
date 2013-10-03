@@ -1,32 +1,34 @@
 <?php
 /**
- * Test class for Magento_Webapi_Block_Adminhtml_User_Edit
+ * Test class for \Magento\Webapi\Block\Adminhtml\User\Edit
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Block_Adminhtml_User_EditTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Block\Adminhtml\User;
+
+class EditTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Controller_Request_Http|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Controller\Request\Http|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_request;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Core_Helper_Data
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Helper\Data
      */
     protected $_coreData;
 
     /**
-     * @var Magento_Webapi_Block_Adminhtml_User_Edit
+     * @var \Magento\Webapi\Block\Adminhtml\User\Edit
      */
     protected $_block;
 
     protected function setUp()
     {
-        $this->_request = $this->getMockBuilder('Magento_Core_Controller_Request_Http')
+        $this->_request = $this->getMockBuilder('Magento\Core\Controller\Request\Http')
             ->disableOriginalConstructor()
             ->setMethods(array('getParam'))
             ->getMock();
@@ -36,25 +38,25 @@ class Magento_Webapi_Block_Adminhtml_User_EditTest extends PHPUnit_Framework_Tes
             ->with('user_id')
             ->will($this->returnValue(1));
 
-        $this->_coreData = $this->getMockBuilder('Magento_Core_Helper_Data')
+        $this->_coreData = $this->getMockBuilder('Magento\Core\Helper\Data')
             ->disableOriginalConstructor()
             ->setMethods(array('escapeHtml'))
             ->getMock();
 
-        $helperFactory = $this->getMockBuilder('Magento_Core_Model_Factory_Helper')
+        $helperFactory = $this->getMockBuilder('Magento\Core\Model\Factory\Helper')
             ->disableOriginalConstructor()
             ->setMethods(array('get'))
             ->getMock();
 
         $helperFactory->expects($this->any())
             ->method('get')
-            ->with($this->equalTo('Magento_Core_Helper_Data'))
+            ->with($this->equalTo('Magento\Core\Helper\Data'))
             ->will($this->returnValue($this->_coreData));
 
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_block = $helper->getObject('Magento_Webapi_Block_Adminhtml_User_Edit', array(
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_block = $helper->getObject('Magento\Webapi\Block\Adminhtml\User\Edit', array(
             // TODO: Remove injecting of 'urlBuilder' after MAGENTOTWO-5038 complete
-            'urlBuilder' => $this->getMockBuilder('Magento_Backend_Model_Url')
+            'urlBuilder' => $this->getMockBuilder('Magento\Backend\Model\Url')
                 ->disableOriginalConstructor()
                 ->getMock(),
             'request' => $this->_request,
@@ -80,7 +82,7 @@ class Magento_Webapi_Block_Adminhtml_User_EditTest extends PHPUnit_Framework_Tes
      */
     public function testGetHeaderText()
     {
-        $apiUser = new Magento_Object();
+        $apiUser = new \Magento\Object();
         $this->_block->setApiUser($apiUser);
         $this->assertEquals('New API User', $this->_block->getHeaderText());
 
@@ -105,7 +107,7 @@ class Magento_Webapi_Block_Adminhtml_User_EditTest extends PHPUnit_Framework_Tes
      */
     protected function _assertBlockHasButton($level, $buttonId, $attributeName, $attributeValue)
     {
-        $buttonsProperty = new ReflectionProperty($this->_block, '_buttons');
+        $buttonsProperty = new \ReflectionProperty($this->_block, '_buttons');
         $buttonsProperty->setAccessible(true);
         $buttons = $buttonsProperty->getValue($this->_block);
         $this->assertInternalType('array', $buttons, 'Cannot get block buttons.');

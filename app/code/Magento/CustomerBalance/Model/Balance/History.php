@@ -11,28 +11,30 @@
 /**
  * Customerbalance history model
  *
- * @method Magento_CustomerBalance_Model_Resource_Balance_History _getResource()
- * @method Magento_CustomerBalance_Model_Resource_Balance_History getResource()
+ * @method \Magento\CustomerBalance\Model\Resource\Balance\History _getResource()
+ * @method \Magento\CustomerBalance\Model\Resource\Balance\History getResource()
  * @method int getBalanceId()
- * @method Magento_CustomerBalance_Model_Balance_History setBalanceId(int $value)
+ * @method \Magento\CustomerBalance\Model\Balance\History setBalanceId(int $value)
  * @method string getUpdatedAt()
- * @method Magento_CustomerBalance_Model_Balance_History setUpdatedAt(string $value)
+ * @method \Magento\CustomerBalance\Model\Balance\History setUpdatedAt(string $value)
  * @method int getAction()
- * @method Magento_CustomerBalance_Model_Balance_History setAction(int $value)
+ * @method \Magento\CustomerBalance\Model\Balance\History setAction(int $value)
  * @method float getBalanceAmount()
- * @method Magento_CustomerBalance_Model_Balance_History setBalanceAmount(float $value)
+ * @method \Magento\CustomerBalance\Model\Balance\History setBalanceAmount(float $value)
  * @method float getBalanceDelta()
- * @method Magento_CustomerBalance_Model_Balance_History setBalanceDelta(float $value)
+ * @method \Magento\CustomerBalance\Model\Balance\History setBalanceDelta(float $value)
  * @method string getAdditionalInfo()
- * @method Magento_CustomerBalance_Model_Balance_History setAdditionalInfo(string $value)
+ * @method \Magento\CustomerBalance\Model\Balance\History setAdditionalInfo(string $value)
  * @method int getIsCustomerNotified()
- * @method Magento_CustomerBalance_Model_Balance_History setIsCustomerNotified(int $value)
+ * @method \Magento\CustomerBalance\Model\Balance\History setIsCustomerNotified(int $value)
  *
  * @category    Magento
  * @package     Magento_CustomerBalance
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerBalance_Model_Balance_History extends Magento_Core_Model_Abstract
+namespace Magento\CustomerBalance\Model\Balance;
+
+class History extends \Magento\Core\Model\AbstractModel
 {
     const ACTION_UPDATED  = 1;
     const ACTION_CREATED  = 2;
@@ -43,56 +45,56 @@ class Magento_CustomerBalance_Model_Balance_History extends Magento_Core_Model_A
     /**
      * Design package instance
      *
-     * @var Magento_Core_Model_View_DesignInterface
+     * @var \Magento\Core\Model\View\DesignInterface
      */
     protected $_design = null;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Backend_Model_Auth_Session
+     * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_authSession;
 
     /**
-     * @var Magento_Core_Model_Email_TemplateFactory
+     * @var \Magento\Core\Model\Email\TemplateFactory
      */
     protected $_templateFactory;
 
     /**
-     * @param Magento_Backend_Model_Auth_Session $authSession
-     * @param Magento_Core_Model_Email_TemplateFactory $templateFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_View_DesignInterface $design
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Backend\Model\Auth\Session $authSession
+     * @param \Magento\Core\Model\Email\TemplateFactory $templateFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Backend_Model_Auth_Session $authSession,
-        Magento_Core_Model_Email_TemplateFactory $templateFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_View_DesignInterface $design,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Backend\Model\Auth\Session $authSession,
+        \Magento\Core\Model\Email\TemplateFactory $templateFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_authSession = $authSession;
@@ -109,7 +111,7 @@ class Magento_CustomerBalance_Model_Balance_History extends Magento_Core_Model_A
      */
     protected function _construct()
     {
-        $this->_init('Magento_CustomerBalance_Model_Resource_Balance_History');
+        $this->_init('Magento\CustomerBalance\Model\Resource\Balance\History');
     }
 
     /**
@@ -131,13 +133,13 @@ class Magento_CustomerBalance_Model_Balance_History extends Magento_Core_Model_A
     /**
      * Validate balance history before saving
      *
-     * @return Magento_CustomerBalance_Model_Balance_History
+     * @return \Magento\CustomerBalance\Model\Balance\History
      */
     protected function _beforeSave()
     {
         $balance = $this->getBalanceModel();
         if ((!$balance) || !$balance->getId()) {
-            throw new Magento_Core_Exception(__('You need a balance to save your balance history.'));
+            throw new \Magento\Core\Exception(__('You need a balance to save your balance history.'));
         }
 
         $this->addData(array(
@@ -175,7 +177,7 @@ class Magento_CustomerBalance_Model_Balance_History extends Magento_Core_Model_A
             case self::ACTION_REFUNDED:
                 $this->_checkBalanceModelOrder($balance);
                 if ((!$balance->getCreditMemo()) || !$balance->getCreditMemo()->getIncrementId()) {
-                    throw new Magento_Core_Exception(__('There is no credit memo set to balance model.'));
+                    throw new \Magento\Core\Exception(__('There is no credit memo set to balance model.'));
                 }
                 $this->setAdditionalInfo(
                     __('Order #%1, creditmemo #%2', $balance->getOrder()->getIncrementId(), $balance->getCreditMemo()->getIncrementId())
@@ -186,7 +188,7 @@ class Magento_CustomerBalance_Model_Balance_History extends Magento_Core_Model_A
                 $this->setAdditionalInfo(__('Order #%1', $balance->getOrder()->getIncrementId()));
                 break;
             default:
-                throw new Magento_Core_Exception(__('Unknown balance history action code'));
+                throw new \Magento\Core\Exception(__('Unknown balance history action code'));
                 // break intentionally omitted
         }
         $this->setAction((int)$balance->getHistoryAction());
@@ -197,7 +199,7 @@ class Magento_CustomerBalance_Model_Balance_History extends Magento_Core_Model_A
     /**
      * Send balance update if required
      *
-     * @return Magento_CustomerBalance_Model_Balance_History
+     * @return \Magento\CustomerBalance\Model\Balance\History
      */
     protected function _afterSave()
     {
@@ -231,12 +233,12 @@ class Magento_CustomerBalance_Model_Balance_History extends Magento_Core_Model_A
     /**
      * Validate order model for balance update
      *
-     * @param Magento_Sales_Model_Order $model
+     * @param \Magento\Sales\Model\Order $model
      */
     protected function _checkBalanceModelOrder($model)
     {
         if ((!$model->getOrder()) || !$model->getOrder()->getIncrementId()) {
-            throw new Magento_Core_Exception(__('There is no order set to balance model.'));
+            throw new \Magento\Core\Exception(__('There is no order set to balance model.'));
         }
     }
 
@@ -250,7 +252,7 @@ class Magento_CustomerBalance_Model_Balance_History extends Magento_Core_Model_A
     public function getHistoryData($customerId, $websiteId = null)
     {
         $result = array();
-        /** @var $collection Magento_CustomerBalance_Model_Resource_Balance_History_Collection */
+        /** @var $collection \Magento\CustomerBalance\Model\Resource\Balance\History\Collection */
         $collection = $this->getCollection()->loadHistoryData($customerId, $websiteId);
         foreach ($collection as $historyItem) {
             $result[] = $historyItem->getData();

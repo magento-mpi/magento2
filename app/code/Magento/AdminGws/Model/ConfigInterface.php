@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_AdminGws_Model_ConfigInterface
+namespace Magento\AdminGws\Model;
+
+interface ConfigInterface
 {
     /**
      * Get callback list by group name

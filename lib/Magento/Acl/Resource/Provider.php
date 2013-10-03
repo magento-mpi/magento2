@@ -5,32 +5,34 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Acl_Resource_Provider implements Magento_Acl_Resource_ProviderInterface
+namespace Magento\Acl\Resource;
+
+class Provider implements \Magento\Acl\Resource\ProviderInterface
 {
     /**
-     * @var Magento_Config_ReaderInterface
+     * @var \Magento\Config\ReaderInterface
      */
     protected $_configReader;
 
     /**
-     * @var Magento_Config_ScopeInterface
+     * @var \Magento\Config\ScopeInterface
      */
     protected $_scope;
 
     /**
-     * @var Magento_Acl_Resource_TreeBuilder
+     * @var \Magento\Acl\Resource\TreeBuilder
      */
     protected $_resourceTreeBuilder;
 
     /**
-     * @param Magento_Config_ReaderInterface $configReader
-     * @param Magento_Config_ScopeInterface $scope
-     * @param Magento_Acl_Resource_TreeBuilder $resourceTreeBuilder
+     * @param \Magento\Config\ReaderInterface $configReader
+     * @param \Magento\Config\ScopeInterface $scope
+     * @param \Magento\Acl\Resource\TreeBuilder $resourceTreeBuilder
      */
     public function __construct(
-        Magento_Config_ReaderInterface $configReader,
-        Magento_Config_ScopeInterface $scope,
-        Magento_Acl_Resource_TreeBuilder $resourceTreeBuilder
+        \Magento\Config\ReaderInterface $configReader,
+        \Magento\Config\ScopeInterface $scope,
+        \Magento\Acl\Resource\TreeBuilder $resourceTreeBuilder
     ) {
         $this->_configReader = $configReader;
         $this->_scope = $scope;

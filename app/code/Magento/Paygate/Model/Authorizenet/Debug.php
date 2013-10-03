@@ -10,29 +10,31 @@
 
 
 /**
- * @method Magento_Paygate_Model_Resource_Authorizenet_Debug _getResource()
- * @method Magento_Paygate_Model_Resource_Authorizenet_Debug getResource()
+ * @method \Magento\Paygate\Model\Resource\Authorizenet\Debug _getResource()
+ * @method \Magento\Paygate\Model\Resource\Authorizenet\Debug getResource()
  * @method string getRequestBody()
- * @method Magento_Paygate_Model_Authorizenet_Debug setRequestBody(string $value)
+ * @method \Magento\Paygate\Model\Authorizenet\Debug setRequestBody(string $value)
  * @method string getResponseBody()
- * @method Magento_Paygate_Model_Authorizenet_Debug setResponseBody(string $value)
+ * @method \Magento\Paygate\Model\Authorizenet\Debug setResponseBody(string $value)
  * @method string getRequestSerialized()
- * @method Magento_Paygate_Model_Authorizenet_Debug setRequestSerialized(string $value)
+ * @method \Magento\Paygate\Model\Authorizenet\Debug setRequestSerialized(string $value)
  * @method string getResultSerialized()
- * @method Magento_Paygate_Model_Authorizenet_Debug setResultSerialized(string $value)
+ * @method \Magento\Paygate\Model\Authorizenet\Debug setResultSerialized(string $value)
  * @method string getRequestDump()
- * @method Magento_Paygate_Model_Authorizenet_Debug setRequestDump(string $value)
+ * @method \Magento\Paygate\Model\Authorizenet\Debug setRequestDump(string $value)
  * @method string getResultDump()
- * @method Magento_Paygate_Model_Authorizenet_Debug setResultDump(string $value)
+ * @method \Magento\Paygate\Model\Authorizenet\Debug setResultDump(string $value)
  *
  * @category    Magento
  * @package     Magento_Paygate
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paygate_Model_Authorizenet_Debug extends Magento_Core_Model_Abstract
+namespace Magento\Paygate\Model\Authorizenet;
+
+class Debug extends \Magento\Core\Model\AbstractModel
 {
     protected function _construct()
     {
-        $this->_init('Magento_Paygate_Model_Resource_Authorizenet_Debug');
+        $this->_init('Magento\Paygate\Model\Resource\Authorizenet\Debug');
     }
 }

@@ -11,7 +11,9 @@
 /**
  * Catalog product image controls model
  */
-class Magento_Catalog_Model_Product_Image_View extends Magento_Object
+namespace Magento\Catalog\Model\Product\Image;
+
+class View extends \Magento\Object
 {
     /**
      * Separator between location and suffix
@@ -44,17 +46,17 @@ class Magento_Catalog_Model_Product_Image_View extends Magento_Object
     const WHITE_BORDERS_MODULE = 'Magento_Catalog';
 
     /**
-     * @var Magento_Config_View
+     * @var \Magento\Config\View
      */
     protected $_configView;
 
     /**
-     * @var Magento_Catalog_Helper_Image
+     * @var \Magento\Catalog\Helper\Image
      */
     protected $_helperImage;
 
     /**
-     * @var Magento_Catalog_Model_Product
+     * @var \Magento\Catalog\Model\Product
      */
     protected $_product;
 
@@ -71,18 +73,18 @@ class Magento_Catalog_Model_Product_Image_View extends Magento_Object
     /**
      * View config model
      *
-     * @var Magento_Core_Model_View_Config
+     * @var \Magento\Core\Model\View\Config
      */
     protected $_viewConfig;
 
     /**
-     * @param Magento_Catalog_Helper_Image $helperImage
-     * @param Magento_Core_Model_View_Config $viewConfig
+     * @param \Magento\Catalog\Helper\Image $helperImage
+     * @param \Magento\Core\Model\View\Config $viewConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Helper_Image $helperImage,
-        Magento_Core_Model_View_Config $viewConfig,
+        \Magento\Catalog\Helper\Image $helperImage,
+        \Magento\Core\Model\View\Config $viewConfig,
         array $data = array()
     ) {
         $this->_helperImage = $helperImage;
@@ -93,12 +95,12 @@ class Magento_Catalog_Model_Product_Image_View extends Magento_Object
     /**
      * Initialize block
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param string $location
      * @param string $module
-     * @return Magento_Catalog_Model_Product_Image_View
+     * @return \Magento\Catalog\Model\Product\Image\View
      */
-    public function init(Magento_Catalog_Model_Product $product, $location, $module = null)
+    public function init(\Magento\Catalog\Model\Product $product, $location, $module = null)
     {
         $this->_product = $product;
         $this->_location = $location;
@@ -176,7 +178,7 @@ class Magento_Catalog_Model_Product_Image_View extends Magento_Object
     /**
      * Get view config object
      *
-     * @return Magento_Config_View
+     * @return \Magento\Config\View
      */
     protected function _getConfigView()
     {

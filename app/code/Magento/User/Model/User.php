@@ -9,41 +9,43 @@
 /**
  * Admin user model
  *
- * @method Magento_User_Model_Resource_User _getResource()
- * @method Magento_User_Model_Resource_User getResource()
+ * @method \Magento\User\Model\Resource\User _getResource()
+ * @method \Magento\User\Model\Resource\User getResource()
  * @method string getFirstname()
- * @method Magento_User_Model_User setFirstname(string $value)
+ * @method \Magento\User\Model\User setFirstname(string $value)
  * @method string getLastname()
- * @method Magento_User_Model_User setLastname(string $value)
+ * @method \Magento\User\Model\User setLastname(string $value)
  * @method string getEmail()
- * @method Magento_User_Model_User setEmail(string $value)
+ * @method \Magento\User\Model\User setEmail(string $value)
  * @method string getUsername()
- * @method Magento_User_Model_User setUsername(string $value)
+ * @method \Magento\User\Model\User setUsername(string $value)
  * @method string getPassword()
- * @method Magento_User_Model_User setPassword(string $value)
+ * @method \Magento\User\Model\User setPassword(string $value)
  * @method string getCreated()
- * @method Magento_User_Model_User setCreated(string $value)
+ * @method \Magento\User\Model\User setCreated(string $value)
  * @method string getModified()
- * @method Magento_User_Model_User setModified(string $value)
+ * @method \Magento\User\Model\User setModified(string $value)
  * @method string getLogdate()
- * @method Magento_User_Model_User setLogdate(string $value)
+ * @method \Magento\User\Model\User setLogdate(string $value)
  * @method int getLognum()
- * @method Magento_User_Model_User setLognum(int $value)
+ * @method \Magento\User\Model\User setLognum(int $value)
  * @method int getReloadAclFlag()
- * @method Magento_User_Model_User setReloadAclFlag(int $value)
+ * @method \Magento\User\Model\User setReloadAclFlag(int $value)
  * @method int getIsActive()
- * @method Magento_User_Model_User setIsActive(int $value)
+ * @method \Magento\User\Model\User setIsActive(int $value)
  * @method string getExtra()
- * @method Magento_User_Model_User setExtra(string $value)
+ * @method \Magento\User\Model\User setExtra(string $value)
  */
+
+namespace Magento\User\Model;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Magento_User_Model_User
-    extends Magento_Core_Model_Abstract
-    implements Magento_Backend_Model_Auth_Credential_StorageInterface
+class User
+    extends \Magento\Core\Model\AbstractModel
+    implements \Magento\Backend\Model\Auth\Credential\StorageInterface
 {
     /**
      * Configuration paths for email templates and identities
@@ -68,7 +70,7 @@ class Magento_User_Model_User
     /**
      * Admin role
      *
-     * @var Magento_User_Model_Role
+     * @var \Magento\User\Model\Role
      */
     protected $_role;
 
@@ -82,96 +84,96 @@ class Magento_User_Model_User
     /**
      * Mail handler
      *
-     * @var  Magento_Core_Model_Email_Template_Mailer
+     * @var  \Magento\Core\Model\Email\Template\Mailer
      */
     protected $_mailer;
 
-    /** @var Magento_Core_Model_Sender */
+    /** @var \Magento\Core\Model\Sender */
     protected $_sender;
 
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * User data
      *
-     * @var Magento_User_Helper_Data
+     * @var \Magento\User\Helper\Data
      */
     protected $_userData = null;
 
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
     
     /**
      * Factory for validator composite object
      *
-     * @var Magento_Validator_Composite_VarienObjectFactory
+     * @var \Magento\Validator\Composite\VarienObjectFactory
      */
     protected $_validatorComposite;
 
     /**
      * Role model factory
      *
-     * @var Magento_User_Model_RoleFactory
+     * @var \Magento\User\Model\RoleFactory
      */
     protected $_roleFactory;
 
     /**
      * Factory for email info model
      *
-     * @var Magento_Core_Model_Email_InfoFactory
+     * @var \Magento\Core\Model\Email\InfoFactory
      */
     protected $_emailInfoFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_User_Helper_Data $userData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_Sender $sender
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Validator_Composite_VarienObjectFactory $validatorCompositeFactory
-     * @param Magento_User_Model_RoleFactory $roleFactory
-     * @param Magento_Core_Model_Email_InfoFactory $emailInfoFactory
-     * @param Magento_Core_Model_Email_Template_MailerFactory $mailerFactory
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\User\Helper\Data $userData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Sender $sender
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Validator\Composite\VarienObjectFactory $validatorCompositeFactory
+     * @param \Magento\User\Model\RoleFactory $roleFactory
+     * @param \Magento\Core\Model\Email\InfoFactory $emailInfoFactory
+     * @param \Magento\Core\Model\Email\Template\MailerFactory $mailerFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_User_Helper_Data $userData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Sender $sender,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Validator_Composite_VarienObjectFactory $validatorCompositeFactory,
-        Magento_User_Model_RoleFactory $roleFactory,
-        Magento_Core_Model_Email_InfoFactory $emailInfoFactory,
-        Magento_Core_Model_Email_Template_MailerFactory $mailerFactory,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\User\Helper\Data $userData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Sender $sender,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Validator\Composite\VarienObjectFactory $validatorCompositeFactory,
+        \Magento\User\Model\RoleFactory $roleFactory,
+        \Magento\Core\Model\Email\InfoFactory $emailInfoFactory,
+        \Magento\Core\Model\Email\Template\MailerFactory $mailerFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -191,7 +193,7 @@ class Magento_User_Model_User
      */
     protected function _construct()
     {
-        $this->_init('Magento_User_Model_Resource_User');
+        $this->_init('Magento\User\Model\Resource\User');
     }
 
     public function __sleep()
@@ -214,23 +216,23 @@ class Magento_User_Model_User
     public function __wakeup()
     {
         parent::__wakeup();
-        $objectManager = Magento_Core_Model_ObjectManager::getInstance();
-        $this->_eventManager    = $objectManager->get('Magento_Core_Model_Event_Manager');
-        $this->_sender          = $objectManager->get('Magento_Core_Model_Sender');
-        $this->_coreData        = $objectManager->get('Magento_Core_Helper_Data');
-        $this->_userData        = $objectManager->get('Magento_User_Helper_Data');
-        $this->_coreStoreConfig = $objectManager->get('Magento_Core_Model_Store_Config');
-        $this->_coreRegistry    = $objectManager->get('Magento_Core_Model_Registry');
-        $this->_validatorComposite = $objectManager->get('Magento_Validator_Composite_VarienObjectFactory');
-        $this->_roleFactory = $objectManager->get('Magento_User_Model_RoleFactory');
-        $this->_emailInfoFactory = $objectManager->get('Magento_Core_Model_Email_InfoFactory');
-        $this->_mailer = $objectManager->get('Magento_Core_Model_Email_Template_MailerFactory');
+        $objectManager = \Magento\Core\Model\ObjectManager::getInstance();
+        $this->_eventManager    = $objectManager->get('Magento\Core\Model\Event\Manager');
+        $this->_sender          = $objectManager->get('Magento\Core\Model\Sender');
+        $this->_coreData        = $objectManager->get('Magento\Core\Helper\Data');
+        $this->_userData        = $objectManager->get('Magento\User\Helper\Data');
+        $this->_coreStoreConfig = $objectManager->get('Magento\Core\Model\Store\Config');
+        $this->_coreRegistry    = $objectManager->get('Magento\Core\Model\Registry');
+        $this->_validatorComposite = $objectManager->get('Magento\Validator\Composite\VarienObjectFactory');
+        $this->_roleFactory = $objectManager->get('Magento\User\Model\RoleFactory');
+        $this->_emailInfoFactory = $objectManager->get('Magento\Core\Model\Email\InfoFactory');
+        $this->_mailer = $objectManager->get('Magento\Core\Model\Email\Template\MailerFactory');
     }
 
     /**
      * Processing data before model save
      *
-     * @return Magento_User_Model_User
+     * @return \Magento\User\Model\User
      */
     protected function _beforeSave()
     {
@@ -276,32 +278,32 @@ class Magento_User_Model_User
     /**
      * Add validation rules for particular fields
      *
-     * @return Zend_Validate_Interface
+     * @return \Zend_Validate_Interface
      */
     protected function _getValidationRulesBeforeSave()
     {
-        $userNameNotEmpty = new Zend_Validate_NotEmpty();
+        $userNameNotEmpty = new \Zend_Validate_NotEmpty();
         $userNameNotEmpty->setMessage(
             __('User Name is a required field.'),
-            Zend_Validate_NotEmpty::IS_EMPTY
+            \Zend_Validate_NotEmpty::IS_EMPTY
         );
-        $firstNameNotEmpty = new Zend_Validate_NotEmpty();
+        $firstNameNotEmpty = new \Zend_Validate_NotEmpty();
         $firstNameNotEmpty->setMessage(
             __('First Name is a required field.'),
-            Zend_Validate_NotEmpty::IS_EMPTY
+            \Zend_Validate_NotEmpty::IS_EMPTY
         );
-        $lastNameNotEmpty = new Zend_Validate_NotEmpty();
+        $lastNameNotEmpty = new \Zend_Validate_NotEmpty();
         $lastNameNotEmpty->setMessage(
             __('Last Name is a required field.'),
-            Zend_Validate_NotEmpty::IS_EMPTY
+            \Zend_Validate_NotEmpty::IS_EMPTY
         );
-        $emailValidity = new Zend_Validate_EmailAddress();
+        $emailValidity = new \Zend_Validate_EmailAddress();
         $emailValidity->setMessage(
             __('Please enter a valid email.'),
-            Zend_Validate_EmailAddress::INVALID
+            \Zend_Validate_EmailAddress::INVALID
         );
 
-        /** @var $validator Magento_Validator_Composite_VarienObject */
+        /** @var $validator \Magento\Validator\Composite\VarienObject */
         $validator = $this->_validatorComposite->create();
         $validator->addRule($userNameNotEmpty, 'username')
             ->addRule($firstNameNotEmpty, 'firstname')
@@ -317,25 +319,25 @@ class Magento_User_Model_User
     /**
      * Add validation rules for the password management fields
      *
-     * @param Magento_Validator_Composite_VarienObject $validator
+     * @param \Magento\Validator\Composite\VarienObject $validator
      */
-    protected function _addPasswordValidation(Magento_Validator_Composite_VarienObject $validator)
+    protected function _addPasswordValidation(\Magento\Validator\Composite\VarienObject $validator)
     {
-        $passwordNotEmpty = new Zend_Validate_NotEmpty();
+        $passwordNotEmpty = new \Zend_Validate_NotEmpty();
         $passwordNotEmpty->setMessage(
             __('Password is required field.'),
-            Zend_Validate_NotEmpty::IS_EMPTY
+            \Zend_Validate_NotEmpty::IS_EMPTY
         );
         $minPassLength = self::MIN_PASSWORD_LENGTH;
-        $passwordLength = new Zend_Validate_StringLength(array('min' => $minPassLength, 'encoding' => 'UTF-8'));
+        $passwordLength = new \Zend_Validate_StringLength(array('min' => $minPassLength, 'encoding' => 'UTF-8'));
         $passwordLength->setMessage(
             __('Your password must be at least %1 characters.', $minPassLength),
-            Zend_Validate_StringLength::TOO_SHORT
+            \Zend_Validate_StringLength::TOO_SHORT
         );
-        $passwordChars = new Zend_Validate_Regex('/[a-z].*\d|\d.*[a-z]/iu');
+        $passwordChars = new \Zend_Validate_Regex('/[a-z].*\d|\d.*[a-z]/iu');
         $passwordChars->setMessage(
             __('Your password must include both numeric and alphabetic characters.'),
-            Zend_Validate_Regex::NOT_MATCH
+            \Zend_Validate_Regex::NOT_MATCH
         );
         $validator
             ->addRule($passwordNotEmpty, 'password')
@@ -343,10 +345,10 @@ class Magento_User_Model_User
             ->addRule($passwordChars, 'password')
         ;
         if ($this->hasPasswordConfirmation()) {
-            $passwordConfirmation = new Zend_Validate_Identical($this->getPasswordConfirmation());
+            $passwordConfirmation = new \Zend_Validate_Identical($this->getPasswordConfirmation());
             $passwordConfirmation->setMessage(
                 __('Your password confirmation must match your password.'),
-                Zend_Validate_Identical::NOT_SAME
+                \Zend_Validate_Identical::NOT_SAME
             );
             $validator->addRule($passwordConfirmation, 'password');
         }
@@ -355,7 +357,7 @@ class Magento_User_Model_User
     /**
      * Process data after model is saved
      *
-     * @return Magento_Core_Model_Abstract
+     * @return \Magento\Core\Model\AbstractModel
      */
     protected function _afterSave()
     {
@@ -367,7 +369,7 @@ class Magento_User_Model_User
      * Save admin user extra data (like configuration sections state)
      *
      * @param   array $data
-     * @return  Magento_User_Model_User
+     * @return  \Magento\User\Model\User
      */
     public function saveExtra($data)
     {
@@ -391,7 +393,7 @@ class Magento_User_Model_User
     /**
      * Get admin role model
      *
-     * @return Magento_User_Model_Role
+     * @return \Magento\User\Model\Role
      */
     public function getRole()
     {
@@ -408,7 +410,7 @@ class Magento_User_Model_User
     /**
      * Unassign user from his current role
      *
-     * @return Magento_User_Model_User
+     * @return \Magento\User\Model\User
      */
     public function deleteFromRole()
     {
@@ -430,10 +432,10 @@ class Magento_User_Model_User
     /**
      * Set custom mail handler
      *
-     * @param Magento_Core_Model_Email_Template_Mailer $mailer
-     * @return Magento_User_Model_User
+     * @param \Magento\Core\Model\Email\Template\Mailer $mailer
+     * @return \Magento\User\Model\User
      */
-    public function setMailer(Magento_Core_Model_Email_Template_Mailer $mailer)
+    public function setMailer(\Magento\Core\Model\Email\Template\Mailer $mailer)
     {
         $this->_mailer = $mailer;
         return $this;
@@ -442,11 +444,11 @@ class Magento_User_Model_User
     /**
      * Send email with reset password confirmation link
      *
-     * @return Magento_User_Model_User
+     * @return \Magento\User\Model\User
      */
     public function sendPasswordResetConfirmationEmail()
     {
-        /** @var Magento_Core_Model_Email_Info $emailInfo */
+        /** @var \Magento\Core\Model\Email\Info $emailInfo */
         $emailInfo = $this->_emailInfoFactory->create();
         $emailInfo->addTo($this->getEmail(), $this->getName());
         $this->_mailer->addEmailInfo($emailInfo);
@@ -466,7 +468,7 @@ class Magento_User_Model_User
     /**
      * Send email to when password is resetting
      *
-     * @return Magento_User_Model_User
+     * @return \Magento\User\Model\User
      */
     public function sendPasswordResetNotificationEmail()
     {
@@ -518,9 +520,9 @@ class Magento_User_Model_User
      * @param string $username
      * @param string $password
      * @return boolean
-     * @throws Magento_Core_Exception
-     * @throws Magento_Backend_Model_Auth_Exception
-     * @throws Magento_Backend_Model_Auth_Plugin_Exception
+     * @throws \Magento\Core\Exception
+     * @throws \Magento\Backend\Model\Auth\Exception
+     * @throws \Magento\Backend\Model\Auth\Plugin\Exception
      */
     public function authenticate($username, $password)
     {
@@ -540,12 +542,12 @@ class Magento_User_Model_User
                 && $this->_coreData->validateHash($password, $this->getPassword())
             ) {
                 if ($this->getIsActive() != '1') {
-                    throw new Magento_Backend_Model_Auth_Exception(
+                    throw new \Magento\Backend\Model\Auth\Exception(
                         __('This account is inactive.')
                     );
                 }
                 if (!$this->hasAssigned2Role($this->getId())) {
-                    throw new Magento_Backend_Model_Auth_Exception(
+                    throw new \Magento\Backend\Model\Auth\Exception(
                         __('Access denied.')
                     );
                 }
@@ -558,7 +560,7 @@ class Magento_User_Model_User
                 'user'     => $this,
                 'result'   => $result,
             ));
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->unsetData();
             throw $e;
         }
@@ -574,7 +576,7 @@ class Magento_User_Model_User
      *
      * @param   string $username
      * @param   string $password
-     * @return  Magento_User_Model_User
+     * @return  \Magento\User\Model\User
      */
     public function login($username, $password)
     {
@@ -587,7 +589,7 @@ class Magento_User_Model_User
     /**
      * Reload current user
      *
-     * @return Magento_User_Model_User
+     * @return \Magento\User\Model\User
      */
     public function reload()
     {
@@ -601,7 +603,7 @@ class Magento_User_Model_User
      * Load user by its username
      *
      * @param string $username
-     * @return Magento_User_Model_User
+     * @return \Magento\User\Model\User
      */
     public function loadByUsername($username)
     {
@@ -615,7 +617,7 @@ class Magento_User_Model_User
     /**
      * Check if user is assigned to any role
      *
-     * @param int|Magento_User_Model_User $user
+     * @param int|\Magento\User\Model\User $user
      * @return null|boolean|array
      */
     public function hasAssigned2Role($user)
@@ -640,16 +642,16 @@ class Magento_User_Model_User
      * Stores new reset password link token and its creation time
      *
      * @param string $newToken
-     * @return Magento_User_Model_User
-     * @throws Magento_Core_Exception
+     * @return \Magento\User\Model\User
+     * @throws \Magento\Core\Exception
      */
     public function changeResetPasswordLinkToken($newToken)
     {
         if (!is_string($newToken) || empty($newToken)) {
-            throw new Magento_Core_Exception(__('Please correct the password reset token.'));
+            throw new \Magento\Core\Exception(__('Please correct the password reset token.'));
         }
         $this->setRpToken($newToken);
-        $currentDate = Magento_Date::now();
+        $currentDate = \Magento\Date::now();
         $this->setRpTokenCreatedAt($currentDate);
 
         return $this;
@@ -671,9 +673,9 @@ class Magento_User_Model_User
 
         $expirationPeriod = $this->_userData->getResetPasswordLinkExpirationPeriod();
 
-        $currentDate = Magento_Date::now();
-        $currentTimestamp = Magento_Date::toTimestamp($currentDate);
-        $tokenTimestamp = Magento_Date::toTimestamp($linkTokenCreatedAt);
+        $currentDate = \Magento\Date::now();
+        $currentTimestamp = \Magento\Date::toTimestamp($currentDate);
+        $tokenTimestamp = \Magento\Date::toTimestamp($linkTokenCreatedAt);
         if ($tokenTimestamp > $currentTimestamp) {
             return true;
         }
@@ -700,7 +702,7 @@ class Magento_User_Model_User
      * Set user has available resources
      *
      * @param bool $hasResources
-     * @return Magento_User_Model_User
+     * @return \Magento\User\Model\User
      */
     public function setHasAvailableResources($hasResources)
     {

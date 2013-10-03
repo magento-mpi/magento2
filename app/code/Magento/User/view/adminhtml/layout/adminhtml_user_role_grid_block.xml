@@ -9,10 +9,10 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceBlock name="adminhtml.user.role.container">
-        <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.role.grid" as="grid">
+        <block class="Magento\Backend\Block\Widget\Grid" name="adminhtml.role.grid" as="grid">
             <arguments>
                 <argument name="id" xsi:type="string">roleGrid</argument>
-                <argument name="dataSource" xsi:type="object">Magento_User_Model_Resource_Role_Grid_Collection</argument>
+                <argument name="dataSource" xsi:type="object">Magento\User\Model\Resource\Role\Grid\Collection</argument>
                 <argument name="save_parameters_in_session" xsi:type="string">1</argument>
                 <argument name="default_sort" xsi:type="string">role_id</argument>
                 <argument name="default_dir" xsi:type="string">asc</argument>
@@ -21,7 +21,7 @@
                     <param name="_current">1</param>
                 </argument>
             </arguments>
-            <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="permission.role.grid.columnSet">
+            <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" as="grid.columnSet" name="permission.role.grid.columnSet">
                 <arguments>
                     <argument name="id" xsi:type="string">roleGrid</argument>
                     <argument name="rowUrl" xsi:type="array">
@@ -31,7 +31,7 @@
                         </item>
                     </argument>
                 </arguments>
-                <block class="Magento_Backend_Block_Widget_Grid_Column" as="role_id">
+                <block class="Magento\Backend\Block\Widget\Grid\Column" as="role_id">
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">ID</argument>
                         <argument name="width" xsi:type="string">50px</argument>
@@ -39,7 +39,7 @@
                         <argument name="index" xsi:type="string">role_id</argument>
                     </arguments>
                 </block>
-                <block class="Magento_Backend_Block_Widget_Grid_Column" as="role_name">
+                <block class="Magento\Backend\Block\Widget\Grid\Column" as="role_name">
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">Role</argument>
                         <argument name="type" xsi:type="string">text</argument>

@@ -15,32 +15,34 @@
  * @package    Magento_Install
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Install_Block_Locale extends Magento_Install_Block_Abstract
+namespace Magento\Install\Block;
+
+class Locale extends \Magento\Install\Block\AbstractBlock
 {
 
     protected $_template = 'locale.phtml';
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Install_Model_Installer $installer
-     * @param Magento_Install_Model_Wizard $installWizard
-     * @param Magento_Core_Model_Session_Generic $session
-     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Install\Model\Installer $installer
+     * @param \Magento\Install\Model\Wizard $installWizard
+     * @param \Magento\Core\Model\Session\Generic $session
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Install_Model_Installer $installer,
-        Magento_Install_Model_Wizard $installWizard,
-        Magento_Core_Model_Session_Generic $session,
-        Magento_Core_Model_LocaleInterface $locale,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Install\Model\Installer $installer,
+        \Magento\Install\Model\Wizard $installWizard,
+        \Magento\Core\Model\Session\Generic $session,
+        \Magento\Core\Model\LocaleInterface $locale,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $installer, $installWizard, $session, $data);
@@ -51,7 +53,7 @@ class Magento_Install_Block_Locale extends Magento_Install_Block_Abstract
     /**
      * Retrieve locale object
      *
-     * @return Zend_Locale
+     * @return \Zend_Locale
      */
     public function getLocale()
     {
@@ -90,7 +92,7 @@ class Magento_Install_Block_Locale extends Magento_Install_Block_Abstract
      */
     public function getLocaleSelect()
     {
-        $html = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
+        $html = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
             ->setName('config[locale]')
             ->setId('locale')
             ->setTitle(__('Locale'))
@@ -108,7 +110,7 @@ class Magento_Install_Block_Locale extends Magento_Install_Block_Abstract
      */
     public function getTimezoneSelect()
     {
-        $html = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
+        $html = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
             ->setName('config[timezone]')
             ->setId('timezone')
             ->setTitle(__('Time Zone'))
@@ -129,7 +131,7 @@ class Magento_Install_Block_Locale extends Magento_Install_Block_Abstract
         $timezone = $this->_session->getTimezone()
             ? $this->_session->getTimezone()
             : $this->_locale->getTimezone();
-        if ($timezone == Magento_Core_Model_LocaleInterface::DEFAULT_TIMEZONE) {
+        if ($timezone == \Magento\Core\Model\LocaleInterface::DEFAULT_TIMEZONE) {
             $timezone = 'America/Los_Angeles';
         }
         return $timezone;
@@ -142,7 +144,7 @@ class Magento_Install_Block_Locale extends Magento_Install_Block_Abstract
      */
     public function getCurrencySelect()
     {
-        $html = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
+        $html = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
             ->setName('config[currency]')
             ->setId('currency')
             ->setTitle(__('Default Currency'))
@@ -166,13 +168,13 @@ class Magento_Install_Block_Locale extends Magento_Install_Block_Abstract
     }
 
     /**
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getFormData()
     {
         $data = $this->getData('form_data');
         if (null === $data) {
-            $data = new Magento_Object();
+            $data = new \Magento\Object();
             $this->setData('form_data', $data);
         }
         return $data;

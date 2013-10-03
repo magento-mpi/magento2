@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Adminhtml_Controller_Customer_Online extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller\Customer;
+
+class Online extends \Magento\Adminhtml\Controller\Action
 {
 
     public function indexAction()

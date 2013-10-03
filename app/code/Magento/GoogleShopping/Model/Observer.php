@@ -15,65 +15,67 @@
  * @package     Magento_GoogleShopping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Model_Observer
+namespace Magento\GoogleShopping\Model;
+
+class Observer
 {
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
      * Admin session
      *
-     * @var Magento_Core_Model_Session_Abstract
+     * @var \Magento\Core\Model\Session\AbstractSession
      */
     protected $_session;
 
     /**
      * Admin session
      *
-     * @var Magento_GoogleShopping_Model_Flag
+     * @var \Magento\GoogleShopping\Model\Flag
      */
     protected $_flag;
 
     /**
      * Mass operations factory
      *
-     * @var Magento_GoogleShopping_Model_MassOperationsFactory
+     * @var \Magento\GoogleShopping\Model\MassOperationsFactory
      */
     protected $_operationsFactory;
 
     /**
      * Inbox factory
      *
-     * @var Magento_AdminNotification_Model_InboxFactory
+     * @var \Magento\AdminNotification\Model\InboxFactory
      */
     protected $_inboxFactory;
 
     /**
      * Collection factory
      *
-     * @var Magento_GoogleShopping_Model_Resource_Item_CollectionFactory
+     * @var \Magento\GoogleShopping\Model\Resource\Item\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @param Magento_GoogleShopping_Model_Resource_Item_CollectionFactory $collectionFactory
-     * @param Magento_GoogleShopping_Model_MassOperationsFactory $operationsFactory
-     * @param Magento_AdminNotification_Model_InboxFactory $inboxFactory
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Session_Abstract $session
-     * @param Magento_GoogleShopping_Model_Flag $flag
+     * @param \Magento\GoogleShopping\Model\Resource\Item\CollectionFactory $collectionFactory
+     * @param \Magento\GoogleShopping\Model\MassOperationsFactory $operationsFactory
+     * @param \Magento\AdminNotification\Model\InboxFactory $inboxFactory
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Session\AbstractSession $session
+     * @param \Magento\GoogleShopping\Model\Flag $flag
      */
     public function __construct(
-        Magento_GoogleShopping_Model_Resource_Item_CollectionFactory $collectionFactory,
-        Magento_GoogleShopping_Model_MassOperationsFactory $operationsFactory,
-        Magento_AdminNotification_Model_InboxFactory $inboxFactory,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Session_Abstract $session,
-        Magento_GoogleShopping_Model_Flag $flag
+        \Magento\GoogleShopping\Model\Resource\Item\CollectionFactory $collectionFactory,
+        \Magento\GoogleShopping\Model\MassOperationsFactory $operationsFactory,
+        \Magento\AdminNotification\Model\InboxFactory $inboxFactory,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Session\AbstractSession $session,
+        \Magento\GoogleShopping\Model\Flag $flag
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_operationsFactory = $operationsFactory;
@@ -86,8 +88,8 @@ class Magento_GoogleShopping_Model_Observer
     /**
      * Update product item in Google Content
      *
-     * @param Magento_Object $observer
-     * @return Magento_GoogleShopping_Model_Observer
+     * @param \Magento\Object $observer
+     * @return \Magento\GoogleShopping\Model\Observer
      */
     public function saveProductItem($observer)
     {
@@ -96,7 +98,7 @@ class Magento_GoogleShopping_Model_Observer
 
         try {
             $this->_operationsFactory->create()->synchronizeItems($items);
-        } catch (Zend_Gdata_App_CaptchaRequiredException $e) {
+        } catch (\Zend_Gdata_App_CaptchaRequiredException $e) {
             $this->_session->addError('Cannot update Google Content Item. Google requires CAPTCHA.');
         }
 
@@ -106,8 +108,8 @@ class Magento_GoogleShopping_Model_Observer
     /**
      * Delete product item from Google Content
      *
-     * @param Magento_Object $observer
-     * @return Magento_GoogleShopping_Model_Observer
+     * @param \Magento\Object $observer
+     * @return \Magento\GoogleShopping\Model\Observer
      */
     public function deleteProductItem($observer)
     {
@@ -116,7 +118,7 @@ class Magento_GoogleShopping_Model_Observer
 
         try {
             $this->_operationsFactory->create()->deleteItems($items);
-        } catch (Zend_Gdata_App_CaptchaRequiredException $e) {
+        } catch (\Zend_Gdata_App_CaptchaRequiredException $e) {
             $this->_session->addError('Cannot delete Google Content Item. Google requires CAPTCHA.');
         }
 
@@ -126,8 +128,8 @@ class Magento_GoogleShopping_Model_Observer
     /**
      * Get items which are available for update/delete when product is saved
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_GoogleShopping_Model_Resource_Item_Collection
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\GoogleShopping\Model\Resource\Item\Collection
      */
     protected function _getItemsCollection($product)
     {
@@ -148,10 +150,10 @@ class Magento_GoogleShopping_Model_Observer
     /**
      * Check if synchronize process is finished and generate notification message
      *
-     * @param  Magento_Event_Observer $observer
-     * @return Magento_GoogleShopping_Model_Observer
+     * @param  \Magento\Event\Observer $observer
+     * @return \Magento\GoogleShopping\Model\Observer
      */
-    public function checkSynchronizationOperations(Magento_Event_Observer $observer)
+    public function checkSynchronizationOperations(\Magento\Event\Observer $observer)
     {
         $flag = $this->_flag->loadSelf();
         if ($flag->isExpired()) {

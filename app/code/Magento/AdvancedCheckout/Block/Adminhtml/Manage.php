@@ -15,32 +15,34 @@
  * @package     Magento_AdvancedCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdvancedCheckout_Block_Adminhtml_Manage extends Magento_Backend_Block_Widget_Form_Container
+namespace Magento\AdvancedCheckout\Block\Adminhtml;
+
+class Manage extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry;
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_LocaleInterface $locale,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\LocaleInterface $locale,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -66,7 +68,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage extends Magento_Backend_Bl
     /**
      * Prepare layout, create buttons
      *
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {
@@ -74,33 +76,33 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage extends Magento_Backend_Bl
             return $this;
         }
 
-        $this->addChild('add_products_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('add_products_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Add Products'),
             'onclick' => 'checkoutObj.searchProducts()',
             'class' => 'add',
             'id' => 'add_products_btn'
         ));
 
-        $this->addChild('update_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('update_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Update Items and Qty\'s'),
             'onclick' => 'checkoutObj.updateItems()',
             'style' => 'float:right; margin-left: 5px;'
         ));
         $deleteAllConfirmString = __('Are you sure you want to clear your shopping cart?');
-        $this->addChild('empty_customer_cart_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('empty_customer_cart_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Clear the shopping cart.'),
             'onclick' => 'confirm(\'' . $deleteAllConfirmString . '\') '
                 . ' && checkoutObj.updateItems({\'empty_customer_cart\': 1})',
             'style' => 'float:right;'
         ));
 
-        $this->addChild('addto_cart_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('addto_cart_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Add Selected Product(s) to Shopping Cart'),
             'onclick' => 'checkoutObj.addToCart()',
             'class' => 'add button-to-cart'
         ));
 
-        $this->addChild('cancel_add_products_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('cancel_add_products_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Cancel'),
             'onclick' => 'checkoutObj.cancelSearch()',
             'class' => 'cancel'
@@ -134,7 +136,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage extends Magento_Backend_Bl
     /**
      * Return current customer from regisrty
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     protected function _getCustomer()
     {
@@ -144,7 +146,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage extends Magento_Backend_Bl
     /**
      * Return current store from regisrty
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     protected function _getStore()
     {

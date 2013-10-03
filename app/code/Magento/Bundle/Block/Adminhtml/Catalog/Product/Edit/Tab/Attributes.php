@@ -15,8 +15,10 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes
-    extends Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes
+namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab;
+
+class Attributes
+    extends \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Attributes
 {
     /**
      * Prepare attributes form of bundle product
@@ -31,7 +33,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes
         if ($special_price) {
             $special_price->setRenderer(
                 $this->getLayout()
-                    ->createBlock('Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes_Special')
+                    ->createBlock('Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Attributes\Special')
                     ->setDisableChild(false)
             );
         }
@@ -40,7 +42,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes
         if ($sku) {
             $sku->setRenderer(
                 $this->getLayout()
-                    ->createBlock('Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes_Extend')
+                    ->createBlock('Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Attributes\Extend')
                     ->setDisableChild(false)
             );
         }
@@ -50,7 +52,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes
             $price->setRenderer(
                 $this->getLayout()
                     ->createBlock(
-                        'Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes_Extend',
+                        'Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Attributes\Extend',
                         'adminhtml.catalog.product.bundle.edit.tab.attributes.price')
                     ->setDisableChild(true)
             );
@@ -63,7 +65,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes
                 . "
                 //<![CDATA[
                 function changeTaxClassId() {
-                    if ($('price_type').value == '" . Magento_Bundle_Model_Product_Price::PRICE_TYPE_DYNAMIC . "') {
+                    if ($('price_type').value == '" . \Magento\Bundle\Model\Product\Price::PRICE_TYPE_DYNAMIC . "') {
                         $('tax_class_id').disabled = true;
                         $('tax_class_id').value = '0';
                         $('tax_class_id').removeClassName('required-entry');
@@ -92,7 +94,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes
         if ($weight) {
             $weight->setRenderer(
                 $this->getLayout()
-                    ->createBlock('Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes_Extend')
+                    ->createBlock('Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Attributes\Extend')
                     ->setDisableChild(true)
             );
         }
@@ -100,7 +102,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes
         $tier_price = $this->getForm()->getElement('tier_price');
         if ($tier_price) {
             $tier_price->setRenderer(
-                $this->getLayout()->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier')
+                $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Price\Tier')
                     ->setPriceColumnHeader(__('Percent Discount'))
                     ->setPriceValidation('validate-greater-than-zero validate-number-range number-range-0.00-100.00')
             );
@@ -109,7 +111,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes
         $groupPrice = $this->getForm()->getElement('group_price');
         if ($groupPrice) {
             $groupPrice->setRenderer(
-                $this->getLayout()->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group')
+                $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Price\Group')
                     ->setPriceColumnHeader(__('Percent Discount'))
                     ->setPriceValidation('validate-greater-than-zero validate-number-range number-range-0.00-100.00')
             );
@@ -121,13 +123,13 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes
                 '<script type="text/javascript">'
                 . "
                 function changePriceTypeMap() {
-                    if ($('price_type').value == " . Magento_Bundle_Model_Product_Price::PRICE_TYPE_DYNAMIC . ") {
+                    if ($('price_type').value == " . \Magento\Bundle\Model\Product\Price::PRICE_TYPE_DYNAMIC . ") {
                         $('msrp_enabled').setValue("
-                        . Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Enabled::MSRP_ENABLE_NO
+                        . \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Enabled::MSRP_ENABLE_NO
                         . ");
                         $('msrp_enabled').disable();
                         $('msrp_display_actual_price_type').setValue("
-                        . Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price::TYPE_USE_CONFIG
+                        . \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Price::TYPE_USE_CONFIG
                         . ");
                         $('msrp_display_actual_price_type').disable();
                         $('msrp').setValue('');
@@ -151,7 +153,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes
     /**
      * Get current product from registry
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {

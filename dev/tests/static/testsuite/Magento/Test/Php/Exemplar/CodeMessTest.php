@@ -11,12 +11,14 @@
 /**
  * Self-assessment for PHP Mess Detector tool and its configuration (rule set)
  */
-class Magento_Test_Php_Exemplar_CodeMessTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Php\Exemplar;
+
+class CodeMessTest extends \PHPUnit_Framework_TestCase
 {
     const PHPMD_REQUIRED_VERSION = '1.1.0';
 
     /**
-     * @var Magento_TestFramework_Inspection_MessDetector_Command
+     * @var \Magento\TestFramework\CodingStandard\Tool\CodeMessDetector
      */
     protected static $_messDetector = null;
 
@@ -39,7 +41,7 @@ class Magento_Test_Php_Exemplar_CodeMessTest extends PHPUnit_Framework_TestCase
         self::$_rulesetFile = realpath(__DIR__ . '/../_files/phpmd/ruleset.xml');
         self::$_reportFile = __DIR__ . '/../../../tmp/phpmd_report.xml';
         self::$_messDetector =
-            new Magento_TestFramework_CodingStandard_Tool_CodeMessDetector(self::$_rulesetFile, self::$_reportFile);
+            new \Magento\TestFramework\CodingStandard\Tool\CodeMessDetector(self::$_rulesetFile, self::$_reportFile);
     }
 
     protected function setUp()
@@ -60,7 +62,7 @@ class Magento_Test_Php_Exemplar_CodeMessTest extends PHPUnit_Framework_TestCase
     public function testRulesetFormat()
     {
         $this->assertFileExists(self::$_rulesetFile);
-        $doc = new DOMDocument();
+        $doc = new \DOMDocument();
         $doc->load(self::$_rulesetFile);
 
         libxml_use_internal_errors(true);
@@ -90,7 +92,7 @@ class Magento_Test_Php_Exemplar_CodeMessTest extends PHPUnit_Framework_TestCase
      */
     public function testRuleViolation($inputFile, $expectedXpaths)
     {
-        $this->assertNotEquals(PHP_PMD_TextUI_Command::EXIT_SUCCESS, self::$_messDetector->run(
+        $this->assertNotEquals(\PHP_PMD_TextUI_Command::EXIT_SUCCESS, self::$_messDetector->run(
             array($inputFile)), "PHP Mess Detector has failed to identify problem at the erroneous file {$inputFile}"
         );
 

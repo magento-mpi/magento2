@@ -6,17 +6,19 @@
  * @license     {license_link}
  */
 
+namespace Magento\Pbridge\Block\Adminhtml\Sales\Order\Create;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Pbridge_Block_Adminhtml_Sales_Order_Create_AbstractTest extends PHPUnit_Framework_TestCase
+class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstruct()
     {
         $this->assertInstanceOf(
-            'Magento_Pbridge_Block_Adminhtml_Sales_Order_Create_Abstract',
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-                ->createBlock('Magento_Pbridge_Block_Adminhtml_Sales_Order_Create_Abstract')
+            'Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\AbstractCreate',
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+                ->createBlock('Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\AbstractCreate')
         );
     }
 }

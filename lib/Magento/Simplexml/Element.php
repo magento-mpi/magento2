@@ -10,30 +10,32 @@
 
 
 /**
- * Extends SimpleXML to add valuable functionality to SimpleXMLElement class
+ * Extends SimpleXML to add valuable functionality to \SimpleXMLElement class
  *
  * @category   Magento
  * @package    Magento_Simplexml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Simplexml_Element extends SimpleXMLElement
+namespace Magento\Simplexml;
+
+class Element extends \SimpleXMLElement
 {
 
     /**
      * Would keep reference to parent node
      *
-     * If SimpleXMLElement would support complicated attributes
+     * If \SimpleXMLElement would support complicated attributes
      *
      * @todo make use of spl_object_hash to keep global array of simplexml elements
      *       to emulate complicated attributes
-     * @var Magento_Simplexml_Element
+     * @var \Magento\Simplexml\Element
      */
     protected $_parent = null;
 
     /**
      * For future use
      *
-     * @param Magento_Simplexml_Element $element
+     * @param \Magento\Simplexml\Element $element
      */
     public function setParent($element)
     {
@@ -45,8 +47,8 @@ class Magento_Simplexml_Element extends SimpleXMLElement
      *
      * Currently using xpath
      *
-     * @throws InvalidArgumentException
-     * @return Magento_Simplexml_Element
+     * @throws \InvalidArgumentException
+     * @return \Magento\Simplexml\Element
      */
     public function getParent()
     {
@@ -55,7 +57,7 @@ class Magento_Simplexml_Element extends SimpleXMLElement
         } else {
             $arr = $this->xpath('..');
             if (!isset($arr[0])) {
-                throw new InvalidArgumentException('Root node could not be unset.');
+                throw new \InvalidArgumentException('Root node could not be unset.');
             }
             $parent = $arr[0];
         }
@@ -98,7 +100,7 @@ class Magento_Simplexml_Element extends SimpleXMLElement
      * @todo    Check if we still need all this and revert to plain XPath if this makes any sense
      * @todo    param string $path Subset of xpath. Example: "child/grand[@attrName='attrValue']/subGrand"
      * @param   string $path Example: "child/grand@attrName=attrValue/subGrand" (to make it faster without regex)
-     * @return  Magento_Simplexml_Element
+     * @return  \Magento\Simplexml\Element
      */
     public function descend($path)
     {
@@ -307,8 +309,8 @@ class Magento_Simplexml_Element extends SimpleXMLElement
     /**
      * Appends $source to current node
      *
-     * @param Magento_Simplexml_Element $source
-     * @return Magento_Simplexml_Element
+     * @param \Magento\Simplexml\Element $source
+     * @return \Magento\Simplexml\Element
      */
     public function appendChild($source)
     {
@@ -336,13 +338,13 @@ class Magento_Simplexml_Element extends SimpleXMLElement
      * If $overwrite is false will merge only missing nodes
      * Otherwise will overwrite existing nodes
      *
-     * @param Magento_Simplexml_Element $source
+     * @param \Magento\Simplexml\Element $source
      * @param boolean $overwrite
-     * @return Magento_Simplexml_Element
+     * @return \Magento\Simplexml\Element
      */
     public function extend($source, $overwrite=false)
     {
-        if (!$source instanceof Magento_Simplexml_Element) {
+        if (!$source instanceof \Magento\Simplexml\Element) {
             return $this;
         }
 
@@ -356,9 +358,9 @@ class Magento_Simplexml_Element extends SimpleXMLElement
     /**
      * Extends one node
      *
-     * @param Magento_Simplexml_Element $source
+     * @param \Magento\Simplexml\Element $source
      * @param boolean $overwrite
-     * @return Magento_Simplexml_Element
+     * @return \Magento\Simplexml\Element
      */
     public function extendChild($source, $overwrite=false)
     {

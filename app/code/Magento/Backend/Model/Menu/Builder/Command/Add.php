@@ -11,7 +11,9 @@
 /**
  * Builder command to add menu items
  */
-class Magento_Backend_Model_Menu_Builder_Command_Add extends Magento_Backend_Model_Menu_Builder_CommandAbstract
+namespace Magento\Backend\Model\Menu\Builder\Command;
+
+class Add extends \Magento\Backend\Model\Menu\Builder\AbstractCommand
 {
     /**
      * List of params that command requires for execution
@@ -28,14 +30,14 @@ class Magento_Backend_Model_Menu_Builder_Command_Add extends Magento_Backend_Mod
     /**
      * Add command as last in the list of callbacks
      *
-     * @param Magento_Backend_Model_Menu_Builder_CommandAbstract $command
-     * @return Magento_Backend_Model_Menu_Builder_CommandAbstract
-     * @throws InvalidArgumentException
+     * @param \Magento\Backend\Model\Menu\Builder\AbstractCommand $command
+     * @return \Magento\Backend\Model\Menu\Builder\AbstractCommand
+     * @throws \InvalidArgumentException
      */
-    public function chain(Magento_Backend_Model_Menu_Builder_CommandAbstract $command)
+    public function chain(\Magento\Backend\Model\Menu\Builder\AbstractCommand $command)
     {
-        if ($command instanceof Magento_Backend_Model_Menu_Builder_Command_Add) {
-            throw new InvalidArgumentException("Two 'add' commands cannot have equal id (" . $command->getId() . ")");
+        if ($command instanceof \Magento\Backend\Model\Menu\Builder\Command\Add) {
+            throw new \InvalidArgumentException("Two 'add' commands cannot have equal id (" . $command->getId() . ")");
         }
         return parent::chain($command);
     }

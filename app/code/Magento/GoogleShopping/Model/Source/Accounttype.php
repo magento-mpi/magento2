@@ -15,7 +15,9 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Model_Source_Accounttype implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\GoogleShopping\Model\Source;
+
+class Accounttype implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Retrieve option array with account types

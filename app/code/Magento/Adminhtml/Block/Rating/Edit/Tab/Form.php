@@ -8,56 +8,59 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Block_Rating_Edit_Tab_Form extends Magento_Backend_Block_Widget_Form_Generic
+
+namespace Magento\Adminhtml\Block\Rating\Edit\Tab;
+
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Store manager instance
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * System store
      *
-     * @var Magento_Core_Model_System_Store
+     * @var \Magento\Core\Model\System\Store
      */
     protected $_systemStore;
 
     /**
      * Session
      *
-     * @var Magento_Core_Model_Session_Abstract
+     * @var \Magento\Core\Model\Session\AbstractSession
      */
     protected $_session;
 
     /**
      * Option factory
      *
-     * @var Magento_Rating_Model_Rating_OptionFactory
+     * @var \Magento\Rating\Model\Rating\OptionFactory
      */
     protected $_optionFactory;
 
     /**
-     * @param Magento_Rating_Model_Rating_OptionFactory $optionFactory
-     * @param Magento_Core_Model_Session_Abstract $session
-     * @param Magento_Core_Model_System_Store $systemStore
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Rating\Model\Rating\OptionFactory $optionFactory
+     * @param \Magento\Core\Model\Session\AbstractSession $session
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        Magento_Rating_Model_Rating_OptionFactory $optionFactory,
-        Magento_Core_Model_Session_Abstract $session,
-        Magento_Core_Model_System_Store $systemStore,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Registry $coreRegistry,
+        \Magento\Rating\Model\Rating\OptionFactory $optionFactory,
+        \Magento\Core\Model\Session\AbstractSession $session,
+        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_optionFactory = $optionFactory;
@@ -71,11 +74,11 @@ class Magento_Adminhtml_Block_Rating_Edit_Tab_Form extends Magento_Backend_Block
     /**
      * Prepare rating edit form
      *
-     * @return Magento_Adminhtml_Block_Rating_Edit_Tab_Form
+     * @return \Magento\Adminhtml\Block\Rating\Edit\Tab\Form
      */
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form   = $this->_formFactory->create();
         $this->setForm($form);
 
@@ -146,7 +149,7 @@ class Magento_Adminhtml_Block_Rating_Edit_Tab_Form extends Magento_Backend_Block
                 'name' => 'stores[]',
                 'values' => $this->_systemStore->getStoreValuesForForm(),
             ));
-            $renderer = $this->getLayout()->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+            $renderer = $this->getLayout()->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
 
             if ($this->_coreRegistry->registry('rating_data')) {

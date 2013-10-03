@@ -11,8 +11,10 @@
 /**
  * Product attribute value condition
  */
-class Magento_CustomerSegment_Model_Segment_Condition_Product_Attributes
-    extends Magento_Rule_Model_Condition_Product_Abstract
+namespace Magento\CustomerSegment\Model\Segment\Condition\Product;
+
+class Attributes
+    extends \Magento\Rule\Model\Condition\Product\AbstractProduct
 {
     /**
      * Used for rule property field
@@ -22,28 +24,28 @@ class Magento_CustomerSegment_Model_Segment_Condition_Product_Attributes
     protected $_isUsedForRuleProperty = 'is_used_for_promo_rules';
 
     /**
-     * @var Magento_CustomerSegment_Model_Resource_Segment
+     * @var \Magento\CustomerSegment\Model\Resource\Segment
      */
     protected $_resourceSegment;
 
     /**
-     * @param Magento_Backend_Helper_Data $backendData
-     * @param Magento_Rule_Model_Condition_Context $context
-     * @param Magento_Eav_Model_Config $config
-     * @param Magento_Catalog_Model_Product $product
-     * @param Magento_Catalog_Model_Resource_Product $productResource
-     * @param Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection $attrSetCollection
-     * @param Magento_CustomerSegment_Model_Resource_Segment $resourceSegment
+     * @param \Magento\Backend\Helper\Data $backendData
+     * @param \Magento\Rule\Model\Condition\Context $context
+     * @param \Magento\Eav\Model\Config $config
+     * @param \Magento\Catalog\Model\Product $product
+     * @param \Magento\Catalog\Model\Resource\Product $productResource
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection
+     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Helper_Data $backendData,
-        Magento_Rule_Model_Condition_Context $context,
-        Magento_Eav_Model_Config $config,
-        Magento_Catalog_Model_Product $product,
-        Magento_Catalog_Model_Resource_Product $productResource,
-        Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection $attrSetCollection,
-        Magento_CustomerSegment_Model_Resource_Segment $resourceSegment,
+        \Magento\Backend\Helper\Data $backendData,
+        \Magento\Rule\Model\Condition\Context $context,
+        \Magento\Eav\Model\Config $config,
+        \Magento\Catalog\Model\Product $product,
+        \Magento\Catalog\Model\Resource\Product $productResource,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection,
+        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
         array $data = array()
     ) {
         $this->_resourceSegment = $resourceSegment;
@@ -55,7 +57,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Product_Attributes
             $productResource,
             $attrSetCollection
         );
-        $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Product_Attributes');
+        $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Product\Attributes');
         $this->setValue(null);
     }
 
@@ -129,7 +131,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Product_Attributes
     /**
      * Get product attribute object
      *
-     * @return Magento_Catalog_Model_Resource_Eav_Attribute
+     * @return \Magento\Catalog\Model\Resource\Eav\Attribute
      */
     public function getAttributeObject()
     {
@@ -139,7 +141,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Product_Attributes
     /**
      * Get resource
      *
-     * @return Magento_CustomerSegment_Model_Resource_Segment
+     * @return \Magento\CustomerSegment\Model\Resource\Segment
      */
     public function getResource()
     {

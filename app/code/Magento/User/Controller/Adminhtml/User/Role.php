@@ -7,63 +7,65 @@
  */
 
 /**
- * Magento_User roles controller
+ * \Magento\User roles controller
  */
-class Magento_User_Controller_Adminhtml_User_Role extends Magento_Backend_Controller_ActionAbstract
+namespace Magento\User\Controller\Adminhtml\User;
+
+class Role extends \Magento\Backend\Controller\AbstractAction
 {
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * Factory for user role model
      *
-     * @var Magento_User_Model_RoleFactory
+     * @var \Magento\User\Model\RoleFactory
      */
     protected $_roleFactory;
 
     /**
      * User model factory
      *
-     * @var Magento_User_Model_UserFactory
+     * @var \Magento\User\Model\UserFactory
      */
     protected $_userFactory;
 
     /**
      * Rules model factory
      *
-     * @var Magento_User_Model_RulesFactory
+     * @var \Magento\User\Model\RulesFactory
      */
     protected $_rulesFactory;
 
     /**
      * Backend auth session
      *
-     * @var Magento_Backend_Model_Auth_Session
+     * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_authSession;
 
     /**
      * Construct
      *
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_User_Model_RoleFactory $roleFactory
-     * @param Magento_User_Model_UserFactory $userFactory
-     * @param Magento_User_Model_RulesFactory $rulesFactory
-     * @param Magento_Backend_Model_Auth_Session $authSession
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\User\Model\RoleFactory $roleFactory
+     * @param \Magento\User\Model\UserFactory $userFactory
+     * @param \Magento\User\Model\RulesFactory $rulesFactory
+     * @param \Magento\Backend\Model\Auth\Session $authSession
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_User_Model_RoleFactory $roleFactory,
-        Magento_User_Model_UserFactory $userFactory,
-        Magento_User_Model_RulesFactory $rulesFactory,
-        Magento_Backend_Model_Auth_Session $authSession
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\User\Model\RoleFactory $roleFactory,
+        \Magento\User\Model\UserFactory $userFactory,
+        \Magento\User\Model\RulesFactory $rulesFactory,
+        \Magento\Backend\Model\Auth\Session $authSession
     ) {
         parent::__construct($context);
         $this->_coreRegistry = $coreRegistry;
@@ -76,7 +78,7 @@ class Magento_User_Controller_Adminhtml_User_Role extends Magento_Backend_Contro
     /**
      * Preparing layout for output
      *
-     * @return Magento_User_Controller_Adminhtml_User_Role
+     * @return \Magento\User\Controller\Adminhtml\User\Role
      */
     protected function _initAction()
     {
@@ -92,7 +94,7 @@ class Magento_User_Controller_Adminhtml_User_Role extends Magento_Backend_Contro
      * Initialize role model by passed parameter in request
      *
      * @param string $requestVariable
-     * @return Magento_User_Model_Role
+     * @return \Magento\User\Model\Role
      */
     protected function _initRole($requestVariable = 'rid')
     {
@@ -167,7 +169,7 @@ class Magento_User_Controller_Adminhtml_User_Role extends Magento_Backend_Contro
     public function deleteAction()
     {
         $rid = $this->getRequest()->getParam('rid', false);
-        /** @var Magento_User_Model_User $currentUser */
+        /** @var \Magento\User\Model\User $currentUser */
         $currentUser = $this->_userFactory->create()->setId($this->_authSession->getUser()->getId());
 
         if (in_array($rid, $currentUser->getRoles()) ) {
@@ -184,7 +186,7 @@ class Magento_User_Controller_Adminhtml_User_Role extends Magento_Backend_Contro
             $this->_session->addSuccess(
                 __('You deleted the role.')
             );
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_session->addError(
                 __('An error occurred while deleting this role.')
             );
@@ -211,7 +213,7 @@ class Magento_User_Controller_Adminhtml_User_Role extends Magento_Backend_Contro
 
         $isAll = $this->getRequest()->getParam('all');
         if ($isAll) {
-            $resource = array($this->_objectManager->get('Magento_Core_Model_Acl_RootResource')->getId());
+            $resource = array($this->_objectManager->get('Magento\Core\Model\Acl\RootResource')->getId());
         }
 
         $role = $this->_initRole('role_id');
@@ -249,9 +251,9 @@ class Magento_User_Controller_Adminhtml_User_Role extends Magento_Backend_Contro
             $this->_session->addSuccess(
                 __('You saved the role.')
             );
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_session->addError($e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_session->addError(
                 __('An error occurred while saving this role.')
             );
@@ -283,7 +285,7 @@ class Magento_User_Controller_Adminhtml_User_Role extends Magento_Backend_Contro
                 ->setRoleId($roleId)
                 ->setUserId($userId)
                 ->deleteFromRole();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw $e;
             return false;
         }

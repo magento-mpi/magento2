@@ -15,6 +15,8 @@
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Html_Select extends Magento_Core_Block_Html_Select
+namespace Magento\Adminhtml\Block\Html;
+
+class Select extends \Magento\Core\Block\Html\Select
 {
 }

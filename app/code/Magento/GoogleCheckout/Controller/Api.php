@@ -8,11 +8,13 @@
  * @license     {license_link}
  */
 
-class Magento_GoogleCheckout_Controller_Api extends Magento_Core_Controller_Front_Action
+namespace Magento\GoogleCheckout\Controller;
+
+class Api extends \Magento\Core\Controller\Front\Action
 {
     public function indexAction()
     {
-        $res = Mage::getModel('Magento_GoogleCheckout_Model_Api')->processCallback();
+        $res = \Mage::getModel('Magento\GoogleCheckout\Model\Api')->processCallback();
         if ($res === false) {
             $this->_forward('noRoute');
         }
@@ -23,6 +25,6 @@ class Magento_GoogleCheckout_Controller_Api extends Magento_Core_Controller_Fron
 
     public function beaconAction()
     {
-        Mage::getModel('Magento_GoogleCheckout_Model_Api')->debugData(array('request' => $_SERVER['QUERY_STRING'], 'dir' => 'in'));
+        \Mage::getModel('Magento\GoogleCheckout\Model\Api')->debugData(array('request' => $_SERVER['QUERY_STRING'], 'dir' => 'in'));
     }
 }

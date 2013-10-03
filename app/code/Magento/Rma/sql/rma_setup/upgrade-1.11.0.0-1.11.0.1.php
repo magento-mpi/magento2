@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_Rma_Model_Resource_Setup */
+/** @var $installer \Magento\Rma\Model\Resource\Setup */
 $installer = $this;
 
 /* adding new field = static attribute to rma_item_entity table */
 $tableName = $installer->getTable('magento_rma_item_entity');
 $columnOptions = array(
-    'TYPE' => Magento_DB_Ddl_Table::TYPE_DECIMAL,
+    'TYPE' => \Magento\DB\Ddl\Table::TYPE_DECIMAL,
     'SCALE' => 4,
     'PRECISION' => 12,
     'COMMENT' => 'Qty of returned items',

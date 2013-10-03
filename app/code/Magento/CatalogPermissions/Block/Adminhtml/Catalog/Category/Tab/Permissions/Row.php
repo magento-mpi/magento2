@@ -14,45 +14,47 @@
  * @category   Magento
  * @package    Magento_CatalogPermissions
  */
-class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permissions_Row
-    extends Magento_Adminhtml_Block_Catalog_Category_Abstract
+namespace Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab\Permissions;
+
+class Row
+    extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
 {
 
     protected $_template = 'catalog/category/tab/permissions/row.phtml';
 
     /**
-     * @var Magento_Customer_Model_Resource_Group_CollectionFactory
+     * @var \Magento\Customer\Model\Resource\Group\CollectionFactory
      */
     protected $_groupCollFactory;
 
     /**
-     * @var Magento_Core_Model_Resource_Website_CollectionFactory
+     * @var \Magento\Core\Model\Resource\Website\CollectionFactory
      */
     protected $_websiteCollFactory;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Resource_Website_CollectionFactory $websiteCollFactory
-     * @param Magento_Customer_Model_Resource_Group_CollectionFactory $groupCollFactory
-     * @param Magento_Catalog_Model_Resource_Category_Tree $categoryTree
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Resource\Website\CollectionFactory $websiteCollFactory
+     * @param \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollFactory
+     * @param \Magento\Catalog\Model\Resource\Category\Tree $categoryTree
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Resource_Website_CollectionFactory $websiteCollFactory,
-        Magento_Customer_Model_Resource_Group_CollectionFactory $groupCollFactory,
-        Magento_Catalog_Model_Resource_Category_Tree $categoryTree,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Resource\Website\CollectionFactory $websiteCollFactory,
+        \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollFactory,
+        \Magento\Catalog\Model\Resource\Category\Tree $categoryTree,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -63,7 +65,7 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
 
     protected function _prepareLayout()
     {
-        $this->addChild('delete_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('delete_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             //'label' => __('Remove Permission'),
             'class' => 'delete' . ($this->isReadonly() ? ' disabled' : ''),
             'disabled' => $this->isReadonly(),
@@ -127,7 +129,7 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
     /**
      * Retrieve websites collection
      *
-     * @return Magento_Core_Model_Resource_Website_Collection
+     * @return \Magento\Core\Model\Resource\Website\Collection
      */
     public function getWebsiteCollection()
     {
@@ -142,7 +144,7 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
     /**
      * Retrieve customer group collection
      *
-     * @return Magento_Customer_Model_Resource_Group_Collection
+     * @return \Magento\Customer\Model\Resource\Group\Collection
      */
     public function getCustomerGroupCollection()
     {

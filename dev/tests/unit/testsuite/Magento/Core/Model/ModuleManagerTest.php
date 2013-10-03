@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_ModuleManagerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model;
+
+class ModuleManagerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * XPath in the configuration of a module output flag
@@ -14,27 +16,27 @@ class Magento_Core_Model_ModuleManagerTest extends PHPUnit_Framework_TestCase
     const XML_PATH_OUTPUT_ENABLED = 'custom/is_module_output_enabled';
 
     /**
-     * @var Magento_Core_Model_ModuleManager
+     * @var \Magento\Core\Model\ModuleManager
      */
     private $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_moduleList;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_storeConfig;
 
     protected function setUp()
     {
-        $this->_moduleList = $this->getMockForAbstractClass('Magento_Core_Model_ModuleListInterface');
-        $this->_storeConfig = $this->getMockForAbstractClass('Magento_Core_Model_Store_ConfigInterface');
-        $this->_model = new Magento_Core_Model_ModuleManager($this->_storeConfig, $this->_moduleList, array(
+        $this->_moduleList = $this->getMockForAbstractClass('Magento\Core\Model\ModuleListInterface');
+        $this->_storeConfig = $this->getMockForAbstractClass('Magento\Core\Model\Store\ConfigInterface');
+        $this->_model = new \Magento\Core\Model\ModuleManager($this->_storeConfig, $this->_moduleList, array(
             'Module_DisabledOutputOne' => self::XML_PATH_OUTPUT_ENABLED,
-            'Module_DisabledOutputTwo' => 'Magento_Core_Model_ModuleManagerTest::XML_PATH_OUTPUT_ENABLED',
+            'Module_DisabledOutputTwo' => 'Magento\Core\Model\ModuleManagerTest::XML_PATH_OUTPUT_ENABLED',
         ));
     }
 

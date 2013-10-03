@@ -17,15 +17,15 @@ class EnterpriseConfigurator implements ConfiguratorInterface
     protected $_basePath;
 
     /**
-     * @var Magento_Io_File
+     * @var \Magento\Io\File
      */
     protected $_filesystem;
 
     /**
      * @param $basePath
-     * @param Magento_Io_File $filesystem
+     * @param \Magento\Io\File $filesystem
      */
-    public function __construct($basePath, Magento_Io_File $filesystem)
+    public function __construct($basePath, \Magento\Io\File $filesystem)
     {
         $this->_basePath = $basePath;
         $this->_filesystem = $filesystem;

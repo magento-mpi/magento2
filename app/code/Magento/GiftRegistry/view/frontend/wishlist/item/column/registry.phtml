@@ -15,7 +15,7 @@
         <div class="list-container">
             <ul>
                 <?php foreach ($this->getGiftRegistryList() as $_entity):?>
-                    <li data-wishlist-to-giftregistry='{"itemId":"<?php echo $this->getItem()->getId() ?>", "entity":"<?php echo $_entity->getValue()?>", "url":"<?php echo $this->getUrl('giftregistry/index/wishlist') ?>"}'><span title="<?php echo $this->escapeHtml($_entity->getTitle())?>"><?php echo $this->escapeHtml($this->helper('Magento_Core_Helper_String')->truncate($_entity->getTitle(), 40)); ?></span></li>
+                    <li data-wishlist-to-giftregistry='{"itemId":"<?php echo $this->getItem()->getId() ?>", "entity":"<?php echo $_entity->getValue()?>", "url":"<?php echo $this->getUrl('giftregistry/index/wishlist') ?>"}'><span title="<?php echo $this->escapeHtml($_entity->getTitle())?>"><?php echo $this->escapeHtml($this->helper('Magento\Core\Helper\String')->truncate($_entity->getTitle(), 40)); ?></span></li>
                 <?php endforeach;?>
             </ul>
         </div>

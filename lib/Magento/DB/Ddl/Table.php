@@ -16,7 +16,9 @@
  * @package     Magento_DB
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_DB_Ddl_Table
+namespace Magento\DB\Ddl;
+
+class Table
 {
     /**
      * Types of columns
@@ -164,7 +166,7 @@ class Magento_DB_Ddl_Table
      * Set table name
      *
      * @param string $name
-     * @return Magento_DB_Ddl_Table
+     * @return \Magento\DB\Ddl\Table
      */
     public function setName($name)
     {
@@ -179,7 +181,7 @@ class Magento_DB_Ddl_Table
      * Set schema name
      *
      * @param string $name
-     * @return Magento_DB_Ddl_Table
+     * @return \Magento\DB\Ddl\Table
      */
     public function setSchema($name)
     {
@@ -191,7 +193,7 @@ class Magento_DB_Ddl_Table
      * Set comment for table
      *
      * @param string $comment
-     * @return Magento_DB_Ddl_Table
+     * @return \Magento\DB\Ddl\Table
      */
     public function setComment($comment)
     {
@@ -202,13 +204,13 @@ class Magento_DB_Ddl_Table
     /**
      * Retrieve name of table
      *
-     * @throws Zend_Db_Exception
+     * @throws \Zend_Db_Exception
      * @return string
      */
     public function getName()
     {
         if (is_null($this->_tableName)) {
-            throw new Zend_Db_Exception('Table name is not defined');
+            throw new \Zend_Db_Exception('Table name is not defined');
         }
         return $this->_tableName;
     }
@@ -251,8 +253,8 @@ class Magento_DB_Ddl_Table
      * @param string|int|array $size the column length
      * @param array $options array of additional options
      * @param string $comment column description
-     * @throws Zend_Db_Exception
-     * @return Magento_DB_Ddl_Table
+     * @throws \Zend_Db_Exception
+     * @return \Magento\DB\Ddl\Table
      */
     public function addColumn($name, $type, $size = null, $options = array(), $comment = null)
     {
@@ -326,7 +328,7 @@ class Magento_DB_Ddl_Table
                 $length = $size;
                 break;
             default:
-                throw new Zend_Db_Exception('Invalid column data type "' . $type . '"');
+                throw new \Zend_Db_Exception('Invalid column data type "' . $type . '"');
         }
 
         if (array_key_exists('default', $options)) {
@@ -386,8 +388,8 @@ class Magento_DB_Ddl_Table
      * @param string $refColumn     the reference table column name
      * @param string $onDelete      the action on delete row
      * @param string $onUpdate      the action on update
-     * @throws Zend_Db_Exception
-     * @return Magento_DB_Ddl_Table
+     * @throws \Zend_Db_Exception
+     * @return \Magento\DB\Ddl\Table
      */
     public function addForeignKey($fkName, $column, $refTable, $refColumn, $onDelete = null, $onUpdate = null)
     {
@@ -395,7 +397,7 @@ class Magento_DB_Ddl_Table
 
         // validate column name
         if (!isset($this->_columns[strtoupper($column)])) {
-            throw new Zend_Db_Exception('Undefined column "' . $column . '"');
+            throw new \Zend_Db_Exception('Undefined column "' . $column . '"');
         }
 
         switch ($onDelete) {
@@ -436,11 +438,11 @@ class Magento_DB_Ddl_Table
      * @param string $indexName     the index name
      * @param array|string $columns array of columns or column string
      * @param array $options        array of additional options
-     * @return Magento_DB_Ddl_Table
+     * @return \Magento\DB\Ddl\Table
      */
     public function addIndex($indexName, $fields, $options = array())
     {
-        $idxType    = Magento_DB_Adapter_Interface::INDEX_TYPE_INDEX;
+        $idxType    = \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX;
         $position   = 0;
         $columns    = array();
         if (!is_array($fields)) {
@@ -454,7 +456,7 @@ class Magento_DB_Ddl_Table
                 $columnName = $columnData;
             } else if (is_array($columnData)) {
                 if (!isset($columnData['name'])) {
-                    throw new Zend_Db_Exception('Invalid index column data');
+                    throw new \Zend_Db_Exception('Invalid index column data');
                 }
 
                 $columnName = $columnData['name'];
@@ -478,7 +480,7 @@ class Magento_DB_Ddl_Table
         }
 
         if (empty($columns)) {
-            throw new Zend_Db_Exception('Columns for index are not defined');
+            throw new \Zend_Db_Exception('Columns for index are not defined');
         }
 
         if (!empty($options['type'])) {
@@ -514,7 +516,7 @@ class Magento_DB_Ddl_Table
      *
      * @param array $column
      * @see $this->_columns
-     * @return Magento_DB_Ddl_Table
+     * @return \Magento\DB\Ddl\Table
      */
     public function setColumn($column)
     {
@@ -550,7 +552,7 @@ class Magento_DB_Ddl_Table
      *
      * @param string $key
      * @param string $value
-     * @return Magento_Db_Ddl_Table
+     * @return \Magento\DB\Ddl\Table
      */
     public function setOption($key, $value)
     {

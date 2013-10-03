@@ -12,7 +12,9 @@
 /**
  * Backend Auth Storage interface
  */
-interface Magento_Backend_Model_Auth_StorageInterface
+namespace Magento\Backend\Model\Auth;
+
+interface StorageInterface
 {
     /**
      * Perform login specific actions

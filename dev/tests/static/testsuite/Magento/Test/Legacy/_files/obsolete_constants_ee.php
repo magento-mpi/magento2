@@ -8,22 +8,22 @@
  * @license     {license_link}
  */
 return array(
-    array('LAST_PRODUCT_COOKIE', 'Magento_FullPageCache_Model_Processor'),
-    array('NO_CACHE_COOKIE', 'Magento_FullPageCache_Model_Processor',
-        'Magento_FullPageCache_Model_Processor_RestrictionInterface::NO_CACHE_COOKIE'
+    array('LAST_PRODUCT_COOKIE', 'Magento\FullPageCache\Model\Processor'),
+    array('NO_CACHE_COOKIE', 'Magento\FullPageCache\Model\Processor',
+        'Magento\FullPageCache\Model\Processor\RestrictionInterface::NO_CACHE_COOKIE'
     ),
-    array('XML_PATH_DEFAULT_TIMEZONE', 'Magento_CatalogEvent_Model_Event'),
-    array('METADATA_CACHE_SUFFIX', 'Magento_FullPageCache_Model_Processor',
-        'Magento_FullPageCache_Model_MetadataInterface::METADATA_CACHE_SUFFIX'
+    array('XML_PATH_DEFAULT_TIMEZONE', 'Magento\CatalogEvent\Model\Event'),
+    array('METADATA_CACHE_SUFFIX', 'Magento\FullPageCache\Model\Processor',
+        'Magento\FullPageCache\Model\MetadataInterface::METADATA_CACHE_SUFFIX'
     ),
-    array('REQUEST_ID_PREFIX', 'Magento_FullPageCache_Model_Processor',
-        'Magento_FullPageCache_Model_Request_Identifier::REQUEST_ID_PREFIX'
+    array('REQUEST_ID_PREFIX', 'Magento\FullPageCache\Model\Processor',
+        'Magento\FullPageCache\Model\Request\Identifier::REQUEST_ID_PREFIX'
     ),
-    array('DESIGN_EXCEPTION_KEY', 'Magento_FullPageCache_Model_Processor',
-        'Magento_FullPageCache_Model_DesignPackage_Info::DESIGN_EXCEPTION_KEY'
+    array('DESIGN_EXCEPTION_KEY', 'Magento\FullPageCache\Model\Processor',
+        'Magento\FullPageCache\Model\DesignPackage\Info::DESIGN_EXCEPTION_KEY'
     ),
-    array('DESIGN_CHANGE_CACHE_SUFFIX', 'Magento_FullPageCache_Model_Processor',
-        'Magento_FullPageCache_Model_DesignPackage_Rules::DESIGN_CHANGE_CACHE_SUFFIX'
+    array('DESIGN_CHANGE_CACHE_SUFFIX', 'Magento\FullPageCache\Model\Processor',
+        'Magento\FullPageCache\Model\DesignPackage\Rules::DESIGN_CHANGE_CACHE_SUFFIX'
     ),
     array('XML_PATH_ACL_DENY_RULES', 'Magento_AdminGws_Model_Observer'),
     array('XML_PATH_VALIDATE_CALLBACK', 'Magento_AdminGws_Model_Observer'),

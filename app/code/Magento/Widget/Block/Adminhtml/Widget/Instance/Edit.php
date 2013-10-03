@@ -15,25 +15,27 @@
  * @package     Magento_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\Widget\Block\Adminhtml\Widget\Instance;
+
+class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -55,7 +57,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit extends Magento_Adminh
     /**
      * Getter
      *
-     * @return Magento_Widget_Model_Widget_Instance
+     * @return \Magento\Widget\Model\Widget\Instance
      */
     public function getWidgetInstance()
     {
@@ -66,7 +68,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit extends Magento_Adminh
      * Prepare layout.
      * Adding save_and_continue button
      *
-     * @return Magento_Widget_Block_Adminhtml_Widget_Instance_Edit
+     * @return \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit
      */
     protected function _preparelayout()
     {

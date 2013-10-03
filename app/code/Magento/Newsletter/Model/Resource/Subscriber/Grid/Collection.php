@@ -7,13 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Newsletter_Model_Resource_Subscriber_Grid_Collection
-    extends Magento_Newsletter_Model_Resource_Subscriber_Collection
+namespace Magento\Newsletter\Model\Resource\Subscriber\Grid;
+
+class Collection
+    extends \Magento\Newsletter\Model\Resource\Subscriber\Collection
 {
     /**
      * Sets flag for customer info loading on load
      *
-     * @return Magento_Newsletter_Model_Resource_Subscriber_Grid_Collection
+     * @return \Magento\Newsletter\Model\Resource\Subscriber\Grid\Collection
      */
     protected function _initSelect()
     {

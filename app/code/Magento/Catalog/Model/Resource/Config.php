@@ -16,7 +16,9 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Config extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Catalog\Model\Resource;
+
+class Config extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * catalog_product entity type id
@@ -35,28 +37,28 @@ class Magento_Catalog_Model_Resource_Config extends Magento_Core_Model_Resource_
     /**
      * Eav config
      *
-     * @var Magento_Eav_Model_Config
+     * @var \Magento\Eav\Model\Config
      */
     protected $_eavConfig;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Class constructor
      *
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Core_Model_Resource $resource
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Model\Resource $resource
     ) {
         $this->_storeManager = $storeManager;
         $this->_eavConfig = $eavConfig;
@@ -76,7 +78,7 @@ class Magento_Catalog_Model_Resource_Config extends Magento_Core_Model_Resource_
      * Set store id
      *
      * @param integer $storeId
-     * @return Magento_Catalog_Model_Resource_Config
+     * @return \Magento\Catalog\Model\Resource\Config
      */
     public function setStoreId($storeId)
     {
@@ -106,7 +108,7 @@ class Magento_Catalog_Model_Resource_Config extends Magento_Core_Model_Resource_
     public function getEntityTypeId()
     {
         if ($this->_entityTypeId === null) {
-            $this->_entityTypeId = $this->_eavConfig->getEntityType(Magento_Catalog_Model_Product::ENTITY)->getId();
+            $this->_entityTypeId = $this->_eavConfig->getEntityType(\Magento\Catalog\Model\Product::ENTITY)->getId();
         }
         return $this->_entityTypeId;
     }

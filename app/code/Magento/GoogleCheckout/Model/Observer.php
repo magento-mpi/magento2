@@ -15,9 +15,11 @@
  * @category   Magento
  * @package    Magento_GoogleCheckout
  */
-class Magento_GoogleCheckout_Model_Observer
+namespace Magento\GoogleCheckout\Model;
+
+class Observer
 {
-    public function salesOrderShipmentTrackSaveAfter(Magento_Event_Observer $observer)
+    public function salesOrderShipmentTrackSaveAfter(\Magento\Event\Observer $observer)
     {
         $track = $observer->getEvent()->getTrack();
 
@@ -28,8 +30,8 @@ class Magento_GoogleCheckout_Model_Observer
         }
 
         // Process only Google Checkout internal methods
-        /* @var $gcCarrier Magento_GoogleCheckout_Model_Shipping */
-        $gcCarrier = Mage::getModel('Magento_GoogleCheckout_Model_Shipping');
+        /* @var $gcCarrier \Magento\GoogleCheckout\Model\Shipping */
+        $gcCarrier = \Mage::getModel('Magento\GoogleCheckout\Model\Shipping');
         list($carrierCode, $methodCode) = explode('_', $shippingMethod);
         if ($gcCarrier->getCarrierCode() != $carrierCode) {
             return;
@@ -39,7 +41,7 @@ class Magento_GoogleCheckout_Model_Observer
             return;
         }
 
-        Mage::getModel('Magento_GoogleCheckout_Model_Api')
+        \Mage::getModel('Magento\GoogleCheckout\Model\Api')
             ->setStoreId($order->getStoreId())
             ->deliver($order->getExtOrderId(), $track->getCarrierCode(), $track->getNumber());
     }
@@ -47,10 +49,10 @@ class Magento_GoogleCheckout_Model_Observer
     /*
      * Performs specifical actions on Google Checkout internal shipments saving
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return void
      */
-    public function salesOrderShipmentSaveAfter(Magento_Event_Observer $observer)
+    public function salesOrderShipmentSaveAfter(\Magento\Event\Observer $observer)
     {
         $shipment = $observer->getEvent()->getShipment();
         $order = $shipment->getOrder();
@@ -60,8 +62,8 @@ class Magento_GoogleCheckout_Model_Observer
         }
 
         // Process only Google Checkout internal methods
-        /* @var $gcCarrier Magento_GoogleCheckout_Model_Shipping */
-        $gcCarrier = Mage::getModel('Magento_GoogleCheckout_Model_Shipping');
+        /* @var $gcCarrier \Magento\GoogleCheckout\Model\Shipping */
+        $gcCarrier = \Mage::getModel('Magento\GoogleCheckout\Model\Shipping');
         list($carrierCode, $methodCode) = explode('_', $shippingMethod);
         if ($gcCarrier->getCarrierCode() != $carrierCode) {
             return;
@@ -81,7 +83,7 @@ class Magento_GoogleCheckout_Model_Observer
         }
 
         if ($items) {
-            Mage::getModel('Magento_GoogleCheckout_Model_Api')
+            \Mage::getModel('Magento\GoogleCheckout\Model\Api')
                 ->setStoreId($order->getStoreId())
                 ->shipItems($order->getExtOrderId(), $items);
         }

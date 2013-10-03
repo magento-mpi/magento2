@@ -9,7 +9,7 @@
  */
 
 
-/** @var $installer Magento_Core_Model_Resource_Setup */
+/** @var $installer \Magento\Core\Model\Resource\Setup */
 $installer = $this;
 
 $connection = $installer->getConnection();
@@ -22,8 +22,8 @@ if ($installer->tableExists($fileStorageTable)) {
         $fileStorageTable,
         $temporaryColumnName,
         array(
-            'type' => Magento_DB_Ddl_Table::TYPE_VARBINARY,
-            'size' => Magento_DB_Ddl_Table::MAX_VARBINARY_SIZE,
+            'type' => \Magento\DB\Ddl\Table::TYPE_VARBINARY,
+            'size' => \Magento\DB\Ddl\Table::MAX_VARBINARY_SIZE,
             'nullable' => true,
             'comment' => 'File Content',
         )

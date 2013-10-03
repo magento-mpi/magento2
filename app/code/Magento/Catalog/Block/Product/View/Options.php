@@ -16,56 +16,58 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Block_Product_View_Options extends Magento_Core_Block_Template
+namespace Magento\Catalog\Block\Product\View;
+
+class Options extends \Magento\Core\Block\Template
 {
     protected $_product;
 
     /**
      * Product option
      *
-     * @var Magento_Catalog_Model_Product_Option
+     * @var \Magento\Catalog\Model\Product\Option
      */
     protected $_option;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_registry = null;
 
     /**
      * Tax data
      *
-     * @var Magento_Tax_Helper_Data
+     * @var \Magento\Tax\Helper\Data
      */
     protected $_taxData = null;
 
     /**
      * Catalog product
      *
-     * @var Magento_Catalog_Model_Product
+     * @var \Magento\Catalog\Model\Product
      */
     protected $_catalogProduct;
 
     /**
      * Construct
      *
-     * @param Magento_Catalog_Model_Product $catalogProduct
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Catalog_Model_Product_Option $option
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Catalog\Model\Product $catalogProduct
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Catalog\Model\Product\Option $option
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Model_Product $catalogProduct,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Catalog_Model_Product_Option $option,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Catalog\Model\Product $catalogProduct,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Catalog\Model\Product\Option $option,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_catalogProduct = $catalogProduct;
@@ -78,7 +80,7 @@ class Magento_Catalog_Block_Product_View_Options extends Magento_Core_Block_Temp
     /**
      * Retrieve product object
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
@@ -95,10 +97,10 @@ class Magento_Catalog_Block_Product_View_Options extends Magento_Core_Block_Temp
     /**
      * Set product object
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_Catalog_Block_Product_View_Options
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\Catalog\Block\Product\View\Options
      */
-    public function setProduct(Magento_Catalog_Model_Product $product = null)
+    public function setProduct(\Magento\Catalog\Model\Product $product = null)
     {
         $this->_product = $product;
         return $this;
@@ -132,7 +134,7 @@ class Magento_Catalog_Block_Product_View_Options extends Magento_Core_Block_Temp
     /**
      * Get price configuration
      *
-     * @param Magento_Catalog_Model_Product_Option_Value|Magento_Catalog_Model_Product_Option $option
+     * @param \Magento\Catalog\Model\Product\Option\Value|\Magento\Catalog\Model\Product\Option $option
      * @return array
      */
     protected function _getPriceConfiguration($option)
@@ -157,12 +159,12 @@ class Magento_Catalog_Block_Product_View_Options extends Magento_Core_Block_Temp
         $config = array();
 
         foreach ($this->getOptions() as $option) {
-            /* @var $option Magento_Catalog_Model_Product_Option */
+            /* @var $option \Magento\Catalog\Model\Product\Option */
             $priceValue = 0;
-            if ($option->getGroupByType() == Magento_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
+            if ($option->getGroupByType() == \Magento\Catalog\Model\Product\Option::OPTION_GROUP_SELECT) {
                 $_tmpPriceValues = array();
                 foreach ($option->getValues() as $value) {
-                    /* @var $value Magento_Catalog_Model_Product_Option_Value */
+                    /* @var $value \Magento\Catalog\Model\Product\Option\Value */
                     $id = $value->getId();
                     $_tmpPriceValues[$id] = $this->_getPriceConfiguration($value);
                 }
@@ -179,9 +181,9 @@ class Magento_Catalog_Block_Product_View_Options extends Magento_Core_Block_Temp
     /**
      * Get option html block
      *
-     * @param Magento_Catalog_Model_Product_Option $option
+     * @param \Magento\Catalog\Model\Product\Option $option
      */
-    public function getOptionHtml(Magento_Catalog_Model_Product_Option $option)
+    public function getOptionHtml(\Magento\Catalog\Model\Product\Option $option)
     {
         $type = $this->getGroupOfOption($option->getType());
         $renderer = $this->getChildBlock($type);

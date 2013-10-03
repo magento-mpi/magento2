@@ -16,9 +16,11 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Options
-    extends Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit\Tab;
+
+class Options
+    extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Options\AbstractOptions
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
      * Return Tab label

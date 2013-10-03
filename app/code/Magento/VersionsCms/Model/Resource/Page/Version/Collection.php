@@ -16,8 +16,10 @@
  * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_VersionsCms_Model_Resource_Page_Version_Collection
-    extends Magento_VersionsCms_Model_Resource_Page_Collection_Abstract
+namespace Magento\VersionsCms\Model\Resource\Page\Version;
+
+class Collection
+    extends \Magento\VersionsCms\Model\Resource\Page\Collection\AbstractCollection
 {
     /**
      * Constructor
@@ -26,7 +28,7 @@ class Magento_VersionsCms_Model_Resource_Page_Version_Collection
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('Magento_VersionsCms_Model_Page_Version', 'Magento_VersionsCms_Model_Resource_Page_Version');
+        $this->_init('Magento\VersionsCms\Model\Page\Version', 'Magento\VersionsCms\Model\Resource\Page\Version');
     }
 
     /**
@@ -34,7 +36,7 @@ class Magento_VersionsCms_Model_Resource_Page_Version_Collection
      * Can take parameter array or one level.
      *
      * @param mixed $level
-     * @return Magento_VersionsCms_Model_Resource_Page_Version_Collection
+     * @return \Magento\VersionsCms\Model\Resource\Page\Version\Collection
      */
     public function addAccessLevelFilter($level)
     {
@@ -75,7 +77,7 @@ class Magento_VersionsCms_Model_Resource_Page_Version_Collection
     /**
      * Join revision data by version id
      *
-     * @return Magento_VersionsCms_Model_Resource_Page_Version_Collection
+     * @return \Magento\VersionsCms\Model\Resource\Page\Version\Collection
      */
     public function joinRevisions()
     {
@@ -93,9 +95,9 @@ class Magento_VersionsCms_Model_Resource_Page_Version_Collection
      * Add order by version number in specified direction.
      *
      * @param string $dir
-     * @return Magento_VersionsCms_Model_Resource_Page_Version_Collection
+     * @return \Magento\VersionsCms\Model\Resource\Page\Version\Collection
      */
-    public function addNumberSort($dir = Magento_DB_Select::SQL_DESC)
+    public function addNumberSort($dir = \Magento\DB\Select::SQL_DESC)
     {
         $this->setOrder('version_number', $dir);
         return $this;

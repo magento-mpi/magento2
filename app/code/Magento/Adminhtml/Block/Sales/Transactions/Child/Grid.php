@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Transactions_Child_Grid extends Magento_Adminhtml_Block_Sales_Transactions_Grid
+namespace Magento\Adminhtml\Block\Sales\Transactions\Child;
+
+class Grid extends \Magento\Adminhtml\Block\Sales\Transactions\Grid
 {
     /**
      * Columns, that should be removed from grid
@@ -40,7 +42,7 @@ class Magento_Adminhtml_Block_Sales_Transactions_Child_Grid extends Magento_Admi
     /**
      * Add filter by parent transaction ID
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {

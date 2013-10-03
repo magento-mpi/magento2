@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <type name="Magento_Banner_Model_Config">
+    <type name="Magento\Banner\Model\Config">
         <param name="bannerTypes">
             <value>
                 <content>Content Area</content>
@@ -19,10 +19,10 @@
             </value>
         </param>
     </type>
-    <type name="Magento_Core_Model_Db_Updater">
+    <type name="Magento\Core\Model\Db\Updater">
         <param name="resourceList">
             <value>
-                <banner_setup>Magento_Banner_Model_Resource_Setup</banner_setup>
+                <banner_setup>Magento\Banner\Model\Resource\Setup</banner_setup>
             </value>
         </param>
     </type>

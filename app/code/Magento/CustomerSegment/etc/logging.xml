@@ -20,7 +20,7 @@
         <group name="magento_customersegment">
             <label translate="true">Manage Segments</label>
             <expected_models>
-                <expected_model class="Magento_CustomerSegment_Model_Segment" />
+                <expected_model class="Magento\CustomerSegment\Model\Segment" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_customersegment_edit" action_alias="view" />
@@ -31,7 +31,7 @@
                 </event>
                 <event controller_action="adminhtml_customersegment_match"
                        action_alias="refresh_data"
-                       post_dispatch="Magento_CustomerSegment_Model_Logging::postDispatchCustomerSegmentMatch" />
+                       post_dispatch="Magento\CustomerSegment\Model\Logging::postDispatchCustomerSegmentMatch" />
                 <event controller_action="adminhtml_customersegment_delete"
                        action_alias="delete" />
                 <event controller_action="adminhtml_report_customer_customersegment_exportCsv"

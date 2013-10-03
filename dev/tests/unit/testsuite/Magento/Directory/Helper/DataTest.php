@@ -6,60 +6,62 @@
  * @license     {license_link}
  */
 
-class Magento_Directory_Helper_DataTest extends PHPUnit_Framework_TestCase
+namespace Magento\Directory\Helper;
+
+class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Directory_Model_Resource_Country_Collection|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Directory\Model\Resource\Country\Collection|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_countryCollection;
 
     /**
-     * @var Magento_Directory_Model_Resource_Region_CollectionFactory|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Directory\Model\Resource\Region\CollectionFactory|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_regionCollection;
 
     /**
-     * @var Magento_Core_Helper_Data|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Helper\Data|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_coreHelper;
 
     /**
-     * @var Magento_Core_Model_Store|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Store|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_store;
 
     /**
-     * @var Magento_Directory_Helper_Data
+     * @var \Magento\Directory\Helper\Data
      */
     protected $_object;
 
     public function setUp()
     {
-        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
-        $context = $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $context = $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false);
 
-        $configCacheType = $this->getMock('Magento_Core_Model_Cache_Type_Config', array(), array(), '', false);
+        $configCacheType = $this->getMock('Magento\Core\Model\Cache\Type\Config', array(), array(), '', false);
 
-        $this->_countryCollection = $this->getMock('Magento_Directory_Model_Resource_Country_Collection', array(),
+        $this->_countryCollection = $this->getMock('Magento\Directory\Model\Resource\Country\Collection', array(),
             array(), '', false);
 
-        $this->_regionCollection = $this->getMock('Magento_Directory_Model_Resource_Region_Collection', array(),
+        $this->_regionCollection = $this->getMock('Magento\Directory\Model\Resource\Region\Collection', array(),
             array(), '', false);
-        $regCollFactory = $this->getMock('Magento_Directory_Model_Resource_Region_CollectionFactory', array('create'),
+        $regCollFactory = $this->getMock('Magento\Directory\Model\Resource\Region\CollectionFactory', array('create'),
             array(), '', false);
         $regCollFactory->expects($this->any())
             ->method('create')
             ->will($this->returnValue($this->_regionCollection));
 
-        $this->_coreHelper = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
+        $this->_coreHelper = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
 
-        $this->_store = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);
-        $storeManager = $this->getMock('Magento_Core_Model_StoreManagerInterface', array(), array(), '', false);
+        $this->_store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
+        $storeManager = $this->getMock('Magento\Core\Model\StoreManagerInterface', array(), array(), '', false);
         $storeManager->expects($this->any())
             ->method('getStore')
             ->will($this->returnValue($this->_store));
 
-        $currencyFactory = $this->getMock('Magento_Directory_Model_CurrencyFactory', array(), array(), '', false);
+        $currencyFactory = $this->getMock('Magento\Directory\Model\CurrencyFactory', array(), array(), '', false);
 
         $arguments = array(
             'context' => $context,
@@ -69,34 +71,34 @@ class Magento_Directory_Helper_DataTest extends PHPUnit_Framework_TestCase
             'coreHelper' => $this->_coreHelper,
             'storeManager' => $storeManager,
             'currencyFactory' => $currencyFactory,
-            'config' => $this->getMock('Magento_Core_Model_Config', array(), array(), '', false),
+            'config' => $this->getMock('Magento\Core\Model\Config', array(), array(), '', false),
         );
-        $this->_object = $objectManager->getObject('Magento_Directory_Helper_Data', $arguments);
+        $this->_object = $objectManager->getObject('Magento\Directory\Helper\Data', $arguments);
     }
 
     public function testGetRegionJson()
     {
         $countries = array(
-            new Magento_Object(array('country_id' => 'Country1')),
-            new Magento_Object(array('country_id' => 'Country2')),
+            new \Magento\Object(array('country_id' => 'Country1')),
+            new \Magento\Object(array('country_id' => 'Country2')),
         );
-        $countryIterator = new ArrayIterator($countries);
+        $countryIterator = new \ArrayIterator($countries);
         $this->_countryCollection->expects($this->atLeastOnce())
             ->method('getIterator')
             ->will($this->returnValue($countryIterator));
 
         $regions = array(
-            new Magento_Object(
+            new \Magento\Object(
                 array('country_id' => 'Country1', 'region_id' => 'r1', 'code' => 'r1-code', 'name' => 'r1-name')
             ),
-            new Magento_Object(
+            new \Magento\Object(
                 array('country_id' => 'Country1', 'region_id' => 'r2', 'code' => 'r2-code', 'name' => 'r2-name')
             ),
-            new Magento_Object(
+            new \Magento\Object(
                 array('country_id' => 'Country2', 'region_id' => 'r3', 'code' => 'r3-code', 'name' => 'r3-name')
             ),
         );
-        $regionIterator = new ArrayIterator($regions);
+        $regionIterator = new \ArrayIterator($regions);
 
         $this->_regionCollection->expects($this->once())
             ->method('addCountryFilter')
@@ -132,7 +134,7 @@ class Magento_Directory_Helper_DataTest extends PHPUnit_Framework_TestCase
         );
         $this->_coreHelper->expects($this->once())
             ->method('jsonEncode')
-            ->with(new PHPUnit_Framework_Constraint_IsIdentical($expectedDataToEncode))
+            ->with(new \PHPUnit_Framework_Constraint_IsIdentical($expectedDataToEncode))
             ->will($this->returnValue('encoded_json'));
 
         // Test

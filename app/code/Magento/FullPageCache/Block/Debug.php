@@ -11,7 +11,9 @@
 /**
  * Front end helper block to highliht dynamic blocks
  */
-class Magento_FullPageCache_Block_Debug extends Magento_Core_Block_Template
+namespace Magento\FullPageCache\Block;
+
+class Debug extends \Magento\Core\Block\Template
 {
     protected $_template = 'blockdebug.phtml';
 }

@@ -11,24 +11,26 @@
 /**
  * Column renderer for customer id
  */
-class Magento_Reminder_Block_Adminhtml_Widget_Grid_Column_Renderer_Id
-    extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\Reminder\Block\Adminhtml\Widget\Grid\Column\Renderer;
+
+class Id
+    extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Url Builder
      *
-     * @var Magento_Backend_Model_Url
+     * @var \Magento\Backend\Model\Url
      */
     protected $_urlBuilder;
 
     /**
-     * @param Magento_Backend_Block_Context $context
-     * @param Magento_Backend_Model_Url $url
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Backend\Model\Url $url
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Context $context,
-        Magento_Backend_Model_Url $url,
+        \Magento\Backend\Block\Context $context,
+        \Magento\Backend\Model\Url $url,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -38,10 +40,10 @@ class Magento_Reminder_Block_Adminhtml_Widget_Grid_Column_Renderer_Id
     /**
      * Render customer id linked to its account edit page
      *
-     * @param   Magento_Object $row
+     * @param   \Magento\Object $row
      * @return  string
      */
-    protected function _getValue(Magento_Object $row)
+    protected function _getValue(\Magento\Object $row)
     {
         $customerId = $this->escapeHtml($row->getData($this->getColumn()->getIndex()));
         return '<a href="' . $this->_urlBuilder->getUrl('*/customer/edit',

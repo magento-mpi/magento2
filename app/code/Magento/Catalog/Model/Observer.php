@@ -16,119 +16,121 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Observer
+namespace Magento\Catalog\Model;
+
+class Observer
 {
     /**
      * Catalog category flat
      *
-     * @var Magento_Catalog_Helper_Category_Flat
+     * @var \Magento\Catalog\Helper\Category\Flat
      */
     protected $_catalogCategoryFlat = null;
 
     /**
      * Catalog data
      *
-     * @var Magento_Catalog_Helper_Data
+     * @var \Magento\Catalog\Helper\Data
      */
     protected $_catalogData = null;
 
     /**
      * Catalog category
      *
-     * @var Magento_Catalog_Helper_Category
+     * @var \Magento\Catalog\Helper\Category
      */
     protected $_catalogCategory = null;
     
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
     /**
      * Index indexer
      *
-     * @var Magento_Index_Model_Indexer
+     * @var \Magento\Index\Model\Indexer
      */
     protected $_indexIndexer;
 
     /**
      * Catalog layer
      *
-     * @var Magento_Catalog_Model_Layer
+     * @var \Magento\Catalog\Model\Layer
      */
     protected $_catalogLayer;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Catalog product
      *
-     * @var Magento_Catalog_Model_Resource_Product
+     * @var \Magento\Catalog\Model\Resource\Product
      */
     protected $_catalogProduct;
 
     /**
      * Catalog category1
      *
-     * @var Magento_Catalog_Model_Resource_Category
+     * @var \Magento\Catalog\Model\Resource\Category
      */
     protected $_categoryResource;
 
     /**
      * Url factory
      *
-     * @var Magento_Catalog_Model_UrlFactory
+     * @var \Magento\Catalog\Model\UrlFactory
      */
     protected $_urlFactory;
 
     /**
      * Factory for category flat resource
      *
-     * @var Magento_Catalog_Model_Resource_Category_FlatFactory
+     * @var \Magento\Catalog\Model\Resource\Category\FlatFactory
      */
     protected $_flatResourceFactory;
 
     /**
      * Factory for product resource
      *
-     * @var Magento_Catalog_Model_Resource_ProductFactory
+     * @var \Magento\Catalog\Model\Resource\ProductFactory
      */
     protected $_productResourceFactory;
 
     /**
      * Constructor
      *
-     * @param Magento_Catalog_Model_UrlFactory $urlFactory
-     * @param Magento_Catalog_Model_Resource_Category $categoryResource
-     * @param Magento_Catalog_Model_Resource_Product $catalogProduct
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Model_Layer $catalogLayer
-     * @param Magento_Index_Model_Indexer $indexIndexer
-     * @param Magento_Catalog_Helper_Category $catalogCategory
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Catalog_Helper_Category_Flat $catalogCategoryFlat
-     * @param Magento_Core_Model_Config $coreConfig
-     * @param Magento_Catalog_Model_Resource_Category_FlatFactory $flatResourceFactory
-     * @param Magento_Catalog_Model_Resource_ProductFactory $productResourceFactory
+     * @param \Magento\Catalog\Model\UrlFactory $urlFactory
+     * @param \Magento\Catalog\Model\Resource\Category $categoryResource
+     * @param \Magento\Catalog\Model\Resource\Product $catalogProduct
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Layer $catalogLayer
+     * @param \Magento\Index\Model\Indexer $indexIndexer
+     * @param \Magento\Catalog\Helper\Category $catalogCategory
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Catalog\Helper\Category\Flat $catalogCategoryFlat
+     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Catalog\Model\Resource\Category\FlatFactory $flatResourceFactory
+     * @param \Magento\Catalog\Model\Resource\ProductFactory $productResourceFactory
      */
     public function __construct(
-        Magento_Catalog_Model_UrlFactory $urlFactory,
-        Magento_Catalog_Model_Resource_Category $categoryResource,
-        Magento_Catalog_Model_Resource_Product $catalogProduct,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Model_Layer $catalogLayer,
-        Magento_Index_Model_Indexer $indexIndexer,
-        Magento_Catalog_Helper_Category $catalogCategory,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Catalog_Helper_Category_Flat $catalogCategoryFlat,
-        Magento_Core_Model_Config $coreConfig,
-        Magento_Catalog_Model_Resource_Category_FlatFactory $flatResourceFactory,
-        Magento_Catalog_Model_Resource_ProductFactory $productResourceFactory
+        \Magento\Catalog\Model\UrlFactory $urlFactory,
+        \Magento\Catalog\Model\Resource\Category $categoryResource,
+        \Magento\Catalog\Model\Resource\Product $catalogProduct,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Layer $catalogLayer,
+        \Magento\Index\Model\Indexer $indexIndexer,
+        \Magento\Catalog\Helper\Category $catalogCategory,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Catalog\Helper\Category\Flat $catalogCategoryFlat,
+        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Catalog\Model\Resource\Category\FlatFactory $flatResourceFactory,
+        \Magento\Catalog\Model\Resource\ProductFactory $productResourceFactory
     ) {
         $this->_urlFactory = $urlFactory;
         $this->_categoryResource = $categoryResource;
@@ -147,16 +149,16 @@ class Magento_Catalog_Model_Observer
     /**
      * Process catalog ata related with store data changes
      *
-     * @param   Magento_Event_Observer $observer
-     * @return  Magento_Catalog_Model_Observer
+     * @param   \Magento\Event\Observer $observer
+     * @return  \Magento\Catalog\Model\Observer
      */
-    public function storeEdit(Magento_Event_Observer $observer)
+    public function storeEdit(\Magento\Event\Observer $observer)
     {
-        /** @var $store Magento_Core_Model_Store */
+        /** @var $store \Magento\Core\Model\Store */
         $store = $observer->getEvent()->getStore();
         if ($store->dataHasChangedFor('group_id')) {
             $this->_storeManager->reinitStores();
-            /** @var $categoryFlatHelper Magento_Catalog_Helper_Category_Flat */
+            /** @var $categoryFlatHelper \Magento\Catalog\Helper\Category\Flat */
             $categoryFlatHelper = $this->_catalogCategoryFlat;
             if ($categoryFlatHelper->isAvailable() && $categoryFlatHelper->isBuilt()) {
                 $this->_flatResourceFactory->create()
@@ -170,16 +172,16 @@ class Magento_Catalog_Model_Observer
     /**
      * Process catalog data related with new store
      *
-     * @param   Magento_Event_Observer $observer
-     * @return  Magento_Catalog_Model_Observer
+     * @param   \Magento\Event\Observer $observer
+     * @return  \Magento\Catalog\Model\Observer
      */
-    public function storeAdd(Magento_Event_Observer $observer)
+    public function storeAdd(\Magento\Event\Observer $observer)
     {
-        /* @var $store Magento_Core_Model_Store */
+        /* @var $store \Magento\Core\Model\Store */
         $store = $observer->getEvent()->getStore();
         $this->_storeManager->reinitStores();
         $this->_coreConfig->reinit();
-        /** @var $categoryFlatHelper Magento_Catalog_Helper_Category_Flat */
+        /** @var $categoryFlatHelper \Magento\Catalog\Helper\Category\Flat */
         $categoryFlatHelper = $this->_catalogCategoryFlat;
         if ($categoryFlatHelper->isAvailable() && $categoryFlatHelper->isBuilt()) {
             $this->_flatResourceFactory->create()
@@ -192,17 +194,17 @@ class Magento_Catalog_Model_Observer
     /**
      * Process catalog data related with store group root category
      *
-     * @param   Magento_Event_Observer $observer
-     * @return  Magento_Catalog_Model_Observer
+     * @param   \Magento\Event\Observer $observer
+     * @return  \Magento\Catalog\Model\Observer
      */
-    public function storeGroupSave(Magento_Event_Observer $observer)
+    public function storeGroupSave(\Magento\Event\Observer $observer)
     {
-        /* @var $group Magento_Core_Model_Store_Group */
+        /* @var $group \Magento\Core\Model\Store\Group */
         $group = $observer->getEvent()->getGroup();
         if ($group->dataHasChangedFor('root_category_id') || $group->dataHasChangedFor('website_id')) {
             $this->_storeManager->reinitStores();
             foreach ($group->getStores() as $store) {
-                /** @var $categoryFlatHelper Magento_Catalog_Helper_Category_Flat */
+                /** @var $categoryFlatHelper \Magento\Catalog\Helper\Category\Flat */
                 $categoryFlatHelper = $this->_catalogCategoryFlat;
                 if ($categoryFlatHelper->isAvailable() && $categoryFlatHelper->isBuilt()) {
                     $this->_flatResourceFactory->create()
@@ -216,12 +218,12 @@ class Magento_Catalog_Model_Observer
     /**
      * Process delete of store
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_Catalog_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\Catalog\Model\Observer
      */
-    public function storeDelete(Magento_Event_Observer $observer)
+    public function storeDelete(\Magento\Event\Observer $observer)
     {
-        /** @var $categoryFlatHelper Magento_Catalog_Helper_Category_Flat */
+        /** @var $categoryFlatHelper \Magento\Catalog\Helper\Category\Flat */
         $categoryFlatHelper = $this->_catalogCategoryFlat;
         if ($categoryFlatHelper->isAvailable() && $categoryFlatHelper->isBuilt()) {
             $store = $observer->getEvent()->getStore();
@@ -233,15 +235,15 @@ class Magento_Catalog_Model_Observer
     /**
      * Process catalog data after category move
      *
-     * @param   Magento_Event_Observer $observer
-     * @return  Magento_Catalog_Model_Observer
+     * @param   \Magento\Event\Observer $observer
+     * @return  \Magento\Catalog\Model\Observer
      */
-    public function categoryMove(Magento_Event_Observer $observer)
+    public function categoryMove(\Magento\Event\Observer $observer)
     {
         $categoryId = $observer->getEvent()->getCategoryId();
         $prevParentId = $observer->getEvent()->getPrevParentId();
         $parentId = $observer->getEvent()->getParentId();
-        /** @var $categoryFlatHelper Magento_Catalog_Helper_Category_Flat */
+        /** @var $categoryFlatHelper \Magento\Catalog\Helper\Category\Flat */
         $categoryFlatHelper = $this->_catalogCategoryFlat;
         if ($categoryFlatHelper->isAvailable() && $categoryFlatHelper->isBuilt()) {
             $this->_flatResourceFactory->create()
@@ -253,10 +255,10 @@ class Magento_Catalog_Model_Observer
     /**
      * Process catalog data after products import
      *
-     * @param   Magento_Event_Observer $observer
-     * @return  Magento_Catalog_Model_Observer
+     * @param   \Magento\Event\Observer $observer
+     * @return  \Magento\Catalog\Model\Observer
      */
-    public function catalogProductImportAfter(Magento_Event_Observer $observer)
+    public function catalogProductImportAfter(\Magento\Event\Observer $observer)
     {
         $this->_urlFactory->create()->refreshRewrites();
         $this->_categoryResource->refreshProductIndex();
@@ -266,12 +268,12 @@ class Magento_Catalog_Model_Observer
     /**
      * After save event of category
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_Catalog_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\Catalog\Model\Observer
      */
-    public function categorySaveAfter(Magento_Event_Observer $observer)
+    public function categorySaveAfter(\Magento\Event\Observer $observer)
     {
-        /** @var $categoryFlatHelper Magento_Catalog_Helper_Category_Flat */
+        /** @var $categoryFlatHelper \Magento\Catalog\Helper\Category\Flat */
         $categoryFlatHelper = $this->_catalogCategoryFlat;
         if ($categoryFlatHelper->isAvailable() && $categoryFlatHelper->isBuilt()) {
             $category = $observer->getEvent()->getCategory();
@@ -283,10 +285,10 @@ class Magento_Catalog_Model_Observer
     /**
      * Checking whether the using static urls in WYSIWYG allowed event
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_Catalog_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\Catalog\Model\Observer
      */
-    public function catalogCheckIsUsingStaticUrlsAllowed(Magento_Event_Observer $observer)
+    public function catalogCheckIsUsingStaticUrlsAllowed(\Magento\Event\Observer $observer)
     {
         $storeId = $observer->getEvent()->getData('store_id');
         $result  = $observer->getEvent()->getData('result');
@@ -296,9 +298,9 @@ class Magento_Catalog_Model_Observer
     /**
      * Cron job method for product prices to reindex
      *
-     * @param Magento_Cron_Model_Schedule $schedule
+     * @param \Magento\Cron\Model\Schedule $schedule
      */
-    public function reindexProductPrices(Magento_Cron_Model_Schedule $schedule)
+    public function reindexProductPrices(\Magento\Cron\Model\Schedule $schedule)
     {
         $indexProcess = $this->_indexIndexer->getProcessByCode('catalog_product_price');
         if ($indexProcess) {
@@ -309,9 +311,9 @@ class Magento_Catalog_Model_Observer
     /**
      * Adds catalog categories to top menu
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function addCatalogToTopmenuItems(Magento_Event_Observer $observer)
+    public function addCatalogToTopmenuItems(\Magento\Event\Observer $observer)
     {
         $this->_addCategoriesToMenu(
             $this->_catalogCategory->getStoreCategories(),
@@ -322,8 +324,8 @@ class Magento_Catalog_Model_Observer
     /**
      * Recursively adds categories to top menu
      *
-     * @param Magento_Data_Tree_Node_Collection|array $categories
-     * @param Magento_Data_Tree_Node $parentCategoryNode
+     * @param \Magento\Data\Tree\Node\Collection|array $categories
+     * @param \Magento\Data\Tree\Node $parentCategoryNode
      */
     protected function _addCategoriesToMenu($categories, $parentCategoryNode)
     {
@@ -341,7 +343,7 @@ class Magento_Catalog_Model_Observer
                 'url' => $this->_catalogCategory->getCategoryUrl($category),
                 'is_active' => $this->_isActiveMenuCategory($category)
             );
-            $categoryNode = new Magento_Data_Tree_Node($categoryData, 'id', $tree, $parentCategoryNode);
+            $categoryNode = new \Magento\Data\Tree\Node($categoryData, 'id', $tree, $parentCategoryNode);
             $parentCategoryNode->addChild($categoryNode);
 
             if ($this->_catalogCategoryFlat->isEnabled()) {
@@ -357,7 +359,7 @@ class Magento_Catalog_Model_Observer
     /**
      * Checks whether category belongs to active category's path
      *
-     * @param Magento_Data_Tree_Node $category
+     * @param \Magento\Data\Tree\Node $category
      * @return bool
      */
     protected function _isActiveMenuCategory($category)
@@ -378,24 +380,24 @@ class Magento_Catalog_Model_Observer
     /**
      * Change product type on the fly depending on selected options
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function transitionProductType(Magento_Event_Observer $observer)
+    public function transitionProductType(\Magento\Event\Observer $observer)
     {
         $switchableTypes = array(
-            Magento_Catalog_Model_Product_Type::TYPE_SIMPLE,
-            Magento_Catalog_Model_Product_Type::TYPE_VIRTUAL,
-            Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE,
+            \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
+            \Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL,
+            \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE,
         );
         $product = $observer->getProduct();
         $attributes = $observer->getRequest()->getParam('attributes');
         if (!empty($attributes)) {
-            $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE);
+            $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE);
         } elseif (in_array($product->getTypeId(), $switchableTypes)) {
             $product->setTypeInstance(null);
             $product->setTypeId($product->hasIsVirtual()
-                ? Magento_Catalog_Model_Product_Type::TYPE_VIRTUAL
-                : Magento_Catalog_Model_Product_Type::TYPE_SIMPLE
+                ? \Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL
+                : \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE
             );
         }
     }

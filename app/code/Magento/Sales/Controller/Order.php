@@ -11,7 +11,9 @@
 /**
  * Sales orders controller
  */
-class Magento_Sales_Controller_Order extends Magento_Sales_Controller_Abstract
+namespace Magento\Sales\Controller;
+
+class Order extends \Magento\Sales\Controller\AbstractController
 {
     /**
      * Action predispatch
@@ -21,9 +23,9 @@ class Magento_Sales_Controller_Order extends Magento_Sales_Controller_Abstract
     public function preDispatch()
     {
         parent::preDispatch();
-        $loginUrl = $this->_objectManager->get('Magento_Customer_Helper_Data')->getLoginUrl();
+        $loginUrl = $this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl();
 
-        if (!$this->_objectManager->get('Magento_Customer_Model_Session')->authenticate($this, $loginUrl)) {
+        if (!$this->_objectManager->get('Magento\Customer\Model\Session')->authenticate($this, $loginUrl)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
     }
@@ -34,7 +36,7 @@ class Magento_Sales_Controller_Order extends Magento_Sales_Controller_Abstract
     public function historyAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('Magento_Catalog_Model_Session');
+        $this->_initLayoutMessages('Magento\Catalog\Model\Session');
 
         $this->getLayout()->getBlock('head')->setTitle(__('My Orders'));
 

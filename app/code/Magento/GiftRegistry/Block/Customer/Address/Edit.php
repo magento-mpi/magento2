@@ -11,18 +11,20 @@
 /**
  * GiftRegistry shipping Address block
  */
-class Magento_GiftRegistry_Block_Customer_Address_Edit extends Magento_GiftRegistry_Block_Customer_Edit_Abstract
+namespace Magento\GiftRegistry\Block\Customer\Address;
+
+class Edit extends \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit
 {
     /**
      * Contains logged in customer
      *
-     * @var Magento_Customer_Model_Customer
+     * @var \Magento\Customer\Model\Customer
      */
     protected $_customer;
 
     /**
      * Getter for entity object
-     * @return Magento_GiftRegistry_Model_Entity
+     * @return \Magento\GiftRegistry\Model\Entity
      */
     public function getEntity()
     {
@@ -32,7 +34,7 @@ class Magento_GiftRegistry_Block_Customer_Address_Edit extends Magento_GiftRegis
     /**
      * Getter for address object
      *
-     * @return Magento_Customer_Model_Address
+     * @return \Magento\Customer\Model\Address
      */
     public function getAddress()
     {
@@ -59,7 +61,7 @@ class Magento_GiftRegistry_Block_Customer_Address_Edit extends Magento_GiftRegis
     {
         if ($this->isCustomerLoggedIn()) {
             $options = array(array(
-                'value' => Magento_GiftRegistry_Helper_Data::ADDRESS_NONE,
+                'value' => \Magento\GiftRegistry\Helper\Data::ADDRESS_NONE,
                 'label' => __('None')
             ));
             foreach ($this->getCustomer()->getAddresses() as $address) {
@@ -69,11 +71,11 @@ class Magento_GiftRegistry_Block_Customer_Address_Edit extends Magento_GiftRegis
                 );
             }
             $options[] = array(
-                'value' => Magento_GiftRegistry_Helper_Data::ADDRESS_NEW,
+                'value' => \Magento\GiftRegistry\Helper\Data::ADDRESS_NEW,
                 'label' => __('New Address')
             );
 
-            $select = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
+            $select = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
                 ->setName('address_type_or_id')
                 ->setId($domId)
                 ->setClass('address-select')
@@ -87,7 +89,7 @@ class Magento_GiftRegistry_Block_Customer_Address_Edit extends Magento_GiftRegis
     /**
      * Get logged in customer
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function getCustomer()
     {

@@ -15,12 +15,14 @@
  * @package    Magento_Rss
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rss_Block_Wishlist extends Magento_Wishlist_Block_Abstract
+namespace Magento\Rss\Block;
+
+class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
 {
     /**
      * Customer instance
      *
-     * @var Magento_Customer_Model_Customer
+     * @var \Magento\Customer\Model\Customer
      */
     protected $_customer;
 
@@ -32,54 +34,54 @@ class Magento_Rss_Block_Wishlist extends Magento_Wishlist_Block_Abstract
     protected $_mapRenderer = 'msrp_rss';
 
     /**
-     * @var Magento_Wishlist_Model_WishlistFactory
+     * @var \Magento\Wishlist\Model\WishlistFactory
      */
     protected $_wishlistFactory;
 
     /**
-     * @var Magento_Customer_Model_CustomerFactory
+     * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $_customerFactory;
 
     /**
-     * @var Magento_Rss_Model_RssFactory
+     * @var \Magento\Rss\Model\RssFactory
      */
     protected $_rssFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Model_Config $catalogConfig
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Wishlist_Helper_Data $wishlistData
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Wishlist_Model_WishlistFactory $wishlistFactory
-     * @param Magento_Customer_Model_CustomerFactory $customerFactory
-     * @param Magento_Rss_Model_RssFactory $rssFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Wishlist\Helper\Data $wishlistData
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Rss\Model\RssFactory $rssFactory
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Model_Config $catalogConfig,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Wishlist_Helper_Data $wishlistData,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Wishlist_Model_WishlistFactory $wishlistFactory,
-        Magento_Customer_Model_CustomerFactory $customerFactory,
-        Magento_Rss_Model_RssFactory $rssFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Wishlist\Helper\Data $wishlistData,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Rss\Model\RssFactory $rssFactory,
         array $data = array()
     ) {
         $this->_wishlistFactory = $wishlistFactory;
@@ -92,7 +94,7 @@ class Magento_Rss_Block_Wishlist extends Magento_Wishlist_Block_Abstract
     /**
      * Retrieve Wishlist model
      *
-     * @return Magento_Wishlist_Model_Wishlist
+     * @return \Magento\Wishlist\Model\Wishlist
      */
     protected function _getWishlist()
     {
@@ -116,7 +118,7 @@ class Magento_Rss_Block_Wishlist extends Magento_Wishlist_Block_Abstract
     /**
      * Retrieve Customer instance
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     protected function _getCustomer()
     {
@@ -151,7 +153,7 @@ class Magento_Rss_Block_Wishlist extends Magento_Wishlist_Block_Abstract
      */
     protected function _toHtml()
     {
-        /* @var $rssObj Magento_Rss_Model_Rss */
+        /* @var $rssObj \Magento\Rss\Model\Rss */
         $rssObj = $this->_rssFactory->create();
         if ($this->_getWishlist()->getId()) {
             $newUrl = $this->_urlBuilder->getUrl('wishlist/shared/index', array(
@@ -167,9 +169,9 @@ class Magento_Rss_Block_Wishlist extends Magento_Wishlist_Block_Abstract
                 'language'      => $lang
             ));
 
-            /** @var $wishlistItem Magento_Wishlist_Model_Item*/
+            /** @var $wishlistItem \Magento\Wishlist\Model\Item*/
             foreach ($this->getWishlistItems() as $wishlistItem) {
-                /* @var $product Magento_Catalog_Model_Product */
+                /* @var $product \Magento\Catalog\Model\Product */
                 $product = $wishlistItem->getProduct();
                 $productUrl = $this->getProductUrl($product);
                 $product->setAllowedInRss(true);
@@ -183,10 +185,10 @@ class Magento_Rss_Block_Wishlist extends Magento_Wishlist_Block_Abstract
                     continue;
                 }
 
-                /** @var $outputHelper Magento_Catalog_Helper_Output */
-                $outputHelper = $this->helper('Magento_Catalog_Helper_Output');
+                /** @var $outputHelper \Magento\Catalog\Helper\Output */
+                $outputHelper = $this->helper('Magento\Catalog\Helper\Output');
                 $description = '<table><tr><td><a href="' . $productUrl . '"><img src="'
-                    . $this->helper('Magento_Catalog_Helper_Image')->init($product, 'thumbnail')->resize(75, 75)
+                    . $this->helper('Magento\Catalog\Helper\Image')->init($product, 'thumbnail')->resize(75, 75)
                     . '" border="0" align="left" height="75" width="75"></a></td>'
                     . '<td style="text-decoration:none;">'
                     . $outputHelper->productAttribute($product, $product->getShortDescription(), 'short_description')
@@ -224,7 +226,7 @@ class Magento_Rss_Block_Wishlist extends Magento_Wishlist_Block_Abstract
     /**
      * Retrieve Product View URL
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param array $additional
      * @return string
      */

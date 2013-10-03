@@ -6,6 +6,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Page\Block\Link;
+
 /**
  * Block representing link with two possible states.
  * "Current" state means link leads to URL equivalent to URL of currently displayed page.
@@ -14,9 +16,9 @@
  * @method string                          getPath()
  * @method string                          getTitle()
  * @method null|bool                       getCurrent()
- * @method Magento_Page_Block_Link_Current setCurrent(bool $value)
+ * @method \Magento\Page\Block\Link\Current setCurrent(bool $value)
  */
-class Magento_Page_Block_Link_Current extends Magento_Core_Block_Template
+class Current extends \Magento\Core\Block\Template
 {
     /**
      * @var string

@@ -15,39 +15,41 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Attribute_Source_Countryofmanufacture
-    extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
+namespace Magento\Catalog\Model\Product\Attribute\Source;
+
+class Countryofmanufacture
+    extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**
-     * @var Magento_Core_Model_Cache_Type_Config
+     * @var \Magento\Core\Model\Cache\Type\Config
      */
     protected $_configCacheType;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Country factory
      *
-     * @var Magento_Directory_Model_CountryFactory
+     * @var \Magento\Directory\Model\CountryFactory
      */
     protected $_countryFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Directory_Model_CountryFactory $countryFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
+     * @param \Magento\Directory\Model\CountryFactory $countryFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
      */
     public function __construct(
-        Magento_Directory_Model_CountryFactory $countryFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Cache_Type_Config $configCacheType
+        \Magento\Directory\Model\CountryFactory $countryFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType
     ) {
         $this->_countryFactory = $countryFactory;
         $this->_storeManager = $storeManager;

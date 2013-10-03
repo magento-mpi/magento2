@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Translate_InlineTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Translate;
+
+class InlineTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Translate_Inline
+     * @var \Magento\Core\Model\Translate\Inline
      */
     protected $_model;
 
@@ -23,18 +25,18 @@ class Magento_Core_Model_Translate_InlineTest extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setDesignTheme('magento_demo');
     }
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Translate_Inline');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Translate\Inline');
         /* Called getConfig as workaround for setConfig bug */
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
             ->getStore($this->_storeId)->getConfig('dev/translate_inline/active');
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
             ->getStore($this->_storeId)->setConfig('dev/translate_inline/active', true);
     }
 
@@ -44,8 +46,8 @@ class Magento_Core_Model_Translate_InlineTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($this->_model->isAllowed($this->_storeId));
         $this->assertTrue(
             $this->_model->isAllowed(
-                Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                    ->get('Magento_Core_Model_StoreManagerInterface')->getStore($this->_storeId)
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                    ->get('Magento\Core\Model\StoreManagerInterface')->getStore($this->_storeId)
             )
         );
     }
@@ -61,11 +63,11 @@ class Magento_Core_Model_Translate_InlineTest extends PHPUnit_Framework_TestCase
         $this->_model->processResponseBody($actualText, false);
         $this->markTestIncomplete('Bug MAGE-2494');
 
-        $expected = new DOMDocument;
+        $expected = new \DOMDocument;
         $expected->preserveWhiteSpace = FALSE;
         $expected->loadHTML($expectedText);
 
-        $actual = new DOMDocument;
+        $actual = new \DOMDocument;
         $actual->preserveWhiteSpace = FALSE;
         $actual->loadHTML($actualText);
 
@@ -80,8 +82,8 @@ class Magento_Core_Model_Translate_InlineTest extends PHPUnit_Framework_TestCase
         $originalText = file_get_contents(__DIR__ . '/_files/_inline_page_original.html');
         $expectedText = file_get_contents(__DIR__ . '/_files/_inline_page_expected.html');
 
-        $package = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_View_DesignInterface')
+        $package = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\View\DesignInterface')
             ->getDesignTheme()
             ->getPackageCode();
         $expectedText = str_replace(

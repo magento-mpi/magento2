@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Magento_Adminhtml_Block_Sales_Order_Create_Abstract
+namespace Magento\Adminhtml\Block\Sales\Order\Create\Items;
+
+class Grid extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
 {
     /**
      * Flag to check can items be move to customer storage
@@ -27,45 +29,45 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Magento_Admi
     /**
      * Tax data
      *
-     * @var Magento_Tax_Helper_Data
+     * @var \Magento\Tax\Helper\Data
      */
     protected $_taxData = null;
 
     /**
-     * @var Magento_Wishlist_Model_WishlistFactory
+     * @var \Magento\Wishlist\Model\WishlistFactory
      */
     protected $_wishlistFactory;
 
     /**
-     * @var Magento_Adminhtml_Model_Giftmessage_Save
+     * @var \Magento\Adminhtml\Model\Giftmessage\Save
      */
     protected $_giftMessageSave;
 
     /**
-     * @var Magento_Tax_Model_Config
+     * @var \Magento\Tax\Model\Config
      */
     protected $_taxConfig;
 
     /**
-     * @param Magento_Wishlist_Model_WishlistFactory $wishlistFactory
-     * @param Magento_Adminhtml_Model_Giftmessage_Save $giftMessageSave
-     * @param Magento_Tax_Model_Config $taxConfig
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
-     * @param Magento_Adminhtml_Model_Sales_Order_Create $orderCreate
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
+     * @param \Magento\Adminhtml\Model\Giftmessage\Save $giftMessageSave
+     * @param \Magento\Tax\Model\Config $taxConfig
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Wishlist_Model_WishlistFactory $wishlistFactory,
-        Magento_Adminhtml_Model_Giftmessage_Save $giftMessageSave,
-        Magento_Tax_Model_Config $taxConfig,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Adminhtml_Model_Session_Quote $sessionQuote,
-        Magento_Adminhtml_Model_Sales_Order_Create $orderCreate,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
+        \Magento\Adminhtml\Model\Giftmessage\Save $giftMessageSave,
+        \Magento\Tax\Model\Config $taxConfig,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_wishlistFactory = $wishlistFactory;
@@ -90,14 +92,14 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Magento_Admi
             // To dispatch inventory event sales_quote_item_qty_set_after, set item qty
             $item->setQty($item->getQty());
             $stockItem = $item->getProduct()->getStockItem();
-            if ($stockItem instanceof Magento_CatalogInventory_Model_Stock_Item) {
+            if ($stockItem instanceof \Magento\CatalogInventory\Model\Stock\Item) {
                 // This check has been performed properly in Inventory observer, so it has no sense
                 /*
                 $check = $stockItem->checkQuoteItemQty($item->getQty(), $item->getQty(), $item->getQty());
                 $item->setMessage($check->getMessage());
                 $item->setHasError($check->getHasError());
                 */
-                if ($item->getProduct()->getStatus() == Magento_Catalog_Model_Product_Status::STATUS_DISABLED) {
+                if ($item->getProduct()->getStatus() == \Magento\Catalog\Model\Product\Status::STATUS_DISABLED) {
                     $item->setMessage(__('This product is disabled.'));
                     $item->setHasError(true);
                 }
@@ -142,12 +144,12 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Magento_Admi
     public function isGiftMessagesAvailable($item=null)
     {
         if(is_null($item)) {
-            return $this->helper('Magento_GiftMessage_Helper_Message')->getIsMessagesAvailable(
+            return $this->helper('Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable(
                 'items', $this->getQuote(), $this->getStore()
             );
         }
 
-        return $this->helper('Magento_GiftMessage_Helper_Message')->getIsMessagesAvailable(
+        return $this->helper('Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable(
             'item', $item, $this->getStore()
         );
     }
@@ -201,7 +203,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Magento_Admi
     /**
      * Retrive quote address
      *
-     * @return Magento_Sales_Model_Quote_Address
+     * @return \Magento\Sales\Model\Quote\Address
      */
     public function getQuoteAddress()
     {
@@ -216,7 +218,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Magento_Admi
     /**
      * Define if specified item has already applied custom price
      *
-     * @param Magento_Sales_Model_Quote_Item $item
+     * @param \Magento\Sales\Model\Quote\Item $item
      * @return bool
      */
     public function usedCustomPriceForItem($item)
@@ -227,7 +229,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Magento_Admi
     /**
      * Define if custom price can be applied for specified item
      *
-     * @param Magento_Sales_Model_Quote_Item $item
+     * @param \Magento\Sales\Model\Quote\Item $item
      * @return bool
      */
     public function canApplyCustomPrice($item)
@@ -255,7 +257,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Magento_Admi
     /**
      * Get tier price html
      *
-     * @param Magento_Sales_Model_Quote_Item $item
+     * @param \Magento\Sales\Model\Quote\Item $item
      * @return string
      */
     public function getTierHtml($item)
@@ -263,7 +265,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Magento_Admi
         $html = '';
         $prices = $item->getProduct()->getTierPrice();
         if ($prices) {
-            $info = $item->getProductType() == Magento_Catalog_Model_Product_Type::TYPE_BUNDLE
+            $info = $item->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
                 ? $this->_getBundleTierPriceInfo($prices)
                 : $this->_getTierPriceInfo($prices);
             $html = implode('<br/>', $info);
@@ -306,10 +308,10 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Magento_Admi
     /**
      * Get Custom Options of item
      *
-     * @param Magento_Sales_Model_Quote_Item $item
+     * @param \Magento\Sales\Model\Quote\Item $item
      * @return array
      */
-    public function getCustomOptions(Magento_Sales_Model_Quote_Item $item)
+    public function getCustomOptions(\Magento\Sales\Model\Quote\Item $item)
     {
         $optionStr = '';
         $this->_moveToCustomerStorage = true;
@@ -400,7 +402,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Magento_Admi
             $options['title'] = __('This product does not have any configurable options');
         }
 
-        return $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+        return $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
             ->setData($options)
             ->toHtml();
     }
@@ -408,8 +410,8 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Magento_Admi
     /**
      * Get order item extra info block
      *
-     * @param Magento_Sales_Model_Quote_Item $item
-     * @return Magento_Core_Block_Abstract
+     * @param \Magento\Sales\Model\Quote\Item $item
+     * @return \Magento\Core\Block\AbstractBlock
      */
     public function getItemExtraInfo($item)
     {
@@ -421,7 +423,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Magento_Admi
     /**
      * Returns whether moving to wishlist is allowed for this item
      *
-     * @param Magento_Sales_Model_Quote_Item $item
+     * @param \Magento\Sales\Model\Quote\Item $item
      * @return bool
      */
     public function isMoveToWishlistAllowed($item)
@@ -433,7 +435,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Magento_Admi
     /**
      * Retrieve collection of customer wishlists
      *
-     * @return Magento_Wishlist_Model_Resource_Wishlist_Collection
+     * @return \Magento\Wishlist\Model\Resource\Wishlist\Collection
      */
     public function getCustomerWishlists()
     {

@@ -9,17 +9,19 @@
  * @license     {license_link}
  */
 
-class Magento_Log_Model_Resource_ShellTest extends PHPUnit_Framework_TestCase
+namespace Magento\Log\Model\Resource;
+
+class ShellTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Log_Model_Resource_Shell
+     * @var \Magento\Log\Model\Resource\Shell
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Log_Model_Resource_Shell');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Log\Model\Resource\Shell');
     }
 
     public function testGetTablesInfo()

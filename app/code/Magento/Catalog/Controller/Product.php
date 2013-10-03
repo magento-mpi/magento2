@@ -7,35 +7,38 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Catalog_Controller_Product
-    extends Magento_Core_Controller_Front_Action
-    implements Magento_Catalog_Controller_Product_View_Interface
+
+namespace Magento\Catalog\Controller;
+
+class Product
+    extends \Magento\Core\Controller\Front\Action
+    implements \Magento\Catalog\Controller\Product\View\ViewInterface
 {
     /**
      * Initialize requested product object
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     protected function _initProduct()
     {
         $categoryId = (int)$this->getRequest()->getParam('category', false);
         $productId  = (int)$this->getRequest()->getParam('id');
 
-        $params = new Magento_Object();
+        $params = new \Magento\Object();
         $params->setCategoryId($categoryId);
 
-        return $this->_objectManager->get('Magento_Catalog_Helper_Product')->initProduct($productId, $this, $params);
+        return $this->_objectManager->get('Magento\Catalog\Helper\Product')->initProduct($productId, $this, $params);
     }
 
     /**
      * Initialize product view layout
      *
-     * @param   Magento_Catalog_Model_Product $product
-     * @return  Magento_Catalog_Controller_Product
+     * @param   \Magento\Catalog\Model\Product $product
+     * @return  \Magento\Catalog\Controller\Product
      */
     protected function _initProductLayout($product)
     {
-        $this->_objectManager->get('Magento_Catalog_Helper_Product_View')->initProductLayout($product, $this);
+        $this->_objectManager->get('Magento\Catalog\Helper\Product\View')->initProductLayout($product, $this);
         return $this;
     }
 
@@ -50,17 +53,17 @@ class Magento_Catalog_Controller_Product
         $specifyOptions = $this->getRequest()->getParam('options');
 
         // Prepare helper and params
-        /** @var Magento_Catalog_Helper_Product_View $viewHelper */
-        $viewHelper = $this->_objectManager->get('Magento_Catalog_Helper_Product_View');
+        /** @var \Magento\Catalog\Helper\Product\View $viewHelper */
+        $viewHelper = $this->_objectManager->get('Magento\Catalog\Helper\Product\View');
 
-        $params = new Magento_Object();
+        $params = new \Magento\Object();
         $params->setCategoryId($categoryId);
         $params->setSpecifyOptions($specifyOptions);
 
         // Render page
         try {
             $viewHelper->prepareAndRender($productId, $this, $params);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if ($e->getCode() == $viewHelper->ERR_NO_PRODUCT_LOADED) {
                 if (isset($_GET['store']) && !$this->getResponse()->isRedirect()) {
                     $this->_redirect('');
@@ -68,7 +71,7 @@ class Magento_Catalog_Controller_Product
                     $this->_forward('noRoute');
                 }
             } else {
-                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
                 $this->_forward('noRoute');
             }
         }

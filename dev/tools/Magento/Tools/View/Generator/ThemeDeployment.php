@@ -11,12 +11,14 @@
 /**
  * Transformation of files, which must be copied to new location and its contents processed
  */
-class Magento_Tools_View_Generator_ThemeDeployment
+namespace Magento\Tools\View\Generator;
+
+class ThemeDeployment
 {
     /**
      * Helper to process CSS content and fix urls
      *
-     * @var Magento_Core_Helper_Css
+     * @var \Magento\Core\Helper\Css
      */
     private $_cssHelper;
 
@@ -53,15 +55,15 @@ class Magento_Tools_View_Generator_ThemeDeployment
     /**
      * Constructor
      *
-     * @param Magento_Core_Helper_Css $cssHelper
+     * @param \Magento\Core\Helper\Css $cssHelper
      * @param string $destinationHomeDir
      * @param string $configPermitted
      * @param string|null $configForbidden
      * @param bool $isDryRun
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     public function __construct(
-        Magento_Core_Helper_Css $cssHelper,
+        \Magento\Core\Helper\Css $cssHelper,
         $destinationHomeDir,
         $configPermitted,
         $configForbidden = null,
@@ -77,7 +79,7 @@ class Magento_Tools_View_Generator_ThemeDeployment
         $conflicts = array_intersect($this->_permitted, $this->_forbidden);
         if ($conflicts) {
             $message = 'Conflicts: the following extensions are added both to permitted and forbidden lists: %s';
-            throw new Magento_Exception(sprintf($message, implode(', ', $conflicts)));
+            throw new \Magento\Exception(sprintf($message, implode(', ', $conflicts)));
         }
     }
 
@@ -86,12 +88,12 @@ class Magento_Tools_View_Generator_ThemeDeployment
      *
      * @param string $path
      * @return array
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     protected function _loadConfig($path)
     {
         if (!file_exists($path)) {
-            throw new Magento_Exception("Config file does not exist: {$path}");
+            throw new \Magento\Exception("Config file does not exist: {$path}");
         }
 
         $contents = include($path);
@@ -115,7 +117,7 @@ class Magento_Tools_View_Generator_ThemeDeployment
                 'destinationContext' => $destinationContext,
             );
 
-            $destDir = Magento_Core_Model_View_DeployedFilesManager::buildDeployedFilePath(
+            $destDir = \Magento\Core\Model\View\DeployedFilesManager::buildDeployedFilePath(
                 $destinationContext['area'],
                 $destinationContext['themePath'],
                 $destinationContext['locale'],
@@ -139,12 +141,12 @@ class Magento_Tools_View_Generator_ThemeDeployment
      * @param string $sourceDir
      * @param string $destinationDir
      * @param array $context
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     protected function _copyDirStructure($sourceDir, $destinationDir, $context)
     {
-        $files = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($sourceDir, RecursiveDirectoryIterator::SKIP_DOTS)
+        $files = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($sourceDir, \RecursiveDirectoryIterator::SKIP_DOTS)
         );
         foreach ($files as $fileSource) {
             $fileSource = (string) $fileSource;
@@ -160,7 +162,7 @@ class Magento_Tools_View_Generator_ThemeDeployment
                     $extension,
                     $fileSource
                 );
-                throw new Magento_Exception($message);
+                throw new \Magento\Exception($message);
             }
 
             $fileDestination = $destinationDir . substr($fileSource, strlen($sourceDir));
@@ -174,7 +176,7 @@ class Magento_Tools_View_Generator_ThemeDeployment
      * @param string $fileSource
      * @param string $fileDestination
      * @param array $context
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     protected function _deployFile($fileSource, $fileDestination, $context)
     {
@@ -191,13 +193,13 @@ class Magento_Tools_View_Generator_ThemeDeployment
             $destContext = $context['destinationContext'];
             $destHomeDir = $this->_destinationHomeDir;
             $callback = function ($relativeUrl) use ($destContext, $destFileDir, $destHomeDir) {
-                $parts = explode(Magento_Core_Model_View_Service::SCOPE_SEPARATOR, $relativeUrl);
+                $parts = explode(\Magento\Core\Model\View\Service::SCOPE_SEPARATOR, $relativeUrl);
                 if (count($parts) == 2) {
                     list($module, $file) = $parts;
                     if (!strlen($module) || !strlen($file)) {
-                        throw new Magento_Exception("Wrong module url: {$relativeUrl}");
+                        throw new \Magento\Exception("Wrong module url: {$relativeUrl}");
                     }
-                    $relPath = Magento_Core_Model_View_DeployedFilesManager::buildDeployedFilePath(
+                    $relPath = \Magento\Core\Model\View\DeployedFilesManager::buildDeployedFilePath(
                         $destContext['area'], $destContext['themePath'], $destContext['locale'],
                         $file, $module
                     );

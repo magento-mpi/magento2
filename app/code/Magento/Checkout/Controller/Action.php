@@ -12,20 +12,22 @@
 /**
  * Controller for onepage and multishipping checkouts
  */
-abstract class Magento_Checkout_Controller_Action extends Magento_Core_Controller_Front_Action
+namespace Magento\Checkout\Controller;
+
+abstract class Action extends \Magento\Core\Controller\Front\Action
 {
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @param Magento_Core_Controller_Varien_Action_Context $context
-     * @param Magento_Customer_Model_Session $customerSession
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
-        Magento_Core_Controller_Varien_Action_Context $context,
-        Magento_Customer_Model_Session $customerSession
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Customer\Model\Session $customerSession
     ) {
         $this->_customerSession = $customerSession;
         parent::__construct($context);

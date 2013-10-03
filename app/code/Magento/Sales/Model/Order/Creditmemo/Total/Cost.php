@@ -9,15 +9,17 @@
  */
 
 
-class Magento_Sales_Model_Order_Creditmemo_Total_Cost extends Magento_Sales_Model_Order_Creditmemo_Total_Abstract
+namespace Magento\Sales\Model\Order\Creditmemo\Total;
+
+class Cost extends \Magento\Sales\Model\Order\Creditmemo\Total\AbstractTotal
 {
     /**
      * Collect total cost of refunded items
      *
-     * @param Magento_Sales_Model_Order_Creditmemo $creditmemo
-     * @return Magento_Sales_Model_Order_Creditmemo_Total_Cost
+     * @param \Magento\Sales\Model\Order\Creditmemo $creditmemo
+     * @return \Magento\Sales\Model\Order\Creditmemo\Total\Cost
      */
-    public function collect(Magento_Sales_Model_Order_Creditmemo $creditmemo)
+    public function collect(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
     {
         $baseRefundTotalCost = 0;
         foreach ($creditmemo->getAllItems() as $item) {

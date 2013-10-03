@@ -15,36 +15,38 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Transactions_Detail_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Sales\Transactions\Detail;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Data_CollectionFactory
+     * @var \Magento\Data\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @param Magento_Data_CollectionFactory $collectionFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Data\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        Magento_Data_CollectionFactory $collectionFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Core_Model_Registry $coreRegistry,
+        \Magento\Data\CollectionFactory $collectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
@@ -65,13 +67,13 @@ class Magento_Adminhtml_Block_Sales_Transactions_Detail_Grid extends Magento_Adm
     /**
      * Prepare collection for grid
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
         $collection = $this->_collectionFactory->create();
         foreach ($this->getTransactionAdditionalInfo() as $key => $value) {
-            $data = new Magento_Object(array('key' => $key, 'value' => $value));
+            $data = new \Magento\Object(array('key' => $key, 'value' => $value));
             $collection->addItem($data);
         }
 
@@ -82,7 +84,7 @@ class Magento_Adminhtml_Block_Sales_Transactions_Detail_Grid extends Magento_Adm
     /**
      * Add columns to grid
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareColumns()
     {
@@ -116,7 +118,7 @@ class Magento_Adminhtml_Block_Sales_Transactions_Detail_Grid extends Magento_Adm
     public function getTransactionAdditionalInfo()
     {
         $info = $this->_coreRegistry->registry('current_transaction')->getAdditionalInformation(
-            Magento_Sales_Model_Order_Payment_Transaction::RAW_DETAILS
+            \Magento\Sales\Model\Order\Payment\Transaction::RAW_DETAILS
         );
         return (is_array($info)) ? $info : array();
     }

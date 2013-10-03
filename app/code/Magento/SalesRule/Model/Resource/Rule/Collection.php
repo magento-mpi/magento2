@@ -16,7 +16,9 @@
  * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_SalesRule_Model_Resource_Rule_Collection extends Magento_Rule_Model_Resource_Rule_Collection_Abstract
+namespace Magento\SalesRule\Model\Resource\Rule;
+
+class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCollection
 {
     /**
      * Store associated with rule entities information map
@@ -37,25 +39,25 @@ class Magento_SalesRule_Model_Resource_Rule_Collection extends Magento_Rule_Mode
     );
 
     /**
-     * @var Magento_Core_Model_Date
+     * @var \Magento\Core\Model\Date
      */
     protected $_date;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_Date $date
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_Date $date,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\Date $date,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         parent::__construct($eventManager, $logger,$fetchStrategy, $entityFactory, $resource);
         $this->_date = $date;
@@ -66,7 +68,7 @@ class Magento_SalesRule_Model_Resource_Rule_Collection extends Magento_Rule_Mode
      */
     protected function _construct()
     {
-        $this->_init('Magento_SalesRule_Model_Rule', 'Magento_SalesRule_Model_Resource_Rule');
+        $this->_init('Magento\SalesRule\Model\Rule', 'Magento\SalesRule\Model\Resource\Rule');
         $this->_map['fields']['rule_id'] = 'main_table.rule_id';
     }
 
@@ -81,7 +83,7 @@ class Magento_SalesRule_Model_Resource_Rule_Collection extends Magento_Rule_Mode
      * @param string|null $now
      * @use $this->addWebsiteGroupDateFilter()
      *
-     * @return Magento_SalesRule_Model_Resource_Rule_Collection
+     * @return \Magento\SalesRule\Model\Resource\Rule\Collection
      */
     public function setValidationFilter($websiteId, $customerGroupId, $couponCode = '', $now = null)
     {
@@ -100,16 +102,16 @@ class Magento_SalesRule_Model_Resource_Rule_Collection extends Magento_Rule_Mode
                     'main_table.rule_id = rule_coupons.rule_id ',
                     array('code')
                 );
-            $select->where('(main_table.coupon_type = ? ', Magento_SalesRule_Model_Rule::COUPON_TYPE_NO_COUPON)
+            $select->where('(main_table.coupon_type = ? ', \Magento\SalesRule\Model\Rule::COUPON_TYPE_NO_COUPON)
                 ->orWhere('(main_table.coupon_type = ? AND rule_coupons.type = 0',
-                    Magento_SalesRule_Model_Rule::COUPON_TYPE_AUTO)
+                    \Magento\SalesRule\Model\Rule::COUPON_TYPE_AUTO)
                 ->orWhere('main_table.coupon_type = ? AND main_table.use_auto_generation = 1 ' .
-                    'AND rule_coupons.type = 1', Magento_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC)
+                    'AND rule_coupons.type = 1', \Magento\SalesRule\Model\Rule::COUPON_TYPE_SPECIFIC)
                 ->orWhere('main_table.coupon_type = ? AND main_table.use_auto_generation = 0 ' .
-                    'AND rule_coupons.type = 0)', Magento_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC)
+                    'AND rule_coupons.type = 0)', \Magento\SalesRule\Model\Rule::COUPON_TYPE_SPECIFIC)
                 ->where('rule_coupons.code = ?)', $couponCode);
             } else {
-                $this->addFieldToFilter('main_table.coupon_type', Magento_SalesRule_Model_Rule::COUPON_TYPE_NO_COUPON);
+                $this->addFieldToFilter('main_table.coupon_type', \Magento\SalesRule\Model\Rule::COUPON_TYPE_NO_COUPON);
             }
             $this->setOrder('sort_order', self::SORT_ORDER_ASC);
             $this->setFlag('validation_filter', true);
@@ -128,7 +130,7 @@ class Magento_SalesRule_Model_Resource_Rule_Collection extends Magento_Rule_Mode
      * @param string|null $now
      * @use $this->addWebsiteFilter()
      *
-     * @return Magento_SalesRule_Model_Resource_Rule_Collection
+     * @return \Magento\SalesRule\Model\Resource\Rule\Collection
      */
     public function addWebsiteGroupDateFilter($websiteId, $customerGroupId, $now = null)
     {
@@ -166,7 +168,7 @@ class Magento_SalesRule_Model_Resource_Rule_Collection extends Magento_Rule_Mode
     /**
      * Add primary coupon to collection
      *
-     * @return Magento_SalesRule_Model_Resource_Rule_Collection
+     * @return \Magento\SalesRule\Model\Resource\Rule\Collection
      */
     public function _initSelect()
     {
@@ -185,7 +187,7 @@ class Magento_SalesRule_Model_Resource_Rule_Collection extends Magento_Rule_Mode
      *
      * @param string $attributeCode
      *
-     * @return Magento_SalesRule_Model_Resource_Rule_Collection
+     * @return \Magento\SalesRule\Model\Resource\Rule\Collection
      */
     public function addAttributeInConditionFilter($attributeCode)
     {
@@ -195,7 +197,7 @@ class Magento_SalesRule_Model_Resource_Rule_Collection extends Magento_Rule_Mode
         $field = $this->_getMappedField('actions_serialized');
         $aCond = $this->_getConditionSql($field, array('like' => $match));
 
-        $this->getSelect()->where(sprintf('(%s OR %s)', $cCond, $aCond), null, Magento_DB_Select::TYPE_CONDITION);
+        $this->getSelect()->where(sprintf('(%s OR %s)', $cCond, $aCond), null, \Magento\DB\Select::TYPE_CONDITION);
 
         return $this;
     }
@@ -203,7 +205,7 @@ class Magento_SalesRule_Model_Resource_Rule_Collection extends Magento_Rule_Mode
     /**
      * Excludes price rules with generated specific coupon codes from collection
      *
-     * @return Magento_SalesRule_Model_Resource_Rule_Collection
+     * @return \Magento\SalesRule\Model\Resource\Rule\Collection
      */
     public function addAllowedSalesRulesFilter()
     {

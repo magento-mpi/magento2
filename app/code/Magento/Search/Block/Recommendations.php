@@ -15,36 +15,38 @@
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Search_Block_Recommendations extends Magento_Core_Block_Template
+namespace Magento\Search\Block;
+
+class Recommendations extends \Magento\Core\Block\Template
 {
     /**
      * Search data
      *
-     * @var Magento_Search_Helper_Data
+     * @var \Magento\Search\Helper\Data
      */
     protected $_searchData;
 
     /**
      * Recommendations factory
      *
-     * @var Magento_Search_Model_RecommendationsFactory
+     * @var \Magento\Search\Model\RecommendationsFactory
      */
     protected $_recommendationsFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Search_Helper_Data $searchData
-     * @param Magento_Search_Model_RecommendationsFactory $recommendationsFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Search\Helper\Data $searchData
+     * @param \Magento\Search\Model\RecommendationsFactory $recommendationsFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Search_Helper_Data $searchData,
-        Magento_Search_Model_RecommendationsFactory $recommendationsFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Search\Helper\Data $searchData,
+        \Magento\Search\Model\RecommendationsFactory $recommendationsFactory,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);
@@ -66,7 +68,7 @@ class Magento_Search_Block_Recommendations extends Magento_Core_Block_Template
             return array();
         }
 
-        /** @var Magento_Search_Model_Recommendations $recommendationsModel */
+        /** @var \Magento\Search\Model\Recommendations $recommendationsModel */
         $recommendationsModel = $this->_recommendationsFactory->create();
         $recommendations = $recommendationsModel->getSearchRecommendations();
 
@@ -75,7 +77,7 @@ class Magento_Search_Block_Recommendations extends Magento_Core_Block_Template
         }
         $result = array();
 
-        /** @var $coreHelper Magento_Core_Helper_Data */
+        /** @var $coreHelper \Magento\Core\Helper\Data */
         $coreHelper = $this->_coreData;
         foreach ($recommendations as $recommendation) {
             $result[] = array(

@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Modular_CacheFilesTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Modular;
+
+class CacheFilesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string $area
@@ -13,17 +15,17 @@ class Magento_Test_Integrity_Modular_CacheFilesTest extends PHPUnit_Framework_Te
      */
     public function testCacheConfig($area)
     {
-        $validationStateMock = $this->getMock('Magento_Config_ValidationStateInterface');
+        $validationStateMock = $this->getMock('Magento\Config\ValidationStateInterface');
         $validationStateMock->expects($this->any())->method('isValidated')->will($this->returnValue(true));
 
-        /** @var Magento_Core_Model_Config_Modules_Reader $moduleReader */
-        $moduleReader = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_Config_Modules_Reader');
+        /** @var \Magento\Core\Model\Config\Modules\Reader $moduleReader */
+        $moduleReader = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\Config\Modules\Reader');
         $schema = $moduleReader->getModuleDir('etc', 'Magento_Core') . DIRECTORY_SEPARATOR . 'cache.xsd';
 
-        /** @var Magento_Core_Model_Cache_Config_Reader $reader */
-        $reader = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
-            'Magento_Core_Model_Cache_Config_Reader',
+        /** @var \Magento\Core\Model\Cache\Config\Reader $reader */
+        $reader = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Core\Model\Cache\Config\Reader',
             array(
                 'validationState' => $validationStateMock,
                 'schema' => $schema,
@@ -32,7 +34,7 @@ class Magento_Test_Integrity_Modular_CacheFilesTest extends PHPUnit_Framework_Te
         );
         try {
             $reader->read($area);
-        } catch (Magento_Exception $exception) {
+        } catch (\Magento\Exception $exception) {
             $this->fail($exception->getMessage());
         }
     }

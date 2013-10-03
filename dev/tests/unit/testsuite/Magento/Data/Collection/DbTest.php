@@ -9,19 +9,21 @@
  * @license     {license_link}
  */
 
-class Magento_Data_Collection_DbTest extends PHPUnit_Framework_TestCase
+namespace Magento\Data\Collection;
+
+class DbTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Data_Collection_Db
+     * @var \Magento\Data\Collection\Db
      */
     protected $_collection;
 
     protected function setUp()
     {
-        $fetchStrategy = $this->getMockForAbstractClass('Magento_Data_Collection_Db_FetchStrategyInterface');
-        $entityFactory = $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false);
-        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
-        $this->_collection = new Magento_Data_Collection_Db($logger, $fetchStrategy, $entityFactory);
+        $fetchStrategy = $this->getMockForAbstractClass('Magento\Data\Collection\Db\FetchStrategyInterface');
+        $entityFactory = $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $this->_collection = new \Magento\Data\Collection\Db($logger, $fetchStrategy, $entityFactory);
     }
 
     protected function tearDown()
@@ -30,7 +32,7 @@ class Magento_Data_Collection_DbTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return PHPUnit_Framework_MockObject_MockObject|Zend_Db_Adapter_Abstract
+     * @return \PHPUnit_Framework_MockObject_MockObject|Zend_Db_Adapter_Abstract
      */
     public function testSetAddOrder()
     {
@@ -40,16 +42,16 @@ class Magento_Data_Collection_DbTest extends PHPUnit_Framework_TestCase
         $this->_collection->setConnection($adapter);
 
         $select = $this->_collection->getSelect();
-        $this->assertEmpty($select->getPart(Zend_Db_Select::ORDER));
+        $this->assertEmpty($select->getPart(\Zend_Db_Select::ORDER));
 
         /* Direct access to select object is available and many places are using it for sort order declaration */
-        $select->order('select_field', Magento_Data_Collection::SORT_ORDER_ASC);
-        $this->_collection->addOrder('some_field', Magento_Data_Collection::SORT_ORDER_ASC);
-        $this->_collection->setOrder('other_field', Magento_Data_Collection::SORT_ORDER_ASC);
-        $this->_collection->addOrder('other_field', Magento_Data_Collection::SORT_ORDER_DESC);
+        $select->order('select_field', \Magento\Data\Collection::SORT_ORDER_ASC);
+        $this->_collection->addOrder('some_field', \Magento\Data\Collection::SORT_ORDER_ASC);
+        $this->_collection->setOrder('other_field', \Magento\Data\Collection::SORT_ORDER_ASC);
+        $this->_collection->addOrder('other_field', \Magento\Data\Collection::SORT_ORDER_DESC);
 
         $this->_collection->load();
-        $selectOrders = $select->getPart(Zend_Db_Select::ORDER);
+        $selectOrders = $select->getPart(\Zend_Db_Select::ORDER);
         $this->assertEquals(array('select_field', 'ASC'), array_shift($selectOrders));
         $this->assertEquals('some_field ASC', (string)array_shift($selectOrders));
         $this->assertEquals('other_field DESC', (string)array_shift($selectOrders));
@@ -59,17 +61,17 @@ class Magento_Data_Collection_DbTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param PHPUnit_Framework_MockObject_MockObject|Zend_Db_Adapter_Abstract $adapter
+     * @param \PHPUnit_Framework_MockObject_MockObject|Zend_Db_Adapter_Abstract $adapter
      * @depends testSetAddOrder
      */
     public function testUnshiftOrder($adapter)
     {
         $this->_collection->setConnection($adapter);
-        $this->_collection->addOrder('some_field', Magento_Data_Collection::SORT_ORDER_ASC);
-        $this->_collection->unshiftOrder('other_field', Magento_Data_Collection::SORT_ORDER_ASC);
+        $this->_collection->addOrder('some_field', \Magento\Data\Collection::SORT_ORDER_ASC);
+        $this->_collection->unshiftOrder('other_field', \Magento\Data\Collection::SORT_ORDER_ASC);
 
         $this->_collection->load();
-        $selectOrders = $this->_collection->getSelect()->getPart(Zend_Db_Select::ORDER);
+        $selectOrders = $this->_collection->getSelect()->getPart(\Zend_Db_Select::ORDER);
         $this->assertEquals('other_field ASC', (string)array_shift($selectOrders));
         $this->assertEquals('some_field ASC', (string)array_shift($selectOrders));
         $this->assertEmpty(array_shift($selectOrders));
@@ -149,7 +151,7 @@ class Magento_Data_Collection_DbTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue('email LIKE \'%value?%\''));
         $adapter->expects($this->once())
             ->method('select')
-            ->will($this->returnValue(new Magento_DB_Select($adapter)));
+            ->will($this->returnValue(new \Magento\DB\Select($adapter)));
         $this->_collection->setConnection($adapter);
 
         $select = $this->_collection->getSelect()->from('test');
@@ -183,7 +185,7 @@ class Magento_Data_Collection_DbTest extends PHPUnit_Framework_TestCase
      * Test that after cloning collection $this->_select in initial and cloned collections
      * do not reference the same object
      *
-     * @covers Magento_Data_Collection_Db::__clone
+     * @covers \Magento\Data\Collection\Db::__clone
      */
     public function testClone()
     {
@@ -232,11 +234,11 @@ class Magento_Data_Collection_DbTest extends PHPUnit_Framework_TestCase
      */
     public function testPrintLogQueryLogging($logQuery, $logFlag, $expectedCalls)
     {
-        $fetchStrategy = $this->getMock('Magento_Data_Collection_Db_FetchStrategyInterface');
-        $entityFactory = $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false);
-        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
+        $fetchStrategy = $this->getMock('Magento\Data\Collection\Db\FetchStrategyInterface');
+        $entityFactory = $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
         $collection = $this->getMock(
-            'Magento_Data_Collection_Db',
+            'Magento\Data\Collection\Db',
             array('_logQuery'),
             array($logger, $fetchStrategy, $entityFactory)
         );

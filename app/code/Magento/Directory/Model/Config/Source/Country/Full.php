@@ -9,8 +9,10 @@
  */
 
 
-class Magento_Directory_Model_Config_Source_Country_Full extends Magento_Directory_Model_Config_Source_Country
-    implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Directory\Model\Config\Source\Country;
+
+class Full extends \Magento\Directory\Model\Config\Source\Country
+    implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray($isMultiselect=false) {
         return parent::toOptionArray(true);

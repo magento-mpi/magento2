@@ -18,7 +18,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Model_LayoutUpdate_Validator extends Zend_Validate_Abstract
+namespace Magento\Adminhtml\Model\LayoutUpdate;
+
+class Validator extends \Zend_Validate_Abstract
 {
     const XML_INVALID = 'invalidXml';
     const HELPER_ARGUMENT_TYPE = 'helperArgumentType';
@@ -32,7 +34,7 @@ class Magento_Adminhtml_Model_LayoutUpdate_Validator extends Zend_Validate_Abstr
     /**
      * The Magento SimpleXml object
      *
-     * @var Magento_Simplexml_Element
+     * @var \Magento\Simplexml\Element
      */
     protected $_value;
 
@@ -54,22 +56,22 @@ class Magento_Adminhtml_Model_LayoutUpdate_Validator extends Zend_Validate_Abstr
     protected $_xsdSchemas;
 
     /**
-     * @var Magento_Core_Model_Config_Modules_Reader
+     * @var \Magento\Core\Model\Config\Modules\Reader
      */
     protected $_modulesReader;
 
     /**
-     * @var Magento_Config_DomFactory
+     * @var \Magento\Config\DomFactory
      */
     protected $_domConfigFactory;
 
     /**
-     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
-     * @param Magento_Config_DomFactory $domConfigFactory
+     * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
+     * @param \Magento\Config\DomFactory $domConfigFactory
      */
     public function __construct(
-        Magento_Core_Model_Config_Modules_Reader $modulesReader,
-        Magento_Config_DomFactory $domConfigFactory
+        \Magento\Core\Model\Config\Modules\Reader $modulesReader,
+        \Magento\Config\DomFactory $domConfigFactory
     ) {
         $this->_modulesReader = $modulesReader;
         $this->_domConfigFactory = $domConfigFactory;
@@ -85,7 +87,7 @@ class Magento_Adminhtml_Model_LayoutUpdate_Validator extends Zend_Validate_Abstr
     /**
      * Initialize messages templates with translating
      *
-     * @return Magento_Adminhtml_Model_LayoutUpdate_Validator
+     * @return \Magento\Adminhtml\Model\LayoutUpdate\Validator
      */
     protected function _initMessageTemplates()
     {
@@ -124,7 +126,7 @@ class Magento_Adminhtml_Model_LayoutUpdate_Validator extends Zend_Validate_Abstr
             ));
 
             if ($isSecurityCheck) {
-                $value = new Magento_Simplexml_Element($value);
+                $value = new \Magento\Simplexml\Element($value);
                 $value->registerXPathNamespace('xsi', self::XML_NAMESPACE_XSI);
                 foreach ($this->_protectedExpressions as $key => $xpr) {
                     if ($value->xpath($xpr)) {
@@ -136,10 +138,10 @@ class Magento_Adminhtml_Model_LayoutUpdate_Validator extends Zend_Validate_Abstr
                     return false;
                 }
             }
-        } catch (Magento_Config_Dom_ValidationException $e) {
+        } catch (\Magento\Config\Dom\ValidationException $e) {
             $this->_error(self::XML_INVALID, $e->getMessage());
             return false;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_error(self::XML_INVALID);
             return false;
         }

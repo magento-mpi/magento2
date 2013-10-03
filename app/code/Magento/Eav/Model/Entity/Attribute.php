@@ -12,13 +12,15 @@
 /**
  * EAV Entity attribute model
  *
- * @method Magento_Eav_Model_Entity_Attribute setOption($value)
+ * @method \Magento\Eav\Model\Entity\Attribute setOption($value)
  *
  * @category   Magento
  * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Entity_Attribute extends Magento_Eav_Model_Entity_Attribute_Abstract
+namespace Magento\Eav\Model\Entity;
+
+class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
 {
     /**
      * Prefix of model events names
@@ -42,43 +44,43 @@ class Magento_Eav_Model_Entity_Attribute extends Magento_Eav_Model_Entity_Attrib
     protected $_cacheTag    = 'EAV_ATTRIBUTE';
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_catalogProductFactory;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Eav_Model_Entity_TypeFactory $eavTypeFactory
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Eav_Model_Resource_Helper $resourceHelper
-     * @param Magento_Validator_UniversalFactory $universalFactory
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Catalog_Model_ProductFactory $catalogProductFactory
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Eav\Model\Entity\TypeFactory $eavTypeFactory
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Catalog\Model\ProductFactory $catalogProductFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Eav_Model_Entity_TypeFactory $eavTypeFactory,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Eav_Model_Resource_Helper $resourceHelper,
-        Magento_Validator_UniversalFactory $universalFactory,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Catalog_Model_ProductFactory $catalogProductFactory,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Eav\Model\Entity\TypeFactory $eavTypeFactory,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Eav\Model\Resource\Helper $resourceHelper,
+        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Catalog\Model\ProductFactory $catalogProductFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct(
@@ -107,16 +109,16 @@ class Magento_Eav_Model_Entity_Attribute extends Magento_Eav_Model_Entity_Attrib
     {
         switch ($this->getAttributeCode()) {
             case 'created_at':
-                return 'Magento_Eav_Model_Entity_Attribute_Backend_Time_Created';
+                return 'Magento\Eav\Model\Entity\Attribute\Backend\Time\Created';
 
             case 'updated_at':
-                return 'Magento_Eav_Model_Entity_Attribute_Backend_Time_Updated';
+                return 'Magento\Eav\Model\Entity\Attribute\Backend\Time\Updated';
 
             case 'store_id':
-                return 'Magento_Eav_Model_Entity_Attribute_Backend_Store';
+                return 'Magento\Eav\Model\Entity\Attribute\Backend\Store';
 
             case 'increment_id':
-                return 'Magento_Eav_Model_Entity_Attribute_Backend_Increment';
+                return 'Magento\Eav\Model\Entity\Attribute\Backend\Increment';
         }
 
         return parent::_getDefaultBackendModel();
@@ -140,7 +142,7 @@ class Magento_Eav_Model_Entity_Attribute extends Magento_Eav_Model_Entity_Attrib
     protected function _getDefaultSourceModel()
     {
         if ($this->getAttributeCode() == 'store_id') {
-            return 'Magento_Eav_Model_Entity_Attribute_Source_Store';
+            return 'Magento\Eav\Model\Entity\Attribute\Source\Store';
         }
         return parent::_getDefaultSourceModel();
     }
@@ -148,7 +150,7 @@ class Magento_Eav_Model_Entity_Attribute extends Magento_Eav_Model_Entity_Attrib
     /**
      * Delete entity
      *
-     * @return Magento_Eav_Model_Resource_Entity_Attribute
+     * @return \Magento\Eav\Model\Resource\Entity\Attribute
      */
     public function deleteEntity()
     {
@@ -158,7 +160,7 @@ class Magento_Eav_Model_Entity_Attribute extends Magento_Eav_Model_Entity_Attrib
     /**
      * Load entity_attribute_id into $this by $this->attribute_set_id
      *
-     * @return Magento_Core_Model_Abstract
+     * @return \Magento\Core\Model\AbstractModel
      */
     public function loadEntityAttributeIdBySet()
     {
@@ -177,7 +179,7 @@ class Magento_Eav_Model_Entity_Attribute extends Magento_Eav_Model_Entity_Attrib
     /**
      * Prepare data for save
      *
-     * @return Magento_Eav_Model_Entity_Attribute
+     * @return \Magento\Eav\Model\Entity\Attribute
      */
     protected function _beforeSave()
     {
@@ -185,64 +187,64 @@ class Magento_Eav_Model_Entity_Attribute extends Magento_Eav_Model_Entity_Attrib
         if (isset($this->_data['attribute_code'])
             && $this->_catalogProductFactory->create()->isReservedAttribute($this)
         ) {
-            throw new Magento_Eav_Exception(__('The attribute code \'%1\' is reserved by system. Please try another attribute code', $this->_data['attribute_code']));
+            throw new \Magento\Eav\Exception(__('The attribute code \'%1\' is reserved by system. Please try another attribute code', $this->_data['attribute_code']));
         }
 
         /**
          * Check for maximum attribute_code length
          */
         if(isset($this->_data['attribute_code']) &&
-           !Zend_Validate::is($this->_data['attribute_code'],
+           !\Zend_Validate::is($this->_data['attribute_code'],
                               'StringLength',
                               array('max' => self::ATTRIBUTE_CODE_MAX_LENGTH))
         ) {
-            throw new Magento_Eav_Exception(__('Maximum length of attribute code must be less than %1 symbols', self::ATTRIBUTE_CODE_MAX_LENGTH));
+            throw new \Magento\Eav\Exception(__('Maximum length of attribute code must be less than %1 symbols', self::ATTRIBUTE_CODE_MAX_LENGTH));
         }
 
         $defaultValue   = $this->getDefaultValue();
         $hasDefaultValue = ((string)$defaultValue != '');
 
         if ($this->getBackendType() == 'decimal' && $hasDefaultValue) {
-            if (!Zend_Locale_Format::isNumber($defaultValue,
+            if (!\Zend_Locale_Format::isNumber($defaultValue,
                                               array('locale' => $this->_locale->getLocaleCode()))
             ) {
-                throw new Magento_Eav_Exception(__('Invalid default decimal value'));
+                throw new \Magento\Eav\Exception(__('Invalid default decimal value'));
             }
 
             try {
-                $filter = new Zend_Filter_LocalizedToNormalized(
+                $filter = new \Zend_Filter_LocalizedToNormalized(
                     array('locale' => $this->_locale->getLocaleCode())
                 );
                 $this->setDefaultValue($filter->filter($defaultValue));
-            } catch (Exception $e) {
-                throw new Magento_Eav_Exception(__('Invalid default decimal value'));
+            } catch (\Exception $e) {
+                throw new \Magento\Eav\Exception(__('Invalid default decimal value'));
             }
         }
 
         if ($this->getBackendType() == 'datetime') {
             if (!$this->getBackendModel()) {
-                $this->setBackendModel('Magento_Eav_Model_Entity_Attribute_Backend_Datetime');
+                $this->setBackendModel('Magento\Eav\Model\Entity\Attribute\Backend\Datetime');
             }
 
             if (!$this->getFrontendModel()) {
-                $this->setFrontendModel('Magento_Eav_Model_Entity_Attribute_Frontend_Datetime');
+                $this->setFrontendModel('Magento\Eav\Model\Entity\Attribute\Frontend\Datetime');
             }
 
             // save default date value as timestamp
             if ($hasDefaultValue) {
-                $format = $this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+                $format = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
                 try {
                     $defaultValue = $this->_locale->date($defaultValue, $format, null, false)->toValue();
                     $this->setDefaultValue($defaultValue);
-                } catch (Exception $e) {
-                    throw new Magento_Eav_Exception(__('Invalid default date'));
+                } catch (\Exception $e) {
+                    throw new \Magento\Eav\Exception(__('Invalid default date'));
                 }
             }
         }
 
         if ($this->getBackendType() == 'gallery') {
             if (!$this->getBackendModel()) {
-                $this->setBackendModel('Magento_Eav_Model_Entity_Attribute_Backend_Default');
+                $this->setBackendModel('Magento\Eav\Model\Entity\Attribute\Backend\DefaultBackend');
             }
         }
 
@@ -252,7 +254,7 @@ class Magento_Eav_Model_Entity_Attribute extends Magento_Eav_Model_Entity_Attrib
     /**
      * Save additional data
      *
-     * @return Magento_Eav_Model_Entity_Attribute
+     * @return \Magento\Eav\Model\Entity\Attribute
      */
     protected function _afterSave()
     {

@@ -11,24 +11,26 @@
 /**
  * Theme grid column filter
  */
-class Magento_Backend_Block_Widget_Grid_Column_Filter_Theme
-    extends Magento_Backend_Block_Widget_Grid_Column_Filter_Abstract
+namespace Magento\Backend\Block\Widget\Grid\Column\Filter;
+
+class Theme
+    extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilter
 {
     /**
-     * @var Magento_Core_Model_Theme_LabelFactory
+     * @var \Magento\Core\Model\Theme\LabelFactory
      */
     protected $_labelFactory;
 
     /**
-     * @param Magento_Backend_Block_Context $context
-     * @param Magento_Core_Model_Resource_Helper $resourceHelper
-     * @param Magento_Core_Model_Theme_LabelFactory $labelFactory
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Core\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Core\Model\Theme\LabelFactory $labelFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Context $context,
-        Magento_Core_Model_Resource_Helper $resourceHelper,
-        Magento_Core_Model_Theme_LabelFactory $labelFactory,
+        \Magento\Backend\Block\Context $context,
+        \Magento\Core\Model\Resource\Helper $resourceHelper,
+        \Magento\Core\Model\Theme\LabelFactory $labelFactory,
         array $data = array()
     ) {
         $this->_labelFactory = $labelFactory;
@@ -69,7 +71,7 @@ class Magento_Backend_Block_Widget_Grid_Column_Filter_Theme
     {
         $options = $this->getColumn()->getOptions();
         if (empty($options) || !is_array($options)) {
-            /** @var $label Magento_Core_Model_Theme_Label */
+            /** @var $label \Magento\Core\Model\Theme\Label */
             $label = $this->_labelFactory->create();
             $options = $label->getLabelsCollection();
         }

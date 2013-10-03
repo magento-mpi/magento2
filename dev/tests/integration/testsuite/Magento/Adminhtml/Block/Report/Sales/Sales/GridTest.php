@@ -9,23 +9,25 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Report\Sales\Sales;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Report_Sales_Sales_GridTest extends PHPUnit_Framework_TestCase
+class GridTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Creates and inits block
      *
      * @param string|null $reportType
-     * @return Magento_Adminhtml_Block_Report_Sales_Sales_Grid
+     * @return \Magento\Adminhtml\Block\Report\Sales\Sales\Grid
      */
     protected function _createBlock($reportType = null)
     {
-        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_Adminhtml_Block_Report_Sales_Sales_Grid');
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Adminhtml\Block\Report\Sales\Sales\Grid');
 
-        $filterData = new Magento_Object();
+        $filterData = new \Magento\Object();
         if ($reportType) {
             $filterData->setReportType($reportType);
         }

@@ -7,40 +7,42 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Model_Context implements Magento_ObjectManager_ContextInterface
+namespace Magento\Core\Model;
+
+class Context implements \Magento\ObjectManager\ContextInterface
 {
     /**
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventDispatcher;
 
     /**
-     * @var Magento_Core_Model_CacheInterface
+     * @var \Magento\Core\Model\CacheInterface
      */
     protected $_cacheManager;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
-     * @var Magento_Core_Model_App_State
+     * @param \Magento\Core\Model\Logger $logger
+     * @var \Magento\Core\Model\App\State
      */
     protected $_appState;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Event_Manager $eventDispatcher
-     * @param Magento_Core_Model_CacheInterface $cacheManager
-     * @param Magento_Core_Model_App_State $appState
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Event\Manager $eventDispatcher
+     * @param \Magento\Core\Model\CacheInterface $cacheManager
+     * @param \Magento\Core\Model\App\State $appState
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Event_Manager $eventDispatcher,
-        Magento_Core_Model_CacheInterface $cacheManager,
-        Magento_Core_Model_App_State $appState
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Event\Manager $eventDispatcher,
+        \Magento\Core\Model\CacheInterface $cacheManager,
+        \Magento\Core\Model\App\State $appState
     ) {
         $this->_eventDispatcher = $eventDispatcher;
         $this->_cacheManager = $cacheManager;
@@ -49,7 +51,7 @@ class Magento_Core_Model_Context implements Magento_ObjectManager_ContextInterfa
     }
 
     /**
-     * @return \Magento_Core_Model_CacheInterface
+     * @return \Magento\Core\Model\CacheInterface
      */
     public function getCacheManager()
     {
@@ -57,7 +59,7 @@ class Magento_Core_Model_Context implements Magento_ObjectManager_ContextInterfa
     }
 
     /**
-     * @return \Magento_Core_Model_Event_Manager
+     * @return \Magento\Core\Model\Event\Manager
      */
     public function getEventDispatcher()
     {
@@ -65,7 +67,7 @@ class Magento_Core_Model_Context implements Magento_ObjectManager_ContextInterfa
     }
 
     /**
-     * @return Magento_Core_Model_Logger
+     * @return \Magento\Core\Model\Logger
      */
     public function getLogger()
     {
@@ -73,7 +75,7 @@ class Magento_Core_Model_Context implements Magento_ObjectManager_ContextInterfa
     }
 
     /**
-     * @return Magento_Core_Model_App_State
+     * @return \Magento\Core\Model\App\State
      */
     public function getAppState()
     {
@@ -81,7 +83,7 @@ class Magento_Core_Model_Context implements Magento_ObjectManager_ContextInterfa
     }
 
     /**
-     * @return Magento_Core_Model_StoreManager
+     * @return \Magento\Core\Model\StoreManager
      */
     public function getStoreManager()
     {

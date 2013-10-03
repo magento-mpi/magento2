@@ -15,7 +15,9 @@
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Model_Config_Source_Reports_Scope implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Backend\Model\Config\Source\Reports;
+
+class Scope implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Scope filter

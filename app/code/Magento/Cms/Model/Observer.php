@@ -16,29 +16,31 @@
  * @package    Magento_Cms
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Cms_Model_Observer
+namespace Magento\Cms\Model;
+
+class Observer
 {
     /**
      * Cms page
      *
-     * @var Magento_Cms_Helper_Page
+     * @var \Magento\Cms\Helper\Page
      */
     protected $_cmsPage = null;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_Cms_Helper_Page $cmsPage
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Cms\Helper\Page $cmsPage
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Cms_Helper_Page $cmsPage,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\Cms\Helper\Page $cmsPage,
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_cmsPage = $cmsPage;
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -47,10 +49,10 @@ class Magento_Cms_Model_Observer
     /**
      * Modify No Route Forward object
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_Cms_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\Cms\Model\Observer
      */
-    public function noRoute(Magento_Event_Observer $observer)
+    public function noRoute(\Magento\Event\Observer $observer)
     {
         $observer->getEvent()->getStatus()
             ->setLoaded(true)
@@ -63,14 +65,14 @@ class Magento_Cms_Model_Observer
     /**
      * Modify no Cookies forward object
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_Cms_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\Cms\Model\Observer
      */
-    public function noCookies(Magento_Event_Observer $observer)
+    public function noCookies(\Magento\Event\Observer $observer)
     {
         $redirect = $observer->getEvent()->getRedirect();
 
-        $pageId  = $this->_coreStoreConfig->getConfig(Magento_Cms_Helper_Page::XML_PATH_NO_COOKIES_PAGE);
+        $pageId  = $this->_coreStoreConfig->getConfig(\Magento\Cms\Helper\Page::XML_PATH_NO_COOKIES_PAGE);
         $pageUrl = $this->_cmsPage->getPageUrl($pageId);
 
         if ($pageUrl) {

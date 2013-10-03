@@ -16,21 +16,23 @@
  * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Resource_Group_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Customer\Model\Resource\Group;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource initialization
      */
     protected function _construct()
     {
-        $this->_init('Magento_Customer_Model_Group', 'Magento_Customer_Model_Resource_Group');
+        $this->_init('Magento\Customer\Model\Group', 'Magento\Customer\Model\Resource\Group');
     }
 
     /**
      * Set ignore ID filter
      *
      * @param array $indexes
-     * @return Magento_Customer_Model_Resource_Group_Collection
+     * @return \Magento\Customer\Model\Resource\Group\Collection
      */
     public function setIgnoreIdFilter($indexes)
     {
@@ -43,7 +45,7 @@ class Magento_Customer_Model_Resource_Group_Collection extends Magento_Core_Mode
     /**
      * Set real groups filter
      *
-     * @return Magento_Customer_Model_Resource_Group_Collection
+     * @return \Magento\Customer\Model\Resource\Group\Collection
      */
     public function setRealGroupsFilter()
     {
@@ -53,7 +55,7 @@ class Magento_Customer_Model_Resource_Group_Collection extends Magento_Core_Mode
     /**
      * Add tax class
      *
-     * @return Magento_Customer_Model_Resource_Group_Collection
+     * @return \Magento\Customer\Model\Resource\Group\Collection
      */
     public function addTaxClass()
     {

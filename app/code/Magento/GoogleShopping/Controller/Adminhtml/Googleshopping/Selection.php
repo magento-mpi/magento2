@@ -15,7 +15,9 @@
  * @package     Magento_GoogleShopping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Selection extends Magento_Adminhtml_Controller_Action
+namespace Magento\GoogleShopping\Controller\Adminhtml\Googleshopping;
+
+class Selection extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Search result grid with available products for Google Content
@@ -24,7 +26,7 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Selection exten
     {
         $this->getResponse()->setBody(
             $this->getLayout()
-                ->createBlock('Magento_GoogleShopping_Block_Adminhtml_Items_Product')
+                ->createBlock('Magento\GoogleShopping\Block\Adminhtml\Items\Product')
                 ->setIndex($this->getRequest()->getParam('index'))
                 ->setFirstShow(true)
                 ->toHtml()
@@ -39,7 +41,7 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Selection exten
         $this->loadLayout();
         $this->getResponse()->setBody(
             $this->getLayout()
-                ->createBlock('Magento_GoogleShopping_Block_Adminhtml_Items_Product')
+                ->createBlock('Magento\GoogleShopping\Block\Adminhtml\Items\Product')
                 ->setIndex($this->getRequest()->getParam('index'))
                 ->toHtml()
            );

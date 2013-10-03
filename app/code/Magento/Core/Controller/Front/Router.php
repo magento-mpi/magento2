@@ -9,16 +9,18 @@
  */
 
 
-class Magento_Core_Controller_Front_Router
+namespace Magento\Core\Controller\Front;
+
+class Router
 {
     protected $_config = null;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
     
-    public function __construct($config, Magento_Core_Model_StoreManager $storeManager)
+    public function __construct($config, \Magento\Core\Model\StoreManager $storeManager)
     {
         $this->_config = $config;
         $this->_storeManager = $storeManager;
@@ -29,13 +31,13 @@ class Magento_Core_Controller_Front_Router
         return $this->_config;
     }
     
-    public function addRoutes(Zend_Controller_Router_Interface $router)
+    public function addRoutes(\Zend_Controller_Router_Interface $router)
     {
         $frontName = $this->_config->getName();
         $routeMatch = $frontName.'/:controller/:action/*';
         $moduleName = (string)$this->_config->module;
         $routeParams = array('module'=>$moduleName, 'controller'=>'index', 'action'=>'index', '_frontName'=>$frontName);
-        $route = new Zend_Controller_Router_Route($routeMatch, $routeParams);
+        $route = new \Zend_Controller_Router_Route($routeMatch, $routeParams);
         $router->addRoute($moduleName, $route);
         
         return $this;

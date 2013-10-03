@@ -12,8 +12,9 @@
  * Sys config source model for stub page statuses
  *
  */
-class Magento_WebsiteRestriction_Model_System_Config_Source_Http extends Magento_Object
-    implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\WebsiteRestriction\Model\System\Config\Source;
+
+class Http extends \Magento\Object implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Get options for select
@@ -24,11 +25,11 @@ class Magento_WebsiteRestriction_Model_System_Config_Source_Http extends Magento
     {
         return array(
             array(
-                'value' => Magento_WebsiteRestriction_Model_Mode::HTTP_503,
+                'value' => \Magento\WebsiteRestriction\Model\Mode::HTTP_503,
                 'label' => __('503 Service Unavailable'),
             ),
             array(
-                'value' => Magento_WebsiteRestriction_Model_Mode::HTTP_200,
+                'value' => \Magento\WebsiteRestriction\Model\Mode::HTTP_200,
                 'label' => __('200 OK'),
             ),
         );

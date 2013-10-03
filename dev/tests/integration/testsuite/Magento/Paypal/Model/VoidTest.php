@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Paypal_Model_VoidTest extends PHPUnit_Framework_TestCase
+namespace Magento\Paypal\Model;
+
+class VoidTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoDataFixture Magento/Paypal/_files/order_payflowpro.php
@@ -17,26 +19,26 @@ class Magento_Paypal_Model_VoidTest extends PHPUnit_Framework_TestCase
      */
     public function testPayflowProVoid()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $eventManager = $objectManager->get('Magento_Core_Model_Event_Manager');
-        $moduleList = $objectManager->get('Magento_Core_Model_ModuleListInterface');
-        $paymentData = $objectManager->get('Magento_Payment_Helper_Data');
-        $coreStoreConfig = $objectManager->get('Magento_Core_Model_Store_Config');
-        $logger = $objectManager->get('Magento_Core_Model_Logger');
-        $logAdapterFactory = $objectManager->get('Magento_Core_Model_Log_AdapterFactory');
-        $locale = $objectManager->get('Magento_Core_Model_LocaleInterface');
-        $centinelService = $objectManager->get('Magento_Centinel_Model_Service');
-        $storeManager = $objectManager->get('Magento_Core_Model_StoreManagerInterface');
-        $configFactory = $objectManager->get('Magento_Paypal_Model_ConfigFactory');
-        $coreData = $objectManager->get('Magento_Core_Helper_Data');
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $eventManager = $objectManager->get('Magento\Core\Model\Event\Manager');
+        $moduleList = $objectManager->get('Magento\Core\Model\ModuleListInterface');
+        $paymentData = $objectManager->get('Magento\Payment\Helper\Data');
+        $coreStoreConfig = $objectManager->get('Magento\Core\Model\Store\Config');
+        $logger = $objectManager->get('Magento\Core\Model\Logger');
+        $logAdapterFactory = $objectManager->get('Magento\Core\Model\Log\AdapterFactory');
+        $locale = $objectManager->get('Magento\Core\Model\LocaleInterface');
+        $centinelService = $objectManager->get('Magento\Centinel\Model\Service');
+        $storeManager = $objectManager->get('Magento\Core\Model\StoreManagerInterface');
+        $configFactory = $objectManager->get('Magento\Paypal\Model\ConfigFactory');
+        $coreData = $objectManager->get('Magento\Core\Helper\Data');
 
-        /** @var $order Magento_Sales_Model_Order */
-        $order = $objectManager->create('Magento_Sales_Model_Order');
+        /** @var $order \Magento\Sales\Model\Order */
+        $order = $objectManager->create('Magento\Sales\Model\Order');
         $order->loadByIncrementId('100000001');
         $payment = $order->getPayment();
 
-        /** @var Magento_Paypal_Model_Payflowpro $instance */
-        $instance = $this->getMock('Magento_Paypal_Model_Payflowpro', array('_postRequest'), array(
+        /** @var \Magento\Paypal\Model\Payflowpro $instance */
+        $instance = $this->getMock('Magento\Paypal\Model\Payflowpro', array('_postRequest'), array(
             $logger,
             $eventManager,
             $coreStoreConfig,
@@ -50,7 +52,7 @@ class Magento_Paypal_Model_VoidTest extends PHPUnit_Framework_TestCase
             $configFactory
         ));
 
-        $response = new Magento_Object(array(
+        $response = new \Magento\Object(array(
             'result' => '0',
             'pnref' => 'V19A3D27B61E',
             'respmsg' => 'Approved',
@@ -65,11 +67,11 @@ class Magento_Paypal_Model_VoidTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($response));
 
         $payment->setMethodInstance($instance);
-        $payment->void(new Magento_Object);
+        $payment->void(new \Magento\Object);
         $order->save();
 
-        $order = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Order');
+        $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Order');
         $order->loadByIncrementId('100000001');
         $this->assertFalse($order->canVoidPayment());
     }

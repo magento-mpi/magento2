@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_TargetRule_Controller_Catalog_ProductTest extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\TargetRule\Controller\Catalog;
+
+class ProductTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
      * Covers Magento/TargetRule/view/frontend/catalog/product/list/related.html

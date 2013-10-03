@@ -6,10 +6,10 @@
  * @license     {license_link}
  */
 
-/** @var $cachePool Magento_Core_Model_Cache_Frontend_Pool */
-$cachePool = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Core_Model_Cache_Frontend_Pool');
-/** @var $cacheFrontend Magento_Cache_FrontendInterface */
+/** @var $cachePool \Magento\Core\Model\Cache\Frontend\Pool */
+$cachePool = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Core\Model\Cache\Frontend\Pool');
+/** @var $cacheFrontend \Magento\Cache\FrontendInterface */
 foreach ($cachePool as $cacheFrontend) {
     $cacheFrontend->getBackend()->save('non-application cache data', 'NON_APPLICATION_FIXTURE', array('SOME_TAG'));
 }

@@ -7,26 +7,28 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Email_Template_Config_Reader extends Magento_Config_Reader_Filesystem
+namespace Magento\Core\Model\Email\Template\Config;
+
+class Reader extends \Magento\Config\Reader\Filesystem
 {
     /**
-     * @var Magento_Core_Model_Module_Dir_ReverseResolver
+     * @var \Magento\Core\Model\Module\Dir\ReverseResolver
      */
     private $_moduleDirResolver;
 
     /**
-     * @param Magento_Config_FileResolverInterface $fileResolver
-     * @param Magento_Core_Model_Email_Template_Config_Converter $converter
-     * @param Magento_Core_Model_Email_Template_Config_SchemaLocator $schemaLocator
-     * @param Magento_Config_ValidationStateInterface $validationState
-     * @param Magento_Core_Model_Module_Dir_ReverseResolver $moduleDirResolver
+     * @param \Magento\Config\FileResolverInterface $fileResolver
+     * @param \Magento\Core\Model\Email\Template\Config\Converter $converter
+     * @param \Magento\Core\Model\Email\Template\Config\SchemaLocator $schemaLocator
+     * @param \Magento\Config\ValidationStateInterface $validationState
+     * @param \Magento\Core\Model\Module\Dir\ReverseResolver $moduleDirResolver
      */
     public function __construct(
-        Magento_Config_FileResolverInterface $fileResolver,
-        Magento_Core_Model_Email_Template_Config_Converter $converter,
-        Magento_Core_Model_Email_Template_Config_SchemaLocator $schemaLocator,
-        Magento_Config_ValidationStateInterface $validationState,
-        Magento_Core_Model_Module_Dir_ReverseResolver $moduleDirResolver
+        \Magento\Config\FileResolverInterface $fileResolver,
+        \Magento\Core\Model\Email\Template\Config\Converter $converter,
+        \Magento\Core\Model\Email\Template\Config\SchemaLocator $schemaLocator,
+        \Magento\Config\ValidationStateInterface $validationState,
+        \Magento\Core\Model\Module\Dir\ReverseResolver $moduleDirResolver
     ) {
         $fileName = 'email_templates.xml';
         $idAttributes = array(
@@ -40,14 +42,14 @@ class Magento_Core_Model_Email_Template_Config_Reader extends Magento_Config_Rea
      * Add information on context of a module, config file belongs to
      *
      * {@inheritdoc}
-     * @throws UnexpectedValueException
+     * @throws \UnexpectedValueException
      */
     protected function _readFileContents($filename)
     {
         $result = parent::_readFileContents($filename);
         $moduleName = $this->_moduleDirResolver->getModuleName($filename);
         if (!$moduleName) {
-            throw new UnexpectedValueException("Unable to determine a module, file '$filename' belongs to.");
+            throw new \UnexpectedValueException("Unable to determine a module, file '$filename' belongs to.");
         }
         $result = str_replace('<template ', '<template module="' . $moduleName . '" ', $result);
         return $result;

@@ -10,7 +10,7 @@ $basePath = realpath(__DIR__ . '/../../../');
 require_once $basePath . '/app/autoload.php';
 require __DIR__ . '/Formatter.php';
 
-Magento_Autoload_IncludePath::addIncludePath(array(
+\Magento\Autoload\IncludePath::addIncludePath(array(
     $basePath . '/lib',
 ));
 
@@ -30,7 +30,7 @@ try{
     $stylesheet->preserveWhiteSpace = true;
     $stylesheet->load($opt->processor);
 
-    $formater = new \Tools\Layout\Formatter();
+    $formater = new \Magento\Tools\Layout\Formatter();
 
     $xslt = new XSLTProcessor();
     $xslt->registerPHPFunctions();

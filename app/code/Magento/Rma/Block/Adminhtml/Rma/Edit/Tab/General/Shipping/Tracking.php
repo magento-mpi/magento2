@@ -11,48 +11,50 @@
 /**
  * Shipment tracking
  */
-class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking extends Magento_Backend_Block_Template
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping;
+
+class Tracking extends \Magento\Backend\Block\Template
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry;
     
     /**
      * Rma data
      *
-     * @var Magento_Rma_Helper_Data
+     * @var \Magento\Rma\Helper\Data
      */
     protected $_rmaData;
 
     /**
-     * @var Magento_Shipping_Model_Config
+     * @var \Magento\Shipping\Model\Config
      */
     protected $_shippingConfig;
 
     /**
-     * @var Magento_Rma_Model_Resource_Shipping_CollectionFactory
+     * @var \Magento\Rma\Model\Resource\Shipping\CollectionFactory
      */
     protected $_shippingCollFactory;
 
     /**
-     * @param Magento_Rma_Model_Resource_Shipping_CollectionFactory $shippingCollFactory
-     * @param Magento_Shipping_Model_Config $shippingConfig
-     * @param Magento_Rma_Helper_Data $rmaData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Rma\Model\Resource\Shipping\CollectionFactory $shippingCollFactory
+     * @param \Magento\Shipping\Model\Config $shippingConfig
+     * @param \Magento\Rma\Helper\Data $rmaData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Rma_Model_Resource_Shipping_CollectionFactory $shippingCollFactory,
-        Magento_Shipping_Model_Config $shippingConfig,
-        Magento_Rma_Helper_Data $rmaData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Rma\Model\Resource\Shipping\CollectionFactory $shippingCollFactory,
+        \Magento\Shipping\Model\Config $shippingConfig,
+        \Magento\Rma\Helper\Data $rmaData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_shippingCollFactory = $shippingCollFactory;
@@ -65,7 +67,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking extends
     /**
      * Retrieve shipment model instance
      *
-     * @return Magento_Sales_Model_Order_Shipment
+     * @return \Magento\Sales\Model\Order\Shipment
      */
     public function getRma()
     {
@@ -85,13 +87,13 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking extends
     /**
      * Gets all tracks
      *
-     * @return Magento_Sales_Model_Order_Shipment
+     * @return \Magento\Sales\Model\Order\Shipment
      */
     public function getAllTracks()
     {
         return $this->_shippingCollFactory->create()
             ->addFieldToFilter('rma_entity_id', $this->getRma()->getId())
-            ->addFieldToFilter('is_admin', array("neq" => Magento_Rma_Model_Shipping::IS_ADMIN_STATUS_ADMIN_LABEL))
+            ->addFieldToFilter('is_admin', array("neq" => \Magento\Rma\Model\Shipping::IS_ADMIN_STATUS_ADMIN_LABEL))
         ;
     }
 
@@ -105,7 +107,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking extends
         $onclick = "submitAndReloadArea($('shipment_tracking_info').parentNode, '".$this->getSubmitUrl()."')";
         $this->setChild(
             'save_button',
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
                 ->setData(
                     array(
                         'label'   => __('Add'),
@@ -119,7 +121,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking extends
     /**
      * Retrieve shipment model instance
      *
-     * @return Magento_Sales_Model_Order_Shipment
+     * @return \Magento\Sales\Model\Order\Shipment
      */
     public function getShipment()
     {
@@ -149,7 +151,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking extends
     /**
      * Retrieve remove url
      *
-     * @param Magento_Rma_Model_Shipping $track
+     * @param \Magento\Rma\Model\Shipping $track
      * @return string
      */
     public function getRemoveUrl($track)

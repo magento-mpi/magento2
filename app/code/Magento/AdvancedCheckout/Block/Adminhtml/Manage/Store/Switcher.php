@@ -15,7 +15,9 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Store_Switcher extends Magento_Backend_Block_Store_Switcher
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Store;
+
+class Switcher extends \Magento\Backend\Block\Store\Switcher
 {
     /**
      * @var bool
@@ -25,28 +27,28 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Store_Switcher extends Mag
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_App $application
-     * @param Magento_Core_Model_Website_Factory $websiteFactory
-     * @param Magento_Core_Model_Store_Group_Factory $storeGroupFactory
-     * @param Magento_Core_Model_StoreFactory $storeFactory
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\App $application
+     * @param \Magento\Core\Model\Website\Factory $websiteFactory
+     * @param \Magento\Core\Model\Store\Group\Factory $storeGroupFactory
+     * @param \Magento\Core\Model\StoreFactory $storeFactory
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_App $application,
-        Magento_Core_Model_Website_Factory $websiteFactory,
-        Magento_Core_Model_Store_Group_Factory $storeGroupFactory,
-        Magento_Core_Model_StoreFactory $storeFactory,
-        Magento_Core_Model_Registry $coreRegistry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\App $application,
+        \Magento\Core\Model\Website\Factory $websiteFactory,
+        \Magento\Core\Model\Store\Group\Factory $storeGroupFactory,
+        \Magento\Core\Model\StoreFactory $storeFactory,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -70,7 +72,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Store_Switcher extends Mag
     /**
      * Return current customer from registry
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     protected function _getCustomer()
     {
@@ -80,7 +82,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Store_Switcher extends Mag
     /**
      * Return current store from registry
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     protected function _getStore()
     {

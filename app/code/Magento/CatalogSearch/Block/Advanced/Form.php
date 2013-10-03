@@ -15,54 +15,56 @@
  * @package    Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogSearch_Block_Advanced_Form extends Magento_Core_Block_Template
+namespace Magento\CatalogSearch\Block\Advanced;
+
+class Form extends \Magento\Core\Block\Template
 {
     /**
      * Locale
      *
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Currency factory
      *
-     * @var Magento_Directory_Model_CurrencyFactory
+     * @var \Magento\Directory\Model\CurrencyFactory
      */
     protected $_currencyFactory;
 
     /**
      * Catalog search advanced
      *
-     * @var Magento_CatalogSearch_Model_Advanced
+     * @var \Magento\CatalogSearch\Model\Advanced
      */
     protected $_catalogSearchAdvanced;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_CatalogSearch_Model_Advanced $catalogSearchAdvanced
-     * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\CatalogSearch\Model\Advanced $catalogSearchAdvanced
+     * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_CatalogSearch_Model_Advanced $catalogSearchAdvanced,
-        Magento_Directory_Model_CurrencyFactory $currencyFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_LocaleInterface $locale,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\CatalogSearch\Model\Advanced $catalogSearchAdvanced,
+        \Magento\Directory\Model\CurrencyFactory $currencyFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
         array $data = array()
     ) {
         $this->_catalogSearchAdvanced = $catalogSearchAdvanced;
@@ -90,7 +92,7 @@ class Magento_CatalogSearch_Block_Advanced_Form extends Magento_Core_Block_Templ
     /**
      * Retrieve collection of product searchable attributes
      *
-     * @return Magento_Data_Collection_Db
+     * @return \Magento\Data\Collection\Db
      */
     public function getSearchableAttributes()
     {
@@ -101,7 +103,7 @@ class Magento_CatalogSearch_Block_Advanced_Form extends Magento_Core_Block_Templ
     /**
      * Retrieve attribute label
      *
-     * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
      * @return string
      */
     public function getAttributeLabel($attribute)
@@ -112,7 +114,7 @@ class Magento_CatalogSearch_Block_Advanced_Form extends Magento_Core_Block_Templ
     /**
      * Retrieve attribute input validation class
      *
-     * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
      * @return string
      */
     public function getAttributeValidationClass($attribute)
@@ -123,7 +125,7 @@ class Magento_CatalogSearch_Block_Advanced_Form extends Magento_Core_Block_Templ
     /**
      * Retrieve search string for given field from request
      *
-     * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
      * @param string|null $part
      * @return mixed|string
      */
@@ -183,7 +185,7 @@ class Magento_CatalogSearch_Block_Advanced_Form extends Magento_Core_Block_Templ
     /**
      * Retrieve currency code for attribute
      *
-     * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
      * @return string
      */
     public function getCurrency($attribute)
@@ -198,7 +200,7 @@ class Magento_CatalogSearch_Block_Advanced_Form extends Magento_Core_Block_Templ
     /**
      * Retrieve attribute input type
      *
-     * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
      * @return  string
      */
     public function getAttributeInputType($attribute)
@@ -231,7 +233,7 @@ class Magento_CatalogSearch_Block_Advanced_Form extends Magento_Core_Block_Templ
     /**
      * Build attribute select element html string
      *
-     * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
      * @return string
      */
     public function getAttributeSelectElement($attribute)
@@ -264,7 +266,7 @@ class Magento_CatalogSearch_Block_Advanced_Form extends Magento_Core_Block_Templ
     /**
      * Retrieve yes/no element html for provided attribute
      *
-     * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
      * @return string
      */
     public function getAttributeYesNoElement($attribute)
@@ -290,7 +292,7 @@ class Magento_CatalogSearch_Block_Advanced_Form extends Magento_Core_Block_Templ
     {
         $block = $this->getData('_select_block');
         if (is_null($block)) {
-            $block = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select');
+            $block = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select');
             $this->setData('_select_block', $block);
         }
         return $block;
@@ -300,7 +302,7 @@ class Magento_CatalogSearch_Block_Advanced_Form extends Magento_Core_Block_Templ
     {
         $block = $this->getData('_date_block');
         if (is_null($block)) {
-            $block = $this->getLayout()->createBlock('Magento_Core_Block_Html_Date');
+            $block = $this->getLayout()->createBlock('Magento\Core\Block\Html\Date');
             $this->setData('_date_block', $block);
         }
         return $block;
@@ -309,7 +311,7 @@ class Magento_CatalogSearch_Block_Advanced_Form extends Magento_Core_Block_Templ
     /**
      * Retrieve advanced search model object
      *
-     * @return Magento_CatalogSearch_Model_Advanced
+     * @return \Magento\CatalogSearch\Model\Advanced
      */
     public function getModel()
     {
@@ -329,7 +331,7 @@ class Magento_CatalogSearch_Block_Advanced_Form extends Magento_Core_Block_Templ
     /**
      * Build date element html string for attribute
      *
-     * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
      * @param string $part
      * @return string
      */
@@ -344,7 +346,7 @@ class Magento_CatalogSearch_Block_Advanced_Form extends Magento_Core_Block_Templ
             ->setTitle($this->getAttributeLabel($attribute))
             ->setValue($value)
             ->setImage($this->getViewFileUrl('Magento_Core::calendar.gif'))
-            ->setDateFormat($this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT))
+            ->setDateFormat($this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT))
             ->setClass('input-text')
             ->getHtml();
     }

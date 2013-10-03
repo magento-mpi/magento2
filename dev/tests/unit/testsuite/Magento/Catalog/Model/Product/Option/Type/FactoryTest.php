@@ -5,31 +5,33 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Catalog_Model_Product_Option_Type_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Product\Option\Type;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_ObjectManager|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManagerMock;
 
     /**
-     * @var Magento_Catalog_Model_Product_Option_Type_Factory
+     * @var \Magento\Catalog\Model\Product\Option\Type\Factory
      */
     protected $_factory;
 
     protected function setUp()
     {
-        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
+        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_factory = $objectManagerHelper->getObject('Magento_Catalog_Model_Product_Option_Type_Factory', array(
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_factory = $objectManagerHelper->getObject('Magento\Catalog\Model\Product\Option\Type\Factory', array(
             'objectManager' => $this->_objectManagerMock,
         ));
     }
 
     public function testCreate()
     {
-        $className = 'Magento_Catalog_Model_Product_Option_Type_Default';
+        $className = 'Magento\Catalog\Model\Product\Option\Type\DefaultType';
 
         $filterMock = $this->getMock($className, array(), array(), '', false);
         $this->_objectManagerMock->expects($this->once())->method('create')->with($className, array())
@@ -40,7 +42,7 @@ class Magento_Catalog_Model_Product_Option_Type_FactoryTest extends PHPUnit_Fram
 
     public function testCreateWithArguments()
     {
-        $className = 'Magento_Catalog_Model_Product_Option_Type_Default';
+        $className = 'Magento\Catalog\Model\Product\Option\Type\DefaultType';
         $arguments = array('foo', 'bar');
 
         $filterMock = $this->getMock($className, array(), array(), '', false);
@@ -51,8 +53,8 @@ class Magento_Catalog_Model_Product_Option_Type_FactoryTest extends PHPUnit_Fram
     }
 
     /**
-     * @expectedException Magento_Core_Exception
-     * @expectedExceptionMessage WrongClass doesn't extends Magento_Catalog_Model_Product_Option_Type_Default
+     * @expectedException \Magento\Core\Exception
+     * @expectedExceptionMessage WrongClass doesn't extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
      */
     public function testWrongTypeException()
     {

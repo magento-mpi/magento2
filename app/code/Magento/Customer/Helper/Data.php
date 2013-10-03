@@ -16,7 +16,9 @@
  * @package    Magento_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Customer\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Query param name for last url visited
@@ -73,79 +75,79 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Customer groups collection
      *
-     * @var Magento_Customer_Model_Resource_Group_Collection
+     * @var \Magento\Customer\Model\Resource\Group\Collection
      */
     protected $_groups;
 
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * Customer address
      *
-     * @var Magento_Customer_Helper_Address
+     * @var \Magento\Customer\Helper\Address
      */
     protected $_customerAddress = null;
 
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
     
     /**
-     * @var Magento_Customer_Model_GroupFactory
+     * @var \Magento\Customer\Model\GroupFactory
      */
     protected $_groupFactory;
 
     /**
-     * @var Magento_Customer_Model_FormFactory
+     * @var \Magento\Customer\Model\FormFactory
      */
     protected $_formFactory;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Customer_Helper_Address $customerAddress
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Config $coreConfig
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Customer_Model_GroupFactory $groupFactory
-     * @param Magento_Customer_Model_FormFactory $formFactory
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Customer\Helper\Address $customerAddress
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Customer\Model\GroupFactory $groupFactory
+     * @param \Magento\Customer\Model\FormFactory $formFactory
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Customer_Helper_Address $customerAddress,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Config $coreConfig,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Customer_Model_GroupFactory $groupFactory,
-        Magento_Customer_Model_FormFactory $formFactory
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Customer\Helper\Address $customerAddress,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Customer\Model\GroupFactory $groupFactory,
+        \Magento\Customer\Model\FormFactory $formFactory
     ) {
         $this->_eventManager = $eventManager;
         $this->_customerAddress = $customerAddress;
@@ -171,7 +173,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve logged in customer
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function getCustomer()
     {
@@ -184,7 +186,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve customer groups collection
      *
-     * @return Magento_Customer_Model_Resource_Group_Collection
+     * @return \Magento\Customer\Model\Resource\Group\Collection
      */
     public function getGroups()
     {
@@ -199,7 +201,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve current (logged in) customer object
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function getCurrentCustomer()
     {
@@ -463,20 +465,20 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Get default customer group id
      *
-     * @param Magento_Core_Model_Store|string|int $store
+     * @param \Magento\Core\Model\Store|string|int $store
      * @return int
      */
     public function getDefaultCustomerGroupId($store = null)
     {
-        return (int)$this->_coreStoreConfig->getConfig(Magento_Customer_Model_Group::XML_PATH_DEFAULT_ID, $store);
+        return (int)$this->_coreStoreConfig->getConfig(\Magento\Customer\Model\Group::XML_PATH_DEFAULT_ID, $store);
     }
 
     /**
      * Retrieve customer group ID based on his VAT number
      *
      * @param string $customerCountryCode
-     * @param Magento_Object $vatValidationResult
-     * @param Magento_Core_Model_Store|string|int $store
+     * @param \Magento\Object $vatValidationResult
+     * @param \Magento\Core\Model\Store|string|int $store
      * @return null|int
      */
     public function getCustomerGroupIdBasedOnVatNumber($customerCountryCode, $vatValidationResult, $store = null)
@@ -507,12 +509,12 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
      * @param string $requesterCountryCode
      * @param string $requesterVatNumber
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function checkVatNumber($countryCode, $vatNumber, $requesterCountryCode = '', $requesterVatNumber = '')
     {
         // Default response
-        $gatewayResponse = new Magento_Object(array(
+        $gatewayResponse = new \Magento\Object(array(
             'is_valid' => false,
             'request_date' => '',
             'request_identifier' => '',
@@ -520,7 +522,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
         ));
 
         if (!extension_loaded('soap')) {
-            $this->_logger->logException(new Magento_Core_Exception(__('PHP SOAP extension is required.')));
+            $this->_logger->logException(new \Magento\Core\Exception(__('PHP SOAP extension is required.')));
             return $gatewayResponse;
         }
 
@@ -544,7 +546,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
             $gatewayResponse->setRequestDate((string) $result->requestDate);
             $gatewayResponse->setRequestIdentifier((string) $result->requestIdentifier);
             $gatewayResponse->setRequestSuccess(true);
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             $gatewayResponse->setIsValid(false);
             $gatewayResponse->setRequestDate('');
             $gatewayResponse->setRequestIdentifier('');
@@ -566,7 +568,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
     public function canCheckVatNumber($countryCode, $vatNumber, $requesterCountryCode, $requesterVatNumber)
     {
         $result = true;
-        /** @var $coreHelper Magento_Core_Helper_Data */
+        /** @var $coreHelper \Magento\Core\Helper\Data */
         $coreHelper = $this->_coreData;
 
         if (!is_string($countryCode)
@@ -590,8 +592,8 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
      * Get VAT class
      *
      * @param string $customerCountryCode
-     * @param Magento_Object $vatValidationResult
-     * @param Magento_Core_Model_Store|string|int|null $store
+     * @param \Magento\Object $vatValidationResult
+     * @param \Magento\Core\Model\Store|string|int|null $store
      * @return null|string
      */
     public function getCustomerVatClass($customerCountryCode, $vatValidationResult, $store = null)
@@ -622,10 +624,10 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Get validation message that will be displayed to user by VAT validation result object
      *
-     * @param Magento_Customer_Model_Address $customerAddress
+     * @param \Magento\Customer\Model\Address $customerAddress
      * @param bool $customerGroupAutoAssignDisabled
-     * @param Magento_Object $validationResult
-     * @return Magento_Object
+     * @param \Magento\Object $validationResult
+     * @return \Magento\Object
      */
     public function getVatValidationUserMessage($customerAddress, $customerGroupAutoAssignDisabled, $validationResult)
     {
@@ -665,7 +667,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
                 . $contactUsMessage;
         }
 
-        $validationMessageEnvelope = new Magento_Object();
+        $validationMessageEnvelope = new \Magento\Object();
         $validationMessageEnvelope->setMessage($message);
         $validationMessageEnvelope->setIsError($isError);
 
@@ -686,21 +688,21 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Perform customer data filtration based on form code and form object
      *
-     * @param Zend_Controller_Request_Http $request
+     * @param \Zend_Controller_Request_Http $request
      * @param string $formCode The code of EAV form to take the list of attributes from
-     * @param Magento_Core_Model_Abstract $entity entity model for the form
+     * @param \Magento\Core\Model\AbstractModel $entity entity model for the form
      * @param array $additionalAttributes The list of attribute codes to skip filtration for
      * @param string $scope scope of the request
-     * @param Magento_Eav_Model_Form|null $eavForm EAV form model to use for extraction
+     * @param \Magento\Eav\Model\Form|null $eavForm EAV form model to use for extraction
      * @return array Filtered customer data
      */
-    public function extractCustomerData(Zend_Controller_Request_Http $request, $formCode, $entity,
+    public function extractCustomerData(\Zend_Controller_Request_Http $request, $formCode, $entity,
         $additionalAttributes = array(), $scope = null, $eavForm = null
     ) {
         if (is_null($eavForm)) {
             $eavForm = $this->_createForm();
         }
-        /** @var Magento_Eav_Model_Form $eavForm */
+        /** @var \Magento\Eav\Model\Form $eavForm */
         $eavForm->setEntity($entity)
             ->setFormCode($formCode)
             ->ignoreInvisible(false);
@@ -712,7 +714,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
         }
 
         $formAttributes = $eavForm->getAttributes();
-        /** @var Magento_Customer_Model_Attribute $attribute */
+        /** @var \Magento\Customer\Model\Attribute $attribute */
         foreach ($formAttributes as $attribute) {
             $attributeCode = $attribute->getAttributeCode();
             $frontendInput = $attribute->getFrontendInput();
@@ -725,7 +727,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
     }
 
     /**
-     * @return Magento_Customer_Model_Group
+     * @return \Magento\Customer\Model\Group
      */
     protected function _createGroup()
     {
@@ -733,7 +735,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
     }
 
     /**
-     * @return Magento_Customer_Model_Form
+     * @return \Magento\Customer\Model\Form
      */
     protected function _createForm()
     {

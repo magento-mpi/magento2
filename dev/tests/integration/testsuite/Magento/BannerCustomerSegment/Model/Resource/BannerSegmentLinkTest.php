@@ -6,17 +6,19 @@
  * @license     {license_link}
  */
 
-class Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLinkTest extends PHPUnit_Framework_TestCase
+namespace Magento\BannerCustomerSegment\Model\Resource;
+
+class BannerSegmentLinkTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLink
+     * @var \Magento\BannerCustomerSegment\Model\Resource\BannerSegmentLink
      */
     private $_resourceModel;
 
     protected function setUp()
     {
-        $this->_resourceModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
-            'Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLink'
+        $this->_resourceModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\BannerCustomerSegment\Model\Resource\BannerSegmentLink'
         );
     }
 
@@ -74,9 +76,9 @@ class Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLinkTest extends
             $expectedBannerIds[] = $this->_getBannerId($bannerName);
         }
 
-        /** @var Magento_Banner_Model_Resource_Salesrule_Collection $collection */
-        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Banner_Model_Resource_Salesrule_Collection');
+        /** @var \Magento\Banner\Model\Resource\Salesrule\Collection $collection */
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Banner\Model\Resource\Salesrule\Collection');
         $select = $collection->getSelect();
         $initialSql = (string)$select;
 
@@ -120,9 +122,9 @@ class Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLinkTest extends
      */
     protected function _getBannerId($bannerName)
     {
-        /** @var Magento_Banner_Model_Banner $banner */
-        $banner = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Banner_Model_Banner');
+        /** @var \Magento\Banner\Model\Banner $banner */
+        $banner = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Banner\Model\Banner');
         $banner->load($bannerName, 'name');
         return $banner->getId();
     }
@@ -137,9 +139,9 @@ class Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLinkTest extends
     {
         $result = array();
         foreach ($segmentNames as $segmentName) {
-            /** @var $segment Magento_CustomerSegment_Model_Segment */
-            $segment = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                ->create('Magento_CustomerSegment_Model_Segment');
+            /** @var $segment \Magento\CustomerSegment\Model\Segment */
+            $segment = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->create('Magento\CustomerSegment\Model\Segment');
             $segment->load($segmentName, 'name');
             $result[] = $segment->getId();
         }

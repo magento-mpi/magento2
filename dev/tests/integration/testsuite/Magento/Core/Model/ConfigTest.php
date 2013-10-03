@@ -1,6 +1,6 @@
 <?php
 /**
- * Integration test for Magento_Core_Model_Config
+ * Integration test for \Magento\Core\Model\Config
  *
  * {license_notice}
  *
@@ -8,21 +8,23 @@
  * @license     {license_link}
  */
 
+namespace Magento\Core\Model;
+
 /**
- * First part of Magento_Core_Model_Config testing:
+ * First part of \Magento\Core\Model\Config testing:
  * - general behaviour is tested
  *
- * @see Magento_Core_Model_ConfigFactoryTest
+ * @see \Magento\Core\Model\ConfigFactoryTest
  *
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
-class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     protected function setUp()
     {
-        /** @var Magento_Core_Model_Cache_StateInterface $cacheState */
-        $cacheState = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_Cache_StateInterface');
+        /** @var \Magento\Core\Model\Cache\StateInterface $cacheState */
+        $cacheState = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\Cache\StateInterface');
         $cacheState->setEnabled('config', false);
     }
 
@@ -79,26 +81,26 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Instantiate Magento_Core_Model_Config and initialize (load configuration) if needed
+     * Instantiate \Magento\Core\Model\Config and initialize (load configuration) if needed
      *
      * @param array $arguments
-     * @return Magento_Core_Model_Config
+     * @return \Magento\Core\Model\Config
      */
     protected function _createModel(array $arguments = array())
     {
-        /** @var $model Magento_Core_Model_Config */
-        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Config', $arguments);
+        /** @var $model \Magento\Core\Model\Config */
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Config', $arguments);
         return $model;
     }
 
     /**
      * @magentoAppIsolation enabled
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testGetAreaConfigThrowsExceptionIfNonexistentAreaIsRequested()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')->getConfig()
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')->getConfig()
             ->getAreaConfig('non_existent_area_code');
     }
 

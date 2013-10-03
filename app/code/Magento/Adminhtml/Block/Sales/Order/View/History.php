@@ -15,34 +15,36 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_View_History extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Sales\Order\View;
+
+class History extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
     
     /**
      * Sales data
      *
-     * @var Magento_Sales_Helper_Data
+     * @var \Magento\Sales\Helper\Data
      */
     protected $_salesData = null;
 
     /**
-     * @param Magento_Sales_Helper_Data $salesData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Sales\Helper\Data $salesData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Sales_Helper_Data $salesData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Sales\Helper\Data $salesData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -53,7 +55,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_History extends Magento_Adminhtml
     protected function _prepareLayout()
     {
         $onclick = "submitAndReloadArea($('order_history_block').parentNode, '".$this->getSubmitUrl()."')";
-        $button = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+        $button = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
                 'label'   => __('Submit Comment'),
                 'class'   => 'save',
@@ -78,7 +80,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_History extends Magento_Adminhtml
     /**
      * Retrieve order model
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
@@ -99,10 +101,10 @@ class Magento_Adminhtml_Block_Sales_Order_View_History extends Magento_Adminhtml
     /**
      * Customer Notification Applicable check method
      *
-     * @param  Magento_Sales_Model_Order_Status_History $history
+     * @param  \Magento\Sales\Model\Order\Status\History $history
      * @return boolean
      */
-    public function isCustomerNotificationNotApplicable(Magento_Sales_Model_Order_Status_History $history)
+    public function isCustomerNotificationNotApplicable(\Magento\Sales\Model\Order\Status\History $history)
     {
         return $history->isCustomerNotificationNotApplicable();
     }

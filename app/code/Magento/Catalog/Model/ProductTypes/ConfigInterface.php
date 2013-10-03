@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Catalog_Model_ProductTypes_ConfigInterface
+namespace Magento\Catalog\Model\ProductTypes;
+
+interface ConfigInterface
 {
     /**
      * Get configuration of product type by name

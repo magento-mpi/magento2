@@ -18,9 +18,11 @@
  * @method int getWebsiteId() getWebsiteId()
  * @method int getStoreId() getStoreId()
  * @method string getEmail() getEmail()
- * @method Magento_Customer_Model_Resource_Customer _getResource()
+ * @method \Magento\Customer\Model\Resource\Customer _getResource()
  */
-class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
+namespace Magento\Customer\Model;
+
+class Customer extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Configuration pathes for email templates and identities
@@ -81,7 +83,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     /**
      * Customer addresses collection
      *
-     * @var Magento_Customer_Model_Resource_Address_Collection
+     * @var \Magento\Customer\Model\Resource\Address\Collection
      */
     protected $_addressesCollection;
 
@@ -106,121 +108,121 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
      */
     private static $_isConfirmationRequired;
 
-    /** @var Magento_Core_Model_Sender */
+    /** @var \Magento\Core\Model\Sender */
     protected $_sender;
 
-    /** @var Magento_Core_Model_StoreManager */
+    /** @var \Magento\Core\Model\StoreManager */
     protected $_storeManager;
 
-    /** @var Magento_Eav_Model_Config */
+    /** @var \Magento\Eav\Model\Config */
     protected $_config;
 
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * Customer data
      *
-     * @var Magento_Customer_Helper_Data
+     * @var \Magento\Customer\Helper\Data
      */
     protected $_customerData = null;
 
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Customer_Helper_Data $customerData
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Customer\Helper\Data $customerData
+     * @param \Magento\Core\Helper\Data $coreData
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Customer_Model_Config_Share
+     * @var \Magento\Customer\Model\Config\Share
      */
     protected $_configShare;
 
     /**
-     * @var Magento_Customer_Model_AddressFactory
+     * @var \Magento\Customer\Model\AddressFactory
      */
     protected $_addressFactory;
 
     /**
-     * @var Magento_Customer_Model_Resource_Address_CollectionFactory
+     * @var \Magento\Customer\Model\Resource\Address\CollectionFactory
      */
     protected $_addressesFactory;
 
     /**
-     * @var Magento_Core_Model_Email_Template_MailerFactory
+     * @var \Magento\Core\Model\Email\Template\MailerFactory
      */
     protected $_mailerFactory;
 
     /**
-     * @var Magento_Core_Model_Email_InfoFactory
+     * @var \Magento\Core\Model\Email\InfoFactory
      */
     protected $_emailInfoFactory;
 
     /**
-     * @var Magento_Customer_Model_GroupFactory
+     * @var \Magento\Customer\Model\GroupFactory
      */
     protected $_groupFactory;
 
     /**
-     * @var Magento_Customer_Model_AttributeFactory
+     * @var \Magento\Customer\Model\AttributeFactory
      */
     protected $_attributeFactory;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Customer_Helper_Data $customerData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Sender $sender
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Eav_Model_Config $config
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Customer_Model_Resource_Customer $resource
-     * @param Magento_Customer_Model_Config_Share $configShare
-     * @param Magento_Customer_Model_AddressFactory $addressFactory
-     * @param Magento_Customer_Model_Resource_Address_CollectionFactory $addressesFactory
-     * @param Magento_Core_Model_Email_Template_MailerFactory $mailerFactory
-     * @param Magento_Core_Model_Email_InfoFactory $emailInfoFactory
-     * @param Magento_Customer_Model_GroupFactory $groupFactory
-     * @param Magento_Customer_Model_AttributeFactory $attributeFactory
-     * @param Magento_Data_Collection_Db|null $resourceCollection
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Customer\Helper\Data $customerData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Sender $sender
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Eav\Model\Config $config
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Customer\Model\Resource\Customer $resource
+     * @param \Magento\Customer\Model\Config\Share $configShare
+     * @param \Magento\Customer\Model\AddressFactory $addressFactory
+     * @param \Magento\Customer\Model\Resource\Address\CollectionFactory $addressesFactory
+     * @param \Magento\Core\Model\Email\Template\MailerFactory $mailerFactory
+     * @param \Magento\Core\Model\Email\InfoFactory $emailInfoFactory
+     * @param \Magento\Customer\Model\GroupFactory $groupFactory
+     * @param \Magento\Customer\Model\AttributeFactory $attributeFactory
+     * @param \Magento\Data\Collection\Db|null $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Customer_Helper_Data $customerData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Sender $sender,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Eav_Model_Config $config,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Customer_Model_Resource_Customer $resource,
-        Magento_Customer_Model_Config_Share $configShare,
-        Magento_Customer_Model_AddressFactory $addressFactory,
-        Magento_Customer_Model_Resource_Address_CollectionFactory $addressesFactory,
-        Magento_Core_Model_Email_Template_MailerFactory $mailerFactory,
-        Magento_Core_Model_Email_InfoFactory $emailInfoFactory,
-        Magento_Customer_Model_GroupFactory $groupFactory,
-        Magento_Customer_Model_AttributeFactory $attributeFactory,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Customer\Helper\Data $customerData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Sender $sender,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Eav\Model\Config $config,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Customer\Model\Resource\Customer $resource,
+        \Magento\Customer\Model\Config\Share $configShare,
+        \Magento\Customer\Model\AddressFactory $addressFactory,
+        \Magento\Customer\Model\Resource\Address\CollectionFactory $addressesFactory,
+        \Magento\Core\Model\Email\Template\MailerFactory $mailerFactory,
+        \Magento\Core\Model\Email\InfoFactory $emailInfoFactory,
+        \Magento\Customer\Model\GroupFactory $groupFactory,
+        \Magento\Customer\Model\AttributeFactory $attributeFactory,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -245,13 +247,13 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
      */
     public function _construct()
     {
-        $this->_init('Magento_Customer_Model_Resource_Customer');
+        $this->_init('Magento\Customer\Model\Resource\Customer');
     }
 
     /**
      * Retrieve customer sharing configuration model
      *
-     * @return Magento_Customer_Model_Config_Share
+     * @return \Magento\Customer\Model\Config\Share
      */
     public function getSharingConfig()
     {
@@ -263,7 +265,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
      *
      * @param  string $login
      * @param  string $password
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @return boolean
      *
      */
@@ -271,10 +273,10 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     {
         $this->loadByEmail($login);
         if ($this->getConfirmation() && $this->isConfirmationRequired()) {
-            throw new Magento_Core_Exception(__('This account is not confirmed.'), self::EXCEPTION_EMAIL_NOT_CONFIRMED);
+            throw new \Magento\Core\Exception(__('This account is not confirmed.'), self::EXCEPTION_EMAIL_NOT_CONFIRMED);
         }
         if (!$this->validatePassword($password)) {
-            throw new Magento_Core_Exception(
+            throw new \Magento\Core\Exception(
                 __('Invalid login or password.'),
                 self::EXCEPTION_INVALID_EMAIL_OR_PASSWORD
             );
@@ -291,7 +293,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
      * Load customer by email
      *
      * @param   string $customerEmail
-     * @return  Magento_Customer_Model_Customer
+     * @return  \Magento\Customer\Model\Customer
      */
     public function loadByEmail($customerEmail)
     {
@@ -303,7 +305,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     /**
      * Processing object before save data
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     protected function _beforeSave()
     {
@@ -322,7 +324,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
      * Change customer password
      *
      * @param   string $newPassword
-     * @return  Magento_Customer_Model_Customer
+     * @return  \Magento\Customer\Model\Customer
      */
     public function changePassword($newPassword)
     {
@@ -356,10 +358,10 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     /**
      * Add address to address collection
      *
-     * @param   Magento_Customer_Model_Address $address
-     * @return  Magento_Customer_Model_Customer
+     * @param   \Magento\Customer\Model\Address $address
+     * @return  \Magento\Customer\Model\Customer
      */
-    public function addAddress(Magento_Customer_Model_Address $address)
+    public function addAddress(\Magento\Customer\Model\Address $address)
     {
         $this->getAddressesCollection()->addItem($address);
         return $this;
@@ -369,7 +371,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
      * Retrieve customer address by address id
      *
      * @param   int $addressId
-     * @return  Magento_Customer_Model_Address
+     * @return  \Magento\Customer\Model\Address
      */
     public function getAddressById($addressId)
     {
@@ -380,7 +382,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
      * Getting customer address object from collection by identifier
      *
      * @param int $addressId
-     * @return Magento_Customer_Model_Address
+     * @return \Magento\Customer\Model\Address
      */
     public function getAddressItemById($addressId)
     {
@@ -390,7 +392,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     /**
      * Retrieve not loaded address collection
      *
-     * @return Magento_Customer_Model_Resource_Address_Collection
+     * @return \Magento\Customer\Model\Resource\Address\Collection
      */
     public function getAddressCollection()
     {
@@ -400,7 +402,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     /**
      * Customer addresses collection
      *
-     * @return Magento_Customer_Model_Resource_Address_Collection
+     * @return \Magento\Customer\Model\Resource\Address\Collection
      */
     public function getAddressesCollection()
     {
@@ -445,7 +447,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
      * Get customer attribute model object
      *
      * @param   string $attributeCode
-     * @return  Magento_Customer_Model_Resource_Attribute | null
+     * @return  \Magento\Customer\Model\Resource\Attribute | null
      */
     public function getAttribute($attributeCode)
     {
@@ -460,7 +462,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
      * Set plain and hashed password
      *
      * @param string $password
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function setPassword($password)
     {
@@ -534,7 +536,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
      * Retrieve default address by type(attribute)
      *
      * @param   string $attributeCode address type attribute code
-     * @return  Magento_Customer_Model_Address
+     * @return  \Magento\Customer\Model\Address
      */
     public function getPrimaryAddress($attributeCode)
     {
@@ -546,7 +548,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     /**
      * Get customer default billing address
      *
-     * @return Magento_Customer_Model_Address
+     * @return \Magento\Customer\Model\Address
      */
     public function getPrimaryBillingAddress()
     {
@@ -556,7 +558,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     /**
      * Get customer default billing address
      *
-     * @return Magento_Customer_Model_Address
+     * @return \Magento\Customer\Model\Address
      */
     public function getDefaultBillingAddress()
     {
@@ -566,7 +568,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     /**
      * Get default customer shipping address
      *
-     * @return Magento_Customer_Model_Address
+     * @return \Magento\Customer\Model\Address
      */
     public function getPrimaryShippingAddress()
     {
@@ -576,7 +578,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     /**
      * Get default customer shipping address
      *
-     * @return Magento_Customer_Model_Address
+     * @return \Magento\Customer\Model\Address
      */
     public function getDefaultShippingAddress()
     {
@@ -646,10 +648,10 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     /**
      * Check if address is primary
      *
-     * @param Magento_Customer_Model_Address $address
+     * @param \Magento\Customer\Model\Address $address
      * @return boolean
      */
-    public function isAddressPrimary(Magento_Customer_Model_Address $address)
+    public function isAddressPrimary(\Magento\Customer\Model\Address $address)
     {
         if (!$address->getId()) {
             return false;
@@ -663,8 +665,8 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
      * @param string $type
      * @param string $backUrl
      * @param string $storeId
-     * @throws Magento_Core_Exception
-     * @return Magento_Customer_Model_Customer
+     * @throws \Magento\Core\Exception
+     * @return \Magento\Customer\Model\Customer
      */
     public function sendNewAccountEmail($type = 'registered', $backUrl = '', $storeId = '0')
     {
@@ -674,7 +676,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
             'confirmation'   => self::XML_PATH_CONFIRM_EMAIL_TEMPLATE,   // email with confirmation link
         );
         if (!isset($types[$type])) {
-            throw new Magento_Core_Exception(__('Wrong transactional account email type'));
+            throw new \Magento\Core\Exception(__('Wrong transactional account email type'));
         }
 
         if (!$storeId) {
@@ -718,12 +720,12 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     /**
      * Send email with new customer password
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function sendPasswordReminderEmail()
     {
         $storeId = $this->getStoreId();
-        if (Magento_Core_Model_AppInterface::ADMIN_STORE_ID == $storeId && ($this->getWebsiteId() * 1)) {
+        if (\Magento\Core\Model\AppInterface::ADMIN_STORE_ID == $storeId && ($this->getWebsiteId() * 1)) {
             $storeId = $this->_getWebsiteStoreId();
         }
 
@@ -740,11 +742,11 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
      * @param string $sender configuration path of email identity
      * @param array $templateParams
      * @param int|null $storeId
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     protected function _sendEmailTemplate($template, $sender, $templateParams = array(), $storeId = null)
     {
-        /** @var $mailer Magento_Core_Model_Email_Template_Mailer */
+        /** @var $mailer \Magento\Core\Model\Email\Template\Mailer */
         $mailer = $this->_createMailer();
         $emailInfo = $this->_createEmailInfo();
         $emailInfo->addTo($this->getEmail(), $this->getName());
@@ -762,7 +764,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     /**
      * Send email with reset password confirmation link
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function sendPasswordResetConfirmationEmail()
     {
@@ -781,7 +783,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     /**
      * Send email to when password is resetting
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function sendPasswordResetNotificationEmail()
     {
@@ -810,7 +812,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     {
         if (!$this->hasData('group_id')) {
             $storeId = $this->getStoreId() ? $this->getStoreId() : $this->_storeManager->getStore()->getId();
-            $groupId = $this->_coreStoreConfig->getConfig(Magento_Customer_Model_Group::XML_PATH_DEFAULT_ID, $storeId);
+            $groupId = $this->_coreStoreConfig->getConfig(\Magento\Customer\Model\Group::XML_PATH_DEFAULT_ID, $storeId);
             $this->setData('group_id', $groupId);
         }
         return $this->getData('group_id');
@@ -832,12 +834,12 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     /**
      * Check store availability for customer
      *
-     * @param   Magento_Core_Model_Store | int $store
+     * @param   \Magento\Core\Model\Store | int $store
      * @return  bool
      */
     public function isInStore($store)
     {
-        if ($store instanceof Magento_Core_Model_Store) {
+        if ($store instanceof \Magento\Core\Model\Store) {
             $storeId = $store->getId();
         } else {
             $storeId = $store;
@@ -850,7 +852,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     /**
      * Retrieve store where customer was created
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getStore()
     {
@@ -905,10 +907,10 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     /**
      * Set store to customer
      *
-     * @param Magento_Core_Model_Store $store
-     * @return Magento_Customer_Model_Customer
+     * @param \Magento\Core\Model\Store $store
+     * @return \Magento\Customer\Model\Customer
      */
-    public function setStore(Magento_Core_Model_Store $store)
+    public function setStore(\Magento\Core\Model\Store $store)
     {
         $this->setStoreId($store->getId());
         $this->setWebsiteId($store->getWebsite()->getId());
@@ -925,15 +927,15 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     public function validate()
     {
         $errors = array();
-        if (!Zend_Validate::is(trim($this->getFirstname()), 'NotEmpty')) {
+        if (!\Zend_Validate::is(trim($this->getFirstname()), 'NotEmpty')) {
             $errors[] = __('The first name cannot be empty.');
         }
 
-        if (!Zend_Validate::is(trim($this->getLastname()), 'NotEmpty')) {
+        if (!\Zend_Validate::is(trim($this->getLastname()), 'NotEmpty')) {
             $errors[] = __('The last name cannot be empty.');
         }
 
-        if (!Zend_Validate::is($this->getEmail(), 'EmailAddress')) {
+        if (!\Zend_Validate::is($this->getEmail(), 'EmailAddress')) {
             $errors[] = __('Please correct this email address: "%1".', $this->getEmail());
         }
 
@@ -963,7 +965,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     /**
      * Unset subscription
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function unsetSubscription()
     {
@@ -985,7 +987,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
      * Add error
      *
      * @param $error
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function addError($error)
     {
@@ -1006,7 +1008,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     /**
      * Reset errors array
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function resetErrors()
     {
@@ -1032,7 +1034,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     {
         $date = $this->getCreatedAt();
         if ($date) {
-            return Magento_Date::toTimestamp($date);
+            return \Magento\Date::toTimestamp($date);
         }
         return null;
     }
@@ -1040,7 +1042,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     /**
      * Reset all model data
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function reset()
     {
@@ -1065,7 +1067,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
      * Set is deleteable flag
      *
      * @param boolean $value
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function setIsDeleteable($value)
     {
@@ -1087,7 +1089,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
      * Set is readonly flag
      *
      * @param boolean $value
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function setIsReadonly($value)
     {
@@ -1123,7 +1125,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     /**
      * Return Entity Type instance
      *
-     * @return Magento_Eav_Model_Entity_Type
+     * @return \Magento\Eav\Model\Entity\Type
      */
     public function getEntityType()
     {
@@ -1167,14 +1169,14 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
      *
      * Stores new reset password link token
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @param string $passwordLinkToken
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function changeResetPasswordLinkToken($passwordLinkToken)
     {
         if (!is_string($passwordLinkToken) || empty($passwordLinkToken)) {
-            throw new Magento_Core_Exception(
+            throw new \Magento\Core\Exception(
                 __('Invalid password reset token.'),
                 self::EXCEPTION_INVALID_RESET_PASSWORD_LINK_TOKEN
             );
@@ -1199,9 +1201,9 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
 
         $expirationPeriod = $this->_customerData->getResetPasswordLinkExpirationPeriod();
 
-        $currentDate = Magento_Date::now();
-        $currentTimestamp = Magento_Date::toTimestamp($currentDate);
-        $tokenTimestamp = Magento_Date::toTimestamp($linkTokenCreatedAt);
+        $currentDate = \Magento\Date::now();
+        $currentTimestamp = \Magento\Date::toTimestamp($currentDate);
+        $tokenTimestamp = \Magento\Date::toTimestamp($linkTokenCreatedAt);
         if ($tokenTimestamp > $currentTimestamp) {
             return true;
         }
@@ -1215,7 +1217,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     }
 
     /**
-     * @return Magento_Customer_Model_Address
+     * @return \Magento\Customer\Model\Address
      */
     protected function _createAddressInstance()
     {
@@ -1223,7 +1225,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     }
 
     /**
-     * @return Magento_Customer_Model_Resource_Address_Collection
+     * @return \Magento\Customer\Model\Resource\Address\Collection
      */
     protected function _createAddressCollection()
     {
@@ -1231,7 +1233,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     }
 
     /**
-     * @return Magento_Core_Model_Email_Template_Mailer
+     * @return \Magento\Core\Model\Email\Template\Mailer
      */
     protected function _createMailer()
     {
@@ -1239,7 +1241,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     }
 
     /**
-     * @return Magento_Core_Model_Email_Info
+     * @return \Magento\Core\Model\Email\Info
      */
     protected function _createEmailInfo()
     {
@@ -1247,7 +1249,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     }
 
     /**
-     * @return Magento_Customer_Model_Group
+     * @return \Magento\Customer\Model\Group
      */
     protected function _createCustomerGroup()
     {
@@ -1255,7 +1257,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     }
 
     /**
-     * @return Magento_Customer_Model_Attribute
+     * @return \Magento\Customer\Model\Attribute
      */
     protected function _createCustomerAttribute()
     {

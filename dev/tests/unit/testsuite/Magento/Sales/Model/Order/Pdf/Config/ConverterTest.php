@@ -5,21 +5,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Sales_Model_Order_Pdf_Config_ConverterTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Model\Order\Pdf\Config;
+
+class ConverterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Sales_Model_Order_Pdf_Config_Converter
+     * @var \Magento\Sales\Model\Order\Pdf\Config\Converter
      */
     protected $_model;
 
     public function setUp()
     {
-        $this->_model = new Magento_Sales_Model_Order_Pdf_Config_Converter();
+        $this->_model = new \Magento\Sales\Model\Order\Pdf\Config\Converter();
     }
 
     public function testConvert()
     {
-        $inputData = new DOMDocument();
+        $inputData = new \DOMDocument();
         $inputData->load(__DIR__ . '/_files/pdf_merged.xml');
         $expectedResult = require __DIR__ . '/_files/pdf_merged.php';
         $this->assertEquals($expectedResult, $this->_model->convert($inputData));

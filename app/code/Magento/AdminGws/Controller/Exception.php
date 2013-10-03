@@ -12,7 +12,9 @@
  * Controller exception for admin area
  *
  */
-class Magento_AdminGws_Controller_Exception extends Magento_Core_Controller_Varien_Exception
+namespace Magento\AdminGws\Controller;
+
+class Exception extends \Magento\Core\Controller\Varien\Exception
 {
     protected $_defaultActionName = 'denied';
 }

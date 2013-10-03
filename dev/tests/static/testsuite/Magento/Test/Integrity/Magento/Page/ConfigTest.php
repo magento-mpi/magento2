@@ -10,7 +10,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Magento_Page_ConfigTest extends Integrity_ConfigAbstract
+namespace Magento\Test\Integrity\Magento\Page;
+
+class ConfigTest extends \Magento\TestFramework\Integrity\AbstractConfig
 {
     public function testFileSchemaUsingInvalidXml()
     {

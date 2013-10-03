@@ -16,7 +16,9 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_Eav_Model_Resource_Attribute extends Magento_Eav_Model_Resource_Entity_Attribute
+namespace Magento\Eav\Model\Resource;
+
+abstract class Attribute extends \Magento\Eav\Model\Resource\Entity\Attribute
 {
     /**
      * Get EAV website table
@@ -40,10 +42,10 @@ abstract class Magento_Eav_Model_Resource_Attribute extends Magento_Eav_Model_Re
     /**
      * Perform actions before object save
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Eav_Model_Resource_Attribute
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Eav\Model\Resource\Attribute
      */
-    protected function _beforeSave(Magento_Core_Model_Abstract $object)
+    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
         $validateRules = $object->getData('validate_rules');
         if (is_array($validateRules)) {
@@ -57,8 +59,8 @@ abstract class Magento_Eav_Model_Resource_Attribute extends Magento_Eav_Model_Re
      *
      * @param string $field
      * @param mixed $value
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_DB_Select
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\DB\Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {
@@ -89,10 +91,10 @@ abstract class Magento_Eav_Model_Resource_Attribute extends Magento_Eav_Model_Re
     /**
      * Save attribute/form relations after attribute save
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Eav_Model_Resource_Attribute
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Eav\Model\Resource\Attribute
      */
-    protected function _afterSave(Magento_Core_Model_Abstract $object)
+    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
         $forms      = $object->getData('used_in_forms');
         $adapter    = $this->_getWriteAdapter();
@@ -150,10 +152,10 @@ abstract class Magento_Eav_Model_Resource_Attribute extends Magento_Eav_Model_Re
     /**
      * Return scope values for attribute and website
      *
-     * @param Magento_Eav_Model_Attribute $object
+     * @param \Magento\Eav\Model\Attribute $object
      * @return array
      */
-    public function getScopeValues(Magento_Eav_Model_Attribute $object)
+    public function getScopeValues(\Magento\Eav\Model\Attribute $object)
     {
         $adapter = $this->_getReadAdapter();
         $bind    = array(
@@ -177,10 +179,10 @@ abstract class Magento_Eav_Model_Resource_Attribute extends Magento_Eav_Model_Re
     /**
      * Return forms in which the attribute
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      * @return array
      */
-    public function getUsedInForms(Magento_Core_Model_Abstract $object)
+    public function getUsedInForms(\Magento\Core\Model\AbstractModel $object)
     {
         $adapter = $this->_getReadAdapter();
         $bind    = array('attribute_id' => (int)$object->getId());

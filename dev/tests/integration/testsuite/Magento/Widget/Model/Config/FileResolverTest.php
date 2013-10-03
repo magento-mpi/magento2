@@ -1,29 +1,31 @@
 <?php
 /**
- * Magento_Widget_Model_Config_FileResolver
+ * \Magento\Widget\Model\Config\FileResolver
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Widget_Model_Config_FileResolverTest extends PHPUnit_Framework_TestCase
+namespace Magento\Widget\Model\Config;
+
+class FileResolverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Widget_Model_Config_FileResolver
+     * @var \Magento\Widget\Model\Config\FileResolver
      */
     private $_object;
 
-    /** @var Magento_Core_Model_Dir/PHPUnit_Framework_MockObject_MockObject  */
+    /** @var \Magento\Core\Model\Dir/PHPUnit_Framework_MockObject_MockObject  */
     private $_applicationDirsMock;
 
     public function setUp()
     {
-        $this->_applicationDirsMock = $this->getMockBuilder('Magento_Core_Model_Dir')
+        $this->_applicationDirsMock = $this->getMockBuilder('Magento\Core\Model\Dir')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $moduleListMock = $this->getMockBuilder('Magento_Core_Model_ModuleListInterface')
+        $moduleListMock = $this->getMockBuilder('Magento\Core\Model\ModuleListInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $moduleListMock->expects($this->any())
@@ -34,12 +36,12 @@ class Magento_Widget_Model_Config_FileResolverTest extends PHPUnit_Framework_Tes
                 'active' => 'true'
             ))));
 
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $moduleReader = $objectManager->create('Magento_Core_Model_Config_Modules_Reader', array(
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $moduleReader = $objectManager->create('Magento\Core\Model\Config\Modules\Reader', array(
             'moduleList' => $moduleListMock
         ));
         $moduleReader->setModuleDir('Magento_Test', 'etc', __DIR__ . '/_files/code/Magento/Test/etc');
-        $this->_object = $objectManager->create('Magento_Widget_Model_Config_FileResolver', array(
+        $this->_object = $objectManager->create('Magento\Widget\Model\Config\FileResolver', array(
             'moduleReader' => $moduleReader,
             'applicationDirs' => $this->_applicationDirsMock
         ));

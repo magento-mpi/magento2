@@ -16,24 +16,26 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Block_Adminhtml_Types_Renderer_Country
-    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\GoogleShopping\Block\Adminhtml\Types\Renderer;
+
+class Country
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Config
      *
-     * @var Magento_GoogleShopping_Model_Config
+     * @var \Magento\GoogleShopping\Model\Config
      */
     protected $_config;
 
     /**
-     * @param Magento_GoogleShopping_Model_Config $config
-     * @param Magento_Backend_Block_Context $context
+     * @param \Magento\GoogleShopping\Model\Config $config
+     * @param \Magento\Backend\Block\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_GoogleShopping_Model_Config $config,
-        Magento_Backend_Block_Context $context,
+        \Magento\GoogleShopping\Model\Config $config,
+        \Magento\Backend\Block\Context $context,
         array $data = array()
     ) {
         $this->_config = $config;
@@ -43,10 +45,10 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Renderer_Country
     /**
      * Renders Google Content Item Id
      *
-     * @param   Magento_Object $row
+     * @param   \Magento\Object $row
      * @return  string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         $iso = $row->getData($this->getColumn()->getIndex());
         return $this->_config->getCountryInfo($iso, 'name');

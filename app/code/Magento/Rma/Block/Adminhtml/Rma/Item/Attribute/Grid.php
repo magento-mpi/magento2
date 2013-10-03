@@ -16,28 +16,30 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Grid
-    extends Magento_Eav_Block_Adminhtml_Attribute_Grid_Abstract
+namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute;
+
+class Grid
+    extends \Magento\Eav\Block\Adminhtml\Attribute\Grid\AbstractGrid
 {
     /**
-     * @var Magento_Rma_Model_Resource_Item_Attribute_CollectionFactory
+     * @var \Magento\Rma\Model\Resource\Item\Attribute\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @param Magento_Rma_Model_Resource_Item_Attribute_CollectionFactory $collectionFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
+     * @param \Magento\Rma\Model\Resource\Item\Attribute\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
      * @param array $data
      */
     public function __construct(
-        Magento_Rma_Model_Resource_Item_Attribute_CollectionFactory $collectionFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
+        \Magento\Rma\Model\Resource\Item\Attribute\CollectionFactory $collectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
@@ -58,11 +60,11 @@ class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Grid
     /**
      * Prepare customer attributes grid collection object
      *
-     * @return Magento_Customer_Block_Adminhtml_Customer_Attribute_Grid
+     * @return \Magento\Customer\Block\Adminhtml\Customer\Attribute\Grid
      */
     protected function _prepareCollection()
     {
-        /** @var $collection Magento_Rma_Model_Resource_Item_Attribute_Collection */
+        /** @var $collection \Magento\Rma\Model\Resource\Item\Attribute\Collection */
         $collection = $this->_collectionFactory->create();
         $collection->addSystemHiddenFilter()->addExcludeHiddenFrontendFilter();
         $this->setCollection($collection);
@@ -72,7 +74,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Grid
     /**
      * Prepare customer attributes grid columns
      *
-     * @return Magento_Customer_Block_Adminhtml_Customer_Attribute_Grid
+     * @return \Magento\Customer\Block\Adminhtml\Customer\Attribute\Grid
      */
     protected function _prepareColumns()
     {

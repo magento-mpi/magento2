@@ -16,7 +16,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_File_Storage_Directory_Database extends Magento_Core_Model_File_Storage_Database_Abstract
+namespace Magento\Core\Model\File\Storage\Directory;
+
+class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabase
 {
     /**
      * Prefix of model events names
@@ -33,33 +35,33 @@ class Magento_Core_Model_File_Storage_Directory_Database extends Magento_Core_Mo
     protected $_errors = array();
 
     /**
-     * @var Magento_Core_Model_File_Storage_Directory_DatabaseFactory
+     * @var \Magento\Core\Model\File\Storage\Directory\DatabaseFactory
      */
     protected $_directoryFactory;
 
     /**
      * Class construct
      *
-     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Date $dateModel
-     * @param Magento_Core_Model_App $app
-     * @param Magento_Core_Model_File_Storage_Directory_DatabaseFactory $directoryFactory
-     * @param Magento_Core_Model_Resource_File_Storage_Directory_Database $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Date $dateModel
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Core\Model\File\Storage\Directory\DatabaseFactory $directoryFactory
+     * @param \Magento\Core\Model\Resource\File\Storage\Directory\Database $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      * @param null $connectionName
      */
     public function __construct(
-        Magento_Core_Helper_File_Storage_Database $coreFileStorageDb,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Date $dateModel,
-        Magento_Core_Model_App $app,
-        Magento_Core_Model_File_Storage_Directory_DatabaseFactory $directoryFactory,
-        Magento_Core_Model_Resource_File_Storage_Directory_Database $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Date $dateModel,
+        \Magento\Core\Model\App $app,
+        \Magento\Core\Model\File\Storage\Directory\DatabaseFactory $directoryFactory,
+        \Magento\Core\Model\Resource\File\Storage\Directory\Database $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array(),
         $connectionName = null
     ) {
@@ -69,14 +71,14 @@ class Magento_Core_Model_File_Storage_Directory_Database extends Magento_Core_Mo
         );
 
         $this->_directoryFactory = $directoryFactory;
-        $this->_init('Magento_Core_Model_Resource_File_Storage_Directory_Database');
+        $this->_init('Magento\Core\Model\Resource\File\Storage\Directory\Database');
     }
 
     /**
      * Load object data by path
      *
      * @param  string $path
-     * @return Magento_Core_Model_File_Storage_Directory_Database
+     * @return \Magento\Core\Model\File\Storage\Directory\Database
      */
     public function loadByPath($path)
     {
@@ -131,7 +133,7 @@ class Magento_Core_Model_File_Storage_Directory_Database extends Magento_Core_Mo
      * Create directories recursively
      *
      * @param  string $path
-     * @return Magento_Core_Model_File_Storage_Directory_Database
+     * @return \Magento\Core\Model\File\Storage\Directory\Database
      */
     public function createRecursive($path)
     {
@@ -183,8 +185,8 @@ class Magento_Core_Model_File_Storage_Directory_Database extends Magento_Core_Mo
      * Import directories to storage
      *
      * @param  array $dirs
-     * @throws Magento_Core_Exception
-     * @return Magento_Core_Model_File_Storage_Directory_Database
+     * @throws \Magento\Core\Exception
+     * @return \Magento\Core\Model\File\Storage\Directory\Database
      */
     public function importDirectories($dirs)
     {
@@ -209,9 +211,9 @@ class Magento_Core_Model_File_Storage_Directory_Database extends Magento_Core_Mo
                     $directory->setUploadTime($dateSingleton->date());
                     $directory->save();
                 } else {
-                    throw new Magento_Core_Exception(__('Parent directory does not exist: %1', $dir['path']));
+                    throw new \Magento\Core\Exception(__('Parent directory does not exist: %1', $dir['path']));
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_logger->logException($e);
             }
         }
@@ -222,7 +224,7 @@ class Magento_Core_Model_File_Storage_Directory_Database extends Magento_Core_Mo
     /**
      * Clean directories at storage
      *
-     * @return Magento_Core_Model_File_Storage_Directory_Database
+     * @return \Magento\Core\Model\File\Storage\Directory\Database
      */
     public function clearDirectories()
     {
@@ -247,7 +249,7 @@ class Magento_Core_Model_File_Storage_Directory_Database extends Magento_Core_Mo
      * Delete directory from database
      *
      * @param string $path
-     * @return Magento_Core_Model_File_Storage_Directory_Database
+     * @return \Magento\Core\Model\File\Storage\Directory\Database
      */
     public function deleteDirectory($dirPath)
     {

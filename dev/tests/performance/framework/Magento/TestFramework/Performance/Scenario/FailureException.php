@@ -11,20 +11,22 @@
 /**
  * Exceptional situation of a performance testing scenario failure
  */
-class Magento_TestFramework_Performance_Scenario_FailureException extends Magento_Exception
+namespace Magento\TestFramework\Performance\Scenario;
+
+class FailureException extends \Magento\Exception
 {
     /**
-     * @var Magento_TestFramework_Performance_Scenario
+     * @var \Magento\TestFramework\Performance\Scenario
      */
     protected $_scenario;
 
     /**
      * Constructor
      *
-     * @param Magento_TestFramework_Performance_Scenario $scenario
+     * @param \Magento\TestFramework\Performance\Scenario $scenario
      * @param string $message
      */
-    public function __construct(Magento_TestFramework_Performance_Scenario $scenario, $message = '')
+    public function __construct(\Magento\TestFramework\Performance\Scenario $scenario, $message = '')
     {
         parent::__construct($message);
         $this->_scenario = $scenario;
@@ -33,7 +35,7 @@ class Magento_TestFramework_Performance_Scenario_FailureException extends Magent
     /**
      * Retrieve scenario
      *
-     * @return Magento_TestFramework_Performance_Scenario
+     * @return \Magento\TestFramework\Performance\Scenario
      */
     public function getScenario()
     {

@@ -11,40 +11,42 @@
 /**
  * Customer register form block
  */
-class Magento_Customer_Block_Form_Register extends Magento_Directory_Block_Data
+namespace Magento\Customer\Block\Form;
+
+class Register extends \Magento\Directory\Block\Data
 {
     /**
      * Address instance with data
      *
-     * @var Magento_Customer_Model_Address
+     * @var \Magento\Customer\Model\Address
      */
     protected $_address;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Customer_Model_AddressFactory $addressFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory
-     * @param Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Customer\Model\AddressFactory $addressFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
+     * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Cache_Type_Config $configCacheType,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Customer_Model_AddressFactory $addressFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory,
-        Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Customer\Model\AddressFactory $addressFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
+        \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
@@ -78,7 +80,7 @@ class Magento_Customer_Block_Form_Register extends Magento_Directory_Block_Data
      */
     public function getPostActionUrl()
     {
-        return $this->helper('Magento_Customer_Helper_Data')->getRegisterPostUrl();
+        return $this->helper('Magento\Customer\Helper\Data')->getRegisterPostUrl();
     }
 
     /**
@@ -90,7 +92,7 @@ class Magento_Customer_Block_Form_Register extends Magento_Directory_Block_Data
     {
         $url = $this->getData('back_url');
         if (is_null($url)) {
-            $url = $this->helper('Magento_Customer_Helper_Data')->getLoginUrl();
+            $url = $this->helper('Magento\Customer\Helper\Data')->getLoginUrl();
         }
         return $url;
     }
@@ -98,14 +100,14 @@ class Magento_Customer_Block_Form_Register extends Magento_Directory_Block_Data
     /**
      * Retrieve form data
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getFormData()
     {
         $data = $this->getData('form_data');
         if (is_null($data)) {
             $formData = $this->_customerSession->getCustomerFormData(true);
-            $data = new Magento_Object();
+            $data = new \Magento\Object();
             if ($formData) {
                 $data->addData($formData);
                 $data->setCustomerData(1);
@@ -160,7 +162,7 @@ class Magento_Customer_Block_Form_Register extends Magento_Directory_Block_Data
     /**
      * Return customer address instance
      *
-     * @return Magento_Customer_Model_Address
+     * @return \Magento\Customer\Model\Address
      */
     public function getAddress()
     {
@@ -175,11 +177,11 @@ class Magento_Customer_Block_Form_Register extends Magento_Directory_Block_Data
      * Restore entity data from session
      * Entity and form code must be defined for the form
      *
-     * @param Magento_Customer_Model_Form $form
+     * @param \Magento\Customer\Model\Form $form
      * @param null $scope
-     * @return Magento_Customer_Block_Form_Register
+     * @return \Magento\Customer\Block\Form\Register
      */
-    public function restoreSessionData(Magento_Customer_Model_Form $form, $scope = null)
+    public function restoreSessionData(\Magento\Customer\Model\Form $form, $scope = null)
     {
         if ($this->getFormData()->getCustomerData()) {
             $request = $form->prepareRequest($this->getFormData()->getData());
@@ -191,7 +193,7 @@ class Magento_Customer_Block_Form_Register extends Magento_Directory_Block_Data
     }
 
     /**
-     * @return Magento_Customer_Model_Address
+     * @return \Magento\Customer\Model\Address
      */
     protected function _createAddress()
     {

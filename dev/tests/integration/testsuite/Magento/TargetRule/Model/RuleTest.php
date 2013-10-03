@@ -9,32 +9,34 @@
  * @license     {license_link}
  */
 
-class Magento_TargetRule_Model_RuleTest extends PHPUnit_Framework_TestCase
+namespace Magento\TargetRule\Model;
+
+class RuleTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TargetRule_Model_Rule
+     * @var \Magento\TargetRule\Model\Rule
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_TargetRule_Model_Rule');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\TargetRule\Model\Rule');
     }
 
     public function testValidateDataOnEmpty()
     {
-        $data = new Magento_Object();
+        $data = new \Magento\Object();
         $this->assertTrue($this->_model->validateData($data), 'True for empty object');
     }
 
     public function testValidateDataOnValid()
     {
-        $data = new Magento_Object();
+        $data = new \Magento\Object();
         $data->setRule(array(
             'actions' => array(
                 'test' => array(
-                    'type' => 'Magento_TargetRule_Model_Actions_Condition_Combine',
+                    'type' => 'Magento\TargetRule\Model\Actions\Condition\Combine',
                 )
             )
         ));
@@ -48,11 +50,11 @@ class Magento_TargetRule_Model_RuleTest extends PHPUnit_Framework_TestCase
      */
     public function testValidateDataOnInvalidCode($code)
     {
-        $data = new Magento_Object();
+        $data = new \Magento\Object();
         $data->setRule(array(
             'actions' => array(
                 'test' => array(
-                    'type' => 'Magento_TargetRule_Model_Actions_Condition_Combine',
+                    'type' => 'Magento\TargetRule\Model\Actions\Condition\Combine',
                     'attribute' => $code,
                 )
             )
@@ -76,15 +78,15 @@ class Magento_TargetRule_Model_RuleTest extends PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      */
     public function testValidateDataOnInvalidType()
     {
-        $data = new Magento_Object();
+        $data = new \Magento\Object();
         $data->setRule(array(
                 'actions' => array(
                     'test' => array(
-                        'type' => 'Magento_TargetRule_Invalid',
+                        'type' => 'Magento\TargetRule\Invalid',
                     )
                 )
             )

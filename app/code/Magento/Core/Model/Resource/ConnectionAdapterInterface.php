@@ -7,12 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Core_Model_Resource_ConnectionAdapterInterface
+namespace Magento\Core\Model\Resource;
+
+interface ConnectionAdapterInterface
 {
     /**
      * Get connection
      *
-     * @return Magento_DB_Adapter_Interface|null
+     * @return \Magento\DB\Adapter\AdapterInterface|null
      */
     public function getConnection();
 }

@@ -11,49 +11,51 @@
 /**
  * Customer address edit block
  */
-class Magento_Customer_Block_Address_Edit extends Magento_Directory_Block_Data
+namespace Magento\Customer\Block\Address;
+
+class Edit extends \Magento\Directory\Block\Data
 {
     protected $_address;
     protected $_countryCollection;
     protected $_regionCollection;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_config;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @var Magento_Customer_Model_AddressFactory
+     * @var \Magento\Customer\Model\AddressFactory
      */
     protected $_addressFactory;
 
     /**
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory
-     * @param Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Customer_Model_AddressFactory $addressFactory
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
+     * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Cache_Type_Config $configCacheType,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory,
-        Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory,
-        Magento_Core_Model_Config $config,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Customer_Model_AddressFactory $addressFactory,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
+        \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
+        \Magento\Core\Model\Config $config,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Customer\Model\AddressFactory $addressFactory,
         array $data = array()
     ) {
         $this->_config = $config;
@@ -102,7 +104,7 @@ class Magento_Customer_Block_Address_Edit extends Magento_Directory_Block_Data
     public function getNameBlockHtml()
     {
         $nameBlock = $this->getLayout()
-            ->createBlock('Magento_Customer_Block_Widget_Name')
+            ->createBlock('Magento\Customer\Block\Widget\Name')
             ->setObject($this->getAddress());
 
         return $nameBlock->toHtml();
@@ -207,7 +209,7 @@ class Magento_Customer_Block_Address_Edit extends Magento_Directory_Block_Data
 
     /**
      * @param string $path
-     * @return Magento_Core_Model_Config_Element
+     * @return \Magento\Core\Model\Config\Element
      */
     public function getConfigNode($path)
     {
@@ -226,7 +228,7 @@ class Magento_Customer_Block_Address_Edit extends Magento_Directory_Block_Data
     }
 
     /**
-     * @return Magento_Customer_Model_Address
+     * @return \Magento\Customer\Model\Address
      */
     protected function _createAddress()
     {

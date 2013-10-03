@@ -11,40 +11,42 @@
 /**
  * Gift registry types processing model
  *
- * @method Magento_GiftRegistry_Model_Resource_Type _getResource()
- * @method Magento_GiftRegistry_Model_Resource_Type getResource()
+ * @method \Magento\GiftRegistry\Model\Resource\Type _getResource()
+ * @method \Magento\GiftRegistry\Model\Resource\Type getResource()
  * @method string getCode()
- * @method Magento_GiftRegistry_Model_Type setCode(string $value)
+ * @method \Magento\GiftRegistry\Model\Type setCode(string $value)
  * @method string getMetaXml()
- * @method Magento_GiftRegistry_Model_Type setMetaXml(string $value)
+ * @method \Magento\GiftRegistry\Model\Type setMetaXml(string $value)
  *
  * @category    Magento
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
+namespace Magento\GiftRegistry\Model;
+
+class Type extends \Magento\Core\Model\AbstractModel
 {
     protected $_store = null;
 
     protected $_storeData = null;
 
     /**
-     * @var Magento_GiftRegistry_Model_Attribute_Config
+     * @var \Magento\GiftRegistry\Model\Attribute\Config
      */
     protected $attributeConfig;
 
     /**
-     * @var Magento_GiftRegistry_Model_Attribute_ProcessorFactory
+     * @var \Magento\GiftRegistry\Model\Attribute\ProcessorFactory
      */
     protected $processorFactory;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $storeManager;
 
     /**
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     protected $request;
 
@@ -53,29 +55,29 @@ class Magento_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_GiftRegistry_Model_Resource_Type');
+        $this->_init('Magento\GiftRegistry\Model\Resource\Type');
     }
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_GiftRegistry_Model_Attribute_Config $attributeConfig
-     * @param Magento_GiftRegistry_Model_Attribute_ProcessorFactory $processorFactory
-     * @param Magento_Core_Controller_Request_Http $request
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
+     * @param \Magento\GiftRegistry\Model\Attribute\ProcessorFactory $processorFactory
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_GiftRegistry_Model_Attribute_Config $attributeConfig,
-        Magento_GiftRegistry_Model_Attribute_ProcessorFactory $processorFactory,
-        Magento_Core_Controller_Request_Http $request,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
+        \Magento\GiftRegistry\Model\Attribute\ProcessorFactory $processorFactory,
+        \Magento\Core\Controller\Request\Http $request,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     )
     {
@@ -114,7 +116,7 @@ class Magento_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
     /**
      * Perform actions after object load
      *
-     * @return Magento_GiftRegistry_Model_Type
+     * @return \Magento\GiftRegistry\Model\Type
      */
     protected function _afterLoad()
     {
@@ -141,7 +143,7 @@ class Magento_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
     /**
      * Set store id
      *
-     * @return Magento_GiftRegistry_Model_Type
+     * @return \Magento\GiftRegistry\Model\Type
      */
     public function setStoreId($storeId = null)
     {
@@ -152,7 +154,7 @@ class Magento_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
     /**
      * Retrieve store
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getStore()
     {
@@ -176,7 +178,7 @@ class Magento_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
     /**
      * Save registry type attribute data per store view
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      */
     protected function _saveAttributeStoreData()
     {
@@ -201,7 +203,7 @@ class Magento_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
     /**
      * Clear object model from data that should be deleted
      *
-     * @return Magento_GiftRegistry_Model_Type
+     * @return \Magento\GiftRegistry\Model\Type
      */
     protected function _cleanupData()
     {
@@ -246,7 +248,7 @@ class Magento_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
     /**
      * Assign attributes store data
      *
-     * @return Magento_GiftRegistry_Model_Type
+     * @return \Magento\GiftRegistry\Model\Type
      */
     public function assignAttributesStoreData()
     {
@@ -268,7 +270,7 @@ class Magento_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
     /**
      * Assign attributes store data
      *
-     * @return Magento_GiftRegistry_Model_Type
+     * @return \Magento\GiftRegistry\Model\Type
      */
     public function getAttributesStoreData($attributes)
     {
@@ -403,9 +405,9 @@ class Magento_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
      * Custom handler for giftregistry type save action
      *
      * @param array $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @param Magento_Logging_Model_Processor
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @param \Magento\Logging\Model\Processor
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchTypeSave($config, $eventModel, $processor)
     {
@@ -418,7 +420,7 @@ class Magento_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
      * Filter and load post data to object
      *
      * @param array $data
-     * @return Magento_GiftRegistry_Model_Type
+     * @return \Magento\GiftRegistry\Model\Type
      */
     public function loadPost(array $data)
     {

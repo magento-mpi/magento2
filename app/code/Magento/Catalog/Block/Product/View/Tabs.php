@@ -11,7 +11,9 @@
 /**
  * Product information tabs
  */
-class Magento_Catalog_Block_Product_View_Tabs extends Magento_Core_Block_Template
+namespace Magento\Catalog\Block\Product\View;
+
+class Tabs extends \Magento\Core\Block\Template
 {
     /**
      * Configured tabs

@@ -9,19 +9,21 @@
  * @license     {license_link}
  */
 
-class Magento_CatalogPermissions_Model_Resource_Permission_IndexTest extends PHPUnit_Framework_TestCase
+namespace Magento\CatalogPermissions\Model\Resource\Permission;
+
+class IndexTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * CatalogPermissions Index model
      *
-     * @var Magento_CatalogPermissions_Model_Permission_Index
+     * @var \Magento\CatalogPermissions\Model\Permission\Index
      */
     protected $_indexModel;
 
     protected function setUp()
     {
-        $this->_indexModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_CatalogPermissions_Model_Permission_Index');
+        $this->_indexModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\CatalogPermissions\Model\Permission\Index');
     }
 
     /**
@@ -32,12 +34,12 @@ class Magento_CatalogPermissions_Model_Resource_Permission_IndexTest extends PHP
     {
         $fixturePermission = array(
             'category_id'                 => 6,
-            'website_id'                  => Magento_TestFramework_Helper_Bootstrap::getObjectManager()->
-                get('Magento_Core_Model_StoreManagerInterface')->getWebsite()->getId(),
+            'website_id'                  => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->
+                get('Magento\Core\Model\StoreManagerInterface')->getWebsite()->getId(),
             'customer_group_id'           => 1,
-            'grant_catalog_category_view' => Magento_CatalogPermissions_Model_Permission::PERMISSION_DENY,
-            'grant_catalog_product_price' => Magento_CatalogPermissions_Model_Permission::PERMISSION_DENY,
-            'grant_checkout_items'        => Magento_CatalogPermissions_Model_Permission::PERMISSION_DENY,
+            'grant_catalog_category_view' => \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY,
+            'grant_catalog_product_price' => \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY,
+            'grant_checkout_items'        => \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY,
         );
 
         $permissions = $this->_indexModel->getIndexForCategory(6, 1, 1);

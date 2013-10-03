@@ -9,22 +9,24 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Dashboard;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Dashboard_GraphTest extends PHPUnit_Framework_TestCase
+class GraphTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Adminhtml_Block_Dashboard_Graph
+     * @var \Magento\Adminhtml\Block\Dashboard\Graph
      */
     protected $_block;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_Adminhtml_Block_Dashboard_Graph');
-        $this->_block->setDataHelperName('Magento_Adminhtml_Helper_Dashboard_Order');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Adminhtml\Block\Dashboard\Graph');
+        $this->_block->setDataHelperName('Magento\Adminhtml\Helper\Dashboard\Order');
     }
 
     public function testGetChartUrl()

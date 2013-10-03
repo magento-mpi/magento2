@@ -5,74 +5,76 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Resource_Setup_Context
+namespace Magento\Core\Model\Resource\Setup;
+
+class Context
 {
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager;
 
     /**
-     * @var Magento_Core_Model_Resource
+     * @var \Magento\Core\Model\Resource
      */
     protected $_resourceModel;
 
     /**
-     * @var Magento_Core_Model_Config_Modules_Reader
+     * @var \Magento\Core\Model\Config\Modules\Reader
      */
     protected $_modulesReader;
 
     /**
-     * @var Magento_Core_Model_ModuleListInterface
+     * @var \Magento\Core\Model\ModuleListInterface
      */
     protected $_moduleList;
 
     /**
-     * @var Magento_Core_Model_Resource_Resource
+     * @var \Magento\Core\Model\Resource\Resource
      */
     protected $_resourceResource;
 
     /**
-     * @var Magento_Core_Model_Resource_Setup_MigrationFactory
+     * @var \Magento\Core\Model\Resource\Setup\MigrationFactory
      */
     protected $_migrationFactory;
 
     /**
-     * @var Magento_Core_Model_Resource_Theme_CollectionFactory
+     * @var \Magento\Core\Model\Resource\Theme\CollectionFactory
      */
     protected $_themeResourceFactory;
 
     /**
-     * @var Magento_Core_Model_Theme_CollectionFactory
+     * @var \Magento\Core\Model\Theme\CollectionFactory
      */
     protected $_themeFactory;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
-     * @param Magento_Core_Model_ModuleListInterface $moduleList
-     * @param Magento_Core_Model_Resource_Resource $resourceResource
-     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
-     * @param Magento_Core_Model_Resource_Theme_CollectionFactory $themeResourceFactory
-     * @param Magento_Core_Model_Theme_CollectionFactory $themeFactory
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
+     * @param \Magento\Core\Model\ModuleListInterface $moduleList
+     * @param \Magento\Core\Model\Resource\Resource $resourceResource
+     * @param \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory
+     * @param \Magento\Core\Model\Resource\Theme\CollectionFactory $themeResourceFactory
+     * @param \Magento\Core\Model\Theme\CollectionFactory $themeFactory
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Config_Modules_Reader $modulesReader,
-        Magento_Core_Model_ModuleListInterface $moduleList,
-        Magento_Core_Model_Resource_Resource $resourceResource,
-        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
-        Magento_Core_Model_Resource_Theme_CollectionFactory $themeResourceFactory,
-        Magento_Core_Model_Theme_CollectionFactory $themeFactory
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\Config\Modules\Reader $modulesReader,
+        \Magento\Core\Model\ModuleListInterface $moduleList,
+        \Magento\Core\Model\Resource\Resource $resourceResource,
+        \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory,
+        \Magento\Core\Model\Resource\Theme\CollectionFactory $themeResourceFactory,
+        \Magento\Core\Model\Theme\CollectionFactory $themeFactory
     ) {
         $this->_logger = $logger;
         $this->_eventManager = $eventManager;
@@ -86,7 +88,7 @@ class Magento_Core_Model_Resource_Setup_Context
     }
 
     /**
-     * @return \Magento_Core_Model_Event_Manager
+     * @return \\Magento\Core\Model\Event\Manager
      */
     public function getEventManager()
     {
@@ -94,7 +96,7 @@ class Magento_Core_Model_Resource_Setup_Context
     }
 
     /**
-     * @return \Magento_Core_Model_Logger
+     * @return \\Magento\Core\Model\Logger
      */
     public function getLogger()
     {
@@ -102,7 +104,7 @@ class Magento_Core_Model_Resource_Setup_Context
     }
 
     /**
-     * @return \Magento_Core_Model_ModuleListInterface
+     * @return \\Magento\Core\Model\ModuleListInterface
      */
     public function getModuleList()
     {
@@ -110,7 +112,7 @@ class Magento_Core_Model_Resource_Setup_Context
     }
 
     /**
-     * @return \Magento_Core_Model_Config_Modules_Reader
+     * @return \\Magento\Core\Model\Config\Modules\Reader
      */
     public function getModulesReader()
     {
@@ -118,7 +120,7 @@ class Magento_Core_Model_Resource_Setup_Context
     }
 
     /**
-     * @return \Magento_Core_Model_Resource
+     * @return \\Magento\Core\Model\Resource
      */
     public function getResourceModel()
     {
@@ -126,7 +128,7 @@ class Magento_Core_Model_Resource_Setup_Context
     }
 
     /**
-     * @return \Magento_Core_Model_Resource_Setup_MigrationFactory
+     * @return \\Magento\Core\Model\Resource\Setup\MigrationFactory
      */
     public function getMigrationFactory()
     {
@@ -134,7 +136,7 @@ class Magento_Core_Model_Resource_Setup_Context
     }
 
     /**
-     * @return \Magento_Core_Model_Resource_Resource
+     * @return \\Magento\Core\Model\Resource\Resource
      */
     public function getResourceResource()
     {
@@ -142,7 +144,7 @@ class Magento_Core_Model_Resource_Setup_Context
     }
 
     /**
-     * @return \Magento_Core_Model_Theme_CollectionFactory
+     * @return \\Magento\Core\Model\Theme\CollectionFactory
      */
     public function getThemeFactory()
     {
@@ -150,7 +152,7 @@ class Magento_Core_Model_Resource_Setup_Context
     }
 
     /**
-     * @return \Magento_Core_Model_Resource_Theme_CollectionFactory
+     * @return \\Magento\Core\Model\Resource\Theme\CollectionFactory
      */
     public function getThemeResourceFactory()
     {

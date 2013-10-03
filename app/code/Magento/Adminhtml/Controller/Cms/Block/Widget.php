@@ -16,7 +16,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Controller_Cms_Block_Widget extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller\Cms\Block;
+
+class Widget extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Chooser Source action
@@ -24,7 +26,7 @@ class Magento_Adminhtml_Controller_Cms_Block_Widget extends Magento_Adminhtml_Co
     public function chooserAction()
     {
         $uniqId = $this->getRequest()->getParam('uniq_id');
-        $pagesGrid = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Cms_Block_Widget_Chooser', '', array(
+        $pagesGrid = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Cms\Block\Widget\Chooser', '', array(
             'data' => array('id' => $uniqId)
         ));
         $this->getResponse()->setBody($pagesGrid->toHtml());

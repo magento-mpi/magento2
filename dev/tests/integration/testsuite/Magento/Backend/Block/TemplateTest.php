@@ -9,27 +9,29 @@
  * @license     {license_link}
  */
 
+namespace Magento\Backend\Block;
+
 /**
- * Test class for Magento_Backend_Block_Template.
+ * Test class for \Magento\Backend\Block\Template.
  *
  * @magentoAppArea adminhtml
  */
-class Magento_Backend_Block_TemplateTest extends PHPUnit_Framework_TestCase
+class TemplateTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Block_Template
+     * @var \Magento\Backend\Block\Template
      */
     protected $_block;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_Backend_Block_Template');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Backend\Block\Template');
     }
 
     /**
-     * @covers Magento_Backend_Block_Template::getFormKey
+     * @covers \Magento\Backend\Block\Template::getFormKey
      */
     public function testGetFormKey()
     {
@@ -37,16 +39,16 @@ class Magento_Backend_Block_TemplateTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Backend_Block_Template::isOutputEnabled
+     * @covers \Magento\Backend\Block\Template::isOutputEnabled
      */
     public function testIsOutputEnabled()
     {
         $this->_block->setData('module_name', 'dummy');
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
             ->getStore()->setConfig('advanced/modules_disable_output/dummy', 'true');
         $this->assertFalse($this->_block->isOutputEnabled());
 
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
             ->getStore()->setConfig('advanced/modules_disable_output/dummy', 'false');
         $this->assertTrue($this->_block->isOutputEnabled('dummy'));
     }

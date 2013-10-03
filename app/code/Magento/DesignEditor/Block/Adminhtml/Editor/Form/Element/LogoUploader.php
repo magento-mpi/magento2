@@ -8,13 +8,15 @@
  * @license     {license_link}
  */
 
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element;
+
 /**
  * Form element renderer to display logo uploader element for VDE
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_LogoUploader
-    extends Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_ImageUploader
+class LogoUploader
+    extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\ImageUploader
 {
     /**
      * Control type

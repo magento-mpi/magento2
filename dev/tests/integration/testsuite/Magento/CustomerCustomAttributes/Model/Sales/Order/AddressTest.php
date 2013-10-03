@@ -9,29 +9,31 @@
  * @license     {license_link}
  */
 
+namespace Magento\CustomerCustomAttributes\Model\Sales\Order;
+
 /**
  * @magentoDataFixture Magento/CustomerCustomAttributes/_files/order_address_with_attribute.php
  */
-class Magento_CustomerCustomAttributes_Model_Sales_Order_AddressTest extends PHPUnit_Framework_TestCase
+class AddressTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_CustomerCustomAttributes_Model_Sales_Order_Address
+     * @var \Magento\CustomerCustomAttributes\Model\Sales\Order\Address
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_CustomerCustomAttributes_Model_Sales_Order_Address');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\CustomerCustomAttributes\Model\Sales\Order\Address');
     }
 
     public function testAttachDataToEntities()
     {
-        $address = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Order_Address');
+        $address = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Order\Address');
         $address->load('admin@example.com', 'email');
 
-        $entity = new Magento_Object(array('id' => $address->getId()));
+        $entity = new \Magento\Object(array('id' => $address->getId()));
         $this->assertEmpty($entity->getData('fixture_address_attribute'));
         $this->_model->attachDataToEntities(array($entity));
         $this->assertEquals('fixture_attribute_custom_value', $entity->getData('fixture_address_attribute'));

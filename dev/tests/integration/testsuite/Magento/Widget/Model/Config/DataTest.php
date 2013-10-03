@@ -1,70 +1,74 @@
 <?php
 /**
- * Magento_Widget_Model_Config_Data
+ * \Magento\Widget\Model\Config\Data
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  *
+ */
+namespace Magento\Widget\Model\Config;
+
+/**
  * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/all_types_disabled.php
  * @magentoAppArea adminhtml
  */
-class Magento_Widget_Model_Config_DataTest extends PHPUnit_Framework_TestCase
+class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Widget_Model_Config_Data
+     * @var \Magento\Widget\Model\Config\Data
      */
     protected $_configData;
 
     public function setUp()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var Magento_Core_Model_Dir $dirs */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var \Magento\Core\Model\Dir $dirs */
         $dirs = $objectManager->create(
-            'Magento_Core_Model_Dir', array(
+            'Magento\Core\Model\Dir', array(
                 'baseDir' => BP,
                 'dirs' => array(
-                    Magento_Core_Model_Dir::MODULES => __DIR__ . '/_files/code',
-                    Magento_Core_Model_Dir::CONFIG => __DIR__ . '/_files/code',
-                    Magento_Core_Model_Dir::THEMES => __DIR__ . '/_files/design',
+                    \Magento\Core\Model\Dir::MODULES => __DIR__ . '/_files/code',
+                    \Magento\Core\Model\Dir::CONFIG => __DIR__ . '/_files/code',
+                    \Magento\Core\Model\Dir::THEMES => __DIR__ . '/_files/design',
                 )
             )
         );
 
-        /** @var Magento_Core_Model_Module_Declaration_FileResolver $modulesDeclarations */
+        /** @var \Magento\Core\Model\Module\Declaration\FileResolver $modulesDeclarations */
         $modulesDeclarations = $objectManager->create(
-            'Magento_Core_Model_Module_Declaration_FileResolver', array(
+            'Magento\Core\Model\Module\Declaration\FileResolver', array(
                 'applicationDirs' => $dirs,
             )
         );
 
 
-        /** @var Magento_Core_Model_Module_Declaration_Reader_Filesystem $filesystemReader */
+        /** @var \Magento\Core\Model\Module\Declaration\Reader\Filesystem $filesystemReader */
         $filesystemReader = $objectManager->create(
-            'Magento_Core_Model_Module_Declaration_Reader_Filesystem', array(
+            'Magento\Core\Model\Module\Declaration\Reader\Filesystem', array(
                 'fileResolver' => $modulesDeclarations,
             )
         );
 
-        /** @var Magento_Core_Model_ModuleList $modulesList */
+        /** @var \Magento\Core\Model\ModuleList $modulesList */
         $modulesList = $objectManager->create(
-            'Magento_Core_Model_ModuleList', array(
+            'Magento\Core\Model\ModuleList', array(
                 'reader' => $filesystemReader,
             )
         );
 
-        /** @var Magento_Core_Model_Config_Modules_Reader $moduleReader */
+        /** @var \Magento\Core\Model\Config\Modules\Reader $moduleReader */
         $moduleReader = $objectManager->create(
-            'Magento_Core_Model_Config_Modules_Reader', array(
+            'Magento\Core\Model\Config\Modules\Reader', array(
                 'moduleList' => $modulesList
             )
         );
         $moduleReader->setModuleDir('Magento_Test', 'etc', __DIR__ . '/_files/code/Magento/Test/etc');
 
-        /** @var Magento_Widget_Model_Config_FileResolver $fileResolver */
+        /** @var \Magento\Widget\Model\Config\FileResolver $fileResolver */
         $fileResolver = $objectManager->create(
-            'Magento_Widget_Model_Config_FileResolver', array(
+            'Magento\Widget\Model\Config\FileResolver', array(
                 'moduleReader' => $moduleReader,
                 'applicationDirs' => $dirs,
             )
@@ -73,7 +77,7 @@ class Magento_Widget_Model_Config_DataTest extends PHPUnit_Framework_TestCase
         $schema = __DIR__ . '/../../../../../../../../app/code/Magento/Widget/etc/widget.xsd';
         $perFileSchema = __DIR__ . '/../../../../../../../../app/code/Magento/Widget/etc/widget_file.xsd';
         $reader = $objectManager->create(
-            'Magento_Widget_Model_Config_Reader', array(
+            'Magento\Widget\Model\Config\Reader', array(
                 'moduleReader' => $moduleReader,
                 'fileResolver' => $fileResolver,
                 'schema' => $schema,
@@ -81,7 +85,7 @@ class Magento_Widget_Model_Config_DataTest extends PHPUnit_Framework_TestCase
             )
         );
 
-        $this->_configData = $objectManager->create('Magento_Widget_Model_Config_Data', array(
+        $this->_configData = $objectManager->create('Magento\Widget\Model\Config\Data', array(
             'reader' => $reader,
         ));
     }

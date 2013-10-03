@@ -15,18 +15,20 @@
  * @package    Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Data_Form_Element_Editor extends Magento_Data_Form_Element_Textarea
+namespace Magento\Data\Form\Element;
+
+class Editor extends \Magento\Data\Form\Element\Textarea
 {
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Data_Form_Element_Factory $factoryElement
-     * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
      * @param array $attributes
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Data_Form_Element_Factory $factoryElement,
-        Magento_Data_Form_Element_CollectionFactory $factoryCollection,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Data\Form\Element\Factory $factoryElement,
+        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
         $attributes = array()
     ) {
         parent::__construct($coreData, $factoryElement, $factoryCollection, $attributes);
@@ -103,9 +105,9 @@ class Magento_Data_Form_Element_Editor extends Magento_Data_Form_Element_Textare
                 . $js . '
                 <script type="text/javascript">
                 //<![CDATA[' . "\n"
-                    . '(function($) {$.mage.translate.add(' . Zend_Json::encode($translatedString) . ')})(jQuery);' . "\n"
+                    . '(function($) {$.mage.translate.add(' . \Zend_Json::encode($translatedString) . ')})(jQuery);' . "\n"
                     . $jsSetupObject . ' = new tinyMceWysiwygSetup("' . $this->getHtmlId() . '", '
-                    . Zend_Json::encode($this->getConfig()).');'
+                    . \Zend_Json::encode($this->getConfig()).');'
                     . $forceLoad.'
                     editorFormValidationHandler = ' . $jsSetupObject . '.onFormValidation.bind(' . $jsSetupObject . ');
                     Event.observe("toggle' . $this->getHtmlId() . '", "click", '
@@ -338,8 +340,8 @@ class Magento_Data_Form_Element_Editor extends Magento_Data_Form_Element_Textare
      */
     public function getConfig($key = null)
     {
-        if ( !($this->_getData('config') instanceof Magento_Object) ) {
-            $config = new Magento_Object();
+        if ( !($this->_getData('config') instanceof \Magento\Object) ) {
+            $config = new \Magento\Object();
             $this->setConfig($config);
         }
         if ($key !== null) {

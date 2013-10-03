@@ -7,30 +7,32 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Session_Context implements Magento_ObjectManager_ContextInterface
+namespace Magento\Core\Model\Session;
+
+class Context implements \Magento\ObjectManager\ContextInterface
 {
     /**
-     * @var Magento_Core_Model_Session_Validator
+     * @var \Magento\Core\Model\Session\Validator
      */
     protected $_validator;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager;
 
     /**
-     * @var Magento_Core_Helper_Http
+     * @var \Magento\Core\Helper\Http
      */
     protected $_httpHelper;
 
     /**
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_storeConfig;
 
@@ -59,82 +61,82 @@ class Magento_Core_Model_Session_Context implements Magento_ObjectManager_Contex
     /**
      * Core cookie
      *
-     * @var Magento_Core_Model_Cookie
+     * @var \Magento\Core\Model\Cookie
      */
     protected $_cookie;
 
     /**
      * Core message
      *
-     * @var Magento_Core_Model_Message
+     * @var \Magento\Core\Model\Message
      */
     protected $_message;
 
     /**
      * Core message collection factory
      *
-     * @var Magento_Core_Model_Message_CollectionFactory
+     * @var \Magento\Core\Model\Message\CollectionFactory
      */
     protected $_messageFactory;
 
     /**
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     protected $_request;
 
     /**
-     * @var Magento_Core_Model_App_State
+     * @var \Magento\Core\Model\App\State
      */
     protected $_appState;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_dir;
 
     /**
-     * @var Magento_Core_Model_Url
+     * @var \Magento\Core\Model\Url
      */
     protected $_url;
 
     /**
-     * @param Magento_Core_Model_Session_Validator $validator
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Http $coreHttp
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Message_CollectionFactory $messageFactory
-     * @param Magento_Core_Model_Message $message
-     * @param Magento_Core_Model_Cookie $cookie
-     * @param Magento_Core_Controller_Request_Http $request
-     * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Dir $dir
-     * @param Magento_Core_Model_Url $url
+     * @param \Magento\Core\Model\Session\Validator $validator
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Http $coreHttp
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Message\CollectionFactory $messageFactory
+     * @param \Magento\Core\Model\Message $message
+     * @param \Magento\Core\Model\Cookie $cookie
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\Core\Model\Url $url
      * @param $saveMethod
      * @param null $savePath
      * @param null $cacheLimiter
      * @param array $sidMap
      */
     public function __construct(
-        Magento_Core_Model_Session_Validator $validator,
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Http $coreHttp,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Message_CollectionFactory $messageFactory,
-        Magento_Core_Model_Message $message,
-        Magento_Core_Model_Cookie $cookie,
-        Magento_Core_Controller_Request_Http $request,
-        Magento_Core_Model_App_State $appState,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Dir $dir,
-        Magento_Core_Model_Url $url,
+        \Magento\Core\Model\Session\Validator $validator,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Http $coreHttp,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Message\CollectionFactory $messageFactory,
+        \Magento\Core\Model\Message $message,
+        \Magento\Core\Model\Cookie $cookie,
+        \Magento\Core\Controller\Request\Http $request,
+        \Magento\Core\Model\App\State $appState,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Dir $dir,
+        \Magento\Core\Model\Url $url,
         $saveMethod,
         $savePath = null,
         $cacheLimiter = null,
@@ -160,7 +162,7 @@ class Magento_Core_Model_Session_Context implements Magento_ObjectManager_Contex
     }
 
     /**
-     * @return \Magento_Core_Model_Event_Manager
+     * @return \\Magento\Core\Model\Event\Manager
      */
     public function getEventManager()
     {
@@ -168,7 +170,7 @@ class Magento_Core_Model_Session_Context implements Magento_ObjectManager_Contex
     }
 
     /**
-     * @return \Magento_Core_Helper_Http
+     * @return \\Magento\Core\Helper\Http
      */
     public function getHttpHelper()
     {
@@ -176,7 +178,7 @@ class Magento_Core_Model_Session_Context implements Magento_ObjectManager_Contex
     }
 
     /**
-     * @return \Magento_Core_Model_Logger
+     * @return \\Magento\Core\Model\Logger
      */
     public function getLogger()
     {
@@ -184,7 +186,7 @@ class Magento_Core_Model_Session_Context implements Magento_ObjectManager_Contex
     }
 
     /**
-     * @return \Magento_Core_Model_Store_Config
+     * @return \\Magento\Core\Model\Store\Config
      */
     public function getStoreConfig()
     {
@@ -192,7 +194,7 @@ class Magento_Core_Model_Session_Context implements Magento_ObjectManager_Contex
     }
 
     /**
-     * @return \Magento_Core_Model_Session_Validator
+     * @return \\Magento\Core\Model\Session\Validator
      */
     public function getValidator()
     {
@@ -232,7 +234,7 @@ class Magento_Core_Model_Session_Context implements Magento_ObjectManager_Contex
     }
 
     /**
-     * @return \Magento_Core_Model_App_State
+     * @return \\Magento\Core\Model\App\State
      */
     public function getAppState()
     {
@@ -240,7 +242,7 @@ class Magento_Core_Model_Session_Context implements Magento_ObjectManager_Contex
     }
 
     /**
-     * @return \Magento_Core_Model_Cookie
+     * @return \\Magento\Core\Model\Cookie
      */
     public function getCookie()
     {
@@ -248,7 +250,7 @@ class Magento_Core_Model_Session_Context implements Magento_ObjectManager_Contex
     }
 
     /**
-     * @return \Magento_Core_Model_Dir
+     * @return \\Magento\Core\Model\Dir
      */
     public function getDir()
     {
@@ -256,7 +258,7 @@ class Magento_Core_Model_Session_Context implements Magento_ObjectManager_Contex
     }
 
     /**
-     * @return \Magento_Core_Model_Message
+     * @return \\Magento\Core\Model\Message
      */
     public function getMessage()
     {
@@ -264,7 +266,7 @@ class Magento_Core_Model_Session_Context implements Magento_ObjectManager_Contex
     }
 
     /**
-     * @return \Magento_Core_Model_Message_CollectionFactory
+     * @return \\Magento\Core\Model\Message\CollectionFactory
      */
     public function getMessageFactory()
     {
@@ -272,7 +274,7 @@ class Magento_Core_Model_Session_Context implements Magento_ObjectManager_Contex
     }
 
     /**
-     * @return \Magento_Core_Controller_Request_Http
+     * @return \\Magento\Core\Controller\Request\Http
      */
     public function getRequest()
     {
@@ -280,7 +282,7 @@ class Magento_Core_Model_Session_Context implements Magento_ObjectManager_Contex
     }
 
     /**
-     * @return \Magento_Core_Model_StoreManager
+     * @return \\Magento\Core\Model\StoreManager
      */
     public function getStoreManager()
     {
@@ -288,7 +290,7 @@ class Magento_Core_Model_Session_Context implements Magento_ObjectManager_Contex
     }
 
     /**
-     * @return \Magento_Core_Model_Url
+     * @return \\Magento\Core\Model\Url
      */
     public function getUrl()
     {

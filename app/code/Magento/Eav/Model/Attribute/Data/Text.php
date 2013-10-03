@@ -16,22 +16,24 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Attribute_Data_Text extends Magento_Eav_Model_Attribute_Data_Abstract
+namespace Magento\Eav\Model\Attribute\Data;
+
+class Text extends \Magento\Eav\Model\Attribute\Data\AbstractData
 {
     /**
-     * @var Magento_Core_Helper_String
+     * @var \Magento\Core\Helper\String
      */
     protected $_stringHelper;
 
     /**
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Helper_String $stringHelper
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Helper\String $stringHelper
      */
     public function __construct(
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Helper_String $stringHelper
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Helper\String $stringHelper
     ) {
         parent::__construct($locale, $logger);
         $this->_stringHelper = $stringHelper;
@@ -40,10 +42,10 @@ class Magento_Eav_Model_Attribute_Data_Text extends Magento_Eav_Model_Attribute_
     /**
      * Extract data from request and return value
      *
-     * @param Zend_Controller_Request_Http $request
+     * @param \Zend_Controller_Request_Http $request
      * @return array|string
      */
-    public function extractValue(Zend_Controller_Request_Http $request)
+    public function extractValue(\Zend_Controller_Request_Http $request)
     {
         $value = $this->_getRequestValue($request);
         return $this->_applyInputFilter($value);
@@ -103,7 +105,7 @@ class Magento_Eav_Model_Attribute_Data_Text extends Magento_Eav_Model_Attribute_
      * Export attribute value to entity model
      *
      * @param array|string $value
-     * @return Magento_Eav_Model_Attribute_Data_Text
+     * @return \Magento\Eav\Model\Attribute\Data\Text
      */
     public function compactValue($value)
     {
@@ -117,7 +119,7 @@ class Magento_Eav_Model_Attribute_Data_Text extends Magento_Eav_Model_Attribute_
      * Restore attribute value from SESSION to entity model
      *
      * @param array|string $value
-     * @return Magento_Eav_Model_Attribute_Data_Text
+     * @return \Magento\Eav\Model\Attribute\Data\Text
      */
     public function restoreValue($value)
     {
@@ -130,7 +132,7 @@ class Magento_Eav_Model_Attribute_Data_Text extends Magento_Eav_Model_Attribute_
      * @param string $format
      * @return string|array
      */
-    public function outputValue($format = Magento_Eav_Model_AttributeDataFactory::OUTPUT_FORMAT_TEXT)
+    public function outputValue($format = \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_TEXT)
     {
         $value = $this->getEntity()->getData($this->getAttribute()->getAttributeCode());
         $value = $this->_applyOutputFilter($value);

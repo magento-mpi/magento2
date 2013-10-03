@@ -10,12 +10,14 @@
  */
 
 /**
- * Test for an environment-dependent DB adapter that implements Magento_DB_Adapter_Interface
+ * Test for an environment-dependent DB adapter that implements \Magento\DB\Adapter\AdapterInterface
  */
-class Magento_DB_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
+namespace Magento\DB\Adapter;
+
+class InterfaceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_DB_Adapter_Interface
+     * @var \Magento\DB\Adapter\AdapterInterface
      */
     protected $_connection;
 
@@ -36,10 +38,10 @@ class Magento_DB_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $installer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
-            'Magento_Core_Model_Resource_Setup',
+        $installer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Core\Model\Resource\Setup',
             array(
-                'resourceName' => Magento_Core_Model_Resource_Setup::DEFAULT_SETUP_CONNECTION,
+                'resourceName' => \Magento\Core\Model\Resource\Setup::DEFAULT_SETUP_CONNECTION,
                 'moduleName' => 'Magento_Core',
             )
         );
@@ -49,7 +51,7 @@ class Magento_DB_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
         $this->_twoColumnIdxName = $installer->getIdxName($this->_tableName, array('column1', 'column2'));
 
         $table = $this->_connection->newTable($this->_tableName)
-            ->addColumn('id', Magento_DB_Ddl_Table::TYPE_INTEGER, null,
+            ->addColumn('id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null,
                 array(
                     'identity' => true,
                     'unsigned' => true,
@@ -57,8 +59,8 @@ class Magento_DB_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
                     'primary'  => true,
                 ),
             'Id')
-            ->addColumn('column1', Magento_DB_Ddl_Table::TYPE_INTEGER)
-            ->addColumn('column2', Magento_DB_Ddl_Table::TYPE_INTEGER)
+            ->addColumn('column1', \Magento\DB\Ddl\Table::TYPE_INTEGER)
+            ->addColumn('column2', \Magento\DB\Ddl\Table::TYPE_INTEGER)
             ->addIndex($this->_oneColumnIdxName, array('column1'))
             ->addIndex($this->_twoColumnIdxName, array('column1', 'column2'))
         ;
@@ -219,7 +221,7 @@ class Magento_DB_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Zend_Db_Exception
+     * @expectedException \Zend_Db_Exception
      */
     public function testInsertArrayTwoColumnsWithSimpleData()
     {

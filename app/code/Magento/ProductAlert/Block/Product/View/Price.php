@@ -8,10 +8,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\ProductAlert\Block\Product\View;
+
 /**
  * Product view price
  */
-class Magento_ProductAlert_Block_Product_View_Price extends Magento_ProductAlert_Block_Product_View
+class Price extends \Magento\ProductAlert\Block\Product\View
 {
     /**
      * Prepare price info

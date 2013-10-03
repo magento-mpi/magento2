@@ -12,8 +12,8 @@
     $wishlistItems = $this->getWishlistItems();
 ?>
 <div class="page-title title-buttons">
-    <?php if ($this->helper('Magento_Wishlist_Helper_Data')->isRssAllow() && count($this->getWishlistItems())): ?>
-        <a href="<?php echo $this->helper('Magento_Wishlist_Helper_Data')->getRssUrl($this->getWishlistInstance()->getId()); ?>" class="link-rss"><?php echo __('RSS Feed') ?></a>
+    <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isRssAllow() && count($this->getWishlistItems())): ?>
+        <a href="<?php echo $this->helper('Magento\Wishlist\Helper\Data')->getRssUrl($this->getWishlistInstance()->getId()); ?>" class="link-rss"><?php echo __('RSS Feed') ?></a>
     <?php endif; ?>
     <h1><?php echo __('Wish List Info') ?></h1>
 </div>
@@ -34,7 +34,7 @@
                 </tr>
                 <tr>
                     <th><span class="nobr"><?php echo __('Updated at');?></span></th>
-                    <td><?php echo $this->formatDate($this->getWishlistInstance()->getUpdatedAt(), Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);?></td>
+                    <td><?php echo $this->formatDate($this->getWishlistInstance()->getUpdatedAt(), \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);?></td>
                 </tr>
             </tbody>
         </table>

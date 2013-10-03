@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rss\Controller;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Rss_Controller_OrderTest extends Magento_TestFramework_TestCase_ControllerAbstract
+class OrderTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
      * Reuse URI for "new" action
@@ -31,8 +33,8 @@ class Magento_Rss_Controller_OrderTest extends Magento_TestFramework_TestCase_Co
     public function testNewAction()
     {
         $this->getRequest()->setServer(array(
-            'PHP_AUTH_USER' => Magento_TestFramework_Bootstrap::ADMIN_NAME,
-            'PHP_AUTH_PW' => Magento_TestFramework_Bootstrap::ADMIN_PASSWORD
+            'PHP_AUTH_USER' => \Magento\TestFramework\Bootstrap::ADMIN_NAME,
+            'PHP_AUTH_PW' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
         ));
         $this->dispatch(self::NEW_ORDER_URI);
         $this->assertHeaderPcre('Content-Type', '/text\/xml/');
@@ -50,7 +52,7 @@ class Magento_Rss_Controller_OrderTest extends Magento_TestFramework_TestCase_Co
      * @param string $password
      * @dataProvider invalidAccessDataProvider
      * @magentoDataFixture Magento/User/_files/dummy_user.php
-     * @covers Magento_Rss_Controller_Order::authenticateAndAuthorizeAdmin
+     * @covers \Magento\Rss\Controller\Order::authenticateAndAuthorizeAdmin
      */
     public function testInvalidAccess($login, $password)
     {
@@ -65,8 +67,8 @@ class Magento_Rss_Controller_OrderTest extends Magento_TestFramework_TestCase_Co
     public function invalidAccessDataProvider()
     {
         return array(
-            'no login' => array('', Magento_TestFramework_Bootstrap::ADMIN_PASSWORD),
-            'no password' => array(Magento_TestFramework_Bootstrap::ADMIN_NAME, ''),
+            'no login' => array('', \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD),
+            'no password' => array(\Magento\TestFramework\Bootstrap::ADMIN_NAME, ''),
             'no login and password' => array('', ''),
             'user with inappropriate ACL' => array('dummy_username', 'dummy_password1'),
         );

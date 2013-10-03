@@ -7,13 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Filesystem_StreamInterface
+namespace Magento\Filesystem;
+
+interface StreamInterface
 {
     /**
      * Opens the stream in the specified mode
      *
-     * @param Magento_Filesystem_Stream_Mode|string $mode
-     * @throws Magento_Filesystem_Exception
+     * @param \Magento\Filesystem\Stream\Mode|string $mode
+     * @throws \Magento\Filesystem\FilesystemException
      */
     public function open($mode);
 
@@ -22,7 +24,7 @@ interface Magento_Filesystem_StreamInterface
      *
      * @param integer $count The number of bytes to read
      * @return string
-     * @throws Magento_Filesystem_Exception
+     * @throws \Magento\Filesystem\FilesystemException
      */
     public function read($count);
 
@@ -38,7 +40,7 @@ interface Magento_Filesystem_StreamInterface
      * @param string $delimiter
      * @param string $enclosure
      * @return array|bool false on end of file
-     * @throws Magento_Filesystem_Exception
+     * @throws \Magento\Filesystem\FilesystemException
      */
     public function readCsv($count = 0, $delimiter = ',', $enclosure = '"');
 
@@ -47,7 +49,7 @@ interface Magento_Filesystem_StreamInterface
      *
      * @param string $data
      * @return integer
-     * @throws Magento_Filesystem_Exception
+     * @throws \Magento\Filesystem\FilesystemException
      */
     public function write($data);
 
@@ -58,21 +60,21 @@ interface Magento_Filesystem_StreamInterface
      * @param string $delimiter
      * @param string $enclosure
      * @return integer
-     * @throws Magento_Filesystem_Exception
+     * @throws \Magento\Filesystem\FilesystemException
      */
     public function writeCsv(array $data, $delimiter = ',', $enclosure = '"');
 
     /**
      * Closes the stream.
      *
-     * @throws Magento_Filesystem_Exception
+     * @throws \Magento\Filesystem\FilesystemException
      */
     public function close();
 
     /**
      * Flushes the output.
      *
-     * @throws Magento_Filesystem_Exception
+     * @throws \Magento\Filesystem\FilesystemException
      */
     public function flush();
 
@@ -81,7 +83,7 @@ interface Magento_Filesystem_StreamInterface
      *
      * @param int $offset
      * @param int $whence
-     * @throws Magento_Filesystem_Exception
+     * @throws \Magento\Filesystem\FilesystemException
      */
     public function seek($offset, $whence = SEEK_SET);
 
@@ -89,7 +91,7 @@ interface Magento_Filesystem_StreamInterface
      * Returns the current position
      *
      * @return int
-     * @throws Magento_Filesystem_Exception
+     * @throws \Magento\Filesystem\FilesystemException
      */
     public function tell();
 
@@ -97,7 +99,7 @@ interface Magento_Filesystem_StreamInterface
      * Checks if the current position is the end-of-file
      *
      * @return bool
-     * @throws Magento_Filesystem_Exception
+     * @throws \Magento\Filesystem\FilesystemException
      */
     public function eof();
 
@@ -105,14 +107,14 @@ interface Magento_Filesystem_StreamInterface
      * Portable advisory file locking
      *
      * @param bool $exclusive
-     * @throws Magento_Filesystem_Exception
+     * @throws \Magento\Filesystem\FilesystemException
      */
     public function lock($exclusive = true);
 
     /**
      * File unlocking
      *
-     * @throws Magento_Filesystem_Exception
+     * @throws \Magento\Filesystem\FilesystemException
      */
     public function unlock();
 }

@@ -15,7 +15,9 @@
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Block_Widget_Breadcrumbs extends Magento_Backend_Block_Template
+namespace Magento\Backend\Block\Widget;
+
+class Breadcrumbs extends \Magento\Backend\Block\Template
 {
     /**
      * breadcrumbs links

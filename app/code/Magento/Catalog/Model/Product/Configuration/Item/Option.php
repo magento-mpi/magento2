@@ -15,8 +15,10 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Configuration_Item_Option extends Magento_Object
-    implements Magento_Catalog_Model_Product_Configuration_Item_Option_Interface
+namespace Magento\Catalog\Model\Product\Configuration\Item;
+
+class Option extends \Magento\Object
+    implements \Magento\Catalog\Model\Product\Configuration\Item\Option\OptionInterface
 {
     /**
      * Returns value of this option

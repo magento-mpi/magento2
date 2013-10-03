@@ -14,8 +14,10 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  * @deprecated Moved to module Magento_Backend
  */
-class Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Country
-    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Country
+namespace Magento\Adminhtml\Block\Widget\Grid\Column\Renderer;
+
+class Country
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Country
 {
 
 }

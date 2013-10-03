@@ -15,7 +15,9 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Cart_Crosssell extends Magento_Catalog_Block_Product_Abstract
+namespace Magento\Checkout\Block\Cart;
+
+class Crosssell extends \Magento\Catalog\Block\Product\AbstractProduct
 {
     /**
      * Items quantity will be capped to this value
@@ -25,55 +27,55 @@ class Magento_Checkout_Block_Cart_Crosssell extends Magento_Catalog_Block_Produc
     protected $_maxItemCount = 4;
 
     /**
-     * @var Magento_Checkout_Model_Session
+     * @var \Magento\Checkout\Model\Session
      */
     protected $_checkoutSession;
 
     /**
-     * @var Magento_Catalog_Model_Product_Visibility
+     * @var \Magento\Catalog\Model\Product\Visibility
      */
     protected $_productVisibility;
 
     /**
-     * @var Magento_CatalogInventory_Model_Stock
+     * @var \Magento\CatalogInventory\Model\Stock
      */
     protected $_stock;
 
     /**
-     * @var Magento_Catalog_Model_Product_LinkFactory
+     * @var \Magento\Catalog\Model\Product\LinkFactory
      */
     protected $_productLinkFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Model_Config $catalogConfig
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Checkout_Model_Session $checkoutSession
-     * @param Magento_Catalog_Model_Product_Visibility $productVisibility
-     * @param Magento_CatalogInventory_Model_Stock $stock
-     * @param Magento_Catalog_Model_Product_LinkFactory $productLinkFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
+     * @param \Magento\CatalogInventory\Model\Stock $stock
+     * @param \Magento\Catalog\Model\Product\LinkFactory $productLinkFactory
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Model_Config $catalogConfig,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Checkout_Model_Session $checkoutSession,
-        Magento_Catalog_Model_Product_Visibility $productVisibility,
-        Magento_CatalogInventory_Model_Stock $stock,
-        Magento_Catalog_Model_Product_LinkFactory $productLinkFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Catalog\Model\Product\Visibility $productVisibility,
+        \Magento\CatalogInventory\Model\Stock $stock,
+        \Magento\Catalog\Model\Product\LinkFactory $productLinkFactory,
         array $data = array()
     ) {
         $this->_checkoutSession = $checkoutSession;
@@ -174,8 +176,8 @@ class Magento_Checkout_Block_Cart_Crosssell extends Magento_Catalog_Block_Produc
         $productIds = array();
         foreach ($this->getQuote()->getAllItems() as $quoteItem) {
             $productTypeOpt = $quoteItem->getOptionByCode('product_type');
-            if ($productTypeOpt instanceof Magento_Sales_Model_Quote_Item_Option
-                && $productTypeOpt->getValue() == Magento_Catalog_Model_Product_Type_Grouped::TYPE_CODE
+            if ($productTypeOpt instanceof \Magento\Sales\Model\Quote\Item\Option
+                && $productTypeOpt->getValue() == \Magento\Catalog\Model\Product\Type\Grouped::TYPE_CODE
                 && $productTypeOpt->getProductId()
             ) {
                 $productIds[] = $productTypeOpt->getProductId();
@@ -198,7 +200,7 @@ class Magento_Checkout_Block_Cart_Crosssell extends Magento_Catalog_Block_Produc
     /**
      * Get quote instance
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {
@@ -208,11 +210,11 @@ class Magento_Checkout_Block_Cart_Crosssell extends Magento_Catalog_Block_Produc
     /**
      * Get crosssell products collection
      *
-     * @return Magento_Catalog_Model_Resource_Product_Link_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Link\Product\Collection
      */
     protected function _getCollection()
     {
-        /** @var Magento_Catalog_Model_Resource_Product_Link_Product_Collection $collection */
+        /** @var \Magento\Catalog\Model\Resource\Product\Link\Product\Collection $collection */
         $collection = $this->_productLinkFactory->create()->useCrossSellLinks()
             ->getProductCollection()
             ->setStoreId($this->_storeManager->getStore()->getId())

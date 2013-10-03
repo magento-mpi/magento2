@@ -1,22 +1,26 @@
 <?php
 /**
- * Magento_Webhook_Model_Event
+ * \Magento\Webhook\Model\Event
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
+ */
+namespace Magento\Webhook\Model;
+
+/**
  * @magentoDbIsolation enabled
  */
-class Magento_Webhook_Model_EventTest extends PHPUnit_Framework_TestCase
+class EventTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var  Magento_Webhook_Model_Event */
+    /** @var  \Magento\Webhook\Model\Event */
     private $_event;
 
     protected function setUp()
     {
-        $this->_event = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_Event');
+        $this->_event = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Event');
     }
 
     public function testSetGet()
@@ -44,7 +48,7 @@ class Magento_Webhook_Model_EventTest extends PHPUnit_Framework_TestCase
     public function testMarkAsProcessed()
     {
         $this->_event->complete();
-        $this->assertEquals(Magento_PubSub_EventInterface::STATUS_PROCESSED, $this->_event->getStatus());
+        $this->assertEquals(\Magento\PubSub\EventInterface::STATUS_PROCESSED, $this->_event->getStatus());
     }
 
     public function testSaveAndLoad()
@@ -54,8 +58,8 @@ class Magento_Webhook_Model_EventTest extends PHPUnit_Framework_TestCase
             ->setBodyData($bodyData)
             ->save()
             ->getId();
-        $loadedEvent = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_Event')
+        $loadedEvent = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Event')
             ->load($eventId);
         $this->assertEquals($bodyData, $loadedEvent->getBodyData());
     }

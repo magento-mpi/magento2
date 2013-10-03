@@ -11,17 +11,19 @@
 /**
  * Theme registration model class
  */
-class Magento_Core_Model_Theme_Registration
+namespace Magento\Core\Model\Theme;
+
+class Registration
 {
     /**
-     * @var Magento_Core_Model_Resource_Theme_CollectionFactory
+     * @var \Magento\Core\Model\Resource\Theme\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
      * Collection of themes in file-system
      *
-     * @var Magento_Core_Model_Theme_Collection
+     * @var \Magento\Core\Model\Theme\Collection
      */
     protected $_themeCollection;
 
@@ -31,8 +33,8 @@ class Magento_Core_Model_Theme_Registration
      * @var array
      */
     protected $_allowedRelations = array(
-        array(Magento_Core_Model_Theme::TYPE_PHYSICAL, Magento_Core_Model_Theme::TYPE_VIRTUAL),
-        array(Magento_Core_Model_Theme::TYPE_VIRTUAL, Magento_Core_Model_Theme::TYPE_STAGING)
+        array(\Magento\Core\Model\Theme::TYPE_PHYSICAL, \Magento\Core\Model\Theme::TYPE_VIRTUAL),
+        array(\Magento\Core\Model\Theme::TYPE_VIRTUAL, \Magento\Core\Model\Theme::TYPE_STAGING)
     );
 
     /**
@@ -41,19 +43,19 @@ class Magento_Core_Model_Theme_Registration
      * @var array
      */
     protected $_forbiddenRelations = array(
-        array(Magento_Core_Model_Theme::TYPE_VIRTUAL, Magento_Core_Model_Theme::TYPE_VIRTUAL),
-        array(Magento_Core_Model_Theme::TYPE_PHYSICAL, Magento_Core_Model_Theme::TYPE_STAGING)
+        array(\Magento\Core\Model\Theme::TYPE_VIRTUAL, \Magento\Core\Model\Theme::TYPE_VIRTUAL),
+        array(\Magento\Core\Model\Theme::TYPE_PHYSICAL, \Magento\Core\Model\Theme::TYPE_STAGING)
     );
 
     /**
      * Initialize dependencies
      *
-     * @param Magento_Core_Model_Resource_Theme_CollectionFactory $collectionFactory
-     * @param Magento_Core_Model_Theme_Collection $filesystemCollection
+     * @param \Magento\Core\Model\Resource\Theme\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Model\Theme\Collection $filesystemCollection
      */
     public function __construct(
-        Magento_Core_Model_Resource_Theme_CollectionFactory $collectionFactory,
-        Magento_Core_Model_Theme_Collection $filesystemCollection
+        \Magento\Core\Model\Resource\Theme\CollectionFactory $collectionFactory,
+        \Magento\Core\Model\Theme\Collection $filesystemCollection
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_themeCollection = $filesystemCollection;
@@ -64,7 +66,7 @@ class Magento_Core_Model_Theme_Registration
      *
      * @param string $baseDir
      * @param string $pathPattern
-     * @return Magento_Core_Model_Theme
+     * @return \Magento\Core\Model\Theme
      */
     public function register($baseDir = '', $pathPattern = '')
     {
@@ -91,10 +93,10 @@ class Magento_Core_Model_Theme_Registration
      * Register theme and recursively all its ascendants
      * Second param is optional and is used to prevent circular references in inheritance chain
      *
-     * @param Magento_Core_Model_Theme $theme
+     * @param \Magento\Core\Model\Theme $theme
      * @param array $inheritanceChain
-     * @return Magento_Core_Model_Theme_Collection
-     * @throws Magento_Core_Exception
+     * @return \Magento\Core\Model\Theme\Collection
+     * @throws \Magento\Core\Exception
      */
     protected function _registerThemeRecursively(&$theme, $inheritanceChain = array())
     {
@@ -109,7 +111,7 @@ class Magento_Core_Model_Theme_Registration
 
         $tempId = $theme->getFullPath();
         if (in_array($tempId, $inheritanceChain)) {
-            throw new Magento_Core_Exception(__('Circular-reference in theme inheritance detected for "%1"', $tempId));
+            throw new \Magento\Core\Exception(__('Circular-reference in theme inheritance detected for "%1"', $tempId));
         }
         array_push($inheritanceChain, $tempId);
         $parentTheme = $theme->getParentTheme();
@@ -119,7 +121,7 @@ class Magento_Core_Model_Theme_Registration
         }
 
         $this->_savePreviewImage($theme);
-        $theme->setType(Magento_Core_Model_Theme::TYPE_PHYSICAL);
+        $theme->setType(\Magento\Core\Model\Theme::TYPE_PHYSICAL);
         $theme->save();
 
         return $this;
@@ -128,10 +130,10 @@ class Magento_Core_Model_Theme_Registration
     /**
      * Save preview image for theme
      *
-     * @param Magento_Core_Model_Theme $theme
+     * @param \Magento\Core\Model\Theme $theme
      * @return $this
      */
-    protected function _savePreviewImage(Magento_Core_Model_Theme $theme)
+    protected function _savePreviewImage(\Magento\Core\Model\Theme $theme)
     {
         $themeDirectory = $theme->getCustomization()->getThemeFilesPath();
         if (!$theme->getPreviewImage() || !$themeDirectory) {
@@ -148,7 +150,7 @@ class Magento_Core_Model_Theme_Registration
      * Get theme from DB by full path
      *
      * @param string $fullPath
-     * @return Magento_Core_Model_Theme
+     * @return \Magento\Core\Model\Theme
      */
     public function getThemeFromDb($fullPath)
     {
@@ -158,15 +160,15 @@ class Magento_Core_Model_Theme_Registration
     /**
      * Checks all physical themes that they were not deleted
      *
-     * @return Magento_Core_Model_Theme_Registration
+     * @return \Magento\Core\Model\Theme\Registration
      */
     public function checkPhysicalThemes()
     {
-        $themes = $this->_collectionFactory->create()->addTypeFilter(Magento_Core_Model_Theme::TYPE_PHYSICAL);
-        /** @var $theme Magento_Core_Model_Theme */
+        $themes = $this->_collectionFactory->create()->addTypeFilter(\Magento\Core\Model\Theme::TYPE_PHYSICAL);
+        /** @var $theme \Magento\Core\Model\Theme */
         foreach ($themes as $theme) {
             if (!$this->_themeCollection->hasTheme($theme)) {
-                $theme->setType(Magento_Core_Model_Theme::TYPE_VIRTUAL)->save();
+                $theme->setType(\Magento\Core\Model\Theme::TYPE_VIRTUAL)->save();
             }
         }
         return $this;
@@ -175,7 +177,7 @@ class Magento_Core_Model_Theme_Registration
     /**
      * Check whether all themes have correct parent theme by type
      *
-     * @return Magento_Core_Model_Resource_Theme_Collection
+     * @return \Magento\Core\Model\Resource\Theme\Collection
      */
     public function checkAllowedThemeRelations()
     {
@@ -183,7 +185,7 @@ class Magento_Core_Model_Theme_Registration
             list($parentType, $childType) = $typesSequence;
             $collection = $this->_collectionFactory->create();
             $collection->addTypeRelationFilter($parentType, $childType);
-            /** @var $theme Magento_Core_Model_Theme */
+            /** @var $theme \Magento\Core\Model\Theme */
             foreach ($collection as $theme) {
                 $parentId = $this->_getResetParentId($theme);
                 if ($theme->getParentId() != $parentId) {
@@ -197,10 +199,10 @@ class Magento_Core_Model_Theme_Registration
     /**
      * Reset parent themes by type
      *
-     * @param Magento_Core_Model_Theme $theme
+     * @param \Magento\Core\Model\Theme $theme
      * @return int|null
      */
-    protected function _getResetParentId(Magento_Core_Model_Theme $theme)
+    protected function _getResetParentId(\Magento\Core\Model\Theme $theme)
     {
         $parentTheme = $theme->getParentTheme();
         while ($parentTheme) {

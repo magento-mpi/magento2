@@ -10,22 +10,24 @@
  * @license     {license_link}
  */
 
-class Magento_FullPageCache_Model_Container_MessagesStorageFactory
+namespace Magento\FullPageCache\Model\Container;
+
+class MessagesStorageFactory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @var Magento_Object[]
+     * @var \Magento\Object[]
      */
     protected $_storages;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -34,16 +36,16 @@ class Magento_FullPageCache_Model_Container_MessagesStorageFactory
      * Get storage model instance
      *
      * @param string $storage
-     * @return Magento_Object
-     * @throws InvalidArgumentException
+     * @return \Magento\Object
+     * @throws \InvalidArgumentException
      */
     public function get($storage)
     {
         if (!isset($this->_storages[$storage])) {
             $instance = $this->_objectManager->get($storage);
-            if (!($instance instanceof Magento_Object)) {
-                throw new InvalidArgumentException(
-                    $storage . ' does not instance of Magento_Object'
+            if (!($instance instanceof \Magento\Object)) {
+                throw new \InvalidArgumentException(
+                    $storage . ' does not instance of \Magento\Object'
                 );
             }
             $this->_storages[$storage] = $instance;

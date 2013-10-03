@@ -11,7 +11,9 @@
 /**
  * Nominal totals collector
  */
-class Magento_Sales_Model_Quote_Address_Total_Nominal_Collector extends Magento_Sales_Model_Quote_Address_Total_Collector
+namespace Magento\Sales\Model\Quote\Address\Total\Nominal;
+
+class Collector extends \Magento\Sales\Model\Quote\Address\Total\Collector
 {
     /**
      * Config group for nominal totals declaration

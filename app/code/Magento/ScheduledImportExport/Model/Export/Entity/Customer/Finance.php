@@ -18,8 +18,10 @@
  *
  * @method      array getData() getData()
  */
-class Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance
-    extends Magento_ImportExport_Model_Export_EntityAbstract
+namespace Magento\ScheduledImportExport\Model\Export\Entity\Customer;
+
+class Finance
+    extends \Magento\ImportExport\Model\Export\AbstractEntity
 {
     /**#@+
      * Permanent column names
@@ -36,7 +38,7 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance
      * Attribute collection name
      */
     const ATTRIBUTE_COLLECTION_NAME =
-        'Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection';
+        'Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection';
 
     /**
      * XML path to page size parameter
@@ -67,52 +69,52 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance
     /**
      * Customers whose address are exported
      *
-     * @var Magento_ScheduledImportExport_Model_Resource_Customer_Collection
+     * @var \Magento\ScheduledImportExport\Model\Resource\Customer\Collection
      */
     protected $_customerCollection;
 
     /**
      * Customers whose financial data is exported
      *
-     * @var Magento_ImportExport_Model_Export_Entity_Eav_Customer
+     * @var \Magento\ImportExport\Model\Export\Entity\Eav\Customer
      */
     protected $_customerEntity;
 
     /**
      * Helper to check whether modules are enabled/disabled
      *
-     * @var Magento_ScheduledImportExport_Helper_Data
+     * @var \Magento\ScheduledImportExport\Helper\Data
      */
     protected $_importExportData;
 
     /**
-     * @var Magento_ScheduledImportExport_Model_Resource_Customer_CollectionFactory
+     * @var \Magento\ScheduledImportExport\Model\Resource\Customer\CollectionFactory
      */
     protected $_customerCollFactory;
 
     /**
-     * @var Magento_ImportExport_Model_Export_Entity_Eav_CustomerFactory
+     * @var \Magento\ImportExport\Model\Export\Entity\Eav\CustomerFactory
      */
     protected $_eavCustomerFactory;
 
     /**
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_App $app
-     * @param Magento_ImportExport_Model_Export_Factory $collectionFactory
-     * @param Magento_ImportExport_Model_Resource_CollectionByPagesIteratorFactory $resourceColFactory
-     * @param Magento_ScheduledImportExport_Model_Resource_Customer_CollectionFactory $customerCollFactory
-     * @param Magento_ImportExport_Model_Export_Entity_Eav_CustomerFactory $eavCustomerFactory
-     * @param Magento_ScheduledImportExport_Helper_Data $importExportData
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
+     * @param \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory
+     * @param \Magento\ScheduledImportExport\Model\Resource\Customer\CollectionFactory $customerCollFactory
+     * @param \Magento\ImportExport\Model\Export\Entity\Eav\CustomerFactory $eavCustomerFactory
+     * @param \Magento\ScheduledImportExport\Helper\Data $importExportData
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_App $app,
-        Magento_ImportExport_Model_Export_Factory $collectionFactory,
-        Magento_ImportExport_Model_Resource_CollectionByPagesIteratorFactory $resourceColFactory,
-        Magento_ScheduledImportExport_Model_Resource_Customer_CollectionFactory $customerCollFactory,
-        Magento_ImportExport_Model_Export_Entity_Eav_CustomerFactory $eavCustomerFactory,
-        Magento_ScheduledImportExport_Helper_Data $importExportData,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\App $app,
+        \Magento\ImportExport\Model\Export\Factory $collectionFactory,
+        \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory,
+        \Magento\ScheduledImportExport\Model\Resource\Customer\CollectionFactory $customerCollFactory,
+        \Magento\ImportExport\Model\Export\Entity\Eav\CustomerFactory $eavCustomerFactory,
+        \Magento\ScheduledImportExport\Helper\Data $importExportData,
         array $data = array()
     ) {
         parent::__construct($coreStoreConfig, $app, $collectionFactory, $resourceColFactory, $data);
@@ -129,11 +131,11 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance
     /**
      * Initialize frontend websites
      *
-     * @return Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance
+     * @return \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance
      */
     protected function _initFrontendWebsites()
     {
-        /** @var $website Magento_Core_Model_Website */
+        /** @var $website \Magento\Core\Model\Website */
         foreach ($this->_websiteManager->getWebsites() as $website) {
             $this->_websiteIdToCode[$website->getId()] = $website->getCode();
         }
@@ -143,7 +145,7 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance
     /**
      * Get customers collection
      *
-     * @return Magento_ScheduledImportExport_Model_Resource_Customer_Collection
+     * @return \Magento\ScheduledImportExport\Model\Resource\Customer\Collection
      */
     protected function _getEntityCollection()
     {
@@ -190,7 +192,7 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance
     /**
      * Export given customer data
      *
-     * @param Magento_Customer_Model_Customer $item
+     * @param \Magento\Customer\Model\Customer $item
      * @return string
      */
     public function exportItem($item)
@@ -221,7 +223,7 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance
      * Set parameters (push filters from post into export customer model)
      *
      * @param array $parameters
-     * @return Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address
+     * @return \Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address
      */
     public function setParameters(array $parameters)
     {
@@ -264,7 +266,7 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance
         if ($this->_entityAttributes === null) {
             $this->_entityAttributes = array();
             foreach ($this->filterAttributeCollection($this->getAttributeCollection()) as $attribute) {
-                /** @var $attribute Magento_Eav_Model_Entity_Attribute */
+                /** @var $attribute \Magento\Eav\Model\Entity\Attribute */
                 $this->_entityAttributes[] = $attribute->getAttributeCode();
             }
         }

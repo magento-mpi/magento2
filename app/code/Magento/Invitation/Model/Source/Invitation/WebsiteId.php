@@ -14,21 +14,23 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-class Magento_Invitation_Model_Source_Invitation_WebsiteId implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Invitation\Model\Source\Invitation;
+
+class WebsiteId implements \Magento\Core\Model\Option\ArrayInterface
 
 {
     /**
      * Store
      *
-     * @var Magento_Core_Model_System_Store
+     * @var \Magento\Core\Model\System\Store
      */
     protected $_store;
 
     /**
-     * @param Magento_Core_Model_System_Store $store
+     * @param \Magento\Core\Model\System\Store $store
      */
     function __construct(
-            Magento_Core_Model_System_Store $store
+            \Magento\Core\Model\System\Store $store
     ) {
         $this->_store = $store;
     }

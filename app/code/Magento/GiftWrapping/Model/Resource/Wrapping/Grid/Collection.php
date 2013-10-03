@@ -14,8 +14,10 @@
  * @category    Magento
  * @package     Magento_GiftWrapping
  */
-class Magento_GiftWrapping_Model_Resource_Wrapping_Grid_Collection
-    extends Magento_GiftWrapping_Model_Resource_Wrapping_Collection
+namespace Magento\GiftWrapping\Model\Resource\Wrapping\Grid;
+
+class Collection
+    extends \Magento\GiftWrapping\Model\Resource\Wrapping\Collection
 {
     protected function _initSelect()
     {

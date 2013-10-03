@@ -9,17 +9,19 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Design_Backend_ExceptionsTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Design\Backend;
+
+class ExceptionsTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Design_Backend_Exceptions
+     * @var \Magento\Core\Model\Design\Backend\Exceptions
      */
     protected $_model = null;
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Design_Backend_Exceptions');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Design\Backend\Exceptions');
         $this->_model->setScope('default');
         $this->_model->setScopeId(0);
         $this->_model->setPath('design/theme/ua_regexp');
@@ -111,7 +113,7 @@ class Magento_Core_Model_Design_Backend_ExceptionsTest extends PHPUnit_Framework
 
     /**
      * @var array $value
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      * @dataProvider saveWrongExceptionDataProvider
      * @magentoDbIsolation enabled
      */

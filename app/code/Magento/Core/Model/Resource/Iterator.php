@@ -13,16 +13,18 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Resource_Iterator extends Magento_Object
+namespace Magento\Core\Model\Resource;
+
+class Iterator extends \Magento\Object
 {
     /**
      * Walk over records fetched from query one by one using callback function
      *
-     * @param Zend_Db_Statement_Interface|Zend_Db_Select|string $query
+     * @param \Zend_Db_Statement_Interface|Zend_Db_Select|string $query
      * @param array|string $callbacks
      * @param array $args
-     * @param Magento_DB_Adapter_Interface $adapter
-     * @return Magento_Core_Model_Resource_Iterator
+     * @param \Magento\DB\Adapter\AdapterInterface $adapter
+     * @return \Magento\Core\Model\Resource\Iterator
      */
     public function walk($query, array $callbacks, array $args=array(), $adapter = null)
     {
@@ -45,28 +47,28 @@ class Magento_Core_Model_Resource_Iterator extends Magento_Object
     /**
      * Fetch Zend statement instance
      *
-     * @param Zend_Db_Statement_Interface|Zend_Db_Select|string $query
-     * @param Zend_Db_Adapter_Abstract $conn
-     * @return Zend_Db_Statement_Interface
-     * @throws Magento_Core_Exception
+     * @param \Zend_Db_Statement_Interface|Zend_Db_Select|string $query
+     * @param \Zend_Db_Adapter_Abstract $conn
+     * @return \Zend_Db_Statement_Interface
+     * @throws \Magento\Core\Exception
      */
     protected function _getStatement($query, $conn = null)
     {
-        if ($query instanceof Zend_Db_Statement_Interface) {
+        if ($query instanceof \Zend_Db_Statement_Interface) {
             return $query;
         }
 
-        if ($query instanceof Zend_Db_Select) {
+        if ($query instanceof \Zend_Db_Select) {
             return $query->query();
         }
 
         if (is_string($query)) {
-            if (!$conn instanceof Zend_Db_Adapter_Abstract) {
-                throw new Magento_Core_Exception(__('Invalid connection'));
+            if (!$conn instanceof \Zend_Db_Adapter_Abstract) {
+                throw new \Magento\Core\Exception(__('Invalid connection'));
             }
             return $conn->query($query);
         }
 
-        throw new Magento_Core_Exception(__('Invalid query'));
+        throw new \Magento\Core\Exception(__('Invalid query'));
     }
 }

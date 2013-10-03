@@ -5,29 +5,31 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Catalog_Model_Attribute_Config_SchemaLocatorTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Attribute\Config;
+
+class SchemaLocatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_Attribute_Config_SchemaLocator
+     * @var \Magento\Catalog\Model\Attribute\Config\SchemaLocator
      */
     protected $_model;
 
     /**
-     * @var Magento_Core_Model_Config_Modules_Reader|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Config\Modules\Reader|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_moduleReader;
 
     protected function setUp()
     {
         $this->_moduleReader = $this->getMock(
-            'Magento_Core_Model_Config_Modules_Reader', array('getModuleDir'), array(), '', false
+            'Magento\Core\Model\Config\Modules\Reader', array('getModuleDir'), array(), '', false
         );
         $this->_moduleReader
             ->expects($this->once())
             ->method('getModuleDir')->with('etc', 'Magento_Catalog')
             ->will($this->returnValue('fixture_dir'))
         ;
-        $this->_model = new Magento_Catalog_Model_Attribute_Config_SchemaLocator($this->_moduleReader);
+        $this->_model = new \Magento\Catalog\Model\Attribute\Config\SchemaLocator($this->_moduleReader);
     }
 
     public function testGetSchema()

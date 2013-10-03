@@ -9,7 +9,9 @@
 /**
  * Tests to verify, that there are no layout files in the folders, where they were before been broken down per handle
  */
-class Magento_Test_Legacy_ObsoleteLayoutLocationTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Legacy;
+
+class ObsoleteLayoutLocationTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string $location
@@ -32,11 +34,11 @@ class Magento_Test_Legacy_ObsoleteLayoutLocationTest extends PHPUnit_Framework_T
      */
     public static function obsoleteLayoutLocationDataProvider()
     {
-        $root = Magento_TestFramework_Utility_Files::init()->getPathToSource();
+        $root = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
         $modulePaths = glob("{$root}/app/code/*/*/view/*");
         $themePaths = glob("{$root}/app/design/*/*/*");
         $merged = array_merge($modulePaths, $themePaths);
 
-        return Magento_TestFramework_Utility_Files::composeDataSets($merged);
+        return \Magento\TestFramework\Utility\Files::composeDataSets($merged);
     }
 }

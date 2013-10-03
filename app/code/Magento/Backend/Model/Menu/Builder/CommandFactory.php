@@ -9,17 +9,19 @@
 /**
  * Menu builder command factory
  */
-class Magento_Backend_Model_Menu_Builder_CommandFactory
+namespace Magento\Backend\Model\Menu\Builder;
+
+class CommandFactory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -29,11 +31,11 @@ class Magento_Backend_Model_Menu_Builder_CommandFactory
      *
      * @param string $commandName
      * @param array $data
-     * @return Magento_Backend_Model_Config
+     * @return \Magento\Backend\Model\Config
      */
     public function create($commandName, array $data = array())
     {
         return $this->_objectManager->
-            create('Magento_Backend_Model_Menu_Builder_Command_' . ucfirst($commandName), $data);
+            create('Magento\Backend\Model\Menu\Builder\Command\\' . ucfirst($commandName), $data);
     }
 }

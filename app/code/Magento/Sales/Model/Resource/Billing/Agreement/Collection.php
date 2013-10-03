@@ -11,8 +11,10 @@
 /**
  * Billing agreements resource collection
  */
-class Magento_Sales_Model_Resource_Billing_Agreement_Collection
-    extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Sales\Model\Resource\Billing\Agreement;
+
+class Collection
+    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Mapping for fields
@@ -28,25 +30,25 @@ class Magento_Sales_Model_Resource_Billing_Agreement_Collection
     ));
 
     /**
-     * @var Magento_Customer_Model_Resource_Customer
+     * @var \Magento\Customer\Model\Resource\Customer
      */
     protected $_customerResource;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Customer_Model_Resource_Customer $customerResource
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Customer\Model\Resource\Customer $customerResource
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Customer_Model_Resource_Customer $customerResource,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Customer\Model\Resource\Customer $customerResource,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
         $this->_customerResource = $customerResource;
@@ -57,13 +59,13 @@ class Magento_Sales_Model_Resource_Billing_Agreement_Collection
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Billing_Agreement', 'Magento_Sales_Model_Resource_Billing_Agreement');
+        $this->_init('Magento\Sales\Model\Billing\Agreement', 'Magento\Sales\Model\Resource\Billing\Agreement');
     }
 
     /**
      * Add customer details(email, firstname, lastname) to select
      *
-     * @return Magento_Sales_Model_Resource_Billing_Agreement_Collection
+     * @return \Magento\Sales\Model\Resource\Billing\Agreement\Collection
      */
     public function addCustomerDetails()
     {

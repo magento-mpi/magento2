@@ -9,62 +9,64 @@
  * @license     {license_link}
  */
 
+namespace Magento\Backend\Model;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Backend_Model_LocaleTest extends PHPUnit_Framework_TestCase
+class LocaleTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_model;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Backend_Model_Locale');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Backend\Model\Locale');
     }
 
     /**
-     * @covers Magento_Core_Model_LocaleInterface::setLocale
+     * @covers \Magento\Core\Model\LocaleInterface::setLocale
      */
     public function testSetLocaleWithDefaultLocale()
     {
-        $this->_checkSetLocale(Magento_Core_Model_LocaleInterface::DEFAULT_LOCALE);
+        $this->_checkSetLocale(\Magento\Core\Model\LocaleInterface::DEFAULT_LOCALE);
     }
 
     /**
-     * @covers Magento_Core_Model_LocaleInterface::setLocale
+     * @covers \Magento\Core\Model\LocaleInterface::setLocale
      */
     public function testSetLocaleWithBaseInterfaceLocale()
     {
-        $user = new Magento_Object();
-        $session = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Backend_Model_Auth_Session');
+        $user = new \Magento\Object();
+        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Backend\Model\Auth\Session');
         $session->setUser($user);
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Auth_Session')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Auth\Session')
             ->getUser()->setInterfaceLocale('fr_FR');
         $this->_checkSetLocale('fr_FR');
     }
 
     /**
-     * @covers Magento_Core_Model_LocaleInterface::setLocale
+     * @covers \Magento\Core\Model\LocaleInterface::setLocale
      */
     public function testSetLocaleWithSessionLocale()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Session')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Session')
             ->setSessionLocale('es_ES');
         $this->_checkSetLocale('es_ES');
     }
 
     /**
-     * @covers Magento_Core_Model_LocaleInterface::setLocale
+     * @covers \Magento\Core\Model\LocaleInterface::setLocale
      */
     public function testSetLocaleWithRequestLocale()
     {
-        $request = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Controller_Request_Http');
+        $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Controller\Request\Http');
         $request->setPost(array('locale' => 'de_DE'));
         $this->_checkSetLocale('de_DE');
     }

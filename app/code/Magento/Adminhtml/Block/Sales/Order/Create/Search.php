@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Sales_Order_Create_Search extends Magento_Adminhtml_Block_Sales_Order_Create_Abstract
+namespace Magento\Adminhtml\Block\Sales\Order\Create;
+
+class Search extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
 {
 
     protected function _construct()
@@ -37,7 +39,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Search extends Magento_Adminhtm
             'onclick' => 'order.productGridAddSelected()',
             'class' => 'action-add',
         );
-        return $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')->setData($addButtonData)->toHtml();
+        return $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')->setData($addButtonData)->toHtml();
     }
 
     public function getHeaderCssClass()

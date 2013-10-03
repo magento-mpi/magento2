@@ -15,7 +15,7 @@
             <ccsave>
                 <active>0</active>
                 <cctypes>AE,VI,MC,DI</cctypes>
-                <model>Magento_Payment_Model_Method_Ccsave</model>
+                <model>Magento\Payment\Model\Method\Ccsave</model>
                 <order_status>pending</order_status>
                 <title>Credit Card (saved)</title>
                 <allowspecific>0</allowspecific>
@@ -23,7 +23,7 @@
             </ccsave>
             <checkmo>
                 <active>1</active>
-                <model>Magento_Payment_Model_Method_Checkmo</model>
+                <model>Magento\Payment\Model\Method\Checkmo</model>
                 <order_status>pending</order_status>
                 <title>Check / Money order</title>
                 <allowspecific>0</allowspecific>
@@ -31,7 +31,7 @@
             </checkmo>
             <free>
                 <active>1</active>
-                <model>Magento_Payment_Model_Method_Free</model>
+                <model>Magento\Payment\Model\Method\Free</model>
                 <order_status>pending</order_status>
                 <title>No Payment Information Required</title>
                 <allowspecific>0</allowspecific>
@@ -40,7 +40,7 @@
             </free>
             <purchaseorder>
                 <active>0</active>
-                <model>Magento_Payment_Model_Method_Purchaseorder</model>
+                <model>Magento\Payment\Model\Method\Purchaseorder</model>
                 <order_status>pending</order_status>
                 <title>Purchase Order</title>
                 <allowspecific>0</allowspecific>
@@ -48,7 +48,7 @@
             </purchaseorder>
             <banktransfer>
                 <active>0</active>
-                <model>Magento_Payment_Model_Method_Banktransfer</model>
+                <model>Magento\Payment\Model\Method\Banktransfer</model>
                 <order_status>pending</order_status>
                 <title>Bank Transfer Payment</title>
                 <allowspecific>0</allowspecific>
@@ -56,7 +56,7 @@
             </banktransfer>
             <cashondelivery>
                 <active>0</active>
-                <model>Magento_Payment_Model_Method_Cashondelivery</model>
+                <model>Magento\Payment\Model\Method\Cashondelivery</model>
                 <order_status>pending</order_status>
                 <title>Cash On Delivery</title>
                 <allowspecific>0</allowspecific>

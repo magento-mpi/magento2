@@ -11,47 +11,49 @@
 /**
  * Customer cart conditions combine
  */
-class Magento_Reminder_Model_Rule_Condition_Cart
-    extends Magento_Reminder_Model_Condition_Combine_Abstract
+namespace Magento\Reminder\Model\Rule\Condition;
+
+class Cart
+    extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
 {
     /**
-     * @var Magento_Core_Model_Date
+     * @var \Magento\Core\Model\Date
      */
     protected $_dateModel;
 
     /**
      * Core resource helper
      *
-     * @var Magento_Reminder_Model_Resource_HelperFactory
+     * @var \Magento\Reminder\Model\Resource\HelperFactory
      */
     protected $_resHelperFactory;
 
     /**
      * Cart Combine Factory
      *
-     * @var Magento_Reminder_Model_Rule_Condition_Cart_CombineFactory
+     * @var \Magento\Reminder\Model\Rule\Condition\Cart\CombineFactory
      */
     protected $_combineFactory;
 
     /**
-     * @param Magento_Rule_Model_Condition_Context $context
-     * @param Magento_Reminder_Model_Resource_Rule $ruleResource
-     * @param Magento_Core_Model_Date $dateModel
-     * @param Magento_Reminder_Model_Resource_HelperFactory $resHelperFactory
-     * @param Magento_Reminder_Model_Rule_Condition_Cart_CombineFactory $combineFactory
+     * @param \Magento\Rule\Model\Condition\Context $context
+     * @param \Magento\Reminder\Model\Resource\Rule $ruleResource
+     * @param \Magento\Core\Model\Date $dateModel
+     * @param \Magento\Reminder\Model\Resource\HelperFactory $resHelperFactory
+     * @param \Magento\Reminder\Model\Rule\Condition\Cart\CombineFactory $combineFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Rule_Model_Condition_Context $context,
-        Magento_Reminder_Model_Resource_Rule $ruleResource,
-        Magento_Core_Model_Date $dateModel,
-        Magento_Reminder_Model_Resource_HelperFactory $resHelperFactory,
-        Magento_Reminder_Model_Rule_Condition_Cart_CombineFactory $combineFactory,
+        \Magento\Rule\Model\Condition\Context $context,
+        \Magento\Reminder\Model\Resource\Rule $ruleResource,
+        \Magento\Core\Model\Date $dateModel,
+        \Magento\Reminder\Model\Resource\HelperFactory $resHelperFactory,
+        \Magento\Reminder\Model\Rule\Condition\Cart\CombineFactory $combineFactory,
         array $data = array()
     ) {
         parent::__construct($context, $ruleResource, $data);
         $this->_dateModel = $dateModel;
-        $this->setType('Magento_Reminder_Model_Rule_Condition_Cart');
+        $this->setType('Magento\Reminder\Model\Rule\Condition\Cart');
         $this->setValue(null);
         $this->_resHelperFactory = $resHelperFactory;
         $this->_combineFactory = $combineFactory;
@@ -80,7 +82,7 @@ class Magento_Reminder_Model_Rule_Condition_Cart
     /**
      * Override parent method
      *
-     * @return Magento_Reminder_Model_Rule_Condition_Cart
+     * @return \Magento\Reminder\Model\Rule\Condition\Cart
      */
     public function loadValueOptions()
     {
@@ -91,7 +93,7 @@ class Magento_Reminder_Model_Rule_Condition_Cart
     /**
      * Prepare operator select options
      *
-     * @return Magento_Reminder_Model_Rule_Condition_Cart
+     * @return \Magento\Reminder\Model\Rule\Condition\Cart
      */
     public function loadOperatorOptions()
     {
@@ -131,14 +133,14 @@ class Magento_Reminder_Model_Rule_Condition_Cart
      *
      * @param   int|Zend_Db_Expr $customer
      * @param   int|Zend_Db_Expr $website
-     * @return  Magento_DB_Select
-     * @throws Magento_Core_Exception
+     * @return  \Magento\DB\Select
+     * @throws \Magento\Core\Exception
      */
     protected function _prepareConditionsSql($customer, $website)
     {
         $conditionValue = (int)$this->getValue();
         if ($conditionValue < 0) {
-            throw new Magento_Core_Exception(
+            throw new \Magento\Core\Exception(
                 __('The root shopping cart condition should have a days value of 0 or greater.')
             );
         }
@@ -147,13 +149,13 @@ class Magento_Reminder_Model_Rule_Condition_Cart
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('quote' => $table), array(new Zend_Db_Expr(1)));
+        $select->from(array('quote' => $table), array(new \Zend_Db_Expr(1)));
 
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
 
         $currentTime = $this->_dateModel->gmtDate('Y-m-d');
 
-        /** @var $helper Magento_Core_Model_Resource_Helper */
+        /** @var $helper \Magento\Core\Model\Resource\Helper */
         $helper = $this->_resHelperFactory->create();
         $daysDiffSql = $helper->getDateDiff(
             'quote.updated_at', $select->getAdapter()->formatDate($currentTime)
@@ -183,7 +185,7 @@ class Magento_Reminder_Model_Rule_Condition_Cart
      *
      * @param   int|Zend_Db_Expr $customer
      * @param   int|Zend_Db_Expr $website
-     * @return  Magento_DB_Select
+     * @return  \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)
     {

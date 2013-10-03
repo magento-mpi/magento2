@@ -8,38 +8,40 @@
  * @license     {license_link}
  */
 
-class Magento_Banner_Block_Adminhtml_Banner_Grid extends Magento_Backend_Block_Widget_Grid_Extended
+namespace Magento\Banner\Block\Adminhtml\Banner;
+
+class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Banner resource collection factory
      *
-     * @var Magento_Banner_Model_Resource_Banner_CollectionFactory
+     * @var \Magento\Banner\Model\Resource\Banner\CollectionFactory
      */
     protected $_bannerColFactory = null;
 
     /**
      * Banner config
      *
-     * @var Magento_Banner_Model_Config
+     * @var \Magento\Banner\Model\Config
      */
     protected $_bannerConfig = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Banner_Model_Resource_Banner_CollectionFactory $bannerColFactory
-     * @param Magento_Banner_Model_Config $bannerConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Banner\Model\Resource\Banner\CollectionFactory $bannerColFactory
+     * @param \Magento\Banner\Model\Config $bannerConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Banner_Model_Resource_Banner_CollectionFactory $bannerColFactory,
-        Magento_Banner_Model_Config $bannerConfig,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Banner\Model\Resource\Banner\CollectionFactory $bannerColFactory,
+        \Magento\Banner\Model\Config $bannerConfig,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
@@ -64,7 +66,7 @@ class Magento_Banner_Block_Adminhtml_Banner_Grid extends Magento_Backend_Block_W
     /**
      * Instantiate and prepare collection
      *
-     * @return Magento_Banner_Block_Adminhtml_Banner_Grid
+     * @return \Magento\Banner\Block\Adminhtml\Banner\Grid
      */
     protected function _prepareCollection()
     {
@@ -125,9 +127,9 @@ class Magento_Banner_Block_Adminhtml_Banner_Grid extends Magento_Backend_Block_W
                 'index'     => 'is_enabled',
                 'type'      => 'options',
                 'options'   => array(
-                    Magento_Banner_Model_Banner::STATUS_ENABLED  =>
+                    \Magento\Banner\Model\Banner::STATUS_ENABLED  =>
                         __('Yes'),
-                    Magento_Banner_Model_Banner::STATUS_DISABLED =>
+                    \Magento\Banner\Model\Banner::STATUS_DISABLED =>
                         __('No'),
                 ),
         ));
@@ -172,8 +174,8 @@ class Magento_Banner_Block_Adminhtml_Banner_Grid extends Magento_Backend_Block_W
     /**
      * Add store filter
      *
-     * @param Magento_Adminhtml_Block_Widget_Grid_Column  $column
-     * @return Magento_Banner_Block_Adminhtml_Banner_Grid
+     * @param \Magento\Adminhtml\Block\Widget\Grid\Column  $column
+     * @return \Magento\Banner\Block\Adminhtml\Banner\Grid
      */
     protected function _addColumnFilterToCollection($column)
     {

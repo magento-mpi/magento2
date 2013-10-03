@@ -5,16 +5,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Directory_Model_Currency_Import_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Directory\Model\Currency\Import;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Directory_Model_Currency_Import_Config
+     * @var \Magento\Directory\Model\Currency\Import\Config
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = new Magento_Directory_Model_Currency_Import_Config(array(
+        $this->_model = new \Magento\Directory\Model\Currency\Import\Config(array(
             'service_one' => array('class' => 'Service_One', 'label' => 'Service One'),
             'service_two' => array('class' => 'Service_Two', 'label' => 'Service Two'),
         ));
@@ -28,7 +30,7 @@ class Magento_Directory_Model_Currency_Import_ConfigTest extends PHPUnit_Framewo
     public function testConstructorException(array $configData, $expectedException)
     {
         $this->setExpectedException('InvalidArgumentException', $expectedException);
-        new Magento_Directory_Model_Currency_Import_Config($configData);
+        new \Magento\Directory\Model\Currency\Import\Config($configData);
     }
 
     public function constructorExceptionDataProvider()

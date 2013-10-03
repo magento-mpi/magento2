@@ -13,48 +13,50 @@
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Magento_Catalog_Block_Product_TemplateSelector extends Magento_Core_Block_Template
+namespace Magento\Catalog\Block\Product;
+
+class TemplateSelector extends \Magento\Core\Block\Template
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * Set collection factory
      *
-     * @var Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory
      */
-    protected $_setCollectionFactory;
+    protected $_setColFactory;
 
     /**
      * Catalog resource helper
      *
-     * @var Magento_Catalog_Model_Resource_Helper
+     * @var \Magento\Catalog\Model\Resource\Helper
      */
     protected $_resourceHelper;
 
     /**
      * Construct
      *
-     * @param Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $setCollectionFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Catalog_Model_Resource_Helper $resourceHelper
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setColFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Catalog\Model\Resource\Helper $resourceHelper
      * @param array $data
      */
     public function __construct(
-        Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $setCollectionFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Catalog_Model_Resource_Helper $resourceHelper,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setColFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Catalog\Model\Resource\Helper $resourceHelper,
         array $data = array()
     ) {
-        $this->_setCollectionFactory = $setCollectionFactory;
+        $this->_setColFactory = $setColFactory;
         $this->_coreRegistry = $registry;
         $this->_resourceHelper = $resourceHelper;
         parent::__construct($coreData, $context, $data);
@@ -71,15 +73,15 @@ class Magento_Catalog_Block_Product_TemplateSelector extends Magento_Core_Block_
         $product = $this->_coreRegistry->registry('product');
         $entityType = $product->getResource()->getEntityType();
         $labelPart = $this->_resourceHelper->addLikeEscape($labelPart, array('position' => 'any'));
-        /** @var Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection $collection */
-        $collection = $this->_setCollectionFactory->create();
+        /** @var \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $collection */
+        $collection = $this->_setColFactory->create();
         $collection->setEntityTypeFilter($entityType->getId())
             ->addFieldToFilter('attribute_set_name', array('like' => $labelPart))
             ->addFieldToSelect('attribute_set_id', 'id')
             ->addFieldToSelect('attribute_set_name', 'label')
             ->setOrder(
                 'attribute_set_name',
-                Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection::SORT_ORDER_ASC
+                \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection::SORT_ORDER_ASC
         );
         return $collection->getData();
     }

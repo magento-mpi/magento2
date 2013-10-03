@@ -15,7 +15,9 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Type_Price
+namespace Magento\Catalog\Model\Product\Type;
+
+class Price
 {
     const CACHE_TAG = 'PRODUCT_PRICE';
 
@@ -24,53 +26,53 @@ class Magento_Catalog_Model_Product_Type_Price
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
      * Customer session
      *
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
      * Locale
      *
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Rule factory
      *
-     * @var Magento_CatalogRule_Model_Resource_RuleFactory
+     * @var \Magento\CatalogRule\Model\Resource\RuleFactory
      */
     protected $_ruleFactory;
 
     /**
      * Construct
      *
-     * @param Magento_CatalogRule_Model_Resource_RuleFactory $ruleFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param \Magento\CatalogRule\Model\Resource\RuleFactory $ruleFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\Event\Manager $eventManager
      */
     public function __construct(
-        Magento_CatalogRule_Model_Resource_RuleFactory $ruleFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Core_Model_Event_Manager $eventManager
+        \Magento\CatalogRule\Model\Resource\RuleFactory $ruleFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\Event\Manager $eventManager
     ) {
         $this->_ruleFactory = $ruleFactory;
         $this->_storeManager = $storeManager;
@@ -92,7 +94,7 @@ class Magento_Catalog_Model_Product_Type_Price
     /**
      * Get base price with apply Group, Tier, Special prises
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param float|null $qty
      *
      * @return float
@@ -110,7 +112,7 @@ class Magento_Catalog_Model_Product_Type_Price
      * Retrieve product final price
      *
      * @param float|null $qty
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return float
      */
     public function getFinalPrice($qty = null, $product)
@@ -140,7 +142,7 @@ class Magento_Catalog_Model_Product_Type_Price
     /**
      * Apply group price for product
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param float $finalPrice
      * @return float
      */
@@ -156,7 +158,7 @@ class Magento_Catalog_Model_Product_Type_Price
     /**
      * Get product group price
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return float
      */
     public function getGroupPrice($product)
@@ -192,7 +194,7 @@ class Magento_Catalog_Model_Product_Type_Price
     /**
      * Apply tier price for product if not return price that was before
      *
-     * @param   Magento_Catalog_Model_Product $product
+     * @param   \Magento\Catalog\Model\Product $product
      * @param   float $qty
      * @param   float $finalPrice
      * @return  float
@@ -214,12 +216,12 @@ class Magento_Catalog_Model_Product_Type_Price
      * Get product tier price by qty
      *
      * @param   float $qty
-     * @param   Magento_Catalog_Model_Product $product
+     * @param   \Magento\Catalog\Model\Product $product
      * @return  float
      */
     public function getTierPrice($qty = null, $product)
     {
-        $allGroups = Magento_Customer_Model_Group::CUST_GROUP_ALL;
+        $allGroups = \Magento\Customer\Model\Group::CUST_GROUP_ALL;
         $prices = $product->getData('tier_price');
 
         if (is_null($prices)) {
@@ -305,7 +307,7 @@ class Magento_Catalog_Model_Product_Type_Price
     /**
      * Apply special price for product if not return price that was before
      *
-     * @param   Magento_Catalog_Model_Product $product
+     * @param   \Magento\Catalog\Model\Product $product
      * @param   float $finalPrice
      * @return  float
      */
@@ -319,7 +321,7 @@ class Magento_Catalog_Model_Product_Type_Price
     /**
      * Count how many tier prices we have for the product
      *
-     * @param   Magento_Catalog_Model_Product $product
+     * @param   \Magento\Catalog\Model\Product $product
      * @return  int
      */
     public function getTierPriceCount($product)
@@ -332,7 +334,7 @@ class Magento_Catalog_Model_Product_Type_Price
      * Get formatted by currency tier price
      *
      * @param   float $qty
-     * @param   Magento_Catalog_Model_Product $product
+     * @param   \Magento\Catalog\Model\Product $product
      * @return  array || float
      */
     public function getFormatedTierPrice($qty=null, $product)
@@ -355,7 +357,7 @@ class Magento_Catalog_Model_Product_Type_Price
     /**
      * Get formatted by currency product price
      *
-     * @param   Magento_Catalog_Model_Product $product
+     * @param   \Magento\Catalog\Model\Product $product
      * @return  array || float
      */
     public function getFormatedPrice($product)
@@ -366,7 +368,7 @@ class Magento_Catalog_Model_Product_Type_Price
     /**
      * Apply options price
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param int $qty
      * @param float $finalPrice
      * @return float
@@ -406,8 +408,8 @@ class Magento_Catalog_Model_Product_Type_Price
     public function calculatePrice($basePrice, $specialPrice, $specialPriceFrom, $specialPriceTo,
             $rulePrice = false, $wId = null, $gId = null, $productId = null)
     {
-        Magento_Profiler::start('__PRODUCT_CALCULATE_PRICE__');
-        if ($wId instanceof Magento_Core_Model_Store) {
+        \Magento\Profiler::start('__PRODUCT_CALCULATE_PRICE__');
+        if ($wId instanceof \Magento\Core\Model\Store) {
             $sId = $wId->getId();
             $wId = $wId->getWebsiteId();
         } else {
@@ -415,7 +417,7 @@ class Magento_Catalog_Model_Product_Type_Price
         }
 
         $finalPrice = $basePrice;
-        if ($gId instanceof Magento_Customer_Model_Group) {
+        if ($gId instanceof \Magento\Customer\Model\Group) {
             $gId = $gId->getId();
         }
 
@@ -432,7 +434,7 @@ class Magento_Catalog_Model_Product_Type_Price
         }
 
         $finalPrice = max($finalPrice, 0);
-        Magento_Profiler::stop('__PRODUCT_CALCULATE_PRICE__');
+        \Magento\Profiler::stop('__PRODUCT_CALCULATE_PRICE__');
         return $finalPrice;
     }
 

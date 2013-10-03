@@ -9,13 +9,13 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceBlock name="adminhtml.sitemap.container">
-        <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.sitemap.container.grid" as="grid">
+        <block class="Magento\Backend\Block\Widget\Grid" name="adminhtml.sitemap.container.grid" as="grid">
             <arguments>
                 <argument name="id" xsi:type="string">sitemapGrid</argument>
-                <argument name="dataSource" xsi:type="object">Magento_Sitemap_Model_Resource_Sitemap_Collection</argument>
+                <argument name="dataSource" xsi:type="object">Magento\Sitemap\Model\Resource\Sitemap\Collection</argument>
                 <argument name="default_sort" xsi:type="string">sitemap_id</argument>
             </arguments>
-            <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.sitemap.container.grid.columnSet" as="grid.columnSet">
+            <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" name="adminhtml.sitemap.container.grid.columnSet" as="grid.columnSet">
                 <arguments>
                     <argument name="id" xsi:type="string">sitemapGrid</argument>
                     <argument name="rowUrl" xsi:type="array">
@@ -25,32 +25,32 @@
                         </item>
                     </argument>
                 </arguments>
-                <block class="Magento_Backend_Block_Widget_Grid_Column" as="sitemap_id">
+                <block class="Magento\Backend\Block\Widget\Grid\Column" as="sitemap_id">
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">ID</argument>
                         <argument name="width" xsi:type="string">50px</argument>
                         <argument name="index" xsi:type="string">sitemap_id</argument>
                     </arguments>
                 </block>
-                <block class="Magento_Backend_Block_Widget_Grid_Column" as="sitemap_filename">
+                <block class="Magento\Backend\Block\Widget\Grid\Column" as="sitemap_filename">
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">Filename</argument>
                         <argument name="index" xsi:type="string">sitemap_filename</argument>
                     </arguments>
                 </block>
-                <block class="Magento_Backend_Block_Widget_Grid_Column" as="sitemap_path">
+                <block class="Magento\Backend\Block\Widget\Grid\Column" as="sitemap_path">
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">Path</argument>
                         <argument name="index" xsi:type="string">sitemap_path</argument>
                     </arguments>
                 </block>
-                <block class="Magento_Backend_Block_Widget_Grid_Column" as="link">
+                <block class="Magento\Backend\Block\Widget\Grid\Column" as="link">
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">Link for Google</argument>
-                        <argument name="renderer" xsi:type="string">Magento_Adminhtml_Block_Sitemap_Grid_Renderer_Link</argument>
+                        <argument name="renderer" xsi:type="string">Magento\Adminhtml\Block\Sitemap\Grid\Renderer\Link</argument>
                     </arguments>
                 </block>
-                <block class="Magento_Backend_Block_Widget_Grid_Column" as="sitemap_time">
+                <block class="Magento\Backend\Block\Widget\Grid\Column" as="sitemap_time">
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">Last Generated</argument>
                         <argument name="width" xsi:type="string">150px</argument>
@@ -58,7 +58,7 @@
                         <argument name="type" xsi:type="string">datetime</argument>
                     </arguments>
                 </block>
-                <block class="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="store_id">
+                <block class="Magento\Backend\Block\Widget\Grid\Column\Multistore" as="store_id">
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">Store View</argument>
                         <argument name="type" xsi:type="string">store</argument>
@@ -67,13 +67,13 @@
                         <argument name="store_view" xsi:type="string">true</argument>
                     </arguments>
                 </block>
-                <block class="Magento_Backend_Block_Widget_Grid_Column" as="action">
+                <block class="Magento\Backend\Block\Widget\Grid\Column" as="action">
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">Action</argument>
                         <argument name="filter" xsi:type="string">0</argument>
                         <argument name="sortable" xsi:type="string">0</argument>
                         <argument name="width" xsi:type="string">100px</argument>
-                        <argument name="renderer" xsi:type="string">Magento_Adminhtml_Block_Sitemap_Grid_Renderer_Action</argument>
+                        <argument name="renderer" xsi:type="string">Magento\Adminhtml\Block\Sitemap\Grid\Renderer\Action</argument>
                     </arguments>
                 </block>
             </block>

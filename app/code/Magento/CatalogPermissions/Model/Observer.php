@@ -14,7 +14,9 @@
  * @category   Magento
  * @package    Magento_CatalogPermissions
  */
-class Magento_CatalogPermissions_Model_Observer
+namespace Magento\CatalogPermissions\Model;
+
+class Observer
 {
     const XML_PATH_GRANT_CATALOG_CATEGORY_VIEW = 'catalog/magento_catalogpermissions/grant_catalog_category_view';
     const XML_PATH_GRANT_CATALOG_PRODUCT_PRICE = 'catalog/magento_catalogpermissions/grant_catalog_product_price';
@@ -51,36 +53,36 @@ class Magento_CatalogPermissions_Model_Observer
     /**
      * Catalog permission helper
      *
-     * @var Magento_CatalogPermissions_Helper_Data
+     * @var \Magento\CatalogPermissions\Helper\Data
      */
     protected $_catalogPermData;
 
     /**
-     * @var Magento_CatalogPermissions_Model_Permission_Index
+     * @var \Magento\CatalogPermissions\Model\Permission\Index
      */
     protected $_permissionIndex;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_CatalogPermissions_Model_Permission_Index $permissionIndex
-     * @param Magento_CatalogPermissions_Helper_Data $catalogPermData
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\CatalogPermissions\Model\Permission\Index $permissionIndex
+     * @param \Magento\CatalogPermissions\Helper\Data $catalogPermData
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_CatalogPermissions_Model_Permission_Index $permissionIndex,
-        Magento_CatalogPermissions_Helper_Data $catalogPermData
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\CatalogPermissions\Model\Permission\Index $permissionIndex,
+        \Magento\CatalogPermissions\Helper\Data $catalogPermData
     ) {
         $this->_storeManager    = $storeManager;
         $this->_catalogPermData = $catalogPermData;
@@ -91,10 +93,10 @@ class Magento_CatalogPermissions_Model_Observer
     /**
      * Apply category permissions for category collection
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_CatalogPermissions_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\CatalogPermissions\Model\Observer
      */
-    public function applyCategoryPermissionOnIsActiveFilterToCollection(Magento_Event_Observer $observer)
+    public function applyCategoryPermissionOnIsActiveFilterToCollection(\Magento\Event\Observer $observer)
     {
         if (!$this->_catalogPermData->isEnabled()) {
             return $this;
@@ -114,10 +116,10 @@ class Magento_CatalogPermissions_Model_Observer
     /**
      * Apply category permissions for category collection
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_CatalogPermissions_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\CatalogPermissions\Model\Observer
      */
-    public function applyCategoryPermissionOnLoadCollection(Magento_Event_Observer $observer)
+    public function applyCategoryPermissionOnLoadCollection(\Magento\Event\Observer $observer)
     {
         if (!$this->_catalogPermData->isEnabled()) {
             return $this;
@@ -149,10 +151,10 @@ class Magento_CatalogPermissions_Model_Observer
     /**
      * Apply category view for tree
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_CatalogPermissions_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\CatalogPermissions\Model\Observer
      */
-    public function applyCategoryInactiveIds(Magento_Event_Observer $observer)
+    public function applyCategoryInactiveIds(\Magento\Event\Observer $observer)
     {
         if (!$this->_catalogPermData->isEnabled()) {
             return $this;
@@ -171,10 +173,10 @@ class Magento_CatalogPermissions_Model_Observer
     /**
      * Applies permissions on product count for categories
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_CatalogPermissions_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\CatalogPermissions\Model\Observer
      */
-    public function applyCategoryPermissionOnProductCount(Magento_Event_Observer $observer)
+    public function applyCategoryPermissionOnProductCount(\Magento\Event\Observer $observer)
     {
         if (!$this->_catalogPermData->isEnabled()) {
             return $this;
@@ -188,10 +190,10 @@ class Magento_CatalogPermissions_Model_Observer
     /**
      * Applies category permission on model afterload
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_CatalogPermissions_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\CatalogPermissions\Model\Observer
      */
-    public function applyCategoryPermission(Magento_Event_Observer $observer)
+    public function applyCategoryPermission(\Magento\Event\Observer $observer)
     {
         if (!$this->_catalogPermData->isEnabled()) {
             return $this;
@@ -214,7 +216,7 @@ class Magento_CatalogPermissions_Model_Observer
             $observer->getEvent()->getControllerAction()->getResponse()
                 ->setRedirect($this->_catalogPermData->getLandingPageUrl());
 
-            throw new Magento_Core_Exception(
+            throw new \Magento\Core\Exception(
                 __('You may need more permissions to access this category.')
             );
         }
@@ -224,10 +226,10 @@ class Magento_CatalogPermissions_Model_Observer
     /**
      * Apply product permissions for collection
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_CatalogPermissions_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\CatalogPermissions\Model\Observer
      */
-    public function applyProductPermissionOnCollection(Magento_Event_Observer $observer)
+    public function applyProductPermissionOnCollection(\Magento\Event\Observer $observer)
     {
         if (!$this->_catalogPermData->isEnabled()) {
             return $this;
@@ -241,10 +243,10 @@ class Magento_CatalogPermissions_Model_Observer
     /**
      * Apply category permissions for collection on after load
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_CatalogPermissions_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\CatalogPermissions\Model\Observer
      */
-    public function applyProductPermissionOnCollectionAfterLoad(Magento_Event_Observer $observer)
+    public function applyProductPermissionOnCollectionAfterLoad(\Magento\Event\Observer $observer)
     {
         if (!$this->_catalogPermData->isEnabled()) {
             return $this;
@@ -267,10 +269,10 @@ class Magento_CatalogPermissions_Model_Observer
     /**
      * Checks permissions for all quote items
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_CatalogPermissions_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\CatalogPermissions\Model\Observer
      */
-    public function checkQuotePermissions(Magento_Event_Observer $observer)
+    public function checkQuotePermissions(\Magento\Event\Observer $observer)
     {
         if (!$this->_catalogPermData->isEnabled()) {
             return $this;
@@ -285,7 +287,7 @@ class Magento_CatalogPermissions_Model_Observer
             } else {
                 $parentItem = false;
             }
-            /* @var $quoteItem Magento_Sales_Model_Quote_Item */
+            /* @var $quoteItem \Magento\Sales\Model\Quote\Item */
             if ($quoteItem->getDisableAddToCart() && !$quoteItem->isDeleted()) {
                 $quote->removeItem($quoteItem->getId());
                 if ($parentItem) {
@@ -308,10 +310,10 @@ class Magento_CatalogPermissions_Model_Observer
     /**
      * Checks quote item for product permissions
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_CatalogPermissions_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\CatalogPermissions\Model\Observer
      */
-    public function checkQuoteItemSetProduct(Magento_Event_Observer $observer)
+    public function checkQuoteItemSetProduct(\Magento\Event\Observer $observer)
     {
         if (!$this->_catalogPermData->isEnabled()) {
             return $this;
@@ -330,15 +332,15 @@ class Magento_CatalogPermissions_Model_Observer
             $parentItem = false;
         }
 
-        /* @var $quoteItem Magento_Sales_Model_Quote_Item */
+        /* @var $quoteItem \Magento\Sales\Model\Quote\Item */
         if ($product->getDisableAddToCart() && !$quoteItem->isDeleted()) {
             $quoteItem->getQuote()->removeItem($quoteItem->getId());
             if ($parentItem) {
-                throw new Magento_Core_Exception(
+                throw new \Magento\Core\Exception(
                     __('You cannot add "%1" to the cart.', $parentItem->getName())
                 );
             } else {
-                throw new Magento_Core_Exception(
+                throw new \Magento\Core\Exception(
                     __('You cannot add "%1" to the cart.', $quoteItem->getName())
                 );
             }
@@ -350,8 +352,8 @@ class Magento_CatalogPermissions_Model_Observer
     /**
      * Initialize permissions for quote items
      *
-     * @param Magento_Sales_Model_Quote $quote
-     * @return Magento_CatalogPermissions_Model_Observer
+     * @param \Magento\Sales\Model\Quote $quote
+     * @return \Magento\CatalogPermissions\Model\Observer
      */
     protected function _initPermissionsOnQuoteItems($quote)
     {
@@ -409,10 +411,10 @@ class Magento_CatalogPermissions_Model_Observer
     /**
      * Apply product permissions on model after load
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_CatalogPermissions_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\CatalogPermissions\Model\Observer
      */
-    public function applyProductPermission(Magento_Event_Observer $observer)
+    public function applyProductPermission(\Magento\Event\Observer $observer)
     {
         if (!$this->_catalogPermData->isEnabled()) {
             return $this;
@@ -425,7 +427,7 @@ class Magento_CatalogPermissions_Model_Observer
             $observer->getEvent()->getControllerAction()->getResponse()
                 ->setRedirect($this->_catalogPermData->getLandingPageUrl());
 
-            throw new Magento_Core_Exception(
+            throw new \Magento\Core\Exception(
                 __('You may need more permissions to access this product.')
             );
         }
@@ -436,8 +438,8 @@ class Magento_CatalogPermissions_Model_Observer
     /**
      * Apply category related permissions on category
      *
-     * @param Magento_Data_Tree_Node|Magento_Catalog_Model_Category
-     * @return Magento_CatalogPermissions_Model_Observer
+     * @param \Magento\Data\Tree\Node|\Magento\Catalog\Model\Category
+     * @return \Magento\CatalogPermissions\Model\Observer
      */
     protected function _applyPermissionsOnCategory($category)
     {
@@ -454,8 +456,8 @@ class Magento_CatalogPermissions_Model_Observer
     /**
      * Apply category related permissions on product
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_CatalogPermissions_Model_Observer
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\CatalogPermissions\Model\Observer
      */
     protected function _applyPermissionsOnProduct($product)
     {
@@ -485,10 +487,10 @@ class Magento_CatalogPermissions_Model_Observer
     /**
      * Apply is salable to product
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_CatalogPermissions_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\CatalogPermissions\Model\Observer
      */
-    public function applyIsSalableToProduct(Magento_Event_Observer $observer)
+    public function applyIsSalableToProduct(\Magento\Event\Observer $observer)
     {
         $product = $observer->getEvent()->getProduct();
         if ($product->getDisableAddToCart()) {
@@ -501,9 +503,9 @@ class Magento_CatalogPermissions_Model_Observer
     /**
      * Check catalog search availability on load layout
      *
-     * @return Magento_CatalogPermissions_Model_Observer
+     * @return \Magento\CatalogPermissions\Model\Observer
      */
-    public function checkCatalogSearchLayout(Magento_Event_Observer $observer)
+    public function checkCatalogSearchLayout(\Magento\Event\Observer $observer)
     {
         if (!$this->_catalogPermData->isEnabled()) {
             return $this;
@@ -521,9 +523,9 @@ class Magento_CatalogPermissions_Model_Observer
     /**
      * Check catalog search availability on predispatch
      *
-     * @return Magento_CatalogPermissions_Model_Observer
+     * @return \Magento\CatalogPermissions\Model\Observer
      */
-    public function checkCatalogSearchPreDispatch(Magento_Event_Observer $observer)
+    public function checkCatalogSearchPreDispatch(\Magento\Event\Observer $observer)
     {
         if (!$this->_catalogPermData->isEnabled()) {
             return $this;
@@ -531,10 +533,10 @@ class Magento_CatalogPermissions_Model_Observer
 
         $action = $observer->getEvent()->getControllerAction();
         if (!$this->_catalogPermData->isAllowedCatalogSearch()
-            && !$action->getFlag('', Magento_Core_Controller_Varien_Action::FLAG_NO_DISPATCH)
+            && !$action->getFlag('', \Magento\Core\Controller\Varien\Action::FLAG_NO_DISPATCH)
             && $action->getRequest()->isDispatched()
         ) {
-            $action->setFlag('', Magento_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
+            $action->setFlag('', \Magento\Core\Controller\Varien\Action::FLAG_NO_DISPATCH, true);
             $action->getResponse()->setRedirect($this->_catalogPermData->getLandingPageUrl());
         }
 
@@ -564,10 +566,10 @@ class Magento_CatalogPermissions_Model_Observer
     /**
      * Apply catalog permissions on product RSS feeds
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_CatalogPermissions_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\CatalogPermissions\Model\Observer
      */
-    public function checkIfProductAllowedInRss(Magento_Event_Observer $observer)
+    public function checkIfProductAllowedInRss(\Magento\Event\Observer $observer)
     {
         if (!$this->_catalogPermData->isEnabled()) {
             return $this;
@@ -604,7 +606,7 @@ class Magento_CatalogPermissions_Model_Observer
      *
      * @param array $data
      * @param string $permission
-     * @param string $method method name from Magento_CatalogPermissions_Helper_Data class
+     * @param string $method method name from \Magento\CatalogPermissions\Helper\Data class
      * @return bool
      */
     protected function _checkPermission($data, $permission, $method)
@@ -620,13 +622,13 @@ class Magento_CatalogPermissions_Model_Observer
         }
 
         if (!$this->_catalogPermData->$method()) {
-            if ($data[$permission] == Magento_CatalogPermissions_Model_Permission::PERMISSION_ALLOW) {
+            if ($data[$permission] == \Magento\CatalogPermissions\Model\Permission::PERMISSION_ALLOW) {
                 $result = true;
             } else {
                 $result = false;
             }
         } else {
-            if ($data[$permission] != Magento_CatalogPermissions_Model_Permission::PERMISSION_DENY
+            if ($data[$permission] != \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY
                     || is_null($data[$permission])) {
                 $result = true;
             } else {

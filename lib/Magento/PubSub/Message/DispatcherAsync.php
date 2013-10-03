@@ -9,21 +9,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_PubSub_Message_DispatcherAsync implements Magento_PubSub_Message_DispatcherAsyncInterface
+namespace Magento\PubSub\Message;
+
+class DispatcherAsync implements \Magento\PubSub\Message\DispatcherAsyncInterface
 {
-    /** @var Magento_PubSub_Event_FactoryInterface */
+    /** @var \Magento\PubSub\Event\FactoryInterface */
     protected $_eventFactory;
 
-    /** @var Magento_PubSub_Event_QueueWriterInterface  */
+    /** @var \Magento\PubSub\Event\QueueWriterInterface  */
     protected $_eventQueue;
 
     /**
-     * @param Magento_PubSub_Event_FactoryInterface $eventFactory
-     * @param Magento_PubSub_Event_QueueWriterInterface $eventQueue
+     * @param \Magento\PubSub\Event\FactoryInterface $eventFactory
+     * @param \Magento\PubSub\Event\QueueWriterInterface $eventQueue
      */
     public function __construct(
-        Magento_PubSub_Event_FactoryInterface $eventFactory,
-        Magento_PubSub_Event_QueueWriterInterface $eventQueue
+        \Magento\PubSub\Event\FactoryInterface $eventFactory,
+        \Magento\PubSub\Event\QueueWriterInterface $eventQueue
     ) {
         $this->_eventFactory = $eventFactory;
         $this->_eventQueue = $eventQueue;

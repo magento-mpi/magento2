@@ -9,10 +9,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_TemplateEngine_Php implements Magento_Core_Model_TemplateEngine_EngineInterface
+namespace Magento\Core\Model\TemplateEngine;
+
+class Php implements \Magento\Core\Model\TemplateEngine\EngineInterface
 {
     /**
-     * @var Magento_Core_Block_Template
+     * @var \Magento\Core\Block\Template
      */
     protected $_currentBlock;
 
@@ -20,14 +22,14 @@ class Magento_Core_Model_TemplateEngine_Php implements Magento_Core_Model_Templa
      * Include the named PHTML template using the given block as the $this
      * reference, though only public methods will be accessible.
      *
-     * @param Magento_Core_Block_Template $block
+     * @param \Magento\Core\Block\Template $block
      * @param string                   $fileName
      * @param array                    $dictionary
      *
      * @return string
-     * @throws Exception any exception that the template may throw
+     * @throws \Exception any exception that the template may throw
      */
-    public function render(Magento_Core_Block_Template $block, $fileName, array $dictionary = array())
+    public function render(\Magento\Core\Block\Template $block, $fileName, array $dictionary = array())
     {
         ob_start();
         try {
@@ -36,7 +38,7 @@ class Magento_Core_Model_TemplateEngine_Php implements Magento_Core_Model_Templa
             extract($dictionary, EXTR_SKIP);
             include $fileName;
             $this->_currentBlock = $tmpBlock;
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             ob_end_clean();
             throw $exception;
         }

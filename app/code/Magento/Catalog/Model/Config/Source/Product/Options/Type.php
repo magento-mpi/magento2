@@ -7,17 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Catalog_Model_Config_Source_Product_Options_Type implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Catalog\Model\Config\Source\Product\Options;
+
+class Type implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @var Magento_Catalog_Model_ProductOptions_ConfigInterface
+     * @var \Magento\Catalog\Model\ProductOptions\ConfigInterface
      */
     protected $_productOptionConfig;
 
     /**
-     * @param Magento_Catalog_Model_ProductOptions_ConfigInterface $productOptionConfig
+     * @param \Magento\Catalog\Model\ProductOptions\ConfigInterface $productOptionConfig
      */
-    public function __construct(Magento_Catalog_Model_ProductOptions_ConfigInterface $productOptionConfig)
+    public function __construct(\Magento\Catalog\Model\ProductOptions\ConfigInterface $productOptionConfig)
     {
         $this->_productOptionConfig = $productOptionConfig;
     }

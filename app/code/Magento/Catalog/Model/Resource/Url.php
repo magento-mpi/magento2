@@ -16,7 +16,9 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Url extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Catalog\Model\Resource;
+
+class Url extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Stores configuration array
@@ -54,35 +56,35 @@ class Magento_Catalog_Model_Resource_Url extends Magento_Core_Model_Resource_Db_
     protected $_rootChildrenIds             = array();
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
      * Catalog category
      *
-     * @var Magento_Catalog_Model_Category
+     * @var \Magento\Catalog\Model\Category
      */
     protected $_catalogCategory;
 
     /**
      * Catalog product
      *
-     * @var Magento_Catalog_Model_Product
+     * @var \Magento\Catalog\Model\Product
      */
     protected $_catalogProduct;
 
     /**
      * Eav config
      *
-     * @var Magento_Eav_Model_Config
+     * @var \Magento\Eav\Model\Config
      */
     protected $_eavConfig;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -98,20 +100,20 @@ class Magento_Catalog_Model_Resource_Url extends Magento_Core_Model_Resource_Db_
     /**
      * Class constructor
      *
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Catalog_Model_Product $catalogProduct
-     * @param Magento_Catalog_Model_Category $catalogCategory
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Catalog\Model\Product $catalogProduct
+     * @param \Magento\Catalog\Model\Category $catalogCategory
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Catalog_Model_Product $catalogProduct,
-        Magento_Catalog_Model_Category $catalogCategory,
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Resource $resource
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Catalog\Model\Product $catalogProduct,
+        \Magento\Catalog\Model\Category $catalogCategory,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Resource $resource
     ) {
         $this->_storeManager = $storeManager;
         $this->_eavConfig = $eavConfig;
@@ -125,7 +127,7 @@ class Magento_Catalog_Model_Resource_Url extends Magento_Core_Model_Resource_Db_
      * Retrieve stores array or store model
      *
      * @param int $storeId
-     * @return Magento_Core_Model_Store|array
+     * @return \Magento\Core\Model\Store|array
      */
     public function getStores($storeId = null)
     {
@@ -141,7 +143,7 @@ class Magento_Catalog_Model_Resource_Url extends Magento_Core_Model_Resource_Db_
     /**
      * Retrieve Category model singleton
      *
-     * @return Magento_Catalog_Model_Category
+     * @return \Magento\Catalog\Model\Category
      */
     public function getCategoryModel()
     {
@@ -151,7 +153,7 @@ class Magento_Catalog_Model_Resource_Url extends Magento_Core_Model_Resource_Db_
     /**
      * Retrieve product model singleton
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProductModel()
     {
@@ -163,7 +165,7 @@ class Magento_Catalog_Model_Resource_Url extends Magento_Core_Model_Resource_Db_
      *
      * @param string $idPath
      * @param int $storeId
-     * @return Magento_Object|false
+     * @return \Magento\Object|false
      */
     public function getRewriteByIdPath($idPath, $storeId)
     {
@@ -181,7 +183,7 @@ class Magento_Catalog_Model_Resource_Url extends Magento_Core_Model_Resource_Db_
         if (!$row) {
             return false;
         }
-        $rewrite = new Magento_Object($row);
+        $rewrite = new \Magento\Object($row);
         $rewrite->setIdFieldName($this->getIdFieldName());
 
         return $rewrite;
@@ -192,7 +194,7 @@ class Magento_Catalog_Model_Resource_Url extends Magento_Core_Model_Resource_Db_
      *
      * @param string $requestPath
      * @param int $storeId
-     * @return Magento_Object|false
+     * @return \Magento\Object|false
      */
     public function getRewriteByRequestPath($requestPath, $storeId)
     {
@@ -210,7 +212,7 @@ class Magento_Catalog_Model_Resource_Url extends Magento_Core_Model_Resource_Db_
         if (!$row) {
             return false;
         }
-        $rewrite = new Magento_Object($row);
+        $rewrite = new \Magento\Object($row);
         $rewrite->setIdFieldName($this->getIdFieldName());
 
         return $rewrite;
@@ -227,7 +229,7 @@ class Magento_Catalog_Model_Resource_Url extends Magento_Core_Model_Resource_Db_
     public function getLastUsedRewriteRequestIncrement($prefix, $suffix, $storeId)
     {
         $adapter = $this->_getWriteAdapter();
-        $requestPathField = new Zend_Db_Expr($adapter->quoteIdentifier('request_path'));
+        $requestPathField = new \Zend_Db_Expr($adapter->quoteIdentifier('request_path'));
 
         //select increment part of request path and cast expression to integer
         $expression = $adapter->getSubstringSql(
@@ -235,9 +237,9 @@ class Magento_Catalog_Model_Resource_Url extends Magento_Core_Model_Resource_Db_
             strlen($prefix) + 1,
             $adapter->getLengthSql($requestPathField) . ' - ' . strlen($prefix) . ' - ' . strlen($suffix)
         );
-        $urlIncrementPartExpression = new Zend_Db_Expr("CAST($expression AS SIGNED)");
+        $urlIncrementPartExpression = new \Zend_Db_Expr("CAST($expression AS SIGNED)");
         $select = $adapter->select()
-            ->from($this->getMainTable(), new Zend_Db_Expr('MAX(' . $urlIncrementPartExpression . ')'))
+            ->from($this->getMainTable(), new \Zend_Db_Expr('MAX(' . $urlIncrementPartExpression . ')'))
             ->where('store_id = :store_id')
             ->where('request_path LIKE :request_path')
             ->where($adapter->prepareSqlCondition('request_path', array(
@@ -321,7 +323,7 @@ class Magento_Catalog_Model_Resource_Url extends Magento_Core_Model_Resource_Db_
         $rowSet = $adapter->fetchAll($select, $bind);
 
         foreach ($rowSet as $row) {
-            $rewrite = new Magento_Object($row);
+            $rewrite = new \Magento\Object($row);
             $rewrite->setIdFieldName($this->getIdFieldName());
             $rewrites[$rewrite->getIdPath()] = $rewrite;
         }
@@ -333,18 +335,18 @@ class Magento_Catalog_Model_Resource_Url extends Magento_Core_Model_Resource_Db_
      * Save rewrite URL
      *
      * @param array $rewriteData
-     * @param int|Magento_Object $rewrite
-     * @return Magento_Catalog_Model_Resource_Url
-     * @throws Magento_Core_Exception
+     * @param int|\Magento\Object $rewrite
+     * @return \Magento\Catalog\Model\Resource\Url
+     * @throws \Magento\Core\Exception
      */
     public function saveRewrite($rewriteData, $rewrite)
     {
         $adapter = $this->_getWriteAdapter();
         try {
             $adapter->insertOnDuplicate($this->getMainTable(), $rewriteData);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_logger->logException($e);
-            throw new Magento_Core_Exception(__('Something went wrong saving the URL rewite.'));
+            throw new \Magento\Core\Exception(__('Something went wrong saving the URL rewite.'));
         }
 
         if ($rewrite && $rewrite->getId()) {
@@ -370,11 +372,11 @@ class Magento_Catalog_Model_Resource_Url extends Magento_Core_Model_Resource_Db_
      * Saves rewrite history
      *
      * @param array $rewriteData
-     * @return Magento_Catalog_Model_Resource_Url
+     * @return \Magento\Catalog\Model\Resource\Url
      */
     public function saveRewriteHistory($rewriteData)
     {
-        $rewriteData = new Magento_Object($rewriteData);
+        $rewriteData = new \Magento\Object($rewriteData);
         // check if rewrite exists with save request_path
         $rewrite = $this->getRewriteByRequestPath($rewriteData->getRequestPath(), $rewriteData->getStoreId());
         if ($rewrite === false) {
@@ -388,11 +390,11 @@ class Magento_Catalog_Model_Resource_Url extends Magento_Core_Model_Resource_Db_
     /**
      * Save category attribute
      *
-     * @param Magento_Object $category
+     * @param \Magento\Object $category
      * @param string $attributeCode
-     * @return Magento_Catalog_Model_Resource_Url
+     * @return \Magento\Catalog\Model\Resource\Url
      */
-    public function saveCategoryAttribute(Magento_Object $category, $attributeCode)
+    public function saveCategoryAttribute(\Magento\Object $category, $attributeCode)
     {
         $adapter = $this->_getWriteAdapter();
         if (!isset($this->_categoryAttributes[$attributeCode])) {
@@ -538,11 +540,11 @@ class Magento_Catalog_Model_Resource_Url extends Magento_Core_Model_Resource_Db_
     /**
      * Save product attribute
      *
-     * @param Magento_Object $product
+     * @param \Magento\Object $product
      * @param string $attributeCode
-     * @return Magento_Catalog_Model_Resource_Url
+     * @return \Magento\Catalog\Model\Resource\Url
      */
-    public function saveProductAttribute(Magento_Object $product, $attributeCode)
+    public function saveProductAttribute(\Magento\Object $product, $attributeCode)
     {
         $adapter = $this->_getWriteAdapter();
         if (!isset($this->_productAttributes[$attributeCode])) {
@@ -678,10 +680,10 @@ class Magento_Catalog_Model_Resource_Url extends Magento_Core_Model_Resource_Db_
     /**
      * Prepare category parentId
      *
-     * @param Magento_Object $category
-     * @return Magento_Catalog_Model_Resource_Url
+     * @param \Magento\Object $category
+     * @return \Magento\Catalog\Model\Resource\Url
      */
-    protected function _prepareCategoryParentId(Magento_Object $category)
+    protected function _prepareCategoryParentId(\Magento\Object $category)
     {
         if ($category->getPath() != $category->getId()) {
             $split = explode('/', $category->getPath());
@@ -702,14 +704,14 @@ class Magento_Catalog_Model_Resource_Url extends Magento_Core_Model_Resource_Db_
     {
         $rootCategoryIds = array();
         foreach ($stores as $store) {
-            /* @var $store Magento_Core_Model_Store */
+            /* @var $store \Magento\Core\Model\Store */
             $rootCategoryIds[$store->getRootCategoryId()] = $store->getRootCategoryId();
         }
         if ($rootCategoryIds) {
             $categories = $this->_getCategories($rootCategoryIds);
         }
         foreach ($stores as $store) {
-            /* @var $store Magento_Core_Model_Store */
+            /* @var $store \Magento\Core\Model\Store */
             $rootCategoryId = $store->getRootCategoryId();
             if (isset($categories[$rootCategoryId])) {
                 $store->setRootCategoryPath($categories[$rootCategoryId]->getPath());
@@ -732,7 +734,7 @@ class Magento_Catalog_Model_Resource_Url extends Magento_Core_Model_Resource_Db_
      */
     protected function _getCategories($categoryIds, $storeId = null, $path = null)
     {
-        $isActiveAttribute = $this->_eavConfig->getAttribute(Magento_Catalog_Model_Category::ENTITY, 'is_active');
+        $isActiveAttribute = $this->_eavConfig->getAttribute(\Magento\Catalog\Model\Category::ENTITY, 'is_active');
         $categories        = array();
         $adapter           = $this->_getReadAdapter();
 
@@ -796,7 +798,7 @@ class Magento_Catalog_Model_Resource_Url extends Magento_Core_Model_Resource_Db_
                 }
             }
 
-            $category = new Magento_Object($row);
+            $category = new \Magento\Object($row);
             $category->setIdFieldName('entity_id');
             $category->setStoreId($storeId);
             $this->_prepareCategoryParentId($category);
@@ -823,7 +825,7 @@ class Magento_Catalog_Model_Resource_Url extends Magento_Core_Model_Resource_Db_
      *
      * @param int $categoryId
      * @param int $storeId
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getCategory($categoryId, $storeId)
     {
@@ -857,10 +859,10 @@ class Magento_Catalog_Model_Resource_Url extends Magento_Core_Model_Resource_Db_
     /**
      * Retrieve category child data objects
      *
-     * @param Magento_Object $category
-     * @return Magento_Object
+     * @param \Magento\Object $category
+     * @return \Magento\Object
      */
-    public function loadCategoryChilds(Magento_Object $category)
+    public function loadCategoryChilds(\Magento\Object $category)
     {
         if ($category->getId() === null || $category->getStoreId() === null) {
             return $category;
@@ -898,7 +900,7 @@ class Magento_Catalog_Model_Resource_Url extends Magento_Core_Model_Resource_Db_
      * @param string $categoryId
      * @param string $categoryPath
      * @param bool $includeStart
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getRootChildrenIds($categoryId, $categoryPath, $includeStart = true)
     {
@@ -927,10 +929,10 @@ class Magento_Catalog_Model_Resource_Url extends Magento_Core_Model_Resource_Db_
     /**
      * Retrieve category parent path
      *
-     * @param Magento_Object $category
+     * @param \Magento\Object $category
      * @return string
      */
-    public function getCategoryParentPath(Magento_Object $category)
+    public function getCategoryParentPath(\Magento\Object $category)
     {
         $store = $this->_storeManager->getStore($category->getStoreId());
 
@@ -947,12 +949,12 @@ class Magento_Catalog_Model_Resource_Url extends Magento_Core_Model_Resource_Db_
     /**
      * Retrieve product ids by category
      *
-     * @param Magento_Object|int $category
+     * @param \Magento\Object|int $category
      * @return array
      */
     public function getProductIdsByCategory($category)
     {
-        if ($category instanceof Magento_Object) {
+        if ($category instanceof \Magento\Object) {
             $categoryId = $category->getId();
         } else {
             $categoryId = $category;
@@ -1007,7 +1009,7 @@ class Magento_Catalog_Model_Resource_Url extends Magento_Core_Model_Resource_Db_
 
         $rowSet = $adapter->fetchAll($select, $bind);
         foreach ($rowSet as $row) {
-            $product = new Magento_Object($row);
+            $product = new \Magento\Object($row);
             $product->setIdFieldName('entity_id');
             $product->setCategoryIds(array());
             $product->setStoreId($storeId);
@@ -1048,7 +1050,7 @@ class Magento_Catalog_Model_Resource_Url extends Magento_Core_Model_Resource_Db_
      *
      * @param int $productId
      * @param int $storeId
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getProduct($productId, $storeId)
     {
@@ -1075,11 +1077,11 @@ class Magento_Catalog_Model_Resource_Url extends Magento_Core_Model_Resource_Db_
     /**
      * Retrieve Product data objects in category
      *
-     * @param Magento_Object $category
+     * @param \Magento\Object $category
      * @param int $lastEntityId
      * @return array
      */
-    public function getProductsByCategory(Magento_Object $category, &$lastEntityId)
+    public function getProductsByCategory(\Magento\Object $category, &$lastEntityId)
     {
         $productIds = $this->getProductIdsByCategory($category);
         if (!$productIds) {
@@ -1093,7 +1095,7 @@ class Magento_Catalog_Model_Resource_Url extends Magento_Core_Model_Resource_Db_
      * (either to other category or deleted), so rewrite "category_id-product_id" is invalid
      *
      * @param int $storeId
-     * @return Magento_Catalog_Model_Resource_Url
+     * @return \Magento\Catalog\Model\Resource\Url
      */
     public function clearCategoryProduct($storeId)
     {
@@ -1129,7 +1131,7 @@ class Magento_Catalog_Model_Resource_Url extends Magento_Core_Model_Resource_Db_
      * @param int $productId Product entity Id
      * @param int $storeId Store Id for rewrites
      * @param array $excludeCategoryIds Array of category Ids that should be skipped
-     * @return Magento_Catalog_Model_Resource_Url
+     * @return \Magento\Catalog\Model\Resource\Url
      */
     public function clearProductRewrites($productId, $storeId, $excludeCategoryIds = array())
     {
@@ -1154,7 +1156,7 @@ class Magento_Catalog_Model_Resource_Url extends Magento_Core_Model_Resource_Db_
      * left from the times when categories/products belonged to store
      *
      * @param int $storeId
-     * @return Magento_Catalog_Model_Resource_Url
+     * @return \Magento\Catalog\Model\Resource\Url
      */
     public function clearStoreCategoriesInvalidRewrites($storeId)
     {
@@ -1188,7 +1190,7 @@ class Magento_Catalog_Model_Resource_Url extends Magento_Core_Model_Resource_Db_
      *
      * @param int $storeId
      * @param int|array|null $productId
-     * @return Magento_Catalog_Model_Resource_Url
+     * @return \Magento\Catalog\Model\Resource\Url
      */
     public function clearStoreProductsInvalidRewrites($storeId, $productId = null)
     {
@@ -1230,7 +1232,7 @@ class Magento_Catalog_Model_Resource_Url extends Magento_Core_Model_Resource_Db_
      * b) product rewrites left from products that once belonged to this site, but then deleted or just removed from website
      *
      * @param int $storeId
-     * @return Magento_Catalog_Model_Resource_Url
+     * @return \Magento\Catalog\Model\Resource\Url
      */
     public function clearStoreInvalidRewrites($storeId)
     {
@@ -1244,7 +1246,7 @@ class Magento_Catalog_Model_Resource_Url extends Magento_Core_Model_Resource_Db_
      *
      * @param int $categoryId
      * @param array $productIds
-     * @return Magento_Catalog_Model_Resource_Url
+     * @return \Magento\Catalog\Model\Resource\Url
      */
     public function deleteCategoryProductRewrites($categoryId, $productIds)
     {
@@ -1258,7 +1260,7 @@ class Magento_Catalog_Model_Resource_Url extends Magento_Core_Model_Resource_Db_
      * @param int $categoryId
      * @param array|int|null $productIds
      * @param null|int $storeId
-     * @return Magento_Catalog_Model_Resource_Url
+     * @return \Magento\Catalog\Model\Resource\Url
      */
     public function deleteCategoryProductStoreRewrites($categoryId, $productIds = null, $storeId = null)
     {

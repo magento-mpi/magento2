@@ -9,20 +9,22 @@
  * @license     {license_link}
  */
 
-class Magento_Pbridge_Model_Authorizenet_Source_PaymentActionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Pbridge\Model\Authorizenet\Source;
+
+class PaymentActionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Pbridge_Model_Authorizenet_Source_PaymentAction
+     * @var \Magento\Pbridge\Model\Authorizenet\Source\PaymentAction
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model= new Magento_Pbridge_Model_Authorizenet_Source_PaymentAction();
+        $this->_model= new \Magento\Pbridge\Model\Authorizenet\Source\PaymentAction();
     }
 
     /**
-     * Check if Magento_Pbridge_Model_Authorizenet_Source_PaymentAction has method toOptionArray
+     * Check if \Magento\Pbridge\Model\Authorizenet\Source\PaymentAction has method toOptionArray
      */
     public function testToOptionArrayExistence()
     {
@@ -38,11 +40,11 @@ class Magento_Pbridge_Model_Authorizenet_Source_PaymentActionTest extends PHPUni
         $options = $this->_model->toOptionArray();
         $expected = array(
             array(
-                'value' => Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE,
+                'value' => \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE,
                 'label' => __('Authorize Only')
             ),
             array(
-                'value' => Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE,
+                'value' => \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE_CAPTURE,
                 'label' => __('Authorize and Capture')
             ),
         );

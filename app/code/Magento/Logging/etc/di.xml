@@ -8,17 +8,17 @@
  */
 -->
 <config>
-    <type name="Magento_Logging_Model_Config_Data">
+    <type name="Magento\Logging\Model\Config\Data">
         <param name='reader'>
-            <instance type="Magento_Logging_Model_Config_Reader" />
+            <instance type="Magento\Logging\Model\Config\Reader" />
         </param>
         <param name="cacheId">
             <value>logging_config</value>
         </param>
     </type>
-    <type name="Magento_Logging_Model_Processor">
+    <type name="Magento\Logging\Model\Processor">
         <param name="controllersHandler">
-            <instance type="Magento_Logging_Model_Handler_Controllers_Proxy" />
+            <instance type="Magento\Logging\Model\Handler\Controllers\Proxy" />
         </param>
     </type>
 </config>

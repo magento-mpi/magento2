@@ -13,13 +13,15 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Payment_Model_Source_Invoice implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Payment\Model\Source;
+
+class Invoice implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray()
     {
         return array(
             array(
-                'value' => Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE,
+                'value' => \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE_CAPTURE,
                 'label' => __('Yes')
             ),
             array(

@@ -5,27 +5,29 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Email_Template_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Email\Template;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Email_Template_Config
+     * @var \Magento\Core\Model\Email\Template\Config
      */
     protected $_model;
 
     /**
-     * @var Magento_Core_Model_Email_Template_Config_Data|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Email\Template\Config\Data|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_dataStorage;
 
     /**
-     * @var Magento_Core_Model_Config_Modules_Reader|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Config\Modules\Reader|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_moduleReader;
 
     protected function setUp()
     {
         $this->_dataStorage = $this->getMock(
-            'Magento_Core_Model_Email_Template_Config_Data', array('get'), array(), '', false
+            'Magento\Core\Model\Email\Template\Config\Data', array('get'), array(), '', false
         );
         $this->_dataStorage
             ->expects($this->any())
@@ -33,9 +35,9 @@ class Magento_Core_Model_Email_Template_ConfigTest extends PHPUnit_Framework_Tes
             ->will($this->returnValue(require __DIR__ . '/Config/_files/email_templates_merged.php'))
         ;
         $this->_moduleReader = $this->getMock(
-            'Magento_Core_Model_Config_Modules_Reader', array('getModuleDir'), array(), '', false
+            'Magento\Core\Model\Config\Modules\Reader', array('getModuleDir'), array(), '', false
         );
-        $this->_model = new Magento_Core_Model_Email_Template_Config($this->_dataStorage, $this->_moduleReader);
+        $this->_model = new \Magento\Core\Model\Email\Template\Config($this->_dataStorage, $this->_moduleReader);
     }
 
     public function testGetAvailableTemplates()
@@ -72,7 +74,7 @@ class Magento_Core_Model_Email_Template_ConfigTest extends PHPUnit_Framework_Tes
     /**
      * @param string $getterMethod
      * @dataProvider getterMethodUnknownTemplateDataProvider
-     * @expectedException UnexpectedValueException
+     * @expectedException \UnexpectedValueException
      * @expectedExceptionMessage Email template 'unknown' is not defined
      */
     public function testGetterMethodUnknownTemplate($getterMethod)
@@ -100,14 +102,14 @@ class Magento_Core_Model_Email_Template_ConfigTest extends PHPUnit_Framework_Tes
     {
         $this->setExpectedException('UnexpectedValueException', $expectedException);
         $dataStorage = $this->getMock(
-            'Magento_Core_Model_Email_Template_Config_Data', array('get'), array(), '', false
+            'Magento\Core\Model\Email\Template\Config\Data', array('get'), array(), '', false
         );
         $dataStorage
             ->expects($this->atLeastOnce())
             ->method('get')
             ->will($this->returnValue(array('fixture' => $fixtureFields)))
         ;
-        $model = new Magento_Core_Model_Email_Template_Config($dataStorage, $this->_moduleReader);
+        $model = new \Magento\Core\Model\Email\Template\Config($dataStorage, $this->_moduleReader);
         $model->$getterMethod('fixture');
     }
 

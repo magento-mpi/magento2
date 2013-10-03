@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Order_Invoice_Item_Collection extends Magento_Sales_Model_Resource_Collection_Abstract
+namespace Magento\Sales\Model\Resource\Order\Invoice\Item;
+
+class Collection extends \Magento\Sales\Model\Resource\Collection\AbstractCollection
 {
     /**
      * Event prefix
@@ -38,14 +40,14 @@ class Magento_Sales_Model_Resource_Order_Invoice_Item_Collection extends Magento
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Order_Invoice_Item', 'Magento_Sales_Model_Resource_Order_Invoice_Item');
+        $this->_init('Magento\Sales\Model\Order\Invoice\Item', 'Magento\Sales\Model\Resource\Order\Invoice\Item');
     }
 
     /**
      * Set invoice filter
      *
      * @param int $invoiceId
-     * @return Magento_Sales_Model_Resource_Order_Invoice_Item_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Invoice\Item\Collection
      */
     public function setInvoiceFilter($invoiceId)
     {

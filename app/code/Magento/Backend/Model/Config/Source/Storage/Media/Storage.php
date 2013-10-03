@@ -11,7 +11,9 @@
 /**
  * Generate options for media storage selection
  */
-class Magento_Backend_Model_Config_Source_Storage_Media_Storage implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Backend\Model\Config\Source\Storage\Media;
+
+class Storage implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Options getter
@@ -22,11 +24,11 @@ class Magento_Backend_Model_Config_Source_Storage_Media_Storage implements Magen
     {
         return array(
             array(
-                'value' => Magento_Core_Model_File_Storage::STORAGE_MEDIA_FILE_SYSTEM,
+                'value' => \Magento\Core\Model\File\Storage::STORAGE_MEDIA_FILE_SYSTEM,
                 'label' => __('File System')
             ),
             array(
-                'value' => Magento_Core_Model_File_Storage::STORAGE_MEDIA_DATABASE,
+                'value' => \Magento\Core\Model\File\Storage::STORAGE_MEDIA_DATABASE,
                 'label' => __('Database')
             )
         );

@@ -8,20 +8,22 @@
  * @license     {license_link}
  */
 
+namespace Magento\Test\Tools\Migration\Acl\Db;
+
 require_once realpath(__DIR__ . '/../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/Acl/Db/Writer.php';
 
-class Magento_Test_Tools_Migration_Acl_Db_WriterTest extends PHPUnit_Framework_TestCase
+class WriterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Tools_Migration_Acl_Db_Writer
+     * @var \Magento\Tools\Migration\Acl\Db\Writer
      */
     protected $_model;
 
     /**
      * DB adapter
      *
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_adapterMock;
 
@@ -35,7 +37,7 @@ class Magento_Test_Tools_Migration_Acl_Db_WriterTest extends PHPUnit_Framework_T
             false,
             array('update')
         );
-        $this->_model = new Magento_Tools_Migration_Acl_Db_Writer($this->_adapterMock, 'dummy');
+        $this->_model = new \Magento\Tools\Migration\Acl\Db\Writer($this->_adapterMock, 'dummy');
     }
 
     protected function tearDown()

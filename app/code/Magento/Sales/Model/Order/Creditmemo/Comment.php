@@ -9,49 +9,51 @@
  */
 
 /**
- * @method Magento_Sales_Model_Resource_Order_Creditmemo_Comment _getResource()
- * @method Magento_Sales_Model_Resource_Order_Creditmemo_Comment getResource()
+ * @method \Magento\Sales\Model\Resource\Order\Creditmemo\Comment _getResource()
+ * @method \Magento\Sales\Model\Resource\Order\Creditmemo\Comment getResource()
  * @method int getParentId()
- * @method Magento_Sales_Model_Order_Creditmemo_Comment setParentId(int $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo\Comment setParentId(int $value)
  * @method int getIsCustomerNotified()
- * @method Magento_Sales_Model_Order_Creditmemo_Comment setIsCustomerNotified(int $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo\Comment setIsCustomerNotified(int $value)
  * @method int getIsVisibleOnFront()
- * @method Magento_Sales_Model_Order_Creditmemo_Comment setIsVisibleOnFront(int $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo\Comment setIsVisibleOnFront(int $value)
  * @method string getComment()
- * @method Magento_Sales_Model_Order_Creditmemo_Comment setComment(string $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo\Comment setComment(string $value)
  * @method string getCreatedAt()
- * @method Magento_Sales_Model_Order_Creditmemo_Comment setCreatedAt(string $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo\Comment setCreatedAt(string $value)
  */
-class Magento_Sales_Model_Order_Creditmemo_Comment extends Magento_Sales_Model_Abstract
+namespace Magento\Sales\Model\Order\Creditmemo;
+
+class Comment extends \Magento\Sales\Model\AbstractModel
 {
     /**
      * Creditmemo instance
      *
-     * @var Magento_Sales_Model_Order_Creditmemo
+     * @var \Magento\Sales\Model\Order\Creditmemo
      */
     protected $_creditmemo;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_LocaleInterface $coreLocale
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\LocaleInterface $coreLocale
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_LocaleInterface $coreLocale,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\LocaleInterface $coreLocale,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct(
@@ -65,16 +67,16 @@ class Magento_Sales_Model_Order_Creditmemo_Comment extends Magento_Sales_Model_A
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Resource_Order_Creditmemo_Comment');
+        $this->_init('Magento\Sales\Model\Resource\Order\Creditmemo\Comment');
     }
 
     /**
      * Declare Creditmemo instance
      *
-     * @param   Magento_Sales_Model_Order_Creditmemo $creditmemo
-     * @return  Magento_Sales_Model_Order_Creditmemo_Comment
+     * @param   \Magento\Sales\Model\Order\Creditmemo $creditmemo
+     * @return  \Magento\Sales\Model\Order\Creditmemo\Comment
      */
-    public function setCreditmemo(Magento_Sales_Model_Order_Creditmemo $creditmemo)
+    public function setCreditmemo(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
     {
         $this->_creditmemo = $creditmemo;
         return $this;
@@ -83,7 +85,7 @@ class Magento_Sales_Model_Order_Creditmemo_Comment extends Magento_Sales_Model_A
     /**
      * Retrieve Creditmemo instance
      *
-     * @return Magento_Sales_Model_Order_Creditmemo
+     * @return \Magento\Sales\Model\Order\Creditmemo
      */
     public function getCreditmemo()
     {
@@ -93,7 +95,7 @@ class Magento_Sales_Model_Order_Creditmemo_Comment extends Magento_Sales_Model_A
     /**
      * Get store object
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getStore()
     {
@@ -106,7 +108,7 @@ class Magento_Sales_Model_Order_Creditmemo_Comment extends Magento_Sales_Model_A
     /**
      * Before object save
      *
-     * @return Magento_Sales_Model_Order_Creditmemo_Comment
+     * @return \Magento\Sales\Model\Order\Creditmemo\Comment
      */
     protected function _beforeSave()
     {

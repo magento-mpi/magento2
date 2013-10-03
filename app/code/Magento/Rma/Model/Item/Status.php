@@ -11,7 +11,9 @@
 /**
  * RMA Item Status Manager
  */
-class Magento_Rma_Model_Item_Status extends Magento_Object
+namespace Magento\Rma\Model\Item;
+
+class Status extends \Magento\Object
 {
     /**
      * Artificial "maximal" item status when whole order is closed
@@ -31,16 +33,16 @@ class Magento_Rma_Model_Item_Status extends Magento_Object
     protected $_isSpecialStatus = false;
 
     /**
-     * @var Magento_Rma_Model_Item_Attribute_Source_Status
+     * @var \Magento\Rma\Model\Item\Attribute\Source\Status
      */
     protected $_sourceStatus;
 
     /**
-     * @param Magento_Rma_Model_Item_Attribute_Source_Status $sourceStatus
+     * @param \Magento\Rma\Model\Item\Attribute\Source\Status $sourceStatus
      * @param array $data
      */
     public function __construct(
-        Magento_Rma_Model_Item_Attribute_Source_Status $sourceStatus,
+        \Magento\Rma\Model\Item\Attribute\Source\Status $sourceStatus,
         array $data = array()
     ) {
         $this->_sourceStatus = $sourceStatus;
@@ -55,28 +57,28 @@ class Magento_Rma_Model_Item_Status extends Magento_Object
     public function getAllowedStatuses()
     {
         $statusesAllowed = array(
-            Magento_Rma_Model_Item_Attribute_Source_Status::STATE_PENDING => array(
-                Magento_Rma_Model_Item_Attribute_Source_Status::STATE_PENDING,
-                Magento_Rma_Model_Item_Attribute_Source_Status::STATE_AUTHORIZED,
-                Magento_Rma_Model_Item_Attribute_Source_Status::STATE_DENIED
+            \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_PENDING => array(
+                \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_PENDING,
+                \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_AUTHORIZED,
+                \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_DENIED
             ),
-            Magento_Rma_Model_Item_Attribute_Source_Status::STATE_AUTHORIZED => array(
-                Magento_Rma_Model_Item_Attribute_Source_Status::STATE_AUTHORIZED,
-                Magento_Rma_Model_Item_Attribute_Source_Status::STATE_RECEIVED
+            \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_AUTHORIZED => array(
+                \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_AUTHORIZED,
+                \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_RECEIVED
             ),
-            Magento_Rma_Model_Item_Attribute_Source_Status::STATE_RECEIVED => array(
-                Magento_Rma_Model_Item_Attribute_Source_Status::STATE_RECEIVED,
-                Magento_Rma_Model_Item_Attribute_Source_Status::STATE_APPROVED,
-                Magento_Rma_Model_Item_Attribute_Source_Status::STATE_REJECTED
+            \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_RECEIVED => array(
+                \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_RECEIVED,
+                \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_APPROVED,
+                \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_REJECTED
             ),
-            Magento_Rma_Model_Item_Attribute_Source_Status::STATE_APPROVED => array(
-                Magento_Rma_Model_Item_Attribute_Source_Status::STATE_APPROVED
+            \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_APPROVED => array(
+                \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_APPROVED
             ),
-            Magento_Rma_Model_Item_Attribute_Source_Status::STATE_REJECTED => array(
-                Magento_Rma_Model_Item_Attribute_Source_Status::STATE_REJECTED
+            \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_REJECTED => array(
+                \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_REJECTED
             ),
-            Magento_Rma_Model_Item_Attribute_Source_Status::STATE_DENIED => array(
-                Magento_Rma_Model_Item_Attribute_Source_Status::STATE_DENIED
+            \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_DENIED => array(
+                \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_DENIED
             ),
         );
         $boundingArray = isset($statusesAllowed[$this->getStatus()])
@@ -98,12 +100,12 @@ class Magento_Rma_Model_Item_Status extends Magento_Object
     {
         return array(
             self::STATUS_ALL_ARE_EDITABLE,
-            Magento_Rma_Model_Item_Attribute_Source_Status::STATE_PENDING,
-            Magento_Rma_Model_Item_Attribute_Source_Status::STATE_AUTHORIZED,
-            Magento_Rma_Model_Item_Attribute_Source_Status::STATE_RECEIVED,
-            Magento_Rma_Model_Item_Attribute_Source_Status::STATE_APPROVED,
-            Magento_Rma_Model_Item_Attribute_Source_Status::STATE_REJECTED,
-            Magento_Rma_Model_Item_Attribute_Source_Status::STATE_DENIED,
+            \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_PENDING,
+            \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_AUTHORIZED,
+            \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_RECEIVED,
+            \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_APPROVED,
+            \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_REJECTED,
+            \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_DENIED,
             self::STATUS_ORDER_IS_CLOSED,
         );
     }
@@ -121,34 +123,34 @@ class Magento_Rma_Model_Item_Status extends Magento_Object
     {
         switch ($attribute) {
             case 'qty_requested':
-                return Magento_Rma_Model_Item_Attribute_Source_Status::STATE_PENDING;
+                return \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_PENDING;
                 break;
             case 'qty_authorized':
-                return Magento_Rma_Model_Item_Attribute_Source_Status::STATE_AUTHORIZED;
+                return \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_AUTHORIZED;
                 break;
             case 'qty_returned':
-                return Magento_Rma_Model_Item_Attribute_Source_Status::STATE_RECEIVED;
+                return \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_RECEIVED;
                 break;
             case 'qty_approved':
-                return Magento_Rma_Model_Item_Attribute_Source_Status::STATE_APPROVED;
+                return \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_APPROVED;
                 break;
             case 'reason':
-                return Magento_Rma_Model_Item_Attribute_Source_Status::STATE_PENDING;
+                return \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_PENDING;
                 break;
             case 'condition':
-                return Magento_Rma_Model_Item_Attribute_Source_Status::STATE_PENDING;
+                return \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_PENDING;
                 break;
             case 'resolution':
-                return Magento_Rma_Model_Item_Attribute_Source_Status::STATE_APPROVED;
+                return \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_APPROVED;
                 break;
             case 'status':
-                return Magento_Rma_Model_Item_Attribute_Source_Status::STATE_APPROVED;
+                return \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_APPROVED;
                 break;
             case 'action':
                 return self::STATUS_ORDER_IS_CLOSED;
                 break;
             default:
-                return Magento_Rma_Model_Item_Attribute_Source_Status::STATE_PENDING;
+                return \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_PENDING;
                 break;
         }
     }
@@ -188,13 +190,13 @@ class Magento_Rma_Model_Item_Status extends Magento_Object
 
         switch ($attribute) {
             case 'qty_authorized':
-                $enabledStatus = Magento_Rma_Model_Item_Attribute_Source_Status::STATE_PENDING;
+                $enabledStatus = \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_PENDING;
                 break;
             case 'qty_returned':
-                $enabledStatus = Magento_Rma_Model_Item_Attribute_Source_Status::STATE_AUTHORIZED;
+                $enabledStatus = \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_AUTHORIZED;
                 break;
             case 'qty_approved':
-                $enabledStatus = Magento_Rma_Model_Item_Attribute_Source_Status::STATE_RECEIVED;
+                $enabledStatus = \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_RECEIVED;
                 break;
             default:
                 return false;
@@ -239,7 +241,7 @@ class Magento_Rma_Model_Item_Status extends Magento_Object
      * Sets status to object but not for self::STATUS_ORDER_IS_CLOSED status
      *
      * @param  $status
-     * @return Magento_Rma_Model_Item_Status
+     * @return \Magento\Rma\Model\Item\Status
      */
     public function setStatus($status)
     {

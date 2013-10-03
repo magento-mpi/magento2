@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Webapi_Controller_Rest_Response_RendererInterface
+namespace Magento\Webapi\Controller\Rest\Response;
+
+interface RendererInterface
 {
     /**
      * Render content in a certain format.

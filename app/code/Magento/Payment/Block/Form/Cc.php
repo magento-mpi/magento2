@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Payment_Block_Form_Cc extends Magento_Payment_Block_Form
+namespace Magento\Payment\Block\Form;
+
+class Cc extends \Magento\Payment\Block\Form
 {
     /**
      * @var string
@@ -16,22 +18,22 @@ class Magento_Payment_Block_Form_Cc extends Magento_Payment_Block_Form
     /**
      * Payment config model
      *
-     * @var Magento_Payment_Model_Config
+     * @var \Magento\Payment\Model\Config
      */
     protected $_paymentConfig;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Payment_Model_Config $paymentConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Payment\Model\Config $paymentConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Payment_Model_Config $paymentConfig,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Payment\Model\Config $paymentConfig,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);

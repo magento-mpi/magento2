@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_FullPageCache_Model_Placeholder_ConfigInterface
+namespace Magento\FullPageCache\Model\Placeholder;
+
+interface ConfigInterface
 {
     /**
      * Get placeholders config by block instance name

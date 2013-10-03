@@ -9,15 +9,17 @@
  * @license     {license_link}
  */
 
-class Magento_Eav_Model_Resource_Entity_AttributeTest extends PHPUnit_Framework_TestCase
+namespace Magento\Eav\Model\Resource\Entity;
+
+class AttributeTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers Magento_Eav_Model_Resource_Entity_Attribute::_saveOption
+     * @covers \Magento\Eav\Model\Resource\Entity\Attribute::_saveOption
      */
     public function testSaveOptionSystemAttribute()
     {
-        /** @var $adapter PHPUnit_Framework_MockObject_MockObject */
-        /** @var $resourceModel Magento_Eav_Model_Resource_Entity_Attribute */
+        /** @var $adapter \PHPUnit_Framework_MockObject_MockObject */
+        /** @var $resourceModel \Magento\Eav\Model\Resource\Entity\Attribute */
         list($adapter, $resourceModel) = $this->_prepareResourceModel();
 
         $attributeData = array(
@@ -29,17 +31,17 @@ class Magento_Eav_Model_Resource_Entity_AttributeTest extends PHPUnit_Framework_
             'frontend_input' => 'select',
             'frontend_label' => 'Status',
             'frontend_class' => null,
-            'source_model' => 'Magento_Catalog_Model_Product_Status',
+            'source_model' => 'Magento\Catalog\Model\Product\Status',
             'is_required' => 1,
             'is_user_defined' => 0,
             'is_unique' => 0,
         );
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        /** @var $model Magento_Core_Model_Abstract */
-        $arguments = $objectManagerHelper->getConstructArguments('Magento_Core_Model_Abstract');
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        /** @var $model \Magento\Core\Model\AbstractModel */
+        $arguments = $objectManagerHelper->getConstructArguments('Magento\Core\Model\AbstractModel');
         $arguments['data'] = $attributeData;
-        $model = $this->getMock('Magento_Core_Model_Abstract', null, $arguments);
+        $model = $this->getMock('Magento\Core\Model\AbstractModel', null, $arguments);
         $model->setDefault(array('2'));
         $model->setOption(array('delete' => array(1 => '', 2 => '')));
 
@@ -67,12 +69,12 @@ class Magento_Eav_Model_Resource_Entity_AttributeTest extends PHPUnit_Framework_
     }
 
     /**
-     * @covers Magento_Eav_Model_Resource_Entity_Attribute::_saveOption
+     * @covers \Magento\Eav\Model\Resource\Entity\Attribute::_saveOption
      */
     public function testSaveOptionNewUserDefinedAttribute()
     {
-        /** @var $adapter PHPUnit_Framework_MockObject_MockObject */
-        /** @var $resourceModel Magento_Eav_Model_Resource_Entity_Attribute */
+        /** @var $adapter \PHPUnit_Framework_MockObject_MockObject */
+        /** @var $resourceModel \Magento\Eav\Model\Resource\Entity\Attribute */
         list($adapter, $resourceModel) = $this->_prepareResourceModel();
 
         $attributeData = array(
@@ -83,18 +85,18 @@ class Magento_Eav_Model_Resource_Entity_AttributeTest extends PHPUnit_Framework_
             'frontend_input' => 'select',
             'frontend_label' => 'A Dropdown',
             'frontend_class' => null,
-            'source_model' => 'Magento_Eav_Model_Entity_Attribute_Source_Table',
+            'source_model' => 'Magento\Eav\Model\Entity\Attribute\Source\Table',
             'is_required' => 0,
             'is_user_defined' => 1,
             'is_unique' => 0,
         );
 
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        /** @var $model Magento_Core_Model_Abstract */
-        $arguments = $objectManagerHelper->getConstructArguments('Magento_Core_Model_Abstract');
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        /** @var $model \Magento\Core\Model\AbstractModel */
+        $arguments = $objectManagerHelper->getConstructArguments('Magento\Core\Model\AbstractModel');
         $arguments['data'] = $attributeData;
-        $model = $this->getMock('Magento_Core_Model_Abstract', null, $arguments);
+        $model = $this->getMock('Magento\Core\Model\AbstractModel', null, $arguments);
         $model->setOption(array('value' => array('option_1' => array('Backend Label', 'Frontend Label'))));
 
         $adapter->expects($this->any())
@@ -143,18 +145,18 @@ class Magento_Eav_Model_Resource_Entity_AttributeTest extends PHPUnit_Framework_
     }
 
     /**
-     * @covers Magento_Eav_Model_Resource_Entity_Attribute::_saveOption
+     * @covers \Magento\Eav\Model\Resource\Entity\Attribute::_saveOption
      */
     public function testSaveOptionNoValue()
     {
-        /** @var $adapter PHPUnit_Framework_MockObject_MockObject */
-        /** @var $resourceModel Magento_Eav_Model_Resource_Entity_Attribute */
+        /** @var $adapter \PHPUnit_Framework_MockObject_MockObject */
+        /** @var $resourceModel \Magento\Eav\Model\Resource\Entity\Attribute */
         list($adapter, $resourceModel) = $this->_prepareResourceModel();
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        /** @var $model Magento_Core_Model_Abstract */
-        $arguments = $objectManagerHelper->getConstructArguments('Magento_Core_Model_Abstract');
-        $model = $this->getMock('Magento_Core_Model_Abstract', null, $arguments);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        /** @var $model \Magento\Core\Model\AbstractModel */
+        $arguments = $objectManagerHelper->getConstructArguments('Magento\Core\Model\AbstractModel');
+        $model = $this->getMock('Magento\Core\Model\AbstractModel', null, $arguments);
         $model->setOption('not-an-array');
 
         $adapter->expects($this->once())->method('insert')->with('eav_attribute');
@@ -171,7 +173,7 @@ class Magento_Eav_Model_Resource_Entity_AttributeTest extends PHPUnit_Framework_
      */
     protected function _prepareResourceModel()
     {
-        $adapter = $this->getMock('Magento_DB_Adapter_Pdo_Mysql', array(
+        $adapter = $this->getMock('Magento\DB\Adapter\Pdo\Mysql', array(
             '_connect', 'delete', 'describeTable', 'fetchRow', 'insert', 'lastInsertId', 'quote', 'update',
         ), array(), '', false);
         $adapter->expects($this->any())
@@ -187,17 +189,17 @@ class Magento_Eav_Model_Resource_Entity_AttributeTest extends PHPUnit_Framework_
                 array('status', '"status"'),
             )));
 
-        $application = $this->getMock('Magento_Core_Model_App', array('getStores'), array(), '', false);
+        $application = $this->getMock('Magento\Core\Model\App', array('getStores'), array(), '', false);
         $application->expects($this->any())
             ->method('getStores')
             ->with(true)
             ->will($this->returnValue(array(
-                new Magento_Object(array('id' => 0)),
-                new Magento_Object(array('id' => 1)),
+                new \Magento\Object(array('id' => 0)),
+                new \Magento\Object(array('id' => 1)),
             )));
 
-        /** @var $resource Magento_Core_Model_Resource */
-        $resource = $this->getMock('Magento_Core_Model_Resource',
+        /** @var $resource \Magento\Core\Model\Resource */
+        $resource = $this->getMock('Magento\Core\Model\Resource',
             array('getTableName', 'getConnection'), array(), '', false, false
         );
         $resource->expects($this->any())
@@ -207,18 +209,18 @@ class Magento_Eav_Model_Resource_Entity_AttributeTest extends PHPUnit_Framework_
             ->method('getConnection')
             ->with()
             ->will($this->returnValue($adapter));
-        $eavEntityType = $this->getMock('Magento_Eav_Model_Resource_Entity_Type', array(), array(), '', false, false);
+        $eavEntityType = $this->getMock('Magento\Eav\Model\Resource\Entity\Type', array(), array(), '', false, false);
         $arguments = array(
             'resource' => $resource,
-            'app' => $this->getMock('Magento_Core_Model_App', array(), array(), '', false, false),
+            'app' => $this->getMock('Magento\Core\Model\App', array(), array(), '', false, false),
             'eavEntityType' => $eavEntityType,
             'arguments' => array(
                 'application' => $application,
-                'helper' => $this->getMock('Magento_Eav_Helper_Data', array(), array(), '', false, false),
+                'helper' => $this->getMock('Magento\Eav\Helper\Data', array(), array(), '', false, false),
             )
         );
         $resourceModel = $this->getMock(
-            'Magento_Eav_Model_Resource_Entity_Attribute',
+            'Magento\Eav\Model\Resource\Entity\Attribute',
             array('getAdditionalAttributeTable'),
             $arguments
         );

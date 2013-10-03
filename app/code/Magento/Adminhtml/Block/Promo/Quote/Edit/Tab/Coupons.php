@@ -15,25 +15,27 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons
-    extends Magento_Adminhtml_Block_Text_List
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Adminhtml\Block\Promo\Quote\Edit\Tab;
+
+class Coupons
+    extends \Magento\Adminhtml\Block\Text\ListText
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Block_Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Block\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Block\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;

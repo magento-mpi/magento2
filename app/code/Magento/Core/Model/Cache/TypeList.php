@@ -5,41 +5,43 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Cache_TypeList implements Magento_Core_Model_Cache_TypeListInterface
+namespace Magento\Core\Model\Cache;
+
+class TypeList implements \Magento\Core\Model\Cache\TypeListInterface
 {
     const INVALIDATED_TYPES = 'core_cache_invalidate';
 
     /**
-     * @var Magento_Core_Model_Cache_Config
+     * @var \Magento\Core\Model\Cache\Config
      */
     protected $_config;
 
     /**
-     * @var Magento_Core_Model_Cache_InstanceFactory
+     * @var \Magento\Core\Model\Cache\InstanceFactory
      */
     protected $_factory;
 
     /**
-     * @var Magento_Core_Model_Cache_StateInterface
+     * @var \Magento\Core\Model\Cache\StateInterface
      */
     protected $_cacheState;
 
     /**
-     * @var Magento_Core_Model_CacheInterface
+     * @var \Magento\Core\Model\CacheInterface
      */
     protected $_cache;
 
     /**
-     * @param Magento_Core_Model_Cache_Config $config
-     * @param Magento_Core_Model_Cache_StateInterface $cacheState
-     * @param Magento_Core_Model_Cache_InstanceFactory $factory
-     * @param Magento_Core_Model_CacheInterface $cache
+     * @param \Magento\Core\Model\Cache\Config $config
+     * @param \Magento\Core\Model\Cache\StateInterface $cacheState
+     * @param \Magento\Core\Model\Cache\InstanceFactory $factory
+     * @param \Magento\Core\Model\CacheInterface $cache
      */
     public function __construct(
-        Magento_Core_Model_Cache_Config $config,
-        Magento_Core_Model_Cache_StateInterface $cacheState,
-        Magento_Core_Model_Cache_InstanceFactory $factory,
-        Magento_Core_Model_CacheInterface $cache
+        \Magento\Core\Model\Cache\Config $config,
+        \Magento\Core\Model\Cache\StateInterface $cacheState,
+        \Magento\Core\Model\Cache\InstanceFactory $factory,
+        \Magento\Core\Model\CacheInterface $cache
     ) {
         $this->_config = $config;
         $this->_factory = $factory;
@@ -51,8 +53,8 @@ class Magento_Core_Model_Cache_TypeList implements Magento_Core_Model_Cache_Type
      * Get cache class by cache type from configuration
      *
      * @param string $type
-     * @return Magento_Cache_FrontendInterface
-     * @throws UnexpectedValueException
+     * @return \Magento\Cache\FrontendInterface
+     * @throws \UnexpectedValueException
      */
     protected function _getTypeInstance($type)
     {
@@ -101,12 +103,12 @@ class Magento_Core_Model_Cache_TypeList implements Magento_Core_Model_Cache_Type
 
         foreach ($config as $type => $node) {
             $typeInstance = $this->_getTypeInstance($type);
-            if ($typeInstance instanceof Magento_Cache_Frontend_Decorator_TagScope) {
+            if ($typeInstance instanceof \Magento\Cache\Frontend\Decorator\TagScope) {
                 $typeTags = $typeInstance->getTag();
             } else {
                 $typeTags = '';
             }
-            $types[$type] = new Magento_Object(array(
+            $types[$type] = new \Magento\Object(array(
                 'id'            => $type,
                 'cache_type'    => $node['label'],
                 'description'   => $node['description'],

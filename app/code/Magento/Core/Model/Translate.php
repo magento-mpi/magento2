@@ -15,7 +15,9 @@
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.TooManyFields)
  */
-class Magento_Core_Model_Translate
+namespace Magento\Core\Model;
+
+class Translate
 {
     /**
      * CSV separator
@@ -62,7 +64,7 @@ class Magento_Core_Model_Translate
     /**
      * Translation object
      *
-     * @var Zend_Translate_Adapter
+     * @var \Zend_Translate_Adapter
      */
     protected $_translate;
 
@@ -102,7 +104,7 @@ class Magento_Core_Model_Translate
     protected $_translateInline;
 
     /**
-     * @var Magento_Core_Model_Translate_InlineInterface
+     * @var \Magento\Core\Model\Translate\InlineInterface
      */
     protected $_inlineInterface;
 
@@ -121,84 +123,84 @@ class Magento_Core_Model_Translate
     protected $_localeHierarchy = array();
 
     /**
-     * @var Magento_Core_Model_View_DesignInterface
+     * @var \Magento\Core\Model\View\DesignInterface
      */
     protected $_viewDesign;
 
     /**
-     * @var Magento_Core_Model_Translate_Factory
+     * @var \Magento\Core\Model\Translate\Factory
      */
     protected $_translateFactory;
 
     /**
-     * @var Magento_Cache_FrontendInterface $cache
+     * @var \Magento\Cache\FrontendInterface $cache
      */
     private $_cache;
 
     /**
-     * @var Magento_Core_Model_View_FileSystem
+     * @var \Magento\Core\Model\View\FileSystem
      */
     protected $_viewFileSystem;
 
     /**
-     * @var Magento_Phrase_Renderer_Placeholder
+     * @var \Magento\Phrase\Renderer\Placeholder
      */
     protected $_placeholderRender;
 
     /**
-     * @var Magento_Core_Model_ModuleList
+     * @var \Magento\Core\Model\ModuleList
      */
     protected $_moduleList;
 
     /**
-     * @var Magento_Core_Model_Config_Modules_Reader
+     * @var \Magento\Core\Model\Config\Modules\Reader
      */
     protected $_modulesReader;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Model_Resource_Translate
+     * @var \Magento\Core\Model\Resource\Translate
      */
     protected $_translateResource;
 
     /**
-     * @var Magento_Core_Model_App
+     * @var \Magento\Core\Model\App
      */
     protected $_app;
 
     /**
-     * @param Magento_Core_Model_View_DesignInterface $viewDesign
-     * @param Magento_Core_Model_Locale_Hierarchy_Config $config
-     * @param Magento_Core_Model_Translate_Factory $translateFactory
-     * @param Magento_Cache_FrontendInterface $cache
-     * @param Magento_Core_Model_View_FileSystem $viewFileSystem
-     * @param Magento_Phrase_Renderer_Placeholder $placeholderRender
-     * @param Magento_Core_Model_ModuleList $moduleList
-     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
-     * @param Magento_Core_Model_Config $coreConfig
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Resource_Translate $translate
-     * @param Magento_Core_Model_App $app
+     * @param \Magento\Core\Model\View\DesignInterface $viewDesign
+     * @param \Magento\Core\Model\Locale\Hierarchy\Config $config
+     * @param \Magento\Core\Model\Translate\Factory $translateFactory
+     * @param \Magento\Cache\FrontendInterface $cache
+     * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
+     * @param \Magento\Phrase\Renderer\Placeholder $placeholderRender
+     * @param \Magento\Core\Model\ModuleList $moduleList
+     * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
+     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Resource\Translate $translate
+     * @param \Magento\Core\Model\App $app
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_View_DesignInterface $viewDesign,
-        Magento_Core_Model_Locale_Hierarchy_Config $config,
-        Magento_Core_Model_Translate_Factory $translateFactory,
-        Magento_Cache_FrontendInterface $cache,
-        Magento_Core_Model_View_FileSystem $viewFileSystem,
-        Magento_Phrase_Renderer_Placeholder $placeholderRender,
-        Magento_Core_Model_ModuleList $moduleList,
-        Magento_Core_Model_Config_Modules_Reader $modulesReader,
-        Magento_Core_Model_Config $coreConfig,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Resource_Translate $translate,
-        Magento_Core_Model_App $app
+        \Magento\Core\Model\View\DesignInterface $viewDesign,
+        \Magento\Core\Model\Locale\Hierarchy\Config $config,
+        \Magento\Core\Model\Translate\Factory $translateFactory,
+        \Magento\Cache\FrontendInterface $cache,
+        \Magento\Core\Model\View\FileSystem $viewFileSystem,
+        \Magento\Phrase\Renderer\Placeholder $placeholderRender,
+        \Magento\Core\Model\ModuleList $moduleList,
+        \Magento\Core\Model\Config\Modules\Reader $modulesReader,
+        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Resource\Translate $translate,
+        \Magento\Core\Model\App $app
     ) {
         $this->_viewDesign = $viewDesign;
         $this->_localeHierarchy = $config->getHierarchy();
@@ -218,16 +220,16 @@ class Magento_Core_Model_Translate
      * Initialization translation data
      *
      * @param string $area
-     * @param Magento_Object $initParams
+     * @param \Magento\Object $initParams
      * @param bool $forceReload
-     * @return Magento_Core_Model_Translate
+     * @return \Magento\Core\Model\Translate
      */
     public function init($area, $initParams = null, $forceReload = false)
     {
         $this->setConfig(array(self::CONFIG_KEY_AREA => $area));
 
         $this->_translateInline = $this->getInlineObject($initParams)->isAllowed(
-            $area == Magento_Backend_Helper_Data::BACKEND_AREA_CODE ? 'admin' : null);
+            $area == \Magento\Backend\Helper\Data::BACKEND_AREA_CODE ? 'admin' : null);
 
         if (!$forceReload) {
             $this->_data = $this->_loadCache();
@@ -256,7 +258,7 @@ class Magento_Core_Model_Translate
      * Initialize configuration
      *
      * @param   array $config
-     * @return  Magento_Core_Model_Translate
+     * @return  \Magento\Core\Model\Translate
      */
     public function setConfig($config)
     {
@@ -303,15 +305,15 @@ class Magento_Core_Model_Translate
      * Parse and save edited translate
      *
      * @param array $translate
-     * @return Magento_Core_Model_Translate_InlineInterface
+     * @return \Magento\Core\Model\Translate\InlineInterface
      */
     public function processAjaxPost($translate)
     {
-        /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
-        $cacheTypeList = $this->_translateFactory->create(array(), 'Magento_Core_Model_Cache_TypeListInterface');
-        $cacheTypeList->invalidate(Magento_Core_Model_Cache_Type_Translate::TYPE_IDENTIFIER);
-        /** @var $parser Magento_Core_Model_Translate_InlineParser */
-        $parser = $this->_translateFactory->create(array(), 'Magento_Core_Model_Translate_InlineParser');
+        /** @var \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList */
+        $cacheTypeList = $this->_translateFactory->create(array(), 'Magento\Core\Model\Cache\TypeListInterface');
+        $cacheTypeList->invalidate(\Magento\Core\Model\Cache\Type\Translate::TYPE_IDENTIFIER);
+        /** @var $parser \Magento\Core\Model\Translate\InlineParser */
+        $parser = $this->_translateFactory->create(array(), 'Magento\Core\Model\Translate\InlineParser');
         $parser->processAjaxPost($translate, $this->getInlineObject());
     }
 
@@ -320,10 +322,10 @@ class Magento_Core_Model_Translate
      *
      * @param array|string $body
      * @param bool $isJson
-     * @return Magento_Core_Model_Translate_InlineInterface
+     * @return \Magento\Core\Model\Translate\InlineInterface
      */
     public function processResponseBody(&$body,
-        $isJson = Magento_Core_Model_Translate_InlineParser::JSON_FLAG_DEFAULT_STATE
+        $isJson = \Magento\Core\Model\Translate\InlineParser::JSON_FLAG_DEFAULT_STATE
     ) {
         return $this->getInlineObject()->processResponseBody($body, $isJson);
     }
@@ -332,7 +334,7 @@ class Magento_Core_Model_Translate
      * Load data from module translation files
      *
      * @param string $moduleName
-     * @return Magento_Core_Model_Translate
+     * @return \Magento\Core\Model\Translate
      */
     protected function _loadModuleTranslation($moduleName)
     {
@@ -365,7 +367,7 @@ class Magento_Core_Model_Translate
      * @param array $data
      * @param string|bool $scope
      * @param boolean $forceReload
-     * @return Magento_Core_Model_Translate
+     * @return \Magento\Core\Model\Translate
      */
     protected function _addData($data, $scope = false, $forceReload = false)
     {
@@ -411,7 +413,7 @@ class Magento_Core_Model_Translate
      * Load current theme translation
      *
      * @param boolean $forceReload
-     * @return Magento_Core_Model_Translate
+     * @return \Magento\Core\Model\Translate
      */
     protected function _loadThemeTranslation($forceReload = false)
     {
@@ -435,7 +437,7 @@ class Magento_Core_Model_Translate
      * Loading current store translation from DB
      *
      * @param boolean $forceReload
-     * @return Magento_Core_Model_Translate
+     * @return \Magento\Core\Model\Translate
      */
     protected function _loadDbTranslation($forceReload = false)
     {
@@ -456,7 +458,7 @@ class Magento_Core_Model_Translate
      */
     protected function _getModuleTranslationFile($moduleName, $locale)
     {
-        $file = $this->_modulesReader->getModuleDir(Magento_Core_Model_Dir::LOCALE, $moduleName);
+        $file = $this->_modulesReader->getModuleDir(\Magento\Core\Model\Dir::LOCALE, $moduleName);
         $file .= DS . $locale . '.csv';
         return $file;
     }
@@ -469,7 +471,7 @@ class Magento_Core_Model_Translate
      */
     protected function _getThemeTranslationFile($locale)
     {
-        return $this->_viewFileSystem->getFilename(Magento_Core_Model_Dir::LOCALE . DS . $locale . '.csv');
+        return $this->_viewFileSystem->getFilename(\Magento\Core\Model\Dir::LOCALE . DS . $locale . '.csv');
     }
 
     /**
@@ -482,7 +484,7 @@ class Magento_Core_Model_Translate
     {
         $data = array();
         if (file_exists($file)) {
-            $parser = new Magento_File_Csv();
+            $parser = new \Magento\File\Csv();
             $parser->setDelimiter(self::CSV_SEPARATOR);
             $data = $parser->getDataPairs($file);
         }
@@ -519,7 +521,7 @@ class Magento_Core_Model_Translate
      * Set locale
      *
      * @param string $locale
-     * @return Magento_Core_Model_Translate
+     * @return \Magento\Core\Model\Translate
      */
     public function setLocale($locale)
     {
@@ -530,7 +532,7 @@ class Magento_Core_Model_Translate
     /**
      * Retrieve DB resource model
      *
-     * @return Magento_Core_Model_Resource_Translate
+     * @return \Magento\Core\Model\Resource\Translate
      */
     public function getResource()
     {
@@ -540,12 +542,12 @@ class Magento_Core_Model_Translate
     /**
      * Retrieve translation object
      *
-     * @return Zend_Translate_Adapter
+     * @return \Zend_Translate_Adapter
      */
     public function getTranslate()
     {
         if (null === $this->_translate) {
-            $this->_translate = new Zend_Translate('array', $this->getData(), $this->getLocale());
+            $this->_translate = new \Zend_Translate('array', $this->getData(), $this->getLocale());
         }
         return $this->_translate;
     }
@@ -604,7 +606,7 @@ class Magento_Core_Model_Translate
      * Set Translate inline mode
      *
      * @param bool $flag
-     * @return Magento_Core_Model_Translate
+     * @return \Magento\Core\Model\Translate
      */
     public function setTranslateInline($flag = false)
     {
@@ -631,7 +633,7 @@ class Magento_Core_Model_Translate
     public function getCacheId()
     {
         if (is_null($this->_cacheId)) {
-            $this->_cacheId = Magento_Core_Model_Cache_Type_Translate::TYPE_IDENTIFIER;
+            $this->_cacheId = \Magento\Core\Model\Cache\Type\Translate::TYPE_IDENTIFIER;
             if (isset($this->_config[self::CONFIG_KEY_LOCALE])) {
                 $this->_cacheId .= '_' . $this->_config[self::CONFIG_KEY_LOCALE];
             }
@@ -665,7 +667,7 @@ class Magento_Core_Model_Translate
     /**
      * Saving data cache
      *
-     * @return Magento_Core_Model_Translate
+     * @return \Magento\Core\Model\Translate
      */
     protected function _saveCache()
     {
@@ -695,8 +697,8 @@ class Magento_Core_Model_Translate
     /**
      * Returns the translate interface object.
      *
-     * @param Magento_Object $initParams
-     * @return Magento_Core_Model_Translate_InlineInterface
+     * @param \Magento\Object $initParams
+     * @return \Magento\Core\Model\Translate\InlineInterface
      */
     private function getInlineObject($initParams = null)
     {

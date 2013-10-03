@@ -8,42 +8,43 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Helper\Product;
 
-require Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')->getDir()
+require \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')->getDir()
     . '/app/code/Magento/Catalog/Controller/Product.php';
 
-class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
+class ViewTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Helper_Product_View
+     * @var \Magento\Catalog\Helper\Product\View
      */
     protected $_helper;
 
     /**
-     * @var Magento_Catalog_Controller_Product
+     * @var \Magento\Catalog\Controller\Product
      */
     protected $_controller;
 
     protected function setUp()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_View_DesignInterface')
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager->get('Magento\Core\Model\View\DesignInterface')
             ->setDefaultDesignTheme();
-        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Catalog_Helper_Product_View');
-        $request = $objectManager->create('Magento_TestFramework_Request');
+        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Catalog\Helper\Product\View');
+        $request = $objectManager->create('Magento\TestFramework\Request');
         $request->setRouteName('catalog')
             ->setControllerName('product')
             ->setActionName('view');
         $arguments = array(
             'request' => $request,
-            'response' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                ->get('Magento_TestFramework_Response'),
+            'response' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->get('Magento\TestFramework\Response'),
         );
-        $context = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Controller_Varien_Action_Context', $arguments);
-        $this->_controller = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
-            'Magento_Catalog_Controller_Product',
+        $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Controller\Varien\Action\Context', $arguments);
+        $this->_controller = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Controller\Product',
             array(
                 'context'  => $context,
             )
@@ -55,7 +56,7 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
      */
     protected function tearDown()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Catalog_Model_Session')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Catalog\Model\Session')
             ->unsLastViewedProductId();
         $this->_controller = null;
         $this->_helper = null;
@@ -67,17 +68,17 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
     public function testInitProductLayout()
     {
         $uniqid = uniqid();
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
-        $product->setTypeId(Magento_Catalog_Model_Product_Type::DEFAULT_TYPE)->setId(99)->setUrlKey($uniqid);
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_Registry')->register('product', $product);
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
+        $product->setTypeId(\Magento\Catalog\Model\Product\Type::DEFAULT_TYPE)->setId(99)->setUrlKey($uniqid);
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager->get('Magento\Core\Model\Registry')->register('product', $product);
 
         $this->_helper->initProductLayout($product, $this->_controller);
         $rootBlock = $this->_controller->getLayout()->getBlock('root');
-        $this->assertInstanceOf('Magento_Page_Block_Html', $rootBlock);
+        $this->assertInstanceOf('Magento\Page\Block\Html', $rootBlock);
         $this->assertContains("product-{$uniqid}", $rootBlock->getBodyClass());
         $handles = $this->_controller->getLayout()->getUpdate()->getHandles();
         $this->assertContains('catalog_product_view_type_simple', $handles);
@@ -94,23 +95,23 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
         $this->assertNotEmpty($this->_controller->getResponse()->getBody());
         $this->assertEquals(
             10,
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Catalog_Model_Session')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Catalog\Model\Session')
                 ->getLastViewedProductId()
         );
     }
 
     /**
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      * @magentoAppIsolation enabled
      */
     public function testPrepareAndRenderWrongController()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $controller = $objectManager->create(
-            'Magento_Core_Controller_Front_Action',
+            'Magento\Core\Controller\Front\Action',
             array(
-                'request'  => $objectManager->get('Magento_TestFramework_Request'),
-                'response' => $objectManager->get('Magento_TestFramework_Response'),
+                'request'  => $objectManager->get('Magento\TestFramework\Request'),
+                'response' => $objectManager->get('Magento\TestFramework\Response'),
             )
         );
         $this->_helper->prepareAndRender(10, $controller);
@@ -118,7 +119,7 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      */
     public function testPrepareAndRenderWrongProduct()
     {
@@ -130,20 +131,20 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
      *
      * @magentoDataFixture Magento/Catalog/_files/multiple_products.php
      * @magentoAppIsolation enabled
-     * @covers Magento_Catalog_Helper_Product_View::_getSessionMessageModels
+     * @covers \Magento\Catalog\Helper\Product\View::_getSessionMessageModels
      * @magentoAppArea frontend
      */
     public function testGetSessionMessageModels()
     {
         $expectedMessages = array(
-            'Magento_Catalog_Model_Session'  => 'catalog message',
-            'Magento_Checkout_Model_Session' => 'checkout message',
+            'Magento\Catalog\Model\Session'  => 'catalog message',
+            'Magento\Checkout\Model\Session' => 'checkout message',
         );
 
         // add messages
         foreach ($expectedMessages as $sessionModel => $messageText) {
-            /** @var $session Magento_Core_Model_Session_Abstract */
-            $session = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get($sessionModel);
+            /** @var $session \Magento\Core\Model\Session\AbstractSession */
+            $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get($sessionModel);
             $session->addNotice($messageText);
         }
 
@@ -158,7 +159,7 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
 
         sort($expectedMessages);
 
-        /** @var $message Magento_Core_Model_Message_Notice */
+        /** @var $message \Magento\Core\Model\Message\Notice */
         foreach ($actualMessages as $key => $message) {
             $actualMessages[$key] = $message->getText();
         }

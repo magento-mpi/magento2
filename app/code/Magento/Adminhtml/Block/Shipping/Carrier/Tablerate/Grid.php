@@ -16,7 +16,9 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Shipping_Carrier_Tablerate_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Shipping\Carrier\Tablerate;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * Website filter
@@ -33,31 +35,31 @@ class Magento_Adminhtml_Block_Shipping_Carrier_Tablerate_Grid extends Magento_Ad
     protected $_conditionName;
 
     /**
-     * @var Magento_Shipping_Model_Carrier_Tablerate
+     * @var \Magento\Shipping\Model\Carrier\Tablerate
      */
     protected $_tablerate;
 
     /**
-     * @var Magento_Shipping_Model_Resource_Carrier_Tablerate_CollectionFactory
+     * @var \Magento\Shipping\Model\Resource\Carrier\Tablerate\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @param Magento_Shipping_Model_Resource_Carrier_Tablerate_CollectionFactory $collectionFactory
-     * @param Magento_Shipping_Model_Carrier_Tablerate $tablerate
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
+     * @param \Magento\Shipping\Model\Resource\Carrier\Tablerate\CollectionFactory $collectionFactory
+     * @param \Magento\Shipping\Model\Carrier\Tablerate $tablerate
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
      * @param array $data
      */
     public function __construct(
-        Magento_Shipping_Model_Resource_Carrier_Tablerate_CollectionFactory $collectionFactory,
-        Magento_Shipping_Model_Carrier_Tablerate $tablerate,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
+        \Magento\Shipping\Model\Resource\Carrier\Tablerate\CollectionFactory $collectionFactory,
+        \Magento\Shipping\Model\Carrier\Tablerate $tablerate,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
@@ -81,7 +83,7 @@ class Magento_Adminhtml_Block_Shipping_Carrier_Tablerate_Grid extends Magento_Ad
      * Set current website
      *
      * @param int $websiteId
-     * @return Magento_Adminhtml_Block_Shipping_Carrier_Tablerate_Grid
+     * @return \Magento\Adminhtml\Block\Shipping\Carrier\Tablerate\Grid
      */
     public function setWebsiteId($websiteId)
     {
@@ -106,7 +108,7 @@ class Magento_Adminhtml_Block_Shipping_Carrier_Tablerate_Grid extends Magento_Ad
      * Set current website
      *
      * @param int $websiteId
-     * @return Magento_Adminhtml_Block_Shipping_Carrier_Tablerate_Grid
+     * @return \Magento\Adminhtml\Block\Shipping\Carrier\Tablerate\Grid
      */
     public function setConditionName($name)
     {
@@ -127,11 +129,11 @@ class Magento_Adminhtml_Block_Shipping_Carrier_Tablerate_Grid extends Magento_Ad
     /**
      * Prepare shipping table rate collection
      *
-     * @return Magento_Adminhtml_Block_Shipping_Carrier_Tablerate_Grid
+     * @return \Magento\Adminhtml\Block\Shipping\Carrier\Tablerate\Grid
      */
     protected function _prepareCollection()
     {
-        /** @var $collection Magento_Shipping_Model_Resource_Carrier_Tablerate_Collection */
+        /** @var $collection \Magento\Shipping\Model\Resource\Carrier\Tablerate\Collection */
         $collection = $this->_collectionFactory->create();
         $collection->setConditionFilter($this->getConditionName())
             ->setWebsiteFilter($this->getWebsiteId());
@@ -144,7 +146,7 @@ class Magento_Adminhtml_Block_Shipping_Carrier_Tablerate_Grid extends Magento_Ad
     /**
      * Prepare table columns
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareColumns()
     {

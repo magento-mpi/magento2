@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Helper_Catalog extends Magento_Core_Helper_Abstract
+namespace Magento\Adminhtml\Helper;
+
+class Catalog extends \Magento\Core\Helper\AbstractHelper
 {
     const XML_PATH_SITEMAP_VALID_PATHS = 'general/file/sitemap_generate_valid_paths';
 
@@ -36,26 +38,26 @@ class Magento_Adminhtml_Helper_Catalog extends Magento_Core_Helper_Abstract
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
     
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_coreData = $coreData;
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -76,7 +78,7 @@ class Magento_Adminhtml_Helper_Catalog extends Magento_Core_Helper_Abstract
      * Set Custom Attribute Tab Block Name for Product Edit
      *
      * @param string $attributeTabBlock
-     * @return Magento_Adminhtml_Helper_Catalog
+     * @return \Magento\Adminhtml\Helper\Catalog
      */
     public function setAttributeTabBlock($attributeTabBlock)
     {
@@ -98,7 +100,7 @@ class Magento_Adminhtml_Helper_Catalog extends Magento_Core_Helper_Abstract
      * Set Custom Attribute Tab Block Name for Category Edit
      *
      * @param string $attributeTabBlock
-     * @return Magento_Adminhtml_Helper_Catalog
+     * @return \Magento\Adminhtml\Helper\Catalog
      */
     public function setCategoryAttributeTabBlock($attributeTabBlock)
     {

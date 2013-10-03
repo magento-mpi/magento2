@@ -8,50 +8,51 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Account;
 
 /**
- * Test class for Magento_Customer_Block_Account_AuthorizationLink
+ * Test class for \Magento\Customer\Block\Account\AuthorizationLink
  */
-class Magento_Customer_Block_Account_AuthorizationLinkTest extends PHPUnit_Framework_TestCase
+class AuthorizationLinkTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_Helper_ObjectManager
+     * @var \Magento\TestFramework\Helper\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_session;
 
     /**
-     * @var Magento_Customer_Helper_Data
+     * @var \Magento\Customer\Helper\Data
      */
     protected $_helper;
 
     /**
-     * @var Magento_Customer_Block_Account_AuthorizationLink
+     * @var \Magento\Customer\Block\Account\AuthorizationLink
      */
     protected $_block;
 
     protected function setUp()
     {
-        $this->_objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_session = $this->getMockBuilder('Magento_Customer_Model_Session')
+        $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_session = $this->getMockBuilder('Magento\Customer\Model\Session')
             ->disableOriginalConstructor()
             ->setMethods(array('isLoggedIn'))
             ->getMock();
-        $this->_helper = $this->getMockBuilder('Magento_Customer_Helper_Data')
+        $this->_helper = $this->getMockBuilder('Magento\Customer\Helper\Data')
             ->disableOriginalConstructor()
             ->setMethods(array('getLogoutUrl', 'getLoginUrl'))
             ->getMock();
 
-        $context = $this->_objectManager->getObject('Magento_Core_Block_Template_Context');
+        $context = $this->_objectManager->getObject('Magento\Core\Block\Template\Context');
 
         $context->getHelperFactory()->expects($this->any())->method('get')->will($this->returnValue($this->_helper));
 
         $this->_block = $this->_objectManager->getObject(
-            'Magento_Customer_Block_Account_AuthorizationLink',
+            'Magento\Customer\Block\Account\AuthorizationLink',
             array(
                 'context' => $context,
                 'session' => $this->_session,

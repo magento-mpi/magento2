@@ -15,21 +15,23 @@
  * @package    Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  *
- * @method Magento_Data_Form setParent($block)
- * @method Magento_Backend_Block_Widget_Form getParent()
- * @method Magento_Backend_Block_Widget_Form setUseContainer($flag)
+ * @method \Magento\Data\Form setParent($block)
+ * @method \Magento\Backend\Block\Widget\Form getParent()
+ * @method \Magento\Backend\Block\Widget\Form setUseContainer($flag)
  */
-class Magento_Data_Form extends Magento_Data_Form_Abstract
+namespace Magento\Data;
+
+class Form extends \Magento\Data\Form\AbstractForm
 {
     /**
      * All form elements collection
      *
-     * @var Magento_Data_Form_Element_Collection
+     * @var \Magento\Data\Form\Element\Collection
      */
     protected $_allElements;
 
     /**
-     * @var Magento_Core_Model_Session
+     * @var \Magento\Core\Model\Session
      */
     protected $_session;
 
@@ -45,15 +47,15 @@ class Magento_Data_Form extends Magento_Data_Form_Abstract
     static protected $_defaultFieldsetElementRenderer;
 
     /**
-     * @param Magento_Core_Model_Session $session
-     * @param Magento_Data_Form_Element_Factory $factoryElement
-     * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
+     * @param \Magento\Core\Model\Session $session
+     * @param \Magento\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
      * @param array $attributes
      */
     public function __construct(
-        Magento_Core_Model_Session $session,
-        Magento_Data_Form_Element_Factory $factoryElement,
-        Magento_Data_Form_Element_CollectionFactory $factoryCollection,
+        \Magento\Core\Model\Session $session,
+        \Magento\Data\Form\Element\Factory $factoryElement,
+        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
         $attributes = array()
     ) {
         parent::__construct($factoryElement, $factoryCollection, $attributes);
@@ -61,17 +63,17 @@ class Magento_Data_Form extends Magento_Data_Form_Abstract
         $this->_session = $session;
     }
 
-    public static function setElementRenderer(Magento_Data_Form_Element_Renderer_Interface $renderer = null)
+    public static function setElementRenderer(\Magento\Data\Form\Element\Renderer\RendererInterface $renderer = null)
     {
         self::$_defaultElementRenderer = $renderer;
     }
 
-    public static function setFieldsetRenderer(Magento_Data_Form_Element_Renderer_Interface $renderer = null)
+    public static function setFieldsetRenderer(\Magento\Data\Form\Element\Renderer\RendererInterface $renderer = null)
     {
         self::$_defaultFieldsetRenderer = $renderer;
     }
 
-    public static function setFieldsetElementRenderer(Magento_Data_Form_Element_Renderer_Interface $renderer = null)
+    public static function setFieldsetElementRenderer(\Magento\Data\Form\Element\Renderer\RendererInterface $renderer = null)
     {
         self::$_defaultFieldsetElementRenderer = $renderer;
     }
@@ -103,10 +105,10 @@ class Magento_Data_Form extends Magento_Data_Form_Abstract
     /**
      * Add form element
      *
-     * @param   Magento_Data_Form_Element_Abstract $element
-     * @return  Magento_Data_Form
+     * @param   \Magento\Data\Form\Element\AbstractElement $element
+     * @return  \Magento\Data\Form
      */
-    public function addElement(Magento_Data_Form_Element_Abstract $element, $after=false)
+    public function addElement(\Magento\Data\Form\Element\AbstractElement $element, $after=false)
     {
         $this->checkElementId($element->getId());
         parent::addElement($element, $after);
@@ -135,7 +137,7 @@ class Magento_Data_Form extends Magento_Data_Form_Abstract
     public function checkElementId($elementId)
     {
         if ($this->_elementIdExists($elementId)) {
-            throw new Exception('Element with id "'.$elementId.'" already exists');
+            throw new \Exception('Element with id "'.$elementId.'" already exists');
         }
         return true;
     }
@@ -149,7 +151,7 @@ class Magento_Data_Form extends Magento_Data_Form_Abstract
      * Retrieve form element by id
      *
      * @param string $elementId
-     * @return null|Magento_Data_Form_Element_Abstract
+     * @return null|\Magento\Data\Form\Element\AbstractElement
      */
     public function getElement($elementId)
     {
@@ -188,7 +190,7 @@ class Magento_Data_Form extends Magento_Data_Form_Abstract
      * Add suffix to name of all elements
      *
      * @param string $suffix
-     * @return Magento_Data_Form
+     * @return \Magento\Data\Form
      */
     public function addFieldNameSuffix($suffix)
     {
@@ -238,7 +240,7 @@ class Magento_Data_Form extends Magento_Data_Form_Abstract
 
     public function toHtml()
     {
-        Magento_Profiler::start('form/toHtml');
+        \Magento\Profiler::start('form/toHtml');
         $html = '';
         if ($useContainer = $this->getUseContainer()) {
             $html .= '<form '.$this->serialize($this->getHtmlAttributes()).'>';
@@ -258,7 +260,7 @@ class Magento_Data_Form extends Magento_Data_Form_Abstract
         if ($useContainer) {
             $html.= '</form>';
         }
-        Magento_Profiler::stop('form/toHtml');
+        \Magento\Profiler::stop('form/toHtml');
         return $html;
     }
 

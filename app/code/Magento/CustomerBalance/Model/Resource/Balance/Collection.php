@@ -16,8 +16,10 @@
  * @package     Magento_CustomerBalance
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerBalance_Model_Resource_Balance_Collection
-    extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\CustomerBalance\Model\Resource\Balance;
+
+class Collection
+    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Initialize resource
@@ -25,14 +27,14 @@ class Magento_CustomerBalance_Model_Resource_Balance_Collection
      */
     protected function _construct()
     {
-        $this->_init('Magento_CustomerBalance_Model_Balance', 'Magento_CustomerBalance_Model_Resource_Balance');
+        $this->_init('Magento\CustomerBalance\Model\Balance', 'Magento\CustomerBalance\Model\Resource\Balance');
     }
 
     /**
      * Filter collection by specified websites
      *
      * @param array|int $websiteIds
-     * @return Magento_CustomerBalance_Model_Resource_Balance_Collection
+     * @return \Magento\CustomerBalance\Model\Resource\Balance\Collection
      */
     public function addWebsitesFilter($websiteIds)
     {
@@ -43,7 +45,7 @@ class Magento_CustomerBalance_Model_Resource_Balance_Collection
     /**
      * Implement after load logic for each collection item
      *
-     * @return Magento_CustomerBalance_Model_Resource_Balance_Collection
+     * @return \Magento\CustomerBalance\Model\Resource\Balance\Collection
      */
     protected function _afterLoad()
     {

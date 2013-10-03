@@ -17,38 +17,40 @@
  *
  * @method string getOperationType() getOperationType()
  * @method int getRunDate() getRunDate()
- * @method Magento_ScheduledImportExport_Model_Export setRunDate() setRunDate(int $value)
- * @method Magento_ScheduledImportExport_Model_Export setEntity() setEntity(string $value)
- * @method Magento_ScheduledImportExport_Model_Export setOperationType() setOperationType(string $value)
+ * @method \Magento\ScheduledImportExport\Model\Export setRunDate() setRunDate(int $value)
+ * @method \Magento\ScheduledImportExport\Model\Export setEntity() setEntity(string $value)
+ * @method \Magento\ScheduledImportExport\Model\Export setOperationType() setOperationType(string $value)
  */
-class Magento_ScheduledImportExport_Model_Export extends Magento_ImportExport_Model_Export
-    implements Magento_ScheduledImportExport_Model_Scheduled_Operation_Interface
+namespace Magento\ScheduledImportExport\Model;
+
+class Export extends \Magento\ImportExport\Model\Export
+    implements \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface
 {
     /**
      * Date model instance
      *
-     * @var Magento_Core_Model_Date
+     * @var \Magento\Core\Model\Date
      */
     protected $_dateModel;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Dir $dir
-     * @param Magento_Core_Model_Log_AdapterFactory $adapterFactory
-     * @param Magento_ImportExport_Model_Export_ConfigInterface $exportConfig
-     * @param Magento_ImportExport_Model_Export_Entity_Factory $entityFactory
-     * @param Magento_ImportExport_Model_Export_Adapter_Factory $exportAdapterFac
-     * @param Magento_Core_Model_Date $coreDate
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\Core\Model\Log\AdapterFactory $adapterFactory
+     * @param \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig
+     * @param \Magento\ImportExport\Model\Export\Entity\Factory $entityFactory
+     * @param \Magento\ImportExport\Model\Export\Adapter\Factory $exportAdapterFac
+     * @param \Magento\Core\Model\Date $coreDate
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Dir $dir,
-        Magento_Core_Model_Log_AdapterFactory $adapterFactory,
-        Magento_ImportExport_Model_Export_ConfigInterface $exportConfig,
-        Magento_ImportExport_Model_Export_Entity_Factory $entityFactory,
-        Magento_ImportExport_Model_Export_Adapter_Factory $exportAdapterFac,
-        Magento_Core_Model_Date $coreDate,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Dir $dir,
+        \Magento\Core\Model\Log\AdapterFactory $adapterFactory,
+        \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig,
+        \Magento\ImportExport\Model\Export\Entity\Factory $entityFactory,
+        \Magento\ImportExport\Model\Export\Adapter\Factory $exportAdapterFac,
+        \Magento\Core\Model\Date $coreDate,
         array $data = array()
     ) {
         $this->_dateModel = $coreDate;
@@ -58,7 +60,7 @@ class Magento_ScheduledImportExport_Model_Export extends Magento_ImportExport_Mo
     /**
      * Date model instance getter
      *
-     * @return Magento_Core_Model_Date
+     * @return \Magento\Core\Model\Date
      */
     public function getDateModel()
     {
@@ -68,10 +70,10 @@ class Magento_ScheduledImportExport_Model_Export extends Magento_ImportExport_Mo
     /**
      * Run export through cron
      *
-     * @param Magento_ScheduledImportExport_Model_Scheduled_Operation $operation
+     * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation $operation
      * @return bool
      */
-    public function runSchedule(Magento_ScheduledImportExport_Model_Scheduled_Operation $operation)
+    public function runSchedule(\Magento\ScheduledImportExport\Model\Scheduled\Operation $operation)
     {
         $data = $this->export();
         $result = $operation->saveFileSource($this, $data);
@@ -82,10 +84,10 @@ class Magento_ScheduledImportExport_Model_Export extends Magento_ImportExport_Mo
     /**
      * Initialize export instance from scheduled operation
      *
-     * @param Magento_ScheduledImportExport_Model_Scheduled_Operation $operation
-     * @return Magento_ScheduledImportExport_Model_Export
+     * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation $operation
+     * @return \Magento\ScheduledImportExport\Model\Export
      */
-    public function initialize(Magento_ScheduledImportExport_Model_Scheduled_Operation $operation)
+    public function initialize(\Magento\ScheduledImportExport\Model\Scheduled\Operation $operation)
     {
         $fileInfo  = $operation->getFileInfo();
         $attributes = $operation->getEntityAttributes();

@@ -16,7 +16,9 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Block_Adminhtml_Captcha extends Magento_Adminhtml_Block_Template
+namespace Magento\GoogleShopping\Block\Adminhtml;
+
+class Captcha extends \Magento\Adminhtml\Block\Template
 {
 
     protected $_template = 'captcha.phtml';
@@ -28,7 +30,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Captcha extends Magento_Adminhtml_B
      */
     public function getConfirmButtonHtml()
     {
-        $confirmButton = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+        $confirmButton = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
                 'label'     => __('Confirm'),
                 'onclick'   => "if($('user_confirm').value != '')

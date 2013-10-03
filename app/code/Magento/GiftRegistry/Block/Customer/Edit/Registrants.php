@@ -14,7 +14,9 @@
  * @category   Magento
  * @package    Magento_GiftRegistry
  */
-class Magento_GiftRegistry_Block_Customer_Edit_Registrants extends  Magento_GiftRegistry_Block_Customer_Edit_Abstract
+namespace Magento\GiftRegistry\Block\Customer\Edit;
+
+class Registrants extends  \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit
 {
     /**
      * Scope Selector 'registry/registrant'
@@ -26,22 +28,22 @@ class Magento_GiftRegistry_Block_Customer_Edit_Registrants extends  Magento_Gift
     /**
      * Gift registry data
      *
-     * @var Magento_GiftRegistry_Helper_Data
+     * @var \Magento\GiftRegistry\Helper\Data
      */
     protected $_giftRegistryData = null;
 
     public function __construct(
-        Magento_GiftRegistry_Helper_Data $giftRegistryData,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Model_Cache_Type_Config $configCacheType,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory,
-        Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_GiftRegistry_Model_Attribute_Config $attributeConfig,
-        Magento_Core_Model_LocaleInterface $locale,
+        \Magento\GiftRegistry\Helper\Data $giftRegistryData,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
+        \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
+        \Magento\Core\Model\LocaleInterface $locale,
         array $data = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;
@@ -74,7 +76,7 @@ class Magento_GiftRegistry_Block_Customer_Edit_Registrants extends  Magento_Gift
     /**
      * Return registrant collection
      *
-     * @return Magento_GiftRegistry_Model_Resource_Person_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Person\Collection
      */
     public function getRegistrantList() {
         return $this->getEntity->getRegistrantCollection();

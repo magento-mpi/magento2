@@ -10,44 +10,44 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="editor"/>
     <referenceBlock name="head">
-        <block class="Magento_Page_Block_Html_Head_Css" name="jquery-fileuploader-css-jquery-fileupload-ui-css">
+        <block class="Magento\Page\Block\Html\Head\Css" name="jquery-fileuploader-css-jquery-fileupload-ui-css">
             <arguments>
                 <argument name="file" xsi:type="string">jquery/fileUploader/css/jquery.fileupload-ui.css</argument>
             </arguments>
         </block>
-        <block class="Magento_Page_Block_Html_Head_Script" name="jquery-fileuploader-jquery-iframe-transport-js">
+        <block class="Magento\Page\Block\Html\Head\Script" name="jquery-fileuploader-jquery-iframe-transport-js">
             <arguments>
                 <argument name="file" xsi:type="string">jquery/fileUploader/jquery.iframe-transport.js</argument>
             </arguments>
         </block>
-        <block class="Magento_Page_Block_Html_Head_Script" name="jquery-fileuploader-jquery-fileupload-js">
+        <block class="Magento\Page\Block\Html\Head\Script" name="jquery-fileuploader-jquery-fileupload-js">
             <arguments>
                 <argument name="file" xsi:type="string">jquery/fileUploader/jquery.fileupload.js</argument>
             </arguments>
         </block>
-        <block class="Magento_Page_Block_Html_Head_Script" name="jquery-fileuploader-load-image-min-js">
+        <block class="Magento\Page\Block\Html\Head\Script" name="jquery-fileuploader-load-image-min-js">
             <arguments>
                 <argument name="file" xsi:type="string">jquery/fileUploader/load-image.min.js</argument>
             </arguments>
         </block>
-        <block class="Magento_Page_Block_Html_Head_Script" name="jquery-fileuploader-canvas-to-blob-min-js">
+        <block class="Magento\Page\Block\Html\Head\Script" name="jquery-fileuploader-canvas-to-blob-min-js">
             <arguments>
                 <argument name="file" xsi:type="string">jquery/fileUploader/canvas-to-blob.min.js</argument>
             </arguments>
         </block>
-        <block class="Magento_Page_Block_Html_Head_Script" name="jquery-fileuploader-jquery-fileupload-fp-js">
+        <block class="Magento\Page\Block\Html\Head\Script" name="jquery-fileuploader-jquery-fileupload-fp-js">
             <arguments>
                 <argument name="file" xsi:type="string">jquery/fileUploader/jquery.fileupload-fp.js</argument>
             </arguments>
         </block>
     </referenceBlock>
     <referenceContainer name="left">
-        <block class="Magento_Banner_Block_Adminhtml_Banner_Edit_Tabs" name="banner_edit_tabs">
-            <block class="Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties" name="banner_edit_tab_properties"/>
-            <block class="Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Content" name="banner_edit_tab_content"/>
-            <block class="Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions" name="banner_edit_tab_promotions" template="edit/tab/promotions.phtml">
-                <block class="Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule" name="banner_salesrule_grid"/>
-                <block class="Magento_Adminhtml_Block_Widget_Grid_Serializer" name="salesrule_grid_serializer">
+        <block class="Magento\Banner\Block\Adminhtml\Banner\Edit\Tabs" name="banner_edit_tabs">
+            <block class="Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Properties" name="banner_edit_tab_properties"/>
+            <block class="Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Content" name="banner_edit_tab_content"/>
+            <block class="Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions" name="banner_edit_tab_promotions" template="edit/tab/promotions.phtml">
+                <block class="Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions\Salesrule" name="banner_salesrule_grid"/>
+                <block class="Magento\Adminhtml\Block\Widget\Grid\Serializer" name="salesrule_grid_serializer">
                     <arguments>
                         <argument name="grid_block" xsi:type="string">banner_salesrule_grid</argument>
                         <argument name="callback" xsi:type="string">getRelatedSalesRule</argument>
@@ -55,8 +55,8 @@
                         <argument name="reload_param_name" xsi:type="string">selected_salesrules</argument>
                     </arguments>
                 </block>
-                <block class="Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule" name="banner_catalogrule_grid"/>
-                <block class="Magento_Adminhtml_Block_Widget_Grid_Serializer" name="catalogrule_grid_serializer">
+                <block class="Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions\Catalogrule" name="banner_catalogrule_grid"/>
+                <block class="Magento\Adminhtml\Block\Widget\Grid\Serializer" name="catalogrule_grid_serializer">
                     <arguments>
                         <argument name="grid_block" xsi:type="string">banner_catalogrule_grid</argument>
                         <argument name="callback" xsi:type="string">getRelatedCatalogRule</argument>
@@ -80,6 +80,6 @@
         </block>
     </referenceContainer>
     <referenceContainer name="content">
-        <block class="Magento_Banner_Block_Adminhtml_Banner_Edit" name="banner_edit_content"/>
+        <block class="Magento\Banner\Block\Adminhtml\Banner\Edit" name="banner_edit_content"/>
     </referenceContainer>
 </layout>

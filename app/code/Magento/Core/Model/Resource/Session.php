@@ -16,7 +16,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Resource_Session implements Zend_Session_SaveHandler_Interface
+namespace Magento\Core\Model\Resource;
+
+class Session implements \Zend_Session_SaveHandler_Interface
 {
     /**
      * Session lifetime
@@ -35,22 +37,22 @@ class Magento_Core_Model_Resource_Session implements Zend_Session_SaveHandler_In
     /**
      * Database write connection
      *
-     * @var Magento_DB_Adapter_Interface
+     * @var \Magento\DB\Adapter\AdapterInterface
      */
     protected $_write;
 
     /**
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_dir;
 
     /**
      * Constructor
      *
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Dir $dir
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Dir $dir
      */
-    public function __construct(Magento_Core_Model_Resource $resource, Magento_Core_Model_Dir $dir)
+    public function __construct(\Magento\Core\Model\Resource $resource, \Magento\Core\Model\Dir $dir)
     {
         $this->_sessionTable = $resource->getTableName('core_session');
         $this->_write        = $resource->getConnection('core_write');
@@ -85,7 +87,7 @@ class Magento_Core_Model_Resource_Session implements Zend_Session_SaveHandler_In
     /**
      * Setup save handler
      *
-     * @return Magento_Core_Model_Resource_Session
+     * @return \Magento\Core\Model\Resource\Session
      */
     public function setSaveHandler()
     {

@@ -8,28 +8,28 @@
  */
 -->
 <config>
-    <virtualType name="Magento_Install_Model_Session" type="Magento_Core_Model_Session_Generic">
+    <virtualType name="Magento\Install\Model\Session" type="Magento\Core\Model\Session\Generic">
         <param name="sessionNamespace">
             <value>install</value>
         </param>
     </virtualType>
-    <type name="Magento_Install_Block_Begin">
+    <type name="Magento\Install\Block\Begin">
         <param name="eulaFile">
             <value>LICENSE.html</value>
         </param>
         <param name='session'>
-            <instance type="Magento_Install_Model_Session" />
+            <instance type="Magento\Install\Model\Session" />
         </param>
     </type>
-    <type name="Magento_Install_Block_End">
+    <type name="Magento\Install\Block\End">
         <param name="cryptKey">
-            <value type="argument">Magento_Core_Model_Encryption::PARAM_CRYPT_KEY</value>
+            <value type="argument">Magento\Core\Model\Encryption::PARAM_CRYPT_KEY</value>
         </param>
         <param name='session'>
-            <instance type="Magento_Install_Model_Session" />
+            <instance type="Magento\Install\Model\Session" />
         </param>
     </type>
-    <type name="Magento_Install_Model_Installer_Db">
+    <type name="Magento\Install\Model\Installer\Db">
         <param name="dbConfig">
             <value>
                 <mysql4>
@@ -40,7 +40,7 @@
             </value>
         </param>
     </type>
-    <type name="Magento_Install_Model_Installer_Db_Abstract">
+    <type name="Magento\Install\Model\Installer\Db\AbstractDb">
         <param name="dbExtensions">
             <value>
                 <mysql4>
@@ -49,68 +49,68 @@
             </value>
         </param>
     </type>
-    <type name="Magento_Install_Model_Config_Reader">
+    <type name="Magento\Install\Model\Config\Reader">
         <param name="fileName">
             <value>install_wizard.xml</value>
         </param>
         <param name="converter">
-            <instance type="Magento_Install_Model_Config_Converter" />
+            <instance type="Magento\Install\Model\Config\Converter" />
         </param>
         <param name="schemaLocator">
-            <instance type="Magento_Install_Model_Config_SchemaLocator" />
+            <instance type="Magento\Install\Model\Config\SchemaLocator" />
         </param>
     </type>
-    <type name="Magento_Install_Model_Config_Data">
+    <type name="Magento\Install\Model\Config\Data">
         <param name='reader'>
-            <instance type="Magento_Install_Model_Config_Reader" />
+            <instance type="Magento\Install\Model\Config\Reader" />
         </param>
         <param name="cacheId">
             <value>install_wizard_config</value>
         </param>
     </type>
-    <type name="Magento_Install_Block_Abstract">
+    <type name="Magento\Install\Block\AbstractBlock">
         <param name='session'>
-            <instance type="Magento_Install_Model_Session" />
+            <instance type="Magento\Install\Model\Session" />
         </param>
     </type>
-    <type name="Magento_Install_Block_Config">
+    <type name="Magento\Install\Block\Config">
         <param name='session'>
-            <instance type="Magento_Install_Model_Session" />
+            <instance type="Magento\Install\Model\Session" />
         </param>
     </type>
-    <type name="Magento_Install_Block_Locale">
+    <type name="Magento\Install\Block\Locale">
         <param name='session'>
-            <instance type="Magento_Install_Model_Session" />
+            <instance type="Magento\Install\Model\Session" />
         </param>
     </type>
-    <type name="Magento_Install_Block_Db_Main">
+    <type name="Magento\Install\Block\Db\Main">
         <param name='session'>
-            <instance type="Magento_Install_Model_Session" />
+            <instance type="Magento\Install\Model\Session" />
         </param>
     </type>
-    <type name="Magento_Install_Block_Db_Type">
+    <type name="Magento\Install\Block\Db\Type">
         <param name='session'>
-            <instance type="Magento_Install_Model_Session" />
+            <instance type="Magento\Install\Model\Session" />
         </param>
     </type>
-    <type name="Magento_Install_Controller_Wizard">
+    <type name="Magento\Install\Controller\Wizard">
         <param name='session'>
-            <instance type="Magento_Install_Model_Session" />
+            <instance type="Magento\Install\Model\Session" />
         </param>
     </type>
-    <type name="Magento_Install_Model_Installer">
+    <type name="Magento\Install\Model\Installer">
         <param name='session'>
-            <instance type="Magento_Install_Model_Session" />
+            <instance type="Magento\Install\Model\Session" />
         </param>
     </type>
-    <type name="Magento_Install_Model_Observer">
+    <type name="Magento\Install\Model\Observer">
         <param name='session'>
-            <instance type="Magento_Install_Model_Session" />
+            <instance type="Magento\Install\Model\Session" />
         </param>
     </type>
-    <type name="Magento_Install_Model_Installer_Pear">
+    <type name="Magento\Install\Model\Installer\Pear">
         <param name='session'>
-            <instance type="Magento_Install_Model_Session" />
+            <instance type="Magento\Install\Model\Session" />
         </param>
     </type>
 </config>

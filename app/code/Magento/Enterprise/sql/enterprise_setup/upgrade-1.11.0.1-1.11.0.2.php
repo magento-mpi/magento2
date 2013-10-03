@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_Core_Model_Resource_Setup */
+/** @var $installer \Magento\Core\Model\Resource\Setup */
 $installer = $this;
 
 $tableName = $installer->getTable('admin_rule');
-/** @var Magento_DB_Adapter_Interface $connection */
+/** @var \Magento\DB\Adapter\AdapterInterface $connection */
 $connection = $installer->getConnection();
 $condition = $connection->prepareSqlCondition('resource_id', array(
     array('like' => '%content_staging%'),

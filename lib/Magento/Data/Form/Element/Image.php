@@ -15,24 +15,26 @@
  * @package    Magento_Data
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Data_Form_Element_Image extends Magento_Data_Form_Element_Abstract
+namespace Magento\Data\Form\Element;
+
+class Image extends \Magento\Data\Form\Element\AbstractElement
 {
     /**
-     * @var Magento_Core_Model_UrlInterface
+     * @var \Magento\Core\Model\UrlInterface
      */
     protected $_urlBuilder;
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Data_Form_Element_Factory $factoryElement
-     * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
-     * @param Magento_Core_Model_UrlInterface $urlBuilder
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param \Magento\Core\Model\UrlInterface $urlBuilder
      * @param array $attributes
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Data_Form_Element_Factory $factoryElement,
-        Magento_Data_Form_Element_CollectionFactory $factoryCollection,
-        Magento_Core_Model_UrlInterface $urlBuilder,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Data\Form\Element\Factory $factoryElement,
+        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
+        \Magento\Core\Model\UrlInterface $urlBuilder,
         $attributes = array()
     ) {
         $this->_urlBuilder = $urlBuilder;

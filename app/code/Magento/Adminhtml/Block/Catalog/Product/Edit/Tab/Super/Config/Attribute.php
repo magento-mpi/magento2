@@ -15,8 +15,10 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Attribute
-    extends Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config;
+
+class Attribute
+    extends \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config
 {
     /**
      * Render block

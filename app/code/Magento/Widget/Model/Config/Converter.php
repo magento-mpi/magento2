@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Widget_Model_Config_Converter implements Magento_Config_ConverterInterface
+namespace Magento\Widget\Model\Config;
+
+class Converter implements \Magento\Config\ConverterInterface
 {
     /**
      * {@inheritdoc}
@@ -15,8 +17,8 @@ class Magento_Widget_Model_Config_Converter implements Magento_Config_ConverterI
     public function convert($source)
     {
         $widgets = array();
-        $xpath = new DOMXPath($source);
-        /** @var $widget DOMNode */
+        $xpath = new \DOMXPath($source);
+        /** @var $widget \DOMNode */
         foreach ($xpath->query('/widgets/widget') as $widget) {
             $widgetAttributes = $widget->attributes;
             $widgetArray = array('@' => array());
@@ -32,7 +34,7 @@ class Magento_Widget_Model_Config_Converter implements Magento_Config_ConverterI
             }
 
             $widgetId = $widgetAttributes->getNamedItem('id');
-            /** @var $widgetSubNode DOMNode */
+            /** @var $widgetSubNode \DOMNode */
             foreach ($widget->childNodes as $widgetSubNode) {
                 switch ($widgetSubNode->nodeName) {
                     case 'label':
@@ -42,7 +44,7 @@ class Magento_Widget_Model_Config_Converter implements Magento_Config_ConverterI
                         $widgetArray['description'] = $widgetSubNode->nodeValue;
                         break;
                     case 'parameters':
-                        /** @var $parameter DOMNode */
+                        /** @var $parameter \DOMNode */
                         foreach ($widgetSubNode->childNodes as $parameter) {
                             if ($parameter->nodeName === '#text') {
                                 continue;
@@ -71,7 +73,7 @@ class Magento_Widget_Model_Config_Converter implements Magento_Config_ConverterI
                     case '#comment': 
                         break;
                     default:
-                        throw new LogicException(
+                        throw new \LogicException(
                             sprintf(
                                 "Unsupported child xml node '%s' found in the 'widget' node",
                                 $widgetSubNode->nodeName
@@ -88,9 +90,9 @@ class Magento_Widget_Model_Config_Converter implements Magento_Config_ConverterI
     /**
      * Convert dom Container node to magneto array
      *
-     * @param DOMNode $source
+     * @param \DOMNode $source
      * @return array
-     * @throws LogicException
+     * @throws \LogicException
      */
     protected function _convertContainer($source)
     {
@@ -98,11 +100,11 @@ class Magento_Widget_Model_Config_Converter implements Magento_Config_ConverterI
         $containerAttributes = $source->attributes;
         $template = array();
         foreach ($source->childNodes as $containerTemplate) {
-            if (!$containerTemplate instanceof DOMElement) {
+            if (!$containerTemplate instanceof \DOMElement) {
                 continue;
             }
             if ($containerTemplate->nodeName !== 'template') {
-                throw new LogicException("Only 'template' node can be child of 'container' node");
+                throw new \LogicException("Only 'template' node can be child of 'container' node");
             }
             $templateAttributes = $containerTemplate->attributes;
             $template[$templateAttributes->getNamedItem('name')->nodeValue] =
@@ -118,9 +120,9 @@ class Magento_Widget_Model_Config_Converter implements Magento_Config_ConverterI
     /**
      * Convert dom Parameter node to Magento array
      *
-     * @param DOMNode $source
+     * @param \DOMNode $source
      * @return array
-     * @throws LogicException
+     * @throws \LogicException
      * @SuppressWarnings(PHPMD.NPathComplexity)
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
@@ -146,10 +148,10 @@ class Magento_Widget_Model_Config_Converter implements Magento_Config_ConverterI
             }
             $parameter['type'] = $xsiType;
 
-            /** @var $paramSubNode DOMNode */
+            /** @var $paramSubNode \DOMNode */
             foreach ($source->childNodes as $paramSubNode) {
                 if ($paramSubNode->nodeName == 'options') {
-                    /** @var $option DOMNode */
+                    /** @var $option \DOMNode */
                     foreach ($paramSubNode->childNodes as $option) {
                         if ($option->nodeName === '#text') {
                             continue;
@@ -210,9 +212,9 @@ class Magento_Widget_Model_Config_Converter implements Magento_Config_ConverterI
     /**
      * Convert dom Depends node to Magento array
      *
-     * @param DOMNode $source
+     * @param \DOMNode $source
      * @return array
-     * @throws LogicException
+     * @throws \LogicException
      */
     protected function _convertDepends($source)
     {
@@ -222,7 +224,7 @@ class Magento_Widget_Model_Config_Converter implements Magento_Config_ConverterI
                 continue;
             }
             if ($childNode->nodeName !== 'parameter') {
-                throw new LogicException(
+                throw new \LogicException(
                     sprintf(
                         "Only 'parameter' node can be child of 'depends' node, %s found",
                         $childNode->nodeName
@@ -239,9 +241,9 @@ class Magento_Widget_Model_Config_Converter implements Magento_Config_ConverterI
     /**
      * Convert dom Renderer node to magneto array
      *
-     * @param DOMNode $source
+     * @param \DOMNode $source
      * @return array
-     * @throws LogicException
+     * @throws \LogicException
      */
     protected function _convertBlock($source)
     {
@@ -252,7 +254,7 @@ class Magento_Widget_Model_Config_Converter implements Magento_Config_ConverterI
                 continue;
             }
             if ($blockSubNode->nodeName !== 'data') {
-                throw new LogicException(
+                throw new \LogicException(
                     sprintf(
                         "Only 'data' node can be child of 'block' node, %s found",
                         $blockSubNode->nodeName
@@ -267,7 +269,7 @@ class Magento_Widget_Model_Config_Converter implements Magento_Config_ConverterI
     /**
      * Convert dom Data node to magneto array
      *
-     * @param DOMElement $source
+     * @param \DOMElement $source
      * @return array
      */
     protected function _convertData($source)
@@ -277,7 +279,7 @@ class Magento_Widget_Model_Config_Converter implements Magento_Config_ConverterI
             return $data;
         }
         foreach ($source->childNodes as $dataChild) {
-            if ($dataChild instanceof DOMElement) {
+            if ($dataChild instanceof \DOMElement) {
                 $data[$dataChild->attributes->getNamedItem('name')->nodeValue] = $this->_convertData($dataChild);
             } else {
                 if (strlen(trim($dataChild->nodeValue))) {
@@ -291,9 +293,9 @@ class Magento_Widget_Model_Config_Converter implements Magento_Config_ConverterI
     /**
      * Convert dom Option node to magneto array
      *
-     * @param DOMNode $source
+     * @param \DOMNode $source
      * @return array
-     * @throws LogicException
+     * @throws \LogicException
      */
     protected function _convertOption($source)
     {
@@ -305,7 +307,7 @@ class Magento_Widget_Model_Config_Converter implements Magento_Config_ConverterI
                 continue;
             }
             if ($childNode->nodeName !== 'label') {
-                throw new LogicException("Only 'label' node can be child of 'option' node");
+                throw new \LogicException("Only 'label' node can be child of 'option' node");
             }
             $option['label'] = $childNode->nodeValue;
         }

@@ -11,11 +11,13 @@
 /**
  * Handler for performance testing scenarios in format of Apache JMeter
  */
-class Magento_TestFramework_Performance_Scenario_Handler_Jmeter
-    implements Magento_TestFramework_Performance_Scenario_HandlerInterface
+namespace Magento\TestFramework\Performance\Scenario\Handler;
+
+class Jmeter
+    implements \Magento\TestFramework\Performance\Scenario\HandlerInterface
 {
     /**
-     * @var Magento_Shell
+     * @var \Magento\Shell
      */
     protected $_shell;
 
@@ -27,10 +29,10 @@ class Magento_TestFramework_Performance_Scenario_Handler_Jmeter
     /**
      * Constructor
      *
-     * @param Magento_Shell $shell
+     * @param \Magento\Shell $shell
      * @param bool $validateExecutable
      */
-    public function __construct(Magento_Shell $shell, $validateExecutable = true)
+    public function __construct(\Magento\Shell $shell, $validateExecutable = true)
     {
         $this->_shell = $shell;
         $this->_validateExecutable = $validateExecutable;
@@ -50,12 +52,12 @@ class Magento_TestFramework_Performance_Scenario_Handler_Jmeter
     /**
      * Run scenario and optionally write results to report file
      *
-     * @param Magento_TestFramework_Performance_Scenario $scenario
+     * @param \Magento\TestFramework\Performance\Scenario $scenario
      * @param string|null $reportFile Report file to write results to, NULL disables report creation
-     * @throws Magento_Exception
-     * @throws Magento_TestFramework_Performance_Scenario_FailureException
+     * @throws \Magento\Exception
+     * @throws \Magento\TestFramework\Performance\Scenario\FailureException
      */
-    public function run(Magento_TestFramework_Performance_Scenario $scenario, $reportFile = null)
+    public function run(\Magento\TestFramework\Performance\Scenario $scenario, $reportFile = null)
     {
         $this->_validateScenarioExecutable();
 
@@ -65,13 +67,13 @@ class Magento_TestFramework_Performance_Scenario_Handler_Jmeter
 
         if ($reportFile) {
             if (!file_exists($reportFile)) {
-                throw new Magento_Exception(
+                throw new \Magento\Exception(
                     "Report file '$reportFile' for '{$scenario->getTitle()}' has not been created."
                 );
             }
             $reportErrors = $this->_getReportErrors($reportFile);
             if ($reportErrors) {
-                throw new Magento_TestFramework_Performance_Scenario_FailureException($scenario,
+                throw new \Magento\TestFramework\Performance\Scenario\FailureException($scenario,
                     implode(PHP_EOL, $reportErrors));
             }
         }
@@ -80,11 +82,11 @@ class Magento_TestFramework_Performance_Scenario_Handler_Jmeter
     /**
      * Build and return scenario execution command and arguments for it
      *
-     * @param Magento_TestFramework_Performance_Scenario $scenario
+     * @param \Magento\TestFramework\Performance\Scenario $scenario
      * @param string|null $reportFile
      * @return array
      */
-    protected function _buildScenarioCmd(Magento_TestFramework_Performance_Scenario $scenario, $reportFile = null)
+    protected function _buildScenarioCmd(\Magento\TestFramework\Performance\Scenario $scenario, $reportFile = null)
     {
         $command = 'jmeter -n -t %s';
         $arguments = array($scenario->getFile());

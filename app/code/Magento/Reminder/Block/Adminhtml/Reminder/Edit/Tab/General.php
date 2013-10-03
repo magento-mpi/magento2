@@ -11,48 +11,50 @@
 /**
  * Reminder rules edit form general fields
  */
-class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
-    extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab;
+
+class General
+    extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Store Manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Application locale
      *
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
      * Store
      *
-     * @var Magento_Core_Model_System_Store
+     * @var \Magento\Core\Model\System\Store
      */
     protected $_store;
 
     /**
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Core_Model_System_Store $store
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\System\Store $store
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Core_Model_System_Store $store,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\System\Store $store,
         array $data = array()
     ) {
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
@@ -64,12 +66,12 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
     /**
      * Prepare general properties form
      *
-     * @return Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
+     * @return \Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\General
      */
     protected function _prepareForm()
     {
         $isEditable = ($this->getCanEditReminderRule() !== false) ? true : false;
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $model = $this->_coreRegistry->registry('current_reminder_rule');
 
@@ -106,9 +108,9 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
         ));
 
         $model->unsSalesruleId();
-        $helperBlock = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Promo_Widget_Chooser');
+        $helperBlock = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Promo\Widget\Chooser');
 
-        if ($helperBlock instanceof Magento_Object) {
+        if ($helperBlock instanceof \Magento\Object) {
             $helperBlock->setConfig($this->getChooserConfig())
                 ->setFieldsetId($fieldset->getId())
                 ->prepareElementHtml($field);
@@ -146,14 +148,14 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
             $model->setData('is_active', '1');
         }
 
-        $dateFormat = $this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
 
         $fieldset->addField('from_date', 'date', array(
             'name'   => 'from_date',
             'label'  => __('From Date'),
             'title'  => __('From Date'),
             'image'  => $this->getViewFileUrl('images/grid-cal.gif'),
-            'input_format' => Magento_Date::DATE_INTERNAL_FORMAT,
+            'input_format' => \Magento\Date::DATE_INTERNAL_FORMAT,
             'date_format'  => $dateFormat
         ));
         $fieldset->addField('to_date', 'date', array(
@@ -161,7 +163,7 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
             'label'  => __('To Date'),
             'title'  => __('To Date'),
             'image'  => $this->getViewFileUrl('images/grid-cal.gif'),
-            'input_format' => Magento_Date::DATE_INTERNAL_FORMAT,
+            'input_format' => \Magento\Date::DATE_INTERNAL_FORMAT,
             'date_format' => $dateFormat
         ));
 

@@ -16,7 +16,9 @@
  * @package    Magento_GiftMessage
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
+namespace Magento\GiftMessage\Helper;
+
+class Message extends \Magento\Core\Helper\Data
 {
     /**
      * Giftmessages allow section in configuration
@@ -40,50 +42,50 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
     protected $_innerCache = array();
 
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
-     * @var Magento_Core_Model_LayoutFactory
+     * @var \Magento\Core\Model\LayoutFactory
      */
     protected $_layoutFactory;
 
     /**
-     * @var Magento_GiftMessage_Model_MessageFactory
+     * @var \Magento\GiftMessage\Model\MessageFactory
      */
     protected $_giftMessageFactory;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Http $coreHttp
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Locale $locale
-     * @param Magento_Core_Model_Date $dateModel
-     * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Core_Model_Encryption $encryptor
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Core_Model_LayoutFactory $layoutFactory
-     * @param Magento_GiftMessage_Model_MessageFactory $giftMessageFactory
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Http $coreHttp
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Locale $locale
+     * @param \Magento\Core\Model\Date $dateModel
+     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\Core\Model\Encryption $encryptor
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Core\Model\LayoutFactory $layoutFactory
+     * @param \Magento\GiftMessage\Model\MessageFactory $giftMessageFactory
      * @param bool $dbCompatibleMode
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Http $coreHttp,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Locale $locale,
-        Magento_Core_Model_Date $dateModel,
-        Magento_Core_Model_App_State $appState,
-        Magento_Core_Model_Encryption $encryptor,
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Core_Model_LayoutFactory $layoutFactory,
-        Magento_GiftMessage_Model_MessageFactory $giftMessageFactory,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Http $coreHttp,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Locale $locale,
+        \Magento\Core\Model\Date $dateModel,
+        \Magento\Core\Model\App\State $appState,
+        \Magento\Core\Model\Encryption $encryptor,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Core\Model\LayoutFactory $layoutFactory,
+        \Magento\GiftMessage\Model\MessageFactory $giftMessageFactory,
         $dbCompatibleMode = true
     )
     {
@@ -99,11 +101,11 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
      * Retrive inline giftmessage edit form for specified entity
      *
      * @param string $type
-     * @param Magento_Object $entity
+     * @param \Magento\Object $entity
      * @param boolean $dontDisplayContainer
      * @return string
      */
-    public function getInline($type, Magento_Object $entity, $dontDisplayContainer=false)
+    public function getInline($type, \Magento\Object $entity, $dontDisplayContainer=false)
     {
         if (!in_array($type, array('onepage_checkout','multishipping_address'))
             && !$this->isMessagesAvailable($type, $entity)
@@ -111,7 +113,7 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
             return '';
         }
 
-        return $this->_layoutFactory->create()->createBlock('Magento_GiftMessage_Block_Message_Inline')
+        return $this->_layoutFactory->create()->createBlock('Magento\GiftMessage\Block\Message\Inline')
             ->setId('giftmessage_form_' . $this->_nextId++)
             ->setDontDisplayContainer($dontDisplayContainer)
             ->setEntity($entity)
@@ -122,18 +124,18 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
      * Check availability of giftmessages for specified entity.
      *
      * @param string $type
-     * @param Magento_Object $entity
-     * @param Magento_Core_Model_Store|integer $store
+     * @param \Magento\Object $entity
+     * @param \Magento\Core\Model\Store|integer $store
      * @return boolean
      */
-    public function isMessagesAvailable($type, Magento_Object $entity, $store = null)
+    public function isMessagesAvailable($type, \Magento\Object $entity, $store = null)
     {
         if ($type == 'items') {
             $items = $entity->getAllItems();
             if(!is_array($items) || empty($items)) {
                 return $this->_coreStoreConfig->getConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS, $store);
             }
-            if($entity instanceof Magento_Sales_Model_Quote) {
+            if($entity instanceof \Magento\Sales\Model\Quote) {
                 $_type = $entity->getIsMultiShipping() ? 'address_item' : 'item';
             }
             else {
@@ -185,7 +187,7 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
      * Check availablity of gift messages from store config if flag eq 2.
      *
      * @param int $productGiftMessageAllow
-     * @param Magento_Core_Model_Store|integer $store
+     * @param \Magento\Core\Model\Store|integer $store
      * @return boolean
      */
     protected function _getDependenceFromStoreConfig($productGiftMessageAllow, $store=null)
@@ -202,11 +204,11 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
      * Alias for isMessagesAvailable(...)
      *
      * @param string $type
-     * @param Magento_Object $entity
-     * @param Magento_Core_Model_Store|integer $store
+     * @param \Magento\Object $entity
+     * @param \Magento\Core\Model\Store|integer $store
      * @return boolen
      */
-    public function getIsMessagesAvailable($type, Magento_Object $entity, $store=null)
+    public function getIsMessagesAvailable($type, \Magento\Object $entity, $store=null)
     {
         return $this->isMessagesAvailable($type, $entity, $store);
     }
@@ -214,10 +216,10 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
     /**
      * Retrive escaped and preformated gift message text for specified entity
      *
-     * @param Magento_Object $entity
+     * @param \Magento\Object $entity
      * @return unknown
      */
-    public function getEscapedGiftMessage(Magento_Object $entity)
+    public function getEscapedGiftMessage(\Magento\Object $entity)
     {
         $message = $this->getGiftMessageForEntity($entity);
         if ($message) {
@@ -229,10 +231,10 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
     /**
      * Retrive gift message for entity. If message not exists return null
      *
-     * @param Magento_Object $entity
-     * @return Magento_GiftMessage_Model_Message
+     * @param \Magento\Object $entity
+     * @return \Magento\GiftMessage\Model\Message
      */
-    public function getGiftMessageForEntity(Magento_Object $entity)
+    public function getGiftMessageForEntity(\Magento\Object $entity)
     {
         if($entity->getGiftMessageId() && !$entity->getGiftMessage()) {
             $message = $this->getGiftMessage($entity->getGiftMessageId());
@@ -274,7 +276,7 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
      *
      * @param string $key
      * @param mixed $value
-     * @return Magento_GiftMessage_Helper_Message
+     * @return \Magento\GiftMessage\Helper\Message
      */
     public function setCached($key, $value)
     {
@@ -286,7 +288,7 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
      * Check availability for onepage checkout items
      *
      * @param array $items
-     * @param Magento_Core_Model_Store|integer $store
+     * @param \Magento\Core\Model\Store|integer $store
      * @return boolen
      */
     public function getAvailableForQuoteItems($quote, $store=null)
@@ -304,7 +306,7 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
      * Check availability for multishiping checkout items
      *
      * @param array $items
-     * @param Magento_Core_Model_Store|integer $store
+     * @param \Magento\Core\Model\Store|integer $store
      * @return boolen
      */
     public function getAvailableForAddressItems($items, $store=null)
@@ -321,7 +323,7 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
      * Retrive gift message with specified id
      *
      * @param integer $messageId
-     * @return Magento_GiftMessage_Model_Message
+     * @return \Magento\GiftMessage\Model\Message
      */
     public function getGiftMessage($messageId=null)
     {

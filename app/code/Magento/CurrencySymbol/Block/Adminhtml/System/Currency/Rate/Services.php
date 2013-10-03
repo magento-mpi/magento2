@@ -16,7 +16,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CurrencySymbol_Block_Adminhtml_System_Currency_Rate_Services extends Magento_Backend_Block_Template
+namespace Magento\CurrencySymbol\Block\Adminhtml\System\Currency\Rate;
+
+class Services extends \Magento\Backend\Block\Template
 {
     /**
      * @inherit
@@ -24,27 +26,27 @@ class Magento_CurrencySymbol_Block_Adminhtml_System_Currency_Rate_Services exten
     protected $_template = 'system/currency/rate/services.phtml';
 
     /**
-     * @var Magento_Directory_Model_Currency_Import_Source_ServiceFactory
+     * @var \Magento\Directory\Model\Currency\Import\Source\ServiceFactory
      */
     protected $_srcCurrencyFactory;
 
     /**
-     * @var Magento_Backend_Model_Session
+     * @var \Magento\Backend\Model\Session
      */
     protected $_adminSession;
 
     /**
-     * @param Magento_Backend_Model_Session $adminSession
-     * @param Magento_Directory_Model_Currency_Import_Source_ServiceFactory $srcCurrencyFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Backend\Model\Session $adminSession
+     * @param \Magento\Directory\Model\Currency\Import\Source\ServiceFactory $srcCurrencyFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Model_Session $adminSession,
-        Magento_Directory_Model_Currency_Import_Source_ServiceFactory $srcCurrencyFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Backend\Model\Session $adminSession,
+        \Magento\Directory\Model\Currency\Import\Source\ServiceFactory $srcCurrencyFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_adminSession = $adminSession;
@@ -55,13 +57,13 @@ class Magento_CurrencySymbol_Block_Adminhtml_System_Currency_Rate_Services exten
     /**
      * Create import services form select element
      *
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {
         $this->setChild(
             'import_services',
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Html_Select')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Html\Select')
                 ->setOptions($this->_srcCurrencyFactory->create()->toOptionArray())
                 ->setId('rate_services')
                 ->setName('rate_services')

@@ -9,7 +9,9 @@
 /**
  * Interface for different file merging strategies
  */
-interface Magento_Core_Model_Page_Asset_MergeStrategyInterface
+namespace Magento\Core\Model\Page\Asset;
+
+interface MergeStrategyInterface
 {
     /**
      * Merge files into one and save to disk

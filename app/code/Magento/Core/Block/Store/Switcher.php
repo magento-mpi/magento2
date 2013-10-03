@@ -15,7 +15,9 @@
  * @package    Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Block_Store_Switcher extends Magento_Core_Block_Template
+namespace Magento\Core\Block\Store;
+
+class Switcher extends \Magento\Core\Block\Template
 {
     protected $_groups = array();
     protected $_stores = array();
@@ -24,36 +26,36 @@ class Magento_Core_Block_Store_Switcher extends Magento_Core_Block_Template
     /**
      * Store factory
      *
-     * @var Magento_Core_Model_StoreFactory
+     * @var \Magento\Core\Model\StoreFactory
      */
     protected $_storeFactory;
 
     /**
      * Store group factory
      *
-     * @var Magento_Core_Model_Store_GroupFactory
+     * @var \Magento\Core\Model\Store\GroupFactory
      */
     protected $_storeGroupFactory;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_Store_GroupFactory $storeGroupFactory
-     * @param Magento_Core_Model_StoreFactory $storeFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param \Magento\Core\Model\Store\GroupFactory $storeGroupFactory
+     * @param \Magento\Core\Model\StoreFactory $storeFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Store_GroupFactory $storeGroupFactory,
-        Magento_Core_Model_StoreFactory $storeFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_StoreManager $storeManager,
+        \Magento\Core\Model\Store\GroupFactory $storeGroupFactory,
+        \Magento\Core\Model\StoreFactory $storeFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManager $storeManager,
         array $data = array()
     ) {
         $this->_storeGroupFactory = $storeGroupFactory;

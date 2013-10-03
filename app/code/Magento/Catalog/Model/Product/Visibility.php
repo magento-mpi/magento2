@@ -16,7 +16,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Visibility extends Magento_Object
+namespace Magento\Catalog\Model\Product;
+
+class Visibility extends \Magento\Object
 {
     const VISIBILITY_NOT_VISIBLE    = 1;
     const VISIBILITY_IN_CATALOG     = 2;
@@ -26,34 +28,34 @@ class Magento_Catalog_Model_Product_Visibility extends Magento_Object
     /**
      * Reference to the attribute instance
      *
-     * @var Magento_Catalog_Model_Resource_Eav_Attribute
+     * @var \Magento\Catalog\Model\Resource\Eav\Attribute
      */
     protected $_attribute;
 
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * Eav entity attribute
      *
-     * @var Magento_Eav_Model_Resource_Entity_Attribute
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute
      */
     protected $_eavEntityAttribute;
 
     /**
      * Construct
      *
-     * @param Magento_Eav_Model_Resource_Entity_Attribute $eavEntityAttribute
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute $eavEntityAttribute
+     * @param \Magento\Core\Helper\Data $coreData
      * @param array $data
      */
     public function __construct(
-        Magento_Eav_Model_Resource_Entity_Attribute $eavEntityAttribute,
-        Magento_Core_Helper_Data $coreData,
+        \Magento\Eav\Model\Resource\Entity\Attribute $eavEntityAttribute,
+        \Magento\Core\Helper\Data $coreData,
         array $data = array()
     ) {
         $this->_eavEntityAttribute = $eavEntityAttribute;
@@ -166,7 +168,7 @@ class Magento_Catalog_Model_Product_Visibility extends Magento_Object
             $column['type']     = 'tinyint';
             $column['is_null']  = true;
         } else {
-            $column['type']     = Magento_DB_Ddl_Table::TYPE_SMALLINT;
+            $column['type']     = \Magento\DB\Ddl\Table::TYPE_SMALLINT;
             $column['nullable'] = true;
             $column['comment']  = 'Catalog Product Visibility ' . $attributeCode . ' column';
         }
@@ -187,9 +189,9 @@ class Magento_Catalog_Model_Product_Visibility extends Magento_Object
     /**
      * Retrieve Select For Flat Attribute update
      *
-     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
      * @param int $store
-     * @return Magento_DB_Select|null
+     * @return \Magento\DB\Select|null
      */
     public function getFlatUpdateSelect($store)
     {
@@ -200,8 +202,8 @@ class Magento_Catalog_Model_Product_Visibility extends Magento_Object
     /**
      * Set attribute instance
      *
-     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
-     * @return Magento_Eav_Model_Entity_Attribute_Frontend_Abstract
+     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
+     * @return \Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend
      */
     public function setAttribute($attribute)
     {
@@ -212,7 +214,7 @@ class Magento_Catalog_Model_Product_Visibility extends Magento_Object
     /**
      * Get attribute instance
      *
-     * @return Magento_Catalog_Model_Resource_Eav_Attribute
+     * @return \Magento\Catalog\Model\Resource\Eav\Attribute
      */
     public function getAttribute()
     {
@@ -222,9 +224,9 @@ class Magento_Catalog_Model_Product_Visibility extends Magento_Object
     /**
      * Add Value Sort To Collection Select
      *
-     * @param Magento_Eav_Model_Entity_Collection_Abstract $collection
+     * @param \Magento\Eav\Model\Entity\Collection\AbstractCollection $collection
      * @param string $dir direction
-     * @return Magento_Eav_Model_Entity_Attribute_Source_Abstract
+     * @return \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
      */
     public function addValueSortToCollection($collection, $dir = 'asc')
     {

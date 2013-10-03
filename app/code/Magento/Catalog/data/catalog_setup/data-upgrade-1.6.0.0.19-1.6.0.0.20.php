@@ -8,16 +8,16 @@
  * @license     {license_link}
  */
 
-/** @var $this Magento_Catalog_Model_Resource_Setup */
+/** @var $this \Magento\Catalog\Model\Resource\Setup */
 $applyTo = array_merge(
-    explode(',', $this->getAttribute(Magento_Catalog_Model_Product::ENTITY, 'weight', 'apply_to')),
-    array(Magento_Catalog_Model_Product_Type::TYPE_VIRTUAL, Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE)
+    explode(',', $this->getAttribute(\Magento\Catalog\Model\Product::ENTITY, 'weight', 'apply_to')),
+    array(\Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL, \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE)
 );
 
 $this->updateAttribute(
-    Magento_Catalog_Model_Product::ENTITY,
+    \Magento\Catalog\Model\Product::ENTITY,
     'weight',
     'frontend_input_renderer',
-    'Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_Renderer'
+    'Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Weight\Renderer'
 );
-$this->updateAttribute(Magento_Catalog_Model_Product::ENTITY, 'weight', 'apply_to', implode(',', $applyTo));
+$this->updateAttribute(\Magento\Catalog\Model\Product::ENTITY, 'weight', 'apply_to', implode(',', $applyTo));

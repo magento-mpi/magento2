@@ -11,39 +11,41 @@
 /**
  * Root rule condition (top level condition)
  */
-class Magento_Reminder_Model_Rule_Condition_Combine_Root
-    extends Magento_Reminder_Model_Rule_Condition_Combine
+namespace Magento\Reminder\Model\Rule\Condition\Combine;
+
+class Root
+    extends \Magento\Reminder\Model\Rule\Condition\Combine
 {
     /**
      * Config
      *
-     * @var Magento_Customer_Model_Config_Share
+     * @var \Magento\Customer\Model\Config\Share
      */
     protected $_config;
 
     /**
-     * @param Magento_Rule_Model_Condition_Context $context
-     * @param Magento_Reminder_Model_Resource_Rule $ruleResource
-     * @param Magento_Customer_Model_Config_Share $config
+     * @param \Magento\Rule\Model\Condition\Context $context
+     * @param \Magento\Reminder\Model\Resource\Rule $ruleResource
+     * @param \Magento\Customer\Model\Config\Share $config
      * @param array $data
      */
     public function __construct(
-        Magento_Rule_Model_Condition_Context $context,
-        Magento_Reminder_Model_Resource_Rule $ruleResource,
-        Magento_Customer_Model_Config_Share $config,
+        \Magento\Rule\Model\Condition\Context $context,
+        \Magento\Reminder\Model\Resource\Rule $ruleResource,
+        \Magento\Customer\Model\Config\Share $config,
         array $data = array()
     ) {
         parent::__construct($context, $ruleResource, $data);
-        $this->setType('Magento_Reminder_Model_Rule_Condition_Combine_Root');
+        $this->setType('Magento\Reminder\Model\Rule\Condition\Combine\Root');
         $this->_config = $config;
     }
 
     /**
      * Prepare base select with limitation by customer
      *
-     * @param   null | array | int | Magento_Customer_Model_Customer $customer
-     * @param   int | Zend_Db_Expr $website
-     * @return  Magento_DB_Select
+     * @param   null | array | int | \Magento\Customer\Model\Customer $customer
+     * @param   int | \Zend_Db_Expr $website
+     * @return  \Magento\DB\Select
      */
     protected function _prepareConditionsSql($customer, $website)
     {
@@ -71,9 +73,9 @@ class Magento_Reminder_Model_Rule_Condition_Combine_Root
      * Get SQL select.
      * Rewrited for cover root conditions combination with additional condition by customer
      *
-     * @param   Magento_Customer_Model_Customer | Zend_Db_Select | Zend_Db_Expr $customer
-     * @param   int | Zend_Db_Expr $website
-     * @return  Magento_DB_Select
+     * @param   \Magento\Customer\Model\Customer | \Zend_Db_Select | \Zend_Db_Expr $customer
+     * @param   int | \Zend_Db_Expr $website
+     * @return  \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)
     {

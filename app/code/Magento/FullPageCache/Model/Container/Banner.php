@@ -15,8 +15,10 @@
  * @package     Magento_FullPageCache
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_FullPageCache_Model_Container_Banner
-    extends Magento_FullPageCache_Model_Container_Abstract
+namespace Magento\FullPageCache\Model\Container;
+
+class Banner
+    extends \Magento\FullPageCache\Model\Container\AbstractContainer
 {
 
     /**
@@ -38,7 +40,7 @@ class Magento_FullPageCache_Model_Container_Banner
      */
     protected function _getIdentifier()
     {
-        return $this->_getCookieValue(Magento_FullPageCache_Model_Cookie::COOKIE_CUSTOMER, '');
+        return $this->_getCookieValue(\Magento\FullPageCache\Model\Cookie::COOKIE_CUSTOMER, '');
     }
 
     /**
@@ -59,13 +61,13 @@ class Magento_FullPageCache_Model_Container_Banner
      * after app is started, while this method can be called without app after rendering serie/shuffle banners.
      *
      * @param array $renderedParams
-     * @return Magento_FullPageCache_Model_Container_Banner
+     * @return \Magento\FullPageCache\Model\Container\Banner
      */
     protected function _saveInfoCache($renderedParams)
     {
         $data = serialize($renderedParams);
         $id = $this->_getInfoCacheId();
-        $tags = array(Magento_FullPageCache_Model_Processor::CACHE_TAG);
+        $tags = array(\Magento\FullPageCache\Model\Processor::CACHE_TAG);
         $lifetime = $this->_placeholder->getAttribute('cache_lifetime');
         if (!$lifetime) {
             $lifetime = false;
@@ -107,7 +109,7 @@ class Magento_FullPageCache_Model_Container_Banner
             . md5($this->_placeholder->getAttribute('cache_id')
             . '_' . $this->_getIdentifier())
             . '_' . implode(',', $this->_bannersSelected)
-            . '_' .  self::_getCookieValue(Magento_FullPageCache_Model_Cookie::CUSTOMER_SEGMENT_IDS, '');
+            . '_' .  self::_getCookieValue(\Magento\FullPageCache\Model\Cookie::CUSTOMER_SEGMENT_IDS, '');
     }
 
     /**
@@ -163,14 +165,14 @@ class Magento_FullPageCache_Model_Container_Banner
 
         $rotate = $this->_placeholder->getAttribute('rotate');
         switch ($rotate) {
-            case Magento_Banner_Block_Widget_Banner::BANNER_WIDGET_RORATE_RANDOM:
+            case \Magento\Banner\Block\Widget\Banner::BANNER_WIDGET_RORATE_RANDOM:
                 $bannerId = $bannerIds[array_rand($bannerIds, 1)];
                 $result = array($bannerId);
                 break;
 
-            case Magento_Banner_Block_Widget_Banner::BANNER_WIDGET_RORATE_SERIES:
-            case Magento_Banner_Block_Widget_Banner::BANNER_WIDGET_RORATE_SHUFFLE:
-                $isShuffle = $rotate == Magento_Banner_Block_Widget_Banner::BANNER_WIDGET_RORATE_SHUFFLE;
+            case \Magento\Banner\Block\Widget\Banner::BANNER_WIDGET_RORATE_SERIES:
+            case \Magento\Banner\Block\Widget\Banner::BANNER_WIDGET_RORATE_SHUFFLE:
+                $isShuffle = $rotate == \Magento\Banner\Block\Widget\Banner::BANNER_WIDGET_RORATE_SHUFFLE;
                 $bannerId = null;
 
                 $bannersSequence = isset($renderedParams['bannersSequence']) ?

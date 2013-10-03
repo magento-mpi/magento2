@@ -11,21 +11,23 @@
 /**
  * Factory class for payment method model
  */
-class Magento_Paypal_Model_Method_ProTypeFactory
+namespace Magento\Paypal\Model\Method;
+
+class ProTypeFactory
 {
     /**
      * Object Manager instance
      *
-     * @var \Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager = null;
 
     /**
      * Factory constructor
      *
-     * @param \Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(\Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }

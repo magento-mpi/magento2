@@ -16,7 +16,9 @@
  * @package     Magento_SalesArchive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_SalesArchive_Model_Resource_Setup extends Magento_Core_Model_Resource_Setup
+namespace Magento\SalesArchive\Model\Resource;
+
+class Setup extends \Magento\Core\Model\Resource\Setup
 {
     /**
      * Call afterApplyAllUpdates flag
@@ -50,20 +52,20 @@ class Magento_SalesArchive_Model_Resource_Setup extends Magento_Core_Model_Resou
     );
 
     /**
-     * @var Magento_SalesArchive_Model_Resource_Helper
+     * @var \Magento\SalesArchive\Model\Resource\Helper
      */
     protected $_salesHelper;
 
     /**
-     * @param Magento_Core_Model_Resource_Setup_Context $context
-     * @param Magento_SalesArchive_Model_Resource_Helper $salesHelper
+     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\SalesArchive\Model\Resource\Helper $salesHelper
      * @param $resourceName
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
-        Magento_Core_Model_Resource_Setup_Context $context,
-        Magento_SalesArchive_Model_Resource_Helper $salesHelper,
+        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\SalesArchive\Model\Resource\Helper $salesHelper,
         $resourceName,
         $moduleName = 'Magento_SalesArchive',
         $connectionName = ''
@@ -76,7 +78,7 @@ class Magento_SalesArchive_Model_Resource_Setup extends Magento_Core_Model_Resou
      * Run each time after applying of all updates,
      * if setup model setted  $_callAfterApplyAllUpdates flag to true
      *
-     * @return Magento_SalesArchive_Model_Resource_Setup
+     * @return \Magento\SalesArchive\Model\Resource\Setup
      */
     public function afterApplyAllUpdates()
     {
@@ -87,7 +89,7 @@ class Magento_SalesArchive_Model_Resource_Setup extends Magento_Core_Model_Resou
     /**
      * Synchronize archive structure
      *
-     * @return Magento_SalesArchive_Model_Resource_Setup
+     * @return \Magento\SalesArchive\Model\Resource\Setup
      */
     protected function _syncArchiveStructure()
     {
@@ -121,7 +123,7 @@ class Magento_SalesArchive_Model_Resource_Setup extends Magento_Core_Model_Resou
      *
      * @param string $sourceTable
      * @param string $targetTable
-     * @return Magento_SalesArchive_Model_Resource_Setup
+     * @return \Magento\SalesArchive\Model\Resource\Setup
      */
     protected function _syncTable($sourceTable, $targetTable)
     {
@@ -200,7 +202,7 @@ class Magento_SalesArchive_Model_Resource_Setup extends Magento_Core_Model_Resou
      * @param string $column
      * @param boolean $after
      * @param boolean $first
-     * @return Magento_SalesArchive_Model_Resource_Setup
+     * @return \Magento\SalesArchive\Model\Resource\Setup
      */
     public function changeColumnPosition($table, $column, $after = false, $first = false)
     {
@@ -213,7 +215,7 @@ class Magento_SalesArchive_Model_Resource_Setup extends Magento_Core_Model_Resou
      *
      * @param string $sourceTable
      * @param string $targetTable
-     * @return Magento_SalesArchive_Model_Resource_Setup
+     * @return \Magento\SalesArchive\Model\Resource\Setup
      */
     protected function _syncTableIndex($sourceTable, $targetTable)
     {
@@ -291,7 +293,7 @@ class Magento_SalesArchive_Model_Resource_Setup extends Magento_Core_Model_Resou
      * @param string $targetTable
      * @param string $sourceKey
      * @param string $targetKey
-     * @return Magento_SalesArchive_Model_Resource_Setup
+     * @return \Magento\SalesArchive\Model\Resource\Setup
      */
     protected function _syncTableConstraint($sourceTable, $targetTable, $sourceKey, $targetKey)
     {

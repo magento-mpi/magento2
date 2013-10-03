@@ -11,24 +11,26 @@
 /**
  * DB Installer
  */
-class Magento_Install_Model_Installer_Db extends Magento_Install_Model_Installer_Abstract
+namespace Magento\Install\Model\Installer;
+
+class Db extends \Magento\Install\Model\Installer\AbstractInstaller
 {
     /**
      * Database resource
      *
-     * @var Magento_Install_Model_Installer_Db_Abstract
+     * @var \Magento\Install\Model\Installer\Db\AbstractDb
      */
     protected $_dbResource;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
      * Database model factory
      * 
-     * @var Magento_Install_Model_Installer_Db_Factory
+     * @var \Magento\Install\Model\Installer\Db\Factory
      */
     protected $_dbFactory;
 
@@ -40,15 +42,15 @@ class Magento_Install_Model_Installer_Db extends Magento_Install_Model_Installer
     protected $_dbConfig;
 
     /**
-     * @param Magento_Install_Model_InstallerProxy $installer
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Install_Model_Installer_Db_Factory $dbFactory
+     * @param \Magento\Install\Model\InstallerProxy $installer
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Install\Model\Installer\Db\Factory $dbFactory
      * @param array $dbConfig
      */
     public function __construct(
-        Magento_Install_Model_InstallerProxy $installer,
-        Magento_Core_Model_Logger $logger,
-        Magento_Install_Model_Installer_Db_Factory $dbFactory,
+        \Magento\Install\Model\InstallerProxy $installer,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Install\Model\Installer\Db\Factory $dbFactory,
         array $dbConfig
     ) {
         parent::__construct($installer);
@@ -63,14 +65,14 @@ class Magento_Install_Model_Installer_Db extends Magento_Install_Model_Installer
      *
      * @param array $data
      * @return array
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function checkDbConnectionData($data)
     {
         $data = $this->_getCheckedData($data);
 
         try {
-            /** @var Magento_Install_Model_Installer_Db_Mysql4 $resource */
+            /** @var \Magento\Install\Model\Installer\Db\Mysql4 $resource */
             $resource = $this->_getDbResource();
             $resource->setConfig($data);
 
@@ -83,7 +85,7 @@ class Magento_Install_Model_Installer_Db extends Magento_Install_Model_Installer
                 }
             }
             if (!empty($absenteeExtensions)) {
-                throw new Magento_Core_Exception(
+                throw new \Magento\Core\Exception(
                     __('PHP Extensions "%1" must be loaded.', implode(',', $absenteeExtensions))
                 );
             }
@@ -95,25 +97,25 @@ class Magento_Install_Model_Installer_Db extends Magento_Install_Model_Installer
 
             // check DB server version
             if (version_compare($version, $requiredVersion) == -1) {
-                throw new Magento_Core_Exception(
+                throw new \Magento\Core\Exception(
                     __('The database server version doesn\'t match system requirements (required: %1, actual: %2).', $requiredVersion, $version)
                 );
             }
 
             // check InnoDB support
             if (!$resource->supportEngine()) {
-                throw new Magento_Core_Exception(
+                throw new \Magento\Core\Exception(
                     __('Database server does not support the InnoDB storage engine.')
                 );
             }
 
             // TODO: check user roles
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_logger->logException($e);
-            throw new Magento_Core_Exception(__($e->getMessage()));
-        } catch (Exception $e) {
+            throw new \Magento\Core\Exception(__($e->getMessage()));
+        } catch (\Exception $e) {
             $this->_logger->logException($e);
-            throw new Magento_Core_Exception(__('Something went wrong while connecting to the database.'));
+            throw new \Magento\Core\Exception(__('Something went wrong while connecting to the database.'));
         }
 
         return $data;
@@ -128,7 +130,7 @@ class Magento_Install_Model_Installer_Db extends Magento_Install_Model_Installer
     protected function _getCheckedData($data)
     {
         if (!isset($data['db_name']) || empty($data['db_name'])) {
-            throw new Magento_Core_Exception(__('The Database Name field cannot be empty.'));
+            throw new \Magento\Core\Exception(__('The Database Name field cannot be empty.'));
         }
         //make all table prefix to lower letter
         if ($data['db_prefix'] != '') {
@@ -137,7 +139,7 @@ class Magento_Install_Model_Installer_Db extends Magento_Install_Model_Installer
         //check table prefix
         if ($data['db_prefix'] != '') {
             if (!preg_match('/^[a-z]+[a-z0-9_]*$/', $data['db_prefix'])) {
-                throw new Magento_Core_Exception(
+                throw new \Magento\Core\Exception(
                     __('The table prefix should contain only letters (a-z), numbers (0-9) or underscores (_); the first character should be a letter.')
                 );
             }
@@ -164,8 +166,8 @@ class Magento_Install_Model_Installer_Db extends Magento_Install_Model_Installer
     /**
      * Retrieve the database resource
      *
-     * @return Magento_Install_Model_Installer_Db_Abstract
-     * @throws Magento_Core_Exception
+     * @return \Magento\Install\Model\Installer\Db\AbstractDb
+     * @throws \Magento\Core\Exception
      */
     protected function _getDbResource()
     {

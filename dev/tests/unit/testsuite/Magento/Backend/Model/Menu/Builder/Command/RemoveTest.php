@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Menu_Builder_Command_RemoveTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Menu\Builder\Command;
+
+class RemoveTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Model_Menu_Builder_Command_Remove
+     * @var \Magento\Backend\Model\Menu\Builder\Command\Remove
      */
     protected $_model;
 
@@ -22,7 +24,7 @@ class Magento_Backend_Model_Menu_Builder_Command_RemoveTest extends PHPUnit_Fram
 
     protected function setUp()
     {
-        $this->_model = new Magento_Backend_Model_Menu_Builder_Command_Remove($this->_params);
+        $this->_model = new \Magento\Backend\Model\Menu\Builder\Command\Remove($this->_params);
     }
 
     public function testExecuteMarksItemAsRemoved()

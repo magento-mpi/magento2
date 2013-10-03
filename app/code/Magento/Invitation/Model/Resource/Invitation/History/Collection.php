@@ -16,8 +16,10 @@
  * @package     Magento_Invitation
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Invitation_Model_Resource_Invitation_History_Collection
-    extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Invitation\Model\Resource\Invitation\History;
+
+class Collection
+    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Intialize collection
@@ -26,8 +28,8 @@ class Magento_Invitation_Model_Resource_Invitation_History_Collection
     protected function _construct()
     {
         $this->_init(
-            'Magento_Invitation_Model_Invitation_History',
-            'Magento_Invitation_Model_Resource_Invitation_History'
+            'Magento\Invitation\Model\Invitation\History',
+            'Magento\Invitation\Model\Resource\Invitation\History'
         );
     }
 }

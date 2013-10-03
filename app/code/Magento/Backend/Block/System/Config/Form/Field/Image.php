@@ -11,7 +11,9 @@
 /**
  * Image config field renderer
  */
-class Magento_Backend_Block_System_Config_Form_Field_Image extends Magento_Data_Form_Element_Image
+namespace Magento\Backend\Block\System\Config\Form\Field;
+
+class Image extends \Magento\Data\Form\Element\Image
 {
     /**
      * Get image preview url

@@ -16,22 +16,24 @@
  * @package    Magento_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Controller_Cms_Page extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller\Cms;
+
+class Page extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -40,7 +42,7 @@ class Magento_Adminhtml_Controller_Cms_Page extends Magento_Adminhtml_Controller
     /**
      * Init actions
      *
-     * @return Magento_Adminhtml_Controller_Cms_Page
+     * @return \Magento\Adminhtml\Controller\Cms\Page
      */
     protected function _initAction()
     {
@@ -82,13 +84,13 @@ class Magento_Adminhtml_Controller_Cms_Page extends Magento_Adminhtml_Controller
 
         // 1. Get ID and create model
         $id = $this->getRequest()->getParam('page_id');
-        $model = $this->_objectManager->create('Magento_Cms_Model_Page');
+        $model = $this->_objectManager->create('Magento\Cms\Model\Page');
 
         // 2. Initial checking
         if ($id) {
             $model->load($id);
             if (! $model->getId()) {
-                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError(
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
                     __('This page no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
@@ -98,7 +100,7 @@ class Magento_Adminhtml_Controller_Cms_Page extends Magento_Adminhtml_Controller
         $this->_title($model->getId() ? $model->getTitle() : __('New Page'));
 
         // 3. Set entered data if was error when we do save
-        $data = $this->_objectManager->get('Magento_Adminhtml_Model_Session')->getFormData(true);
+        $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getFormData(true);
         if (! empty($data)) {
             $model->setData($data);
         }
@@ -126,7 +128,7 @@ class Magento_Adminhtml_Controller_Cms_Page extends Magento_Adminhtml_Controller
         if ($data) {
             $data = $this->_filterPostData($data);
             //init model and set data
-            $model = $this->_objectManager->create('Magento_Cms_Model_Page');
+            $model = $this->_objectManager->create('Magento\Cms\Model\Page');
 
             $id = $this->getRequest()->getParam('page_id');
             if ($id) {
@@ -149,10 +151,10 @@ class Magento_Adminhtml_Controller_Cms_Page extends Magento_Adminhtml_Controller
                 $model->save();
 
                 // display success message
-                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addSuccess(
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(
                     __('The page has been saved.'));
                 // clear previously saved data from session
-                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->setFormData(false);
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setFormData(false);
                 // check if 'Save and Continue'
                 if ($this->getRequest()->getParam('back')) {
                     $this->_redirect('*/*/edit', array('page_id' => $model->getId(), '_current'=>true));
@@ -162,9 +164,9 @@ class Magento_Adminhtml_Controller_Cms_Page extends Magento_Adminhtml_Controller
                 $this->_redirect('*/*/');
                 return;
 
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_getSession()->addException($e,
                     __('Something went wrong while saving the page.'));
             }
@@ -187,29 +189,29 @@ class Magento_Adminhtml_Controller_Cms_Page extends Magento_Adminhtml_Controller
             $title = "";
             try {
                 // init model and delete
-                $model = $this->_objectManager->create('Magento_Cms_Model_Page');
+                $model = $this->_objectManager->create('Magento\Cms\Model\Page');
                 $model->load($id);
                 $title = $model->getTitle();
                 $model->delete();
                 // display success message
-                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addSuccess(
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(
                     __('The page has been deleted.'));
                 // go to grid
                 $this->_eventManager->dispatch('adminhtml_cmspage_on_delete', array('title' => $title, 'status' => 'success'));
                 $this->_redirect('*/*/');
                 return;
 
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_eventManager->dispatch('adminhtml_cmspage_on_delete', array('title' => $title, 'status' => 'fail'));
                 // display error message
-                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
                 // go back to edit form
                 $this->_redirect('*/*/edit', array('page_id' => $id));
                 return;
             }
         }
         // display error message
-        $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError(__('We can\'t find a page to delete.'));
+        $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__('We can\'t find a page to delete.'));
         // go to grid
         $this->_redirect('*/*/');
     }
@@ -254,8 +256,8 @@ class Magento_Adminhtml_Controller_Cms_Page extends Magento_Adminhtml_Controller
     {
         $errorNo = true;
         if (!empty($data['layout_update_xml']) || !empty($data['custom_layout_update_xml'])) {
-            /** @var $validatorCustomLayout Magento_Adminhtml_Model_LayoutUpdate_Validator */
-            $validatorCustomLayout = $this->_objectManager->create('Magento_Adminhtml_Model_LayoutUpdate_Validator');
+            /** @var $validatorCustomLayout \Magento\Adminhtml\Model\LayoutUpdate\Validator */
+            $validatorCustomLayout = $this->_objectManager->create('Magento\Adminhtml\Model\LayoutUpdate\Validator');
             if (!empty($data['layout_update_xml']) && !$validatorCustomLayout->isValid($data['layout_update_xml'])) {
                 $errorNo = false;
             }

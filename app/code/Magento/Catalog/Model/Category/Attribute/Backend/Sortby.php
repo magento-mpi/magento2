@@ -15,25 +15,27 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Category_Attribute_Backend_Sortby
-    extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
+namespace Magento\Catalog\Model\Category\Attribute\Backend;
+
+class Sortby
+    extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($logger);
@@ -42,9 +44,9 @@ class Magento_Catalog_Model_Category_Attribute_Backend_Sortby
     /**
      * Validate process
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return bool
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function validate($object)
     {
@@ -72,7 +74,7 @@ class Magento_Catalog_Model_Category_Attribute_Backend_Sortby
         if ($this->getAttribute()->getIsUnique()) {
             if (!$this->getAttribute()->getEntity()->checkAttributeUniqueValue($this->getAttribute(), $object)) {
                 $label = $this->getAttribute()->getFrontend()->getLabel();
-                throw new Magento_Core_Exception(__('The value of attribute "%1" must be unique.', $label));
+                throw new \Magento\Core\Exception(__('The value of attribute "%1" must be unique.', $label));
             }
         }
 
@@ -84,13 +86,13 @@ class Magento_Catalog_Model_Category_Attribute_Backend_Sortby
                 $data = (!in_array('default_sort_by', $postDataConfig))? $object->getData($attributeCode):
                        $this->_coreStoreConfig->getConfig("catalog/frontend/default_sort_by");
                 if (!in_array($data, $available)) {
-                    throw new Magento_Core_Exception(
+                    throw new \Magento\Core\Exception(
                         __('Default Product Listing Sort by does not exist in Available Product Listing Sort By.')
                     );
                 }
             } else {
                 if (!in_array('available_sort_by', $postDataConfig)) {
-                    throw new Magento_Core_Exception(
+                    throw new \Magento\Core\Exception(
                         __('Default Product Listing Sort by does not exist in Available Product Listing Sort By.')
                     );
                 }
@@ -103,8 +105,8 @@ class Magento_Catalog_Model_Category_Attribute_Backend_Sortby
     /**
      * Before Attribute Save Process
      *
-     * @param Magento_Object $object
-     * @return Magento_Catalog_Model_Category_Attribute_Backend_Sortby
+     * @param \Magento\Object $object
+     * @return \Magento\Catalog\Model\Category\Attribute\Backend\Sortby
      */
     public function beforeSave($object)
     {

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Modular_WidgetConfigFilesTest extends Magento_TestFramework_TestCase_ConfigFilesAbstract
+namespace Magento\Test\Integrity\Modular;
+
+class WidgetConfigFilesTest extends \Magento\TestFramework\TestCase\AbstractConfigFiles
 {
     /**
      * Returns the reader class name that will be instantiated via ObjectManager
@@ -16,7 +18,7 @@ class Magento_Test_Integrity_Modular_WidgetConfigFilesTest extends Magento_TestF
      */
     protected function _getReaderClassName()
     {
-        return 'Magento_Widget_Model_Config_Reader';
+        return 'Magento\Widget\Model\Config\Reader';
     }
 
     /**

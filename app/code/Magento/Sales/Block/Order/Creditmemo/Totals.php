@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Sales_Block_Order_Creditmemo_Totals extends Magento_Sales_Block_Order_Totals
+namespace Magento\Sales\Block\Order\Creditmemo;
+
+class Totals extends \Magento\Sales\Block\Order\Totals
 {
     protected $_creditmemo = null;
 
@@ -34,7 +36,7 @@ class Magento_Sales_Block_Order_Creditmemo_Totals extends Magento_Sales_Block_Or
     /**
      * Get totals source object
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getSource()
     {
@@ -44,14 +46,14 @@ class Magento_Sales_Block_Order_Creditmemo_Totals extends Magento_Sales_Block_Or
     /**
      * Initialize order totals array
      *
-     * @return Magento_Sales_Block_Order_Totals
+     * @return \Magento\Sales\Block\Order\Totals
      */
     protected function _initTotals()
     {
         parent::_initTotals();
         $this->removeTotal('base_grandtotal');
         if ((float) $this->getSource()->getAdjustmentPositive()) {
-            $total = new Magento_Object(array(
+            $total = new \Magento\Object(array(
                 'code'  => 'adjustment_positive',
                 'value' => $this->getSource()->getAdjustmentPositive(),
                 'label' => __('Adjustment Refund')
@@ -59,7 +61,7 @@ class Magento_Sales_Block_Order_Creditmemo_Totals extends Magento_Sales_Block_Or
             $this->addTotal($total);
         }
         if ((float) $this->getSource()->getAdjustmentNegative()) {
-            $total = new Magento_Object(array(
+            $total = new \Magento\Object(array(
                 'code'  => 'adjustment_negative',
                 'value' => $this->getSource()->getAdjustmentNegative(),
                 'label' => __('Adjustment Fee')

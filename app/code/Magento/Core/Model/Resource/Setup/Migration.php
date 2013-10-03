@@ -13,7 +13,9 @@
  * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Resource_Setup
+namespace Magento\Core\Model\Resource\Setup;
+
+class Migration extends \Magento\Core\Model\Resource\Setup
 {
     /**#@+
      * Type of field content where class alias is used
@@ -101,7 +103,7 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
     );
 
     /**
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreHelper;
 
@@ -127,30 +129,30 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
     protected $_compositeModules;
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
     /**
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_dir;
 
     /**
-     * @param Magento_Core_Model_Resource_Setup_Context $context
-     * @param Magento_Filesystem $filesystem
-     * @param Magento_Core_Helper_Data $helper
-     * @param Magento_Core_Model_Dir $dir
+     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Core\Helper\Data $helper
+     * @param \Magento\Core\Model\Dir $dir
      * @param $resourceName
      * @param $confPathToMapFile
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
-        Magento_Core_Model_Resource_Setup_Context $context,
-        Magento_Filesystem $filesystem,
-        Magento_Core_Helper_Data $helper,
-        Magento_Core_Model_Dir $dir,
+        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Filesystem $filesystem,
+        \Magento\Core\Helper\Data $helper,
+        \Magento\Core\Model\Dir $dir,
         $resourceName,
         $confPathToMapFile,
         $moduleName = 'Magento_Core',
@@ -234,7 +236,7 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
         $adapter = $this->getConnection();
 
         $query = $adapter->select()
-            ->from($this->getTable($tableName), array('rows_count' => new Zend_Db_Expr('COUNT(*)')))
+            ->from($this->getTable($tableName), array('rows_count' => new \Zend_Db_Expr('COUNT(*)')))
             ->where($fieldName . ' IS NOT NULL');
 
         if (!empty($additionalWhere)) {

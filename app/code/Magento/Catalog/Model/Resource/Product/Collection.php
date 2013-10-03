@@ -16,7 +16,9 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_Model_Resource_Collection_Abstract
+namespace Magento\Catalog\Model\Resource\Product;
+
+class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractCollection
 {
     /**
      * Alias for index table
@@ -104,7 +106,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Category product count select
      *
-     * @var Zend_Db_Select
+     * @var \Zend_Db_Select
      */
     protected $_productCountSelect           = null;
 
@@ -179,107 +181,107 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Cloned Select after dispatching 'catalog_prepare_price_select' event
      *
-     * @var Magento_DB_Select
+     * @var \Magento\DB\Select
      */
     protected $_catalogPreparePriceSelect = null;
 
     /**
      * Catalog product flat
      *
-     * @var Magento_Catalog_Helper_Product_Flat
+     * @var \Magento\Catalog\Helper\Product\Flat
      */
     protected $_catalogProductFlat = null;
 
     /**
      * Catalog data
      *
-     * @var Magento_Catalog_Helper_Data
+     * @var \Magento\Catalog\Helper\Data
      */
     protected $_catalogData = null;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
      * Customer session
      *
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
      * Locale
      *
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
      * Catalog url
      *
-     * @var Magento_Catalog_Model_Resource_Url
+     * @var \Magento\Catalog\Model\Resource\Url
      */
     protected $_catalogUrl;
 
     /**
      * Product option factory
      *
-     * @var Magento_Catalog_Model_Product_OptionFactory
+     * @var \Magento\Catalog\Model\Product\OptionFactory
      */
     protected $_productOptionFactory;
 
     /**
      * Catalog resource helper
      *
-     * @var Magento_Catalog_Model_Resource_Helper
+     * @var \Magento\Catalog\Model\Resource\Helper
      */
     protected $_resourceHelper;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Core_Model_Resource $coreResource
-     * @param Magento_Eav_Model_EntityFactory $eavEntityFactory
-     * @param Magento_Validator_UniversalFactory $universalFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Catalog_Model_Product_OptionFactory $productOptionFactory
-     * @param Magento_Catalog_Model_Resource_Url $catalogUrl
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Catalog_Model_Resource_Helper $resourceHelper
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Model\Resource $coreResource
+     * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
+     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
+     * @param \Magento\Catalog\Model\Resource\Url $catalogUrl
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Catalog\Model\Resource\Helper $resourceHelper
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Core_Model_Resource $coreResource,
-        Magento_Eav_Model_EntityFactory $eavEntityFactory,
-        Magento_Validator_UniversalFactory $universalFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Catalog_Model_Product_OptionFactory $productOptionFactory,
-        Magento_Catalog_Model_Resource_Url $catalogUrl,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Catalog_Model_Resource_Helper $resourceHelper
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Model\Resource $coreResource,
+        \Magento\Eav\Model\EntityFactory $eavEntityFactory,
+        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
+        \Magento\Catalog\Model\Resource\Url $catalogUrl,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Catalog\Model\Resource\Helper $resourceHelper
     ) {
         $this->_catalogData = $catalogData;
         $this->_catalogProductFlat = $catalogProductFlat;
@@ -296,7 +298,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Get cloned Select after dispatching 'catalog_prepare_price_select' event
      *
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function getCatalogPreparedSelect()
     {
@@ -306,15 +308,15 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Prepare additional price expression sql part
      *
-     * @param Magento_DB_Select $select
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @param \Magento\DB\Select $select
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     protected function _preparePriceExpressionParameters($select)
     {
         // prepare response object for event
-        $response = new Magento_Object();
+        $response = new \Magento\Object();
         $response->setAdditionalCalculations(array());
-        $tableAliases = array_keys($select->getPart(Zend_Db_Select::FROM));
+        $tableAliases = array_keys($select->getPart(\Zend_Db_Select::FROM));
         if (in_array(self::INDEX_TABLE_ALIAS, $tableAliases)) {
             $table = self::INDEX_TABLE_ALIAS;
         } else {
@@ -342,7 +344,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Get price expression sql part
      *
-     * @param Magento_DB_Select $select
+     * @param \Magento\DB\Select $select
      * @return string
      */
     public function getPriceExpression($select)
@@ -356,7 +358,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Get additional price expression sql part
      *
-     * @param Magento_DB_Select $select
+     * @param \Magento\DB\Select $select
      * @return string
      */
     public function getAdditionalPriceExpression($select)
@@ -380,7 +382,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Retrieve Catalog Product Flat Helper object
      *
-     * @return Magento_Catalog_Helper_Product_Flat
+     * @return \Magento\Catalog\Helper\Product\Flat
      */
     public function getFlatHelper()
     {
@@ -412,9 +414,9 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     protected function _construct()
     {
         if ($this->isEnabledFlat()) {
-            $this->_init('Magento_Catalog_Model_Product', 'Magento_Catalog_Model_Resource_Product_Flat');
+            $this->_init('Magento\Catalog\Model\Product', 'Magento\Catalog\Model\Resource\Product\Flat');
         } else {
-            $this->_init('Magento_Catalog_Model_Product', 'Magento_Catalog_Model_Resource_Product');
+            $this->_init('Magento\Catalog\Model\Product', 'Magento\Catalog\Model\Resource\Product');
         }
         $this->_initTables();
     }
@@ -425,12 +427,12 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
      *
      * @param string $model
      * @param string $entityModel
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     protected function _init($model, $entityModel)
     {
         if ($this->isEnabledFlat()) {
-            $entityModel = 'Magento_Catalog_Model_Resource_Product_Flat';
+            $entityModel = 'Magento\Catalog\Model\Resource\Product\Flat';
         }
         return parent::_init($model, $entityModel);
     }
@@ -448,7 +450,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Prepare static entity fields
      *
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     protected function _prepareStaticFields()
     {
@@ -462,7 +464,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
      * Retrieve collection empty item
      * Redeclared for specifying id field name without getting resource model inside model
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getNewEmptyItem()
     {
@@ -476,12 +478,12 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Set entity to use for attributes
      *
-     * @param Magento_Eav_Model_Entity_Abstract $entity
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @param \Magento\Eav\Model\Entity\AbstractEntity $entity
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function setEntity($entity)
     {
-        if ($this->isEnabledFlat() && ($entity instanceof Magento_Core_Model_Resource_Db_Abstract)) {
+        if ($this->isEnabledFlat() && ($entity instanceof \Magento\Core\Model\Resource\Db\AbstractDb)) {
             $this->_entity = $entity;
             return $this;
         }
@@ -492,7 +494,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
      * Set Store scope for collection
      *
      * @param mixed $store
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function setStore($store)
     {
@@ -508,14 +510,14 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
      * Redeclared for remove entity_type_id condition
      * in catalog_product_entity we store just products
      *
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     protected function _initSelect()
     {
         if ($this->isEnabledFlat()) {
             $this->getSelect()
                 ->from(array(self::MAIN_TABLE_ALIAS => $this->getEntity()->getFlatTableName()), null)
-                ->columns(array('status' => new Zend_Db_Expr(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)));
+                ->columns(array('status' => new \Zend_Db_Expr(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)));
             $this->addAttributeToSelect(array('entity_id', 'type_id', 'attribute_set_id'));
             if ($this->getFlatHelper()->isAddChildData()) {
                 $this->getSelect()
@@ -533,7 +535,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
      *
      * @param bool $printQuery
      * @param bool $logQuery
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function _loadAttributes($printQuery = false, $logQuery = false)
     {
@@ -547,9 +549,9 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
      * Add attribute to entities in collection
      * If $attribute=='*' select all attributes
      *
-     * @param array|string|integer|Magento_Core_Model_Config_Element $attribute
+     * @param array|string|integer|\Magento\Core\Model\Config\Element $attribute
      * @param bool|string $joinType
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function addAttributeToSelect($attribute, $joinType = false)
     {
@@ -584,7 +586,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
      * Processing collection items after loading
      * Adding url rewrites, minimal prices, final prices, tax percents
      *
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     protected function _afterLoad()
     {
@@ -610,12 +612,12 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Prepare Url Data object
      *
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     protected function _prepareUrlDataObject()
     {
         $objects = array();
-        /** @var $item Magento_Catalog_Model_Product */
+        /** @var $item \Magento\Catalog\Model\Product */
         foreach ($this->_items as $item) {
             if ($this->getFlag('do_not_use_category_id')) {
                 $item->setDoNotUseCategoryId(true);
@@ -629,7 +631,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
             $objects = $this->_catalogUrl->getRewriteByProductStore($objects);
             foreach ($this->_items as $item) {
                 if (isset($objects[$item->getEntityId()])) {
-                    $object = new Magento_Object($objects[$item->getEntityId()]);
+                    $object = new \Magento\Object($objects[$item->getEntityId()]);
                     $item->setUrlDataObject($object);
                 }
             }
@@ -643,7 +645,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
      *
      * @param mixed $productId
      * @param boolean $exclude
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function addIdFilter($productId, $exclude = false)
     {
@@ -676,7 +678,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
      * Adding product website names to result collection
      * Add for each product websites information
      *
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function addWebsiteNamesToResult()
     {
@@ -714,7 +716,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
      * for store website
      *
      * @param mixed $store
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function addStoreFilter($store = null)
     {
@@ -736,7 +738,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
      * Add website filter to collection
      *
      * @param mixed $websites
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function addWebsiteFilter($websites = null)
     {
@@ -763,10 +765,10 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Specify category filter for product collection
      *
-     * @param Magento_Catalog_Model_Category $category
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @param \Magento\Catalog\Model\Category $category
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
-    public function addCategoryFilter(Magento_Catalog_Model_Category $category)
+    public function addCategoryFilter(\Magento\Catalog\Model\Category $category)
     {
         $this->_productLimitationFilters['category_id'] = $category->getId();
         if ($category->getIsAnchor()) {
@@ -775,7 +777,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
             $this->_productLimitationFilters['category_is_anchor'] = 1;
         }
 
-        if ($this->getStoreId() == Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID) {
+        if ($this->getStoreId() == \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID) {
             $this->_applyZeroStoreProductLimitations();
         } else {
             $this->_applyProductLimitations();
@@ -787,7 +789,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Join minimal price attribute to result
      *
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function joinMinimalPrice()
     {
@@ -815,7 +817,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
         $select->join(
                 array($tableAlias => $attribute->getBackend()->getTable()),
                 $condition,
-                array($fieldAlias => new Zend_Db_Expr('MAX('.$tableAlias.'.value)'))
+                array($fieldAlias => new \Zend_Db_Expr('MAX('.$tableAlias.'.value)'))
             )
             ->group('e.entity_type_id');
 
@@ -844,13 +846,13 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
         $condition  = 'e.entity_id = ' . $tableAlias . '.entity_id
             AND ' . $this->_getConditionSql($tableAlias . '.attribute_id', $attribute->getId());
 
-        $select->reset(Zend_Db_Select::GROUP);
+        $select->reset(\Zend_Db_Select::GROUP);
         $select->join(
                 array($tableAlias => $attribute->getBackend()->getTable()),
                 $condition,
                 array(
-                    'count_' . $attributeCode => new Zend_Db_Expr('COUNT(DISTINCT e.entity_id)'),
-                    'range_' . $attributeCode => new Zend_Db_Expr(
+                    'count_' . $attributeCode => new \Zend_Db_Expr('COUNT(DISTINCT e.entity_id)'),
+                    'range_' . $attributeCode => new \Zend_Db_Expr(
                         'CEIL((' . $tableAlias . '.value+0.01)/' . $range . ')')
                  )
             )
@@ -878,7 +880,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
         $attributeCode = $attribute->getAttributeCode();
         $tableAlias    = $attributeCode . '_value_count';
 
-        $select->reset(Zend_Db_Select::GROUP);
+        $select->reset(\Zend_Db_Select::GROUP);
         $condition  = 'e.entity_id=' . $tableAlias . '.entity_id AND '
             . $this->_getConditionSql($tableAlias . '.attribute_id', $attribute->getId());
 
@@ -886,8 +888,8 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
                 array($tableAlias => $attribute->getBackend()->getTable()),
                 $condition,
                 array(
-                    'count_' . $attributeCode => new Zend_Db_Expr('COUNT(DISTINCT e.entity_id)'),
-                    'value_' . $attributeCode => new Zend_Db_Expr($tableAlias . '.value')
+                    'count_' . $attributeCode => new \Zend_Db_Expr('COUNT(DISTINCT e.entity_id)'),
+                    'value_' . $attributeCode => new \Zend_Db_Expr($tableAlias . '.value')
                  )
             )
             ->group('value_' . $attributeCode);
@@ -918,7 +920,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
      */
     public function getAllAttributeValues($attribute)
     {
-        /** @var $select Magento_DB_Select */
+        /** @var $select \Magento\DB\Select */
         $select    = clone $this->getSelect();
         $attribute = $this->getEntity()->getAttribute($attribute);
 
@@ -939,7 +941,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Get SQL for get record count without left JOINs
      *
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function getSelectCountSql()
     {
@@ -951,7 +953,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
      *
      * @param null $select
      * @param bool $resetLeftJoins
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     protected function _getSelectCountSql($select = null, $resetLeftJoins = true)
     {
@@ -967,7 +969,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Prepare statistics data
      *
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     protected function _prepareStatisticsData()
     {
@@ -981,7 +983,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
             'std' => $this->getConnection()->getStandardDeviationSql('ROUND((' . $priceExpression . $sqlEndPart)
         ));
         $select->where($this->getPriceExpression($select) . ' IS NOT NULL');
-        $row = $this->getConnection()->fetchRow($select, $this->_bindParams, Zend_Db::FETCH_NUM);
+        $row = $this->getConnection()->fetchRow($select, $this->_bindParams, \Zend_Db::FETCH_NUM);
         $this->_pricesCount = (int)$row[0];
         $this->_maxPrice = (float)$row[1];
         $this->_minPrice = (float)$row[2];
@@ -993,7 +995,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Retrieve clear select
      *
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     protected function _getClearSelect()
     {
@@ -1003,18 +1005,18 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Build clear select
      *
-     * @param Magento_DB_Select $select
-     * @return Magento_DB_Select
+     * @param \Magento\DB\Select $select
+     * @return \Magento\DB\Select
      */
     protected function _buildClearSelect($select = null)
     {
         if (null === $select) {
             $select = clone $this->getSelect();
         }
-        $select->reset(Zend_Db_Select::ORDER);
-        $select->reset(Zend_Db_Select::LIMIT_COUNT);
-        $select->reset(Zend_Db_Select::LIMIT_OFFSET);
-        $select->reset(Zend_Db_Select::COLUMNS);
+        $select->reset(\Zend_Db_Select::ORDER);
+        $select->reset(\Zend_Db_Select::LIMIT_COUNT);
+        $select->reset(\Zend_Db_Select::LIMIT_OFFSET);
+        $select->reset(\Zend_Db_Select::COLUMNS);
 
         return $select;
     }
@@ -1039,21 +1041,21 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Retreive product count select for categories
      *
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function getProductCountSelect()
     {
         if ($this->_productCountSelect === null) {
             $this->_productCountSelect = clone $this->getSelect();
-            $this->_productCountSelect->reset(Zend_Db_Select::COLUMNS)
-                ->reset(Zend_Db_Select::GROUP)
-                ->reset(Zend_Db_Select::ORDER)
+            $this->_productCountSelect->reset(\Zend_Db_Select::COLUMNS)
+                ->reset(\Zend_Db_Select::GROUP)
+                ->reset(\Zend_Db_Select::ORDER)
                 ->distinct(false)
                 ->join(array('count_table' => $this->getTable('catalog_category_product_index')),
                     'count_table.product_id = e.entity_id',
                     array(
                         'count_table.category_id',
-                        'product_count' => new Zend_Db_Expr('COUNT(DISTINCT count_table.product_id)')
+                        'product_count' => new \Zend_Db_Expr('COUNT(DISTINCT count_table.product_id)')
                     )
                 )
                 ->where('count_table.store_id = ?', $this->getStoreId())
@@ -1066,7 +1068,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Destruct product count select
      *
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function unsProductCountSelect()
     {
@@ -1077,8 +1079,8 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Adding product count to categories collection
      *
-     * @param Magento_Eav_Model_Entity_Collection_Abstract $categoryCollection
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @param \Magento\Eav\Model\Entity\Collection\AbstractCollection $categoryCollection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function addCountToCategories($categoryCollection)
     {
@@ -1138,8 +1140,8 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     public function getSetIds()
     {
         $select = clone $this->getSelect();
-        /** @var $select Magento_DB_Select */
-        $select->reset(Zend_Db_Select::COLUMNS);
+        /** @var $select \Magento\DB\Select */
+        $select->reset(\Zend_Db_Select::COLUMNS);
         $select->distinct(true);
         $select->columns('attribute_set_id');
         return $this->getConnection()->fetchCol($select);
@@ -1153,8 +1155,8 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     public function getProductTypeIds()
     {
         $select = clone $this->getSelect();
-        /** @var $select Magento_DB_Select */
-        $select->reset(Zend_Db_Select::COLUMNS);
+        /** @var $select \Magento\DB\Select */
+        $select->reset(\Zend_Db_Select::COLUMNS);
         $select->distinct(true);
         $select->columns('type_id');
         return $this->getConnection()->fetchCol($select);
@@ -1163,7 +1165,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Joins url rewrite rules to collection
      *
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function joinUrlRewrite()
     {
@@ -1171,7 +1173,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
             'core_url_rewrite',
             'entity_id=entity_id',
             array('request_path'),
-            '{{table}}.type = ' . Magento_Core_Model_Url_Rewrite::TYPE_PRODUCT,
+            '{{table}}.type = ' . \Magento\Core\Model\Url\Rewrite::TYPE_PRODUCT,
             'left'
         );
 
@@ -1183,13 +1185,13 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
      * If collection loadded - run processing else set flag
      *
      * @param int|string $categoryId
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function addUrlRewrite($categoryId = '')
     {
         $this->_addUrlRewrite = true;
         $useCategoryUrl = $this->_coreStoreConfig->getConfig(
-            Magento_Catalog_Helper_Product::XML_PATH_PRODUCT_URL_USE_CATEGORY, $this->getStoreId()
+            \Magento\Catalog\Helper\Product::XML_PATH_PRODUCT_URL_USE_CATEGORY, $this->getStoreId()
         );
         if ($useCategoryUrl) {
             $this->_urlRewriteCategory = $categoryId;
@@ -1245,7 +1247,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Add minimal price data to result
      *
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function addMinimalPrice()
     {
@@ -1255,7 +1257,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Add price data for calculate final price
      *
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function addFinalPrice()
     {
@@ -1265,7 +1267,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Join prices from price rules to products collection
      *
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     protected function _joinPriceRules()
     {
@@ -1321,7 +1323,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
      * Set all ids
      *
      * @param array $value
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function setAllIdsCache($value)
     {
@@ -1334,7 +1336,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
      *
      * @param int $customerGroupId
      * @param int $websiteId
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function addPriceData($customerGroupId = null, $websiteId = null)
     {
@@ -1362,15 +1364,15 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Add attribute to filter
      *
-     * @param Magento_Eav_Model_Entity_Attribute_Abstract|string $attribute
+     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute|string $attribute
      * @param array $condition
      * @param string $joinType
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function addAttributeToFilter($attribute, $condition = null, $joinType = 'inner')
     {
         if ($this->isEnabledFlat()) {
-            if ($attribute instanceof Magento_Eav_Model_Entity_Attribute_Abstract) {
+            if ($attribute instanceof \Magento\Eav\Model\Entity\Attribute\AbstractAttribute) {
                 $attribute = $attribute->getAttributeCode();
             }
 
@@ -1398,11 +1400,11 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
         $this->_allIdsCache = null;
 
         if (is_string($attribute) && $attribute == 'is_saleable') {
-            $columns = $this->getSelect()->getPart(Zend_Db_Select::COLUMNS);
+            $columns = $this->getSelect()->getPart(\Zend_Db_Select::COLUMNS);
             foreach ($columns as $columnEntry) {
                 list($correlationName, $column, $alias) = $columnEntry;
                 if ($alias == 'is_saleable') {
-                    if ($column instanceof Zend_Db_Expr) {
+                    if ($column instanceof \Zend_Db_Expr) {
                         $field = $column;
                     } else {
                         $adapter = $this->getSelect()->getAdapter();
@@ -1426,7 +1428,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Add requere tax percent flag for product collection
      *
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function addTaxPercents()
     {
@@ -1448,7 +1450,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Adding product custom options to result collection
      *
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function addOptionsToResult()
     {
@@ -1477,7 +1479,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Filter products with required options
      *
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function addFilterByRequiredOptions()
     {
@@ -1489,7 +1491,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
      * Set product visibility filter for enabled products
      *
      * @param array $visibility
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function setVisibility($visibility)
     {
@@ -1504,7 +1506,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
      *
      * @param string $attribute
      * @param string $dir
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function addAttributeToSort($attribute, $dir = self::SORT_ORDER_ASC)
     {
@@ -1563,7 +1565,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Prepare limitation filters
      *
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     protected function _prepareProductLimitationFilters()
     {
@@ -1592,7 +1594,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Join website product limitation
      *
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     protected function _productLimitationJoinWebsite()
     {
@@ -1617,14 +1619,14 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
                 ->quoteInto('product_website.website_id = ?', $websiteId);
         }
 
-        $fromPart = $this->getSelect()->getPart(Zend_Db_Select::FROM);
+        $fromPart = $this->getSelect()->getPart(\Zend_Db_Select::FROM);
         if (isset($fromPart['product_website'])) {
             if (!$joinWebsite) {
                 unset($fromPart['product_website']);
             } else {
                 $fromPart['product_website']['joinCondition'] = join(' AND ', $conditions);
             }
-            $this->getSelect()->setPart(Zend_Db_Select::FROM, $fromPart);
+            $this->getSelect()->setPart(\Zend_Db_Select::FROM, $fromPart);
         } elseif ($joinWebsite) {
             $this->getSelect()->join(
                 array('product_website' => $this->getTable('catalog_product_website')),
@@ -1639,7 +1641,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Join additional (alternative) store visibility filter
      *
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     protected function _productLimitationJoinStore()
     {
@@ -1649,7 +1651,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
         }
 
         $hasColumn = false;
-        foreach ($this->getSelect()->getPart(Zend_Db_Select::COLUMNS) as $columnEntry) {
+        foreach ($this->getSelect()->getPart(\Zend_Db_Select::COLUMNS) as $columnEntry) {
             list(,,$alias) = $columnEntry;
             if ($alias == 'visibility') {
                 $hasColumn = true;
@@ -1659,7 +1661,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
             $this->getSelect()->columns('visibility', 'cat_index');
         }
 
-        $fromPart = $this->getSelect()->getPart(Zend_Db_Select::FROM);
+        $fromPart = $this->getSelect()->getPart(\Zend_Db_Select::FROM);
         if (!isset($fromPart['store_index'])) {
             $this->getSelect()->joinLeft(
                 array('store_index' => $this->getTable('core_store')),
@@ -1693,7 +1695,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
             $this->getConnection()->quoteInto('store_cat_index.visibility IN(?)', $filters['visibility'])
         ));
 
-        $wherePart = $this->getSelect()->getPart(Zend_Db_Select::WHERE);
+        $wherePart = $this->getSelect()->getPart(\Zend_Db_Select::WHERE);
         $hasCond   = false;
         foreach ($wherePart as $cond) {
             if ($cond == '(' . $whereCond . ')') {
@@ -1711,7 +1713,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Join Product Price Table
      *
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     protected function _productLimitationJoinPrice()
     {
@@ -1721,9 +1723,9 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Join Product Price Table with left-join possibility
      *
-     * @see Magento_Catalog_Model_Resource_Product_Collection::_productLimitationJoinPrice()
+     * @see \Magento\Catalog\Model\Resource\Product\Collection::_productLimitationJoinPrice()
      * @param bool $joinLeft
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     protected function _productLimitationPrice($joinLeft = false)
     {
@@ -1740,7 +1742,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
             $connection->quoteInto('price_index.customer_group_id = ?', $filters['customer_group_id'])
         ));
 
-        $fromPart = $select->getPart(Zend_Db_Select::FROM);
+        $fromPart = $select->getPart(\Zend_Db_Select::FROM);
         if (!isset($fromPart['price_index'])) {
             $least       = $connection->getLeastSql(array('price_index.min_price', 'price_index.tier_price'));
             $minimalExpr = $connection->getCheckSql('price_index.tier_price IS NOT NULL',
@@ -1759,7 +1761,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
             }
         } else {
             $fromPart['price_index']['joinCondition'] = $joinCond;
-            $select->setPart(Zend_Db_Select::FROM, $fromPart);
+            $select->setPart(\Zend_Db_Select::FROM, $fromPart);
         }
         //Clean duplicated fields
         $this->_resourceHelper->prepareColumnsList($select);
@@ -1771,7 +1773,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Apply front-end price limitation filters to the collection
      *
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function applyFrontendPriceLimitations()
     {
@@ -1794,7 +1796,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
      * for different combinations of store_id/category_id/visibility filter states
      * Method supports multiple changes in one collection object for this parameters
      *
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     protected function _applyProductLimitations()
     {
@@ -1823,10 +1825,10 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
         }
 
         $joinCond = join(' AND ', $conditions);
-        $fromPart = $this->getSelect()->getPart(Zend_Db_Select::FROM);
+        $fromPart = $this->getSelect()->getPart(\Zend_Db_Select::FROM);
         if (isset($fromPart['cat_index'])) {
             $fromPart['cat_index']['joinCondition'] = $joinCond;
-            $this->getSelect()->setPart(Zend_Db_Select::FROM, $fromPart);
+            $this->getSelect()->setPart(\Zend_Db_Select::FROM, $fromPart);
         } else {
             $this->getSelect()->join(
                 array('cat_index' => $this->getTable('catalog_category_product_index')),
@@ -1845,7 +1847,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
      * Method allows using one time category product table
      * for combinations of category_id filter states
      *
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     protected function _applyZeroStoreProductLimitations()
     {
@@ -1857,10 +1859,10 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
         );
         $joinCond = join(' AND ', $conditions);
 
-        $fromPart = $this->getSelect()->getPart(Zend_Db_Select::FROM);
+        $fromPart = $this->getSelect()->getPart(\Zend_Db_Select::FROM);
         if (isset($fromPart['cat_pro'])) {
             $fromPart['cat_pro']['joinCondition'] = $joinCond;
-            $this->getSelect()->setPart(Zend_Db_Select::FROM, $fromPart);
+            $this->getSelect()->setPart(\Zend_Db_Select::FROM, $fromPart);
         }
         else {
             $this->getSelect()->join(
@@ -1880,7 +1882,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Add category ids to loaded items
      *
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function addCategoryIds()
     {
@@ -1925,7 +1927,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Add tier price data to loaded items
      *
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function addTierPriceData()
     {
@@ -1943,7 +1945,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
             return $this;
         }
 
-        /** @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
+        /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
         $attribute = $this->getAttribute('tier_price');
         if ($attribute->isScopeGlobal()) {
             $websiteId = 0;
@@ -1975,7 +1977,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
         foreach ($adapter->fetchAll($select) as $row) {
             $tierPrices[$row['product_id']][] = array(
                 'website_id'    => $row['website_id'],
-                'cust_group'    => $row['all_groups'] ? Magento_Customer_Model_Group::CUST_GROUP_ALL : $row['cust_group'],
+                'cust_group'    => $row['all_groups'] ? \Magento\Customer\Model\Group::CUST_GROUP_ALL : $row['cust_group'],
                 'price_qty'     => $row['price_qty'],
                 'price'         => $row['price'],
                 'website_price' => $row['price'],
@@ -1983,7 +1985,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
             );
         }
 
-        /* @var $backend Magento_Catalog_Model_Product_Attribute_Backend_Tierprice */
+        /* @var $backend \Magento\Catalog\Model\Product\Attribute\Backend\Tierprice */
         $backend = $attribute->getBackend();
 
         foreach ($this->getItems() as $item) {
@@ -2003,13 +2005,13 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
      *
      * @param string $comparisonFormat - expression for sprintf()
      * @param array $fields - list of fields
-     * @return Magento_Catalog_Model_Resource_Product_Collection
-     * @throws Exception
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
+     * @throws \Exception
      */
     public function addPriceDataFieldFilter($comparisonFormat, $fields)
     {
         if (!preg_match('/^%s( (<|>|=|<=|>=|<>) %s)*$/', $comparisonFormat)) {
-            throw new Exception('Invalid comparison format.');
+            throw new \Exception('Invalid comparison format.');
         }
 
         if (!is_array($fields)) {
@@ -2026,7 +2028,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Clear collection
      *
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function clear()
     {
@@ -2052,7 +2054,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
      *
      * @param string $attribute
      * @param string $dir
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function setOrder($attribute, $dir = 'desc')
     {

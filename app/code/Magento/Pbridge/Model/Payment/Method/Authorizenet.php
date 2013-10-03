@@ -16,7 +16,9 @@
  * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Pbridge_Model_Payment_Method_Authorizenet extends Magento_Payment_Model_Method_Cc
+namespace Magento\Pbridge\Model\Payment\Method;
+
+class Authorizenet extends \Magento\Payment\Model\Method\Cc
 {
     protected $_code  = 'authorizenet';
 
@@ -25,19 +27,19 @@ class Magento_Pbridge_Model_Payment_Method_Authorizenet extends Magento_Payment_
      *
      * @var string
      */
-    protected $_formBlockType = 'Magento_Pbridge_Block_Checkout_Payment_Authorizenet';
+    protected $_formBlockType = 'Magento\Pbridge\Block\Checkout\Payment\Authorizenet';
 
     /**
      * Form block type for the backend
      *
      * @var string
      */
-    protected $_backendFormBlockType = 'Magento_Pbridge_Block_Adminhtml_Sales_Order_Create_Authorizenet';
+    protected $_backendFormBlockType = 'Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Authorizenet';
 
     /**
      * Payment Bridge Payment Method Instance
      *
-     * @var Magento_Pbridge_Model_Payment_Method_Pbridge
+     * @var \Magento\Pbridge\Model\Payment\Method\Pbridge
      */
     protected $_pbridgeMethodInstance = null;
 
@@ -61,43 +63,43 @@ class Magento_Pbridge_Model_Payment_Method_Authorizenet extends Magento_Payment_
     /**
      * Pbridge data
      *
-     * @var Magento_Pbridge_Helper_Data
+     * @var \Magento\Pbridge\Helper\Data
      */
     protected $_pbridgeData = null;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_ModuleListInterface $moduleList
-     * @param Magento_Payment_Helper_Data $paymentData
-     * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Centinel_Model_Service $centinelService
-     * @param Magento_Pbridge_Helper_Data $pbridgeData
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\ModuleListInterface $moduleList
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Centinel\Model\Service $centinelService
+     * @param \Magento\Pbridge\Helper\Data $pbridgeData
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_ModuleListInterface $moduleList,
-        Magento_Payment_Helper_Data $paymentData,
-        Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Centinel_Model_Service $centinelService,
-        Magento_Pbridge_Helper_Data $pbridgeData,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\ModuleListInterface $moduleList,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Centinel\Model\Service $centinelService,
+        \Magento\Pbridge\Helper\Data $pbridgeData,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
@@ -119,7 +121,7 @@ class Magento_Pbridge_Model_Payment_Method_Authorizenet extends Magento_Payment_
     /**
      * Return Payment Bridge method instance
      *
-     * @return Magento_Pbridge_Model_Payment_Method_Pbridge
+     * @return \Magento\Pbridge\Model\Payment\Method\Pbridge
      */
     public function getPbridgeMethodInstance()
     {
@@ -188,7 +190,7 @@ class Magento_Pbridge_Model_Payment_Method_Authorizenet extends Magento_Payment_
      * Assign data to info model instance
      *
      * @param  mixed $data
-     * @return Magento_Payment_Model_Info
+     * @return \Magento\Payment\Model\Info
      */
     public function assignData($data)
     {
@@ -199,7 +201,7 @@ class Magento_Pbridge_Model_Payment_Method_Authorizenet extends Magento_Payment_
     /**
      * Check whether payment method can be used
      *
-     * @param Magento_Sales_Model_Quote $quote
+     * @param \Magento\Sales\Model\Quote $quote
      * @return boolean
      */
     public function isAvailable($quote = null)
@@ -222,7 +224,7 @@ class Magento_Pbridge_Model_Payment_Method_Authorizenet extends Magento_Payment_
     /**
      * Validate payment method information object
      *
-     * @return Magento_Pbridge_Model_Payment_Method_Authorizenet
+     * @return \Magento\Pbridge\Model\Payment\Method\Authorizenet
      */
     public function validate()
     {
@@ -233,11 +235,11 @@ class Magento_Pbridge_Model_Payment_Method_Authorizenet extends Magento_Payment_
     /**
      * Authorization method being executed via Payment Bridge
      *
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      * @param float $amount
-     * @return Magento_Pbridge_Model_Payment_Method_Authorizenet
+     * @return \Magento\Pbridge\Model\Payment\Method\Authorizenet
      */
-    public function authorize(Magento_Object $payment, $amount)
+    public function authorize(\Magento\Object $payment, $amount)
     {
         $response = $this->getPbridgeMethodInstance()->authorize($payment, $amount);
         $payment->addData((array)$response);
@@ -247,11 +249,11 @@ class Magento_Pbridge_Model_Payment_Method_Authorizenet extends Magento_Payment_
     /**
      * Capturing method being executed via Payment Bridge
      *
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      * @param float $amount
-     * @return Magento_Pbridge_Model_Payment_Method_Authorizenet
+     * @return \Magento\Pbridge\Model\Payment\Method\Authorizenet
      */
-    public function capture(Magento_Object $payment, $amount)
+    public function capture(\Magento\Object $payment, $amount)
     {
         $response = $this->getPbridgeMethodInstance()->capture($payment, $amount);
         if (!$response) {
@@ -264,11 +266,11 @@ class Magento_Pbridge_Model_Payment_Method_Authorizenet extends Magento_Payment_
     /**
      * Refunding method being executed via Payment Bridge
      *
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      * @param float $amount
-     * @return Magento_Pbridge_Model_Payment_Method_Authorizenet
+     * @return \Magento\Pbridge\Model\Payment\Method\Authorizenet
      */
-    public function refund(Magento_Object $payment, $amount)
+    public function refund(\Magento\Object $payment, $amount)
     {
         $response = $this->getPbridgeMethodInstance()->refund($payment, $amount);
         $payment->addData((array)$response);
@@ -280,10 +282,10 @@ class Magento_Pbridge_Model_Payment_Method_Authorizenet extends Magento_Payment_
     /**
      * Voiding method being executed via Payment Bridge
      *
-     * @param Magento_Object $payment
-     * @return Magento_Pbridge_Model_Payment_Method_Authorizenet
+     * @param \Magento\Object $payment
+     * @return \Magento\Pbridge\Model\Payment\Method\Authorizenet
      */
-    public function void(Magento_Object $payment)
+    public function void(\Magento\Object $payment)
     {
         $response = $this->getPbridgeMethodInstance()->void($payment);
         $payment->addData((array)$response);
@@ -293,10 +295,10 @@ class Magento_Pbridge_Model_Payment_Method_Authorizenet extends Magento_Payment_
     /**
      * Cancel payment
      *
-     * @param Magento_Object $payment
-     * @return Magento_Pbridge_Model_Payment_Method_Authorizenet
+     * @param \Magento\Object $payment
+     * @return \Magento\Pbridge\Model\Payment\Method\Authorizenet
      */
-    public function cancel(Magento_Object $payment)
+    public function cancel(\Magento\Object $payment)
     {
         if (!$payment->getOrder()->getInvoiceCollection()->count()) {
             $response = $this->getPbridgeMethodInstance()->void($payment);
@@ -314,7 +316,7 @@ class Magento_Pbridge_Model_Payment_Method_Authorizenet extends Magento_Payment_
      * Store id setter, also set storeId to helper
      *
      * @param int $store
-     * @return Magento_Pbridge_Model_Payment_Method_Authorizenet
+     * @return \Magento\Pbridge\Model\Payment\Method\Authorizenet
      */
     public function setStore($store)
     {

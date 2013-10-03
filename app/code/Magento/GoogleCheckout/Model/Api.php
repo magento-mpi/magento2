@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_GoogleCheckout_Model_Api extends Magento_Object
+namespace Magento\GoogleCheckout\Model;
+
+class Api extends \Magento\Object
 {
     /**
      * Fields that should be replaced in debug with '***'
@@ -20,25 +22,25 @@ class Magento_GoogleCheckout_Model_Api extends Magento_Object
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -48,13 +50,13 @@ class Magento_GoogleCheckout_Model_Api extends Magento_Object
 
     protected function _getApi($area)
     {
-        $api = Mage::getModel('Magento_GoogleCheckout_Model_Api_Xml_' . uc_words($area))->setStoreId($this->getStoreId());
+        $api = \Mage::getModel('Magento\GoogleCheckout\Model\Api\Xml\\' . uc_words($area))->setStoreId($this->getStoreId());
         $api->setApi($this);
         return $api;
     }
 
 // CHECKOUT
-    public function checkout(Magento_Sales_Model_Quote $quote)
+    public function checkout(\Magento\Sales\Model\Quote $quote)
     {
         $api = $this->_getApi('checkout')
             ->setQuote($quote)
@@ -219,7 +221,7 @@ class Magento_GoogleCheckout_Model_Api extends Magento_Object
     public function debugData($debugData)
     {
         if ($this->getDebugFlag()) {
-            Mage::getModel('Magento_Core_Model_Log_Adapter', array('fileName' => 'payment_googlecheckout.log'))
+            \Mage::getModel('Magento\Core\Model\Log\Adapter', array('fileName' => 'payment_googlecheckout.log'))
                ->setFilterDataKeys($this->_debugReplacePrivateDataKeys)
                ->log($debugData);
         }

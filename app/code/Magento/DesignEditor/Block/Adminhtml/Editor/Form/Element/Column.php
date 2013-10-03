@@ -11,11 +11,13 @@
 /**
  * Column renderer to Quick Styles panel in VDE
  *
- * @method Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column setClass($class)
+ * @method \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Column setClass($class)
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column
-    extends Magento_Data_Form_Element_Fieldset
-    implements Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_ContainerInterface
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element;
+
+class Column
+    extends \Magento\Data\Form\Element\Fieldset
+    implements \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\ContainerInterface
 {
     /**
      * Control type
@@ -23,12 +25,12 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column
     const CONTROL_TYPE = 'column';
 
     /**
-     * @var Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory
+     * @var \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Renderer\Factory
      */
     protected $_rendererFactory;
 
     /**
-     * @var Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory
+     * @var \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Element\Factory
      */
     protected $_elementsFactory;
 
@@ -46,32 +48,32 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column
     /**
      * Add element types that can be added to 'column' element
      *
-     * @return Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column
+     * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Column
      */
     protected function _addElementTypes()
     {
         //contains composite font element and logo uploader
-        $this->addType('logo', 'Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Logo');
+        $this->addType('logo', 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Logo');
 
         //contains font picker, color picker
-        $this->addType('font', 'Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Font');
+        $this->addType('font', 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Font');
 
         //contains color picker and bg uploader
-        $this->addType('background', 'Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Background');
+        $this->addType('background', 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Background');
 
-        $this->addType('color-picker', 'Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_ColorPicker');
-        $this->addType('font-picker', 'Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_FontPicker');
-        $this->addType('logo-uploader', 'Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_LogoUploader');
+        $this->addType('color-picker', 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\ColorPicker');
+        $this->addType('font-picker', 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\FontPicker');
+        $this->addType('logo-uploader', 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\LogoUploader');
         $this->addType('background-uploader',
-            'Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploader'
+            'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\BackgroundUploader'
         );
 
         return $this;
     }
 
     /**
-     * @param Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory $factory
-     * @return Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column
+     * @param \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Renderer\Factory $factory
+     * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Column
      */
     public function setRendererFactory($factory)
     {
@@ -80,20 +82,20 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column
     }
 
     /**
-     * @return Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory
-     * @throws Magento_Core_Exception
+     * @return \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Renderer\Factory
+     * @throws \Magento\Core\Exception
      */
     public function getRendererFactory()
     {
         if (!$this->_rendererFactory) {
-            throw new Magento_Core_Exception('Renderer factory was not set');
+            throw new \Magento\Core\Exception('Renderer factory was not set');
         }
         return $this->_rendererFactory;
     }
 
     /**
-     * @param Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory $factory
-     * @return Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column
+     * @param \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Element\Factory $factory
+     * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Column
      */
     public function setElementsFactory($factory)
     {
@@ -102,13 +104,13 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column
     }
 
     /**
-     * @return Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory
-     * @throws Magento_Core_Exception
+     * @return \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Element\Factory
+     * @throws \Magento\Core\Exception
      */
     public function getElementsFactory()
     {
         if (!$this->_elementsFactory) {
-            throw new Magento_Core_Exception('Form elements factory was not set');
+            throw new \Magento\Core\Exception('Form elements factory was not set');
         }
         return $this->_elementsFactory;
     }
@@ -121,14 +123,14 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column
      * @param array $config
      * @param boolean $after
      * @param boolean $isAdvanced
-     * @return Magento_Data_Form_Element_Abstract
+     * @return \Magento\Data\Form\Element\AbstractElement
      */
     public function addField($elementId, $type, $config, $after = false, $isAdvanced = false)
     {
         if (isset($this->_types[$type])) {
             $className = $this->_types[$type];
         } else {
-            $className = 'Magento_Data_Form_Element_' . ucfirst(strtolower($type));
+            $className = 'Magento\\Data\\Form\\Element\\' . ucfirst(strtolower($type));
         }
         $element = $this->getElementsFactory()->create($className, $config);
         $element->setId($elementId);

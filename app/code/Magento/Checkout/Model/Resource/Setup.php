@@ -16,27 +16,29 @@
  * @package     Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
+namespace Magento\Checkout\Model\Resource;
+
+class Setup extends \Magento\Eav\Model\Entity\Setup
 {
     /**
-     * @var Magento_Customer_Helper_Address
+     * @var \Magento\Customer\Helper\Address
      */
     protected $_customerAddress;
 
     /**
-     * @param Magento_Core_Model_Resource_Setup_Context $context
-     * @param Magento_Core_Model_CacheInterface $cache
-     * @param Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory
-     * @param Magento_Customer_Helper_Address $customerAddress
+     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory
+     * @param \Magento\Customer\Helper\Address $customerAddress
      * @param string $resourceName
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
-        Magento_Core_Model_Resource_Setup_Context $context,
-        Magento_Core_Model_CacheInterface $cache,
-        Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory,
-        Magento_Customer_Helper_Address $customerAddress,
+        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory,
+        \Magento\Customer\Helper\Address $customerAddress,
         $resourceName,
         $moduleName = 'Magento_Checkout',
         $connectionName = ''
@@ -46,7 +48,7 @@ class Magento_Checkout_Model_Resource_Setup extends Magento_Eav_Model_Entity_Set
     }
 
     /**
-     * @return Magento_Customer_Helper_Address
+     * @return \Magento\Customer\Helper\Address
      */
     public function getCustomerAddress()
     {

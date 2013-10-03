@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_Customer_Model_Entity_Setup */
+/** @var $installer \Magento\Customer\Model\Entity\Setup */
 $installer = $this;
 
 $installer->getConnection()->addColumn($installer->getTable('customer_entity'), 'disable_auto_group_change', array(
-    'type' => Magento_DB_Ddl_Table::TYPE_SMALLINT,
+    'type' => \Magento\DB\Ddl\Table::TYPE_SMALLINT,
     'unsigned' => true,
     'nullable' => false,
     'default' => '0',

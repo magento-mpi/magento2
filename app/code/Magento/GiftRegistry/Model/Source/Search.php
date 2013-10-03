@@ -11,7 +11,9 @@
 /**
  * Search source model
  */
-class Magento_GiftRegistry_Model_Source_Search implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\GiftRegistry\Model\Source;
+
+class Search implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Quick search form types

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Authorization_RoleLocator implements Magento_Authorization_RoleLocator
+namespace Magento\Webapi\Model\Authorization;
+
+class RoleLocator implements \Magento\Authorization\RoleLocator
 {
     /**
      * @var string|null

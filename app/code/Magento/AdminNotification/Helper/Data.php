@@ -16,7 +16,9 @@
  * @package    Magento_AdminNotification
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdminNotification_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\AdminNotification\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     const XML_PATH_POPUP_URL    = 'system/adminnotification/popup_url';
 
@@ -37,7 +39,7 @@ class Magento_AdminNotification_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Last Notice object
      *
-     * @var Magento_AdminNotification_Model_Inbox
+     * @var \Magento\AdminNotification\Model\Inbox
      */
     protected $_latestNotice;
 
@@ -49,19 +51,19 @@ class Magento_AdminNotification_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_unreadNoticeCounts;
 
     /**
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_AdminNotification_Model_InboxFactory
+     * @var \Magento\AdminNotification\Model\InboxFactory
      */
     protected $_inboxFactory;
 
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_AdminNotification_Model_InboxFactory $inboxFactory
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\AdminNotification\Model\InboxFactory $inboxFactory
     ) {
         parent::__construct($context);
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -71,7 +73,7 @@ class Magento_AdminNotification_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve latest notice model
      *
-     * @return Magento_AdminNotification_Model_Inbox
+     * @return \Magento\AdminNotification\Model\Inbox
      */
     public function getLatestNotice()
     {

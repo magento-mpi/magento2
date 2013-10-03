@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Controller_System_Account extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller\System;
+
+class Account extends \Magento\Adminhtml\Controller\Action
 {
     public function indexAction()
     {
@@ -31,13 +33,13 @@ class Magento_Adminhtml_Controller_System_Account extends Magento_Adminhtml_Cont
      */
     public function saveAction()
     {
-        $userId = $this->_objectManager->get('Magento_Backend_Model_Auth_Session')->getUser()->getId();
+        $userId = $this->_objectManager->get('Magento\Backend\Model\Auth\Session')->getUser()->getId();
         $password = (string)$this->getRequest()->getParam('password');
         $passwordConfirmation = (string)$this->getRequest()->getParam('password_confirmation');
         $interfaceLocale = (string)$this->getRequest()->getParam('interface_locale', false);
 
-        /** @var $user Magento_User_Model_User */
-        $user = $this->_objectManager->create('Magento_User_Model_User')->load($userId);
+        /** @var $user \Magento\User\Model\User */
+        $user = $this->_objectManager->create('Magento\User\Model\User')->load($userId);
 
         $user->setId($userId)
             ->setUsername($this->getRequest()->getParam('username', false))
@@ -52,10 +54,10 @@ class Magento_Adminhtml_Controller_System_Account extends Magento_Adminhtml_Cont
             $user->setPasswordConfirmation($passwordConfirmation);
         }
 
-        if ($this->_objectManager->get('Magento_Core_Model_Locale_Validator')->isValid($interfaceLocale)) {
+        if ($this->_objectManager->get('Magento\Core\Model\Locale\Validator')->isValid($interfaceLocale)) {
 
             $user->setInterfaceLocale($interfaceLocale);
-            $this->_objectManager->get('Magento_Backend_Model_Locale_Manager')
+            $this->_objectManager->get('Magento\Backend\Model\Locale\Manager')
                 ->switchBackendInterfaceLocale($interfaceLocale);
         }
 
@@ -65,9 +67,9 @@ class Magento_Adminhtml_Controller_System_Account extends Magento_Adminhtml_Cont
             $this->_getSession()->addSuccess(
                 __('The account has been saved.')
             );
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addMessages($e->getMessages());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getSession()->addError(
                 __('An error occurred while saving account.')
             );

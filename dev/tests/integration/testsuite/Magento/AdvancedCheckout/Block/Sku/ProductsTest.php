@@ -9,23 +9,25 @@
  * @license     {license_link}
  */
 
-class Magento_AdvancedCheckout_Block_Sku_ProductsTest extends PHPUnit_Framework_TestCase
+namespace Magento\AdvancedCheckout\Block\Sku;
+
+class ProductsTest extends \PHPUnit_Framework_TestCase
 {
     public function testToHtml()
     {
-        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_AdvancedCheckout_Block_Sku_Products')
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\AdvancedCheckout\Block\Sku\Products')
             ->setTemplate('cart/sku/failed.phtml');
         $this->assertEmpty($block->toHtml());
 
         $item = array(
             'sku' => 'test',
-            'code' => Magento_AdvancedCheckout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU,
+            'code' => \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_SKU,
         );
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_AdvancedCheckout_Helper_Data')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\AdvancedCheckout\Helper\Data')
             ->getSession()->setAffectedItems(array(
-                Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                    ->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getId() => array($item)
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                    ->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getId() => array($item)
             ));
         $this->assertContains('<form', $block->toHtml());
     }

@@ -15,7 +15,9 @@
  * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_MultipleWishlist_Model_Search_Strategy_Email implements Magento_MultipleWishlist_Model_Search_Strategy_Interface
+namespace Magento\MultipleWishlist\Model\Search\Strategy;
+
+class Email implements \Magento\MultipleWishlist\Model\Search\Strategy\StrategyInterface
 {
     /**
      * Email provided for search
@@ -27,26 +29,26 @@ class Magento_MultipleWishlist_Model_Search_Strategy_Email implements Magento_Mu
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Customer factory
      *
-     * @var Magento_Customer_Model_CustomerFactory
+     * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $_customerFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Customer_Model_CustomerFactory $customerFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        Magento_Customer_Model_CustomerFactory $customerFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_customerFactory = $customerFactory;
         $this->_storeManager = $storeManager;
@@ -56,12 +58,12 @@ class Magento_MultipleWishlist_Model_Search_Strategy_Email implements Magento_Mu
      * Set search fields required by search strategy
      *
      * @param array $params
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function setSearchParams(array $params)
     {
-        if (empty($params['email']) || !Zend_Validate::is($params['email'], 'EmailAddress')) {
-            throw new InvalidArgumentException(__('Please input a valid email address.'));
+        if (empty($params['email']) || !\Zend_Validate::is($params['email'], 'EmailAddress')) {
+            throw new \InvalidArgumentException(__('Please input a valid email address.'));
         }
         $this->_email = $params['email'];
     }
@@ -69,12 +71,12 @@ class Magento_MultipleWishlist_Model_Search_Strategy_Email implements Magento_Mu
     /**
      * Filter given wishlist collection
      *
-     * @param Magento_Wishlist_Model_Resource_Wishlist_Collection $collection
-     * @return Magento_Wishlist_Model_Resource_Wishlist_Collection
+     * @param \Magento\Wishlist\Model\Resource\Wishlist\Collection $collection
+     * @return \Magento\Wishlist\Model\Resource\Wishlist\Collection
      */
-    public function filterCollection(Magento_Wishlist_Model_Resource_Wishlist_Collection $collection)
+    public function filterCollection(\Magento\Wishlist\Model\Resource\Wishlist\Collection $collection)
     {
-        /** @var Magento_Customer_Model_Customer $customer */
+        /** @var \Magento\Customer\Model\Customer $customer */
         $customer = $this->_customerFactory->create();
         $customer->setWebsiteId($this->_storeManager->getStore()->getWebsiteId())
             ->loadByEmail($this->_email);

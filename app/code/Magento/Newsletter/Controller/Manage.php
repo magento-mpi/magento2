@@ -16,33 +16,35 @@
  * @package    Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Newsletter_Controller_Manage extends Magento_Core_Controller_Front_Action
+namespace Magento\Newsletter\Controller;
+
+class Manage extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Customer session
      *
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Controller_Varien_Action_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Customer_Model_Session $customerSession
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
-        Magento_Core_Controller_Varien_Action_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Customer_Model_Session $customerSession
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Customer\Model\Session $customerSession
     ) {
         parent::__construct($context);
         $this->_storeManager = $storeManager;
@@ -65,8 +67,8 @@ class Magento_Newsletter_Controller_Manage extends Magento_Core_Controller_Front
     public function indexAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('Magento_Customer_Model_Session');
-        $this->_initLayoutMessages('Magento_Catalog_Model_Session');
+        $this->_initLayoutMessages('Magento\Customer\Model\Session');
+        $this->_initLayoutMessages('Magento\Catalog\Model\Session');
 
         if ($block = $this->getLayout()->getBlock('customer_newsletter')) {
             $block->setRefererUrl($this->_getRefererUrl());
@@ -91,7 +93,7 @@ class Magento_Newsletter_Controller_Manage extends Magento_Core_Controller_Front
                 $this->_customerSession->addSuccess(__('We removed the subscription.'));
             }
         }
-        catch (Exception $e) {
+        catch (\Exception $e) {
             $this->_customerSession->addError(__('Something went wrong while saving your subscription.'));
         }
         $this->_redirect('customer/account/');

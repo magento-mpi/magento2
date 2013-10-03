@@ -10,22 +10,24 @@
  */
 
 /**
- * Test class for Magento_Catalog_Model_Layer_Filter_Item.
+ * Test class for \Magento\Catalog\Model\Layer\Filter\Item.
  */
-class Magento_Catalog_Model_Layer_Filter_ItemTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Layer\Filter;
+
+class ItemTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_Layer_Filter_Item
+     * @var \Magento\Catalog\Model\Layer\Filter\Item
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Layer_Filter_Item', array(
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Layer\Filter\Item', array(
             'data' => array(
-                'filter' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Layer_Filter_Category'),
+                'filter' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Layer\Filter\Category'),
                 'value'  => array('valuePart1', 'valuePart2'),
             )
         ));
@@ -39,31 +41,31 @@ class Magento_Catalog_Model_Layer_Filter_ItemTest extends PHPUnit_Framework_Test
     }
 
     /**
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      */
     public function testGetFilterException()
     {
-        /** @var $model Magento_Catalog_Model_Layer_Filter_Item */
-        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Layer_Filter_Item');
+        /** @var $model \Magento\Catalog\Model\Layer\Filter\Item */
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Layer\Filter\Item');
         $model->getFilter();
     }
 
     public function testGetUrl()
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var $request Magento_TestFramework_Request */
-        $request = $objectManager->get('Magento_TestFramework_Request');
-        $action = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
-            'Magento_Core_Controller_Front_Action',
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var $request \Magento\TestFramework\Request */
+        $request = $objectManager->get('Magento\TestFramework\Request');
+        $action = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Core\Controller\Front\Action',
             array(
                 'request' => $request,
-                'response' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                    ->get('Magento_TestFramework_Response'),
+                'response' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                    ->get('Magento\TestFramework\Response'),
             )
         );
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')->getFrontController()
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')->getFrontController()
             ->setAction($action); // done in action's constructor
         $this->assertStringEndsWith('/?cat%5B0%5D=valuePart1&cat%5B1%5D=valuePart2', $this->_model->getUrl());
     }
@@ -73,12 +75,12 @@ class Magento_Catalog_Model_Layer_Filter_ItemTest extends PHPUnit_Framework_Test
      */
     public function testGetRemoveUrl()
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var $request Magento_TestFramework_Request */
-        $request = $objectManager->get('Magento_TestFramework_Request');
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var $request \Magento\TestFramework\Request */
+        $request = $objectManager->get('Magento\TestFramework\Request');
 
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Controller_Request_Http')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Controller\Request\Http')
             ->setRoutingInfo(array(
                 'requested_route'      => 'x',
                 'requested_controller' => 'y',
@@ -88,8 +90,8 @@ class Magento_Catalog_Model_Layer_Filter_ItemTest extends PHPUnit_Framework_Test
         $request->setParam('cat', 4);
         $this->_model->getFilter()->apply(
             $request,
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-                ->createBlock('Magento_Core_Block_Text')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+                ->createBlock('Magento\Core\Block\Text')
         );
 
         $this->assertStringEndsWith('/x/y/z/?cat=3', $this->_model->getRemoveUrl());

@@ -15,7 +15,9 @@
  * @package    Magento_Downloadable
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Block_Checkout_Success extends Magento_Checkout_Block_Onepage_Success
+namespace Magento\Downloadable\Block\Checkout;
+
+class Success extends \Magento\Checkout\Block\Onepage\Success
 {
     /**
      * Return true if order(s) has one or more downloadable products

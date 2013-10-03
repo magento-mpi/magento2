@@ -15,19 +15,21 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Package
-    extends Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Abstract
+namespace Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab;
+
+class Package
+    extends \Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab\AbstractTab
 {
     /**
      * Prepare Package Info Form before rendering HTML
      *
-     * @return Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Package
+     * @return \Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab\Package
      */
     protected function _prepareForm()
     {
         parent::_prepareForm();
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('_package');
 
@@ -63,11 +65,11 @@ class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Package
         $versionsInfo = array(
             array(
                 'label' => __('1.5.0.0 & later'),
-                'value' => Magento_Connect_Package::PACKAGE_VERSION_2X
+                'value' => \Magento\Connect\Package::PACKAGE_VERSION_2X
             ),
             array(
                 'label' => __('Pre-1.5.0.0'),
-                'value' => Magento_Connect_Package::PACKAGE_VERSION_1X
+                'value' => \Magento\Connect\Package::PACKAGE_VERSION_1X
             )
         );
         $fieldset->addField('version_ids','multiselect',array(

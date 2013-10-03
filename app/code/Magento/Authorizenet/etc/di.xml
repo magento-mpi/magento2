@@ -8,12 +8,12 @@
  */
 -->
 <config>
-    <type name="Magento_Authorizenet_Model_Directpost_Observer">
+    <type name="Magento\Authorizenet\Model\Directpost\Observer">
         <param name="authorizenetData">
-            <instance type="Magento_Authorizenet_Helper_Data_Proxy" />
+            <instance type="Magento\Authorizenet\Helper\Data\Proxy" />
         </param>
         <param name="coreData">
-            <instance type="Magento_Core_Helper_Data_Proxy" />
+            <instance type="Magento\Core\Helper\Data\Proxy" />
         </param>
     </type>
 </config>

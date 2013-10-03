@@ -14,22 +14,24 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-class Magento_Invitation_Model_Source_Invitation_Options
-    implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Invitation\Model\Source\Invitation;
+
+class Options
+    implements \Magento\Core\Model\Option\ArrayInterface
 
 {
     /**
      * Invitation Status
      *
-     * @var Magento_Invitation_Model_Source_Invitation_Status
+     * @var \Magento\Invitation\Model\Source\Invitation\Status
      */
     protected $_invitationStatus;
 
     /**
-     * @param Magento_Invitation_Model_Source_Invitation_Status $invitationStatus
+     * @param \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus
      */
     function __construct(
-        Magento_Invitation_Model_Source_Invitation_Status $invitationStatus
+        \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus
     ) {
         $this->_invitationStatus = $invitationStatus;
     }

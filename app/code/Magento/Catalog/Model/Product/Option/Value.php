@@ -11,18 +11,20 @@
 /**
  * Catalog product option select type model
  *
- * @method Magento_Catalog_Model_Resource_Product_Option_Value _getResource()
- * @method Magento_Catalog_Model_Resource_Product_Option_Value getResource()
+ * @method \Magento\Catalog\Model\Resource\Product\Option\Value _getResource()
+ * @method \Magento\Catalog\Model\Resource\Product\Option\Value getResource()
  * @method int getOptionId()
- * @method Magento_Catalog_Model_Product_Option_Value setOptionId(int $value)
+ * @method \Magento\Catalog\Model\Product\Option\Value setOptionId(int $value)
  * @method string getSku()
- * @method Magento_Catalog_Model_Product_Option_Value setSku(string $value)
+ * @method \Magento\Catalog\Model\Product\Option\Value setSku(string $value)
  * @method int getSortOrder()
- * @method Magento_Catalog_Model_Product_Option_Value setSortOrder(int $value)
+ * @method \Magento\Catalog\Model\Product\Option\Value setSortOrder(int $value)
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Magento_Catalog_Model_Product_Option_Value extends Magento_Core_Model_Abstract
+namespace Magento\Catalog\Model\Product\Option;
+
+class Value extends \Magento\Core\Model\AbstractModel
 {
     protected $_values = array();
 
@@ -33,26 +35,26 @@ class Magento_Catalog_Model_Product_Option_Value extends Magento_Core_Model_Abst
     /**
      * Value collection factory
      *
-     * @var Magento_Catalog_Model_Resource_Product_Option_Value_CollectionFactory
+     * @var \Magento\Catalog\Model\Resource\Product\Option\Value\CollectionFactory
      */
     protected $_valueCollectionFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Catalog_Model_Resource_Product_Option_Value_CollectionFactory $valueCollectionFactory
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Catalog\Model\Resource\Product\Option\Value\CollectionFactory $valueCollectionFactory
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Model_Resource_Product_Option_Value_CollectionFactory $valueCollectionFactory,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Catalog\Model\Resource\Product\Option\Value\CollectionFactory $valueCollectionFactory,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_valueCollectionFactory = $valueCollectionFactory;
@@ -61,7 +63,7 @@ class Magento_Catalog_Model_Product_Option_Value extends Magento_Core_Model_Abst
 
     protected function _construct()
     {
-        $this->_init('Magento_Catalog_Model_Resource_Product_Option_Value');
+        $this->_init('Magento\Catalog\Model\Resource\Product\Option\Value');
     }
 
     public function addValue($value)
@@ -87,7 +89,7 @@ class Magento_Catalog_Model_Product_Option_Value extends Magento_Core_Model_Abst
         return $this;
     }
 
-    public function setOption(Magento_Catalog_Model_Product_Option $option)
+    public function setOption(\Magento\Catalog\Model\Product\Option $option)
     {
         $this->_option = $option;
         return $this;
@@ -102,7 +104,7 @@ class Magento_Catalog_Model_Product_Option_Value extends Magento_Core_Model_Abst
     /**
      * Enter description here...
      *
-     * @return Magento_Catalog_Model_Product_Option
+     * @return \Magento\Catalog\Model\Product\Option
      */
     public function getOption()
     {
@@ -168,10 +170,10 @@ class Magento_Catalog_Model_Product_Option_Value extends Magento_Core_Model_Abst
     /**
      * Enter description here...
      *
-     * @param Magento_Catalog_Model_Product_Option $option
-     * @return Magento_Catalog_Model_Resource_Product_Option_Value_Collection
+     * @param \Magento\Catalog\Model\Product\Option $option
+     * @return \Magento\Catalog\Model\Resource\Product\Option\Value\Collection
      */
-    public function getValuesCollection(Magento_Catalog_Model_Product_Option $option)
+    public function getValuesCollection(\Magento\Catalog\Model\Product\Option $option)
     {
         $collection = $this->_valueCollectionFactory->create()
             ->addFieldToFilter('option_id', $option->getId())
@@ -219,7 +221,7 @@ class Magento_Catalog_Model_Product_Option_Value extends Magento_Core_Model_Abst
      *
      * @param int $oldOptionId
      * @param int $newOptionId
-     * @return Magento_Catalog_Model_Product_Option_Value
+     * @return \Magento\Catalog\Model\Product\Option\Value
      */
     public function duplicate($oldOptionId, $newOptionId)
     {

@@ -8,33 +8,35 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Design_Backend_Exceptions extends Magento_Backend_Model_Config_Backend_Serialized_Array
+namespace Magento\Core\Model\Design\Backend;
+
+class Exceptions extends \Magento\Backend\Model\Config\Backend\Serialized\ArraySerialized
 {
     /**
      * Design package instance
      *
-     * @var Magento_Core_Model_View_DesignInterface
+     * @var \Magento\Core\Model\View\DesignInterface
      */
     protected $_design = null;
 
     /**
-     * @param Magento_Core_Model_View_DesignInterface $design
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_View_DesignInterface $design,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_design = $design;
@@ -44,7 +46,7 @@ class Magento_Core_Model_Design_Backend_Exceptions extends Magento_Backend_Model
     /**
      * Validate value
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * if there is no field value, search value is empty or regular expression is not valid
      */
     protected function _beforeSave()
@@ -59,7 +61,7 @@ class Magento_Core_Model_Design_Backend_Exceptions extends Magento_Backend_Model
             // Validate that all values have come
             foreach (array('search', 'value') as $fieldName) {
                 if (!isset($row[$fieldName])) {
-                    throw new Magento_Core_Exception(__("Exception does not contain field '{$fieldName}'"));
+                    throw new \Magento\Core\Exception(__("Exception does not contain field '{$fieldName}'"));
                 }
             }
 
@@ -70,7 +72,7 @@ class Magento_Core_Model_Design_Backend_Exceptions extends Magento_Backend_Model
             }
 
             // Validate the theme value
-            $design->setDesignTheme($row['value'], Magento_Core_Model_App_Area::AREA_FRONTEND);
+            $design->setDesignTheme($row['value'], \Magento\Core\Model\App\Area::AREA_FRONTEND);
 
             // Compose regular exception pattern
             $exceptions[$rowKey]['regexp'] = $this->_composeRegexp($row['search']);
@@ -85,7 +87,7 @@ class Magento_Core_Model_Design_Backend_Exceptions extends Magento_Backend_Model
      *
      * @param string $search
      * @return string
-     * @throws Magento_Core_Exception on invalid regular expression
+     * @throws \Magento\Core\Exception on invalid regular expression
      */
     protected function _composeRegexp($search)
     {
@@ -96,7 +98,7 @@ class Magento_Core_Model_Design_Backend_Exceptions extends Magento_Backend_Model
 
         // Find out - whether user wanted to enter regexp or normal string.
         if ($this->_isRegexp($search)) {
-            throw new Magento_Core_Exception(__('Invalid regular expression: "%1".', $search));
+            throw new \Magento\Core\Exception(__('Invalid regular expression: "%1".', $search));
         }
 
         return '/' . preg_quote($search, '/') . '/i';

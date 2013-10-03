@@ -11,15 +11,17 @@
 /**
  * Customer Order Address model
  *
- * @method Magento_CustomerCustomAttributes_Model_Resource_Sales_Order_Address _getResource()
- * @method Magento_CustomerCustomAttributes_Model_Resource_Sales_Order_Address getResource()
- * @method Magento_CustomerCustomAttributes_Model_Sales_Order_Address setEntityId(int $value)
+ * @method \Magento\CustomerCustomAttributes\Model\Resource\Sales\Order\Address _getResource()
+ * @method \Magento\CustomerCustomAttributes\Model\Resource\Sales\Order\Address getResource()
+ * @method \Magento\CustomerCustomAttributes\Model\Sales\Order\Address setEntityId(int $value)
  *
  * @category    Magento
  * @package     Magento_CustomerCustomAttributes
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerCustomAttributes_Model_Sales_Order_Address extends Magento_CustomerCustomAttributes_Model_Sales_Address_Abstract
+namespace Magento\CustomerCustomAttributes\Model\Sales\Order;
+
+class Address extends \Magento\CustomerCustomAttributes\Model\Sales\Address\AbstractAddress
 {
     /**
      * Initialize resource model
@@ -27,6 +29,6 @@ class Magento_CustomerCustomAttributes_Model_Sales_Order_Address extends Magento
      */
     protected function _construct()
     {
-        $this->_init('Magento_CustomerCustomAttributes_Model_Resource_Sales_Order_Address');
+        $this->_init('Magento\CustomerCustomAttributes\Model\Resource\Sales\Order\Address');
     }
 }

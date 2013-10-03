@@ -8,74 +8,76 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCardAccount_Model_Observer
+namespace Magento\GiftCardAccount\Model;
+
+class Observer
 {
     /**
      * Gift card account data
      *
-     * @var Magento_GiftCardAccount_Helper_Data
+     * @var \Magento\GiftCardAccount\Helper\Data
      */
     protected $_giftCAHelper = null;
 
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
      * Gift card account giftcardaccount
      *
-     * @var Magento_GiftCardAccount_Model_GiftcardaccountFactory
+     * @var \Magento\GiftCardAccount\Model\GiftcardaccountFactory
      */
     protected $_giftCAFactory = null;
 
     /**
      * Gift card account history
      *
-     * @var Magento_GiftCardAccount_Model_History
+     * @var \Magento\GiftCardAccount\Model\History
      */
     protected $_giftCAHistory = null;
 
     /**
      * Customer balance balance
      *
-     * @var Magento_CustomerBalance_Model_Balance
+     * @var \Magento\CustomerBalance\Model\Balance
      */
     protected $_customerBalance = null;
 
     /**
      * Admin Session Quote
      *
-     * @var Magento_Adminhtml_Model_Session_Quote
+     * @var \Magento\Adminhtml\Model\Session\Quote
      */
     protected $_adminSessionQuote = null;
 
     /**
      * Store Manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_GiftCardAccount_Helper_Data $giftCAHelper
-     * @param Magento_CustomerBalance_Model_Balance $customerBalance
-     * @param Magento_GiftCardAccount_Model_History $giftCAHistory
-     * @param Magento_GiftCardAccount_Model_GiftcardaccountFactory $giftCAFactory
-     * @param Magento_Adminhtml_Model_Session_Quote $adminSessionQuote
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\GiftCardAccount\Helper\Data $giftCAHelper
+     * @param \Magento\CustomerBalance\Model\Balance $customerBalance
+     * @param \Magento\GiftCardAccount\Model\History $giftCAHistory
+     * @param \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftCAFactory
+     * @param \Magento\Adminhtml\Model\Session\Quote $adminSessionQuote
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_GiftCardAccount_Helper_Data $giftCAHelper,
-        Magento_CustomerBalance_Model_Balance $customerBalance,
-        Magento_GiftCardAccount_Model_History $giftCAHistory,
-        Magento_GiftCardAccount_Model_GiftcardaccountFactory $giftCAFactory,
-        Magento_Adminhtml_Model_Session_Quote $adminSessionQuote,
-        Magento_Core_Model_StoreManagerInterface $storeManager
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\GiftCardAccount\Helper\Data $giftCAHelper,
+        \Magento\CustomerBalance\Model\Balance $customerBalance,
+        \Magento\GiftCardAccount\Model\History $giftCAHistory,
+        \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftCAFactory,
+        \Magento\Adminhtml\Model\Session\Quote $adminSessionQuote,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_eventManager = $eventManager;
         $this->_giftCAHelper = $giftCAHelper;
@@ -90,10 +92,10 @@ class Magento_GiftCardAccount_Model_Observer
      * Charge all gift cards applied to the order
      * used for event: sales_order_place_after
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_GiftCardAccount_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\GiftCardAccount\Model\Observer
      */
-    public function processOrderPlace(Magento_Event_Observer $observer)
+    public function processOrderPlace(\Magento\Event\Observer $observer)
     {
         $order = $observer->getEvent()->getOrder();
         $cards = $this->_giftCAHelper->getCards($order);
@@ -116,22 +118,22 @@ class Magento_GiftCardAccount_Model_Observer
     /**
      * Process order place before
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return
      */
-    public function processOrderCreateBefore(Magento_Event_Observer $observer)
+    public function processOrderCreateBefore(\Magento\Event\Observer $observer)
     {
         $quote = $observer->getEvent()->getQuote();
         $cards = $this->_giftCAHelper->getCards($quote);
 
         if (is_array($cards)) {
             foreach ($cards as $card) {
-                /** @var $giftCardAccount Magento_GiftCardAccount_Model_Giftcardaccount */
+                /** @var $giftCardAccount \Magento\GiftCardAccount\Model\Giftcardaccount */
                 $giftCardAccount = $this->_giftCAFactory->create();
                 $giftCardAccount->load($card['i']);
                 try {
                     $giftCardAccount->isValid(true, true, false, (float)$quote->getBaseGiftCardsAmountUsed());
-                } catch (Magento_Core_Exception $e) {
+                } catch (\Magento\Core\Exception $e) {
                     $quote->setErrorMessage($e->getMessage());
                 }
             }
@@ -142,10 +144,10 @@ class Magento_GiftCardAccount_Model_Observer
      * Charge specified Gift Card (using code)
      * used for event: magento_giftcardaccount_charge_by_code
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_GiftCardAccount_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\GiftCardAccount\Model\Observer
      */
-    public function chargeByCode(Magento_Event_Observer $observer)
+    public function chargeByCode(\Magento\Event\Observer $observer)
     {
         $id = $observer->getEvent()->getGiftcardaccountCode();
         $amount = $observer->getEvent()->getAmount();
@@ -163,10 +165,10 @@ class Magento_GiftCardAccount_Model_Observer
      * Increase order giftcards_amount_invoiced attribute based on created invoice
      * used for event: sales_order_invoice_register
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_GiftCardAccount_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\GiftCardAccount\Model\Observer
      */
-    public function increaseOrderGiftCardInvoicedAmount(Magento_Event_Observer $observer)
+    public function increaseOrderGiftCardInvoicedAmount(\Magento\Event\Observer $observer)
     {
         $invoice = $observer->getEvent()->getInvoice();
         $order = $invoice->getOrder();
@@ -181,17 +183,17 @@ class Magento_GiftCardAccount_Model_Observer
      * Create gift card account on event
      * used for event: magento_giftcardaccount_create
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_GiftCardAccount_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\GiftCardAccount\Model\Observer
      */
-    public function create(Magento_Event_Observer $observer)
+    public function create(\Magento\Event\Observer $observer)
     {
         $data = $observer->getEvent()->getRequest();
         $code = $observer->getEvent()->getCode();
         $order = $data->getOrder() ?: ($data->getOrderItem()->getOrder() ?: null);
 
         $model = $this->_giftCAFactory->create()
-            ->setStatus(Magento_GiftCardAccount_Model_Giftcardaccount::STATUS_ENABLED)
+            ->setStatus(\Magento\GiftCardAccount\Model\Giftcardaccount::STATUS_ENABLED)
             ->setWebsiteId($data->getWebsiteId())
             ->setBalance($data->getAmount())
             ->setLifetime($data->getLifetime())
@@ -208,10 +210,10 @@ class Magento_GiftCardAccount_Model_Observer
      * Save history on gift card account model save event
      * used for event: magento_giftcardaccount_save_after
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_GiftCardAccount_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\GiftCardAccount\Model\Observer
      */
-    public function giftcardaccountSaveAfter(Magento_Event_Observer $observer)
+    public function giftcardaccountSaveAfter(\Magento\Event\Observer $observer)
     {
         $gca = $observer->getEvent()->getGiftcardaccount();
 
@@ -228,9 +230,9 @@ class Magento_GiftCardAccount_Model_Observer
     /**
      * Process post data and set usage of GC into order creation model
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function processOrderCreationData(Magento_Event_Observer $observer)
+    public function processOrderCreationData(\Magento\Event\Observer $observer)
     {
         $model = $observer->getEvent()->getOrderCreateModel();
         $request = $observer->getEvent()->getRequest();
@@ -241,11 +243,11 @@ class Magento_GiftCardAccount_Model_Observer
                 $this->_giftCAFactory->create()
                     ->loadByCode($code)
                     ->addToCart(true, $quote);
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_adminSessionQuote->addError(
                     $e->getMessage()
                 );
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_adminSessionQuote->addException(
                     $e,
                     __('We cannot apply this gift card.')
@@ -260,11 +262,11 @@ class Magento_GiftCardAccount_Model_Observer
                 $this->_giftCAFactory->create()
                     ->loadByCode($code)
                     ->removeFromCart(false, $quote);
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_adminSessionQuote->addError(
                     $e->getMessage()
                 );
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_adminSessionQuote->addException(
                     $e,
                     __('We cannot remove this gift card.')
@@ -277,12 +279,12 @@ class Magento_GiftCardAccount_Model_Observer
     /**
      * Set flag that giftcard applied on payment step in checkout process
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_GiftCardAccount_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\GiftCardAccount\Model\Observer
      */
-    public function paymentDataImport(Magento_Event_Observer $observer)
+    public function paymentDataImport(\Magento\Event\Observer $observer)
     {
-        /* @var $quote Magento_Sales_Model_Quote */
+        /* @var $quote \Magento\Sales\Model\Quote */
         $quote = $observer->getEvent()->getPayment()->getQuote();
         if (!$quote || !$quote->getCustomerId()) {
             return $this;
@@ -309,7 +311,7 @@ class Magento_GiftCardAccount_Model_Observer
     /**
      * Force Zero Subtotal Checkout if the grand total is completely covered by SC and/or GC
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return void
      */
     public function togglePaymentMethods($observer)
@@ -335,9 +337,9 @@ class Magento_GiftCardAccount_Model_Observer
     /**
      * Set the flag that we need to collect overall totals
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function quoteCollectTotalsBefore(Magento_Event_Observer $observer)
+    public function quoteCollectTotalsBefore(\Magento\Event\Observer $observer)
     {
         $quote = $observer->getEvent()->getQuote();
         $quote->setGiftCardsTotalCollected(false);
@@ -347,9 +349,9 @@ class Magento_GiftCardAccount_Model_Observer
     /**
      * Set the source gift card accounts into new quote
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function quoteMergeAfter(Magento_Event_Observer $observer)
+    public function quoteMergeAfter(\Magento\Event\Observer $observer)
     {
         $quote = $observer->getEvent()->getQuote();
         $source = $observer->getEvent()->getSource();
@@ -363,10 +365,10 @@ class Magento_GiftCardAccount_Model_Observer
      * Set refund amount to creditmemo
      * used for event: sales_order_creditmemo_refund
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_GiftCardAccount_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\GiftCardAccount\Model\Observer
      */
-    public function refund(Magento_Event_Observer $observer)
+    public function refund(\Magento\Event\Observer $observer)
     {
         $creditmemo = $observer->getEvent()->getCreditmemo();
         $order = $creditmemo->getOrder();
@@ -400,10 +402,10 @@ class Magento_GiftCardAccount_Model_Observer
      * Set refund flag to creditmemo based on user input
      * used for event: adminhtml_sales_order_creditmemo_register_before
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_GiftCardAccount_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\GiftCardAccount\Model\Observer
      */
-    public function creditmemoDataImport(Magento_Event_Observer $observer)
+    public function creditmemoDataImport(\Magento\Event\Observer $observer)
     {
         $request = $observer->getEvent()->getRequest();
         $creditmemo = $observer->getEvent()->getCreditmemo();
@@ -421,10 +423,10 @@ class Magento_GiftCardAccount_Model_Observer
      * Set forced canCreditmemo flag
      * used for event: sales_order_load_after
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_GiftCardAccount_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\GiftCardAccount\Model\Observer
      */
-    public function salesOrderLoadAfter(Magento_Event_Observer $observer)
+    public function salesOrderLoadAfter(\Magento\Event\Observer $observer)
     {
         $order = $observer->getEvent()->getOrder();
 
@@ -433,7 +435,7 @@ class Magento_GiftCardAccount_Model_Observer
         }
 
         if ($order->isCanceled() ||
-            $order->getState() === Magento_Sales_Model_Order::STATE_CLOSED ) {
+            $order->getState() === \Magento\Sales\Model\Order::STATE_CLOSED ) {
             return $this;
         }
 
@@ -447,10 +449,10 @@ class Magento_GiftCardAccount_Model_Observer
     /**
      * Updating price for Google Checkout internal discount item.
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_GiftCardAccount_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\GiftCardAccount\Model\Observer
      */
-    public function googleCheckoutDiscoutItem(Magento_Event_Observer $observer)
+    public function googleCheckoutDiscoutItem(\Magento\Event\Observer $observer)
     {
         $quote = $observer->getEvent()->getQuote();
         $discountItem = $observer->getEvent()->getDiscountItem();
@@ -463,16 +465,16 @@ class Magento_GiftCardAccount_Model_Observer
     /**
      * Merge gift card amount into discount of PayPal checkout totals
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function addPaypalGiftCardItem(Magento_Event_Observer $observer)
+    public function addPaypalGiftCardItem(\Magento\Event\Observer $observer)
     {
         $paypalCart = $observer->getEvent()->getPaypalCart();
         if ($paypalCart) {
             $salesEntity = $paypalCart->getSalesEntity();
             $value = abs($salesEntity->getBaseGiftCardsAmount());
             if ($value > 0.0001) {
-                $paypalCart->updateTotal(Magento_Paypal_Model_Cart::TOTAL_DISCOUNT, $value,
+                $paypalCart->updateTotal(\Magento\Paypal\Model\Cart::TOTAL_DISCOUNT, $value,
                     __('Gift Card (%1)', $this->_storeManager->getStore()->convertPrice($value, true, false))
                 );
             }
@@ -484,11 +486,11 @@ class Magento_GiftCardAccount_Model_Observer
      *
      * @param int $id
      * @param float $amount
-     * @return Magento_GiftCardAccount_Model_Observer
+     * @return \Magento\GiftCardAccount\Model\Observer
      */
     protected function _revertById($id, $amount = 0)
     {
-        /** @var Magento_GiftCardAccount_Model_Giftcardaccount $giftCard */
+        /** @var \Magento\GiftCardAccount\Model\Giftcardaccount $giftCard */
         $giftCard = $this->_giftCAFactory->create()->load($id);
 
         if ($giftCard) {
@@ -503,10 +505,10 @@ class Magento_GiftCardAccount_Model_Observer
     /**
      * Revert authorized amounts for all order's gift cards
      *
-     * @param   Magento_Sales_Model_Order $order
-     * @return  Magento_GiftCardAccount_Model_Observer
+     * @param   \Magento\Sales\Model\Order $order
+     * @return  \Magento\GiftCardAccount\Model\Observer
      */
-    protected function _revertGiftCardsForOrder(Magento_Sales_Model_Order $order)
+    protected function _revertGiftCardsForOrder(\Magento\Sales\Model\Order $order)
     {
         $cards = $this->_giftCAHelper->getCards($order);
         if (is_array($cards)) {
@@ -523,10 +525,10 @@ class Magento_GiftCardAccount_Model_Observer
     /**
      * Revert authorized amounts for all order's gift cards
      *
-     * @param   Magento_Event_Observer $observer
-     * @return  Magento_GiftCardAccount_Model_Observer
+     * @param   \Magento\Event\Observer $observer
+     * @return  \Magento\GiftCardAccount\Model\Observer
      */
-    public function revertGiftCardAccountBalance(Magento_Event_Observer $observer)
+    public function revertGiftCardAccountBalance(\Magento\Event\Observer $observer)
     {
         $order = $observer->getEvent()->getOrder();
         if ($order) {
@@ -539,10 +541,10 @@ class Magento_GiftCardAccount_Model_Observer
     /**
      * Revert gift cards for all orders
      *
-     * @param   Magento_Event_Observer $observer
-     * @return  Magento_GiftCardAccount_Model_Observer
+     * @param   \Magento\Event\Observer $observer
+     * @return  \Magento\GiftCardAccount\Model\Observer
      */
-    public function revertGiftCardsForAllOrders(Magento_Event_Observer $observer)
+    public function revertGiftCardsForAllOrders(\Magento\Event\Observer $observer)
     {
         $orders = $observer->getEvent()->getOrders();
 
@@ -556,12 +558,12 @@ class Magento_GiftCardAccount_Model_Observer
     /**
      * Return funds to store credit
      *
-     * @param   Magento_Event_Observer $observer
-     * @return  Magento_GiftCardAccount_Model_Observer
+     * @param   \Magento\Event\Observer $observer
+     * @return  \Magento\GiftCardAccount\Model\Observer
      */
-    public function returnFundsToStoreCredit(Magento_Event_Observer $observer)
+    public function returnFundsToStoreCredit(\Magento\Event\Observer $observer)
     {
-        /** @var Magento_Sales_Model_Order $order */
+        /** @var \Magento\Sales\Model\Order $order */
         $order = $observer->getEvent()->getOrder();
 
         $cards = $this->_giftCAHelper->getCards($order);
@@ -576,7 +578,7 @@ class Magento_GiftCardAccount_Model_Observer
                     ->setCustomerId($order->getCustomerId())
                     ->setWebsiteId($this->_storeManager->getStore($order->getStoreId())->getWebsiteId())
                     ->setAmountDelta($balance)
-                    ->setHistoryAction(Magento_CustomerBalance_Model_Balance_History::ACTION_REVERTED)
+                    ->setHistoryAction(\Magento\CustomerBalance\Model\Balance\History::ACTION_REVERTED)
                     ->setOrder($order)
                     ->save();
             }
@@ -588,14 +590,14 @@ class Magento_GiftCardAccount_Model_Observer
     /**
      * Extend sales amount expression with gift card refunded value
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return void
      */
-    public function extendSalesAmountExpression(Magento_Event_Observer $observer)
+    public function extendSalesAmountExpression(\Magento\Event\Observer $observer)
     {
-        /** @var $expressionTransferObject Magento_Object */
+        /** @var $expressionTransferObject \Magento\Object */
         $expressionTransferObject = $observer->getEvent()->getExpressionObject();
-        /** @var $adapter Magento_DB_Adapter_Interface */
+        /** @var $adapter \Magento\DB\Adapter\AdapterInterface */
         $adapter = $observer->getEvent()->getCollection()->getConnection();
         $expressionTransferObject->setExpression($expressionTransferObject->getExpression() . ' - (%s)');
         $arguments = $expressionTransferObject->getArguments();

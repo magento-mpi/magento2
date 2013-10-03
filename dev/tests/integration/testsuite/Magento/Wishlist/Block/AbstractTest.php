@@ -9,41 +9,45 @@
  * @license     {license_link}
  */
 
-class Magento_Wishlist_Block_AbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Wishlist\Block;
+
+class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Wishlist_Block_Abstract
+     * @var \Magento\Wishlist\Block\AbstractBlock
      */
     protected $_block;
 
     protected function setUp()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $this->_block = $this->getMockForAbstractClass('Magento_Wishlist_Block_Abstract', array(
-            $objectManager->get('Magento_Core_Model_StoreManagerInterface'),
-            $objectManager->get('Magento_Catalog_Model_Config'),
-            $objectManager->get('Magento_Core_Model_Registry'),
-            $objectManager->get('Magento_Tax_Helper_Data'),
-            $objectManager->get('Magento_Catalog_Helper_Data'),
-            $objectManager->get('Magento_Core_Block_Template_Context'),
-            $objectManager->get('Magento_Wishlist_Helper_Data'),
-            $objectManager->get('Magento_Customer_Model_Session'),
-            $objectManager->get('Magento_Catalog_Model_ProductFactory'),
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->_block = $this->getMockForAbstractClass('Magento\Wishlist\Block\AbstractBlock', array(
+            $objectManager->get('Magento\Core\Model\StoreManagerInterface'),
+            $objectManager->get('Magento\Catalog\Model\Config'),
+            $objectManager->get('Magento\Core\Model\Registry'),
+            $objectManager->get('Magento\Tax\Helper\Data'),
+            $objectManager->get('Magento\Catalog\Helper\Data'),
+            $objectManager->get('Magento\Core\Helper\Data'),
+            $objectManager->get('Magento\Core\Block\Template\Context'),
+            $objectManager->get('Magento\Wishlist\Helper\Data'),
+            $objectManager->get('Magento\Customer\Model\Session'),
+            $objectManager->get('Magento\Catalog\Model\ProductFactory'),
         ));
     }
 
     /**
      * @magentoAppIsolation enabled
+     * @magentoDataFixture Magento/Catalog/_files/product_with_image.php
      */
     public function testImage()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
-            ->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
-            ->setArea(Magento_Core_Model_App_Area::AREA_FRONTEND)
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+            ->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
+            ->setArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)
             ->setDefaultDesignTheme();
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(1);
 
         $size = $this->_block->getImageSize();

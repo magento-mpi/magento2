@@ -15,22 +15,24 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Product_Collection_AssociatedProductUpdater
-    implements Magento_Core_Model_Layout_Argument_UpdaterInterface
+namespace Magento\Catalog\Model\Resource\Product\Collection;
+
+class AssociatedProductUpdater
+    implements \Magento\Core\Model\Layout\Argument\UpdaterInterface
 {
     /**
      * Stock Item instance
      *
-     * @var Magento_CatalogInventory_Model_Resource_Stock_Item
+     * @var \Magento\CatalogInventory\Model\Resource\Stock\Item
      */
     protected $_stockItem;
 
     /**
      * Updater constructor
      *
-     * @param Magento_CatalogInventory_Model_Resource_Stock_Item $stockItem
+     * @param \Magento\CatalogInventory\Model\Resource\Stock\Item $stockItem
      */
-    public function __construct(Magento_CatalogInventory_Model_Resource_Stock_Item $stockItem)
+    public function __construct(\Magento\CatalogInventory\Model\Resource\Stock\Item $stockItem)
     {
         $this->_stockItem = $stockItem;
     }
@@ -38,7 +40,7 @@ class Magento_Catalog_Model_Resource_Product_Collection_AssociatedProductUpdater
     /**
      * Add filtration by qty and stock availability
      *
-     * @param Magento_Catalog_Model_Resource_Product_Collection_AssociatedProduct $collection
+     * @param \Magento\Catalog\Model\Resource\Product\Collection\AssociatedProduct $collection
      * @return mixed
      */
     public function update($collection)

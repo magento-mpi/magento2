@@ -17,7 +17,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Helper_Media_Js extends Magento_Core_Helper_Js
+namespace Magento\Adminhtml\Helper\Media;
+
+class Js extends \Magento\Core\Helper\Js
 {
     /**
      * @inheritdoc

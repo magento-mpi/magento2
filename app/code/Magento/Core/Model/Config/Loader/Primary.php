@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Config_Loader_Primary implements Magento_Core_Model_Config_LoaderInterface
+namespace Magento\Core\Model\Config\Loader;
+
+class Primary implements \Magento\Core\Model\Config\LoaderInterface
 {
     /**
      * Config Directory
@@ -19,7 +21,7 @@ class Magento_Core_Model_Config_Loader_Primary implements Magento_Core_Model_Con
     /**
      * Config factory
      *
-     * @var Magento_Core_Model_Config_BaseFactory
+     * @var \Magento\Core\Model\Config\BaseFactory
      */
     protected $_prototypeFactory;
 
@@ -34,9 +36,9 @@ class Magento_Core_Model_Config_Loader_Primary implements Magento_Core_Model_Con
     /**
      * Load primary configuration
      *
-     * @param Magento_Core_Model_Config_Base $config
+     * @param \Magento\Core\Model\Config\Base $config
      */
-    public function load(Magento_Core_Model_Config_Base $config)
+    public function load(\Magento\Core\Model\Config\Base $config)
     {
         $etcDir = $this->_dir;
         if (!$config->getNode()) {
@@ -46,7 +48,7 @@ class Magento_Core_Model_Config_Loader_Primary implements Magento_Core_Model_Con
         array_unshift($files, $etcDir . DIRECTORY_SEPARATOR . 'config.xml');
         // 1. app/etc/*.xml (except local config)
         foreach ($files as $filename) {
-            $baseConfig = new Magento_Core_Model_Config_Base('<config/>');
+            $baseConfig = new \Magento\Core\Model\Config\Base('<config/>');
             $baseConfig->loadFile($filename);
             $config->extend($baseConfig);
         }

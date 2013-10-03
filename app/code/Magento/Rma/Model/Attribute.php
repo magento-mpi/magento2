@@ -11,7 +11,9 @@
 /**
  * RMA Item model
  */
-class Magento_Rma_Model_Attribute extends Magento_Eav_Model_Entity_Attribute
+namespace Magento\Rma\Model;
+
+class Attribute extends \Magento\Eav\Model\Entity\Attribute
 {
     /**
      * Name of the module
@@ -35,15 +37,15 @@ class Magento_Rma_Model_Attribute extends Magento_Eav_Model_Entity_Attribute
     /**
      * Active Website instance
      *
-     * @var Magento_Core_Model_Website
+     * @var \Magento\Core\Model\Website
      */
     protected $_website;
 
     /**
      * Set active website instance
      *
-     * @param Magento_Core_Model_Website|int $website
-     * @return Magento_Rma_Model_Attribute
+     * @param \Magento\Core\Model\Website|int $website
+     * @return \Magento\Rma\Model\Attribute
      */
     public function setWebsite($website)
     {
@@ -54,7 +56,7 @@ class Magento_Rma_Model_Attribute extends Magento_Eav_Model_Entity_Attribute
     /**
      * Return active website instance
      *
-     * @return Magento_Core_Model_Website
+     * @return \Magento\Core\Model\Website
      */
     public function getWebsite()
     {
@@ -70,13 +72,13 @@ class Magento_Rma_Model_Attribute extends Magento_Eav_Model_Entity_Attribute
      */
     protected function _construct()
     {
-        $this->_init('Magento_Rma_Model_Resource_Item_Attribute');
+        $this->_init('Magento\Rma\Model\Resource\Item\Attribute');
     }
 
     /**
      * Processing object after save data
      *
-     * @return Magento_Rma_Model_Attribute
+     * @return \Magento\Rma\Model\Attribute
      */
     protected function _afterSave()
     {
@@ -122,7 +124,7 @@ class Magento_Rma_Model_Attribute extends Magento_Eav_Model_Entity_Attribute
      * Set validate rules
      *
      * @param array|string $rules
-     * @return Magento_Rma_Model_Attribute
+     * @return \Magento\Rma\Model\Attribute
      */
     public function setValidateRules($rules)
     {

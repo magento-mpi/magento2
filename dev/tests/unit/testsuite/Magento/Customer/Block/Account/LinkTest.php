@@ -9,33 +9,32 @@
  * @license     {license_link}
  */
 
-/**
- * Test class for Magento_Customer_Block_Account_Link
- */
-class Magento_Customer_Block_Account_LinkTest extends PHPUnit_Framework_TestCase
+namespace Magento\Customer\Block\Account;
+
+class LinkTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testGetHref()
     {
-        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
-        $helper = $this->getMockBuilder('Magento_Customer_Helper_Data')
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $helper = $this->getMockBuilder('Magento\Customer\Helper\Data')
             ->disableOriginalConstructor()
             ->setMethods(array('getAccountUrl'))
             ->getMock();
 
-        $helperFactory = $this->getMockBuilder('Magento_Core_Model_Factory_Helper')
+        $helperFactory = $this->getMockBuilder('Magento\Core\Model\Factory\Helper')
             ->disableOriginalConstructor()
             ->setMethods(array('get'))
             ->getMock();
         $helperFactory->expects($this->any())->method('get')->will($this->returnValue($helper));
 
-        $layout = $this->getMockBuilder('Magento_Core_Model_Layout')
+        $layout = $this->getMockBuilder('Magento\Core\Model\Layout')
             ->disableOriginalConstructor()
             ->setMethods(array('helper'))
             ->getMock();
 
         $context = $objectManager->getObject(
-            'Magento_Core_Block_Template_Context',
+            'Magento\Core\Block\Template\Context',
             array(
                 'layout' => $layout,
                 'helperFactory' => $helperFactory
@@ -43,7 +42,7 @@ class Magento_Customer_Block_Account_LinkTest extends PHPUnit_Framework_TestCase
         );
 
         $block = $objectManager->getObject(
-            'Magento_Customer_Block_Account_Link',
+            'Magento\Customer\Block\Account\Link',
             array(
                 'context' => $context,
             )

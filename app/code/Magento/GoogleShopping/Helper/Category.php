@@ -15,7 +15,9 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Helper_Category
+namespace Magento\GoogleShopping\Helper;
+
+class Category
 {
     const CATEGORY_APPAREL  = 'Apparel &amp; Accessories';
     const CATEGORY_CLOTHING = 'Apparel &amp; Accessories &gt; Clothing';

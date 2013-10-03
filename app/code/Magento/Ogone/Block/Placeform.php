@@ -9,37 +9,39 @@
  */
 
 
-class Magento_Ogone_Block_Placeform extends Magento_Core_Block_Template
+namespace Magento\Ogone\Block;
+
+class Placeform extends \Magento\Core\Block\Template
 {
     /**
-     * @var Magento_Sales_Model_OrderFactory
+     * @var \Magento\Sales\Model\OrderFactory
      */
     protected $_salesOrderFactory;
 
     /**
-     * @var Magento_Checkout_Model_Session
+     * @var \Magento\Checkout\Model\Session
      */
     protected $_checkoutSession;
 
     /**
-     * @var Magento_Ogone_Model_Api
+     * @var \Magento\Ogone\Model\Api
      */
     protected $_ogoneApi;
 
     /**
-     * @param Magento_Checkout_Model_Session $checkoutSession
-     * @param Magento_Ogone_Model_Api $ogoneApi
-     * @param Magento_Sales_Model_OrderFactory $salesOrderFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Ogone\Model\Api $ogoneApi
+     * @param \Magento\Sales\Model\OrderFactory $salesOrderFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Checkout_Model_Session $checkoutSession,
-        Magento_Ogone_Model_Api $ogoneApi,
-        Magento_Sales_Model_OrderFactory $salesOrderFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Ogone\Model\Api $ogoneApi,
+        \Magento\Sales\Model\OrderFactory $salesOrderFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_checkoutSession = $checkoutSession;
@@ -51,7 +53,7 @@ class Magento_Ogone_Block_Placeform extends Magento_Core_Block_Template
     /**
      * Get checkout session namespace
      *
-     * @return Magento_Checkout_Model_Session
+     * @return \Magento\Checkout\Model\Session
      */
     public function getCheckout()
     {
@@ -61,7 +63,7 @@ class Magento_Ogone_Block_Placeform extends Magento_Core_Block_Template
     /**
      * Return order instance with loaded onformation by increment id
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     protected function _getOrder()
     {

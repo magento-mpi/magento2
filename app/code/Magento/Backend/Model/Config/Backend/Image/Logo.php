@@ -11,7 +11,9 @@
 /**
  * System config Logo image field backend model
  */
-class Magento_Backend_Model_Config_Backend_Image_Logo extends Magento_Backend_Model_Config_Backend_Image
+namespace Magento\Backend\Model\Config\Backend\Image;
+
+class Logo extends \Magento\Backend\Model\Config\Backend\Image
 {
     /**
      * The tail part of directory path for uploading
@@ -29,7 +31,7 @@ class Magento_Backend_Model_Config_Backend_Image_Logo extends Magento_Backend_Mo
      * Return path to directory for upload file
      *
      * @return string
-     * @throw Magento_Core_Exception
+     * @throw \Magento\Core\Exception
      */
     protected function _getUploadDir()
     {

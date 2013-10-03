@@ -15,7 +15,9 @@
  * @package     Magento_PageCache
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_PageCache_Controller_Adminhtml_PageCache extends Magento_Adminhtml_Controller_Action
+namespace Magento\PageCache\Controller\Adminhtml;
+
+class PageCache extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Clean external cache action
@@ -25,7 +27,7 @@ class Magento_PageCache_Controller_Adminhtml_PageCache extends Magento_Adminhtml
     public function cleanAction()
     {
         try {
-            $pageCacheData = $this->_objectManager->get('Magento_PageCache_Helper_Data');
+            $pageCacheData = $this->_objectManager->get('Magento\PageCache\Helper\Data');
             if ($pageCacheData->isEnabled()) {
                 $pageCacheData->getCacheControlInstance()->clean();
                 $this->_getSession()->addSuccess(
@@ -33,10 +35,10 @@ class Magento_PageCache_Controller_Adminhtml_PageCache extends Magento_Adminhtml
                 );
             }
         }
-        catch (Magento_Core_Exception $e) {
+        catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
-        catch (Exception $e) {
+        catch (\Exception $e) {
             $this->_getSession()->addException(
                 $e,
                 __('Something went wrong while clearing the external full page cache.')

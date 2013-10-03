@@ -11,55 +11,57 @@
 /**
  * Tax Event Observer
  */
-class Magento_Tax_Model_Observer
+namespace Magento\Tax\Model;
+
+class Observer
 {
     /**
      * Tax data
      *
-     * @var Magento_Tax_Helper_Data
+     * @var \Magento\Tax\Helper\Data
      */
     protected $_taxData;
 
     /**
-     * @var Magento_Tax_Model_Sales_Order_TaxFactory
+     * @var \Magento\Tax\Model\Sales\Order\TaxFactory
      */
     protected $_orderTaxFactory;
 
     /**
-     * @var Magento_Tax_Model_Sales_Order_Tax_ItemFactory
+     * @var \Magento\Tax\Model\Sales\Order\Tax\ItemFactory
      */
     protected $_taxItemFactory;
 
     /**
-     * @var Magento_Tax_Model_Calculation
+     * @var \Magento\Tax\Model\Calculation
      */
     protected $_calculation;
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @var Magento_Tax_Model_Resource_Report_TaxFactory
+     * @var \Magento\Tax\Model\Resource\Report\TaxFactory
      */
     protected $_reportTaxFactory;
 
     /**
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Tax_Model_Sales_Order_TaxFactory $orderTaxFactory
-     * @param Magento_Tax_Model_Sales_Order_Tax_ItemFactory $taxItemFactory
-     * @param Magento_Tax_Model_Calculation $calculation
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Tax_Model_Resource_Report_TaxFactory $reportTaxFactory
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Tax\Model\Sales\Order\TaxFactory $orderTaxFactory
+     * @param \Magento\Tax\Model\Sales\Order\Tax\ItemFactory $taxItemFactory
+     * @param \Magento\Tax\Model\Calculation $calculation
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Tax\Model\Resource\Report\TaxFactory $reportTaxFactory
      */
     public function __construct(
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Tax_Model_Sales_Order_TaxFactory $orderTaxFactory,
-        Magento_Tax_Model_Sales_Order_Tax_ItemFactory $taxItemFactory,
-        Magento_Tax_Model_Calculation $calculation,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Tax_Model_Resource_Report_TaxFactory $reportTaxFactory
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Tax\Model\Sales\Order\TaxFactory $orderTaxFactory,
+        \Magento\Tax\Model\Sales\Order\Tax\ItemFactory $taxItemFactory,
+        \Magento\Tax\Model\Calculation $calculation,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Tax\Model\Resource\Report\TaxFactory $reportTaxFactory
     ) {
         $this->_taxData = $taxData;
         $this->_orderTaxFactory = $orderTaxFactory;
@@ -72,9 +74,9 @@ class Magento_Tax_Model_Observer
     /**
      * Put quote address tax information into order
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function salesEventConvertQuoteAddressToOrder(Magento_Event_Observer $observer)
+    public function salesEventConvertQuoteAddressToOrder(\Magento\Event\Observer $observer)
     {
         $address = $observer->getEvent()->getAddress();
         $order = $observer->getEvent()->getOrder();
@@ -92,9 +94,9 @@ class Magento_Tax_Model_Observer
     /**
      * Save order tax information
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function salesEventOrderAfterSave(Magento_Event_Observer $observer)
+    public function salesEventOrderAfterSave(\Magento\Event\Observer $observer)
     {
         $order = $observer->getEvent()->getOrder();
 
@@ -167,7 +169,7 @@ class Magento_Tax_Model_Observer
                     'base_real_amount'  => $baseRealAmount,
                 );
 
-                /** @var $orderTax Magento_Tax_Model_Sales_Order_Tax */
+                /** @var $orderTax \Magento\Tax\Model\Sales\Order\Tax */
                 $orderTax = $this->_orderTaxFactory->create();
                 $result = $orderTax->setData($data)->save();
 
@@ -181,7 +183,7 @@ class Magento_Tax_Model_Observer
                                     'tax_id'        => $result->getTaxId(),
                                     'tax_percent'   => $quoteItemId['percent']
                                 );
-                                /** @var $taxItem Magento_Tax_Model_Sales_Order_Tax_Item */
+                                /** @var $taxItem \Magento\Tax\Model\Sales\Order\Tax\Item */
                                 $taxItem = $this->_taxItemFactory->create();
                                 $taxItem->setData($data)->save();
                             }
@@ -197,8 +199,8 @@ class Magento_Tax_Model_Observer
     /**
      * Add tax percent values to product collection items
      *
-     * @param   Magento_Event_Observer $observer
-     * @return  Magento_Tax_Model_Observer
+     * @param   \Magento\Event\Observer $observer
+     * @return  \Magento\Tax\Model\Observer
      */
     public function addTaxPercentToProductCollection($observer)
     {
@@ -229,15 +231,15 @@ class Magento_Tax_Model_Observer
     /**
      * Refresh sales tax report statistics for last day
      *
-     * @param Magento_Cron_Model_Schedule $schedule
-     * @return Magento_Tax_Model_Observer
+     * @param \Magento\Cron\Model\Schedule $schedule
+     * @return \Magento\Tax\Model\Observer
      */
     public function aggregateSalesReportTaxData($schedule)
     {
         $this->_locale->emulate(0);
         $currentDate = $this->_locale->date();
         $date = $currentDate->subHour(25);
-        /** @var $reportTax Magento_Tax_Model_Resource_Report_Tax */
+        /** @var $reportTax \Magento\Tax\Model\Resource\Report\Tax */
         $reportTax = $this->_reportTaxFactory->create();
         $reportTax->aggregate($date);
         $this->_locale->revert();
@@ -247,12 +249,12 @@ class Magento_Tax_Model_Observer
     /**
      * Reset extra tax amounts on quote addresses before recollecting totals
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_Tax_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\Tax\Model\Observer
      */
-    public function quoteCollectTotalsBefore(Magento_Event_Observer $observer)
+    public function quoteCollectTotalsBefore(\Magento\Event\Observer $observer)
     {
-        /* @var $quote Magento_Sales_Model_Quote */
+        /* @var $quote \Magento\Sales\Model\Quote */
         $quote = $observer->getEvent()->getQuote();
         foreach ($quote->getAllAddresses() as $address) {
             $address->setExtraTaxAmount(0);

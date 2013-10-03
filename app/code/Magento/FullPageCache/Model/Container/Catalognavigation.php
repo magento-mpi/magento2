@@ -11,22 +11,24 @@
 /**
  * Placeholder container for catalog top navigation block
  */
-class Magento_FullPageCache_Model_Container_Catalognavigation extends Magento_FullPageCache_Model_Container_Abstract
+namespace Magento\FullPageCache\Model\Container;
+
+class Catalognavigation extends \Magento\FullPageCache\Model\Container\AbstractContainer
 {
     /**
-     * @var Magento_Catalog_Model_CategoryFactory
+     * @var \Magento\Catalog\Model\CategoryFactory
      */
     protected $_categoryFactory;
 
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_FullPageCache_Model_Cache $fpcCache,
-        Magento_FullPageCache_Model_Container_Placeholder $placeholder,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_FullPageCache_Helper_Url $urlHelper,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Layout $layout,
-        Magento_Catalog_Model_CategoryFactory $categoryFactory
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\FullPageCache\Model\Cache $fpcCache,
+        \Magento\FullPageCache\Model\Container\Placeholder $placeholder,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\FullPageCache\Helper\Url $urlHelper,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Layout $layout,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory
     ) {
         parent::__construct(
             $eventManager, $fpcCache, $placeholder, $coreRegistry, $urlHelper, $coreStoreConfig, $layout
@@ -88,7 +90,7 @@ class Magento_FullPageCache_Model_Container_Catalognavigation extends Magento_Fu
      * Save rendered block content to cache storage
      *
      * @param string $blockContent
-     * @return Magento_FullPageCache_Model_Container_Abstract
+     * @return \Magento\FullPageCache\Model\Container\AbstractContainer
      */
     public function saveCache($blockContent)
     {

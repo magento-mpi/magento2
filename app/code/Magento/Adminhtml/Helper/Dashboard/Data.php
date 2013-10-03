@@ -11,7 +11,9 @@
 /**
  * Data helper for dashboard
  */
-class Magento_Adminhtml_Helper_Dashboard_Data extends Magento_Core_Helper_Data
+namespace Magento\Adminhtml\Helper\Dashboard;
+
+class Data extends \Magento\Core\Helper\Data
 {
     protected $_locale = null;
     protected $_stores = null;
@@ -22,31 +24,31 @@ class Magento_Adminhtml_Helper_Dashboard_Data extends Magento_Core_Helper_Data
     protected $_installDate;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Http $coreHttp
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Locale $locale
-     * @param Magento_Core_Model_Date $dateModel
-     * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Core_Model_Encryption $encryptor
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Http $coreHttp
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Locale $locale
+     * @param \Magento\Core\Model\Date $dateModel
+     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\Core\Model\Encryption $encryptor
+     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param string $installDate
      * @param bool $dbCompatibleMode
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Http $coreHttp,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Locale $locale,
-        Magento_Core_Model_Date $dateModel,
-        Magento_Core_Model_App_State $appState,
-        Magento_Core_Model_Encryption $encryptor,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Http $coreHttp,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Locale $locale,
+        \Magento\Core\Model\Date $dateModel,
+        \Magento\Core\Model\App\State $appState,
+        \Magento\Core\Model\Encryption $encryptor,
         $installDate,
         $dbCompatibleMode = true
     ) {

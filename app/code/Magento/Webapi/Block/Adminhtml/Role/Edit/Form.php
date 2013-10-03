@@ -7,21 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/**
- * Class Magento_Webapi_Block_Adminhtml_Role_Edit_Form
- *
- * @SuppressWarnings(PHPMD.DepthOfInheritance)
- */
-class Magento_Webapi_Block_Adminhtml_Role_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\Webapi\Block\Adminhtml\Role\Edit;
+
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Prepare form container.
      *
-     * @return Magento_Webapi_Block_Adminhtml_Role_Edit_Form
+     * @return \Magento\Webapi\Block\Adminhtml\Role\Edit\Form
      */
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'action' => $this->getUrl('*/*/save'),

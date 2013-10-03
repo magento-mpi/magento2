@@ -16,33 +16,35 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Category_Attribute_Collection
-    extends Magento_Eav_Model_Resource_Entity_Attribute_Collection
+namespace Magento\Catalog\Model\Resource\Category\Attribute;
+
+class Collection
+    extends \Magento\Eav\Model\Resource\Entity\Attribute\Collection
 {
     /**
      * Entity factory
      *
-     * @var Magento_Eav_Model_EntityFactory
+     * @var \Magento\Eav\Model\EntityFactory
      */
     protected $_eavEntityFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Eav_Model_EntityFactory $eavEntityFactory
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        Magento_Eav_Model_EntityFactory $eavEntityFactory,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null
+        \Magento\Eav\Model\EntityFactory $eavEntityFactory,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_eavEntityFactory = $eavEntityFactory;
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
@@ -52,14 +54,14 @@ class Magento_Catalog_Model_Resource_Category_Attribute_Collection
      * Main select object initialization.
      * Joins catalog/eav_attribute table
      *
-     * @return Magento_Catalog_Model_Resource_Category_Attribute_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Attribute\Collection
      */
     protected function _initSelect()
     {
         $this->getSelect()->from(array('main_table' => $this->getResource()->getMainTable()))
             ->where(
                 'main_table.entity_type_id=?',
-                $this->_eavEntityFactory->create()->setType(Magento_Catalog_Model_Category::ENTITY)->getTypeId()
+                $this->_eavEntityFactory->create()->setType(\Magento\Catalog\Model\Category::ENTITY)->getTypeId()
             )->join(
                 array('additional_table' => $this->getTable('catalog_eav_attribute')),
                 'additional_table.attribute_id = main_table.attribute_id'
@@ -71,7 +73,7 @@ class Magento_Catalog_Model_Resource_Category_Attribute_Collection
      * Specify attribute entity type filter
      *
      * @param int $typeId
-     * @return Magento_Catalog_Model_Resource_Category_Attribute_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Attribute\Collection
      */
     public function setEntityTypeFilter($typeId)
     {

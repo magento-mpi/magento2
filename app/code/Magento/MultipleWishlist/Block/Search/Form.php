@@ -15,7 +15,9 @@
  * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_MultipleWishlist_Block_Search_Form extends Magento_Core_Block_Template
+namespace Magento\MultipleWishlist\Block\Search;
+
+class Form extends \Magento\Core\Block\Template
 {
     /**
      * Posted form data

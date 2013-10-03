@@ -28,7 +28,7 @@ return array(
             array('is_used_for_promo_rules', null, 0),
             array('used_for_sort_by', null, 0)
         ),
-        Magento_Index_Model_Event::TYPE_DELETE, false),//Event Type, result
+        \Magento\Index\Model\Event::TYPE_DELETE, false),//Event Type, result
     //attribute exists, but shouldn't be matched
     array(true, false, //Attribute, isAddFilterable
         //Original attribute data
@@ -47,7 +47,7 @@ return array(
             array('is_used_for_promo_rules', null, 0),
             array('used_for_sort_by', null, 0)
         ),
-        Magento_Index_Model_Event::TYPE_DELETE, false),//Event Type, result
+        \Magento\Index\Model\Event::TYPE_DELETE, false),//Event Type, result
     //Next cases describe situation that one valuable argument exists
     array(true, false, //Attribute, isAddFilterable
         //Original attribute data
@@ -66,7 +66,7 @@ return array(
             array('is_used_for_promo_rules', null, 0),
             array('used_for_sort_by', null, 0)
         ),
-        Magento_Index_Model_Event::TYPE_DELETE, false),//Event Type, result
+        \Magento\Index\Model\Event::TYPE_DELETE, false),//Event Type, result
 
     array(true, true, //Attribute, isAddFilterable
         //Original attribute data
@@ -85,7 +85,7 @@ return array(
             array('is_used_for_promo_rules', null, 0),
             array('used_for_sort_by', null, 0)
         ),
-        Magento_Index_Model_Event::TYPE_DELETE, true),//Event Type, result
+        \Magento\Index\Model\Event::TYPE_DELETE, true),//Event Type, result
 
     array(true, false, //Attribute, isAddFilterable
         //Original attribute data
@@ -104,7 +104,7 @@ return array(
             array('is_used_for_promo_rules', null, 0),
             array('used_for_sort_by', null, 0)
         ),
-        Magento_Index_Model_Event::TYPE_DELETE, true),//Event Type, result
+        \Magento\Index\Model\Event::TYPE_DELETE, true),//Event Type, result
 
     array(true, false, //Attribute, isAddFilterable
         //Original attribute data
@@ -123,7 +123,7 @@ return array(
             array('is_used_for_promo_rules', null, 0),
             array('used_for_sort_by', null, 0)
         ),
-        Magento_Index_Model_Event::TYPE_DELETE, true),//Event Type, result
+        \Magento\Index\Model\Event::TYPE_DELETE, true),//Event Type, result
 
     array(true, false, //Attribute, isAddFilterable
         //Original attribute data
@@ -142,7 +142,7 @@ return array(
             array('is_used_for_promo_rules', null, 0),
             array('used_for_sort_by', null, 0)
         ),
-        Magento_Index_Model_Event::TYPE_DELETE, true),//Event Type, result
+        \Magento\Index\Model\Event::TYPE_DELETE, true),//Event Type, result
 
     array(true, false, //Attribute, isAddFilterable
         //Original attribute data
@@ -161,9 +161,9 @@ return array(
             array('is_used_for_promo_rules', null, 0),
             array('used_for_sort_by', null, 0)
         ),
-        Magento_Index_Model_Event::TYPE_DELETE, true),//Event Type, result
+        \Magento\Index\Model\Event::TYPE_DELETE, true),//Event Type, result
 
-    //Magento_Index_Model_Event::TYPE_SAVE cases
+    //\Magento\Index\Model\Event::TYPE_SAVE cases
     array(true, false, //Attribute, isAddFilterable
         //Original attribute data
         array(
@@ -181,7 +181,7 @@ return array(
             array('is_used_for_promo_rules', null, 0),
             array('used_for_sort_by', null, 0)
         ),
-        Magento_Index_Model_Event::TYPE_SAVE, false),//Event Type, result
+        \Magento\Index\Model\Event::TYPE_SAVE, false),//Event Type, result
 
     array(true, false, //Attribute, isAddFilterable
         //Original attribute data
@@ -200,7 +200,7 @@ return array(
             array('is_used_for_promo_rules', null, 0),
             array('used_for_sort_by', null, 0)
         ),
-        Magento_Index_Model_Event::TYPE_SAVE, true),//Event Type, result
+        \Magento\Index\Model\Event::TYPE_SAVE, true),//Event Type, result
 
     array(true, false, //Attribute, isAddFilterable
         //Original attribute data
@@ -219,7 +219,7 @@ return array(
             array('is_used_for_promo_rules', null, 0),
             array('used_for_sort_by', null, 0)
         ),
-        Magento_Index_Model_Event::TYPE_SAVE, true),//Event Type, result
+        \Magento\Index\Model\Event::TYPE_SAVE, true),//Event Type, result
 
     array(true, true, //Attribute, isAddFilterable
         //Original attribute data
@@ -238,7 +238,7 @@ return array(
             array('is_used_for_promo_rules', null, 0),
             array('used_for_sort_by', null, 0)
         ),
-        Magento_Index_Model_Event::TYPE_SAVE, false),//Event Type, result
+        \Magento\Index\Model\Event::TYPE_SAVE, false),//Event Type, result
 
     array(true, true, //Attribute, isAddFilterable
         //Original attribute data
@@ -257,7 +257,7 @@ return array(
             array('is_used_for_promo_rules', null, 0),
             array('used_for_sort_by', null, 0)
         ),
-        Magento_Index_Model_Event::TYPE_SAVE, true),//Event Type, result
+        \Magento\Index\Model\Event::TYPE_SAVE, true),//Event Type, result
 
     array(true, true, //Attribute, isAddFilterable
         //Original attribute data
@@ -276,7 +276,7 @@ return array(
             array('is_used_for_promo_rules', null, 0),
             array('used_for_sort_by', null, 0)
         ),
-        Magento_Index_Model_Event::TYPE_SAVE, true),//Event Type, result
+        \Magento\Index\Model\Event::TYPE_SAVE, true),//Event Type, result
 
     array(true, false, //Attribute, isAddFilterable
         //Original attribute data
@@ -295,7 +295,7 @@ return array(
             array('is_used_for_promo_rules', null, 0),
             array('used_for_sort_by', null, 0)
         ),
-        Magento_Index_Model_Event::TYPE_SAVE, true),//Event Type, result
+        \Magento\Index\Model\Event::TYPE_SAVE, true),//Event Type, result
 
     array(true, false, //Attribute, isAddFilterable
         //Original attribute data
@@ -314,7 +314,7 @@ return array(
             array('is_used_for_promo_rules', null, 0),
             array('used_for_sort_by', null, 0)
         ),
-        Magento_Index_Model_Event::TYPE_SAVE, true),//Event Type, result
+        \Magento\Index\Model\Event::TYPE_SAVE, true),//Event Type, result
 
     array(true, false, //Attribute, isAddFilterable
         //Original attribute data
@@ -333,7 +333,7 @@ return array(
             array('is_used_for_promo_rules', null, 0),
             array('used_for_sort_by', null, 0)
         ),
-        Magento_Index_Model_Event::TYPE_SAVE, true),//Event Type, result
+        \Magento\Index\Model\Event::TYPE_SAVE, true),//Event Type, result
 
     array(true, false, //Attribute, isAddFilterable
         //Original attribute data
@@ -352,7 +352,7 @@ return array(
             array('is_used_for_promo_rules', null, 1),
             array('used_for_sort_by', null, 0)
         ),
-        Magento_Index_Model_Event::TYPE_SAVE, true),//Event Type, result
+        \Magento\Index\Model\Event::TYPE_SAVE, true),//Event Type, result
 
     array(true, false, //Attribute, isAddFilterable
         //Original attribute data
@@ -371,7 +371,7 @@ return array(
             array('is_used_for_promo_rules', null, 0),
             array('used_for_sort_by', null, 0)
         ),
-        Magento_Index_Model_Event::TYPE_SAVE, true),//Event Type, result
+        \Magento\Index\Model\Event::TYPE_SAVE, true),//Event Type, result
 
     array(true, false, //Attribute, isAddFilterable
         //Original attribute data
@@ -390,5 +390,5 @@ return array(
             array('is_used_for_promo_rules', null, 0),
             array('used_for_sort_by', null, 1)
         ),
-        Magento_Index_Model_Event::TYPE_SAVE, true),//Event Type, result
+        \Magento\Index\Model\Event::TYPE_SAVE, true),//Event Type, result
 );

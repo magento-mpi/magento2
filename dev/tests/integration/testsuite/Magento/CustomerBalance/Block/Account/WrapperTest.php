@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_CustomerBalance_Block_Account_WrapperTest extends PHPUnit_Framework_TestCase
+namespace Magento\CustomerBalance\Block\Account;
+
+class WrapperTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -17,12 +19,12 @@ class Magento_CustomerBalance_Block_Account_WrapperTest extends PHPUnit_Framewor
      */
     public function testToHtml()
     {
-        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
-        $session = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Session', array($logger));
+        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Session', array($logger));
         $session->login('customer@example.com', 'password');
 
-        $utility = new Magento_Core_Utility_Layout($this);
+        $utility = new \Magento\Core\Utility\Layout($this);
         $layout = $utility->getLayoutFromFixture(__DIR__ . '/../../_files/magento_customerbalance_info_index.xml',
             $utility->getLayoutDependencies()
         );

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Soap_Server
+namespace Magento\Webapi\Model\Soap;
+
+class Server
 {
     const SOAP_DEFAULT_ENCODING = 'UTF-8';
 
@@ -21,41 +23,41 @@ class Magento_Webapi_Model_Soap_Server
     const REQUEST_PARAM_SERVICES = 'services';
     const REQUEST_PARAM_WSDL = 'wsdl';
 
-    /** @var Magento_Core_Model_Config */
+    /** @var \Magento\Core\Model\Config */
     protected $_applicationConfig;
 
-    /** @var Magento_DomDocument_Factory */
+    /** @var \Magento\DomDocument\Factory */
     protected $_domDocumentFactory;
 
-    /** @var Magento_Webapi_Controller_Soap_Request */
+    /** @var \Magento\Webapi\Controller\Soap\Request */
     protected $_request;
 
-    /** @var Magento_Core_Model_StoreManagerInterface */
+    /** @var \Magento\Core\Model\StoreManagerInterface */
     protected $_storeManager;
 
-    /** @var Magento_Webapi_Model_Soap_Server_Factory */
+    /** @var \Magento\Webapi\Model\Soap\Server\Factory */
     protected $_soapServerFactory;
 
     /**
      * Initialize dependencies, initialize WSDL cache.
      *
-     * @param Magento_Core_Model_Config $applicationConfig
-     * @param Magento_Webapi_Controller_Soap_Request $request
-     * @param Magento_DomDocument_Factory $domDocumentFactory
-     * @param Magento_Core_Model_StoreManagerInterface
-     * @param Magento_Webapi_Model_Soap_Server_Factory
-     * @throws Magento_Webapi_Exception with invalid SOAP extension
+     * @param \Magento\Core\Model\Config $applicationConfig
+     * @param \Magento\Webapi\Controller\Soap\Request $request
+     * @param \Magento\DomDocument\Factory $domDocumentFactory
+     * @param \Magento\Core\Model\StoreManagerInterface
+     * @param \Magento\Webapi\Model\Soap\Server\Factory
+     * @throws \Magento\Webapi\Exception with invalid SOAP extension
      */
     public function __construct(
-        Magento_Core_Model_Config $applicationConfig,
-        Magento_Webapi_Controller_Soap_Request $request,
-        Magento_DomDocument_Factory $domDocumentFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Webapi_Model_Soap_Server_Factory $soapServerFactory
+        \Magento\Core\Model\Config $applicationConfig,
+        \Magento\Webapi\Controller\Soap\Request $request,
+        \Magento\DomDocument\Factory $domDocumentFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Webapi\Model\Soap\Server\Factory $soapServerFactory
     ) {
         if (!extension_loaded('soap')) {
-            throw new Magento_Webapi_Exception('SOAP extension is not loaded.', 0,
-                Magento_Webapi_Exception::HTTP_INTERNAL_ERROR);
+            throw new \Magento\Webapi\Exception('SOAP extension is not loaded.', 0,
+                \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR);
         }
         $this->_applicationConfig = $applicationConfig;
         $this->_request = $request;
@@ -96,7 +98,7 @@ class Magento_Webapi_Model_Soap_Server
     public function getApiCharset()
     {
         $charset = $this->_storeManager->getStore()->getConfig(self::CONFIG_PATH_SOAP_CHARSET);
-        return $charset ? $charset : Magento_Webapi_Model_Soap_Server::SOAP_DEFAULT_ENCODING;
+        return $charset ? $charset : \Magento\Webapi\Model\Soap\Server::SOAP_DEFAULT_ENCODING;
     }
 
     /**
@@ -109,7 +111,7 @@ class Magento_Webapi_Model_Soap_Server
     {
         $params = array(
             self::REQUEST_PARAM_SERVICES => $this->_request->getParam(
-                Magento_Webapi_Model_Soap_Server::REQUEST_PARAM_SERVICES
+                \Magento\Webapi\Model\Soap\Server::REQUEST_PARAM_SERVICES
             )
         );
         if ($isWsdl) {
@@ -133,19 +135,19 @@ class Magento_Webapi_Model_Soap_Server
      * Generate exception if request is invalid.
      *
      * @param string $soapRequest
-     * @throws Magento_Webapi_Exception with invalid SOAP extension
-     * @return Magento_Webapi_Model_Soap_Server
+     * @throws \Magento\Webapi\Exception with invalid SOAP extension
+     * @return \Magento\Webapi\Model\Soap\Server
      */
     protected function _checkRequest($soapRequest)
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         if (strlen($soapRequest) == 0 || !$dom->loadXML($soapRequest)) {
-            throw new Magento_Webapi_Exception(__('Invalid XML'), 0, Magento_Webapi_Exception::HTTP_INTERNAL_ERROR);
+            throw new \Magento\Webapi\Exception(__('Invalid XML'), 0, \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR);
         }
         foreach ($dom->childNodes as $child) {
             if ($child->nodeType === XML_DOCUMENT_TYPE_NODE) {
-                throw new Magento_Webapi_Exception(__('Invalid XML: Detected use of illegal DOCTYPE'), 0,
-                    Magento_Webapi_Exception::HTTP_INTERNAL_ERROR);
+                throw new \Magento\Webapi\Exception(__('Invalid XML: Detected use of illegal DOCTYPE'), 0,
+                    \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR);
             }
         }
         return $this;

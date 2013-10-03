@@ -11,20 +11,22 @@
 /**
  * Generator of rules which and where folders from code base should be copied
  */
-class Magento_Tools_View_Generator_CopyRule
+namespace Magento\Tools\View\Generator;
+
+class CopyRule
 {
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     private $_filesystem;
 
     /**
-     * @var Magento_Core_Model_Theme_Collection
+     * @var \Magento\Core\Model\Theme\Collection
      */
     private $_themes;
 
     /**
-     * @var Magento_Core_Model_Design_Fallback_Rule_RuleInterface
+     * @var \Magento\Core\Model\Design\Fallback\Rule\RuleInterface
      */
     private $_fallbackRule;
 
@@ -38,14 +40,14 @@ class Magento_Tools_View_Generator_CopyRule
     /**
      * Constructor
      *
-     * @param Magento_Filesystem $filesystem
-     * @param Magento_Core_Model_Theme_Collection $themes
-     * @param Magento_Core_Model_Design_Fallback_Rule_RuleInterface $fallbackRule
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Core\Model\Theme\Collection $themes
+     * @param \Magento\Core\Model\Design\Fallback\Rule\RuleInterface $fallbackRule
      */
     public function __construct(
-        Magento_Filesystem $filesystem,
-        Magento_Core_Model_Theme_Collection $themes,
-        Magento_Core_Model_Design_Fallback_Rule_RuleInterface $fallbackRule
+        \Magento\Filesystem $filesystem,
+        \Magento\Core\Model\Theme\Collection $themes,
+        \Magento\Core\Model\Design\Fallback\Rule\RuleInterface $fallbackRule
     ) {
         $this->_filesystem = $filesystem;
         $this->_themes = $themes;
@@ -64,7 +66,7 @@ class Magento_Tools_View_Generator_CopyRule
     public function getCopyRules()
     {
         $result = array();
-        /** @var $theme Magento_Core_Model_ThemeInterface */
+        /** @var $theme \Magento\Core\Model\ThemeInterface */
         foreach ($this->_themes as $theme) {
             $area = $theme->getArea();
             $nonModularLocations = $this->_fallbackRule->getPatternDirs(array(
@@ -82,7 +84,7 @@ class Magento_Tools_View_Generator_CopyRule
                 array_reverse($nonModularLocations)
             );
             foreach ($allDirPatterns as $pattern) {
-                $pattern = Magento_Filesystem::fixSeparator($pattern);
+                $pattern = \Magento\Filesystem::fixSeparator($pattern);
                 foreach ($this->_getMatchingDirs($pattern) as $srcDir) {
                     $paramsFromDir = $this->_parsePlaceholders($srcDir, $pattern);
                     if (!empty($paramsFromDir['namespace']) && !empty($paramsFromDir['module'])) {

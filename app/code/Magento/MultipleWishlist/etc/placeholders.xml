@@ -9,15 +9,15 @@
 -->
 <config>
     <placeholder name="wishlist" code="WISHLIST" cacheLifeTime="86400">
-        <container instance="Magento_FullPageCache_Model_Container_Wishlist" />
-        <block instance="Magento_MultipleWishlist_Block_Customer_Sidebar" />
+        <container instance="Magento\FullPageCache\Model\Container\Wishlist" />
+        <block instance="Magento\MultipleWishlist\Block\Customer\Sidebar" />
     </placeholder>
     <placeholder name="wishlist_links" code="WISHLISTLINKS" cacheLifeTime="86400">
-        <container instance="Magento_FullPageCache_Model_Container_Wishlistlinks" />
-        <block instance="Magento_MultipleWishlist_Block_Link" />
+        <container instance="Magento\FullPageCache\Model\Container\Wishlistlinks" />
+        <block instance="Magento\MultipleWishlist\Block\Link" />
     </placeholder>
     <placeholder name="wishlist_list" code="WISHLISTS" cacheLifeTime="86400">
-        <container instance="Magento_FullPageCache_Model_Container_Wishlists" />
-        <block instance="Magento_MultipleWishlist_Block_Behaviour" />
+        <container instance="Magento\FullPageCache\Model\Container\Wishlists" />
+        <block instance="Magento\MultipleWishlist\Block\Behaviour" />
     </placeholder>
 </config>

@@ -16,7 +16,9 @@
  * @package     Magento_TargetRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_TargetRule_Model_Resource_Rule extends Magento_Rule_Model_Resource_Abstract
+namespace Magento\TargetRule\Model\Resource;
+
+class Rule extends \Magento\Rule\Model\Resource\AbstractResource
 {
     /**
      * Store associated with rule entities information map
@@ -32,17 +34,17 @@ class Magento_TargetRule_Model_Resource_Rule extends Magento_Rule_Model_Resource
     );
 
     /**
-     * @var Magento_Index_Model_Indexer
+     * @var \Magento\Index\Model\Indexer
      */
     protected $_indexer;
 
     /**
-     * @param Magento_Index_Model_Indexer $indexer
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Index\Model\Indexer $indexer
+     * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
-        Magento_Index_Model_Indexer $indexer,
-        Magento_Core_Model_Resource $resource
+        \Magento\Index\Model\Indexer $indexer,
+        \Magento\Core\Model\Resource $resource
     ) {
         $this->_indexer = $indexer;
         parent::__construct($resource);
@@ -60,15 +62,15 @@ class Magento_TargetRule_Model_Resource_Rule extends Magento_Rule_Model_Resource
     /**
      * Get Customer Segment Ids by rule
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      * @return array
      */
-    public function getCustomerSegmentIds(Magento_Core_Model_Abstract $object)
+    public function getCustomerSegmentIds(\Magento\Core\Model\AbstractModel $object)
     {
         $ids = $this->getReadConnection()->select()
             ->from($this->getTable('magento_targetrule_customersegment'), 'segment_id')
             ->where('rule_id = ?', $object->getId())
-            ->query()->fetchAll(Zend_Db::FETCH_COLUMN);
+            ->query()->fetchAll(\Zend_Db::FETCH_COLUMN);
         return empty($ids) ? array() : $ids;
     }
 
@@ -77,7 +79,7 @@ class Magento_TargetRule_Model_Resource_Rule extends Magento_Rule_Model_Resource
      *
      * @param int $ruleId
      * @param array $segmentIds
-     * @return Magento_TargetRule_Model_Resource_Rule
+     * @return \Magento\TargetRule\Model\Resource\Rule
      */
     public function saveCustomerSegments($ruleId, $segmentIds)
     {
@@ -106,10 +108,10 @@ class Magento_TargetRule_Model_Resource_Rule extends Magento_Rule_Model_Resource
     /**
      * Add customer segment ids to rule
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Core_Model_Resource_Db_Abstract
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
-    protected function _afterLoad(Magento_Core_Model_Abstract $object)
+    protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
     {
         $object->setData('customer_segment_ids', $this->getCustomerSegmentIds($object));
         return parent::_afterLoad($object);
@@ -118,11 +120,11 @@ class Magento_TargetRule_Model_Resource_Rule extends Magento_Rule_Model_Resource
     /**
      * Save matched products for current rule and clean index
      *
-     * @param Magento_Core_Model_Abstract|Magento_TargetRule_Model_Rule $object
+     * @param \Magento\Core\Model\AbstractModel|\Magento\TargetRule\Model\Rule $object
      *
-     * @return Magento_TargetRule_Model_Resource_Rule
+     * @return \Magento\TargetRule\Model\Resource\Rule
      */
-    protected function _afterSave(Magento_Core_Model_Abstract $object)
+    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
         parent::_afterSave($object);
         $segmentIds = $object->getUseCustomerSegment() ? $object->getCustomerSegmentIds() : array(0);
@@ -136,9 +138,9 @@ class Magento_TargetRule_Model_Resource_Rule extends Magento_Rule_Model_Resource
             : $object->getData('apply_to');
 
         $this->_indexer->processEntityAction(
-            new Magento_Object(array('type_id' => $typeId)),
-            Magento_TargetRule_Model_Index::ENTITY_TARGETRULE,
-            Magento_TargetRule_Model_Index::EVENT_TYPE_CLEAN_TARGETRULES
+            new \Magento\Object(array('type_id' => $typeId)),
+            \Magento\TargetRule\Model\Index::ENTITY_TARGETRULE,
+            \Magento\TargetRule\Model\Index::EVENT_TYPE_CLEAN_TARGETRULES
         );
 
         return $this;
@@ -147,16 +149,16 @@ class Magento_TargetRule_Model_Resource_Rule extends Magento_Rule_Model_Resource
     /**
      * Clean index
      *
-     * @param Magento_Core_Model_Abstract|Magento_TargetRule_Model_Rule $object
+     * @param \Magento\Core\Model\AbstractModel|\Magento\TargetRule\Model\Rule $object
      *
-     * @return Magento_TargetRule_Model_Resource_Rule
+     * @return \Magento\TargetRule\Model\Resource\Rule
      */
-    protected function _beforeDelete(Magento_Core_Model_Abstract $object)
+    protected function _beforeDelete(\Magento\Core\Model\AbstractModel $object)
     {
         $this->_indexer->processEntityAction(
-            new Magento_Object(array('type_id' => $object->getData('apply_to'))),
-            Magento_TargetRule_Model_Index::ENTITY_TARGETRULE,
-            Magento_TargetRule_Model_Index::EVENT_TYPE_CLEAN_TARGETRULES
+            new \Magento\Object(array('type_id' => $object->getData('apply_to'))),
+            \Magento\TargetRule\Model\Index::ENTITY_TARGETRULE,
+            \Magento\TargetRule\Model\Index::EVENT_TYPE_CLEAN_TARGETRULES
         );
 
         parent::_beforeDelete($object);

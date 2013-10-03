@@ -7,26 +7,32 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Eav_Model_Entity_Attribute_Backend_Store extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
+namespace Magento\Eav\Model\Entity\Attribute\Backend;
+
+class Store extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\StoreManager $storeManager
      */
-    public function __construct(Magento_Core_Model_StoreManager $storeManager)
-    {
+    public function __construct(
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\StoreManager $storeManager
+    ) {
         $this->_storeManager = $storeManager;
+        parent::__construct($logger);
     }
 
     /**
      * Prepare data before save
      *
-     * @param Magento_Object $object
-     * @return Magento_Eav_Model_Entity_Attribute_Backend_Store
+     * @param \Magento\Object $object
+     * @return \Magento\Eav\Model\Entity\Attribute\Backend\Store
      */
     protected function _beforeSave($object)
     {

@@ -14,15 +14,17 @@
  * @category   Magento
  * @package    Magento_GiftRegistry
  */
-class Magento_GiftRegistry_Block_Customer_Edit extends Magento_Directory_Block_Data
+namespace Magento\GiftRegistry\Block\Customer;
+
+class Edit extends \Magento\Directory\Block\Data
 {
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $customerSession;
 
     /**
-     * @var Magento_GiftRegistry_Model_TypeFactory
+     * @var \Magento\GiftRegistry\Model\TypeFactory
      */
     protected $typeFactory;
 
@@ -36,37 +38,37 @@ class Magento_GiftRegistry_Block_Customer_Edit extends Magento_Directory_Block_D
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $storeManager;
 
     /**
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory
-     * @param Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_GiftRegistry_Model_TypeFactory $typeFactory
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
+     * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\GiftRegistry\Model\TypeFactory $typeFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Model_Cache_Type_Config $configCacheType,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory,
-        Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_GiftRegistry_Model_TypeFactory $typeFactory,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
+        \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -196,7 +198,7 @@ class Magento_GiftRegistry_Block_Customer_Edit extends Magento_Directory_Block_D
      *
      * @param string $type
      * @param string $template
-     * @return Magento_GiftRegistry_Block_Customer_Edit
+     * @return \Magento\GiftRegistry\Block\Customer\Edit
      */
     public function addInputTypeTemplate($type, $template)
     {

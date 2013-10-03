@@ -9,8 +9,8 @@
  * @license     {license_link}
  */
 
-$quote = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Sales_Model_Quote');
+$quote = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Sales\Model\Quote');
 $quote->setData(array(
     'store_id' => 1,
     'is_active' => 0,

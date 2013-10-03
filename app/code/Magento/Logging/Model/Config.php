@@ -12,7 +12,10 @@
  * @license     {license_link}
  */
 
-class Magento_Logging_Model_Config
+
+namespace Magento\Logging\Model;
+
+class Config
 {
     /**
      * logging.xml merged config
@@ -36,17 +39,17 @@ class Magento_Logging_Model_Config
     protected $_systemConfigValues = null;
 
     /**
-     * @var Magento_Core_Model_Store
+     * @var \Magento\Core\Model\Store
      */
     protected $_store;
 
     /**
-     * @param Magento_Logging_Model_Config_Data $dataStorage
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param \Magento\Logging\Model\Config\Data $dataStorage
+     * @param \Magento\Core\Model\StoreManager $storeManager
      */
     public function __construct(
-        Magento_Logging_Model_Config_Data $dataStorage,
-        Magento_Core_Model_StoreManager $storeManager
+        \Magento\Logging\Model\Config\Data $dataStorage,
+        \Magento\Core\Model\StoreManager $storeManager
     ) {
         $this->_xmlConfig = $dataStorage->get('logging');
         $this->_store = $storeManager->getStore();
@@ -160,7 +163,7 @@ class Magento_Logging_Model_Config
     /**
      * Load values from System Configuration
      *
-     * @return Magento_Logging_Model_Config
+     * @return \Magento\Logging\Model\Config
      */
     protected function _initSystemConfigValues()
     {

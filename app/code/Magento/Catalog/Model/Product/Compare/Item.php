@@ -12,19 +12,21 @@
 /**
  * Catalog Compare Item Model
  *
- * @method Magento_Catalog_Model_Resource_Product_Compare_Item getResource()
- * @method Magento_Catalog_Model_Product_Compare_Item setVisitorId(int $value)
- * @method Magento_Catalog_Model_Product_Compare_Item setCustomerId(int $value)
+ * @method \Magento\Catalog\Model\Resource\Product\Compare\Item getResource()
+ * @method \Magento\Catalog\Model\Product\Compare\Item setVisitorId(int $value)
+ * @method \Magento\Catalog\Model\Product\Compare\Item setCustomerId(int $value)
  * @method int getProductId()
- * @method Magento_Catalog_Model_Product_Compare_Item setProductId(int $value)
+ * @method \Magento\Catalog\Model\Product\Compare\Item setProductId(int $value)
  * @method int getStoreId()
- * @method Magento_Catalog_Model_Product_Compare_Item setStoreId(int $value)
+ * @method \Magento\Catalog\Model\Product\Compare\Item setStoreId(int $value)
  *
  * @category    Magento
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Compare_Item extends Magento_Core_Model_Abstract
+namespace Magento\Catalog\Model\Product\Compare;
+
+class Item extends \Magento\Core\Model\AbstractModel
 {
 
     /**
@@ -46,53 +48,53 @@ class Magento_Catalog_Model_Product_Compare_Item extends Magento_Core_Model_Abst
     /**
      * Catalog product compare
      *
-     * @var Magento_Catalog_Helper_Product_Compare
+     * @var \Magento\Catalog\Helper\Product\Compare
      */
     protected $_catalogProductCompare = null;
 
     /**
      * Customer session
      *
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
      * Log visitor
      *
-     * @var Magento_Log_Model_Visitor
+     * @var \Magento\Log\Model\Visitor
      */
     protected $_logVisitor;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Log_Model_Visitor $logVisitor
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Catalog_Helper_Product_Compare $catalogProductCompare
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Log\Model\Visitor $logVisitor
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Catalog\Helper\Product\Compare $catalogProductCompare
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Log_Model_Visitor $logVisitor,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Catalog_Helper_Product_Compare $catalogProductCompare,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Log\Model\Visitor $logVisitor,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Catalog\Helper\Product\Compare $catalogProductCompare,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -108,13 +110,13 @@ class Magento_Catalog_Model_Product_Compare_Item extends Magento_Core_Model_Abst
      */
     protected function _construct()
     {
-        $this->_init('Magento_Catalog_Model_Resource_Product_Compare_Item');
+        $this->_init('Magento\Catalog\Model\Resource\Product\Compare\Item');
     }
 
     /**
      * Retrieve Resource instance
      *
-     * @return Magento_Catalog_Model_Resource_Product_Compare_Item
+     * @return \Magento\Catalog\Model\Resource\Product\Compare\Item
      */
     protected function _getResource()
     {
@@ -124,7 +126,7 @@ class Magento_Catalog_Model_Product_Compare_Item extends Magento_Core_Model_Abst
     /**
      * Set current store before save
      *
-     * @return Magento_Catalog_Model_Product_Compare_Item
+     * @return \Magento\Catalog\Model\Product\Compare\Item
      */
     protected function _beforeSave()
     {
@@ -139,10 +141,10 @@ class Magento_Catalog_Model_Product_Compare_Item extends Magento_Core_Model_Abst
     /**
      * Add customer data from customer object
      *
-     * @param Magento_Customer_Model_Customer $customer
-     * @return Magento_Catalog_Model_Product_Compare_Item
+     * @param \Magento\Customer\Model\Customer $customer
+     * @return \Magento\Catalog\Model\Product\Compare\Item
      */
-    public function addCustomerData(Magento_Customer_Model_Customer $customer)
+    public function addCustomerData(\Magento\Customer\Model\Customer $customer)
     {
         $this->setCustomerId($customer->getId());
         return $this;
@@ -152,7 +154,7 @@ class Magento_Catalog_Model_Product_Compare_Item extends Magento_Core_Model_Abst
      * Set visitor
      *
      * @param int $visitorId
-     * @return Magento_Catalog_Model_Product_Compare_Item
+     * @return \Magento\Catalog\Model\Product\Compare\Item
      */
     public function addVisitorId($visitorId)
     {
@@ -164,7 +166,7 @@ class Magento_Catalog_Model_Product_Compare_Item extends Magento_Core_Model_Abst
      * Load compare item by product
      *
      * @param mixed $product
-     * @return Magento_Catalog_Model_Product_Compare_Item
+     * @return \Magento\Catalog\Model\Product\Compare\Item
      */
     public function loadByProduct($product)
     {
@@ -176,11 +178,11 @@ class Magento_Catalog_Model_Product_Compare_Item extends Magento_Core_Model_Abst
      * Set product data
      *
      * @param mixed $product
-     * @return Magento_Catalog_Model_Product_Compare_Item
+     * @return \Magento\Catalog\Model\Product\Compare\Item
      */
     public function addProductData($product)
     {
-        if ($product instanceof Magento_Catalog_Model_Product) {
+        if ($product instanceof \Magento\Catalog\Model\Product) {
             $this->setProductId($product->getId());
         }
         else if(intval($product)) {
@@ -208,7 +210,7 @@ class Magento_Catalog_Model_Product_Compare_Item extends Magento_Core_Model_Abst
     /**
      * Customer login bind process
      *
-     * @return Magento_Catalog_Model_Product_Compare_Item
+     * @return \Magento\Catalog\Model\Product\Compare\Item
      */
     public function bindCustomerLogin()
     {
@@ -221,10 +223,10 @@ class Magento_Catalog_Model_Product_Compare_Item extends Magento_Core_Model_Abst
     /**
      * Customer logout bind process
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_Catalog_Model_Product_Compare_Item
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\Catalog\Model\Product\Compare\Item
      */
-    public function bindCustomerLogout(Magento_Event_Observer $observer = null)
+    public function bindCustomerLogout(\Magento\Event\Observer $observer = null)
     {
         $this->_getResource()->purgeVisitorByCustomer($this);
 
@@ -235,7 +237,7 @@ class Magento_Catalog_Model_Product_Compare_Item extends Magento_Core_Model_Abst
     /**
      * Clean compare items
      *
-     * @return Magento_Catalog_Model_Product_Compare_Item
+     * @return \Magento\Catalog\Model\Product\Compare\Item
      */
     public function clean()
     {

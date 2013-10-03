@@ -11,29 +11,31 @@
 /**
  * Matched rule customer grid block
  */
-class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Customers extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab;
+
+class Customers extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * Customer Resource Collection
      *
-     * @var Magento_Reminder_Model_Resource_Customer_Collection
+     * @var \Magento\Reminder\Model\Resource\Customer\Collection
      */
     protected $_customerCollection;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Reminder_Model_Resource_Customer_Collection $customerCollection
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Reminder\Model\Resource\Customer\Collection $customerCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Reminder_Model_Resource_Customer_Collection $customerCollection,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Reminder\Model\Resource\Customer\Collection $customerCollection,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
@@ -55,7 +57,7 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Customers extends Magen
     /**
      * Instantiate and prepare collection
      *
-     * @return Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Customers
+     * @return \Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\Customers
      */
     protected function _prepareCollection()
     {
@@ -67,7 +69,7 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Customers extends Magen
     /**
      * Prepare columns for grid
      *
-     * @return Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Customers
+     * @return \Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\Customers
      */
     protected function _prepareColumns()
     {
@@ -76,7 +78,7 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Customers extends Magen
             'align'    => 'center',
             'width'    => 50,
             'index'    => 'entity_id',
-            'renderer' => 'Magento_Reminder_Block_Adminhtml_Widget_Grid_Column_Renderer_Id'
+            'renderer' => 'Magento\Reminder\Block\Adminhtml\Widget\Grid\Column\Renderer\Id'
         ));
 
         $this->addColumn('grid_email', array(
@@ -84,7 +86,7 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Customers extends Magen
             'type'     => 'text',
             'align'    => 'left',
             'index'    => 'email',
-            'renderer' => 'Magento_Reminder_Block_Adminhtml_Widget_Grid_Column_Renderer_Email'
+            'renderer' => 'Magento\Reminder\Block\Adminhtml\Widget\Grid\Column\Renderer\Email'
         ));
 
         $this->addColumn('grid_associated_at', array(

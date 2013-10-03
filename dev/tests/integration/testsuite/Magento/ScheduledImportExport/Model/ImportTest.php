@@ -6,34 +6,36 @@
  * @license     {license_link}
  */
 
-class Magento_ScheduledImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
+namespace Magento\ScheduledImportExport\Model;
+
+class ImportTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoDbIsolation enabled
      */
     public function testRunSchedule()
     {
-        /** @var Magento_TestFramework_ObjectManager $objectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $productModel = $objectManager->create('Magento_Catalog_Model_Product');
+        /** @var \Magento\TestFramework\ObjectManager $objectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $productModel = $objectManager->create('Magento\Catalog\Model\Product');
         $product = $productModel->loadByAttribute('sku', 'product_100500'); // fixture
         $this->assertFalse($product);
 
         // Mock the reindexAll() method, because it has DDL operations, thus breaks DB-isolating transaction
-        $model = $this->getMock('Magento_ScheduledImportExport_Model_Import', array('reindexAll'), array(
-            $objectManager->get('Magento_Core_Model_Logger'),
-            $objectManager->get('Magento_Core_Model_Dir'),
-            $objectManager->get('Magento_Core_Model_Log_AdapterFactory'),
-            $objectManager->get('Magento_ImportExport_Helper_Data'),
-            $objectManager->get('Magento_Core_Model_Config'),
-            $objectManager->get('Magento_ImportExport_Model_Import_ConfigInterface'),
-            $objectManager->get('Magento_ImportExport_Model_Import_Entity_Factory'),
-            $objectManager->get('Magento_ImportExport_Model_Resource_Import_Data'),
-            $objectManager->get('Magento_ImportExport_Model_Export_Adapter_CsvFactory'),
+        $model = $this->getMock('Magento\ScheduledImportExport\Model\Import', array('reindexAll'), array(
+            $objectManager->get('Magento\Core\Model\Logger'),
+            $objectManager->get('Magento\Core\Model\Dir'),
+            $objectManager->get('Magento\Core\Model\Log\AdapterFactory'),
+            $objectManager->get('Magento\ImportExport\Helper\Data'),
+            $objectManager->get('Magento\Core\Model\Config'),
+            $objectManager->get('Magento\ImportExport\Model\Import\ConfigInterface'),
+            $objectManager->get('Magento\ImportExport\Model\Import\Entity\Factory'),
+            $objectManager->get('Magento\ImportExport\Model\Resource\Import\Data'),
+            $objectManager->get('Magento\ImportExport\Model\Export\Adapter\CsvFactory'),
             $objectManager->get('Zend_File_Transfer_Adapter_HttpFactory'),
-            $objectManager->get('Magento_Core_Model_File_UploaderFactory'),
-            $objectManager->get('Magento_ImportExport_Model_Source_Import_Behavior_Factory'),
-            $objectManager->get('Magento_Index_Model_Indexer'),
+            $objectManager->get('Magento\Core\Model\File\UploaderFactory'),
+            $objectManager->get('Magento\ImportExport\Model\Source\Import\Behavior\Factory'),
+            $objectManager->get('Magento\Index\Model\Indexer'),
             array(
                 'entity'   => 'catalog_product',
                 'behavior' => 'append',
@@ -43,7 +45,7 @@ class Magento_ScheduledImportExport_Model_ImportTest extends PHPUnit_Framework_T
             ->method('reindexAll')
             ->will($this->returnSelf());
 
-        $operation = $objectManager->create('Magento_ScheduledImportExport_Model_Scheduled_Operation');
+        $operation = $objectManager->create('Magento\ScheduledImportExport\Model\Scheduled\Operation');
         $operation->setFileInfo(array(
             'file_name' => __DIR__ . '/../_files/product.csv',
             'server_type' => 'file',

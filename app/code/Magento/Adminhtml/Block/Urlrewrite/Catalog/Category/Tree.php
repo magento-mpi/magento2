@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Tree extends Magento_Adminhtml_Block_Catalog_Category_Abstract
+namespace Magento\Adminhtml\Block\Urlrewrite\Catalog\Category;
+
+class Tree extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
 {
     /**
      * List of allowed category ids
@@ -29,38 +31,38 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Tree extends Magento_A
     /**
      * Adminhtml data
      *
-     * @var Magento_Backend_Helper_Data
+     * @var \Magento\Backend\Helper\Data
      */
     protected $_adminhtmlData = null;
 
     /**
-     * @var Magento_Catalog_Model_CategoryFactory
+     * @var \Magento\Catalog\Model\CategoryFactory
      */
     protected $_categoryFactory;
 
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
-     * @param Magento_Backend_Helper_Data $adminhtmlData
-     * @param Magento_Catalog_Model_Resource_Category_Tree $categoryTree
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Backend\Helper\Data $adminhtmlData
+     * @param \Magento\Catalog\Model\Resource\Category\Tree $categoryTree
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Catalog_Model_CategoryFactory $categoryFactory,
-        Magento_Backend_Helper_Data $adminhtmlData,
-        Magento_Catalog_Model_Resource_Category_Tree $categoryTree,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Backend\Helper\Data $adminhtmlData,
+        \Magento\Catalog\Model\Resource\Category\Tree $categoryTree,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_categoryFactory = $categoryFactory;
@@ -111,7 +113,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Tree extends Magento_A
     /**
      * Get categories collection
      *
-     * @return Magento_Catalog_Model_Resource_Category_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Collection
      */
     public function getCategoryCollection()
     {
@@ -129,7 +131,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Tree extends Magento_A
     /**
      * Convert categories tree to array recursively
      *
-     * @param  Magento_Data_Tree_Node $node
+     * @param  \Magento\Data\Tree\Node $node
      * @return array
      */
     protected function _getNodesArray($node)

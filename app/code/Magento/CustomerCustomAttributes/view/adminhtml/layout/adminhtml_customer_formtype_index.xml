@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceContainer name="content">
-        <block class="Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype" name="magento_customercustomattributes_formtype"/>
+        <block class="Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype" name="magento_customercustomattributes_formtype"/>
     </referenceContainer>
 </layout>

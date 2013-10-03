@@ -7,41 +7,43 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_AdvancedCheckout_Model_Resource_Sku_Errors_Grid_Collection extends Magento_Data_Collection
+namespace Magento\AdvancedCheckout\Model\Resource\Sku\Errors\Grid;
+
+class Collection extends \Magento\Data\Collection
 {
     /**
-     * @var Magento_AdvancedCheckout_Model_Cart
+     * @var \Magento\AdvancedCheckout\Model\Cart
      */
     protected $_cart;
 
     /**
-     * @var Magento_Catalog_Model_Product
+     * @var \Magento\Catalog\Model\Product
      */
     protected $_productModel;
 
     /**
-     * @var Magento_CatalogInventory_Model_Stock_Status
+     * @var \Magento\CatalogInventory\Model\Stock\Status
      */
     protected $_inventoryModel;
 
     /**
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreHelper;
 
     /**
-     * @param Magento_AdvancedCheckout_Model_Cart $cart
-     * @param Magento_Catalog_Model_Product $productModel
-     * @param Magento_CatalogInventory_Model_Stock_Status $catalogInventory
-     * @param Magento_Core_Helper_Data $coreHelper
-     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param \Magento\AdvancedCheckout\Model\Cart $cart
+     * @param \Magento\Catalog\Model\Product $productModel
+     * @param \Magento\CatalogInventory\Model\Stock\Status $catalogInventory
+     * @param \Magento\Core\Helper\Data $coreHelper
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
      */
     public function __construct(
-        Magento_AdvancedCheckout_Model_Cart $cart,
-        Magento_Catalog_Model_Product $productModel,
-        Magento_CatalogInventory_Model_Stock_Status $catalogInventory,
-        Magento_Core_Helper_Data $coreHelper,
-        Magento_Core_Model_EntityFactory $entityFactory
+        \Magento\AdvancedCheckout\Model\Cart $cart,
+        \Magento\Catalog\Model\Product $productModel,
+        \Magento\CatalogInventory\Model\Stock\Status $catalogInventory,
+        \Magento\Core\Helper\Data $coreHelper,
+        \Magento\Core\Model\EntityFactory $entityFactory
     ) {
         $this->_cart = $cart;
         $this->_productModel = $productModel;
@@ -53,7 +55,7 @@ class Magento_AdvancedCheckout_Model_Resource_Sku_Errors_Grid_Collection extends
     /**
      * @param bool $printQuery
      * @param bool $logQuery
-     * @return Magento_AdvancedCheckout_Model_Resource_Sku_Errors_Grid_Collection
+     * @return \Magento\AdvancedCheckout\Model\Resource\Sku\Errors\Grid\Collection
      */
     public function loadData($printQuery = false, $logQuery = false)
     {
@@ -66,20 +68,20 @@ class Magento_AdvancedCheckout_Model_Resource_Sku_Errors_Grid_Collection extends
                         ? ''
                         : (float)$affectedItem['item']['qty'];
                 }
-                $item = new Magento_Object();
+                $item = new \Magento\Object();
                 $item->setCode($affectedItem['code']);
                 if (isset($affectedItem['error'])) {
                     $item->setError($affectedItem['error']);
                 }
                 $item->addData($affectedItem['item']);
                 $item->setId($item->getSku());
-                /* @var $product Magento_Catalog_Model_Product */
+                /* @var $product \Magento\Catalog\Model\Product */
                 $product = $this->_productModel;
                 if (isset($affectedItem['item']['id'])) {
                     $productId = $affectedItem['item']['id'];
                     $item->setProductId($productId);
                     $product->load($productId);
-                    /* @var $stockStatus Magento_CatalogInventory_Model_Stock_Status */
+                    /* @var $stockStatus \Magento\CatalogInventory\Model\Stock\Status */
                     $stockStatus = $this->_inventoryModel;
                     $status = $stockStatus->getProductStatus($productId, $this->getWebsiteId());
                     if (!empty($status[$productId])) {

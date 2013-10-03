@@ -9,26 +9,28 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Resource_Subscription_Grid_Collection
-    extends Magento_Webhook_Model_Resource_Subscription_Collection
+namespace Magento\Webhook\Model\Resource\Subscription\Grid;
+
+class Collection
+    extends \Magento\Webhook\Model\Resource\Subscription\Collection
 {
     /**
-     * @param Magento_Webhook_Model_Subscription_Config $subscriptionConfig
-     * @param Magento_Webhook_Model_Resource_Endpoint $endpointResource
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Webhook\Model\Subscription\Config $subscriptionConfig
+     * @param \Magento\Webhook\Model\Resource\Endpoint $endpointResource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Resource\Db\Abstract $resource
      */
     public function __construct(
-        Magento_Webhook_Model_Subscription_Config $subscriptionConfig,
-        Magento_Webhook_Model_Resource_Endpoint $endpointResource,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null
+        \Magento\Webhook\Model\Subscription\Config $subscriptionConfig,
+        \Magento\Webhook\Model\Resource\Endpoint $endpointResource,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         parent::__construct($endpointResource, $eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
         $subscriptionConfig->updateSubscriptionCollection();

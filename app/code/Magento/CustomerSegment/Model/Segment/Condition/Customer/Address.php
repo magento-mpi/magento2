@@ -11,37 +11,39 @@
 /**
  * Customer address attributes conditions combine
  */
-class Magento_CustomerSegment_Model_Segment_Condition_Customer_Address
-    extends Magento_CustomerSegment_Model_Condition_Combine_Abstract
+namespace Magento\CustomerSegment\Model\Segment\Condition\Customer;
+
+class Address
+    extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine
 {
     /**
-     * @var Magento_Eav_Model_Config
+     * @var \Magento\Eav\Model\Config
      */
     protected $_eavConfig;
 
     /**
-     * @var Magento_CustomerSegment_Model_ConditionFactory
+     * @var \Magento\CustomerSegment\Model\ConditionFactory
      */
     protected $_conditionFactory;
 
     /**
-     * @param Magento_CustomerSegment_Model_ConditionFactory $conditionFactory
-     * @param Magento_CustomerSegment_Model_Resource_Segment $resourceSegment
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory
+     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_CustomerSegment_Model_ConditionFactory $conditionFactory,
-        Magento_CustomerSegment_Model_Resource_Segment $resourceSegment,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Rule_Model_Condition_Context $context,
+        \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
+        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Rule\Model\Condition\Context $context,
         array $data = array()
     ) {
         $this->_conditionFactory = $conditionFactory;
         $this->_eavConfig = $eavConfig;
         parent::__construct($resourceSegment, $context, $data);
-        $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Customer_Address');
+        $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Customer\Address');
     }
 
     /**
@@ -89,7 +91,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Address
      *
      * @param $customer
      * @param $website
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     protected function _prepareConditionsSql($customer, $website)
     {
@@ -97,7 +99,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Address
         $select = $resource->createSelect();
         $addressEntityType = $this->_eavConfig->getEntityType('customer_address');
         $addressTable = $resource->getTable($addressEntityType->getEntityTable());
-        $select->from(array('customer_address' => $addressTable), array(new Zend_Db_Expr(1)));
+        $select->from(array('customer_address' => $addressTable), array(new \Zend_Db_Expr(1)));
         $select->where('customer_address.entity_type_id = ?', $addressEntityType->getId());
         $select->where($this->_createCustomerFilter($customer, 'customer_address.parent_id'));
         $select->limit(1);

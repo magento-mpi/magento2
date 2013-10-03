@@ -14,7 +14,9 @@
  * @category    Magento
  * @package     Magento_Gdata
  */
-class Magento_Gdata_Gshopping_Entry extends Zend_Gdata_Entry
+namespace Magento\Gdata\Gshopping;
+
+class Entry extends \Zend_Gdata_Entry
 {
 
     /**
@@ -22,7 +24,7 @@ class Magento_Gdata_Gshopping_Entry extends Zend_Gdata_Entry
      *
      * var @string
      */
-    protected $_entryClassName = 'Magento_Gdata_Gshopping_Entry';
+    protected $_entryClassName = 'Magento\Gdata\Gshopping\Entry';
 
     /**
      * Google Shopping attribute elements in the 'sc' and 'scp' namespaces
@@ -34,27 +36,27 @@ class Magento_Gdata_Gshopping_Entry extends Zend_Gdata_Entry
     /**
      * Tax element extension
      *
-     * @var array of Magento_Gdata_Gshopping_Extension_Tax
+     * @var array of \Magento\Gdata\Gshopping\Extension\Tax
      */
     protected $_tax = array();
 
     /**
-     * Constructs a new Magento_Gdata_Gshopping_Entry object.
-     * @param DOMElement $element The DOMElement on which to base this object.
+     * Constructs a new \Magento\Gdata\Gshopping\Entry object.
+     * @param \DOMElement $element The \DOMElement on which to base this object.
      */
     public function __construct($element = null)
     {
-        $this->registerAllNamespaces(Magento_Gdata_Gshopping_Content::$namespaces);
+        $this->registerAllNamespaces(\Magento\Gdata\Gshopping\Content::$namespaces);
         parent::__construct($element);
     }
 
     /**
-     * Retrieves a DOMElement which corresponds to this element and all
+     * Retrieves a \DOMElement which corresponds to this element and all
      * child properties.  This is used to build an entry back into a DOM
      * and eventually XML text for application storage/persistence.
      *
-     * @param DOMDocument $doc The DOMDocument used to construct DOMElements
-     * @return DOMElement The DOMElement representing this element and all
+     * @param \DOMDocument $doc The \DOMDocument used to construct \DOMElements
+     * @return \DOMElement The \DOMElement representing this element and all
      *          child properties.
      */
     public function getDOM($doc = null, $majorVersion = 1, $minorVersion = null)
@@ -64,7 +66,7 @@ class Magento_Gdata_Gshopping_Entry extends Zend_Gdata_Entry
             $element->appendChild($contentAttribute->getDOM($element->ownerDocument));
         }
         foreach ($this->_tax as $tax) {
-            if ($tax instanceof Magento_Gdata_Gshopping_Extension_Tax) {
+            if ($tax instanceof \Magento\Gdata\Gshopping\Extension\Tax) {
                 $element->appendChild($tax->getDOM($element->ownerDocument));
             }
         }
@@ -77,7 +79,7 @@ class Magento_Gdata_Gshopping_Entry extends Zend_Gdata_Entry
      * Creates individual Entry objects of the appropriate type and
      * stores them as members of this entry based upon DOM data.
      *
-     * @param DOMNode $child The DOMNode to process
+     * @param \DOMNode $child The \DOMNode to process
      */
     protected function takeChildFromDOM($child)
     {
@@ -96,20 +98,20 @@ class Magento_Gdata_Gshopping_Entry extends Zend_Gdata_Entry
             case "$sc:expiration_date":
             case "$sc:adult":
             case "$sc:attribute":
-                $contentAttribute = new Magento_Gdata_Gshopping_Extension_Attribute();
+                $contentAttribute = new \Magento\Gdata\Gshopping\Extension\Attribute();
                 $contentAttribute->transferFromDOM($child);
                 $this->_contentAttributes[] = $contentAttribute;
                 break;
 
             case "$sc:group:tax":
             case "$scp:tax":
-                $tax = new Magento_Gdata_Gshopping_Extension_Tax();
+                $tax = new \Magento\Gdata\Gshopping\Extension\Tax();
                 $tax->transferFromDOM($child);
                 $this->_tax[] = $tax;
                 break;
 
             case $this->lookupNamespace('app') . ':' . 'control':
-                $control = new Magento_Gdata_Gshopping_Extension_Control();
+                $control = new \Magento\Gdata\Gshopping\Extension\Control();
                 $control->transferFromDOM($child);
                 $this->setControl($control);
                 break;
@@ -130,19 +132,19 @@ class Magento_Gdata_Gshopping_Entry extends Zend_Gdata_Entry
      * @param string $type (optional) The type of the attribute.
      *          e.g.: 'text', 'number', 'float'
      * @param string $unit Currecnty for price
-     * @return Magento_Gdata_Gshopping_Entry Provides a fluent interface
+     * @return \Magento\Gdata\Gshopping\Entry Provides a fluent interface
      */
     public function addContentAttribute($name, $text, $type = null, $unit = null)
     {
-        $this->_contentAttributes[] = new Magento_Gdata_Gshopping_Extension_Attribute($name, $text, $type, $unit);
+        $this->_contentAttributes[] = new \Magento\Gdata\Gshopping\Extension\Attribute($name, $text, $type, $unit);
         return $this;
     }
 
     /**
      * Removes a Content attribute from the current list of Base attributes
      *
-     * @param Zend_Gdata_Gbase_Extension_BaseAttribute $baseAttribute The attribute to be removed
-     * @return Zend_Gdata_Gbase_Entry Provides a fluent interface
+     * @param \Zend_Gdata_Gbase_Extension_BaseAttribute $baseAttribute The attribute to be removed
+     * @return \Zend_Gdata_Gbase_Entry Provides a fluent interface
      */
     public function removeContentAttribute($name)
     {
@@ -156,7 +158,7 @@ class Magento_Gdata_Gshopping_Entry extends Zend_Gdata_Entry
     }
 
     /**
-     * Uploads changes in this entry to the server using Zend_Gdata_App
+     * Uploads changes in this entry to the server using \Zend_Gdata_App
      *
      * @param boolean $dryRun Whether the transaction is dry run or not.
      * @param string|null $uri The URI to send requests to, or null if $data
@@ -166,8 +168,8 @@ class Magento_Gdata_Gshopping_Entry extends Zend_Gdata_Entry
      *        'Zend_Gdata_App_Entry' will be used.
      * @param array $extraHeaders Extra headers to add to the request, as an
      *        array of string-based key/value pairs.
-     * @return Zend_Gdata_App_Entry The updated entry
-     * @throws Zend_Gdata_App_Exception
+     * @return \Zend_Gdata_App_Entry The updated entry
+     * @throws \Zend_Gdata_App_Exception
      */
     public function save($dryRun = false, $uri = null, $className = null, $extraHeaders = array())
     {
@@ -177,7 +179,7 @@ class Magento_Gdata_Gshopping_Entry extends Zend_Gdata_Entry
                 $uri = $editLink->getHref() . '?dry-run=true';
             }
             if ($uri === null) {
-                throw new Zend_Gdata_App_InvalidArgumentException('You must specify an URI which needs deleted.');
+                throw new \Zend_Gdata_App_InvalidArgumentException('You must specify an URI which needs deleted.');
             }
         }
         return parent::save($uri, $className, $extraHeaders);
@@ -185,12 +187,12 @@ class Magento_Gdata_Gshopping_Entry extends Zend_Gdata_Entry
 
     /**
      * Deletes this entry to the server using the referenced
-     * Zend_Http_Client to do a HTTP DELETE to the edit link stored in this
+     * \Zend_Http_Client to do a HTTP DELETE to the edit link stored in this
      * entry's link collection.
      *
      * @param boolean $dryRun Whether the transaction is dry run or not
      * @return void
-     * @throws Zend_Gdata_App_Exception
+     * @throws \Zend_Gdata_App_Exception
      */
     public function delete($dryRun = false)
     {
@@ -201,7 +203,7 @@ class Magento_Gdata_Gshopping_Entry extends Zend_Gdata_Entry
                 $uri = $editLink->getHref() . '?dry-run=true';
             }
             if ($uri === null) {
-                throw new Zend_Gdata_App_InvalidArgumentException('You must specify an URI which needs deleted.');
+                throw new \Zend_Gdata_App_InvalidArgumentException('You must specify an URI which needs deleted.');
             }
             $this->getService()->delete($uri);
         } else {
@@ -222,7 +224,7 @@ class Magento_Gdata_Gshopping_Entry extends Zend_Gdata_Entry
      * Return an array of Content attributes that match the given attribute name
      *
      * @param string $name The name of the Content attribute to look for
-     * @return array $matches Array of Magento_Gdata_Gshopping_Extension_Attribute
+     * @return array $matches Array of \Magento\Gdata\Gshopping\Extension\Attribute
      */
     public function getContentAttributesByName($name)
     {
@@ -241,7 +243,7 @@ class Magento_Gdata_Gshopping_Entry extends Zend_Gdata_Entry
      * return null otherwise
      *
      * @param string $name The name of the Content attribute to look for
-     * @return null|Magento_Gdata_Gshopping_Extension_Attribute
+     * @return null|\Magento\Gdata\Gshopping\Extension\Attribute
      */
     public function getContentAttributeByName($name)
     {
@@ -258,13 +260,13 @@ class Magento_Gdata_Gshopping_Entry extends Zend_Gdata_Entry
      * Set destinations for entry
      *
      * @param  array $modes Array with destination names and their statuses.
-     *            format: array(name => Magento_Gdata_Gshopping_Extension_Control::DEST_MODE_*),
+     *            format: array(name => \Magento\Gdata\Gshopping\Extension\Control::DEST_MODE_*),
      *            for instance: array('ProductSearch' => 2)
-     * @return Magento_Gdata_Gshopping_Entry
+     * @return \Magento\Gdata\Gshopping\Entry
      */
     public function setDestinationsMode(array $modes)
     {
-        $this->setControl(new Magento_Gdata_Gshopping_Extension_Control($modes));
+        $this->setControl(new \Magento\Gdata\Gshopping\Extension\Control($modes));
         return $this;
     }
 
@@ -276,7 +278,7 @@ class Magento_Gdata_Gshopping_Entry extends Zend_Gdata_Entry
     public function getDestinationsMode()
     {
         $control = $this->getControl();
-        return ($control instanceof Magento_Gdata_Gshopping_Extension_Control)
+        return ($control instanceof \Magento\Gdata\Gshopping\Extension\Control)
             ? $control->getDestinationsMode()
             : array();
     }
@@ -289,7 +291,7 @@ class Magento_Gdata_Gshopping_Entry extends Zend_Gdata_Entry
      */
     public function addTax(array $taxInfo)
     {
-        $this->_tax[] = new Magento_Gdata_Gshopping_Extension_Tax($taxInfo);
+        $this->_tax[] = new \Magento\Gdata\Gshopping\Extension\Tax($taxInfo);
         return $this;
     }
 
@@ -306,7 +308,7 @@ class Magento_Gdata_Gshopping_Entry extends Zend_Gdata_Entry
     /**
      * Clean taxes information.
      *
-     * @return Magento_Gdata_Gshopping_Entry
+     * @return \Magento\Gdata\Gshopping\Entry
      */
     public function cleanTaxes()
     {

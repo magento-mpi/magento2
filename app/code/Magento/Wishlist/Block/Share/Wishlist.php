@@ -16,46 +16,48 @@
  * @package    Magento_Wishlist
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Wishlist_Block_Share_Wishlist extends Magento_Wishlist_Block_Abstract
+namespace Magento\Wishlist\Block\Share;
+
+class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
 {
     /**
      * Customer instance
      *
-     * @var Magento_Customer_Model_Customer
+     * @var \Magento\Customer\Model\Customer
      */
     protected $_customer = null;
 
     /**
-     * @var Magento_Customer_Model_CustomerFactory
+     * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $_customerFactory;
 
     /**
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Model_Config $catalogConfig
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Wishlist_Helper_Data $wishlistData
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Customer_Model_CustomerFactory $customerFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Wishlist\Helper\Data $wishlistData
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Model_Config $catalogConfig,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Wishlist_Helper_Data $wishlistData,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Customer_Model_CustomerFactory $customerFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Wishlist\Helper\Data $wishlistData,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
         array $data = array()
     )
     {
@@ -67,7 +69,7 @@ class Magento_Wishlist_Block_Share_Wishlist extends Magento_Wishlist_Block_Abstr
     /**
      * Prepare global layout
      *
-     * @return Magento_Wishlist_Block_Share_Wishlist
+     * @return \Magento\Wishlist\Block\Share\Wishlist
      *
      */
     protected function _prepareLayout()
@@ -84,7 +86,7 @@ class Magento_Wishlist_Block_Share_Wishlist extends Magento_Wishlist_Block_Abstr
     /**
      * Retrieve Shared Wishlist Customer instance
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function getWishlistCustomer()
     {

@@ -11,37 +11,39 @@
 /**
  * Adminhtml shipping UPS content block
  */
-class Magento_Adminhtml_Block_System_Shipping_Ups extends Magento_Backend_Block_Template
+namespace Magento\Adminhtml\Block\System\Shipping;
+
+class Ups extends \Magento\Backend\Block\Template
 {
     /**
-     * @var Magento_Usa_Model_Shipping_Carrier_Ups
+     * @var \Magento\Usa\Model\Shipping\Carrier\Ups
      */
     protected $_shippingModel;
 
     /**
-     * @var Magento_Core_Model_Website
+     * @var \Magento\Core\Model\Website
      */
     protected $_websiteModel;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeConfig;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Usa_Model_Shipping_Carrier_Ups $shippingModel
-     * @param Magento_Core_Model_Website $websiteModel
-     * @param Magento_Core_Model_Store_Config $storeConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Usa\Model\Shipping\Carrier\Ups $shippingModel
+     * @param \Magento\Core\Model\Website $websiteModel
+     * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Usa_Model_Shipping_Carrier_Ups $shippingModel,
-        Magento_Core_Model_Website $websiteModel,
-        Magento_Core_Model_Store_Config $storeConfig,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Usa\Model\Shipping\Carrier\Ups $shippingModel,
+        \Magento\Core\Model\Website $websiteModel,
+        \Magento\Core\Model\Store\Config $storeConfig,
         array $data = array()
     ) {
         $this->_shippingModel = $shippingModel;
@@ -53,7 +55,7 @@ class Magento_Adminhtml_Block_System_Shipping_Ups extends Magento_Backend_Block_
     /**
      * Get shipping model
      *
-     * @return Magento_Usa_Model_Shipping_Carrier_Ups
+     * @return \Magento\Usa\Model\Shipping\Carrier\Ups
      */
     public function getShippingModel()
     {
@@ -63,7 +65,7 @@ class Magento_Adminhtml_Block_System_Shipping_Ups extends Magento_Backend_Block_
     /**
      * Get website model
      *
-     * @return Magento_Core_Model_Website
+     * @return \Magento\Core\Model\Website
      */
     public function getWebsiteModel()
     {

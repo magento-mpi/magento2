@@ -11,7 +11,7 @@
 /**
  * Renderer template for gift registry edit form
  *
- * @see Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Form_Renderer_Element
+ * @see \Magento\GiftWrapping\Block\Adminhtml\Giftwrapping\Form\Renderer\Element
  */
 ?>
 <?php
@@ -41,7 +41,7 @@ $elementToggleCode = $element->getToggleCode() ? $element->getToggleCode()
     <?php else: ?>
     <div<?php echo $fieldAttributes ?> data-element-id="<?php echo $element->getHtmlId() ?>"
         data-apply-to="<?php echo $this->escapeHtml(
-           $this->helper('Magento_Core_Helper_Data')->jsonEncode(
+           $this->helper('Magento\Core\Helper\Data')->jsonEncode(
                $element->hasEntityAttribute() ? $element->getEntityAttribute()->getApplyTo() : array()
            )
         )?>">

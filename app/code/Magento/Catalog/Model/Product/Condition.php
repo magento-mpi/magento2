@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Model_Product_Condition extends Magento_Object implements Magento_Catalog_Model_Product_Condition_Interface
+namespace Magento\Catalog\Model\Product;
+
+class Condition extends \Magento\Object implements \Magento\Catalog\Model\Product\Condition\ConditionInterface
 {
     public function applyToCollection($collection)
     {

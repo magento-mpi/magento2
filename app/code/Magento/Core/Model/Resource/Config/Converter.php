@@ -1,27 +1,29 @@
 <?php
 /**
- * Converter of resources configuration from DOMDocument to array
+ * Converter of resources configuration from \DOMDocument to array
  *
  * {license_notice}
  *
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Model_Resource_Config_Converter implements Magento_Config_ConverterInterface
+namespace Magento\Core\Model\Resource\Config;
+
+class Converter implements \Magento\Config\ConverterInterface
 {
     /**
      * Convert dom node tree to array
      *
-     * @param DOMDocument $source
+     * @param \DOMDocument $source
      * @return array
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function convert($source)
     {
         $output = array();
-        /** @var DOMNodeList $resources */
+        /** @var \DOMNodeList $resources */
         $resources = $source->getElementsByTagName('resource');
-        /** @var DOMNode $resourceConfig */
+        /** @var \DOMNode $resourceConfig */
         foreach ($resources as $resourceConfig) {
             $resourceName = $resourceConfig->attributes->getNamedItem('name')->nodeValue;
             $resourceData = array();

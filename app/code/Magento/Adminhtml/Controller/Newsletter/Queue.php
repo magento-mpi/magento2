@@ -15,22 +15,24 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Controller_Newsletter_Queue extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller\Newsletter;
+
+class Queue extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -80,7 +82,7 @@ class Magento_Adminhtml_Controller_Newsletter_Queue extends Magento_Adminhtml_Co
         }
 
         // set default value for selected store
-        $data['preview_store_id'] = $this->_objectManager->get('Magento_Core_Model_StoreManager')
+        $data['preview_store_id'] = $this->_objectManager->get('Magento\Core\Model\StoreManager')
             ->getDefaultStoreView()->getId();
 
         $this->getLayout()->getBlock('preview_form')->setFormData($data);
@@ -98,18 +100,18 @@ class Magento_Adminhtml_Controller_Newsletter_Queue extends Magento_Adminhtml_Co
 
     public function startAction()
     {
-        $queue = $this->_objectManager->create('Magento_Newsletter_Model_Queue')
+        $queue = $this->_objectManager->create('Magento\Newsletter\Model\Queue')
             ->load($this->getRequest()->getParam('id'));
         if ($queue->getId()) {
             if (!in_array($queue->getQueueStatus(),
-                          array(Magento_Newsletter_Model_Queue::STATUS_NEVER,
-                                 Magento_Newsletter_Model_Queue::STATUS_PAUSE))) {
+                          array(\Magento\Newsletter\Model\Queue::STATUS_NEVER,
+                                 \Magento\Newsletter\Model\Queue::STATUS_PAUSE))) {
                    $this->_redirect('*/*');
                 return;
             }
 
-            $queue->setQueueStartAt($this->_objectManager->get('Magento_Core_Model_Date')->gmtDate())
-                ->setQueueStatus(Magento_Newsletter_Model_Queue::STATUS_SENDING)
+            $queue->setQueueStartAt($this->_objectManager->get('Magento\Core\Model\Date')->gmtDate())
+                ->setQueueStatus(\Magento\Newsletter\Model\Queue::STATUS_SENDING)
                 ->save();
         }
 
@@ -118,16 +120,16 @@ class Magento_Adminhtml_Controller_Newsletter_Queue extends Magento_Adminhtml_Co
 
     public function pauseAction()
     {
-        $queue = $this->_objectManager->get('Magento_Newsletter_Model_Queue')
+        $queue = $this->_objectManager->get('Magento\Newsletter\Model\Queue')
             ->load($this->getRequest()->getParam('id'));
 
         if (!in_array($queue->getQueueStatus(),
-                      array(Magento_Newsletter_Model_Queue::STATUS_SENDING))) {
+                      array(\Magento\Newsletter\Model\Queue::STATUS_SENDING))) {
                $this->_redirect('*/*');
             return;
         }
 
-        $queue->setQueueStatus(Magento_Newsletter_Model_Queue::STATUS_PAUSE);
+        $queue->setQueueStatus(\Magento\Newsletter\Model\Queue::STATUS_PAUSE);
         $queue->save();
 
         $this->_redirect('*/*');
@@ -135,16 +137,16 @@ class Magento_Adminhtml_Controller_Newsletter_Queue extends Magento_Adminhtml_Co
 
     public function resumeAction()
     {
-        $queue = $this->_objectManager->get('Magento_Newsletter_Model_Queue')
+        $queue = $this->_objectManager->get('Magento\Newsletter\Model\Queue')
             ->load($this->getRequest()->getParam('id'));
 
         if (!in_array($queue->getQueueStatus(),
-                      array(Magento_Newsletter_Model_Queue::STATUS_PAUSE))) {
+                      array(\Magento\Newsletter\Model\Queue::STATUS_PAUSE))) {
                $this->_redirect('*/*');
             return;
         }
 
-        $queue->setQueueStatus(Magento_Newsletter_Model_Queue::STATUS_SENDING);
+        $queue->setQueueStatus(\Magento\Newsletter\Model\Queue::STATUS_SENDING);
         $queue->save();
 
         $this->_redirect('*/*');
@@ -152,16 +154,16 @@ class Magento_Adminhtml_Controller_Newsletter_Queue extends Magento_Adminhtml_Co
 
     public function cancelAction()
     {
-        $queue = $this->_objectManager->get('Magento_Newsletter_Model_Queue')
+        $queue = $this->_objectManager->get('Magento\Newsletter\Model\Queue')
             ->load($this->getRequest()->getParam('id'));
 
         if (!in_array($queue->getQueueStatus(),
-                      array(Magento_Newsletter_Model_Queue::STATUS_SENDING))) {
+                      array(\Magento\Newsletter\Model\Queue::STATUS_SENDING))) {
                $this->_redirect('*/*');
             return;
         }
 
-        $queue->setQueueStatus(Magento_Newsletter_Model_Queue::STATUS_CANCEL);
+        $queue->setQueueStatus(\Magento\Newsletter\Model\Queue::STATUS_CANCEL);
         $queue->save();
 
         $this->_redirect('*/*');
@@ -173,7 +175,7 @@ class Magento_Adminhtml_Controller_Newsletter_Queue extends Magento_Adminhtml_Co
         $countOfQueue  = 3;
         $countOfSubscritions = 20;
 
-        $collection = $this->_objectManager->create('Magento_Newsletter_Model_Resource_Queue_Collection')
+        $collection = $this->_objectManager->create('Magento\Newsletter\Model\Resource\Queue\Collection')
             ->setPageSize($countOfQueue)
             ->setCurPage(1)
             ->addOnlyForSendingFilter()
@@ -186,7 +188,7 @@ class Magento_Adminhtml_Controller_Newsletter_Queue extends Magento_Adminhtml_Co
     {
         $this->_title(__('Newsletter Queue'));
 
-        $this->_coreRegistry->register('current_queue', $this->_objectManager->get('Magento_Newsletter_Model_Queue'));
+        $this->_coreRegistry->register('current_queue', $this->_objectManager->get('Magento\Newsletter\Model\Queue'));
 
         $id = $this->getRequest()->getParam('id');
         $templateId = $this->getRequest()->getParam('template_id');
@@ -194,7 +196,7 @@ class Magento_Adminhtml_Controller_Newsletter_Queue extends Magento_Adminhtml_Co
         if ($id) {
             $queue = $this->_coreRegistry->registry('current_queue')->load($id);
         } elseif ($templateId) {
-            $template = $this->_objectManager->create('Magento_Newsletter_Model_Template')->load($templateId);
+            $template = $this->_objectManager->create('Magento\Newsletter\Model\Template')->load($templateId);
             $queue = $this->_coreRegistry->registry('current_queue')->setTemplateId($template->getId());
         }
 
@@ -217,33 +219,33 @@ class Magento_Adminhtml_Controller_Newsletter_Queue extends Magento_Adminhtml_Co
     public function saveAction()
     {
         try {
-            /* @var $queue Magento_Newsletter_Model_Queue */
-            $queue = $this->_objectManager->create('Magento_Newsletter_Model_Queue');
+            /* @var $queue \Magento\Newsletter\Model\Queue */
+            $queue = $this->_objectManager->create('Magento\Newsletter\Model\Queue');
 
             $templateId = $this->getRequest()->getParam('template_id');
             if ($templateId) {
-                /* @var $template Magento_Newsletter_Model_Template */
-                $template = $this->_objectManager->create('Magento_Newsletter_Model_Template')->load($templateId);
+                /* @var $template \Magento\Newsletter\Model\Template */
+                $template = $this->_objectManager->create('Magento\Newsletter\Model\Template')->load($templateId);
 
                 if (!$template->getId() || $template->getIsSystem()) {
-                    throw new Magento_Core_Exception(__('Please correct the newsletter template and try again.'));
+                    throw new \Magento\Core\Exception(__('Please correct the newsletter template and try again.'));
                 }
 
                 $queue->setTemplateId($template->getId())
-                    ->setQueueStatus(Magento_Newsletter_Model_Queue::STATUS_NEVER);
+                    ->setQueueStatus(\Magento\Newsletter\Model\Queue::STATUS_NEVER);
             } else {
                 $queue->load($this->getRequest()->getParam('id'));
             }
 
             if (!in_array($queue->getQueueStatus(),
-                   array(Magento_Newsletter_Model_Queue::STATUS_NEVER,
-                         Magento_Newsletter_Model_Queue::STATUS_PAUSE))
+                   array(\Magento\Newsletter\Model\Queue::STATUS_NEVER,
+                         \Magento\Newsletter\Model\Queue::STATUS_PAUSE))
             ) {
                 $this->_redirect('*/*');
                 return;
             }
 
-            if ($queue->getQueueStatus() == Magento_Newsletter_Model_Queue::STATUS_NEVER) {
+            if ($queue->getQueueStatus() == \Magento\Newsletter\Model\Queue::STATUS_NEVER) {
                 $queue->setQueueStartAtByString($this->getRequest()->getParam('start_at'));
             }
 
@@ -254,9 +256,9 @@ class Magento_Adminhtml_Controller_Newsletter_Queue extends Magento_Adminhtml_Co
                 ->setNewsletterText($this->getRequest()->getParam('text'))
                 ->setNewsletterStyles($this->getRequest()->getParam('styles'));
 
-            if ($queue->getQueueStatus() == Magento_Newsletter_Model_Queue::STATUS_PAUSE
+            if ($queue->getQueueStatus() == \Magento\Newsletter\Model\Queue::STATUS_PAUSE
                 && $this->getRequest()->getParam('_resume', false)) {
-                $queue->setQueueStatus(Magento_Newsletter_Model_Queue::STATUS_SENDING);
+                $queue->setQueueStatus(\Magento\Newsletter\Model\Queue::STATUS_SENDING);
             }
 
             $queue->save();
@@ -265,7 +267,7 @@ class Magento_Adminhtml_Controller_Newsletter_Queue extends Magento_Adminhtml_Co
             $this->_getSession()->setFormData(false);
 
             $this->_redirect('*/*');
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $id = $this->getRequest()->getParam('id');
             if ($id) {

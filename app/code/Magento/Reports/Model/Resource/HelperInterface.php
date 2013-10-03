@@ -11,7 +11,9 @@
 /**
  * Reports resource helper interface
  */
-interface Magento_Reports_Model_Resource_HelperInterface
+namespace Magento\Reports\Model\Resource;
+
+interface HelperInterface
 {
     /**
      * Merge Index data
@@ -29,7 +31,7 @@ interface Magento_Reports_Model_Resource_HelperInterface
      * @param string $column
      * @param string $mainTable
      * @param string $aggregationTable
-     * @return Magento_Core_Model_Resource_Helper_Abstract
+     * @return \Magento\Core\Model\Resource\Helper\AbstractHelper
      */
     public function updateReportRatingPos($type, $column, $mainTable, $aggregationTable);
 }

@@ -7,11 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Customer_Model_Resource_Group_Grid_Collection extends Magento_Customer_Model_Resource_Group_Collection
+namespace Magento\Customer\Model\Resource\Group\Grid;
+
+class Collection extends \Magento\Customer\Model\Resource\Group\Collection
 {
     /**
      * Resource initialization
-     * @return Magento_Customer_Model_Resource_Group_Grid_Collection
+     * @return \Magento\Customer\Model\Resource\Group\Grid\Collection
      */
     protected function _initSelect()
     {

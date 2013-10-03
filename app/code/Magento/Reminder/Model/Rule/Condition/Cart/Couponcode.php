@@ -11,21 +11,23 @@
 /**
  * Cart coupon code condition
  */
-class Magento_Reminder_Model_Rule_Condition_Cart_Couponcode
-    extends Magento_Reminder_Model_Condition_Abstract
+namespace Magento\Reminder\Model\Rule\Condition\Cart;
+
+class Couponcode
+    extends \Magento\Reminder\Model\Condition\AbstractCondition
 {
     /**
-     * @param Magento_Rule_Model_Condition_Context $context
-     * @param Magento_Reminder_Model_Resource_Rule $ruleResource
+     * @param \Magento\Rule\Model\Condition\Context $context
+     * @param \Magento\Reminder\Model\Resource\Rule $ruleResource
      * @param array $data
      */
     public function __construct(
-        Magento_Rule_Model_Condition_Context $context,
-        Magento_Reminder_Model_Resource_Rule $ruleResource,
+        \Magento\Rule\Model\Condition\Context $context,
+        \Magento\Reminder\Model\Resource\Rule $ruleResource,
         array $data = array()
     ) {
         parent::__construct($context, $ruleResource, $data);
-        $this->setType('Magento_Reminder_Model_Rule_Condition_Cart_Couponcode');
+        $this->setType('Magento\Reminder\Model\Rule\Condition\Cart\Couponcode');
         $this->setValue(1);
     }
 
@@ -65,7 +67,7 @@ class Magento_Reminder_Model_Rule_Condition_Cart_Couponcode
     /**
      * Init list of available values
      *
-     * @return Magento_Reminder_Model_Rule_Condition_Cart_Couponcode
+     * @return \Magento\Reminder\Model\Rule\Condition\Cart\Couponcode
      */
     public function loadValueOptions()
     {
@@ -80,8 +82,8 @@ class Magento_Reminder_Model_Rule_Condition_Cart_Couponcode
      * Get SQL select
      *
      * @param $customer
-     * @param int | Zend_Db_Expr $website
-     * @return Magento_DB_Select
+     * @param int | \Zend_Db_Expr $website
+     * @return \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)
     {
@@ -89,7 +91,7 @@ class Magento_Reminder_Model_Rule_Condition_Cart_Couponcode
         $inversion = ((int)$this->getValue() ? '' : 'NOT');
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('quote' => $table), array(new Zend_Db_Expr(1)));
+        $select->from(array('quote' => $table), array(new \Zend_Db_Expr(1)));
 
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
         $select->where('quote.is_active = 1');

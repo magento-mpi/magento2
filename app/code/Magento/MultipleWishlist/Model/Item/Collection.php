@@ -11,54 +11,56 @@
 /**
  * Wishlist item collection filtered by customer
  */
-class Magento_MultipleWishlist_Model_Item_Collection extends Magento_MultipleWishlist_Model_Resource_Item_Collection
+namespace Magento\MultipleWishlist\Model\Item;
+
+class Collection extends \Magento\MultipleWishlist\Model\Resource\Item\Collection
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
-     * @param Magento_Adminhtml_Helper_Sales $adminhtmlSales
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Date $date
-     * @param Magento_Wishlist_Model_Config $wishlistConfig
-     * @param Magento_Catalog_Model_Product_Visibility $productVisibility
-     * @param Magento_Core_Model_Resource $coreResource
-     * @param Magento_Wishlist_Model_Resource_Item_Option_CollectionFactory $optionCollFactory
-     * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollFactory
-     * @param Magento_Catalog_Model_Resource_ConfigFactory $catalogConfFactory
-     * @param Magento_Catalog_Model_Entity_AttributeFactory $catalogAttrFactory
-     * @param Magento_Wishlist_Helper_Data $wishlistData
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Wishlist_Model_Resource_Item $resource
+     * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
+     * @param \Magento\Adminhtml\Helper\Sales $adminhtmlSales
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Wishlist\Model\Config $wishlistConfig
+     * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
+     * @param \Magento\Core\Model\Resource $coreResource
+     * @param \Magento\Wishlist\Model\Resource\Item\Option\CollectionFactory $optionCollFactory
+     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollFactory
+     * @param \Magento\Catalog\Model\Resource\ConfigFactory $catalogConfFactory
+     * @param \Magento\Catalog\Model\Entity\AttributeFactory $catalogAttrFactory
+     * @param \Magento\Wishlist\Helper\Data $wishlistData
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Wishlist\Model\Resource\Item $resource
      */
     public function __construct(
-        Magento_CatalogInventory_Helper_Data $catalogInventoryData,
-        Magento_Adminhtml_Helper_Sales $adminhtmlSales,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Date $date,
-        Magento_Wishlist_Model_Config $wishlistConfig,
-        Magento_Catalog_Model_Product_Visibility $productVisibility,
-        Magento_Core_Model_Resource $coreResource,
-        Magento_Wishlist_Model_Resource_Item_Option_CollectionFactory $optionCollFactory,
-        Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollFactory,
-        Magento_Catalog_Model_Resource_ConfigFactory $catalogConfFactory,
-        Magento_Catalog_Model_Entity_AttributeFactory $catalogAttrFactory,
-        Magento_Wishlist_Helper_Data $wishlistData,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Wishlist_Model_Resource_Item $resource
+        \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
+        \Magento\Adminhtml\Helper\Sales $adminhtmlSales,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Date $date,
+        \Magento\Wishlist\Model\Config $wishlistConfig,
+        \Magento\Catalog\Model\Product\Visibility $productVisibility,
+        \Magento\Core\Model\Resource $coreResource,
+        \Magento\Wishlist\Model\Resource\Item\Option\CollectionFactory $optionCollFactory,
+        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollFactory,
+        \Magento\Catalog\Model\Resource\ConfigFactory $catalogConfFactory,
+        \Magento\Catalog\Model\Entity\AttributeFactory $catalogAttrFactory,
+        \Magento\Wishlist\Helper\Data $wishlistData,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Wishlist\Model\Resource\Item $resource
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($catalogInventoryData, $adminhtmlSales, $eventManager, $logger, $fetchStrategy,
@@ -70,7 +72,7 @@ class Magento_MultipleWishlist_Model_Item_Collection extends Magento_MultipleWis
     /**
      * Initialize db select
      *
-     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
+     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
     protected function _initSelect()
     {

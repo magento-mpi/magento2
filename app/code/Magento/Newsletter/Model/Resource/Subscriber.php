@@ -16,19 +16,21 @@
  * @package     Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Newsletter_Model_Resource_Subscriber extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Newsletter\Model\Resource;
+
+class Subscriber extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * DB read connection
      *
-     * @var Zend_Db_Adapter_Abstract
+     * @var \Zend_Db_Adapter_Abstract
      */
     protected $_read;
 
     /**
      * DB write connection
      *
-     * @var Zend_Db_Adapter_Abstract
+     * @var \Zend_Db_Adapter_Abstract
      */
     protected $_write;
 
@@ -49,28 +51,28 @@ class Magento_Newsletter_Model_Resource_Subscriber extends Magento_Core_Model_Re
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * Date
      *
-     * @var Magento_Core_Model_Date
+     * @var \Magento\Core\Model\Date
      */
     protected $_date;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Date $date
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Date $date,
-        Magento_Core_Helper_Data $coreData
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\Date $date,
+        \Magento\Core\Helper\Data $coreData
     ) {
         parent::__construct($resource);
         $this->_date = $date;
@@ -124,10 +126,10 @@ class Magento_Newsletter_Model_Resource_Subscriber extends Magento_Core_Model_Re
     /**
      * Load subscriber by customer
      *
-     * @param Magento_Customer_Model_Customer $customer
+     * @param \Magento\Customer\Model\Customer $customer
      * @return array
      */
-    public function loadByCustomer(Magento_Customer_Model_Customer $customer)
+    public function loadByCustomer(\Magento\Customer\Model\Customer $customer)
     {
         $select = $this->_read->select()
             ->from($this->getMainTable())
@@ -165,12 +167,12 @@ class Magento_Newsletter_Model_Resource_Subscriber extends Magento_Core_Model_Re
     /**
      * Updates data when subscriber received
      *
-     * @param Magento_Newsletter_Model_Subscriber $subscriber
-     * @param Magento_Newsletter_Model_Queue $queue
-     * @return Magento_Newsletter_Model_Resource_Subscriber
-     * @throws Magento_Core_Exception
+     * @param \Magento\Newsletter\Model\Subscriber $subscriber
+     * @param \Magento\Newsletter\Model\Queue $queue
+     * @return \Magento\Newsletter\Model\Resource\Subscriber
+     * @throws \Magento\Core\Exception
      */
-    public function received(Magento_Newsletter_Model_Subscriber $subscriber, Magento_Newsletter_Model_Queue $queue)
+    public function received(\Magento\Newsletter\Model\Subscriber $subscriber, \Magento\Newsletter\Model\Queue $queue)
     {
         $this->_write->beginTransaction();
         try {
@@ -181,9 +183,9 @@ class Magento_Newsletter_Model_Resource_Subscriber extends Magento_Core_Model_Re
             ));
             $this->_write->commit();
         }
-        catch (Exception $e) {
+        catch (\Exception $e) {
             $this->_write->rollBack();
-            throw new Magento_Core_Exception(__('We cannot mark as received subscriber.'));
+            throw new \Magento\Core\Exception(__('We cannot mark as received subscriber.'));
         }
         return $this;
     }

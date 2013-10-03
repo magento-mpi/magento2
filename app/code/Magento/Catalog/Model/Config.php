@@ -7,7 +7,9 @@
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Magento_Catalog_Model_Config extends Magento_Eav_Model_Config
+namespace Magento\Catalog\Model;
+
+class Config extends \Magento\Eav\Model\Config
 {
     const XML_PATH_LIST_DEFAULT_SORT_BY     = 'catalog/frontend/default_sort_by';
 
@@ -45,85 +47,85 @@ class Magento_Catalog_Model_Config extends Magento_Eav_Model_Config
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_Core_Model_App $app
-     * @param Magento_Eav_Model_Entity_TypeFactory $entityTypeFactory
-     * @param Magento_Core_Model_Cache_StateInterface $cacheState
-     * @param Magento_Validator_UniversalFactory $universalFactory
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Eav\Model\Entity\TypeFactory $entityTypeFactory
+     * @param \Magento\Core\Model\Cache\StateInterface $cacheState
+     * @param \Magento\Validator\UniversalFactory $universalFactory
      * Eav config
      *
-     * @var Magento_Eav_Model_Config
+     * @var \Magento\Eav\Model\Config
      */
     protected $_eavConfig;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Set collection factory
      *
-     * @var Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory
      */
     protected $_setCollectionFactory;
 
     /**
      * Group collection factory
      *
-     * @var Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory
      */
     protected $_groupCollectionFactory;
 
     /**
      * Product type factory
      *
-     * @var Magento_Catalog_Model_Product_TypeFactory
+     * @var \Magento\Catalog\Model\Product\TypeFactory
      */
     protected $_productTypeFactory;
 
     /**
      * Config factory
      *
-     * @var Magento_Catalog_Model_Resource_ConfigFactory
+     * @var \Magento\Catalog\Model\Resource\ConfigFactory
      */
     protected $_configFactory;
 
     /**
      * Constructor
      *
-     * @param Magento_Core_Model_App $app
-     * @param Magento_Eav_Model_Entity_TypeFactory $entityTypeFactory
-     * @param Magento_Core_Model_Cache_StateInterface $cacheState
-     * @param Magento_Validator_UniversalFactory $universalFactory
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Catalog_Model_Resource_ConfigFactory $configFactory
-     * @param Magento_Catalog_Model_Product_TypeFactory $productTypeFactory
-     * @param Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $groupCollectionFactory
-     * @param Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $setCollectionFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Eav_Model_Config $eavConfig
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Eav\Model\Entity\TypeFactory $entityTypeFactory
+     * @param \Magento\Core\Model\Cache\StateInterface $cacheState
+     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Catalog\Model\Resource\ConfigFactory $configFactory
+     * @param \Magento\Catalog\Model\Product\TypeFactory $productTypeFactory
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $groupCollectionFactory
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setCollectionFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Eav\Model\Config $eavConfig
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_App $app,
-        Magento_Eav_Model_Entity_TypeFactory $entityTypeFactory,
-        Magento_Core_Model_Cache_StateInterface $cacheState,
-        Magento_Validator_UniversalFactory $universalFactory,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Catalog_Model_Resource_ConfigFactory $configFactory,
-        Magento_Catalog_Model_Product_TypeFactory $productTypeFactory,
-        Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $groupCollectionFactory,
-        Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $setCollectionFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Eav_Model_Config $eavConfig
+        \Magento\Core\Model\App $app,
+        \Magento\Eav\Model\Entity\TypeFactory $entityTypeFactory,
+        \Magento\Core\Model\Cache\StateInterface $cacheState,
+        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Catalog\Model\Resource\ConfigFactory $configFactory,
+        \Magento\Catalog\Model\Product\TypeFactory $productTypeFactory,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $groupCollectionFactory,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setCollectionFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Eav\Model\Config $eavConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_configFactory = $configFactory;
@@ -142,14 +144,14 @@ class Magento_Catalog_Model_Config extends Magento_Eav_Model_Config
      */
     protected function _construct()
     {
-        $this->_init('Magento_Catalog_Model_Resource_Config');
+        $this->_init('Magento\Catalog\Model\Resource\Config');
     }
 
     /**
      * Set store id
      *
      * @param integer $storeId
-     * @return Magento_Catalog_Model_Config
+     * @return \Magento\Catalog\Model\Config
      */
     public function setStoreId($storeId)
     {
@@ -334,7 +336,7 @@ class Magento_Catalog_Model_Config extends Magento_Eav_Model_Config
     /**
      * Retrieve resource model
      *
-     * @return Magento_Catalog_Model_Resource_Config
+     * @return \Magento\Catalog\Model\Resource\Config
      */
     protected function _getResource()
     {
@@ -349,7 +351,7 @@ class Magento_Catalog_Model_Config extends Magento_Eav_Model_Config
     public function getAttributesUsedInProductListing() {
         if (is_null($this->_usedInProductListing)) {
             $this->_usedInProductListing = array();
-            $entityType = Magento_Catalog_Model_Product::ENTITY;
+            $entityType = \Magento\Catalog\Model\Product::ENTITY;
             $attributesData = $this->_getResource()
                 ->setStoreId($this->getStoreId())
                 ->getAttributesUsedInListing();
@@ -371,7 +373,7 @@ class Magento_Catalog_Model_Config extends Magento_Eav_Model_Config
     public function getAttributesUsedForSortBy() {
         if (is_null($this->_usedForSortBy)) {
             $this->_usedForSortBy = array();
-            $entityType     = Magento_Catalog_Model_Product::ENTITY;
+            $entityType     = \Magento\Catalog\Model\Product::ENTITY;
             $attributesData = $this->_getResource()
                 ->getAttributesUsedForSortBy();
             $this->_eavConfig->importAttributesData($entityType, $attributesData);
@@ -396,7 +398,7 @@ class Magento_Catalog_Model_Config extends Magento_Eav_Model_Config
             'position'  => __('Position')
         );
         foreach ($this->getAttributesUsedForSortBy() as $attribute) {
-            /* @var $attribute Magento_Eav_Model_Entity_Attribute_Abstract */
+            /* @var $attribute \Magento\Eav\Model\Entity\Attribute\AbstractAttribute */
             $options[$attribute->getAttributeCode()] = $attribute->getStoreLabel();
         }
 

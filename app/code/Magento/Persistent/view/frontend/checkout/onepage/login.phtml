@@ -14,7 +14,7 @@
  *
  * @see app/code/Magento/Checkout/view/frontend/onepage/login.phtml
  */
-/** @var $this Magento_Checkout_Block_Onepage_Login */
+/** @var $this \Magento\Checkout\Block\Onepage\Login */
 ?>
 <div class="col2-set">
     <?php echo $this->getChildHtml('login_before')?>
@@ -34,11 +34,11 @@
             <ul class="form-list">
                 <?php if( $this->isAllowedGuestCheckout() ): ?>
                 <li class="control">
-                    <input type="radio" name="checkout_method" id="login:guest" value="guest"<?php if($this->getQuote()->getCheckoutMethod()==Magento_Checkout_Model_Type_Onepage::METHOD_GUEST): ?> checked="checked"<?php endif; ?> class="radio" /><label for="login:guest"><?php echo __('Checkout as Guest') ?></label>
+                    <input type="radio" name="checkout_method" id="login:guest" value="guest"<?php if($this->getQuote()->getCheckoutMethod()==\Magento\Checkout\Model\Type\Onepage::METHOD_GUEST): ?> checked="checked"<?php endif; ?> class="radio" /><label for="login:guest"><?php echo __('Checkout as Guest') ?></label>
                 </li>
                 <?php endif; ?>
                 <li class="control">
-                    <input type="radio" name="checkout_method" id="login:register" value="register"<?php if($this->getQuote()->getCheckoutMethod()==Magento_Checkout_Model_Type_Onepage::METHOD_REGISTER || !$this->isAllowedGuestCheckout()): ?> checked="checked"<?php endif ?> class="radio" /><label for="login:register"><?php echo __('Register') ?></label>
+                    <input type="radio" name="checkout_method" id="login:register" value="register"<?php if($this->getQuote()->getCheckoutMethod()==\Magento\Checkout\Model\Type\Onepage::METHOD_REGISTER || !$this->isAllowedGuestCheckout()): ?> checked="checked"<?php endif ?> class="radio" /><label for="login:register"><?php echo __('Register') ?></label>
                 </li>
             </ul>
             <h4><?php echo __('Register and save time!') ?></h4>
@@ -85,8 +85,8 @@
             <p class="required">&nbsp;</p>
             <?php if ($this->isAllowedGuestCheckout()): ?>
                 <button id="onepage-guest-register-button" type="button" class="button" data-checkout='{"isGuestCheckoutAllowed":true}'><span><span><?php echo __('Continue') ?></span></span></button>
-            <?php elseif ($this->helper('Magento_Checkout_Helper_Data')->isCustomerMustBeLogged()): ?>
-                <button id="onepage-guest-register-button" type="button" class="button" data-checkout='{"isGuestCheckoutAllowed":false, "registrationUrl":"<?php echo $this->helper('Magento_Checkout_Helper_Url')->getRegistrationUrl();?>"}'><span><span><?php echo __('Register') ?></span></span></button>
+            <?php elseif ($this->helper('Magento\Checkout\Helper\Data')->isCustomerMustBeLogged()): ?>
+                <button id="onepage-guest-register-button" type="button" class="button" data-checkout='{"isGuestCheckoutAllowed":false, "registrationUrl":"<?php echo $this->helper('Magento\Checkout\Helper\Url')->getRegistrationUrl();?>"}'><span><span><?php echo __('Register') ?></span></span></button>
             <?php else: ?>
                 <form action="<?php echo $this->getUrl('persistent/index/saveMethod'); ?>">
                     <button id="onepage-guest-register-button" type="submit" class="button"><span><span><?php echo __('Register') ?></span></span></button>

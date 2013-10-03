@@ -7,7 +7,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Interception_Definition_Compiled implements Magento_Interception_Definition
+namespace Magento\Interception\Definition;
+
+class Compiled implements \Magento\Interception\Definition
 {
     /**
      * List of plugin definitions

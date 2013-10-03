@@ -6,10 +6,12 @@
  * @license     {license_link}
  */
 
-class Magento_Banner_Model_Resource_BannerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Banner\Model\Resource;
+
+class BannerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Banner_Model_Resource_Banner
+     * @var \Magento\Banner\Model\Resource\Banner
      */
     private $_resourceModel;
 
@@ -21,12 +23,12 @@ class Magento_Banner_Model_Resource_BannerTest extends PHPUnit_Framework_TestCas
     /**
      * @var int
      */
-    protected $_customerGroupId = Magento_Customer_Model_Group::NOT_LOGGED_IN_ID;
+    protected $_customerGroupId = \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID;
 
     protected function setUp()
     {
-        $this->_resourceModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Banner_Model_Resource_Banner');
+        $this->_resourceModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Banner\Model\Resource\Banner');
     }
 
     protected function tearDown()
@@ -52,8 +54,8 @@ class Magento_Banner_Model_Resource_BannerTest extends PHPUnit_Framework_TestCas
      */
     public function testGetCatalogRuleRelatedBannerIds()
     {
-        $banner = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Banner_Model_Banner');
+        $banner = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Banner\Model\Banner');
         $banner->load('Test Banner', 'name');
 
         $this->assertSame(
@@ -91,14 +93,14 @@ class Magento_Banner_Model_Resource_BannerTest extends PHPUnit_Framework_TestCas
      */
     public function testGetSalesRuleRelatedBannerIds()
     {
-        /** @var Magento_SalesRule_Model_Rule $rule */
-        $rule = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_SalesRule_Model_Rule');
+        /** @var \Magento\SalesRule\Model\Rule $rule */
+        $rule = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\SalesRule\Model\Rule');
         $rule->load('40% Off on Large Orders', 'name');
 
-        /** @var Magento_Banner_Model_Banner $banner */
-        $banner = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Banner_Model_Banner');
+        /** @var \Magento\Banner\Model\Banner $banner */
+        $banner = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Banner\Model\Banner');
         $banner->load('Get from 40% to 50% Off on Large Orders', 'name');
 
         $this->assertEquals(

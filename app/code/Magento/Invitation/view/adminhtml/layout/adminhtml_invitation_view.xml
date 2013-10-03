@@ -9,19 +9,19 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceContainer name="content">
-        <block class="Magento_Invitation_Block_Adminhtml_Invitation_View" name="invitation_view_page" template="view.phtml">
+        <block class="Magento\Invitation\Block\Adminhtml\Invitation\View" name="invitation_view_page" template="view.phtml">
             
         </block>
     </referenceContainer>
     <referenceContainer name="left">
-        <block class="Magento_Invitation_Block_Adminhtml_Invitation_View_Tabs" name="invitation_view_tabs" as="tabs">
+        <block class="Magento\Invitation\Block\Adminhtml\Invitation\View\Tabs" name="invitation_view_tabs" as="tabs">
             <action method="addTab">
                 <argument name="tab" xsi:type="string">general</argument>
-                <argument name="content" xsi:type="string">Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General</argument>
+                <argument name="content" xsi:type="string">Magento\Invitation\Block\Adminhtml\Invitation\View\Tab\General</argument>
             </action>
             <action method="addTab">
                 <argument name="tab" xsi:type="string">history</argument>
-                <argument name="content" xsi:type="string">Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_History</argument>
+                <argument name="content" xsi:type="string">Magento\Invitation\Block\Adminhtml\Invitation\View\Tab\History</argument>
             </action>
             <action method="setDestElementId">
                 <argument name="id" xsi:type="string">invitation-elements</argument>

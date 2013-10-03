@@ -13,33 +13,35 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Review_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Review\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     const XML_REVIEW_GUETS_ALLOW = 'catalog/review/allow_guest';
 
     /**
      * Core string
      *
-     * @var Magento_Core_Helper_String
+     * @var \Magento\Core\Helper\String
      */
     protected $_coreString = null;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Core_Helper_String $coreString,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_coreString = $coreString;
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -77,9 +79,9 @@ class Magento_Review_Helper_Data extends Magento_Core_Helper_Abstract
     public function getReviewStatuses()
     {
         return array(
-            Magento_Review_Model_Review::STATUS_APPROVED     => __('Approved'),
-            Magento_Review_Model_Review::STATUS_PENDING      => __('Pending'),
-            Magento_Review_Model_Review::STATUS_NOT_APPROVED => __('Not Approved'),
+            \Magento\Review\Model\Review::STATUS_APPROVED     => __('Approved'),
+            \Magento\Review\Model\Review::STATUS_PENDING      => __('Pending'),
+            \Magento\Review\Model\Review::STATUS_NOT_APPROVED => __('Not Approved'),
         );
     }
 

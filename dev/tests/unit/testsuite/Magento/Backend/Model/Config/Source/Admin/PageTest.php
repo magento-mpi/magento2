@@ -10,42 +10,44 @@
  */
 
 /**
- * Test class for Magento_Backend_Model_Config_Source_Admin_Page
+ * Test class for \Magento\Backend\Model\Config\Source\Admin\Page
  */
 
-class Magento_Backend_Model_Config_Source_Admin_PageTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Config\Source\Admin;
+
+class PageTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Model_Menu
+     * @var \Magento\Backend\Model\Menu
      */
     protected $_menuModel;
 
     /**
-     * @var Magento_Backend_Model_Menu
+     * @var \Magento\Backend\Model\Menu
      */
     protected $_menuSubModel;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_factoryMock;
 
     /**
-     * @var Magento_Backend_Model_Config_Source_Admin_Page
+     * @var \Magento\Backend\Model\Config\Source\Admin\Page
      */
     protected $_model;
 
     protected function setUp()
     {
-        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
-        $this->_menuModel = new Magento_Backend_Model_Menu($logger);
-        $this->_menuSubModel = new Magento_Backend_Model_Menu($logger);
+        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $this->_menuModel = new \Magento\Backend\Model\Menu($logger);
+        $this->_menuSubModel = new \Magento\Backend\Model\Menu($logger);
 
         $this->_factoryMock = $this->getMock(
-            'Magento_Backend_Model_Menu_Filter_IteratorFactory', array('create'), array(), '', false
+            'Magento\Backend\Model\Menu\Filter\IteratorFactory', array('create'), array(), '', false
         );
 
-        $itemOne = $this->getMock('Magento_Backend_Model_Menu_Item', array(), array(), '', false);
+        $itemOne = $this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false);
         $itemOne->expects($this->any())->method('getId')->will($this->returnValue('item1'));
         $itemOne->expects($this->any())->method('getTitle')->will($this->returnValue('Item 1'));
         $itemOne->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
@@ -55,7 +57,7 @@ class Magento_Backend_Model_Config_Source_Admin_PageTest extends PHPUnit_Framewo
         $itemOne->expects($this->any())->method('hasChildren')->will($this->returnValue(true));
         $this->_menuModel->add($itemOne);
 
-        $itemTwo = $this->getMock('Magento_Backend_Model_Menu_Item', array(), array(), '', false);
+        $itemTwo = $this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false);
         $itemTwo->expects($this->any())->method('getId')->will($this->returnValue('item2'));
         $itemTwo->expects($this->any())->method('getTitle')->will($this->returnValue('Item 2'));
         $itemTwo->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
@@ -64,10 +66,10 @@ class Magento_Backend_Model_Config_Source_Admin_PageTest extends PHPUnit_Framewo
         $itemTwo->expects($this->any())->method('hasChildren')->will($this->returnValue(false));
         $this->_menuSubModel->add($itemTwo);
 
-        $menuConfig = $this->getMock('Magento_Backend_Model_Menu_Config', array(), array(), '', false);
+        $menuConfig = $this->getMock('Magento\Backend\Model\Menu\Config', array(), array(), '', false);
         $menuConfig->expects($this->once())->method('getMenu')->will($this->returnValue($this->_menuModel));
 
-        $this->_model = new Magento_Backend_Model_Config_Source_Admin_Page($this->_factoryMock, $menuConfig);
+        $this->_model = new \Magento\Backend\Model\Config\Source\Admin\Page($this->_factoryMock, $menuConfig);
     }
 
     public function testToOptionArray()
@@ -78,7 +80,7 @@ class Magento_Backend_Model_Config_Source_Admin_PageTest extends PHPUnit_Framewo
             ->with(
                 $this->equalTo(array('iterator' => $this->_menuModel->getIterator()))
             )->will(
-                $this->returnValue(new Magento_Backend_Model_Menu_Filter_Iterator($this->_menuModel->getIterator()))
+                $this->returnValue(new \Magento\Backend\Model\Menu\Filter\Iterator($this->_menuModel->getIterator()))
             );
 
         $this->_factoryMock
@@ -87,7 +89,7 @@ class Magento_Backend_Model_Config_Source_Admin_PageTest extends PHPUnit_Framewo
             ->with(
                 $this->equalTo(array('iterator' => $this->_menuSubModel->getIterator()))
             )->will($this->returnValue(
-                new Magento_Backend_Model_Menu_Filter_Iterator($this->_menuSubModel->getIterator())
+                new \Magento\Backend\Model\Menu\Filter\Iterator($this->_menuSubModel->getIterator())
             )
         );
 

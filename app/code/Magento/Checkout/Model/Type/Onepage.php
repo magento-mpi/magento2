@@ -11,7 +11,9 @@
 /**
  * One page checkout processing model
  */
-class Magento_Checkout_Model_Type_Onepage
+namespace Magento\Checkout\Model\Type;
+
+class Onepage
 {
     /**
      * Checkout types: Checkout as Guest, Register, Logged In Customer
@@ -28,117 +30,117 @@ class Magento_Checkout_Model_Type_Onepage
     protected $_customerEmailExistsMessage = '';
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @var Magento_Checkout_Model_Session
+     * @var \Magento\Checkout\Model\Session
      */
     protected $_checkoutSession;
 
     /**
-     * @var Magento_Sales_Model_Quote
+     * @var \Magento\Sales\Model\Quote
      */
     protected $_quote = null;
 
     /**
-     * @var Magento_Checkout_Helper_Data
+     * @var \Magento\Checkout\Helper\Data
      */
     protected $_helper;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * Customer data
      *
-     * @var Magento_Customer_Helper_Data
+     * @var \Magento\Customer\Helper\Data
      */
     protected $_customerData = null;
 
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     protected $_request;
 
     /**
-     * @var Magento_Customer_Model_AddressFactory
+     * @var \Magento\Customer\Model\AddressFactory
      */
     protected $_customrAddrFactory;
 
     /**
-     * @var Magento_Customer_Model_FormFactory
+     * @var \Magento\Customer\Model\FormFactory
      */
     protected $_customerFormFactory;
 
     /**
-     * @var Magento_Customer_Model_CustomerFactory
+     * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $_customerFactory;
 
     /**
-     * @var Magento_Sales_Model_Service_QuoteFactory
+     * @var \Magento\Sales\Model\Service\QuoteFactory
      */
     protected $_serviceQuoteFactory;
 
     /**
-     * @var Magento_Sales_Model_OrderFactory
+     * @var \Magento\Sales\Model\OrderFactory
      */
     protected $_orderFactory;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Checkout_Helper_Data $helper
-     * @param Magento_Customer_Helper_Data $customerData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Checkout_Model_Session $checkoutSession
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Controller_Request_Http $request
-     * @param Magento_Customer_Model_AddressFactory $customrAddrFactory
-     * @param Magento_Customer_Model_FormFactory $customerFormFactory
-     * @param Magento_Customer_Model_CustomerFactory $customerFactory
-     * @param Magento_Sales_Model_Service_QuoteFactory $serviceQuoteFactory
-     * @param Magento_Sales_Model_OrderFactory $orderFactory
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Checkout\Helper\Data $helper
+     * @param \Magento\Customer\Helper\Data $customerData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\Customer\Model\AddressFactory $customrAddrFactory
+     * @param \Magento\Customer\Model\FormFactory $customerFormFactory
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Sales\Model\Service\QuoteFactory $serviceQuoteFactory
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Checkout_Helper_Data $helper,
-        Magento_Customer_Helper_Data $customerData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Logger $logger,
-        Magento_Checkout_Model_Session $checkoutSession,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Controller_Request_Http $request,
-        Magento_Customer_Model_AddressFactory $customrAddrFactory,
-        Magento_Customer_Model_FormFactory $customerFormFactory,
-        Magento_Customer_Model_CustomerFactory $customerFactory,
-        Magento_Sales_Model_Service_QuoteFactory $serviceQuoteFactory,
-        Magento_Sales_Model_OrderFactory $orderFactory
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Checkout\Helper\Data $helper,
+        \Magento\Customer\Helper\Data $customerData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Controller\Request\Http $request,
+        \Magento\Customer\Model\AddressFactory $customrAddrFactory,
+        \Magento\Customer\Model\FormFactory $customerFormFactory,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Sales\Model\Service\QuoteFactory $serviceQuoteFactory,
+        \Magento\Sales\Model\OrderFactory $orderFactory
     ) {
         $this->_eventManager = $eventManager;
         $this->_customerData = $customerData;
@@ -160,7 +162,7 @@ class Magento_Checkout_Model_Type_Onepage
     /**
      * Get frontend checkout session object
      *
-     * @return Magento_Checkout_Model_Session
+     * @return \Magento\Checkout\Model\Session
      */
     public function getCheckout()
     {
@@ -170,7 +172,7 @@ class Magento_Checkout_Model_Type_Onepage
     /**
      * Quote object getter
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {
@@ -183,10 +185,10 @@ class Magento_Checkout_Model_Type_Onepage
     /**
      * Declare checkout quote instance
      *
-     * @param Magento_Sales_Model_Quote $quote
-     * @return Magento_Checkout_Model_Type_Onepage
+     * @param \Magento\Sales\Model\Quote $quote
+     * @return \Magento\Checkout\Model\Type\Onepage
      */
-    public function setQuote(Magento_Sales_Model_Quote $quote)
+    public function setQuote(\Magento\Sales\Model\Quote $quote)
     {
         $this->_quote = $quote;
         return $this;
@@ -195,7 +197,7 @@ class Magento_Checkout_Model_Type_Onepage
     /**
      * Get customer session object
      *
-     * @return Magento_Customer_Model_Session
+     * @return \Magento\Customer\Model\Session
      */
     public function getCustomerSession()
     {
@@ -205,7 +207,7 @@ class Magento_Checkout_Model_Type_Onepage
     /**
      * Initialize quote state to be valid for one page checkout
      *
-     * @return Magento_Checkout_Model_Type_Onepage
+     * @return \Magento\Checkout\Model\Type\Onepage
      */
     public function initCheckout()
     {
@@ -280,7 +282,7 @@ class Magento_Checkout_Model_Type_Onepage
      * Get customer address by identifier
      *
      * @param   int $addressId
-     * @return  Magento_Customer_Model_Address
+     * @return  \Magento\Customer\Model\Address
      */
     public function getAddress($addressId)
     {
@@ -298,7 +300,7 @@ class Magento_Checkout_Model_Type_Onepage
      *
      * @param   array $data
      * @param   int $customerAddressId
-     * @return  Magento_Checkout_Model_Type_Onepage
+     * @return  \Magento\Checkout\Model\Type\Onepage
      */
     public function saveBilling($data, $customerAddressId)
     {
@@ -307,7 +309,7 @@ class Magento_Checkout_Model_Type_Onepage
         }
 
         $address = $this->getQuote()->getBillingAddress();
-        /* @var $addressForm Magento_Customer_Model_Form */
+        /* @var $addressForm \Magento\Customer\Model\Form */
         $addressForm = $this->_customerFormFactory->create();
         $addressForm->setFormCode('customer_address_edit')
             ->setEntityType('customer_address')
@@ -427,7 +429,7 @@ class Magento_Checkout_Model_Type_Onepage
      */
     protected function _validateCustomerData(array $data)
     {
-        /** @var $customerForm Magento_Customer_Model_Form */
+        /** @var $customerForm \Magento\Customer\Model\Form */
         $customerForm = $this->_customerFormFactory->create();
         $customerForm->setFormCode('checkout_register')
             ->setIsAjaxRequest($this->_request->isAjax());
@@ -438,7 +440,7 @@ class Magento_Checkout_Model_Type_Onepage
             $customerForm->setEntity($customer);
             $customerData = $quote->getCustomer()->getData();
         } else {
-            /* @var $customer Magento_Customer_Model_Customer */
+            /* @var $customer \Magento\Customer\Model\Customer */
             $customer = $this->_customerFactory->create();
             $customerForm->setEntity($customer);
             $customerRequest = $customerForm->prepareRequest($data);
@@ -470,7 +472,7 @@ class Magento_Checkout_Model_Type_Onepage
             $customer->setConfirmation($password);
             // set NOT LOGGED IN group id explicitly,
             // otherwise copyFieldsetToTarget('customer_account', 'to_quote') will fill it with default group id value
-            $customer->setGroupId(Magento_Customer_Model_Group::NOT_LOGGED_IN_ID);
+            $customer->setGroupId(\Magento\Customer\Model\Group::NOT_LOGGED_IN_ID);
         }
 
         $result = $customer->validate();
@@ -500,7 +502,7 @@ class Magento_Checkout_Model_Type_Onepage
      *
      * @param   array $data
      * @param   int $customerAddressId
-     * @return  Magento_Checkout_Model_Type_Onepage
+     * @return  \Magento\Checkout\Model\Type\Onepage
      */
     public function saveShipping($data, $customerAddressId)
     {
@@ -509,7 +511,7 @@ class Magento_Checkout_Model_Type_Onepage
         }
         $address = $this->getQuote()->getShippingAddress();
 
-        /* @var $addressForm Magento_Customer_Model_Form */
+        /* @var $addressForm \Magento\Customer\Model\Form */
         $addressForm    = $this->_customerFormFactory->create();
         $addressForm->setFormCode('customer_address_edit')
             ->setEntityType('customer_address')
@@ -616,11 +618,11 @@ class Magento_Checkout_Model_Type_Onepage
             $quote->getShippingAddress()->setCollectShippingRates(true);
         }
 
-        $data['checks'] = Magento_Payment_Model_Method_Abstract::CHECK_USE_CHECKOUT
-            | Magento_Payment_Model_Method_Abstract::CHECK_USE_FOR_COUNTRY
-            | Magento_Payment_Model_Method_Abstract::CHECK_USE_FOR_CURRENCY
-            | Magento_Payment_Model_Method_Abstract::CHECK_ORDER_TOTAL_MIN_MAX
-            | Magento_Payment_Model_Method_Abstract::CHECK_ZERO_TOTAL;
+        $data['checks'] = \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_CHECKOUT
+            | \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_FOR_COUNTRY
+            | \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_FOR_CURRENCY
+            | \Magento\Payment\Model\Method\AbstractMethod::CHECK_ORDER_TOTAL_MIN_MAX
+            | \Magento\Payment\Model\Method\AbstractMethod::CHECK_ZERO_TOTAL;
 
         $payment = $quote->getPayment();
         $payment->importData($data);
@@ -641,20 +643,20 @@ class Magento_Checkout_Model_Type_Onepage
     {
         $quote  = $this->getQuote();
         if ($quote->getIsMultiShipping()) {
-            throw new Magento_Core_Exception(__('Invalid checkout type'));
+            throw new \Magento\Core\Exception(__('Invalid checkout type'));
         }
 
         if ($quote->getCheckoutMethod() == self::METHOD_GUEST
             && !$this->_helper->isAllowedGuestCheckout($quote)
         ) {
-            throw new Magento_Core_Exception(__('Sorry, guest checkout is not enabled.'));
+            throw new \Magento\Core\Exception(__('Sorry, guest checkout is not enabled.'));
         }
     }
 
     /**
      * Prepare quote for guest checkout order submit
      *
-     * @return Magento_Checkout_Model_Type_Onepage
+     * @return \Magento\Checkout\Model\Type\Onepage
      */
     protected function _prepareGuestQuote()
     {
@@ -662,14 +664,14 @@ class Magento_Checkout_Model_Type_Onepage
         $quote->setCustomerId(null)
             ->setCustomerEmail($quote->getBillingAddress()->getEmail())
             ->setCustomerIsGuest(true)
-            ->setCustomerGroupId(Magento_Customer_Model_Group::NOT_LOGGED_IN_ID);
+            ->setCustomerGroupId(\Magento\Customer\Model\Group::NOT_LOGGED_IN_ID);
         return $this;
     }
 
     /**
      * Prepare quote for customer registration and customer order submit
      *
-     * @return Magento_Checkout_Model_Type_Onepage
+     * @return \Magento\Checkout\Model\Type\Onepage
      */
     protected function _prepareNewCustomerQuote()
     {
@@ -677,9 +679,9 @@ class Magento_Checkout_Model_Type_Onepage
         $billing    = $quote->getBillingAddress();
         $shipping   = $quote->isVirtual() ? null : $quote->getShippingAddress();
 
-        /** @var $customer Magento_Customer_Model_Customer */
+        /** @var $customer \Magento\Customer\Model\Customer */
         $customer = $quote->getCustomer();
-        /** @var $customerBilling Magento_Customer_Model_Address */
+        /** @var $customerBilling \Magento\Customer\Model\Address */
         $customerBilling = $billing->exportCustomerAddress();
         $customer->addAddress($customerBilling);
         $billing->setCustomerAddress($customerBilling);
@@ -706,7 +708,7 @@ class Magento_Checkout_Model_Type_Onepage
     /**
      * Prepare quote for customer order submit
      *
-     * @return Magento_Checkout_Model_Type_Onepage
+     * @return \Magento\Checkout\Model\Type\Onepage
      */
     protected function _prepareCustomerQuote()
     {
@@ -741,7 +743,7 @@ class Magento_Checkout_Model_Type_Onepage
     /**
      * Involve new customer to system
      *
-     * @return Magento_Checkout_Model_Type_Onepage
+     * @return \Magento\Checkout\Model\Type\Onepage
      */
     protected function _involveNewCustomer()
     {
@@ -762,7 +764,7 @@ class Magento_Checkout_Model_Type_Onepage
     /**
      * Create order based on checkout type. Create customer if necessary.
      *
-     * @return Magento_Checkout_Model_Type_Onepage
+     * @return \Magento\Checkout\Model\Type\Onepage
      */
     public function saveOrder()
     {
@@ -787,7 +789,7 @@ class Magento_Checkout_Model_Type_Onepage
         if ($isNewCustomer) {
             try {
                 $this->_involveNewCustomer();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_logger->logException($e);
             }
         }
@@ -812,7 +814,7 @@ class Magento_Checkout_Model_Type_Onepage
             if (!$redirectUrl && $order->getCanSendNewEmailFlag()) {
                 try {
                     $order->sendNewOrderEmail();
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     $this->_logger->logException($e);
                 }
             }
@@ -853,7 +855,7 @@ class Magento_Checkout_Model_Type_Onepage
      *
      * @param string $email
      * @param int $websiteId
-     * @return false|Magento_Customer_Model_Customer
+     * @return false|\Magento\Customer\Model\Customer
      */
     protected function _customerEmailExists($email, $websiteId = null)
     {

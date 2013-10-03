@@ -11,46 +11,48 @@
 /**
  * Currency dropdown block
  */
-class Magento_Directory_Block_Currency extends Magento_Core_Block_Template
+namespace Magento\Directory\Block;
+
+class Currency extends \Magento\Core\Block\Template
 {
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Directory url
      *
-     * @var Magento_Directory_Helper_Url
+     * @var \Magento\Directory\Helper\Url
      */
     protected $_directoryUrl = null;
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @var Magento_Directory_Model_CurrencyFactory
+     * @var \Magento\Directory\Model\CurrencyFactory
      */
     protected $_currencyFactory;
 
     /**
-     * @param Magento_Directory_Helper_Url $directoryUrl
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
+     * @param \Magento\Directory\Helper\Url $directoryUrl
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Directory_Helper_Url $directoryUrl,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Directory_Model_CurrencyFactory $currencyFactory,
+        \Magento\Directory\Helper\Url $directoryUrl,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         array $data = array()
     ) {
         $this->_directoryUrl = $directoryUrl;

@@ -9,21 +9,23 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Helper_UrlTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Helper;
+
+class UrlTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Core_Model_Config */
+    /** @var \Magento\Core\Model\Config */
     protected $_configMock;
 
-    /** @var  Magento_Catalog_Helper_Product_Url */
+    /** @var  \Magento\Catalog\Helper\Product\Url */
     protected $_urlHelper;
 
     protected function setUp()
     {
-        $contextMock = $this->getMockBuilder('Magento_Core_Helper_Context')->disableOriginalConstructor()->getMock();
-        $this->_configMock = $this->getMockBuilder('Magento_Core_Model_Config')
+        $contextMock = $this->getMockBuilder('Magento\Core\Helper\Context')->disableOriginalConstructor()->getMock();
+        $this->_configMock = $this->getMockBuilder('Magento\Core\Model\Config')
             ->disableOriginalConstructor()->getMock();
-        $storeManager = $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false);
-        $this->_urlHelper = new Magento_Catalog_Helper_Product_Url($contextMock, $this->_configMock, $storeManager);
+        $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
+        $this->_urlHelper = new \Magento\Catalog\Helper\Product\Url($contextMock, $this->_configMock, $storeManager);
     }
 
     /**

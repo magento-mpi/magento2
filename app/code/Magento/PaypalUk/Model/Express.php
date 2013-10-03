@@ -11,10 +11,12 @@
 /**
  * PayPalUk Express Module
  */
-class Magento_PaypalUk_Model_Express extends Magento_Paypal_Model_Express
+namespace Magento\PaypalUk\Model;
+
+class Express extends \Magento\Paypal\Model\Express
 {
-    protected $_code = Magento_Paypal_Model_Config::METHOD_WPP_PE_EXPRESS;
-    protected $_formBlockType = 'Magento_PaypalUk_Block_Express_Form';
+    protected $_code = \Magento\Paypal\Model\Config::METHOD_WPP_PE_EXPRESS;
+    protected $_formBlockType = 'Magento\PaypalUk\Block\Express\Form';
     protected $_canCreateBillingAgreement = false;
     protected $_canManageRecurringProfiles = false;
 
@@ -23,42 +25,42 @@ class Magento_PaypalUk_Model_Express extends Magento_Paypal_Model_Express
      *
      * @var $_proType string
      */
-    protected $_proType = 'Magento_PaypalUk_Model_Pro';
+    protected $_proType = 'Magento\PaypalUk\Model\Pro';
 
     /**
      * Express Checkout payment method instance
      *
-     * @var Magento_Paypal_Model_Express
+     * @var \Magento\Paypal\Model\Express
      */
     protected $_ecInstance = null;
 
     /**
-     * @var Magento_Paypal_Model_InfoFactory
+     * @var \Magento\Paypal\Model\InfoFactory
      */
     protected $_paypalInfoFactory;
 
     /**
-     * @param Magento_Paypal_Model_InfoFactory $paypalInfoFactory
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Payment_Helper_Data $paymentData
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
-     * @param Magento_Paypal_Model_Method_ProTypeFactory $proTypeFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_UrlInterface $urlBuilder
-     * @param Magento_Paypal_Model_CartFactory $cartFactory
+     * @param \Magento\Paypal\Model\InfoFactory $paypalInfoFactory
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\UrlInterface $urlBuilder
+     * @param \Magento\Paypal\Model\CartFactory $cartFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Paypal_Model_InfoFactory $paypalInfoFactory,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Payment_Helper_Data $paymentData,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
-        Magento_Paypal_Model_Method_ProTypeFactory $proTypeFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_UrlInterface $urlBuilder,
-        Magento_Paypal_Model_CartFactory $cartFactory,
+        \Magento\Paypal\Model\InfoFactory $paypalInfoFactory,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\UrlInterface $urlBuilder,
+        \Magento\Paypal\Model\CartFactory $cartFactory,
         array $data = array()
     ) {
         parent::__construct($eventManager, $paymentData, $coreStoreConfig, $logAdapterFactory, $proTypeFactory,
@@ -69,7 +71,7 @@ class Magento_PaypalUk_Model_Express extends Magento_Paypal_Model_Express
     /**
      * EC PE won't be available if the EC is available
      *
-     * @param Magento_Sales_Model_Quote $quote
+     * @param \Magento\Sales\Model\Quote $quote
      * @return bool
      */
     public function isAvailable($quote = null)
@@ -79,7 +81,7 @@ class Magento_PaypalUk_Model_Express extends Magento_Paypal_Model_Express
         }
         if (!$this->_ecInstance) {
             $this->_ecInstance = $this->_paymentData
-                ->getMethodInstance(Magento_Paypal_Model_Config::METHOD_WPP_EXPRESS);
+                ->getMethodInstance(\Magento\Paypal\Model\Config::METHOD_WPP_EXPRESS);
         }
         if ($quote && $this->_ecInstance) {
             $this->_ecInstance->setStore($quote->getStoreId());
@@ -90,17 +92,17 @@ class Magento_PaypalUk_Model_Express extends Magento_Paypal_Model_Express
     /**
      * Import payment info to payment
      *
-     * @param Magento_Paypal_Model_Api_Nvp
-     * @param Magento_Sales_Model_Order_Payment
+     * @param \Magento\Paypal\Model\Api\Nvp
+     * @param \Magento\Sales\Model\Order\Payment
      */
     protected function _importToPayment($api, $payment)
     {
         $payment->setTransactionId($api->getPaypalTransactionId())->setIsTransactionClosed(0)
-            ->setAdditionalInformation(Magento_Paypal_Model_Express_Checkout::PAYMENT_INFO_TRANSPORT_REDIRECT,
+            ->setAdditionalInformation(\Magento\Paypal\Model\Express\Checkout::PAYMENT_INFO_TRANSPORT_REDIRECT,
                 $api->getRedirectRequired() || $api->getRedirectRequested()
             )
             ->setIsTransactionPending($api->getIsPaymentPending())
-            ->setTransactionAdditionalInfo(Magento_PaypalUk_Model_Pro::TRANSPORT_PAYFLOW_TXN_ID,
+            ->setTransactionAdditionalInfo(\Magento\PaypalUk\Model\Pro::TRANSPORT_PAYFLOW_TXN_ID,
                 $api->getTransactionId())
         ;
         $payment->setPreparedMessage(__('Payflow PNREF: #%1.', $api->getTransactionId()));
@@ -110,8 +112,8 @@ class Magento_PaypalUk_Model_Express extends Magento_Paypal_Model_Express
     /**
      * Checkout redirect URL getter for onepage checkout (hardcode)
      *
-     * @see Magento_Checkout_Controller_Onepage::savePaymentAction()
-     * @see Magento_Sales_Model_Quote_Payment::getCheckoutRedirectUrl()
+     * @see \Magento\Checkout\Controller\Onepage::savePaymentAction()
+     * @see \Magento\Sales\Model\Quote\Payment::getCheckoutRedirectUrl()
      * @return string
      */
     public function getCheckoutRedirectUrl()

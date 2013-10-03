@@ -11,7 +11,9 @@
 /**
  * Sales order view block
  */
-class Magento_Sales_Block_Reorder_Sidebar extends Magento_Core_Block_Template
+namespace Magento\Sales\Block\Reorder;
+
+class Sidebar extends \Magento\Core\Block\Template
 {
     /**
      * @var string
@@ -19,43 +21,43 @@ class Magento_Sales_Block_Reorder_Sidebar extends Magento_Core_Block_Template
     protected $_template = 'order/history.phtml';
 
     /**
-     * @var Magento_Sales_Model_Resource_Order_CollectionFactory
+     * @var \Magento\Sales\Model\Resource\Order\CollectionFactory
      */
     protected $_orderCollectionFactory;
 
     /**
-     * @var Magento_Sales_Model_Order_Config
+     * @var \Magento\Sales\Model\Order\Config
      */
     protected $_orderConfig;
 
     /**
      * Store list manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Sales_Model_Resource_Order_CollectionFactory $orderCollectionFactory
-     * @param Magento_Sales_Model_Order_Config $orderConfig
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Customer_Model_Session $customerSession
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory
+     * @param \Magento\Sales\Model\Order\Config $orderConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Sales_Model_Resource_Order_CollectionFactory $orderCollectionFactory,
-        Magento_Sales_Model_Order_Config $orderConfig,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Customer_Model_Session $customerSession,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory,
+        \Magento\Sales\Model\Order\Config $orderConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Customer\Model\Session $customerSession,
         array $data = array()
     ) {
         $this->_orderCollectionFactory = $orderCollectionFactory;
@@ -122,10 +124,10 @@ class Magento_Sales_Block_Reorder_Sidebar extends Magento_Core_Block_Template
     /**
      * Check item product availability for reorder
      *
-     * @param  Magento_Sales_Model_Order_Item $orderItem
+     * @param  \Magento\Sales\Model\Order\Item $orderItem
      * @return boolean
      */
-    public function isItemAvailableForReorder(Magento_Sales_Model_Order_Item $orderItem)
+    public function isItemAvailableForReorder(\Magento\Sales\Model\Order\Item $orderItem)
     {
         if ($orderItem->getProduct()) {
             return $orderItem->getProduct()->getStockItem()->getIsInStock();
@@ -147,7 +149,7 @@ class Magento_Sales_Block_Reorder_Sidebar extends Magento_Core_Block_Template
     /**
      * Last order getter
      *
-     * @return Magento_Sales_Model_Order|false
+     * @return \Magento\Sales\Model\Order|false
      */
     public function getLastOrder()
     {

@@ -16,7 +16,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_File_Storage_File extends Magento_Core_Model_File_Storage_Abstract
+namespace Magento\Core\Model\File\Storage;
+
+class File extends \Magento\Core\Model\File\Storage\AbstractStorage
 {
     /**
      * Prefix of model events names
@@ -40,44 +42,44 @@ class Magento_Core_Model_File_Storage_File extends Magento_Core_Model_File_Stora
     protected $_errors = array();
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
      * Class construct
      *
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Date $dateModel
-     * @param \Magento_Core_Model_Resource_Abstract|\Magento_Core_Model_Resource_File_Storage_File $resource
-     * @param Magento_Core_Model_Resource_File_Storage_File $fileResource
-     * @param Magento_Data_Collection_Db|null $resourceCollection
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Date $dateModel
+     * @param \Magento\Core\Model\Resource\AbstractResource|\Magento\Core\Model\Resource\File\Storage\File $resource
+     * @param \Magento\Core\Model\Resource\File\Storage\File $fileResource
+     * @param \Magento\Data\Collection\Db|null $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Helper_File_Storage_Database $coreFileStorageDb,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Date $dateModel,
-        Magento_Core_Model_Resource_Abstract $resource,
-        Magento_Core_Model_Resource_File_Storage_File $fileResource,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Date $dateModel,
+        \Magento\Core\Model\Resource\AbstractResource $resource,
+        \Magento\Core\Model\Resource\File\Storage\File $fileResource,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($coreFileStorageDb, $context, $registry, $dateModel, $resource,
             $fileResource, $resourceCollection, $data);
-        $this->_setResourceModel('Magento_Core_Model_Resource_File_Storage_File');
+        $this->_setResourceModel('Magento\Core\Model\Resource\File\Storage\File');
         $this->_logger = $logger;
     }
 
     /**
      * Initialization
      *
-     * @return Magento_Core_Model_File_Storage_File
+     * @return \Magento\Core\Model\File\Storage\File
      */
     public function init()
     {
@@ -117,7 +119,7 @@ class Magento_Core_Model_File_Storage_File extends Magento_Core_Model_File_Stora
     /**
      * Clear files and directories in storage
      *
-     * @return Magento_Core_Model_File_Storage_File
+     * @return \Magento\Core\Model\File\Storage\File
      */
     public function clear()
     {
@@ -185,7 +187,7 @@ class Magento_Core_Model_File_Storage_File extends Magento_Core_Model_File_Stora
         foreach ($slice as $fileName) {
             try {
                 $fileInfo = $this->collectFileInfo($fileName);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_logger->logException($e);
                 continue;
             }
@@ -201,7 +203,7 @@ class Magento_Core_Model_File_Storage_File extends Magento_Core_Model_File_Stora
      *
      * @param  array $data
      * @param  string $callback
-     * @return Magento_Core_Model_File_Storage_File
+     * @return \Magento\Core\Model\File\Storage\File
      */
     public function import($data, $callback)
     {
@@ -212,7 +214,7 @@ class Magento_Core_Model_File_Storage_File extends Magento_Core_Model_File_Stora
         foreach ($data as $part) {
             try {
                 $this->$callback($part);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_errors[] = $e->getMessage();
                 $this->_logger->logException($e);
             }
@@ -225,7 +227,7 @@ class Magento_Core_Model_File_Storage_File extends Magento_Core_Model_File_Stora
      * Import directories to storage
      *
      * @param  array $dirs
-     * @return Magento_Core_Model_File_Storage_File
+     * @return \Magento\Core\Model\File\Storage\File
      */
     public function importDirectories($dirs)
     {
@@ -236,7 +238,7 @@ class Magento_Core_Model_File_Storage_File extends Magento_Core_Model_File_Stora
      * Import files list
      *
      * @param  array $files
-     * @return Magento_Core_Model_File_Storage_File
+     * @return \Magento\Core\Model\File\Storage\File
      */
     public function importFiles($files)
     {
@@ -257,9 +259,9 @@ class Magento_Core_Model_File_Storage_File extends Magento_Core_Model_File_Stora
     /**
      * Save file to storage
      *
-     * @param  array|Magento_Core_Model_File_Storage_Database $file
+     * @param  array|\Magento\Core\Model\File\Storage\Database $file
      * @param  bool $overwrite
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @return bool|int
      */
     public function saveFile($file, $overwrite = true)
@@ -274,14 +276,14 @@ class Magento_Core_Model_File_Storage_File extends Magento_Core_Model_File_Stora
 
                 return $this->_getResource()
                     ->saveFile($filename, $file['content'], $overwrite);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_logger->logException($e);
-                throw new Magento_Core_Exception(
+                throw new \Magento\Core\Exception(
                     __('Unable to save file "%1" at "%2"', $file['filename'], $file['directory'])
                 );
             }
         } else {
-            throw new Magento_Core_Exception(__('Wrong file info format'));
+            throw new \Magento\Core\Exception(__('Wrong file info format'));
         }
 
         return false;

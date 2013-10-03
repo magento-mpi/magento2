@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Service_Exception extends Magento_Core_Exception
+namespace Magento\Service;
+
+class Exception extends \Magento\Core\Exception
 {
     /** @var array */
     protected $_parameters;

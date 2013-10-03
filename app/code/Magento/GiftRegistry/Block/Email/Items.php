@@ -11,13 +11,15 @@
 /**
  * Update email template gift registry items block
  */
-class Magento_GiftRegistry_Block_Email_Items extends Magento_Core_Block_Template
+namespace Magento\GiftRegistry\Block\Email;
+
+class Items extends \Magento\Core\Block\Template
 {
 
     /**
      * Return list of gift registry items
      *
-     * @return Magento_GiftRegistry_Model_Resource_Item_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Item\Collection
      */
     public function getItems()
     {
@@ -27,7 +29,7 @@ class Magento_GiftRegistry_Block_Email_Items extends Magento_Core_Block_Template
     /**
      * Count gift registry items in last order
      *
-     * @param Magento_GiftRegistry_Model_Resource_Item $item
+     * @param \Magento\GiftRegistry\Model\Resource\Item $item
      * @return mixed
      */
     public function getQtyOrdered($item)
@@ -42,7 +44,7 @@ class Magento_GiftRegistry_Block_Email_Items extends Magento_Core_Block_Template
     /**
      * Return gift registry entity remained item qty
      *
-     * @param Magento_GiftRegistry_Model_Resource_Item $item
+     * @param \Magento\GiftRegistry\Model\Resource\Item $item
      * @return mixed
      */
     public function getRemainedQty($item)
@@ -57,7 +59,7 @@ class Magento_GiftRegistry_Block_Email_Items extends Magento_Core_Block_Template
     /**
      * Return gift registry entity item qty
      *
-     * @param Magento_GiftRegistry_Model_Resource_Item $item
+     * @param \Magento\GiftRegistry\Model\Resource\Item $item
      * @return mixed
      */
     public function getQty($item)
@@ -68,7 +70,7 @@ class Magento_GiftRegistry_Block_Email_Items extends Magento_Core_Block_Template
     /**
      * Return gift registry entity item fulfilled qty
      *
-     * @param Magento_GiftRegistry_Model_Resource_Item $item
+     * @param \Magento\GiftRegistry\Model\Resource\Item $item
      * @return mixed
      */
     public function getQtyFulfilled($item)

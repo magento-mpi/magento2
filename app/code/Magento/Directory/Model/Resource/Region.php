@@ -11,7 +11,9 @@
 /**
  * Directory Region Resource Model
  */
-class Magento_Directory_Model_Resource_Region extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Directory\Model\Resource;
+
+class Region extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Table with localized region names
@@ -21,17 +23,17 @@ class Magento_Directory_Model_Resource_Region extends Magento_Core_Model_Resourc
     protected $_regionNameTable;
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\LocaleInterface $locale
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_LocaleInterface $locale
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\LocaleInterface $locale
     ) {
         parent::__construct($resource);
         $this->_locale = $locale;
@@ -51,8 +53,8 @@ class Magento_Directory_Model_Resource_Region extends Magento_Core_Model_Resourc
      *
      * @param string $field
      * @param mixed $value
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_DB_Select
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\DB\Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {
@@ -60,7 +62,7 @@ class Magento_Directory_Model_Resource_Region extends Magento_Core_Model_Resourc
         $adapter = $this->_getReadAdapter();
 
         $locale       = $this->_locale->getLocaleCode();
-        $systemLocale = Magento_Core_Model_App::DISTRO_LOCALE_CODE;
+        $systemLocale = \Magento\Core\Model\App::DISTRO_LOCALE_CODE;
 
         $regionField = $adapter->quoteIdentifier($this->getMainTable() . '.' . $this->getIdFieldName());
 
@@ -87,11 +89,11 @@ class Magento_Directory_Model_Resource_Region extends Magento_Core_Model_Resourc
     /**
      * Load object by country id and code or default name
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      * @param int $countryId
      * @param string $value
      * @param string $field
-     * @return Magento_Directory_Model_Resource_Region
+     * @return \Magento\Directory\Model\Resource\Region
      */
     protected function _loadByCountry($object, $countryId, $value, $field)
     {
@@ -120,13 +122,13 @@ class Magento_Directory_Model_Resource_Region extends Magento_Core_Model_Resourc
     /**
      * Loads region by region code and country id
      *
-     * @param Magento_Directory_Model_Region $region
+     * @param \Magento\Directory\Model\Region $region
      * @param string $regionCode
      * @param string $countryId
      *
-     * @return Magento_Directory_Model_Resource_Region
+     * @return \Magento\Directory\Model\Resource\Region
      */
-    public function loadByCode(Magento_Directory_Model_Region $region, $regionCode, $countryId)
+    public function loadByCode(\Magento\Directory\Model\Region $region, $regionCode, $countryId)
     {
         return $this->_loadByCountry($region, $countryId, (string)$regionCode, 'code');
     }
@@ -134,12 +136,12 @@ class Magento_Directory_Model_Resource_Region extends Magento_Core_Model_Resourc
     /**
      * Load data by country id and default region name
      *
-     * @param Magento_Directory_Model_Region $region
+     * @param \Magento\Directory\Model\Region $region
      * @param string $regionName
      * @param string $countryId
-     * @return Magento_Directory_Model_Resource_Region
+     * @return \Magento\Directory\Model\Resource\Region
      */
-    public function loadByName(Magento_Directory_Model_Region $region, $regionName, $countryId)
+    public function loadByName(\Magento\Directory\Model\Region $region, $regionName, $countryId)
     {
         return $this->_loadByCountry($region, $countryId, (string)$regionName, 'default_name');
     }

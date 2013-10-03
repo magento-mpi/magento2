@@ -11,7 +11,9 @@
 /**
  * System Configuration Path Mapper
  */
-class Magento_Backend_Model_Config_Structure_Mapper_Path extends Magento_Backend_Model_Config_Structure_MapperAbstract
+namespace Magento\Backend\Model\Config\Structure\Mapper;
+
+class Path extends \Magento\Backend\Model\Config\Structure\AbstractMapper
 {
     /**
      * Apply map

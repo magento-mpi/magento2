@@ -9,11 +9,13 @@
  */
 
 /**
- * Class Magento_Backend_Model_Url
+ * Class \Magento\Backend\Model\Url
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_Backend_Model_Url extends Magento_Core_Model_Url
+namespace Magento\Backend\Model;
+
+class Url extends \Magento\Core\Model\Url
 {
     /**
      * Secret key query param name
@@ -28,12 +30,12 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
     /**
      * Authentication session
      *
-     * @var Magento_Backend_Model_Auth_SessionProxy
+     * @var \Magento\Backend\Model\Auth\SessionProxy
      */
     protected $_session;
 
     /**
-     * @var Magento_Backend_Model_Menu
+     * @var \Magento\Backend\Model\Menu
      */
     protected $_menu;
 
@@ -44,58 +46,58 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
     protected $_startupMenuItemId;
 
     /**
-     * @var Magento_Backend_Helper_Data
+     * @var \Magento\Backend\Helper\Data
      */
     protected $_backendHelper;
 
     /**
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreHelper;
 
     /**
-     * @var Magento_Core_Model_Session
+     * @var \Magento\Core\Model\Session
      */
     protected $_coreSession;
 
     /**
      * Menu config
      *
-     * @var Magento_Backend_Model_Menu_Config
+     * @var \Magento\Backend\Model\Menu\Config
      */
     protected $_menuConfig;
 
     /**
-     * @var Magento_Core_Model_CacheInterface
+     * @var \Magento\Core\Model\CacheInterface
      */
     protected $_cache;
 
     /**
-     * @param Magento_Core_Model_Url_SecurityInfoInterface $securityInfo
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Backend_Helper_Data $backendHelper
-     * @param Magento_Core_Model_Session $coreSession
-     * @param Magento_Backend_Model_Menu_Config $menuConfig
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_App $app
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_CacheInterface $cache
-     * @param Magento_Backend_Model_Auth_SessionProxy $authSession
+     * @param \Magento\Core\Model\Url\SecurityInfoInterface $securityInfo
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Backend\Helper\Data $backendHelper
+     * @param \Magento\Core\Model\Session $coreSession
+     * @param \Magento\Backend\Model\Menu\Config $menuConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\Backend\Model\Auth\SessionProxy $authSession
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_Url_SecurityInfoInterface $securityInfo,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Backend_Helper_Data $backendHelper,
-        Magento_Core_Model_Session $coreSession,
-        Magento_Backend_Model_Menu_Config $menuConfig,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_App $app,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_CacheInterface $cache,
-        Magento_Backend_Model_Auth_SessionProxy $authSession,
+        \Magento\Core\Model\Url\SecurityInfoInterface $securityInfo,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Backend\Helper\Data $backendHelper,
+        \Magento\Core\Model\Session $coreSession,
+        \Magento\Backend\Model\Menu\Config $menuConfig,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\App $app,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\Backend\Model\Auth\SessionProxy $authSession,
         array $data = array()
     ) {
         parent::__construct($securityInfo, $coreStoreConfig, $coreData, $app, $storeManager, $coreSession, $data);
@@ -125,7 +127,7 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
      *
      * @param array $data
      * @param bool $unsetOldParams
-     * @return Magento_Backend_Model_Url
+     * @return \Magento\Backend\Model\Url
      */
     public function setRouteParams(array $data, $unsetOldParams=true)
     {
@@ -236,7 +238,7 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
     /**
      * Enable secret key using
      *
-     * @return Magento_Backend_Model_Url
+     * @return \Magento\Backend\Model\Url
      */
     public function turnOnSecretKey()
     {
@@ -247,7 +249,7 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
     /**
      * Disable secret key using
      *
-     * @return Magento_Backend_Model_Url
+     * @return \Magento\Backend\Model\Url
      */
     public function turnOffSecretKey()
     {
@@ -258,11 +260,11 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
     /**
      * Refresh admin menu cache etc.
      *
-     * @return Magento_Backend_Model_Url
+     * @return \Magento\Backend\Model\Url
      */
     public function renewSecretUrls()
     {
-        $this->_cache->clean(array(Magento_Backend_Block_Menu::CACHE_TAGS));
+        $this->_cache->clean(array(\Magento\Backend\Block\Menu::CACHE_TAGS));
     }
 
     /**
@@ -288,7 +290,7 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
      */
     public function findFirstAvailableMenu()
     {
-        /* @var $menu Magento_Backend_Model_Menu_Item */
+        /* @var $menu \Magento\Backend\Model\Menu\Item */
         $menu = $this->_getMenu();
         $item = $menu->getFirstAvailable();
         $action = $item ? $item->getAction() : null;
@@ -306,7 +308,7 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
     /**
      * Get Menu model
      *
-     * @return Magento_Backend_Model_Menu
+     * @return \Magento\Backend\Model\Menu
      */
     protected function _getMenu()
     {
@@ -319,10 +321,10 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
     /**
      * Set custom auth session
      *
-     * @param Magento_Backend_Model_Auth_Session $session
-     * @return Magento_Backend_Model_Url
+     * @param \Magento\Backend\Model\Auth\Session $session
+     * @return \Magento\Backend\Model\Url
      */
-    public function setSession(Magento_Backend_Model_Auth_Session $session)
+    public function setSession(\Magento\Backend\Model\Auth\Session $session)
     {
         $this->_session = $session;
         return $this;
@@ -331,7 +333,7 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
     /**
      * Retrieve auth session
      *
-     * @return Magento_Backend_Model_Auth_Session
+     * @return \Magento\Backend\Model\Auth\Session
      */
     protected function _getSession()
     {

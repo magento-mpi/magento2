@@ -5,20 +5,22 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Magento_CustomerCustomAttributes_Helper_CustomerTest extends PHPUnit_Framework_TestCase
+namespace Magento\CustomerCustomAttributes\Helper;
+
+class CustomerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_contextMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_dataHelperMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_inputValidatorMock;
 
@@ -27,27 +29,27 @@ class Magento_CustomerCustomAttributes_Helper_CustomerTest extends PHPUnit_Frame
      */
     protected function setUp()
     {
-        $this->_contextMock = $this->getMockBuilder('Magento_Core_Helper_Context')
+        $this->_contextMock = $this->getMockBuilder('Magento\Core\Helper\Context')
             ->disableOriginalConstructor()->getMock();
 
-        $this->_dataHelperMock = $this->getMockBuilder('Magento_CustomerCustomAttributes_Helper_Data')
+        $this->_dataHelperMock = $this->getMockBuilder('Magento\CustomerCustomAttributes\Helper\Data')
             ->disableOriginalConstructor()->getMock();
         $this->_dataHelperMock->expects($this->any())
             ->method('getAttributeInputTypes')
             ->will($this->returnValue(array()));
 
         $this->_inputValidatorMock =
-            $this->getMockBuilder('Magento_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator')
+            $this->getMockBuilder('Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\Validator')
                 ->disableOriginalConstructor()->getMock();
 
-        $abstractHelperMock = $this->getMockBuilder('Magento_Core_Helper_Abstract')
+        $abstractHelperMock = $this->getMockBuilder('Magento\Core\Helper\AbstractHelper')
             ->disableOriginalConstructor()->getMock();
 
-        $objectManagerMock = $this->getMockBuilder('Magento_ObjectManager')->getMock();
+        $objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')->getMock();
         $objectManagerMock->expects($this->any())
             ->method('get')
             ->will($this->returnValue($abstractHelperMock));
-        Magento_Core_Model_ObjectManager::setInstance($objectManagerMock);
+        \Magento\Core\Model\ObjectManager::setInstance($objectManagerMock);
     }
 
     /**
@@ -66,15 +68,15 @@ class Magento_CustomerCustomAttributes_Helper_CustomerTest extends PHPUnit_Frame
             ->method('getMessages')
             ->will($this->returnValue(array('Some error message')));
 
-        $helper = new Magento_CustomerCustomAttributes_Helper_Customer(
-            $this->getMock('Magento_Eav_Model_Config', array(), array(), '', false),
-            $this->getMockForAbstractClass('Magento_Core_Model_LocaleInterface'),
+        $helper = new \Magento\CustomerCustomAttributes\Helper\Customer(
+            $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
+            $this->getMockForAbstractClass('Magento\Core\Model\LocaleInterface'),
             $this->_contextMock,
             $this->_dataHelperMock,
             $this->_inputValidatorMock
         );
 
-        $this->setExpectedException('Magento_Core_Exception');
+        $this->setExpectedException('Magento\Core\Exception');
         $helper->filterPostData($data);
     }
 
@@ -93,9 +95,9 @@ class Magento_CustomerCustomAttributes_Helper_CustomerTest extends PHPUnit_Frame
         $this->_inputValidatorMock->expects($this->never())
             ->method('getMessages');
 
-        $helper = new Magento_CustomerCustomAttributes_Helper_Customer(
-            $this->getMock('Magento_Eav_Model_Config', array(), array(), '', false),
-            $this->getMockForAbstractClass('Magento_Core_Model_LocaleInterface'),
+        $helper = new \Magento\CustomerCustomAttributes\Helper\Customer(
+            $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
+            $this->getMockForAbstractClass('Magento\Core\Model\LocaleInterface'),
             $this->_contextMock,
             $this->_dataHelperMock,
             $this->_inputValidatorMock

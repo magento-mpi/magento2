@@ -8,10 +8,10 @@
  */
 -->
 <config>
-    <job name="magento_reward_balance_warning_notification" instance="Magento_Reward_Model_Observer" method="scheduledBalanceExpireNotification">
+    <job name="magento_reward_balance_warning_notification" instance="Magento\Reward\Model\Observer" method="scheduledBalanceExpireNotification">
         <schedule>1 * * * *</schedule>
     </job>
-    <job name="magento_reward_expire_points" instance="Magento_Reward_Model_Observer" method="scheduledPointsExpiration">
+    <job name="magento_reward_expire_points" instance="Magento\Reward\Model\Observer" method="scheduledPointsExpiration">
         <schedule>1 * * * *</schedule>
     </job>
 </config>

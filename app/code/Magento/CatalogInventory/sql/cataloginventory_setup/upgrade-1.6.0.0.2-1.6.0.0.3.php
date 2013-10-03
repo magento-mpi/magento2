@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $this Magento_Eav_Model_Entity_Setup */
+/** @var $this \Magento\Eav\Model\Entity\Setup */
 
 $this->getConnection()
     ->changeColumn(
@@ -16,7 +16,7 @@ $this->getConnection()
         'qty',
         'qty',
         array(
-            'TYPE' => Magento_DB_Ddl_Table::TYPE_DECIMAL,
+            'TYPE' => \Magento\DB\Ddl\Table::TYPE_DECIMAL,
             'LENGTH' => '12,4',
             'UNSIGNED' => false,
             'NULLABLE' => true,

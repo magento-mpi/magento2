@@ -8,5 +8,5 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <block class="Magento_CustomerSegment_Block_Adminhtml_Customersegment_Grid_Chooser" name="root" output="1"/>
+    <block class="Magento\CustomerSegment\Block\Adminhtml\Customersegment\Grid\Chooser" name="root" output="1"/>
 </layout>

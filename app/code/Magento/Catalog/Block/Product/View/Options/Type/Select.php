@@ -16,8 +16,10 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Block_Product_View_Options_Type_Select
-    extends Magento_Catalog_Block_Product_View_Options_Abstract
+namespace Magento\Catalog\Block\Product\View\Options\Type;
+
+class Select
+    extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
 {
     /**
      * Return html for control element
@@ -32,16 +34,16 @@ class Magento_Catalog_Block_Product_View_Options_Type_Select
 
         $this->setSkipJsReloadPrice(1); // Remove inline prototype onclick and onchange events
 
-        if ($_option->getType() == Magento_Catalog_Model_Product_Option::OPTION_TYPE_DROP_DOWN
-            || $_option->getType() == Magento_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE) {
+        if ($_option->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_DROP_DOWN
+            || $_option->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_MULTIPLE) {
             $require = ($_option->getIsRequire()) ? ' required' : '';
             $extraParams = '';
-            $select = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
+            $select = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
                 ->setData(array(
                     'id' => 'select_'.$_option->getId(),
                     'class' => $require.' product-custom-option'
                 ));
-            if ($_option->getType() == Magento_Catalog_Model_Product_Option::OPTION_TYPE_DROP_DOWN) {
+            if ($_option->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_DROP_DOWN) {
                 $select->setName('options['.$_option->getid().']')
                     ->addOption('', __('-- Please Select --'));
             } else {
@@ -57,7 +59,7 @@ class Magento_Catalog_Block_Product_View_Options_Type_Select
                     $_value->getOptionTypeId(),
                     $_value->getTitle() . ' ' . $priceStr . '',
                     array(
-                        'price' => $this->helper('Magento_Core_Helper_Data')->currencyByStore(
+                        'price' => $this->helper('Magento\Core\Helper\Data')->currencyByStore(
                             $_value->getPrice(true),
                             $store,
                             false
@@ -65,7 +67,7 @@ class Magento_Catalog_Block_Product_View_Options_Type_Select
                     )
                 );
             }
-            if ($_option->getType() == Magento_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE) {
+            if ($_option->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_MULTIPLE) {
                 $extraParams = ' multiple="multiple"';
             }
             if (!$this->getSkipJsReloadPrice()) {
@@ -80,14 +82,14 @@ class Magento_Catalog_Block_Product_View_Options_Type_Select
             return $select->getHtml();
         }
 
-        if ($_option->getType() == Magento_Catalog_Model_Product_Option::OPTION_TYPE_RADIO
-            || $_option->getType() == Magento_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX
+        if ($_option->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_RADIO
+            || $_option->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_CHECKBOX
             ) {
             $selectHtml = '<div class="options-list nested" id="options-'.$_option->getId().'-list">';
             $require = ($_option->getIsRequire()) ? ' required' : '';
             $arraySign = '';
             switch ($_option->getType()) {
-                case Magento_Catalog_Model_Product_Option::OPTION_TYPE_RADIO:
+                case \Magento\Catalog\Model\Product\Option::OPTION_TYPE_RADIO:
                     $type = 'radio';
                     $class = 'radio';
                     if (!$_option->getIsRequire()) {
@@ -98,7 +100,7 @@ class Magento_Catalog_Block_Product_View_Options_Type_Select
                             . $_option->getId() . '"><span>' . __('None') . '</span></label></div>';
                     }
                     break;
-                case Magento_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX:
+                case \Magento\Catalog\Model\Product\Option::OPTION_TYPE_CHECKBOX:
                     $type = 'checkbox';
                     $class = 'checkbox';
                     $arraySign = '[]';
@@ -125,7 +127,7 @@ class Magento_Catalog_Block_Product_View_Options_Type_Select
                     . ($this->getSkipJsReloadPrice() ? '' : ' onclick="opConfig.reloadPrice()"')
                     . ' name="options[' . $_option->getId() . ']' . $arraySign . '" id="options_' . $_option->getId()
                     . '_' . $count . '" value="' . $htmlValue . '" ' . $checked . ' price="'
-                    . $this->helper('Magento_Core_Helper_Data')->currencyByStore($_value->getPrice(true), $store, false) . '" />'
+                    . $this->helper('Magento\Core\Helper\Data')->currencyByStore($_value->getPrice(true), $store, false) . '" />'
                     . '<label class="label" for="options_' . $_option->getId() . '_' . $count . '"><span>'
                     . $_value->getTitle() . '</span>' . $priceStr . '</label>';
                 $selectHtml .= '</div>';

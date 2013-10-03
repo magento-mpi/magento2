@@ -11,7 +11,9 @@
 /**
  * Reminder Adminhtml Block
  */
-class Magento_Reminder_Block_Adminhtml_Reminder extends Magento_Adminhtml_Block_Widget_Grid_Container
+namespace Magento\Reminder\Block\Adminhtml;
+
+class Reminder extends \Magento\Adminhtml\Block\Widget\Grid\Container
 {
     /**
      * Initialize reminders manage page

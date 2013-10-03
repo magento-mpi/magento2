@@ -5,14 +5,16 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_ImportExport_Model_Export_Config_Converter implements Magento_Config_ConverterInterface
+namespace Magento\ImportExport\Model\Export\Config;
+
+class Converter implements \Magento\Config\ConverterInterface
 {
     /**
      * Convert dom node tree to array
      *
-     * @param DOMDocument $source
+     * @param \DOMDocument $source
      * @return array
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function convert($source)
     {
@@ -21,7 +23,7 @@ class Magento_ImportExport_Model_Export_Config_Converter implements Magento_Conf
             'productTypes' => array(),
             'fileFormats' => array(),
         );
-        /** @var DOMNodeList $entities */
+        /** @var \DOMNodeList $entities */
         $entities = $source->getElementsByTagName('entity');
         /** @var DOMNode $entityConfig */
         foreach ($entities as $entityConfig) {
@@ -37,7 +39,7 @@ class Magento_ImportExport_Model_Export_Config_Converter implements Magento_Conf
             );
         }
 
-        /** @var DOMNodeList $productTypes */
+        /** @var \DOMNodeList $productTypes */
         $productTypes = $source->getElementsByTagName('productType');
         /** @var DOMNode $productTypeConfig */
         foreach ($productTypes as $productTypeConfig) {
@@ -51,7 +53,7 @@ class Magento_ImportExport_Model_Export_Config_Converter implements Magento_Conf
             );
         }
 
-        /** @var DOMNodeList $fileFormats */
+        /** @var \DOMNodeList $fileFormats */
         $fileFormats = $source->getElementsByTagName('fileFormat');
         /** @var DOMNode $fileFormatConfig */
         foreach ($fileFormats as $fileFormatConfig) {

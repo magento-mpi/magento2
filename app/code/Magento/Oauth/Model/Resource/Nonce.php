@@ -15,7 +15,9 @@
  * @package     Magento_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Oauth_Model_Resource_Nonce extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Oauth\Model\Resource;
+
+class Nonce extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize resource model
@@ -39,7 +41,7 @@ class Magento_Oauth_Model_Resource_Nonce extends Magento_Core_Model_Resource_Db_
             $adapter = $this->_getWriteAdapter();
 
             return $adapter->delete(
-                $this->getMainTable(), $adapter->quoteInto('timestamp <= ?', time() - $minutes * 60, Zend_Db::INT_TYPE)
+                $this->getMainTable(), $adapter->quoteInto('timestamp <= ?', time() - $minutes * 60, \Zend_Db::INT_TYPE)
             );
         } else {
             return 0;

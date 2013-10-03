@@ -8,10 +8,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_RouterList
+namespace Magento\Core\Model;
+
+class RouterList
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -30,10 +32,10 @@ class Magento_Core_Model_RouterList
     protected $_activeRouters = array();
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param array $routerList
      */
-    public function __construct(Magento_ObjectManager $objectManager, array $routerList)
+    public function __construct(\Magento\ObjectManager $objectManager, array $routerList)
     {
         $this->_objectManager = $objectManager;
         $this->_routerList = $routerList;
@@ -105,7 +107,7 @@ class Magento_Core_Model_RouterList
      * Get router by route
      *
      * @param string $routeId
-     * @return Magento_Core_Controller_Varien_Router_Abstract
+     * @return \Magento\Core\Controller\Varien\Router\AbstractRouter
      */
     public function getRouterByRoute($routeId)
     {
@@ -144,7 +146,7 @@ class Magento_Core_Model_RouterList
      * Get router by frontName
      *
      * @param string $frontName
-     * @return Magento_Core_Controller_Varien_Router_Abstract
+     * @return \Magento\Core\Controller\Varien\Router\AbstractRouter
      */
     public function getRouterByFrontName($frontName)
     {

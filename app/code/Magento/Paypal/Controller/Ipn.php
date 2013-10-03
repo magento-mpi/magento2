@@ -9,32 +9,34 @@
 /**
  * Unified IPN controller for all supported PayPal methods
  */
-class Magento_Paypal_Controller_Ipn extends Magento_Core_Controller_Front_Action
+namespace Magento\Paypal\Controller;
+
+class Ipn extends \Magento\Core\Controller\Front\Action
 {
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @var Magento_Paypal_Model_IpnFactory
+     * @var \Magento\Paypal\Model\IpnFactory
      */
     protected $_ipnFactory;
 
     /**
-     * @var Magento_HTTP_Adapter_CurlFactory
+     * @var \Magento\HTTP\Adapter\CurlFactory
      */
     protected $_curlFactory;
 
     /**
-     * @param Magento_Core_Controller_Varien_Action_Context $context
-     * @param Magento_Paypal_Model_IpnFactory $ipnFactory
-     * @param Magento_HTTP_Adapter_CurlFactory $curlFactory
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Paypal\Model\IpnFactory $ipnFactory
+     * @param \Magento\HTTP\Adapter\CurlFactory $curlFactory
      */
     public function __construct(
-        Magento_Core_Controller_Varien_Action_Context $context,
-        Magento_Paypal_Model_IpnFactory $ipnFactory,
-        Magento_HTTP_Adapter_CurlFactory $curlFactory
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Paypal\Model\IpnFactory $ipnFactory,
+        \Magento\HTTP\Adapter\CurlFactory $curlFactory
     ) {
         $this->_logger = $context->getLogger();
         $this->_ipnFactory = $ipnFactory;
@@ -54,7 +56,7 @@ class Magento_Paypal_Controller_Ipn extends Magento_Core_Controller_Front_Action
         try {
             $data = $this->getRequest()->getPost();
             $this->_ipnFactory->create()->processIpnRequest($data, $this->_curlFactory->create());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_logger->logException($e);
         }
     }

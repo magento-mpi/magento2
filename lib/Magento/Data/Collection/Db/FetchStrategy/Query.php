@@ -9,12 +9,14 @@
 /**
  * Retrieving collection data by querying a database
  */
-class Magento_Data_Collection_Db_FetchStrategy_Query implements Magento_Data_Collection_Db_FetchStrategyInterface
+namespace Magento\Data\Collection\Db\FetchStrategy;
+
+class Query implements \Magento\Data\Collection\Db\FetchStrategyInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function fetchAll(Zend_Db_Select $select, array $bindParams = array())
+    public function fetchAll(\Zend_Db_Select $select, array $bindParams = array())
     {
         return $select->getAdapter()->fetchAll($select, $bindParams);
     }

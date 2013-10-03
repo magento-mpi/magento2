@@ -12,7 +12,9 @@
  * Enterprise TargetRule left-navigation block
  *
  */
-class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tabs extends Magento_Adminhtml_Block_Widget_Tabs
+namespace Magento\TargetRule\Block\Adminhtml\Targetrule\Edit;
+
+class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
 {
 
     protected function _construct()

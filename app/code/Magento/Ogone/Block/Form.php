@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Ogone_Block_Form extends Magento_Payment_Block_Form_Cc
+namespace Magento\Ogone\Block;
+
+class Form extends \Magento\Payment\Block\Form\Cc
 {
     protected $_template = 'form.phtml';
 

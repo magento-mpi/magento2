@@ -6,17 +6,19 @@
  * @license     {license_link}
  */
 
-class Magento_Search_Model_RegularFactory implements Magento_Search_Model_FactoryInterface
+namespace Magento\Search\Model;
+
+class RegularFactory implements \Magento\Search\Model\FactoryInterface
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -25,20 +27,20 @@ class Magento_Search_Model_RegularFactory implements Magento_Search_Model_Factor
      * Return search client
      *
      * @param array $options
-     * @return Magento_Search_Model_Client_Solr
+     * @return \Magento\Search\Model\Client\Solr
      */
     public function createClient(array $options = array())
     {
-        return $this->_objectManager->create('Magento_Search_Model_Client_Solr', array('clientOptions' => $options));
+        return $this->_objectManager->create('Magento\Search\Model\Client\Solr', array('clientOptions' => $options));
     }
 
     /**
      * Return search adapter
      *
-     * @return Magento_Search_Model_Adapter_HttpStream
+     * @return \Magento\Search\Model\Adapter\HttpStream
      */
     public function createAdapter()
     {
-        return $this->_objectManager->create('Magento_Search_Model_Adapter_HttpStream');
+        return $this->_objectManager->create('Magento\Search\Model\Adapter\HttpStream');
     }
 }

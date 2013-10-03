@@ -11,24 +11,26 @@
 /**
  * Directory URL helper
  */
-class Magento_Directory_Helper_Url extends Magento_Core_Helper_Url
+namespace Magento\Directory\Helper;
+
+class Url extends \Magento\Core\Helper\Url
 {
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\StoreManager $storeManager
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_StoreManager $storeManager
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\StoreManager $storeManager
     ) {
         $this->_coreData = $coreData;
         parent::__construct($context, $storeManager);
@@ -50,7 +52,7 @@ class Magento_Directory_Helper_Url extends Magento_Core_Helper_Url
         } else {
             $url = $this->getCurrentUrl();
         }
-        $params[Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED] = $this->_coreData->urlEncode($url);
+        $params[\Magento\Core\Controller\Front\Action::PARAM_NAME_URL_ENCODED] = $this->_coreData->urlEncode($url);
         return $this->_getUrl('directory/currency/switch', $params);
     }
 }

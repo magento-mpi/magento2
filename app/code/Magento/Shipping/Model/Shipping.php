@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Shipping_Model_Shipping
+namespace Magento\Shipping\Model;
+
+class Shipping
 {
     /**
      * Store address
@@ -31,7 +33,7 @@ class Magento_Shipping_Model_Shipping
     /**
      * Cached result
      *
-     * @var Magento_Sales_Model_Shipping_Method_Result
+     * @var \Magento\Shipping\Model\Rate\Result
      */
     protected $_result = null;
 
@@ -45,73 +47,73 @@ class Magento_Shipping_Model_Shipping
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Shipping_Model_Config
+     * @var \Magento\Shipping\Model\Config
      */
     protected $_shippingConfig;
 
     /**
-     * @var Magento_Backend_Model_Auth_Session
+     * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_authSession;
 
     /**
-     * @var Magento_Shipping_Model_Carrier_Factory
+     * @var \Magento\Shipping\Model\Carrier\Factory
      */
     protected $_carrierFactory;
 
     /**
-     * @var Magento_Shipping_Model_Rate_ResultFactory
+     * @var \Magento\Shipping\Model\Rate\ResultFactory
      */
     protected $_rateResultFactory;
 
     /**
-     * @var Magento_Shipping_Model_Rate_RequestFactory
+     * @var \Magento\Shipping\Model\Rate\RequestFactory
      */
     protected $_rateRequestFactory;
 
     /**
-     * @var Magento_Directory_Model_RegionFactory
+     * @var \Magento\Directory\Model\RegionFactory
      */
     protected $_regionFactory;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Shipping_Model_Config $shippingConfig
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Backend_Model_Auth_Session $authSession
-     * @param Magento_Shipping_Model_Carrier_Factory $carrierFactory
-     * @param Magento_Shipping_Model_Rate_ResultFactory $rateResultFactory
-     * @param Magento_Shipping_Model_Rate_RequestFactory $rateRequestFactory
-     * @param Magento_Directory_Model_RegionFactory $regionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Shipping\Model\Config $shippingConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Backend\Model\Auth\Session $authSession
+     * @param \Magento\Shipping\Model\Carrier\Factory $carrierFactory
+     * @param \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory
+     * @param \Magento\Shipping\Model\Rate\RequestFactory $rateRequestFactory
+     * @param \Magento\Directory\Model\RegionFactory $regionFactory
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Shipping_Model_Config $shippingConfig,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Backend_Model_Auth_Session $authSession,
-        Magento_Shipping_Model_Carrier_Factory $carrierFactory,
-        Magento_Shipping_Model_Rate_ResultFactory $rateResultFactory,
-        Magento_Shipping_Model_Rate_RequestFactory $rateRequestFactory,
-        Magento_Directory_Model_RegionFactory $regionFactory
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Shipping\Model\Config $shippingConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Backend\Model\Auth\Session $authSession,
+        \Magento\Shipping\Model\Carrier\Factory $carrierFactory,
+        \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory,
+        \Magento\Shipping\Model\Rate\RequestFactory $rateRequestFactory,
+        \Magento\Directory\Model\RegionFactory $regionFactory
     ) {
         $this->_coreData = $coreData;
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -127,7 +129,7 @@ class Magento_Shipping_Model_Shipping
     /**
      * Get shipping rate result model
      *
-     * @return Magento_Shipping_Model_Rate_Result
+     * @return \Magento\Shipping\Model\Rate\Result
      */
     public function getResult()
     {
@@ -151,7 +153,7 @@ class Magento_Shipping_Model_Shipping
     /**
      * Reset cached result
      *
-     * @return Magento_Shipping_Model_Shipping
+     * @return \Magento\Shipping\Model\Shipping
      */
     public function resetResult()
     {
@@ -162,7 +164,7 @@ class Magento_Shipping_Model_Shipping
     /**
      * Retrieve configuration model
      *
-     * @return Magento_Shipping_Model_Config
+     * @return \Magento\Shipping\Model\Config
      */
     public function getConfig()
     {
@@ -173,10 +175,10 @@ class Magento_Shipping_Model_Shipping
      * Retrieve all methods for supplied shipping data
      *
      * @todo make it ordered
-     * @param Magento_Shipping_Model_Rate_Request $request
-     * @return Magento_Shipping_Model_Shipping
+     * @param \Magento\Shipping\Model\Rate\Request $request
+     * @return \Magento\Shipping\Model\Shipping
      */
-    public function collectRates(Magento_Shipping_Model_Rate_Request $request)
+    public function collectRates(\Magento\Shipping\Model\Rate\Request $request)
     {
         $storeId = $request->getStoreId();
         if (!$request->getOrig()) {
@@ -214,19 +216,19 @@ class Magento_Shipping_Model_Shipping
      * Collect rates of given carrier
      *
      * @param string                           $carrierCode
-     * @param Magento_Shipping_Model_Rate_Request $request
-     * @return Magento_Shipping_Model_Shipping
+     * @param \Magento\Shipping\Model\Rate\Request $request
+     * @return \Magento\Shipping\Model\Shipping
      */
     public function collectCarrierRates($carrierCode, $request)
     {
-        /* @var $carrier Magento_Shipping_Model_Carrier_Abstract */
+        /* @var $carrier \Magento\Shipping\Model\Carrier\AbstractCarrier */
         $carrier = $this->getCarrierByCode($carrierCode, $request->getStoreId());
         if (!$carrier) {
             return $this;
         }
         $carrier->setActiveFlag($this->_availabilityConfigField);
         $result = $carrier->checkAvailableShipCountries($request);
-        if (false !== $result && !($result instanceof Magento_Shipping_Model_Rate_Result_Error)) {
+        if (false !== $result && !($result instanceof \Magento\Shipping\Model\Rate\Result\Error)) {
             $result = $carrier->proccessAdditionalValidation($request);
         }
         /*
@@ -234,7 +236,7 @@ class Magento_Shipping_Model_Shipping
         * if the delivery country is not within specific countries
         */
         if (false !== $result){
-            if (!$result instanceof Magento_Shipping_Model_Rate_Result_Error) {
+            if (!$result instanceof \Magento\Shipping\Model\Rate\Result\Error) {
                 if ($carrier->getConfigData('shipment_requesttype')) {
                     $packages = $this->composePackagesForCarrier($carrier, $request);
                     if (!empty($packages)) {
@@ -292,8 +294,8 @@ class Magento_Shipping_Model_Shipping
      * Compose Packages For Carrier.
      * Devides order into items and items into parts if it's necessary
      *
-     * @param Magento_Shipping_Model_Carrier_Abstract $carrier
-     * @param Magento_Shipping_Model_Rate_Request $request
+     * @param \Magento\Shipping\Model\Carrier\AbstractCarrier $carrier
+     * @param \Magento\Shipping\Model\Rate\Request $request
      * @return array [int, float]
      */
     public function composePackagesForCarrier($carrier, $request)
@@ -304,7 +306,7 @@ class Magento_Shipping_Model_Shipping
         $maxWeight  = (float) $carrier->getConfigData('max_package_weight');
 
         foreach ($allItems as $item) {
-            if ($item->getProductType() == Magento_Catalog_Model_Product_Type::TYPE_BUNDLE
+            if ($item->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
                 && $item->getProduct()->getShipmentType()
             ) {
                 continue;
@@ -325,7 +327,7 @@ class Magento_Shipping_Model_Shipping
             }
 
             $itemWeight = $item->getWeight();
-            if ($item->getIsQtyDecimal() && $item->getProductType() != Magento_Catalog_Model_Product_Type::TYPE_BUNDLE) {
+            if ($item->getIsQtyDecimal() && $item->getProductType() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
                 $stockItem = $item->getProduct()->getStockItem();
                 if ($stockItem->getIsDecimalDivided()) {
                    if ($stockItem->getEnableQtyIncrements() && $stockItem->getQtyIncrements()) {
@@ -356,7 +358,7 @@ class Magento_Shipping_Model_Shipping
             }
 
             if ($changeQty && !$item->getParentItem() && $item->getIsQtyDecimal()
-                && $item->getProductType() != Magento_Catalog_Model_Product_Type::TYPE_BUNDLE
+                && $item->getProductType() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
             ) {
                 $qty = 1;
             }
@@ -426,13 +428,13 @@ class Magento_Shipping_Model_Shipping
     /**
      * Collect rates by address
      *
-     * @param Magento_Object $address
+     * @param \Magento\Object $address
      * @param null|bool|array $limitCarrier
-     * @return Magento_Shipping_Model_Shipping
+     * @return \Magento\Shipping\Model\Shipping
      */
-    public function collectRatesByAddress(Magento_Object $address, $limitCarrier = null)
+    public function collectRatesByAddress(\Magento\Object $address, $limitCarrier = null)
     {
-        /** @var $request Magento_Shipping_Model_Rate_Request */
+        /** @var $request \Magento\Shipping\Model\Rate\Request */
         $request = $this->_rateRequestFactory->create();
         $request->setAllItems($address->getAllItems());
         $request->setDestCountryId($address->getCountryId());
@@ -458,7 +460,7 @@ class Magento_Shipping_Model_Shipping
      * Set part of carrier xml config path
      *
      * @param string $code
-     * @return Magento_Shipping_Model_Shipping
+     * @return \Magento\Shipping\Model\Shipping
      */
     public function setCarrierAvailabilityConfigField($code = 'active')
     {
@@ -471,7 +473,7 @@ class Magento_Shipping_Model_Shipping
      *
      * @param string $carrierCode
      * @param null|int $storeId
-     * @return bool|Magento_Core_Model_Abstract
+     * @return bool|\Magento\Core\Model\AbstractModel
      */
     public function getCarrierByCode($carrierCode, $storeId = null)
     {
@@ -487,11 +489,11 @@ class Magento_Shipping_Model_Shipping
     /**
      * Prepare and do request to shipment
      *
-     * @param Magento_Sales_Model_Order_Shipment $orderShipment
-     * @return Magento_Object
-     * @throws Magento_Core_Exception
+     * @param \Magento\Sales\Model\Order\Shipment $orderShipment
+     * @return \Magento\Object
+     * @throws \Magento\Core\Exception
      */
-    public function requestToShipment(Magento_Sales_Model_Order_Shipment $orderShipment)
+    public function requestToShipment(\Magento\Sales\Model\Order\Shipment $orderShipment)
     {
         $admin = $this->_authSession->getUser();
         $order = $orderShipment->getOrder();
@@ -501,7 +503,7 @@ class Magento_Shipping_Model_Shipping
         $shipmentCarrier = $order->getShippingCarrier();
         $baseCurrencyCode = $this->_storeManager->getStore($shipmentStoreId)->getBaseCurrencyCode();
         if (!$shipmentCarrier) {
-            throw new Magento_Core_Exception('Invalid carrier: ' . $shippingMethod->getCarrierCode());
+            throw new \Magento\Core\Exception('Invalid carrier: ' . $shippingMethod->getCarrierCode());
         }
         $shipperRegionCode = $this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_REGION_ID, $shipmentStoreId);
         if (is_numeric($shipperRegionCode)) {
@@ -512,19 +514,19 @@ class Magento_Shipping_Model_Shipping
 
         $originStreet1 = $this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_ADDRESS1, $shipmentStoreId);
         $originStreet2 = $this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_ADDRESS2, $shipmentStoreId);
-        $storeInfo = new Magento_Object($this->_coreStoreConfig->getConfig('general/store_information', $shipmentStoreId));
+        $storeInfo = new \Magento\Object($this->_coreStoreConfig->getConfig('general/store_information', $shipmentStoreId));
 
         if (!$admin->getFirstname() || !$admin->getLastname() || !$storeInfo->getName() || !$storeInfo->getPhone()
             || !$originStreet1 || !$this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_CITY, $shipmentStoreId)
             || !$shipperRegionCode || !$this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_ZIP, $shipmentStoreId)
             || !$this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_COUNTRY_ID, $shipmentStoreId)
         ) {
-            throw new Magento_Core_Exception(
+            throw new \Magento\Core\Exception(
                 __('We don\'t have enough information to create shipping labels. Please make sure your store information and settings are complete.')
             );
         }
 
-        /** @var $request Magento_Shipping_Model_Shipment_Request */
+        /** @var $request \Magento\Shipping\Model\Shipment\Request */
         $request = $this->_rateRequestFactory->create();
         $request->setOrderShipment($orderShipment);
         $request->setShipperContactPersonName($admin->getName());

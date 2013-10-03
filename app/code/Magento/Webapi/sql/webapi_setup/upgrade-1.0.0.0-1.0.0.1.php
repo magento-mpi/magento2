@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/* @var Magento_Core_Model_Resource_Setup $installer */
+/* @var \Magento\Core\Model\Resource\Setup $installer */
 $installer = $this;
 $installer->startSetup();
 $connection = $installer->getConnection();
@@ -18,7 +18,7 @@ $connection->addColumn(
     $table,
     'api_secret',
     array(
-        'type' => Magento_DB_Ddl_Table::TYPE_TEXT,
+        'type' => \Magento\DB\Ddl\Table::TYPE_TEXT,
         'length' => 255,
         'nullable' => false,
         'comment' => 'API Secret used for authentication.',

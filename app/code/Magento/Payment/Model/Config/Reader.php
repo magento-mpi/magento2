@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Payment_Model_Config_Reader extends Magento_Config_Reader_Filesystem
+namespace Magento\Payment\Model\Config;
+
+class Reader extends \Magento\Config\Reader\Filesystem
 {
     /**
      * List of identifier attributes for merging

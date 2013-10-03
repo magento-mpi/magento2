@@ -9,21 +9,21 @@
 -->
 <config>
     <event name="catalog_product_get_final_price">
-        <observer name="catalogrule" instance="Magento_CatalogRule_Model_Observer" method="processAdminFinalPrice" />
+        <observer name="catalogrule" instance="Magento\CatalogRule\Model\Observer" method="processAdminFinalPrice" />
     </event>
     <event name="catalog_product_save_after">
-        <observer name="catalogrule" instance="Magento_CatalogRule_Model_Observer" method="applyAllRulesOnProduct" />
+        <observer name="catalogrule" instance="Magento\CatalogRule\Model\Observer" method="applyAllRulesOnProduct" />
     </event>
     <event name="catalog_product_import_finish_before">
-        <observer name="catalogrule" instance="Magento_CatalogRule_Model_Observer" method="createCatalogRulesRelations" />
+        <observer name="catalogrule" instance="Magento\CatalogRule\Model\Observer" method="createCatalogRulesRelations" />
     </event>
     <event name="catalog_product_import_after">
-        <observer name="catalogrule" instance="Magento_CatalogRule_Model_Observer" method="applyAllRules" />
+        <observer name="catalogrule" instance="Magento\CatalogRule\Model\Observer" method="applyAllRules" />
     </event>
     <event name="catalog_entity_attribute_delete_after">
-        <observer name="catalogrule" instance="Magento_CatalogRule_Model_Observer" method="catalogAttributeDeleteAfter" />
+        <observer name="catalogrule" instance="Magento\CatalogRule\Model\Observer" method="catalogAttributeDeleteAfter" />
     </event>
     <event name="catalog_entity_attribute_save_after">
-        <observer name="catalogrule" instance="Magento_CatalogRule_Model_Observer" method="catalogAttributeSaveAfter" />
+        <observer name="catalogrule" instance="Magento\CatalogRule\Model\Observer" method="catalogAttributeSaveAfter" />
     </event>
 </config>

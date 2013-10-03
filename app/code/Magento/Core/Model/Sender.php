@@ -15,26 +15,28 @@
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Sender
+namespace Magento\Core\Model;
+
+class Sender
 {
-    /** @var Magento_Core_Model_Email_Template_Mailer */
+    /** @var \Magento\Core\Model\Email\Template\Mailer */
     protected $_mailer;
 
-    /** @var Magento_Core_Model_Email_Info */
+    /** @var \Magento\Core\Model\Email\Info */
     protected $_emailInfo;
 
-    /** @var Magento_Core_Model_Store */
+    /** @var \Magento\Core\Model\Store */
     protected $_store;
 
     /**
-     * @param Magento_Core_Model_Email_Template_Mailer $mailer
-     * @param Magento_Core_Model_Email_Info $info
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Email\Template\Mailer $mailer
+     * @param \Magento\Core\Model\Email\Info $info
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        Magento_Core_Model_Email_Template_Mailer $mailer,
-        Magento_Core_Model_Email_Info $info,
-        Magento_Core_Model_StoreManagerInterface $storeManager
+        \Magento\Core\Model\Email\Template\Mailer $mailer,
+        \Magento\Core\Model\Email\Info $info,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_mailer = $mailer;
         $this->_emailInfo = $info;
@@ -48,7 +50,7 @@ class Magento_Core_Model_Sender
      * @param string $sender
      * @param array $templateParams
      * @param int $storeId
-     * @return Magento_Core_Model_Sender
+     * @return \Magento\Core\Model\Sender
      */
     public function send($email, $name, $template, $sender, $templateParams = array(), $storeId)
     {

@@ -8,47 +8,48 @@
  * @license     {license_link}
  */
 
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code;
+
 /**
  * Block that renders Custom tab
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
-    extends Magento_Backend_Block_Widget_Form_Generic
+class ImageSizing extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var Magento_Eav_Model_Config
+     * @var \Magento\Eav\Model\Config
      */
     protected $_eavConfig;
 
     /**
-     * @var Magento_DesignEditor_Model_Editor_Tools_Controls_Factory
+     * @var \Magento\DesignEditor\Model\Editor\Tools\Controls\Factory
      */
     protected $_controlFactory;
 
     /**
-     * @var Magento_DesignEditor_Model_Theme_Context
+     * @var \Magento\DesignEditor\Model\Theme\Context
      */
     protected $_themeContext;
 
     /**
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_DesignEditor_Model_Editor_Tools_Controls_Factory $controlFactory
-     * @param Magento_DesignEditor_Model_Theme_Context $themeContext
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\DesignEditor\Model\Editor\Tools\Controls\Factory $controlFactory
+     * @param \Magento\DesignEditor\Model\Theme\Context $themeContext
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_DesignEditor_Model_Editor_Tools_Controls_Factory $controlFactory,
-        Magento_DesignEditor_Model_Theme_Context $themeContext,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\DesignEditor\Model\Editor\Tools\Controls\Factory $controlFactory,
+        \Magento\DesignEditor\Model\Theme\Context $themeContext,
         array $data = array()
     ) {
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
@@ -71,11 +72,11 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
     /**
      * Create a form element with necessary controls
      *
-     * @return Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
+     * @return \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Css
      */
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'action'   => '#',
@@ -86,16 +87,16 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
         $this->setForm($form);
         $form->setUseContainer(true);
         $form->setFieldNameSuffix('imagesizing');
-        $form->addType('button_button', 'Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Button');
+        $form->addType('button_button', 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Button');
 
         $isFilePresent = true;
         try{
-            /** @var $controlsConfig Magento_DesignEditor_Model_Editor_Tools_Controls_Configuration */
+            /** @var $controlsConfig \Magento\DesignEditor\Model\Editor\Tools\Controls\Configuration */
             $controlsConfig = $this->_controlFactory->create(
-                Magento_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_IMAGE_SIZING,
+                \Magento\DesignEditor\Model\Editor\Tools\Controls\Factory::TYPE_IMAGE_SIZING,
                 $this->_themeContext->getStagingTheme()
             );
-        } catch (Magento_Exception $e) {
+        } catch (\Magento\Exception $e) {
             $isFilePresent = false;
         }
 
@@ -114,9 +115,9 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
     /**
      * Initialize form elements
      *
-     * @param Magento_DesignEditor_Model_Editor_Tools_Controls_Configuration $controlsConfig
-     * @param Magento_Data_Form $form
-     * @return Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
+     * @param \Magento\DesignEditor\Model\Editor\Tools\Controls\Configuration $controlsConfig
+     * @param \Magento\Data\Form $form
+     * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\ImageSizing
      */
     protected function _initFormElements($controlsConfig, $form)
     {
@@ -153,7 +154,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
                 'name'  => 'save_image_sizing',
                 'title' => __('Update'),
                 'value' => __('Update'),
-                'data-mage-init' => $this->helper('Magento_Backend_Helper_Data')->escapeHtml(json_encode(array(
+                'data-mage-init' => $this->helper('Magento\Backend\Helper\Data')->escapeHtml(json_encode(array(
                     'button' => array(
                         'event'  => 'saveForm',
                         'target' => 'body'
@@ -169,11 +170,11 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
      * Add white border checkbox to form
      *
      * @param array $control
-     * @return Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
+     * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\ImageSizing
      */
     protected function _addWhiteBorderElement($control)
     {
-        /** @var $form Magento_Data_Form */
+        /** @var $form \Magento\Data\Form */
         $form = $this->getForm();
         $fieldMessage = __('Add white borders to images that are smaller than the container.');
         foreach ($control['components'] as $name => $component) {
@@ -202,11 +203,11 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
      *
      * @param string $name
      * @param array $control
-     * @return Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
+     * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\ImageSizing
      */
     protected function _addImageSizeFieldset($name, $control)
     {
-        /** @var $form Magento_Data_Form */
+        /** @var $form \Magento\Data\Form */
         $form = $this->getForm();
         $fieldset = $form->addFieldset($name, array(
             'name'   => $name,
@@ -228,10 +229,10 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
     /**
      * Add image size form element by component type
      *
-     * @param Magento_Data_Form_Element_Fieldset $fieldset
+     * @param \Magento\Data\Form\Element\Fieldset $fieldset
      * @param array $component
      * @param string $componentName
-     * @return Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
+     * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\ImageSizing
      */
     protected function _addFormElement($fieldset, $component, $componentName)
     {
@@ -255,10 +256,10 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
     /**
      * Add image type form element to fieldset
      *
-     * @param Magento_Data_Form_Element_Fieldset $fieldset
+     * @param \Magento\Data\Form\Element\Fieldset $fieldset
      * @param array $component
      * @param string $componentName
-     * @return Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
+     * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\ImageSizing
      */
     protected function _addImageTypeElement($fieldset, $component, $componentName)
     {
@@ -273,10 +274,10 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
     /**
      * Add image width form element to fieldset
      *
-     * @param Magento_Data_Form_Element_Fieldset $fieldset
+     * @param \Magento\Data\Form\Element\Fieldset $fieldset
      * @param array $component
      * @param string $componentName
-     * @return Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
+     * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\ImageSizing
      */
     protected function _addImageWidthElement($fieldset, $component, $componentName)
     {
@@ -292,10 +293,10 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
     /**
      * Add image height form element to fieldset
      *
-     * @param Magento_Data_Form_Element_Fieldset $fieldset
+     * @param \Magento\Data\Form\Element\Fieldset $fieldset
      * @param array $component
      * @param string $componentName
-     * @return Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
+     * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\ImageSizing
      */
     protected function _addImageHeightElement($fieldset, $component, $componentName)
     {
@@ -311,10 +312,10 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
     /**
      * Add image ratio form element to fieldset
      *
-     * @param Magento_Data_Form_Element_Fieldset $fieldset
+     * @param \Magento\Data\Form\Element\Fieldset $fieldset
      * @param array $component
      * @param string $componentName
-     * @return Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
+     * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\ImageSizing
      */
     protected function _addImageRatioElement($fieldset, $component, $componentName)
     {
@@ -335,10 +336,10 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
     /**
      * Add reset button to fieldset
      *
-     * @param Magento_Data_Form_Element_Fieldset $fieldset
+     * @param \Magento\Data\Form\Element\Fieldset $fieldset
      * @param array $defaultValues
      * @param string $name
-     * @return Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
+     * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\ImageSizing
      */
     protected function _addResetButton($fieldset, $defaultValues, $name)
     {
@@ -347,7 +348,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
             'title' => __('Reset to Original'),
             'value' => __('Reset to Original'),
             'class' => 'action-reset',
-            'data-mage-init' => $this->helper('Magento_Backend_Helper_Data')->escapeHtml(json_encode(array(
+            'data-mage-init' => $this->helper('Magento\Backend\Helper\Data')->escapeHtml(json_encode(array(
                 'button' => array(
                     'event'     => 'restoreDefaultData',
                     'target'    => 'body',
@@ -402,6 +403,6 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
      */
     protected function _getAdditionalElementTypes()
     {
-        return array('button_button' => 'Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Button');
+        return array('button_button' => 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Button');
     }
 }

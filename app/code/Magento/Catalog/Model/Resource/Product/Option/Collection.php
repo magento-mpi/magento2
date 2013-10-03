@@ -14,41 +14,43 @@
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Magento_Catalog_Model_Resource_Product_Option_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Catalog\Model\Resource\Product\Option;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Option value factory
      *
-     * @var Magento_Catalog_Model_Resource_Product_Option_Value_CollectionFactory
+     * @var \Magento\Catalog\Model\Resource\Product\Option\Value\CollectionFactory
      */
     protected $_optionValueCollectionFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Catalog_Model_Resource_Product_Option_Value_CollectionFactory $optionValueCollectionFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Catalog\Model\Resource\Product\Option\Value\CollectionFactory $optionValueCollectionFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        Magento_Catalog_Model_Resource_Product_Option_Value_CollectionFactory $optionValueCollectionFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null
+        \Magento\Catalog\Model\Resource\Product\Option\Value\CollectionFactory $optionValueCollectionFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_optionValueCollectionFactory = $optionValueCollectionFactory;
         $this->_storeManager = $storeManager;
@@ -60,14 +62,14 @@ class Magento_Catalog_Model_Resource_Product_Option_Collection extends Magento_C
      */
     protected function _construct()
     {
-        $this->_init('Magento_Catalog_Model_Product_Option', 'Magento_Catalog_Model_Resource_Product_Option');
+        $this->_init('Magento\Catalog\Model\Product\Option', 'Magento\Catalog\Model\Resource\Product\Option');
     }
 
     /**
      * Adds title, price & price_type attributes to result
      *
      * @param int $storeId
-     * @return Magento_Catalog_Model_Resource_Product_Option_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Option\Collection
      */
     public function getOptions($storeId)
     {
@@ -81,7 +83,7 @@ class Magento_Catalog_Model_Resource_Product_Option_Collection extends Magento_C
      * Add title to result
      *
      * @param int $storeId
-     * @return Magento_Catalog_Model_Resource_Product_Option_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Option\Collection
      */
     public function addTitleToResult($storeId)
     {
@@ -105,7 +107,7 @@ class Magento_Catalog_Model_Resource_Product_Option_Collection extends Magento_C
                     'store_title'   => 'title',
                     'title'         => $titleExpr
                 ))
-            ->where('default_option_title.store_id = ?', Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID);
+            ->where('default_option_title.store_id = ?', \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID);
 
         return $this;
     }
@@ -114,7 +116,7 @@ class Magento_Catalog_Model_Resource_Product_Option_Collection extends Magento_C
      * Add price to result
      *
      * @param int $storeId
-     * @return Magento_Catalog_Model_Resource_Product_Option_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Option\Collection
      */
     public function addPriceToResult($storeId)
     {
@@ -137,7 +139,7 @@ class Magento_Catalog_Model_Resource_Product_Option_Collection extends Magento_C
                 'default_option_price.option_id = main_table.option_id AND '
                     . $adapter->quoteInto(
                         'default_option_price.store_id = ?',
-                        Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID
+                        \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID
                     ),
                 array(
                     'default_price' => 'price',
@@ -161,7 +163,7 @@ class Magento_Catalog_Model_Resource_Product_Option_Collection extends Magento_C
      * Add value to result
      *
      * @param int $storeId
-     * @return Magento_Catalog_Model_Resource_Product_Option_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Option\Collection
      */
     public function addValuesToResult($storeId = null)
     {
@@ -173,7 +175,7 @@ class Magento_Catalog_Model_Resource_Product_Option_Collection extends Magento_C
             $optionIds[] = $option->getId();
         }
         if (!empty($optionIds)) {
-            /** @var Magento_Catalog_Model_Resource_Product_Option_Value_Collection $values */
+            /** @var \Magento\Catalog\Model\Resource\Product\Option\Value\Collection $values */
             $values = $this->_optionValueCollectionFactory->create();
             $values->addTitleToResult($storeId)
                 ->addPriceToResult($storeId)
@@ -196,8 +198,8 @@ class Magento_Catalog_Model_Resource_Product_Option_Collection extends Magento_C
     /**
      * Add product_id filter to select
      *
-     * @param array|Magento_Catalog_Model_Product|int $product
-     * @return Magento_Catalog_Model_Resource_Product_Option_Collection
+     * @param array|\Magento\Catalog\Model\Product|int $product
+     * @return \Magento\Catalog\Model\Resource\Product\Option\Collection
      */
     public function addProductToFilter($product)
     {
@@ -205,7 +207,7 @@ class Magento_Catalog_Model_Resource_Product_Option_Collection extends Magento_C
             $this->addFieldToFilter('product_id', '');
         } elseif (is_array($product)) {
             $this->addFieldToFilter('product_id', array('in' => $product));
-        } elseif ($product instanceof Magento_Catalog_Model_Product) {
+        } elseif ($product instanceof \Magento\Catalog\Model\Product) {
             $this->addFieldToFilter('product_id', $product->getId());
         } else {
             $this->addFieldToFilter('product_id', $product);
@@ -218,7 +220,7 @@ class Magento_Catalog_Model_Resource_Product_Option_Collection extends Magento_C
      * Add is_required filter to select
      *
      * @param bool $required
-     * @return Magento_Catalog_Model_Resource_Product_Option_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Option\Collection
      */
     public function addRequiredFilter($required = true)
     {
@@ -230,7 +232,7 @@ class Magento_Catalog_Model_Resource_Product_Option_Collection extends Magento_C
      * Add filtering by option ids
      *
      * @param mixed $optionIds
-     * @return Magento_Catalog_Model_Resource_Product_Option_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Option\Collection
      */
     public function addIdsToFilter($optionIds)
     {
@@ -241,7 +243,7 @@ class Magento_Catalog_Model_Resource_Product_Option_Collection extends Magento_C
     /**
      * Call of protected method reset
      *
-     * @return Magento_Catalog_Model_Resource_Product_Option_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Option\Collection
      */
     public function reset()
     {

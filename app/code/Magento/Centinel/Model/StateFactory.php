@@ -11,12 +11,14 @@
 /**
  * Factory class for Credit Card types
  */
-class Magento_Centinel_Model_StateFactory
+namespace Magento\Centinel\Model;
+
+class StateFactory
 {
     /**
      * Object manager
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -28,10 +30,10 @@ class Magento_Centinel_Model_StateFactory
     protected $_stateClassMap;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param array $stateClassMap - key stands for card type, value define the validator class
      */
-    public function __construct(Magento_ObjectManager $objectManager, array $stateClassMap = array())
+    public function __construct(\Magento\ObjectManager $objectManager, array $stateClassMap = array())
     {
         $this->_objectManager = $objectManager;
         $this->_stateClassMap = $stateClassMap;
@@ -41,7 +43,7 @@ class Magento_Centinel_Model_StateFactory
      * Create state object
      *
      * @param string $cardType
-     * @return Magento_Centinel_Model_StateAbstract|false
+     * @return \Magento\Centinel\Model\AbstractState|false
      */
     public function createState($cardType)
     {

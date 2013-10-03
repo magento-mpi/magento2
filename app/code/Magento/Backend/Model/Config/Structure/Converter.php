@@ -8,10 +8,12 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Config_Structure_Converter implements Magento_Config_ConverterInterface
+namespace Magento\Backend\Model\Config\Structure;
+
+class Converter implements \Magento\Config\ConverterInterface
 {
     /**
-     * @var Magento_Backend_Model_Config_Structure_Mapper_Factory
+     * @var \Magento\Backend\Model\Config\Structure\Mapper\Factory
      */
     protected $_mapperFactory;
 
@@ -21,12 +23,12 @@ class Magento_Backend_Model_Config_Structure_Converter implements Magento_Config
      * @var array
      */
     protected $_mapperList = array(
-        Magento_Backend_Model_Config_Structure_Mapper_Factory::MAPPER_EXTENDS,
-        Magento_Backend_Model_Config_Structure_Mapper_Factory::MAPPER_PATH,
-        Magento_Backend_Model_Config_Structure_Mapper_Factory::MAPPER_DEPENDENCIES,
-        Magento_Backend_Model_Config_Structure_Mapper_Factory::MAPPER_ATTRIBUTE_INHERITANCE,
-        Magento_Backend_Model_Config_Structure_Mapper_Factory::MAPPER_IGNORE,
-        Magento_Backend_Model_Config_Structure_Mapper_Factory::MAPPER_SORTING,
+        \Magento\Backend\Model\Config\Structure\Mapper\Factory::MAPPER_EXTENDS,
+        \Magento\Backend\Model\Config\Structure\Mapper\Factory::MAPPER_PATH,
+        \Magento\Backend\Model\Config\Structure\Mapper\Factory::MAPPER_DEPENDENCIES,
+        \Magento\Backend\Model\Config\Structure\Mapper\Factory::MAPPER_ATTRIBUTE_INHERITANCE,
+        \Magento\Backend\Model\Config\Structure\Mapper\Factory::MAPPER_IGNORE,
+        \Magento\Backend\Model\Config\Structure\Mapper\Factory::MAPPER_SORTING,
     );
 
     /**
@@ -44,9 +46,9 @@ class Magento_Backend_Model_Config_Structure_Converter implements Magento_Config
     );
 
     /**
-     * @param Magento_Backend_Model_Config_Structure_Mapper_Factory $mapperFactory
+     * @param \Magento\Backend\Model\Config\Structure\Mapper\Factory $mapperFactory
      */
-    public function __construct(Magento_Backend_Model_Config_Structure_Mapper_Factory $mapperFactory)
+    public function __construct(\Magento\Backend\Model\Config\Structure\Mapper\Factory $mapperFactory)
     {
         $this->_mapperFactory = $mapperFactory;
     }
@@ -62,7 +64,7 @@ class Magento_Backend_Model_Config_Structure_Converter implements Magento_Config
         $result = $this->_convertDOMDocument($source);
 
         foreach ($this->_mapperList as $type) {
-            /** @var $mapper Magento_Backend_Model_Config_Structure_MapperInterface */
+            /** @var $mapper \Magento\Backend\Model\Config\Structure\MapperInterface */
             $mapper = $this->_mapperFactory->create($type);
             $result = $mapper->map($result);
         }
@@ -71,12 +73,12 @@ class Magento_Backend_Model_Config_Structure_Converter implements Magento_Config
     }
 
     /**
-     * Retrieve DOMDocument as array
+     * Retrieve \DOMDocument as array
      *
-     * @param DOMNode $root
+     * @param \DOMNode $root
      * @return mixed
      */
-    protected function _convertDOMDocument(DOMNode $root)
+    protected function _convertDOMDocument(\DOMNode $root)
     {
         $result = $this->_processAttributes($root);
 
@@ -107,7 +109,7 @@ class Magento_Backend_Model_Config_Structure_Converter implements Magento_Config
                     break;
 
                 default:
-                    /** @var $child DOMElement */
+                    /** @var $child \DOMElement */
                     if ($childName == 'attribute') {
                         $childName = $child->getAttribute('type');
                     }
@@ -164,10 +166,10 @@ class Magento_Backend_Model_Config_Structure_Converter implements Magento_Config
     /**
      * Process element attributes
      * 
-     * @param DOMNode $root
+     * @param \DOMNode $root
      * @return array
      */
-    protected function _processAttributes(DOMNode $root)
+    protected function _processAttributes(\DOMNode $root)
     {
         $result = array();
 

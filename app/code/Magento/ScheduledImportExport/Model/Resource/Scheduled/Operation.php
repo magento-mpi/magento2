@@ -15,7 +15,9 @@
  * @package     Magento_ScheduledImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\ScheduledImportExport\Model\Resource\Scheduled;
+
+class Operation extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize resource operation model

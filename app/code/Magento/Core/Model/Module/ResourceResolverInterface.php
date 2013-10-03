@@ -7,7 +7,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-interface Magento_Core_Model_Module_ResourceResolverInterface
+namespace Magento\Core\Model\Module;
+
+interface ResourceResolverInterface
 {
     /**
      * Retrieve the list of resources declared by module

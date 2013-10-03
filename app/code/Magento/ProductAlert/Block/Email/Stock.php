@@ -16,7 +16,9 @@
  * @package    Magento_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ProductAlert_Block_Email_Stock extends Magento_ProductAlert_Block_Email_Abstract
+namespace Magento\ProductAlert\Block\Email;
+
+class Stock extends \Magento\ProductAlert\Block\Email\AbstractEmail
 {
 
     protected $_template = 'email/stock.phtml';
@@ -24,12 +26,12 @@ class Magento_ProductAlert_Block_Email_Stock extends Magento_ProductAlert_Block_
     /**
      * Product thumbnail image url getter
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return string
      */
     public function getThumbnailUrl($product)
     {
-        return (string)$this->helper('Magento_Catalog_Helper_Image')->init($product, 'thumbnail')
+        return (string)$this->helper('Magento\Catalog\Helper\Image')->init($product, 'thumbnail')
             ->resize($this->getThumbnailSize());
     }
 

@@ -10,14 +10,16 @@
  */
 
 /**
- * Test class for Magento_ImportExport_Model_Import_Entity_Abstract
+ * Test class for \Magento\ImportExport\Model\Import\Entity\AbstractEntity
  */
-class Magento_ImportExport_Model_Import_Entity_AbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Import\Entity;
+
+class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Abstract import entity model
      *
-     * @var Magento_ImportExport_Model_Import_Entity_Abstract|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\ImportExport\Model\Import\Entity\AbstractEntity|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
@@ -25,8 +27,8 @@ class Magento_ImportExport_Model_Import_Entity_AbstractTest extends PHPUnit_Fram
     {
         parent::setUp();
 
-        $this->_model = $this->getMockForAbstractClass('Magento_ImportExport_Model_Import_Entity_Abstract', array(),
-            '', false, true, true, array('_saveValidatedBunches')
+        $this->_model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\Entity\AbstractEntity',
+            array(), '', false, true, true, array('_saveValidatedBunches')
         );
     }
 
@@ -40,26 +42,26 @@ class Magento_ImportExport_Model_Import_Entity_AbstractTest extends PHPUnit_Fram
     /**
      * Create mock for data helper and push it to registry
      *
-     * @return Magento_ImportExport_Helper_Data|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\ImportExport\Helper\Data|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _createDataHelperMock()
     {
-        /** @var $helper Magento_ImportExport_Helper_Data */
-        $helper = $this->getMock('Magento_ImportExport_Helper_Data', array(), array(), '', false);
+        /** @var $helper \Magento\ImportExport\Helper\Data */
+        $helper = $this->getMock('Magento\ImportExport\Helper\Data', array(), array(), '', false);
 
-        $coreRegisterMock = $this->getMock('Magento_Core_Model_Registry');
+        $coreRegisterMock = $this->getMock('Magento\Core\Model\Registry');
         $coreRegisterMock->expects($this->any())
             ->method('registry')
-            ->with('_helper/Magento_ImportExport_Helper_Data')
+            ->with('_helper/Magento\ImportExport\Helper\Data')
             ->will($this->returnValue($helper));
 
-        $objectManagerMock = $this->getMockBuilder('Magento_ObjectManager')->getMock();
+        $objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')->getMock();
         $objectManagerMock->expects($this->any())
             ->method('get')
-            ->with('Magento_Core_Model_Registry')
+            ->with('Magento\Core\Model\Registry')
             ->will($this->returnValue($coreRegisterMock));
 
-        Magento_Core_Model_ObjectManager::setInstance($objectManagerMock);
+        \Magento\Core\Model\ObjectManager::setInstance($objectManagerMock);
 
         return $helper;
     }
@@ -68,12 +70,12 @@ class Magento_ImportExport_Model_Import_Entity_AbstractTest extends PHPUnit_Fram
      * Create source adapter mock and set it into model object which tested in this class
      *
      * @param array $columns value which will be returned by method getColNames()
-     * @return Magento_ImportExport_Model_Import_SourceAbstract|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\ImportExport\Model\Import\AbstractSource|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _createSourceAdapterMock(array $columns)
     {
-        /** @var $source Magento_ImportExport_Model_Import_SourceAbstract|PHPUnit_Framework_MockObject_MockObject */
-        $source = $this->getMockForAbstractClass('Magento_ImportExport_Model_Import_SourceAbstract', array(), '', false,
+        /** @var $source \Magento\ImportExport\Model\Import\AbstractSource|\PHPUnit_Framework_MockObject_MockObject */
+        $source = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\AbstractSource', array(), '', false,
             true, true, array('getColNames')
         );
         $source->expects($this->any())
@@ -87,8 +89,8 @@ class Magento_ImportExport_Model_Import_Entity_AbstractTest extends PHPUnit_Fram
     /**
      * Test for method validateData()
      *
-     * @covers Magento_ImportExport_Model_Import_Entity_Abstract::validateData
-     * @expectedException Magento_Core_Exception
+     * @covers \Magento\ImportExport\Model\Import\Entity\AbstractEntity::validateData
+     * @expectedException \Magento\Core\Exception
      * @expectedExceptionMessage Columns number: "1" have empty headers
      */
     public function testValidateDataEmptyColumnName()
@@ -101,8 +103,8 @@ class Magento_ImportExport_Model_Import_Entity_AbstractTest extends PHPUnit_Fram
     /**
      * Test for method validateData()
      *
-     * @covers Magento_ImportExport_Model_Import_Entity_Abstract::validateData
-     * @expectedException Magento_Core_Exception
+     * @covers \Magento\ImportExport\Model\Import\Entity\AbstractEntity::validateData
+     * @expectedException \Magento\Core\Exception
      * @expectedExceptionMessage Columns number: "1" have empty headers
      */
     public function testValidateDataColumnNameWithWhitespaces()
@@ -115,8 +117,8 @@ class Magento_ImportExport_Model_Import_Entity_AbstractTest extends PHPUnit_Fram
     /**
      * Test for method validateData()
      *
-     * @covers Magento_ImportExport_Model_Import_Entity_Abstract::validateData
-     * @expectedException Magento_Core_Exception
+     * @covers \Magento\ImportExport\Model\Import\Entity\AbstractEntity::validateData
+     * @expectedException \Magento\Core\Exception
      * @expectedExceptionMessage Column names: "_test1" are invalid
      */
     public function testValidateDataAttributeNames()
@@ -130,7 +132,7 @@ class Magento_ImportExport_Model_Import_Entity_AbstractTest extends PHPUnit_Fram
      * Test for method isAttributeValid()
      *
      * @dataProvider isAttributeValidDataProvider
-     * @covers Magento_ImportExport_Model_Import_Entity_Abstract::isAttributeValid
+     * @covers \Magento\ImportExport\Model\Import\Entity\AbstractEntity::isAttributeValid
      *
      * @param string $attrCode
      * @param array $attrParams

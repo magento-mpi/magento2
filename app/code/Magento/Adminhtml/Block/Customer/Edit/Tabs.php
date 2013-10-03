@@ -11,27 +11,29 @@
 /**
  * Admin customer left menu
  */
-class Magento_Adminhtml_Block_Customer_Edit_Tabs extends Magento_Backend_Block_Widget_Tabs
+namespace Magento\Adminhtml\Block\Customer\Edit;
+
+class Tabs extends \Magento\Backend\Block\Widget\Tabs
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Backend_Model_Auth_Session $authSession
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Model\Auth\Session $authSession
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Backend_Model_Auth_Session $authSession,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Model\Auth\Session $authSession,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -48,19 +50,19 @@ class Magento_Adminhtml_Block_Customer_Edit_Tabs extends Magento_Backend_Block_W
 
     protected function _beforeToHtml()
     {
-        Magento_Profiler::start('customer/tabs');
+        \Magento\Profiler::start('customer/tabs');
 
         $this->addTab('account', array(
             'label'     => __('Account Information'),
             'content'   => $this->getLayout()
-                ->createBlock('Magento_Adminhtml_Block_Customer_Edit_Tab_Account')->initForm()->toHtml(),
+                ->createBlock('Magento\Adminhtml\Block\Customer\Edit\Tab\Account')->initForm()->toHtml(),
             'active'    => $this->_coreRegistry->registry('current_customer')->getId() ? false : true
         ));
 
         $this->addTab('addresses', array(
             'label'     => __('Addresses'),
             'content'   => $this->getLayout()
-                ->createBlock('Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses')->initForm()->toHtml(),
+                ->createBlock('Magento\Adminhtml\Block\Customer\Edit\Tab\Addresses')->initForm()->toHtml(),
         ));
 
 
@@ -92,7 +94,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tabs extends Magento_Backend_Block_W
                 $this->addTab('newsletter', array(
                     'label'     => __('Newsletter'),
                     'content'   => $this->getLayout()
-                        ->createBlock('Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter')->initForm()->toHtml()
+                        ->createBlock('Magento\Adminhtml\Block\Customer\Edit\Tab\Newsletter')->initForm()->toHtml()
                 ));
             }
 
@@ -106,7 +108,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tabs extends Magento_Backend_Block_W
         }
 
         $this->_updateActiveTab();
-        Magento_Profiler::stop('customer/tabs');
+        \Magento\Profiler::stop('customer/tabs');
         return parent::_beforeToHtml();
     }
 

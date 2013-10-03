@@ -5,21 +5,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Cms_Helper_Wysiwyg_ImagesTest extends PHPUnit_Framework_TestCase
+namespace Magento\Cms\Helper\Wysiwyg;
+
+class ImagesTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetStorageRoot()
     {
-        /** @var $dir Magento_Core_Model_Dir */
-        $dir = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir');
-        $helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Cms_Helper_Wysiwyg_Images');
-        $this->assertStringStartsWith($dir->getDir(Magento_Core_Model_Dir::MEDIA), $helper->getStorageRoot());
+        /** @var $dir \Magento\Core\Model\Dir */
+        $dir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir');
+        $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Cms\Helper\Wysiwyg\Images');
+        $this->assertStringStartsWith($dir->getDir(\Magento\Core\Model\Dir::MEDIA), $helper->getStorageRoot());
     }
 
     public function testGetCurrentUrl()
     {
-        $helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Cms_Helper_Wysiwyg_Images');
+        $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Cms\Helper\Wysiwyg\Images');
         $this->assertStringStartsWith('http://localhost/', $helper->getCurrentUrl());
     }
 }

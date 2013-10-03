@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Report_Filter_Form extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\Adminhtml\Block\Report\Filter;
+
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Report type options
@@ -85,7 +87,7 @@ class Magento_Adminhtml_Block_Report_Filter_Form extends Magento_Backend_Block_W
      *
      * @param string $key
      * @param string $value
-     * @return Magento_Adminhtml_Block_Report_Filter_Form
+     * @return \Magento\Adminhtml\Block\Report\Filter\Form
      */
     public function addReportTypeOption($key, $value)
     {
@@ -96,13 +98,13 @@ class Magento_Adminhtml_Block_Report_Filter_Form extends Magento_Backend_Block_W
     /**
      * Add fieldset with general report fields
      *
-     * @return Magento_Adminhtml_Block_Report_Filter_Form
+     * @return \Magento\Adminhtml\Block\Report\Filter\Form
      */
     protected function _prepareForm()
     {
         $actionUrl = $this->getUrl('*/*/sales');
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form   = $this->_formFactory->create(array(
             'attributes' => array(
                 'id' => 'filter_form',
@@ -115,7 +117,7 @@ class Magento_Adminhtml_Block_Report_Filter_Form extends Magento_Backend_Block_W
         $form->setHtmlIdPrefix($htmlIdPrefix);
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Filter')));
 
-        $dateFormat = $this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
 
         $fieldset->addField('store_ids', 'hidden', array(
             'name'  => 'store_ids'
@@ -176,7 +178,7 @@ class Magento_Adminhtml_Block_Report_Filter_Form extends Magento_Backend_Block_W
      * Initialize form fileds values
      * Method will be called after prepareForm and can be used for field values initialization
      *
-     * @return Magento_Adminhtml_Block_Widget_Form
+     * @return \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _initFormValues()
     {
@@ -193,16 +195,16 @@ class Magento_Adminhtml_Block_Report_Filter_Form extends Magento_Backend_Block_W
     /**
      * This method is called before rendering HTML
      *
-     * @return Magento_Adminhtml_Block_Widget_Form
+     * @return \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _beforeToHtml()
     {
         $result = parent::_beforeToHtml();
 
-        /** @var Magento_Data_Form_Element_Fieldset $fieldset */
+        /** @var \Magento\Data\Form\Element\Fieldset $fieldset */
         $fieldset = $this->getForm()->getElement('base_fieldset');
 
-        if (is_object($fieldset) && $fieldset instanceof Magento_Data_Form_Element_Fieldset) {
+        if (is_object($fieldset) && $fieldset instanceof \Magento\Data\Form\Element\Fieldset) {
             // apply field visibility
             foreach ($fieldset->getElements() as $field) {
                 if (!$this->getFieldVisibility($field->getId())) {
@@ -212,7 +214,7 @@ class Magento_Adminhtml_Block_Report_Filter_Form extends Magento_Backend_Block_W
             // apply field options
             foreach ($this->_fieldOptions as $fieldId => $fieldOptions) {
                 $field = $fieldset->getElements()->searchById($fieldId);
-                /** @var Magento_Object $field */
+                /** @var \Magento\Object $field */
                 if ($field) {
                     foreach ($fieldOptions as $k => $v) {
                         $field->setDataUsingMethod($k, $v);

@@ -11,22 +11,24 @@
 /**
  * PEAR Packages Download Manager
  */
-class Magento_Install_Model_Installer_Pear extends Magento_Install_Model_Installer_Abstract
+namespace Magento\Install\Model\Installer;
+
+class Pear extends \Magento\Install\Model\Installer\AbstractInstaller
 {
     /**
      * Installer Session
      *
-     * @var Magento_Core_Model_Session_Generic
+     * @var \Magento\Core\Model\Session\Generic
      */
     protected $_session;
 
     /**
-     * @param Magento_Install_Model_InstallerProxy $installer
-     * @param Magento_Core_Model_Session_Generic $session
+     * @param \Magento\Install\Model\InstallerProxy $installer
+     * @param \Magento\Core\Model\Session\Generic $session
      */
     public function __construct(
-        Magento_Install_Model_InstallerProxy $installer,
-        Magento_Core_Model_Session_Generic $session
+        \Magento\Install\Model\InstallerProxy $installer,
+        \Magento\Core\Model\Session\Generic $session
     ) {
         parent::__construct($installer);
         $this->_session = $session;
@@ -56,7 +58,7 @@ class Magento_Install_Model_Installer_Pear extends Magento_Install_Model_Install
      */
     public function checkDownloads()
     {
-        $pear = new Magento_Pear;
+        $pear = new \Magento\Pear;
         $pkg = new PEAR_PackageFile($pear->getConfig(), false);
         $result = true;
         foreach ($this->getPackages() as $package) {

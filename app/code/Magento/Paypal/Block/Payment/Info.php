@@ -12,29 +12,31 @@
  * PayPal common payment info block
  * Uses default templates
  */
-class Magento_Paypal_Block_Payment_Info extends Magento_Payment_Block_Info_Cc
+namespace Magento\Paypal\Block\Payment;
+
+class Info extends \Magento\Payment\Block\Info\Cc
 {
     /**
-     * @var Magento_Paypal_Model_InfoFactory
+     * @var \Magento\Paypal\Model\InfoFactory
      */
     protected $_paypalInfoFactory;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Payment_Model_Config $paymentConfig
-     * @param Magento_Paypal_Model_InfoFactory $paypalInfoFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Payment\Model\Config $paymentConfig
+     * @param \Magento\Paypal\Model\InfoFactory $paypalInfoFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Payment_Model_Config $paymentConfig,
-        Magento_Paypal_Model_InfoFactory $paypalInfoFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Payment\Model\Config $paymentConfig,
+        \Magento\Paypal\Model\InfoFactory $paypalInfoFactory,
         array $data = array()
     ) {
         $this->_paypalInfoFactory = $paypalInfoFactory;
@@ -48,7 +50,7 @@ class Magento_Paypal_Block_Payment_Info extends Magento_Payment_Block_Info_Cc
      */
     public function getCcTypeName()
     {
-        if (Magento_Paypal_Model_Config::getIsCreditCardMethod($this->getInfo()->getMethod())) {
+        if (\Magento\Paypal\Model\Config::getIsCreditCardMethod($this->getInfo()->getMethod())) {
             return parent::getCcTypeName();
         }
     }
@@ -56,8 +58,8 @@ class Magento_Paypal_Block_Payment_Info extends Magento_Payment_Block_Info_Cc
     /**
      * Prepare PayPal-specific payment information
      *
-     * @param Magento_Object|array $transport
-     * @return \Magento_Object
+     * @param \Magento\Object|array $transport
+     * @return \Magento\Object
      */
     protected function _prepareSpecificInformation($transport = null)
     {

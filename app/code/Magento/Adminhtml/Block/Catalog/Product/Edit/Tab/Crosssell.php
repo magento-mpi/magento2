@@ -15,73 +15,75 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab;
+
+class Crosssell extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Catalog_Model_Product_LinkFactory
+     * @var \Magento\Catalog\Model\Product\LinkFactory
      */
     protected $_linkFactory;
 
     /**
-     * @var Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory]
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory]
      */
     protected $_setsFactory;
 
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
-     * @var Magento_Catalog_Model_Product_Type
+     * @var \Magento\Catalog\Model\Product\Type
      */
     protected $_type;
 
     /**
-     * @var Magento_Catalog_Model_Product_Status
+     * @var \Magento\Catalog\Model\Product\Status
      */
     protected $_status;
 
     /**
-     * @var Magento_Catalog_Model_Product_Visibility
+     * @var \Magento\Catalog\Model\Product\Visibility
      */
     protected $_visibility;
 
     /**
-     * @param Magento_Catalog_Model_Product_LinkFactory $linkFactory
-     * @param Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $setsFactory
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Catalog_Model_Product_Type $type
-     * @param Magento_Catalog_Model_Product_Status $status
-     * @param Magento_Catalog_Model_Product_Visibility $visibility
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Catalog\Model\Product\LinkFactory $linkFactory
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setsFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Model\Product\Type $type
+     * @param \Magento\Catalog\Model\Product\Status $status
+     * @param \Magento\Catalog\Model\Product\Visibility $visibility
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Catalog_Model_Product_LinkFactory $linkFactory,
-        Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $setsFactory,
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Catalog_Model_Product_Type $type,
-        Magento_Catalog_Model_Product_Status $status,
-        Magento_Catalog_Model_Product_Visibility $visibility,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Core_Model_Registry $coreRegistry,
+        \Magento\Catalog\Model\Product\LinkFactory $linkFactory,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setsFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Model\Product\Type $type,
+        \Magento\Catalog\Model\Product\Status $status,
+        \Magento\Catalog\Model\Product\Visibility $visibility,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_linkFactory = $linkFactory;
@@ -115,7 +117,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Magento
     /**
      * Retirve currently edited product model
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
@@ -126,7 +128,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Magento
      * Add filter
      *
      * @param object $column
-     * @return Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell
+     * @return \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Crosssell
      */
     protected function _addColumnFilterToCollection($column)
     {
@@ -152,11 +154,11 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Magento
     /**
      * Prepare collection
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        /* @var $collection Magento_Catalog_Model_Resource_Product_Link_Product_Collection */
+        /* @var $collection \Magento\Catalog\Model\Resource\Product\Link\Product\Collection */
         $collection = $this->_linkFactory->create()->useCrossSellLinks()
             ->getProductCollection()
             ->setProduct($this->getProduct())
@@ -189,7 +191,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Magento
     /**
      * Add columns to grid
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareColumns()
     {
@@ -271,7 +273,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Magento
         $this->addColumn('price', array(
             'header'        => __('Price'),
             'type'          => 'currency',
-            'currency_code' => (string) $this->_storeConfig->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+            'currency_code' => (string) $this->_storeConfig->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
             'index'         => 'price',
             'header_css_class'  => 'col-price',
             'column_css_class'  => 'col-price'

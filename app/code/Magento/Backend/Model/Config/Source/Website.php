@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Config_Source_Website implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Backend\Model\Config\Source;
+
+class Website implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * @var array
@@ -16,14 +18,14 @@ class Magento_Backend_Model_Config_Source_Website implements Magento_Core_Model_
     protected $_options;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
-    public function __construct(Magento_Core_Model_StoreManagerInterface $storeManager)
+    public function __construct(\Magento\Core\Model\StoreManagerInterface $storeManager)
     {
         $this->_storeManager = $storeManager;
     }

@@ -11,6 +11,8 @@
 /**
  * Block that renders Block tab
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Block extends Magento_Core_Block_Template
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools;
+
+class Block extends \Magento\Core\Block\Template
 {
 }

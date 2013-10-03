@@ -10,7 +10,7 @@
 ?>
 <?php
 /**
- * @var $this Magento_Adminhtml_Block_Catalog_Product_Edit
+ * @var $this \Magento\Adminhtml\Block\Catalog\Product\Edit
  */
 ?>
 
@@ -94,8 +94,8 @@ jQuery(function($) {
     });
     $form.mage('validation', {validationUrl: '<?php echo $this->getValidationUrl() ?>'});
 
-    var masks = <?php echo $this->helper('Magento_Core_Helper_Data')->jsonEncode($this->getFieldsAutogenerationMasks())?>;
-    var availablePlaceholders = <?php echo $this->helper('Magento_Core_Helper_Data')->jsonEncode($this->getAttributesAllowedForAutogeneration())?>;
+    var masks = <?php echo $this->helper('Magento\Core\Helper\Data')->jsonEncode($this->getFieldsAutogenerationMasks())?>;
+    var availablePlaceholders = <?php echo $this->helper('Magento\Core\Helper\Data')->jsonEncode($this->getAttributesAllowedForAutogeneration())?>;
     var Autogenerator = function(masks) {
         this._masks = masks || {};
         this._fieldReverseIndex = this._buildReverseIndex(this._masks);

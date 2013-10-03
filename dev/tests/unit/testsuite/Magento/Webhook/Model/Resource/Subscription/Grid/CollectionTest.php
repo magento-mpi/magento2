@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Resource_Subscription_Grid_Collection
+ * \Magento\Webhook\Model\Resource\Subscription\Grid\Collection
  *
  * {license_notice}
  *
@@ -9,16 +9,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Resource\Subscription\Grid;
+
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstructor()
     {
-        $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
+        $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
 
-        $fetchStrategyMock = $this->_makeMock('Magento_Data_Collection_Db_FetchStrategyInterface');
-        $endpointResMock = $this->_makeMock('Magento_Webhook_Model_Resource_Endpoint');
+        $fetchStrategyMock = $this->_makeMock('Magento\Data\Collection\Db\FetchStrategyInterface');
+        $endpointResMock = $this->_makeMock('Magento\Webhook\Model\Resource\Endpoint');
 
-        $configMock = $this->_makeMock('Magento_Webhook_Model_Subscription_Config');
+        $configMock = $this->_makeMock('Magento\Webhook\Model\Subscription\Config');
         $configMock->expects($this->once())
             ->method('updateSubscriptionCollection');
 
@@ -26,18 +28,18 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
         $selectMock->expects($this->any())
             ->method('from')
             ->with(array('main_table' => null));
-        $connectionMock = $this->_makeMock('Magento_DB_Adapter_Pdo_Mysql');
+        $connectionMock = $this->_makeMock('Magento\DB\Adapter\Pdo\Mysql');
         $connectionMock->expects($this->any())
             ->method('select')
             ->will($this->returnValue($selectMock));
-        $resourceMock = $this-> _makeMock('Magento_Webhook_Model_Resource_Subscription');
+        $resourceMock = $this-> _makeMock('Magento\Webhook\Model\Resource\Subscription');
         $resourceMock->expects($this->any())
             ->method('getReadConnection')
             ->will($this->returnValue($connectionMock));
-        /** @var Magento_Core_Model_EntityFactory $entityFactory */
-        $entityFactory = $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false);
-        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
-        new Magento_Webhook_Model_Resource_Subscription_Grid_Collection(
+        /** @var \Magento\Core\Model\EntityFactory $entityFactory */
+        $entityFactory = $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        new \Magento\Webhook\Model\Resource\Subscription\Grid\Collection(
             $configMock, $endpointResMock, $eventManager, $logger, $fetchStrategyMock, $entityFactory, $resourceMock);
     }
 
@@ -45,7 +47,7 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
      * Generates a mock object of the given class
      *
      * @param string $className
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     private function _makeMock($className)
     {

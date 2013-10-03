@@ -12,7 +12,9 @@
  * Backend for qty increments
  *
  */
-class Magento_CatalogInventory_Model_System_Config_Backend_Qtyincrements extends Magento_Core_Model_Config_Value
+namespace Magento\CatalogInventory\Model\System\Config\Backend;
+
+class Qtyincrements extends \Magento\Core\Model\Config\Value
 {
     /**
      * Validate data before save
@@ -21,7 +23,7 @@ class Magento_CatalogInventory_Model_System_Config_Backend_Qtyincrements extends
     {
         $value = $this->getValue();
         if (floor($value) != $value) {
-            throw new Magento_Core_Exception('Decimal qty increments is not allowed.');
+            throw new \Magento\Core\Exception('Decimal qty increments is not allowed.');
         }
     }
 }

@@ -11,8 +11,10 @@
 /**
  * Composite form element renderer
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Composite
-    extends Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Recursive
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer;
+
+class Composite
+    extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\Recursive
 {
     /**
      * Set of templates to render
@@ -37,7 +39,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Composite
      */
     public function getCssClasses()
     {
-        /** @var $element Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Composite_Abstract */
+        /** @var $element \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Composite\AbstractComposite */
         $element = $this->getElement();
         $isField = $element->getFieldsetType() == 'field';
 

@@ -11,36 +11,38 @@
 /**
  * Form Type Edit General Tab Block
  */
-class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Tab_General
-    extends Magento_Backend_Block_Widget_Form_Generic
-    implements Magento_Backend_Block_Widget_Tab_Interface
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Edit\Tab;
+
+class General
+    extends \Magento\Backend\Block\Widget\Form\Generic
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
-     * @var Magento_Core_Model_Theme_LabelFactory
+     * @var \Magento\Core\Model\Theme\LabelFactory
      */
     protected $_themeLabelFactory;
 
     /**
-     * @var Magento_Core_Model_System_Store
+     * @var \Magento\Core\Model\System\Store
      */
     protected $_systemStore;
 
     /**
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Theme_LabelFactory $themeLabelFactory
-     * @param Magento_Core_Model_System_Store $systemStore
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Theme\LabelFactory $themeLabelFactory
+     * @param \Magento\Core\Model\System\Store $systemStore
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Theme_LabelFactory $themeLabelFactory,
-        Magento_Core_Model_System_Store $systemStore,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Theme\LabelFactory $themeLabelFactory,
+        \Magento\Core\Model\System\Store $systemStore,
         array $data = array()
     ) {
         $this->_themeLabelFactory = $themeLabelFactory;
@@ -61,14 +63,14 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Ta
     /**
      * Prepare form before rendering HTML
      *
-     * @return Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Tab_General
+     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Edit\Tab\General
      */
     protected function _prepareForm()
     {
-        /* @var $model Magento_Eav_Model_Form_Type */
+        /* @var $model \Magento\Eav\Model\Form\Type */
         $model      = $this->_coreRegistry->registry('current_form_type');
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form       = $this->_formFactory->create();
         $fieldset   = $form->addFieldset('general_fieldset', array(
             'legend'    => __('General Information')
@@ -105,7 +107,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Ta
             'value'     => $model->getLabel()
         ));
 
-        /** @var $label Magento_Core_Model_Theme_Label */
+        /** @var $label \Magento\Core\Model\Theme\Label */
         $label = $this->_themeLabelFactory->create();
         $options = $label->getLabelsCollection();
         array_unshift($options, array(

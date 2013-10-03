@@ -5,14 +5,16 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Interception_Custom_Module_Model_ItemPlugin_Advanced
+namespace Magento\Interception\Custom\Module\Model\ItemPlugin;
+
+class Advanced
 {
     /**
      * @param array $methodArguments
-     * @param Magento_Code_Plugin_InvocationChain $invocationChain
+     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
      * @return string
      */
-    public function aroundGetName(array $methodArguments, Magento_Code_Plugin_InvocationChain $invocationChain)
+    public function aroundGetName(array $methodArguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
     {
         return '[' . $invocationChain->proceed($methodArguments) . ']';
     }

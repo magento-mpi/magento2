@@ -11,26 +11,28 @@
 /**
  * Tax Rate Model
  *
- * @method Magento_Tax_Model_Resource_Calculation_Rate _getResource()
- * @method Magento_Tax_Model_Resource_Calculation_Rate getResource()
+ * @method \Magento\Tax\Model\Resource\Calculation\Rate _getResource()
+ * @method \Magento\Tax\Model\Resource\Calculation\Rate getResource()
  * @method string getTaxCountryId()
- * @method Magento_Tax_Model_Calculation_Rate setTaxCountryId(string $value)
+ * @method \Magento\Tax\Model\Calculation\Rate setTaxCountryId(string $value)
  * @method int getTaxRegionId()
- * @method Magento_Tax_Model_Calculation_Rate setTaxRegionId(int $value)
+ * @method \Magento\Tax\Model\Calculation\Rate setTaxRegionId(int $value)
  * @method string getTaxPostcode()
- * @method Magento_Tax_Model_Calculation_Rate setTaxPostcode(string $value)
+ * @method \Magento\Tax\Model\Calculation\Rate setTaxPostcode(string $value)
  * @method string getCode()
- * @method Magento_Tax_Model_Calculation_Rate setCode(string $value)
+ * @method \Magento\Tax\Model\Calculation\Rate setCode(string $value)
  * @method float getRate()
- * @method Magento_Tax_Model_Calculation_Rate setRate(float $value)
+ * @method \Magento\Tax\Model\Calculation\Rate setRate(float $value)
  * @method int getZipIsRange()
- * @method Magento_Tax_Model_Calculation_Rate setZipIsRange(int $value)
+ * @method \Magento\Tax\Model\Calculation\Rate setZipIsRange(int $value)
  * @method int getZipFrom()
- * @method Magento_Tax_Model_Calculation_Rate setZipFrom(int $value)
+ * @method \Magento\Tax\Model\Calculation\Rate setZipFrom(int $value)
  * @method int getZipTo()
- * @method Magento_Tax_Model_Calculation_Rate setZipTo(int $value)
+ * @method \Magento\Tax\Model\Calculation\Rate setZipTo(int $value)
  */
-class Magento_Tax_Model_Calculation_Rate extends Magento_Core_Model_Abstract
+namespace Magento\Tax\Model\Calculation;
+
+class Rate extends \Magento\Core\Model\AbstractModel
 {
     protected $_titles = null;
     protected $_titleModel = null;
@@ -38,38 +40,38 @@ class Magento_Tax_Model_Calculation_Rate extends Magento_Core_Model_Abstract
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager;
 
     /**
-     * @var Magento_Directory_Model_RegionFactory
+     * @var \Magento\Directory\Model\RegionFactory
      */
     protected $_regionFactory;
 
     /**
-     * @var Magento_Tax_Model_Calculation_Rate_TitleFactory
+     * @var \Magento\Tax\Model\Calculation\Rate\TitleFactory
      */
     protected $_titleFactory;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Directory_Model_RegionFactory $regionFactory
-     * @param Magento_Tax_Model_Calculation_Rate_TitleFactory $taxTitleFactory
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Directory\Model\RegionFactory $regionFactory
+     * @param \Magento\Tax\Model\Calculation\Rate\TitleFactory $taxTitleFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Directory_Model_RegionFactory $regionFactory,
-        Magento_Tax_Model_Calculation_Rate_TitleFactory $taxTitleFactory,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Directory\Model\RegionFactory $regionFactory,
+        \Magento\Tax\Model\Calculation\Rate\TitleFactory $taxTitleFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -83,14 +85,14 @@ class Magento_Tax_Model_Calculation_Rate extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Tax_Model_Resource_Calculation_Rate');
+        $this->_init('Magento\Tax\Model\Resource\Calculation\Rate');
     }
 
     /**
      * Prepare location settings and tax postcode before save rate
      *
-     * @return Magento_Tax_Model_Calculation_Rate
-     * @throws Magento_Core_Exception
+     * @return \Magento\Tax\Model\Calculation\Rate
+     * @throws \Magento\Core\Exception
      */
     protected function _beforeSave()
     {
@@ -100,11 +102,11 @@ class Magento_Tax_Model_Calculation_Rate extends Magento_Core_Model_Abstract
             || $this->getTaxPostcode() === '';
 
         if ($isEmptyValues || $isWrongRange) {
-            throw new Magento_Core_Exception(__('Please fill all required fields with valid information.'));
+            throw new \Magento\Core\Exception(__('Please fill all required fields with valid information.'));
         }
 
         if (!is_numeric($this->getRate()) || $this->getRate() <= 0) {
-            throw new Magento_Core_Exception(__('Rate Percent should be a positive number.'));
+            throw new \Magento\Core\Exception(__('Rate Percent should be a positive number.'));
         }
 
         if ($this->getZipIsRange()) {
@@ -112,15 +114,15 @@ class Magento_Tax_Model_Calculation_Rate extends Magento_Core_Model_Abstract
             $zipTo = $this->getZipTo();
 
             if (strlen($zipFrom) > 9 || strlen($zipTo) > 9) {
-                throw new Magento_Core_Exception(__('Maximum zip code length is 9.'));
+                throw new \Magento\Core\Exception(__('Maximum zip code length is 9.'));
             }
 
             if (!is_numeric($zipFrom) || !is_numeric($zipTo) || $zipFrom < 0 || $zipTo < 0) {
-                throw new Magento_Core_Exception(__('Zip code should not contain characters other than digits.'));
+                throw new \Magento\Core\Exception(__('Zip code should not contain characters other than digits.'));
             }
 
             if ($zipFrom > $zipTo) {
-                throw new Magento_Core_Exception(__('Range To should be equal or greater than Range From.'));
+                throw new \Magento\Core\Exception(__('Range To should be equal or greater than Range From.'));
             }
 
             $this->setTaxPostcode($zipFrom . '-' . $zipTo);
@@ -140,7 +142,7 @@ class Magento_Tax_Model_Calculation_Rate extends Magento_Core_Model_Abstract
         parent::_beforeSave();
         $country = $this->getTaxCountryId();
         $region = $this->getTaxRegionId();
-        /** @var $regionModel Magento_Directory_Model_Region */
+        /** @var $regionModel \Magento\Directory\Model\Region */
         $regionModel = $this->_regionFactory->create();
         $regionModel->load($region);
         if ($regionModel->getCountryId() != $country) {
@@ -152,7 +154,7 @@ class Magento_Tax_Model_Calculation_Rate extends Magento_Core_Model_Abstract
     /**
      * Save rate titles
      *
-     * @return Magento_Tax_Model_Calculation_Rate
+     * @return \Magento\Tax\Model\Calculation\Rate
      */
     protected function _afterSave()
     {
@@ -164,13 +166,13 @@ class Magento_Tax_Model_Calculation_Rate extends Magento_Core_Model_Abstract
     /**
      * Processing object before delete data
      *
-     * @return Magento_Core_Model_Abstract
-     * @throws Magento_Core_Exception
+     * @return \Magento\Core\Model\AbstractModel
+     * @throws \Magento\Core\Exception
      */
     protected function _beforeDelete()
     {
         if ($this->_isInRule()) {
-            throw new Magento_Core_Exception(__('The tax rate cannot be removed. It exists in a tax rule.'));
+            throw new \Magento\Core\Exception(__('The tax rate cannot be removed. It exists in a tax rule.'));
         }
         return parent::_beforeDelete();
     }
@@ -179,7 +181,7 @@ class Magento_Tax_Model_Calculation_Rate extends Magento_Core_Model_Abstract
      * After rate delete
      * redeclared for dispatch tax_settings_change_after event
      *
-     * @return Magento_Tax_Model_Calculation_Rate
+     * @return \Magento\Tax\Model\Calculation\Rate
      */
     protected function _afterDelete()
     {
@@ -235,7 +237,7 @@ class Magento_Tax_Model_Calculation_Rate extends Magento_Core_Model_Abstract
      * Load rate model by code
      *
      * @param  string $code
-     * @return Magento_Tax_Model_Calculation_Rate
+     * @return \Magento\Tax\Model\Calculation\Rate
      */
     public function loadByCode($code)
     {

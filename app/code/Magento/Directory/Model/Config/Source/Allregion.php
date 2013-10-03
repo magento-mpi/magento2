@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Directory_Model_Config_Source_Allregion implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Directory\Model\Config\Source;
+
+class Allregion implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * @var array
@@ -21,22 +23,22 @@ class Magento_Directory_Model_Config_Source_Allregion implements Magento_Core_Mo
     protected $_options;
 
     /**
-     * @var Magento_Directory_Model_Resource_Country_CollectionFactory
+     * @var \Magento\Directory\Model\Resource\Country\CollectionFactory
      */
     protected $_countryCollFactory;
 
     /**
-     * @var Magento_Directory_Model_Resource_Region_CollectionFactory
+     * @var \Magento\Directory\Model\Resource\Region\CollectionFactory
      */
     protected $_regionCollFactory;
 
     /**
-     * @param Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory
-     * @param Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory
+     * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
+     * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
      */
     public function __construct(
-        Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory,
-        Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory
+        \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
+        \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
     ) {
         $this->_countryCollFactory = $countryCollFactory;
         $this->_regionCollFactory = $regionCollFactory;

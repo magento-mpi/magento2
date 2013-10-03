@@ -15,7 +15,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Order_Status extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Sales\Model\Resource\Order;
+
+class Status extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Status labels table
@@ -47,7 +49,7 @@ class Magento_Sales_Model_Resource_Order_Status extends Magento_Core_Model_Resou
      *
      * @param   string $field
      * @param   mixed $value
-     * @return  Zend_Db_Select
+     * @return  \Zend_Db_Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {
@@ -71,10 +73,10 @@ class Magento_Sales_Model_Resource_Order_Status extends Magento_Core_Model_Resou
     /**
      * Store labels getter
      *
-     * @param Magento_Core_Model_Abstract $status
+     * @param \Magento\Core\Model\AbstractModel $status
      * @return array
      */
-    public function getStoreLabels(Magento_Core_Model_Abstract $status)
+    public function getStoreLabels(\Magento\Core\Model\AbstractModel $status)
     {
         $select = $this->_getWriteAdapter()->select()
             ->from($this->_labelsTable, array('store_id', 'label'))
@@ -85,10 +87,10 @@ class Magento_Sales_Model_Resource_Order_Status extends Magento_Core_Model_Resou
     /**
      * Save status labels per store
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Sales_Model_Resource_Order_Status
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Sales\Model\Resource\Order\Status
      */
-    protected function _afterSave(Magento_Core_Model_Abstract $object)
+    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
         if ($object->hasStoreLabels()) {
             $labels = $object->getStoreLabels();
@@ -120,7 +122,7 @@ class Magento_Sales_Model_Resource_Order_Status extends Magento_Core_Model_Resou
      * @param string $status
      * @param string $state
      * @param bool $isDefault
-     * @return Magento_Sales_Model_Resource_Order_Status
+     * @return \Magento\Sales\Model\Resource\Order\Status
      */
     public function assignState($status, $state, $isDefault)
     {
@@ -147,16 +149,16 @@ class Magento_Sales_Model_Resource_Order_Status extends Magento_Core_Model_Resou
      *
      * @param string $status
      * @param string $state
-     * @return Magento_Sales_Model_Resource_Order_Status
+     * @return \Magento\Sales\Model\Resource\Order\Status
      */
     public function unassignState($status, $state)
     {
         $select = $this->_getWriteAdapter()->select()
-            ->from($this->_stateTable, array('qty' => new Zend_Db_Expr('COUNT(*)')))
+            ->from($this->_stateTable, array('qty' => new \Zend_Db_Expr('COUNT(*)')))
             ->where('state = ?', $state);
 
         if ($this->_getWriteAdapter()->fetchOne($select) == 1) {
-            throw new Magento_Core_Exception(
+            throw new \Magento\Core\Exception(
                 __('The last status can\'t be unassigned from its current state.')
             );
         }

@@ -9,92 +9,94 @@
  */
 
 /**
- * @method Magento_Sales_Model_Resource_Order_Invoice _getResource()
- * @method Magento_Sales_Model_Resource_Order_Invoice getResource()
+ * @method \Magento\Sales\Model\Resource\Order\Invoice _getResource()
+ * @method \Magento\Sales\Model\Resource\Order\Invoice getResource()
  * @method int getStoreId()
- * @method Magento_Sales_Model_Order_Invoice setStoreId(int $value)
+ * @method \Magento\Sales\Model\Order\Invoice setStoreId(int $value)
  * @method float getBaseGrandTotal()
- * @method Magento_Sales_Model_Order_Invoice setBaseGrandTotal(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice setBaseGrandTotal(float $value)
  * @method float getShippingTaxAmount()
- * @method Magento_Sales_Model_Order_Invoice setShippingTaxAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice setShippingTaxAmount(float $value)
  * @method float getTaxAmount()
- * @method Magento_Sales_Model_Order_Invoice setTaxAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice setTaxAmount(float $value)
  * @method float getBaseTaxAmount()
- * @method Magento_Sales_Model_Order_Invoice setBaseTaxAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice setBaseTaxAmount(float $value)
  * @method float getStoreToOrderRate()
- * @method Magento_Sales_Model_Order_Invoice setStoreToOrderRate(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice setStoreToOrderRate(float $value)
  * @method float getBaseShippingTaxAmount()
- * @method Magento_Sales_Model_Order_Invoice setBaseShippingTaxAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice setBaseShippingTaxAmount(float $value)
  * @method float getBaseDiscountAmount()
- * @method Magento_Sales_Model_Order_Invoice setBaseDiscountAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice setBaseDiscountAmount(float $value)
  * @method float getBaseToOrderRate()
- * @method Magento_Sales_Model_Order_Invoice setBaseToOrderRate(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice setBaseToOrderRate(float $value)
  * @method float getGrandTotal()
- * @method Magento_Sales_Model_Order_Invoice setGrandTotal(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice setGrandTotal(float $value)
  * @method float getShippingAmount()
- * @method Magento_Sales_Model_Order_Invoice setShippingAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice setShippingAmount(float $value)
  * @method float getSubtotalInclTax()
- * @method Magento_Sales_Model_Order_Invoice setSubtotalInclTax(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice setSubtotalInclTax(float $value)
  * @method float getBaseSubtotalInclTax()
- * @method Magento_Sales_Model_Order_Invoice setBaseSubtotalInclTax(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice setBaseSubtotalInclTax(float $value)
  * @method float getStoreToBaseRate()
- * @method Magento_Sales_Model_Order_Invoice setStoreToBaseRate(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice setStoreToBaseRate(float $value)
  * @method float getBaseShippingAmount()
- * @method Magento_Sales_Model_Order_Invoice setBaseShippingAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice setBaseShippingAmount(float $value)
  * @method float getTotalQty()
- * @method Magento_Sales_Model_Order_Invoice setTotalQty(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice setTotalQty(float $value)
  * @method float getBaseToGlobalRate()
- * @method Magento_Sales_Model_Order_Invoice setBaseToGlobalRate(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice setBaseToGlobalRate(float $value)
  * @method float getSubtotal()
- * @method Magento_Sales_Model_Order_Invoice setSubtotal(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice setSubtotal(float $value)
  * @method float getBaseSubtotal()
- * @method Magento_Sales_Model_Order_Invoice setBaseSubtotal(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice setBaseSubtotal(float $value)
  * @method float getDiscountAmount()
- * @method Magento_Sales_Model_Order_Invoice setDiscountAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice setDiscountAmount(float $value)
  * @method int getBillingAddressId()
- * @method Magento_Sales_Model_Order_Invoice setBillingAddressId(int $value)
+ * @method \Magento\Sales\Model\Order\Invoice setBillingAddressId(int $value)
  * @method int getIsUsedForRefund()
- * @method Magento_Sales_Model_Order_Invoice setIsUsedForRefund(int $value)
+ * @method \Magento\Sales\Model\Order\Invoice setIsUsedForRefund(int $value)
  * @method int getOrderId()
- * @method Magento_Sales_Model_Order_Invoice setOrderId(int $value)
+ * @method \Magento\Sales\Model\Order\Invoice setOrderId(int $value)
  * @method int getEmailSent()
- * @method Magento_Sales_Model_Order_Invoice setEmailSent(int $value)
+ * @method \Magento\Sales\Model\Order\Invoice setEmailSent(int $value)
  * @method int getCanVoidFlag()
- * @method Magento_Sales_Model_Order_Invoice setCanVoidFlag(int $value)
+ * @method \Magento\Sales\Model\Order\Invoice setCanVoidFlag(int $value)
  * @method int getState()
- * @method Magento_Sales_Model_Order_Invoice setState(int $value)
+ * @method \Magento\Sales\Model\Order\Invoice setState(int $value)
  * @method int getShippingAddressId()
- * @method Magento_Sales_Model_Order_Invoice setShippingAddressId(int $value)
+ * @method \Magento\Sales\Model\Order\Invoice setShippingAddressId(int $value)
  * @method string getStoreCurrencyCode()
- * @method Magento_Sales_Model_Order_Invoice setStoreCurrencyCode(string $value)
+ * @method \Magento\Sales\Model\Order\Invoice setStoreCurrencyCode(string $value)
  * @method string getTransactionId()
- * @method Magento_Sales_Model_Order_Invoice setTransactionId(string $value)
+ * @method \Magento\Sales\Model\Order\Invoice setTransactionId(string $value)
  * @method string getOrderCurrencyCode()
- * @method Magento_Sales_Model_Order_Invoice setOrderCurrencyCode(string $value)
+ * @method \Magento\Sales\Model\Order\Invoice setOrderCurrencyCode(string $value)
  * @method string getBaseCurrencyCode()
- * @method Magento_Sales_Model_Order_Invoice setBaseCurrencyCode(string $value)
+ * @method \Magento\Sales\Model\Order\Invoice setBaseCurrencyCode(string $value)
  * @method string getGlobalCurrencyCode()
- * @method Magento_Sales_Model_Order_Invoice setGlobalCurrencyCode(string $value)
+ * @method \Magento\Sales\Model\Order\Invoice setGlobalCurrencyCode(string $value)
  * @method string getIncrementId()
- * @method Magento_Sales_Model_Order_Invoice setIncrementId(string $value)
+ * @method \Magento\Sales\Model\Order\Invoice setIncrementId(string $value)
  * @method string getCreatedAt()
- * @method Magento_Sales_Model_Order_Invoice setCreatedAt(string $value)
+ * @method \Magento\Sales\Model\Order\Invoice setCreatedAt(string $value)
  * @method string getUpdatedAt()
- * @method Magento_Sales_Model_Order_Invoice setUpdatedAt(string $value)
+ * @method \Magento\Sales\Model\Order\Invoice setUpdatedAt(string $value)
  * @method float getHiddenTaxAmount()
- * @method Magento_Sales_Model_Order_Invoice setHiddenTaxAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice setHiddenTaxAmount(float $value)
  * @method float getBaseHiddenTaxAmount()
- * @method Magento_Sales_Model_Order_Invoice setBaseHiddenTaxAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice setBaseHiddenTaxAmount(float $value)
  * @method float getShippingHiddenTaxAmount()
- * @method Magento_Sales_Model_Order_Invoice setShippingHiddenTaxAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice setShippingHiddenTaxAmount(float $value)
  * @method float getBaseShippingHiddenTaxAmnt()
- * @method Magento_Sales_Model_Order_Invoice setBaseShippingHiddenTaxAmnt(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice setBaseShippingHiddenTaxAmnt(float $value)
  * @method float getShippingInclTax()
- * @method Magento_Sales_Model_Order_Invoice setShippingInclTax(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice setShippingInclTax(float $value)
  * @method float getBaseShippingInclTax()
- * @method Magento_Sales_Model_Order_Invoice setBaseShippingInclTax(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice setBaseShippingInclTax(float $value)
  */
-class Magento_Sales_Model_Order_Invoice extends Magento_Sales_Model_Abstract
+namespace Magento\Sales\Model\Order;
+
+class Invoice extends \Magento\Sales\Model\AbstractModel
 {
     /**
      * Invoice states
@@ -156,118 +158,118 @@ class Magento_Sales_Model_Order_Invoice extends Magento_Sales_Model_Abstract
     /**
      * Sales data
      *
-     * @var Magento_Sales_Helper_Data
+     * @var \Magento\Sales\Helper\Data
      */
     protected $_salesData;
 
     /**
      * Payment data
      *
-     * @var Magento_Payment_Helper_Data
+     * @var \Magento\Payment\Helper\Data
      */
     protected $_paymentData;
 
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_ConfigInterface
+     * @var \Magento\Core\Model\Store\ConfigInterface
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Sales_Model_Order_Invoice_Config
+     * @var \Magento\Sales\Model\Order\Invoice\Config
      */
     protected $_invoiceConfig;
 
     /**
-     * @var Magento_Sales_Model_OrderFactory
+     * @var \Magento\Sales\Model\OrderFactory
      */
     protected $_orderFactory;
 
     /**
-     * @var Magento_Sales_Model_Resource_OrderFactory
+     * @var \Magento\Sales\Model\Resource\OrderFactory
      */
     protected $_orderResourceFactory;
 
     /**
-     * @var Magento_Core_Model_CalculatorFactory
+     * @var \Magento\Core\Model\CalculatorFactory
      */
     protected $_calculatorFactory;
 
     /**
-     * @var Magento_Sales_Model_Resource_Order_Invoice_Item_CollectionFactory
+     * @var \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory
      */
     protected $_invoiceItemCollFactory;
 
     /**
-     * @var Magento_Sales_Model_Order_Invoice_CommentFactory
+     * @var \Magento\Sales\Model\Order\Invoice\CommentFactory
      */
     protected $_invoiceCommentFactory;
 
     /**
-     * @var Magento_Sales_Model_Resource_Order_Invoice_Comment_CollectionFactory
+     * @var \Magento\Sales\Model\Resource\Order\Invoice\Comment\CollectionFactory
      */
     protected $_commentCollFactory;
 
     /**
-     * @var Magento_Core_Model_Email_Template_MailerFactory
+     * @var \Magento\Core\Model\Email\Template\MailerFactory
      */
     protected $_templateMailerFactory;
 
     /**
-     * @var Magento_Core_Model_Email_InfoFactory
+     * @var \Magento\Core\Model\Email\InfoFactory
      */
     protected $_emailInfoFactory;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Payment_Helper_Data $paymentData
-     * @param Magento_Sales_Helper_Data $salesData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
-     * @param Magento_Core_Model_LocaleInterface $coreLocale
-     * @param Magento_Sales_Model_Order_Invoice_Config $invoiceConfig
-     * @param Magento_Sales_Model_OrderFactory $orderFactory
-     * @param Magento_Sales_Model_Resource_OrderFactory $orderResourceFactory
-     * @param Magento_Core_Model_CalculatorFactory $calculatorFactory
-     * @param Magento_Sales_Model_Resource_Order_Invoice_Item_CollectionFactory $invoiceItemCollFactory
-     * @param Magento_Sales_Model_Order_Invoice_CommentFactory $invoiceCommentFactory
-     * @param Magento_Sales_Model_Resource_Order_Invoice_Comment_CollectionFactory $commentCollFactory
-     * @param Magento_Core_Model_Email_Template_MailerFactory $templateMailerFactory
-     * @param Magento_Core_Model_Email_InfoFactory $emailInfoFactory
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Sales\Helper\Data $salesData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Core\Model\LocaleInterface $coreLocale
+     * @param \Magento\Sales\Model\Order\Invoice\Config $invoiceConfig
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param \Magento\Sales\Model\Resource\OrderFactory $orderResourceFactory
+     * @param \Magento\Core\Model\CalculatorFactory $calculatorFactory
+     * @param \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $invoiceItemCollFactory
+     * @param \Magento\Sales\Model\Order\Invoice\CommentFactory $invoiceCommentFactory
+     * @param \Magento\Sales\Model\Resource\Order\Invoice\Comment\CollectionFactory $commentCollFactory
+     * @param \Magento\Core\Model\Email\Template\MailerFactory $templateMailerFactory
+     * @param \Magento\Core\Model\Email\InfoFactory $emailInfoFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Payment_Helper_Data $paymentData,
-        Magento_Sales_Helper_Data $salesData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
-        Magento_Core_Model_LocaleInterface $coreLocale,
-        Magento_Sales_Model_Order_Invoice_Config $invoiceConfig,
-        Magento_Sales_Model_OrderFactory $orderFactory,
-        Magento_Sales_Model_Resource_OrderFactory $orderResourceFactory,
-        Magento_Core_Model_CalculatorFactory $calculatorFactory,
-        Magento_Sales_Model_Resource_Order_Invoice_Item_CollectionFactory $invoiceItemCollFactory,
-        Magento_Sales_Model_Order_Invoice_CommentFactory $invoiceCommentFactory,
-        Magento_Sales_Model_Resource_Order_Invoice_Comment_CollectionFactory $commentCollFactory,
-        Magento_Core_Model_Email_Template_MailerFactory $templateMailerFactory,
-        Magento_Core_Model_Email_InfoFactory $emailInfoFactory,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Sales\Helper\Data $salesData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\Core\Model\LocaleInterface $coreLocale,
+        \Magento\Sales\Model\Order\Invoice\Config $invoiceConfig,
+        \Magento\Sales\Model\OrderFactory $orderFactory,
+        \Magento\Sales\Model\Resource\OrderFactory $orderResourceFactory,
+        \Magento\Core\Model\CalculatorFactory $calculatorFactory,
+        \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $invoiceItemCollFactory,
+        \Magento\Sales\Model\Order\Invoice\CommentFactory $invoiceCommentFactory,
+        \Magento\Sales\Model\Resource\Order\Invoice\Comment\CollectionFactory $commentCollFactory,
+        \Magento\Core\Model\Email\Template\MailerFactory $templateMailerFactory,
+        \Magento\Core\Model\Email\InfoFactory $emailInfoFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -291,14 +293,14 @@ class Magento_Sales_Model_Order_Invoice extends Magento_Sales_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Resource_Order_Invoice');
+        $this->_init('Magento\Sales\Model\Resource\Order\Invoice');
     }
 
     /**
      * Load invoice by increment id
      *
      * @param string $incrementId
-     * @return Magento_Sales_Model_Order_Invoice
+     * @return \Magento\Sales\Model\Order\Invoice
      */
     public function loadByIncrementId($incrementId)
     {
@@ -316,7 +318,7 @@ class Magento_Sales_Model_Order_Invoice extends Magento_Sales_Model_Abstract
     /**
      * Retrieve invoice configuration model
      *
-     * @return Magento_Sales_Model_Order_Invoice_Config
+     * @return \Magento\Sales\Model\Order\Invoice\Config
      */
     public function getConfig()
     {
@@ -326,7 +328,7 @@ class Magento_Sales_Model_Order_Invoice extends Magento_Sales_Model_Abstract
     /**
      * Retrieve store model instance
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getStore()
     {
@@ -336,10 +338,10 @@ class Magento_Sales_Model_Order_Invoice extends Magento_Sales_Model_Abstract
     /**
      * Declare order for invoice
      *
-     * @param   Magento_Sales_Model_Order $order
-     * @return  Magento_Sales_Model_Order_Invoice
+     * @param   \Magento\Sales\Model\Order $order
+     * @return  \Magento\Sales\Model\Order\Invoice
      */
-    public function setOrder(Magento_Sales_Model_Order $order)
+    public function setOrder(\Magento\Sales\Model\Order $order)
     {
         $this->_order = $order;
         $this->setOrderId($order->getId())
@@ -350,11 +352,11 @@ class Magento_Sales_Model_Order_Invoice extends Magento_Sales_Model_Abstract
     /**
      * Retrieve the order the invoice for created for
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
-        if (!$this->_order instanceof Magento_Sales_Model_Order) {
+        if (!$this->_order instanceof \Magento\Sales\Model\Order) {
             $this->_order = $this->_orderFactory->create()->load($this->getOrderId());
         }
         return $this->_order->setHistoryEntityName(self::HISTORY_ENTITY_NAME);
@@ -373,7 +375,7 @@ class Magento_Sales_Model_Order_Invoice extends Magento_Sales_Model_Abstract
     /**
      * Retrieve billing address
      *
-     * @return Magento_Sales_Model_Order_Address
+     * @return \Magento\Sales\Model\Order\Address
      */
     public function getBillingAddress()
     {
@@ -383,7 +385,7 @@ class Magento_Sales_Model_Order_Invoice extends Magento_Sales_Model_Abstract
     /**
      * Retrieve shipping address
      *
-     * @return Magento_Sales_Model_Order_Address
+     * @return \Magento\Sales\Model\Order\Address
      */
     public function getShippingAddress()
     {
@@ -456,7 +458,7 @@ class Magento_Sales_Model_Order_Invoice extends Magento_Sales_Model_Abstract
     /**
      * Capture invoice
      *
-     * @return Magento_Sales_Model_Order_Invoice
+     * @return \Magento\Sales\Model\Order\Invoice
      */
     public function capture()
     {
@@ -470,7 +472,7 @@ class Magento_Sales_Model_Order_Invoice extends Magento_Sales_Model_Abstract
     /**
      * Pay invoice
      *
-     * @return Magento_Sales_Model_Order_Invoice
+     * @return \Magento\Sales\Model\Order\Invoice
      */
     public function pay()
     {
@@ -509,7 +511,7 @@ class Magento_Sales_Model_Order_Invoice extends Magento_Sales_Model_Abstract
     /**
      * Void invoice
      *
-     * @return Magento_Sales_Model_Order_Invoice
+     * @return \Magento\Sales\Model\Order\Invoice
      */
     public function void()
     {
@@ -521,7 +523,7 @@ class Magento_Sales_Model_Order_Invoice extends Magento_Sales_Model_Abstract
     /**
      * Cancel invoice action
      *
-     * @return Magento_Sales_Model_Order_Invoice
+     * @return \Magento\Sales\Model\Order\Invoice
      */
     public function cancel()
     {
@@ -562,7 +564,7 @@ class Magento_Sales_Model_Order_Invoice extends Magento_Sales_Model_Abstract
             $this->getOrder()->setBaseTotalPaid($this->getOrder()->getBaseTotalPaid()-$this->getBaseGrandTotal());
         }
         $this->setState(self::STATE_CANCELED);
-        $this->getOrder()->setState(Magento_Sales_Model_Order::STATE_PROCESSING, true);
+        $this->getOrder()->setState(\Magento\Sales\Model\Order::STATE_PROCESSING, true);
         $this->_eventManager->dispatch('sales_order_invoice_cancel', array($this->_eventObject=>$this));
         return $this;
     }
@@ -570,7 +572,7 @@ class Magento_Sales_Model_Order_Invoice extends Magento_Sales_Model_Abstract
     /**
      * Invoice totals collecting
      *
-     * @return Magento_Sales_Model_Order_Invoice
+     * @return \Magento\Sales\Model\Order\Invoice
      */
     public function collectTotals()
     {
@@ -602,7 +604,7 @@ class Magento_Sales_Model_Order_Invoice extends Magento_Sales_Model_Abstract
     /**
      * Get invoice items collection
      *
-     * @return Magento_Sales_Model_Resource_Order_Invoice_Item_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Invoice\Item\Collection
      */
     public function getItemsCollection()
     {
@@ -634,7 +636,7 @@ class Magento_Sales_Model_Order_Invoice extends Magento_Sales_Model_Abstract
 
     /**
      * @param int|string $itemId
-     * @return bool|Magento_Sales_Model_Order_Invoice_Item
+     * @return bool|\Magento\Sales\Model\Order\Invoice\Item
      */
     public function getItemById($itemId)
     {
@@ -647,10 +649,10 @@ class Magento_Sales_Model_Order_Invoice extends Magento_Sales_Model_Abstract
     }
 
     /**
-     * @param Magento_Sales_Model_Order_Invoice_Item $item
+     * @param \Magento\Sales\Model\Order\Invoice\Item $item
      * @return $this
      */
-    public function addItem(Magento_Sales_Model_Order_Invoice_Item $item)
+    public function addItem(\Magento\Sales\Model\Order\Invoice\Item $item)
     {
         $item->setInvoice($this)
             ->setParentId($this->getId())
@@ -706,12 +708,12 @@ class Magento_Sales_Model_Order_Invoice extends Magento_Sales_Model_Abstract
      * Apply to order, order items etc.
      *
      * @return $this
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function register()
     {
         if ($this->getId()) {
-            throw new Magento_Core_Exception(__('We cannot register an existing invoice'));
+            throw new \Magento\Core\Exception(__('We cannot register an existing invoice'));
         }
 
         foreach ($this->getAllItems() as $item) {
@@ -797,11 +799,11 @@ class Magento_Sales_Model_Order_Invoice extends Magento_Sales_Model_Abstract
      * @param string $comment
      * @param bool $notify
      * @param bool $visibleOnFront
-     * @return Magento_Sales_Model_Order_Invoice
+     * @return \Magento\Sales\Model\Order\Invoice
      */
     public function addComment($comment, $notify = false, $visibleOnFront = false)
     {
-        if (!($comment instanceof Magento_Sales_Model_Order_Invoice_Comment)) {
+        if (!($comment instanceof \Magento\Sales\Model\Order\Invoice\Comment)) {
             $comment = $this->_invoiceCommentFactory->create()
                 ->setComment($comment)
                 ->setIsCustomerNotified($notify)
@@ -819,7 +821,7 @@ class Magento_Sales_Model_Order_Invoice extends Magento_Sales_Model_Abstract
 
     /**
      * @param bool $reload
-     * @return Magento_Sales_Model_Resource_Order_Invoice_Comment_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Invoice\Comment\Collection
      */
     public function getCommentsCollection($reload=false)
     {
@@ -847,8 +849,8 @@ class Magento_Sales_Model_Order_Invoice extends Magento_Sales_Model_Abstract
      *
      * @param bool $notifyCustomer
      * @param string $comment
-     * @return Magento_Sales_Model_Order_Invoice
-     * @throws Exception
+     * @return \Magento\Sales\Model\Order\Invoice
+     * @throws \Exception
      */
     public function sendEmail($notifyCustomer = true, $comment = '')
     {
@@ -923,7 +925,7 @@ class Magento_Sales_Model_Order_Invoice extends Magento_Sales_Model_Abstract
      *
      * @param boolean $notifyCustomer
      * @param string $comment
-     * @return Magento_Sales_Model_Order_Invoice
+     * @return \Magento\Sales\Model\Order\Invoice
      */
     public function sendUpdateEmail($notifyCustomer = true, $comment = '')
     {
@@ -1002,7 +1004,7 @@ class Magento_Sales_Model_Order_Invoice extends Magento_Sales_Model_Abstract
     }
 
     /**
-     * @return Magento_Core_Model_Abstract
+     * @return \Magento\Core\Model\AbstractModel
      */
     protected function _beforeDelete()
     {
@@ -1013,7 +1015,7 @@ class Magento_Sales_Model_Order_Invoice extends Magento_Sales_Model_Abstract
     /**
      * Reset invoice object
      *
-     * @return Magento_Sales_Model_Order_Invoice
+     * @return \Magento\Sales\Model\Order\Invoice
      */
     public function reset()
     {
@@ -1030,7 +1032,7 @@ class Magento_Sales_Model_Order_Invoice extends Magento_Sales_Model_Abstract
     /**
      * Before object save manipulations
      *
-     * @return Magento_Sales_Model_Order_Shipment
+     * @return \Magento\Sales\Model\Order\Shipment
      */
     protected function _beforeSave()
     {
@@ -1047,7 +1049,7 @@ class Magento_Sales_Model_Order_Invoice extends Magento_Sales_Model_Abstract
     /**
      * After object save manipulation
      *
-     * @return Magento_Sales_Model_Order_Shipment
+     * @return \Magento\Sales\Model\Order\Shipment
      */
     protected function _afterSave()
     {

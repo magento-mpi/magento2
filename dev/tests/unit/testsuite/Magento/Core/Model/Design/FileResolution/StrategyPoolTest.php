@@ -8,43 +8,45 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Design_FileResolution_StrategyPoolTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Design\FileResolution;
+
+class StrategyPoolTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_ObjectManager|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\ObjectManager|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 
     /**
-     * @var Magento_Core_Model_App_State|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\App\State|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_appState;
 
     /**
-     * @var Magento_Core_Model_Dir|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Dir|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_dirs;
 
     /**
-     * @var Magento_Filesystem|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Filesystem|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_filesystem;
 
     /**
-     * @var Magento_Core_Model_Design_FileResolution_StrategyPool|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Design\FileResolution\StrategyPool|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_objectManager = $this->getMock('Magento_Core_Model_ObjectManager', array(), array(), '', false);
-        $this->_appState = $this->getMock('Magento_Core_Model_App_State', array(), array(), '', false);
+        $this->_objectManager = $this->getMock('Magento\Core\Model\ObjectManager', array(), array(), '', false);
+        $this->_appState = $this->getMock('Magento\Core\Model\App\State', array(), array(), '', false);
 
-        $this->_dirs = new Magento_Core_Model_Dir('base_dir');
+        $this->_dirs = new \Magento\Core\Model\Dir('base_dir');
 
-        $this->_filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
+        $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
 
-        $this->_model = new Magento_Core_Model_Design_FileResolution_StrategyPool($this->_objectManager,
+        $this->_model = new \Magento\Core\Model\Design\FileResolution\StrategyPool($this->_objectManager,
             $this->_appState, $this->_dirs, $this->_filesystem);
     }
 
@@ -62,19 +64,19 @@ class Magento_Core_Model_Design_FileResolution_StrategyPoolTest extends PHPUnit_
             ->method('getMode')
             ->will($this->returnValue($mode));
 
-        $strategy = new StdClass;
-        $mapDir = 'base_dir/var/' . Magento_Core_Model_Design_FileResolution_StrategyPool::FALLBACK_MAP_DIR;
+        $strategy = new \StdClass;
+        $mapDir = 'base_dir/var/' . \Magento\Core\Model\Design\FileResolution\StrategyPool::FALLBACK_MAP_DIR;
         $mapDir = str_replace('/', DIRECTORY_SEPARATOR, $mapDir);
         $map = array(
             array(
-                'Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy',
+                'Magento\Core\Model\Design\FileResolution\Strategy\Fallback\CachingProxy',
                 array(
                     'mapDir' => $mapDir,
                     'baseDir' => 'base_dir'
                 ),
                 $strategy
             ),
-            array('Magento_Core_Model_Design_FileResolution_Strategy_Fallback', array(), $strategy),
+            array('Magento\Core\Model\Design\FileResolution\Strategy\Fallback', array(), $strategy),
         );
         $this->_objectManager->expects($this->atLeastOnce())
             ->method('create')
@@ -95,13 +97,13 @@ class Magento_Core_Model_Design_FileResolution_StrategyPoolTest extends PHPUnit_
     {
         return array(
             'default mode' => array(
-                Magento_Core_Model_App_State::MODE_DEFAULT
+                \Magento\Core\Model\App\State::MODE_DEFAULT
             ),
             'production mode' => array(
-                Magento_Core_Model_App_State::MODE_PRODUCTION
+                \Magento\Core\Model\App\State::MODE_PRODUCTION
             ),
             'developer mode' => array(
-                Magento_Core_Model_App_State::MODE_DEVELOPER
+                \Magento\Core\Model\App\State::MODE_DEVELOPER
             ),
         );
     }

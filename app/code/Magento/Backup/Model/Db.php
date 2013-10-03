@@ -16,7 +16,9 @@
  * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backup_Model_Db
+namespace Magento\Backup\Model;
+
+class Db
 {
 
     /**
@@ -29,22 +31,22 @@ class Magento_Backup_Model_Db
     /**
      * Backup resource model
      *
-     * @var Magento_Backup_Model_Resource_Db
+     * @var \Magento\Backup\Model\Resource\Db
      */
     protected $_resourceDb = null;
 
     /**
      * Core resource model
      *
-     * @var Magento_Core_Model_Resource
+     * @var \Magento\Core\Model\Resource
      */
     protected $_resource = null;
 
     /**
-     * @param Magento_Backup_Model_Resource_Db $resourceDb
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Backup\Model\Resource\Db $resourceDb
+     * @param \Magento\Core\Model\Resource $resource
      */
-    public function __construct(Magento_Backup_Model_Resource_Db $resourceDb, Magento_Core_Model_Resource $resource)
+    public function __construct(\Magento\Backup\Model\Resource\Db $resourceDb, \Magento\Core\Model\Resource $resource)
     {
         $this->_resourceDb = $resourceDb;
         $this->_resource = $resource;
@@ -62,7 +64,7 @@ class Magento_Backup_Model_Db
     /**
      * Retrieve resource model
      *
-     * @return Magento_Backup_Model_Resource_Db
+     * @return \Magento\Backup\Model\Resource\Db
      */
     public function getResource()
     {
@@ -112,10 +114,10 @@ class Magento_Backup_Model_Db
     /**
      * Create backup and stream write to adapter
      *
-     * @param Magento_Backup_Model_Backup $backup
-     * @return Magento_Backup_Model_Db
+     * @param \Magento\Backup\Model\Backup $backup
+     * @return \Magento\Backup\Model\Db
      */
-    public function createBackup(Magento_Backup_Model_Backup $backup)
+    public function createBackup(\Magento\Backup\Model\Backup $backup)
     {
         $backup->open(true);
 

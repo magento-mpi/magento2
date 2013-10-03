@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Reminder_Model_Resource_HelperFactory extends Magento_Core_Model_Resource_HelperFactory
+namespace Magento\Reminder\Model\Resource;
+
+class HelperFactory extends \Magento\Core\Model\Resource\HelperFactory
 {
     /**
      * Module Name

@@ -16,17 +16,19 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Form
-    extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit;
+
+class Form
+    extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Prepare form before rendering HTML
      *
-     * @return Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Form
+     * @return \Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit\Form
      */
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id'        => 'edit_form',

@@ -8,9 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <block class="Magento_CustomerCustomAttributes_Block_Adminhtml_Form_Renderer_Fieldset_Element" name="fieldset_element_renderer" template="form/renderer/fieldset/element.phtml"/>
+    <block class="Magento\CustomerCustomAttributes\Block\Adminhtml\Form\Renderer\Fieldset\Element" name="fieldset_element_renderer" template="form/renderer/fieldset/element.phtml"/>
     <referenceContainer name="left">
-        <block class="Magento_Backend_Block_Store_Switcher" name="website_switcher" before="-" template="Magento_CustomerCustomAttributes::website/switcher.phtml">
+        <block class="Magento\Backend\Block\Store\Switcher" name="website_switcher" before="-" template="Magento_CustomerCustomAttributes::website/switcher.phtml">
             <action method="setStoreVarName">
                 <argument name="value" xsi:type="string">website</argument>
             </action>

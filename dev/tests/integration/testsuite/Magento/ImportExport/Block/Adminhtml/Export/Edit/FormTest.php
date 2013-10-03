@@ -9,16 +9,18 @@
  * @license     {license_link}
  */
 
+namespace Magento\ImportExport\Block\Adminhtml\Export\Edit;
+
 /**
- * Test class for block Magento_ImportExport_Block_Adminhtml_Export_Edit_Form
+ * Test class for block \Magento\ImportExport\Block\Adminhtml\Export\Edit\Form
  * @magentoAppArea adminhtml
  */
-class Magento_ImportExport_Block_Adminhtml_Export_Edit_FormTest extends PHPUnit_Framework_TestCase
+class FormTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Testing model
      *
-     * @var Magento_ImportExport_Block_Adminhtml_Export_Edit_Form
+     * @var \Magento\ImportExport\Block\Adminhtml\Export\Edit\Form
      */
     protected $_model;
 
@@ -44,14 +46,14 @@ class Magento_ImportExport_Block_Adminhtml_Export_Edit_FormTest extends PHPUnit_
     protected function setUp()
     {
         parent::setUp();
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_ImportExport_Block_Adminhtml_Export_Edit_Form');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\ImportExport\Block\Adminhtml\Export\Edit\Form');
     }
 
     /**
      * Test preparing of form
      *
-     * @covers Magento_ImportExport_Block_Adminhtml_Export_Edit_Form::_prepareForm
+     * @covers \Magento\ImportExport\Block\Adminhtml\Export\Edit\Form::_prepareForm
      */
     public function testPrepareForm()
     {
@@ -63,18 +65,18 @@ class Magento_ImportExport_Block_Adminhtml_Export_Edit_FormTest extends PHPUnit_
         $formElements = $this->_model->getForm()
             ->getElements();
         foreach ($formElements as $formElement) {
-            if ($formElement instanceof Magento_Data_Form_Element_Fieldset) {
+            if ($formElement instanceof \Magento\Data\Form\Element\Fieldset) {
                 $actualFieldsets[] = $formElement;
             }
         }
 
         // assert fieldsets and fields
         $this->assertSameSize($this->_expectedFields, $actualFieldsets);
-        /** @var $actualFieldset Magento_Data_Form_Element_Fieldset */
+        /** @var $actualFieldset \Magento\Data\Form\Element\Fieldset */
         foreach ($actualFieldsets as $actualFieldset) {
             $this->assertArrayHasKey($actualFieldset->getId(), $this->_expectedFields);
             $expectedFields = $this->_expectedFields[$actualFieldset->getId()];
-            /** @var $actualField Magento_Data_Form_Element_Abstract */
+            /** @var $actualField \Magento\Data\Form\Element\AbstractElement */
             foreach ($actualFieldset->getElements() as $actualField) {
                 $this->assertArrayHasKey($actualField->getId(), $expectedFields);
                 $this->assertEquals($expectedFields[$actualField->getId()], $actualField->getName());

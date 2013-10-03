@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * oAuth client for Magento REST API.
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+namespace Magento\TestFramework\Authentication\Rest;
+
 use OAuth\Common\Consumer\Credentials;
 use OAuth\Common\Http\Client\ClientInterface;
 use OAuth\Common\Http\Exception\TokenResponseException;
@@ -13,15 +23,7 @@ use OAuth\OAuth1\Token\TokenInterface;
 
 require_once __DIR__ . '/../../../../../lib/OAuth/bootstrap.php';
 
-/**
- * oAuth client for Magento REST API.
- *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
- */
-class Magento_TestFramework_Authentication_Rest_OauthClient extends AbstractService
+class OauthClient extends AbstractService
 {
     /** @var string|null */
     protected $_oauthVerifier = null;

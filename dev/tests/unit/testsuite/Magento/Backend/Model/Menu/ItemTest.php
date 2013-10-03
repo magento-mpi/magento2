@@ -9,45 +9,47 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Menu;
+
+class ItemTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Model_Menu_Item
+     * @var \Magento\Backend\Model\Menu\Item
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_aclMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_menuFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_urlModelMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeConfigMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_helperMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_validatorMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_moduleListMock;
 
@@ -66,19 +68,19 @@ class Magento_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_aclMock = $this->getMock('Magento_AuthorizationInterface');
-        $this->_storeConfigMock = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
+        $this->_aclMock = $this->getMock('Magento\AuthorizationInterface');
+        $this->_storeConfigMock = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
         $this->_menuFactoryMock = $this
-            ->getMock('Magento_Backend_Model_MenuFactory', array('create'), array(), '', false);
-        $this->_urlModelMock = $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false);
-        $this->_helperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false);
-        $this->_validatorMock = $this->getMock('Magento_Backend_Model_Menu_Item_Validator');
+            ->getMock('Magento\Backend\Model\MenuFactory', array('create'), array(), '', false);
+        $this->_urlModelMock = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false);
+        $this->_helperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false);
+        $this->_validatorMock = $this->getMock('Magento\Backend\Model\Menu\Item\Validator');
         $this->_validatorMock->expects($this->any())
             ->method('validate');
-        $this->_moduleListMock = $this->getMock('Magento_Core_Model_ModuleListInterface');
+        $this->_moduleListMock = $this->getMock('Magento\Core\Model\ModuleListInterface');
 
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_model = $helper->getObject('Magento_Backend_Model_Menu_Item', array(
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_model = $helper->getObject('Magento\Backend\Model\Menu\Item', array(
             'validator'     => $this->_validatorMock,
             'authorization' => $this->_aclMock,
             'storeConfig'   => $this->_storeConfigMock,
@@ -93,8 +95,8 @@ class Magento_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
     public function testGetUrlWithEmptyActionReturnsHashSign()
     {
         $this->_params['action'] = '';
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $item = $helper->getObject('Magento_Backend_Model_Menu_Item', array(
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $item = $helper->getObject('Magento\Backend\Model\Menu\Item', array(
             'menuFactory' => $this->_menuFactoryMock,
             'data'        => $this->_params
         ));
@@ -120,8 +122,8 @@ class Magento_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
     public function testHasClickCallbackReturnsTrueIfItemHasNoAction()
     {
         $this->_params['action'] = '';
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $item = $helper->getObject('Magento_Backend_Model_Menu_Item', array(
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $item = $helper->getObject('Magento\Backend\Model\Menu\Item', array(
             'menuFactory' => $this->_menuFactoryMock,
             'data'        => $this->_params
         ));
@@ -131,8 +133,8 @@ class Magento_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
     public function testGetClickCallbackReturnsStoppingJsIfItemDoesntHaveAction()
     {
         $this->_params['action'] = '';
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $item = $helper->getObject('Magento_Backend_Model_Menu_Item', array(
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $item = $helper->getObject('Magento\Backend\Model\Menu\Item', array(
             'menuFactory' => $this->_menuFactoryMock,
             'data'        => $this->_params
         ));
@@ -209,13 +211,13 @@ class Magento_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
         $this->_aclMock->expects($this->once())
             ->method('isAllowed')
             ->with('Magento_Backend::config')
-            ->will($this->throwException(new Magento_Exception()));
+            ->will($this->throwException(new \Magento\Exception()));
         $this->assertFalse($this->_model->isAllowed());
     }
 
     public function testGetChildrenCreatesSubmenuOnFirstCall()
     {
-        $menuMock = $this->getMock('Magento_Backend_Model_Menu', array(), array(), '', false);
+        $menuMock = $this->getMock('Magento\Backend\Model\Menu', array(), array(), '', false);
 
         $this->_menuFactoryMock->expects($this->once())
             ->method('create')
@@ -226,7 +228,9 @@ class Magento_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
     }
 }
 
-class Magento_Test_Module_Config
+namespace Magento\Test\Module;
+
+class Config
 {
     /**
      *

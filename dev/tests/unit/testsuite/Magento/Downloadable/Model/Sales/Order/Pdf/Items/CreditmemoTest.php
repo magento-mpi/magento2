@@ -9,81 +9,83 @@
  * @license     {license_link}
  */
 
-class Magento_Downloadable_Model_Sales_Order_Pdf_Items_CreditmemoTest extends PHPUnit_Framework_TestCase
+namespace Magento\Downloadable\Model\Sales\Order\Pdf\Items;
+
+class CreditmemoTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo
+     * @var \Magento\Downloadable\Model\Sales\Order\Pdf\Items\Creditmemo
      */
     protected $_model;
 
     /**
-     * @var Magento_Sales_Model_Order|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Sales\Model\Order|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_order;
 
     /**
-     * @var Magento_Sales_Model_Order_Pdf_Abstract|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Sales\Model\Order\Pdf\AbstractPdf|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_pdf;
 
     protected function setUp()
     {
-        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $arguments = array(
             'productFactory' => $this->getMock(
-                'Magento_Catalog_Model_ProductFactory', array(), array(), '', false
+                'Magento\Catalog\Model\ProductFactory', array(), array(), '', false
             ),
             'templateMailerFactory' => $this->getMock(
-                'Magento_Core_Model_Email_Template_MailerFactory', array(), array(), '', false
+                'Magento\Core\Model\Email\Template\MailerFactory', array(), array(), '', false
             ),
             'emailInfoFactory' => $this->getMock(
-                'Magento_Core_Model_Email_InfoFactory', array(), array(), '', false
+                'Magento\Core\Model\Email\InfoFactory', array(), array(), '', false
             ),
             'orderItemCollFactory' => $this->getMock(
-                'Magento_Sales_Model_Resource_Order_Item_CollectionFactory', array(), array(), '', false
+                'Magento\Sales\Model\Resource\Order\Item\CollectionFactory', array(), array(), '', false
             ),
             'serviceOrderFactory' => $this->getMock(
-                'Magento_Sales_Model_Service_OrderFactory', array(), array(), '', false
+                'Magento\Sales\Model\Service\OrderFactory', array(), array(), '', false
             ),
             'currencyFactory' => $this->getMock(
-                'Magento_Directory_Model_CurrencyFactory', array(), array(), '', false
+                'Magento\Directory\Model\CurrencyFactory', array(), array(), '', false
             ),
             'orderHistoryFactory' => $this->getMock(
-                'Magento_Sales_Model_Order_Status_HistoryFactory', array(), array(), '', false
+                'Magento\Sales\Model\Order\Status\HistoryFactory', array(), array(), '', false
             ),
             'orderTaxCollFactory' => $this->getMock(
-                'Magento_Tax_Model_Resource_Sales_Order_Tax_CollectionFactory', array(), array(), '', false
+                'Magento\Tax\Model\Resource\Sales\Order\Tax\CollectionFactory', array(), array(), '', false
             ),
         );
-        $orderConstructorArgs = $objectManager->getConstructArguments('Magento_Sales_Model_Order', $arguments);
-        $this->_order = $this->getMock('Magento_Sales_Model_Order', array('formatPriceTxt'), $orderConstructorArgs);
+        $orderConstructorArgs = $objectManager->getConstructArguments('Magento\Sales\Model\Order', $arguments);
+        $this->_order = $this->getMock('Magento\Sales\Model\Order', array('formatPriceTxt'), $orderConstructorArgs);
         $this->_order
             ->expects($this->any())
             ->method('formatPriceTxt')
             ->will($this->returnCallback(array($this, 'formatPrice')));
 
         $this->_pdf = $this->getMock(
-            'Magento_Sales_Model_Order_Pdf_Abstract', array('drawLineBlocks', 'getPdf'), array(), '', false, false
+            'Magento\Sales\Model\Order\Pdf\AbstractPdf', array('drawLineBlocks', 'getPdf'), array(), '', false, false
         );
 
-        $context = $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false);
-        $locale = $this->getMock('Magento_Core_Model_Locale', array(), array(), '', false, false);
+        $context = $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false, false);
+        $locale = $this->getMock('Magento\Core\Model\Locale', array(), array(), '', false, false);
         $modelConstructorArgs = $objectManager
-            ->getConstructArguments('Magento_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo', array(
-                'helper' => new Magento_Core_Helper_String($context, $locale)
+            ->getConstructArguments('Magento\Downloadable\Model\Sales\Order\Pdf\Items\Creditmemo', array(
+                'helper' => new \Magento\Core\Helper\String($context, $locale)
         ));
 
         $this->_model = $this->getMock(
-            'Magento_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo',
+            'Magento\Downloadable\Model\Sales\Order\Pdf\Items\Creditmemo',
             array('getLinks', 'getLinksTitle'),
             $modelConstructorArgs
         );
 
-        $context = $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false);
-        $this->_model->setStringHelper(new Magento_Core_Helper_String($context, $locale));
+        $context = $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false, false);
+        $this->_model->setStringHelper(new \Magento\Core\Helper\String($context, $locale));
         $this->_model->setOrder($this->_order);
         $this->_model->setPdf($this->_pdf);
-        $this->_model->setPage(new Zend_Pdf_Page('a4'));
+        $this->_model->setPage(new \Zend_Pdf_Page('a4'));
     }
 
     protected function tearDown()
@@ -107,7 +109,7 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_CreditmemoTest extends PH
     public function testDraw()
     {
         $expectedPageSettings = array('table_header' => true);
-        $expectedPdfPage = new Zend_Pdf_Page('a4');
+        $expectedPdfPage = new \Zend_Pdf_Page('a4');
         $expectedPdfData = array(array(
             'lines' => array(
                 array(
@@ -135,7 +137,7 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_CreditmemoTest extends PH
             'height' => 20,
         ));
 
-        $this->_model->setItem(new Magento_Object(array(
+        $this->_model->setItem(new \Magento\Object(array(
             'name'              => 'Downloadable Documentation',
             'sku'               => 'downloadable-documentation',
             'row_total'         => 20.00,
@@ -143,7 +145,7 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_CreditmemoTest extends PH
             'qty'               => 1,
             'tax_amount'        => 2.00,
             'hidden_tax_amount' => 0.00,
-            'order_item'        => new Magento_Object(array(
+            'order_item'        => new \Magento\Object(array(
                 'product_options' => array(
                     'options' => array(
                         array('label' => 'Test Custom Option', 'value' => 'test value'),
@@ -159,9 +161,9 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_CreditmemoTest extends PH
         $this->_model
             ->expects($this->any())
             ->method('getLinks')
-            ->will($this->returnValue(new Magento_Object(array(
+            ->will($this->returnValue(new \Magento\Object(array(
                 'purchased_items' => array(
-                    new Magento_Object(array('link_title' => 'Magento User Guide')),
+                    new \Magento\Object(array('link_title' => 'Magento User Guide')),
                 )
             ))))
         ;

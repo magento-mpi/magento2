@@ -15,35 +15,37 @@
  * @package    Magento_Usa
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Usa_Block_Adminhtml_Dhl_Unitofmeasure extends Magento_Backend_Block_System_Config_Form_Field
+namespace Magento\Usa\Block\Adminhtml\Dhl;
+
+class Unitofmeasure extends \Magento\Backend\Block\System\Config\Form\Field
 {
 
     /**
      * Usa data
      *
-     * @var Magento_Usa_Helper_Data
+     * @var \Magento\Usa\Helper\Data
      */
     protected $_usaData = null;
 
     /**
-     * @var Magento_Usa_Model_Shipping_Carrier_Dhl_International
+     * @var \Magento\Usa\Model\Shipping\Carrier\Dhl\International
      */
     protected $_shippingDhl;
 
     /**
-     * @param Magento_Usa_Model_Shipping_Carrier_Dhl_International $shippingDhl
-     * @param Magento_Usa_Helper_Data $usaData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_App $application
+     * @param \Magento\Usa\Model\Shipping\Carrier\Dhl\International $shippingDhl
+     * @param \Magento\Usa\Helper\Data $usaData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\App $application
      * @param array $data
      */
     public function __construct(
-        Magento_Usa_Model_Shipping_Carrier_Dhl_International $shippingDhl,
-        Magento_Usa_Helper_Data $usaData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_App $application,
+        \Magento\Usa\Model\Shipping\Carrier\Dhl\International $shippingDhl,
+        \Magento\Usa\Helper\Data $usaData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\App $application,
         array $data = array()
     ) {
         $this->_shippingDhl = $shippingDhl;
@@ -77,7 +79,7 @@ class Magento_Usa_Block_Adminhtml_Dhl_Unitofmeasure extends Magento_Backend_Bloc
 
         $weight = round(
             $this->_usaData->convertMeasureWeight(
-                $kgWeight, Zend_Measure_Weight::KILOGRAM, Zend_Measure_Weight::POUND), 3);
+                $kgWeight, \Zend_Measure_Weight::KILOGRAM, \Zend_Measure_Weight::POUND), 3);
 
         $this->setDivideOrderWeightNoteLbp(
             $this->jsQuoteEscape(__('This allows breaking total order weight into smaller pieces if it exceeds %1 %2 to ensure accurate calculation of shipping charges.', $weight, 'pounds'))
@@ -89,10 +91,10 @@ class Magento_Usa_Block_Adminhtml_Dhl_Unitofmeasure extends Magento_Backend_Bloc
     /**
      * Retrieve Element HTML fragment
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    protected function _getElementHtml(Magento_Data_Form_Element_Abstract $element)
+    protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
         return parent::_getElementHtml($element) . $this->_toHtml();
     }

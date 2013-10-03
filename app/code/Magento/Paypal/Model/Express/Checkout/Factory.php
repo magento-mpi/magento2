@@ -9,23 +9,25 @@
  */
 
 /**
- * Factory class for \Magento_Paypal_Model_Express_Checkout
+ * Factory class for \Magento\Paypal\Model\Express\Checkout
  */
-class Magento_Paypal_Model_Express_Checkout_Factory
+namespace Magento\Paypal\Model\Express\Checkout;
+
+class Factory
 {
     /**
      * Object Manager instance
      *
-     * @var \Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager = null;
 
     /**
      * Factory constructor
      *
-     * @param \Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(\Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -35,7 +37,7 @@ class Magento_Paypal_Model_Express_Checkout_Factory
      *
      * @param string $className
      * @param array $data
-     * @return \Magento_Paypal_Model_Express_Checkout
+     * @return \Magento\Paypal\Model\Express\Checkout
      */
     public function create($className, array $data = array())
     {

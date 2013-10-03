@@ -16,52 +16,54 @@
  * @package    Magento_CatalogSearch
  * @module     Catalog
  */
-class Magento_CatalogSearch_Block_Result extends Magento_Core_Block_Template
+namespace Magento\CatalogSearch\Block;
+
+class Result extends \Magento\Core\Block\Template
 {
     /**
      * Catalog Product collection
      *
-     * @var Magento_CatalogSearch_Model_Resource_Fulltext_Collection
+     * @var \Magento\CatalogSearch\Model\Resource\Fulltext\Collection
      */
     protected $_productCollection;
 
     /**
      * Catalog search data
      *
-     * @var Magento_CatalogSearch_Helper_Data
+     * @var \Magento\CatalogSearch\Helper\Data
      */
     protected $_catalogSearchData = null;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Catalog layer
      *
-     * @var Magento_Catalog_Model_Layer
+     * @var \Magento\Catalog\Model\Layer
      */
     protected $_catalogLayer;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Catalog_Model_Layer $catalogLayer
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Catalog\Model\Layer $catalogLayer
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Catalog_Model_Layer $catalogLayer,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_CatalogSearch_Helper_Data $catalogSearchData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Catalog\Model\Layer $catalogLayer,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\CatalogSearch\Helper\Data $catalogSearchData,
         array $data = array()
     ) {
         $this->_catalogLayer = $catalogLayer;
@@ -73,24 +75,24 @@ class Magento_CatalogSearch_Block_Result extends Magento_Core_Block_Template
     /**
      * Retrieve query model object
      *
-     * @return Magento_CatalogSearch_Model_Query
+     * @return \Magento\CatalogSearch\Model\Query
      */
     protected function _getQuery()
     {
-        return $this->helper('Magento_CatalogSearch_Helper_Data')->getQuery();
+        return $this->helper('Magento\CatalogSearch\Helper\Data')->getQuery();
     }
 
     /**
      * Prepare layout
      *
-     * @return Magento_CatalogSearch_Block_Result
+     * @return \Magento\CatalogSearch\Block\Result
      */
     protected function _prepareLayout()
     {
         // add Home breadcrumb
         $breadcrumbs = $this->getLayout()->getBlock('breadcrumbs');
         if ($breadcrumbs) {
-            $title = __("Search results for: '%1'", $this->helper('Magento_CatalogSearch_Helper_Data')->getQueryText());
+            $title = __("Search results for: '%1'", $this->helper('Magento\CatalogSearch\Helper\Data')->getQueryText());
 
             $breadcrumbs->addCrumb('home', array(
                 'label' => __('Home'),
@@ -103,7 +105,7 @@ class Magento_CatalogSearch_Block_Result extends Magento_Core_Block_Template
         }
 
         // modify page title
-        $title = __("Search results for: '%1'", $this->helper('Magento_CatalogSearch_Helper_Data')->getEscapedQueryText());
+        $title = __("Search results for: '%1'", $this->helper('Magento\CatalogSearch\Helper\Data')->getEscapedQueryText());
         $this->getLayout()->getBlock('head')->setTitle($title);
 
         return parent::_prepareLayout();
@@ -122,7 +124,7 @@ class Magento_CatalogSearch_Block_Result extends Magento_Core_Block_Template
     /**
      * Retrieve search list toolbar block
      *
-     * @return Magento_Catalog_Block_Product_List
+     * @return \Magento\Catalog\Block\Product\ProductList
      */
     public function getListBlock()
     {
@@ -132,12 +134,12 @@ class Magento_CatalogSearch_Block_Result extends Magento_Core_Block_Template
     /**
      * Set search available list orders
      *
-     * @return Magento_CatalogSearch_Block_Result
+     * @return \Magento\CatalogSearch\Block\Result
      */
     public function setListOrders()
     {
         $category = $this->_catalogLayer->getCurrentCategory();
-        /* @var $category Magento_Catalog_Model_Category */
+        /* @var $category \Magento\Catalog\Model\Category */
         $availableOrders = $category->getAvailableSortByOptions();
         unset($availableOrders['position']);
         $availableOrders = array_merge(array(
@@ -155,7 +157,7 @@ class Magento_CatalogSearch_Block_Result extends Magento_Core_Block_Template
     /**
      * Set available view mode
      *
-     * @return Magento_CatalogSearch_Block_Result
+     * @return \Magento\CatalogSearch\Block\Result
      */
     public function setListModes()
     {
@@ -170,7 +172,7 @@ class Magento_CatalogSearch_Block_Result extends Magento_Core_Block_Template
     /**
      * Set Search Result collection
      *
-     * @return Magento_CatalogSearch_Block_Result
+     * @return \Magento\CatalogSearch\Block\Result
      */
     public function setListCollection()
     {
@@ -192,7 +194,7 @@ class Magento_CatalogSearch_Block_Result extends Magento_Core_Block_Template
     /**
      * Retrieve loaded category collection
      *
-     * @return Magento_CatalogSearch_Model_Resource_Fulltext_Collection
+     * @return \Magento\CatalogSearch\Model\Resource\Fulltext\Collection
      */
     protected function _getProductCollection()
     {

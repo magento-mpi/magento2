@@ -9,25 +9,27 @@
  * @license     {license_link}
  */
 
-class Magento_Eav_Model_Entity_Attribute_Backend_ArrayTest extends PHPUnit_Framework_TestCase
+namespace Magento\Eav\Model\Entity\Attribute\Backend;
+
+class ArrayTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Eav_Model_Entity_Attribute_Backend_Array
+     * @var \Magento\Eav\Model\Entity\Attribute\Backend\ArrayBackend
      */
     protected $_model;
 
     /**
-     * @var Magento_Eav_Model_Entity_Attribute
+     * @var \Magento\Eav\Model\Entity\Attribute
      */
     protected $_attribute;
 
     protected function setUp()
     {
         $this->_attribute = $this->getMock(
-            'Magento_Eav_Model_Entity_Attribute', array('getAttributeCode'), array(), '', false
+            'Magento\Eav\Model\Entity\Attribute', array('getAttributeCode'), array(), '', false
         );
-        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
-        $this->_model = new Magento_Eav_Model_Entity_Attribute_Backend_Array($logger);
+        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $this->_model = new \Magento\Eav\Model\Entity\Attribute\Backend\ArrayBackend($logger);
         $this->_model->setAttribute($this->_attribute);
     }
 
@@ -37,7 +39,7 @@ class Magento_Eav_Model_Entity_Attribute_Backend_ArrayTest extends PHPUnit_Frame
     public function testValidate($data)
     {
         $this->_attribute->expects($this->atLeastOnce())->method('getAttributeCode')->will($this->returnValue('code'));
-        $product = new Magento_Object(array('code' => $data));
+        $product = new \Magento\Object(array('code' => $data));
         $this->_model->validate($product);
         $this->assertEquals('1,2,3', $product->getCode());
     }

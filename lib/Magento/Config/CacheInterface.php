@@ -7,6 +7,8 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-interface Magento_Config_CacheInterface extends Magento_Cache_FrontendInterface
+namespace Magento\Config;
+
+interface CacheInterface extends \Magento\Cache\FrontendInterface
 {
 }

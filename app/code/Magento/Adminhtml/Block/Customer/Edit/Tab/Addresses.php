@@ -15,39 +15,41 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\Adminhtml\Block\Customer\Edit\Tab;
+
+class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
 {
     protected $_template = 'customer/tab/addresses.phtml';
 
     /**
      * Adminhtml addresses
      *
-     * @var Magento_Adminhtml_Helper_Addresses
+     * @var \Magento\Adminhtml\Helper\Addresses
      */
     protected $_adminhtmlAddresses = null;
 
     /**
-     * @param Magento_Adminhtml_Model_Customer_Renderer_RegionFactory $regionFactory
-     * @param Magento_Customer_Model_AddressFactory $addressFactory
-     * @param Magento_Customer_Model_FormFactory $customerFactory
-     * @param Magento_Core_Model_System_Store $systemStore
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Adminhtml\Model\Customer\Renderer\RegionFactory $regionFactory
+     * @param \Magento\Customer\Model\AddressFactory $addressFactory
+     * @param \Magento\Customer\Model\FormFactory $customerFactory
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Adminhtml\Helper\Addresses $adminhtmlAddresses
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Adminhtml_Model_Customer_Renderer_RegionFactory $regionFactory,
-        Magento_Customer_Model_AddressFactory $addressFactory,
-        Magento_Customer_Model_FormFactory $customerFactory,
-        Magento_Core_Model_System_Store $systemStore,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Adminhtml\Model\Customer\Renderer\RegionFactory $regionFactory,
+        \Magento\Customer\Model\AddressFactory $addressFactory,
+        \Magento\Customer\Model\FormFactory $customerFactory,
+        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Adminhtml\Helper\Addresses $adminhtmlAddresses,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_adminhtmlAddresses = $adminhtmlAddresses;
@@ -65,14 +67,14 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Backen
 
     protected function _prepareLayout()
     {
-        $this->addChild('delete_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('delete_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'  => __('Delete Address'),
             'name'   => 'delete_address',
             'element_name' => 'delete_address',
             'disabled' => $this->isReadonly(),
             'class'  => 'delete' . ($this->isReadonly() ? ' disabled' : '')
         ));
-        $this->addChild('add_address_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('add_address_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'  => __('Add New Address'),
             'id'     => 'add_address_button',
             'name'   => 'add_address_button',
@@ -80,7 +82,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Backen
             'disabled' => $this->isReadonly(),
             'class'  => 'add'  . ($this->isReadonly() ? ' disabled' : '')
         ));
-        $this->addChild('cancel_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('cancel_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'  => __('Cancel'),
             'id'     => 'cancel_add_address'.$this->getTemplatePrefix(),
             'name'   => 'cancel_address',
@@ -110,14 +112,14 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Backen
     /**
      * Initialize form object
      *
-     * @return Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses
+     * @return \Magento\Adminhtml\Block\Customer\Edit\Tab\Addresses
      */
     public function initForm()
     {
-        /* @var $customer Magento_Customer_Model_Customer */
+        /* @var $customer \Magento\Customer\Model\Customer */
         $customer = $this->_coreRegistry->registry('current_customer');
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $fieldset = $form->addFieldset('address_fieldset', array(
             'legend'    => __("Edit Customer's Address"))
@@ -125,7 +127,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Backen
 
         $addressModel = $this->_addressFactory->create();
         $addressModel->setCountryId($this->_coreData->getDefaultCountry($customer->getStore()));
-        /** @var $addressForm Magento_Customer_Model_Form */
+        /** @var $addressForm \Magento\Customer\Model\Form */
         $addressForm = $this->_customerFactory->create();
         $addressForm->setFormCode('adminhtml_customer_address')
             ->setEntity($addressModel)
@@ -137,7 +139,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Backen
                 ->processStreetAttribute($attributes['street']);
         }
         foreach ($attributes as $attribute) {
-            /* @var $attribute Magento_Eav_Model_Entity_Attribute */
+            /* @var $attribute \Magento\Eav\Model\Entity\Attribute */
             $attribute->setFrontendLabel(__($attribute->getFrontend()->getLabel()));
             $attribute->unsIsVisible();
         }
@@ -177,7 +179,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Backen
 
         $prefixElement = $form->getElement('prefix');
         if ($prefixElement) {
-            $prefixOptions = $this->helper('Magento_Customer_Helper_Data')->getNamePrefixOptions($customerStoreId);
+            $prefixOptions = $this->helper('Magento\Customer\Helper\Data')->getNamePrefixOptions($customerStoreId);
             if (!empty($prefixOptions)) {
                 $fieldset->removeField($prefixElement->getId());
                 $prefixField = $fieldset->addField($prefixElement->getId(),
@@ -191,7 +193,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Backen
 
         $suffixElement = $form->getElement('suffix');
         if ($suffixElement) {
-            $suffixOptions = $this->helper('Magento_Customer_Helper_Data')->getNameSuffixOptions($customerStoreId);
+            $suffixOptions = $this->helper('Magento\Customer\Helper\Data')->getNameSuffixOptions($customerStoreId);
             if (!empty($suffixOptions)) {
                 $fieldset->removeField($suffixElement->getId());
                 $suffixField = $fieldset->addField($suffixElement->getId(),
@@ -235,9 +237,9 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Backen
     protected function _getAdditionalElementTypes()
     {
         return array(
-            'file'      => 'Magento_Adminhtml_Block_Customer_Form_Element_File',
-            'image'     => 'Magento_Adminhtml_Block_Customer_Form_Element_Image',
-            'boolean'   => 'Magento_Adminhtml_Block_Customer_Form_Element_Boolean',
+            'file'      => 'Magento\Adminhtml\Block\Customer\Form\Element\File',
+            'image'     => 'Magento\Adminhtml\Block\Customer\Form\Element\Image',
+            'boolean'   => 'Magento\Adminhtml\Block\Customer\Form\Element\Boolean',
         );
     }
 
@@ -253,7 +255,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Backen
         foreach ($websites as $website) {
             $result[$website['value']] = $this->_storeManager->getWebsite($website['value'])
                 ->getConfig(
-                    Magento_Core_Helper_Data::XML_PATH_DEFAULT_COUNTRY
+                    \Magento\Core\Helper\Data::XML_PATH_DEFAULT_COUNTRY
                 );
         }
 
@@ -264,7 +266,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Backen
      * Add specified values to name prefix element values
      *
      * @param string|int|array $values
-     * @return Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses
+     * @return \Magento\Adminhtml\Block\Customer\Edit\Tab\Addresses
      */
     public function addValuesToNamePrefixElement($values)
     {
@@ -278,7 +280,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Backen
      * Add specified values to name suffix element values
      *
      * @param string|int|array $values
-     * @return Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses
+     * @return \Magento\Adminhtml\Block\Customer\Edit\Tab\Addresses
      */
     public function addValuesToNameSuffixElement($values)
     {

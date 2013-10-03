@@ -11,43 +11,45 @@
 /**
  * PayPal Standard payment "form"
  */
-class Magento_Paypal_Block_Express_Form extends Magento_Paypal_Block_Standard_Form
+namespace Magento\Paypal\Block\Express;
+
+class Form extends \Magento\Paypal\Block\Standard\Form
 {
     /**
      * Payment method code
      *
      * @var string
      */
-    protected $_methodCode = Magento_Paypal_Model_Config::METHOD_WPP_EXPRESS;
+    protected $_methodCode = \Magento\Paypal\Model\Config::METHOD_WPP_EXPRESS;
 
     /**
      * Paypal data
      *
-     * @var Magento_Paypal_Helper_Data
+     * @var \Magento\Paypal\Helper\Data
      */
     protected $_paypalData;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @param Magento_Paypal_Helper_Data $paypalData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Paypal_Model_ConfigFactory $paypalConfigFactory
-     * @param Magento_Customer_Model_Session $customerSession
+     * @param \Magento\Paypal\Helper\Data $paypalData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Paypal\Model\ConfigFactory $paypalConfigFactory
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      */
     public function __construct(
-        Magento_Paypal_Helper_Data $paypalData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Paypal_Model_ConfigFactory $paypalConfigFactory,
-        Magento_Customer_Model_Session $customerSession,
+        \Magento\Paypal\Helper\Data $paypalData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Paypal\Model\ConfigFactory $paypalConfigFactory,
+        \Magento\Customer\Model\Session $customerSession,
         array $data = array()
     ) {
         $this->_paypalData = $paypalData;
@@ -68,7 +70,7 @@ class Magento_Paypal_Block_Express_Form extends Magento_Paypal_Block_Standard_Fo
     /**
      * Set data to block
      *
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _beforeToHtml()
     {
@@ -76,7 +78,7 @@ class Magento_Paypal_Block_Express_Form extends Magento_Paypal_Block_Standard_Fo
         if ($this->_paypalData->shouldAskToCreateBillingAgreement($this->_config, $customerId)
             && $this->canCreateBillingAgreement()
         ) {
-            $this->setCreateBACode(Magento_Paypal_Model_Express_Checkout::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT);
+            $this->setCreateBACode(\Magento\Paypal\Model\Express\Checkout::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT);
         }
         return parent::_beforeToHtml();
     }

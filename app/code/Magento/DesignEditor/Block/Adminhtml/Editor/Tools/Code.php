@@ -11,8 +11,10 @@
 /**
  * Block that renders Code tab (or Advanced tab)
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code
-    extends Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Tabs_Abstract
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools;
+
+class Code
+    extends \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Tabs\AbstractTabs
 {
     /**
      * Tab HTML identifier

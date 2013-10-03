@@ -9,18 +9,20 @@
  * @license     {license_link}
  */
 
+namespace Magento\Core\Model\Image;
+
 /**
- * Test class for Magento_Core_Model_Image_AdapterFactory
+ * Test class for \Magento\Core\Model\Image\AdapterFactory
  * @magentoAppArea adminhtml
  */
-class Magento_Core_Model_Image_AdapterFactoryTest extends PHPUnit_Framework_TestCase
+class AdapterFactoryTest extends \PHPUnit_Framework_TestCase
 {
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Image_AdapterFactory');
-        $this->_config = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Store_Config');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Image\AdapterFactory');
+        $this->_config = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Store\Config');
     }
 
     /**
@@ -30,9 +32,9 @@ class Magento_Core_Model_Image_AdapterFactoryTest extends PHPUnit_Framework_Test
     public function testCreate()
     {
         $result = $this->_model->create();
-        $this->assertInstanceOf('Magento_Image_Adapter_Abstract', $result);
+        $this->assertInstanceOf('Magento\Image\Adapter\AbstractAdapter', $result);
         $this->assertNotEmpty(
-            $this->_config->getConfig(Magento_Core_Model_Image_AdapterFactory::XML_PATH_IMAGE_ADAPTER)
+            $this->_config->getConfig(\Magento\Core\Model\Image\AdapterFactory::XML_PATH_IMAGE_ADAPTER)
         );
     }
 }

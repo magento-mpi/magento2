@@ -9,7 +9,9 @@
 /**
  * Hosted Sole Solution helper
  */
-class Magento_Paypal_Helper_Hss extends Magento_Core_Helper_Abstract
+namespace Magento\Paypal\Helper;
+
+class Hss extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Hosted Sole Solution methods
@@ -17,30 +19,30 @@ class Magento_Paypal_Helper_Hss extends Magento_Core_Helper_Abstract
      * @var array
      */
     protected $_hssMethods = array(
-        Magento_Paypal_Model_Config::METHOD_HOSTEDPRO,
-        Magento_Paypal_Model_Config::METHOD_PAYFLOWLINK,
-        Magento_Paypal_Model_Config::METHOD_PAYFLOWADVANCED
+        \Magento\Paypal\Model\Config::METHOD_HOSTEDPRO,
+        \Magento\Paypal\Model\Config::METHOD_PAYFLOWLINK,
+        \Magento\Paypal\Model\Config::METHOD_PAYFLOWADVANCED
     );
 
     /**
-     * @var Magento_Checkout_Model_Session
+     * @var \Magento\Checkout\Model\Session
      */
     protected $_checkoutSession;
 
     /**
-     * @var Magento_Core_Model_Layout
+     * @var \Magento\Core\Model\Layout
      */
     protected $_layout;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Checkout_Model_Session $checkoutSession
-     * @param Magento_Core_Model_Layout $layout
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Core\Model\Layout $layout
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Checkout_Model_Session $checkoutSession,
-        Magento_Core_Model_Layout $layout
+        \Magento\Core\Helper\Context $context,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Core\Model\Layout $layout
     ) {
         $this->_checkoutSession = $checkoutSession;
         $this->_layout = $layout;

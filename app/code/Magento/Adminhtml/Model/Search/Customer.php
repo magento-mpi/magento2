@@ -15,27 +15,29 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Model_Search_Customer extends Magento_Object
+namespace Magento\Adminhtml\Model\Search;
+
+class Customer extends \Magento\Object
 {
     /**
      * Adminhtml data
      *
-     * @var Magento_Adminhtml_Helper_Data
+     * @var \Magento\Adminhtml\Helper\Data
      */
     protected $_adminhtmlData = null;
 
     /**
-     * @var Magento_Customer_Model_Resource_Customer_CollectionFactory
+     * @var \Magento\Customer\Model\Resource\Customer\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @param Magento_Customer_Model_Resource_Customer_CollectionFactory $collectionFactory
-     * @param Magento_Adminhtml_Helper_Data $adminhtmlData
+     * @param \Magento\Customer\Model\Resource\Customer\CollectionFactory $collectionFactory
+     * @param \Magento\Adminhtml\Helper\Data $adminhtmlData
      */
     public function __construct(
-        Magento_Customer_Model_Resource_Customer_CollectionFactory $collectionFactory,
-        Magento_Adminhtml_Helper_Data $adminhtmlData
+        \Magento\Customer\Model\Resource\Customer\CollectionFactory $collectionFactory,
+        \Magento\Adminhtml\Helper\Data $adminhtmlData
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_adminhtmlData = $adminhtmlData;
@@ -44,7 +46,7 @@ class Magento_Adminhtml_Model_Search_Customer extends Magento_Object
     /**
      * Load search results
      *
-     * @return Magento_Adminhtml_Model_Search_Customer
+     * @return \Magento\Adminhtml\Model\Search\Customer
      */
     public function load()
     {

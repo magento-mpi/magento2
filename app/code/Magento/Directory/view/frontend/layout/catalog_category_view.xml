@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceContainer name="left">
-        <block class="Magento_Directory_Block_Currency" name="currency" before="catalog.leftnav" template="currency.phtml"/>
+        <block class="Magento\Directory\Block\Currency" name="currency" before="catalog.leftnav" template="currency.phtml"/>
     </referenceContainer>
 </layout>

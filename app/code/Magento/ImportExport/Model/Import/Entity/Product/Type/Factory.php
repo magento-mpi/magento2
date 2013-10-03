@@ -11,19 +11,21 @@
 /**
  * Import product type factory
  */
-class Magento_ImportExport_Model_Import_Entity_Product_Type_Factory
+namespace Magento\ImportExport\Model\Import\Entity\Product\Type;
+
+class Factory
 {
     /**
      * Object Manager
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -31,13 +33,13 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Factory
     /**
      * @param string $className
      * @param array $arguments
-     * @return Magento_ImportExport_Model_Import_Entity_Product_Type_Abstract
-     * @throws InvalidArgumentException
+     * @return \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
+     * @throws \InvalidArgumentException
      */
     public function create($className, array $arguments = array())
     {
         if (!$className) {
-            throw new InvalidArgumentException('Incorrect class name');
+            throw new \InvalidArgumentException('Incorrect class name');
         }
 
         return $this->_objectManager->create($className, $arguments);

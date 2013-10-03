@@ -15,8 +15,9 @@
  * @package    Magento_Usa
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Usa_Model_Shipping_Carrier_Fedex_Source_Method
-    extends Magento_Usa_Model_Shipping_Carrier_Fedex_Source_Generic
+namespace Magento\Usa\Model\Shipping\Carrier\Fedex\Source;
+
+class Method extends \Magento\Usa\Model\Shipping\Carrier\Fedex\Source\Generic
 {
     /**
      * Carrier code

@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
-class Magento_Test_EntityTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test;
+
+class EntityTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Abstract|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\AbstractModel|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
@@ -27,14 +29,14 @@ class Magento_Test_EntityTest extends PHPUnit_Framework_TestCase
     /**
      * Callback for save method in mocked model
      *
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     public function saveModelAndFailOnUpdate()
     {
         if (!$this->_model->getId()) {
             $this->saveModelSuccessfully();
         } else {
-            throw new Magento_Exception('Synthetic model update failure.');
+            throw new \Magento\Exception('Synthetic model update failure.');
         }
     }
 
@@ -50,7 +52,7 @@ class Magento_Test_EntityTest extends PHPUnit_Framework_TestCase
     {
         return array(
             'successful CRUD'         => array('saveModelSuccessfully'),
-            'cleanup on update error' => array('saveModelAndFailOnUpdate', 'Magento_Exception'),
+            'cleanup on update error' => array('saveModelAndFailOnUpdate', 'Magento\Exception'),
         );
     }
 
@@ -62,7 +64,7 @@ class Magento_Test_EntityTest extends PHPUnit_Framework_TestCase
         $this->setExpectedException($expectedException);
 
         $this->_model = $this->getMock(
-            'Magento_Core_Model_Abstract',
+            'Magento\Core\Model\AbstractModel',
             array('load', 'save', 'delete', 'getIdFieldName', '__wakeup'),
             array(),
             '',
@@ -84,7 +86,7 @@ class Magento_Test_EntityTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue('id'));
 
         $test = $this->getMock(
-            'Magento_TestFramework_Entity',
+            'Magento\TestFramework\Entity',
             array('_getEmptyModel'),
             array($this->_model, array('test' => 'test'))
         );

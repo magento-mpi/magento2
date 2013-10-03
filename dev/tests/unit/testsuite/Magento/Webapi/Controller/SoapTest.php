@@ -7,36 +7,38 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Controller;
+
+class SoapTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Webapi_Controller_Soap */
+    /** @var \Magento\Webapi\Controller\Soap */
     protected $_soapController;
 
-    /** @var Magento_Webapi_Model_Soap_Server */
+    /** @var \Magento\Webapi\Model\Soap\Server */
     protected $_soapServerMock;
 
-    /** @var Magento_Webapi_Model_Soap_Wsdl_Generator */
+    /** @var \Magento\Webapi\Model\Soap\Wsdl\Generator */
     protected $_wsdlGeneratorMock;
 
-    /** @var Magento_Webapi_Controller_Soap_Request */
+    /** @var \Magento\Webapi\Controller\Soap\Request */
     protected $_requestMock;
 
-    /** @var Magento_Webapi_Controller_Response */
+    /** @var \Magento\Webapi\Controller\Response */
     protected $_responseMock;
 
-    /** @var Magento_Webapi_Controller_ErrorProcessor */
+    /** @var \Magento\Webapi\Controller\ErrorProcessor */
     protected $_errorProcessorMock;
 
-    /** @var Magento_Core_Model_App_State */
+    /** @var \Magento\Core\Model\App\State */
     protected $_appStateMock;
 
-    /** @var Magento_Core_Model_App */
+    /** @var \Magento\Core\Model\App */
     protected $_applicationMock;
 
-    /** @var Magento_Oauth_Service_OauthV1 */
+    /** @var \Magento\Oauth\Service\OauthV1 */
     protected $_oauthServiceMock;
 
-    /** @var Magento_Oauth_Helper_Service */
+    /** @var \Magento\Oauth\Helper\Service */
     protected $_oauthHelperMock;
 
     /**
@@ -46,48 +48,48 @@ class Magento_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->_soapServerMock = $this->getMockBuilder('Magento_Webapi_Model_Soap_Server')
+        $this->_soapServerMock = $this->getMockBuilder('Magento\Webapi\Model\Soap\Server')
             ->disableOriginalConstructor()
             ->setMethods(array('getApiCharset', 'generateUri', 'handle'))
             ->getMock();
-        $this->_wsdlGeneratorMock = $this->getMockBuilder('Magento_Webapi_Model_Soap_Wsdl_Generator')
+        $this->_wsdlGeneratorMock = $this->getMockBuilder('Magento\Webapi\Model\Soap\Wsdl\Generator')
             ->disableOriginalConstructor()
             ->setMethods(array('generate'))
             ->getMock();
-        $this->_requestMock = $this->getMockBuilder('Magento_Webapi_Controller_Soap_Request')
+        $this->_requestMock = $this->getMockBuilder('Magento\Webapi\Controller\Soap\Request')
             ->disableOriginalConstructor()
             ->setMethods(array('getParam', 'getRequestedServices'))
             ->getMock();
-        $this->_responseMock = $this->getMockBuilder('Magento_Webapi_Controller_Response')
+        $this->_responseMock = $this->getMockBuilder('Magento\Webapi\Controller\Response')
             ->disableOriginalConstructor()
             ->setMethods(array('clearHeaders', 'setHeader', 'sendResponse'))
             ->getMock();
-        $this->_errorProcessorMock = $this->getMockBuilder('Magento_Webapi_Controller_ErrorProcessor')
+        $this->_errorProcessorMock = $this->getMockBuilder('Magento\Webapi\Controller\ErrorProcessor')
             ->disableOriginalConstructor()
             ->setMethods(array('maskException'))
             ->getMock();
-        $this->_appStateMock =  $this->getMockBuilder('Magento_Core_Model_App_State')
+        $this->_appStateMock =  $this->getMockBuilder('Magento\Core\Model\App\State')
             ->disableOriginalConstructor()
             ->getMock();
-        $localeMock =  $this->getMockBuilder('Magento_Core_Model_Locale')
+        $localeMock =  $this->getMockBuilder('Magento\Core\Model\Locale')
             ->disableOriginalConstructor()
             ->setMethods(array('getLocale', 'getLanguage'))
             ->getMock();
         $localeMock->expects($this->any())->method('getLocale')->will($this->returnValue($localeMock));
         $localeMock->expects($this->any())->method('getLanguage')->will($this->returnValue('en'));
 
-        $this->_applicationMock =  $this->getMockBuilder('Magento_Core_Model_App')
+        $this->_applicationMock =  $this->getMockBuilder('Magento\Core\Model\App')
             ->disableOriginalConstructor()
             ->setMethods(array('getLocale', 'isDeveloperMode'))
             ->getMock();
         $this->_applicationMock->expects($this->any())->method('getLocale')->will($this->returnValue($localeMock));
         $this->_applicationMock->expects($this->any())->method('isDeveloperMode')->will($this->returnValue(false));
 
-        $this->_oauthServiceMock = $this->getMockBuilder('Magento_Oauth_Service_OauthV1')
+        $this->_oauthServiceMock = $this->getMockBuilder('Magento\Oauth\Service\OauthV1')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_oauthHelperMock = $this->getMockBuilder('Magento_Oauth_Helper_Service')
+        $this->_oauthHelperMock = $this->getMockBuilder('Magento\Oauth\Helper\Service')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -96,7 +98,7 @@ class Magento_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
         $this->_soapServerMock->expects($this->any())->method('setEncoding')->will($this->returnSelf());
         $this->_soapServerMock->expects($this->any())->method('setReturnResponse')->will($this->returnSelf());
 
-        $this->_soapController = new Magento_Webapi_Controller_Soap(
+        $this->_soapController = new \Magento\Webapi\Controller\Soap(
             $this->_requestMock,
             $this->_responseMock,
             $this->_wsdlGeneratorMock,
@@ -171,7 +173,7 @@ EXPECTED_MESSAGE;
         $this->_appStateMock->expects($this->any())
             ->method('isInstalled')
             ->will($this->returnValue(true));
-        $this->_mockGetParam(Magento_Webapi_Model_Soap_Server::REQUEST_PARAM_WSDL, 1);
+        $this->_mockGetParam(\Magento\Webapi\Model\Soap\Server::REQUEST_PARAM_WSDL, 1);
         $wsdl = 'Some WSDL content';
         $this->_wsdlGeneratorMock->expects($this->any())
             ->method('generate')
@@ -212,7 +214,7 @@ EXPECTED_MESSAGE;
             ->method('isInstalled')
             ->will($this->returnValue(true));
         $exceptionMessage = 'some error message';
-        $exception = new Magento_Webapi_Exception($exceptionMessage);
+        $exception = new \Magento\Webapi\Exception($exceptionMessage);
         $this->_soapServerMock->expects($this->any())
             ->method('handle')
             ->will($this->throwException($exception));

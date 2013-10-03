@@ -15,30 +15,32 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Multishipping_Addresses extends Magento_Sales_Block_Items_Abstract
+namespace Magento\Checkout\Block\Multishipping;
+
+class Addresses extends \Magento\Sales\Block\Items\AbstractItems
 {
     /**
-     * @var Magento_Filter_Object_GridFactory
+     * @var \Magento\Filter\Object\GridFactory
      */
     protected $_filterGridFactory;
 
     /**
-     * @var Magento_Checkout_Model_Type_Multishipping
+     * @var \Magento\Checkout\Model\Type\Multishipping
      */
     protected $_multishipping;
 
     /**
-     * @param Magento_Filter_Object_GridFactory $filterGridFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Checkout_Model_Type_Multishipping $multishipping
+     * @param \Magento\Filter\Object\GridFactory $filterGridFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Checkout\Model\Type\Multishipping $multishipping
      * @param array $data
      */
     public function __construct(
-        Magento_Filter_Object_GridFactory $filterGridFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Checkout_Model_Type_Multishipping $multishipping,
+        \Magento\Filter\Object\GridFactory $filterGridFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Checkout\Model\Type\Multishipping $multishipping,
         array $data = array()
     ) {
         $this->_filterGridFactory = $filterGridFactory;
@@ -49,7 +51,7 @@ class Magento_Checkout_Block_Multishipping_Addresses extends Magento_Sales_Block
     /**
      * Retrieve multishipping checkout model
      *
-     * @return Magento_Checkout_Model_Type_Multishipping
+     * @return \Magento\Checkout\Model\Type\Multishipping
      */
     public function getCheckout()
     {
@@ -74,9 +76,9 @@ class Magento_Checkout_Block_Multishipping_Addresses extends Magento_Sales_Block
     public function getItems()
     {
         $items = $this->getCheckout()->getQuoteShippingAddressesItems();
-        /** @var Magento_Filter_Object_Grid $itemsFilter */
+        /** @var \Magento\Filter\Object\Grid $itemsFilter */
         $itemsFilter = $this->_filterGridFactory->create();
-        $itemsFilter->addFilter(new Magento_Filter_Sprintf('%d'), 'qty');
+        $itemsFilter->addFilter(new \Magento\Filter\Sprintf('%d'), 'qty');
         return $itemsFilter->filter($items);
     }
 
@@ -89,7 +91,7 @@ class Magento_Checkout_Block_Multishipping_Addresses extends Magento_Sales_Block
      */
     public function getAddressesHtmlSelect($item, $index)
     {
-        $select = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
             ->setName('ship['.$index.']['.$item->getQuoteItemId().'][address]')
             ->setId('ship_'.$index.'_'.$item->getQuoteItemId().'_address')
             ->setValue($item->getCustomerAddressId())
@@ -121,7 +123,7 @@ class Magento_Checkout_Block_Multishipping_Addresses extends Magento_Sales_Block
     }
 
     /**
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function getCustomer()
     {

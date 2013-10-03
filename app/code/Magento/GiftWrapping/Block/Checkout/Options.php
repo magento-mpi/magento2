@@ -15,10 +15,12 @@
  * @package     Magento_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_Template
+namespace Magento\GiftWrapping\Block\Checkout;
+
+class Options extends \Magento\Core\Block\Template
 {
     /**
-     * @var Magento_Core_Model_Resource_Db_Collection_Abstract
+     * @var \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
     protected $_designCollection;
 
@@ -30,50 +32,50 @@ class Magento_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_Tem
     /**
      * Gift wrapping data
      *
-     * @var Magento_GiftWrapping_Helper_Data
+     * @var \Magento\GiftWrapping\Helper\Data
      */
     protected $_giftWrappingData = null;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Checkout_Model_CartFactory
+     * @var \Magento\Checkout\Model\CartFactory
      */
     protected $_checkoutCartFactory;
 
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
-     * @var Magento_GiftWrapping_Model_Resource_Wrapping_CollectionFactory
+     * @var \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory
      */
     protected $_wrappingCollFactory;
 
     /**
-     * @param Magento_GiftWrapping_Helper_Data $giftWrappingData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_GiftWrapping_Model_Resource_Wrapping_CollectionFactory $wrappingCollFactory
-     * @param Magento_Checkout_Model_Session $checkoutSession
-     * @param Magento_Checkout_Model_CartFactory $checkoutCartFactory
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollFactory
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Checkout\Model\CartFactory $checkoutCartFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param array $data
      */
     public function __construct(
-        Magento_GiftWrapping_Helper_Data $giftWrappingData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_GiftWrapping_Model_Resource_Wrapping_CollectionFactory $wrappingCollFactory,
-        Magento_Checkout_Model_Session $checkoutSession,
-        Magento_Checkout_Model_CartFactory $checkoutCartFactory,
-        Magento_Catalog_Model_ProductFactory $productFactory,
+        \Magento\GiftWrapping\Helper\Data $giftWrappingData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollFactory,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Checkout\Model\CartFactory $checkoutCartFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
         array $data = array()
     ) {
         $this->_giftWrappingData = $giftWrappingData;
@@ -88,7 +90,7 @@ class Magento_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_Tem
     /**
      * Gift wrapping collection
      *
-     * @return Magento_GiftWrapping_Model_Resource_Wrapping_Collection
+     * @return \Magento\GiftWrapping\Model\Resource\Wrapping\Collection
      */
     public function getDesignCollection()
     {
@@ -109,7 +111,7 @@ class Magento_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_Tem
      */
     public function getDesignSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
             ->setData(array(
             'id'    => 'giftwrapping-${_id_}',
             'class' => 'select'
@@ -123,7 +125,7 @@ class Magento_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_Tem
     /**
      * Get quote instance
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {
@@ -133,9 +135,9 @@ class Magento_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_Tem
     /**
      * Calculate including tax price
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @param mixed $basePrice
-     * @param Magento_Sales_Model_Quote_Address $shippingAddress
+     * @param \Magento\Sales\Model\Quote\Address $shippingAddress
      * @param bool $includeTax
      * @return string
      */
@@ -154,7 +156,7 @@ class Magento_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_Tem
     /**
      * Return gift wrapping designs info
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getDesignsInfo()
     {
@@ -187,13 +189,13 @@ class Magento_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_Tem
             $temp['path'] = $item->getImageUrl();
             $data[$item->getId()] = $temp;
         }
-        return new Magento_Object($data);
+        return new \Magento\Object($data);
     }
 
     /**
      * Prepare and return quote items info
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getItemsInfo()
     {
@@ -205,14 +207,14 @@ class Magento_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_Tem
         } else {
             $this->_processItems($this->getQuote()->getAllItems(), $this->getQuote()->getShippingAddress(), $data);
         }
-        return new Magento_Object($data);
+        return new \Magento\Object($data);
     }
 
     /**
      * Process items
      *
      * @param array $items
-     * @param Magento_Sales_Model_Quote_Address $shippingAddress
+     * @param \Magento\Sales\Model\Quote\Address $shippingAddress
      * @param array $data
      * @return array
      */
@@ -229,19 +231,19 @@ class Magento_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_Tem
                 if ($price = $item->getProduct()->getGiftWrappingPrice()) {
                     if ($this->getDisplayWrappingBothPrices()) {
                         $temp['price_incl_tax'] = $this->calculatePrice(
-                            new Magento_Object(),
+                            new \Magento\Object(),
                             $price,
                             $shippingAddress,
                             true
                         );
                         $temp['price_excl_tax'] = $this->calculatePrice(
-                            new Magento_Object(),
+                            new \Magento\Object(),
                             $price,
                             $shippingAddress
                         );
                     } else {
                         $temp['price'] = $this->calculatePrice(
-                            new Magento_Object(),
+                            new \Magento\Object(),
                             $price,
                             $shippingAddress,
                             $this->getDisplayWrappingIncludeTaxPrice()
@@ -257,7 +259,7 @@ class Magento_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_Tem
     /**
      * Prepare and return printed card info
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getCardInfo()
     {
@@ -271,19 +273,19 @@ class Magento_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_Tem
 
                 if ($this->getDisplayCardBothPrices()) {
                     $data[$entityId]['price_incl_tax'] = $this->calculatePrice(
-                        new Magento_Object(),
+                        new \Magento\Object(),
                         $price,
                         $address,
                         true
                     );
                     $data[$entityId]['price_excl_tax'] = $this->calculatePrice(
-                        new Magento_Object(),
+                        new \Magento\Object(),
                         $price,
                         $address
                     );
                 } else {
                     $data[$entityId]['price'] = $this->calculatePrice(
-                        new Magento_Object(),
+                        new \Magento\Object(),
                         $price,
                         $address,
                         $this->getDisplayCardIncludeTaxPrice()
@@ -291,7 +293,7 @@ class Magento_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_Tem
                 }
             }
         }
-        return new Magento_Object($data);
+        return new \Magento\Object($data);
     }
 
     /**

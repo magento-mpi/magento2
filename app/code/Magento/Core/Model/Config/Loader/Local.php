@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Config_Loader_Local
+namespace Magento\Core\Model\Config\Loader;
+
+class Local
 {
     /**
      * Local configuration file
@@ -61,7 +63,7 @@ class Magento_Core_Model_Config_Loader_Local
      */
     public function load()
     {
-        $localConfig = new Magento_Config_Dom('<config/>', $this->_idAttributes);
+        $localConfig = new \Magento\Config\Dom('<config/>', $this->_idAttributes);
 
         $localConfigFile = $this->_dir . DIRECTORY_SEPARATOR . self::LOCAL_CONFIG_FILE;
         if (file_exists($localConfigFile)) {
@@ -79,7 +81,7 @@ class Magento_Core_Model_Config_Loader_Local
         if ($this->_customConfig) {
             $localConfig->merge($this->_customConfig);
         }
-        $converter = new Magento_Config_Converter_Dom_Flat($this->_idAttributes);
+        $converter = new \Magento\Config\Converter\Dom\Flat($this->_idAttributes);
 
         $result = $converter->convert($localConfig->getDom());
         return !empty($result['config']) ? $result['config'] : array();

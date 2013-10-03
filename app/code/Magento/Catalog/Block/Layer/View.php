@@ -15,7 +15,9 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Block_Layer_View extends Magento_Core_Block_Template
+namespace Magento\Catalog\Block\Layer;
+
+class View extends \Magento\Core\Block\Template
 {
     /**
      * State block name
@@ -55,22 +57,22 @@ class Magento_Catalog_Block_Layer_View extends Magento_Core_Block_Template
     /**
      * Catalog layer
      *
-     * @var Magento_Catalog_Model_Layer
+     * @var \Magento\Catalog\Model\Layer
      */
     protected $_catalogLayer;
 
     /**
      * Construct
      *
-     * @param Magento_Catalog_Model_Layer $catalogLayer
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Catalog\Model\Layer $catalogLayer
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Model_Layer $catalogLayer,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Catalog\Model\Layer $catalogLayer,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_catalogLayer = $catalogLayer;
@@ -92,17 +94,17 @@ class Magento_Catalog_Block_Layer_View extends Magento_Core_Block_Template
      */
     protected function _initBlocks()
     {
-        $this->_stateBlockName              = 'Magento_Catalog_Block_Layer_State';
-        $this->_categoryBlockName           = 'Magento_Catalog_Block_Layer_Filter_Category';
-        $this->_attributeFilterBlockName    = 'Magento_Catalog_Block_Layer_Filter_Attribute';
-        $this->_priceFilterBlockName        = 'Magento_Catalog_Block_Layer_Filter_Price';
-        $this->_decimalFilterBlockName      = 'Magento_Catalog_Block_Layer_Filter_Decimal';
+        $this->_stateBlockName              = 'Magento\Catalog\Block\Layer\State';
+        $this->_categoryBlockName           = 'Magento\Catalog\Block\Layer\Filter\Category';
+        $this->_attributeFilterBlockName    = 'Magento\Catalog\Block\Layer\Filter\Attribute';
+        $this->_priceFilterBlockName        = 'Magento\Catalog\Block\Layer\Filter\Price';
+        $this->_decimalFilterBlockName      = 'Magento\Catalog\Block\Layer\Filter\Decimal';
     }
 
     /**
      * Prepare child blocks
      *
-     * @return Magento_Catalog_Block_Layer_View
+     * @return \Magento\Catalog\Block\Layer\View
      */
     protected function _prepareLayout()
     {
@@ -141,7 +143,7 @@ class Magento_Catalog_Block_Layer_View extends Magento_Core_Block_Template
     /**
      * Get layer object
      *
-     * @return Magento_Catalog_Model_Layer
+     * @return \Magento\Catalog\Model\Layer
      */
     public function getLayer()
     {
@@ -197,7 +199,7 @@ class Magento_Catalog_Block_Layer_View extends Magento_Core_Block_Template
     /**
      * Get category filter block
      *
-     * @return Magento_Catalog_Block_Layer_Filter_Category
+     * @return \Magento\Catalog\Block\Layer\Filter\Category
      */
     protected function _getCategoryFilter()
     {

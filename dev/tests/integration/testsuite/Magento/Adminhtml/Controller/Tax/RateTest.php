@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Controller\Tax;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Controller_Tax_RateTest extends Magento_Backend_Utility_Controller
+class RateTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * @dataProvider ajaxSaveActionDataProvider
@@ -24,15 +26,15 @@ class Magento_Adminhtml_Controller_Tax_RateTest extends Magento_Backend_Utility_
         $this->dispatch('backend/admin/tax_rate/ajaxSave');
 
         $jsonBody = $this->getResponse()->getBody();
-        $result = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Data')
+        $result = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data')
             ->jsonDecode($jsonBody);
 
         $this->assertArrayHasKey('tax_calculation_rate_id', $result);
 
         $rateId = $result['tax_calculation_rate_id'];
-        /** @var $rate Magento_Tax_Model_Calculation_Rate */
-        $rate = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Tax_Model_Calculation_Rate')->load($rateId, 'tax_calculation_rate_id');
+        /** @var $rate \Magento\Tax\Model\Calculation\Rate */
+        $rate = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Tax\Model\Calculation\Rate')->load($rateId, 'tax_calculation_rate_id');
 
         $this->assertEquals($expectedData['zip_is_range'], $rate->getZipIsRange());
         $this->assertEquals($expectedData['zip_from'], $rate->getZipFrom());
@@ -93,7 +95,7 @@ class Magento_Adminhtml_Controller_Tax_RateTest extends Magento_Backend_Utility_
         $this->dispatch('backend/admin/tax_rate/ajaxSave');
 
         $jsonBody = $this->getResponse()->getBody();
-        $result = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Data')
+        $result = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data')
             ->jsonDecode($jsonBody);
 
         $this->assertEquals($expectedData['success'], $result['success']);

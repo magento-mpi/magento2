@@ -15,7 +15,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Block_Order_Item_Renderer_Grouped extends Magento_Sales_Block_Order_Item_Renderer_Default
+namespace Magento\Sales\Block\Order\Item\Renderer;
+
+class Grouped extends \Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer
 {
     /**
      * Prepare item html

@@ -9,26 +9,28 @@
  * @license     {license_link}
  */
 
+namespace Magento\User\Block\Role\Tab;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_User_Block_Role_Tab_EditTest extends PHPUnit_Framework_TestCase
+class EditTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_User_Block_Role_Tab_Edit
+     * @var \Magento\User\Block\Role\Tab\Edit
      */
     protected $_block;
 
     protected function setUp()
     {
-        $roleAdmin = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_User_Model_Role');
-        $roleAdmin->load(Magento_TestFramework_Bootstrap::ADMIN_ROLE_NAME, 'role_name');
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Controller_Request_Http')
+        $roleAdmin = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\User\Model\Role');
+        $roleAdmin->load(\Magento\TestFramework\Bootstrap::ADMIN_ROLE_NAME, 'role_name');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Controller\Request\Http')
             ->setParam('rid', $roleAdmin->getId());
 
-        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_User_Block_Role_Tab_Edit');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\User\Block\Role\Tab\Edit');
     }
 
     public function testConstructor()

@@ -16,7 +16,9 @@
  * @package     Magento_Paygate
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paygate_Model_Resource_Authorizenet_Debug extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Paygate\Model\Resource\Authorizenet;
+
+class Debug extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization

@@ -10,7 +10,7 @@
  */
 
 require 'quote_with_address.php';
-/** @var Magento_Sales_Model_Quote $quote */
+/** @var \Magento\Sales\Model\Quote $quote */
 
 $quote->getShippingAddress()->setShippingMethod('flatrate_flatrate');
 $quote->getPayment()->setMethod('ccsave');
@@ -18,6 +18,6 @@ $quote->getPayment()->setMethod('ccsave');
 $quote->collectTotals();
 $quote->save();
 
-$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-$quoteService = $objectManager->create('Magento_Sales_Model_Service_Quote', array('quote' => $quote));
+$objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+$quoteService = $objectManager->create('Magento\Sales\Model\Service\Quote', array('quote' => $quote));
 $quoteService->getQuote()->getPayment()->setMethod('ccsave');

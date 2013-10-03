@@ -10,103 +10,105 @@
 
 
 /**
- * @method Magento_Sales_Model_Resource_Quote_Address_Item _getResource()
- * @method Magento_Sales_Model_Resource_Quote_Address_Item getResource()
+ * @method \Magento\Sales\Model\Resource\Quote\Address\Item _getResource()
+ * @method \Magento\Sales\Model\Resource\Quote\Address\Item getResource()
  * @method int getParentItemId()
- * @method Magento_Sales_Model_Quote_Address_Item setParentItemId(int $value)
+ * @method \Magento\Sales\Model\Quote\Address\Item setParentItemId(int $value)
  * @method int getQuoteAddressId()
- * @method Magento_Sales_Model_Quote_Address_Item setQuoteAddressId(int $value)
+ * @method \Magento\Sales\Model\Quote\Address\Item setQuoteAddressId(int $value)
  * @method int getQuoteItemId()
- * @method Magento_Sales_Model_Quote_Address_Item setQuoteItemId(int $value)
+ * @method \Magento\Sales\Model\Quote\Address\Item setQuoteItemId(int $value)
  * @method string getCreatedAt()
- * @method Magento_Sales_Model_Quote_Address_Item setCreatedAt(string $value)
+ * @method \Magento\Sales\Model\Quote\Address\Item setCreatedAt(string $value)
  * @method string getUpdatedAt()
- * @method Magento_Sales_Model_Quote_Address_Item setUpdatedAt(string $value)
+ * @method \Magento\Sales\Model\Quote\Address\Item setUpdatedAt(string $value)
  * @method string getAppliedRuleIds()
- * @method Magento_Sales_Model_Quote_Address_Item setAppliedRuleIds(string $value)
+ * @method \Magento\Sales\Model\Quote\Address\Item setAppliedRuleIds(string $value)
  * @method string getAdditionalData()
- * @method Magento_Sales_Model_Quote_Address_Item setAdditionalData(string $value)
+ * @method \Magento\Sales\Model\Quote\Address\Item setAdditionalData(string $value)
  * @method float getWeight()
- * @method Magento_Sales_Model_Quote_Address_Item setWeight(float $value)
- * @method Magento_Sales_Model_Quote_Address_Item setQty(float $value)
+ * @method \Magento\Sales\Model\Quote\Address\Item setWeight(float $value)
+ * @method \Magento\Sales\Model\Quote\Address\Item setQty(float $value)
  * @method float getDiscountAmount()
- * @method Magento_Sales_Model_Quote_Address_Item setDiscountAmount(float $value)
- * @method Magento_Sales_Model_Quote_Address_Item setTaxAmount(float $value)
+ * @method \Magento\Sales\Model\Quote\Address\Item setDiscountAmount(float $value)
+ * @method \Magento\Sales\Model\Quote\Address\Item setTaxAmount(float $value)
  * @method float getRowTotal()
- * @method Magento_Sales_Model_Quote_Address_Item setRowTotal(float $value)
+ * @method \Magento\Sales\Model\Quote\Address\Item setRowTotal(float $value)
  * @method float getBaseRowTotal()
- * @method Magento_Sales_Model_Quote_Address_Item setBaseRowTotal(float $value)
+ * @method \Magento\Sales\Model\Quote\Address\Item setBaseRowTotal(float $value)
  * @method float getRowTotalWithDiscount()
- * @method Magento_Sales_Model_Quote_Address_Item setRowTotalWithDiscount(float $value)
+ * @method \Magento\Sales\Model\Quote\Address\Item setRowTotalWithDiscount(float $value)
  * @method float getBaseDiscountAmount()
- * @method Magento_Sales_Model_Quote_Address_Item setBaseDiscountAmount(float $value)
- * @method Magento_Sales_Model_Quote_Address_Item setBaseTaxAmount(float $value)
+ * @method \Magento\Sales\Model\Quote\Address\Item setBaseDiscountAmount(float $value)
+ * @method \Magento\Sales\Model\Quote\Address\Item setBaseTaxAmount(float $value)
  * @method float getRowWeight()
- * @method Magento_Sales_Model_Quote_Address_Item setRowWeight(float $value)
+ * @method \Magento\Sales\Model\Quote\Address\Item setRowWeight(float $value)
  * @method int getProductId()
- * @method Magento_Sales_Model_Quote_Address_Item setProductId(int $value)
+ * @method \Magento\Sales\Model\Quote\Address\Item setProductId(int $value)
  * @method int getSuperProductId()
- * @method Magento_Sales_Model_Quote_Address_Item setSuperProductId(int $value)
+ * @method \Magento\Sales\Model\Quote\Address\Item setSuperProductId(int $value)
  * @method int getParentProductId()
- * @method Magento_Sales_Model_Quote_Address_Item setParentProductId(int $value)
+ * @method \Magento\Sales\Model\Quote\Address\Item setParentProductId(int $value)
  * @method string getSku()
- * @method Magento_Sales_Model_Quote_Address_Item setSku(string $value)
+ * @method \Magento\Sales\Model\Quote\Address\Item setSku(string $value)
  * @method string getImage()
- * @method Magento_Sales_Model_Quote_Address_Item setImage(string $value)
+ * @method \Magento\Sales\Model\Quote\Address\Item setImage(string $value)
  * @method string getName()
- * @method Magento_Sales_Model_Quote_Address_Item setName(string $value)
+ * @method \Magento\Sales\Model\Quote\Address\Item setName(string $value)
  * @method string getDescription()
- * @method Magento_Sales_Model_Quote_Address_Item setDescription(string $value)
+ * @method \Magento\Sales\Model\Quote\Address\Item setDescription(string $value)
  * @method int getFreeShipping()
- * @method Magento_Sales_Model_Quote_Address_Item setFreeShipping(int $value)
+ * @method \Magento\Sales\Model\Quote\Address\Item setFreeShipping(int $value)
  * @method int getIsQtyDecimal()
- * @method Magento_Sales_Model_Quote_Address_Item setIsQtyDecimal(int $value)
+ * @method \Magento\Sales\Model\Quote\Address\Item setIsQtyDecimal(int $value)
  * @method float getDiscountPercent()
- * @method Magento_Sales_Model_Quote_Address_Item setDiscountPercent(float $value)
+ * @method \Magento\Sales\Model\Quote\Address\Item setDiscountPercent(float $value)
  * @method int getNoDiscount()
- * @method Magento_Sales_Model_Quote_Address_Item setNoDiscount(int $value)
+ * @method \Magento\Sales\Model\Quote\Address\Item setNoDiscount(int $value)
  * @method float getTaxPercent()
- * @method Magento_Sales_Model_Quote_Address_Item setTaxPercent(float $value)
+ * @method \Magento\Sales\Model\Quote\Address\Item setTaxPercent(float $value)
  * @method float getBasePrice()
- * @method Magento_Sales_Model_Quote_Address_Item setBasePrice(float $value)
+ * @method \Magento\Sales\Model\Quote\Address\Item setBasePrice(float $value)
  * @method float getBaseCost()
- * @method Magento_Sales_Model_Quote_Address_Item setBaseCost(float $value)
+ * @method \Magento\Sales\Model\Quote\Address\Item setBaseCost(float $value)
  * @method float getPriceInclTax()
- * @method Magento_Sales_Model_Quote_Address_Item setPriceInclTax(float $value)
+ * @method \Magento\Sales\Model\Quote\Address\Item setPriceInclTax(float $value)
  * @method float getBasePriceInclTax()
- * @method Magento_Sales_Model_Quote_Address_Item setBasePriceInclTax(float $value)
+ * @method \Magento\Sales\Model\Quote\Address\Item setBasePriceInclTax(float $value)
  * @method float getRowTotalInclTax()
- * @method Magento_Sales_Model_Quote_Address_Item setRowTotalInclTax(float $value)
+ * @method \Magento\Sales\Model\Quote\Address\Item setRowTotalInclTax(float $value)
  * @method float getBaseRowTotalInclTax()
- * @method Magento_Sales_Model_Quote_Address_Item setBaseRowTotalInclTax(float $value)
+ * @method \Magento\Sales\Model\Quote\Address\Item setBaseRowTotalInclTax(float $value)
  * @method int getGiftMessageId()
- * @method Magento_Sales_Model_Quote_Address_Item setGiftMessageId(int $value)
+ * @method \Magento\Sales\Model\Quote\Address\Item setGiftMessageId(int $value)
  * @method float getHiddenTaxAmount()
- * @method Magento_Sales_Model_Quote_Address_Item setHiddenTaxAmount(float $value)
+ * @method \Magento\Sales\Model\Quote\Address\Item setHiddenTaxAmount(float $value)
  * @method float getBaseHiddenTaxAmount()
- * @method Magento_Sales_Model_Quote_Address_Item setBaseHiddenTaxAmount(float $value)
+ * @method \Magento\Sales\Model\Quote\Address\Item setBaseHiddenTaxAmount(float $value)
  *
  * @category    Magento
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Quote_Address_Item extends Magento_Sales_Model_Quote_Item_Abstract
+namespace Magento\Sales\Model\Quote\Address;
+
+class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
 {
     /**
      * Quote address model object
      *
-     * @var Magento_Sales_Model_Quote_Address
+     * @var \Magento\Sales\Model\Quote\Address
      */
     protected $_address;
     protected $_quote;
 
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Resource_Quote_Address_Item');
+        $this->_init('Magento\Sales\Model\Resource\Quote\Address\Item');
     }
 
     /**
-     * @return $this|Magento_Sales_Model_Quote_Item_Abstract
+     * @return $this|\Magento\Sales\Model\Quote\Item\AbstractItem
      */
     protected function _beforeSave()
     {
@@ -120,10 +122,10 @@ class Magento_Sales_Model_Quote_Address_Item extends Magento_Sales_Model_Quote_I
     /**
      * Declare address model
      *
-     * @param   Magento_Sales_Model_Quote_Address $address
-     * @return  Magento_Sales_Model_Quote_Address_Item
+     * @param   \Magento\Sales\Model\Quote\Address $address
+     * @return  \Magento\Sales\Model\Quote\Address\Item
      */
-    public function setAddress(Magento_Sales_Model_Quote_Address $address)
+    public function setAddress(\Magento\Sales\Model\Quote\Address $address)
     {
         $this->_address = $address;
         $this->_quote   = $address->getQuote();
@@ -133,7 +135,7 @@ class Magento_Sales_Model_Quote_Address_Item extends Magento_Sales_Model_Quote_I
     /**
      * Retrieve address model
      *
-     * @return Magento_Sales_Model_Quote_Address
+     * @return \Magento\Sales\Model\Quote\Address
      */
     public function getAddress()
     {
@@ -143,7 +145,7 @@ class Magento_Sales_Model_Quote_Address_Item extends Magento_Sales_Model_Quote_I
     /**
      * Retrieve quote model instance
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {
@@ -151,10 +153,10 @@ class Magento_Sales_Model_Quote_Address_Item extends Magento_Sales_Model_Quote_I
     }
 
     /**
-     * @param Magento_Sales_Model_Quote_Item $quoteItem
+     * @param \Magento\Sales\Model\Quote\Item $quoteItem
      * @return $this
      */
-    public function importQuoteItem(Magento_Sales_Model_Quote_Item $quoteItem)
+    public function importQuoteItem(\Magento\Sales\Model\Quote\Item $quoteItem)
     {
         $this->_quote = $quoteItem->getQuote();
         $this->setQuoteItem($quoteItem)
@@ -177,7 +179,7 @@ class Magento_Sales_Model_Quote_Address_Item extends Magento_Sales_Model_Quote_I
 
     /**
      * @param string $code
-     * @return Magento_Catalog_Model_Product_Configuration_Item_Option_Interface|null
+     * @return \Magento\Catalog\Model\Product\Configuration\Item\Option\OptionInterface|null
      */
     public function getOptionBycode($code)
     {

@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ImportExport_Model_Resource_Helper extends Magento_Core_Model_Resource_Helper
+namespace Magento\ImportExport\Model\Resource;
+
+class Helper extends \Magento\Core\Model\Resource\Helper
 {
     /**
      * Constants to be used for DB
@@ -25,11 +27,11 @@ class Magento_ImportExport_Model_Resource_Helper extends Magento_Core_Model_Reso
     const DB_MAX_PACKET_COEFFICIENT = 0.85; // The coefficient of useful data from maximum packet length
 
     /**
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Core\Model\Resource $resource
      * @param string $modulePrefix
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
+        \Magento\Core\Model\Resource $resource,
         $modulePrefix = 'importexport'
     ) {
         parent::__construct($resource, $modulePrefix);
@@ -59,7 +61,7 @@ class Magento_ImportExport_Model_Resource_Helper extends Magento_Core_Model_Reso
         $entityStatus = $adapter->showTableStatus($tableName);
 
         if (empty($entityStatus['Auto_increment'])) {
-            throw new Magento_Core_Exception(__('Cannot get autoincrement value'));
+            throw new \Magento\Core\Exception(__('Cannot get autoincrement value'));
         }
         return $entityStatus['Auto_increment'];
     }

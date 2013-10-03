@@ -13,7 +13,9 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\CatalogSearch\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     const QUERY_VAR_NAME = 'q';
     const MAX_QUERY_LEN  = 200;
@@ -21,7 +23,7 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Query object
      *
-     * @var Magento_CatalogSearch_Model_Query
+     * @var \Magento\CatalogSearch\Model\Query
      */
     protected $_query;
 
@@ -49,44 +51,44 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Search engine model
      *
-     * @var Magento_CatalogSearch_Model_Resource_Fulltext_Engine
+     * @var \Magento\CatalogSearch\Model\Resource\Fulltext\Engine
      */
     protected $_engine;
 
     /**
      * Core string
      *
-     * @var Magento_Core_Helper_String
+     * @var \Magento\Core\Helper\String
      */
     protected $_coreString = null;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_ConfigInterface
+     * @var \Magento\Core\Model\Store\ConfigInterface
      */
     protected $_coreStoreConfig;
 
     /**
      * Query factory
      *
-     * @var Magento_CatalogSearch_Model_QueryFactory
+     * @var \Magento\CatalogSearch\Model\QueryFactory
      */
     protected $_queryFactory;
 
     /**
      * Construct
      * 
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
-     * @param Magento_CatalogSearch_Model_QueryFactory $queryFactory
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\CatalogSearch\Model\QueryFactory $queryFactory
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Helper_String $coreString,
-        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
-        Magento_CatalogSearch_Model_QueryFactory $queryFactory
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\CatalogSearch\Model\QueryFactory $queryFactory
     ) {
         $this->_coreString = $coreString;
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -107,7 +109,7 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve query model object
      *
-     * @return Magento_CatalogSearch_Model_Query
+     * @return \Magento\CatalogSearch\Model\Query
      */
     public function getQuery()
     {
@@ -144,7 +146,7 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
             if ($this->_queryText === null) {
                 $this->_queryText = '';
             } else {
-                /* @var $stringHelper Magento_Core_Helper_String */
+                /* @var $stringHelper \Magento\Core\Helper\String */
                 $stringHelper = $this->_coreString;
                 $this->_queryText = is_array($this->_queryText) ? ''
                     : $stringHelper->cleanString(trim($this->_queryText));
@@ -172,7 +174,7 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve suggest collection for query
      *
-     * @return Magento_CatalogSearch_Model_Resource_Query_Collection
+     * @return \Magento\CatalogSearch\Model\Resource\Query\Collection
      */
     public function getSuggestCollection()
     {
@@ -234,7 +236,7 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getMinQueryLength($store = null)
     {
-        return $this->_coreStoreConfig->getConfig(Magento_CatalogSearch_Model_Query::XML_PATH_MIN_QUERY_LENGTH, $store);
+        return $this->_coreStoreConfig->getConfig(\Magento\CatalogSearch\Model\Query::XML_PATH_MIN_QUERY_LENGTH, $store);
     }
 
     /**
@@ -245,7 +247,7 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getMaxQueryLength($store = null)
     {
-        return $this->_coreStoreConfig->getConfig(Magento_CatalogSearch_Model_Query::XML_PATH_MAX_QUERY_LENGTH, $store);
+        return $this->_coreStoreConfig->getConfig(\Magento\CatalogSearch\Model\Query::XML_PATH_MAX_QUERY_LENGTH, $store);
     }
 
     /**
@@ -256,14 +258,14 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getMaxQueryWords($store = null)
     {
-        return $this->_coreStoreConfig->getConfig(Magento_CatalogSearch_Model_Query::XML_PATH_MAX_QUERY_WORDS, $store);
+        return $this->_coreStoreConfig->getConfig(\Magento\CatalogSearch\Model\Query::XML_PATH_MAX_QUERY_WORDS, $store);
     }
 
     /**
      * Add Note message
      *
      * @param string $message
-     * @return Magento_CatalogSearch_Helper_Data
+     * @return \Magento\CatalogSearch\Helper\Data
      */
     public function addNoteMessage($message)
     {
@@ -275,7 +277,7 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
      * Set Note messages
      *
      * @param array $messages
-     * @return Magento_CatalogSearch_Helper_Data
+     * @return \Magento\CatalogSearch\Helper\Data
      */
     public function setNoteMessages(array $messages)
     {
@@ -297,7 +299,7 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
      * Check query of a warnings
      *
      * @param mixed $store
-     * @return Magento_CatalogSearch_Helper_Data
+     * @return \Magento\CatalogSearch\Helper\Data
      */
     public function checkNotes($store = null)
     {
@@ -305,12 +307,12 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
             $this->addNoteMessage(__('Your search query can\'t be longer than %1, so we had to shorten your query.', $this->getMaxQueryLength()));
         }
 
-        /* @var $stringHelper Magento_Core_Helper_String */
+        /* @var $stringHelper \Magento\Core\Helper\String */
         $stringHelper = $this->_coreString;
 
-        $searchType = $this->_coreStoreConfig->getConfig(Magento_CatalogSearch_Model_Fulltext::XML_PATH_CATALOG_SEARCH_TYPE);
-        if ($searchType == Magento_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE
-            || $searchType == Magento_CatalogSearch_Model_Fulltext::SEARCH_TYPE_LIKE
+        $searchType = $this->_coreStoreConfig->getConfig(\Magento\CatalogSearch\Model\Fulltext::XML_PATH_CATALOG_SEARCH_TYPE);
+        if ($searchType == \Magento\CatalogSearch\Model\Fulltext::SEARCH_TYPE_COMBINE
+            || $searchType == \Magento\CatalogSearch\Model\Fulltext::SEARCH_TYPE_LIKE
         ) {
             $wordsFull = $stringHelper->splitWords($this->getQueryText(), true);
             $wordsLike = $stringHelper->splitWords($this->getQueryText(), true, $this->getMaxQueryWords());

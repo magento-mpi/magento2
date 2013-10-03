@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Oauth_Service_OauthV1Interface
+namespace Magento\Oauth\Service;
+
+interface OauthV1Interface
 {
 
     /**#@+
@@ -54,8 +56,8 @@ interface Magento_Oauth_Service_OauthV1Interface
      * )
      * </pre>
      * @return array - The Add-On (consumer) data.
-     * @throws Magento_Core_Exception
-     * @throws Magento_Oauth_Exception
+     * @throws \Magento\Core\Exception
+     * @throws \Magento\Oauth\Exception
      */
     public function createConsumer($consumerData);
 
@@ -67,8 +69,8 @@ interface Magento_Oauth_Service_OauthV1Interface
      * array('consumer_id' => 1)
      * </pre>
      * @return array - The oauth_verifier.
-     * @throws Magento_Core_Exception
-     * @throws Magento_Oauth_Exception
+     * @throws \Magento\Core\Exception
+     * @throws \Magento\Oauth\Exception
      */
     public function postToConsumer($request);
 
@@ -89,7 +91,7 @@ interface Magento_Oauth_Service_OauthV1Interface
      * )
      * </pre>
      * @return array - The request token/secret pair.
-     * @throws Magento_Oauth_Exception
+     * @throws \Magento\Oauth\Exception
      */
     public function getRequestToken($request);
 
@@ -112,7 +114,7 @@ interface Magento_Oauth_Service_OauthV1Interface
      * )
      * </pre>
      * @return array - The access token/secret pair.
-     * @throws Magento_Oauth_Exception
+     * @throws \Magento\Oauth\Exception
      */
     public function getAccessToken($request);
 
@@ -134,7 +136,7 @@ interface Magento_Oauth_Service_OauthV1Interface
      * )
      * </pre>
      * @return boolean true if access token request is valid
-     * @throws Magento_Oauth_Exception
+     * @throws \Magento\Oauth\Exception
      */
     public function validateAccessTokenRequest($request);
 
@@ -148,7 +150,7 @@ interface Magento_Oauth_Service_OauthV1Interface
      * )
      * </pre>
      * @return boolean true if requested access token exists, is associated with a consumer and is valid
-     * @throws Magento_Oauth_Exception
+     * @throws \Magento\Oauth\Exception
      */
     public function validateAccessToken($request);
 }

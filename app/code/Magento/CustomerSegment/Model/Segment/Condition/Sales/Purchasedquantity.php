@@ -8,23 +8,25 @@
  * @license     {license_link}
  */
 
-class Magento_CustomerSegment_Model_Segment_Condition_Sales_Purchasedquantity
-    extends Magento_CustomerSegment_Model_Segment_Condition_Sales_Combine
+namespace Magento\CustomerSegment\Model\Segment\Condition\Sales;
+
+class Purchasedquantity
+    extends \Magento\CustomerSegment\Model\Segment\Condition\Sales\Combine
 {
     /**
-     * @param Magento_CustomerSegment_Model_Resource_Segment $resourceSegment
-     * @param Magento_CustomerSegment_Model_ConditionFactory $conditionFactory
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
+     * @param \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_CustomerSegment_Model_Resource_Segment $resourceSegment,
-        Magento_CustomerSegment_Model_ConditionFactory $conditionFactory,
-        Magento_Rule_Model_Condition_Context $context,
+        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
+        \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
+        \Magento\Rule\Model\Condition\Context $context,
         array $data = array()
     ) {
         parent::__construct($resourceSegment, $conditionFactory, $context, $data);
-        $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Sales_Purchasedquantity');
+        $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Sales\Purchasedquantity');
         $this->setValue(null);
     }
 
@@ -33,7 +35,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Sales_Purchasedquantity
      *
      * @param mixed $key
      * @param mixed $value
-     * @return Magento_CustomerSegment_Model_Segment_Condition_Sales_Purchasedquantity
+     * @return \Magento\CustomerSegment\Model\Segment\Condition\Sales\Purchasedquantity
      */
     public function setData($key, $value = null)
     {
@@ -73,8 +75,8 @@ class Magento_CustomerSegment_Model_Segment_Condition_Sales_Purchasedquantity
      * Build query for matching ordered items qty
      *
      * @param $customer
-     * @param int | Zend_Db_Expr $website
-     * @return Magento_DB_Select
+     * @param int | \Zend_Db_Expr $website
+     * @return \Magento\DB\Select
      */
     protected function _prepareConditionsSql($customer, $website)
     {
@@ -88,7 +90,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Sales_Purchasedquantity
 
         $select->from(
             array('sales_order' => $this->getResource()->getTable('sales_flat_order')),
-            array(new Zend_Db_Expr($result))
+            array(new \Zend_Db_Expr($result))
         );
         $this->_limitByStoreWebsite($select, $website, 'sales_order.store_id');
         $select->where($this->_createCustomerFilter($customer, 'sales_order.customer_id'));
@@ -99,7 +101,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Sales_Purchasedquantity
     /**
      * Reset setValueOption() to prevent displaying incorrect actual values
      *
-     * @return Magento_CustomerSegment_Model_Segment_Condition_Sales_Purchasedquantity
+     * @return \Magento\CustomerSegment\Model\Segment\Condition\Sales\Purchasedquantity
      */
     public function loadValueOptions()
     {

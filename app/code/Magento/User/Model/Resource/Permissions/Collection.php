@@ -16,7 +16,9 @@
  * @package     Magento_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_User_Model_Resource_Permissions_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\User\Model\Resource\Permissions;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Initialize resource
@@ -24,6 +26,6 @@ class Magento_User_Model_Resource_Permissions_Collection extends Magento_Core_Mo
      */
     protected function _construct()
     {
-        $this->_init('Magento_User_Model_Rules', 'Magento_User_Model_Resource_Rules');
+        $this->_init('Magento\User\Model\Rules', 'Magento\User\Model\Resource\Rules');
     }
 }

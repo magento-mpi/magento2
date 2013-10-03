@@ -16,41 +16,43 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\Adminhtml\Block\Newsletter\Queue\Edit;
+
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var Magento_Cms_Model_Wysiwyg_Config
+     * @var \Magento\Cms\Model\Wysiwyg\Config
      */
     protected $_wysiwygConfig;
 
     /**
-     * @var Magento_Core_Model_System_Store
+     * @var \Magento\Core\Model\System\Store
      */
     protected $_systemStore;
 
     /**
-     * @var Magento_Newsletter_Model_QueueFactory
+     * @var \Magento\Newsletter\Model\QueueFactory
      */
     protected $_queueFactory;
 
     /**
-     * @param Magento_Newsletter_Model_QueueFactory $queueFactory
-     * @param Magento_Core_Model_System_Store $systemStore
-     * @param Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Newsletter\Model\QueueFactory $queueFactory
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Newsletter_Model_QueueFactory $queueFactory,
-        Magento_Core_Model_System_Store $systemStore,
-        Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig,
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Newsletter\Model\QueueFactory $queueFactory,
+        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_wysiwygConfig = $wysiwygConfig;
@@ -65,14 +67,14 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Magento_Backend
      * or from  newsletter queue grid by edit option.
      *
      * @param void
-     * @return Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form
+     * @return \Magento\Adminhtml\Block\Newsletter\Queue\Edit\Form
      */
     protected function _prepareForm()
     {
-        /* @var $queue Magento_Newsletter_Model_Queue */
+        /* @var $queue \Magento\Newsletter\Model\Queue */
         $queue = $this->_queueFactory->create();
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
 
         $fieldset = $form->addFieldset('base_fieldset', array(
@@ -80,10 +82,10 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Magento_Backend
             'class'    =>  'fieldset-wide'
         ));
 
-        $dateFormat = $this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
-        $timeFormat = $this->_locale->getTimeFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
+        $dateFormat = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
+        $timeFormat = $this->_locale->getTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
 
-        if ($queue->getQueueStatus() == Magento_Newsletter_Model_Queue::STATUS_NEVER) {
+        if ($queue->getQueueStatus() == \Magento\Newsletter\Model\Queue::STATUS_NEVER) {
             $fieldset->addField('date', 'date', array(
                 'name'      =>    'start_at',
                 'date_format' => $dateFormat,
@@ -136,7 +138,7 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Magento_Backend
 
         if ($queue->getQueueStartAt()) {
             $form->getElement('date')->setValue(
-                $this->_locale->date($queue->getQueueStartAt(), Magento_Date::DATETIME_INTERNAL_FORMAT)
+                $this->_locale->date($queue->getQueueStartAt(), \Magento\Date::DATETIME_INTERNAL_FORMAT)
             );
         }
 
@@ -190,7 +192,7 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Magento_Backend
                 'container_id'  => 'field_newsletter_styles',
                 'value'         => $queue->getTemplate()->getTemplateStyles()
             ));
-        } elseif (Magento_Newsletter_Model_Queue::STATUS_NEVER != $queue->getQueueStatus()) {
+        } elseif (\Magento\Newsletter\Model\Queue::STATUS_NEVER != $queue->getQueueStatus()) {
             $fieldset->addField('text', 'textarea', array(
                 'name'      =>    'text',
                 'label'     =>    __('Message'),

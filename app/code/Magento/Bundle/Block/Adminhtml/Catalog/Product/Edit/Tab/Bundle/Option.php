@@ -15,12 +15,14 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option extends Magento_Backend_Block_Widget
+namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle;
+
+class Option extends \Magento\Backend\Block\Widget
 {
     /**
      * Form element
      *
-     * @var Magento_Data_Form_Element_Abstract|null
+     * @var \Magento\Data\Form\Element\AbstractElement|null
      */
     protected $_element = null;
 
@@ -52,41 +54,41 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option exte
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Bundle_Model_Source_Option_Type
+     * @var \Magento\Bundle\Model\Source\Option\Type
      */
     protected $_optionTypes;
 
     /**
-     * @var Magento_Backend_Model_Config_Source_Yesno
+     * @var \Magento\Backend\Model\Config\Source\Yesno
      */
     protected $_yesno;
 
     /**
-     * @param Magento_Backend_Model_Config_Source_Yesno $yesno
-     * @param Magento_Bundle_Model_Source_Option_Type $optionTypes
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Backend\Model\Config\Source\Yesno $yesno
+     * @param \Magento\Bundle\Model\Source\Option\Type $optionTypes
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Model_Config_Source_Yesno $yesno,
-        Magento_Bundle_Model_Source_Option_Type $optionTypes,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Backend\Model\Config\Source\Yesno $yesno,
+        \Magento\Bundle\Model\Source\Option\Type $optionTypes,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -121,7 +123,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option exte
     /**
      * Retrieve Product object
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
@@ -131,13 +133,13 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option exte
         return $this->getData('product');
     }
 
-    public function render(Magento_Data_Form_Element_Abstract $element)
+    public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $this->setElement($element);
         return $this->toHtml();
     }
 
-    public function setElement(Magento_Data_Form_Element_Abstract $element)
+    public function setElement(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $this->_element = $element;
         return $this;
@@ -155,20 +157,20 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option exte
 
     protected function _prepareLayout()
     {
-        $this->addChild('add_selection_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('add_selection_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'id'    => $this->getFieldId() . '_{{index}}_add_button',
             'label' => __('Add Products to Option'),
             'class' => 'add add-selection'
         ));
 
-        $this->addChild('close_search_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('close_search_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'id'    => $this->getFieldId().'_{{index}}_close_button',
             'label'     => __('Close'),
             'on_click'   => 'bSelection.closeSearch(event)',
             'class' => 'back no-display'
         ));
 
-        $this->addChild('option_delete_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('option_delete_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Delete Option'),
             'class' => 'action-delete',
             'on_click' => 'bOption.remove(event)'
@@ -176,7 +178,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option exte
 
         $this->addChild(
             'selection_template',
-            'Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Selection'
+            'Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Selection'
         );
 
         return parent::_prepareLayout();
@@ -250,7 +252,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option exte
 
     public function getTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Html\Select')
             ->setData(array(
                 'id' => $this->getFieldId().'_{{index}}_type',
                 'class' => 'select select-product-option-type required-option-select',
@@ -264,7 +266,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option exte
 
     public function getRequireSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Html\Select')
             ->setData(array(
                 'id' => $this->getFieldId().'_{{index}}_required',
                 'class' => 'select'

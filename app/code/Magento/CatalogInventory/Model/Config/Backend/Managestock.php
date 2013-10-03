@@ -16,32 +16,34 @@
  * @package    Magento_CatalogInventory
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogInventory_Model_Config_Backend_Managestock
-    extends Magento_Core_Model_Config_Value
+namespace Magento\CatalogInventory\Model\Config\Backend;
+
+class Managestock
+    extends \Magento\Core\Model\Config\Value
 {
     /**
-     * @var Magento_CatalogInventory_Model_Stock_Status
+     * @var \Magento\CatalogInventory\Model\Stock\Status
      */
     protected $_stockStatus;
 
     /**
-     * @param Magento_CatalogInventory_Model_Stock_Status $stockStatus
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\CatalogInventory\Model\Stock\Status $stockStatus
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_CatalogInventory_Model_Stock_Status $stockStatus,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\CatalogInventory\Model\Stock\Status $stockStatus,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_stockStatus = $stockStatus;
@@ -51,12 +53,12 @@ class Magento_CatalogInventory_Model_Config_Backend_Managestock
     /**
      * After change Catalog Inventory Manage value process
      *
-     * @return Magento_CatalogInventory_Model_Config_Backend_Managestock
+     * @return \Magento\CatalogInventory\Model\Config\Backend\Managestock
      */
     protected function _afterSave()
     {
         $oldValue = $this->_config->getValue(
-            Magento_CatalogSearch_Model_Fulltext::XML_PATH_CATALOG_SEARCH_TYPE,
+            \Magento\CatalogSearch\Model\Fulltext::XML_PATH_CATALOG_SEARCH_TYPE,
             $this->getScope(),
             $this->getScopeId()
         );

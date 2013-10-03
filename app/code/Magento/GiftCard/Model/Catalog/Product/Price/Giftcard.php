@@ -8,12 +8,14 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCard_Model_Catalog_Product_Price_Giftcard extends Magento_Catalog_Model_Product_Type_Price
+namespace Magento\GiftCard\Model\Catalog\Product\Price;
+
+class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
 {
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -30,18 +32,18 @@ class Magento_GiftCard_Model_Catalog_Product_Price_Giftcard extends Magento_Cata
     protected $_minMaxCache = array();
 
     /**
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_CatalogRule_Model_Resource_RuleFactory $ruleFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\CatalogRule\Model\Resource\RuleFactory $ruleFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Event\Manager $eventManager
      */
     public function __construct(
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_CatalogRule_Model_Resource_RuleFactory $ruleFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Event_Manager $eventManager
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\CatalogRule\Model\Resource\RuleFactory $ruleFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Event\Manager $eventManager
     ) {
         $this->_storeManager = $storeManager;
         parent::__construct($ruleFactory, $storeManager, $locale, $customerSession, $eventManager);
@@ -51,7 +53,7 @@ class Magento_GiftCard_Model_Catalog_Product_Price_Giftcard extends Magento_Cata
     /**
      * Return price of the specified product
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return float
      */
     public function getPrice($product)
@@ -67,7 +69,7 @@ class Magento_GiftCard_Model_Catalog_Product_Price_Giftcard extends Magento_Cata
      * Retrieve product final price
      *
      * @param integer $qty
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return float
      */
     public function getFinalPrice($qty=null, $product)
@@ -88,11 +90,11 @@ class Magento_GiftCard_Model_Catalog_Product_Price_Giftcard extends Magento_Cata
     /**
      * Load and set gift card amounts into product object
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      */
     public function getAmounts($product)
     {
-        $allGroups = Magento_Customer_Model_Group::CUST_GROUP_ALL;
+        $allGroups = \Magento\Customer\Model\Group::CUST_GROUP_ALL;
         $prices = $product->getData('giftcard_amounts');
 
         if (is_null($prices)) {
@@ -109,7 +111,7 @@ class Magento_GiftCard_Model_Catalog_Product_Price_Giftcard extends Magento_Cata
     /**
      * Return minimal amount for Giftcard product
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return float
      */
     public function getMinAmount($product)
@@ -121,7 +123,7 @@ class Magento_GiftCard_Model_Catalog_Product_Price_Giftcard extends Magento_Cata
     /**
      * Return maximal amount for Giftcard product
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return float
      */
     public function getMaxAmount($product)
@@ -133,7 +135,7 @@ class Magento_GiftCard_Model_Catalog_Product_Price_Giftcard extends Magento_Cata
     /**
      * Fill in $_amountCache or return precalculated sorted values for amounts
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return array
      */
     public function getSortedAmounts($product)
@@ -156,7 +158,7 @@ class Magento_GiftCard_Model_Catalog_Product_Price_Giftcard extends Magento_Cata
     /**
      * Fill in $_minMaxCache or return precalculated values for min, max
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return array
      */
     protected function _calcMinMax($product)

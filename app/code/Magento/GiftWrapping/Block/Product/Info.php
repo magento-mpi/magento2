@@ -15,23 +15,25 @@
  * @package     Magento_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftWrapping_Block_Product_Info extends Magento_Core_Block_Template
+namespace Magento\GiftWrapping\Block\Product;
+
+class Info extends \Magento\Core\Block\Template
 {
     /**
-     * @var Magento_GiftWrapping_Model_WrappingFactory
+     * @var \Magento\GiftWrapping\Model\WrappingFactory
      */
     protected $_wrappingFactory;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_GiftWrapping_Model_WrappingFactory $wrappingFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\GiftWrapping\Model\WrappingFactory $wrappingFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_GiftWrapping_Model_WrappingFactory $wrappingFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\GiftWrapping\Model\WrappingFactory $wrappingFactory,
         array $data = array()
     ) {
         $this->_wrappingFactory = $wrappingFactory;
@@ -41,7 +43,7 @@ class Magento_GiftWrapping_Block_Product_Info extends Magento_Core_Block_Templat
     /**
      * Return product gift wrapping info
      *
-     * @return false|Magento_Object
+     * @return false|\Magento\Object
      */
     public function getGiftWrappingInfo()
     {

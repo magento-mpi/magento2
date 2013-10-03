@@ -15,33 +15,37 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  *
+ */
+namespace Magento\Backend\Controller\Adminhtml\System\Config;
+
+/**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_Backend_Controller_Adminhtml_System_Config_Save extends Magento_Backend_Controller_System_ConfigAbstract
+class Save extends \Magento\Backend\Controller\System\AbstractConfig
 {
     /**
      * Backend Config Model Factory
      *
-     * @var Magento_Backend_Model_Config_Factory
+     * @var \Magento\Backend\Model\Config\Factory
      */
     protected $_configFactory;
 
     /**
-     * @var Magento_Cache_FrontendInterface
+     * @var \Magento\Cache\FrontendInterface
      */
     protected $_cache;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Backend_Model_Config_Structure $configStructure
-     * @param Magento_Backend_Model_Config_Factory $configFactory
-     * @param Magento_Cache_FrontendInterface $cache
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\Model\Config\Structure $configStructure
+     * @param \Magento\Backend\Model\Config\Factory $configFactory
+     * @param \Magento\Cache\FrontendInterface $cache
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Backend_Model_Config_Structure $configStructure,
-        Magento_Backend_Model_Config_Factory $configFactory,
-        Magento_Cache_FrontendInterface $cache
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\Model\Config\Structure $configStructure,
+        \Magento\Backend\Model\Config\Factory $configFactory,
+        \Magento\Cache\FrontendInterface $cache
     ) {
         parent::__construct($context, $configStructure);
         $this->_configFactory = $configFactory;
@@ -55,7 +59,7 @@ class Magento_Backend_Controller_Adminhtml_System_Config_Save extends Magento_Ba
     {
         try {
             if (false == $this->_isSectionAllowed($this->getRequest()->getParam('section'))) {
-                throw new Exception(__('This section is not allowed.'));
+                throw new \Exception(__('This section is not allowed.'));
             }
 
             // custom save logic
@@ -70,19 +74,19 @@ class Magento_Backend_Controller_Adminhtml_System_Config_Save extends Magento_Ba
                 'store' => $store,
                 'groups' => $this->_getGroupsForSave()
             );
-            /** @var Magento_Backend_Model_Config $configModel  */
+            /** @var \Magento\Backend\Model\Config $configModel  */
             $configModel = $this->_configFactory->create(array('data' => $configData));
             $configModel->save();
 
             $this->_session->addSuccess(
                 __('You saved the configuration.')
             );
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $messages = explode("\n", $e->getMessage());
             foreach ($messages as $message) {
                 $this->_session->addError($message);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_session->addException(
                 $e,
                 __('An error occurred while saving this configuration:') . ' ' . $e->getMessage()

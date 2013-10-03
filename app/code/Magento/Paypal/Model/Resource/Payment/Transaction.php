@@ -16,7 +16,9 @@
  * @package     Magento_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paypal_Model_Resource_Payment_Transaction extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Paypal\Model\Resource\Payment;
+
+class Transaction extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Serializeable field: additional_information
@@ -39,10 +41,10 @@ class Magento_Paypal_Model_Resource_Payment_Transaction extends Magento_Core_Mod
     /**
      * Load the transaction object by specified txn_id
      *
-     * @param Magento_Paypal_Model_Payment_Transaction $transaction
+     * @param \Magento\Paypal\Model\Payment\Transaction $transaction
      * @param string $txnId
      */
-    public function loadObjectByTxnId(Magento_Paypal_Model_Payment_Transaction $transaction, $txnId)
+    public function loadObjectByTxnId(\Magento\Paypal\Model\Payment\Transaction $transaction, $txnId)
     {
         $select = $this->_getLoadByUniqueKeySelect($txnId);
         $data   = $this->_getWriteAdapter()->fetchRow($select);
@@ -54,12 +56,12 @@ class Magento_Paypal_Model_Resource_Payment_Transaction extends Magento_Core_Mod
     /**
      * Serialize additional information, if any
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      *
-     * @param Magento_Core_Model_Abstract $transaction
-     * @return Magento_Paypal_Model_Resource_Payment_Transaction
+     * @param \Magento\Core\Model\AbstractModel $transaction
+     * @return \Magento\Paypal\Model\Resource\Payment\Transaction
      */
-    protected function _beforeSave(Magento_Core_Model_Abstract $transaction)
+    protected function _beforeSave(\Magento\Core\Model\AbstractModel $transaction)
     {
         $txnId       = $transaction->getData('txn_id');
         $idFieldName = $this->getIdFieldName();
@@ -97,7 +99,7 @@ class Magento_Paypal_Model_Resource_Payment_Transaction extends Magento_Core_Mod
      *
      * @param string $txnId
      * @param string|array|Zend_Db_Expr $columns
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     private function _getLoadByUniqueKeySelect($txnId, $columns = '*')
     {

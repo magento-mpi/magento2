@@ -7,13 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_DataService_LayoutTest extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\Core\Model\DataService;
+
+class LayoutTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     private $_dataServiceGraph;
 
     protected function setUp()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         // Need to call this first so we get proper config
         $config = $this->_loadServiceCallsConfig();
         parent::setUp();
@@ -22,30 +24,30 @@ class Magento_Core_Model_DataService_LayoutTest extends Magento_TestFramework_Te
             . DS . 'TestProduct.php';
         include $fixtureFileName;
         $invoker = $objectManager->create(
-            'Magento_Core_Model_DataService_Invoker',
+            'Magento\Core\Model\DataService\Invoker',
             array('config' => $config)
         );
-        /** @var Magento_Core_Model_DataService_Graph $dataServiceGraph */
+        /** @var \Magento\Core\Model\DataService\Graph $dataServiceGraph */
         $this->_dataServiceGraph = $objectManager->create(
-            'Magento_Core_Model_DataService_Graph',
+            'Magento\Core\Model\DataService\Graph',
             array('dataServiceInvoker' => $invoker)
         );
     }
 
     protected function _loadServiceCallsConfig()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var Magento_Core_Model_Config_Modules_Reader $moduleReader */
-        $moduleReader = $objectManager->create('Magento_Core_Model_Config_Modules_Reader');
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var \Magento\Core\Model\Config\Modules\Reader $moduleReader */
+        $moduleReader = $objectManager->create('Magento\Core\Model\Config\Modules\Reader');
         $moduleReader->setModuleDir('Magento_Catalog', 'etc', __DIR__ . '/LayoutTest/Magento/Catalog/etc');
 
-        /** @var Magento_Core_Model_DataService_Config_Reader_Factory $dsCfgReaderFactory */
+        /** @var \Magento\Core\Model\DataService\Config\Reader\Factory $dsCfgReaderFactory */
         $dsCfgReaderFactory = $objectManager->create(
-            'Magento_Core_Model_DataService_Config_Reader_Factory'
+            'Magento\Core\Model\DataService\Config\Reader\Factory'
         );
 
-        /** @var Magento_Core_Model_DataService_Config $config */
-        $dataServiceConfig = new Magento_Core_Model_DataService_Config($dsCfgReaderFactory, $moduleReader);
+        /** @var \Magento\Core\Model\DataService\Config $config */
+        $dataServiceConfig = new \Magento\Core\Model\DataService\Config($dsCfgReaderFactory, $moduleReader);
         return $dataServiceConfig;
     }
 
@@ -54,7 +56,7 @@ class Magento_Core_Model_DataService_LayoutTest extends Magento_TestFramework_Te
      */
     public function testServiceCalls()
     {
-        /** @var Magento_Core_Model_Layout $layout */
+        /** @var \Magento\Core\Model\Layout $layout */
         $layout = $this->_getLayoutModel('layout_update.xml');
         $serviceCalls = $layout->getServiceCalls();
         $expectedServiceCalls = array(
@@ -81,16 +83,16 @@ class Magento_Core_Model_DataService_LayoutTest extends Magento_TestFramework_Te
      *
      * @param string $fixtureFile
      *
-     * @return Magento_Core_Model_Layout
+     * @return \Magento\Core\Model\Layout
      */
     protected function _getLayoutModel($fixtureFile)
     {
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
-            'Magento_Core_Model_Layout',
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Core\Model\Layout',
             array('dataServiceGraph' => $this->_dataServiceGraph)
         );
-        $xml = simplexml_load_file(__DIR__ . "/LayoutTest/{$fixtureFile}", 'Magento_Core_Model_Layout_Element');
+        $xml = simplexml_load_file(__DIR__ . "/LayoutTest/{$fixtureFile}", 'Magento\Core\Model\Layout\Element');
         $layout->setXml($xml);
         $layout->generateElements();
         return $layout;

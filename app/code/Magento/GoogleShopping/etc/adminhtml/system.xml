@@ -22,42 +22,42 @@
                 </field>
                 <field id="password" translate="label" type="obscure" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Account Password</label>
-                    <backend_model>Magento_Backend_Model_Config_Backend_Encrypted</backend_model>
+                    <backend_model>Magento\Backend\Model\Config\Backend\Encrypted</backend_model>
                 </field>
                 <field id="account_type" translate="label" type="select" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Account Type</label>
-                    <source_model>Magento_GoogleShopping_Model_Source_Accounttype</source_model>
+                    <source_model>Magento\GoogleShopping\Model\Source\Accounttype</source_model>
                 </field>
                 <field id="target_country" translate="label" type="select" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Target Country</label>
-                    <source_model>Magento_GoogleShopping_Model_Source_Country</source_model>
+                    <source_model>Magento\GoogleShopping\Model\Source\Country</source_model>
                 </field>
                 <field id="observed" translate="label" type="select" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Update Google Shopping Item when Product is Updated</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="verify_meta_tag" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Verifying Meta Tag</label>
                 </field>
                 <field id="debug" translate="label" type="select" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Debug</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="destinations" translate="label" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Destinations</label>
-                    <frontend_model>Magento_Backend_Block_System_Config_Form_Field_Heading</frontend_model>
+                    <frontend_model>Magento\Backend\Block\System\Config\Form\Field\Heading</frontend_model>
                 </field>
                 <field id="product_search" translate="label" type="select" sortOrder="151" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Google Product Search</label>
-                    <source_model>Magento_GoogleShopping_Model_Source_Destinationstates</source_model>
+                    <source_model>Magento\GoogleShopping\Model\Source\Destinationstates</source_model>
                 </field>
                 <field id="product_ads" translate="label" type="select" sortOrder="152" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Product Ads</label>
-                    <source_model>Magento_GoogleShopping_Model_Source_Destinationstates</source_model>
+                    <source_model>Magento\GoogleShopping\Model\Source\Destinationstates</source_model>
                 </field>
                 <field id="commerce_search" translate="label" type="select" sortOrder="153" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Commerce Search</label>
-                    <source_model>Magento_GoogleShopping_Model_Source_Destinationstates</source_model>
+                    <source_model>Magento\GoogleShopping\Model\Source\Destinationstates</source_model>
                 </field>
             </group>
         </section>

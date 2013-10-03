@@ -9,10 +9,13 @@
  * @license     {license_link}
  */
 
+
+namespace Magento\Backend\Controller\Adminhtml\System;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Backend_Controller_Adminhtml_System_ConfigTest extends Magento_Backend_Utility_Controller
+class ConfigTest extends \Magento\Backend\Utility\Controller
 {
     public function testEditAction()
     {

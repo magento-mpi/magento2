@@ -13,50 +13,52 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Wishlist_Model_Observer extends Magento_Core_Model_Abstract
+namespace Magento\Wishlist\Model;
+
+class Observer extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Wishlist data
      *
-     * @var Magento_Wishlist_Helper_Data
+     * @var \Magento\Wishlist\Helper\Data
      */
     protected $_wishlistData = null;
 
     /**
-     * @var Magento_Checkout_Model_Session
+     * @var \Magento\Checkout\Model\Session
      */
     protected $_checkoutSession;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @var Magento_Wishlist_Model_WishlistFactory
+     * @var \Magento\Wishlist\Model\WishlistFactory
      */
     protected $_wishlistFactory;
 
     /**
-     * @param Magento_Wishlist_Helper_Data $wishlistData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Checkout_Model_Session $checkoutSession
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Wishlist_Model_WishlistFactory $wishlistFactory
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Wishlist\Helper\Data $wishlistData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Wishlist_Helper_Data $wishlistData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Checkout_Model_Session $checkoutSession,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Wishlist_Model_WishlistFactory $wishlistFactory,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Wishlist\Helper\Data $wishlistData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_wishlistData = $wishlistData;
@@ -70,7 +72,7 @@ class Magento_Wishlist_Model_Observer extends Magento_Core_Model_Abstract
      * Get customer wishlist model instance
      *
      * @param   int $customerId
-     * @return  Magento_Wishlist_Model_Wishlist || false
+     * @return  \Magento\Wishlist\Model\Wishlist || false
      */
     protected function _getWishlist($customerId)
     {
@@ -83,8 +85,8 @@ class Magento_Wishlist_Model_Observer extends Magento_Core_Model_Abstract
     /**
      * Check move quote item to wishlist request
      *
-     * @param   Magento_Event_Observer $observer
-     * @return  Magento_Wishlist_Model_Observer
+     * @param   \Magento\Event\Observer $observer
+     * @return  \Magento\Wishlist\Model\Observer
      */
     public function processCartUpdateBefore($observer)
     {
@@ -177,10 +179,10 @@ class Magento_Wishlist_Model_Observer extends Magento_Core_Model_Abstract
     /**
      * Customer login processing
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_Wishlist_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\Wishlist\Model\Observer
      */
-    public function customerLogin(Magento_Event_Observer $observer)
+    public function customerLogin(\Magento\Event\Observer $observer)
     {
         $this->_wishlistData->calculate();
 
@@ -190,10 +192,10 @@ class Magento_Wishlist_Model_Observer extends Magento_Core_Model_Abstract
     /**
      * Customer logout processing
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_Wishlist_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\Wishlist\Model\Observer
      */
-    public function customerLogout(Magento_Event_Observer $observer)
+    public function customerLogout(\Magento\Event\Observer $observer)
     {
         $this->_customerSession->setWishlistItemCount(0);
 

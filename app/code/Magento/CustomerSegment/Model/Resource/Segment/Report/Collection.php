@@ -5,11 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_CustomerSegment_Model_Resource_Segment_Report_Collection
-    extends Magento_CustomerSegment_Model_Resource_Segment_Collection
+namespace Magento\CustomerSegment\Model\Resource\Segment\Report;
+
+class Collection
+    extends \Magento\CustomerSegment\Model\Resource\Segment\Collection
 {
     /**
-     * @return Magento_CustomerSegment_Model_Resource_Segment_Report_Collection
+     * @return \Magento\CustomerSegment\Model\Resource\Segment\Report\Collection
      */
     protected function _initSelect()
     {

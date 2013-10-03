@@ -11,7 +11,9 @@
 /**
  * Locale currency source
  */
-class Magento_Backend_Model_Config_Source_Locale_Currency implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Backend\Model\Config\Source\Locale;
+
+class Currency implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * @var array
@@ -19,14 +21,14 @@ class Magento_Backend_Model_Config_Source_Locale_Currency implements Magento_Cor
     protected $_option;
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param \Magento\Core\Model\LocaleInterface $locale
      */
-    public function __construct(Magento_Core_Model_LocaleInterface $locale)
+    public function __construct(\Magento\Core\Model\LocaleInterface $locale)
     {
         $this->_locale = $locale;
     }

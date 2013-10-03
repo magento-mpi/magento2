@@ -15,9 +15,13 @@
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  *
+ */
+namespace Magento\Backend\Block\Widget\Grid\Column\Filter;
+
+/**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_Backend_Block_Widget_Grid_Column_Filter_Price extends Magento_Backend_Block_Widget_Grid_Column_Filter_Abstract
+class Price extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilter
 {
     /**
      * @var array
@@ -25,27 +29,27 @@ class Magento_Backend_Block_Widget_Grid_Column_Filter_Price extends Magento_Back
     protected $_currencyList = null;
 
     /**
-     * @var Magento_Directory_Model_Currency
+     * @var \Magento\Directory\Model\Currency
      */
     protected $_currencyModel = null;
 
     /**
-     * @var Magento_Directory_Model_Currency_DefaultLocator
+     * @var \Magento\Directory\Model\Currency\DefaultLocator
      */
     protected $_currencyLocator = null;
 
     /**
-     * @param Magento_Backend_Block_Context $context
-     * @param Magento_Core_Model_Resource_Helper $resourceHelper
-     * @param Magento_Directory_Model_Currency $currencyModel
-     * @param Magento_Directory_Model_Currency_DefaultLocator $currencyLocator
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Core\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Directory\Model\Currency $currencyModel
+     * @param \Magento\Directory\Model\Currency\DefaultLocator $currencyLocator
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Context $context,
-        Magento_Core_Model_Resource_Helper $resourceHelper,
-        Magento_Directory_Model_Currency $currencyModel,
-        Magento_Directory_Model_Currency_DefaultLocator $currencyLocator,
+        \Magento\Backend\Block\Context $context,
+        \Magento\Core\Model\Resource\Helper $resourceHelper,
+        \Magento\Directory\Model\Currency $currencyModel,
+        \Magento\Directory\Model\Currency\DefaultLocator $currencyLocator,
         array $data = array()
     ) {
         parent::__construct($context, $resourceHelper, $data);

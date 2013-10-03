@@ -11,5 +11,5 @@
  */
 return array(
     // Fails because of dependence on registry
-    'Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Customers',
+    'Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\Customers',
 );

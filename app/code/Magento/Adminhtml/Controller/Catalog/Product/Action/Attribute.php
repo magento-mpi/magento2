@@ -16,7 +16,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller\Catalog\Product\Action;
+
+class Attribute extends \Magento\Adminhtml\Controller\Action
 {
     public function editAction()
     {
@@ -44,7 +46,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute extends Mage
         $websiteAddData     = $this->getRequest()->getParam('add_website_ids', array());
 
         /* Prepare inventory data item options (use config settings) */
-        $options = $this->_objectManager->get('Magento_CatalogInventory_Helper_Data')->getConfigItemOptions();
+        $options = $this->_objectManager->get('Magento\CatalogInventory\Helper\Data')->getConfigItemOptions();
         foreach ($options as $option) {
             if (isset($inventoryData[$option]) && !isset($inventoryData['use_config_' . $option])) {
                 $inventoryData['use_config_' . $option] = 0;
@@ -53,24 +55,24 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute extends Mage
 
         try {
             if ($attributesData) {
-                $dateFormat = $this->_objectManager->get('Magento_Core_Model_LocaleInterface')
-                    ->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+                $dateFormat = $this->_objectManager->get('Magento\Core\Model\LocaleInterface')
+                    ->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
                 $storeId    = $this->_getHelper()->getSelectedStoreId();
 
                 foreach ($attributesData as $attributeCode => $value) {
-                    $attribute = $this->_objectManager->get('Magento_Eav_Model_Config')
-                        ->getAttribute(Magento_Catalog_Model_Product::ENTITY, $attributeCode);
+                    $attribute = $this->_objectManager->get('Magento\Eav\Model\Config')
+                        ->getAttribute(\Magento\Catalog\Model\Product::ENTITY, $attributeCode);
                     if (!$attribute->getAttributeId()) {
                         unset($attributesData[$attributeCode]);
                         continue;
                     }
                     if ($attribute->getBackendType() == 'datetime') {
                         if (!empty($value)) {
-                            $filterInput    = new Zend_Filter_LocalizedToNormalized(array(
+                            $filterInput    = new \Zend_Filter_LocalizedToNormalized(array(
                                 'date_format' => $dateFormat
                             ));
-                            $filterInternal = new Zend_Filter_NormalizedToLocalized(array(
-                                'date_format' => Magento_Date::DATE_INTERNAL_FORMAT
+                            $filterInternal = new \Zend_Filter_NormalizedToLocalized(array(
+                                'date_format' => \Magento\Date::DATE_INTERNAL_FORMAT
                             ));
                             $value = $filterInternal->filter($filterInput->filter($value));
                         } else {
@@ -91,11 +93,11 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute extends Mage
                     }
                 }
 
-                $this->_objectManager->get('Magento_Catalog_Model_Product_Action')
+                $this->_objectManager->get('Magento\Catalog\Model\Product\Action')
                     ->updateAttributes($this->_getHelper()->getProductIds(), $attributesData, $storeId);
             }
             if ($inventoryData) {
-                $stockItem = $this->_objectManager->create('Magento_CatalogInventory_Model_Stock_Item');
+                $stockItem = $this->_objectManager->create('Magento\CatalogInventory\Model\Stock\Item');
                 $stockItem->setProcessIndexEvents(false);
                 $stockItemSaved = false;
 
@@ -118,16 +120,16 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute extends Mage
                 }
 
                 if ($stockItemSaved) {
-                    $this->_objectManager->get('Magento_Index_Model_Indexer')->indexEvents(
-                        Magento_CatalogInventory_Model_Stock_Item::ENTITY,
-                        Magento_Index_Model_Event::TYPE_SAVE
+                    $this->_objectManager->get('Magento\Index\Model\Indexer')->indexEvents(
+                        \Magento\CatalogInventory\Model\Stock\Item::ENTITY,
+                        \Magento\Index\Model\Event::TYPE_SAVE
                     );
                 }
             }
 
             if ($websiteAddData || $websiteRemoveData) {
-                /* @var $actionModel Magento_Catalog_Model_Product_Action */
-                $actionModel = $this->_objectManager->get('Magento_Catalog_Model_Product_Action');
+                /* @var $actionModel \Magento\Catalog\Model\Product\Action */
+                $actionModel = $this->_objectManager->get('Magento\Catalog\Model\Product\Action');
                 $productIds  = $this->_getHelper()->getProductIds();
 
                 if ($websiteRemoveData) {
@@ -151,10 +153,10 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute extends Mage
                 __('A total of %1 record(s) were updated.', count($this->_getHelper()->getProductIds()))
             );
         }
-        catch (Magento_Core_Exception $e) {
+        catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
-        catch (Exception $e) {
+        catch (\Exception $e) {
             $this->_getSession()
                 ->addException($e, __('Something went wrong while updating the product(s) attributes.'));
         }
@@ -173,7 +175,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute extends Mage
         $productIds = $this->_getHelper()->getProductIds();
         if (!is_array($productIds)) {
             $error = __('Please select products for attributes update.');
-        } else if (!$this->_objectManager->create('Magento_Catalog_Model_Product')->isProductsHasSku($productIds)) {
+        } else if (!$this->_objectManager->create('Magento\Catalog\Model\Product')->isProductsHasSku($productIds)) {
             $error = __('Please make sure to define SKU values for all processed products.');
         }
 
@@ -188,11 +190,11 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute extends Mage
     /**
      * Rertive data manipulation helper
      *
-     * @return Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute
+     * @return \Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute
      */
     protected function _getHelper()
     {
-        return $this->_objectManager->get('Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute');
+        return $this->_objectManager->get('Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute');
     }
 
     protected function _isAllowed()
@@ -206,15 +208,15 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute extends Mage
      */
     public function validateAction()
     {
-        $response = new Magento_Object();
+        $response = new \Magento\Object();
         $response->setError(false);
         $attributesData = $this->getRequest()->getParam('attributes', array());
-        $data = new Magento_Object();
+        $data = new \Magento\Object();
 
         try {
             if ($attributesData) {
                 foreach ($attributesData as $attributeCode => $value) {
-                    $attribute = $this->_objectManager->get('Magento_Eav_Model_Config')
+                    $attribute = $this->_objectManager->get('Magento\Eav\Model\Config')
                         ->getAttribute('catalog_product', $attributeCode);
                     if (!$attribute->getAttributeId()) {
                         unset($attributesData[$attributeCode]);
@@ -224,17 +226,17 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute extends Mage
                     $attribute->getBackend()->validate($data);
                 }
             }
-        } catch (Magento_Eav_Model_Entity_Attribute_Exception $e) {
+        } catch (\Magento\Eav\Model\Entity\Attribute\Exception $e) {
             $response->setError(true);
             $response->setAttribute($e->getAttributeCode());
             $response->setMessage($e->getMessage());
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $response->setError(true);
             $response->setMessage($e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getSession()
                 ->addException($e, __('Something went wrong while updating the product(s) attributes.'));
-            $this->_initLayoutMessages('Magento_Adminhtml_Model_Session');
+            $this->_initLayoutMessages('Magento\Adminhtml\Model\Session');
             $response->setError(true);
             $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
         }

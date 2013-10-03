@@ -7,13 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_TemplateEngine_TwigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\TemplateEngine;
+
+class TwigTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var  Magento_Core_Model_TemplateEngine_Twig */
+    /** @var  \Magento\Core\Model\TemplateEngine\Twig */
     protected $_twigEngine;
 
     /**
-     * @var Magento_TestFramework_ObjectManager
+     * @var \Magento\TestFramework\ObjectManager
      */
     protected $_objectManager;
 
@@ -22,23 +24,23 @@ class Magento_Core_Model_TemplateEngine_TwigTest extends PHPUnit_Framework_TestC
      */
     protected function setUp()
     {
-        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')->loadAreaPart(
-            Magento_Core_Model_App_Area::AREA_GLOBAL,
-            Magento_Core_Model_App_Area::PART_CONFIG
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')->loadAreaPart(
+            \Magento\Core\Model\App\Area::AREA_GLOBAL,
+            \Magento\Core\Model\App\Area::PART_CONFIG
         );
-        $this->_twigEngine = $this->_objectManager->create('Magento_Core_Model_TemplateEngine_Twig');
+        $this->_twigEngine = $this->_objectManager->create('Magento\Core\Model\TemplateEngine\Twig');
     }
 
     /**
      * Render a twig file using the Magento Twig Template Engine.
      *
-     * @param Magento_Core_Block_Template $block
+     * @param \Magento\Core\Block\Template $block
      * @param $fileName
      * @param array $dictionary
      * @return string
      */
-    public function render(Magento_Core_Block_Template $block, $fileName, array $dictionary = array())
+    public function render(\Magento\Core\Block\Template $block, $fileName, array $dictionary = array())
     {
         return $this->_twigEngine->render($block, $fileName, $dictionary);
     }
@@ -50,12 +52,12 @@ class Magento_Core_Model_TemplateEngine_TwigTest extends PHPUnit_Framework_TestC
      */
     public function testSimpleRender()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
-            ->loadAreaPart(Magento_Core_Model_App_Area::AREA_FRONTEND, Magento_Core_Model_App_Area::PART_DESIGN);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+            ->loadAreaPart(\Magento\Core\Model\App\Area::AREA_FRONTEND, \Magento\Core\Model\App\Area::PART_DESIGN);
         $simpleTitle = 'This is the Title';
         $renderedOutput = '<html><head><title>' . $simpleTitle . '</title></head><body></body></html>';
         $path = __DIR__ . '/_files';
-        $blockMock = $this->getMockBuilder('Magento_Core_Block_Template')
+        $blockMock = $this->getMockBuilder('Magento\Core\Block\Template')
             ->disableOriginalConstructor()->getMock();
 
         $dictionary = array(

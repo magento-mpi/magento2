@@ -8,13 +8,15 @@
  * @license     {license_link}
  */
 
-class Magento_GoogleCheckout_Model_Payment extends Magento_Payment_Model_Method_Abstract
+namespace Magento\GoogleCheckout\Model;
+
+class Payment extends \Magento\Payment\Model\Method\AbstractMethod
 {
     const ACTION_AUTHORIZE = 0;
     const ACTION_AUTHORIZE_CAPTURE = 1;
 
     protected $_code  = 'googlecheckout';
-    protected $_formBlockType = 'Magento_GoogleCheckout_Block_Form';
+    protected $_formBlockType = 'Magento\GoogleCheckout\Block\Form';
 
     /**
      * Availability options
@@ -47,19 +49,19 @@ class Magento_GoogleCheckout_Model_Payment extends Magento_Payment_Model_Method_
      */
     public function getOrderPlaceRedirectUrl()
     {
-        return Mage::getUrl('googlecheckout/redirect/redirect');
+        return \Mage::getUrl('googlecheckout/redirect/redirect');
     }
 
     /**
      * Authorize
      *
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      * @param float $amount
-     * @return  Magento_GoogleCheckout_Model_Payment
+     * @return  \Magento\GoogleCheckout\Model\Payment
      */
-    public function authorize(Magento_Object $payment, $amount)
+    public function authorize(\Magento\Object $payment, $amount)
     {
-        $api = Mage::getModel('Magento_GoogleCheckout_Model_Api')->setStoreId($payment->getOrder()->getStoreId());
+        $api = \Mage::getModel('Magento\GoogleCheckout\Model\Api')->setStoreId($payment->getOrder()->getStoreId());
         $api->authorize($payment->getOrder()->getExtOrderId());
 
         return $this;
@@ -68,23 +70,23 @@ class Magento_GoogleCheckout_Model_Payment extends Magento_Payment_Model_Method_
     /**
      * Capture payment
      *
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      * @param float $amount
-     * @return  Magento_GoogleCheckout_Model_Payment
+     * @return  \Magento\GoogleCheckout\Model\Payment
      */
-    public function capture(Magento_Object $payment, $amount)
+    public function capture(\Magento\Object $payment, $amount)
     {
-        if ($payment->getOrder()->getPaymentAuthExpiration() < Mage::getModel('Magento_Core_Model_Date')->gmtTimestamp()) {
+        if ($payment->getOrder()->getPaymentAuthExpiration() < \Mage::getModel('Magento\Core\Model\Date')->gmtTimestamp()) {
             try {
                 $this->authorize($payment, $amount);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // authorization is not expired yet
             }
         }
 
-        $api = Mage::getModel('Magento_GoogleCheckout_Model_Api')->setStoreId($payment->getOrder()->getStoreId());
+        $api = \Mage::getModel('Magento\GoogleCheckout\Model\Api')->setStoreId($payment->getOrder()->getStoreId());
         $api->charge($payment->getOrder()->getExtOrderId(), $amount);
-        $payment->setForcedState(Magento_Sales_Model_Order_Invoice::STATE_OPEN);
+        $payment->setForcedState(\Magento\Sales\Model\Order\Invoice::STATE_OPEN);
 
         return $this;
     }
@@ -92,23 +94,23 @@ class Magento_GoogleCheckout_Model_Payment extends Magento_Payment_Model_Method_
     /**
      * Refund money
      *
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      * @param float $amount
      *
-     * @return  Magento_GoogleCheckout_Model_Payment
+     * @return  \Magento\GoogleCheckout\Model\Payment
      */
-    public function refund(Magento_Object $payment, $amount)
+    public function refund(\Magento\Object $payment, $amount)
     {
         $reason = $this->getReason() ? $this->getReason() : __('No Reason');
         $comment = $this->getComment() ? $this->getComment() : __('No Comment');
 
-        $api = Mage::getModel('Magento_GoogleCheckout_Model_Api')->setStoreId($payment->getOrder()->getStoreId());
+        $api = \Mage::getModel('Magento\GoogleCheckout\Model\Api')->setStoreId($payment->getOrder()->getStoreId());
         $api->refund($payment->getOrder()->getExtOrderId(), $amount, $reason, $comment);
 
         return $this;
     }
 
-    public function void(Magento_Object $payment)
+    public function void(\Magento\Object $payment)
     {
         $this->cancel($payment);
 
@@ -118,17 +120,17 @@ class Magento_GoogleCheckout_Model_Payment extends Magento_Payment_Model_Method_
     /**
      * Void payment
      *
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      *
-     * @return Magento_GoogleCheckout_Model_Payment
+     * @return \Magento\GoogleCheckout\Model\Payment
      */
-    public function cancel(Magento_Object $payment)
+    public function cancel(\Magento\Object $payment)
     {
         if (!$payment->getOrder()->getBeingCanceledFromGoogleApi()) {
             $reason = $this->getReason() ? $this->getReason() : __('Unknown Reason');
             $comment = $this->getComment() ? $this->getComment() : __('No Comment');
 
-            $api = Mage::getModel('Magento_GoogleCheckout_Model_Api')->setStoreId($payment->getOrder()->getStoreId());
+            $api = \Mage::getModel('Magento\GoogleCheckout\Model\Api')->setStoreId($payment->getOrder()->getStoreId());
             $api->cancel($payment->getOrder()->getExtOrderId(), $reason, $comment);
         }
 
@@ -139,7 +141,7 @@ class Magento_GoogleCheckout_Model_Payment extends Magento_Payment_Model_Method_
      * Retrieve information from payment configuration
      *
      * @param string $field
-     * @param int|string|null|Magento_Core_Model_Store $storeId
+     * @param int|string|null|\Magento\Core\Model\Store $storeId
      *
      * @return  mixed
      */
@@ -156,13 +158,13 @@ class Magento_GoogleCheckout_Model_Payment extends Magento_Payment_Model_Method_
     /**
      * Check void availability
      *
-     * @param   Magento_Object $payment
+     * @param   \Magento\Object $payment
      * @return  bool
      */
-    public function canVoid(Magento_Object $payment)
+    public function canVoid(\Magento\Object $payment)
     {
-        if ($payment instanceof Magento_Sales_Model_Order_Invoice
-            || $payment instanceof Magento_Sales_Model_Order_Creditmemo
+        if ($payment instanceof \Magento\Sales\Model\Order\Invoice
+            || $payment instanceof \Magento\Sales\Model\Order\Creditmemo
         ) {
             return false;
         }

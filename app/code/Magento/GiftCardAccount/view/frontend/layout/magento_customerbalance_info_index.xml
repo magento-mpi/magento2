@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceBlock name="customerbalance.wrapper">
-        <block class="Magento_GiftCardAccount_Block_Account_Redeem" name="redeem" template="account/redeem_link.phtml" after="balance"/>
+        <block class="Magento\GiftCardAccount\Block\Account\Redeem" name="redeem" template="account/redeem_link.phtml" after="balance"/>
     </referenceBlock>
 </layout>

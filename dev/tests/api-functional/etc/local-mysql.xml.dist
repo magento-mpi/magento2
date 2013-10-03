@@ -31,13 +31,13 @@
         <dbName><![CDATA[magento2]]></dbName>
         <initStatements><![CDATA[SET NAMES utf8]]></initStatements>
         <model><![CDATA[mysql4]]></model>
-        <adapter>Magento_TestFramework_Db_ConnectionAdapter</adapter>
+        <adapter>Magento\TestFramework\Db\ConnectionAdapter</adapter>
         <active>1</active>
     </connection>
     <session_save><![CDATA[files]]></session_save>
     <connection>
         <type name="pdo_mysql">
-            <adapter><![CDATA[Magento_TestFramework_Db_Adapter_Mysql]]></adapter>
+            <adapter><![CDATA[Magento\TestFramework\Db\Adapter\Mysql]]></adapter>
         </type>
     </connection>
 </config>

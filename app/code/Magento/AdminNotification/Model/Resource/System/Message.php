@@ -6,7 +6,9 @@
  * @license   {license_link}
  */
 
-class Magento_AdminNotification_Model_Resource_System_Message extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\AdminNotification\Model\Resource\System;
+
+class Message extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Flag that notifies whether Primary key of table is auto-incremeted

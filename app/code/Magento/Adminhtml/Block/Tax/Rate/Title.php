@@ -14,34 +14,36 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Tax_Rate_Title extends Magento_Core_Block_Template
+namespace Magento\Adminhtml\Block\Tax\Rate;
+
+class Title extends \Magento\Core\Block\Template
 {
     protected $_titles;
 
     protected $_template = 'tax/rate/title.phtml';
 
     /**
-     * @var Magento_Tax_Model_Calculation_Rate
+     * @var \Magento\Tax\Model\Calculation\Rate
      */
     protected $_rate;
 
     /**
-     * @var Magento_Core_Model_StoreFactory
+     * @var \Magento\Core\Model\StoreFactory
      */
     protected $_storeFactory;
 
     /**
-     * @param Magento_Core_Model_StoreFactory $storeFactory
-     * @param Magento_Tax_Model_Calculation_Rate $rate
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Core\Model\StoreFactory $storeFactory
+     * @param \Magento\Tax\Model\Calculation\Rate $rate
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_StoreFactory $storeFactory,
-        Magento_Tax_Model_Calculation_Rate $rate,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Core\Model\StoreFactory $storeFactory,
+        \Magento\Tax\Model\Calculation\Rate $rate,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_rate = $rate;

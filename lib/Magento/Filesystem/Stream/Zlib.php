@@ -7,19 +7,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Filesystem_Stream_Zlib extends Magento_Filesystem_Stream_Local
+namespace Magento\Filesystem\Stream;
+
+class Zlib extends \Magento\Filesystem\Stream\Local
 {
     /**
      * Opens the stream in the specified mode
      *
-     * @param Magento_Filesystem_Stream_Mode|string $mode
+     * @param \Magento\Filesystem\Stream\Mode|string $mode
      */
     public function open($mode)
     {
-        if ($mode instanceof Magento_Filesystem_Stream_Mode) {
+        if ($mode instanceof \Magento\Filesystem\Stream\Mode) {
             $mode = $mode->getMode();
         }
-        $mode = new Magento_Filesystem_Stream_Mode_Zlib($mode);
+        $mode = new \Magento\Filesystem\Stream\Mode\Zlib($mode);
         parent::open($mode);
     }
 }

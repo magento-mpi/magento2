@@ -9,13 +9,15 @@
  */
 
 /**
- * @method Magento_Cms_Model_Resource_Page_Urlrewrite getResource() getResource()
+ * @method \Magento\Cms\Model\Resource\Page\Urlrewrite getResource() getResource()
  * @method int getCmsPageId() getCmsPageId()
  * @method int getUrlRewriteId() getUrlRewriteId()
- * @method Magento_Cms_Model_Page_Urlrewrite setCmsPageId() setCmsPageId(int)
- * @method Magento_Cms_Model_Page_Urlrewrite setUrlRewriteId() setUrlRewriteId(int)
+ * @method \Magento\Cms\Model\Page\Urlrewrite setCmsPageId() setCmsPageId(int)
+ * @method \Magento\Cms\Model\Page\Urlrewrite setUrlRewriteId() setUrlRewriteId(int)
  */
-class Magento_Cms_Model_Page_Urlrewrite extends Magento_Core_Model_Abstract
+namespace Magento\Cms\Model\Page;
+
+class Urlrewrite extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Initialize resource model
@@ -23,13 +25,13 @@ class Magento_Cms_Model_Page_Urlrewrite extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Cms_Model_Resource_Page_Urlrewrite');
+        $this->_init('Magento\Cms\Model\Resource\Page\Urlrewrite');
     }
 
     /**
      * Generate id path
      *
-     * @param Magento_Cms_Model_Page $cmsPage
+     * @param \Magento\Cms\Model\Page $cmsPage
      * @return string
      */
     public function generateIdPath($cmsPage)
@@ -40,7 +42,7 @@ class Magento_Cms_Model_Page_Urlrewrite extends Magento_Core_Model_Abstract
     /**
      * Generate target path
      *
-     * @param Magento_Cms_Model_Page $cmsPage
+     * @param \Magento\Cms\Model\Page $cmsPage
      * @return string
      */
     public function generateTargetPath($cmsPage)
@@ -51,7 +53,7 @@ class Magento_Cms_Model_Page_Urlrewrite extends Magento_Core_Model_Abstract
     /**
      * Get request path
      *
-     * @param Magento_Cms_Model_Page $cmsPage
+     * @param \Magento\Cms\Model\Page $cmsPage
      * @return string
      */
     public function generateRequestPath($cmsPage)

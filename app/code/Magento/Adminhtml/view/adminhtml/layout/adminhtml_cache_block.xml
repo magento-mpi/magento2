@@ -9,13 +9,13 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceBlock name="adminhtml.cache.container">
-        <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.cache.grid" as="grid">
+        <block class="Magento\Backend\Block\Widget\Grid" name="adminhtml.cache.grid" as="grid">
             <arguments>
                 <argument name="id" xsi:type="string">cache_grid</argument>
-                <argument name="dataSource" xsi:type="object">Magento_Backend_Model_Cache_Resource_Grid_Collection</argument>
+                <argument name="dataSource" xsi:type="object">Magento\Backend\Model\Cache\Resource\Grid\Collection</argument>
                 <argument name="pager_visibility" xsi:type="string">0</argument>
             </arguments>
-            <block class="Magento_Backend_Block_Widget_Grid_Massaction" name="adminhtml.cache.massaction" as="grid.massaction">
+            <block class="Magento\Backend\Block\Widget\Grid\Massaction" name="adminhtml.cache.massaction" as="grid.massaction">
                 <arguments>
                     <argument name="massaction_id_field" xsi:type="string">id</argument>
                     <argument name="form_field_name" xsi:type="string">types</argument>
@@ -37,11 +37,11 @@
                     </argument>
                 </arguments>
             </block>
-            <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.cache.grid.columnSet" as="grid.columnSet">
+            <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" name="adminhtml.cache.grid.columnSet" as="grid.columnSet">
                 <arguments>
                     <argument name="filter_visibility" xsi:type="string">0</argument>
                 </arguments>
-                <block class="Magento_Backend_Block_Widget_Grid_Column" as="cache_type">
+                <block class="Magento\Backend\Block\Widget\Grid\Column" as="cache_type">
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">Cache Type</argument>
                         <argument name="index" xsi:type="string">cache_type</argument>
@@ -51,7 +51,7 @@
                         <argument name="sortable" xsi:type="string">0</argument>
                     </arguments>
                 </block>
-                <block class="Magento_Backend_Block_Widget_Grid_Column" as="description">
+                <block class="Magento\Backend\Block\Widget\Grid\Column" as="description">
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">Description</argument>
                         <argument name="index" xsi:type="string">description</argument>
@@ -60,7 +60,7 @@
                         <argument name="sortable" xsi:type="string">0</argument>
                     </arguments>
                 </block>
-                <block class="Magento_Backend_Block_Widget_Grid_Column" as="tags">
+                <block class="Magento\Backend\Block\Widget\Grid\Column" as="tags">
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">Tags</argument>
                         <argument name="index" xsi:type="string">tags</argument>
@@ -70,7 +70,7 @@
                         <argument name="sortable" xsi:type="string">0</argument>
                     </arguments>
                 </block>
-                <block class="Magento_Backend_Block_Cache_Grid_Column_Statuses" as="status">
+                <block class="Magento\Backend\Block\Cache\Grid\Column\Statuses" as="status">
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">Status</argument>
                         <argument name="index" xsi:type="string">status</argument>

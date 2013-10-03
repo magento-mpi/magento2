@@ -16,12 +16,14 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Resource_Shopcart_Product_Collection extends Magento_Reports_Model_Resource_Product_Collection
+namespace Magento\Reports\Model\Resource\Shopcart\Product;
+
+class Collection extends \Magento\Reports\Model\Resource\Product\Collection
 {
     /**
      * Join fields
      *
-     * @return Magento_Reports_Model_Resource_Shopcart_Product_Collection
+     * @return \Magento\Reports\Model\Resource\Shopcart\Product\Collection
      */
     protected function _joinFields()
     {
@@ -38,7 +40,7 @@ class Magento_Reports_Model_Resource_Shopcart_Product_Collection extends Magento
      *
      * @param string $from
      * @param strin $to
-     * @return Magento_Reports_Model_Resource_Shopcart_Product_Collection
+     * @return \Magento\Reports\Model\Resource\Shopcart\Product\Collection
      */
     public function setDateRange($from, $to)
     {

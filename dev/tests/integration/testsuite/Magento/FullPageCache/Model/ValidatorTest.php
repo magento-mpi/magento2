@@ -10,21 +10,23 @@
  */
 
 /**
- * Integration test for Magento_FullPageCache_Model_Validator
+ * Integration test for \Magento\FullPageCache\Model\Validator
  */
-class Magento_FullPageCache_Model_ValidatorTest extends PHPUnit_Framework_TestCase
+namespace Magento\FullPageCache\Model;
+
+class ValidatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Model under test
      *
-     * @var Magento_FullPageCache_Model_Validator
+     * @var \Magento\FullPageCache\Model\Validator
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_FullPageCache_Model_Validator');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\FullPageCache\Model\Validator');
     }
 
     /**
@@ -46,7 +48,7 @@ class Magento_FullPageCache_Model_ValidatorTest extends PHPUnit_Framework_TestCa
             ),
             'change_class_not_for_caching' => array(
                 '$type'          => 'change',
-                '$object'        => new stdClass(),
+                '$object'        => new \stdClass(),
                 '$isInvalidated' => false,
             ),
             'delete_class_for_caching' => array(
@@ -56,7 +58,7 @@ class Magento_FullPageCache_Model_ValidatorTest extends PHPUnit_Framework_TestCa
             ),
             'delete_class_not_for_caching' => array(
                 '$type'          => 'delete',
-                '$object'        => new stdClass(),
+                '$object'        => new \stdClass(),
                 '$isInvalidated' => false,
             ),
         );
@@ -66,12 +68,12 @@ class Magento_FullPageCache_Model_ValidatorTest extends PHPUnit_Framework_TestCa
      * Test for both _getDataChangeDependencies and _getDataDeleteDependencies
      *
      * @param string $type
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @param boolean $isInvalidated
      *
      * @dataProvider getDataDependenciesDataProvider
-     * @covers Magento_FullPageCache_Model_Validator::_getDataChangeDependencies
-     * @covers Magento_FullPageCache_Model_Validator::_getDataDeleteDependencies
+     * @covers \Magento\FullPageCache\Model\Validator::_getDataChangeDependencies
+     * @covers \Magento\FullPageCache\Model\Validator::_getDataDeleteDependencies
      *
      * @magentoConfigFixture adminhtml/cache/dependency/change/test Test_Change_Dependency
      * @magentoConfigFixture adminhtml/cache/dependency/delete/test Test_Delete_Dependency
@@ -79,14 +81,14 @@ class Magento_FullPageCache_Model_ValidatorTest extends PHPUnit_Framework_TestCa
     public function testGetDataDependencies($type, $object, $isInvalidated)
     {
         $cacheType = 'full_page';
-        /** @var Magento_Core_Model_Cache_StateInterface $cacheState */
-        $cacheState = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_Cache_StateInterface');
+        /** @var \Magento\Core\Model\Cache\StateInterface $cacheState */
+        $cacheState = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\Cache\StateInterface');
         $cacheState->setEnabled($cacheType, true);
 
-        /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
-        $cacheTypeList = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_Cache_TypeListInterface');
+        /** @var \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList */
+        $cacheTypeList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\Cache\TypeListInterface');
 
         // manual unset cache type
         $cacheTypeList->cleanType($cacheType);

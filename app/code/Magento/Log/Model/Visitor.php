@@ -10,22 +10,24 @@
 
 
 /**
- * @method Magento_Log_Model_Resource_Visitor _getResource()
- * @method Magento_Log_Model_Resource_Visitor getResource()
+ * @method \Magento\Log\Model\Resource\Visitor _getResource()
+ * @method \Magento\Log\Model\Resource\Visitor getResource()
  * @method string getSessionId()
- * @method Magento_Log_Model_Visitor setSessionId(string $value)
- * @method Magento_Log_Model_Visitor setFirstVisitAt(string $value)
- * @method Magento_Log_Model_Visitor setLastVisitAt(string $value)
+ * @method \Magento\Log\Model\Visitor setSessionId(string $value)
+ * @method \Magento\Log\Model\Visitor setFirstVisitAt(string $value)
+ * @method \Magento\Log\Model\Visitor setLastVisitAt(string $value)
  * @method int getLastUrlId()
- * @method Magento_Log_Model_Visitor setLastUrlId(int $value)
+ * @method \Magento\Log\Model\Visitor setLastUrlId(int $value)
  * @method int getStoreId()
- * @method Magento_Log_Model_Visitor setStoreId(int $value)
+ * @method \Magento\Log\Model\Visitor setStoreId(int $value)
  *
  * @category    Magento
  * @package     Magento_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
+namespace Magento\Log\Model;
+
+class Visitor extends \Magento\Core\Model\AbstractModel
 {
     const DEFAULT_ONLINE_MINUTES_INTERVAL = 15;
     const VISITOR_TYPE_CUSTOMER = 'c';
@@ -39,7 +41,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
     /**
      * Core http
      *
-     * @var Magento_Core_Helper_Http
+     * @var \Magento\Core\Helper\Http
      */
     protected $_coreHttp = null;
 
@@ -51,19 +53,19 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
@@ -75,60 +77,60 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
     protected $_ignores;
 
     /*
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Model_Session
+     * @var \Magento\Core\Model\Session
      */
     protected $_session;
 
     /**
-     * @var Magento_Sales_Model_QuoteFactory
+     * @var \Magento\Sales\Model\QuoteFactory
      */
     protected $_quoteFactory;
 
     /**
-     * @var Magento_Customer_Model_CustomerFactory
+     * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $_customerFactory;
 
     /**
-     * @param Magento_Core_Model_Context               $context
-     * @param Magento_Core_Model_Registry              $registry
-     * @param Magento_Core_Model_Store_Config          $coreStoreConfig
-     * @param Magento_Core_Model_Event_Manager         $eventManager
-     * @param Magento_Customer_Model_CustomerFactory   $customerFactory
-     * @param Magento_Sales_Model_QuoteFactory         $quoteFactory
-     * @param Magento_Core_Model_Session               $session
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Helper_Http                 $coreHttp
-     * @param Magento_Core_Model_Config                $coreConfig
+     * @param \Magento\Core\Model\Context               $context
+     * @param \Magento\Core\Model\Registry              $registry
+     * @param \Magento\Core\Model\Store\Config          $coreStoreConfig
+     * @param \Magento\Core\Model\Event\Manager         $eventManager
+     * @param \Magento\Customer\Model\CustomerFactory   $customerFactory
+     * @param \Magento\Sales\Model\QuoteFactory         $quoteFactory
+     * @param \Magento\Core\Model\Session               $session
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Http                 $coreHttp
+     * @param \Magento\Core\Model\Config                $coreConfig
      * @param array                                    $data
      * @param array                                    $ignoredUserAgents
      * @param array                                    $ignores
-     * @param Magento_Core_Model_Resource_Abstract     $resource
-     * @param Magento_Data_Collection_Db               $resourceCollection
+     * @param \Magento\Core\Model\Resource\AbstractResource     $resource
+     * @param \Magento\Data\Collection\Db               $resourceCollection
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Customer_Model_CustomerFactory $customerFactory,
-        Magento_Sales_Model_QuoteFactory $quoteFactory,
-        Magento_Core_Model_Session $session,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Helper_Http $coreHttp,
-        Magento_Core_Model_Config $coreConfig,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Sales\Model\QuoteFactory $quoteFactory,
+        \Magento\Core\Model\Session $session,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Http $coreHttp,
+        \Magento\Core\Model\Config $coreConfig,
         array $data = array(),
         array $ignoredUserAgents = array(),
         array $ignores = array(),
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_eventManager = $eventManager;
@@ -149,7 +151,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Log_Model_Resource_Visitor');
+        $this->_init('Magento\Log\Model\Resource\Visitor');
         $userAgent = $this->_coreHttp->getHttpUserAgent();
         if ($this->_ignoredUserAgents) {
             if (in_array($userAgent, $this->_ignoredUserAgents)) {
@@ -161,7 +163,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
     /**
      * Retrieve session object
      *
-     * @return Magento_Core_Model_Session_Abstract
+     * @return \Magento\Core\Model\Session\AbstractSession
      */
     protected function _getSession()
     {
@@ -171,7 +173,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
     /**
      * Initialize visitor information from server data
      *
-     * @return Magento_Log_Model_Visitor
+     * @return \Magento\Log\Model\Visitor
      */
     public function initServerData()
     {
@@ -237,8 +239,8 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
      *
      * Used in event "controller_action_predispatch"
      *
-     * @param   Magento_Event_Observer $observer
-     * @return  Magento_Log_Model_Visitor
+     * @param   \Magento\Event\Observer $observer
+     * @return  \Magento\Log\Model\Visitor
      */
     public function initByRequest($observer)
     {
@@ -263,8 +265,8 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
      *
      * Used in event "controller_action_postdispatch"
      *
-     * @param   Magento_Event_Observer $observer
-     * @return  Magento_Log_Model_Visitor
+     * @param   \Magento\Event\Observer $observer
+     * @return  \Magento\Log\Model\Visitor
      */
     public function saveByRequest($observer)
     {
@@ -276,7 +278,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
             $this->setLastVisitAt(now());
             $this->save();
             $this->_getSession()->setVisitorData($this->getData());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_logger->logException($e);
         }
         return $this;
@@ -287,8 +289,8 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
      *
      * Used in event "customer_login"
      *
-     * @param   Magento_Event_Observer $observer
-     * @return  Magento_Log_Model_Visitor
+     * @param   \Magento\Event\Observer $observer
+     * @return  \Magento\Log\Model\Visitor
      */
     public function bindCustomerLogin($observer)
     {
@@ -304,8 +306,8 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
      *
      * Used in event "customer_logout"
      *
-     * @param   Magento_Event_Observer $observer
-     * @return  Magento_Log_Model_Visitor
+     * @param   \Magento\Event\Observer $observer
+     * @return  \Magento\Log\Model\Visitor
      */
     public function bindCustomerLogout($observer)
     {
@@ -317,7 +319,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
     }
 
     /**
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return $this
      */
     public function bindQuoteCreate($observer)
@@ -333,7 +335,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
     }
 
     /**
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return $this
      */
     public function bindQuoteDestroy($observer)
@@ -390,7 +392,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
     }
 
     /**
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return bool
      */
     public function isModuleIgnored($observer)

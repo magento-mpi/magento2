@@ -15,7 +15,9 @@
  * @package     Magento_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tabs extends Magento_Adminhtml_Block_Widget_Tabs
+namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit;
+
+class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
 {
     /**
      * Internal constructor

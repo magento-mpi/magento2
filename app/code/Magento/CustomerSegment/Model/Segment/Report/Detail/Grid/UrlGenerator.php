@@ -7,21 +7,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_CustomerSegment_Model_Segment_Report_Detail_Grid_UrlGenerator
-    extends Magento_Backend_Model_Widget_Grid_Row_UrlGenerator
+namespace Magento\CustomerSegment\Model\Segment\Report\Detail\Grid;
+
+class UrlGenerator
+    extends \Magento\Backend\Model\Widget\Grid\Row\UrlGenerator
 {
     /**
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_registryManager;
 
     /**
-     * @param Magento_Backend_Model_UrlProxy $backendUrl
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Backend\Model\UrlProxy $backendUrl
+     * @param \Magento\Core\Model\Registry $registry
      */
     public function __construct(
-        Magento_Backend_Model_UrlProxy $backendUrl,
-        Magento_Core_Model_Registry $registry
+        \Magento\Backend\Model\UrlProxy $backendUrl,
+        \Magento\Core\Model\Registry $registry
     ) {
         $this->_registryManager = $registry;
         parent::__construct($backendUrl);
@@ -30,7 +32,7 @@ class Magento_CustomerSegment_Model_Segment_Report_Detail_Grid_UrlGenerator
     /**
      * Convert template params array and merge with preselected params
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return array|mixed
      */
     protected function _prepareParameters($item)

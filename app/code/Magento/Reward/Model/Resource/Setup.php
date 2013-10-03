@@ -16,7 +16,9 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setup
+namespace Magento\Reward\Model\Resource;
+
+class Setup extends \Magento\Sales\Model\Resource\Setup
 {
     /**
      * Current entity type id
@@ -26,28 +28,28 @@ class Magento_Reward_Model_Resource_Setup extends Magento_Sales_Model_Resource_S
     protected $_currentEntityTypeId;
 
     /**
-     * @var Magento_Cms_Model_PageFactory
+     * @var \Magento\Cms\Model\PageFactory
      */
     protected $_pageFactory;
 
     /**
-     * @param Magento_Core_Model_Resource_Setup_Context $context
-     * @param Magento_Core_Model_CacheInterface $cache
-     * @param Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory
-     * @param Magento_Core_Helper_Data $coreHelper
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Cms_Model_PageFactory $pageFactory
+     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory
+     * @param \Magento\Core\Helper\Data $coreHelper
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param string $resourceName
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
-        Magento_Core_Model_Resource_Setup_Context $context,
-        Magento_Core_Model_CacheInterface $cache,
-        Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory,
-        Magento_Core_Helper_Data $coreHelper,
-        Magento_Core_Model_Config $config,
-        Magento_Cms_Model_PageFactory $pageFactory,
+        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory,
+        \Magento\Core\Helper\Data $coreHelper,
+        \Magento\Core\Model\Config $config,
+        \Magento\Cms\Model\PageFactory $pageFactory,
         $resourceName,
         $moduleName = 'Magento_Reward',
         $connectionName = ''
@@ -65,7 +67,7 @@ class Magento_Reward_Model_Resource_Setup extends Magento_Sales_Model_Resource_S
      * @param string|integer $entityTypeId
      * @param string $code
      * @param array $attr
-     * @return Magento_Eav_Model_Entity_Setup
+     * @return \Magento\Eav\Model\Entity\Setup
      */
     public function addAttribute($entityTypeId, $code, array $attr)
     {
@@ -74,7 +76,7 @@ class Magento_Reward_Model_Resource_Setup extends Magento_Sales_Model_Resource_S
     }
 
     /**
-     * @return Magento_Cms_Model_Page
+     * @return \Magento\Cms\Model\Page
      */
     public function getPage()
     {

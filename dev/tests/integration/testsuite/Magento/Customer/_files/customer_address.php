@@ -8,9 +8,9 @@
  * @license     {license_link}
  */
 
-/** @var Magento_Customer_Model_Address $customerAddress */
-$customerAddress = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Customer_Model_Address');
+/** @var \Magento\Customer\Model\Address $customerAddress */
+$customerAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Customer\Model\Address');
 $customerAddress->isObjectNew(true);
 $customerAddress->setCustomerId(1)
     ->setData(array(

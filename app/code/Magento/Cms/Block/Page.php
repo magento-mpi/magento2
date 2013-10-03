@@ -16,52 +16,54 @@
  * @package    Magento_Cms
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Cms_Block_Page extends Magento_Core_Block_Abstract
+namespace Magento\Cms\Block;
+
+class Page extends \Magento\Core\Block\AbstractBlock
 {
     /**
-     * @var Magento_Cms_Model_Template_FilterProvider
+     * @var \Magento\Cms\Model\Template\FilterProvider
      */
     protected $_filterProvider;
 
     /**
-     * @var Magento_Cms_Model_Page
+     * @var \Magento\Cms\Model\Page
      */
     protected $_page;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Page factory
      *
-     * @var Magento_Cms_Model_PageFactory
+     * @var \Magento\Cms\Model\PageFactory
      */
     protected $_pageFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Block_Context $context
-     * @param Magento_Cms_Model_Page $page
-     * @param Magento_Cms_Model_Template_FilterProvider $filterProvider
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Cms_Model_PageFactory $pageFactory
+     * @param \Magento\Core\Block\Context $context
+     * @param \Magento\Cms\Model\Page $page
+     * @param \Magento\Cms\Model\Template\FilterProvider $filterProvider
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Context $context,
-        Magento_Cms_Model_Page $page,
-        Magento_Cms_Model_Template_FilterProvider $filterProvider,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Cms_Model_PageFactory $pageFactory,
+        \Magento\Core\Block\Context $context,
+        \Magento\Cms\Model\Page $page,
+        \Magento\Cms\Model\Template\FilterProvider $filterProvider,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Cms\Model\PageFactory $pageFactory,
         array $data = array()
     ) {
         parent::__construct($context, $data);
-        // used singleton (instead factory) because there exist dependencies on Magento_Cms_Helper_Page
+        // used singleton (instead factory) because there exist dependencies on \Magento\Cms\Helper\Page
         $this->_page = $page;
         $this->_filterProvider = $filterProvider;
         $this->_storeManager = $storeManager;
@@ -71,13 +73,13 @@ class Magento_Cms_Block_Page extends Magento_Core_Block_Abstract
     /**
      * Retrieve Page instance
      *
-     * @return Magento_Cms_Model_Page
+     * @return \Magento\Cms\Model\Page
      */
     public function getPage()
     {
         if (!$this->hasData('page')) {
             if ($this->getPageId()) {
-                /** @var Magento_Cms_Model_Page $page */
+                /** @var \Magento\Cms\Model\Page $page */
                 $page = $this->_pageFactory->create();
                 $page->setStoreId($this->_storeManager->getStore()->getId())
                     ->load($this->getPageId(), 'identifier');
@@ -92,7 +94,7 @@ class Magento_Cms_Block_Page extends Magento_Core_Block_Abstract
     /**
      * Prepare global layout
      *
-     * @return Magento_Cms_Block_Page
+     * @return \Magento\Cms\Block\Page
      */
     protected function _prepareLayout()
     {

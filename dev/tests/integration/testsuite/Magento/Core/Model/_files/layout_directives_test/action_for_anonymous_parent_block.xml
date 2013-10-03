@@ -8,14 +8,14 @@
  */
 -->
 <layout>
-    <block name="test.block.insert" class="Magento_Core_Block_Text"/>
-    <block class="Magento_Core_Block_Template">
+    <block name="test.block.insert" class="Magento\Core\Block\Text"/>
+    <block class="Magento\Core\Block\Template">
         <action method="insert">
             <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="element" xsi:type="string">test.block.insert</argument>
         </action>
     </block>
-    <block name="test.block.append" class="Magento_Core_Block_Text"/>
-    <block class="Magento_Core_Block_Text">
+    <block name="test.block.append" class="Magento\Core\Block\Text"/>
+    <block class="Magento\Core\Block\Text">
         <action method="append">
             <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="element" xsi:type="string">test.block.append</argument>
         </action>

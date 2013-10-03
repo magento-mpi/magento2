@@ -15,7 +15,9 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ImportExport_Model_Export_Adapter_Csv extends Magento_ImportExport_Model_Export_Adapter_Abstract
+namespace Magento\ImportExport\Model\Export\Adapter;
+
+class Csv extends \Magento\ImportExport\Model\Export\Adapter\AbstractAdapter
 {
     /**
      * Field delimiter.
@@ -53,7 +55,7 @@ class Magento_ImportExport_Model_Export_Adapter_Csv extends Magento_ImportExport
     /**
      * Method called as last step of object instance creation. Can be overrided in child classes.
      *
-     * @return Magento_ImportExport_Model_Export_Adapter_Abstract
+     * @return \Magento\ImportExport\Model\Export\Adapter\AbstractAdapter
      */
     protected function _init()
     {
@@ -85,13 +87,13 @@ class Magento_ImportExport_Model_Export_Adapter_Csv extends Magento_ImportExport
      * Set column names.
      *
      * @param array $headerColumns
-     * @throws Exception
-     * @return Magento_ImportExport_Model_Export_Adapter_Abstract
+     * @throws \Exception
+     * @return \Magento\ImportExport\Model\Export\Adapter\AbstractAdapter
      */
     public function setHeaderCols(array $headerColumns)
     {
         if (null !== $this->_headerCols) {
-            throw new Magento_Core_Exception(__('Header column names already set'));
+            throw new \Magento\Core\Exception(__('Header column names already set'));
         }
         if ($headerColumns) {
             foreach ($headerColumns as $columnName) {
@@ -106,8 +108,8 @@ class Magento_ImportExport_Model_Export_Adapter_Csv extends Magento_ImportExport
      * Write row data to source file.
      *
      * @param array $rowData
-     * @throws Exception
-     * @return Magento_ImportExport_Model_Export_Adapter_Abstract
+     * @throws \Exception
+     * @return \Magento\ImportExport\Model\Export\Adapter\AbstractAdapter
      */
     public function writeRow(array $rowData)
     {

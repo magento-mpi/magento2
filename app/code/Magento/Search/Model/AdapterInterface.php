@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Search_Model_AdapterInterface
+namespace Magento\Search\Model;
+
+interface AdapterInterface
 {
     /**
      * Retrieve server status
@@ -64,7 +66,7 @@ interface Magento_Search_Model_AdapterInterface
      * Add prepared Solr Input documents to Solr index
      *
      * @param array $docs
-     * @return Magento_Search_Model_Adapter_Solr_Abstract
+     * @return \Magento\Search\Model\Adapter\Solr\AbstractSolr
      */
     public function addDocs($docs);
 
@@ -80,7 +82,7 @@ interface Magento_Search_Model_AdapterInterface
      *
      * @param  int|string|array $docIDs
      * @param  string|array|null $queries if "all" specified and $docIDs are empty, then all documents will be removed
-     * @return Magento_Search_Model_Adapter_Interface
+     * @return \Magento\Search\Model\Adapter\Interface
      */
     public function deleteDocs($docIDs = array(), $queries = null);
 
@@ -109,14 +111,14 @@ interface Magento_Search_Model_AdapterInterface
     /**
      * Hold commit of changes for adapter
      *
-     * @return Magento_Search_Model_Adapter_Interface
+     * @return \Magento\Search\Model\Adapter\Interface
      */
     public function holdCommit();
 
     /**
      * Allow changes commit for adapter
      *
-     * @return Magento_Search_Model_Adapter_Interface
+     * @return \Magento\Search\Model\Adapter\Interface
      */
     public function allowCommit();
 
@@ -124,7 +126,7 @@ interface Magento_Search_Model_AdapterInterface
      * Define if third party search engine index needs optimization
      *
      * @param  bool $state
-     * @return Magento_Search_Model_Adapter_Interface
+     * @return \Magento\Search\Model\Adapter\Interface
      */
     public function setIndexNeedsOptimization($state);
 
@@ -139,14 +141,14 @@ interface Magento_Search_Model_AdapterInterface
      * Store searchable attributes to prevent additional collection load
      *
      * @param   array $attributes
-     * @return  Magento_Search_Model_Adapter_Interface
+     * @return  \Magento\Search\Model\Adapter\Interface
      */
     public function storeSearchableAttributes(array $attributes);
 
     /**
      * Retrieve attribute solr field name
      *
-     * @param   Magento_Catalog_Model_Resource_Eav_Attribute|string $attribute
+     * @param   \Magento\Catalog\Model\Resource\Eav\Attribute|string $attribute
      * @param   string $target - default|sort|nav
      *
      * @return  string|bool

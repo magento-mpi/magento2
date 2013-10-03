@@ -9,18 +9,20 @@
  * @license     {license_link}
  */
 
+namespace Magento\User\Controller\Adminhtml\User;
+
 /**
- * Test class for Magento_User_Controller_Adminhtml_User_Role.
+ * Test class for \Magento\User\Controller\Adminhtml\User\Role.
  *
  * @magentoAppArea adminhtml
  */
-class Magento_User_Controller_Adminhtml_User_RoleTest extends Magento_Backend_Utility_Controller
+class RoleTest extends \Magento\Backend\Utility\Controller
 {
     public function testEditRoleAction()
     {
-        $roleAdmin = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_User_Model_Role');
-        $roleAdmin->load(Magento_TestFramework_Bootstrap::ADMIN_ROLE_NAME, 'role_name');
+        $roleAdmin = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\User\Model\Role');
+        $roleAdmin->load(\Magento\TestFramework\Bootstrap::ADMIN_ROLE_NAME, 'role_name');
 
         $this->getRequest()->setParam('rid', $roleAdmin->getId());
 
@@ -31,7 +33,7 @@ class Magento_User_Controller_Adminhtml_User_RoleTest extends Magento_Backend_Ut
     }
 
     /**
-     * @covers Magento_User_Controller_Adminhtml_User_Role::editrolegridAction
+     * @covers \Magento\User\Controller\Adminhtml\User\Role::editrolegridAction
      */
     public function testEditrolegridAction()
     {
@@ -44,7 +46,7 @@ class Magento_User_Controller_Adminhtml_User_RoleTest extends Magento_Backend_Ut
     }
 
     /**
-     * @covers Magento_User_Controller_Adminhtml_User_Role::roleGridAction
+     * @covers \Magento\User\Controller\Adminhtml\User\Role::roleGridAction
      */
     public function testRoleGridAction()
     {

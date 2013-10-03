@@ -1,27 +1,29 @@
 <?php
 /**
- * Converter placeholders configuration from DOMDocument to tree array
+ * Converter placeholders configuration from \DOMDocument to tree array
  *
  * {license_notice}
  *
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_FullPageCache_Model_Placeholder_Config_Converter implements Magento_Config_ConverterInterface
+namespace Magento\FullPageCache\Model\Placeholder\Config;
+
+class Converter implements \Magento\Config\ConverterInterface
 {
     /**
      * Convert dom node tree to array
      *
-     * @param DOMDocument $source
+     * @param \DOMDocument $source
      * @return array
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function convert($source)
     {
         $output = array();
-        /** @var DOMNodeList $placeholder */
+        /** @var \DOMNodeList $placeholder */
         $placeholder = $source->getElementsByTagName('placeholder');
-        /** @var DOMNode $placeholderConfig */
+        /** @var \DOMNode $placeholderConfig */
         foreach ($placeholder as $placeholderConfig) {
             $placeholderCode = $placeholderConfig->attributes->getNamedItem('code')->nodeValue;
             $cacheLifeTimeNode = $placeholderConfig->attributes->getNamedItem('cacheLifeTime');
@@ -30,7 +32,7 @@ class Magento_FullPageCache_Model_Placeholder_Config_Converter implements Magent
                 'cache_lifetime' => $cacheLifeTimeNode ? (int)$cacheLifeTimeNode->nodeValue : 0,
             );
             $blockInstanceName = '';
-            /** @var $placeholderData DOMNode */
+            /** @var $placeholderData \DOMNode */
             foreach ($placeholderConfig->childNodes as $placeholderData) {
                 if ($placeholderData->nodeType != XML_ELEMENT_NODE) {
                     continue;

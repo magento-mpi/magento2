@@ -16,8 +16,10 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tabs
-    extends Magento_Adminhtml_Block_Widget_Tabs
+namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit;
+
+class Tabs
+    extends \Magento\Adminhtml\Block\Widget\Tabs
 {
     /**
      * Initialize edit tabs

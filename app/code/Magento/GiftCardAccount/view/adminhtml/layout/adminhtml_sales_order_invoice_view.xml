@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceBlock name="invoice_totals">
-        <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="giftcardaccount" template="Magento_GiftCardAccount::sales/invoice/totals/giftcardaccount.phtml"/>
+        <block class="Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="giftcardaccount" template="Magento_GiftCardAccount::sales/invoice/totals/giftcardaccount.phtml"/>
     </referenceBlock>
 </layout>

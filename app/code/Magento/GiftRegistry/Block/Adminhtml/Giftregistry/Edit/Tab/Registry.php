@@ -8,8 +8,10 @@
  * @license     {license_link}
  */
 
-class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_Registry
-    extends Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute
+namespace Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Tab;
+
+class Registry
+    extends \Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Attribute\Attribute
 {
     protected function _construct()
     {

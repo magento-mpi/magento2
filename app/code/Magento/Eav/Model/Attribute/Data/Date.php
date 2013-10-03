@@ -16,15 +16,17 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Attribute_Data_Date extends Magento_Eav_Model_Attribute_Data_Abstract
+namespace Magento\Eav\Model\Attribute\Data;
+
+class Date extends \Magento\Eav\Model\Attribute\Data\AbstractData
 {
     /**
      * Extract data from request and return value
      *
-     * @param Zend_Controller_Request_Http $request
+     * @param \Zend_Controller_Request_Http $request
      * @return array|string
      */
-    public function extractValue(Zend_Controller_Request_Http $request)
+    public function extractValue(\Zend_Controller_Request_Http $request)
     {
         $value = $this->_getRequestValue($request);
         return $this->_applyInputFilter($value);
@@ -86,7 +88,7 @@ class Magento_Eav_Model_Attribute_Data_Date extends Magento_Eav_Model_Attribute_
      * Export attribute value to entity model
      *
      * @param array|string $value
-     * @return Magento_Eav_Model_Attribute_Data_Date
+     * @return \Magento\Eav\Model\Attribute\Data\Date
      */
     public function compactValue($value)
     {
@@ -103,7 +105,7 @@ class Magento_Eav_Model_Attribute_Data_Date extends Magento_Eav_Model_Attribute_
      * Restore attribute value from SESSION to entity model
      *
      * @param array|string $value
-     * @return Magento_Eav_Model_Attribute_Data_Date
+     * @return \Magento\Eav\Model\Attribute\Data\Date
      */
     public function restoreValue($value)
     {
@@ -116,21 +118,21 @@ class Magento_Eav_Model_Attribute_Data_Date extends Magento_Eav_Model_Attribute_
      * @param string $format
      * @return string|array
      */
-    public function outputValue($format = Magento_Eav_Model_AttributeDataFactory::OUTPUT_FORMAT_TEXT)
+    public function outputValue($format = \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_TEXT)
     {
         $value = $this->getEntity()->getData($this->getAttribute()->getAttributeCode());
         if ($value) {
             switch ($format) {
-                case Magento_Eav_Model_AttributeDataFactory::OUTPUT_FORMAT_TEXT:
-                case Magento_Eav_Model_AttributeDataFactory::OUTPUT_FORMAT_HTML:
-                case Magento_Eav_Model_AttributeDataFactory::OUTPUT_FORMAT_PDF:
-                    $this->_dateFilterFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
+                case \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_TEXT:
+                case \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_HTML:
+                case \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_PDF:
+                    $this->_dateFilterFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
                     break;
             }
             $value = $this->_applyOutputFilter($value);
         }
 
-        $this->_dateFilterFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        $this->_dateFilterFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
 
         return $value;
     }

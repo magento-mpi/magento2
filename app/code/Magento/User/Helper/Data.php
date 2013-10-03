@@ -15,7 +15,9 @@
  * @package  Magento_User
  * @author   Magento Core Team <core@magentocommerce.com>
  */
-class Magento_User_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\User\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Configuration path to expiration period of reset password link
@@ -26,24 +28,24 @@ class Magento_User_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Config $coreConfig
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config $coreConfig
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Config $coreConfig
     ) {
         $this->_coreData = $coreData;
         $this->_coreConfig = $coreConfig;

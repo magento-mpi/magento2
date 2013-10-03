@@ -16,7 +16,9 @@
  * @package    Magento_Wishlist
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Wishlist_Block_Customer_Sidebar extends Magento_Wishlist_Block_Abstract
+namespace Magento\Wishlist\Block\Customer;
+
+class Sidebar extends \Magento\Wishlist\Block\AbstractBlock
 {
     /**
      * Retrieve block title
@@ -31,8 +33,8 @@ class Magento_Wishlist_Block_Customer_Sidebar extends Magento_Wishlist_Block_Abs
     /**
      * Add sidebar conditions to collection
      *
-     * @param  Magento_Wishlist_Model_Resource_Item_Collection $collection
-     * @return Magento_Wishlist_Block_Customer_Wishlist
+     * @param  \Magento\Wishlist\Model\Resource\Item\Collection $collection
+     * @return \Magento\Wishlist\Block\Customer\Wishlist
      */
     protected function _prepareCollection($collection)
     {
@@ -72,7 +74,7 @@ class Magento_Wishlist_Block_Customer_Sidebar extends Magento_Wishlist_Block_Abs
     /**
      * Retrieve Wishlist Product Items collection
      *
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     public function getWishlistItems()
     {

@@ -15,29 +15,31 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\GoogleShopping\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
-     * @var Magento_Core_Helper_String|null
+     * @var \Magento\Core\Helper\String|null
      */
     protected $_coreString = null;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Helper_Context $context
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Context $context
      */
     public function __construct(
-        Magento_Core_Helper_String $coreString,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Helper_Context $context
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Context $context
     ) {
         $this->_coreString = $coreString;
         $this->_storeManager = $storeManager;
@@ -85,10 +87,10 @@ class Magento_GoogleShopping_Helper_Data extends Magento_Core_Helper_Abstract
     }
 
     /**
-     * Parse Exception Response Body
+     * Parse \Exception Response Body
      *
-     * @param string $message Exception message to parse
-     * @param null|Magento_Catalog_Model_Product $product
+     * @param string $message \Exception message to parse
+     * @param null|\Magento\Catalog\Model\Product $product
      * @return string
      */
     public function parseGdataExceptionMessage($message, $product = null)

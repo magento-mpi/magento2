@@ -11,7 +11,9 @@
 /**
  * Inline translation interface
  */
-interface Magento_Core_Model_Translate_InlineInterface
+namespace Magento\Core\Model\Translate;
+
+interface InlineInterface
 {
     /**
      * Returns additional html attribute if needed by client.
@@ -33,7 +35,7 @@ interface Magento_Core_Model_Translate_InlineInterface
      *
      * @param array|string $body
      * @param mixed|bool $isJson
-     * @return Magento_Core_Model_Translate_InlineInterface
+     * @return \Magento\Core\Model\Translate\InlineInterface
      */
     public function processResponseBody(&$body, $isJson);
 }

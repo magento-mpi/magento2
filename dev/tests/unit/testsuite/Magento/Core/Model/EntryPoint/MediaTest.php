@@ -5,35 +5,37 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Model_EntryPoint_MediaTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\EntryPoint;
+
+class MediaTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_EntryPoint_Media
+     * @var \Magento\Core\Model\EntryPoint\Media
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManagerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_requestMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_appState;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_dirVerificationMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_config;
 
@@ -43,12 +45,12 @@ class Magento_Core_Model_EntryPoint_MediaTest extends PHPUnit_Framework_TestCase
     protected $_closure;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_sync;
 
@@ -63,34 +65,34 @@ class Magento_Core_Model_EntryPoint_MediaTest extends PHPUnit_Framework_TestCase
     protected $_relativeFileName = 'relativeFileName';
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_responseMock;
 
     protected function setUp()
     {
-        $this->_config = $this->getMock('Magento_Core_Model_Config_Primary', array(), array(), '', false);
-        $this->_requestMock = $this->getMock('Magento_Core_Model_File_Storage_Request', array(), array(), '', false);
+        $this->_config = $this->getMock('Magento\Core\Model\Config\Primary', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento\Core\Model\File\Storage\Request', array(), array(), '', false);
         $this->_closure = function () {
             return true;
         };
-        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
-        $this->_appState = $this->getMock('Magento_Core_Model_App_State', array(), array(  ), '', false);
-        $this->_configMock = $this->getMock('Magento_Core_Model_File_Storage_Config', array(), array(), '', false);
-        $this->_sync= $this->getMock('Magento_Core_Model_File_Storage_Synchronization', array(), array(), '', false);
+        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
+        $this->_appState = $this->getMock('Magento\Core\Model\App\State', array(), array(  ), '', false);
+        $this->_configMock = $this->getMock('Magento\Core\Model\File\Storage\Config', array(), array(), '', false);
+        $this->_sync= $this->getMock('Magento\Core\Model\File\Storage\Synchronization', array(), array(), '', false);
         $this->_dirVerificationMock = $this->getMock(
-            'Magento_Core_Model_Dir_Verification', array(), array(), '', false
+            'Magento\Core\Model\Dir\Verification', array(), array(), '', false
         );
-        $this->_responseMock = $this->getMock('Magento_Core_Model_File_Storage_Response', array(), array(), '', false);
+        $this->_responseMock = $this->getMock('Magento\Core\Model\File\Storage\Response', array(), array(), '', false);
 
         $map = array(
-            array('Magento_Core_Model_Dir_Verification', $this->_dirVerificationMock),
-            array('Magento_Core_Model_App_State', $this->_appState),
-            array('Magento_Core_Model_File_Storage_Request', $this->_requestMock),
-            array('Magento_Core_Model_File_Storage_Synchronization', $this->_sync),
+            array('Magento\Core\Model\Dir\Verification', $this->_dirVerificationMock),
+            array('Magento\Core\Model\App\State', $this->_appState),
+            array('Magento\Core\Model\File\Storage\Request', $this->_requestMock),
+            array('Magento\Core\Model\File\Storage\Synchronization', $this->_sync),
         );
 
-        $this->_model = new Magento_Core_Model_EntryPoint_Media(
+        $this->_model = new \Magento\Core\Model\EntryPoint\Media(
             $this->_config,
             $this->_requestMock,
             $this->_closure,
@@ -119,7 +121,7 @@ class Magento_Core_Model_EntryPoint_MediaTest extends PHPUnit_Framework_TestCase
 
     public function testProcessRequestCreatesConfigFileMediaDirectoryIsNotProvided()
     {
-        $this->_model = new Magento_Core_Model_EntryPoint_Media(
+        $this->_model = new \Magento\Core\Model\EntryPoint\Media(
             $this->_config,
             $this->_requestMock,
             $this->_closure,
@@ -132,7 +134,7 @@ class Magento_Core_Model_EntryPoint_MediaTest extends PHPUnit_Framework_TestCase
         );
         $this->_appState->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
         $this->_objectManagerMock->expects($this->once())->method('create')
-            ->with('Magento_Core_Model_File_Storage_Config')
+            ->with('Magento\Core\Model\File\Storage\Config')
             ->will($this->returnValue($this->_configMock));
         $this->_configMock->expects($this->once())->method('save');
         $this->_model->processRequest();
@@ -144,14 +146,14 @@ class Magento_Core_Model_EntryPoint_MediaTest extends PHPUnit_Framework_TestCase
         $this->_closure = function () {
             return false;
         };
-        $this->_model = new Magento_Core_Model_EntryPoint_Media(
+        $this->_model = new \Magento\Core\Model\EntryPoint\Media(
             $this->_config, $this->_requestMock, $this->_closure, 'var', false, 'cacheFile', 'relativeFileName',
                 $this->_objectManagerMock, $this->_responseMock);
         $this->_appState->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
         $this->_responseMock->expects($this->once())->method('sendNotFound');
         $this->_requestMock->expects($this->once())->method('getPathInfo');
         $this->_objectManagerMock->expects($this->once())->method('create')
-            ->with('Magento_Core_Model_File_Storage_Config')
+            ->with('Magento\Core\Model\File\Storage\Config')
             ->will($this->returnValue($this->_configMock));
         $this->_model->processRequest();
 

@@ -15,7 +15,9 @@
  * @category   Magento
  * @package    Magento_CustomerCustomAttributes
  */
-class Magento_CustomerCustomAttributes_Helper_Address extends Magento_CustomAttribute_Helper_Data
+namespace Magento\CustomerCustomAttributes\Helper;
+
+class Address extends \Magento\CustomAttribute\Helper\Data
 {
     /**
      * Default attribute entity type code

@@ -8,45 +8,47 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Actions
-    extends Magento_Backend_Block_Widget_Form_Generic
-    implements Magento_Backend_Block_Widget_Tab_Interface
+namespace Magento\Adminhtml\Block\Promo\Quote\Edit\Tab;
+
+class Actions
+    extends \Magento\Backend\Block\Widget\Form\Generic
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Core registry
      *
-     * @var Magento_Backend_Block_Widget_Form_Renderer_Fieldset
+     * @var \Magento\Backend\Block\Widget\Form\Renderer\Fieldset
      */
     protected $_rendererFieldset;
 
     /**
-     * @var Magento_Rule_Block_Actions
+     * @var \Magento\Rule\Block\Actions
      */
     protected $_ruleActions;
 
     /**
-     * @var Magento_Backend_Model_Config_Source_Yesno
+     * @var \Magento\Backend\Model\Config\Source\Yesno
      */
     protected $_sourceYesno;
 
     /**
-     * @param Magento_Backend_Model_Config_Source_Yesno $sourceYesno
-     * @param Magento_Rule_Block_Actions $ruleActions
-     * @param Magento_Backend_Block_Widget_Form_Renderer_Fieldset $rendererFieldset
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Backend\Model\Config\Source\Yesno $sourceYesno
+     * @param \Magento\Rule\Block\Actions $ruleActions
+     * @param \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $rendererFieldset
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Model_Config_Source_Yesno $sourceYesno,
-        Magento_Rule_Block_Actions $ruleActions,
-        Magento_Backend_Block_Widget_Form_Renderer_Fieldset $rendererFieldset,
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Backend\Model\Config\Source\Yesno $sourceYesno,
+        \Magento\Rule\Block\Actions $ruleActions,
+        \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $rendererFieldset,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_rendererFieldset = $rendererFieldset;
@@ -99,7 +101,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Actions
     {
         $model = $this->_coreRegistry->registry('current_promo_quote_rule');
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('rule_');
 
@@ -111,10 +113,10 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Actions
             'label'     => __('Apply'),
             'name'      => 'simple_action',
             'options'    => array(
-                Magento_SalesRule_Model_Rule::BY_PERCENT_ACTION => __('Percent of product price discount'),
-                Magento_SalesRule_Model_Rule::BY_FIXED_ACTION => __('Fixed amount discount'),
-                Magento_SalesRule_Model_Rule::CART_FIXED_ACTION => __('Fixed amount discount for whole cart'),
-                Magento_SalesRule_Model_Rule::BUY_X_GET_Y_ACTION => __('Buy X get Y free (discount amount is Y)'),
+                \Magento\SalesRule\Model\Rule::BY_PERCENT_ACTION => __('Percent of product price discount'),
+                \Magento\SalesRule\Model\Rule::BY_FIXED_ACTION => __('Fixed amount discount'),
+                \Magento\SalesRule\Model\Rule::CART_FIXED_ACTION => __('Fixed amount discount for whole cart'),
+                \Magento\SalesRule\Model\Rule::BUY_X_GET_Y_ACTION => __('Buy X get Y free (discount amount is Y)'),
             ),
         ));
         $fieldset->addField('discount_amount', 'text', array(
@@ -149,8 +151,8 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Actions
             'name'      => 'simple_free_shipping',
             'options'    => array(
                 0 => __('No'),
-                Magento_SalesRule_Model_Rule::FREE_SHIPPING_ITEM => __('For matching items only'),
-                Magento_SalesRule_Model_Rule::FREE_SHIPPING_ADDRESS => __('For shipment with matching items'),
+                \Magento\SalesRule\Model\Rule::FREE_SHIPPING_ITEM => __('For matching items only'),
+                \Magento\SalesRule\Model\Rule::FREE_SHIPPING_ADDRESS => __('For shipment with matching items'),
             ),
         ));
 

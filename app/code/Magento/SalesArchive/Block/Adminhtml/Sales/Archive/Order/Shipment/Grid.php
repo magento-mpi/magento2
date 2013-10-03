@@ -13,32 +13,34 @@
  *
  */
 
-class Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Shipment_Grid
-    extends Magento_Adminhtml_Block_Sales_Shipment_Grid
+namespace Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Shipment;
+
+class Grid
+    extends \Magento\Adminhtml\Block\Sales\Shipment\Grid
 {
     /**
      * Core url
      *
-     * @var Magento_Core_Helper_Url
+     * @var \Magento\Core\Helper\Url
      */
     protected $_coreUrl = null;
 
     /**
-     * @param Magento_Sales_Model_Resource_Order_Collection_Factory $collectionFactory
-     * @param Magento_Core_Helper_Url $coreUrl
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
+     * @param \Magento\Sales\Model\Resource\Order\Collection\Factory $collectionFactory
+     * @param \Magento\Core\Helper\Url $coreUrl
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
      * @param array $data
      */
     public function __construct(
-        Magento_Sales_Model_Resource_Order_Collection_Factory $collectionFactory,
-        Magento_Core_Helper_Url $coreUrl,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
+        \Magento\Sales\Model\Resource\Order\Collection\Factory $collectionFactory,
+        \Magento\Core\Helper\Url $coreUrl,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
         array $data = array()
     ) {
         $this->_coreUrl = $coreUrl;
@@ -59,7 +61,7 @@ class Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Shipment_Grid
      */
     protected function _getCollectionClass()
     {
-        return 'Magento_SalesArchive_Model_Resource_Order_Shipment_Collection';
+        return 'Magento\SalesArchive\Model\Resource\Order\Shipment\Collection';
     }
 
     /**
@@ -93,7 +95,7 @@ class Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Shipment_Grid
     /**
      * Prepare and set options for massaction
      *
-     * @return Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Shipment_Grid
+     * @return \Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Shipment\Grid
      */
     protected function _prepareMassaction()
     {

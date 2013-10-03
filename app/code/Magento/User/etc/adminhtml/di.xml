@@ -8,12 +8,12 @@
  */
 -->
 <config>
-    <type name="Magento_Acl_Builder">
+    <type name="Magento\Acl\Builder">
         <param name="ruleLoader">
-            <instance type="Magento_User_Model_Acl_Loader_Rule" />
+            <instance type="Magento\User\Model\Acl\Loader\Rule" />
         </param>
         <param name="roleLoader">
-            <instance type="Magento_User_Model_Acl_Loader_Role" />
+            <instance type="Magento\User\Model\Acl\Loader\Role" />
         </param>
     </type>
 </config>

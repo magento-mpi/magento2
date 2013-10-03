@@ -11,21 +11,23 @@
 /**
  * Orders conditions options group
  */
-class Magento_CustomerSegment_Model_Segment_Condition_Sales
-    extends Magento_CustomerSegment_Model_Condition_Abstract
+namespace Magento\CustomerSegment\Model\Segment\Condition;
+
+class Sales
+    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
 {
     /**
-     * @param Magento_CustomerSegment_Model_Resource_Segment $resourceSegment
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_CustomerSegment_Model_Resource_Segment $resourceSegment,
-        Magento_Rule_Model_Condition_Context $context,
+        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
+        \Magento\Rule\Model\Condition\Context $context,
         array $data = array()
     ) {
         parent::__construct($resourceSegment, $context, $data);
-        $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Sales');
+        $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Sales');
         $this->setValue(null);
     }
 
@@ -39,16 +41,16 @@ class Magento_CustomerSegment_Model_Segment_Condition_Sales
         return array(
             'value' => array(
                 array( // order address combo
-                    'value' => 'Magento_CustomerSegment_Model_Segment_Condition_Order_Address',
+                    'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Order\Address',
                     'label' => __('Order Address')),
                 array(
-                    'value' => 'Magento_CustomerSegment_Model_Segment_Condition_Sales_Salesamount',
+                    'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Sales\Salesamount',
                     'label' => __('Sales Amount')),
                 array(
-                    'value' => 'Magento_CustomerSegment_Model_Segment_Condition_Sales_Ordersnumber',
+                    'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Sales\Ordersnumber',
                     'label' => __('Number of Orders')),
                 array(
-                    'value' => 'Magento_CustomerSegment_Model_Segment_Condition_Sales_Purchasedquantity',
+                    'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Sales\Purchasedquantity',
                     'label' => __('Purchased Quantity')),
              ),
             'label' => __('Sales')

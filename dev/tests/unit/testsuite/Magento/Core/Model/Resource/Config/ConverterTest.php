@@ -5,10 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Resource_Config_ConverterTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Resource\Config;
+
+class ConverterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Resource_Config_Converter
+     * @var \Magento\Core\Model\Resource\Config\Converter
      */
     protected $_model;
 
@@ -18,19 +20,19 @@ class Magento_Core_Model_Resource_Config_ConverterTest extends PHPUnit_Framework
     protected $_filePath;
 
     /**
-     * @var DOMDocument
+     * @var \DOMDocument
      */
     protected $_source;
 
     protected function setUp()
     {
         $this->_filePath = __DIR__ . '/_files' . DIRECTORY_SEPARATOR;
-        $this->_source = new DOMDocument();
-        $this->_model = new Magento_Core_Model_Resource_Config_Converter();
+        $this->_source = new \DOMDocument();
+        $this->_model = new \Magento\Core\Model\Resource\Config\Converter();
     }
 
     /**
-     * @covers Magento_Core_Model_Resource_Config_Converter::convert
+     * @covers \Magento\Core\Model\Resource\Config\Converter::convert
      */
     public function testConvert()
     {

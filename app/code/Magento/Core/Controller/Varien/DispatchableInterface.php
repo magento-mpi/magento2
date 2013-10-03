@@ -16,7 +16,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-interface Magento_Core_Controller_Varien_DispatchableInterface
+namespace Magento\Core\Controller\Varien;
+
+interface DispatchableInterface
 {
     /**
      * Dispatch controller action

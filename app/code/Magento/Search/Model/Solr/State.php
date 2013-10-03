@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Search_Model_Solr_State
+namespace Magento\Search\Model\Solr;
+
+class State
 {
     /**
      * Return if solr extension is loaded

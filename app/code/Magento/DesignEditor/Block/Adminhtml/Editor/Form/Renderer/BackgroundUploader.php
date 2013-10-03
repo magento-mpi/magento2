@@ -11,24 +11,26 @@
 /**
  * Color-picker form element renderer
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_BackgroundUploader
-    extends Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer;
+
+class BackgroundUploader
+    extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer
 {
     /**
-     * @var Magento_DesignEditor_Model_Theme_Context
+     * @var \Magento\DesignEditor\Model\Theme\Context
      */
     protected $_themeContext;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_DesignEditor_Model_Theme_Context $themeContext
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\DesignEditor\Model\Theme\Context $themeContext
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_DesignEditor_Model_Theme_Context $themeContext,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\DesignEditor\Model\Theme\Context $themeContext,
         array $data = array()
     ) {
         $this->_themeContext = $themeContext;

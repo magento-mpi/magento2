@@ -11,72 +11,74 @@
 /**
  * Front end helper block to show giftregistry items
  */
-class Magento_GiftRegistry_Block_Items extends Magento_Checkout_Block_Cart
+namespace Magento\GiftRegistry\Block;
+
+class Items extends \Magento\Checkout\Block\Cart
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * Tax data
      *
-     * @var Magento_Tax_Helper_Data
+     * @var \Magento\Tax\Helper\Data
      */
     protected $_taxData = null;
 
     /**
-     * @var Magento_GiftRegistry_Model_ItemFactory
+     * @var \Magento\GiftRegistry\Model\ItemFactory
      */
     protected $itemFactory;
 
     /**
-     * @var Magento_Sales_Model_QuoteFactory
+     * @var \Magento\Sales\Model\QuoteFactory
      */
     protected $quoteFactory;
 
     /**
-     * @var Magento_Sales_Model_Quote_ItemFactory
+     * @var \Magento\Sales\Model\Quote\ItemFactory
      */
     protected $quoteItemFactory;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $storeManager;
 
     /**
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Checkout_Model_Session $checkoutSession
-     * @param Magento_Catalog_Model_Resource_Url $catalogUrlBuilder
-     * @param Magento_Core_Model_UrlInterface $urlBuilder
-     * @param Magento_GiftRegistry_Model_ItemFactory $itemFactory
-     * @param Magento_Sales_Model_QuoteFactory $quoteFactory
-     * @param Magento_Sales_Model_Quote_ItemFactory $quoteItemFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Tax_Helper_Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Catalog\Model\Resource\Url $catalogUrlBuilder
+     * @param \Magento\Core\Model\UrlInterface $urlBuilder
+     * @param \Magento\GiftRegistry\Model\ItemFactory $itemFactory
+     * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
+     * @param \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Tax\Helper\Data $taxData
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Checkout_Model_Session $checkoutSession,
-        Magento_Catalog_Model_Resource_Url $catalogUrlBuilder,
-        Magento_Core_Model_UrlInterface $urlBuilder,
-        Magento_GiftRegistry_Model_ItemFactory $itemFactory,
-        Magento_Sales_Model_QuoteFactory $quoteFactory,
-        Magento_Sales_Model_Quote_ItemFactory $quoteItemFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Registry $registry,
-        Magento_Tax_Helper_Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Catalog\Model\Resource\Url $catalogUrlBuilder,
+        \Magento\Core\Model\UrlInterface $urlBuilder,
+        \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
+        \Magento\Sales\Model\QuoteFactory $quoteFactory,
+        \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Tax\Helper\Data $taxData,
         array $data = array()
     ) {
         $this->_taxData = $taxData;
@@ -128,7 +130,7 @@ class Magento_GiftRegistry_Block_Items extends Magento_Checkout_Block_Cart
                             $this->_taxData->getPrice($product, $product->getFinalPrice(), true)
                         ))
                     );
-                    $product->setAddToCartUrl($this->helper('Magento_Checkout_Helper_Cart')->getAddUrl($product));
+                    $product->setAddToCartUrl($this->helper('Magento\Checkout\Helper\Cart')->getAddUrl($product));
                 } else {
                     $quoteItem->setGiftRegistryPrice($product->getFinalPrice());
                     $quoteItem->setCanApplyMsrp(false);
@@ -145,7 +147,7 @@ class Magento_GiftRegistry_Block_Items extends Magento_Checkout_Block_Cart
     /**
      * Return current gift registry entity
      *
-     * @return Magento_GiftRegistry_Model_Resource_Item_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Item\Collection
      */
     public function getEntity()
     {

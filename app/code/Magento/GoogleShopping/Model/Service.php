@@ -15,7 +15,9 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Model_Service extends Magento_Object
+namespace Magento\GoogleShopping\Model;
+
+class Service extends \Magento\Object
 {
     /**
      * Client instance identifier in registry
@@ -27,21 +29,21 @@ class Magento_GoogleShopping_Model_Service extends Magento_Object
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * Config
      *
-     * @var Magento_GoogleShopping_Model_Config
+     * @var \Magento\GoogleShopping\Model\Config
      */
     protected $_config;
 
     /**
      * Log adapter factory
      *
-     * @var Magento_Core_Model_Log_AdapterFactory
+     * @var \Magento\Core\Model\Log\AdapterFactory
      */
     protected $_logAdapterFactory;
 
@@ -51,15 +53,15 @@ class Magento_GoogleShopping_Model_Service extends Magento_Object
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
-     * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_GoogleShopping_Model_Config $config
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\GoogleShopping\Model\Config $config
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_GoogleShopping_Model_Config $config,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\GoogleShopping\Model\Config $config,
         array $data = array()
     ) {
         $this->_logAdapterFactory = $logAdapterFactory;
@@ -74,7 +76,7 @@ class Magento_GoogleShopping_Model_Service extends Magento_Object
      * @param int $storeId
      * @param string $loginToken
      * @param string $loginCaptcha
-     * @return Zend_Http_Client
+     * @return \Zend_Http_Client
      */
     public function getClient($storeId = null, $loginToken = null, $loginCaptcha = null)
     {
@@ -86,20 +88,20 @@ class Magento_GoogleShopping_Model_Service extends Magento_Object
         $errorMsg = __('Sorry, but we can\'t connect to Google Content. Please check the account settings in your store configuration.');
         try {
             if (!$this->_coreRegistry->registry($this->_clientRegistryId)) {
-                $client = Zend_Gdata_ClientLogin::getHttpClient($user, $pass,
-                    Magento_Gdata_Gshopping_Content::AUTH_SERVICE_NAME, null, '', $loginToken, $loginCaptcha,
-                    Zend_Gdata_ClientLogin::CLIENTLOGIN_URI, $type
+                $client = \Zend_Gdata_ClientLogin::getHttpClient($user, $pass,
+                    \Magento\Gdata\Gshopping\Content::AUTH_SERVICE_NAME, null, '', $loginToken, $loginCaptcha,
+                    \Zend_Gdata_ClientLogin::CLIENTLOGIN_URI, $type
                 );
                 $configTimeout = array('timeout' => 60);
                 $client->setConfig($configTimeout);
                 $this->_coreRegistry->register($this->_clientRegistryId, $client);
             }
-        } catch (Zend_Gdata_App_CaptchaRequiredException $e) {
+        } catch (\Zend_Gdata_App_CaptchaRequiredException $e) {
             throw $e;
-        } catch (Zend_Gdata_App_HttpException $e) {
-            throw new Magento_Core_Exception($errorMsg . __('Error: %1', $e->getMessage()));
-        } catch (Zend_Gdata_App_AuthException $e) {
-            throw new Magento_Core_Exception($errorMsg . __('Error: %1', $e->getMessage()));
+        } catch (\Zend_Gdata_App_HttpException $e) {
+            throw new \Magento\Core\Exception($errorMsg . __('Error: %1', $e->getMessage()));
+        } catch (\Zend_Gdata_App_AuthException $e) {
+            throw new \Magento\Core\Exception($errorMsg . __('Error: %1', $e->getMessage()));
         }
 
         return $this->_coreRegistry->registry($this->_clientRegistryId);
@@ -108,8 +110,8 @@ class Magento_GoogleShopping_Model_Service extends Magento_Object
     /**
      * Set Google Content Client Instance
      *
-     * @param Zend_Http_Client $client
-     * @return Magento_GoogleShopping_Model_Service
+     * @param \Zend_Http_Client $client
+     * @return \Magento\GoogleShopping\Model\Service
      */
     public function setClient($client)
     {
@@ -122,7 +124,7 @@ class Magento_GoogleShopping_Model_Service extends Magento_Object
      * Return Google Content Service Instance
      *
      * @param int $storeId
-     * @return Magento_Gdata_Gshopping_Content
+     * @return \Magento\Gdata\Gshopping\Content
      */
     public function getService($storeId = null)
     {
@@ -141,8 +143,8 @@ class Magento_GoogleShopping_Model_Service extends Magento_Object
     /**
      * Set Google Content Service Instance
      *
-     * @param Magento_Gdata_Gshopping_Content $service
-     * @return Magento_GoogleShopping_Model_Service
+     * @param \Magento\Gdata\Gshopping\Content $service
+     * @return \Magento\GoogleShopping\Model\Service
      */
     public function setService($service)
     {
@@ -153,7 +155,7 @@ class Magento_GoogleShopping_Model_Service extends Magento_Object
     /**
      * Google Content Config
      *
-     * @return Magento_GoogleShopping_Model_Config
+     * @return \Magento\GoogleShopping\Model\Config
      */
     public function getConfig()
     {
@@ -164,13 +166,13 @@ class Magento_GoogleShopping_Model_Service extends Magento_Object
      * Authorize Google Account
      *
      * @param int $storeId
-     * @return Magento_Gdata_Gshopping_Content service
+     * @return \Magento\Gdata\Gshopping\Content service
      */
     protected function _connect($storeId = null)
     {
         $accountId = $this->getConfig()->getAccountId($storeId);
         $client = $this->getClient($storeId);
-        $service = new Magento_Gdata_Gshopping_Content($client, $accountId);
+        $service = new \Magento\Gdata\Gshopping\Content($client, $accountId);
         return $service;
     }
 }

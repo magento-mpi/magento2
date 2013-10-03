@@ -14,39 +14,41 @@
  * @category   Magento
  * @package    Magento_GiftRegistry
  */
-class Magento_GiftRegistry_Block_Search_Quick extends Magento_Core_Block_Template
+namespace Magento\GiftRegistry\Block\Search;
+
+class Quick extends \Magento\Core\Block\Template
 {
     /**
-     * @var Magento_GiftRegistry_Model_TypeFactory
+     * @var \Magento\GiftRegistry\Model\TypeFactory
      */
     protected $typeFactory;
 
     /**
      * Gift registry data
      *
-     * @var Magento_GiftRegistry_Helper_Data
+     * @var \Magento\GiftRegistry\Helper\Data
      */
     protected $_giftRegistryData = null;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $storeManager;
 
     /**
-     * @param Magento_GiftRegistry_Helper_Data $giftRegistryData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_GiftRegistry_Model_TypeFactory $typeFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\GiftRegistry\Model\TypeFactory $typeFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_GiftRegistry_Helper_Data $giftRegistryData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_GiftRegistry_Model_TypeFactory $typeFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
+        \Magento\GiftRegistry\Helper\Data $giftRegistryData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;
@@ -69,7 +71,7 @@ class Magento_GiftRegistry_Block_Search_Quick extends Magento_Core_Block_Templat
     /**
      * Return available gift registry types collection
      *
-     * @return Magento_GiftRegistry_Model_Resource_Type_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Type\Collection
      */
     public function getTypesCollection()
     {
@@ -86,7 +88,7 @@ class Magento_GiftRegistry_Block_Search_Quick extends Magento_Core_Block_Templat
      */
     public function getTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
             ->setData(array(
                 'id'    => 'quick_search_type_id',
                 'class' => 'select'

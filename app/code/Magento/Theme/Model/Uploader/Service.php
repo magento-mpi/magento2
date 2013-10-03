@@ -10,7 +10,9 @@
  * @license     {license_link}
  */
 
-class Magento_Theme_Model_Uploader_Service
+namespace Magento\Theme\Model\Uploader;
+
+class Service
 {
     /**
      * Uploaded file path
@@ -22,26 +24,26 @@ class Magento_Theme_Model_Uploader_Service
     /**
      * File system helper
      *
-     * @var Magento_Io_File
+     * @var \Magento\Io\File
      */
     protected $_fileIo;
 
     /**
      * File size
      *
-     * @var Magento_File_Size
+     * @var \Magento\File\Size
      */
     protected $_fileSize;
 
     /**
      * File uploader
      *
-     * @var Magento_Core_Model_File_Uploader
+     * @var \Magento\Core\Model\File\Uploader
      */
     protected $_uploader;
 
     /**
-     * @var Magento_Core_Model_File_Uploader
+     * @var \Magento\Core\Model\File\Uploader
      */
     protected $_uploaderFactory;
 
@@ -58,15 +60,15 @@ class Magento_Theme_Model_Uploader_Service
     /**
      * Constructor
      *
-     * @param Magento_Io_File $fileIo
-     * @param Magento_File_Size $fileSize
-     * @param Magento_Core_Model_File_UploaderFactory $uploaderFactory
+     * @param \Magento\Io\File $fileIo
+     * @param \Magento\File\Size $fileSize
+     * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
      * @param array $uploadLimits keys are 'css' and 'js' for file type, values defines maximum file size, example: 2M
      */
     public function __construct(
-        Magento_Io_File $fileIo,
-        Magento_File_Size $fileSize,
-        Magento_Core_Model_File_UploaderFactory $uploaderFactory,
+        \Magento\Io\File $fileIo,
+        \Magento\File\Size $fileSize,
+        \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
         array $uploadLimits = array()
     ) {
         $this->_fileIo = $fileIo;
@@ -85,11 +87,11 @@ class Magento_Theme_Model_Uploader_Service
      *
      * @param string $file - Key in the $_FILES array
      * @return array
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function uploadCssFile($file)
     {
-        /** @var $fileUploader Magento_Core_Model_File_Uploader */
+        /** @var $fileUploader \Magento\Core\Model\File\Uploader */
         $fileUploader = $this->_uploaderFactory->create(array('fileId' => $file));
         $fileUploader->setAllowedExtensions(array('css'));
         $fileUploader->setAllowRenameFiles(true);
@@ -97,7 +99,7 @@ class Magento_Theme_Model_Uploader_Service
 
         $isValidFileSize = $this->_validateFileSize($fileUploader->getFileSize(), $this->getCssUploadMaxSize());
         if (!$isValidFileSize) {
-            throw new Magento_Core_Exception(__(
+            throw new \Magento\Core\Exception(__(
                 'The CSS file must be less than %1M.', $this->getCssUploadMaxSizeInMb()
             ));
         }
@@ -111,11 +113,11 @@ class Magento_Theme_Model_Uploader_Service
      *
      * @param string $file - Key in the $_FILES array
      * @return array
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function uploadJsFile($file)
     {
-        /** @var $fileUploader Magento_Core_Model_File_Uploader */
+        /** @var $fileUploader \Magento\Core\Model\File\Uploader */
         $fileUploader = $this->_uploaderFactory->create(array('fileId' => $file));
         $fileUploader->setAllowedExtensions(array('js'));
         $fileUploader->setAllowRenameFiles(true);
@@ -123,7 +125,7 @@ class Magento_Theme_Model_Uploader_Service
 
         $isValidFileSize = $this->_validateFileSize($fileUploader->getFileSize(), $this->getJsUploadMaxSize());
         if (!$isValidFileSize) {
-            throw new Magento_Core_Exception(__(
+            throw new \Magento\Core\Exception(__(
                 'The JS file must be less than %1M.', $this->getJsUploadMaxSizeInMb()
             ));
         }

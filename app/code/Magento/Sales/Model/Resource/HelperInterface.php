@@ -16,16 +16,18 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-interface Magento_Sales_Model_Resource_HelperInterface
+namespace Magento\Sales\Model\Resource;
+
+interface HelperInterface
 {
     /**
      * Update rating position
      *
-     * @param string $aggregation One of Magento_Sales_Model_Resource_Report_Bestsellers::AGGREGATION_XXX constants
+     * @param string $aggregation One of \Magento\Sales\Model\Resource\Report\Bestsellers::AGGREGATION_XXX constants
      * @param array $aggregationAliases
      * @param string $mainTable
      * @param string $aggregationTable
-     * @return Magento_Sales_Model_Resource_Helper
+     * @return \Magento\Sales\Model\Resource\Helper
      */
     public function getBestsellersReportUpdateRatingPos($aggregation, $aggregationAliases,
         $mainTable, $aggregationTable

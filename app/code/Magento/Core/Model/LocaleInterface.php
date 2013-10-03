@@ -13,7 +13,9 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-interface Magento_Core_Model_LocaleInterface
+namespace Magento\Core\Model;
+
+interface LocaleInterface
 {
     /**
      * Default locale name
@@ -43,7 +45,7 @@ interface Magento_Core_Model_LocaleInterface
      * Set default locale code
      *
      * @param   string $locale
-     * @return  Magento_Core_Model_LocaleInterface
+     * @return  \Magento\Core\Model\LocaleInterface
      */
     public function setDefaultLocale($locale);
 
@@ -58,7 +60,7 @@ interface Magento_Core_Model_LocaleInterface
      * Set locale
      *
      * @param   string $locale
-     * @return  Magento_Core_Model_LocaleInterface
+     * @return  \Magento\Core\Model\LocaleInterface
      */
     public function setLocale($locale = null);
 
@@ -79,7 +81,7 @@ interface Magento_Core_Model_LocaleInterface
     /**
      * Retrieve locale object
      *
-     * @return Zend_Locale
+     * @return \Zend_Locale
      */
     public function getLocale();
 
@@ -94,7 +96,7 @@ interface Magento_Core_Model_LocaleInterface
      * Specify current locale code
      *
      * @param   string $code
-     * @return  Magento_Core_Model_LocaleInterface
+     * @return  \Magento\Core\Model\LocaleInterface
      */
     public function setLocaleCode($code);
 
@@ -193,28 +195,28 @@ interface Magento_Core_Model_LocaleInterface
     public function getDateTimeFormat($type);
 
     /**
-     * Create Zend_Date object for current locale
+     * Create \Zend_Date object for current locale
      *
      * @param mixed              $date
      * @param string             $part
      * @param string|Zend_Locale $locale
      * @param bool               $useTimezone
-     * @return Zend_Date
+     * @return \Zend_Date
      */
     public function date($date = null, $part = null, $locale = null, $useTimezone = true);
 
     /**
-     * Create Zend_Date object with date converted to store timezone and store Locale
+     * Create \Zend_Date object with date converted to store timezone and store Locale
      *
      * @param   mixed $store Information about store
      * @param   string|integer|Zend_Date|array|null $date date in UTC
      * @param   boolean $includeTime flag for including time to date
-     * @return  Zend_Date
+     * @return  \Zend_Date
      */
     public function storeDate($store=null, $date=null, $includeTime=false);
 
     /**
-     * Create Zend_Date object with date converted from store's timezone
+     * Create \Zend_Date object with date converted from store's timezone
      * to UTC time zone. Date can be passed in format of store's locale
      * or in format which was passed as parameter.
      *
@@ -222,7 +224,7 @@ interface Magento_Core_Model_LocaleInterface
      * @param string|integer|Zend_Date|array|null $date date in store's timezone
      * @param boolean $includeTime flag for including time to date
      * @param null|string $format
-     * @return Zend_Date
+     * @return \Zend_Date
      */
     public function utcDate($store, $date, $includeTime = false, $format = null);
 
@@ -236,10 +238,10 @@ interface Magento_Core_Model_LocaleInterface
     public function storeTimeStamp($store=null);
 
     /**
-     * Create Zend_Currency object for current locale
+     * Create \Zend_Currency object for current locale
      *
      * @param   string $currency
-     * @return  Zend_Currency
+     * @return  \Zend_Currency
      */
     public function currency($currency);
 
@@ -323,7 +325,7 @@ interface Magento_Core_Model_LocaleInterface
     /**
      * Checks if current date of the given store (in the store timezone) is within the range
      *
-     * @param int|string|Magento_Core_Model_Store $store
+     * @param int|string|\Magento\Core\Model\Store $store
      * @param string|null $dateFrom
      * @param string|null $dateTo
      * @return bool

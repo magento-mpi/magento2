@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_VersionsCms_Model_Plugin_CmsPage
+namespace Magento\VersionsCms\Model\Plugin;
+
+class CmsPage
 {
     /**
      * Add custom CMS page statuses
@@ -15,7 +17,7 @@ class Magento_VersionsCms_Model_Plugin_CmsPage
      */
     public function afterGetAvailableStatuses(array $invocationResult)
     {
-        $invocationResult[Magento_Cms_Model_Page::STATUS_ENABLED] = __('Published');
+        $invocationResult[\Magento\Cms\Model\Page::STATUS_ENABLED] = __('Published');
         return $invocationResult;
     }
 }

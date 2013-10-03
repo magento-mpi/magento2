@@ -15,7 +15,9 @@
  * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Validator_Attribute_Data extends Magento_Validator_ValidatorAbstract
+namespace Magento\Eav\Model\Validator\Attribute;
+
+class Data extends \Magento\Validator\AbstractValidator
 {
     /**
      * @var array
@@ -38,14 +40,14 @@ class Magento_Eav_Model_Validator_Attribute_Data extends Magento_Validator_Valid
     protected $_data = array();
 
     /**
-     * @var Magento_Eav_Model_AttributeDataFactory
+     * @var \Magento\Eav\Model\AttributeDataFactory
      */
     protected $_attrDataFactory;
 
     /**
-     * @param Magento_Eav_Model_AttributeDataFactory $attrDataFactory
+     * @param \Magento\Eav\Model\AttributeDataFactory $attrDataFactory
      */
-    public function __construct(Magento_Eav_Model_AttributeDataFactory $attrDataFactory)
+    public function __construct(\Magento\Eav\Model\AttributeDataFactory $attrDataFactory)
     {
         $this->_attrDataFactory = $attrDataFactory;
     }
@@ -53,8 +55,8 @@ class Magento_Eav_Model_Validator_Attribute_Data extends Magento_Validator_Valid
     /**
      * Set list of attributes for validation in isValid method.
      *
-     * @param Magento_Eav_Model_Attribute[] $attributes
-     * @return Magento_Eav_Model_Validator_Attribute_Data
+     * @param \Magento\Eav\Model\Attribute[] $attributes
+     * @return \Magento\Eav\Model\Validator\Attribute\Data
      */
     public function setAttributes(array $attributes)
     {
@@ -68,7 +70,7 @@ class Magento_Eav_Model_Validator_Attribute_Data extends Magento_Validator_Valid
      * All attributes not in this list 't be involved in validation.
      *
      * @param array $attributesCodes
-     * @return Magento_Eav_Model_Validator_Attribute_Data
+     * @return \Magento\Eav\Model\Validator\Attribute\Data
      */
     public function setAttributesWhiteList(array $attributesCodes)
     {
@@ -82,7 +84,7 @@ class Magento_Eav_Model_Validator_Attribute_Data extends Magento_Validator_Valid
      * All attributes in this list won't be involved in validation.
      *
      * @param array $attributesCodes
-     * @return Magento_Eav_Model_Validator_Attribute_Data
+     * @return \Magento\Eav\Model\Validator\Attribute\Data
      */
     public function setAttributesBlackList(array $attributesCodes)
     {
@@ -94,7 +96,7 @@ class Magento_Eav_Model_Validator_Attribute_Data extends Magento_Validator_Valid
      * Set data for validation in isValid method.
      *
      * @param array $data
-     * @return Magento_Eav_Model_Validator_Attribute_Data
+     * @return \Magento\Eav\Model\Validator\Attribute\Data
      */
     public function setData(array $data)
     {
@@ -105,18 +107,18 @@ class Magento_Eav_Model_Validator_Attribute_Data extends Magento_Validator_Valid
     /**
      * Validate EAV model attributes with data models
      *
-     * @param Magento_Core_Model_Abstract $entity
+     * @param \Magento\Core\Model\AbstractModel $entity
      * @return bool
      */
     public function isValid($entity)
     {
-        /** @var $attributes Magento_Eav_Model_Attribute[] */
+        /** @var $attributes \Magento\Eav\Model\Attribute[] */
         $attributes = $this->_getAttributes($entity);
 
         $data = array();
         if ($this->_data) {
             $data = $this->_data;
-        } elseif ($entity instanceof Magento_Object) {
+        } elseif ($entity instanceof \Magento\Object) {
             $data = $entity->getData();
         }
 
@@ -149,13 +151,13 @@ class Magento_Eav_Model_Validator_Attribute_Data extends Magento_Validator_Valid
      */
     protected function _getAttributes($entity)
     {
-        /** @var Magento_Customer_Model_Attribute[] $attributes */
+        /** @var \Magento\Customer\Model\Attribute[] $attributes */
         $attributes = array();
 
         if ($this->_attributes) {
             $attributes = $this->_attributes;
-        } elseif ($entity instanceof Magento_Core_Model_Abstract
-                  && $entity->getResource() instanceof Magento_Eav_Model_Entity_Abstract
+        } elseif ($entity instanceof \Magento\Core\Model\AbstractModel
+                  && $entity->getResource() instanceof \Magento\Eav\Model\Entity\AbstractEntity
         ) { // $entity is EAV-model
             $attributes = $entity->getEntityType()->getAttributeCollection()->getItems();
         }

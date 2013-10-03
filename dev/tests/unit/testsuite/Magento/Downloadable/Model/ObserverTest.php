@@ -9,39 +9,41 @@
  * @license     {license_link}
  */
 
-class Magento_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
+namespace Magento\Downloadable\Model;
+
+class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Event_Observer
+     * @var \Magento\Event\Observer
      */
     protected $_observer;
 
     /**
-     * @var Magento_Downloadable_Model_Observer
+     * @var \Magento\Downloadable\Model\Observer
      */
     protected $_model;
 
     /**
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_helperJsonEncode;
 
     protected function setUp()
     {
-        $this->_helperJsonEncode = $this->getMockBuilder('Magento_Core_Helper_Data')
+        $this->_helperJsonEncode = $this->getMockBuilder('Magento\Core\Helper\Data')
             ->setMethods(array('jsonEncode'))
             ->disableOriginalConstructor()
             ->getMock();
-        $itemsFactory = $this->getMock('Magento_Downloadable_Model_Resource_Link_Purchased_Item_CollectionFactory',
+        $itemsFactory = $this->getMock('Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory',
             array(), array(), '', false
         );
-        $this->_model = new Magento_Downloadable_Model_Observer(
+        $this->_model = new \Magento\Downloadable\Model\Observer(
             $this->_helperJsonEncode,
-            $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false),
-            $this->getMock('Magento_Downloadable_Model_Link_PurchasedFactory', array(), array(), '', false),
-            $this->getMock('Magento_Catalog_Model_ProductFactory', array(), array(), '', false),
-            $this->getMock('Magento_Downloadable_Model_Link_Purchased_ItemFactory', array(), array(), '', false),
-            $this->getMock('Magento_Checkout_Model_Session', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false),
+            $this->getMock('Magento\Downloadable\Model\Link\PurchasedFactory', array(), array(), '', false),
+            $this->getMock('Magento\Catalog\Model\ProductFactory', array(), array(), '', false),
+            $this->getMock('Magento\Downloadable\Model\Link\Purchased\ItemFactory', array(), array(), '', false),
+            $this->getMock('Magento\Checkout\Model\Session', array(), array(), '', false),
             $itemsFactory
         );
     }
@@ -55,37 +57,37 @@ class Magento_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     public function testDuplicateProductNotDownloadable()
     {
-        $currentProduct = $this->getMock('Magento_Catalog_Model_Product', array('getTypeId'), array(), '', false);
+        $currentProduct = $this->getMock('Magento\Catalog\Model\Product', array('getTypeId'), array(), '', false);
 
         $currentProduct->expects($this->once())
             ->method('getTypeId')
-            ->will($this->returnValue(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE));
+            ->will($this->returnValue(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE));
         $currentProduct->expects($this->never())
             ->method('getTypeInstance');
 
-        $this->_setObserverExpectedMethods($currentProduct, new Magento_Object());
+        $this->_setObserverExpectedMethods($currentProduct, new \Magento\Object());
 
         $this->_model->duplicateProduct($this->_observer);
     }
 
     public function testDuplicateProductEmptyLinks()
     {
-        $currentProduct = $this->getMock('Magento_Catalog_Model_Product',
+        $currentProduct = $this->getMock('Magento\Catalog\Model\Product',
             array('getTypeId', 'getTypeInstance'), array(), '', false);
         $currentProduct->expects($this->once())
             ->method('getTypeId')
-            ->will($this->returnValue(Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE));
-        $newProduct = $this->getMock('Magento_Catalog_Model_Product',
+            ->will($this->returnValue(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE));
+        $newProduct = $this->getMock('Magento\Catalog\Model\Product',
             array('getTypeId', 'getTypeInstance'), array(), '', false);
 
-        $typeInstance = $this->getMock('Magento_Downloadable_Model_Product_Type',
+        $typeInstance = $this->getMock('Magento\Downloadable\Model\Product\Type',
             array('getLinks', 'getSamples'), array(), '', false);
         $typeInstance->expects($this->once())
             ->method('getLinks')
             ->will($this->returnValue(array()));
         $typeInstance->expects($this->once())
             ->method('getSamples')
-            ->will($this->returnValue(new Magento_Object()));
+            ->will($this->returnValue(new \Magento\Object()));
 
         $currentProduct->expects($this->once())
             ->method('getTypeInstance')
@@ -100,24 +102,24 @@ class Magento_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     public function testDuplicateProductTypeFile()
     {
-        $currentProduct = $this->getMock('Magento_Catalog_Model_Product',
+        $currentProduct = $this->getMock('Magento\Catalog\Model\Product',
             array('getTypeId', 'getTypeInstance'), array(), '', false);
         $currentProduct->expects($this->once())
             ->method('getTypeId')
-            ->will($this->returnValue(Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE));
+            ->will($this->returnValue(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE));
 
-        $newProduct = $this->getMock('Magento_Catalog_Model_Product',
+        $newProduct = $this->getMock('Magento\Catalog\Model\Product',
             array('getTypeId', 'getTypeInstance'), array(), '', false);
 
         $links = $this->_getLinks();
 
         $samples = $this->_getSamples();
 
-        $getLinks = new Magento_Object($links);
+        $getLinks = new \Magento\Object($links);
 
-        $getSamples = new Magento_Object($samples);
+        $getSamples = new \Magento\Object($samples);
 
-        $typeInstance = $this->getMock('Magento_Downloadable_Model_Product_Type',
+        $typeInstance = $this->getMock('Magento\Downloadable\Model\Product\Type',
             array('getLinks', 'getSamples'), array(), '', false);
         $typeInstance->expects($this->atLeastOnce())
             ->method('getLinks')
@@ -186,7 +188,7 @@ class Magento_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     protected function _setObserverExpectedMethods($currentProduct, $newProduct)
     {
-        $this->_observer = $this->getMock('Magento_Event_Observer',
+        $this->_observer = $this->getMock('Magento\Event\Observer',
             array('getCurrentProduct', 'getNewProduct'), array(), '', false);
         $this->_observer->expects($this->once())
             ->method('getCurrentProduct')

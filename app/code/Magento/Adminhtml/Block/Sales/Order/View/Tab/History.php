@@ -15,9 +15,11 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_View_Tab_History
-    extends Magento_Adminhtml_Block_Template
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Adminhtml\Block\Sales\Order\View\Tab;
+
+class History
+    extends \Magento\Adminhtml\Block\Template
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
 
     protected $_template = 'sales/order/view/tab/history.phtml';
@@ -25,20 +27,20 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_History
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -48,7 +50,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_History
     /**
      * Retrieve order model instance
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
@@ -152,9 +154,9 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_History
             return '';
         }
         if ('date' === $dateType) {
-            return $this->helper('Magento_Core_Helper_Data')->formatDate($item['created_at'], $format);
+            return $this->helper('Magento\Core\Helper\Data')->formatDate($item['created_at'], $format);
         }
-        return $this->helper('Magento_Core_Helper_Data')->formatTime($item['created_at'], $format);
+        return $this->helper('Magento\Core\Helper\Data')->formatTime($item['created_at'], $format);
     }
 
     /**
@@ -200,7 +202,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_History
      *
      * @param string $label
      * @param bool $notified
-     * @param Zend_Date $created
+     * @param \Zend_Date $created
      * @param string $comment
      * @return array
      */
@@ -292,7 +294,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_History
      */
     public function isCustomerNotificationNotApplicable($historyItem)
     {
-        return $historyItem['notified'] == Magento_Sales_Model_Order_Status_History::CUSTOMER_NOTIFICATION_NOT_APPLICABLE;
+        return $historyItem['notified'] == \Magento\Sales\Model\Order\Status\History::CUSTOMER_NOTIFICATION_NOT_APPLICABLE;
     }
 
     /**
@@ -307,7 +309,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_History
         $createdAtA = $a['created_at'];
         $createdAtB = $b['created_at'];
 
-        /** @var $createdAta Zend_Date */
+        /** @var $createdAta \Zend_Date */
         if ($createdAtA->getTimestamp() == $createdAtB->getTimestamp()) {
             return 0;
         }

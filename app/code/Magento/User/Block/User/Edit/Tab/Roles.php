@@ -8,37 +8,39 @@
  * @license     {license_link}
  */
 
-class Magento_User_Block_User_Edit_Tab_Roles extends Magento_Backend_Block_Widget_Grid_Extended
+namespace Magento\User\Block\User\Edit\Tab;
+
+class Roles extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
 
     /**
-     * @var Magento_User_Model_Resource_Role_CollectionFactory
+     * @var \Magento\User\Model\Resource\Role\CollectionFactory
      */
     protected $_userRolesFactory;
 
     /**
-     * @param Magento_User_Model_Resource_Role_CollectionFactory $userRolesFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\User\Model\Resource\Role\CollectionFactory $userRolesFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        Magento_User_Model_Resource_Role_CollectionFactory $userRolesFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Core_Model_Registry $coreRegistry,
+        \Magento\User\Model\Resource\Role\CollectionFactory $userRolesFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_userRolesFactory = $userRolesFactory;
@@ -116,7 +118,7 @@ class Magento_User_Block_User_Edit_Tab_Roles extends Magento_Backend_Block_Widge
         if ( $this->getRequest()->getParam('user_roles') != "" ) {
             return $this->getRequest()->getParam('user_roles');
         }
-        /* @var $user Magento_User_Model_User */
+        /* @var $user \Magento\User\Model\User */
         $user = $this->_coreRegistry->registry('permissions_user');
         //checking if we have this data and we
         //don't need load it through resource model

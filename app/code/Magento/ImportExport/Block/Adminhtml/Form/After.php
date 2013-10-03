@@ -11,23 +11,25 @@
 /**
  * Block form after
  */
-class Magento_ImportExport_Block_Adminhtml_Form_After extends Magento_Backend_Block_Template
+namespace Magento\ImportExport\Block\Adminhtml\Form;
+
+class After extends \Magento\Backend\Block\Template
 {
     /**
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_registry;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_registry = $registry;
@@ -37,7 +39,7 @@ class Magento_ImportExport_Block_Adminhtml_Form_After extends Magento_Backend_Bl
     /**
      * Get current operation
      *
-     * @return Magento_Core_Model_Abstract
+     * @return \Magento\Core\Model\AbstractModel
      */
     public function getOperation()
     {

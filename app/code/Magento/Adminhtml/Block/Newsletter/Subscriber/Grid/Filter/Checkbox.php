@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Newsletter_Subscriber_Grid_Filter_Checkbox extends Magento_Adminhtml_Block_Widget_Grid_Column_Filter_Abstract
+namespace Magento\Adminhtml\Block\Newsletter\Subscriber\Grid\Filter;
+
+class Checkbox extends \Magento\Adminhtml\Block\Widget\Grid\Column\Filter\AbstractFilter
 {
      public function getCondition()
     {
@@ -27,4 +29,4 @@ class Magento_Adminhtml_Block_Newsletter_Subscriber_Grid_Filter_Checkbox extends
     {
         return '<input type="checkbox" onclick="subscriberController.checkCheckboxes(this)"/>';
     }
-}// Class Magento_Adminhtml_Block_Newsletter_Subscriber_Grid_Filter_Checkbox END
+}// Class \Magento\Adminhtml\Block\Newsletter\Subscriber\Grid\Filter\Checkbox END

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Config_Local
+namespace Magento\Core\Model\Config;
+
+class Local
 {
     /**
      * Config data
@@ -24,14 +26,14 @@ class Magento_Core_Model_Config_Local
     protected $_configuration = array();
 
     /**
-     * @var Magento_Core_Model_Config_Loader_Local
+     * @var \Magento\Core\Model\Config\Loader\Local
      */
     protected $_loader;
 
     /**
-     * @param Magento_Core_Model_Config_Loader_Local $loader
+     * @param \Magento\Core\Model\Config\Loader\Local $loader
      */
-    public function __construct(Magento_Core_Model_Config_Loader_Local $loader)
+    public function __construct(\Magento\Core\Model\Config\Loader\Local $loader)
     {
         $this->_loader = $loader;
         $this->_data = $loader->load();

@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
+namespace Magento\Catalog\Model\Resource\Category;
+
+class Tree extends \Magento\Data\Tree\Dbp
 {
     const ID_FIELD    = 'id';
     const PATH_FIELD  = 'path';
@@ -13,24 +15,24 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
     const LEVEL_FIELD = 'level';
 
     /**
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     private $_eventManager;
     
     /**
-     * @var Magento_Catalog_Model_Attribute_Config
+     * @var \Magento\Catalog\Model\Attribute\Config
      */
     private $_attributeConfig;
 
     /**
-     * @var Magento_Catalog_Model_Resource_Category_Collection_Factory
+     * @var \Magento\Catalog\Model\Resource\Category\Collection\Factory
      */
     private $_collectionFactory;
 
     /**
      * Categories resource collection
      *
-     * @var Magento_Catalog_Model_Resource_Category_Collection
+     * @var \Magento\Catalog\Model\Resource\Category\Collection
      */
     protected $_collection;
 
@@ -63,50 +65,50 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
     protected $_storeId                          = null;
 
     /**
-     * @var Magento_Core_Model_Resource
+     * @var \Magento\Core\Model\Resource
      */
     protected $_coreResource;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Cache
      *
-     * @var Magento_Core_Model_CacheInterface
+     * @var \Magento\Core\Model\CacheInterface
      */
     protected $_cache;
 
     /**
      * Catalog category
      *
-     * @var Magento_Catalog_Model_Resource_Category
+     * @var \Magento\Catalog\Model\Resource\Category
      */
     protected $_catalogCategory;
 
     /**
      * Construct
      *
-     * @param Magento_Catalog_Model_Resource_Category $catalogCategory
-     * @param Magento_Core_Model_CacheInterface $cache
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Catalog_Model_Attribute_Config $attributeConfig
-     * @param Magento_Catalog_Model_Resource_Category_Collection_Factory $collectionFactory
+     * @param \Magento\Catalog\Model\Resource\Category $catalogCategory
+     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Catalog\Model\Attribute\Config $attributeConfig
+     * @param \Magento\Catalog\Model\Resource\Category\Collection\Factory $collectionFactory
      */
     public function __construct(
-        Magento_Catalog_Model_Resource_Category $catalogCategory,
-        Magento_Core_Model_CacheInterface $cache,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Catalog_Model_Attribute_Config $attributeConfig,
-        Magento_Catalog_Model_Resource_Category_Collection_Factory $collectionFactory
+        \Magento\Catalog\Model\Resource\Category $catalogCategory,
+        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Catalog\Model\Attribute\Config $attributeConfig,
+        \Magento\Catalog\Model\Resource\Category\Collection\Factory $collectionFactory
     ) {
         $this->_catalogCategory = $catalogCategory;
         $this->_cache = $cache;
@@ -116,10 +118,10 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
             $resource->getConnection('catalog_write'),
             $resource->getTableName('catalog_category_entity'),
             array(
-                Magento_Data_Tree_Dbp::ID_FIELD       => 'entity_id',
-                Magento_Data_Tree_Dbp::PATH_FIELD     => 'path',
-                Magento_Data_Tree_Dbp::ORDER_FIELD    => 'position',
-                Magento_Data_Tree_Dbp::LEVEL_FIELD    => 'level',
+                \Magento\Data\Tree\Dbp::ID_FIELD       => 'entity_id',
+                \Magento\Data\Tree\Dbp::PATH_FIELD     => 'path',
+                \Magento\Data\Tree\Dbp::ORDER_FIELD    => 'position',
+                \Magento\Data\Tree\Dbp::LEVEL_FIELD    => 'level',
             )
         );
         $this->_eventManager = $eventManager;
@@ -131,7 +133,7 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
      * Set store id
      *
      * @param integer $storeId
-     * @return Magento_Catalog_Model_Resource_Category_Tree
+     * @return \Magento\Catalog\Model\Resource\Category\Tree
      */
     public function setStoreId($storeId)
     {
@@ -155,12 +157,12 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
     /**
      * Enter description here...
      *
-     * @param Magento_Catalog_Model_Resource_Category_Collection $collection
+     * @param \Magento\Catalog\Model\Resource\Category\Collection $collection
      * @param boolean $sorted
      * @param array $exclude
      * @param boolean $toLoad
      * @param boolean $onlyActive
-     * @return Magento_Catalog_Model_Resource_Category_Tree
+     * @return \Magento\Catalog\Model\Resource\Category\Tree
      */
     public function addCollectionData($collection = null, $sorted = false, $exclude = array(), $toLoad = true,
         $onlyActive = false
@@ -221,7 +223,7 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
      * Add inactive categories ids
      *
      * @param unknown_type $ids
-     * @return Magento_Catalog_Model_Resource_Category_Tree
+     * @return \Magento\Catalog\Model\Resource\Category\Tree
      */
     public function addInactiveCategoryIds($ids)
     {
@@ -235,7 +237,7 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
     /**
      * Retrieve inactive categories ids
      *
-     * @return Magento_Catalog_Model_Resource_Category_Tree
+     * @return \Magento\Catalog\Model\Resource\Category\Tree
      */
     protected function _initInactiveCategoryIds()
     {
@@ -261,7 +263,7 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
     /**
      * Return disable category ids
      *
-     * @param Magento_Catalog_Model_Resource_Category_Collection $collection
+     * @param \Magento\Catalog\Model\Resource\Category\Collection $collection
      * @return array
      */
     protected function _getDisabledIds($collection)
@@ -301,7 +303,7 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
     {
         if (is_null($this->_isActiveAttributeId)) {
             $bind = array(
-                'entity_type_code' => Magento_Catalog_Model_Category::ENTITY,
+                'entity_type_code' => \Magento\Catalog\Model\Category::ENTITY,
                 'attribute_code'   => 'is_active'
             );
             $select = $this->_conn->select()
@@ -319,7 +321,7 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
     /**
      * Retrieve inactive category item ids
      *
-     * @param Magento_Catalog_Model_Resource_Category_Collection $collection
+     * @param \Magento\Catalog\Model\Resource\Category\Collection $collection
      * @param int $storeId
      * @return array
      */
@@ -341,7 +343,7 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
             ->from(array('d'=>$table), array('d.entity_id'))
             ->where('d.attribute_id = :attribute_id')
             ->where('d.store_id = :zero_store_id')
-            ->where('d.entity_id IN (?)', new Zend_Db_Expr($filter))
+            ->where('d.entity_id IN (?)', new \Zend_Db_Expr($filter))
             ->joinLeft(
                 array('c'=>$table),
                 'c.attribute_id = :attribute_id AND c.store_id = :store_id AND c.entity_id = d.entity_id',
@@ -370,7 +372,7 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
      * Get categories collection
      *
      * @param boolean $sorted
-     * @return Magento_Catalog_Model_Resource_Category_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Collection
      */
     public function getCollection($sorted = false)
     {
@@ -383,8 +385,8 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
     /**
      * Enter description here...
      *
-     * @param Magento_Catalog_Model_Resource_Category_Collection $collection
-     * @return Magento_Catalog_Model_Resource_Category_Tree
+     * @param \Magento\Catalog\Model\Resource\Category\Collection $collection
+     * @return \Magento\Catalog\Model\Resource\Category\Tree
      */
     public function setCollection($collection)
     {
@@ -399,7 +401,7 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
      * Enter description here...
      *
      * @param boolean $sorted
-     * @return Magento_Catalog_Model_Resource_Category_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Collection
      */
     protected function _getDefaultCollection($sorted = false)
     {
@@ -439,11 +441,11 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
     /**
      * Move tree after
      *
-     * @return Magento_Catalog_Model_Resource_Category_Tree
+     * @return \Magento\Catalog\Model\Resource\Category\Tree
      */
     protected function _afterMove()
     {
-        $this->_cache->clean(array(Magento_Catalog_Model_Category::CACHE_TAG));
+        $this->_cache->clean(array(\Magento\Catalog\Model\Category::CACHE_TAG));
         return $this;
     }
 
@@ -453,7 +455,7 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
      * @param array $ids
      * @param bool $addCollectionData
      * @param bool $updateAnchorProductCount
-     * @return Magento_Catalog_Model_Resource_Category_Tree
+     * @return \Magento\Catalog\Model\Resource\Category\Tree
      */
     public function loadByIds($ids, $addCollectionData = true, $updateAnchorProductCount = true)
     {
@@ -497,7 +499,7 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
             $select = $this->_createCollectionDataSelect();
         } else {
             $select = clone $this->_select;
-            $select->order($this->_orderField . ' ' . Magento_DB_Select::SQL_ASC);
+            $select->order($this->_orderField . ' ' . \Magento\DB\Select::SQL_ASC);
         }
         $select->where(implode(' OR ', $where));
 
@@ -543,7 +545,7 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
             }
             $select
                 ->where('e.entity_id IN(?)', $pathIds)
-                ->order($this->_conn->getLengthSql('e.path') . ' ' . Magento_DB_Select::SQL_ASC);
+                ->order($this->_conn->getLengthSql('e.path') . ' ' . \Magento\DB\Select::SQL_ASC);
             $result = $this->_conn->fetchAll($select);
             $this->_updateAnchorProductCount($result);
         }
@@ -572,7 +574,7 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
      *
      * @param bool $sorted
      * @param array $optionalAttributes
-     * @return Zend_Db_Select
+     * @return \Zend_Db_Select
      */
     protected function _createCollectionDataSelect($sorted = true, $optionalAttributes = array())
     {
@@ -585,7 +587,7 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
         }
         $resource = $this->_catalogCategory;
         foreach ($attributes as $attributeCode) {
-            /* @var $attribute Magento_Eav_Model_Entity_Attribute */
+            /* @var $attribute \Magento\Eav\Model\Entity\Attribute */
             $attribute = $resource->getAttribute($attributeCode);
             // join non-static attribute table
             if (!$attribute->getBackend()->isStatic()) {
@@ -599,7 +601,7 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
                         array($tableDefault => $attribute->getBackend()->getTable()),
                         sprintf('%1$s.entity_id=e.entity_id AND %1$s.attribute_id=%2$d'
                             . ' AND %1$s.entity_type_id=e.entity_type_id AND %1$s.store_id=%3$d',
-                            $tableDefault, $attribute->getId(), Magento_Core_Model_AppInterface::ADMIN_STORE_ID),
+                            $tableDefault, $attribute->getId(), \Magento\Core\Model\AppInterface::ADMIN_STORE_ID),
                         array($attributeCode => 'value'))
                     ->joinLeft(
                         array($tableStore => $attribute->getBackend()->getTable()),

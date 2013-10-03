@@ -12,54 +12,56 @@
 /**
  * Catalog layer model integrated with search engine
  */
-class Magento_Search_Model_Search_Layer extends Magento_CatalogSearch_Model_Layer
+namespace Magento\Search\Model\Search;
+
+class Layer extends \Magento\CatalogSearch\Model\Layer
 {
     /**
-     * @var Magento_CatalogSearch_Model_Resource_EngineProvider
+     * @var \Magento\CatalogSearch\Model\Resource\EngineProvider
      */
     protected $_engineProvider;
 
     /**
      * Search data
      *
-     * @var Magento_Search_Helper_Data
+     * @var \Magento\Search\Helper\Data
      */
     protected $_searchData;
 
     /**
      * Constructor
      *
-     * @param Magento_Catalog_Model_Layer_StateFactory $layerStateFactory
-     * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
-     * @param Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $attributeCollectionFactory
-     * @param Magento_Catalog_Model_Resource_Product $catalogProduct
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Model_Product_Visibility $catalogProductVisibility
-     * @param Magento_Catalog_Model_Config $catalogConfig
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_CatalogSearch_Model_Resource_Fulltext_CollectionFactory $fulltextCollectionFactory
-     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
-     * @param Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider
-     * @param Magento_Search_Helper_Data $searchData
+     * @param \Magento\Catalog\Model\Layer\StateFactory $layerStateFactory
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
+     * @param \Magento\Catalog\Model\Resource\Product $catalogProduct
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\CatalogSearch\Model\Resource\Fulltext\CollectionFactory $fulltextCollectionFactory
+     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
+     * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
+     * @param \Magento\Search\Helper\Data $searchData
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Catalog_Model_Layer_StateFactory $layerStateFactory,
-        Magento_Catalog_Model_CategoryFactory $categoryFactory,
-        Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $attributeCollectionFactory,
-        Magento_Catalog_Model_Resource_Product $catalogProduct,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Model_Product_Visibility $catalogProductVisibility,
-        Magento_Catalog_Model_Config $catalogConfig,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_CatalogSearch_Model_Resource_Fulltext_CollectionFactory $fulltextCollectionFactory,
-        Magento_CatalogSearch_Helper_Data $catalogSearchData,
-        Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider,
-        Magento_Search_Helper_Data $searchData,
+        \Magento\Catalog\Model\Layer\StateFactory $layerStateFactory,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
+        \Magento\Catalog\Model\Resource\Product $catalogProduct,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\CatalogSearch\Model\Resource\Fulltext\CollectionFactory $fulltextCollectionFactory,
+        \Magento\CatalogSearch\Helper\Data $catalogSearchData,
+        \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
+        \Magento\Search\Helper\Data $searchData,
         array $data = array()
     ) {
         $this->_engineProvider = $engineProvider;
@@ -72,7 +74,7 @@ class Magento_Search_Model_Search_Layer extends Magento_CatalogSearch_Model_Laye
     /**
      * Retrieve current layer product collection
      *
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Collection
      */
     public function getProductCollection()
     {
@@ -97,7 +99,7 @@ class Magento_Search_Model_Search_Layer extends Magento_CatalogSearch_Model_Laye
     public function getStateTags(array $additionalTags = array())
     {
         $additionalTags = array_merge($additionalTags, array(
-            Magento_Catalog_Model_Category::CACHE_TAG . $this->getCurrentCategory()->getId() . '_SEARCH'
+            \Magento\Catalog\Model\Category::CACHE_TAG . $this->getCurrentCategory()->getId() . '_SEARCH'
         ));
 
         return parent::getStateTags($additionalTags);
@@ -106,7 +108,7 @@ class Magento_Search_Model_Search_Layer extends Magento_CatalogSearch_Model_Laye
     /**
      * Get collection of all filterable attributes for layer products set
      *
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Collection
      */
     public function getFilterableAttributes()
     {
@@ -114,9 +116,9 @@ class Magento_Search_Model_Search_Layer extends Magento_CatalogSearch_Model_Laye
         if (!$setIds) {
             return array();
         }
-        /* @var $collection Magento_Catalog_Model_Resource_Product_Attribute_Collection */
+        /* @var $collection \Magento\Catalog\Model\Resource\Product\Attribute\Collection */
         $collection = $this->_collectionFactory->create()
-            ->setItemObjectClass('Magento_Catalog_Model_Resource_Eav_Attribute');
+            ->setItemObjectClass('Magento\Catalog\Model\Resource\Eav\Attribute');
 
         if ($this->_searchData->getTaxInfluence()) {
             $collection->removePriceFilter();

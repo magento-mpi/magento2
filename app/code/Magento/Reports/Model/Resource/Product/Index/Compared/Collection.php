@@ -16,8 +16,10 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Resource_Product_Index_Compared_Collection
-    extends Magento_Reports_Model_Resource_Product_Index_Collection_Abstract
+namespace Magento\Reports\Model\Resource\Product\Index\Compared;
+
+class Collection
+    extends \Magento\Reports\Model\Resource\Product\Index\Collection\AbstractCollection
 {
     /**
      * Retrieve Product Index table name

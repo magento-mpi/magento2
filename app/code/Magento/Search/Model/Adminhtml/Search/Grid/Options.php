@@ -7,32 +7,34 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Search_Model_Adminhtml_Search_Grid_Options implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Search\Model\Adminhtml\Search\Grid;
+
+class Options implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     protected $_request;
 
     /**
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_registryManager;
 
     /**
-     * Magento_Search_Model_Resource_Recommendations
+     * \Magento\Search\Model\Resource\Recommendations
      */
     protected $_searchResourceModel;
 
     /**
-     * @param Magento_Core_Controller_Request_Http $request
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Search_Model_Resource_Recommendations $searchResourceModel
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Search\Model\Resource\Recommendations $searchResourceModel
      */
     public function __construct(
-        Magento_Core_Controller_Request_Http $request,
-        Magento_Core_Model_Registry $registry,
-        Magento_Search_Model_Resource_Recommendations $searchResourceModel
+        \Magento\Core\Controller\Request\Http $request,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Search\Model\Resource\Recommendations $searchResourceModel
     ) {
         $this->_request = $request;
         $this->_registryManager = $registry;

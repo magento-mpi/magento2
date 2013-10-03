@@ -9,26 +9,29 @@
  * @license     {license_link}
  */
 
+
+namespace Magento\Adminhtml\Controller\Catalog\Product\Action;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Controller_Catalog_Product_Action_AttributeTest extends Magento_Backend_Utility_Controller
+class AttributeTest extends \Magento\Backend\Utility\Controller
 {
     /**
-     * @covers Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute::saveAction
+     * @covers \Magento\Adminhtml\Controller\Catalog\Product\Action\Attribute::saveAction
      *
      * @magentoDataFixture Magento/Catalog/_files/product_simple.php
      */
     public function testSaveActionRedirectsSuccessfully()
     {
-        /** @var $session Magento_Adminhtml_Model_Session */
-        $session = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Adminhtml_Model_Session');
+        /** @var $session \Magento\Adminhtml\Model\Session */
+        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Adminhtml\Model\Session');
         $session->setProductIds(array(1));
 
         $this->dispatch('backend/admin/catalog_product_action_attribute/save/store/0');
 
         $this->assertEquals(302, $this->getResponse()->getHttpResponseCode());
-        $expectedUrl = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Url')->
+        $expectedUrl = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Url')->
             getUrl('backend/admin/catalog_product/index');
         $isRedirectPresent = false;
         foreach ($this->getResponse()->getHeaders() as $header) {

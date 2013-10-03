@@ -9,16 +9,18 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Helper_UrlTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Helper;
+
+class UrlTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Helper_Url
+     * @var \Magento\Core\Helper\Url
      */
     protected $_helper = null;
 
     protected function setUp()
     {
-        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Url');
+        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Url');
     }
 
     public function testGetCurrentUrl()

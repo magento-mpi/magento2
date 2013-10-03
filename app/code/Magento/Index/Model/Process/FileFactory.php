@@ -11,29 +11,31 @@
 /**
  * Process file entity
  */
-class Magento_Index_Model_Process_FileFactory
+namespace Magento\Index\Model\Process;
+
+class FileFactory
 {
     /**
      * Entity class name
      */
-    const CLASS_NAME = 'Magento_Index_Model_Process_File';
+    const CLASS_NAME = 'Magento\Index\Model\Process\File';
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
 
     /**
      * @param array $arguments
-     * @return Magento_Index_Model_Process_File
+     * @return \Magento\Index\Model\Process\File
      */
     public function create(array $arguments = array())
     {

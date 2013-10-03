@@ -5,29 +5,31 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Modular_ProductTypesConfigFilesTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Modular;
+
+class ProductTypesConfigFilesTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_ProductTypes_Config_Reader
+     * @var \Magento\Catalog\Model\ProductTypes\Config\Reader
      */
     protected $_model;
 
     protected function setUp()
     {
         // List of all available product_types.xml
-        $xmlFiles = Magento_TestFramework_Utility_Files::init()->getConfigFiles(
+        $xmlFiles = \Magento\TestFramework\Utility\Files::init()->getConfigFiles(
             '{*/product_types.xml,product_types.xml}',
             array('wsdl.xml', 'wsdl2.xml', 'wsi.xml'),
             false
         );
-        $fileResolverMock = $this->getMock('Magento_Config_FileResolverInterface');
+        $fileResolverMock = $this->getMock('Magento\Config\FileResolverInterface');
         $fileResolverMock->expects($this->any())->method('get')->will($this->returnValue($xmlFiles));
-        $validationStateMock = $this->getMock('Magento_Config_ValidationStateInterface');
+        $validationStateMock = $this->getMock('Magento\Config\ValidationStateInterface');
         $validationStateMock->expects($this->any())
             ->method('isValidated')
             ->will($this->returnValue(true));
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $this->_model = $objectManager->create('Magento_Catalog_Model_ProductTypes_Config_Reader', array(
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->_model = $objectManager->create('Magento\Catalog\Model\ProductTypes\Config\Reader', array(
             'fileResolver' => $fileResolverMock,
             'validationState' => $validationStateMock,
         ));

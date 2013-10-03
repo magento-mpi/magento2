@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_ObjectManager_Config_Reader_Dom extends Magento_Config_Reader_Filesystem
+namespace Magento\ObjectManager\Config\Reader;
+
+class Dom extends \Magento\Config\Reader\Filesystem
 {
     /**
      * List of paths to identifiable nodes
@@ -25,22 +27,22 @@ class Magento_ObjectManager_Config_Reader_Dom extends Magento_Config_Reader_File
     );
 
     /**
-     * @param Magento_Config_FileResolverInterface $fileResolver
-     * @param Magento_ObjectManager_Config_Mapper_Dom $converter
-     * @param Magento_ObjectManager_Config_SchemaLocator $schemaLocator
-     * @param Magento_Config_ValidationStateInterface $validationState
+     * @param \Magento\Config\FileResolverInterface $fileResolver
+     * @param \Magento\ObjectManager\Config\Mapper\Dom $converter
+     * @param \Magento\ObjectManager\Config\SchemaLocator $schemaLocator
+     * @param \Magento\Config\ValidationStateInterface $validationState
      * @param array $idAttributes
      * @param string $filename
      * @param string $domDocumentClass
      */
     public function __construct(
-        Magento_Config_FileResolverInterface $fileResolver,
-        Magento_ObjectManager_Config_Mapper_Dom $converter,
-        Magento_ObjectManager_Config_SchemaLocator $schemaLocator,
-        Magento_Config_ValidationStateInterface $validationState,
+        \Magento\Config\FileResolverInterface $fileResolver,
+        \Magento\ObjectManager\Config\Mapper\Dom $converter,
+        \Magento\ObjectManager\Config\SchemaLocator $schemaLocator,
+        \Magento\Config\ValidationStateInterface $validationState,
         $idAttributes = array(),
         $filename = 'di.xml',
-        $domDocumentClass = 'Magento_Config_Dom'
+        $domDocumentClass = 'Magento\Config\Dom'
     ) {
         parent::__construct(
             $fileResolver, $converter, $schemaLocator, $validationState, $filename, $idAttributes, $domDocumentClass

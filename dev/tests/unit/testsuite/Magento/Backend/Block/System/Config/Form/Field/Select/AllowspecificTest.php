@@ -9,24 +9,26 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Block_System_Config_Form_Field_Select_AllowspecificTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Block\System\Config\Form\Field\Select;
+
+class AllowspecificTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Block_System_Config_Form_Field_Select_Allowspecific
+     * @var \Magento\Backend\Block\System\Config\Form\Field\Select\Allowspecific
      */
     protected $_object;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_formMock;
 
     protected function setUp()
     {
-        $testHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_object = $testHelper->getObject('Magento_Backend_Block_System_Config_Form_Field_Select_Allowspecific');
+        $testHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_object = $testHelper->getObject('Magento\Backend\Block\System\Config\Form\Field\Select\Allowspecific');
         $this->_object->setData('html_id', 'spec_element');
-        $this->_formMock = $this->getMock('Magento_Data_Form',
+        $this->_formMock = $this->getMock('Magento\Data\Form',
             array('getHtmlIdPrefix', 'getHtmlIdSuffix', 'getElement'),
             array(), '', false, false
         );
@@ -58,7 +60,7 @@ class Magento_Backend_Block_System_Config_Form_Field_Select_AllowspecificTest ex
     {
         $this->_object->setForm($this->_formMock);
 
-        $elementMock = $this->getMock('Magento_Data_Form_Element_Select',
+        $elementMock = $this->getMock('Magento\Data\Form\Element\Select',
             array('setDisabled'), array(), '', false, false
         );
 

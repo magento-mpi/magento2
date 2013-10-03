@@ -8,12 +8,12 @@
  * @license     {license_link}
  */
 
-/* @var $installer Magento_Core_Model_Resource_Setup */
+/* @var $installer \Magento\Core\Model\Resource\Setup */
 $installer = $this;
 
 $installer->getConnection()
     ->addColumn($installer->getTable('rating'), 'is_active', array(
-        'type'      => Magento_DB_Ddl_Table::TYPE_SMALLINT,
+        'type'      => \Magento\DB\Ddl\Table::TYPE_SMALLINT,
         'nullable'  => false,
         'default'   => '1',
         'comment'   => 'Rating is active.'

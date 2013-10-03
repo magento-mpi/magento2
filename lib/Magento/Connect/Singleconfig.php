@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Connect_Singleconfig
+namespace Magento\Connect;
+
+class Singleconfig
 {
 
     /**
@@ -537,7 +539,7 @@ class Magento_Connect_Singleconfig
 
     /**
      * Add package
-     * @param Magento_Connect_Package $package
+     * @param \Magento\Connect\Package $package
      * @return void
      */
     public function addPackage($package)
@@ -593,9 +595,9 @@ class Magento_Connect_Singleconfig
         $chanName = $this->chanName($chanName);
         if($this->hasPackageRecord($chanName, $package)) {
             $data = $this->fetchPackage($chanName, $package);
-            return new Magento_Connect_Package($data[self::K_XML]);
+            return new \Magento\Connect\Package($data[self::K_XML]);
         }
-        throw new Exception("Cannot get package: '{$package}'");
+        throw new \Exception("Cannot get package: '{$package}'");
     }
 
 
@@ -652,12 +654,12 @@ class Magento_Connect_Singleconfig
     /**
      * Output error - throw exception
      * @param $message
-     * @throws Exception
+     * @throws \Exception
      * @return void
      */
     protected function doError($message)
     {
-        throw new Exception($message);
+        throw new \Exception($message);
     }
 
 
@@ -667,7 +669,7 @@ class Magento_Connect_Singleconfig
     public function compareStabilities($s1, $s2)
     {
         if(!$this->_validator) {
-            $this->_validator = new Magento_Connect_Validator();
+            $this->_validator = new \Magento\Connect\Validator();
         }
         return $this->_validator->compareStabilities($s1, $s2);
     }

@@ -16,29 +16,31 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Resource_Event extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Reports\Model\Resource;
+
+class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_StoreManagerInterface $storeManager
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         parent::__construct($resource);
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -59,13 +61,13 @@ class Magento_Reports_Model_Resource_Event extends Magento_Core_Model_Resource_D
     /**
      * Update customer type after customer login
      *
-     * @param Magento_Reports_Model_Event $model
+     * @param \Magento\Reports\Model\Event $model
      * @param int $visitorId
      * @param int $customerId
      * @param array $types
-     * @return Magento_Reports_Model_Resource_Event
+     * @return \Magento\Reports\Model\Resource\Event
      */
-    public function updateCustomerType(Magento_Reports_Model_Event $model, $visitorId, $customerId, $types = array())
+    public function updateCustomerType(\Magento\Reports\Model\Event $model, $visitorId, $customerId, $types = array())
     {
         if ($types) {
             $this->_getWriteAdapter()->update($this->getMainTable(),
@@ -85,14 +87,14 @@ class Magento_Reports_Model_Resource_Event extends Magento_Core_Model_Resource_D
      * The collection id field is used without corellation, so it must be unique.
      * DESC ordering by event will be added to the collection
      *
-     * @param Magento_Data_Collection_Db $collection
+     * @param \Magento\Data\Collection\Db $collection
      * @param int $eventTypeId
      * @param int $eventSubjectId
      * @param int $subtype
      * @param array $skipIds
-     * @return Magento_Reports_Model_Resource_Event
+     * @return \Magento\Reports\Model\Resource\Event
      */
-    public function applyLogToCollection(Magento_Data_Collection_Db $collection, $eventTypeId, $eventSubjectId, $subtype,
+    public function applyLogToCollection(\Magento\Data\Collection\Db $collection, $eventTypeId, $eventSubjectId, $subtype,
         $skipIds = array())
     {
         $idFieldName = $collection->getResource()->getIdFieldName();
@@ -100,7 +102,7 @@ class Magento_Reports_Model_Resource_Event extends Magento_Core_Model_Resource_D
         $derivedSelect = $this->getReadConnection()->select()
             ->from(
                 $this->getTable('report_event'),
-                array('event_id' => new Zend_Db_Expr('MAX(event_id)'), 'object_id'))
+                array('event_id' => new \Zend_Db_Expr('MAX(event_id)'), 'object_id'))
             ->where('event_type_id = ?', (int)$eventTypeId)
             ->where('subject_id = ?', (int)$eventSubjectId)
             ->where('subtype = ?', (int)$subtype)
@@ -116,10 +118,10 @@ class Magento_Reports_Model_Resource_Event extends Magento_Core_Model_Resource_D
 
         $collection->getSelect()
             ->joinInner(
-                array('evt' => new Zend_Db_Expr("({$derivedSelect})")),
+                array('evt' => new \Zend_Db_Expr("({$derivedSelect})")),
                 "{$idFieldName} = evt.object_id",
                 array())
-            ->order('evt.event_id ' . Magento_DB_Select::SQL_DESC);
+            ->order('evt.event_id ' . \Magento\DB\Select::SQL_DESC);
 
         return $this;
     }
@@ -169,10 +171,10 @@ class Magento_Reports_Model_Resource_Event extends Magento_Core_Model_Resource_D
     /**
      * Clean report event table
      *
-     * @param Magento_Reports_Model_Event $object
-     * @return Magento_Reports_Model_Resource_Event
+     * @param \Magento\Reports\Model\Event $object
+     * @return \Magento\Reports\Model\Resource\Event
      */
-    public function clean(Magento_Reports_Model_Event $object)
+    public function clean(\Magento\Reports\Model\Event $object)
     {
         while (true) {
             $select = $this->_getReadAdapter()->select()

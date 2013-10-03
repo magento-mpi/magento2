@@ -8,17 +8,19 @@
  * @license     {license_link}
  */
 
-class Magento_FullPageCache_Model_Cache_SubProcessorFactory
+namespace Magento\FullPageCache\Model\Cache;
+
+class SubProcessorFactory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -28,16 +30,16 @@ class Magento_FullPageCache_Model_Cache_SubProcessorFactory
      *
      * @param string $className
      * @param array $arguments
-     * @return Magento_FullPageCache_Model_Cache_SubProcessorInterface
-     * @throws LogicException
+     * @return \Magento\FullPageCache\Model\Cache\SubProcessorInterface
+     * @throws \LogicException
      */
     public function create($className, array $arguments = array())
     {
         $processor = $this->_objectManager->create($className, $arguments);
 
-        if (false === ($processor instanceof Magento_FullPageCache_Model_Cache_SubProcessorInterface)) {
-            throw new LogicException(
-                $className . ' doesn\'t implements Magento_FullPageCache_Model_Cache_SubProcessorInterface'
+        if (false === ($processor instanceof \Magento\FullPageCache\Model\Cache\SubProcessorInterface)) {
+            throw new \LogicException(
+                $className . ' doesn\'t implements \Magento\FullPageCache\Model\Cache\SubProcessorInterface'
             );
         }
 

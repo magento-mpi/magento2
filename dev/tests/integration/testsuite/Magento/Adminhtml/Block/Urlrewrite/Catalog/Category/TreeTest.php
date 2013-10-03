@@ -9,15 +9,17 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Urlrewrite\Catalog\Category;
+
 /**
- * Test for Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Tree
+ * Test for \Magento\Adminhtml\Block\Urlrewrite\Catalog\Category\Tree
  *
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_TreeTest extends PHPUnit_Framework_TestCase
+class TreeTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Tree
+     * @var \Magento\Adminhtml\Block\Urlrewrite\Catalog\Category\Tree
      */
     private $_treeBlock;
 
@@ -28,12 +30,13 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_TreeTest extends PHPUn
     {
         parent::setUp();
 
-        $this->_treeBlock = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Tree');
+        $this->_treeBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Adminhtml\Block\Urlrewrite\Catalog\Category\Tree');
     }
 
     /**
-     * Test for method Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Tree::getTreeArray()
+     * Test for method \Magento\Adminhtml\Block\Urlrewrite\Catalog\Category\Tree::getTreeArray()
      */
     public function testGetTreeArray()
     {
@@ -69,17 +72,17 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_TreeTest extends PHPUn
      */
     public function testGetLoadTreeUrl()
     {
-        $row = new Magento_Object(array('id' => 1));
+        $row = new \Magento\Object(array('id' => 1));
         $this->assertStringStartsWith('http://localhost/index.php', $this->_treeBlock->getLoadTreeUrl($row),
             'Tree load URL is invalid');
     }
 
     /**
-     * Test for method Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Tree::getCategoryCollection()
+     * Test for method \Magento\Adminhtml\Block\Urlrewrite\Catalog\Category\Tree::getCategoryCollection()
      */
     public function testGetCategoryCollection()
     {
         $collection = $this->_treeBlock->getCategoryCollection();
-        $this->assertInstanceOf('Magento_Catalog_Model_Resource_Category_Collection', $collection);
+        $this->assertInstanceOf('Magento\Catalog\Model\Resource\Category\Collection', $collection);
     }
 }

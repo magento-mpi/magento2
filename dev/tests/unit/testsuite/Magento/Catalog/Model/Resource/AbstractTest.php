@@ -10,9 +10,11 @@
  */
 
 /**
- * Test class for Magento_Catalog_Model_Entity_Attribute_Set
+ * Test class for \Magento\Catalog\Model\Entity\Attribute\Set
  */
-class Magento_Catalog_Model_Resource_AbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Resource;
+
+class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Get attribute list
@@ -25,7 +27,7 @@ class Magento_Catalog_Model_Resource_AbstractTest extends PHPUnit_Framework_Test
         $codes = array('entity_type_id', 'attribute_set_id', 'created_at', 'updated_at', 'parent_id', 'increment_id');
         foreach ($codes as $code) {
             $mock = $this->getMock(
-                'Magento_Eav_Model_Entity_Attribute_Abstract',
+                'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
                 array('isInSet', 'getBackend'),
                 array(),
                 '',
@@ -50,14 +52,14 @@ class Magento_Catalog_Model_Resource_AbstractTest extends PHPUnit_Framework_Test
         $code = 'test_attr';
         $set = 10;
 
-        $object = $this->getMock('Magento_Catalog_Model_Product', null, array(), '', false);
+        $object = $this->getMock('Magento\Catalog\Model\Product', null, array(), '', false);
 
         $object->setData(array(
             'test_attr' => 'test_attr',
             'attribute_set_id' => $set,
         ));
 
-        $entityType = new Magento_Object();
+        $entityType = new \Magento\Object();
         $entityType->setEntityTypeCode('test');
         $entityType->setEntityTypeId(0);
         $entityType->setEntityTable('table');
@@ -65,7 +67,7 @@ class Magento_Catalog_Model_Resource_AbstractTest extends PHPUnit_Framework_Test
         $attributes = $this->_getAttributes();
 
         $attribute = $this->getMock(
-            'Magento_Eav_Model_Entity_Attribute_Abstract',
+            'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
             array('isInSet', 'getBackend'),
             array(),
             '',
@@ -81,19 +83,19 @@ class Magento_Catalog_Model_Resource_AbstractTest extends PHPUnit_Framework_Test
 
         $attributes[$code] = $attribute;
 
-        /** @var $model Magento_Catalog_Model_Resource_Abstract */
+        /** @var $model \Magento\Catalog\Model\Resource\AbstractResource */
         $model = $this->getMock(
-            'Magento_Catalog_Model_Resource_Abstract',
+            'Magento\Catalog\Model\Resource\AbstractResource',
             array('getAttributesByCode'),
             array(
-                $this->getMock('Magento_Core_Model_Resource', array(), array(), '', false, false),
-                $this->getMock('Magento_Eav_Model_Config', array(), array(), '', false, false),
-                $this->getMock('Magento_Eav_Model_Entity_Attribute_Set', array(), array(), '', false, false),
-                $this->getMock('Magento_Core_Model_LocaleInterface'),
-                $this->getMock('Magento_Eav_Model_Resource_Helper', array(), array(), '', false, false),
-                $this->getMock('Magento_Validator_UniversalFactory', array(), array(), '', false, false),
-                $this->getMock('Magento_Core_Model_StoreManagerInterface', array(), array(), '', false),
-                $this->getMock('Magento_Catalog_Model_Factory', array(), array(), '', false),
+                $this->getMock('Magento\Core\Model\Resource', array(), array(), '', false, false),
+                $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false, false),
+                $this->getMock('Magento\Eav\Model\Entity\Attribute\Set', array(), array(), '', false, false),
+                $this->getMock('Magento\Core\Model\LocaleInterface'),
+                $this->getMock('Magento\Eav\Model\Resource\Helper', array(), array(), '', false, false),
+                $this->getMock('Magento\Validator\UniversalFactory', array(), array(), '', false, false),
+                $this->getMock('Magento\Core\Model\StoreManagerInterface', array(), array(), '', false),
+                $this->getMock('Magento\Catalog\Model\Factory', array(), array(), '', false),
                 array(),
             )
         );

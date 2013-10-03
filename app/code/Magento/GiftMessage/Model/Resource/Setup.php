@@ -11,31 +11,33 @@
 /**
  * Gift Message resource setup
  */
-class Magento_GiftMessage_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setup
+namespace Magento\GiftMessage\Model\Resource;
+
+class Setup extends \Magento\Sales\Model\Resource\Setup
 {
     /**
-     * @var Magento_Catalog_Model_Resource_SetupFactory
+     * @var \Magento\Catalog\Model\Resource\SetupFactory
      */
     protected $_catalogSetupFactory;
 
     /**
-     * @param Magento_Core_Model_Resource_Setup_Context $context
+     * @param \Magento\Core\Model\Resource\Setup\Context $context
      * @param $resourceName
      * @param string $moduleName
      * @param string $connectionName
-     * @param Magento_Core_Model_CacheInterface $cache
-     * @param Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory
-     * @param Magento_Core_Helper_Data $coreHelper
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory
+     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory
+     * @param \Magento\Core\Helper\Data $coreHelper
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory
      */
     public function __construct(
-        Magento_Core_Model_Resource_Setup_Context $context,
-        Magento_Core_Model_CacheInterface $cache,
-        Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory,
-        Magento_Core_Helper_Data $coreHelper,
-        Magento_Core_Model_Config $config,
-        Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory,
+        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory,
+        \Magento\Core\Helper\Data $coreHelper,
+        \Magento\Core\Model\Config $config,
+        \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory,
         $resourceName,
         $moduleName = 'Magento_GiftMessage',
         $connectionName = ''
@@ -50,7 +52,7 @@ class Magento_GiftMessage_Model_Resource_Setup extends Magento_Sales_Model_Resou
      * Create Catalog Setup Factory for GiftMessage
      *
      * @param array $data
-     * @return Magento_Catalog_Model_Resource_Setup
+     * @return \Magento\Catalog\Model\Resource\Setup
      */
     public function createGiftMessageSetup(array $data = array())
     {

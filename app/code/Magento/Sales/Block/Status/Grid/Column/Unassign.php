@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Block_Status_Grid_Column_Unassign extends Magento_Backend_Block_Widget_Grid_Column
+namespace Magento\Sales\Block\Status\Grid\Column;
+
+class Unassign extends \Magento\Backend\Block\Widget\Grid\Column
 {
     /**
      * Add decorated action to column
@@ -24,8 +26,8 @@ class Magento_Sales_Block_Status_Grid_Column_Unassign extends Magento_Backend_Bl
      * Decorate values to column
      *
      * @param string $value
-     * @param Magento_Sales_Model_Order_Status $row
-     * @param Magento_Adminhtml_Block_Widget_Grid_Column $column
+     * @param \Magento\Sales\Model\Order\Status $row
+     * @param \Magento\Adminhtml\Block\Widget\Grid\Column $column
      * @param bool $isExport
      * @return string
      */

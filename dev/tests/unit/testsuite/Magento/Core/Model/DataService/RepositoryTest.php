@@ -1,22 +1,24 @@
 <?php
 /**
- * Magento_Core_Model_DataService_Repository
+ * \Magento\Core\Model\DataService\Repository
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_DataService_RepositoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\DataService;
+
+class RepositoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_DataService_Repository
+     * @var \Magento\Core\Model\DataService\Repository
      */
     protected $_repository;
 
     protected function setUp()
     {
-        $this->_repository = new Magento_Core_Model_DataService_Repository();
+        $this->_repository = new \Magento\Core\Model\DataService\Repository();
     }
 
     public function testAddGet()

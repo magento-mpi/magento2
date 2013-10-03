@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Wishlist_Model_Config_Source_Summary implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Wishlist\Model\Config\Source;
+
+class Summary implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray()
     {

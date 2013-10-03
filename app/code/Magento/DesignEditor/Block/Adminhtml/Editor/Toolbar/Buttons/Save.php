@@ -12,16 +12,18 @@
  * Save button block
  *
  * @method bool|null getHasThemeAssigned() If there is a theme that assigned to the store view
- * @method Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save setHasThemeAssigned(bool $flag)
- * @method Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save setMode(bool $flag)
+ * @method \Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\Buttons\Save setHasThemeAssigned(bool $flag)
+ * @method \Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\Buttons\Save setMode(bool $flag)
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
-    extends Magento_Backend_Block_Widget_Button_Split
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\Buttons;
+
+class Save
+    extends \Magento\Backend\Block\Widget\Button\SplitButton
 {
     /**
      * Current theme used for preview
      *
-     * @var Magento_Core_Model_Theme
+     * @var \Magento\Core\Model\Theme
      */
     protected $_theme;
 
@@ -29,22 +31,22 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
      * Init save button
      *
      * @return $this
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function init()
     {
         $theme = $this->getTheme();
         $themeType = $theme->getType();
-        if ($themeType == Magento_Core_Model_Theme::TYPE_PHYSICAL) {
+        if ($themeType == \Magento\Core\Model\Theme::TYPE_PHYSICAL) {
             $this->_initPhysical();
-        } else if ($themeType == Magento_Core_Model_Theme::TYPE_VIRTUAL) {
-            if ($theme->getDomainModel(Magento_Core_Model_Theme::TYPE_VIRTUAL)->isAssigned()) {
+        } else if ($themeType == \Magento\Core\Model\Theme::TYPE_VIRTUAL) {
+            if ($theme->getDomainModel(\Magento\Core\Model\Theme::TYPE_VIRTUAL)->isAssigned()) {
                 $this->_initAssigned();
             } else {
                 $this->_initUnAssigned();
             }
         } else {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 sprintf('Invalid theme of a "%s" type passed to save button block', $themeType)
             );
         }
@@ -55,13 +57,13 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
     /**
      * Get current theme
      *
-     * @return Magento_Core_Model_Theme
-     * @throws InvalidArgumentException
+     * @return \Magento\Core\Model\Theme
+     * @throws \InvalidArgumentException
      */
     public function getTheme()
     {
         if (null === $this->_theme) {
-            throw new InvalidArgumentException('Current theme was not passed to save button');
+            throw new \InvalidArgumentException('Current theme was not passed to save button');
         }
         return $this->_theme;
     }
@@ -69,7 +71,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
     /**
      * Set current theme
      *
-     * @param Magento_Core_Model_Theme $theme
+     * @param \Magento\Core\Model\Theme $theme
      * @return $this
      */
     public function setTheme($theme)
@@ -283,6 +285,6 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
      */
     protected function _encode($data)
     {
-        return $this->helper('Magento_Backend_Helper_Data')->escapeHtml(json_encode($data));
+        return $this->helper('Magento\Backend\Helper\Data')->escapeHtml(json_encode($data));
     }
 }

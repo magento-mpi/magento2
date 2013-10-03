@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Install_Controller_WizardTest extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\Install\Controller;
+
+class WizardTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
      * @var string
@@ -24,11 +26,12 @@ class Magento_Install_Controller_WizardTest extends Magento_TestFramework_TestCa
     public static function setUpBeforeClass()
     {
         $tmpDir =
-            Magento_TestFramework_Helper_Bootstrap::getInstance()->getAppInstallDir() . DIRECTORY_SEPARATOR . __CLASS__;
+            \Magento\TestFramework\Helper\Bootstrap::getInstance()->getAppInstallDir()
+                . DIRECTORY_SEPARATOR . 'WizardTest';
         if (is_file($tmpDir)) {
             unlink($tmpDir);
         } elseif (is_dir($tmpDir)) {
-            Magento_Io_File::rmdirRecursive($tmpDir);
+            \Magento\Io\File::rmdirRecursive($tmpDir);
         }
         // deliberately create a file instead of directory to emulate broken access to static directory
         touch($tmpDir);
@@ -37,14 +40,14 @@ class Magento_Install_Controller_WizardTest extends Magento_TestFramework_TestCa
 
     public function testPreDispatch()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->configure(array(
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->configure(array(
             'preferences' => array(
-                'Magento_Core_Controller_Request_Http' => 'Magento_TestFramework_Request',
-                'Magento_Core_Controller_Response_Http' => 'Magento_TestFramework_Response'
+                'Magento\Core\Controller\Request\Http' => 'Magento\TestFramework\Request',
+                'Magento\Core\Controller\Response\Http' => 'Magento\TestFramework\Response'
             )
         ));
-        /** @var $appState Magento_Core_Model_App_State */
-        $appState = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App_State');
+        /** @var $appState \Magento\Core\Model\App\State */
+        $appState = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App\State');
         $appState->setInstallDate(false);
         $this->dispatch('install/wizard');
         $this->assertEquals(200, $this->getResponse()->getHttpResponseCode());
@@ -54,17 +57,17 @@ class Magento_Install_Controller_WizardTest extends Magento_TestFramework_TestCa
     /**
      * @param string $action
      * @dataProvider actionsDataProvider
-     * @expectedException Magento_BootstrapException
+     * @expectedException \Magento\BootstrapException
      */
     public function testPreDispatchImpossibleToRenderPage($action)
     {
         $params = self::$_params;
-        $params[Magento_Core_Model_App::PARAM_APP_DIRS][Magento_Core_Model_Dir::STATIC_VIEW] = self::$_tmpDir;
-        Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize($params);
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->configure(array(
+        $params[\Magento\Core\Model\App::PARAM_APP_DIRS][\Magento\Core\Model\Dir::STATIC_VIEW] = self::$_tmpDir;
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize($params);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->configure(array(
             'preferences' => array(
-                'Magento_Core_Controller_Request_Http' => 'Magento_TestFramework_Request',
-                'Magento_Core_Controller_Response_Http' => 'Magento_TestFramework_Response'
+                'Magento\Core\Controller\Request\Http' => 'Magento\TestFramework\Request',
+                'Magento\Core\Controller\Response\Http' => 'Magento\TestFramework\Response'
             )
         ));
         $this->dispatch("install/wizard/{$action}");

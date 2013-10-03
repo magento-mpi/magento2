@@ -16,7 +16,9 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Resource_Form_Fieldset_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Eav\Model\Resource\Form\Fieldset;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Store scope ID
@@ -26,25 +28,25 @@ class Magento_Eav_Model_Resource_Form_Fieldset_Collection extends Magento_Core_M
     protected $_storeId;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_storeManager = $storeManager;
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
@@ -56,18 +58,18 @@ class Magento_Eav_Model_Resource_Form_Fieldset_Collection extends Magento_Core_M
      */
     protected function _construct()
     {
-        $this->_init('Magento_Eav_Model_Form_Fieldset', 'Magento_Eav_Model_Resource_Form_Fieldset');
+        $this->_init('Magento\Eav\Model\Form\Fieldset', 'Magento\Eav\Model\Resource\Form\Fieldset');
     }
 
     /**
      * Add Form Type filter to collection
      *
-     * @param Magento_Eav_Model_Form_Type|int $type
-     * @return Magento_Eav_Model_Resource_Form_Fieldset_Collection
+     * @param \Magento\Eav\Model\Form\Type|int $type
+     * @return \Magento\Eav\Model\Resource\Form\Fieldset\Collection
      */
     public function addTypeFilter($type)
     {
-        if ($type instanceof Magento_Eav_Model_Form_Type) {
+        if ($type instanceof \Magento\Eav\Model\Form\Type) {
             $type = $type->getId();
         }
 
@@ -77,7 +79,7 @@ class Magento_Eav_Model_Resource_Form_Fieldset_Collection extends Magento_Core_M
     /**
      * Set order by fieldset sort order
      *
-     * @return Magento_Eav_Model_Resource_Form_Fieldset_Collection
+     * @return \Magento\Eav\Model\Resource\Form\Fieldset\Collection
      */
     public function setSortOrder()
     {
@@ -102,7 +104,7 @@ class Magento_Eav_Model_Resource_Form_Fieldset_Collection extends Magento_Core_M
      * Set store scope ID
      *
      * @param int $storeId
-     * @return Magento_Eav_Model_Resource_Form_Fieldset_Collection
+     * @return \Magento\Eav\Model\Resource\Form\Fieldset\Collection
      */
     public function setStoreId($storeId)
     {
@@ -113,7 +115,7 @@ class Magento_Eav_Model_Resource_Form_Fieldset_Collection extends Magento_Core_M
     /**
      * Initialize select object
      *
-     * @return Magento_Eav_Model_Resource_Form_Fieldset_Collection
+     * @return \Magento\Eav\Model\Resource\Form\Fieldset\Collection
      */
     protected function _initSelect()
     {

@@ -11,43 +11,45 @@
 /**
  * Wishlist view block
  */
-class Magento_GiftRegistry_Block_Wishlist_View extends Magento_Wishlist_Block_Customer_Wishlist
+namespace Magento\GiftRegistry\Block\Wishlist;
+
+class View extends \Magento\Wishlist\Block\Customer\Wishlist
 {
     /**
      * Gift registry data
      *
-     * @var Magento_GiftRegistry_Helper_Data
+     * @var \Magento\GiftRegistry\Helper\Data
      */
     protected $_giftRegistryData = null;
 
     /**
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Model_Config $catalogConfig
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Wishlist_Helper_Data $wishlistData
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Catalog_Helper_Product_ConfigurationPool $helperPool
-     * @param Magento_GiftRegistry_Helper_Data $giftRegistryData
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Wishlist\Helper\Data $wishlistData
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Helper\Product\ConfigurationPool $helperPool
+     * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Model_Config $catalogConfig,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Wishlist_Helper_Data $wishlistData,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Catalog_Helper_Product_ConfigurationPool $helperPool,
-        Magento_GiftRegistry_Helper_Data $giftRegistryData,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Wishlist\Helper\Data $wishlistData,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Helper\Product\ConfigurationPool $helperPool,
+        \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         array $data = array()
     )
     {
@@ -60,7 +62,7 @@ class Magento_GiftRegistry_Block_Wishlist_View extends Magento_Wishlist_Block_Cu
     /**
      * Prepare block layout, override wishlist block with different template
      *
-     * @return Magento_GiftRegistry_Block_Wishlist_View
+     * @return \Magento\GiftRegistry\Block\Wishlist\View
      */
     protected function _prepareLayout()
     {
@@ -101,7 +103,7 @@ class Magento_GiftRegistry_Block_Wishlist_View extends Magento_Wishlist_Block_Cu
     /**
      * Return list of current customer gift registries
      *
-     * @return Magento_GiftRegistry_Model_Resource_GiftRegistry_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\GiftRegistry\Collection
      */
     public function getEntityValues()
     {
@@ -111,7 +113,7 @@ class Magento_GiftRegistry_Block_Wishlist_View extends Magento_Wishlist_Block_Cu
     /**
      * Check if wishlist item can be added to gift registry
      *
-     * @param Magento_Catalog_Model_Product $item
+     * @param \Magento\Catalog\Model\Product $item
      * @return bool
      */
     public function checkProductType($item)

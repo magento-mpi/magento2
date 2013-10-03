@@ -11,7 +11,9 @@
 /**
  * Theme Customization Path
  */
-class Magento_Core_Model_Theme_Customization_Path
+namespace Magento\Core\Model\Theme\Customization;
+
+class Path
 {
     /**
      * Customization directory name
@@ -19,16 +21,16 @@ class Magento_Core_Model_Theme_Customization_Path
     const DIR_NAME = 'theme_customization';
 
     /**
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_dir;
 
     /**
      * Initialize dependencies
      *
-     * @param Magento_Core_Model_Dir $dir
+     * @param \Magento\Core\Model\Dir $dir
      */
-    public function __construct(Magento_Core_Model_Dir $dir)
+    public function __construct(\Magento\Core\Model\Dir $dir)
     {
         $this->_dir = $dir;
     }
@@ -36,14 +38,14 @@ class Magento_Core_Model_Theme_Customization_Path
     /**
      * Returns customization absolute path
      *
-     * @param Magento_Core_Model_Theme $theme
+     * @param \Magento\Core\Model\Theme $theme
      * @return string|null
      */
-    public function getCustomizationPath(Magento_Core_Model_Theme $theme)
+    public function getCustomizationPath(\Magento\Core\Model\Theme $theme)
     {
         $path = null;
         if ($theme->getId()) {
-            $path = $this->_dir->getDir(Magento_Core_Model_Dir::MEDIA)
+            $path = $this->_dir->getDir(\Magento\Core\Model\Dir::MEDIA)
                 . DIRECTORY_SEPARATOR . self::DIR_NAME
                 . DIRECTORY_SEPARATOR . $theme->getId();
         }
@@ -53,15 +55,15 @@ class Magento_Core_Model_Theme_Customization_Path
     /**
      * Get directory where themes files are stored
      *
-     * @param Magento_Core_Model_Theme $theme
+     * @param \Magento\Core\Model\Theme $theme
      * @return string|null
      */
-    public function getThemeFilesPath(Magento_Core_Model_Theme $theme)
+    public function getThemeFilesPath(\Magento\Core\Model\Theme $theme)
     {
         $path = null;
         if ($theme->getFullPath()) {
-            $physicalThemesDir = $this->_dir->getDir(Magento_Core_Model_Dir::THEMES);
-            $path = Magento_Filesystem::fixSeparator($physicalThemesDir . DIRECTORY_SEPARATOR . $theme->getFullPath());
+            $physicalThemesDir = $this->_dir->getDir(\Magento\Core\Model\Dir::THEMES);
+            $path = \Magento\Filesystem::fixSeparator($physicalThemesDir . DIRECTORY_SEPARATOR . $theme->getFullPath());
         }
         return $path;
     }
@@ -69,15 +71,15 @@ class Magento_Core_Model_Theme_Customization_Path
     /**
      * Get path to custom view configuration file
      *
-     * @param Magento_Core_Model_Theme $theme
+     * @param \Magento\Core\Model\Theme $theme
      * @return string|null
      */
-    public function getCustomViewConfigPath(Magento_Core_Model_Theme $theme)
+    public function getCustomViewConfigPath(\Magento\Core\Model\Theme $theme)
     {
         $path = null;
         if ($theme->getId()) {
             $path = $this->getCustomizationPath($theme) . DIRECTORY_SEPARATOR
-                . Magento_Core_Model_Theme::FILENAME_VIEW_CONFIG;
+                . \Magento\Core\Model\Theme::FILENAME_VIEW_CONFIG;
         }
         return $path;
     }

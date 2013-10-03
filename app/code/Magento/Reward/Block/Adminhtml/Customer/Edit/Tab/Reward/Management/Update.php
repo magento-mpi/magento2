@@ -16,35 +16,37 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Update
-    extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management;
+
+class Update
+    extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Model_System_StoreFactory
+     * @var \Magento\Core\Model\System\StoreFactory
      */
     protected $_storeFactory;
 
     /**
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_System_StoreFactory $storeFactory
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\System\StoreFactory $storeFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_System_StoreFactory $storeFactory,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\System\StoreFactory $storeFactory,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -55,7 +57,7 @@ class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Update
     /**
      * Getter
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function getCustomer()
     {
@@ -65,11 +67,11 @@ class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Update
     /**
      * Prepare form before rendering HTML
      *
-     * @return Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Update
+     * @return \Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management_Update
      */
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('reward_');
         $form->setFieldNameSuffix('reward');

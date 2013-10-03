@@ -7,16 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Core\Model;
 
-class Magento_Core_Model_RouterListTest extends PHPUnit_Framework_TestCase
+class RouterListTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_RouterList
+     * @var \Magento\Core\Model\RouterList
      */
     protected $_model;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManagerMock;
 
@@ -45,8 +46,8 @@ class Magento_Core_Model_RouterListTest extends PHPUnit_Framework_TestCase
             ),
         );
 
-        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
-        $this->_model = new Magento_Core_Model_RouterList($this->_objectManagerMock, $this->_routerList);
+        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
+        $this->_model = new \Magento\Core\Model\RouterList($this->_objectManagerMock, $this->_routerList);
     }
 
     public function testGetRoutes()
@@ -67,13 +68,4 @@ class Magento_Core_Model_RouterListTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($this->_model->getRouters(), $expectedResult);
     }
-}
-
-class FrontClass
-{
-
-}
-class DefaultClass
-{
-
 }

@@ -7,21 +7,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Cron\Model\Config\Reader;
 
-class Magento_Cron_Model_Config_Reader_DbTest extends PHPUnit_Framework_TestCase
+class DbTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Config_Section_Reader_DefaultReader|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Config\Section\Reader\DefaultReader|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_defaultReader;
 
     /**
-     * @var Magento_Cron_Model_Config_Converter_Db|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Cron\Model\Config\Converter\Db|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_converter;
 
     /**
-     * @var Magento_Cron_Model_Config_Reader_Db
+     * @var \Magento\Cron\Model\Config\Reader\Db
      */
     protected $_reader;
 
@@ -30,11 +31,11 @@ class Magento_Cron_Model_Config_Reader_DbTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_defaultReader = $this->getMockBuilder('Magento_Core_Model_Config_Section_Reader_DefaultReader')
+        $this->_defaultReader = $this->getMockBuilder('Magento\Core\Model\Config\Section\Reader\DefaultReader')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_converter = new Magento_Cron_Model_Config_Converter_Db();
-        $this->_reader = new Magento_Cron_Model_Config_Reader_Db($this->_defaultReader, $this->_converter);
+        $this->_converter = new \Magento\Cron\Model\Config\Converter\Db();
+        $this->_reader = new \Magento\Cron\Model\Config\Reader\Db($this->_defaultReader, $this->_converter);
     }
 
     /**

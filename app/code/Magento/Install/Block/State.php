@@ -15,7 +15,9 @@
  * @package    Magento_Install
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Install_Block_State extends Magento_Core_Block_Template
+namespace Magento\Install\Block;
+
+class State extends \Magento\Core\Block\Template
 {
     /**
      * @var string
@@ -25,29 +27,29 @@ class Magento_Install_Block_State extends Magento_Core_Block_Template
     /**
      * Install Wizard
      *
-     * @var Magento_Install_Model_Wizard
+     * @var \Magento\Install\Model\Wizard
      */
     protected $_wizard;
 
     /**
      * Core Cookie
      *
-     * @var Magento_Core_Model_Cookie
+     * @var \Magento\Core\Model\Cookie
      */
     protected $_cookie;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Install_Model_Wizard $wizard
-     * @param Magento_Core_Model_Cookie $cookie
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Install\Model\Wizard $wizard
+     * @param \Magento\Core\Model\Cookie $cookie
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Install_Model_Wizard $wizard,
-        Magento_Core_Model_Cookie $cookie,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Install\Model\Wizard $wizard,
+        \Magento\Core\Model\Cookie $cookie,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);

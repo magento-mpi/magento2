@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Webapi_Controller_Rest_Request_DeserializerInterface
+namespace Magento\Webapi\Controller\Rest\Request;
+
+interface DeserializerInterface
 {
     /**
      * Parse request body into array of params.

@@ -15,30 +15,32 @@
  * @package    Magento_Checkout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Multishipping_Billing_Items extends Magento_Sales_Block_Items_Abstract
+namespace Magento\Checkout\Block\Multishipping\Billing;
+
+class Items extends \Magento\Sales\Block\Items\AbstractItems
 {
     /**
-     * @var Magento_Checkout_Model_Type_Multishipping
+     * @var \Magento\Checkout\Model\Type\Multishipping
      */
     protected $_multishipping;
 
     /**
-     * @var Magento_Checkout_Model_Session
+     * @var \Magento\Checkout\Model\Session
      */
     protected $_checkoutSession;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Checkout_Model_Type_Multishipping $multishipping
-     * @param Magento_Checkout_Model_Session $checkoutSession
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Checkout\Model\Type\Multishipping $multishipping
+     * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Checkout_Model_Type_Multishipping $multishipping,
-        Magento_Checkout_Model_Session $checkoutSession,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Checkout\Model\Type\Multishipping $multishipping,
+        \Magento\Checkout\Model\Session $checkoutSession,
         array $data = array()
     ) {
         $this->_multishipping = $multishipping;
@@ -49,7 +51,7 @@ class Magento_Checkout_Block_Multishipping_Billing_Items extends Magento_Sales_B
     /**
      * Get multishipping checkout model
      *
-     * @return Magento_Checkout_Model_Type_Multishipping
+     * @return \Magento\Checkout\Model\Type\Multishipping
      */
     public function getCheckout()
     {
@@ -59,7 +61,7 @@ class Magento_Checkout_Block_Multishipping_Billing_Items extends Magento_Sales_B
     /**
      * Retrieve quote model object
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {

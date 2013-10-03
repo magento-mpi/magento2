@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Order_Address_Collection extends Magento_Sales_Model_Resource_Order_Collection_Abstract
+namespace Magento\Sales\Model\Resource\Order\Address;
+
+class Collection extends \Magento\Sales\Model\Resource\Order\Collection\AbstractCollection
 {
     /**
      * Event prefix
@@ -38,13 +40,13 @@ class Magento_Sales_Model_Resource_Order_Address_Collection extends Magento_Sale
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Order_Address', 'Magento_Sales_Model_Resource_Order_Address');
+        $this->_init('Magento\Sales\Model\Order\Address', 'Magento\Sales\Model\Resource\Order\Address');
     }
 
     /**
      * Redeclare after load method for dispatch event
      *
-     * @return Magento_Sales_Model_Resource_Order_Address_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Address\Collection
      */
     protected function _afterLoad()
     {

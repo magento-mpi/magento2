@@ -8,14 +8,14 @@
  * @license     {license_link}
  */
 
-/** @var Magento_Eav_Model_Entity_Type $entityType */
-$entityType = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Eav_Model_Entity_Type');
+/** @var \Magento\Eav\Model\Entity\Type $entityType */
+$entityType = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Eav\Model\Entity\Type');
 $entityType->loadByCode('catalog_product');
 $defaultSetId = $entityType->getDefaultAttributeSetId();
-/** @var Magento_Eav_Model_Entity_Attribute_Set $defaultSet */
-$defaultSet = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Eav_Model_Entity_Attribute_Set');
+/** @var \Magento\Eav\Model\Entity\Attribute\Set $defaultSet */
+$defaultSet = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Eav\Model\Entity\Attribute\Set');
 $defaultSet->load($defaultSetId);
 $defaultGroupId = $defaultSet->getDefaultGroupId();
 $optionData = array(
@@ -27,9 +27,9 @@ $optionData = array(
     )
 );
 
-/** @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
-$attribute = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Catalog_Model_Resource_Eav_Attribute');
+/** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
+$attribute = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Resource\Eav\Attribute');
 $attribute->setAttributeCode('select_attribute')
     ->setEntityTypeId($entityType->getEntityTypeId())
     ->setAttributeGroupId($defaultGroupId)

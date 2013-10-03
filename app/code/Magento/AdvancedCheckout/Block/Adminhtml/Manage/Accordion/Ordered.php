@@ -15,8 +15,10 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Ordered
-    extends Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Abstract
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
+
+class Ordered
+    extends \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\AbstractAccordion
 {
     /**
      * Collection field name for using in controls
@@ -35,57 +37,57 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Ordered
     protected $_configureRoute = '*/checkout/configureOrderedItem';
 
     /**
-     * @var Magento_Sales_Model_Config
+     * @var \Magento\Sales\Model\Config
      */
     protected $_salesConfig;
 
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
-     * @param Magento_Data_CollectionFactory $collectionFactory
-     * @var Magento_Catalog_Model_Config
+     * @param \Magento\Data\CollectionFactory $collectionFactory
+     * @var \Magento\Catalog\Model\Config
      */
     protected $_catalogConfig;
 
     /**
-     * @var Magento_CatalogInventory_Model_Stock_Status
+     * @var \Magento\CatalogInventory\Model\Stock\Status
      */
     protected $_stockStatus;
 
     /**
-     * @var Magento_Sales_Model_Resource_Order_CollectionFactory
+     * @var \Magento\Sales\Model\Resource\Order\CollectionFactory
      */
     protected $_ordersFactory;
 
     /**
-     * @param Magento_Data_CollectionFactory $collectionFactory
-     * @param Magento_Catalog_Model_Config $catalogConfig
-     * @param Magento_CatalogInventory_Model_Stock_Status $stockStatus
-     * @param Magento_Sales_Model_Resource_Order_CollectionFactory $ordersFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Sales_Model_Config $salesConfig
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param \Magento\Data\CollectionFactory $collectionFactory
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\CatalogInventory\Model\Stock\Status $stockStatus
+     * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $ordersFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Sales\Model\Config $salesConfig
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Data_CollectionFactory $collectionFactory,
-        Magento_Catalog_Model_Config $catalogConfig,
-        Magento_CatalogInventory_Model_Stock_Status $stockStatus,
-        Magento_Sales_Model_Resource_Order_CollectionFactory $ordersFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Sales_Model_Config $salesConfig,
-        Magento_Catalog_Model_ProductFactory $productFactory,
+        \Magento\Data\CollectionFactory $collectionFactory,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\CatalogInventory\Model\Stock\Status $stockStatus,
+        \Magento\Sales\Model\Resource\Order\CollectionFactory $ordersFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Sales\Model\Config $salesConfig,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
         array $data = array()
     ) {
         $this->_catalogConfig = $catalogConfig;
@@ -126,13 +128,13 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Ordered
      */
     protected function _getPriceRenderer()
     {
-        return 'Magento_AdvancedCheckout_Block_Adminhtml_Manage_Grid_Renderer_Ordered_Price';
+        return 'Magento\AdvancedCheckout\Block\Adminhtml\Manage\Grid\Renderer\Ordered\Price';
     }
 
     /**
      * Prepare customer wishlist product collection
      *
-     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
+     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
     public function getItemsCollection()
     {
@@ -141,7 +143,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Ordered
             $storeIds = $this->_getStore()->getWebsite()->getStoreIds();
 
             // Load last order of a customer
-            /* @var $collection Magento_Core_Model_Resource_Db_Collection_Abstract */
+            /* @var $collection \Magento\Core\Model\Resource\Db\Collection\AbstractCollection */
             $collection = $this->_ordersFactory
                 ->create()
                 ->addAttributeToFilter('customer_id', $this->_getCustomer()->getId())
@@ -172,7 +174,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Ordered
                         ->addAttributeToSelect($attributes)
                         ->addAttributeToSelect('sku')
                         ->addAttributeToFilter('type_id', $this->_salesConfig->getAvailableProductTypes())
-                        ->addAttributeToFilter('status', Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
+                        ->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
                         ->addStoreFilter($this->_getStore())
                         ->addIdFilter($productIds);
                     $this->_stockStatus->addIsInStockFilterToCollection($products);

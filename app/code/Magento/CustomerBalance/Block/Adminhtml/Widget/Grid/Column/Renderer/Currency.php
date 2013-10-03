@@ -12,8 +12,10 @@
  * Currency cell renderer for customerbalance grids
  *
  */
-class Magento_CustomerBalance_Block_Adminhtml_Widget_Grid_Column_Renderer_Currency
-extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Currency
+namespace Magento\CustomerBalance\Block\Adminhtml\Widget\Grid\Column\Renderer;
+
+class Currency
+extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Currency
 {
     /**
      * @var array
@@ -21,24 +23,24 @@ extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Currency
     protected $_websiteBaseCurrencyCodes = array();
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Backend_Block_Context $context
-     * @param Magento_Core_Model_App $app
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Directory_Model_Currency_DefaultLocator $currencyLocator
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Directory\Model\Currency\DefaultLocator $currencyLocator
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Backend_Block_Context $context,
-        Magento_Core_Model_App $app,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Directory_Model_Currency_DefaultLocator $currencyLocator,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Backend\Block\Context $context,
+        \Magento\Core\Model\App $app,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Directory\Model\Currency\DefaultLocator $currencyLocator,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -48,7 +50,7 @@ extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Currency
     /**
      * Get currency code by row data
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
     protected function _getCurrencyCode($row)
@@ -68,7 +70,7 @@ extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Currency
     /**
      * Stub getter for exchange rate
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return int
      */
     protected function _getRate($row)

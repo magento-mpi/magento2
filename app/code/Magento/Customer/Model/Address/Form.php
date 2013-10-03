@@ -15,7 +15,9 @@
  * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Address_Form extends Magento_Customer_Model_Form
+namespace Magento\Customer\Model\Address;
+
+class Form extends \Magento\Customer\Model\Form
 {
     /**
      * Current EAV entity type code

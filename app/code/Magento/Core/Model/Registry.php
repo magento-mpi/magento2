@@ -11,7 +11,9 @@
 /**
  * Registry model. Used to manage values in registry
  */
-class Magento_Core_Model_Registry
+namespace Magento\Core\Model;
+
+class Registry
 {
     /**
      * Registry collection
@@ -40,7 +42,7 @@ class Magento_Core_Model_Registry
      * @param string $key
      * @param mixed $value
      * @param bool $graceful
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     public function register($key, $value, $graceful = false)
     {
@@ -48,7 +50,7 @@ class Magento_Core_Model_Registry
             if ($graceful) {
                 return;
             }
-            throw new RuntimeException('Registry key "' . $key . '" already exists');
+            throw new \RuntimeException('Registry key "' . $key . '" already exists');
         }
         $this->_registry[$key] = $value;
     }

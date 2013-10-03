@@ -16,7 +16,9 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Eav\Model\Resource\Entity\Attribute\Option;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Option value table
@@ -26,32 +28,32 @@ class Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection extends Mage
     protected $_optionValueTable;
 
     /**
-     * @var Magento_Core_Model_Resource
+     * @var \Magento\Core\Model\Resource
      */
     protected $_coreResource;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_Resource $coreResource
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Resource $coreResource
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_Resource $coreResource,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\Resource $coreResource,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_storeManager = $storeManager;
         $this->_coreResource = $coreResource;
@@ -63,7 +65,7 @@ class Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection extends Mage
      */
     protected function _construct()
     {
-        $this->_init('Magento_Eav_Model_Entity_Attribute_Option', 'Magento_Eav_Model_Resource_Entity_Attribute_Option');
+        $this->_init('Magento\Eav\Model\Entity\Attribute\Option', 'Magento\Eav\Model\Resource\Entity\Attribute\Option');
         $this->_optionValueTable = $this->_coreResource->getTableName('eav_attribute_option_value');
     }
 
@@ -71,7 +73,7 @@ class Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection extends Mage
      * Set attribute filter
      *
      * @param int $setId
-     * @return Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection
+     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection
      */
     public function setAttributeFilter($setId)
     {
@@ -84,7 +86,7 @@ class Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection extends Mage
      *
      * @param int $storeId
      * @param boolean $useDefaultValue
-     * @return Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection
+     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection
      */
     public function setStoreFilter($storeId = null, $useDefaultValue = true)
     {
@@ -127,7 +129,7 @@ class Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection extends Mage
      * Add option id(s) frilter to collection
      *
      * @param int|array $optionId
-     * @return Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection
+     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection
      */
     public function setIdFilter($optionId)
     {
@@ -150,7 +152,7 @@ class Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection extends Mage
      *
      * @param string $dir direction
      * @param boolean $sortAlpha sort alphabetically by values in admin
-     * @return Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection
+     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection
      */
     public function setPositionOrder($dir = self::SORT_ORDER_ASC, $sortAlpha = false)
     {

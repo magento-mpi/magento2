@@ -16,7 +16,9 @@
  * @package    Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Block_Html_Date extends Magento_Core_Block_Template
+namespace Magento\Core\Block\Html;
+
+class Date extends \Magento\Core\Block\Template
 {
     protected function _toHtml()
     {

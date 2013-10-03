@@ -15,31 +15,33 @@
  * @package    Magento_Banner
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Banner_Block_Adminhtml_Widget_Chooser extends Magento_Banner_Block_Adminhtml_Banner_Grid
+namespace Magento\Banner\Block\Adminhtml\Widget;
+
+class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
 {
     /**
-     * @var Magento_Data_Form_Element_Factory
+     * @var \Magento\Data\Form\Element\Factory
      */
     protected $_elementFactory;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Banner_Model_Resource_Banner_CollectionFactory $bannerColFactory
-     * @param Magento_Banner_Model_Config $bannerConfig
-     * @param Magento_Data_Form_Element_Factory $elementFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Banner\Model\Resource\Banner\CollectionFactory $bannerColFactory
+     * @param \Magento\Banner\Model\Config $bannerConfig
+     * @param \Magento\Data\Form\Element\Factory $elementFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Banner_Model_Resource_Banner_CollectionFactory $bannerColFactory,
-        Magento_Banner_Model_Config $bannerConfig,
-        Magento_Data_Form_Element_Factory $elementFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Banner\Model\Resource\Banner\CollectionFactory $bannerColFactory,
+        \Magento\Banner\Model\Config $bannerConfig,
+        \Magento\Data\Form\Element\Factory $elementFactory,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $storeManager, $urlModel, $bannerColFactory, $bannerConfig, $data);
@@ -75,10 +77,10 @@ class Magento_Banner_Block_Adminhtml_Widget_Chooser extends Magento_Banner_Block
     /**
      * Prepare chooser element HTML
      *
-     * @param Magento_Data_Form_Element_Abstract $element Form Element
-     * @return Magento_Data_Form_Element_Abstract
+     * @param \Magento\Data\Form\Element\AbstractElement $element Form Element
+     * @return \Magento\Data\Form\Element\AbstractElement
      */
-    public function prepareElementHtml(Magento_Data_Form_Element_Abstract $element)
+    public function prepareElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $this->_elementValueId = "{$element->getId()}";
         $this->_selectedBanners = explode(',', $element->getValue());
@@ -265,7 +267,7 @@ class Magento_Banner_Block_Adminhtml_Widget_Chooser extends Magento_Banner_Block
     /**
      * Create grid columns
      *
-     * @return Magento_Banner_Block_Widget_Chooser
+     * @return \Magento\Banner\Block\Widget\Chooser
      */
     protected function _prepareColumns()
     {
@@ -297,7 +299,7 @@ class Magento_Banner_Block_Adminhtml_Widget_Chooser extends Magento_Banner_Block
     /* Set custom filter for in banner flag
      *
      * @param string $column
-     * @return Magento_Banner_Block_Widget_Chooser
+     * @return \Magento\Banner\Block\Widget\Chooser
      */
     protected function _addColumnFilterToCollection($column)
     {
@@ -322,7 +324,7 @@ class Magento_Banner_Block_Adminhtml_Widget_Chooser extends Magento_Banner_Block
     /**
      * Disable massaction functioanality
      *
-     * @return Magento_Banner_Block_Widget_Chooser
+     * @return \Magento\Banner\Block\Widget\Chooser
      */
     protected function _prepareMassaction()
     {
@@ -348,7 +350,7 @@ class Magento_Banner_Block_Adminhtml_Widget_Chooser extends Magento_Banner_Block
      * Setter
      *
      * @param array $selectedBanners
-     * @return Magento_Banner_Block_Widget_Chooser
+     * @return \Magento\Banner\Block\Widget\Chooser
      */
     public function setSelectedBanners($selectedBanners)
     {
@@ -362,7 +364,7 @@ class Magento_Banner_Block_Adminhtml_Widget_Chooser extends Magento_Banner_Block
     /**
      * Set banners' positions of saved banners
      *
-     * @return Magento_Banner_Block_Adminhtml_Widget_Chooser
+     * @return \Magento\Banner\Block\Adminhtml\Widget\Chooser
      */
     protected function _prepareCollection()
     {

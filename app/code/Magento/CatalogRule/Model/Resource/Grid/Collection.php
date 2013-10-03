@@ -5,11 +5,13 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_CatalogRule_Model_Resource_Grid_Collection
-    extends Magento_CatalogRule_Model_Resource_Rule_Collection
+namespace Magento\CatalogRule\Model\Resource\Grid;
+
+class Collection
+    extends \Magento\CatalogRule\Model\Resource\Rule\Collection
 {
     /**
-     * @return $this|Magento_Core_Model_Resource_Db_Collection_Abstract
+     * @return $this|\Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
     protected function _initSelect()
     {

@@ -10,13 +10,13 @@
 ?>
 
 <?php
-/** @var $this Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content_Files */
+/** @var $this \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Files\Content\Files */
 ?>
 
 <?php if ($this->getFilesCount() > 0): ?>
 
     <div name="css-editor">
-        <?php if ($this->getStorageType() == Magento_Theme_Model_Wysiwyg_Storage::TYPE_FONT): ?>
+        <?php if ($this->getStorageType() == \Magento\Theme\Model\Wysiwyg\Storage::TYPE_FONT): ?>
             <div class="uploader">
                 <?php foreach ($this->getFiles() as $file): ?>
                     <div class="file-row filecnt file-font" id="<?php echo $file['id'] ?>">

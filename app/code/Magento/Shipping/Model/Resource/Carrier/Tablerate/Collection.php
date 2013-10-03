@@ -15,7 +15,9 @@
  * @package    Magento_Shipping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Shipping_Model_Resource_Carrier_Tablerate_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Shipping\Model\Resource\Carrier\Tablerate;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * directory/country table name
@@ -37,7 +39,7 @@ class Magento_Shipping_Model_Resource_Carrier_Tablerate_Collection extends Magen
      */
     protected function _construct()
     {
-        $this->_init('Magento_Shipping_Model_Carrier_Tablerate', 'Magento_Shipping_Model_Resource_Carrier_Tablerate');
+        $this->_init('Magento\Shipping\Model\Carrier\Tablerate', 'Magento\Shipping\Model\Resource\Carrier\Tablerate');
         $this->_countryTable    = $this->getTable('directory_country');
         $this->_regionTable     = $this->getTable('directory_country_region');
     }
@@ -71,7 +73,7 @@ class Magento_Shipping_Model_Resource_Carrier_Tablerate_Collection extends Magen
      * Add website filter to collection
      *
      * @param int $websiteId
-     * @return Magento_Shipping_Model_Resource_Carrier_Tablerate_Collection
+     * @return \Magento\Shipping\Model\Resource\Carrier\Tablerate\Collection
      */
     public function setWebsiteFilter($websiteId)
     {
@@ -82,7 +84,7 @@ class Magento_Shipping_Model_Resource_Carrier_Tablerate_Collection extends Magen
      * Add condition name (code) filter to collection
      *
      * @param string $conditionName
-     * @return Magento_Shipping_Model_Resource_Carrier_Tablerate_Collection
+     * @return \Magento\Shipping\Model\Resource\Carrier\Tablerate\Collection
      */
     public function setConditionFilter($conditionName)
     {
@@ -93,7 +95,7 @@ class Magento_Shipping_Model_Resource_Carrier_Tablerate_Collection extends Magen
      * Add country filter to collection
      *
      * @param string $countryId
-     * @return Magento_Shipping_Model_Resource_Carrier_Tablerate_Collection
+     * @return \Magento\Shipping\Model\Resource\Carrier\Tablerate\Collection
      */
     public function setCountryFilter($countryId)
     {

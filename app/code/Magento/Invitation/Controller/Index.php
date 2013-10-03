@@ -14,40 +14,42 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-class Magento_Invitation_Controller_Index extends Magento_Core_Controller_Front_Action
+namespace Magento\Invitation\Controller;
+
+class Index extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Customer Session
      *
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_session;
 
     /**
      * Invitation Config
      *
-     * @var Magento_Invitation_Model_Config
+     * @var \Magento\Invitation\Model\Config
      */
     protected $_config;
 
     /**
      * Invitation Factory
      *
-     * @var Magento_Invitation_Model_InvitationFactory
+     * @var \Magento\Invitation\Model\InvitationFactory
      */
     protected $invitationFactory;
 
     /**
-     * @param Magento_Core_Controller_Varien_Action_Context $context
-     * @param Magento_Customer_Model_Session $session
-     * @param Magento_Invitation_Model_Config $config
-     * @param Magento_Invitation_Model_InvitationFactory $invitationFactory
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Customer\Model\Session $session
+     * @param \Magento\Invitation\Model\Config $config
+     * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
      */
     public function __construct(
-        Magento_Core_Controller_Varien_Action_Context $context,
-        Magento_Customer_Model_Session $session,
-        Magento_Invitation_Model_Config $config,
-        Magento_Invitation_Model_InvitationFactory $invitationFactory
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Customer\Model\Session $session,
+        \Magento\Invitation\Model\Config $config,
+        \Magento\Invitation\Model\InvitationFactory $invitationFactory
     ) {
         parent::__construct($context);
         $this->_session = $session;
@@ -70,7 +72,7 @@ class Magento_Invitation_Controller_Index extends Magento_Core_Controller_Front_
 
         if (!$this->_session->authenticate($this)) {
             $this->getResponse()->setRedirect(
-                $this->_objectManager->get('Magento_Customer_Helper_Data')->getLoginUrl()
+                $this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl()
             );
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
@@ -91,7 +93,7 @@ class Magento_Invitation_Controller_Index extends Magento_Core_Controller_Front_
             $customerExists = 0;
             foreach ($data['email'] as $email) {
                 $attempts++;
-                if (!Zend_Validate::is($email, 'EmailAddress')) {
+                if (!\Zend_Validate::is($email, 'EmailAddress')) {
                     continue;
                 }
                 if ($attempts > $invPerSend) {
@@ -107,18 +109,18 @@ class Magento_Invitation_Controller_Index extends Magento_Core_Controller_Front_
                         $this->_session->addSuccess(__('You sent the invitation for %1.', $email));
                         $sent++;
                     } else {
-                        throw new Exception(''); // not Magento_Core_Exception intentionally
+                        throw new \Exception(''); // not \Magento\Core\Exception intentionally
                     }
 
                 }
-                catch (Magento_Core_Exception $e) {
-                    if (Magento_Invitation_Model_Invitation::ERROR_CUSTOMER_EXISTS === $e->getCode()) {
+                catch (\Magento\Core\Exception $e) {
+                    if (\Magento\Invitation\Model\Invitation::ERROR_CUSTOMER_EXISTS === $e->getCode()) {
                         $customerExists++;
                     } else {
                         $this->_session->addError($e->getMessage());
                     }
                 }
-                catch (Exception $e) {
+                catch (\Exception $e) {
                     $this->_session->addError(__('Something went wrong sending an email to %1.', $email));
                 }
             }
@@ -132,7 +134,7 @@ class Magento_Invitation_Controller_Index extends Magento_Core_Controller_Front_
         }
 
         $this->loadLayout();
-        $this->_initLayoutMessages('Magento_Customer_Model_Session');
+        $this->_initLayoutMessages('Magento\Customer\Model\Session');
         $this->loadLayoutUpdates();
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
@@ -148,7 +150,7 @@ class Magento_Invitation_Controller_Index extends Magento_Core_Controller_Front_
     public function indexAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('Magento_Customer_Model_Session');
+        $this->_initLayoutMessages('Magento\Customer\Model\Session');
         $this->loadLayoutUpdates();
         if ($block = $this->getLayout()->getBlock('invitations_list')) {
             $block->setRefererUrl($this->_getRefererUrl());

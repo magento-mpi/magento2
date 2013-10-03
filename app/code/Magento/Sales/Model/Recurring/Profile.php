@@ -12,78 +12,80 @@
  * Sales implementation of recurring payment profiles
  * Implements saving and manageing profiles
  *
- * @method Magento_Sales_Model_Resource_Recurring_Profile _getResource()
- * @method Magento_Sales_Model_Resource_Recurring_Profile getResource()
+ * @method \Magento\Sales\Model\Resource\Recurring\Profile _getResource()
+ * @method \Magento\Sales\Model\Resource\Recurring\Profile getResource()
  * @method string getState()
- * @method Magento_Sales_Model_Recurring_Profile setState(string $value)
+ * @method \Magento\Sales\Model\Recurring\Profile setState(string $value)
  * @method int getCustomerId()
- * @method Magento_Sales_Model_Recurring_Profile setCustomerId(int $value)
+ * @method \Magento\Sales\Model\Recurring\Profile setCustomerId(int $value)
  * @method int getStoreId()
- * @method Magento_Sales_Model_Recurring_Profile setStoreId(int $value)
+ * @method \Magento\Sales\Model\Recurring\Profile setStoreId(int $value)
  * @method string getMethodCode()
- * @method Magento_Sales_Model_Recurring_Profile setMethodCode(string $value)
+ * @method \Magento\Sales\Model\Recurring\Profile setMethodCode(string $value)
  * @method string getCreatedAt()
- * @method Magento_Sales_Model_Recurring_Profile setCreatedAt(string $value)
+ * @method \Magento\Sales\Model\Recurring\Profile setCreatedAt(string $value)
  * @method string getUpdatedAt()
- * @method Magento_Sales_Model_Recurring_Profile setUpdatedAt(string $value)
+ * @method \Magento\Sales\Model\Recurring\Profile setUpdatedAt(string $value)
  * @method string getReferenceId()
- * @method Magento_Sales_Model_Recurring_Profile setReferenceId(string $value)
+ * @method \Magento\Sales\Model\Recurring\Profile setReferenceId(string $value)
  * @method string getSubscriberName()
- * @method Magento_Sales_Model_Recurring_Profile setSubscriberName(string $value)
+ * @method \Magento\Sales\Model\Recurring\Profile setSubscriberName(string $value)
  * @method string getStartDatetime()
- * @method Magento_Sales_Model_Recurring_Profile setStartDatetime(string $value)
+ * @method \Magento\Sales\Model\Recurring\Profile setStartDatetime(string $value)
  * @method string getInternalReferenceId()
- * @method Magento_Sales_Model_Recurring_Profile setInternalReferenceId(string $value)
+ * @method \Magento\Sales\Model\Recurring\Profile setInternalReferenceId(string $value)
  * @method string getScheduleDescription()
- * @method Magento_Sales_Model_Recurring_Profile setScheduleDescription(string $value)
+ * @method \Magento\Sales\Model\Recurring\Profile setScheduleDescription(string $value)
  * @method int getSuspensionThreshold()
- * @method Magento_Sales_Model_Recurring_Profile setSuspensionThreshold(int $value)
+ * @method \Magento\Sales\Model\Recurring\Profile setSuspensionThreshold(int $value)
  * @method int getBillFailedLater()
- * @method Magento_Sales_Model_Recurring_Profile setBillFailedLater(int $value)
+ * @method \Magento\Sales\Model\Recurring\Profile setBillFailedLater(int $value)
  * @method string getPeriodUnit()
- * @method Magento_Sales_Model_Recurring_Profile setPeriodUnit(string $value)
+ * @method \Magento\Sales\Model\Recurring\Profile setPeriodUnit(string $value)
  * @method int getPeriodFrequency()
- * @method Magento_Sales_Model_Recurring_Profile setPeriodFrequency(int $value)
+ * @method \Magento\Sales\Model\Recurring\Profile setPeriodFrequency(int $value)
  * @method int getPeriodMaxCycles()
- * @method Magento_Sales_Model_Recurring_Profile setPeriodMaxCycles(int $value)
+ * @method \Magento\Sales\Model\Recurring\Profile setPeriodMaxCycles(int $value)
  * @method float getBillingAmount()
- * @method Magento_Sales_Model_Recurring_Profile setBillingAmount(float $value)
+ * @method \Magento\Sales\Model\Recurring\Profile setBillingAmount(float $value)
  * @method string getTrialPeriodUnit()
- * @method Magento_Sales_Model_Recurring_Profile setTrialPeriodUnit(string $value)
+ * @method \Magento\Sales\Model\Recurring\Profile setTrialPeriodUnit(string $value)
  * @method int getTrialPeriodFrequency()
- * @method Magento_Sales_Model_Recurring_Profile setTrialPeriodFrequency(int $value)
+ * @method \Magento\Sales\Model\Recurring\Profile setTrialPeriodFrequency(int $value)
  * @method int getTrialPeriodMaxCycles()
- * @method Magento_Sales_Model_Recurring_Profile setTrialPeriodMaxCycles(int $value)
+ * @method \Magento\Sales\Model\Recurring\Profile setTrialPeriodMaxCycles(int $value)
  * @method float getTrialBillingAmount()
- * @method Magento_Sales_Model_Recurring_Profile setTrialBillingAmount(float $value)
+ * @method \Magento\Sales\Model\Recurring\Profile setTrialBillingAmount(float $value)
  * @method string getCurrencyCode()
- * @method Magento_Sales_Model_Recurring_Profile setCurrencyCode(string $value)
+ * @method \Magento\Sales\Model\Recurring\Profile setCurrencyCode(string $value)
  * @method float getShippingAmount()
- * @method Magento_Sales_Model_Recurring_Profile setShippingAmount(float $value)
+ * @method \Magento\Sales\Model\Recurring\Profile setShippingAmount(float $value)
  * @method float getTaxAmount()
- * @method Magento_Sales_Model_Recurring_Profile setTaxAmount(float $value)
+ * @method \Magento\Sales\Model\Recurring\Profile setTaxAmount(float $value)
  * @method float getInitAmount()
- * @method Magento_Sales_Model_Recurring_Profile setInitAmount(float $value)
+ * @method \Magento\Sales\Model\Recurring\Profile setInitAmount(float $value)
  * @method int getInitMayFail()
- * @method Magento_Sales_Model_Recurring_Profile setInitMayFail(int $value)
+ * @method \Magento\Sales\Model\Recurring\Profile setInitMayFail(int $value)
  * @method string getOrderInfo()
- * @method Magento_Sales_Model_Recurring_Profile setOrderInfo(string $value)
+ * @method \Magento\Sales\Model\Recurring\Profile setOrderInfo(string $value)
  * @method string getOrderItemInfo()
- * @method Magento_Sales_Model_Recurring_Profile setOrderItemInfo(string $value)
+ * @method \Magento\Sales\Model\Recurring\Profile setOrderItemInfo(string $value)
  * @method string getBillingAddressInfo()
- * @method Magento_Sales_Model_Recurring_Profile setBillingAddressInfo(string $value)
+ * @method \Magento\Sales\Model\Recurring\Profile setBillingAddressInfo(string $value)
  * @method string getShippingAddressInfo()
- * @method Magento_Sales_Model_Recurring_Profile setShippingAddressInfo(string $value)
+ * @method \Magento\Sales\Model\Recurring\Profile setShippingAddressInfo(string $value)
  * @method string getProfileVendorInfo()
- * @method Magento_Sales_Model_Recurring_Profile setProfileVendorInfo(string $value)
+ * @method \Magento\Sales\Model\Recurring\Profile setProfileVendorInfo(string $value)
  * @method string getAdditionalInfo()
- * @method Magento_Sales_Model_Recurring_Profile setAdditionalInfo(string $value)
+ * @method \Magento\Sales\Model\Recurring\Profile setAdditionalInfo(string $value)
  *
  * @category    Magento
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Recurring_Profile extends Magento_Payment_Model_Recurring_Profile
+namespace Magento\Sales\Model\Recurring;
+
+class Profile extends \Magento\Payment\Model\Recurring\Profile
 {
     /**
      * Available states
@@ -116,56 +118,56 @@ class Magento_Sales_Model_Recurring_Profile extends Magento_Payment_Model_Recurr
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @var Magento_Sales_Model_OrderFactory
+     * @var \Magento\Sales\Model\OrderFactory
      */
     protected $_orderFactory;
 
     /**
-     * @var Magento_Sales_Model_Order_AddressFactory
+     * @var \Magento\Sales\Model\Order\AddressFactory
      */
     protected $_addressFactory;
 
     /**
-     * @var Magento_Sales_Model_Order_PaymentFactory
+     * @var \Magento\Sales\Model\Order\PaymentFactory
      */
     protected $_paymentFactory;
 
     /**
-     * @var Magento_Sales_Model_Order_ItemFactory
+     * @var \Magento\Sales\Model\Order\ItemFactory
      */
     protected $_orderItemFactory;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Payment_Helper_Data $paymentData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Sales_Model_OrderFactory $orderFactory
-     * @param Magento_Sales_Model_Order_AddressFactory $addressFactory
-     * @param Magento_Sales_Model_Order_PaymentFactory $paymentFactory
-     * @param Magento_Sales_Model_Order_ItemFactory $orderItemFactory
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param \Magento\Sales\Model\Order\AddressFactory $addressFactory
+     * @param \Magento\Sales\Model\Order\PaymentFactory $paymentFactory
+     * @param \Magento\Sales\Model\Order\ItemFactory $orderItemFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Payment_Helper_Data $paymentData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Sales_Model_OrderFactory $orderFactory,
-        Magento_Sales_Model_Order_AddressFactory $addressFactory,
-        Magento_Sales_Model_Order_PaymentFactory $paymentFactory,
-        Magento_Sales_Model_Order_ItemFactory $orderItemFactory,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Sales\Model\OrderFactory $orderFactory,
+        \Magento\Sales\Model\Order\AddressFactory $addressFactory,
+        \Magento\Sales\Model\Order\PaymentFactory $paymentFactory,
+        \Magento\Sales\Model\Order\ItemFactory $orderItemFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -180,7 +182,7 @@ class Magento_Sales_Model_Recurring_Profile extends Magento_Payment_Model_Recurr
      * Load order by system increment identifier
      *
      * @param string $internalReferenceId
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function loadByInternalReferenceId($internalReferenceId)
     {
@@ -201,7 +203,7 @@ class Magento_Sales_Model_Recurring_Profile extends Magento_Payment_Model_Recurr
             $this->getMethodInstance()->submitRecurringProfile($this, $this->getQuote()->getPayment());
             $this->save();
             $this->_getResource()->commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getResource()->rollBack();
             throw $e;
         }
@@ -275,7 +277,7 @@ class Magento_Sales_Model_Recurring_Profile extends Magento_Payment_Model_Recurr
 
     public function fetchUpdate()
     {
-        $result = new Magento_Object();
+        $result = new \Magento\Object();
         $this->getMethodInstance()->getRecurringProfileDetails($this->getReferenceId(), $result);
 
         if ($result->getIsProfileActive()) {
@@ -299,9 +301,9 @@ class Magento_Sales_Model_Recurring_Profile extends Magento_Payment_Model_Recurr
     /**
      * Initialize new order based on profile data
      *
-     * Takes arbitrary number of Magento_Object instances to be treated as items for new order
+     * Takes arbitrary number of \Magento\Object instances to be treated as items for new order
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function createOrder()
     {
@@ -360,7 +362,7 @@ class Magento_Sales_Model_Recurring_Profile extends Magento_Payment_Model_Recurr
         }
 
         $order->setStoreId($this->getStoreId())
-            ->setState(Magento_Sales_Model_Order::STATE_NEW)
+            ->setState(\Magento\Sales\Model\Order::STATE_NEW)
             ->setBaseToOrderRate($this->getInfoValue('order_info', 'base_to_quote_rate'))
             ->setStoreToOrderRate($this->getInfoValue('order_info', 'store_to_quote_rate'))
             ->setOrderCurrencyCode($this->getInfoValue('order_info', 'quote_currency_code'))
@@ -406,10 +408,10 @@ class Magento_Sales_Model_Recurring_Profile extends Magento_Payment_Model_Recurr
     /**
      * Import quote information to the profile
      *
-     * @param Magento_Sales_Model_Quote_ $quote
-     * @return Magento_Sales_Model_Recurring_Profile
+     * @param \Magento\Sales\Model\Quote\ $quote
+     * @return \Magento\Sales\Model\Recurring\Profile
      */
-    public function importQuote(Magento_Sales_Model_Quote $quote)
+    public function importQuote(\Magento\Sales\Model\Quote $quote)
     {
         $this->setQuote($quote);
 
@@ -440,10 +442,10 @@ class Magento_Sales_Model_Recurring_Profile extends Magento_Payment_Model_Recurr
     /**
      * Import quote item information to the profile
      *
-     * @param Magento_Sales_Model_Quote_Item_Abstract $item
-     * @return Magento_Sales_Model_Recurring_Profile
+     * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
+     * @return \Magento\Sales\Model\Recurring\Profile
      */
-    public function importQuoteItem(Magento_Sales_Model_Quote_Item_Abstract $item)
+    public function importQuoteItem(\Magento\Sales\Model\Quote\Item\AbstractItem $item)
     {
         $this->setQuoteItemInfo($item);
 
@@ -582,7 +584,7 @@ class Magento_Sales_Model_Recurring_Profile extends Magento_Payment_Model_Recurr
                 return $info[$infoValueKey];
             }
         } else {
-            if ($info instanceof Magento_Object) {
+            if ($info instanceof \Magento\Object) {
                 return $info->getDataUsingMethod($infoValueKey);
             } elseif (isset($info->$infoValueKey)) {
                 return $info->$infoValueKey;
@@ -595,13 +597,13 @@ class Magento_Sales_Model_Recurring_Profile extends Magento_Payment_Model_Recurr
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Resource_Recurring_Profile');
+        $this->_init('Magento\Sales\Model\Resource\Recurring\Profile');
     }
 
     /**
      * Automatically set "unknown" state if not defined
      *
-     * @return Magento_Payment_Model_Recurring_Profile
+     * @return \Magento\Payment\Model\Recurring\Profile
      */
     protected function _filterValues()
     {
@@ -637,7 +639,7 @@ class Magento_Sales_Model_Recurring_Profile extends Magento_Payment_Model_Recurr
      * @param string $againstState
      * @param bool $soft
      * @return bool
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     protected function _checkWorkflow($againstState, $soft = true)
     {
@@ -645,7 +647,7 @@ class Magento_Sales_Model_Recurring_Profile extends Magento_Payment_Model_Recurr
         $state = $this->getState();
         $result = (!empty($this->_workflow[$state])) && in_array($againstState, $this->_workflow[$state]);
         if (!$soft && !$result) {
-            throw new Magento_Core_Exception(
+            throw new \Magento\Core\Exception(
                 __('This profile state cannot be changed to "%1".', $againstState)
             );
         }
@@ -670,7 +672,7 @@ class Magento_Sales_Model_Recurring_Profile extends Magento_Payment_Model_Recurr
      * Add order relation to recurring profile
      *
      * @param int $orderId
-     * @return Magento_Sales_Model_Recurring_Profile
+     * @return \Magento\Sales\Model\Recurring\Profile
      */
     public function addOrderRelation($orderId)
     {
@@ -681,15 +683,15 @@ class Magento_Sales_Model_Recurring_Profile extends Magento_Payment_Model_Recurr
     /**
      * Create and return new order item based on profile item data and $itemInfo
      *
-     * @param Magento_Object $itemInfo
-     * @return Magento_Sales_Model_Order_Item
-     * @throws Exception
+     * @param \Magento\Object $itemInfo
+     * @return \Magento\Sales\Model\Order\Item
+     * @throws \Exception
      */
     protected function _getItem($itemInfo)
     {
         $paymentType = $itemInfo->getPaymentType();
         if (!$paymentType) {
-            throw new Exception("Recurring profile payment type is not specified.");
+            throw new \Exception("Recurring profile payment type is not specified.");
         }
 
         switch ($paymentType) {
@@ -700,7 +702,7 @@ class Magento_Sales_Model_Recurring_Profile extends Magento_Payment_Model_Recurr
             case self::PAYMENT_TYPE_INITIAL:
                 return $this->_getInitialItem($itemInfo);
             default:
-                new Exception("Invalid recurring profile payment type '{$paymentType}'.");
+                new \Exception("Invalid recurring profile payment type '{$paymentType}'.");
         }
     }
 
@@ -708,8 +710,8 @@ class Magento_Sales_Model_Recurring_Profile extends Magento_Payment_Model_Recurr
      * Create and return new order item based on profile item data and $itemInfo
      * for regular payment
      *
-     * @param Magento_Object $itemInfo
-     * @return Magento_Sales_Model_Order_Item
+     * @param \Magento\Object $itemInfo
+     * @return \Magento\Sales\Model\Order\Item
      */
     protected function _getRegularItem($itemInfo)
     {
@@ -735,8 +737,8 @@ class Magento_Sales_Model_Recurring_Profile extends Magento_Payment_Model_Recurr
      * Create and return new order item based on profile item data and $itemInfo
      * for trial payment
      *
-     * @param Magento_Object $itemInfo
-     * @return Magento_Sales_Model_Order_Item
+     * @param \Magento\Object $itemInfo
+     * @return \Magento\Sales\Model\Order\Item
      */
     protected function _getTrialItem($itemInfo)
     {
@@ -760,8 +762,8 @@ class Magento_Sales_Model_Recurring_Profile extends Magento_Payment_Model_Recurr
      * Create and return new order item based on profile item data and $itemInfo
      * for initial payment
      *
-     * @param Magento_Object $itemInfo
-     * @return Magento_Sales_Model_Order_Item
+     * @param \Magento\Object $itemInfo
+     * @return \Magento\Sales\Model\Order\Item
      */
     protected function _getInitialItem($itemInfo)
     {
@@ -770,7 +772,7 @@ class Magento_Sales_Model_Recurring_Profile extends Magento_Payment_Model_Recurr
         $taxAmount = $itemInfo->getTaxAmount() ? $itemInfo->getTaxAmount() : 0;
         $item = $this->_orderItemFactory->create()
             ->setStoreId($this->getStoreId())
-            ->setProductType(Magento_Catalog_Model_Product_Type::TYPE_VIRTUAL)
+            ->setProductType(\Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL)
             ->setIsVirtual(1)
             ->setSku('initial_fee')
             ->setName(__('Recurring Profile Initial Fee'))
@@ -798,7 +800,7 @@ class Magento_Sales_Model_Recurring_Profile extends Magento_Payment_Model_Recurr
     /**
      * Add additional options suboption into itev
      *
-     * @param Magento_Sales_Model_Order_Item $item
+     * @param \Magento\Sales\Model\Order\Item $item
      * @param array $option
      */
     protected function _addAdditionalOptionToItem($item, $option)

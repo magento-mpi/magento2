@@ -11,7 +11,9 @@
 /**
  * Reminder adminhtml promo rules notice block
  */
-class Magento_Reminder_Block_Adminhtml_Promo_Notice extends Magento_Adminhtml_Block_Template
+namespace Magento\Reminder\Block\Adminhtml\Promo;
+
+class Notice extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Core registry
@@ -21,22 +23,22 @@ class Magento_Reminder_Block_Adminhtml_Promo_Notice extends Magento_Adminhtml_Bl
     /**
      * Rule Resource Model
      *
-     * @var Magento_Reminder_Model_Resource_Rule
+     * @var \Magento\Reminder\Model\Resource\Rule
      */
     protected $_resourceModel;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Reminder_Model_Resource_Rule $resourceModel
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Reminder\Model\Resource\Rule $resourceModel
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Reminder_Model_Resource_Rule $resourceModel,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Reminder\Model\Resource\Rule $resourceModel,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);
@@ -47,7 +49,7 @@ class Magento_Reminder_Block_Adminhtml_Promo_Notice extends Magento_Adminhtml_Bl
     /**
      * Preparing block layout
      *
-     * @return Magento_Reminder_Block_Adminhtml_Promo_Notice
+     * @return \Magento\Reminder\Block\Adminhtml\Promo\Notice
      */
     protected function _prepareLayout()
     {
@@ -56,7 +58,7 @@ class Magento_Reminder_Block_Adminhtml_Promo_Notice extends Magento_Adminhtml_Bl
                 $confirm = __('This rule is assigned to %1 automated reminder rule(s). Deleting this rule will automatically unassign it.',
                     $count);
                 $block = $this->getLayout()->getBlock('promo_quote_edit');
-                if ($block instanceof Magento_Adminhtml_Block_Promo_Quote_Edit) {
+                if ($block instanceof \Magento\Adminhtml\Block\Promo\Quote\Edit) {
                     $block->updateButton(
                         'delete', 'onclick', 'deleteConfirm(\'' . $confirm . '\', \'' . $block->getDeleteUrl() . '\')');
                 }

@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_JsTest extends PHPUnit_Framework_TestCase
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code;
+
+class JsTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Theme id of virtual theme
@@ -17,30 +19,30 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_JsTest extends PHPU
     const TEST_THEME_ID = 15;
 
     /**
-     * @var Magento_Backend_Model_Url|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Backend\Model\Url|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_urlBuilder;
 
     /**
-     * @var Magento_DesignEditor_Model_Theme_Context|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\DesignEditor\Model\Theme\Context|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_themeContext;
 
     /**
-     * @var Magento_Core_Model_Theme|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Theme|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_theme;
 
     /**
-     * @var Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Js|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_urlBuilder = $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false);
-        $this->_themeContext = $this->getMock('Magento_DesignEditor_Model_Theme_Context', array(), array(), '', false);
-        $this->_theme = $this->getMock('Magento_Core_Model_Theme', array('getId', 'getCustomization'), array(), '',
+        $this->_urlBuilder = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false);
+        $this->_themeContext = $this->getMock('Magento\DesignEditor\Model\Theme\Context', array(), array(), '', false);
+        $this->_theme = $this->getMock('Magento\Core\Model\Theme', array('getId', 'getCustomization'), array(), '',
             false);
         $this->_theme->expects($this->any())->method('getId')->will($this->returnValue(self::TEST_THEME_ID));
         $this->_themeContext->expects($this->any())->method('getEditableTheme')
@@ -48,16 +50,16 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_JsTest extends PHPU
         $this->_themeContext->expects($this->any())->method('getStagingTheme')
             ->will($this->returnValue($this->_theme));
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $constructArguments = $objectManagerHelper->getConstructArguments(
-            'Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js',
+            'Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Js',
             array(
                 'urlBuilder' => $this->_urlBuilder,
                 'themeContext' => $this->_themeContext,
-                'formFactory' => $this->getMock('Magento_Data_Form_Factory', array(), array(), '', false),
+                'formFactory' => $this->getMock('Magento\Data\Form\Factory', array(), array(), '', false),
         ));
         $this->_model = $this->getMock(
-            'Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js',
+            'Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Js',
             array('helper'),
             $constructArguments
         );
@@ -72,7 +74,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_JsTest extends PHPU
     }
 
     /**
-     * @covers Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js::getJsUploadUrl
+     * @covers \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Js::getJsUploadUrl
      */
     public function testGetDownloadCustomCssUrl()
     {
@@ -86,7 +88,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_JsTest extends PHPU
     }
 
     /**
-     * @covers Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js::getJsReorderUrl
+     * @covers \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Js::getJsReorderUrl
      */
     public function testGetJsReorderUrl()
     {
@@ -100,7 +102,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_JsTest extends PHPU
     }
 
     /**
-     * @covers Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js::getTitle
+     * @covers \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Js::getTitle
      */
     public function testGetTitle()
     {
@@ -108,19 +110,19 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_JsTest extends PHPU
     }
 
     /**
-     * @covers Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js::getFiles
+     * @covers \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Js::getFiles
      */
     public function testGetJsFiles()
     {
-        $customization = $this->getMock('Magento_Core_Model_Theme_Customization', array(), array(), '', false);
+        $customization = $this->getMock('Magento\Core\Model\Theme\Customization', array(), array(), '', false);
         $this->_theme->expects($this->any())->method('getCustomization')->will($this->returnValue($customization));
 
         $customization->expects($this->once())
             ->method('getFilesByType')
-            ->with(Magento_Core_Model_Theme_Customization_File_Js::TYPE)
+            ->with(\Magento\Core\Model\Theme\Customization\File\Js::TYPE)
             ->will($this->returnValue(array()));
-        $helperMock = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
-        $this->_model->expects($this->once())->method('helper')->with('Magento_Core_Helper_Data')
+        $helperMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
+        $this->_model->expects($this->once())->method('helper')->with('Magento\Core\Helper\Data')
             ->will($this->returnValue($helperMock));
 
         $this->_model->getFiles();

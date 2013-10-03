@@ -9,15 +9,17 @@
 /**
  * Retrieving collection data from cache, failing over to another fetch strategy, if cache not yet exists
  */
-class Magento_Data_Collection_Db_FetchStrategy_Cache implements Magento_Data_Collection_Db_FetchStrategyInterface
+namespace Magento\Data\Collection\Db\FetchStrategy;
+
+class Cache implements \Magento\Data\Collection\Db\FetchStrategyInterface
 {
     /**
-     * @var Magento_Cache_FrontendInterface
+     * @var \Magento\Cache\FrontendInterface
      */
     private $_cache;
 
     /**
-     * @var Magento_Data_Collection_Db_FetchStrategyInterface
+     * @var \Magento\Data\Collection\Db\FetchStrategyInterface
      */
     private $_fetchStrategy;
 
@@ -39,15 +41,15 @@ class Magento_Data_Collection_Db_FetchStrategy_Cache implements Magento_Data_Col
     /**
      * Constructor
      *
-     * @param Magento_Cache_FrontendInterface $cache
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Cache\FrontendInterface $cache
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param string $cacheIdPrefix
      * @param array $cacheTags
      * @param int|bool|null $cacheLifetime
      */
     public function __construct(
-        Magento_Cache_FrontendInterface $cache,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        \Magento\Cache\FrontendInterface $cache,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         $cacheIdPrefix = '',
         array $cacheTags = array(),
         $cacheLifetime = null
@@ -62,7 +64,7 @@ class Magento_Data_Collection_Db_FetchStrategy_Cache implements Magento_Data_Col
     /**
      * {@inheritdoc}
      */
-    public function fetchAll(Zend_Db_Select $select, array $bindParams = array())
+    public function fetchAll(\Zend_Db_Select $select, array $bindParams = array())
     {
         $cacheId = $this->_getSelectCacheId($select);
         $result = $this->_cache->load($cacheId);
@@ -78,7 +80,7 @@ class Magento_Data_Collection_Db_FetchStrategy_Cache implements Magento_Data_Col
     /**
      * Determine cache identifier based on select query
      *
-     * @param Magento_DB_Select|string $select
+     * @param \Magento\DB\Select|string $select
      * @return string
      */
     protected function _getSelectCacheId($select)

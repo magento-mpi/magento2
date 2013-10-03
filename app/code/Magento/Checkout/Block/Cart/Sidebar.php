@@ -16,61 +16,63 @@
  * @package     Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Cart_Sidebar extends Magento_Checkout_Block_Cart_Abstract
+namespace Magento\Checkout\Block\Cart;
+
+class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
 {
     const XML_PATH_CHECKOUT_SIDEBAR_COUNT   = 'checkout/sidebar/count';
 
     /**
      * Tax data
      *
-     * @var Magento_Tax_Helper_Data
+     * @var \Magento\Tax\Helper\Data
      */
     protected $_taxData;
 
     /**
-     * @var Magento_Catalog_Model_Resource_Url
+     * @var \Magento\Catalog\Model\Resource\Url
      */
     protected $_catalogUrl;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Tax_Model_Config
+     * @var \Magento\Tax\Model\Config
      */
     protected $_taxConfig;
 
     /**
-     * @var Magento_Checkout_Model_Cart
+     * @var \Magento\Checkout\Model\Cart
      */
     protected $_checkoutCart;
 
     /**
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Checkout_Model_Session $checkoutSession
-     * @param Magento_Catalog_Model_Resource_Url $catalogUrl
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Tax_Model_Config $taxConfig
-     * @param Magento_Checkout_Model_Cart $checkoutCart
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Catalog\Model\Resource\Url $catalogUrl
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Tax\Model\Config $taxConfig
+     * @param \Magento\Checkout\Model\Cart $checkoutCart
      * @param array $data
      */
     public function __construct(
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Checkout_Model_Session $checkoutSession,
-        Magento_Catalog_Model_Resource_Url $catalogUrl,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Tax_Model_Config $taxConfig,
-        Magento_Checkout_Model_Cart $checkoutCart,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Catalog\Model\Resource\Url $catalogUrl,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Tax\Model\Config $taxConfig,
+        \Magento\Checkout\Model\Cart $checkoutCart,
         array $data = array()
     ) {
         $this->_taxData = $taxData;
@@ -115,7 +117,7 @@ class Magento_Checkout_Block_Cart_Sidebar extends Magento_Checkout_Block_Cart_Ab
         $i = 0;
         $allItems = array_reverse($this->getItems());
         foreach ($allItems as $item) {
-            /* @var $item Magento_Sales_Model_Quote_Item */
+            /* @var $item \Magento\Sales\Model\Quote\Item */
             if (!$item->getProduct()->isVisibleInSiteVisibility()) {
                 $productId = $item->getProduct()->getId();
                 $products  = $this->_catalogUrl
@@ -123,7 +125,7 @@ class Magento_Checkout_Block_Cart_Sidebar extends Magento_Checkout_Block_Cart_Ab
                 if (!isset($products[$productId])) {
                     continue;
                 }
-                $urlDataObject = new Magento_Object($products[$productId]);
+                $urlDataObject = new \Magento\Object($products[$productId]);
                 $item->getProduct()->setUrlDataObject($urlDataObject);
             }
 
@@ -243,7 +245,7 @@ class Magento_Checkout_Block_Cart_Sidebar extends Magento_Checkout_Block_Cart_Ab
      */
     public function isPossibleOnepageCheckout()
     {
-        return $this->helper('Magento_Checkout_Helper_Data')->canOnepageCheckout() && !$this->getQuote()->getHasError();
+        return $this->helper('Magento\Checkout\Helper\Data')->canOnepageCheckout() && !$this->getQuote()->getHasError();
     }
 
     /**
@@ -253,7 +255,7 @@ class Magento_Checkout_Block_Cart_Sidebar extends Magento_Checkout_Block_Cart_Ab
      */
     public function getCheckoutUrl()
     {
-        return $this->helper('Magento_Checkout_Helper_Url')->getCheckoutUrl();
+        return $this->helper('Magento\Checkout\Helper\Url')->getCheckoutUrl();
     }
 
     /**
@@ -315,7 +317,7 @@ class Magento_Checkout_Block_Cart_Sidebar extends Magento_Checkout_Block_Cart_Ab
     {
         $result = array();
         foreach ($this->getLayout()->getChildBlocks($this->getNameInLayout()) as $block) {
-            /** @var $block Magento_Core_Block_Template */
+            /** @var $block \Magento\Core\Block\Template */
             $result[] = implode('|', array(
                 // skip $this->getNameInLayout() and '.'
                 substr($block->getNameInLayout(), strlen($this->getNameInLayout()) + 1),

@@ -5,17 +5,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Catalog_Model_Resource_Category_Collection_Factory
+namespace Magento\Catalog\Model\Resource\Category\Collection;
+
+class Factory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     private $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -23,10 +25,10 @@ class Magento_Catalog_Model_Resource_Category_Collection_Factory
     /**
      * Return newly created instance of the category collection
      *
-     * @return Magento_Catalog_Model_Resource_Category_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Collection
      */
     public function create()
     {
-        return $this->_objectManager->create('Magento_Catalog_Model_Resource_Category_Collection');
+        return $this->_objectManager->create('Magento\Catalog\Model\Resource\Category\Collection');
     }
 }

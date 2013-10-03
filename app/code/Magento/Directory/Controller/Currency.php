@@ -11,12 +11,14 @@
 /**
  * Currency controller
  */
-class Magento_Directory_Controller_Currency extends Magento_Core_Controller_Front_Action
+namespace Magento\Directory\Controller;
+
+class Currency extends \Magento\Core\Controller\Front\Action
 {
     public function switchAction()
     {
-        /** @var Magento_Core_Model_StoreManagerInterface $storeManager */
-        $storeManager = $this->_objectManager->get('Magento_Core_Model_StoreManagerInterface');
+        /** @var \Magento\Core\Model\StoreManagerInterface $storeManager */
+        $storeManager = $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface');
         $currency = (string)$this->getRequest()->getParam('currency');
         if ($currency) {
             $storeManager->getStore()->setCurrentCurrencyCode($currency);

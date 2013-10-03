@@ -5,17 +5,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_DesignEditor_Model_Plugin_ThemeCopyService
+namespace Magento\DesignEditor\Model\Plugin;
+
+class ThemeCopyService
 {
     /**
-     * @var Magento_DesignEditor_Model_Theme_ChangeFactory
+     * @var \Magento\DesignEditor\Model\Theme\ChangeFactory
      */
     protected $_themeChangeFactory;
 
     /**
-     * @param Magento_DesignEditor_Model_Theme_ChangeFactory $themeChangeFactory
+     * @param \Magento\DesignEditor\Model\Theme\ChangeFactory $themeChangeFactory
      */
-    public function __construct(Magento_DesignEditor_Model_Theme_ChangeFactory $themeChangeFactory)
+    public function __construct(\Magento\DesignEditor\Model\Theme\ChangeFactory $themeChangeFactory)
     {
         $this->_themeChangeFactory = $themeChangeFactory;
     }
@@ -24,20 +26,20 @@ class Magento_DesignEditor_Model_Plugin_ThemeCopyService
      * Copy additional information about theme change time
      *
      * @param array $methodArguments
-     * @param Magento_Code_Plugin_InvocationChain $invocationChain
+     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
      */
-    public function aroundCopy(array $methodArguments, Magento_Code_Plugin_InvocationChain $invocationChain)
+    public function aroundCopy(array $methodArguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
     {
         $invocationChain->proceed($methodArguments);
 
-        /** @var $sourceTheme Magento_Core_Model_Theme|null */
-        /** @var $targetTheme Magento_Core_Model_Theme|null */
+        /** @var $sourceTheme \Magento\Core\Model\Theme|null */
+        /** @var $targetTheme \Magento\Core\Model\Theme|null */
         list($sourceTheme, $targetTheme) = $methodArguments;
         if ($sourceTheme && $targetTheme) {
-            /** @var $sourceChange Magento_DesignEditor_Model_Theme_Change */
+            /** @var $sourceChange \Magento\DesignEditor\Model\Theme\Change */
             $sourceChange = $this->_themeChangeFactory->create();
             $sourceChange->loadByThemeId($sourceTheme->getId());
-            /** @var $targetChange Magento_DesignEditor_Model_Theme_Change */
+            /** @var $targetChange \Magento\DesignEditor\Model\Theme\Change */
             $targetChange = $this->_themeChangeFactory->create();;
             $targetChange->loadByThemeId($targetTheme->getId());
 

@@ -9,10 +9,12 @@
  */
 
 
-class Magento_Sales_Model_Quote_Address_Total_Custbalance
-    extends Magento_Sales_Model_Quote_Address_Total_Abstract
+namespace Magento\Sales\Model\Quote\Address\Total;
+
+class Custbalance
+    extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
-    public function collect(Magento_Sales_Model_Quote_Address $address)
+    public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
         $address->setCustbalanceAmount(0);
         $address->setBaseCustbalanceAmount(0);

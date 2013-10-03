@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Report_Wishlist extends Magento_Backend_Block_Template
+namespace Magento\Adminhtml\Block\Report;
+
+class Wishlist extends \Magento\Backend\Block\Template
 {
 
     public $wishlists_count;
@@ -30,20 +32,20 @@ class Magento_Adminhtml_Block_Report_Wishlist extends Magento_Backend_Block_Temp
     /**
      * Reports wishlist collection factory
      *
-     * @var Magento_Reports_Model_Resource_Wishlist_CollectionFactory
+     * @var \Magento\Reports\Model\Resource\Wishlist\CollectionFactory
      */
     protected $_wishlistFactory;
 
     /**
-     * @param Magento_Reports_Model_Resource_Wishlist_CollectionFactory $wishlistFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Reports\Model\Resource\Wishlist\CollectionFactory $wishlistFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Reports_Model_Resource_Wishlist_CollectionFactory $wishlistFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Reports\Model\Resource\Wishlist\CollectionFactory $wishlistFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_wishlistFactory = $wishlistFactory;
@@ -54,7 +56,7 @@ class Magento_Adminhtml_Block_Report_Wishlist extends Magento_Backend_Block_Temp
     {
         $this->setChild(
             'grid',
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Report_Wishlist_Grid', 'report.grid')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Wishlist\Grid', 'report.grid')
         );
 
         $collection = $this->_wishlistFactory->create();

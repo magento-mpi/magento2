@@ -12,7 +12,9 @@
 /**
  * User acl role
  */
-class Magento_User_Model_Acl_Role_Generic extends Zend_Acl_Role
+namespace Magento\User\Model\Acl\Role;
+
+class Generic extends \Zend_Acl_Role
 {
 
 }

@@ -8,26 +8,28 @@
  * @license     {license_link}
  */
 
-class Magento_Tax_Model_System_Config_Source_Tax_Region implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Tax\Model\System\Config\Source\Tax;
+
+class Region implements \Magento\Core\Model\Option\ArrayInterface
 {
     protected $_options;
 
     /**
-     * @var Magento_Directory_Model_Resource_Region_Collection_Factory
+     * @var \Magento\Directory\Model\Resource\Region\Collection\Factory
      */
     protected $_regionsFactory;
 
     /**
-     * @param Magento_Directory_Model_Resource_Region_Collection_Factory $regionsFactory
+     * @param \Magento\Directory\Model\Resource\Region\Collection\Factory $regionsFactory
      */
-    public function __construct(Magento_Directory_Model_Resource_Region_Collection_Factory $regionsFactory)
+    public function __construct(\Magento\Directory\Model\Resource\Region\Collection\Factory $regionsFactory)
     {
         $this->_regionsFactory = $regionsFactory;
     }
 
     public function toOptionArray($noEmpty = false, $country = null)
     {
-        /** @var $region Magento_Directory_Model_Resource_Region_Collection */
+        /** @var $region \Magento\Directory\Model\Resource\Region\Collection */
         $regionCollection = $this->_regionsFactory->create();
         $options = $regionCollection->addCountryFilter($country)->toOptionArray();
 

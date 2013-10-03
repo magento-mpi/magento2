@@ -15,54 +15,56 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products
-    extends Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Abstract
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
+
+class Products
+    extends \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\AbstractAccordion
 {
     /**
-     * @var Magento_Sales_Model_Config
+     * @var \Magento\Sales\Model\Config
      */
     protected $_salesConfig;
 
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
-     * @param Magento_Data_CollectionFactory $collectionFactory
-     * @var Magento_Catalog_Model_Config
+     * @param \Magento\Data\CollectionFactory $collectionFactory
+     * @var \Magento\Catalog\Model\Config
      */
     protected $_catalogConfig;
 
     /**
-     * @var Magento_CatalogInventory_Model_Stock_Status
+     * @var \Magento\CatalogInventory\Model\Stock\Status
      */
     protected $_catalogStockStatus;
 
     /**
-     * @param Magento_Data_CollectionFactory $collectionFactory
-     * @param Magento_CatalogInventory_Model_Stock_Status $catalogStockStatus
-     * @param Magento_Catalog_Model_Config $catalogConfig
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Sales_Model_Config $salesConfig
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param \Magento\Data\CollectionFactory $collectionFactory
+     * @param \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Sales\Model\Config $salesConfig
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Data_CollectionFactory $collectionFactory,
-        Magento_CatalogInventory_Model_Stock_Status $catalogStockStatus,
-        Magento_Catalog_Model_Config $catalogConfig,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Sales_Model_Config $salesConfig,
-        Magento_Catalog_Model_ProductFactory $productFactory,
+        \Magento\Data\CollectionFactory $collectionFactory,
+        \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Sales\Model\Config $salesConfig,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
         array $data = array()
     ) {
         parent::__construct(
@@ -106,7 +108,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products
     /**
      * Return items collection
      *
-     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
+     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
     public function getItemsCollection()
     {
@@ -117,7 +119,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products
                 ->addAttributeToSelect($attributes)
                 ->addAttributeToSelect('sku')
                 ->addAttributeToFilter('type_id', $this->_salesConfig->getAvailableProductTypes())
-                ->addAttributeToFilter('status', Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
+                ->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
                 ->addStoreFilter($this->_getStore());
             $this->_catalogStockStatus->addIsInStockFilterToCollection($collection);
             $this->setData('items_collection', $collection);
@@ -128,7 +130,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products
     /**
      * Prepare Grid columns
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareColumns()
     {
@@ -141,7 +143,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products
 
         $this->addColumn('name', array(
             'header'    => __('Product'),
-            'renderer'  => 'Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Product',
+            'renderer'  => 'Magento\Adminhtml\Block\Sales\Order\Create\Search\Grid\Renderer\Product',
             'index'     => 'name'
         ));
 
@@ -158,7 +160,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products
             'currency_code' => $this->_getStore()->getCurrentCurrencyCode(),
             'rate' => $this->_getStore()->getBaseCurrency()->getRate($this->_getStore()->getCurrentCurrencyCode()),
             'index'     => 'price',
-            'renderer'  => 'Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Price'
+            'renderer'  => 'Magento\Adminhtml\Block\Sales\Order\Create\Search\Grid\Renderer\Price'
         ));
 
         $this->_addControlColumns();
@@ -169,7 +171,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products
     /**
      * Custom products grid search callback
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareLayout()
     {
@@ -181,7 +183,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products
     /**
      * Search by selected products
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _addColumnFilterToCollection($column)
     {
@@ -231,7 +233,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products
     /**
      * Add columns with controls to manage added products and their quantity
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _addControlColumns()
     {
@@ -242,7 +244,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products
     /*
      * Add custom options to product collection
      *
-     * return Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products
+     * return \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Products
      */
     protected function _afterLoadCollection()
     {

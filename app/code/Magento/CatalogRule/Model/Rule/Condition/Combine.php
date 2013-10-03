@@ -11,26 +11,28 @@
 /**
  * Catalog Rule Combine Condition data model
  */
-class Magento_CatalogRule_Model_Rule_Condition_Combine extends Magento_Rule_Model_Condition_Combine
+namespace Magento\CatalogRule\Model\Rule\Condition;
+
+class Combine extends \Magento\Rule\Model\Condition\Combine
 {
     /**
-     * @var Magento_CatalogRule_Model_Rule_Condition_ProductFactory
+     * @var \Magento\CatalogRule\Model\Rule\Condition\ProductFactory
      */
     protected $_productFactory;
 
     /**
-     * @param Magento_CatalogRule_Model_Rule_Condition_ProductFactory $conditionFactory
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\CatalogRule\Model\Rule\Condition\ProductFactory $conditionFactory
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_CatalogRule_Model_Rule_Condition_ProductFactory $conditionFactory,
-        Magento_Rule_Model_Condition_Context $context,
+        \Magento\CatalogRule\Model\Rule\Condition\ProductFactory $conditionFactory,
+        \Magento\Rule\Model\Condition\Context $context,
         array $data = array()
     ) {
         $this->_productFactory = $conditionFactory;
         parent::__construct($context, $data);
-        $this->setType('Magento_CatalogRule_Model_Rule_Condition_Combine');
+        $this->setType('Magento\CatalogRule\Model\Rule\Condition\Combine');
     }
 
     /**
@@ -44,13 +46,13 @@ class Magento_CatalogRule_Model_Rule_Condition_Combine extends Magento_Rule_Mode
         $attributes = array();
         foreach ($productAttributes as $code => $label) {
             $attributes[] = array(
-                'value' => 'Magento_CatalogRule_Model_Rule_Condition_Product|' . $code, 'label' => $label
+                'value' => 'Magento\CatalogRule\Model\Rule\Condition\Product|' . $code, 'label' => $label
             );
         }
         $conditions = parent::getNewChildSelectOptions();
         $conditions = array_merge_recursive($conditions, array(
             array(
-                'value' => 'Magento_CatalogRule_Model_Rule_Condition_Combine',
+                'value' => 'Magento\CatalogRule\Model\Rule\Condition\Combine',
                 'label' => __('Conditions Combination')
             ),
             array(

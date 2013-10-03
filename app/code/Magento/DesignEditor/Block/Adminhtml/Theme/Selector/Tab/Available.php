@@ -11,8 +11,10 @@
 /**
  * Theme selector tab for available themes
  */
-class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_Tab_Available
-    extends Magento_DesignEditor_Block_Adminhtml_Theme_Selector_Tab_TabAbstract
+namespace Magento\DesignEditor\Block\Adminhtml\Theme\Selector\Tab;
+
+class Available
+    extends \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\Tab\AbstractTab
 {
     /**
      * Return tab content, available theme list

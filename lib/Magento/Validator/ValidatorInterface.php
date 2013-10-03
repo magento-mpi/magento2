@@ -7,20 +7,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Validator_ValidatorInterface extends Zend_Validate_Interface
+namespace Magento\Validator;
+
+interface ValidatorInterface extends \Zend_Validate_Interface
 {
     /**
      * Set translator instance.
      *
-     * @param Magento_Translate_AdapterInterface|null $translator
-     * @return Magento_Validator_ValidatorInterface
+     * @param \Magento\Translate\AdapterInterface|null $translator
+     * @return \Magento\Validator\ValidatorInterface
      */
     public function setTranslator($translator = null);
 
     /**
      * Get translator.
      *
-     * @return Magento_Translate_AdapterInterface|null
+     * @return \Magento\Translate\AdapterInterface|null
      */
     public function getTranslator();
 

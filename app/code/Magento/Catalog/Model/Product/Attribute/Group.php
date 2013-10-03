@@ -9,32 +9,34 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Model_Product_Attribute_Group extends Magento_Eav_Model_Entity_Attribute_Group
+namespace Magento\Catalog\Model\Product\Attribute;
+
+class Group extends \Magento\Eav\Model\Entity\Attribute\Group
 {
 
     /**
      * Attribute collection factory
      *
-     * @var Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory
+     * @var \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory
      */
     protected $_attributeCollectionFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $attributeCollectionFactory
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $attributeCollectionFactory,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_attributeCollectionFactory = $attributeCollectionFactory;
@@ -49,7 +51,7 @@ class Magento_Catalog_Model_Product_Attribute_Group extends Magento_Eav_Model_En
     public function hasSystemAttributes()
     {
         $result = false;
-        /** @var $attributesCollection Magento_Catalog_Model_Resource_Product_Attribute_Collection */
+        /** @var $attributesCollection \Magento\Catalog\Model\Resource\Product\Attribute\Collection */
         $attributesCollection = $this->_attributeCollectionFactory->create();
         $attributesCollection->setAttributeGroupFilter($this->getId());
         foreach ($attributesCollection as $attribute) {
@@ -69,7 +71,7 @@ class Magento_Catalog_Model_Product_Attribute_Group extends Magento_Eav_Model_En
     public function hasConfigurableAttributes()
     {
         $result = false;
-        /** @var $attributesCollection Magento_Catalog_Model_Resource_Product_Attribute_Collection */
+        /** @var $attributesCollection \Magento\Catalog\Model\Resource\Product\Attribute\Collection */
         $attributesCollection = $this->_attributeCollectionFactory->create();
         $attributesCollection->setAttributeGroupFilter($this->getId());
         foreach ($attributesCollection as $attribute) {

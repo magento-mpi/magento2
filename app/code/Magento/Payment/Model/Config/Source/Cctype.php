@@ -6,21 +6,23 @@
  * @license     {license_link}
  */
 
-class Magento_Payment_Model_Config_Source_Cctype implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Payment\Model\Config\Source;
+
+class Cctype implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Payment config model
      *
-     * @var Magento_Payment_Model_Config
+     * @var \Magento\Payment\Model\Config
      */
     protected $_paymentConfig;
 
     /**
      * Construct
      *
-     * @param Magento_Payment_Model_Config $paymentConfig
+     * @param \Magento\Payment\Model\Config $paymentConfig
      */
-    public function __construct(Magento_Payment_Model_Config $paymentConfig)
+    public function __construct(\Magento\Payment\Model\Config $paymentConfig)
     {
         $this->_paymentConfig = $paymentConfig;
     }

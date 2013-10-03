@@ -7,19 +7,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Customer_Model_Address_Config_Reader extends Magento_Config_Reader_Filesystem
+namespace Magento\Customer\Model\Address\Config;
+
+class Reader extends \Magento\Config\Reader\Filesystem
 {
     /**
-     * @param Magento_Config_FileResolverInterface $fileResolver
-     * @param Magento_Customer_Model_Address_Config_Converter $converter
-     * @param Magento_Customer_Model_Address_Config_SchemaLocator $schemaLocator
-     * @param Magento_Config_ValidationStateInterface $validationState
+     * @param \Magento\Config\FileResolverInterface $fileResolver
+     * @param \Magento\Customer\Model\Address\Config\Converter $converter
+     * @param \Magento\Customer\Model\Address\Config\SchemaLocator $schemaLocator
+     * @param \Magento\Config\ValidationStateInterface $validationState
      */
     public function __construct(
-        Magento_Config_FileResolverInterface $fileResolver,
-        Magento_Customer_Model_Address_Config_Converter $converter,
-        Magento_Customer_Model_Address_Config_SchemaLocator $schemaLocator,
-        Magento_Config_ValidationStateInterface $validationState
+        \Magento\Config\FileResolverInterface $fileResolver,
+        \Magento\Customer\Model\Address\Config\Converter $converter,
+        \Magento\Customer\Model\Address\Config\SchemaLocator $schemaLocator,
+        \Magento\Config\ValidationStateInterface $validationState
     ) {
         parent::__construct(
             $fileResolver, $converter, $schemaLocator, $validationState, 'address_formats.xml', array(

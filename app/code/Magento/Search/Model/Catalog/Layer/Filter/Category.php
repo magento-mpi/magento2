@@ -16,35 +16,37 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Search_Model_Catalog_Layer_Filter_Category extends Magento_Catalog_Model_Layer_Filter_Category
+namespace Magento\Search\Model\Catalog\Layer\Filter;
+
+class Category extends \Magento\Catalog\Model\Layer\Filter\Category
 {
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
      * Construct
      *
-     * @param Magento_Catalog_Model_Layer_Filter_ItemFactory $filterItemFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Model_Layer $catalogLayer
-     * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Layer $catalogLayer
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Model_Layer_Filter_ItemFactory $filterItemFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Model_Layer $catalogLayer,
-        Magento_Catalog_Model_CategoryFactory $categoryFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Registry $coreRegistry,
+        \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Layer $catalogLayer,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -59,7 +61,7 @@ class Magento_Search_Model_Catalog_Layer_Filter_Category extends Magento_Catalog
      */
     protected function _getItemsData()
     {
-        /** @var $category Magento_Catalog_Model_Categeory */
+        /** @var $category \Magento\Catalog\Model\Categeory */
         $category   = $this->getCategory();
         $categories = $category->getChildrenCategories();
 
@@ -90,7 +92,7 @@ class Magento_Search_Model_Catalog_Layer_Filter_Category extends Magento_Catalog
     /**
      * Add params to faceted search
      *
-     * @return Magento_Search_Model_Catalog_Layer_Filter_Category
+     * @return \Magento\Search\Model\Catalog\Layer\Filter\Category
      */
     public function addFacetCondition()
     {

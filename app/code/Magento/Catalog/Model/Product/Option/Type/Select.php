@@ -15,7 +15,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Option_Type_Select extends Magento_Catalog_Model_Product_Option_Type_Default
+namespace Magento\Catalog\Model\Product\Option\Type;
+
+class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
 {
     /**
      * @var mixed
@@ -25,31 +27,31 @@ class Magento_Catalog_Model_Product_Option_Type_Select extends Magento_Catalog_M
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * Core string
      *
-     * @var Magento_Core_Helper_String
+     * @var \Magento\Core\Helper\String
      */
     protected $_coreString = null;
 
     /**
      * Construct
      *
-     * @param Magento_Checkout_Model_Session $checkoutSession
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Checkout_Model_Session $checkoutSession,
-        Magento_Core_Helper_String $coreString,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         array $data = array()
     ) {
         $this->_coreString = $coreString;
@@ -60,9 +62,9 @@ class Magento_Catalog_Model_Product_Option_Type_Select extends Magento_Catalog_M
     /**
      * Validate user input for option
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @param array $values All product option values, i.e. array (option_id => mixed, option_id => mixed...)
-     * @return Magento_Catalog_Model_Product_Option_Type_Default
+     * @return \Magento\Catalog\Model\Product\Option\Type\DefaultType
      */
     public function validateUserValue($values)
     {
@@ -73,14 +75,14 @@ class Magento_Catalog_Model_Product_Option_Type_Select extends Magento_Catalog_M
 
         if (empty($value) && $option->getIsRequire() && !$this->getSkipCheckRequiredOption()) {
             $this->setIsValid(false);
-            throw new Magento_Core_Exception(__('Please specify the product required option(s).'));
+            throw new \Magento\Core\Exception(__('Please specify the product required option(s).'));
         }
         if (!$this->_isSingleSelection()) {
             $valuesCollection = $option->getOptionValuesByOptionId($value, $this->getProduct()->getStoreId())
                 ->load();
             if ($valuesCollection->count() != count($value)) {
                 $this->setIsValid(false);
-                throw new Magento_Core_Exception(__('Please specify the product required option(s).'));
+                throw new \Magento\Core\Exception(__('Please specify the product required option(s).'));
             }
         }
         return $this;
@@ -89,7 +91,7 @@ class Magento_Catalog_Model_Product_Option_Type_Select extends Magento_Catalog_M
     /**
      * Prepare option value for cart
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @return mixed Prepared option value
      */
     public function prepareForCart()
@@ -333,8 +335,8 @@ class Magento_Catalog_Model_Product_Option_Type_Select extends Magento_Catalog_M
     protected function _isSingleSelection()
     {
         $_single = array(
-            Magento_Catalog_Model_Product_Option::OPTION_TYPE_DROP_DOWN,
-            Magento_Catalog_Model_Product_Option::OPTION_TYPE_RADIO
+            \Magento\Catalog\Model\Product\Option::OPTION_TYPE_DROP_DOWN,
+            \Magento\Catalog\Model\Product\Option::OPTION_TYPE_RADIO
         );
         return in_array($this->getOption()->getType(), $_single);
     }

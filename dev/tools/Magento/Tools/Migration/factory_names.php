@@ -9,12 +9,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-require realpath(dirname(dirname(dirname(__DIR__)))) . '/dev/tests/static/framework/bootstrap.php';
+require realpath(dirname(dirname(dirname(dirname(dirname(__DIR__)))))) . '/dev/tests/static/framework/bootstrap.php';
 
 // PHP code
-foreach (Magento_TestFramework_Utility_Files::init()->getPhpFiles(true, true, true, false) as $file) {
+foreach (\Magento\TestFramework\Utility\Files::init()->getPhpFiles(true, true, true, false) as $file) {
     $content = file_get_contents($file);
-    $classes = Magento_Test_Legacy_ClassesTest::collectPhpCodeClasses($content);
+    $classes = \Magento\TestFramework\Utility\Classes::collectPhpCodeClasses($content);
     $factoryNames = array_filter($classes, 'isFactoryName');
     if (!$factoryNames) {
         continue;
@@ -37,10 +37,10 @@ foreach (Magento_TestFramework_Utility_Files::init()->getPhpFiles(true, true, tr
 }
 
 // layouts
-$layouts = Magento_TestFramework_Utility_Files::init()->getLayoutFiles(array(), false);
+$layouts = \Magento\TestFramework\Utility\Files::init()->getLayoutFiles(array(), false);
 foreach ($layouts as $file) {
     $xml = simplexml_load_file($file);
-    $classes = Magento_TestFramework_Utility_Classes::collectLayoutClasses($xml);
+    $classes = \Magento\TestFramework\Utility\Classes::collectLayoutClasses($xml);
     $factoryNames = array_filter($classes, 'isFactoryName');
     if (!$factoryNames) {
         continue;
@@ -55,10 +55,10 @@ foreach ($layouts as $file) {
 }
 
 // modules in configuration and layouts
-$configs = Magento_TestFramework_Utility_Files::init()->getConfigFiles('*.xml',
+$configs = \Magento\TestFramework\Utility\Files::init()->getConfigFiles('*.xml',
     array('wsdl.xml', 'wsdl2.xml', 'wsi.xml'), false);
 foreach (array_merge($layouts, $configs) as $file) {
-    $modules = array_unique(Magento_TestFramework_Utility_Classes::getXmlAttributeValues(simplexml_load_file($file),
+    $modules = array_unique(\Magento\TestFramework\Utility\Classes::getXmlAttributeValues(simplexml_load_file($file),
             '//@module', 'module'));
     $factoryNames = array_filter($modules, 'isFactoryName');
     if (!$factoryNames) {
@@ -67,9 +67,14 @@ foreach (array_merge($layouts, $configs) as $file) {
     $search = array();
     $replace = array();
     foreach ($factoryNames as $factoryName) {
-        list($module,) = getModuleName($factoryName);
-        $search[] = 'module="' . $factoryName . '"';
-        $replace[] = 'module="' . implode('_', array_map('ucfirst', explode('_', $module))) . '"';
+        list($module,$name) = getModuleName($factoryName);
+        if ($module) {
+            $search[] = 'module="' . $factoryName . '"';
+            $replace[] = 'module="' . implode('\\', array_map('ucfirst', explode('_', $module))) . '"';
+        } else {
+            $search[] = 'module="' . $factoryName . '"';
+            $replace[] = 'module="' . implode('\\', array_map('ucfirst', explode('_', $name))) . '"';
+        }
     }
     replaceAndOutput($file, $search, $replace, $factoryNames);
 }
@@ -82,7 +87,8 @@ foreach (array_merge($layouts, $configs) as $file) {
  */
 function isFactoryName($class)
 {
-    return false !== strpos($class, '/') || preg_match('/^[a-z\d]+(_[A-Za-z\d]+)?$/', $class);
+    return (false !== strpos($class, '/') || preg_match('/^([A-Za-z\\d])+((_[A-Za-z\\d]+))+?$/', $class)
+        || preg_match('/^[a-z\d]+(_[A-Za-z\d]+)?$/', $class));
 }
 
 /**
@@ -93,15 +99,22 @@ function isFactoryName($class)
  */
 function getModuleName($factoryName)
 {
-    if (false !== strpos($factoryName, '/')) {
-        list($module, $name) = explode('/', $factoryName);
+    if (false !== strpos($factoryName, 'Magento_')) {
+        $module = false;
+        $name = $factoryName;
     } else {
-        $module = $factoryName;
-        $name = false;
+        if (false !== strpos($factoryName, '/')) {
+            list($module, $name) = explode('/', $factoryName);
+        } else {
+            $module = $factoryName;
+            $name = false;
+        }
+
+        if (false === strpos($module, '_')) {
+            $module = "Magento_{$factoryName}";
+        }
     }
-    if (false === strpos($module, '_')) {
-        $module = "Magento_{$module}";
-    }
+
     return array($module, $name);
 }
 
@@ -124,7 +137,13 @@ function addReplace($factoryName, $module, $name, $pattern, $suffix, &$search, &
         }
         $name = 'data';
     }
-    $realName = implode('_', array_map('ucfirst', explode('_', $module . $suffix . $name)));
+
+    if (empty($module)) {
+        $realName = '\\' . implode('\\', array_map('ucfirst', explode('_', $name)));
+    } else {
+        $realName = '\\' . implode('\\', array_map('ucfirst', explode('_', $module . $suffix . $name)));
+    }
+
     $search[] = sprintf($pattern, "{$factoryName}");
     $replace[] = sprintf($pattern, "{$realName}");
 }

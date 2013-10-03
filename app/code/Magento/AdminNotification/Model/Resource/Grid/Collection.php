@@ -15,14 +15,16 @@
  * @package     Magento_AdminNotification
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdminNotification_Model_Resource_Grid_Collection
-    extends Magento_AdminNotification_Model_Resource_Inbox_Collection
+namespace Magento\AdminNotification\Model\Resource\Grid;
+
+class Collection
+    extends \Magento\AdminNotification\Model\Resource\Inbox\Collection
 {
 
     /**
      * Add remove filter
      *
-     * @return Magento_AdminNotification_Model_Resource_Grid_Collection|Magento_Core_Model_Resource_Db_Collection_Abstract
+     * @return \Magento\AdminNotification\Model\Resource\Grid\Collection|\Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
     protected function _initSelect()
     {

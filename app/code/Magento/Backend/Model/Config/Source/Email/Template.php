@@ -5,34 +5,36 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Backend_Model_Config_Source_Email_Template extends Magento_Object
-    implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Backend\Model\Config\Source\Email;
+
+class Template extends \Magento\Object
+    implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     private $_coreRegistry;
 
     /**
-     * @var Magento_Core_Model_Email_Template_Config
+     * @var \Magento\Core\Model\Email\Template\Config
      */
     private $_emailConfig;
 
     /**
-     * @var Magento_Core_Model_Resource_Email_Template_CollectionFactory
+     * @var \Magento\Core\Model\Resource\Email\Template\CollectionFactory
      */
     protected $_templatesFactory;
 
     /**
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Core_Model_Resource_Email_Template_CollectionFactory $templatesFactory
-     * @param Magento_Core_Model_Email_Template_Config $emailConfig
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\Resource\Email\Template\CollectionFactory $templatesFactory
+     * @param \Magento\Core\Model\Email\Template\Config $emailConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Model_Resource_Email_Template_CollectionFactory $templatesFactory,
-        Magento_Core_Model_Email_Template_Config $emailConfig,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\Resource\Email\Template\CollectionFactory $templatesFactory,
+        \Magento\Core\Model\Email\Template\Config $emailConfig,
         array $data = array()
     ) {
         parent::__construct($data);
@@ -48,7 +50,7 @@ class Magento_Backend_Model_Config_Source_Email_Template extends Magento_Object
      */
     public function toOptionArray()
     {
-        /** @var $collection Magento_Core_Model_Resource_Email_Template_Collection */
+        /** @var $collection \Magento\Core\Model\Resource\Email\Template\Collection */
         if (!$collection = $this->_coreRegistry->registry('config_system_email_template')) {
             $collection = $this->_templatesFactory->create();
             $collection->load();

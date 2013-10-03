@@ -11,7 +11,9 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Backend_Controller_ActionAbstract
+namespace Magento\Oauth\Controller\Adminhtml\Oauth;
+
+class Consumer extends \Magento\Backend\Controller\AbstractAction
 {
     /** Param Key for extracting consumer id from Request */
     const PARAM_CONSUMER_ID = 'id';
@@ -29,39 +31,39 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Backend_
     /** Key use for storing/retrieving consumer data in/from the session */
     const SESSION_KEY_CONSUMER_DATA = 'consumer_data';
 
-    /** @var Magento_Core_Model_Registry  */
+    /** @var \Magento\Core\Model\Registry  */
     private $_registry;
 
-    /** @var Magento_Oauth_Model_Consumer_Factory */
+    /** @var \Magento\Oauth\Model\Consumer\Factory */
     private $_consumerFactory;
 
-    /** @var Magento_Oauth_Service_OauthV1Interface */
+    /** @var \Magento\Oauth\Service\OauthV1Interface */
     private $_oauthService;
 
-    /** @var Magento_Oauth_Helper_Service */
+    /** @var \Magento\Oauth\Helper\Service */
     protected $_oauthHelper;
 
-    /** @var Magento_Core_Model_Logger */
+    /** @var \Magento\Core\Model\Logger */
     protected $_logger;
 
     /**
      * Class constructor
      *
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Oauth_Helper_Service $oauthHelper
-     * @param Magento_Oauth_Model_Consumer_Factory $consumerFactory
-     * @param Magento_Oauth_Service_OauthV1Interface $oauthService
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Backend_Controller_Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Oauth\Helper\Service $oauthHelper
+     * @param \Magento\Oauth\Model\Consumer\Factory $consumerFactory
+     * @param \Magento\Oauth\Service\OauthV1Interface $oauthService
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Backend\Controller\Context $context
      * @param string $areaCode
      */
     public function __construct(
-        Magento_Core_Model_Registry $registry,
-        Magento_Oauth_Helper_Service $oauthHelper,
-        Magento_Oauth_Model_Consumer_Factory $consumerFactory,
-        Magento_Oauth_Service_OauthV1Interface $oauthService,
-        Magento_Core_Model_Logger $logger,
-        Magento_Backend_Controller_Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Oauth\Helper\Service $oauthHelper,
+        \Magento\Oauth\Model\Consumer\Factory $consumerFactory,
+        \Magento\Oauth\Service\OauthV1Interface $oauthService,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Backend\Controller\Context $context,
         $areaCode = null
     ) {
         parent::__construct($context, $areaCode);
@@ -75,7 +77,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Backend_
     /**
      * Perform layout initialization actions
      *
-     * @return Magento_Oauth_Controller_Adminhtml_Oauth_Consumer
+     * @return \Magento\Oauth\Controller\Adminhtml\Oauth\Consumer
      */
     protected function _initAction()
     {
@@ -104,7 +106,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Backend_
      * Retrieve the consumer.
      *
      * @param int $consumerId - The ID of the consumer
-     * @return Magento_Oauth_Model_Consumer
+     * @return \Magento\Oauth\Model\Consumer
      */
     protected function _fetchConsumer($consumerId)
     {
@@ -130,7 +132,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Backend_
     /**
      * Init titles
      *
-     * @return Magento_Oauth_Controller_Adminhtml_Oauth_Consumer
+     * @return \Magento\Oauth\Controller\Adminhtml\Oauth\Consumer
      */
     public function preDispatch()
     {
@@ -244,11 +246,11 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Backend_
             $verifier = $this->_oauthService->postToConsumer(array(self::DATA_CONSUMER_ID => $consumerId));
             $this->_getSession()->addSuccess(__('The add-on has been saved.'));
             $this->_setFormData(null);
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_setFormData($data);
             $this->_getSession()->addError($this->_oauthHelper->escapeHtml($e->getMessage()));
             $this->getRequest()->setParam('back', 'edit');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_setFormData(null);
             $this->_logger->logException($e);
             $this->_getSession()->addError(__('An error occurred on saving consumer data.'));
@@ -309,7 +311,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Backend_
      * Set form data
      *
      * @param $data
-     * @return Magento_Oauth_Controller_Adminhtml_Oauth_Consumer
+     * @return \Magento\Oauth\Controller\Adminhtml\Oauth\Consumer
      */
     protected function _setFormData($data)
     {
@@ -327,9 +329,9 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Backend_
             try {
                 $this->_fetchConsumer($consumerId)->delete();
                 $this->_getSession()->addSuccess(__('The add-on has been deleted.'));
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_getSession()
                     ->addException($e, __('An error occurred while deleting the add-on.'));
             }

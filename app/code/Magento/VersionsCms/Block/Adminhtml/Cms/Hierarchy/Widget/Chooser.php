@@ -11,33 +11,35 @@
 /**
  * Cms Pages Hierarchy Grid Block
  *
- * @method Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser setScope(string $value)
- * @method Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser setScopeId(int $value)
+ * @method \Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Chooser setScope(string $value)
+ * @method \Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Chooser setScopeId(int $value)
  */
-class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends Magento_Adminhtml_Block_Template
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget;
+
+class Chooser extends \Magento\Adminhtml\Block\Template
 {
     /**
-     * @var Magento_VersionsCms_Model_Hierarchy_NodeFactory
+     * @var \Magento\VersionsCms\Model\Hierarchy\NodeFactory
      */
     protected $_nodeFactory;
 
     /**
-     * @var Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Radio
+     * @var \Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Radio
      */
     protected $_widgetRadio;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_VersionsCms_Model_Hierarchy_NodeFactory $nodeFactory
-     * @param Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Radio $widgetRadio
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory
+     * @param \Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Radio $widgetRadio
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_VersionsCms_Model_Hierarchy_NodeFactory $nodeFactory,
-        Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Radio $widgetRadio,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory,
+        \Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Radio $widgetRadio,
         array $data = array()
     ) {
         $this->_nodeFactory = $nodeFactory;
@@ -48,15 +50,15 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends M
     /**
      * Prepare chooser element HTML
      *
-     * @param Magento_Data_Form_Element_Abstract $element Form Element
-     * @return Magento_Data_Form_Element_Abstract
+     * @param \Magento\Data\Form\Element\AbstractElement $element Form Element
+     * @return \Magento\Data\Form\Element\AbstractElement
      */
-    public function prepareElementHtml(Magento_Data_Form_Element_Abstract $element)
+    public function prepareElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $uniqueId = $this->_coreData->uniqHash($element->getId());
         $sourceUrl = $this->getUrl('*/cms_hierarchy_widget/chooser', array('uniq_id' => $uniqueId));
 
-        $chooser = $this->getLayout()->createBlock('Magento_Widget_Block_Adminhtml_Widget_Chooser')
+        $chooser = $this->getLayout()->createBlock('Magento\Widget\Block\Adminhtml\Widget\Chooser')
             ->setElement($element)
             ->setConfig($this->getConfig())
             ->setFieldsetId($this->getFieldsetId())
@@ -169,7 +171,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends M
      */
     public function getNodes()
     {
-        /** @var $hierarchyNode Magento_VersionsCms_Model_Hierarchy_Node */
+        /** @var $hierarchyNode \Magento\VersionsCms\Model\Hierarchy\Node */
         $hierarchyNode = $this->_nodeFactory->create();
         $hierarchyNode->setScope($this->getScope());
         $hierarchyNode->setScopeId($this->getScopeId());

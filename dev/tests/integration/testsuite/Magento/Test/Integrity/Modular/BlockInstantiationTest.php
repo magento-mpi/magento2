@@ -9,13 +9,15 @@
  * @license     {license_link}
  */
 
+namespace Magento\Test\Integrity\Modular;
+
 /**
  * This test ensures that all blocks have the appropriate constructor arguments that allow
  * them to be instantiated via the objectManager.
  *
  * @magentoAppIsolation
  */
-class Magento_Test_Integrity_Modular_BlockInstantiationTest extends Magento_TestFramework_TestCase_IntegrityAbstract
+class BlockInstantiationTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
 {
     /**
      * @param string $module
@@ -27,15 +29,15 @@ class Magento_Test_Integrity_Modular_BlockInstantiationTest extends Magento_Test
     {
         $this->assertNotEmpty($module);
         $this->assertTrue(class_exists($class), "Block class: {$class}");
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_Config_Scope')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\Config\Scope')
             ->setCurrentScope($area);
 
-        /** @var Magento_Core_Model_App $app */
-        $app = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App');
+        /** @var \Magento\Core\Model\App $app */
+        $app = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App');
         $app->loadArea($area);
 
-        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create($class);
         $this->assertNotNull($block);
     }
@@ -47,28 +49,28 @@ class Magento_Test_Integrity_Modular_BlockInstantiationTest extends Magento_Test
     {
         $blockClass = '';
         try {
-            /** @var $website Magento_Core_Model_Website */
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            /** @var $website \Magento\Core\Model\Website */
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
                 ->getStore()->setWebsiteId(0);
 
             $enabledModules = $this->_getEnabledModules();
             $skipBlocks = $this->_getBlocksToSkip();
             $templateBlocks = array();
-            $blockMods = Magento_TestFramework_Utility_Classes::collectModuleClasses('Block');
+            $blockMods = \Magento\TestFramework\Utility\Classes::collectModuleClasses('Block');
             foreach ($blockMods as $blockClass => $module) {
                 if (!isset($enabledModules[$module]) || isset($skipBlocks[$blockClass])) {
                     continue;
                 }
-                $class = new ReflectionClass($blockClass);
-                if ($class->isAbstract() || !$class->isSubclassOf('Magento_Core_Block_Template')) {
+                $class = new \ReflectionClass($blockClass);
+                if ($class->isAbstract() || !$class->isSubclassOf('Magento\Core\Block\Template')) {
                     continue;
                 }
                 $templateBlocks = $this->_addBlock($module, $blockClass, $class, $templateBlocks);
             }
             return $templateBlocks;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             trigger_error("Corrupted data provider. Last known block instantiation attempt: '{$blockClass}'."
-                . " Exception: {$e}", E_USER_ERROR);
+                . " \Exception: {$e}", E_USER_ERROR);
         }
     }
 
@@ -99,15 +101,15 @@ class Magento_Test_Integrity_Modular_BlockInstantiationTest extends Magento_Test
         $area = 'frontend';
         if ($module == 'Magento_Install') {
             $area = 'install';
-        } elseif ($module == 'Magento_Adminhtml' || strpos($blockClass, '_Adminhtml_')
+        } elseif ($module == 'Magento_Adminhtml' || strpos($blockClass, '\\Adminhtml\\')
             || strpos($blockClass, '_Backend_')
-            || $class->isSubclassOf('Magento_Backend_Block_Template')
+            || $class->isSubclassOf('Magento\Backend\Block\Template')
         ) {
             $area = 'adminhtml';
         }
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')->loadAreaPart(
-            Magento_Core_Model_App_Area::AREA_ADMINHTML,
-            Magento_Core_Model_App_Area::PART_CONFIG
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')->loadAreaPart(
+            \Magento\Core\Model\App\Area::AREA_ADMINHTML,
+            \Magento\Core\Model\App\Area::PART_CONFIG
         );
         $templateBlocks[$module . ', ' . $blockClass . ', ' . $area]
             = array($module, $blockClass, $area);

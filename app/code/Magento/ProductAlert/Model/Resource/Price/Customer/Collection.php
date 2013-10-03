@@ -16,15 +16,17 @@
  * @package     Magento_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ProductAlert_Model_Resource_Price_Customer_Collection
-    extends Magento_Customer_Model_Resource_Customer_Collection
+namespace Magento\ProductAlert\Model\Resource\Price\Customer;
+
+class Collection
+    extends \Magento\Customer\Model\Resource\Customer\Collection
 {
     /**
      * join productalert price data to customer collection
      *
      * @param int $productId
      * @param int $websiteId
-     * @return Magento_ProductAlert_Model_Resource_Price_Customer_Collection
+     * @return \Magento\ProductAlert\Model\Resource\Price\Customer\Collection
      */
     public function join($productId, $websiteId)
     {

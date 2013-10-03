@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-interface Magento_GiftRegistry_Model_Attribute_ConfigInterface
+namespace Magento\GiftRegistry\Model\Attribute;
+
+interface ConfigInterface
 {
     /**
      * Return array of attribute types for using as options

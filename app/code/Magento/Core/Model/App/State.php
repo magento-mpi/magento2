@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_App_State
+namespace Magento\Core\Model\App;
+
+class State
 {
     /**
      * Application mode
@@ -51,7 +53,7 @@ class Magento_Core_Model_App_State
     /**
      * @param string $installDate
      * @param string $mode
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function __construct($installDate, $mode = self::MODE_DEFAULT)
     {
@@ -63,7 +65,7 @@ class Magento_Core_Model_App_State
                 $this->_appMode = $mode;
                 break;
             default:
-                throw new Magento_Core_Exception("Unknown application mode: {$mode}");
+                throw new \Magento\Core\Exception("Unknown application mode: {$mode}");
         }
     }
 

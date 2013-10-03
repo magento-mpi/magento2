@@ -15,7 +15,9 @@
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Order_Pdf_Items_Invoice_Grouped extends Magento_Sales_Model_Order_Pdf_Items_Invoice_Default
+namespace Magento\Sales\Model\Order\Pdf\Items\Invoice;
+
+class Grouped extends \Magento\Sales\Model\Order\Pdf\Items\Invoice\DefaultInvoice
 {
     /**
      * Draw process

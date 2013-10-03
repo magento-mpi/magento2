@@ -9,15 +9,15 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceContainer name="content">
-        <block class="Magento_GiftWrapping_Block_Adminhtml_Giftwrapping" name="magento_giftwrapping">
-            <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.block.giftwrapping.grid" as="grid">
+        <block class="Magento\GiftWrapping\Block\Adminhtml\Giftwrapping" name="magento_giftwrapping">
+            <block class="Magento\Backend\Block\Widget\Grid" name="adminhtml.block.giftwrapping.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">giftwrappingGrid</argument>
-                    <argument name="dataSource" xsi:type="object">Magento_GiftWrapping_Model_Resource_Wrapping_Grid_Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento\GiftWrapping\Model\Resource\Wrapping\Grid\Collection</argument>
                     <argument name="default_sort" xsi:type="string">wrapping_id</argument>
                     <argument name="default_dir" xsi:type="string">ASC</argument>
                 </arguments>
-                <block class="Magento_Backend_Block_Widget_Grid_Massaction" name="adminhtml.block.giftwrapping.massactions" as="grid.massaction">
+                <block class="Magento\Backend\Block\Widget\Grid\Massaction" name="adminhtml.block.giftwrapping.massactions" as="grid.massaction">
                     <arguments>
                         <argument name="massaction_id_field" xsi:type="string">wrapping_id</argument>
                         <argument name="form_field_name" xsi:type="string">wrapping_ids</argument>
@@ -35,7 +35,7 @@
                             </item>
                         </argument>
                     </arguments>
-                    <block class="Magento_Backend_Block_Widget_Grid_Massaction_Additional" name="adminhtml.block.giftwrapping.massactions.status" as="status">
+                    <block class="Magento\Backend\Block\Widget\Grid\Massaction\Additional" name="adminhtml.block.giftwrapping.massactions.status" as="status">
                         <arguments>
                             <argument name="fields" xsi:type="array">
                                 <item name="visibility" xsi:type="array">
@@ -43,13 +43,13 @@
                                     <item name="type" xsi:type="string">select</item>
                                     <item name="class" xsi:type="string">required-entry</item>
                                     <item name="label" xsi:type="string" translate="true">Status</item>
-                                    <item name="values" xsi:type="string">Magento_GiftWrapping_Model_MassOptions</item>
+                                    <item name="values" xsi:type="string">Magento\GiftWrapping\Model\MassOptions</item>
                                 </item>
                             </argument>
                         </arguments>
                     </block>
                 </block>
-                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet">
+                <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" as="grid.columnSet">
                     <arguments>
                         <argument name="id" xsi:type="string">giftwrappingGrid</argument>
                         <argument name="rowUrl" xsi:type="array">
@@ -59,7 +59,7 @@
                             </item>
                         </argument>
                     </arguments>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="wrapping_id">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="wrapping_id">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">ID</argument>
                             <argument name="type" xsi:type="string">number</argument>
@@ -68,7 +68,7 @@
                             <argument name="column_css_class" xsi:type="string">col-id</argument>
                         </arguments>
                     </block>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="design">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="design">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Gift Wrap Design</argument>
                             <argument name="index" xsi:type="string">design</argument>
@@ -76,19 +76,19 @@
                             <argument name="column_css_class" xsi:type="string">col-design</argument>
                         </arguments>
                     </block>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="websites">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column\Multistore" as="websites">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Websites</argument>
                             <argument name="type" xsi:type="string">options</argument>
                             <argument name="sortable" xsi:type="string">0</argument>
                             <argument name="index" xsi:type="string">website_ids</argument>
                             <argument name="id" xsi:type="string">websites</argument>
-                            <argument name="options" xsi:type="options" model="Magento_Backend_Model_Config_Source_Website_OptionHash"/>
+                            <argument name="options" xsi:type="options" model="Magento\Backend\Model\Config\Source\Website\OptionHash"/>
                             <argument name="header_css_class" xsi:type="string">col-websites</argument>
                             <argument name="column_css_class" xsi:type="string">col-websites</argument>
                         </arguments>
                     </block>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="status">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="status">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Status</argument>
                             <argument name="type" xsi:type="string">options</argument>
@@ -109,7 +109,7 @@
                             <argument name="column_css_class" xsi:type="string">col-status</argument>
                         </arguments>
                     </block>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="base_price">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="base_price">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Price</argument>
                             <argument name="index" xsi:type="string">base_price</argument>
@@ -119,7 +119,7 @@
                             <argument name="column_css_class" xsi:type="string">col-price</argument>
                         </arguments>
                     </block>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="action">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="action">
                         <arguments>
                             <argument name="id" xsi:type="string">action</argument>
                             <argument name="header" xsi:type="string" translate="true">Action</argument>

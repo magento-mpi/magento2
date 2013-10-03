@@ -9,23 +9,25 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Helper_Product_FlatTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Helper\Product;
+
+class FlatTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Helper_Product_Flat
+     * @var \Magento\Catalog\Helper\Product\Flat
      */
     protected $_helper;
 
     protected function setUp()
     {
-        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Catalog_Helper_Product_Flat');
+        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Catalog\Helper\Product\Flat');
     }
 
     public function testGetFlag()
     {
         $flag = $this->_helper->getFlag();
-        $this->assertInstanceOf('Magento_Catalog_Model_Product_Flat_Flag', $flag);
+        $this->assertInstanceOf('Magento\Catalog\Model\Product\Flat\Flag', $flag);
     }
 
     public function testIsBuilt()
@@ -37,7 +39,7 @@ class Magento_Catalog_Helper_Product_FlatTest extends PHPUnit_Framework_TestCase
             $this->assertTrue($this->_helper->isBuilt());
 
             $flag->setIsBuilt(false);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $flag->setIsBuilt(false);
             throw $e;
         }
@@ -64,8 +66,8 @@ class Magento_Catalog_Helper_Product_FlatTest extends PHPUnit_Framework_TestCase
 
     public function testIsAddFilterableAttributes()
     {
-        $helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Helper_Product_Flat', array('addFilterableAttrs' => 1));
+        $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Helper\Product\Flat', array('addFilterableAttrs' => 1));
         $this->assertEquals(1, $helper->isAddFilterableAttributes());
     }
 
@@ -76,8 +78,8 @@ class Magento_Catalog_Helper_Product_FlatTest extends PHPUnit_Framework_TestCase
 
     public function testIsAddChildData()
     {
-        $helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Helper_Product_Flat', array('addChildData' => 1));
+        $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Helper\Product\Flat', array('addChildData' => 1));
         $this->assertEquals(1, $helper->isAddChildData());
     }
 }

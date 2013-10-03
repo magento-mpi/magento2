@@ -15,51 +15,53 @@
  * @category   Magento
  * @package    Magento_CustomerBalance
  */
-class Magento_CustomerBalance_Block_Checkout_Onepage_Payment_Additional extends Magento_Core_Block_Template
+namespace Magento\CustomerBalance\Block\Checkout\Onepage\Payment;
+
+class Additional extends \Magento\Core\Block\Template
 {
     /**
      * Customer balance instance
      *
-     * @var Magento_CustomerBalance_Model_Balance
+     * @var \Magento\CustomerBalance\Model\Balance
      */
     protected $_balanceModel = null;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @var Magento_Checkout_Model_Session
+     * @var \Magento\Checkout\Model\Session
      */
     protected $_checkoutSession;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_CustomerBalance_Model_BalanceFactory
+     * @var \Magento\CustomerBalance\Model\BalanceFactory
      */
     protected $_balanceFactory;
 
     /**
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_CustomerBalance_Model_BalanceFactory $balanceFactory
-     * @param Magento_Checkout_Model_Session $checkoutSession
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_CustomerBalance_Model_BalanceFactory $balanceFactory,
-        Magento_Checkout_Model_Session $checkoutSession,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -72,7 +74,7 @@ class Magento_CustomerBalance_Block_Checkout_Onepage_Payment_Additional extends 
     /**
      * Get quote instance
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     protected function _getQuote()
     {
@@ -82,7 +84,7 @@ class Magento_CustomerBalance_Block_Checkout_Onepage_Payment_Additional extends 
     /**
      * Getter
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {
@@ -92,7 +94,7 @@ class Magento_CustomerBalance_Block_Checkout_Onepage_Payment_Additional extends 
     /**
      * Get balance instance
      *
-     * @return Magento_CustomerBalance_Model_Balance
+     * @return \Magento\CustomerBalance\Model\Balance
      */
     protected function _getBalanceModel()
     {
@@ -113,7 +115,7 @@ class Magento_CustomerBalance_Block_Checkout_Onepage_Payment_Additional extends 
     /**
      * Get customer instance
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     protected function _getCustomer()
     {

@@ -11,7 +11,9 @@
 /**
  * Reminder rules observer model
  */
-class Magento_Reminder_Model_Observer
+namespace Magento\Reminder\Model;
+
+class Observer
 {
     const CRON_MINUTELY = 'I';
     const CRON_HOURLY   = 'H';
@@ -20,24 +22,24 @@ class Magento_Reminder_Model_Observer
     /**
      * Reminder data
      *
-     * @var Magento_Reminder_Helper_Data
+     * @var \Magento\Reminder\Helper\Data
      */
     protected $_reminderData = null;
 
     /**
      * Remainder Rule Factory
      *
-     * @var Magento_Reminder_Model_RuleFactory
+     * @var \Magento\Reminder\Model\RuleFactory
      */
     protected $_ruleFactory;
 
     /**
-     * @param Magento_Reminder_Helper_Data $reminderData
-     * @param Magento_Reminder_Model_RuleFactory $ruleFactory
+     * @param \Magento\Reminder\Helper\Data $reminderData
+     * @param \Magento\Reminder\Model\RuleFactory $ruleFactory
      */
     public function __construct(
-        Magento_Reminder_Helper_Data $reminderData,
-        Magento_Reminder_Model_RuleFactory $ruleFactory
+        \Magento\Reminder\Helper\Data $reminderData,
+        \Magento\Reminder\Model\RuleFactory $ruleFactory
     ) {
         $this->_reminderData = $reminderData;
         $this->_ruleFactory = $ruleFactory;
@@ -46,8 +48,8 @@ class Magento_Reminder_Model_Observer
     /**
      * Include auto coupon type
      *
-     * @param   Magento_Event_Observer $observer
-     * @return  Magento_Reminder_Model_Observer
+     * @param   \Magento\Event\Observer $observer
+     * @return  \Magento\Reminder\Model\Observer
      */
     public function getCouponTypes($observer)
     {
@@ -60,8 +62,8 @@ class Magento_Reminder_Model_Observer
     /**
      * Add custom comment after coupon type field
      *
-     * @param   Magento_Event_Observer $observer
-     * @return  Magento_Reminder_Model_Observer
+     * @param   \Magento\Event\Observer $observer
+     * @return  \Magento\Reminder\Model\Observer
      */
     public function updatePromoQuoteTabMainForm($observer)
     {
@@ -111,7 +113,7 @@ class Magento_Reminder_Model_Observer
     /**
      * Send scheduled notifications
      *
-     * @return Magento_Reminder_Model_Observer
+     * @return \Magento\Reminder\Model\Observer
      */
     public function scheduledNotification()
     {
@@ -125,7 +127,7 @@ class Magento_Reminder_Model_Observer
      * Checks whether Sales Rule can be used in Email Remainder Rules and if it cant -
      * detaches it from Email Remainder Rules
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function detachUnsupportedSalesRule($observer)
     {
@@ -133,7 +135,7 @@ class Magento_Reminder_Model_Observer
         $couponType = $rule->getCouponType();
         $autoGeneration = $rule->getUseAutoGeneration();
 
-        if ($couponType == Magento_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC && !empty($autoGeneration)) {
+        if ($couponType == \Magento\SalesRule\Model\Rule::COUPON_TYPE_SPECIFIC && !empty($autoGeneration)) {
             $model = $this->_ruleFactory->create();
             $ruleId = $rule->getId();
             $model->detachSalesRule($ruleId);
@@ -143,7 +145,7 @@ class Magento_Reminder_Model_Observer
     /**
      * Adds filter to collection which excludes all rules that can't be used in Email Remainder Rules
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function addSalesRuleFilter($observer)
     {
@@ -154,7 +156,7 @@ class Magento_Reminder_Model_Observer
     /**
      * Adds notice to "Use Auto Generation" checkbox
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function addUseAutoGenerationNotice($observer)
     {

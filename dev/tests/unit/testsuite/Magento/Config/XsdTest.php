@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Config_XsdTest extends PHPUnit_Framework_TestCase
+namespace Magento\Config;
+
+class XsdTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string $xsdFile
@@ -19,7 +21,7 @@ class Magento_Config_XsdTest extends PHPUnit_Framework_TestCase
      */
     public function testInvalidXmlFile($xsdFile, $invalidXmlFile, $expectedErrorsQty)
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->load(__DIR__ . "/_files/{$invalidXmlFile}");
         libxml_use_internal_errors(true);
         $result = $dom->schemaValidate(__DIR__ . "/../../../../../../lib/Magento/Config/etc/{$xsdFile}");

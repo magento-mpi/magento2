@@ -17,7 +17,9 @@
  * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Attribute_Data_Postcode extends Magento_Eav_Model_Attribute_Data_Text
+namespace Magento\Customer\Model\Attribute\Data;
+
+class Postcode extends \Magento\Eav\Model\Attribute\Data\Text
 {
     /**
      * Validate postal/zip code
@@ -29,21 +31,21 @@ class Magento_Customer_Model_Attribute_Data_Postcode extends Magento_Eav_Model_A
     /**
      * Directory data
      *
-     * @var Magento_Directory_Helper_Data
+     * @var \Magento\Directory\Helper\Data
      */
     protected $_directoryData = null;
 
     /**
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Helper_String $stringHelper
-     * @param Magento_Directory_Helper_Data $directoryData
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Helper\String $stringHelper
+     * @param \Magento\Directory\Helper\Data $directoryData
      */
     public function __construct(
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Helper_String $stringHelper,
-        Magento_Directory_Helper_Data $directoryData
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Helper\String $stringHelper,
+        \Magento\Directory\Helper\Data $directoryData
     ) {
         $this->_directoryData = $directoryData;
         parent::__construct($locale, $logger, $stringHelper);

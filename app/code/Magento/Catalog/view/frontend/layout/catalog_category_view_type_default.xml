@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Non Anchor Catalog Category" type="page" parent="catalog_category_view">
     <referenceContainer name="left">
-        <block class="Magento_Catalog_Block_Navigation" name="catalog.leftnav" after="currency" template="navigation/left.phtml"/>
+        <block class="Magento\Catalog\Block\Navigation" name="catalog.leftnav" after="currency" template="navigation/left.phtml"/>
     </referenceContainer>
 </layout>

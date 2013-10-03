@@ -8,32 +8,32 @@
  */
 -->
 <config>
-    <type name="Magento_AdvancedCheckout_Model_Cart">
+    <type name="Magento\AdvancedCheckout\Model\Cart">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_AdvancedCheckout_Helper_Data">
+    <type name="Magento\AdvancedCheckout\Helper\Data">
         <param name="cart">
-            <instance type="Magento_AdvancedCheckout_Model_Cart_Proxy" />
+            <instance type="Magento\AdvancedCheckout\Model\Cart\Proxy" />
         </param>
         <param name="url">
-            <instance type="Magento_Core_Model_Url_Proxy" />
+            <instance type="Magento\Core\Model\Url\Proxy" />
         </param>
         <param name="catalogConfig">
-            <instance type="Magento_Catalog_Model_Config_Proxy" />
+            <instance type="Magento\Catalog\Model\Config\Proxy" />
         </param>
         <param name="session">
-            <instance type="Magento_Customer_Model_Session_Proxy" />
+            <instance type="Magento\Customer\Model\Session\Proxy" />
         </param>
         <param name="customerSession">
-            <instance type="Magento_Customer_Model_Session_Proxy" />
+            <instance type="Magento\Customer\Model\Session\Proxy" />
         </param>
         <param name="checkoutSession">
-            <instance type="Magento_Checkout_Model_Session_Proxy" />
+            <instance type="Magento\Checkout\Model\Session\Proxy" />
         </param>
         <param name="coreStoreConfig">
-            <instance type="Magento_Core_Model_Store_Config_Proxy" />
+            <instance type="Magento\Core\Model\Store\Config\Proxy" />
         </param>
     </type>
 </config>

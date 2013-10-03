@@ -16,34 +16,36 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Resource_Review_Customer_Collection extends Magento_Review_Model_Resource_Review_Collection
+namespace Magento\Reports\Model\Resource\Review\Customer;
+
+class Collection extends \Magento\Review\Model\Resource\Review\Collection
 {
     /**
-     * @var Magento_Customer_Model_Resource_Customer
+     * @var \Magento\Customer\Model\Resource\Customer
      */
     protected $_customerResource;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Review_Helper_Data $reviewData
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Rating_Model_Rating_Option_VoteFactory $voteFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Customer_Model_Resource_Customer $customerResource
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Review\Helper\Data $reviewData
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Rating\Model\Rating\Option\VoteFactory $voteFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Customer\Model\Resource\Customer $customerResource
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Review_Helper_Data $reviewData,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Rating_Model_Rating_Option_VoteFactory $voteFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Customer_Model_Resource_Customer $customerResource,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Review\Helper\Data $reviewData,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Rating\Model\Rating\Option\VoteFactory $voteFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Customer\Model\Resource\Customer $customerResource,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_customerResource = $customerResource;
         parent::__construct(
@@ -55,7 +57,7 @@ class Magento_Reports_Model_Resource_Review_Customer_Collection extends Magento_
     /**
      * Init Select
      *
-     * @return Magento_Reports_Model_Resource_Review_Customer_Collection
+     * @return \Magento\Reports\Model\Resource\Review\Customer\Collection
      */
     protected function _initSelect()
     {
@@ -67,15 +69,15 @@ class Magento_Reports_Model_Resource_Review_Customer_Collection extends Magento_
     /**
      * Join customers
      *
-     * @return Magento_Reports_Model_Resource_Review_Customer_Collection
+     * @return \Magento\Reports\Model\Resource\Review\Customer\Collection
      */
     protected function _joinCustomers()
     {
-        /** @var $adapter Magento_DB_Adapter_Interface */
+        /** @var $adapter \Magento\DB\Adapter\AdapterInterface */
         $adapter            = $this->getConnection();
-        /** @var $firstnameAttr Magento_Eav_Model_Entity_Attribute */
+        /** @var $firstnameAttr \Magento\Eav\Model\Entity\Attribute */
         $firstnameAttr      = $this->_customerResource->getAttribute('firstname');
-        /** @var $lastnameAttr Magento_Eav_Model_Entity_Attribute */
+        /** @var $lastnameAttr \Magento\Eav\Model\Entity\Attribute */
         $lastnameAttr       = $this->_customerResource->getAttribute('lastname');
 
         $firstnameCondition = array('table_customer_firstname.entity_id = detail.customer_id');
@@ -108,7 +110,7 @@ class Magento_Reports_Model_Resource_Review_Customer_Collection extends Magento_
             "table_customer_firstname.{$firstnameField}",
             "table_customer_lastname.{$lastnameField}"
         ), ' ');
-        $this->getSelect()->reset(Zend_Db_Select::COLUMNS)
+        $this->getSelect()->reset(\Zend_Db_Select::COLUMNS)
             ->joinInner(
                 array('table_customer_lastname' => $lastnameAttr->getBackend()->getTable()),
                 implode(' AND ', $lastnameCondition),
@@ -130,14 +132,14 @@ class Magento_Reports_Model_Resource_Review_Customer_Collection extends Magento_
     public function getSelectCountSql()
     {
         $countSelect = clone $this->_select;
-        $countSelect->reset(Zend_Db_Select::ORDER);
-        $countSelect->reset(Zend_Db_Select::GROUP);
-        $countSelect->reset(Zend_Db_Select::HAVING);
-        $countSelect->reset(Zend_Db_Select::LIMIT_COUNT);
-        $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
-        $countSelect->reset(Zend_Db_Select::COLUMNS);
+        $countSelect->reset(\Zend_Db_Select::ORDER);
+        $countSelect->reset(\Zend_Db_Select::GROUP);
+        $countSelect->reset(\Zend_Db_Select::HAVING);
+        $countSelect->reset(\Zend_Db_Select::LIMIT_COUNT);
+        $countSelect->reset(\Zend_Db_Select::LIMIT_OFFSET);
+        $countSelect->reset(\Zend_Db_Select::COLUMNS);
 
-        $countSelect->columns(new Zend_Db_Expr('COUNT(DISTINCT detail.customer_id)'));
+        $countSelect->columns(new \Zend_Db_Expr('COUNT(DISTINCT detail.customer_id)'));
 
         return  $countSelect;
     }

@@ -16,38 +16,40 @@
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Category_Attribute_Backend_Image extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
+namespace Magento\Catalog\Model\Category\Attribute\Backend;
+
+class Image extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
-     * @var Magento_Core_Model_File_UploaderFactory
+     * @var \Magento\Core\Model\File\UploaderFactory
      */
     protected $_uploaderFactory;
 
     /**
      * Dir model
      *
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_dir;
 
     /**
      * File Uploader factory
      *
-     * @var Magento_Core_Model_File_UploaderFactory
+     * @var \Magento\Core\Model\File\UploaderFactory
      */
     protected $_fileUploaderFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Dir $dir
-     * @param Magento_Core_Model_File_UploaderFactory $fileUploaderFactory
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\Core\Model\File\UploaderFactory $fileUploaderFactory
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Dir $dir,
-        Magento_Core_Model_File_UploaderFactory $fileUploaderFactory
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Dir $dir,
+        \Magento\Core\Model\File\UploaderFactory $fileUploaderFactory
     ) {
         $this->_dir = $dir;
         $this->_fileUploaderFactory = $fileUploaderFactory;
@@ -57,8 +59,8 @@ class Magento_Catalog_Model_Category_Attribute_Backend_Image extends Magento_Eav
     /**
      * Save uploaded file and set its name to category
      *
-     * @param Magento_Object $object
-     * @return Magento_Catalog_Model_Category_Attribute_Backend_Image
+     * @param \Magento\Object $object
+     * @return \Magento\Catalog\Model\Category\Attribute\Backend\Image
      */
     public function afterSave($object)
     {
@@ -76,10 +78,10 @@ class Magento_Catalog_Model_Category_Attribute_Backend_Image extends Magento_Eav
             return $this;
         }
 
-        $path = $this->_dir->getDir(Magento_Core_Model_Dir::MEDIA) . DS . 'catalog' . DS . 'category' . DS;
+        $path = $this->_dir->getDir(\Magento\Core\Model\Dir::MEDIA) . DS . 'catalog' . DS . 'category' . DS;
 
         try {
-            /** @var $uploader Magento_Core_Model_File_Uploader */
+            /** @var $uploader \Magento\Core\Model\File\Uploader */
             $uploader = $this->_fileUploaderFactory->create(array('fileId' => $this->getAttribute()->getName()));
             $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
             $uploader->setAllowRenameFiles(true);
@@ -87,8 +89,8 @@ class Magento_Catalog_Model_Category_Attribute_Backend_Image extends Magento_Eav
 
             $object->setData($this->getAttribute()->getName(), $result['file']);
             $this->getAttribute()->getEntity()->saveAttribute($object, $this->getAttribute()->getName());
-        } catch (Exception $e) {
-            if ($e->getCode() != Magento_Core_Model_File_Uploader::TMP_NAME_EMPTY) {
+        } catch (\Exception $e) {
+            if ($e->getCode() != \Magento\Core\Model\File\Uploader::TMP_NAME_EMPTY) {
                 $this->_logger->logException($e);
             }
         }

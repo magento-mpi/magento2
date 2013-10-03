@@ -7,9 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Filesystem_Adapter_Local implements
-    Magento_Filesystem_AdapterInterface,
-    Magento_Filesystem_Stream_FactoryInterface
+namespace Magento\Filesystem\Adapter;
+
+class Local implements
+    \Magento\Filesystem\AdapterInterface,
+    \Magento\Filesystem\Stream\FactoryInterface
 {
     /**
      * Checks the file existence.
@@ -27,13 +29,13 @@ class Magento_Filesystem_Adapter_Local implements
      *
      * @param string $key
      * @return string
-     * @throws Magento_Filesystem_Exception
+     * @throws \Magento\Filesystem\FilesystemException
      */
     public function read($key)
     {
         $result = @file_get_contents($key);
         if (false === $result) {
-            throw new Magento_Filesystem_Exception("Failed to read contents of '{$key}'");
+            throw new \Magento\Filesystem\FilesystemException("Failed to read contents of '{$key}'");
         }
         return $result;
     }
@@ -44,13 +46,13 @@ class Magento_Filesystem_Adapter_Local implements
      * @param string $key
      * @param string $content
      * @return bool true if write was success
-     * @throws Magento_Filesystem_Exception
+     * @throws \Magento\Filesystem\FilesystemException
      */
     public function write($key, $content)
     {
         $result = @file_put_contents($key, $content);
         if (false === $result) {
-            throw new Magento_Filesystem_Exception("Failed to write contents to '{$key}'");
+            throw new \Magento\Filesystem\FilesystemException("Failed to write contents to '{$key}'");
         }
         return true;
     }
@@ -61,13 +63,13 @@ class Magento_Filesystem_Adapter_Local implements
      * @param string $source
      * @param string $target
      * @return bool
-     * @throws Magento_Filesystem_Exception
+     * @throws \Magento\Filesystem\FilesystemException
      */
     public function rename($source, $target)
     {
         $result = @rename($source, $target);
         if (!$result) {
-            throw new Magento_Filesystem_Exception("Failed to rename '{$source}' to '{$target}'");
+            throw new \Magento\Filesystem\FilesystemException("Failed to rename '{$source}' to '{$target}'");
         }
         return true;
     }
@@ -78,13 +80,13 @@ class Magento_Filesystem_Adapter_Local implements
      * @param string $source
      * @param string $target
      * @return bool
-     * @throws Magento_Filesystem_Exception
+     * @throws \Magento\Filesystem\FilesystemException
      */
     public function copy($source, $target)
     {
         $result = @copy($source, $target);
         if (!$result) {
-            throw new Magento_Filesystem_Exception("Failed to copy '{$source}' to '{$target}'");
+            throw new \Magento\Filesystem\FilesystemException("Failed to copy '{$source}' to '{$target}'");
         }
         return true;
     }
@@ -94,13 +96,13 @@ class Magento_Filesystem_Adapter_Local implements
      *
      * @param $key
      * @return string
-     * @throws Magento_Filesystem_Exception
+     * @throws \Magento\Filesystem\FilesystemException
      */
     public function getFileMd5($key)
     {
         $hash = @md5_file($key);
         if (false === $hash) {
-            throw new Magento_Filesystem_Exception("Failed to get hash of '{$key}'");
+            throw new \Magento\Filesystem\FilesystemException("Failed to get hash of '{$key}'");
         }
         return $hash;
     }
@@ -109,7 +111,7 @@ class Magento_Filesystem_Adapter_Local implements
      * Deletes the file or directory recursively.
      *
      * @param string $key
-     * @throws Magento_Filesystem_Exception
+     * @throws \Magento\Filesystem\FilesystemException
      */
     public function delete($key)
     {
@@ -119,7 +121,7 @@ class Magento_Filesystem_Adapter_Local implements
 
         if (is_file($key) || is_link($key)) {
             if (true !== @unlink($key)) {
-                throw new Magento_Filesystem_Exception("Failed to remove file '{$key}'");
+                throw new \Magento\Filesystem\FilesystemException("Failed to remove file '{$key}'");
             }
             return;
         }
@@ -127,7 +129,7 @@ class Magento_Filesystem_Adapter_Local implements
         $this->_deleteNestedKeys($key);
 
         if (true !== @rmdir($key)) {
-            throw new Magento_Filesystem_Exception("Failed to remove directory '{$key}'");
+            throw new \Magento\Filesystem\FilesystemException("Failed to remove directory '{$key}'");
         }
     }
 
@@ -135,24 +137,24 @@ class Magento_Filesystem_Adapter_Local implements
      * Deletes all nested keys
      *
      * @param string $key
-     * @throws Magento_Filesystem_Exception
+     * @throws \Magento\Filesystem\FilesystemException
      */
     protected function _deleteNestedKeys($key)
     {
         foreach ($this->getNestedKeys($key) as $nestedKey) {
             if (is_dir($nestedKey) && !is_link($nestedKey)) {
                 if (true !== @rmdir($nestedKey)) {
-                    throw new Magento_Filesystem_Exception("Failed to remove directory '{$nestedKey}'");
+                    throw new \Magento\Filesystem\FilesystemException("Failed to remove directory '{$nestedKey}'");
                 }
             } else {
                 // https://bugs.php.net/bug.php?id=52176
                 if (defined('PHP_WINDOWS_VERSION_MAJOR') && is_dir($nestedKey)) {
                     if (true !== @rmdir($nestedKey)) {
-                        throw new Magento_Filesystem_Exception("Failed to remove file '{$nestedKey}'");
+                        throw new \Magento\Filesystem\FilesystemException("Failed to remove file '{$nestedKey}'");
                     }
                 } else {
                     if (true !== @unlink($nestedKey)) {
-                        throw new Magento_Filesystem_Exception("Failed to remove file '{$nestedKey}'");
+                        throw new \Magento\Filesystem\FilesystemException("Failed to remove file '{$nestedKey}'");
                     }
                 }
             }
@@ -165,18 +167,18 @@ class Magento_Filesystem_Adapter_Local implements
      * @param string $key
      * @param int $permissions
      * @param bool $recursively
-     * @throws Magento_Filesystem_Exception
+     * @throws \Magento\Filesystem\FilesystemException
      */
     public function changePermissions($key, $permissions, $recursively)
     {
         if (!@chmod($key, $permissions)) {
-            throw new Magento_Filesystem_Exception("Failed to change mode of '{$key}'");
+            throw new \Magento\Filesystem\FilesystemException("Failed to change mode of '{$key}'");
         }
 
         if (is_dir($key) && $recursively) {
             foreach ($this->getNestedKeys($key) as $nestedKey) {
                 if (!@chmod($nestedKey, $permissions)) {
-                    throw new Magento_Filesystem_Exception("Failed to change mode of '{$nestedKey}'");
+                    throw new \Magento\Filesystem\FilesystemException("Failed to change mode of '{$nestedKey}'");
                 }
             }
         }
@@ -187,27 +189,27 @@ class Magento_Filesystem_Adapter_Local implements
      *
      * @param string $key
      * @return array
-     * @throws Magento_Filesystem_Exception
+     * @throws \Magento\Filesystem\FilesystemException
      */
     public function getNestedKeys($key)
     {
         $result = array();
 
         if (!is_dir($key)) {
-            throw new Magento_Filesystem_Exception("The directory '{$key}' does not exist.");
+            throw new \Magento\Filesystem\FilesystemException("The directory '{$key}' does not exist.");
         }
 
         try {
-            $iterator = new RecursiveIteratorIterator(
-                new RecursiveDirectoryIterator($key, FilesystemIterator::SKIP_DOTS | FilesystemIterator::UNIX_PATHS),
-                RecursiveIteratorIterator::CHILD_FIRST
+            $iterator = new \RecursiveIteratorIterator(
+                new \RecursiveDirectoryIterator($key, \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::UNIX_PATHS),
+                \RecursiveIteratorIterator::CHILD_FIRST
             );
-        } catch (Exception $e) {
-            $iterator = new EmptyIterator;
+        } catch (\Exception $e) {
+            $iterator = new \EmptyIterator;
         }
 
 
-        /** @var SplFileInfo $file */
+        /** @var \SplFileInfo $file */
         foreach ($iterator as $file) {
             $result[] = $file->getPathname();
         }
@@ -220,13 +222,13 @@ class Magento_Filesystem_Adapter_Local implements
      *
      * @param string $pattern
      * @return array
-     * @throws Magento_Filesystem_Exception
+     * @throws \Magento\Filesystem\FilesystemException
      */
     public function searchKeys($pattern)
     {
         $result = @glob($pattern);
         if (false === $result) {
-            throw new Magento_Filesystem_Exception("Failed to resolve the file pattern '{$pattern}'");
+            throw new \Magento\Filesystem\FilesystemException("Failed to resolve the file pattern '{$pattern}'");
         }
         return $result;
     }
@@ -280,12 +282,12 @@ class Magento_Filesystem_Adapter_Local implements
      *
      * @param string $key
      * @param int $mode
-     * @throws Magento_Filesystem_Exception
+     * @throws \Magento\Filesystem\FilesystemException
      */
     public function createDirectory($key, $mode)
     {
         if (!@mkdir($key, $mode, true)) {
-            throw new Magento_Filesystem_Exception("Failed to create '{$key}'");
+            throw new \Magento\Filesystem\FilesystemException("Failed to create '{$key}'");
         }
     }
 
@@ -294,7 +296,7 @@ class Magento_Filesystem_Adapter_Local implements
      *
      * @param string $key
      * @param int|null $fileModificationTime
-     * @throws Magento_Filesystem_Exception
+     * @throws \Magento\Filesystem\FilesystemException
      */
     public function touch($key, $fileModificationTime = null)
     {
@@ -304,7 +306,7 @@ class Magento_Filesystem_Adapter_Local implements
             $success = @touch($key, $fileModificationTime);
         }
         if (!$success) {
-            throw new Magento_Filesystem_Exception("Failed to touch '{$key}'");
+            throw new \Magento\Filesystem\FilesystemException("Failed to touch '{$key}'");
         }
     }
 
@@ -313,13 +315,13 @@ class Magento_Filesystem_Adapter_Local implements
      *
      * @param string $key
      * @return int
-     * @throws Magento_Filesystem_Exception
+     * @throws \Magento\Filesystem\FilesystemException
      */
     public function getMTime($key)
     {
         $mtime = @filemtime($key);
         if (false === $mtime) {
-            throw new Magento_Filesystem_Exception("Failed to get modification time of '{$key}'");
+            throw new \Magento\Filesystem\FilesystemException("Failed to get modification time of '{$key}'");
         }
         return $mtime;
     }
@@ -329,13 +331,13 @@ class Magento_Filesystem_Adapter_Local implements
      *
      * @param string $key
      * @return int
-     * @throws Magento_Filesystem_Exception
+     * @throws \Magento\Filesystem\FilesystemException
      */
     public function getFileSize($key)
     {
         $size = @filesize($key);
         if (false === $size) {
-            throw new Magento_Filesystem_Exception("Failed to get file size of '{$key}'");
+            throw new \Magento\Filesystem\FilesystemException("Failed to get file size of '{$key}'");
         }
         return $size;
     }
@@ -344,10 +346,10 @@ class Magento_Filesystem_Adapter_Local implements
      * Create stream object
      *
      * @param string $path
-     * @return Magento_Filesystem_Stream_Local
+     * @return \Magento\Filesystem\Stream\Local
      */
     public function createStream($path)
     {
-        return new Magento_Filesystem_Stream_Local($path);
+        return new \Magento\Filesystem\Stream\Local($path);
     }
 }

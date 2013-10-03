@@ -15,32 +15,34 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product extends Magento_Adminhtml_Block_Widget_Container
+namespace Magento\Adminhtml\Block\Catalog;
+
+class Product extends \Magento\Adminhtml\Block\Widget\Container
 {
     protected $_template = 'catalog/product.phtml';
 
     /**
-     * @var Magento_Catalog_Model_Product_TypeFactory
+     * @var \Magento\Catalog\Model\Product\TypeFactory
      */
     protected $_typeFactory;
 
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
-     * @param Magento_Catalog_Model_Product_TypeFactory $typeFactory
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Catalog\Model\Product\TypeFactory $typeFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Model_Product_TypeFactory $typeFactory,
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Catalog\Model\Product\TypeFactory $typeFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_productFactory = $productFactory;
@@ -52,7 +54,7 @@ class Magento_Adminhtml_Block_Catalog_Product extends Magento_Adminhtml_Block_Wi
     /**
      * Prepare button and grid
      *
-     * @return Magento_Adminhtml_Block_Catalog_Product
+     * @return \Magento\Adminhtml\Block\Catalog\Product
      */
     protected function _prepareLayout()
     {
@@ -61,14 +63,14 @@ class Magento_Adminhtml_Block_Catalog_Product extends Magento_Adminhtml_Block_Wi
             'label' => __('Add Product'),
             'class' => 'btn-add',
             'button_class' => 'btn-round',
-            'class_name' => 'Magento_Backend_Block_Widget_Button_Split',
+            'class_name' => 'Magento\Backend\Block\Widget\Button\SplitButton',
             'options' => $this->_getAddProductButtonOptions(),
         );
         $this->_addButton('add_new', $addButtonProps);
 
         $this->setChild(
             'grid',
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Catalog_Product_Grid', 'product.grid')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Grid', 'product.grid')
         );
         return parent::_prepareLayout();
     }
@@ -86,7 +88,7 @@ class Magento_Adminhtml_Block_Catalog_Product extends Magento_Adminhtml_Block_Wi
             $splitButtonOptions[$key] = array(
                 'label'     => $label,
                 'onclick'   => "setLocation('" . $this->_getProductCreateUrl($key) . "')",
-                'default'   => Magento_Catalog_Model_Product_Type::DEFAULT_TYPE == $key
+                'default'   => \Magento\Catalog\Model\Product\Type::DEFAULT_TYPE == $key
             );
         }
 

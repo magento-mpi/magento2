@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_Catalog_Model_Resource_Setup */
+/** @var $installer \Magento\Catalog\Model\Resource\Setup */
 $installer = $this;
 
 /**
@@ -21,13 +21,13 @@ $installer->startSetup();
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('googlecheckout_notification'))
-    ->addColumn('serial_number', Magento_DB_Ddl_Table::TYPE_TEXT, 64, array(
+    ->addColumn('serial_number', \Magento\DB\Ddl\Table::TYPE_TEXT, 64, array(
         'nullable'  => false,
         'primary'   => true,
         ), 'Serial Number')
-    ->addColumn('started_at', Magento_DB_Ddl_Table::TYPE_TIMESTAMP, null, array(
+    ->addColumn('started_at', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
         ), 'Started At')
-    ->addColumn('status', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('status', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
@@ -38,7 +38,7 @@ $installer->getConnection()->createTable($table);
 /**
  * Add 'disable_googlecheckout' attribute to the 'eav_attribute' table
  */
-$installer->addAttribute(Magento_Catalog_Model_Product::ENTITY, 'enable_googlecheckout', array(
+$installer->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'enable_googlecheckout', array(
     'group'             => 'Prices',
     'type'              => 'int',
     'backend'           => '',
@@ -46,8 +46,8 @@ $installer->addAttribute(Magento_Catalog_Model_Product::ENTITY, 'enable_googlech
     'label'             => 'Is Product Available for Purchase with Google Checkout',
     'input'             => 'select',
     'class'             => '',
-    'source'            => 'Magento_Eav_Model_Entity_Attribute_Source_Boolean',
-    'global'            => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
+    'source'            => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean',
+    'global'            => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL,
     'visible'           => true,
     'required'          => false,
     'user_defined'      => false,

@@ -11,12 +11,14 @@
 /**
  * Paypal Express Onepage checkout block for Billing Address
  */
-class Magento_Paypal_Block_Express_Review_Billing extends Magento_Checkout_Block_Onepage_Billing
+namespace Magento\Paypal\Block\Express\Review;
+
+class Billing extends \Magento\Checkout\Block\Onepage\Billing
 {
     /**
      * Return Sales Quote Address model
      *
-     * @return Magento_Sales_Model_Quote_Address
+     * @return \Magento\Sales\Model\Quote\Address
      */
     public function getAddress()
     {

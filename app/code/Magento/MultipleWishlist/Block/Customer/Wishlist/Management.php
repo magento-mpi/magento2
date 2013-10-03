@@ -11,7 +11,9 @@
 /**
  * Wishlist sidebar block
  */
-class Magento_MultipleWishlist_Block_Customer_Wishlist_Management extends Magento_Core_Block_Template
+namespace Magento\MultipleWishlist\Block\Customer\Wishlist;
+
+class Management extends \Magento\Core\Block\Template
 {
     /**
      * Id of current customer
@@ -23,43 +25,43 @@ class Magento_MultipleWishlist_Block_Customer_Wishlist_Management extends Magent
     /**
      * Wishlist Collection
      *
-     * @var Magento_Wishlist_Model_Resource_Wishlist_Collection
+     * @var \Magento\Wishlist\Model\Resource\Wishlist\Collection
      */
     protected $_collection;
 
     /**
-     * @var Magento_Wishlist_Model_Wishlist
+     * @var \Magento\Wishlist\Model\Wishlist
      */
     protected $_current = null;
 
     /**
      * Wishlist data
      *
-     * @var Magento_MultipleWishlist_Helper_Data
+     * @var \Magento\MultipleWishlist\Helper\Data
      */
     protected $_wishlistData = null;
 
     /**
      * Customer session
      *
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_MultipleWishlist_Helper_Data $wishlistData
-     * @param Magento_Customer_Model_Session $customerSession
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\MultipleWishlist\Helper\Data $wishlistData
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_MultipleWishlist_Helper_Data $wishlistData,
-        Magento_Customer_Model_Session $customerSession,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\MultipleWishlist\Helper\Data $wishlistData,
+        \Magento\Customer\Model\Session $customerSession,
         array $data = array()
     ) {
         $this->_wishlistData = $wishlistData;
@@ -96,7 +98,7 @@ class Magento_MultipleWishlist_Block_Customer_Wishlist_Management extends Magent
     /**
      * Retrieve wishlist collection
      *
-     * @return Magento_Wishlist_Model_Resource_Wishlist_Collection
+     * @return \Magento\Wishlist\Model\Resource\Wishlist\Collection
      */
     public function getWishlists()
     {
@@ -106,7 +108,7 @@ class Magento_MultipleWishlist_Block_Customer_Wishlist_Management extends Magent
     /**
      * Retrieve default wishlist for current customer
      *
-     * @return Magento_Wishlist_Model_Wishlist
+     * @return \Magento\Wishlist\Model\Wishlist
      */
     public function getDefaultWishlist()
     {
@@ -116,7 +118,7 @@ class Magento_MultipleWishlist_Block_Customer_Wishlist_Management extends Magent
     /**
      * Retrieve currently selected wishlist
      *
-     * @return Magento_Wishlist_Model_Wishlist
+     * @return \Magento\Wishlist\Model\Wishlist
      */
     public function getCurrentWishlist()
     {
@@ -134,10 +136,10 @@ class Magento_MultipleWishlist_Block_Customer_Wishlist_Management extends Magent
     /**
      * Build string that displays the number of items in wishlist
      *
-     * @param Magento_Wishlist_Model_Wishlist $wishlist
+     * @param \Magento\Wishlist\Model\Wishlist $wishlist
      * @return string
      */
-    public function getItemCount(Magento_Wishlist_Model_Wishlist $wishlist)
+    public function getItemCount(\Magento\Wishlist\Model\Wishlist $wishlist)
     {
         $count = $this->_wishlistData->getWishlistItemCount($wishlist);
         if ($count == 1) {
@@ -150,10 +152,10 @@ class Magento_MultipleWishlist_Block_Customer_Wishlist_Management extends Magent
     /**
      * Build wishlist management page url
      *
-     * @param Magento_Wishlist_Model_Wishlist $wishlist
+     * @param \Magento\Wishlist\Model\Wishlist $wishlist
      * @return string
      */
-    public function getWishlistManagementUrl(Magento_Wishlist_Model_Wishlist $wishlist)
+    public function getWishlistManagementUrl(\Magento\Wishlist\Model\Wishlist $wishlist)
     {
         return $this->getUrl('wishlist/*/*', array('wishlist_id' => $wishlist->getId()));
     }

@@ -14,7 +14,9 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Total_Tax extends Magento_Checkout_Block_Total_Default
+namespace Magento\Checkout\Block\Total;
+
+class Tax extends \Magento\Checkout\Block\Total\DefaultTotal
 {
     protected $_template = 'total/tax.phtml';
 }

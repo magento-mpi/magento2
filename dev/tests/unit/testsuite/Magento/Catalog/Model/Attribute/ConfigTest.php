@@ -5,24 +5,26 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Catalog_Model_Attribute_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Attribute;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_Attribute_Config
+     * @var \Magento\Catalog\Model\Attribute\Config
      */
     protected $_model;
 
     /**
-     * @var Magento_Catalog_Model_Attribute_Config_Data|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Catalog\Model\Attribute\Config\Data|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_dataStorage;
 
     protected function setUp()
     {
         $this->_dataStorage = $this->getMock(
-            'Magento_Catalog_Model_Attribute_Config_Data', array('get'), array(), '', false
+            'Magento\Catalog\Model\Attribute\Config\Data', array('get'), array(), '', false
         );
-        $this->_model = new Magento_Catalog_Model_Attribute_Config($this->_dataStorage);
+        $this->_model = new \Magento\Catalog\Model\Attribute\Config($this->_dataStorage);
     }
 
     public function testGetAttributeNames()

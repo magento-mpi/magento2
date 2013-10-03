@@ -10,17 +10,19 @@
  */
 
 /**
- * Test class for Magento_Core_Model_Layout_Argument_Handler_Helper
+ * Test class for \Magento\Core\Model\Layout\Argument\Handler\Helper
  */
-class Magento_Core_Model_Layout_Argument_Handler_HelperTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Layout\Argument\Handler;
+
+class HelperTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Layout_Argument_Handler_Helper
+     * @var \Magento\Core\Model\Layout\Argument\Handler\Helper
      */
     protected $_model;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManagerMock;
 
@@ -28,17 +30,17 @@ class Magento_Core_Model_Layout_Argument_Handler_HelperTest extends PHPUnit_Fram
     {
         include_once(__DIR__ . DIRECTORY_SEPARATOR . 'TestHelper.php');
 
-        $helperObjectManager = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
+        $helperObjectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
         $this->_model = $helperObjectManager->getObject(
-            'Magento_Core_Model_Layout_Argument_Handler_Helper',
+            'Magento\Core\Model\Layout\Argument\Handler\Helper',
             array('objectManager' => $this->_objectManagerMock)
         );
     }
 
     /**
      * @dataProvider parseDataProvider()
-     * @param Magento_Core_Model_Layout_Element $argument
+     * @param \Magento\Core\Model\Layout\Element $argument
      * @param array $expectedResult
      */
     public function testParse($argument, $expectedResult)
@@ -54,7 +56,7 @@ class Magento_Core_Model_Layout_Argument_Handler_HelperTest extends PHPUnit_Fram
     {
         $layout = simplexml_load_file(
             __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'arguments.xml',
-            'Magento_Core_Model_Layout_Element'
+            'Magento\Core\Model\Layout\Element'
         );
         $result = $this->processDataProvider();
         $resultWithParams = $resultWithoutParams = $result[0][0];
@@ -75,7 +77,7 @@ class Magento_Core_Model_Layout_Argument_Handler_HelperTest extends PHPUnit_Fram
     public function testProcess($argument, $expectedResult)
     {
         $helperMock = $this->getMock(
-            'Magento_Core_Model_Layout_Argument_Handler_TestHelper', array(), array(), '', false, false
+            'Magento\Core\Model\Layout\Argument\Handler\TestHelper', array(), array(), '', false, false
         );
         $helperMock->expects($this->once())
             ->method('testMethod')
@@ -83,7 +85,7 @@ class Magento_Core_Model_Layout_Argument_Handler_HelperTest extends PHPUnit_Fram
             ->will($this->returnValue($expectedResult));
         $this->_objectManagerMock->expects($this->once())
             ->method('get')
-            ->with('Magento_Core_Model_Layout_Argument_Handler_TestHelper')
+            ->with('Magento\Core\Model\Layout\Argument\Handler\TestHelper')
             ->will($this->returnValue($helperMock));
 
         $this->assertEquals($this->_model->process($argument), $expectedResult);
@@ -98,7 +100,7 @@ class Magento_Core_Model_Layout_Argument_Handler_HelperTest extends PHPUnit_Fram
             array(
                 array(
                     'value' => array(
-                        'helperClass' => 'Magento_Core_Model_Layout_Argument_Handler_TestHelper',
+                        'helperClass' => 'Magento\Core\Model\Layout\Argument\Handler\TestHelper',
                         'helperMethod' => 'testMethod',
                         'params' => array(
                             'firstValue',

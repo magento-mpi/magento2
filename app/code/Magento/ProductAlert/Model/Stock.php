@@ -12,48 +12,50 @@
 /**
  * ProductAlert for back in stock model
  *
- * @method Magento_ProductAlert_Model_Resource_Stock _getResource()
- * @method Magento_ProductAlert_Model_Resource_Stock getResource()
+ * @method \Magento\ProductAlert\Model\Resource\Stock _getResource()
+ * @method \Magento\ProductAlert\Model\Resource\Stock getResource()
  * @method int getCustomerId()
- * @method Magento_ProductAlert_Model_Stock setCustomerId(int $value)
+ * @method \Magento\ProductAlert\Model\Stock setCustomerId(int $value)
  * @method int getProductId()
- * @method Magento_ProductAlert_Model_Stock setProductId(int $value)
+ * @method \Magento\ProductAlert\Model\Stock setProductId(int $value)
  * @method int getWebsiteId()
- * @method Magento_ProductAlert_Model_Stock setWebsiteId(int $value)
+ * @method \Magento\ProductAlert\Model\Stock setWebsiteId(int $value)
  * @method string getAddDate()
- * @method Magento_ProductAlert_Model_Stock setAddDate(string $value)
+ * @method \Magento\ProductAlert\Model\Stock setAddDate(string $value)
  * @method string getSendDate()
- * @method Magento_ProductAlert_Model_Stock setSendDate(string $value)
+ * @method \Magento\ProductAlert\Model\Stock setSendDate(string $value)
  * @method int getSendCount()
- * @method Magento_ProductAlert_Model_Stock setSendCount(int $value)
+ * @method \Magento\ProductAlert\Model\Stock setSendCount(int $value)
  * @method int getStatus()
- * @method Magento_ProductAlert_Model_Stock setStatus(int $value)
+ * @method \Magento\ProductAlert\Model\Stock setStatus(int $value)
  *
  * @category    Magento
  * @package     Magento_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ProductAlert_Model_Stock extends Magento_Core_Model_Abstract
+namespace Magento\ProductAlert\Model;
+
+class Stock extends \Magento\Core\Model\AbstractModel
 {
     /**
-     * @var Magento_ProductAlert_Model_Resource_Stock_Customer_CollectionFactory
+     * @var \Magento\ProductAlert\Model\Resource\Stock\Customer\CollectionFactory
      */
     protected $_customerColFactory;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_ProductAlert_Model_Resource_Stock_Customer_CollectionFactory $customerColFactory
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\ProductAlert\Model\Resource\Stock\Customer\CollectionFactory $customerColFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_ProductAlert_Model_Resource_Stock_Customer_CollectionFactory $customerColFactory,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\ProductAlert\Model\Resource\Stock\Customer\CollectionFactory $customerColFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_customerColFactory = $customerColFactory;
@@ -62,7 +64,7 @@ class Magento_ProductAlert_Model_Stock extends Magento_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('Magento_ProductAlert_Model_Resource_Stock');
+        $this->_init('Magento\ProductAlert\Model\Resource\Stock');
     }
 
     public function getCustomerCollection()

@@ -11,32 +11,34 @@
 /**
  * Catalog search query model
  *
- * @method Magento_CatalogSearch_Model_Resource_Query _getResource()
- * @method Magento_CatalogSearch_Model_Resource_Query getResource()
+ * @method \Magento\CatalogSearch\Model\Resource\Query _getResource()
+ * @method \Magento\CatalogSearch\Model\Resource\Query getResource()
  * @method string getQueryText()
- * @method Magento_CatalogSearch_Model_Query setQueryText(string $value)
+ * @method \Magento\CatalogSearch\Model\Query setQueryText(string $value)
  * @method int getNumResults()
- * @method Magento_CatalogSearch_Model_Query setNumResults(int $value)
+ * @method \Magento\CatalogSearch\Model\Query setNumResults(int $value)
  * @method int getPopularity()
- * @method Magento_CatalogSearch_Model_Query setPopularity(int $value)
+ * @method \Magento\CatalogSearch\Model\Query setPopularity(int $value)
  * @method string getRedirect()
- * @method Magento_CatalogSearch_Model_Query setRedirect(string $value)
+ * @method \Magento\CatalogSearch\Model\Query setRedirect(string $value)
  * @method string getSynonymFor()
- * @method Magento_CatalogSearch_Model_Query setSynonymFor(string $value)
+ * @method \Magento\CatalogSearch\Model\Query setSynonymFor(string $value)
  * @method int getDisplayInTerms()
- * @method Magento_CatalogSearch_Model_Query setDisplayInTerms(int $value)
+ * @method \Magento\CatalogSearch\Model\Query setDisplayInTerms(int $value)
  * @method int getIsActive()
- * @method Magento_CatalogSearch_Model_Query setIsActive(int $value)
+ * @method \Magento\CatalogSearch\Model\Query setIsActive(int $value)
  * @method int getIsProcessed()
- * @method Magento_CatalogSearch_Model_Query setIsProcessed(int $value)
+ * @method \Magento\CatalogSearch\Model\Query setIsProcessed(int $value)
  * @method string getUpdatedAt()
- * @method Magento_CatalogSearch_Model_Query setUpdatedAt(string $value)
+ * @method \Magento\CatalogSearch\Model\Query setUpdatedAt(string $value)
  *
  * @category    Magento
  * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogSearch_Model_Query extends Magento_Core_Model_Abstract
+namespace Magento\CatalogSearch\Model;
+
+class Query extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Event prefix
@@ -60,53 +62,53 @@ class Magento_CatalogSearch_Model_Query extends Magento_Core_Model_Abstract
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Search collection factory
      *
-     * @var Magento_CatalogSearch_Model_Resource_Search_CollectionFactory
+     * @var \Magento\CatalogSearch\Model\Resource\Search\CollectionFactory
      */
     protected $_searchCollectionFactory;
 
     /**
      * Query collection factory
      *
-     * @var Magento_CatalogSearch_Model_Resource_Query_CollectionFactory
+     * @var \Magento\CatalogSearch\Model\Resource\Query\CollectionFactory
      */
     protected $_queryCollectionFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_CatalogSearch_Model_Resource_Query_CollectionFactory $queryCollectionFactory
-     * @param Magento_CatalogSearch_Model_Resource_Search_CollectionFactory $searchCollectionFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\CatalogSearch\Model\Resource\Query\CollectionFactory $queryCollectionFactory
+     * @param \Magento\CatalogSearch\Model\Resource\Search\CollectionFactory $searchCollectionFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_CatalogSearch_Model_Resource_Query_CollectionFactory $queryCollectionFactory,
-        Magento_CatalogSearch_Model_Resource_Search_CollectionFactory $searchCollectionFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\CatalogSearch\Model\Resource\Query\CollectionFactory $queryCollectionFactory,
+        \Magento\CatalogSearch\Model\Resource\Search\CollectionFactory $searchCollectionFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_queryCollectionFactory = $queryCollectionFactory;
@@ -122,13 +124,13 @@ class Magento_CatalogSearch_Model_Query extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_CatalogSearch_Model_Resource_Query');
+        $this->_init('Magento\CatalogSearch\Model\Resource\Query');
     }
 
     /**
      * Retrieve search collection
      *
-     * @return Magento_CatalogSearch_Model_Resource_Search_Collection
+     * @return \Magento\CatalogSearch\Model\Resource\Search\Collection
      */
     public function getSearchCollection()
     {
@@ -138,7 +140,7 @@ class Magento_CatalogSearch_Model_Query extends Magento_Core_Model_Abstract
     /**
      * Retrieve collection of search results
      *
-     * @return Magento_Eav_Model_Entity_Collection_Abstract
+     * @return \Magento\Eav\Model\Entity\Collection\AbstractCollection
      */
     public function getResultCollection()
     {
@@ -163,7 +165,7 @@ class Magento_CatalogSearch_Model_Query extends Magento_Core_Model_Abstract
     /**
      * Retrieve collection of suggest queries
      *
-     * @return Magento_CatalogSearch_Model_Resource_Query_Collection
+     * @return \Magento\CatalogSearch\Model\Resource\Query\Collection
      */
     public function getSuggestCollection()
     {
@@ -181,7 +183,7 @@ class Magento_CatalogSearch_Model_Query extends Magento_Core_Model_Abstract
      * Load Query object by query string
      *
      * @param string $text
-     * @return Magento_CatalogSearch_Model_Query
+     * @return \Magento\CatalogSearch\Model\Query
      */
     public function loadByQuery($text)
     {
@@ -195,7 +197,7 @@ class Magento_CatalogSearch_Model_Query extends Magento_Core_Model_Abstract
      * Load Query object only by query text (skip 'synonym For')
      *
      * @param string $text
-     * @return Magento_CatalogSearch_Model_Query
+     * @return \Magento\CatalogSearch\Model\Query
      */
     public function loadByQueryText($text)
     {
@@ -209,7 +211,7 @@ class Magento_CatalogSearch_Model_Query extends Magento_Core_Model_Abstract
      * Set Store Id
      *
      * @param int $storeId
-     * @return Magento_CatalogSearch_Model_Query
+     * @return \Magento\CatalogSearch\Model\Query
      */
     public function setStoreId($storeId)
     {
@@ -232,7 +234,7 @@ class Magento_CatalogSearch_Model_Query extends Magento_Core_Model_Abstract
     /**
      * Prepare save query for result
      *
-     * @return Magento_CatalogSearch_Model_Query
+     * @return \Magento\CatalogSearch\Model\Query
      */
     public function prepare()
     {

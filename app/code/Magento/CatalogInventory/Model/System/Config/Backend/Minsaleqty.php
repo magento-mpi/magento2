@@ -12,33 +12,35 @@
  * Backend for serialized array data
  *
  */
-class Magento_CatalogInventory_Model_System_Config_Backend_Minsaleqty extends Magento_Core_Model_Config_Value
+namespace Magento\CatalogInventory\Model\System\Config\Backend;
+
+class Minsaleqty extends \Magento\Core\Model\Config\Value
 {
     /**
      * Catalog inventory minsaleqty
      *
-     * @var Magento_CatalogInventory_Helper_Minsaleqty
+     * @var \Magento\CatalogInventory\Helper\Minsaleqty
      */
     protected $_catalogInventoryMinsaleqty = null;
 
     /**
-     * @param Magento_CatalogInventory_Helper_Minsaleqty $catalogInventoryMinsaleqty
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\CatalogInventory\Helper\Minsaleqty $catalogInventoryMinsaleqty
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_CatalogInventory_Helper_Minsaleqty $catalogInventoryMinsaleqty,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\CatalogInventory\Helper\Minsaleqty $catalogInventoryMinsaleqty,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_catalogInventoryMinsaleqty = $catalogInventoryMinsaleqty;

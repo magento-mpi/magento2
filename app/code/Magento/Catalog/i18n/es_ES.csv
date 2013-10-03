@@ -175,7 +175,7 @@
 "Category move operation is not possible: parent category is equal to child category.","La operación de mover categoría no es posible: categoría padre es igual a categoría niño."
 "Category move operation is not possible: the current category was not found.","La operación de mover categoría no es posible: no se encontró la categoría actual."
 "Category move operation is not possible: the new parent category was not found.","No es posible la operación de mover Categoría: no se ha encontrado una nueva categoría de origen."
-"Category must be an instance of Magento_Catalog_Model_Category.","La Categoría debe ser una instancia de Magento_Catálogo_Modelo_Categoría."
+"Category must be an instance of \Magento\Catalog\Model\Category.","La Categoría debe ser una instancia de Magento_Catálogo_Modelo_Categoría."
 "Center","Centro"
 "Change","Cambio"
 "Change or Retrieve attribute store view","Cambiar o Recuperar la caracterísitica de vista de tienda"

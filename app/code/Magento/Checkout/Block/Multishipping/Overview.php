@@ -15,7 +15,9 @@
  * @package    Magento_Checkout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Multishipping_Overview extends Magento_Sales_Block_Items_Abstract
+namespace Magento\Checkout\Block\Multishipping;
+
+class Overview extends \Magento\Sales\Block\Items\AbstractItems
 {
     /**
      * Block alias fallback
@@ -23,20 +25,20 @@ class Magento_Checkout_Block_Multishipping_Overview extends Magento_Sales_Block_
     const DEFAULT_TYPE = 'default';
 
     /**
-     * @var Magento_Checkout_Model_Type_Multishipping
+     * @var \Magento\Checkout\Model\Type\Multishipping
      */
     protected $_multishipping;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Checkout_Model_Type_Multishipping $multishipping
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Checkout\Model\Type\Multishipping $multishipping
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Checkout_Model_Type_Multishipping $multishipping,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Checkout\Model\Type\Multishipping $multishipping,
         array $data = array()
     ) {
         $this->_multishipping = $multishipping;
@@ -52,7 +54,7 @@ class Magento_Checkout_Block_Multishipping_Overview extends Magento_Sales_Block_
         if (!$this->getChildBlock($rowItemType)) {
             $this->addChild(
                 $rowItemType,
-                'Magento_Checkout_Block_Cart_Item_Renderer',
+                'Magento\Checkout\Block\Cart\Item\Renderer',
                 array('template' => 'multishipping/overview/item.phtml')
             );
         }
@@ -68,7 +70,7 @@ class Magento_Checkout_Block_Multishipping_Overview extends Magento_Sales_Block_
     /**
      * Get multishipping checkout model
      *
-     * @return Magento_Checkout_Model_Type_Multishipping
+     * @return \Magento\Checkout\Model\Type\Multishipping
      */
     public function getCheckout()
     {
@@ -76,7 +78,7 @@ class Magento_Checkout_Block_Multishipping_Overview extends Magento_Sales_Block_
     }
 
     /**
-     * @return Magento_Sales_Model_Quote_Address
+     * @return \Magento\Sales\Model\Quote\Address
      */
     public function getBillingAddress()
     {
@@ -94,12 +96,12 @@ class Magento_Checkout_Block_Multishipping_Overview extends Magento_Sales_Block_
     /**
      * Get object with payment info posted data
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getPayment()
     {
         if (!$this->hasData('payment')) {
-            $payment = new Magento_Object($this->getRequest()->getPost('payment'));
+            $payment = new \Magento\Object($this->getRequest()->getPost('payment'));
             $this->setData('payment', $payment);
         }
         return $this->_getData('payment');
@@ -127,7 +129,7 @@ class Magento_Checkout_Block_Multishipping_Overview extends Magento_Sales_Block_
     }
 
     /**
-     * @param Magento_Sales_Model_Quote_Address $address
+     * @param \Magento\Sales\Model\Quote\Address $address
      * @return bool
      */
     public function getShippingAddressRate($address)
@@ -140,7 +142,7 @@ class Magento_Checkout_Block_Multishipping_Overview extends Magento_Sales_Block_
     }
 
     /**
-     * @param Magento_Sales_Model_Quote_Address $address
+     * @param \Magento\Sales\Model\Quote\Address $address
      * @return mixed
      */
     public function getShippingPriceInclTax($address)
@@ -151,7 +153,7 @@ class Magento_Checkout_Block_Multishipping_Overview extends Magento_Sales_Block_
     }
 
     /**
-     * @param Magento_Sales_Model_Quote_Address $address
+     * @param \Magento\Sales\Model\Quote\Address $address
      * @return mixed
      */
     public function getShippingPriceExclTax($address)
@@ -169,7 +171,7 @@ class Magento_Checkout_Block_Multishipping_Overview extends Magento_Sales_Block_
     }
 
     /**
-     * @param Magento_Sales_Model_Quote_Address $address
+     * @param \Magento\Sales\Model\Quote\Address $address
      * @return mixed
      */
     public function getShippingAddressItems($address)
@@ -178,7 +180,7 @@ class Magento_Checkout_Block_Multishipping_Overview extends Magento_Sales_Block_
     }
 
     /**
-     * @param Magento_Sales_Model_Quote_Address $address
+     * @param \Magento\Sales\Model\Quote\Address $address
      * @return mixed
      */
     public function getShippingAddressTotals($address)
@@ -186,7 +188,7 @@ class Magento_Checkout_Block_Multishipping_Overview extends Magento_Sales_Block_
         $totals = $address->getTotals();
         foreach ($totals as $total) {
             if ($total->getCode()=='grand_total') {
-                if ($address->getAddressType() == Magento_Sales_Model_Quote_Address::TYPE_BILLING) {
+                if ($address->getAddressType() == \Magento\Sales\Model\Quote\Address::TYPE_BILLING) {
                     $total->setTitle(__('Total'));
                 }
                 else {
@@ -214,7 +216,7 @@ class Magento_Checkout_Block_Multishipping_Overview extends Magento_Sales_Block_
     }
 
     /**
-     * @param Magento_Sales_Model_Quote_Address $address
+     * @param \Magento\Sales\Model\Quote\Address $address
      * @return string
      */
     public function getEditShippingAddressUrl($address)
@@ -295,7 +297,7 @@ class Magento_Checkout_Block_Multishipping_Overview extends Magento_Sales_Block_
     /**
      * Retrieve quote
      *
-     * @return Magento_Sales_Model_Qoute
+     * @return \Magento\Sales\Model\Qoute
      */
     public function getQuote()
     {
@@ -319,7 +321,7 @@ class Magento_Checkout_Block_Multishipping_Overview extends Magento_Sales_Block_
     public function renderTotals($totals, $colspan = null)
     {
         if ($colspan === null) {
-            $colspan = $this->helper('Magento_Tax_Helper_Data')->displayCartBothPrices() ? 5 : 3;
+            $colspan = $this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices() ? 5 : 3;
         }
         $totals = $this->getChildBlock('totals')->setTotals($totals)->renderTotals('', $colspan)
             . $this->getChildBlock('totals')->setTotals($totals)->renderTotals('footer', $colspan);
@@ -329,10 +331,10 @@ class Magento_Checkout_Block_Multishipping_Overview extends Magento_Sales_Block_
     /**
      * Return row-level item html
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return string
      */
-    public function getRowItemHtml(Magento_Object $item)
+    public function getRowItemHtml(\Magento\Object $item)
     {
         $type = $this->_getItemType($item);
         $renderer = $this->_getRowItemRenderer($type)->setItem($item);
@@ -344,12 +346,12 @@ class Magento_Checkout_Block_Multishipping_Overview extends Magento_Sales_Block_
      * Retrieve renderer block for row-level item output
      *
      * @param string $type
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _getRowItemRenderer($type)
     {
         $renderer = $this->getChildBlock($this->_getRowItemType($type));
-        if ($renderer instanceof Magento_Core_Block) {
+        if ($renderer instanceof \Magento\Core\Block) {
             $renderer->setRenderedBlock($this);
             return $renderer;
         }

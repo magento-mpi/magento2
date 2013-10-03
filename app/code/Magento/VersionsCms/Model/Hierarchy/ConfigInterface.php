@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_VersionsCms_Model_Hierarchy_ConfigInterface
+namespace Magento\VersionsCms\Model\Hierarchy;
+
+interface ConfigInterface
 {
     /**
      * Return available Context Menu layouts output
@@ -20,7 +22,7 @@ interface Magento_VersionsCms_Model_Hierarchy_ConfigInterface
      * Return Context Menu layout by its name
      *
      * @param string $layoutName
-     * @return Magento_Object|boolean
+     * @return \Magento\Object|boolean
      */
     public function getContextMenuLayout($layoutName);
 }

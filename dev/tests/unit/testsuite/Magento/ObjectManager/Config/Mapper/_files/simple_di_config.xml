@@ -9,26 +9,26 @@
 -->
 <config>
     <!-- Comment within root node -->
-    <preference for="Magento_Core_Model_Db_UpdaterInterface" type="Magento_Core_Model_Db_Updater" />
-    <preference for="Magento_Core_Model_AppInterface" type="Magento_Core_Model_App_Proxy" />
-    <type name="Magento_Core_Model_App_State">
+    <preference for="Magento\Core\Model\Db\UpdaterInterface" type="Magento\Core\Model\Db\Updater" />
+    <preference for="Magento\Core\Model\AppInterface" type="Magento\Core\Model\App\Proxy" />
+    <type name="Magento\Core\Model\App\State">
         <param name="mode">
-            <value type="argument">Magento_Core_Model_App::PARAM_MODE</value>
+            <value type="argument">Magento\Core\Model\App::PARAM_MODE</value>
         </param>
     </type>
-    <type name="Magento_Core_Model_Config_Modules">
+    <type name="Magento\Core\Model\Config_Modules">
         <!-- Comment within type node -->
         <param name="storage">
             <!-- Comment within param node -->
-            <instance type="Magento_Core_Model_Config_Storage_Modules" shared="false" />
+            <instance type="Magento\Core\Model\Config\Storage_Modules" shared="false" />
         </param>
-        <plugin name="simple_modules_plugin" type="Magento_Core_Model_Config_Modules_Plugin" disabled="true" sortOrder="10" />
-        <plugin name="simple_modules_plugin_advanced" type="Magento_Core_Model_Config_Modules_PluginAdvanced" />
+        <plugin name="simple_modules_plugin" type="Magento\Core\Model\Config_Modules_Plugin" disabled="true" sortOrder="10" />
+        <plugin name="simple_modules_plugin_advanced" type="Magento\Core\Model\Config_Modules_PluginAdvanced" />
         <plugin name="overridden_plugin" sortOrder="30" disabled="true" />
     </type>
-    <type name="Magento_Http_Handler_Composite" shared="false">
+    <type name="Magento\Http\Handler\Composite" shared="false">
         <param name="factory">
-            <instance type="Magento_Http_HandlerFactory" />
+            <instance type="Magento\Http\HandlerFactory" />
         </param>
         <param name="handlers">
             <value>
@@ -45,12 +45,12 @@
             </value>
         </param>
     </type>
-    <type name="Magento_Data_Collection_Db_FetchStrategy_Cache">
+    <type name="Magento\Data\Collection\Db\FetchStrategy\Cache">
         <param name="cacheIdPrefix"><value><![CDATA[collection_]]></value></param>
         <param name="cacheLifetime"><value>86400</value></param>
         <param name="cacheTags">
             <value>
-                <const type='const'>Magento_Core_Model_Website::CACHE_TAG</const>
+                <const type='const'>Magento\Core\Model\Website::CACHE_TAG</const>
                 <boolFalse type='bool'>false</boolFalse>
                 <boolTrue type='bool'>true</boolTrue>
                 <boolOne type='bool'>1</boolOne>
@@ -61,7 +61,7 @@
             </value>
         </param>
         <param name="constParam">
-            <value type='const'>Magento_Core_Model_Website::CACHE_TAG</value>
+            <value type='const'>Magento\Core\Model\Website::CACHE_TAG</value>
         </param>
         <param name="boolFalseParam">
             <value type='bool'>false</value>
@@ -85,6 +85,6 @@
             <value type='string' pattern="[a-z\-]*">az-value</value>
         </param>
     </type>
-    <virtualType name="customCacheInstance" type="Magento_Core_Model_Cache" shared="true" />
+    <virtualType name="customCacheInstance" type="Magento\Core\Model\Cache" shared="true" />
     <virtualType name="customOverriddenInstance" shared="false" />
 </config>

@@ -6,15 +6,17 @@
  * @license     {license_link}
  */
 
-class Magento_Customer_Model_Address_Config_SchemaLocatorTest extends PHPUnit_Framework_TestCase
+namespace Magento\Customer\Model\Address\Config;
+
+class SchemaLocatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Customer_Model_Address_Config_SchemaLocator
+     * @var \Magento\Customer\Model\Address\Config\SchemaLocator
      */
     protected $_model;
 
     /**
-     * @var Magento_Core_Model_Config_Modules_Reader|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Config\Modules\Reader|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_moduleReader;
 
@@ -32,7 +34,7 @@ class Magento_Customer_Model_Address_Config_SchemaLocatorTest extends PHPUnit_Fr
     {
         $this->_xsdFile = $this->_xsdDir . '/address_formats.xsd';
         $this->_moduleReader = $this->getMock(
-            'Magento_Core_Model_Config_Modules_Reader', array('getModuleDir'), array(), '', false
+            'Magento\Core\Model\Config\Modules\Reader', array('getModuleDir'), array(), '', false
         );
         $this->_moduleReader
             ->expects($this->once())
@@ -40,7 +42,7 @@ class Magento_Customer_Model_Address_Config_SchemaLocatorTest extends PHPUnit_Fr
             ->will($this->returnValue($this->_xsdDir))
         ;
 
-        $this->_model = new Magento_Customer_Model_Address_Config_SchemaLocator($this->_moduleReader);
+        $this->_model = new \Magento\Customer\Model\Address\Config\SchemaLocator($this->_moduleReader);
     }
 
     public function testGetSchema()

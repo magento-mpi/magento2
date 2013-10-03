@@ -1,35 +1,37 @@
 <?php
 /**
- * Test class for Magento_Profiler_Driver_Standard
+ * Test class for \Magento\Profiler\Driver\Standard
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Profiler_Driver_StandardTest extends PHPUnit_Framework_TestCase
+namespace Magento\Profiler\Driver;
+
+class StandardTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Profiler_Driver_Standard_Stat|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Profiler\Driver\Standard\Stat|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_stat;
 
     /**
-     * @var Magento_Profiler_Driver_Standard
+     * @var \Magento\Profiler\Driver\Standard
      */
     protected $_driver;
 
     protected function setUp()
     {
-        $this->_stat = $this->getMock('Magento_Profiler_Driver_Standard_Stat');
-        $this->_driver = new Magento_Profiler_Driver_Standard(array(
+        $this->_stat = $this->getMock('Magento\Profiler\Driver\Standard\Stat');
+        $this->_driver = new \Magento\Profiler\Driver\Standard(array(
             'stat' => $this->_stat
         ));
     }
 
     protected function tearDown()
     {
-        Magento_Profiler::reset();
+        \Magento\Profiler::reset();
     }
 
     /**
@@ -37,8 +39,8 @@ class Magento_Profiler_Driver_StandardTest extends PHPUnit_Framework_TestCase
      */
     public function testDefaultConstructor()
     {
-        $driver = new Magento_Profiler_Driver_Standard();
-        $this->assertAttributeInstanceOf('Magento_Profiler_Driver_Standard_Stat', '_stat', $driver);
+        $driver = new \Magento\Profiler\Driver\Standard();
+        $this->assertAttributeInstanceOf('Magento\Profiler\Driver\Standard\Stat', '_stat', $driver);
     }
 
     /**
@@ -83,7 +85,7 @@ class Magento_Profiler_Driver_StandardTest extends PHPUnit_Framework_TestCase
      */
     public function testInitOutputs()
     {
-        $outputFactory = $this->getMock('Magento_Profiler_Driver_Standard_Output_Factory');
+        $outputFactory = $this->getMock('Magento\Profiler\Driver\Standard\Output\Factory');
         $config = array(
             'outputs' => array(
                 'outputTypeOne' => array(
@@ -97,8 +99,8 @@ class Magento_Profiler_Driver_StandardTest extends PHPUnit_Framework_TestCase
             'outputFactory' => $outputFactory
         );
 
-        $outputOne = $this->getMock('Magento_Profiler_Driver_Standard_OutputInterface');
-        $outputTwo = $this->getMock('Magento_Profiler_Driver_Standard_OutputInterface');
+        $outputOne = $this->getMock('Magento\Profiler\Driver\Standard\OutputInterface');
+        $outputTwo = $this->getMock('Magento\Profiler\Driver\Standard\OutputInterface');
 
         $outputFactory->expects($this->at(0))
             ->method('create')
@@ -116,7 +118,7 @@ class Magento_Profiler_Driver_StandardTest extends PHPUnit_Framework_TestCase
             ))
             ->will($this->returnValue($outputTwo));
 
-        $driver = new Magento_Profiler_Driver_Standard($config);
+        $driver = new \Magento\Profiler\Driver\Standard($config);
         $this->assertAttributeCount(2, '_outputs', $driver);
         $this->assertAttributeEquals(array($outputOne, $outputTwo), '_outputs', $driver);
     }
@@ -126,16 +128,16 @@ class Magento_Profiler_Driver_StandardTest extends PHPUnit_Framework_TestCase
      */
     public function testDisplayAndRegisterOutput()
     {
-        $outputOne = $this->getMock('Magento_Profiler_Driver_Standard_OutputInterface');
+        $outputOne = $this->getMock('Magento\Profiler\Driver\Standard\OutputInterface');
         $outputOne->expects($this->once())->method('display')->with($this->_stat);
-        $outputTwo = $this->getMock('Magento_Profiler_Driver_Standard_OutputInterface');
+        $outputTwo = $this->getMock('Magento\Profiler\Driver\Standard\OutputInterface');
         $outputTwo->expects($this->once())->method('display')->with($this->_stat);
 
         $this->_driver->registerOutput($outputOne);
         $this->_driver->registerOutput($outputTwo);
-        Magento_Profiler::enable();
+        \Magento\Profiler::enable();
         $this->_driver->display();
-        Magento_Profiler::disable();
+        \Magento\Profiler::disable();
         $this->_driver->display();
     }
 
@@ -144,10 +146,10 @@ class Magento_Profiler_Driver_StandardTest extends PHPUnit_Framework_TestCase
      */
     public function testDefaultOutputFactory()
     {
-        $method = new ReflectionMethod($this->_driver, '_getOutputFactory');
+        $method = new \ReflectionMethod($this->_driver, '_getOutputFactory');
         $method->setAccessible(true);
         $this->assertInstanceOf(
-            'Magento_Profiler_Driver_Standard_Output_Factory',
+            'Magento\Profiler\Driver\Standard\Output\Factory',
             $method->invoke($this->_driver)
         );
     }

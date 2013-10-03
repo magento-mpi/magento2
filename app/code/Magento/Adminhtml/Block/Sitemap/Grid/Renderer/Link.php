@@ -14,28 +14,30 @@
  * @category   Magento
  * @package    Magento_Sitemap
  */
-class Magento_Adminhtml_Block_Sitemap_Grid_Renderer_Link extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\Adminhtml\Block\Sitemap\Grid\Renderer;
+
+class Link extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
-     * @var Magento_Filesystem $filesystem
+     * @var \Magento\Filesystem $filesystem
      */
     protected $_filesystem;
 
     /**
-     * @var Magento_Sitemap_Model_SitemapFactory
+     * @var \Magento\Sitemap\Model\SitemapFactory
      */
     protected $_sitemapFactory;
 
     /**
-     * @param Magento_Sitemap_Model_SitemapFactory $sitemapFactory
-     * @param Magento_Backend_Block_Context $context
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Sitemap\Model\SitemapFactory $sitemapFactory
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Filesystem $filesystem
      * @param array $data
      */
     public function __construct(
-        Magento_Sitemap_Model_SitemapFactory $sitemapFactory,
-        Magento_Backend_Block_Context $context,
-        Magento_Filesystem $filesystem,
+        \Magento\Sitemap\Model\SitemapFactory $sitemapFactory,
+        \Magento\Backend\Block\Context $context,
+        \Magento\Filesystem $filesystem,
         array $data = array()
     ) {
         $this->_sitemapFactory = $sitemapFactory;
@@ -46,12 +48,12 @@ class Magento_Adminhtml_Block_Sitemap_Grid_Renderer_Link extends Magento_Adminht
     /**
      * Prepare link to display in grid
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
-        /** @var $sitemap Magento_Sitemap_Model_Sitemap */
+        /** @var $sitemap \Magento\Sitemap\Model\Sitemap */
         $sitemap = $this->_sitemapFactory->create();
         $url = $this->escapeHtml($sitemap->getSitemapUrl($row->getSitemapPath(), $row->getSitemapFilename()));
 

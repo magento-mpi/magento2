@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class for Magento_FullPageCache_Model_Processor
+ * Test class for \Magento\FullPageCache\Model\Processor
  *
  * {license_notice}
  *
@@ -8,112 +8,114 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_FullPageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCase
+namespace Magento\FullPageCache\Model;
+
+class ProcessorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_FullPageCache_Model_Processor
+     * @var \Magento\FullPageCache\Model\Processor
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_restrictionMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fpcCacheMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_subProcFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_plcFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cntrFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_environmentMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_requestIdtfMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_designInfoMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_metadataMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeIdentifier;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeManager;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cacheTypeList;
 
     protected function setUp()
     {
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_restrictionMock = $this->getMock('Magento_FullPageCache_Model_Processor_RestrictionInterface',
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_restrictionMock = $this->getMock('Magento\FullPageCache\Model\Processor\RestrictionInterface',
             array(), array(), '', false
         );
-        $this->_fpcCacheMock = $this->getMock('Magento_FullPageCache_Model_Cache', array(), array(), '', false);
+        $this->_fpcCacheMock = $this->getMock('Magento\FullPageCache\Model\Cache', array(), array(), '', false);
 
-        $this->_subProcFactoryMock = $this->getMock('Magento_FullPageCache_Model_Cache_SubProcessorFactory',
+        $this->_subProcFactoryMock = $this->getMock('Magento\FullPageCache\Model\Cache\SubProcessorFactory',
             array(), array(), '', false
         );
-        $this->_plcFactoryMock = $this->getMock('Magento_FullPageCache_Model_Container_PlaceholderFactory',
+        $this->_plcFactoryMock = $this->getMock('Magento\FullPageCache\Model\Container\PlaceholderFactory',
             array(), array(), '', false
         );
-        $this->_cntrFactoryMock = $this->getMock('Magento_FullPageCache_Model_ContainerFactory',
+        $this->_cntrFactoryMock = $this->getMock('Magento\FullPageCache\Model\ContainerFactory',
             array(), array(), '', false
         );
-        $this->_environmentMock = $this->getMock('Magento_FullPageCache_Model_Environment',
+        $this->_environmentMock = $this->getMock('Magento\FullPageCache\Model\Environment',
             array(), array(), '', false
         );
-        $this->_requestIdtfMock = $this->getMock('Magento_FullPageCache_Model_Request_Identifier',
+        $this->_requestIdtfMock = $this->getMock('Magento\FullPageCache\Model\Request\Identifier',
             array(), array(), '', false
         );
-        $this->_designInfoMock = $this->getMock('Magento_FullPageCache_Model_DesignPackage_Info',
+        $this->_designInfoMock = $this->getMock('Magento\FullPageCache\Model\DesignPackage\Info',
             array(), array(), '', false
         );
-        $this->_metadataMock = $this->getMock('Magento_FullPageCache_Model_Metadata', array(), array(), '', false);
-        $this->_storeIdentifier = $this->getMock('Magento_FullPageCache_Model_Store_Identifier', array(),
+        $this->_metadataMock = $this->getMock('Magento\FullPageCache\Model\Metadata', array(), array(), '', false);
+        $this->_storeIdentifier = $this->getMock('Magento\FullPageCache\Model\Store\Identifier', array(),
             array(), '', false
         );
-        $this->_storeManager = $this->getMock('Magento_Core_Model_StoreManagerInterface');
-        $this->_cacheTypeList = $this->getMock('Magento_Core_Model_Cache_TypeListInterface');
+        $this->_storeManager = $this->getMock('Magento\Core\Model\StoreManagerInterface');
+        $this->_cacheTypeList = $this->getMock('Magento\Core\Model\Cache\TypeListInterface');
 
-        $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
-        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
-        $coreConfig = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
+        $coreConfig = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
 
-        $this->_model = $helper->getObject('Magento_FullPageCache_Model_Processor', array(
-            'eventManager' => $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false),
+        $this->_model = $helper->getObject('Magento\FullPageCache\Model\Processor', array(
+            'eventManager' => $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false),
             'restriction' => $this->_restrictionMock,
             'fpcCache' => $this->_fpcCacheMock,
             'subProcessorFactory' => $this->_subProcFactoryMock,
@@ -130,10 +132,10 @@ class Magento_FullPageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCa
             'coreStoreConfig' => $coreStoreConfig,
             'coreConfig' => $coreConfig,
             'fpcObserverFactory' => $this->getMock(
-                'Magento_FullPageCache_Model_ObserverFactory', array(), array(), '', false
+                'Magento\FullPageCache\Model\ObserverFactory', array(), array(), '', false
             ),
             'processorFactory' => $this->getMock(
-                'Magento_FullPageCache_Model_Cache_SubProcessorFactory', array(), array(), '', false
+                'Magento\FullPageCache\Model\Cache\SubProcessorFactory', array(), array(), '', false
             ),
         ));
     }
@@ -170,7 +172,7 @@ class Magento_FullPageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCa
     {
         $this->_environmentMock->expects($this->once())
             ->method('hasCookie')
-            ->with(Magento_Core_Model_Store::COOKIE_NAME)
+            ->with(\Magento\Core\Model\Store::COOKIE_NAME)
             ->will($this->returnValue(false));
         $expected = 'recently_viewed_count';
 
@@ -181,12 +183,12 @@ class Magento_FullPageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCa
     {
         $this->_environmentMock->expects($this->once())
             ->method('hasCookie')
-            ->with(Magento_Core_Model_Store::COOKIE_NAME)
+            ->with(\Magento\Core\Model\Store::COOKIE_NAME)
             ->will($this->returnValue(true));
 
         $this->_environmentMock->expects($this->once())
             ->method('getCookie')
-            ->with(Magento_Core_Model_Store::COOKIE_NAME)
+            ->with(\Magento\Core\Model\Store::COOKIE_NAME)
             ->will($this->returnValue('100'));
 
         $expected = 'recently_viewed_count_100';
@@ -198,7 +200,7 @@ class Magento_FullPageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCa
     {
         $this->_environmentMock->expects($this->once())
             ->method('hasCookie')
-            ->with(Magento_Core_Model_Store::COOKIE_NAME)
+            ->with(\Magento\Core\Model\Store::COOKIE_NAME)
             ->will($this->returnValue(false));
         $expected = 'full_page_cache_session_info';
 
@@ -209,12 +211,12 @@ class Magento_FullPageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCa
     {
         $this->_environmentMock->expects($this->once())
             ->method('hasCookie')
-            ->with(Magento_Core_Model_Store::COOKIE_NAME)
+            ->with(\Magento\Core\Model\Store::COOKIE_NAME)
             ->will($this->returnValue(true));
 
         $this->_environmentMock->expects($this->once())
             ->method('getCookie')
-            ->with(Magento_Core_Model_Store::COOKIE_NAME)
+            ->with(\Magento\Core\Model\Store::COOKIE_NAME)
             ->will($this->returnValue('100'));
 
         $expected = 'full_page_cache_session_info_100';
@@ -224,7 +226,7 @@ class Magento_FullPageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCa
 
     public function testAddGetRequestTag()
     {
-        $tags = array(Magento_FullPageCache_Model_Processor::CACHE_TAG);
+        $tags = array(\Magento\FullPageCache\Model\Processor::CACHE_TAG);
         $this->assertEquals($tags, $this->_model->getRequestTags());
 
         $this->_model->addRequestTag('some_tag');
@@ -255,7 +257,7 @@ class Magento_FullPageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCa
     public function testGetSetSubprocessor()
     {
         $this->assertNull($this->_model->getSubprocessor());
-        $subProcessor = $this->getMock('Magento_FullPageCache_Model_Cache_SubProcessorInterface');
+        $subProcessor = $this->getMock('Magento\FullPageCache\Model\Cache\SubProcessorInterface');
         $this->_model->setSubprocessor($subProcessor);
         $this->assertEquals($subProcessor, $this->_model->getSubprocessor());
     }

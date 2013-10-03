@@ -16,7 +16,9 @@
  * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_SalesRule_Model_Resource_Coupon_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\SalesRule\Model\Resource\Coupon;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Constructor
@@ -25,19 +27,19 @@ class Magento_SalesRule_Model_Resource_Coupon_Collection extends Magento_Core_Mo
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('Magento_SalesRule_Model_Coupon', 'Magento_SalesRule_Model_Resource_Coupon');
+        $this->_init('Magento\SalesRule\Model\Coupon', 'Magento\SalesRule\Model\Resource\Coupon');
     }
 
     /**
      * Add rule to filter
      *
-     * @param Magento_SalesRule_Model_Rule|int $rule
+     * @param \Magento\SalesRule\Model\Rule|int $rule
      *
-     * @return Magento_SalesRule_Model_Resource_Coupon_Collection
+     * @return \Magento\SalesRule\Model\Resource\Coupon\Collection
      */
     public function addRuleToFilter($rule)
     {
-        if ($rule instanceof Magento_SalesRule_Model_Rule) {
+        if ($rule instanceof \Magento\SalesRule\Model\Rule) {
             $ruleId = $rule->getId();
         } else {
             $ruleId = (int)$rule;
@@ -53,7 +55,7 @@ class Magento_SalesRule_Model_Resource_Coupon_Collection extends Magento_Core_Mo
      *
      * @param array $ruleIds
      *
-     * @return Magento_SalesRule_Model_Resource_Coupon_Collection
+     * @return \Magento\SalesRule\Model\Resource\Coupon\Collection
      */
     public function addRuleIdsToFilter(array $ruleIds)
     {
@@ -64,7 +66,7 @@ class Magento_SalesRule_Model_Resource_Coupon_Collection extends Magento_Core_Mo
     /**
      * Filter collection to be filled with auto-generated coupons only
      *
-     * @return Magento_SalesRule_Model_Resource_Coupon_Collection
+     * @return \Magento\SalesRule\Model\Resource\Coupon\Collection
      */
     public function addGeneratedCouponsFilter()
     {
@@ -75,8 +77,8 @@ class Magento_SalesRule_Model_Resource_Coupon_Collection extends Magento_Core_Mo
     /**
      * Callback function that filters collection by field "Used" from grid
      *
-     * @param Magento_Core_Model_Resource_Db_Collection_Abstract $collection
-     * @param Magento_Adminhtml_Block_Widget_Grid_Column $column
+     * @param \Magento\Core\Model\Resource\Db\Collection\AbstractCollection $collection
+     * @param \Magento\Adminhtml\Block\Widget\Grid\Column $column
      */
     public function addIsUsedFilterCallback($collection, $column)
     {

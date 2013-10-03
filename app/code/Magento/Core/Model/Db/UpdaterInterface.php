@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Core_Model_Db_UpdaterInterface
+namespace Magento\Core\Model\Db;
+
+interface UpdaterInterface
 {
     /**
      * Apply database scheme updates whenever needed

@@ -14,6 +14,6 @@
         </action>
     </referenceBlock>
     <referenceContainer name="content">
-        <block class="Magento_Customer_Block_Form_Login" name="customer_form_login" template="form/login.phtml"/>
+        <block class="Magento\Customer\Block\Form\Login" name="customer_form_login" template="form/login.phtml"/>
     </referenceContainer>
 </layout>

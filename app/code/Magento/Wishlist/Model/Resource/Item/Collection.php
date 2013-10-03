@@ -16,7 +16,9 @@
  * @package     Magento_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Wishlist\Model\Resource\Item;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Product Visibility Filter to product collection flag
@@ -77,97 +79,97 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
     /**
      * Adminhtml sales
      *
-     * @var Magento_Adminhtml_Helper_Sales
+     * @var \Magento\Adminhtml\Helper\Sales
      */
     protected $_adminhtmlSales = null;
 
     /**
      * Catalog inventory data
      *
-     * @var Magento_CatalogInventory_Helper_Data
+     * @var \Magento\CatalogInventory\Helper\Data
      */
     protected $_inventoryData = null;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Model_Date
+     * @var \Magento\Core\Model\Date
      */
     protected $_date;
 
     /**
-     * @var Magento_Wishlist_Model_Config
+     * @var \Magento\Wishlist\Model\Config
      */
     protected $_wishlistConfig;
 
     /**
-     * @var Magento_Catalog_Model_Product_Visibility
+     * @var \Magento\Catalog\Model\Product\Visibility
      */
     protected $_productVisibility;
 
     /**
-     * @var Magento_Core_Model_Resource
+     * @var \Magento\Core\Model\Resource
      */
     protected $_coreResource;
 
     /**
-     * @var Magento_Wishlist_Model_Resource_Item_Option_CollectionFactory
+     * @var \Magento\Wishlist\Model\Resource\Item\Option\CollectionFactory
      */
     protected $_optionCollFactory;
 
     /**
-     * @var Magento_Catalog_Model_Resource_Product_CollectionFactory
+     * @var \Magento\Catalog\Model\Resource\Product\CollectionFactory
      */
     protected $_productCollFactory;
 
     /**
-     * @var Magento_Catalog_Model_Resource_ConfigFactory
+     * @var \Magento\Catalog\Model\Resource\ConfigFactory
      */
     protected $_catalogConfFactory;
 
     /**
-     * @var Magento_Catalog_Model_Entity_AttributeFactory
+     * @var \Magento\Catalog\Model\Entity\AttributeFactory
      */
     protected $_catalogAttrFactory;
 
     /**
-     * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
-     * @param Magento_Adminhtml_Helper_Sales $adminhtmlSales
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Date $date
-     * @param Magento_Wishlist_Model_Config $wishlistConfig
-     * @param Magento_Catalog_Model_Product_Visibility $productVisibility
-     * @param Magento_Core_Model_Resource $coreResource
-     * @param Magento_Wishlist_Model_Resource_Item_Option_CollectionFactory $optionCollFactory
-     * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollFactory
-     * @param Magento_Catalog_Model_Resource_ConfigFactory $catalogConfFactory
-     * @param Magento_Catalog_Model_Entity_AttributeFactory $catalogAttrFactory
-     * @param Magento_Wishlist_Model_Resource_Item $resource
+     * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
+     * @param \Magento\Adminhtml\Helper\Sales $adminhtmlSales
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Wishlist\Model\Config $wishlistConfig
+     * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
+     * @param \Magento\Core\Model\Resource $coreResource
+     * @param \Magento\Wishlist\Model\Resource\Item\Option\CollectionFactory $optionCollFactory
+     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollFactory
+     * @param \Magento\Catalog\Model\Resource\ConfigFactory $catalogConfFactory
+     * @param \Magento\Catalog\Model\Entity\AttributeFactory $catalogAttrFactory
+     * @param \Magento\Wishlist\Model\Resource\Item $resource
      */
     public function __construct(
-        Magento_CatalogInventory_Helper_Data $catalogInventoryData,
-        Magento_Adminhtml_Helper_Sales $adminhtmlSales,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Date $date,
-        Magento_Wishlist_Model_Config $wishlistConfig,
-        Magento_Catalog_Model_Product_Visibility $productVisibility,
-        Magento_Core_Model_Resource $coreResource,
-        Magento_Wishlist_Model_Resource_Item_Option_CollectionFactory $optionCollFactory,
-        Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollFactory,
-        Magento_Catalog_Model_Resource_ConfigFactory $catalogConfFactory,
-        Magento_Catalog_Model_Entity_AttributeFactory $catalogAttrFactory,
-        Magento_Wishlist_Model_Resource_Item $resource
+        \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
+        \Magento\Adminhtml\Helper\Sales $adminhtmlSales,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Date $date,
+        \Magento\Wishlist\Model\Config $wishlistConfig,
+        \Magento\Catalog\Model\Product\Visibility $productVisibility,
+        \Magento\Core\Model\Resource $coreResource,
+        \Magento\Wishlist\Model\Resource\Item\Option\CollectionFactory $optionCollFactory,
+        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollFactory,
+        \Magento\Catalog\Model\Resource\ConfigFactory $catalogConfFactory,
+        \Magento\Catalog\Model\Entity\AttributeFactory $catalogAttrFactory,
+        \Magento\Wishlist\Model\Resource\Item $resource
     ) {
         $this->_inventoryData = $catalogInventoryData;
         $this->_adminhtmlSales = $adminhtmlSales;
@@ -190,14 +192,14 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
      */
     public function _construct()
     {
-        $this->_init('Magento_Wishlist_Model_Item', 'Magento_Wishlist_Model_Resource_Item');
+        $this->_init('Magento\Wishlist\Model\Item', 'Magento\Wishlist\Model\Resource\Item');
         $this->addFilterToMap('store_id', 'main_table.store_id');
     }
 
     /**
      * After load processing
      *
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     protected function _afterLoad()
     {
@@ -218,16 +220,16 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
     /**
      * Add options to items
      *
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     protected function _assignOptions()
     {
         $itemIds = array_keys($this->_items);
-        /* @var $optionCollection Magento_Wishlist_Model_Resource_Item_Option_Collection */
+        /* @var $optionCollection \Magento\Wishlist\Model\Resource\Item\Option\Collection */
         $optionCollection = $this->_optionCollFactory->create();
         $optionCollection->addItemFilter($itemIds);
 
-        /* @var $item Magento_Wishlist_Model_Item */
+        /* @var $item \Magento\Wishlist\Model\Item */
         foreach ($this as $item) {
             $item->setOptions($optionCollection->getOptionsByItem($item));
         }
@@ -240,11 +242,11 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
     /**
      * Add products to items and item options
      *
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     protected function _assignProducts()
     {
-        Magento_Profiler::start('WISHLIST:'.__METHOD__, array('group' => 'WISHLIST', 'method' => __METHOD__));
+        \Magento\Profiler::start('WISHLIST:'.__METHOD__, array('group' => 'WISHLIST', 'method' => __METHOD__));
         $productIds = array();
 
         $isStoreAdmin = $this->_storeManager->getStore()->isAdmin();
@@ -262,7 +264,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
 
         $this->_productIds = array_merge($this->_productIds, array_keys($productIds));
         $attributes = $this->_wishlistConfig->getProductAttributes();
-        /** @var Magento_Catalog_Model_Resource_Product_Collection $productCollection */
+        /** @var \Magento\Catalog\Model\Resource\Product\Collection $productCollection */
         $productCollection = $this->_productCollFactory->create();
         foreach ($storeIds as $id) {
             $productCollection->addStoreFilter($id);
@@ -306,7 +308,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
             }
         }
 
-        Magento_Profiler::stop('WISHLIST:'.__METHOD__);
+        \Magento\Profiler::stop('WISHLIST:'.__METHOD__);
 
         return $this;
     }
@@ -314,10 +316,10 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
     /**
      * Add filter by wishlist object
      *
-     * @param Magento_Wishlist_Model_Wishlist $wishlist
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @param \Magento\Wishlist\Model\Wishlist $wishlist
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
-    public function addWishlistFilter(Magento_Wishlist_Model_Wishlist $wishlist)
+    public function addWishlistFilter(\Magento\Wishlist\Model\Wishlist $wishlist)
     {
         $this->addFieldToFilter('wishlist_id', $wishlist->getId());
         return $this;
@@ -327,7 +329,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
      * Add filtration by customer id
      *
      * @param int $customerId
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     public function addCustomerIdFilter($customerId)
     {
@@ -346,7 +348,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
      *
      * @param array $storeIds
      *
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     public function addStoreFilter($storeIds = array())
     {
@@ -362,7 +364,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
     /**
      * Add items store data to collection
      *
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     public function addStoreData()
     {
@@ -377,11 +379,11 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
     /**
      * Reset sort order
      *
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     public function resetSortOrder()
     {
-        $this->getSelect()->reset(Zend_Db_Select::ORDER);
+        $this->getSelect()->reset(\Zend_Db_Select::ORDER);
         return $this;
     }
 
@@ -389,7 +391,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
      * Set product Visibility Filter to product collection flag
      *
      * @param bool $flag
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     public function setVisibilityFilter($flag = true)
     {
@@ -402,7 +404,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
      * This filter apply Salable Product Types Filter to product collection.
      *
      * @param bool $flag
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     public function setSalableFilter($flag = true)
     {
@@ -415,7 +417,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
      * This filter remove items with no salable product.
      *
      * @param bool $flag
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     public function setInStockFilter($flag = true)
     {
@@ -426,7 +428,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
     /**
      * Set flag of adding days in wishlist
      *
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     public function addDaysInWishlist()
     {
@@ -440,7 +442,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
      * $constraints may contain 'from' and 'to' indexes with number of days to look for items
      *
      * @param array $constraints
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     public function addDaysFilter($constraints)
     {
@@ -453,14 +455,14 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
         $now = $this->_date->date();
         $gmtOffset = (int)$this->_date->getGmtOffset();
         if (isset($constraints['from'])) {
-            $lastDay = new Zend_Date($now, Magento_Date::DATETIME_INTERNAL_FORMAT);
+            $lastDay = new \Zend_Date($now, \Magento\Date::DATETIME_INTERNAL_FORMAT);
             $lastDay->subSecond($gmtOffset)
                 ->subDay(intval($constraints['from']));
             $filter['to'] = $lastDay;
         }
 
         if (isset($constraints['to'])) {
-            $firstDay = new Zend_Date($now, Magento_Date::DATETIME_INTERNAL_FORMAT);
+            $firstDay = new \Zend_Date($now, \Magento\Date::DATETIME_INTERNAL_FORMAT);
             $firstDay->subSecond($gmtOffset)
                 ->subDay(intval($constraints['to']) + 1);
             $filter['from'] = $firstDay;
@@ -477,13 +479,13 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
     /**
      * Joins product name attribute value to use it in WHERE and ORDER clauses
      *
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     protected function _joinProductNameTable()
     {
         if (!$this->_isProductNameJoined) {
             $entityTypeId = $this->_catalogConfFactory->create()->getEntityTypeId();
-            /** @var Magento_Catalog_Model_Entity_Attribute $attribute */
+            /** @var \Magento\Catalog\Model\Entity\Attribute $attribute */
             $attribute = $this->_catalogAttrFactory->create()
                 ->loadByCode($entityTypeId, 'name');
 
@@ -508,7 +510,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
      * Adds filter on product name
      *
      * @param string $productName
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     public function addProductNameFilter($productName)
     {
@@ -523,7 +525,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
      * Sets ordering by product name
      *
      * @param string $dir
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     public function setOrderByProductName($dir)
     {
@@ -551,7 +553,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
     }
 
     /**
-     * @return Magento_Wishlist_Model_Resource_Item_Collection|Magento_Data_Collection_Db
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection|\Magento\Data\Collection\Db
      */
     protected function _afterLoadData()
     {

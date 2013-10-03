@@ -9,8 +9,8 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceContainer name="content">
-        <block class="Magento_Adminhtml_Block_Sales_Order_Create_Newsletter" template="sales/order/create/abstract.phtml" name="newsletter">
-            <block class="Magento_Adminhtml_Block_Sales_Order_Create_Newsletter_Form" template="sales/order/create/newsletter/form.phtml" name="order.create.newsletter.form" as="form"/>
+        <block class="Magento\Adminhtml\Block\Sales\Order\Create\Newsletter" template="sales/order/create/abstract.phtml" name="newsletter">
+            <block class="Magento\Adminhtml\Block\Sales\Order\Create\Newsletter\Form" template="sales/order/create/newsletter/form.phtml" name="order.create.newsletter.form" as="form"/>
         </block>
     </referenceContainer>
 </layout>

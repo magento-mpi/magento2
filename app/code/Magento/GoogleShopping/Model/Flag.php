@@ -16,7 +16,9 @@
  * @package     Magento_GoogleShopping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Model_Flag extends Magento_Core_Model_Flag
+namespace Magento\GoogleShopping\Model;
+
+class Flag extends \Magento\Core\Model\Flag
 {
     /**
      * Flag time to live in seconds
@@ -69,9 +71,9 @@ class Magento_GoogleShopping_Model_Flag extends Magento_Core_Model_Flag
      */
     public function isExpired()
     {
-        if (!!$this->getState() && Magento_GoogleShopping_Model_Flag::FLAG_TTL) {
+        if (!!$this->getState() && \Magento\GoogleShopping\Model\Flag::FLAG_TTL) {
             if ($this->getLastUpdate()) {
-                return (time() > (strtotime($this->getLastUpdate()) + Magento_GoogleShopping_Model_Flag::FLAG_TTL));
+                return (time() > (strtotime($this->getLastUpdate()) + \Magento\GoogleShopping\Model\Flag::FLAG_TTL));
             } else {
                 return true;
             }

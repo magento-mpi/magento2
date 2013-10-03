@@ -15,13 +15,15 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Sales_Order_Address_Form_Renderer_Vat
-    extends Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element
+namespace Magento\Adminhtml\Block\Customer\Sales\Order\Address\Form\Renderer;
+
+class Vat
+    extends \Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset\Element
 {
     /**
      * Validate button block
      *
-     * @var null|Magento_Adminhtml_Block_Widget_Button
+     * @var null|\Magento\Adminhtml\Block\Widget\Button
      */
     protected $_validateButton = null;
 
@@ -30,12 +32,12 @@ class Magento_Adminhtml_Block_Customer_Sales_Order_Address_Form_Renderer_Vat
     /**
      * Retrieve validate button block
      *
-     * @return Magento_Adminhtml_Block_Widget_Button
+     * @return \Magento\Adminhtml\Block\Widget\Button
      */
     public function getValidateButton()
     {
         if (is_null($this->_validateButton)) {
-            /** @var $form Magento_Data_Form */
+            /** @var $form \Magento\Data\Form */
             $form = $this->_element->getForm();
 
             $vatElementId = $this->_element->getHtmlId();
@@ -68,7 +70,7 @@ class Magento_Adminhtml_Block_Customer_Sales_Order_Address_Form_Renderer_Vat
             $beforeHtml = '<script type="text/javascript">var ' . $optionsVarName . ' = ' . $vatValidateOptions
                 . ';</script>';
             $this->_validateButton = $this->getLayout()
-                ->createBlock('Magento_Adminhtml_Block_Widget_Button')->setData(array(
+                ->createBlock('Magento\Adminhtml\Block\Widget\Button')->setData(array(
                     'label'       => __('Validate VAT Number'),
                     'before_html' => $beforeHtml,
                     'onclick'     => 'order.validateVat(' . $optionsVarName . ')'

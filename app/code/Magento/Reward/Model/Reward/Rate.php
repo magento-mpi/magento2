@@ -12,22 +12,24 @@
 /**
  * Reward rate model
  *
- * @method Magento_Reward_Model_Resource_Reward_Rate _getResource()
- * @method Magento_Reward_Model_Resource_Reward_Rate getResource()
+ * @method \Magento\Reward\Model\Resource\Reward\Rate _getResource()
+ * @method \Magento\Reward\Model\Resource\Reward\Rate getResource()
  * @method int getWebsiteId()
- * @method Magento_Reward_Model_Reward_Rate setWebsiteId(int $value)
+ * @method \Magento\Reward\Model\Reward\Rate setWebsiteId(int $value)
  * @method int getCustomerGroupId()
- * @method Magento_Reward_Model_Reward_Rate setCustomerGroupId(int $value)
+ * @method \Magento\Reward\Model\Reward\Rate setCustomerGroupId(int $value)
  * @method int getDirection()
- * @method Magento_Reward_Model_Reward_Rate setDirection(int $value)
- * @method Magento_Reward_Model_Reward_Rate setPoints(int $value)
- * @method Magento_Reward_Model_Reward_Rate setCurrencyAmount(float $value)
+ * @method \Magento\Reward\Model\Reward\Rate setDirection(int $value)
+ * @method \Magento\Reward\Model\Reward\Rate setPoints(int $value)
+ * @method \Magento\Reward\Model\Reward\Rate setCurrencyAmount(float $value)
  *
  * @category    Magento
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Model_Reward_Rate extends Magento_Core_Model_Abstract
+namespace Magento\Reward\Model\Reward;
+
+class Rate extends \Magento\Core\Model\AbstractModel
 {
     const RATE_EXCHANGE_DIRECTION_TO_CURRENCY = 1;
     const RATE_EXCHANGE_DIRECTION_TO_POINTS   = 2;
@@ -35,38 +37,38 @@ class Magento_Reward_Model_Reward_Rate extends Magento_Core_Model_Abstract
     /**
      * Reward data
      *
-     * @var Magento_Reward_Helper_Data
+     * @var \Magento\Reward\Helper\Data
      */
     protected $_rewardData = null;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Model_Locale
+     * @var \Magento\Core\Model\Locale
      */
     protected $_locale;
 
     /**
-     * @param Magento_Reward_Helper_Data $rewardData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Reward_Model_Resource_Reward_Rate $resource
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Locale $locale
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Reward\Helper\Data $rewardData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Reward\Model\Resource\Reward\Rate $resource
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Locale $locale
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Reward_Helper_Data $rewardData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Reward_Model_Resource_Reward_Rate $resource,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Locale $locale,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Reward\Helper\Data $rewardData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Reward\Model\Resource\Reward\Rate $resource,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Locale $locale,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_rewardData = $rewardData;
@@ -101,14 +103,14 @@ class Magento_Reward_Model_Reward_Rate extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Reward_Model_Resource_Reward_Rate');
+        $this->_init('Magento\Reward\Model\Resource\Reward\Rate');
     }
 
     /**
      * Processing object before save data.
      * Prepare rate data
      *
-     * @return Magento_Reward_Model_Reward_Rate
+     * @return \Magento\Reward\Model\Reward\Rate
      */
     protected function _beforeSave()
     {
@@ -130,7 +132,7 @@ class Magento_Reward_Model_Reward_Rate extends Magento_Core_Model_Abstract
     /**
      * Reset rate data
      *
-     * @return Magento_Reward_Model_Reward_Rate
+     * @return \Magento\Reward\Model\Reward\Rate
      */
     public function reset()
     {
@@ -159,7 +161,7 @@ class Magento_Reward_Model_Reward_Rate extends Magento_Core_Model_Abstract
     /**
      * Prepare values in order to defined direction
      *
-     * @return Magento_Reward_Model_Reward_Rate
+     * @return \Magento\Reward\Model\Reward\Rate
      */
     protected function _prepareRateValues()
     {
@@ -178,7 +180,7 @@ class Magento_Reward_Model_Reward_Rate extends Magento_Core_Model_Abstract
      *
      * @param integer $customerGroupId
      * @param integer $websiteId
-     * @return Magento_Reward_Model_Reward_Rate
+     * @return \Magento\Reward\Model\Reward\Rate
      */
     public function fetch($customerGroupId, $websiteId, $direction) {
         $this->setData('original_website_id', $websiteId)

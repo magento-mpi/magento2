@@ -15,7 +15,9 @@
  * @package    Magento_Review
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Review_Block_Helper extends Magento_Core_Block_Template
+namespace Magento\Review\Block;
+
+class Helper extends \Magento\Core\Block\Template
 {
     protected $_availableTemplates = array(
         'default' => 'helper/summary.phtml',
@@ -23,27 +25,27 @@ class Magento_Review_Block_Helper extends Magento_Core_Block_Template
     );
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Review_Model_ReviewFactory
+     * @var \Magento\Review\Model\ReviewFactory
      */
     protected $_reviewFactory;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Review_Model_ReviewFactory $reviewFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Review\Model\ReviewFactory $reviewFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Review_Model_ReviewFactory $reviewFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Review\Model\ReviewFactory $reviewFactory,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;

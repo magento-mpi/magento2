@@ -10,6 +10,6 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer My Account Wish List Sharing Form" type="page" parent="wishlist_index_index">
     <update handle="customer_account"/>
     <referenceContainer name="my.account.wrapper">
-        <block class="Magento_Wishlist_Block_Customer_Sharing" name="wishlist.sharing" template="sharing.phtml"/>
+        <block class="Magento\Wishlist\Block\Customer\Sharing" name="wishlist.sharing" template="sharing.phtml"/>
     </referenceContainer>
 </layout>

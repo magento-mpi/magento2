@@ -16,20 +16,22 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Helper_Customer extends Magento_Core_Helper_Abstract
+namespace Magento\Reward\Helper;
+
+class Customer extends \Magento\Core\Helper\AbstractHelper
 {
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_storeManager = $storeManager;
         parent::__construct($context);
@@ -39,7 +41,7 @@ class Magento_Reward_Helper_Customer extends Magento_Core_Helper_Abstract
      * Return Unsubscribe notification URL
      *
      * @param string|boolean $notification Notification type
-     * @param int|string|Magento_Core_Model_Store $storeId
+     * @param int|string|\Magento\Core\Model\Store $storeId
      * @return string
      */
     public function getUnsubscribeUrl($notification = false, $storeId = null)

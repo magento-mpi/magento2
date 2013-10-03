@@ -16,9 +16,11 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  *
  * @method string getBehavior() getBehavior()
- * @method Magento_ImportExport_Model_Import setEntity() setEntity(string $value)
+ * @method \Magento\ImportExport\Model\Import setEntity() setEntity(string $value)
  */
-class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstract
+namespace Magento\ImportExport\Model;
+
+class Import extends \Magento\ImportExport\Model\AbstractModel
 {
     /**#@+
      * Import behaviors
@@ -47,14 +49,14 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
     /**
      * Entity adapter.
      *
-     * @var Magento_ImportExport_Model_Import_Entity_Abstract
+     * @var \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      */
     protected $_entityAdapter;
 
     /**
      * Entity invalidated indexes.
      *
-     * @var Magento_ImportExport_Model_Import_Entity_Abstract
+     * @var \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      */
      protected static $_entityInvalidatedIndexes = array (
         'catalog_product' => array (
@@ -68,80 +70,80 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
     /**
      * Import export data
      *
-     * @var Magento_ImportExport_Helper_Data
+     * @var \Magento\ImportExport\Helper\Data
      */
     protected $_importExportData = null;
 
     /**
-     * @var Magento_ImportExport_Model_Import_ConfigInterface
+     * @var \Magento\ImportExport\Model\Import\ConfigInterface
      */
     protected $_importConfig;
 
     /**
-     * @var Magento_ImportExport_Model_Import_Entity_Factory
+     * @var \Magento\ImportExport\Model\Import\Entity\Factory
      */
     protected $_entityFactory;
 
     /**
-     * @var Magento_ImportExport_Model_Resource_Import_Data
+     * @var \Magento\ImportExport\Model\Resource\Import\Data
      */
     protected $_importData;
 
     /**
-     * @var Magento_ImportExport_Model_Export_Adapter_CsvFactory
+     * @var \Magento\ImportExport\Model\Export\Adapter\CsvFactory
      */
     protected $_csvFactory;
 
     /**
-     * @var Zend_File_Transfer_Adapter_HttpFactory
+     * @var \Zend_File_Transfer_Adapter_HttpFactory
      */
     protected $_httpFactory;
 
     /**
-     * @var Magento_Core_Model_File_UploaderFactory
+     * @var \Magento\Core\Model\File\UploaderFactory
      */
     protected $_uploaderFactory;
 
     /**
-     * @var Magento_Index_Model_Indexer
+     * @var \Magento\Index\Model\Indexer
      */
     protected $_indexer;
 
     /**
-     * @var Magento_ImportExport_Model_Source_Import_Behavior_Factory
+     * @var \Magento\ImportExport\Model\Source\Import\Behavior\Factory
      */
     protected $_behaviorFactory;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Dir $dir
-     * @param Magento_Core_Model_Log_AdapterFactory $adapterFactory
-     * @param Magento_ImportExport_Helper_Data $importExportData
-     * @param Magento_Core_Model_Config $coreConfig
-     * @param Magento_ImportExport_Model_Import_ConfigInterface $importConfig
-     * @param Magento_ImportExport_Model_Import_Entity_Factory $entityFactory
-     * @param Magento_ImportExport_Model_Resource_Import_Data $importData
-     * @param Magento_ImportExport_Model_Export_Adapter_CsvFactory $csvFactory
-     * @param Zend_File_Transfer_Adapter_HttpFactory $httpFactory
-     * @param Magento_Core_Model_File_UploaderFactory $uploaderFactory
-     * @param Magento_ImportExport_Model_Source_Import_Behavior_Factory $behaviorFactory
-     * @param Magento_Index_Model_Indexer $indexer
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\Core\Model\Log\AdapterFactory $adapterFactory
+     * @param \Magento\ImportExport\Helper\Data $importExportData
+     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\ImportExport\Model\Import\ConfigInterface $importConfig
+     * @param \Magento\ImportExport\Model\Import\Entity\Factory $entityFactory
+     * @param \Magento\ImportExport\Model\Resource\Import\Data $importData
+     * @param \Magento\ImportExport\Model\Export\Adapter\CsvFactory $csvFactory
+     * @param \Zend_File_Transfer_Adapter_HttpFactory $httpFactory
+     * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
+     * @param \Magento\ImportExport\Model\Source\Import\Behavior\Factory $behaviorFactory
+     * @param \Magento\Index\Model\Indexer $indexer
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Dir $dir,
-        Magento_Core_Model_Log_AdapterFactory $adapterFactory,
-        Magento_ImportExport_Helper_Data $importExportData,
-        Magento_Core_Model_Config $coreConfig,
-        Magento_ImportExport_Model_Import_ConfigInterface $importConfig,
-        Magento_ImportExport_Model_Import_Entity_Factory $entityFactory,
-        Magento_ImportExport_Model_Resource_Import_Data $importData,
-        Magento_ImportExport_Model_Export_Adapter_CsvFactory $csvFactory,
-        Zend_File_Transfer_Adapter_HttpFactory $httpFactory,
-        Magento_Core_Model_File_UploaderFactory $uploaderFactory,
-        Magento_ImportExport_Model_Source_Import_Behavior_Factory $behaviorFactory,
-        Magento_Index_Model_Indexer $indexer,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Dir $dir,
+        \Magento\Core\Model\Log\AdapterFactory $adapterFactory,
+        \Magento\ImportExport\Helper\Data $importExportData,
+        \Magento\Core\Model\Config $coreConfig,
+        \Magento\ImportExport\Model\Import\ConfigInterface $importConfig,
+        \Magento\ImportExport\Model\Import\Entity\Factory $entityFactory,
+        \Magento\ImportExport\Model\Resource\Import\Data $importData,
+        \Magento\ImportExport\Model\Export\Adapter\CsvFactory $csvFactory,
+        \Zend_File_Transfer_Adapter_HttpFactory $httpFactory,
+        \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
+        \Magento\ImportExport\Model\Source\Import\Behavior\Factory $behaviorFactory,
+        \Magento\Index\Model\Indexer $indexer,
         array $data = array()
     ) {
         $this->_importExportData = $importExportData;
@@ -160,8 +162,8 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
     /**
      * Create instance of entity adapter and return it
      *
-     * @throws Magento_Core_Exception
-     * @return Magento_ImportExport_Model_Import_Entity_Abstract|Magento_ImportExport_Model_Import_EntityAbstract
+     * @throws \Magento\Core\Exception
+     * @return \Magento\ImportExport\Model\Import\Entity\AbstractEntity|\Magento\ImportExport\Model\Import\AbstractEntity
      */
     protected function _getEntityAdapter()
     {
@@ -171,29 +173,29 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
             if (isset($entities[$this->getEntity()])) {
                 try {
                     $this->_entityAdapter = $this->_entityFactory->create($entities[$this->getEntity()]['model']);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     $this->_logger->logException($e);
-                    throw new Magento_Core_Exception(
+                    throw new \Magento\Core\Exception(
                         __('Please enter a correct entity model')
                     );
                 }
-                if (!($this->_entityAdapter instanceof Magento_ImportExport_Model_Import_Entity_Abstract)
-                    && !($this->_entityAdapter instanceof Magento_ImportExport_Model_Import_EntityAbstract)
+                if (!($this->_entityAdapter instanceof \Magento\ImportExport\Model\Import\Entity\AbstractEntity)
+                    && !($this->_entityAdapter instanceof \Magento\ImportExport\Model\Import\AbstractEntity)
                 ) {
-                    throw new Magento_Core_Exception(
+                    throw new \Magento\Core\Exception(
                         __('Entity adapter object must be an instance of %1 or %2',
-                                'Magento_ImportExport_Model_Import_Entity_Abstract',
-                                'Magento_ImportExport_Model_Import_EntityAbstract'));
+                                'Magento\ImportExport\Model\Import\Entity\AbstractEntity',
+                                'Magento\ImportExport\Model\Import\AbstractEntity'));
                 }
 
                 // check for entity codes integrity
                 if ($this->getEntity() != $this->_entityAdapter->getEntityTypeCode()) {
-                    throw new Magento_Core_Exception(
+                    throw new \Magento\Core\Exception(
                         __('The input entity code is not equal to entity adapter code.')
                     );
                 }
             } else {
-                throw new Magento_Core_Exception(__('Please enter a correct entity.'));
+                throw new \Magento\Core\Exception(__('Please enter a correct entity.'));
             }
             $this->_entityAdapter->setParameters($this->getData());
         }
@@ -204,11 +206,11 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
      * Returns source adapter object.
      *
      * @param string $sourceFile Full path to source file
-     * @return Magento_ImportExport_Model_Import_SourceAbstract
+     * @return \Magento\ImportExport\Model\Import\AbstractSource
      */
     protected function _getSourceAdapter($sourceFile)
     {
-        return Magento_ImportExport_Model_Import_Adapter::findAdapterFor($sourceFile);
+        return \Magento\ImportExport\Model\Import\Adapter::findAdapterFor($sourceFile);
     }
 
     /**
@@ -264,10 +266,10 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
     /**
      * Get attribute type for upcoming validation.
      *
-     * @param Magento_Eav_Model_Entity_Attribute_Abstract|Magento_Eav_Model_Entity_Attribute $attribute
+     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute|\Magento\Eav\Model\Entity\Attribute $attribute
      * @return string
      */
-    public static function getAttributeType(Magento_Eav_Model_Entity_Attribute_Abstract $attribute)
+    public static function getAttributeType(\Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute)
     {
         if ($attribute->usesSource()) {
             return $attribute->getFrontendInput() == 'multiselect' ? 'multiselect' : 'select';
@@ -281,7 +283,7 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
     /**
      * DB data source model getter.
      *
-     * @return Magento_ImportExport_Model_Resource_Import_Data
+     * @return \Magento\ImportExport\Model\Resource\Import\Data
      */
     public function getDataSourceModel()
     {
@@ -302,13 +304,13 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
     /**
      * Override standard entity getter.
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @return string
      */
     public function getEntity()
     {
         if (empty($this->_data['entity'])) {
-            throw new Magento_Core_Exception(__('Entity is unknown'));
+            throw new \Magento\Core\Exception(__('Entity is unknown'));
         }
         return $this->_data['entity'];
     }
@@ -444,7 +446,7 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
      */
     public function expandSource()
     {
-        /** @var $writer Magento_ImportExport_Model_Export_Adapter_Csv */
+        /** @var $writer \Magento\ImportExport\Model\Export\Adapter\Csv */
         $writer  = $this->_csvFactory->create(array('destination' => $this->getWorkingDir() . "big0.csv"));
         $regExps = array('last' => '/(.*?)(\d+)$/', 'middle' => '/(.*?)(\d+)(.*)$/');
         $colReg  = array(
@@ -490,25 +492,25 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
     /**
      * Move uploaded file and create source adapter instance.
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @return string Source file path
      */
     public function uploadSource()
     {
-        /** @var $adapter Zend_File_Transfer_Adapter_Http */
+        /** @var $adapter \Zend_File_Transfer_Adapter_Http */
         $adapter  = $this->_httpFactory->create();
         if (!$adapter->isValid(self::FIELD_NAME_SOURCE_FILE)) {
             $errors = $adapter->getErrors();
-            if ($errors[0] == Zend_Validate_File_Upload::INI_SIZE) {
+            if ($errors[0] == \Zend_Validate_File_Upload::INI_SIZE) {
                 $errorMessage = $this->_importExportData->getMaxUploadSizeMessage();
             } else {
                 $errorMessage = __('File was not uploaded.');
             }
-            throw new Magento_Core_Exception($errorMessage);
+            throw new \Magento\Core\Exception($errorMessage);
         }
 
         $entity    = $this->getEntity();
-        /** @var $uploader Magento_Core_Model_File_Uploader */
+        /** @var $uploader \Magento\Core\Model\File\Uploader */
         $uploader  = $this->_uploaderFactory->create(array('fileId' => self::FIELD_NAME_SOURCE_FILE));
         $uploader->skipDbProcessing(true);
         $result    = $uploader->save($this->getWorkingDir());
@@ -517,7 +519,7 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
         $uploadedFile = $result['path'] . $result['file'];
         if (!$extension) {
             unlink($uploadedFile);
-            throw new Magento_Core_Exception(__('Uploaded file has no extension'));
+            throw new \Magento\Core\Exception(__('Uploaded file has no extension'));
         }
         $sourceFile = $this->getWorkingDir() . $entity;
 
@@ -529,16 +531,16 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
             }
 
             if (!@rename($uploadedFile, $sourceFile)) {
-                throw new Magento_Core_Exception(__('Source file moving failed'));
+                throw new \Magento\Core\Exception(__('Source file moving failed'));
             }
         }
         $this->_removeBom($sourceFile);
         // trying to create source adapter for file and catch possible exception to be convinced in its adequacy
         try {
             $this->_getSourceAdapter($sourceFile);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             unlink($sourceFile);
-            throw new Magento_Core_Exception($e->getMessage());
+            throw new \Magento\Core\Exception($e->getMessage());
         }
         return $sourceFile;
     }
@@ -562,10 +564,10 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
     /**
      * Validates source file and returns validation result.
      *
-     * @param Magento_ImportExport_Model_Import_SourceAbstract $source
+     * @param \Magento\ImportExport\Model\Import\AbstractSource $source
      * @return bool
      */
-    public function validateSource(Magento_ImportExport_Model_Import_SourceAbstract $source)
+    public function validateSource(\Magento\ImportExport\Model\Import\AbstractSource $source)
     {
         $this->addLogComment(__('Begin data validation'));
         $adapter = $this->_getEntityAdapter()->setSource($source);
@@ -582,7 +584,7 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
     /**
      * Invalidate indexes by process codes.
      *
-     * @return Magento_ImportExport_Model_Import
+     * @return \Magento\ImportExport\Model\Import
      */
     public function invalidateIndex()
     {
@@ -594,7 +596,7 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
         foreach ($indexers as $indexer) {
             $indexProcess = $this->_indexer->getProcessByCode($indexer);
             if ($indexProcess) {
-                $indexProcess->changeStatus(Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+                $indexProcess->changeStatus(\Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX);
             }
         }
 
@@ -620,14 +622,14 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
         foreach ($entities as $entityCode => $entityData) {
             $behaviorClassName = isset($entityData['behaviorModel']) ? $entityData['behaviorModel'] : null;
             if ($behaviorClassName && class_exists($behaviorClassName)) {
-                /** @var $behavior Magento_ImportExport_Model_Source_Import_BehaviorAbstract */
+                /** @var $behavior \Magento\ImportExport\Model\Source\Import\AbstractBehavior */
                 $behavior = $this->_behaviorFactory->create($behaviorClassName);
                 $behaviourData[$entityCode] = array(
                     'token' => $behaviorClassName,
                     'code'  => $behavior->getCode() . '_behavior',
                 );
             } else {
-                throw new Magento_Core_Exception(__('Invalid behavior token for %1', $entityCode));
+                throw new \Magento\Core\Exception(__('Invalid behavior token for %1', $entityCode));
             }
         }
         return $behaviourData;

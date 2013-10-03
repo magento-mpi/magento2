@@ -8,11 +8,11 @@
  */
 -->
 <config>
-    <type name="Magento_CatalogEvent_Model_Event" shared="false" />
-    <type name="Magento_Core_Model_Db_Updater">
+    <type name="Magento\CatalogEvent\Model\Event" shared="false" />
+    <type name="Magento\Core\Model\Db\Updater">
         <param name="resourceList">
             <value>
-                <catalogevent_setup>Magento_CatalogEvent_Model_Resource_Setup</catalogevent_setup>
+                <catalogevent_setup>Magento\CatalogEvent\Model\Resource\Setup</catalogevent_setup>
             </value>
         </param>
     </type>

@@ -11,13 +11,15 @@
 /**
  * System config email field backend model
  */
-class Magento_Backend_Model_Config_Backend_Email_Address extends Magento_Core_Model_Config_Value
+namespace Magento\Backend\Model\Config\Backend\Email;
+
+class Address extends \Magento\Core\Model\Config\Value
 {
     protected function _beforeSave()
     {
         $value = $this->getValue();
-        if (!Zend_Validate::is($value, 'EmailAddress')) {
-            throw new Magento_Core_Exception(
+        if (!\Zend_Validate::is($value, 'EmailAddress')) {
+            throw new \Magento\Core\Exception(
                 __('Please correct the email address: "%1".', $value)
             );
         }

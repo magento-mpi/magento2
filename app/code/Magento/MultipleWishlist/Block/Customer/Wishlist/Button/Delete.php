@@ -15,7 +15,9 @@
  * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_MultipleWishlist_Block_Customer_Wishlist_Button_Delete extends Magento_Wishlist_Block_Abstract
+namespace Magento\MultipleWishlist\Block\Customer\Wishlist\Button;
+
+class Delete extends \Magento\Wishlist\Block\AbstractBlock
 {
     /**
      * Build block html

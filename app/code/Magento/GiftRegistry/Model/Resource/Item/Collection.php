@@ -16,15 +16,17 @@
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftRegistry_Model_Resource_Item_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\GiftRegistry\Model\Resource\Item;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
-     * @var Magento_GiftRegistry_Model_Item_OptionFactory
+     * @var \Magento\GiftRegistry\Model\Item\OptionFactory
      */
     protected $optionFactory;
 
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $productFactory;
 
@@ -37,36 +39,36 @@ class Magento_GiftRegistry_Model_Resource_Item_Collection extends Magento_Core_M
     protected $_productIds = array();
 
     /**
-     * @var Magento_Sales_Model_Quote_Config
+     * @var \Magento\Sales\Model\Quote\Config
      */
     protected $salesQuoteConfig;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $storeManager;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Sales_Model_Quote_Config $salesQuoteConfig
-     * @param Magento_GiftRegistry_Model_Item_OptionFactory $optionFactory
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Sales\Model\Quote\Config $salesQuoteConfig
+     * @param \Magento\GiftRegistry\Model\Item\OptionFactory $optionFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Sales_Model_Quote_Config $salesQuoteConfig,
-        Magento_GiftRegistry_Model_Item_OptionFactory $optionFactory,
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Sales\Model\Quote\Config $salesQuoteConfig,
+        \Magento\GiftRegistry\Model\Item\OptionFactory $optionFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
         $this->salesQuoteConfig = $salesQuoteConfig;
@@ -80,14 +82,14 @@ class Magento_GiftRegistry_Model_Resource_Item_Collection extends Magento_Core_M
      */
     protected function _construct()
     {
-        $this->_init('Magento_GiftRegistry_Model_Item', 'Magento_GiftRegistry_Model_Resource_Item');
+        $this->_init('Magento\GiftRegistry\Model\Item', 'Magento\GiftRegistry\Model\Resource\Item');
     }
 
     /**
      * Add gift registry filter to collection
      *
      * @param int $entityId
-     * @return Magento_GiftRegistry_Model_Resource_Item_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Item\Collection
      */
     public function addRegistryFilter($entityId)
     {
@@ -103,7 +105,7 @@ class Magento_GiftRegistry_Model_Resource_Item_Collection extends Magento_Core_M
      * Add product filter to collection
      *
      * @param int $productId
-     * @return Magento_GiftRegistry_Model_Resource_Item_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Item\Collection
      */
     public function addProductFilter($productId)
     {
@@ -118,7 +120,7 @@ class Magento_GiftRegistry_Model_Resource_Item_Collection extends Magento_Core_M
      * Add item filter to collection
      *
      * @param int|array $itemId
-     * @return Magento_GiftRegistry_Model_Resource_Item_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Item\Collection
      */
     public function addItemFilter($itemId)
     {
@@ -134,7 +136,7 @@ class Magento_GiftRegistry_Model_Resource_Item_Collection extends Magento_Core_M
     /**
      * After load processing
      *
-     * @return Magento_GiftRegistry_Model_Resource_Item_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Item\Collection
      */
     protected function _afterLoad()
     {
@@ -150,7 +152,7 @@ class Magento_GiftRegistry_Model_Resource_Item_Collection extends Magento_Core_M
     /**
      * Assign options to items
      *
-     * @return Magento_GiftRegistry_Model_Resource_Item_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Item\Collection
      */
     protected function _assignOptions()
     {
@@ -169,7 +171,7 @@ class Magento_GiftRegistry_Model_Resource_Item_Collection extends Magento_Core_M
     /**
      * Assign products to items and their options
      *
-     * @return Magento_GiftRegistry_Model_Resource_Item_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Item\Collection
      */
     protected function _assignProducts()
     {
@@ -208,7 +210,7 @@ class Magento_GiftRegistry_Model_Resource_Item_Collection extends Magento_Core_M
     /**
      * Update items custom price (Depends on custom options)
      *
-     * @return Magento_GiftRegistry_Model_Resource_Item_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Item\Collection
      */
     public function updateItemAttributes()
     {

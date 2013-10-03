@@ -6,32 +6,34 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Design_Fallback_Rule_ModularSwitchTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Design\Fallback\Rule;
+
+class ModularSwitchTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Design_Fallback_Rule_ModularSwitch
+     * @var \Magento\Core\Model\Design\Fallback\Rule\ModularSwitch
      */
     protected $_object;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_ruleNonModular;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_ruleModular;
 
     protected function setUp()
     {
         $this->_ruleNonModular = $this->getMockForAbstractClass(
-            'Magento_Core_Model_Design_Fallback_Rule_RuleInterface'
+            'Magento\Core\Model\Design\Fallback\Rule\RuleInterface'
         );
         $this->_ruleModular = $this->getMockForAbstractClass(
-            'Magento_Core_Model_Design_Fallback_Rule_RuleInterface'
+            'Magento\Core\Model\Design\Fallback\Rule\RuleInterface'
         );
-        $this->_object = new Magento_Core_Model_Design_Fallback_Rule_ModularSwitch(
+        $this->_object = new \Magento\Core\Model\Design\Fallback\Rule\ModularSwitch(
             $this->_ruleNonModular, $this->_ruleModular
         );
     }
@@ -46,7 +48,7 @@ class Magento_Core_Model_Design_Fallback_Rule_ModularSwitchTest extends PHPUnit_
     public function testGetPatternDirsNonModular()
     {
         $inputParams = array('param_one' => 'value_one', 'param_two' => 'value_two');
-        $expectedResult = new stdClass();
+        $expectedResult = new \stdClass();
         $this->_ruleNonModular
             ->expects($this->once())
             ->method('getPatternDirs')
@@ -63,7 +65,7 @@ class Magento_Core_Model_Design_Fallback_Rule_ModularSwitchTest extends PHPUnit_
     public function testGetPatternDirsModular()
     {
         $inputParams = array('param' => 'value', 'namespace' => 'Magento', 'module' => 'Core');
-        $expectedResult = new stdClass();
+        $expectedResult = new \stdClass();
         $this->_ruleNonModular
             ->expects($this->never())
             ->method('getPatternDirs')
@@ -80,7 +82,7 @@ class Magento_Core_Model_Design_Fallback_Rule_ModularSwitchTest extends PHPUnit_
     /**
      * @param array $inputParams
      * @dataProvider getPatternDirsExceptionDataProvider
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Parameters 'namespace' and 'module' should either be both set or unset
      */
     public function testGetPatternDirsException(array $inputParams)

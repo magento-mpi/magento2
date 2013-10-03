@@ -9,21 +9,23 @@
 /**
  * Layer filter factory
  */
-class Magento_Catalog_Model_Layer_Filter_Factory
+namespace Magento\Catalog\Model\Layer\Filter;
+
+class Factory
 {
     /**
      * Object Manager
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
      * Construct
      *
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -33,16 +35,16 @@ class Magento_Catalog_Model_Layer_Filter_Factory
      *
      * @param string $className
      * @param array $data
-     * @return Magento_Catalog_Model_Layer_Filter_Attribute
-     * @throws Magento_Core_Exception
+     * @return \Magento\Catalog\Model\Layer\Filter\Attribute
+     * @throws \Magento\Core\Exception
      */
     public function create($className, array $data = array())
     {
         $filter = $this->_objectManager->create($className, $data);
 
-        if (!$filter instanceof Magento_Catalog_Model_Layer_Filter_Abstract) {
-            throw new Magento_Core_Exception($className
-                . ' doesn\'t extends Magento_Catalog_Model_Layer_Filter_Abstract');
+        if (!$filter instanceof \Magento\Catalog\Model\Layer\Filter\AbstractFilter) {
+            throw new \Magento\Core\Exception($className
+                . ' doesn\'t extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter');
         }
         return $filter;
     }

@@ -7,6 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Validator_File_IsImage extends Zend_Validate_File_IsImage implements Magento_Validator_ValidatorInterface
+namespace Magento\Validator\File;
+
+class IsImage extends \Zend_Validate_File_IsImage implements \Magento\Validator\ValidatorInterface
 {
 }

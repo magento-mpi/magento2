@@ -9,26 +9,28 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Block;
+
+class TemplateTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Block_Template
+     * @var \Magento\Core\Block\Template
      */
     protected $_block;
 
     protected function setUp()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $params = array('layout' => $objectManager->create('Magento_Core_Model_Layout', array()));
-        $context = $objectManager->create('Magento_Core_Block_Template_Context', $params);
-        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_Core_Block_Template', '', array('context' => $context));
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $params = array('layout' => $objectManager->create('Magento\Core\Model\Layout', array()));
+        $context = $objectManager->create('Magento\Core\Block\Template\Context', $params);
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Core\Block\Template', '', array('context' => $context));
     }
 
     public function testConstruct()
     {
-        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_Core_Block_Template', '', array('data' => array('template' => 'value')));
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Core\Block\Template', '', array('data' => array('template' => 'value')));
         $this->assertEquals('value', $block->getTemplate());
     }
 
@@ -42,8 +44,8 @@ class Magento_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
     public function testGetArea()
     {
         $this->assertEquals('frontend', $this->_block->getArea());
-        $this->_block->setLayout(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Layout', array('area' => 'some_area')));
+        $this->_block->setLayout(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Layout', array('area' => 'some_area')));
         $this->assertEquals('some_area', $this->_block->getArea());
         $this->_block->setArea('another_area');
         $this->assertEquals('another_area', $this->_block->getArea());
@@ -53,7 +55,7 @@ class Magento_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
     {
         $this->assertFalse($this->_block->getDirectOutput());
 
-        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
         $layout->setDirectOutput(true);
         $this->_block->setLayout($layout);
         $this->assertTrue($this->_block->getDirectOutput());
@@ -65,8 +67,8 @@ class Magento_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Core_Block_Template::_toHtml
-     * @covers Magento_Core_Block_Abstract::toHtml
+     * @covers \Magento\Core\Block\Template::_toHtml
+     * @covers \Magento\Core\Block\AbstractBlock::toHtml
      * @see testAssign()
      */
     public function testToHtml()
@@ -83,7 +85,7 @@ class Magento_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
 
     public function testGetObjectData()
     {
-        $object = new Magento_Object(array('key' => 'value'));
+        $object = new \Magento\Object(array('key' => 'value'));
         $this->assertEquals('value', $this->_block->getObjectData($object, 'key'));
     }
 

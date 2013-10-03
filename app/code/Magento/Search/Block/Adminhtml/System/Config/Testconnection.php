@@ -15,8 +15,10 @@
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Search_Block_Adminhtml_System_Config_Testconnection
-    extends Magento_Backend_Block_System_Config_Form_Field
+namespace Magento\Search\Block\Adminhtml\System\Config;
+
+class Testconnection
+    extends \Magento\Backend\Block\System\Config\Form\Field
 {
     /**
      * Set template to itself
@@ -33,10 +35,10 @@ class Magento_Search_Block_Adminhtml_System_Config_Testconnection
     /**
      * Unset some non-related element parameters
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    public function render(Magento_Data_Form_Element_Abstract $element)
+    public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $element->unsScope()->unsCanUseWebsiteValue()->unsCanUseDefaultValue();
         return parent::render($element);
@@ -45,10 +47,10 @@ class Magento_Search_Block_Adminhtml_System_Config_Testconnection
     /**
      * Get the button and scripts contents
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    protected function _getElementHtml(Magento_Data_Form_Element_Abstract $element)
+    protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $originalData = $element->getOriginalData();
         $this->addData(array(

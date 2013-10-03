@@ -15,9 +15,11 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Weee_Block_Renderer_Weee_Tax
-    extends Magento_Backend_Block_Widget
-    implements Magento_Data_Form_Element_Renderer_Interface
+namespace Magento\Weee\Block\Renderer\Weee;
+
+class Tax
+    extends \Magento\Backend\Block\Widget
+    implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     protected $_element = null;
     protected $_countries = null;
@@ -27,41 +29,41 @@ class Magento_Weee_Block_Renderer_Weee_Tax
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Directory_Model_Config_Source_Country
+     * @var \Magento\Directory\Model\Config\Source\Country
      */
     protected $_sourceCountry;
 
     /**
-     * @var Magento_Directory_Helper_Data
+     * @var \Magento\Directory\Helper\Data
      */
     protected $_directoryHelper;
 
     /**
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Directory_Model_Config_Source_Country $sourceCountry
-     * @param Magento_Directory_Helper_Data $directoryHelper
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Directory\Model\Config\Source\Country $sourceCountry
+     * @param \Magento\Directory\Helper\Data $directoryHelper
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Directory_Model_Config_Source_Country $sourceCountry,
-        Magento_Directory_Helper_Data $directoryHelper,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Directory\Model\Config\Source\Country $sourceCountry,
+        \Magento\Directory\Helper\Data $directoryHelper,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -76,7 +78,7 @@ class Magento_Weee_Block_Renderer_Weee_Tax
         return $this->_coreRegistry->registry('product');
     }
 
-    public function render(Magento_Data_Form_Element_Abstract $element)
+    public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $this->setElement($element);
         return $this->toHtml();
@@ -89,7 +91,7 @@ class Magento_Weee_Block_Renderer_Weee_Tax
     {
         $this->addChild(
             'add_button',
-            'Magento_Adminhtml_Block_Widget_Button',
+            'Magento\Adminhtml\Block\Widget\Button',
             array(
                 'label' => __('Add Tax'),
                 'data_attribute' => array('action' => 'add-fpt-item'),
@@ -98,7 +100,7 @@ class Magento_Weee_Block_Renderer_Weee_Tax
         );
         $this->addChild(
             'delete_button',
-            'Magento_Adminhtml_Block_Widget_Button',
+            'Magento\Adminhtml\Block\Widget\Button',
             array(
                 'label' => __('Delete Tax'),
                 'data_attribute' => array('action' => 'delete-fpt-item'),
@@ -108,7 +110,7 @@ class Magento_Weee_Block_Renderer_Weee_Tax
         return parent::_prepareLayout();
     }
 
-    public function setElement(Magento_Data_Form_Element_Abstract $element)
+    public function setElement(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $this->_element = $element;
         return $this;
@@ -177,7 +179,7 @@ class Magento_Weee_Block_Renderer_Weee_Tax
                 $website = $this->_storeManager->getStore($storeId)->getWebsite();
                 $websites[$website->getId()] = array(
                     'name'     => $website->getName(),
-                    'currency' => $website->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+                    'currency' => $website->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
                 );
             } else {
                 foreach ($this->_storeManager->getWebsites() as $website) {
@@ -186,7 +188,7 @@ class Magento_Weee_Block_Renderer_Weee_Tax
                     }
                     $websites[$website->getId()] = array(
                         'name'     => $website->getName(),
-                        'currency' => $website->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+                        'currency' => $website->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
                     );
                 }
             }

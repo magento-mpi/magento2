@@ -8,10 +8,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_ScheduledImportExport_Model_Scheduled_OperationTest extends PHPUnit_Framework_TestCase
+namespace Magento\ScheduledImportExport\Model\Scheduled;
+
+class OperationTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_ScheduledImportExport_Model_Scheduled_Operation
+     * @var \Magento\ScheduledImportExport\Model\Scheduled\Operation
      */
     protected $_model;
 
@@ -20,8 +22,8 @@ class Magento_ScheduledImportExport_Model_Scheduled_OperationTest extends PHPUni
      */
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_ScheduledImportExport_Model_Scheduled_Operation');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ScheduledImportExport\Model\Scheduled\Operation');
     }
 
 
@@ -49,7 +51,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_OperationTest extends PHPUni
         $this->_model->setOperationType($operationType);
 
         $this->assertInstanceOf(
-            'Magento_ScheduledImportExport_Model_' . uc_words($operationType),
+            'Magento\ScheduledImportExport\Model\\' . uc_words($operationType),
             $this->_model->getInstance()
         );
     }
@@ -57,7 +59,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_OperationTest extends PHPUni
     /**
      * Test getHistoryFilePath() method in case when file info is not set
      *
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      */
     public function testGetHistoryFilePathException()
     {
@@ -75,7 +77,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_OperationTest extends PHPUni
         $fileInfo = $this->_model->getFileInfo();
 
         // Create export directory if not exist
-        $varDir = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')
+        $varDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')
             ->getDir('var');
         $exportDir = $varDir . DS . $fileInfo['file_path'];
         if (!is_dir($exportDir)) {
@@ -88,8 +90,8 @@ class Magento_ScheduledImportExport_Model_Scheduled_OperationTest extends PHPUni
 
         $this->_model->run();
 
-        $scheduledExport = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_ScheduledImportExport_Model_Export');
+        $scheduledExport = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ScheduledImportExport\Model\Export');
         $scheduledExport->setEntity($this->_model->getEntityType());
         $scheduledExport->setOperationType($this->_model->getOperationType());
         $scheduledExport->setRunDate($this->_model->getLastRunDate());

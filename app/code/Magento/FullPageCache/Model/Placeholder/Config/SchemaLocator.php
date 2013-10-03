@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_FullPageCache_Model_Placeholder_Config_SchemaLocator implements Magento_Config_SchemaLocatorInterface
+namespace Magento\FullPageCache\Model\Placeholder\Config;
+
+class SchemaLocator implements \Magento\Config\SchemaLocatorInterface
 {
     /**
      * Path to corresponding XSD file with validation rules for merged config
@@ -24,9 +26,9 @@ class Magento_FullPageCache_Model_Placeholder_Config_SchemaLocator implements Ma
     protected $_perFileSchema = null;
 
     /**
-     * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
+     * @param \Magento\Core\Model\Config\Modules\Reader $moduleReader
      */
-    public function __construct(Magento_Core_Model_Config_Modules_Reader $moduleReader)
+    public function __construct(\Magento\Core\Model\Config\Modules\Reader $moduleReader)
     {
         $etcDir = $moduleReader->getModuleDir('etc', 'Magento_FullPageCache');
         $this->_schema = $etcDir . DIRECTORY_SEPARATOR . 'placeholders_merged.xsd';

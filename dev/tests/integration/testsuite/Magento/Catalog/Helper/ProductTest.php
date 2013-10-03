@@ -9,17 +9,19 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Helper;
+
+class ProductTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Helper_Product
+     * @var \Magento\Catalog\Helper\Product
      */
     protected $_helper;
 
     protected function setUp()
     {
-        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Catalog_Helper_Product');
+        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Catalog\Helper\Product');
     }
 
     /**
@@ -30,8 +32,8 @@ class Magento_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
         $expectedUrl = 'http://localhost/index.php/simple-product.html';
 
         // product as object
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(1);
         $this->assertEquals($expectedUrl, $this->_helper->getProductUrl($product));
 
@@ -41,27 +43,27 @@ class Magento_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
 
     public function testGetPrice()
     {
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->setPrice(49.95);
         $this->assertEquals(49.95, $this->_helper->getPrice($product));
     }
 
     public function testGetFinalPrice()
     {
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->setFinalPrice(49.95);
         $this->assertEquals(49.95, $this->_helper->getFinalPrice($product));
     }
 
     public function testGetImageUrl()
     {
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $this->assertStringEndsWith('placeholder/image.jpg', $this->_helper->getImageUrl($product));
 
         $product->setImage('test_image.png');
@@ -70,9 +72,9 @@ class Magento_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
 
     public function testGetSmallImageUrl()
     {
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $this->assertStringEndsWith('placeholder/small_image.jpg', $this->_helper->getSmallImageUrl($product));
 
         $product->setSmallImage('test_image.png');
@@ -81,29 +83,29 @@ class Magento_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
 
     public function testGetThumbnailUrl()
     {
-        $this->assertEmpty($this->_helper->getThumbnailUrl(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product')));
+        $this->assertEmpty($this->_helper->getThumbnailUrl(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product')));
     }
 
     public function testGetEmailToFriendUrl()
     {
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->setId(100);
-        $category = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Category');
+        $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Category');
         $category->setId(10);
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_Registry')->register('current_category', $category);
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager->get('Magento\Core\Model\Registry')->register('current_category', $category);
 
         try {
             $this->assertStringEndsWith(
                 'sendfriend/product/send/id/100/cat_id/10/', $this->_helper->getEmailToFriendUrl($product)
             );
-            $objectManager->get('Magento_Core_Model_Registry')->unregister('current_category');
-        } catch (Exception $e) {
-            $objectManager->get('Magento_Core_Model_Registry')->unregister('current_category');
+            $objectManager->get('Magento\Core\Model\Registry')->unregister('current_category');
+        } catch (\Exception $e) {
+            $objectManager->get('Magento\Core\Model\Registry')->unregister('current_category');
             throw $e;
         }
     }
@@ -119,15 +121,15 @@ class Magento_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
     public function testCanShow()
     {
         // non-visible or disabled
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $this->assertFalse($this->_helper->canShow($product));
 
         // enabled and visible
         $product->setId(1);
-        $product->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED);
-        $product->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH);
+        $product->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED);
+        $product->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
         $this->assertTrue($this->_helper->canShow($product));
 
         $this->assertTrue($this->_helper->canShow(1));
@@ -183,31 +185,31 @@ class Magento_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
      */
     public function testInitProduct()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Catalog_Model_Session')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Catalog\Model\Session')
             ->setLastVisitedCategoryId(2);
         $this->_helper->initProduct(1, 'view');
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $this->assertInstanceOf(
-            'Magento_Catalog_Model_Product',
-            $objectManager->get('Magento_Core_Model_Registry')->registry('current_product')
+            'Magento\Catalog\Model\Product',
+            $objectManager->get('Magento\Core\Model\Registry')->registry('current_product')
         );
         $this->assertInstanceOf(
-            'Magento_Catalog_Model_Category',
-            $objectManager->get('Magento_Core_Model_Registry')->registry('current_category')
+            'Magento\Catalog\Model\Category',
+            $objectManager->get('Magento\Core\Model\Registry')->registry('current_category')
         );
     }
 
     public function testPrepareProductOptions()
     {
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
-        $buyRequest = new Magento_Object(array('qty' => 100, 'options' => array('option' => 'value')));
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
+        $buyRequest = new \Magento\Object(array('qty' => 100, 'options' => array('option' => 'value')));
         $this->_helper->prepareProductOptions($product, $buyRequest);
         $result = $product->getPreconfiguredValues();
-        $this->assertInstanceOf('Magento_Object', $result);
+        $this->assertInstanceOf('Magento\Object', $result);
         $this->assertEquals(100, $result->getQty());
         $this->assertEquals(array('option' => 'value'), $result->getOptions());
     }

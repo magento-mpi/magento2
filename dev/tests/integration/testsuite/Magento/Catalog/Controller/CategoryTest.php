@@ -9,19 +9,21 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Controller;
+
 /**
- * Test class for Magento_Catalog_Controller_Category.
+ * Test class for \Magento\Catalog\Controller\Category.
  *
  * @magentoDataFixture Magento/Catalog/_files/categories.php
  */
-class Magento_Catalog_Controller_CategoryTest extends Magento_TestFramework_TestCase_ControllerAbstract
+class CategoryTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     public function assert404NotFound()
     {
         parent::assert404NotFound();
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $this->assertNull($objectManager->get('Magento_Core_Model_Registry')->registry('current_category'));
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->assertNull($objectManager->get('Magento\Core\Model\Registry')->registry('current_category'));
     }
 
     public function getViewActionDataProvider()
@@ -68,20 +70,20 @@ class Magento_Catalog_Controller_CategoryTest extends Magento_TestFramework_Test
     {
         $this->dispatch("catalog/category/view/id/$categoryId");
 
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        /** @var $currentCategory Magento_Catalog_Model_Category */
-        $currentCategory = $objectManager->get('Magento_Core_Model_Registry')->registry('current_category');
-        $this->assertInstanceOf('Magento_Catalog_Model_Category', $currentCategory);
+        /** @var $currentCategory \Magento\Catalog\Model\Category */
+        $currentCategory = $objectManager->get('Magento\Core\Model\Registry')->registry('current_category');
+        $this->assertInstanceOf('Magento\Catalog\Model\Category', $currentCategory);
         $this->assertEquals($categoryId, $currentCategory->getId(), 'Category in registry.');
 
-        $lastCategoryId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Catalog_Model_Session')->getLastVisitedCategoryId();
+        $lastCategoryId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Catalog\Model\Session')->getLastVisitedCategoryId();
         $this->assertEquals($categoryId, $lastCategoryId, 'Last visited category.');
 
         /* Layout updates */
-        $handles = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+        $handles = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
             ->getUpdate()->getHandles();
         foreach ($expectedHandles as $expectedHandleName) {
             $this->assertContains($expectedHandleName, $handles);

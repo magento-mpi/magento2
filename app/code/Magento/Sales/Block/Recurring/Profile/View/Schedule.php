@@ -8,10 +8,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Sales\Block\Recurring\Profile\View;
+
 /**
  * Recurring profile view schedule
  */
-class Magento_Sales_Block_Recurring_Profile_View_Schedule extends Magento_Sales_Block_Recurring_Profile_View
+class Schedule extends \Magento\Sales\Block\Recurring\Profile\View
 {
     /**
      * Prepare schedule info

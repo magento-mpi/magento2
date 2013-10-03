@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 ?>
-<?php /** @var $this Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom */ ?>
+<?php /** @var $this \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Custom */ ?>
 <div id="vde-tab-custom-messages-placeholder"></div>
 <div class="custom-code-description">
     <p><?php echo __('Update the CSS code to overwrite the default styles or upload your own CSS file.'); ?></p>
@@ -56,7 +56,7 @@
     (function ($) {
         $('[data-manage="fonts"]').on('click', function() {
             MediabrowserUtility.openDialog(
-                '<?php echo $this->getMediaBrowserUrl('custom_code', Magento_Theme_Model_Wysiwyg_Storage::TYPE_FONT) ?>',
+                '<?php echo $this->getMediaBrowserUrl('custom_code', \Magento\Theme\Model\Wysiwyg\Storage::TYPE_FONT) ?>',
                 null,
                 null,
                 '<?php echo $this->quoteEscape(__('Font Assets'), true); ?>'
@@ -64,7 +64,7 @@
         });
         $('[data-manage="images"]').on('click', function() {
             MediabrowserUtility.openDialog(
-                '<?php echo $this->getMediaBrowserUrl('custom_code', Magento_Theme_Model_Wysiwyg_Storage::TYPE_IMAGE) ?>',
+                '<?php echo $this->getMediaBrowserUrl('custom_code', \Magento\Theme\Model\Wysiwyg\Storage::TYPE_IMAGE) ?>',
                 null,
                 null,
                 '<?php echo $this->quoteEscape(__('Image Assets'), true); ?>'

@@ -10,12 +10,12 @@
  */
 
 require __DIR__ . '/../../Checkout/_files/simple_product.php';
-/** @var $product Magento_Catalog_Model_Product */
-$product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Catalog_Model_Product');
+/** @var $product \Magento\Catalog\Model\Product */
+$product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Product');
 $product->load(1);
 
-/** @var $product Magento_Catalog_Model_Product */
+/** @var $product \Magento\Catalog\Model\Product */
 $product->setCanSaveCustomOptions(true)
     ->setProductOptions(
         array(
@@ -37,13 +37,13 @@ $product->setCanSaveCustomOptions(true)
     ->setHasOptions(true)
     ->save();
 
-/** @var $product Magento_Catalog_Model_Product */
-$product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Catalog_Model_Product');
+/** @var $product \Magento\Catalog\Model\Product */
+$product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Product');
 $product->load(1);
 $optionId = key($product->getOptions());
 
-$requestInfo = new Magento_Object(array(
+$requestInfo = new \Magento\Object(array(
     'qty' => 1,
     'options' => array(
         $optionId => 'test'

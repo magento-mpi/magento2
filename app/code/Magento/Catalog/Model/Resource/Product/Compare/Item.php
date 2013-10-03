@@ -16,7 +16,9 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Product_Compare_Item extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Catalog\Model\Resource\Product\Compare;
+
+class Item extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize connection
@@ -30,14 +32,14 @@ class Magento_Catalog_Model_Resource_Product_Compare_Item extends Magento_Core_M
     /**
      * Load object by product
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      * @param mixed $product
      * @return bool
      */
-    public function loadByProduct(Magento_Catalog_Model_Product_Compare_Item $object, $product)
+    public function loadByProduct(\Magento\Catalog\Model\Product\Compare\Item $object, $product)
     {
         $read = $this->_getReadAdapter();
-        if ($product instanceof Magento_Catalog_Model_Product) {
+        if ($product instanceof \Magento\Catalog\Model\Product) {
             $productId = $product->getId();
         } else {
             $productId = $product;
@@ -85,7 +87,7 @@ class Magento_Catalog_Model_Resource_Product_Compare_Item extends Magento_Core_M
     /**
      * Clean compare table
      *
-     * @return Magento_Catalog_Model_Resource_Product_Compare_Item
+     * @return \Magento\Catalog\Model\Resource\Product\Compare\Item
      */
     public function clean()
     {
@@ -117,8 +119,8 @@ class Magento_Catalog_Model_Resource_Product_Compare_Item extends Magento_Core_M
     /**
      * Purge visitor data after customer logout
      *
-     * @param Magento_Catalog_Model_Product_Compare_Item $object
-     * @return Magento_Catalog_Model_Resource_Product_Compare_Item
+     * @param \Magento\Catalog\Model\Product\Compare\Item $object
+     * @return \Magento\Catalog\Model\Resource\Product\Compare\Item
      */
     public function purgeVisitorByCustomer($object)
     {
@@ -140,8 +142,8 @@ class Magento_Catalog_Model_Resource_Product_Compare_Item extends Magento_Core_M
      * Update (Merge) customer data from visitor
      * After Login process
      *
-     * @param Magento_Catalog_Model_Product_Compare_Item $object
-     * @return Magento_Catalog_Model_Resource_Product_Compare_Item
+     * @param \Magento\Catalog\Model\Product\Compare\Item $object
+     * @return \Magento\Catalog\Model\Resource\Product\Compare\Item
      */
     public function updateCustomerFromVisitor($object)
     {
@@ -209,7 +211,7 @@ class Magento_Catalog_Model_Resource_Product_Compare_Item extends Magento_Core_M
      *
      * @param int $visitorId
      * @param int $customerId
-     * @return Magento_Catalog_Model_Resource_Product_Compare_Item
+     * @return \Magento\Catalog\Model\Resource\Product\Compare\Item
      */
     public function clearItems($visitorId = null, $customerId = null)
     {

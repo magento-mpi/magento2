@@ -6,20 +6,22 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Layout_File_ListTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Layout\File;
+
+class ListTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Layout_File_List
+     * @var \Magento\Core\Model\Layout\File\ListFile
      */
     private $_model;
 
     /**
-     * @var Magento_Core_Model_Layout_File
+     * @var \Magento\Core\Model\Layout\File
      */
     private $_baseFile;
 
     /**
-     * @var Magento_Core_Model_Layout_File
+     * @var \Magento\Core\Model\Layout\File
      */
     private $_themeFile;
 
@@ -27,7 +29,7 @@ class Magento_Core_Model_Layout_File_ListTest extends PHPUnit_Framework_TestCase
     {
         $this->_baseFile = $this->_createLayoutFile('fixture.xml', 'Fixture_TestModule');
         $this->_themeFile = $this->_createLayoutFile('fixture.xml', 'Fixture_TestModule', 'area/theme/path');
-        $this->_model = new Magento_Core_Model_Layout_File_List();
+        $this->_model = new \Magento\Core\Model\Layout\File\ListFile();
         $this->_model->add(array($this->_baseFile, $this->_themeFile));
     }
 
@@ -37,16 +39,16 @@ class Magento_Core_Model_Layout_File_ListTest extends PHPUnit_Framework_TestCase
      * @param string $filename
      * @param string $module
      * @param string|null $themeFullPath
-     * @return PHPUnit_Framework_MockObject_MockObject|Magento_Core_Model_ThemeInterface
+     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\ThemeInterface
      */
     protected function _createLayoutFile($filename, $module, $themeFullPath = null)
     {
         $theme = null;
         if ($themeFullPath !== null) {
-            $theme = $this->getMockForAbstractClass('Magento_Core_Model_ThemeInterface');
+            $theme = $this->getMockForAbstractClass('Magento\Core\Model\ThemeInterface');
             $theme->expects($this->any())->method('getFullPath')->will($this->returnValue($themeFullPath));
         }
-        return new Magento_Core_Model_Layout_File($filename, $module, $theme);
+        return new \Magento\Core\Model\Layout\File($filename, $module, $theme);
     }
 
     public function testGetAll()
@@ -69,7 +71,7 @@ class Magento_Core_Model_Layout_File_ListTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException LogicException
+     * @expectedException \LogicException
      * @expectedExceptionMessage Layout file 'test/fixture.xml' is indistinguishable from the file 'fixture.xml'
      */
     public function testAddBaseFileException()
@@ -79,7 +81,7 @@ class Magento_Core_Model_Layout_File_ListTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException LogicException
+     * @expectedException \LogicException
      * @expectedExceptionMessage Layout file 'test/fixture.xml' is indistinguishable from the file 'fixture.xml'
      */
     public function testAddThemeFileException()
@@ -103,7 +105,7 @@ class Magento_Core_Model_Layout_File_ListTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException LogicException
+     * @expectedException \LogicException
      * @expectedExceptionMessage Overriding layout file 'new.xml' does not match to any of the files
      */
     public function testReplaceBaseFileException()
@@ -113,7 +115,7 @@ class Magento_Core_Model_Layout_File_ListTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException LogicException
+     * @expectedException \LogicException
      * @expectedExceptionMessage Overriding layout file 'test/fixture.xml' does not match to any of the files
      */
     public function testReplaceBaseFileEmptyThemePathException()
@@ -123,7 +125,7 @@ class Magento_Core_Model_Layout_File_ListTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException LogicException
+     * @expectedException \LogicException
      * @expectedExceptionMessage Overriding layout file 'new.xml' does not match to any of the files
      */
     public function testReplaceThemeFileException()

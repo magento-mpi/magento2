@@ -9,13 +9,15 @@
  * @license     {license_link}
  */
 
-class Magento_AdvancedCheckout_LayoutTest extends PHPUnit_Framework_TestCase
+namespace Magento\AdvancedCheckout;
+
+class LayoutTest extends \PHPUnit_Framework_TestCase
 {
     public function testCartLayout()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setDesignTheme('magento_fixed_width');
-        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
         $layout->getUpdate()->addHandle('checkout_cart_index');
         $layout->getUpdate()->load();
         $this->assertNotEmpty($layout->getUpdate()->asSimplexml()->xpath('//block[@name="sku.failed.products"]'));

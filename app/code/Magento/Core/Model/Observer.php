@@ -8,65 +8,67 @@
  * @license     {license_link}
  */
 
+namespace Magento\Core\Model;
+
 /**
  * Core Observer model
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_Core_Model_Observer
+class Observer
 {
     /**
-     * @var Magento_Core_Model_Cache_Frontend_Pool
+     * @var \Magento\Core\Model\Cache\Frontend\Pool
      */
     private $_cacheFrontendPool;
 
     /**
-     * @var Magento_Core_Model_Theme
+     * @var \Magento\Core\Model\Theme
      */
     private $_currentTheme;
 
     /**
-     * @var Magento_Core_Model_Page_Asset_Collection
+     * @var \Magento\Core\Model\Page\Asset\Collection
      */
     private $_pageAssets;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_config;
 
     /**
-     * @var Magento_Core_Model_Page_Asset_PublicFileFactory
+     * @var \Magento\Core\Model\Page\Asset\PublicFileFactory
      */
     protected $_assetFileFactory;
 
     /**
-     * @var Magento_Core_Model_Theme_Registration
+     * @var \Magento\Core\Model\Theme\Registration
      */
     protected  $_registration;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @param Magento_Core_Model_Cache_Frontend_Pool $cacheFrontendPool
-     * @param Magento_Core_Model_View_DesignInterface $design
-     * @param Magento_Core_Model_Page $page
-     * @param Magento_Core_Model_ConfigInterface $config
-     * @param Magento_Core_Model_Page_Asset_PublicFileFactory $assetFileFactory
-     * @param Magento_Core_Model_Theme_Registration $registration
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Core\Model\Cache\Frontend\Pool $cacheFrontendPool
+     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\Core\Model\Page $page
+     * @param \Magento\Core\Model\ConfigInterface $config
+     * @param \Magento\Core\Model\Page\Asset\PublicFileFactory $assetFileFactory
+     * @param \Magento\Core\Model\Theme\Registration $registration
+     * @param \Magento\Core\Model\Logger $logger
      */
     public function __construct(
-        Magento_Core_Model_Cache_Frontend_Pool $cacheFrontendPool,
-        Magento_Core_Model_View_DesignInterface $design,
-        Magento_Core_Model_Page $page,
-        Magento_Core_Model_ConfigInterface $config,
-        Magento_Core_Model_Page_Asset_PublicFileFactory $assetFileFactory,
-        Magento_Core_Model_Theme_Registration $registration,
-        Magento_Core_Model_Logger $logger
+        \Magento\Core\Model\Cache\Frontend\Pool $cacheFrontendPool,
+        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\Core\Model\Page $page,
+        \Magento\Core\Model\ConfigInterface $config,
+        \Magento\Core\Model\Page\Asset\PublicFileFactory $assetFileFactory,
+        \Magento\Core\Model\Theme\Registration $registration,
+        \Magento\Core\Model\Logger $logger
     ) {
         $this->_cacheFrontendPool = $cacheFrontendPool;
         $this->_currentTheme = $design->getDesignTheme();
@@ -80,31 +82,31 @@ class Magento_Core_Model_Observer
     /**
      * Cron job method to clean old cache resources
      *
-     * @param Magento_Cron_Model_Schedule $schedule
+     * @param \Magento\Cron\Model\Schedule $schedule
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function cleanCache(Magento_Cron_Model_Schedule $schedule)
+    public function cleanCache(\Magento\Cron\Model\Schedule $schedule)
     {
-        /** @var $cacheFrontend Magento_Cache_FrontendInterface */
+        /** @var $cacheFrontend \Magento\Cache\FrontendInterface */
         foreach ($this->_cacheFrontendPool as $cacheFrontend) {
             // Magento cache frontend does not support the 'old' cleaning mode, that's why backend is used directly
-            $cacheFrontend->getBackend()->clean(Zend_Cache::CLEANING_MODE_OLD);
+            $cacheFrontend->getBackend()->clean(\Zend_Cache::CLEANING_MODE_OLD);
         }
     }
 
     /**
      * Theme registration
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_Core_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\Core\Model\Observer
      */
-    public function themeRegistration(Magento_Event_Observer $observer)
+    public function themeRegistration(\Magento\Event\Observer $observer)
     {
         $baseDir = $observer->getEvent()->getBaseDir();
         $pathPattern = $observer->getEvent()->getPathPattern();
         try {
             $this->_registration->register($baseDir, $pathPattern);
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_logger->logException($e);
         }
         return $this;
@@ -113,23 +115,23 @@ class Magento_Core_Model_Observer
     /**
      * Apply customized static files to frontend
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function applyThemeCustomization(Magento_Event_Observer $observer)
+    public function applyThemeCustomization(\Magento\Event\Observer $observer)
     {
-        /** @var $themeFile Magento_Core_Model_Theme_File */
+        /** @var $themeFile \Magento\Core\Model\Theme\File */
         foreach ($this->_currentTheme->getCustomization()->getFiles() as $themeFile) {
             try {
                 $service = $themeFile->getCustomizationService();
-                if ($service instanceof Magento_Core_Model_Theme_Customization_FileAssetInterface) {
+                if ($service instanceof \Magento\Core\Model\Theme\Customization\FileAssetInterface) {
                     $asset = $this->_assetFileFactory->create(array(
                         'file'        => $themeFile->getFullPath(),
                         'contentType' => $service->getContentType()
                     ));
                     $this->_pageAssets->add($themeFile->getData('file_path'), $asset);
                 }
-            } catch (InvalidArgumentException $e) {
+            } catch (\InvalidArgumentException $e) {
                 $this->_logger->logException($e);
             }
         }
@@ -138,11 +140,11 @@ class Magento_Core_Model_Observer
     /**
      * Rebuild whole config and save to fast storage
      *
-     * @param  Magento_Event_Observer $observer
-     * @return Magento_Core_Model_Observer
+     * @param  \Magento\Event\Observer $observer
+     * @return \Magento\Core\Model\Observer
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function processReinitConfig(Magento_Event_Observer $observer)
+    public function processReinitConfig(\Magento\Event\Observer $observer)
     {
         $this->_config->reinit();
         return $this;

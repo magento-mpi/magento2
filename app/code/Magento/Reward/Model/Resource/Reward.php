@@ -16,7 +16,9 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Model_Resource_Reward extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Reward\Model\Resource;
+
+class Reward extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Internal constructor
@@ -30,12 +32,12 @@ class Magento_Reward_Model_Resource_Reward extends Magento_Core_Model_Resource_D
     /**
      * Fetch reward by customer and website and set data to reward object
      *
-     * @param Magento_Reward_Model_Reward $reward
+     * @param \Magento\Reward\Model\Reward $reward
      * @param integer $customerId
      * @param integer $websiteId
-     * @return Magento_Reward_Model_Resource_Reward
+     * @return \Magento\Reward\Model\Resource\Reward
      */
-    public function loadByCustomerId(Magento_Reward_Model_Reward $reward, $customerId, $websiteId)
+    public function loadByCustomerId(\Magento\Reward\Model\Reward $reward, $customerId, $websiteId)
     {
         $select = $this->_getReadAdapter()->select()
             ->from($this->getMainTable())
@@ -55,11 +57,11 @@ class Magento_Reward_Model_Resource_Reward extends Magento_Core_Model_Resource_D
     /**
      * Perform Row-level data update
      *
-     * @param Magento_Reward_Model_Reward $object
+     * @param \Magento\Reward\Model\Reward $object
      * @param array $data New data
-     * @return Magento_Reward_Model_Resource_Reward
+     * @return \Magento\Reward\Model\Resource\Reward
      */
-    public function updateRewardRow(Magento_Reward_Model_Reward $object, $data)
+    public function updateRewardRow(\Magento\Reward\Model\Reward $object, $data)
     {
         if (!$object->getId() || !is_array($data)) {
             return $this;
@@ -76,7 +78,7 @@ class Magento_Reward_Model_Resource_Reward extends Magento_Core_Model_Resource_D
      *
      * @param integer $websiteId
      * @param string $baseCurrencyCode
-     * @return Magento_Reward_Model_Resource_Reward
+     * @return \Magento\Reward\Model\Resource\Reward
      */
     public function prepareOrphanPoints($websiteId, $baseCurrencyCode)
     {
@@ -95,7 +97,7 @@ class Magento_Reward_Model_Resource_Reward extends Magento_Core_Model_Resource_D
      * Delete orphan (points of deleted website) points by given customer
      *
      * @param int $customerId
-     * @return Magento_Reward_Model_Resource_Reward
+     * @return \Magento\Reward\Model\Resource\Reward
      */
     public function deleteOrphanPointsByCustomer($customerId)
     {
@@ -103,7 +105,7 @@ class Magento_Reward_Model_Resource_Reward extends Magento_Core_Model_Resource_D
             $this->_getWriteAdapter()->delete($this->getMainTable(),
                 array(
                     'customer_id = ?' => $customerId,
-                    new Zend_Db_Expr('website_id IS NULL')
+                    new \Zend_Db_Expr('website_id IS NULL')
                 )
             );
         }
@@ -115,7 +117,7 @@ class Magento_Reward_Model_Resource_Reward extends Magento_Core_Model_Resource_D
      *
      * @param integer $ruleId
      * @param integer $pointsDelta
-     * @return Magento_Reward_Model_Resource_Reward
+     * @return \Magento\Reward\Model\Resource\Reward
      */
     public function saveRewardSalesrule($ruleId, $pointsDelta)
     {

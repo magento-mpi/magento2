@@ -1,6 +1,6 @@
 <?php
 /**
- * Test for Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Main block
+ * Test for \Magento\Webapi\Block\Adminhtml\Role\Edit\Tab\Main block
  *
  * {license_notice}
  *
@@ -8,28 +8,30 @@
  * @license     {license_link}
  */
 
+namespace Magento\Webapi\Block\Adminhtml\Role\Edit\Tab;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_MainTest extends PHPUnit_Framework_TestCase
+class MainTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_ObjectManager
+     * @var \Magento\TestFramework\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @var Magento_Core_Model_Layout
+     * @var \Magento\Core\Model\Layout
      */
     protected $_layout;
 
     /**
-     * @var Magento_Core_Model_BlockFactory
+     * @var \Magento\Core\Model\BlockFactory
      */
     protected $_blockFactory;
 
     /**
-     * @var Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Main
+     * @var \Magento\Webapi\Block\Adminhtml\Role\Edit\Tab\Main
      */
     protected $_block;
 
@@ -37,17 +39,17 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_MainTest extends PHPUnit_Fram
     {
         parent::setUp();
 
-        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $this->_layout = $this->_objectManager->get('Magento_Core_Model_Layout');
-        $this->_blockFactory = $this->_objectManager->get('Magento_Core_Model_BlockFactory');
-        $this->_block = $this->_blockFactory->createBlock('Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Main');
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->_layout = $this->_objectManager->get('Magento\Core\Model\Layout');
+        $this->_blockFactory = $this->_objectManager->get('Magento\Core\Model\BlockFactory');
+        $this->_block = $this->_blockFactory->createBlock('Magento\Webapi\Block\Adminhtml\Role\Edit\Tab\Main');
         $this->_layout->addBlock($this->_block);
     }
 
     protected function tearDown()
     {
-        $this->_objectManager->removeSharedInstance('Magento_Core_Model_Layout');
-        $this->_objectManager->removeSharedInstance('Magento_Core_Model_BlockFactory');
+        $this->_objectManager->removeSharedInstance('Magento\Core\Model\Layout');
+        $this->_objectManager->removeSharedInstance('Magento\Core\Model\BlockFactory');
         unset($this->_objectManager, $this->_layout, $this->_blockFactory, $this->_block);
     }
 
@@ -55,7 +57,7 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_MainTest extends PHPUnit_Fram
      * Test _prepareForm method.
      *
      * @dataProvider prepareFormDataProvider
-     * @param Magento_Object $apiRole
+     * @param \Magento\Object $apiRole
      * @param array $formElements
      */
     public function testPrepareForm($apiRole, array $formElements)
@@ -67,10 +69,10 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_MainTest extends PHPUnit_Fram
         $this->_block->toHtml();
 
         $form = $this->_block->getForm();
-        $this->assertInstanceOf('Magento_Data_Form', $form);
-        /** @var Magento_Data_Form_Element_Fieldset $fieldset */
+        $this->assertInstanceOf('Magento\Data\Form', $form);
+        /** @var \Magento\Data\Form\Element\Fieldset $fieldset */
         $fieldset = $form->getElement('base_fieldset');
-        $this->assertInstanceOf('Magento_Data_Form_Element_Fieldset', $fieldset);
+        $this->assertInstanceOf('Magento\Data\Form\Element\Fieldset', $fieldset);
         $elements = $fieldset->getElements();
         foreach ($formElements as $elementId) {
             $element = $elements->searchById($elementId);
@@ -86,7 +88,7 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_MainTest extends PHPUnit_Fram
     {
         return array(
             'Empty API Role' => array(
-                new Magento_Object(),
+                new \Magento\Object(),
                 array(
                     'role_name',
                     'in_role_user',
@@ -94,7 +96,7 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_MainTest extends PHPUnit_Fram
                 )
             ),
             'New API Role' => array(
-                new Magento_Object(array(
+                new \Magento\Object(array(
                     'role_name' => 'Role'
                 )),
                 array(
@@ -104,7 +106,7 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_MainTest extends PHPUnit_Fram
                 )
             ),
             'Existed API Role' => array(
-                new Magento_Object(array(
+                new \Magento\Object(array(
                     'id' => 1,
                     'role_name' => 'Role'
                 )),

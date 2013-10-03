@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Newfolder extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Cms\Wysiwyg\Images\Content;
+
+class Newfolder extends \Magento\Adminhtml\Block\Template
 {
 
 }

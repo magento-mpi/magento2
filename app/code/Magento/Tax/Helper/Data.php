@@ -11,7 +11,9 @@
 /**
  * Catalog data helper
  */
-class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Tax\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     const PRICE_CONVERSION_PLUS = 1;
     const PRICE_CONVERSION_MINUS = 2;
@@ -22,12 +24,12 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Tax configuration object
      *
-     * @var Magento_Tax_Model_Config
+     * @var \Magento\Tax\Model\Config
      */
     protected $_config      = null;
 
     /**
-     * @var Magento_Tax_Model_Calculation
+     * @var \Magento\Tax\Model\Calculation
      */
     protected $_calculation;
 
@@ -49,68 +51,68 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Helper\Data $coreData
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @var Magento_Eav_Model_Entity_AttributeFactory
+     * @var \Magento\Eav\Model\Entity\AttributeFactory
      */
     protected $_attributeFactory;
 
     /**
-     * @var Magento_Tax_Model_Resource_Sales_Order_Tax_ItemFactory
+     * @var \Magento\Tax\Model\Resource\Sales\Order\Tax\ItemFactory
      */
     protected $_taxItemFactory;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Tax_Model_Config $taxConfig
-     * @param Magento_Tax_Model_Calculation $calculation
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Eav_Model_Entity_AttributeFactory $attributeFactory
-     * @param Magento_Tax_Model_Resource_Sales_Order_Tax_ItemFactory $taxItemFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Tax\Model\Config $taxConfig
+     * @param \Magento\Tax\Model\Calculation $calculation
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
+     * @param \Magento\Tax\Model\Resource\Sales\Order\Tax\ItemFactory $taxItemFactory
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Tax_Model_Config $taxConfig,
-        Magento_Tax_Model_Calculation $calculation,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Eav_Model_Entity_AttributeFactory $attributeFactory,
-        Magento_Tax_Model_Resource_Sales_Order_Tax_ItemFactory $taxItemFactory
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Tax\Model\Config $taxConfig,
+        \Magento\Tax\Model\Calculation $calculation,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
+        \Magento\Tax\Model\Resource\Sales\Order\Tax\ItemFactory $taxItemFactory
     ) {
         parent::__construct($context);
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -141,7 +143,7 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Get tax configuration object
      *
-     * @return Magento_Tax_Model_Config
+     * @return \Magento\Tax\Model\Config
      */
     public function getConfig()
     {
@@ -151,7 +153,7 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Get tax calculation object
      *
-     * @return  Magento_Tac_Model_Calculation
+     * @return  \Magento\Tax\Model\Calculation
      */
     public function getCalculator()
     {
@@ -161,7 +163,7 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Get product price including store convertion rate
      *
-     * @param   Magento_Catalog_Model_Product $product
+     * @param   \Magento\Catalog\Model\Product $product
      * @param   null|string $format
      * @return  float|string
      */
@@ -170,7 +172,7 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
         try {
             $value = $product->getPrice();
             $value = $this->_storeManager->getStore()->convertPrice($value, $format);
-        } catch (Exception $e){
+        } catch (\Exception $e){
             $value = $e->getMessage();
         }
         return $value;
@@ -239,18 +241,18 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
         $res = false;
         if ($this->priceIncludesTax($store)) {
             switch ($this->getPriceDisplayType($store)) {
-                case Magento_Tax_Model_Config::DISPLAY_TYPE_EXCLUDING_TAX:
-                case Magento_Tax_Model_Config::DISPLAY_TYPE_BOTH:
+                case \Magento\Tax\Model\Config::DISPLAY_TYPE_EXCLUDING_TAX:
+                case \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH:
                     return self::PRICE_CONVERSION_MINUS;
-                case Magento_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX:
+                case \Magento\Tax\Model\Config::DISPLAY_TYPE_INCLUDING_TAX:
                     $res = true;
             }
         } else {
             switch ($this->getPriceDisplayType($store)) {
-                case Magento_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX:
-                case Magento_Tax_Model_Config::DISPLAY_TYPE_BOTH:
+                case \Magento\Tax\Model\Config::DISPLAY_TYPE_INCLUDING_TAX:
+                case \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH:
                     return self::PRICE_CONVERSION_PLUS;
-                case Magento_Tax_Model_Config::DISPLAY_TYPE_EXCLUDING_TAX:
+                case \Magento\Tax\Model\Config::DISPLAY_TYPE_EXCLUDING_TAX:
                     $res = false;
             }
         }
@@ -451,11 +453,11 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Get product price with all tax settings processing
      *
-     * @param   Magento_Catalog_Model_Product $product
+     * @param   \Magento\Catalog\Model\Product $product
      * @param   float $price inputed product price
      * @param   bool $includingTax return price include tax flag
-     * @param   null|Magento_Customer_Model_Address $shippingAddress
-     * @param   null|Magento_Customer_Model_Address $billingAddress
+     * @param   null|\Magento\Customer\Model\Address $shippingAddress
+     * @param   null|\Magento\Customer\Model\Address $billingAddress
      * @param   null|int $ctc customer tax class
      * @param   mixed $store
      * @param   bool $priceIncludesTax flag what price parameter contain tax
@@ -535,24 +537,24 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
         } else {
             if ($priceIncludesTax) {
                 switch ($this->getPriceDisplayType($store)) {
-                    case Magento_Tax_Model_Config::DISPLAY_TYPE_EXCLUDING_TAX:
-                    case Magento_Tax_Model_Config::DISPLAY_TYPE_BOTH:
+                    case \Magento\Tax\Model\Config::DISPLAY_TYPE_EXCLUDING_TAX:
+                    case \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH:
                         $price = $this->_calculatePrice($price, $includingPercent, false);
                         break;
 
-                    case Magento_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX:
+                    case \Magento\Tax\Model\Config::DISPLAY_TYPE_INCLUDING_TAX:
                         $price = $this->_calculatePrice($price, $includingPercent, false);
                         $price = $this->_calculatePrice($price, $percent, true);
                         break;
                 }
             } else {
                 switch ($this->getPriceDisplayType($store)) {
-                    case Magento_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX:
+                    case \Magento\Tax\Model\Config::DISPLAY_TYPE_INCLUDING_TAX:
                         $price = $this->_calculatePrice($price, $percent, true);
                         break;
 
-                    case Magento_Tax_Model_Config::DISPLAY_TYPE_BOTH:
-                    case Magento_Tax_Model_Config::DISPLAY_TYPE_EXCLUDING_TAX:
+                    case \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH:
+                    case \Magento\Tax\Model\Config::DISPLAY_TYPE_EXCLUDING_TAX:
                         break;
                 }
             }
@@ -567,7 +569,7 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function displayPriceIncludingTax()
     {
-        return $this->getPriceDisplayType() == Magento_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX;
+        return $this->getPriceDisplayType() == \Magento\Tax\Model\Config::DISPLAY_TYPE_INCLUDING_TAX;
     }
 
     /**
@@ -577,7 +579,7 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function displayPriceExcludingTax()
     {
-        return $this->getPriceDisplayType() == Magento_Tax_Model_Config::DISPLAY_TYPE_EXCLUDING_TAX;
+        return $this->getPriceDisplayType() == \Magento\Tax\Model\Config::DISPLAY_TYPE_EXCLUDING_TAX;
     }
 
     /**
@@ -587,7 +589,7 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function displayBothPrices()
     {
-        return $this->getPriceDisplayType() == Magento_Tax_Model_Config::DISPLAY_TYPE_BOTH;
+        return $this->getPriceDisplayType() == \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH;
     }
 
     /**
@@ -627,17 +629,17 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
 
     public function displayShippingPriceIncludingTax()
     {
-        return $this->getShippingPriceDisplayType() == Magento_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX;
+        return $this->getShippingPriceDisplayType() == \Magento\Tax\Model\Config::DISPLAY_TYPE_INCLUDING_TAX;
     }
 
     public function displayShippingPriceExcludingTax()
     {
-        return $this->getShippingPriceDisplayType() == Magento_Tax_Model_Config::DISPLAY_TYPE_EXCLUDING_TAX;
+        return $this->getShippingPriceDisplayType() == \Magento\Tax\Model\Config::DISPLAY_TYPE_EXCLUDING_TAX;
     }
 
     public function displayShippingBothPrices()
     {
-        return $this->getShippingPriceDisplayType() == Magento_Tax_Model_Config::DISPLAY_TYPE_BOTH;
+        return $this->getShippingPriceDisplayType() == \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH;
     }
 
     public function getShippingTaxClass($store)
@@ -652,7 +654,7 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getShippingPrice($price, $includingTax = null, $shippingAddress = null, $ctc = null, $store = null)
     {
-        $pseudoProduct = new Magento_Object();
+        $pseudoProduct = new \Magento\Object();
         $pseudoProduct->setTaxClassId($this->getShippingTaxClass($store));
 
         $billingAddress = false;
@@ -726,16 +728,16 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
 
     /**
      * Join tax class
-     * @param Magento_DB_Select $select
+     * @param \Magento\DB\Select $select
      * @param int $storeId
      * @param string $priceTable
-     * @return Magento_Tax_Helper_Data
+     * @return \Magento\Tax\Helper\Data
      */
     public function joinTaxClass($select, $storeId, $priceTable = 'main_table')
     {
-        /** @var $taxClassAttribute Magento_Eav_Model_Entity_Attribute */
+        /** @var $taxClassAttribute \Magento\Eav\Model\Entity\Attribute */
         $taxClassAttribute = $this->_attributeFactory->create();
-        $taxClassAttribute->loadByCode(Magento_Catalog_Model_Product::ENTITY, 'tax_class_id');
+        $taxClassAttribute->loadByCode(\Magento\Catalog\Model\Product::ENTITY, 'tax_class_id');
         $joinConditionD = implode(' AND ',array(
             "tax_class_d.entity_id = {$priceTable}.entity_id",
             $select->getAdapter()->quoteInto('tax_class_d.attribute_id = ?', (int)$taxClassAttribute->getId()),
@@ -778,7 +780,7 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getTaxBasedOn($store = null)
     {
-        return $this->_coreStoreConfig->getConfig(Magento_Tax_Model_Config::CONFIG_XML_PATH_BASED_ON, $store);
+        return $this->_coreStoreConfig->getConfig(\Magento\Tax\Model\Config::CONFIG_XML_PATH_BASED_ON, $store);
     }
 
     /**
@@ -789,7 +791,7 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function applyTaxOnCustomPrice($store = null)
     {
-        return ((int) $this->_coreStoreConfig->getConfig(Magento_Tax_Model_Config::CONFIG_XML_PATH_APPLY_ON, $store) == 0);
+        return ((int) $this->_coreStoreConfig->getConfig(\Magento\Tax\Model\Config::CONFIG_XML_PATH_APPLY_ON, $store) == 0);
     }
 
     /**
@@ -800,7 +802,7 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function applyTaxOnOriginalPrice($store = null)
     {
-        return ((int) $this->_coreStoreConfig->getConfig(Magento_Tax_Model_Config::CONFIG_XML_PATH_APPLY_ON, $store) == 1);
+        return ((int) $this->_coreStoreConfig->getConfig(\Magento\Tax\Model\Config::CONFIG_XML_PATH_APPLY_ON, $store) == 1);
     }
 
     /**
@@ -808,7 +810,7 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
      * This sequence depends on "Catalog price include tax", "Apply Tax After Discount"
      * and "Apply Discount On Prices Including Tax" configuration options.
      *
-     * @param   null|int|string|Magento_Core_Model_Store $store
+     * @param   null|int|string|\Magento\Core\Model\Store $store
      * @return  string
      */
     public function getCalculationSequence($store=null)
@@ -841,7 +843,7 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
      *  )
      * )
      *
-     * @param Magento_Sales_Model_Order $source
+     * @param \Magento\Sales\Model\Order $source
      * @return array
      */
     public function getCalculatedTaxes($source)
@@ -856,9 +858,9 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
 
         $taxClassAmount = array();
         if ($current && $source) {
-            /** @var $item Magento_Sales_Model_Order_Item */
+            /** @var $item \Magento\Sales\Model\Order\Item */
             foreach($current->getItemsCollection() as $item) {
-                /** @var $taxCollection Magento_Tax_Model_Resource_Sales_Order_Tax_Item */
+                /** @var $taxCollection \Magento\Tax\Model\Resource\Sales\Order\Tax\Item */
                 $taxCollection = $this->_taxItemFactory->create();
                 $taxCollection->getTaxItemsByItemId(
                     $item->getOrderItemId() ? $item->getOrderItemId() : $item->getItemId()
@@ -913,7 +915,7 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
      *  )
      * )
      *
-     * @param Magento_Sales_Model_Order $source
+     * @param \Magento\Sales\Model\Order $source
      * @return array
      */
     public function getShippingTax($source)

@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class for Magento_Core_Model_Config_Loader
+ * Test class for \Magento\Core\Model\Config\Loader
  *
  * {license_notice}
  *
@@ -8,43 +8,45 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Config_LoaderTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Config;
+
+class LoaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Config_Loader
+     * @var \Magento\Core\Model\Config\Loader
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_primaryConfigMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_modulesReaderMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_baseConfigMock;
 
     protected function setUp()
     {
         $this->_primaryConfigMock = $this->getMock(
-            'Magento_Core_Model_Config_Primary', array(), array(), '', false, false
+            'Magento\Core\Model\Config\Primary', array(), array(), '', false, false
         );
 
         $this->_modulesReaderMock = $this->getMock(
-            'Magento_Core_Model_Config_Modules_Reader', array(), array(), '', false, false
+            'Magento\Core\Model\Config\Modules\Reader', array(), array(), '', false, false
         );
 
         $this->_baseConfigMock = $this->getMock(
-            'Magento_Core_Model_Config_Base', array(), array(), '', false, false
+            'Magento\Core\Model\Config\Base', array(), array(), '', false, false
         );
 
-        $this->_model = new Magento_Core_Model_Config_Loader(
+        $this->_model = new \Magento\Core\Model\Config\Loader(
             $this->_primaryConfigMock,
             $this->_modulesReaderMock
         );

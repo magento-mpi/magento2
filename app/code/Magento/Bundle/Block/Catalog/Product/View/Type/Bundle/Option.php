@@ -16,7 +16,9 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle_Option extends Magento_Bundle_Block_Catalog_Product_Price
+namespace Magento\Bundle\Block\Catalog\Product\View\Type\Bundle;
+
+class Option extends \Magento\Bundle\Block\Catalog\Product\Price
 {
     /**
      * Store preconfigured options
@@ -110,7 +112,7 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle_Option extends Magen
     /**
      * Define if selection is selected
      *
-     * @param  Magento_Catalog_Model_Product $selection
+     * @param  \Magento\Catalog\Model\Product $selection
      * @return bool
      */
     public function isSelected($selection)
@@ -150,7 +152,7 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle_Option extends Magen
     /**
      * Get product model
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
@@ -176,7 +178,7 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle_Option extends Magen
     /**
      * Get price for selection product
      *
-     * @param Magento_Catalog_Model_Product $_selection
+     * @param \Magento\Catalog\Model\Product $_selection
      * @return int|float
      */
     public function getSelectionPrice($_selection)
@@ -187,7 +189,7 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle_Option extends Magen
             $price = $this->getProduct()->getPriceModel()
                 ->getSelectionPreFinalPrice($this->getProduct(), $_selection, 1);
             if (is_numeric($price)) {
-                $price = $this->helper('Magento_Core_Helper_Data')->currencyByStore($price, $store, false);
+                $price = $this->helper('Magento\Core\Helper\Data')->currencyByStore($price, $store, false);
             }
         }
         return is_numeric($price) ? $price : 0;
@@ -196,7 +198,7 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle_Option extends Magen
     /**
      * Get title price for selection product
      *
-     * @param Magento_Catalog_Model_Product $_selection
+     * @param \Magento\Catalog\Model\Product $_selection
      * @param bool $includeContainer
      * @return string
      */
@@ -233,9 +235,9 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle_Option extends Magen
     public function formatPriceString($price, $includeContainer = true)
     {
         $taxHelper  = $this->_taxData;
-        $coreHelper = $this->helper('Magento_Core_Helper_Data');
+        $coreHelper = $this->helper('Magento\Core\Helper\Data');
         $currentProduct = $this->getProduct();
-        if ($currentProduct->getPriceType() == Magento_Bundle_Model_Product_Price::PRICE_TYPE_DYNAMIC
+        if ($currentProduct->getPriceType() == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_DYNAMIC
             && $this->getFormatProduct()
         ) {
             $product = $this->getFormatProduct();

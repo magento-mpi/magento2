@@ -15,8 +15,10 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Information
-    extends Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping;
+
+class Information
+    extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping\Packaging
 {
     /**
      * Constructor

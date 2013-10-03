@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Customer_Model_Config_Source_Group_Multiselect implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Customer\Model\Config\Source\Group;
+
+class Multiselect implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Customer groups options array
@@ -18,14 +20,14 @@ class Magento_Customer_Model_Config_Source_Group_Multiselect implements Magento_
     protected $_options;
 
     /**
-     * @var Magento_Customer_Model_Resource_Group_CollectionFactory
+     * @var \Magento\Customer\Model\Resource\Group\CollectionFactory
      */
     protected $_groupsFactory;
 
     /**
-     * @param Magento_Customer_Model_Resource_Group_CollectionFactory $groupsFactory
+     * @param \Magento\Customer\Model\Resource\Group\CollectionFactory $groupsFactory
      */
-    public function __construct(Magento_Customer_Model_Resource_Group_CollectionFactory $groupsFactory)
+    public function __construct(\Magento\Customer\Model\Resource\Group\CollectionFactory $groupsFactory)
     {
         $this->_groupsFactory = $groupsFactory;
     }
@@ -44,7 +46,7 @@ class Magento_Customer_Model_Config_Source_Group_Multiselect implements Magento_
     }
 
     /**
-     * @return Magento_Customer_Model_Resource_Group_Collection
+     * @return \Magento\Customer\Model\Resource\Group\Collection
      */
     protected function _getCustomerGroupsCollection()
     {

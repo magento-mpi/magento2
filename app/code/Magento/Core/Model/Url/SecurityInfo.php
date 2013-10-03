@@ -7,12 +7,14 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Model_Url_SecurityInfo implements Magento_Core_model_Url_SecurityInfoInterface
+namespace Magento\Core\Model\Url;
+
+class SecurityInfo implements \Magento\Core\model\Url\SecurityInfoInterface
 {
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -31,10 +33,10 @@ class Magento_Core_Model_Url_SecurityInfo implements Magento_Core_model_Url_Secu
     protected $_secureUrlCache = array();
 
     /**
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $secureUrlList
      */
-    public function __construct(Magento_Core_Model_StoreManagerInterface $storeManager, array $secureUrlList = array())
+    public function __construct(\Magento\Core\Model\StoreManagerInterface $storeManager, array $secureUrlList = array())
     {
         $this->_storeManager = $storeManager;
         $this->_secureUrlList = $secureUrlList;
@@ -48,7 +50,7 @@ class Magento_Core_Model_Url_SecurityInfo implements Magento_Core_model_Url_Secu
      */
     public function isSecure($url)
     {
-        if (!$this->_storeManager->getStore()->getConfig(Magento_Core_Model_Store::XML_PATH_SECURE_IN_FRONTEND)) {
+        if (!$this->_storeManager->getStore()->getConfig(\Magento\Core\Model\Store::XML_PATH_SECURE_IN_FRONTEND)) {
             return false;
         }
 

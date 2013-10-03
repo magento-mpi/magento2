@@ -12,28 +12,30 @@
 /**
  * Tax rate collection
  */
-class Magento_Tax_Model_Resource_Calculation_Rate_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Tax\Model\Resource\Calculation\Rate;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_storeManager = $storeManager;
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
@@ -44,13 +46,13 @@ class Magento_Tax_Model_Resource_Calculation_Rate_Collection extends Magento_Cor
      */
     protected function _construct()
     {
-        $this->_init('Magento_Tax_Model_Calculation_Rate', 'Magento_Tax_Model_Resource_Calculation_Rate');
+        $this->_init('Magento\Tax\Model\Calculation\Rate', 'Magento\Tax\Model\Resource\Calculation\Rate');
     }
 
     /**
      * Join country table to result
      *
-     * @return Magento_Tax_Model_Resource_Calculation_Rate_Collection
+     * @return \Magento\Tax\Model\Resource\Calculation\Rate\Collection
      */
     public function joinCountryTable()
     {
@@ -66,7 +68,7 @@ class Magento_Tax_Model_Resource_Calculation_Rate_Collection extends Magento_Cor
     /**
      * Join Region Table
      *
-     * @return Magento_Tax_Model_Resource_Calculation_Rate_Collection
+     * @return \Magento\Tax\Model\Resource\Calculation\Rate\Collection
      */
     public function joinRegionTable()
     {
@@ -81,8 +83,8 @@ class Magento_Tax_Model_Resource_Calculation_Rate_Collection extends Magento_Cor
     /**
      * Join rate title for specified store
      *
-     * @param Magento_Core_Model_Store|string|int $store
-     * @return Magento_Tax_Model_Resource_Calculation_Rate_Collection
+     * @param \Magento\Core\Model\Store|string|int $store
+     * @return \Magento\Tax\Model\Resource\Calculation\Rate\Collection
      */
     public function joinTitle($store = null)
     {
@@ -99,7 +101,7 @@ class Magento_Tax_Model_Resource_Calculation_Rate_Collection extends Magento_Cor
     /**
      * Joins store titles for rates
      *
-     * @return Magento_Tax_Model_Resource_Calculation_Rate_Collection
+     * @return \Magento\Tax\Model\Resource\Calculation\Rate\Collection
      */
     public function joinStoreTitles()
     {
@@ -123,7 +125,7 @@ class Magento_Tax_Model_Resource_Calculation_Rate_Collection extends Magento_Cor
      * Add rate filter
      *
      * @param int $rateId
-     * @return Magento_Tax_Model_Resource_Calculation_Rate_Collection
+     * @return \Magento\Tax\Model\Resource\Calculation\Rate\Collection
      */
     public function addRateFilter($rateId)
     {

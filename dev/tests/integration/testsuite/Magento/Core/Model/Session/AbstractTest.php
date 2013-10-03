@@ -9,27 +9,29 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Session_AbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Session;
+
+class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Session_Abstract
+     * @var \Magento\Core\Model\Session\AbstractSession
      */
     protected $_model;
 
     protected function setUp()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var Magento_Core_Model_Session_Abstract _model */
-        $this->_model = $this->getMockForAbstractClass('Magento_Core_Model_Session_Abstract',
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var \Magento\Core\Model\Session\AbstractSession _model */
+        $this->_model = $this->getMockForAbstractClass('Magento\Core\Model\Session\AbstractSession',
             array(
-                $objectManager->get('Magento_Core_Model_Session_Context')
+                $objectManager->get('Magento\Core\Model\Session\Context')
             ));
     }
 
     public function testGetCookie()
     {
         $cookie = $this->_model->getCookie();
-        $this->assertInstanceOf('Magento_Core_Model_Cookie', $cookie);
+        $this->assertInstanceOf('Magento\Core\Model\Cookie', $cookie);
         $this->assertSame($cookie, $this->_model->getCookie());
     }
 
@@ -113,7 +115,7 @@ class Magento_Core_Model_Session_AbstractTest extends PHPUnit_Framework_TestCase
     public function testGetSessionIdQueryParam()
     {
         $this->assertEquals(
-            Magento_Core_Model_Session_Abstract::SESSION_ID_QUERY_PARAM,
+            \Magento\Core\Model\Session\AbstractSession::SESSION_ID_QUERY_PARAM,
             $this->_model->getSessionIdQueryParam()
         );
     }
@@ -150,7 +152,7 @@ class Magento_Core_Model_Session_AbstractTest extends PHPUnit_Framework_TestCase
     public function testGetSessionSavePath()
     {
         $this->assertEquals(
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')
                 ->getDir('session'),
             $this->_model->getSessionSavePath()
         );

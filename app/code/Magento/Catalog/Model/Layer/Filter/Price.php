@@ -19,7 +19,9 @@
 /**
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Magento_Catalog_Model_Layer_Filter_Price extends Magento_Catalog_Model_Layer_Filter_Abstract
+namespace Magento\Catalog\Model\Layer\Filter;
+
+class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
 {
     /**
      * XML configuration paths for Price Layered Navigation
@@ -45,51 +47,51 @@ class Magento_Catalog_Model_Layer_Filter_Price extends Magento_Catalog_Model_Lay
     /**
      * Resource instance
      *
-     * @var Magento_Catalog_Model_Resource_Layer_Filter_Price
+     * @var \Magento\Catalog\Model\Resource\Layer\Filter\Price
      */
     protected $_resource;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * Catalog layer filter price algorithm
      *
-     * @var Magento_Catalog_Model_Layer_Filter_Price_Algorithm
+     * @var \Magento\Catalog\Model\Layer\Filter\Price\Algorithm
      */
     protected $_catalogLayerFilterPriceAlgorithm;
 
     /**
      * Customer session
      *
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
      * Class constructor
      *
-     * @param Magento_Catalog_Model_Layer_Filter_ItemFactory $filterItemFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Model_Resource_Layer_Filter_PriceFactory $filterPriceFactory
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Catalog_Model_Layer_Filter_Price_Algorithm $catalogLayerFilterPriceAlgorithm
-     * @param Magento_Catalog_Model_Layer $catalogLayer
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Resource\Layer\Filter\PriceFactory $filterPriceFactory
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Catalog\Model\Layer\Filter\Price\Algorithm $catalogLayerFilterPriceAlgorithm
+     * @param \Magento\Catalog\Model\Layer $catalogLayer
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Model_Layer_Filter_ItemFactory $filterItemFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Model_Resource_Layer_Filter_PriceFactory $filterPriceFactory,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Catalog_Model_Layer_Filter_Price_Algorithm $catalogLayerFilterPriceAlgorithm,
-        Magento_Catalog_Model_Layer $catalogLayer,
-        Magento_Core_Model_Registry $coreRegistry,
+        \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Resource\Layer\Filter\PriceFactory $filterPriceFactory,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Catalog\Model\Layer\Filter\Price\Algorithm $catalogLayerFilterPriceAlgorithm,
+        \Magento\Catalog\Model\Layer $catalogLayer,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_resource = $filterPriceFactory->create();
@@ -103,7 +105,7 @@ class Magento_Catalog_Model_Layer_Filter_Price extends Magento_Catalog_Model_Lay
     /**
      * Retrieve resource instance
      *
-     * @return Magento_Catalog_Model_Resource_Layer_Filter_Price
+     * @return \Magento\Catalog\Model\Resource\Layer\Filter\Price
      */
     protected function _getResource()
     {
@@ -341,7 +343,7 @@ class Magento_Catalog_Model_Layer_Filter_Price extends Magento_Catalog_Model_Lay
     /**
      * Apply price range filter to collection
      *
-     * @return Magento_Catalog_Model_Layer_Filter_Price
+     * @return \Magento\Catalog\Model\Layer\Filter\Price
      */
     protected function _applyPriceRange()
     {
@@ -373,12 +375,12 @@ class Magento_Catalog_Model_Layer_Filter_Price extends Magento_Catalog_Model_Lay
     /**
      * Apply price range filter
      *
-     * @param Zend_Controller_Request_Abstract $request
+     * @param \Zend_Controller_Request_Abstract $request
      * @param $filterBlock
      *
-     * @return Magento_Catalog_Model_Layer_Filter_Price
+     * @return \Magento\Catalog\Model\Layer\Filter\Price
      */
-    public function apply(Zend_Controller_Request_Abstract $request, $filterBlock)
+    public function apply(\Zend_Controller_Request_Abstract $request, $filterBlock)
     {
         /**
          * Filter must be string: $fromPrice-$toPrice
@@ -429,7 +431,7 @@ class Magento_Catalog_Model_Layer_Filter_Price extends Magento_Catalog_Model_Lay
      * @deprecated since 1.7.0.0
      * @param int $range
      * @param int $index
-     * @return Magento_Catalog_Model_Layer_Filter_Price
+     * @return \Magento\Catalog\Model\Layer\Filter\Price
      */
     protected function _applyToCollection($range, $index)
     {
@@ -455,7 +457,7 @@ class Magento_Catalog_Model_Layer_Filter_Price extends Magento_Catalog_Model_Lay
      * Set active customer group id for filter
      *
      * @param int $customerGroupId
-     * @return Magento_Catalog_Model_Layer_Filter_Price
+     * @return \Magento\Catalog\Model\Layer\Filter\Price
      */
     public function setCustomerGroupId($customerGroupId)
     {
@@ -483,7 +485,7 @@ class Magento_Catalog_Model_Layer_Filter_Price extends Magento_Catalog_Model_Lay
      * Set active currency rate for filter
      *
      * @param float $rate
-     * @return Magento_Catalog_Model_Layer_Filter_Price
+     * @return \Magento\Catalog\Model\Layer\Filter\Price
      */
     public function setCurrencyRate($rate)
     {

@@ -8,17 +8,19 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_ObserverFactory
+namespace Magento\Core\Model;
+
+class ObserverFactory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -27,7 +29,7 @@ class Magento_Core_Model_ObserverFactory
      * Get observer model instance
      *
      * @param string $className
-     * @return Magento_Core_Model_Abstract|bool
+     * @return \Magento\Core\Model\AbstractModel|bool
      */
     public function get($className)
     {
@@ -39,7 +41,7 @@ class Magento_Core_Model_ObserverFactory
      *
      * @param string $className
      * @param array $arguments
-     * @return Magento_Core_Model_Abstract|bool
+     * @return \Magento\Core\Model\AbstractModel|bool
      */
     public function create($className, array $arguments = array())
     {

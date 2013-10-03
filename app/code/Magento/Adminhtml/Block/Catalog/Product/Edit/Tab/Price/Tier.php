@@ -15,8 +15,10 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier
-    extends Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group_Abstract
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Price;
+
+class Tier
+    extends \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Price\Group\AbstractGroup
 {
 
     protected $_template = 'catalog/product/edit/price/tier.phtml';
@@ -28,7 +30,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier
      */
     protected function _getInitialCustomerGroups()
     {
-        return array(Magento_Customer_Model_Group::CUST_GROUP_ALL => __('ALL GROUPS'));
+        return array(\Magento\Customer\Model\Group::CUST_GROUP_ALL => __('ALL GROUPS'));
     }
 
     /**
@@ -69,11 +71,11 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier
      * Prepare global layout
      * Add "Add tier" button to layout
      *
-     * @return Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier
+     * @return \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Price\Tier
      */
     protected function _prepareLayout()
     {
-        $button = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+        $button = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
                 'label' => __('Add Tier'),
                 'onclick' => 'return tierPriceControl.addItem()',

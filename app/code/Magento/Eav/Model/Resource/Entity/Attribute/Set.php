@@ -16,20 +16,22 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Resource_Entity_Attribute_Set extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Eav\Model\Resource\Entity\Attribute;
+
+class Set extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
-     * @var Magento_Eav_Model_Resource_Entity_Attribute_GroupFactory
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\GroupFactory
      */
     protected $_attrGroupFactory;
 
     /**
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Eav_Model_Resource_Entity_Attribute_GroupFactory $attrGroupFactory
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\GroupFactory $attrGroupFactory
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
-        Magento_Eav_Model_Resource_Entity_Attribute_GroupFactory $attrGroupFactory
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Eav\Model\Resource\Entity\Attribute\GroupFactory $attrGroupFactory
     ) {
         parent::__construct($resource);
         $this->_attrGroupFactory = $attrGroupFactory;
@@ -47,13 +49,13 @@ class Magento_Eav_Model_Resource_Entity_Attribute_Set extends Magento_Core_Model
     /**
      * Perform actions after object save
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Eav_Model_Resource_Entity_Attribute_Set
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Set
      */
-    protected function _afterSave(Magento_Core_Model_Abstract $object)
+    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
         if ($object->getGroups()) {
-            /* @var $group Magento_Eav_Model_Entity_Attribute_Group */
+            /* @var $group \Magento\Eav\Model\Entity\Attribute\Group */
             foreach ($object->getGroups() as $group) {
                 $group->setAttributeSetId($object->getId());
                 if ($group->itemExists() && !$group->getId()) {
@@ -64,14 +66,14 @@ class Magento_Eav_Model_Resource_Entity_Attribute_Set extends Magento_Core_Model
         }
         if ($object->getRemoveGroups()) {
             foreach ($object->getRemoveGroups() as $group) {
-                /* @var $group Magento_Eav_Model_Entity_Attribute_Group */
+                /* @var $group \Magento\Eav\Model\Entity\Attribute\Group */
                 $group->delete();
             }
             $this->_attrGroupFactory->create()->updateDefaultGroup($object->getId());
         }
         if ($object->getRemoveAttributes()) {
             foreach ($object->getRemoveAttributes() as $attribute) {
-                /* @var $attribute Magento_Eav_Model_Entity_Attribute */
+                /* @var $attribute \Magento\Eav\Model\Entity\Attribute */
                 $attribute->deleteEntity();
             }
         }
@@ -82,7 +84,7 @@ class Magento_Eav_Model_Resource_Entity_Attribute_Set extends Magento_Core_Model
     /**
      * Validate attribute set name
      *
-     * @param Magento_Eav_Model_Entity_Attribute_Set $object
+     * @param \Magento\Eav\Model\Entity\Attribute\Set $object
      * @param string $attributeSetName
      * @return bool
      */

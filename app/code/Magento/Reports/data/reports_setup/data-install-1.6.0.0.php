@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_Reports_Model_Resource_Setup */
+/** @var $installer \Magento\Reports\Model\Resource\Setup */
 $installer = $this;
 /*
  * Prepare database for data upgrade
@@ -19,27 +19,27 @@ $installer->startSetup();
  */
 $eventTypeData = array(
     array(
-        'event_type_id' => Magento_Reports_Model_Event::EVENT_PRODUCT_VIEW,
+        'event_type_id' => \Magento\Reports\Model\Event::EVENT_PRODUCT_VIEW,
         'event_name'    => 'catalog_product_view'
     ),
     array(
-        'event_type_id' => Magento_Reports_Model_Event::EVENT_PRODUCT_SEND,
+        'event_type_id' => \Magento\Reports\Model\Event::EVENT_PRODUCT_SEND,
         'event_name'    => 'sendfriend_product'
     ),
     array(
-        'event_type_id' => Magento_Reports_Model_Event::EVENT_PRODUCT_COMPARE,
+        'event_type_id' => \Magento\Reports\Model\Event::EVENT_PRODUCT_COMPARE,
         'event_name'    => 'catalog_product_compare_add_product'
     ),
     array(
-        'event_type_id' => Magento_Reports_Model_Event::EVENT_PRODUCT_TO_CART,
+        'event_type_id' => \Magento\Reports\Model\Event::EVENT_PRODUCT_TO_CART,
         'event_name'    => 'checkout_cart_add_product'
     ),
     array(
-        'event_type_id' => Magento_Reports_Model_Event::EVENT_PRODUCT_TO_WISHLIST,
+        'event_type_id' => \Magento\Reports\Model\Event::EVENT_PRODUCT_TO_WISHLIST,
         'event_name'    => 'wishlist_add_product'
     ),
     array(
-        'event_type_id' => Magento_Reports_Model_Event::EVENT_WISHLIST_SHARE,
+        'event_type_id' => \Magento\Reports\Model\Event::EVENT_WISHLIST_SHARE,
         'event_name'    => 'wishlist_share'
     )
 );
@@ -56,28 +56,28 @@ $installer->endSetup();
 /**
  * Cms Page  with 'home' identifier page modification for report pages
  */
-/** @var $cms Magento_Cms_Model_Page */
+/** @var $cms \Magento\Cms\Model\Page */
 $cms = $installer->getPage()->load('home', 'identifier');
 
 $reportLayoutUpdate    = '<!--<referenceContainer name="content">
-        <block class="Magento_Catalog_Block_Product_New" name="home.catalog.product.new" alias="product_new" template="product/new.phtml" after="cms_page">
+        <block class="Magento\Catalog\Block\Product\NewProduct" name="home.catalog.product.new" alias="product_new" template="product/new.phtml" after="cms_page">
             <action method="addPriceBlockType">
                 <argument name="type" xsi:type="string">bundle</argument>
-                <argument name="block" xsi:type="string">Magento_Bundle_Block_Catalog_Product_Price</argument>
+                <argument name="block" xsi:type="string">Magento\Bundle\Block\Catalog\Product\Price</argument>
                 <argument name="template" xsi:type="string">catalog/product/price.phtml</argument>
             </action>
         </block>
-        <block class="Magento_Reports_Block_Product_Viewed" name="home.reports.product.viewed" alias="product_viewed" template="home_product_viewed.phtml" after="product_new">
+        <block class="Magento\Reports\Block\Product\Viewed" name="home.reports.product.viewed" alias="product_viewed" template="home_product_viewed.phtml" after="product_new">
             <action method="addPriceBlockType">
                 <argument name="type" xsi:type="string">bundle</argument>
-                <argument name="block" xsi:type="string">Magento_Bundle_Block_Catalog_Product_Price</argument>
+                <argument name="block" xsi:type="string">Magento\Bundle\Block\Catalog\Product\Price</argument>
                 <argument name="template" xsi:type="string">catalog/product/price.phtml</argument>
             </action>
         </block>
-        <block class="Magento_Reports_Block_Product_Compared" name="home.reports.product.compared" template="home_product_compared.phtml" after="product_viewed">
+        <block class="Magento\Reports\Block\Product\Compared" name="home.reports.product.compared" template="home_product_compared.phtml" after="product_viewed">
             <action method="addPriceBlockType">
                 <argument name="type" xsi:type="string">bundle</argument>
-                <argument name="block" xsi:type="string">Magento_Bundle_Block_Catalog_Product_Price</argument>
+                <argument name="block" xsi:type="string">Magento\Bundle\Block\Catalog\Product\Price</argument>
                 <argument name="template" xsi:type="string">catalog/product/price.phtml</argument>
             </action>
         </block>

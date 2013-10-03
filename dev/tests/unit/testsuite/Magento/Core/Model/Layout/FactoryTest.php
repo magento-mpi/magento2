@@ -10,14 +10,16 @@
  */
 
 /**
- * Test class for Magento_Core_Model_Layout_Factory
+ * Test class for \Magento\Core\Model\Layout\Factory
  */
-class Magento_Core_Model_Layout_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Layout;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /*
      * Test class name
      */
-    const CLASS_NAME  = 'Magento_Core_Model_Layout';
+    const CLASS_NAME  = 'Magento\Core\Model\Layout';
 
     /**
      * Test arguments
@@ -29,26 +31,26 @@ class Magento_Core_Model_Layout_FactoryTest extends PHPUnit_Framework_TestCase
     /**
      * ObjectManager mock for tests
      *
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 
     /**
      * Test class instance
      *
-     * @var Magento_Core_Model_Layout_Factory
+     * @var \Magento\Core\Model\Layout\Factory
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_objectManager = $this->getMock('Magento_ObjectManager');
-        $this->_model = new Magento_Core_Model_Layout_Factory($this->_objectManager);
+        $this->_objectManager = $this->getMock('Magento\ObjectManager');
+        $this->_model = new \Magento\Core\Model\Layout\Factory($this->_objectManager);
     }
 
     public function testConstruct()
     {
-        $this->assertAttributeInstanceOf('Magento_ObjectManager', '_objectManager', $this->_model);
+        $this->assertAttributeInstanceOf('Magento\ObjectManager', '_objectManager', $this->_model);
     }
 
     public function testCreateLayoutNew()
@@ -61,7 +63,7 @@ class Magento_Core_Model_Layout_FactoryTest extends PHPUnit_Framework_TestCase
 
         $this->_objectManager->expects($this->once())
             ->method('get')
-            ->with(Magento_Core_Model_Layout_Factory::CLASS_NAME)
+            ->with(\Magento\Core\Model\Layout\Factory::CLASS_NAME)
             ->will($this->returnValue($modelLayout));
 
         $this->assertEquals($modelLayout, $this->_model->createLayout(array('someParam' => 'someVal')));

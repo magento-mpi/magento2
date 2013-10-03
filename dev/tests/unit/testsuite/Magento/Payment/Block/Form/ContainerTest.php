@@ -10,18 +10,20 @@
  */
 
 /**
- * Test class for Magento_Payment_Block_Form_ContainerAbstract
+ * Test class for \Magento\Payment\Block\Form\AbstractContainer
  */
-class Magento_Payment_Block_Form_ContainerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Payment\Block\Form;
+
+class ContainerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers Magento_Payment_Block_Form_ContainerAbstract::getChildBlock
+     * @covers \Magento\Payment\Block\Form\AbstractContainer::getChildBlock
      */
     public function testSetMethodFormTemplate()
     {
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $childBlockA = $objectManagerHelper->getObject('Magento_Core_Block_Template');
-        $childBlockB = $objectManagerHelper->getObject('Magento_Core_Block_Template');
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $childBlockA = $objectManagerHelper->getObject('Magento\Core\Block\Template');
+        $childBlockB = $objectManagerHelper->getObject('Magento\Core\Block\Template');
 
         $func = function ($blockName) use ($childBlockA, $childBlockB) {
             switch ($blockName) {
@@ -32,7 +34,7 @@ class Magento_Payment_Block_Form_ContainerTest extends PHPUnit_Framework_TestCas
             }
             return null;
         };
-        $block = $this->getMock('Magento_Payment_Block_Form_Container', array('getChildBlock'),
+        $block = $this->getMock('Magento\Payment\Block\Form\Container', array('getChildBlock'),
             array(), '', false);
         $block->expects($this->atLeastOnce())
             ->method('getChildBlock')

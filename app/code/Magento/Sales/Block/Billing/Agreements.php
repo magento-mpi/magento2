@@ -13,7 +13,9 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Block_Billing_Agreements extends Magento_Core_Block_Template
+namespace Magento\Sales\Block\Billing;
+
+class Agreements extends \Magento\Core\Block\Template
 {
     /**
      * Payment methods array
@@ -25,32 +27,32 @@ class Magento_Sales_Block_Billing_Agreements extends Magento_Core_Block_Template
     /**
      * Billing agreements collection
      *
-     * @var Magento_Sales_Model_Resource_Billing_Agreement_Collection
+     * @var \Magento\Sales\Model\Resource\Billing\Agreement\Collection
      */
     protected $_billingAgreements = null;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @var Magento_Sales_Model_Resource_Billing_Agreement_CollectionFactory
+     * @var \Magento\Sales\Model\Resource\Billing\Agreement\CollectionFactory
      */
     protected $_agreementCollection;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Sales_Model_Resource_Billing_Agreement_CollectionFactory $agreementCollection
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Sales\Model\Resource\Billing\Agreement\CollectionFactory $agreementCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Sales_Model_Resource_Billing_Agreement_CollectionFactory $agreementCollection,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Sales\Model\Resource\Billing\Agreement\CollectionFactory $agreementCollection,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
@@ -61,12 +63,12 @@ class Magento_Sales_Block_Billing_Agreements extends Magento_Core_Block_Template
     /**
      * Set Billing Agreement instance
      *
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        $pager = $this->getLayout()->createBlock('Magento_Page_Block_Html_Pager')
+        $pager = $this->getLayout()->createBlock('Magento\Page\Block\Html\Pager')
             ->setCollection($this->getBillingAgreements())->setIsOutputRequired(false);
         $this->setChild('pager', $pager)
             ->setBackUrl($this->getUrl('customer/account/'));
@@ -77,7 +79,7 @@ class Magento_Sales_Block_Billing_Agreements extends Magento_Core_Block_Template
     /**
      * Retrieve billing agreements collection
      *
-     * @return Magento_Sales_Model_Resource_Billing_Agreement_Collection
+     * @return \Magento\Sales\Model\Resource\Billing\Agreement\Collection
      */
     public function getBillingAgreements()
     {
@@ -92,17 +94,17 @@ class Magento_Sales_Block_Billing_Agreements extends Magento_Core_Block_Template
     /**
      * Retrieve item value by key
      *
-     * @param Magento_Object|Magento_Sales_Model_Billing_Agreement $item
+     * @param \Magento\Object|\Magento\Sales\Model\Billing\Agreement $item
      * @param string $key
      * @return mixed
      */
-    public function getItemValue(Magento_Sales_Model_Billing_Agreement $item, $key)
+    public function getItemValue(\Magento\Sales\Model\Billing\Agreement $item, $key)
     {
         switch ($key) {
             case 'created_at':
             case 'updated_at':
                 $value = ($item->getData($key))
-                    ? $this->helper('Magento_Core_Helper_Data')->formatDate($item->getData($key), 'short', true)
+                    ? $this->helper('Magento\Core\Helper\Data')->formatDate($item->getData($key), 'short', true)
                     : __('N/A');
                 break;
             case 'edit_url':
@@ -130,7 +132,7 @@ class Magento_Sales_Block_Billing_Agreements extends Magento_Core_Block_Template
     protected function _loadPaymentMethods()
     {
         if (!$this->_paymentMethods) {
-            foreach ($this->helper('Magento_Payment_Helper_Data')->getBillingAgreementMethods() as $paymentMethod) {
+            foreach ($this->helper('Magento\Payment\Helper\Data')->getBillingAgreementMethods() as $paymentMethod) {
                 $this->_paymentMethods[$paymentMethod->getCode()] = $paymentMethod->getTitle();
             }
         }
@@ -145,7 +147,7 @@ class Magento_Sales_Block_Billing_Agreements extends Magento_Core_Block_Template
     public function getWizardPaymentMethodOptions()
     {
         $paymentMethodOptions = array();
-        foreach ($this->helper('Magento_Payment_Helper_Data')->getBillingAgreementMethods() as $paymentMethod) {
+        foreach ($this->helper('Magento\Payment\Helper\Data')->getBillingAgreementMethods() as $paymentMethod) {
             if ($paymentMethod->getConfigData('allow_billing_agreement_wizard') == 1) {
                 $paymentMethodOptions[$paymentMethod->getCode()] = $paymentMethod->getTitle();
             }

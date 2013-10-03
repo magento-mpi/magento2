@@ -15,7 +15,9 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Model_Resource_Item_Attribute extends Magento_Eav_Model_Resource_Attribute
+namespace Magento\Rma\Model\Resource\Item;
+
+class Attribute extends \Magento\Eav\Model\Resource\Attribute
 {
     /**
      * Get EAV website table

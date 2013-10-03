@@ -7,7 +7,7 @@
  */
 return array(
     '@' => array(
-        'type' => 'Magento_Cms_Block_Widget_Page_Link',
+        'type' => 'Magento\Cms\Block\Widget\Page\Link',
         'module' => 'Magento_Cms',
     ),
     'name' => 'CMS Page Link',
@@ -21,7 +21,7 @@ return array(
             ),
             'type' => 'label',
             'helper_block' => array(
-                'type' => 'Magento_Adminhtml_Block_Cms_Page_Widget_Chooser',
+                'type' => 'Magento\Adminhtml\Block\Cms\Page\Widget\Chooser',
                 'data' => array(
                     'button' => array(
                         'open' => 'Select Page...',

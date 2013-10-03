@@ -31,7 +31,9 @@
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_File_Validator_AvailablePath extends Zend_Validate_Abstract
+namespace Magento\Core\Model\File\Validator;
+
+class AvailablePath extends \Zend_Validate_Abstract
 {
     const PROTECTED_PATH     = 'protectedPath';
     const NOT_AVAILABLE_PATH = 'notAvailablePath';
@@ -76,7 +78,7 @@ class Magento_Core_Model_File_Validator_AvailablePath extends Zend_Validate_Abst
     /**
      * Initialize message templates with translating
      *
-     * @return Magento_Adminhtml_Model_Core_File_Validator_SavePath_Available
+     * @return \Magento\Core\Model\File\Validator\AvailablePath
      */
     protected function _initMessageTemplates()
     {
@@ -98,7 +100,7 @@ class Magento_Core_Model_File_Validator_AvailablePath extends Zend_Validate_Abst
      *
      * @param array $paths  All paths masks types.
      *                      E.g.: array('available' => array(...), 'protected' => array(...))
-     * @return Magento_Adminhtml_Model_Core_File_Validator_SavePath_Available
+     * @return \Magento\Core\Model\File\Validator\AvailablePath
      */
     public function setPaths(array $paths)
     {
@@ -115,7 +117,7 @@ class Magento_Core_Model_File_Validator_AvailablePath extends Zend_Validate_Abst
      * Set protected paths masks
      *
      * @param array $paths
-     * @return Magento_Adminhtml_Model_Core_File_Validator_SavePath_Available
+     * @return \Magento\Core\Model\File\Validator\AvailablePath
      */
     public function setProtectedPaths(array $paths)
     {
@@ -127,7 +129,7 @@ class Magento_Core_Model_File_Validator_AvailablePath extends Zend_Validate_Abst
      * Add protected paths masks
      *
      * @param string|array $path
-     * @return Magento_Adminhtml_Model_Core_File_Validator_SavePath_Available
+     * @return \Magento\Core\Model\File\Validator\AvailablePath
      */
     public function addProtectedPath($path)
     {
@@ -153,7 +155,7 @@ class Magento_Core_Model_File_Validator_AvailablePath extends Zend_Validate_Abst
      * Set available paths masks
      *
      * @param array $paths
-     * @return Magento_Adminhtml_Model_Core_File_Validator_SavePath_Available
+     * @return \Magento\Core\Model\File\Validator\AvailablePath
      */
     public function setAvailablePaths(array $paths)
     {
@@ -165,7 +167,7 @@ class Magento_Core_Model_File_Validator_AvailablePath extends Zend_Validate_Abst
      * Add available paths mask
      *
      * @param string|array $path
-     * @return Magento_Adminhtml_Model_Core_File_Validator_SavePath_Available
+     * @return \Magento\Core\Model\File\Validator\AvailablePath
      */
     public function addAvailablePath($path)
     {
@@ -195,7 +197,7 @@ class Magento_Core_Model_File_Validator_AvailablePath extends Zend_Validate_Abst
      * getMessages() will return an array of messages that explain why the
      * validation failed.
      *
-     * @throws Exception        Throw exception on empty both paths masks types
+     * @throws \Exception        Throw exception on empty both paths masks types
      * @param string $value     File/dir path
      * @return bool
      */
@@ -205,7 +207,7 @@ class Magento_Core_Model_File_Validator_AvailablePath extends Zend_Validate_Abst
         $this->_setValue($value);
 
         if (!$this->_availablePaths && !$this->_protectedPaths) {
-            throw new Exception(__('Please set available and/or protected paths list(s) before validation.'));
+            throw new \Exception(__('Please set available and/or protected paths list(s) before validation.'));
         }
 
         if (preg_match('#\.\.[\\\/]#', $this->_value)) {

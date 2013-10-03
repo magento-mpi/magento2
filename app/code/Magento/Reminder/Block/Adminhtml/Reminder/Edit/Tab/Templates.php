@@ -11,39 +11,41 @@
 /**
  * Reminder rules edit form email templates and labels fields
  */
-class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
-    extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab;
+
+class Templates
+    extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Store Manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Email Template Factory
      *
-     * @var Magento_Backend_Model_Config_Source_Email_TemplateFactory
+     * @var \Magento\Backend\Model\Config\Source\Email\TemplateFactory
      */
     protected $_templateFactory;
 
     /**
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Backend_Model_Config_Source_Email_TemplateFactory $templateFactory
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Backend_Model_Config_Source_Email_TemplateFactory $templateFactory,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateFactory,
         array $data = array()
     ) {
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
@@ -54,11 +56,11 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
     /**
      * Prepare general properties form
      *
-     * @return Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
+     * @return \Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\Templates
      */
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $model = $this->_coreRegistry->registry('current_reminder_rule');
         
@@ -163,7 +165,7 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
     public function getTemplatesOptionsArray()
     {
         $template = $this->_templateFactory->create();
-        $template->setPath(Magento_Reminder_Model_Rule::XML_PATH_EMAIL_TEMPLATE);
+        $template->setPath(\Magento\Reminder\Model\Rule::XML_PATH_EMAIL_TEMPLATE);
 
         $options = $template->toOptionArray();
         array_unshift($options, array('value'=>'',

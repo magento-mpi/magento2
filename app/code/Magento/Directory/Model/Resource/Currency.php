@@ -11,7 +11,9 @@
 /**
  * Directory Currency Resource Model
  */
-class Magento_Directory_Model_Resource_Currency extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Directory\Model\Resource;
+
+class Currency extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Currency rate table
@@ -40,17 +42,17 @@ class Magento_Directory_Model_Resource_Currency extends Magento_Core_Model_Resou
     /**
      * Retrieve currency rate (only base=>allowed)
      *
-     * @param Magento_Directory_Model_Currency|string $currencyFrom
-     * @param Magento_Directory_Model_Currency|string $currencyTo
+     * @param \Magento\Directory\Model\Currency|string $currencyFrom
+     * @param \Magento\Directory\Model\Currency|string $currencyTo
      * @return float
      */
     public function getRate($currencyFrom, $currencyTo)
     {
-        if ($currencyFrom instanceof Magento_Directory_Model_Currency) {
+        if ($currencyFrom instanceof \Magento\Directory\Model\Currency) {
             $currencyFrom = $currencyFrom->getCode();
         }
 
-        if ($currencyTo instanceof Magento_Directory_Model_Currency) {
+        if ($currencyTo instanceof \Magento\Directory\Model\Currency) {
             $currencyTo = $currencyTo->getCode();
         }
 
@@ -78,17 +80,17 @@ class Magento_Directory_Model_Resource_Currency extends Magento_Core_Model_Resou
     /**
      * Retrieve currency rate (base=>allowed or allowed=>base)
      *
-     * @param Magento_Directory_Model_Currency|string $currencyFrom
-     * @param Magento_Directory_Model_Currency|string $currencyTo
+     * @param \Magento\Directory\Model\Currency|string $currencyFrom
+     * @param \Magento\Directory\Model\Currency|string $currencyTo
      * @return float
      */
     public function getAnyRate($currencyFrom, $currencyTo)
     {
-        if ($currencyFrom instanceof Magento_Directory_Model_Currency) {
+        if ($currencyFrom instanceof \Magento\Directory\Model\Currency) {
             $currencyFrom = $currencyFrom->getCode();
         }
 
-        if ($currencyTo instanceof Magento_Directory_Model_Currency) {
+        if ($currencyTo instanceof \Magento\Directory\Model\Currency) {
             $currencyTo = $currencyTo->getCode();
         }
 
@@ -110,7 +112,7 @@ class Magento_Directory_Model_Resource_Currency extends Magento_Core_Model_Resou
             $rate    = $adapter->fetchOne($select, $bind);
             if ($rate === false) {
                 $select = $adapter->select()
-                    ->from($this->_currencyRateTable, new Zend_Db_Expr('1/rate'))
+                    ->from($this->_currencyRateTable, new \Zend_Db_Expr('1/rate'))
                     ->where('currency_to = :currency_from')
                     ->where('currency_from = :currency_to');
                 $rate = $adapter->fetchOne($select, $bind);
@@ -125,7 +127,7 @@ class Magento_Directory_Model_Resource_Currency extends Magento_Core_Model_Resou
      * Saving currency rates
      *
      * @param array $rates
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function saveRates($rates)
     {
@@ -149,14 +151,14 @@ class Magento_Directory_Model_Resource_Currency extends Magento_Core_Model_Resou
                 $adapter->insertOnDuplicate($this->_currencyRateTable, $data, array('rate'));
             }
         } else {
-            throw new Magento_Core_Exception(__('Please correct the rates received'));
+            throw new \Magento\Core\Exception(__('Please correct the rates received'));
         }
     }
 
     /**
      * Retrieve config currency data by config path
      *
-     * @param Magento_Directory_Model_Currency $model
+     * @param \Magento\Directory\Model\Currency $model
      * @param string $path
      *
      * @return array

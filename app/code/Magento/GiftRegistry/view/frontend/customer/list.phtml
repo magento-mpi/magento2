@@ -33,7 +33,7 @@
         <tbody>
             <?php foreach($entityCollection as $item): ?>
                 <tr>
-                    <td title="<?php echo $this->getEscapedTitle($item)?>"><?php echo $this->helper('Magento_Core_Helper_String')->truncate($this->getEscapedTitle($item), 70)?></td>
+                    <td title="<?php echo $this->getEscapedTitle($item)?>"><?php echo $this->helper('Magento\Core\Helper\String')->truncate($this->getEscapedTitle($item), 70)?></td>
                     <td><span class="nobr"><?php echo $this->getFormattedDate($item) ?></span></td>
                     <td><?php echo $this->getEscapedMessage($item)?></td>
                     <td>

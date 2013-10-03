@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Sales_Model_Order_Pdf_Config_XsdTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Model\Order\Pdf\Config;
+
+class XsdTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var string
@@ -54,7 +56,7 @@ class Magento_Sales_Model_Order_Pdf_Config_XsdTest extends PHPUnit_Framework_Tes
      */
     protected function _testSchema($schema, $fixtureXml, array $expectedErrors)
     {
-        $dom = new Magento_Config_Dom($fixtureXml, array(), null, '%message%');
+        $dom = new \Magento\Config\Dom($fixtureXml, array(), null, '%message%');
         $actualResult = $dom->validate($schema, $actualErrors);
         $this->assertEquals(empty($expectedErrors), $actualResult);
         $this->assertEquals($expectedErrors, $actualErrors);
@@ -150,13 +152,13 @@ class Magento_Sales_Model_Order_Pdf_Config_XsdTest extends PHPUnit_Framework_Tes
                 array('Element \'unknown\': This element is not expected. Expected is ( page ).'),
             ),
             'valid page renderers' => array(
-                '<config><renderers><page type="p1"><renderer product_type="prt1">Class_A</renderer>'
-                    . '<renderer product_type="prt2">Class_B</renderer></page></renderers></config>',
+                '<config><renderers><page type="p1"><renderer product_type="prt1">Class\A</renderer>'
+                    . '<renderer product_type="prt2">Class\B</renderer></page></renderers></config>',
                 array(),
             ),
             'non-valid non-unique page renderers' => array(
-                '<config><renderers><page type="p1"><renderer product_type="prt1">Class_A</renderer>'
-                    . '<renderer product_type="prt1">Class_B</renderer></page></renderers></config>',
+                '<config><renderers><page type="p1"><renderer product_type="prt1">Class\A</renderer>'
+                    . '<renderer product_type="prt1">Class\B</renderer></page></renderers></config>',
                 array(
                     'Element \'renderer\': Duplicate key-sequence [\'prt1\'] ' .
                         'in unique identity-constraint \'uniqueProductTypeRenderer\'.'
@@ -166,7 +168,7 @@ class Magento_Sales_Model_Order_Pdf_Config_XsdTest extends PHPUnit_Framework_Tes
                 '<config><renderers><page type="p1"><renderer product_type="prt1"/></page></renderers></config>',
                 array(
                     'Element \'renderer\': [facet \'pattern\'] The value \'\' is not accepted '
-                        . 'by the pattern \'[A-Z][a-zA-Z\d]*(_[A-Z][a-zA-Z\d]*)*\'.',
+                        . 'by the pattern \'[A-Z][a-zA-Z\d]*(\\\\[A-Z][a-zA-Z\d]*)*\'.',
                     'Element \'renderer\': \'\' is not a valid value of the atomic type \'classNameType\'.',
                 ),
             ),
@@ -220,7 +222,7 @@ class Magento_Sales_Model_Order_Pdf_Config_XsdTest extends PHPUnit_Framework_Tes
                     . '<model>a model</model></total></totals></config>',
                 array(
                     'Element \'model\': [facet \'pattern\'] The value \'a model\' is not accepted '
-                        . 'by the pattern \'[A-Z][a-zA-Z\d]*(_[A-Z][a-zA-Z\d]*)*\'.',
+                        . 'by the pattern \'[A-Z][a-zA-Z\d]*(\\\\[A-Z][a-zA-Z\d]*)*\'.',
                     'Element \'model\': \'a model\' is not a valid value of the atomic type \'classNameType\'.',
                 ),
             ),
@@ -231,7 +233,7 @@ class Magento_Sales_Model_Order_Pdf_Config_XsdTest extends PHPUnit_Framework_Tes
             ),
             'valid totals model' => array(
                 '<config><totals><total name="i1"><title>Title</title><source_field>foo</source_field>'
-                    . '<model>Class_A</model></total></totals></config>',
+                    . '<model>Class\A</model></total></totals></config>',
                 array(),
             ),
             'valid totals font_size' => array(

@@ -16,34 +16,36 @@
  * @package     Magento_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerSegment_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
+namespace Magento\CustomerSegment\Model\Resource;
+
+class Setup extends \Magento\Eav\Model\Entity\Setup
 {
     /**
-     * @var Magento_Enterprise_Model_Resource_Setup_MigrationFactory
+     * @var \Magento\Enterprise\Model\Resource\Setup\MigrationFactory
      */
     protected $_migrationFactory;
 
     /**
-     * @var Magento_CustomerSegment_Model_Resource_Segment_CollectionFactory
+     * @var \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @param Magento_Core_Model_Resource_Setup_Context $context
-     * @param Magento_Core_Model_CacheInterface $cache
-     * @param Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory
-     * @param Magento_Enterprise_Model_Resource_Setup_MigrationFactory $migrationFactory
-     * @param Magento_CustomerSegment_Model_Resource_Segment_CollectionFactory $collectionFactory
+     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory
+     * @param \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $migrationFactory
+     * @param \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory $collectionFactory
      * @param string $resourceName
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
-        Magento_Core_Model_Resource_Setup_Context $context,
-        Magento_Core_Model_CacheInterface $cache,
-        Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory,
-        Magento_Enterprise_Model_Resource_Setup_MigrationFactory $migrationFactory,
-        Magento_CustomerSegment_Model_Resource_Segment_CollectionFactory $collectionFactory,
+        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory,
+        \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $migrationFactory,
+        \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory $collectionFactory,
         $resourceName,
         $moduleName = 'Magento_CustomerSegment',
         $connectionName = ''
@@ -55,7 +57,7 @@ class Magento_CustomerSegment_Model_Resource_Setup extends Magento_Eav_Model_Ent
 
     /**
      * @param array $data
-     * @return Magento_Enterprise_Model_Resource_Setup_Migration
+     * @return \Magento\Enterprise\Model\Resource\Setup\Migration
      */
     public function createSetupMigration(array $data = array())
     {
@@ -63,7 +65,7 @@ class Magento_CustomerSegment_Model_Resource_Setup extends Magento_Eav_Model_Ent
     }
 
     /**
-     * @return Magento_CustomerSegment_Model_Resource_Segment_Collection
+     * @return \Magento\CustomerSegment\Model\Resource\Segment\Collection
      */
     public function createSegmentCollection()
     {

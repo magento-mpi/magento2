@@ -13,7 +13,9 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Cms_Model_Resource_Page_Urlrewrite extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Cms\Model\Resource\Page;
+
+class Urlrewrite extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Init cms page urlrewrite model

@@ -8,5 +8,5 @@
  */
 -->
 <config>
-    <indexer name="targetrule" instance="Magento_TargetRule_Model_Index" />
+    <indexer name="targetrule" instance="Magento\TargetRule\Model\Index" />
 </config>

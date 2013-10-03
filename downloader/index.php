@@ -13,8 +13,8 @@ if (version_compare(phpversion(), '5.4.0', '<') === true) {
     exit;
 }
 
-require_once("lib/Magento/Autoload/Simple.php");
-Magento_Autoload_Simple::register();
 
+\Magento\Autoload\Simple::register();
+require_once("lib/Magento/Autoload/Simple.php");
 umask(0);
-Magento_Downloader_Controller::run();
+\Magento\Downloader\Controller::run();

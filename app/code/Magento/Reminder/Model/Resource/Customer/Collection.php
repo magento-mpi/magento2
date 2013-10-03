@@ -16,7 +16,9 @@
  * @package     Magento_Reminder
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reminder_Model_Resource_Customer_Collection extends Magento_Customer_Model_Resource_Customer_Collection
+namespace Magento\Reminder\Model\Resource\Customer;
+
+class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
 {
     /**
      * Core registry
@@ -24,30 +26,30 @@ class Magento_Reminder_Model_Resource_Customer_Collection extends Magento_Custom
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Eav_Model_EntityFactory $eavEntityFactory
-     * @param Magento_Eav_Model_Resource_Helper $resourceHelper
-     * @param Magento_Validator_UniversalFactory $universalFactory
-     * @param Magento_Core_Model_Fieldset_Config $fieldsetConfig
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
+     * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Core\Model\Fieldset\Config $fieldsetConfig
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Core_Model_Resource $resource,
-        Magento_Eav_Model_EntityFactory $eavEntityFactory,
-        Magento_Eav_Model_Resource_Helper $resourceHelper,
-        Magento_Validator_UniversalFactory $universalFactory,
-        Magento_Core_Model_Fieldset_Config $fieldsetConfig,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Eav\Model\EntityFactory $eavEntityFactory,
+        \Magento\Eav\Model\Resource\Helper $resourceHelper,
+        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Core\Model\Fieldset\Config $fieldsetConfig,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct(
@@ -67,7 +69,7 @@ class Magento_Reminder_Model_Resource_Customer_Collection extends Magento_Custom
     /**
      * Instantiate select to get matched customers
      *
-     * @return Magento_Reminder_Model_Resource_Customer_Collection
+     * @return \Magento\Reminder\Model\Resource\Customer\Collection
      */
     protected function _initSelect()
     {
@@ -92,8 +94,8 @@ class Magento_Reminder_Model_Resource_Customer_Collection extends Magento_Custom
         $subSelect->from(array('g' => $logTable), array(
             'customer_id',
             'rule_id',
-            'emails_sent' => new Zend_Db_Expr('COUNT(log_id)'),
-            'last_sent' => new Zend_Db_Expr('MAX(sent_at)')
+            'emails_sent' => new \Zend_Db_Expr('COUNT(log_id)'),
+            'last_sent' => new \Zend_Db_Expr('MAX(sent_at)')
         ));
 
         $subSelect->where('rule_id = ?', $rule->getId());

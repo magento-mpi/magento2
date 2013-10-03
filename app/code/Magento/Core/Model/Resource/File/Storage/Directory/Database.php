@@ -10,13 +10,15 @@
 
 
 /**
- * Directory storage database resource model class
+ * \Directory storage database resource model class
  *
  * @category    Magento
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Resource_File_Storage_Directory_Database extends Magento_Core_Model_Resource_File_Storage_Abstract
+namespace Magento\Core\Model\Resource\File\Storage\Directory;
+
+class Database extends \Magento\Core\Model\Resource\File\Storage\AbstractStorage
 {
     /**
      * Define table name and id field for resource
@@ -29,7 +31,7 @@ class Magento_Core_Model_Resource_File_Storage_Directory_Database extends Magent
     /**
      * Create database scheme for storing files
      *
-     * @return Magento_Core_Model_Resource_File_Storage_Database
+     * @return \Magento\Core\Model\Resource\File\Storage\Database
      */
     public function createDatabaseScheme()
     {
@@ -40,33 +42,33 @@ class Magento_Core_Model_Resource_File_Storage_Directory_Database extends Magent
         }
 
         $ddlTable = $adapter->newTable($table)
-            ->addColumn('directory_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+            ->addColumn('directory_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
                 'identity'  => true,
                 'unsigned'  => true,
                 'nullable'  => false,
                 'primary'   => true
                 ), 'Directory Id')
-            ->addColumn('name', Magento_DB_Ddl_Table::TYPE_TEXT, 100, array(
+            ->addColumn('name', \Magento\DB\Ddl\Table::TYPE_TEXT, 100, array(
                 'nullable' => false
             ), 'Directory Name')
-            ->addColumn('path', Magento_DB_Ddl_Table::TYPE_TEXT, 255, array(
-                'default' => null), 'Path to the Directory')
-            ->addColumn('upload_time', Magento_DB_Ddl_Table::TYPE_TIMESTAMP, null, array(
+            ->addColumn('path', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
+                'default' => null), 'Path to the \Directory')
+            ->addColumn('upload_time', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
                 'nullable' => false,
-                'default' => Magento_DB_Ddl_Table::TIMESTAMP_INIT
+                'default' => \Magento\DB\Ddl\Table::TIMESTAMP_INIT
                 ), 'Upload Timestamp')
-            ->addColumn('parent_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+            ->addColumn('parent_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
                 'nullable' => true,
                 'default' => null,
                 'unsigned' => true
-                ), 'Parent Directory Id')
+                ), 'Parent \Directory Id')
             ->addIndex($adapter->getIndexName($table, array('name', 'parent_id'),
-                Magento_DB_Adapter_Interface::INDEX_TYPE_UNIQUE),
-                array('name', 'parent_id'), array('type' => Magento_DB_Adapter_Interface::INDEX_TYPE_UNIQUE))
+                \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
+                array('name', 'parent_id'), array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE))
             ->addIndex($adapter->getIndexName($table, array('parent_id')), array('parent_id'))
             ->addForeignKey($adapter->getForeignKeyName($table, 'parent_id', $table, 'directory_id'),
                 'parent_id', $table, 'directory_id',
-                Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+                \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
             ->setComment('Directory Storage');
 
         $adapter->createTable($ddlTable);
@@ -76,11 +78,11 @@ class Magento_Core_Model_Resource_File_Storage_Directory_Database extends Magent
     /**
      * Load entity by path
      *
-     * @param  Magento_Core_Model_File_Storage_Directory_Database $object
+     * @param  \Magento\Core\Model\File\Storage\Directory\Database $object
      * @param  string $path
-     * @return Magento_Core_Model_Resource_File_Storage_Directory_Database
+     * @return \Magento\Core\Model\Resource\File\Storage\Directory\Database
      */
-    public function loadByPath(Magento_Core_Model_File_Storage_Directory_Database $object, $path)
+    public function loadByPath(\Magento\Core\Model\File\Storage\Directory\Database $object, $path)
     {
         $adapter = $this->_getReadAdapter();
 
@@ -134,7 +136,7 @@ class Magento_Core_Model_Resource_File_Storage_Directory_Database extends Magent
     /**
      * Delete all directories from storage
      *
-     * @return Magento_Core_Model_Resource_File_Storage_Database
+     * @return \Magento\Core\Model\Resource\File\Storage\Database
      */
     public function clearDirectories()
     {
@@ -199,7 +201,7 @@ class Magento_Core_Model_Resource_File_Storage_Directory_Database extends Magent
         $adapter = $this->_getWriteAdapter();
 
         $where = array('name = ?' => $name);
-        $where[] = new Zend_Db_Expr($adapter->prepareSqlCondition('path', array('seq' => $path)));
+        $where[] = new \Zend_Db_Expr($adapter->prepareSqlCondition('path', array('seq' => $path)));
 
         $adapter->delete($this->getMainTable(), $where);
     }

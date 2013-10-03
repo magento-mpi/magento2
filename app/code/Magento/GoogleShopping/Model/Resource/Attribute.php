@@ -15,7 +15,9 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Model_Resource_Attribute extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\GoogleShopping\Model\Resource;
+
+class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     protected function _construct()
     {

@@ -7,21 +7,23 @@
  */
 
 /**
- * Factory creating Magento_Validator_Builder and Magento_Validator_Validator
+ * Factory creating \Magento\Validator\Builder and \Magento\Validator\Validator
  *
  * @TODO Eliminate this factory in favor of strictly typified, not involving object manager with arbitrary class name
  */
-class Magento_Validator_UniversalFactory
+namespace Magento\Validator;
+
+class UniversalFactory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -29,7 +31,7 @@ class Magento_Validator_UniversalFactory
     /**
      * @param string $className
      * @param array $arguments
-     * @return Magento_Validator_Builder
+     * @return \Magento\Validator\Builder
      */
     public function create($className, array $arguments = array())
     {

@@ -8,10 +8,10 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <block class="Magento_Rss_Block_Catalog_Category" output="1" name="rss.catalog.category">
+    <block class="Magento\Rss\Block\Catalog\Category" output="1" name="rss.catalog.category">
         <action method="addPriceBlockType">
             <argument name="type" xsi:type="string">msrp_rss</argument>
-            <argument name="block" xsi:type="string">Magento_Catalog_Block_Product_Price</argument>
+            <argument name="block" xsi:type="string">Magento\Catalog\Block\Product\Price</argument>
             <argument name="template" xsi:type="string">product/price_msrp_rss.phtml</argument>
         </action>
     </block>

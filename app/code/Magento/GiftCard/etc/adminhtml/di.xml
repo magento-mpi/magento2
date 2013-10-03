@@ -10,12 +10,12 @@
  */
 -->
 <config>
-    <type name="Magento_GiftCard_Model_Observer">
+    <type name="Magento\GiftCard\Model\Observer">
         <param name="session">
-            <instance type="Magento_Backend_Model_Session" />
+            <instance type="Magento\Backend\Model\Session" />
         </param>
         <param name="urlModel">
-            <instance type="Magento_Backend_Model_Url" />
+            <instance type="Magento\Backend\Model\Url" />
         </param>
     </type>
 </config>

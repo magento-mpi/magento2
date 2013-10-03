@@ -8,12 +8,12 @@
  */
 -->
 <config>
-    <type name="Magento_Bundle_Model_Resource_Price_Index">
+    <type name="Magento\Bundle\Model\Resource\Price\Index">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Bundle_Model_Source_Option_Type">
+    <type name="Magento\Bundle\Model\Source\Option\Type">
         <param name="options">
             <value>
                 <select>Drop-down</select>
@@ -23,10 +23,10 @@
             </value>
         </param>
     </type>
-    <type name="Magento_Core_Model_Db_Updater">
+    <type name="Magento\Core\Model\Db\Updater">
         <param name="resourceList">
             <value>
-                <bundle_setup>Magento_Catalog_Model_Resource_Setup</bundle_setup>
+                <bundle_setup>Magento\Catalog\Model\Resource\Setup</bundle_setup>
             </value>
         </param>
     </type>

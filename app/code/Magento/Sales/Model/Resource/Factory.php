@@ -9,23 +9,25 @@
  */
 
 /**
- * Factory class for Magento_Sales_Model_Resource_Order_Abstract
+ * Factory class for \Magento\Sales\Model\Resource\Order\AbstractOrder
  */
-class Magento_Sales_Model_Resource_Factory
+namespace Magento\Sales\Model\Resource;
+
+class Factory
 {
     /**
      * Object Manager instance
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager = null;
 
     /**
      * Factory constructor
      *
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -35,7 +37,7 @@ class Magento_Sales_Model_Resource_Factory
      *
      * @param string $instanceName
      * @param array $data
-     * @return Magento_Sales_Model_Resource_Order_Abstract
+     * @return \Magento\Sales\Model\Resource\Order\AbstractOrder
      */
     public function create($instanceName, array $data = array())
     {

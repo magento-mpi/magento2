@@ -7,12 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Phrase
+namespace Magento;
+
+class Phrase
 {
     /**
      * Default phrase renderer. Allows stacking renderers that "don't know about each other"
      *
-     * @var Magento_Phrase_RendererInterface
+     * @var \Magento\Phrase\RendererInterface
      */
     private static $_renderer;
 
@@ -33,9 +35,9 @@ class Magento_Phrase
     /**
      * Set default Phrase renderer
      *
-     * @param Magento_Phrase_RendererInterface $renderer
+     * @param \Magento\Phrase\RendererInterface $renderer
      */
-    public static function setRenderer(Magento_Phrase_RendererInterface $renderer)
+    public static function setRenderer(\Magento\Phrase\RendererInterface $renderer)
     {
         self::$_renderer = $renderer;
     }

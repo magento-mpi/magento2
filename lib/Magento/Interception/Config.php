@@ -7,7 +7,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-interface Magento_Interception_Config
+namespace Magento\Interception;
+
+interface Config
 {
     const BEFORE_SCENARIO = 1;
     const AFTER_SCENARIO = 2;

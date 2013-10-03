@@ -15,8 +15,10 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Enabled
-    extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
+namespace Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type;
+
+class Enabled
+    extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**
      * Enable MAP
@@ -36,26 +38,26 @@ class Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Enabled
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * Entity attribute factory
      *
-     * @var Magento_Eav_Model_Resource_Entity_AttributeFactory
+     * @var \Magento\Eav\Model\Resource\Entity\AttributeFactory
      */
     protected $_entityAttributeFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Eav_Model_Resource_Entity_AttributeFactory $entityAttributeFactory
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Eav\Model\Resource\Entity\AttributeFactory $entityAttributeFactory
+     * @param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
-        Magento_Eav_Model_Resource_Entity_AttributeFactory $entityAttributeFactory,
-        Magento_Core_Helper_Data $coreData
+        \Magento\Eav\Model\Resource\Entity\AttributeFactory $entityAttributeFactory,
+        \Magento\Core\Helper\Data $coreData
     ) {
         $this->_entityAttributeFactory = $entityAttributeFactory;
         $this->_coreData = $coreData;
@@ -105,7 +107,7 @@ class Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Enabled
             $column['type']     = 'tinyint(1)';
             $column['is_null']  = true;
         } else {
-            $column['type']     = Magento_DB_Ddl_Table::TYPE_SMALLINT;
+            $column['type']     = \Magento\DB\Ddl\Table::TYPE_SMALLINT;
             $column['length']   = 1;
             $column['nullable'] = true;
             $column['comment']  = $attributeCode . ' column';
@@ -118,7 +120,7 @@ class Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Enabled
      * Retrieve Select For Flat Attribute update
      *
      * @param int $store
-     * @return Magento_DB_Select|null
+     * @return \Magento\DB\Select|null
      */
     public function getFlatUpdateSelect($store)
     {

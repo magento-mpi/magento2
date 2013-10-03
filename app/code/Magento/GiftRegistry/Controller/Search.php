@@ -11,36 +11,38 @@
 /**
  * Gift registry frontend search controller
  */
-class Magento_GiftRegistry_Controller_Search extends Magento_Core_Controller_Front_Action
+namespace Magento\GiftRegistry\Controller;
+
+class Search extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $storeManager;
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $locale;
 
     /**
-     * @param Magento_Core_Controller_Varien_Action_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
      */
     public function __construct(
-        Magento_Core_Controller_Varien_Action_Context $context,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_LocaleInterface $locale
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale
     ) {
         parent::__construct($context);
         $this->_coreRegistry = $coreRegistry;
@@ -54,7 +56,7 @@ class Magento_GiftRegistry_Controller_Search extends Magento_Core_Controller_Fro
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!$this->_objectManager->get('Magento_GiftRegistry_Helper_Data')->isEnabled()) {
+        if (!$this->_objectManager->get('Magento\GiftRegistry\Helper\Data')->isEnabled()) {
             $this->norouteAction();
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return;
@@ -64,22 +66,22 @@ class Magento_GiftRegistry_Controller_Search extends Magento_Core_Controller_Fro
     /**
      * Get current customer session
      *
-     * @return Magento_Customer_Model_Session
+     * @return \Magento\Customer\Model\Session
      */
     protected function _getSession()
     {
-        return $this->_objectManager->get('Magento_Customer_Model_Session');
+        return $this->_objectManager->get('Magento\Customer\Model\Session');
     }
 
     /**
      * Initialize gift registry type model
      *
      * @param int $typeId
-     * @return Magento_GiftRegistry_Model_Type
+     * @return \Magento\GiftRegistry\Model\Type
      */
     protected function _initType($typeId)
     {
-        $type = $this->_objectManager->create('Magento_GiftRegistry_Model_Type')
+        $type = $this->_objectManager->create('Magento\GiftRegistry\Model\Type')
             ->setStoreId($this->storeManager->getStore()->getId())
             ->load($typeId);
 
@@ -100,7 +102,7 @@ class Magento_GiftRegistry_Controller_Search extends Magento_Core_Controller_Fro
         }
         if (isset($params['type_id'])) {
             $type = $this->_initType($params['type_id']);
-            $dateType = $this->_objectManager->get('Magento_GiftRegistry_Model_Attribute_Config')->getStaticDateType();
+            $dateType = $this->_objectManager->get('Magento\GiftRegistry\Model\Attribute\Config')->getStaticDateType();
             if ($dateType) {
                 $attribute = $type->getAttributeByCode($dateType);
                 $format = (isset($attribute['date_format'])) ? $attribute['date_format'] : null;
@@ -153,7 +155,7 @@ class Magento_GiftRegistry_Controller_Search extends Magento_Core_Controller_Fro
                 break;
 
             case 'email':
-                if (empty($params['email']) || !Zend_Validate::is($params['email'], 'EmailAddress')) {
+                if (empty($params['email']) || !\Zend_Validate::is($params['email'], 'EmailAddress')) {
                     $this->_getSession()->addNotice(
                         __('Please enter a valid email address.')
                     );
@@ -192,15 +194,15 @@ class Magento_GiftRegistry_Controller_Search extends Magento_Core_Controller_Fro
             return $array;
         }
         if (is_null($format)) {
-            $format = Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT;
+            $format = \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT;
         }
 
-        $filterInput = new Zend_Filter_LocalizedToNormalized(array(
+        $filterInput = new \Zend_Filter_LocalizedToNormalized(array(
             'locale' => $this->locale->getLocaleCode(),
             'date_format' => $this->locale->getDateFormat($format)
         ));
-        $filterInternal = new Zend_Filter_NormalizedToLocalized(array(
-            'date_format' => Magento_Date::DATE_INTERNAL_FORMAT
+        $filterInternal = new \Zend_Filter_NormalizedToLocalized(array(
+            'date_format' => \Magento\Date::DATE_INTERNAL_FORMAT
         ));
 
         foreach ($dateFields as $dateField) {
@@ -218,7 +220,7 @@ class Magento_GiftRegistry_Controller_Search extends Magento_Core_Controller_Fro
     public function indexAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('Magento_Customer_Model_Session');
+        $this->_initLayoutMessages('Magento\Customer\Model\Session');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Gift Registry Search'));
@@ -232,7 +234,7 @@ class Magento_GiftRegistry_Controller_Search extends Magento_Core_Controller_Fro
     public function resultsAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('Magento_Customer_Model_Session');
+        $this->_initLayoutMessages('Magento\Customer\Model\Session');
 
         $params = $this->getRequest()->getParam('params');
         if ($params) {
@@ -242,7 +244,7 @@ class Magento_GiftRegistry_Controller_Search extends Magento_Core_Controller_Fro
         }
 
         if ($this->_validateSearchParams($params)) {
-            $results = $this->_objectManager->create('Magento_GiftRegistry_Model_Entity')->getCollection()
+            $results = $this->_objectManager->create('Magento\GiftRegistry\Model\Entity')->getCollection()
                 ->applySearchFilters($this->_filterInputParams($params));
 
             $this->getLayout()->getBlock('giftregistry.search.results')

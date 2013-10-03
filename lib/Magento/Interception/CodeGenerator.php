@@ -7,7 +7,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-interface Magento_Interception_CodeGenerator
+namespace Magento\Interception;
+
+interface CodeGenerator
 {
     /**
      * Generate interceptor class name

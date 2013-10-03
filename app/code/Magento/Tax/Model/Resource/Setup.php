@@ -11,31 +11,33 @@
 /**
  * Tax Setup Resource Model
  */
-class Magento_Tax_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setup
+namespace Magento\Tax\Model\Resource;
+
+class Setup extends \Magento\Sales\Model\Resource\Setup
 {
     /**
-     * @var Magento_Catalog_Model_Resource_SetupFactory
+     * @var \Magento\Catalog\Model\Resource\SetupFactory
      */
     protected $_setupFactory;
 
     /**
-     * @param Magento_Core_Model_Resource_Setup_Context $context
-     * @param Magento_Core_Model_CacheInterface $cache
-     * @param Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory
-     * @param Magento_Core_Helper_Data $coreHelper
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Catalog_Model_Resource_SetupFactory $setupFactory
+     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory
+     * @param \Magento\Core\Helper\Data $coreHelper
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Catalog\Model\Resource\SetupFactory $setupFactory
      * @param string $resourceName
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
-        Magento_Core_Model_Resource_Setup_Context $context,
-        Magento_Core_Model_CacheInterface $cache,
-        Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory,
-        Magento_Core_Helper_Data $coreHelper,
-        Magento_Core_Model_Config $config,
-        Magento_Catalog_Model_Resource_SetupFactory $setupFactory,
+        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory,
+        \Magento\Core\Helper\Data $coreHelper,
+        \Magento\Core\Model\Config $config,
+        \Magento\Catalog\Model\Resource\SetupFactory $setupFactory,
         $resourceName,
         $moduleName = 'Magento_Tax',
         $connectionName = ''
@@ -62,7 +64,7 @@ class Magento_Tax_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
 
     /**
      * @param array $data
-     * @return Magento_Catalog_Model_Resource_Setup
+     * @return \Magento\Catalog\Model\Resource\Setup
      */
     public function getCatalogResourceSetup(array $data = array())
     {

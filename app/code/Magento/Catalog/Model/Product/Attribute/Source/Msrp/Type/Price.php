@@ -15,8 +15,10 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price
-    extends Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type
+namespace Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type;
+
+class Price
+    extends \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type
 {
     /**
      * Get value from the store configuration settings
@@ -26,35 +28,35 @@ class Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * Entity attribute factory
      *
-     * @var Magento_Eav_Model_Resource_Entity_AttributeFactory
+     * @var \Magento\Eav\Model\Resource\Entity\AttributeFactory
      */
     protected $_entityAttributeFactory;
 
     /**
      * Eav resource helper
      *
-     * @var Magento_Eav_Model_Resource_Helper
+     * @var \Magento\Eav\Model\Resource\Helper
      */
     protected $_eavResourceHelper;
 
     /**
      * Construct
      *
-     * @param Magento_Eav_Model_Resource_Entity_AttributeFactory $entityAttributeFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Eav_Model_Resource_Helper $eavResourceHelper
+     * @param \Magento\Eav\Model\Resource\Entity\AttributeFactory $entityAttributeFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Eav\Model\Resource\Helper $eavResourceHelper
      */
     public function __construct(
-        Magento_Eav_Model_Resource_Entity_AttributeFactory $entityAttributeFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Eav_Model_Resource_Helper $eavResourceHelper
+        \Magento\Eav\Model\Resource\Entity\AttributeFactory $entityAttributeFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Eav\Model\Resource\Helper $eavResourceHelper
     ) {
         $this->_entityAttributeFactory = $entityAttributeFactory;
         $this->_coreData = $coreData;
@@ -108,7 +110,7 @@ class Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price
      * Retrieve select for flat attribute update
      *
      * @param int $store
-     * @return Magento_DB_Select|null
+     * @return \Magento\DB\Select|null
      */
     public function getFlatUpdateSelect($store)
     {

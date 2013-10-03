@@ -9,35 +9,37 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model;
+
 /**
- * Test class for Magento_Catalog_Model_Url.
+ * Test class for \Magento\Catalog\Model\Url.
  *
  * @magentoDataFixture Magento/Catalog/_files/url_rewrites.php
  */
-class Magento_Catalog_Model_UrlTest extends PHPUnit_Framework_TestCase
+class UrlTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_Url
+     * @var \Magento\Catalog\Model\Url
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Url');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Url');
     }
 
     /**
      * Retrieve loaded url rewrite
      *
      * @param string $idPath
-     * @return Magento_Core_Model_Url_Rewrite
+     * @return \Magento\Core\Model\Url\Rewrite
      */
     protected function _loadRewrite($idPath)
     {
-        /** @var $rewrite Magento_Core_Model_Url_Rewrite */
-        $rewrite = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Url_Rewrite');
+        /** @var $rewrite \Magento\Core\Model\Url\Rewrite */
+        $rewrite = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Url\Rewrite');
         $rewrite->loadByIdPath($idPath);
         return $rewrite;
     }
@@ -51,25 +53,25 @@ class Magento_Catalog_Model_UrlTest extends PHPUnit_Framework_TestCase
     public function testGetResource()
     {
         $resource = $this->_model->getResource();
-        $this->assertInstanceOf('Magento_Catalog_Model_Resource_Url', $resource);
+        $this->assertInstanceOf('Magento\Catalog\Model\Resource\Url', $resource);
         $this->assertSame($resource, $this->_model->getResource());
     }
 
     public function testGetCategoryModel()
     {
-        $this->assertInstanceOf('Magento_Catalog_Model_Category', $this->_model->getCategoryModel());
+        $this->assertInstanceOf('Magento\Catalog\Model\Category', $this->_model->getCategoryModel());
     }
 
     public function testGetProductModel()
     {
-        $this->assertInstanceOf('Magento_Catalog_Model_Product', $this->_model->getProductModel());
+        $this->assertInstanceOf('Magento\Catalog\Model\Product', $this->_model->getProductModel());
     }
 
     public function testGetStoreRootCategory()
     {
         $root = $this->_model->getStoreRootCategory(1);
         $this->assertNotEmpty($root);
-        $this->assertInstanceOf('Magento_Object', $root);
+        $this->assertInstanceOf('Magento\Object', $root);
         $this->assertEquals(2, $root->getId());
         $this->assertEquals(1, $root->getParentId());
     }
@@ -87,7 +89,7 @@ class Magento_Catalog_Model_UrlTest extends PHPUnit_Framework_TestCase
     public function testRefreshRewrites()
     {
         $this->assertNotEmpty($this->_loadRewrite('product/1/4')->getId());
-        $this->assertInstanceOf('Magento_Catalog_Model_Url', $this->_model->refreshRewrites());
+        $this->assertInstanceOf('Magento\Catalog\Model\Url', $this->_model->refreshRewrites());
         $this->assertEmpty($this->_loadRewrite('product/1/4')->getId());
     }
 
@@ -158,11 +160,11 @@ class Magento_Catalog_Model_UrlTest extends PHPUnit_Framework_TestCase
 
     public function testGetProductRequestPath()
     {
-        $product = new Magento_Object();
+        $product = new \Magento\Object();
         $product->setName('test product')
             ->setId(uniqid());
 
-        $category = new Magento_Object();
+        $category = new \Magento\Object();
         $category->setName('test category')
             ->setId(uniqid())
             ->setLevel(2)
@@ -175,7 +177,7 @@ class Magento_Catalog_Model_UrlTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      */
     public function testGeneratePathDefault()
     {
@@ -184,11 +186,11 @@ class Magento_Catalog_Model_UrlTest extends PHPUnit_Framework_TestCase
 
     public function generatePathDataProvider()
     {
-        $product = new Magento_Object();
+        $product = new \Magento\Object();
         $product->setName('test product')
             ->setId(111);
 
-        $category = new Magento_Object();
+        $category = new \Magento\Object();
         $category->setName('test category')
             ->setId(999)
             ->setLevel(2)

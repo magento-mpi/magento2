@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Cache_State implements Magento_Core_Model_Cache_StateInterface
+namespace Magento\Core\Model\Cache;
+
+class State implements \Magento\Core\Model\Cache\StateInterface
 {
     /**
      * Cache identifier used to store cache type statuses
@@ -17,14 +19,14 @@ class Magento_Core_Model_Cache_State implements Magento_Core_Model_Cache_StateIn
     /**
      * Persistent storage of cache type statuses
      *
-     * @var Magento_Core_Model_Resource_Cache
+     * @var \Magento\Core\Model\Resource\Cache
      */
     private $_resource;
 
     /**
      * Cache frontend to delegate actual cache operations to
      *
-     * @var Magento_Cache_FrontendInterface
+     * @var \Magento\Cache\FrontendInterface
      */
     private $_cacheFrontend;
 
@@ -36,19 +38,19 @@ class Magento_Core_Model_Cache_State implements Magento_Core_Model_Cache_StateIn
     private $_typeStatuses = array();
 
     /**
-     * @param Magento_Core_Model_Resource_Cache $resource
-     * @param Magento_Core_Model_Cache_Frontend_Pool $cacheFrontendPool
-     * @param Magento_Core_Model_App_State $appState
+     * @param \Magento\Core\Model\Resource\Cache $resource
+     * @param \Magento\Core\Model\Cache\Frontend\Pool $cacheFrontendPool
+     * @param \Magento\Core\Model\App\State $appState
      * @param bool $banAll Whether all cache types are forced to be disabled
      */
     public function __construct(
-        Magento_Core_Model_Resource_Cache $resource,
-        Magento_Core_Model_Cache_Frontend_Pool $cacheFrontendPool,
-        Magento_Core_Model_App_State $appState,
+        \Magento\Core\Model\Resource\Cache $resource,
+        \Magento\Core\Model\Cache\Frontend\Pool $cacheFrontendPool,
+        \Magento\Core\Model\App\State $appState,
         $banAll = false
     ) {
         $this->_resource = $resource;
-        $this->_cacheFrontend = $cacheFrontendPool->get(Magento_Core_Model_Cache_Frontend_Pool::DEFAULT_FRONTEND_ID);
+        $this->_cacheFrontend = $cacheFrontendPool->get(\Magento\Core\Model\Cache\Frontend\Pool::DEFAULT_FRONTEND_ID);
         if ($appState->isInstalled()) {
             $this->_loadTypeStatuses($banAll);
         }

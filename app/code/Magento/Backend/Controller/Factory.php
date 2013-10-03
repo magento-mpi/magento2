@@ -15,7 +15,9 @@
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Controller_Factory extends Magento_Core_Controller_Varien_Action_Factory
+namespace Magento\Backend\Controller;
+
+class Factory extends \Magento\Core\Controller\Varien\Action\Factory
 {
     /**
      * @param string $controllerName
@@ -24,7 +26,7 @@ class Magento_Backend_Controller_Factory extends Magento_Core_Controller_Varien_
      */
     public function createController($controllerName, array $arguments = array())
     {
-        $context = $this->_objectManager->create('Magento_Backend_Controller_Context', $arguments);
+        $context = $this->_objectManager->create('Magento\Backend\Controller\Context', $arguments);
         $arguments['context'] = $context;
         return $this->_objectManager->create($controllerName, $arguments);
     }

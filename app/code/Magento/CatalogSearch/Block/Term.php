@@ -15,7 +15,9 @@
  * @package    Magento_CatalogSearch
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogSearch_Block_Term extends Magento_Core_Block_Template
+namespace Magento\CatalogSearch\Block;
+
+class Term extends \Magento\Core\Block\Template
 {
     protected $_terms;
     protected $_minPopularity;
@@ -24,40 +26,40 @@ class Magento_CatalogSearch_Block_Term extends Magento_Core_Block_Template
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Url factory
      *
-     * @var Magento_Core_Model_UrlFactory
+     * @var \Magento\Core\Model\UrlFactory
      */
     protected $_urlFactory;
 
     /**
      * Query collection factory
      *
-     * @var Magento_CatalogSearch_Model_Resource_Query_CollectionFactory
+     * @var \Magento\CatalogSearch\Model\Resource\Query\CollectionFactory
      */
     protected $_queryCollectionFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_CatalogSearch_Model_Resource_Query_CollectionFactory $queryCollectionFactory
-     * @param Magento_Core_Model_UrlFactory $urlFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\CatalogSearch\Model\Resource\Query\CollectionFactory $queryCollectionFactory
+     * @param \Magento\Core\Model\UrlFactory $urlFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_CatalogSearch_Model_Resource_Query_CollectionFactory $queryCollectionFactory,
-        Magento_Core_Model_UrlFactory $urlFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\CatalogSearch\Model\Resource\Query\CollectionFactory $queryCollectionFactory,
+        \Magento\Core\Model\UrlFactory $urlFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_queryCollectionFactory = $queryCollectionFactory;
@@ -69,7 +71,7 @@ class Magento_CatalogSearch_Block_Term extends Magento_Core_Block_Template
     /**
      * Load terms and try to sort it by names
      *
-     * @return Magento_CatalogSearch_Block_Term
+     * @return \Magento\CatalogSearch\Block\Term
      */
     protected function _loadTerms()
     {
@@ -115,7 +117,7 @@ class Magento_CatalogSearch_Block_Term extends Magento_Core_Block_Template
 
     public function getSearchUrl($obj)
     {
-        /** @var $url Magento_Core_Model_Url */
+        /** @var $url \Magento\Core\Model\Url */
         $url = $this->_urlFactory->create();
         /*
         * url encoding will be done in Url.php http_build_query

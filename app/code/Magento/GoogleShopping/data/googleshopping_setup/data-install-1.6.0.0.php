@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $this Magento_GoogleShopping_Model_Resource_Setup */
+/** @var $this \Magento\GoogleShopping\Model\Resource\Setup */
 $installer = $this;
 
 if ($installer->getGoogleShoppingData()->isModuleEnabled('Magento_GoogleBase')) {
@@ -20,7 +20,7 @@ if ($installer->getGoogleShoppingData()->isModuleEnabled('Magento_GoogleBase')) 
                 'type_id',
                 'attribute_set_id',
                 'target_country',
-                'category' => new Zend_Db_Expr('NULL')
+                'category' => new \Zend_Db_Expr('NULL')
             )
         )
         ->insertFromSelect($installer->getTable('googleshopping_types'));
@@ -55,7 +55,7 @@ if ($installer->getGoogleShoppingData()->isModuleEnabled('Magento_GoogleBase')) 
             array(
                 'id',
                 'attribute_id',
-                'gbase_attribute' => new Zend_Db_Expr("IF(gbase_attribute IN ($attributes), gbase_attribute, '')"),
+                'gbase_attribute' => new \Zend_Db_Expr("IF(gbase_attribute IN ($attributes), gbase_attribute, '')"),
                 'type_id',
             )
         )

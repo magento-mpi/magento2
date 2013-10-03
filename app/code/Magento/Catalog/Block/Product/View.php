@@ -17,7 +17,9 @@
  * @module   Catalog
  * @author   Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_Abstract
+namespace Magento\Catalog\Block\Product;
+
+class View extends \Magento\Catalog\Block\Product\AbstractProduct
 {
     /**
      * Default MAP renderer type
@@ -29,59 +31,59 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
     /**
      * Core string
      *
-     * @var Magento_Core_Helper_String
+     * @var \Magento\Core\Helper\String
      */
     protected $_coreString = null;
 
     /**
      * Tax calculation
      *
-     * @var Magento_Tax_Model_Calculation
+     * @var \Magento\Tax\Model\Calculation
      */
     protected $_taxCalculation;
 
     /**
      * Locale
      *
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
      * Product factory
      *
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Model_Config $catalogConfig
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Tax_Model_Calculation $taxCalculation
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Tax\Model\Calculation $taxCalculation
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Model_Config $catalogConfig,
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Tax_Model_Calculation $taxCalculation,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Helper_String $coreString,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Tax\Model\Calculation $taxCalculation,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_productFactory = $productFactory;
@@ -95,11 +97,11 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
     /**
      * Add meta information from product to head block
      *
-     * @return Magento_Catalog_Block_Product_View
+     * @return \Magento\Catalog\Block\Product\View
      */
     protected function _prepareLayout()
     {
-        $this->getLayout()->createBlock('Magento_Catalog_Block_Breadcrumbs');
+        $this->getLayout()->createBlock('Magento\Catalog\Block\Breadcrumbs');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
             $product = $this->getProduct();
@@ -121,13 +123,13 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
                 $headBlock->setDescription($this->_coreString->substr($product->getDescription(), 0, 255));
             }
             //@todo: move canonical link to separate block
-            if ($this->helper('Magento_Catalog_Helper_Product')->canUseCanonicalTag()
+            if ($this->helper('Magento\Catalog\Helper\Product')->canUseCanonicalTag()
                 && !$headBlock->getChildBlock('magento-page-head-product-canonical-link')
             ) {
                 $params = array('_ignore_category'=>true);
                 $headBlock->addChild(
                     'magento-page-head-product-canonical-link',
-                    'Magento_Page_Block_Html_Head_Link',
+                    'Magento\Page\Block\Html\Head\Link',
                     array(
                         'url' => $product->getUrlModel()->getUrl($product, $params),
                         'properties' => array('attributes' => array('rel' => 'canonical'))
@@ -146,7 +148,7 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
     /**
      * Retrieve current product model
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
@@ -171,7 +173,7 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
     /**
      * Retrieve url for direct adding product to cart
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param array $additional
      * @return string
      */
@@ -185,11 +187,11 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
             $additional['wishlist_next'] = 1;
         }
 
-        $addUrlKey = Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED;
+        $addUrlKey = \Magento\Core\Controller\Front\Action::PARAM_NAME_URL_ENCODED;
         $addUrlValue = $this->_urlBuilder->getUrl('*/*/*', array('_use_rewrite' => true, '_current' => true));
         $additional[$addUrlKey] = $this->_coreData->urlEncode($addUrlValue);
 
-        return $this->helper('Magento_Checkout_Helper_Cart')->getAddUrl($product, $additional);
+        return $this->helper('Magento\Checkout\Helper\Cart')->getAddUrl($product, $additional);
     }
 
     /**
@@ -206,7 +208,7 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
         }
 
         $_request = $this->_taxCalculation->getRateRequest(false, false, false);
-        /* @var $product Magento_Catalog_Model_Product */
+        /* @var $product \Magento\Catalog\Model\Product */
         $product = $this->getProduct();
         $_request->setProductClassId($product->getTaxClassId());
         $defaultTax = $this->_taxCalculation->getRate($_request);
@@ -249,7 +251,7 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
             'tierPricesInclTax'   => $_tierPricesInclTax,
         );
 
-        $responseObject = new Magento_Object();
+        $responseObject = new \Magento\Object();
         $this->_eventManager->dispatch('catalog_product_view_config', array('response_object'=>$responseObject));
         if (is_array($responseObject->getAdditionalOptions())) {
             foreach ($responseObject->getAdditionalOptions() as $option=>$value) {
@@ -300,7 +302,7 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
      * Get default qty - either as preconfigured, or as 1.
      * Also restricts it by minimal qty.
      *
-     * @param null|Magento_Catalog_Model_Product $product
+     * @param null|\Magento\Catalog\Model\Product $product
      * @return int|float
      */
     public function getProductDefaultQty($product = null)

@@ -5,19 +5,21 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_ObjectManager_Config_Config implements Magento_ObjectManager_Config
+namespace Magento\ObjectManager\Config;
+
+class Config implements \Magento\ObjectManager\Config
 {
     /**
      * Config cache
      *
-     * @var Magento_ObjectManager_ConfigCache
+     * @var \Magento\ObjectManager\ConfigCache
      */
     protected $_cache;
 
     /**
      * Class definitions
      *
-     * @var Magento_ObjectManager_Definition
+     * @var \Magento\ObjectManager\Definition
      */
     protected $_definitions;
 
@@ -73,7 +75,7 @@ class Magento_ObjectManager_Config_Config implements Magento_ObjectManager_Confi
     /**
      * List of relations
      *
-     * @var Magento_ObjectManager_Relations
+     * @var \Magento\ObjectManager\Relations
      */
     protected $_relations;
 
@@ -85,23 +87,23 @@ class Magento_ObjectManager_Config_Config implements Magento_ObjectManager_Confi
     protected $_mergedArguments;
 
     /**
-     * @param Magento_ObjectManager_Relations $relations
-     * @param Magento_ObjectManager_Definition $definitions
+     * @param \Magento\ObjectManager\Relations $relations
+     * @param \Magento\ObjectManager\Definition $definitions
      */
     public function __construct(
-        Magento_ObjectManager_Relations $relations = null,
-        Magento_ObjectManager_Definition $definitions = null
+        \Magento\ObjectManager\Relations $relations = null,
+        \Magento\ObjectManager\Definition $definitions = null
     ) {
-        $this->_relations = $relations ?: new Magento_ObjectManager_Relations_Runtime();
-        $this->_definitions = $definitions ?: new Magento_ObjectManager_Definition_Runtime();
+        $this->_relations = $relations ?: new \Magento\ObjectManager\Relations\Runtime();
+        $this->_definitions = $definitions ?: new \Magento\ObjectManager\Definition\Runtime();
     }
 
     /**
      * Set class relations
      *
-     * @param Magento_ObjectManager_Relations $relations
+     * @param \Magento\ObjectManager\Relations $relations
      */
-    public function setRelations(Magento_ObjectManager_Relations $relations)
+    public function setRelations(\Magento\ObjectManager\Relations $relations)
     {
         $this->_relations = $relations;
     }
@@ -109,9 +111,9 @@ class Magento_ObjectManager_Config_Config implements Magento_ObjectManager_Confi
     /**
      * Set cache instance
      *
-     * @param Magento_ObjectManager_ConfigCache $cache
+     * @param \Magento\ObjectManager\ConfigCache $cache
      */
-    public function setCache(Magento_ObjectManager_ConfigCache $cache)
+    public function setCache(\Magento\ObjectManager\ConfigCache $cache)
     {
         $this->_cache = $cache;
     }
@@ -165,14 +167,14 @@ class Magento_ObjectManager_Config_Config implements Magento_ObjectManager_Confi
      *
      * @param string $type
      * @return string
-     * @throws LogicException
+     * @throws \LogicException
      */
     public function getPreference($type)
     {
         $preferencePath = array();
         while (isset($this->_preferences[$type])) {
             if (isset($preferencePath[$this->_preferences[$type]])) {
-                throw new LogicException(
+                throw new \LogicException(
                     'Circular type preference: ' . $type . ' relates to '
                     . $this->_preferences[$type] . ' and viceversa.'
                 );

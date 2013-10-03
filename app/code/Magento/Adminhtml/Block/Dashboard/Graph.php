@@ -16,7 +16,9 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Dashboard_Graph extends Magento_Adminhtml_Block_Dashboard_Abstract
+namespace Magento\Adminhtml\Block\Dashboard;
+
+class Graph extends \Magento\Adminhtml\Block\Dashboard\AbstractDashboard
 {
     /**
      * Api URL
@@ -98,22 +100,22 @@ class Magento_Adminhtml_Block_Dashboard_Graph extends Magento_Adminhtml_Block_Da
     /**
      * Adminhtml dashboard data
      *
-     * @var Magento_Adminhtml_Helper_Dashboard_Data
+     * @var \Magento\Adminhtml\Helper\Dashboard\Data
      */
     protected $_dashboardData = null;
 
     /**
-     * @param Magento_Adminhtml_Helper_Dashboard_Data $dashboardData
-     * @param Magento_Reports_Model_Resource_Order_CollectionFactory $collectionFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Adminhtml\Helper\Dashboard\Data $dashboardData
+     * @param \Magento\Reports\Model\Resource\Order\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Adminhtml_Helper_Dashboard_Data $dashboardData,
-        Magento_Reports_Model_Resource_Order_CollectionFactory $collectionFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Adminhtml\Helper\Dashboard\Data $dashboardData,
+        \Magento\Reports\Model\Resource\Order\CollectionFactory $collectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_dashboardData = $dashboardData;
@@ -200,7 +202,7 @@ class Magento_Adminhtml_Block_Dashboard_Graph extends Magento_Adminhtml_Block_Da
         }
 
         $timezoneLocal = $this->_storeConfig->getConfig(
-            Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE
+            \Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE
         );
 
         list ($dateStart, $dateEnd) = $this->_collectionFactory->create()
@@ -376,13 +378,13 @@ class Magento_Adminhtml_Block_Dashboard_Graph extends Magento_Adminhtml_Block_Da
                             switch ($this->getDataHelper()->getParam('period')) {
                                 case '24h':
                                     $this->_axisLabels[$idx][$_index] = $this->formatTime(
-                                        new Zend_Date($_label, 'yyyy-MM-dd HH:00'), 'short', false
+                                        new \Zend_Date($_label, 'yyyy-MM-dd HH:00'), 'short', false
                                     );
                                     break;
                                 case '7d':
                                 case '1m':
                                     $this->_axisLabels[$idx][$_index] = $this->formatDate(
-                                        new Zend_Date($_label, 'yyyy-MM-dd')
+                                        new \Zend_Date($_label, 'yyyy-MM-dd')
                                     );
                                     break;
                                 case '1y':
@@ -544,7 +546,7 @@ class Magento_Adminhtml_Block_Dashboard_Graph extends Magento_Adminhtml_Block_Da
     protected function _prepareData()
     {
         if (!is_null($this->getDataHelperName())) {
-            $availablePeriods = array_keys($this->helper('Magento_Adminhtml_Helper_Dashboard_Data')->getDatePeriods());
+            $availablePeriods = array_keys($this->helper('Magento\Adminhtml\Helper\Dashboard\Data')->getDatePeriods());
             $period = $this->getRequest()->getParam('period');
             $this->getDataHelper()->setParam('period',
                ($period && in_array($period, $availablePeriods)) ? $period : '24h'

@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Widget;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Widget_ContainerTest extends PHPUnit_Framework_TestCase
+class ContainerTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetButtonsHtml()
     {
@@ -51,17 +53,17 @@ class Magento_Adminhtml_Block_Widget_ContainerTest extends PHPUnit_Framework_Tes
      * Composes a container with several buttons in it
      *
      * @param array $titles
-     * @return Magento_Adminhtml_Block_Widget_Container
+     * @return \Magento\Adminhtml\Block\Widget\Container
      */
     protected function _buildBlock($titles)
     {
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
-            'Magento_Core_Model_Layout',
-            array('area' => Magento_Core_Model_App_Area::AREA_ADMINHTML)
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Core\Model\Layout',
+            array('area' => \Magento\Core\Model\App\Area::AREA_ADMINHTML)
         );
-        /** @var $block Magento_Adminhtml_Block_Widget_Container */
-        $block = $layout->createBlock('Magento_Adminhtml_Block_Widget_Container', 'block');
+        /** @var $block \Magento\Adminhtml\Block\Widget\Container */
+        $block = $layout->createBlock('Magento\Adminhtml\Block\Widget\Container', 'block');
         foreach ($titles as $id => $title) {
             $block->addButton($id, array('title' => $title));
         }

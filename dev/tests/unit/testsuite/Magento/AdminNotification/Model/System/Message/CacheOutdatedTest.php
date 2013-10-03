@@ -9,42 +9,44 @@
  * @license     {license_link}
  */
 
-class Magento_AdminNotification_Model_System_Message_CacheOutdatedTest extends PHPUnit_Framework_TestCase
+namespace Magento\AdminNotification\Model\System\Message;
+
+class CacheOutdatedTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_authorizationMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cacheTypeListMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_urlInterfaceMock;
 
     /**
-     * @var Magento_AdminNotification_Model_System_Message_CacheOutdated
+     * @var \Magento\AdminNotification\Model\System\Message\CacheOutdated
      */
     protected $_messageModel;
 
     protected function setUp()
     {
-        $this->_authorizationMock = $this->getMock('Magento_AuthorizationInterface');
-        $this->_urlInterfaceMock = $this->getMock('Magento_Core_Model_UrlInterface');
-        $this->_cacheTypeListMock = $this->getMock('Magento_Core_Model_Cache_TypeListInterface');
+        $this->_authorizationMock = $this->getMock('Magento\AuthorizationInterface');
+        $this->_urlInterfaceMock = $this->getMock('Magento\Core\Model\UrlInterface');
+        $this->_cacheTypeListMock = $this->getMock('Magento\Core\Model\Cache\TypeListInterface');
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $arguments = array(
             'authorization' => $this->_authorizationMock,
             'urlBuilder' => $this->_urlInterfaceMock,
             'cacheTypeList' => $this->_cacheTypeListMock,
         );
         $this->_messageModel = $objectManagerHelper
-            ->getObject('Magento_AdminNotification_Model_System_Message_CacheOutdated', $arguments);
+            ->getObject('Magento\AdminNotification\Model\System\Message\CacheOutdated', $arguments);
     }
 
     /**

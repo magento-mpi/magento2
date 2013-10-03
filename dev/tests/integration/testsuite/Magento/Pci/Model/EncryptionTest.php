@@ -9,17 +9,19 @@
  * @license     {license_link}
  */
 
-class Magento_Pci_Model_EncryptionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Pci\Model;
+
+class EncryptionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Pci_Model_Encryption
+     * @var \Magento\Pci\Model\Encryption
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Pci_Model_Encryption');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Pci\Model\Encryption');
     }
 
     public function testEncryptDecrypt()

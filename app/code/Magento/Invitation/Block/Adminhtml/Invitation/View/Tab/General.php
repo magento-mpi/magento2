@@ -14,73 +14,75 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends Magento_Adminhtml_Block_Template
-    implements Magento_Backend_Block_Widget_Tab_Interface
+namespace Magento\Invitation\Block\Adminhtml\Invitation\View\Tab;
+
+class General extends \Magento\Adminhtml\Block\Template
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     protected $_template = 'view/tab/general.phtml';
 
     /**
      * Invitation data
      *
-     * @var Magento_Invitation_Helper_Data
+     * @var \Magento\Invitation\Helper\Data
      */
     protected $_invitationData;
     
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry;
 
     /**
      * Application locale
      *
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
      * Customer Factory
      *
-     * @var Magento_Customer_Model_CustomerFactory
+     * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $_customerFactory;
 
     /**
      * Customer Group Factory
      *
-     * @var Magento_Customer_Model_GroupFactory
+     * @var \Magento\Customer\Model\GroupFactory
      */
     protected $_groupFactory;
 
     /**
      * Store Manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Invitation_Helper_Data $invitationData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Customer_Model_CustomerFactory $customerFactory
-     * @param Magento_Customer_Model_GroupFactory $groupFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Invitation\Helper\Data $invitationData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Customer\Model\GroupFactory $groupFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Invitation_Helper_Data $invitationData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Customer_Model_CustomerFactory $customerFactory,
-        Magento_Customer_Model_GroupFactory $groupFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
+        \Magento\Invitation\Helper\Data $invitationData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Customer\Model\GroupFactory $groupFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -135,7 +137,7 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends Mag
     /**
      * Return Invitation for view
      *
-     * @return Magento_Invitation_Model_Invitation
+     * @return \Magento\Invitation\Model\Invitation
      */
     public function getInvitation()
     {
@@ -173,7 +175,7 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends Mag
     public function formatDate($date = null, $format = 'short', $showTime = false)
     {
         if (is_string($date)) {
-            $date = $this->_locale->date($date, Magento_Date::DATETIME_INTERNAL_FORMAT);
+            $date = $this->_locale->date($date, \Magento\Date::DATETIME_INTERNAL_FORMAT);
         }
 
         return parent::formatDate($date, $format, $showTime);
@@ -182,7 +184,7 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends Mag
     /**
      * Return invitation customer model
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function getReferral()
     {
@@ -204,7 +206,7 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends Mag
     /**
      * Return invitation customer model
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function getCustomer()
     {
@@ -226,7 +228,7 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends Mag
     /**
      * Return customer group collection
      *
-     * @return Magento_Customer_Model_Resource_Group_Collection
+     * @return \Magento\Customer\Model\Resource\Group\Collection
      */
     public function getCustomerGroupCollection()
     {

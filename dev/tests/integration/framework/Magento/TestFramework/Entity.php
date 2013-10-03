@@ -10,18 +10,20 @@
  */
 
 /**
- * Class that implements CRUP tests for Magento_Core_Model_Abstract based objects
+ * Class that implements CRUP tests for \Magento\Core\Model\AbstractModel based objects
  */
-class Magento_TestFramework_Entity
+namespace Magento\TestFramework;
+
+class Entity
 {
     /**
-     * @var Magento_Core_Model_Abstract
+     * @var \Magento\Core\Model\AbstractModel
      */
     protected $_model;
 
     protected $_updateData;
 
-    public function __construct(Magento_Core_Model_Abstract $model, array $updateData)
+    public function __construct(\Magento\Core\Model\AbstractModel $model, array $updateData)
     {
         $this->_model       = $model;
         $this->_updateData  = $updateData;
@@ -34,35 +36,35 @@ class Magento_TestFramework_Entity
             $this->_testRead();
             $this->_testUpdate();
             $this->_testDelete();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_model->delete();
             throw $e;
         }
     }
 
     /**
-     * @return Magento_Core_Model_Abstract
+     * @return \Magento\Core\Model\AbstractModel
      */
     protected function _getEmptyModel()
     {
         $modelClass = get_class($this->_model);
-        return Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create($modelClass);
+        return \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create($modelClass);
     }
 
     protected function _testCreate()
     {
         if ($this->_model->getId()) {
-            PHPUnit_Framework_Assert::fail("Can't run creation test for models with defined id");
+            \PHPUnit_Framework_Assert::fail("Can't run creation test for models with defined id");
         }
         $this->_model->save();
-        PHPUnit_Framework_Assert::assertNotEmpty($this->_model->getId(), 'CRUD Create error');
+        \PHPUnit_Framework_Assert::assertNotEmpty($this->_model->getId(), 'CRUD Create error');
     }
 
     protected function _testRead()
     {
         $model = $this->_getEmptyModel();
         $model->load($this->_model->getId());
-        PHPUnit_Framework_Assert::assertEquals($this->_model->getId(), $model->getId(), 'CRUD Read error');
+        \PHPUnit_Framework_Assert::assertEquals($this->_model->getId(), $model->getId(), 'CRUD Read error');
     }
 
     protected function _testUpdate()
@@ -75,7 +77,7 @@ class Magento_TestFramework_Entity
         $model = $this->_getEmptyModel();
         $model->load($this->_model->getId());
         foreach ($this->_updateData as $key => $value) {
-            PHPUnit_Framework_Assert::assertEquals(
+            \PHPUnit_Framework_Assert::assertEquals(
                 $value, $model->getDataUsingMethod($key), 'CRUD Update "'.$key.'" error'
             );
         }
@@ -88,6 +90,6 @@ class Magento_TestFramework_Entity
 
         $model = $this->_getEmptyModel();
         $model->load($modelId);
-        PHPUnit_Framework_Assert::assertEmpty($model->getId(), 'CRUD Delete error');
+        \PHPUnit_Framework_Assert::assertEmpty($model->getId(), 'CRUD Delete error');
     }
 }

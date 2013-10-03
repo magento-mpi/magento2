@@ -12,10 +12,12 @@
 /**
  * Test for abstract export model
  */
-class Magento_ImportExport_Model_Export_EntityAbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Export;
+
+class EntityAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_ImportExport_Model_Export_EntityAbstract
+     * @var \Magento\ImportExport\Model\Export\AbstractEntity
      */
     protected $_model;
 
@@ -23,14 +25,14 @@ class Magento_ImportExport_Model_Export_EntityAbstractTest extends PHPUnit_Frame
     {
         parent::setUp();
 
-        /** @var Magento_TestFramework_ObjectManager  $objectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var \Magento\TestFramework\ObjectManager  $objectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_model = $this->getMockForAbstractClass(
-            'Magento_ImportExport_Model_Export_EntityAbstract', array(
-                $objectManager->get('Magento_Core_Model_Store_Config'),
-                $objectManager->get('Magento_Core_Model_App'),
-                $objectManager->get('Magento_ImportExport_Model_Export_Factory'),
-                $objectManager->get('Magento_ImportExport_Model_Resource_CollectionByPagesIteratorFactory'),
+            'Magento\ImportExport\Model\Export\AbstractEntity', array(
+                $objectManager->get('Magento\Core\Model\Store\Config'),
+                $objectManager->get('Magento\Core\Model\App'),
+                $objectManager->get('Magento\ImportExport\Model\Export\Factory'),
+                $objectManager->get('Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory'),
             )
         );
     }
@@ -56,15 +58,15 @@ class Magento_ImportExport_Model_Export_EntityAbstractTest extends PHPUnit_Frame
      */
     public function testGetWriter()
     {
-        $this->_model->setWriter(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_ImportExport_Model_Export_Adapter_Csv'));
-        $this->assertInstanceOf('Magento_ImportExport_Model_Export_Adapter_Csv', $this->_model->getWriter());
+        $this->_model->setWriter(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ImportExport\Model\Export\Adapter\Csv'));
+        $this->assertInstanceOf('Magento\ImportExport\Model\Export\Adapter\Csv', $this->_model->getWriter());
     }
 
     /**
      * Check that method throw exception when writer was not defined
      *
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      */
     public function testGetWriterThrowsException()
     {
@@ -76,14 +78,14 @@ class Magento_ImportExport_Model_Export_EntityAbstractTest extends PHPUnit_Frame
      */
     public function testFilterAttributeCollection()
     {
-        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Resource_Attribute_Collection');
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Resource\Attribute\Collection');
         $collection = $this->_model->filterAttributeCollection($collection);
         /**
          * Check that disabled attributes is not existed in attribute collection
          */
         $existedAttributes = array();
-        /** @var $attribute Magento_Customer_Model_Attribute */
+        /** @var $attribute \Magento\Customer\Model\Attribute */
         foreach ($collection as $attribute) {
             $existedAttributes[] = $attribute->getAttributeCode();
         }
@@ -101,14 +103,14 @@ class Magento_ImportExport_Model_Export_EntityAbstractTest extends PHPUnit_Frame
 /**
  * Stub abstract class which provide to change protected property "$_disabledAttrs" and test methods depended on it
  */
-abstract class Stub_Magento_ImportExport_Model_Export_EntityAbstract
-    extends Magento_ImportExport_Model_Export_EntityAbstract
+abstract class Stub_Magento_ImportExport_Model_Export_AbstractEntity
+    extends \Magento\ImportExport\Model\Export\AbstractEntity
 {
     public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_App $app,
-        Magento_ImportExport_Model_Export_Factory $collectionFactory,
-        Magento_ImportExport_Model_Resource_CollectionByPagesIteratorFactory $resourceColFactory,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\App $app,
+        \Magento\ImportExport\Model\Export\Factory $collectionFactory,
+        \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory,
         array $data = array()
     ) {
         parent::__construct($coreStoreConfig, $app, $collectionFactory, $resourceColFactory, $data);

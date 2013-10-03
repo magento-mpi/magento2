@@ -16,31 +16,33 @@
  * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Resource_Group extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Customer\Model\Resource;
+
+class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Customer data
      *
-     * @var Magento_Customer_Helper_Data
+     * @var \Magento\Customer\Helper\Data
      */
     protected $_customerData = null;
 
     /**
-     * @var Magento_Customer_Model_Resource_Customer_CollectionFactory
+     * @var \Magento\Customer\Model\Resource\Customer\CollectionFactory
      */
     protected $_customersFactory;
 
     /**
      * Class constructor
      *
-     * @param Magento_Customer_Helper_Data $customerData
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Customer_Model_Resource_Customer_CollectionFactory $customersFactory
+     * @param \Magento\Customer\Helper\Data $customerData
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Customer\Model\Resource\Customer\CollectionFactory $customersFactory
      */
     public function __construct(
-        Magento_Customer_Helper_Data $customerData,
-        Magento_Core_Model_Resource $resource,
-        Magento_Customer_Model_Resource_Customer_CollectionFactory $customersFactory
+        \Magento\Customer\Helper\Data $customerData,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Customer\Model\Resource\Customer\CollectionFactory $customersFactory
     ) {
         $this->_customerData = $customerData;
         $this->_customersFactory = $customersFactory;
@@ -58,7 +60,7 @@ class Magento_Customer_Model_Resource_Group extends Magento_Core_Model_Resource_
     /**
      * Initialize unique fields
      *
-     * @return Magento_Customer_Model_Resource_Group
+     * @return \Magento\Customer\Model\Resource\Group
      */
     protected function _initUniqueFields()
     {
@@ -74,14 +76,14 @@ class Magento_Customer_Model_Resource_Group extends Magento_Core_Model_Resource_
     /**
      * Check if group uses as default
      *
-     * @param  Magento_Core_Model_Abstract $group
-     * @throws Magento_Core_Exception
-     * @return Magento_Core_Model_Resource_Db_Abstract
+     * @param  \Magento\Core\Model\AbstractModel $group
+     * @throws \Magento\Core\Exception
+     * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
-    protected function _beforeDelete(Magento_Core_Model_Abstract $group)
+    protected function _beforeDelete(\Magento\Core\Model\AbstractModel $group)
     {
         if ($group->usesAsDefault()) {
-            throw new Magento_Core_Exception(__('The group "%1" cannot be deleted', $group->getCode()));
+            throw new \Magento\Core\Exception(__('The group "%1" cannot be deleted', $group->getCode()));
         }
         return parent::_beforeDelete($group);
     }
@@ -89,10 +91,10 @@ class Magento_Customer_Model_Resource_Group extends Magento_Core_Model_Resource_
     /**
      * Method set default group id to the customers collection
      *
-     * @param Magento_Core_Model_Abstract $group
-     * @return Magento_Core_Model_Resource_Db_Abstract
+     * @param \Magento\Core\Model\AbstractModel $group
+     * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
-    protected function _afterDelete(Magento_Core_Model_Abstract $group)
+    protected function _afterDelete(\Magento\Core\Model\AbstractModel $group)
     {
         $customerCollection = $this->_createCustomersCollection()
             ->addAttributeToFilter('group_id', $group->getId())
@@ -107,7 +109,7 @@ class Magento_Customer_Model_Resource_Group extends Magento_Core_Model_Resource_
     }
 
     /**
-     * @return Magento_Customer_Model_Resource_Customer_Collection
+     * @return \Magento\Customer\Model\Resource\Customer\Collection
      */
     protected function _createCustomersCollection()
     {

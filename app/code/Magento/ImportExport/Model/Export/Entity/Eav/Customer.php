@@ -15,10 +15,12 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  *
- * @method Magento_Customer_Model_Resource_Attribute_Collection getAttributeCollection() getAttributeCollection()
+ * @method \Magento\Customer\Model\Resource\Attribute\Collection getAttributeCollection() getAttributeCollection()
  */
-class Magento_ImportExport_Model_Export_Entity_Eav_Customer
-    extends Magento_ImportExport_Model_Export_Entity_EavAbstract
+namespace Magento\ImportExport\Model\Export\Entity\Eav;
+
+class Customer
+    extends \Magento\ImportExport\Model\Export\Entity\AbstractEav
 {
     /**#@+
      * Permanent column names.
@@ -34,7 +36,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer
     /**#@+
      * Attribute collection name
      */
-    const ATTRIBUTE_COLLECTION_NAME = 'Magento_Customer_Model_Resource_Attribute_Collection';
+    const ATTRIBUTE_COLLECTION_NAME = 'Magento\Customer\Model\Resource\Attribute\Collection';
     /**#@-*/
 
     /**#@+
@@ -50,8 +52,8 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer
      */
     protected $_attributeOverrides = array(
         'created_at'                  => array('backend_type' => 'datetime'),
-        'reward_update_notification'  => array('source_model' => 'Magento_Eav_Model_Entity_Attribute_Source_Boolean'),
-        'reward_warning_notification' => array('source_model' => 'Magento_Eav_Model_Entity_Attribute_Source_Boolean')
+        'reward_update_notification'  => array('source_model' => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean'),
+        'reward_warning_notification' => array('source_model' => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean')
     );
 
     /**
@@ -78,28 +80,28 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer
     /**
      * Customers whose data is exported
      *
-     * @var Magento_Customer_Model_Resource_Customer_Collection
+     * @var \Magento\Customer\Model\Resource\Customer\Collection
      */
     protected $_customerCollection;
 
     /**
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_App $app
-     * @param Magento_ImportExport_Model_Export_Factory $collectionFactory
-     * @param Magento_ImportExport_Model_Resource_CollectionByPagesIteratorFactory $resourceColFactory
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Customer_Model_Resource_Customer_CollectionFactory $customerColFactory
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
+     * @param \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Customer\Model\Resource\Customer\CollectionFactory $customerColFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_App $app,
-        Magento_ImportExport_Model_Export_Factory $collectionFactory,
-        Magento_ImportExport_Model_Resource_CollectionByPagesIteratorFactory $resourceColFactory,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Customer_Model_Resource_Customer_CollectionFactory $customerColFactory,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\App $app,
+        \Magento\ImportExport\Model\Export\Factory $collectionFactory,
+        \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Customer\Model\Resource\Customer\CollectionFactory $customerColFactory,
         array $data = array()
     ) {
         parent::__construct(
@@ -134,7 +136,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer
     /**
      * Get customers collection
      *
-     * @return Magento_Customer_Model_Resource_Customer_Collection
+     * @return \Magento\Customer\Model\Resource\Customer\Collection
      */
     protected function _getEntityCollection()
     {
@@ -153,7 +155,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer
     /**
      * Export given customer data
      *
-     * @param Magento_Customer_Model_Customer $item
+     * @param \Magento\Customer\Model\Customer $item
      * @return string
      */
     public function exportItem($item)
@@ -169,12 +171,12 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer
     /**
      * Clean up already loaded attribute collection.
      *
-     * @param Magento_Data_Collection $collection
-     * @return Magento_Data_Collection
+     * @param \Magento\Data\Collection $collection
+     * @return \Magento\Data\Collection
      */
-    public function filterAttributeCollection(Magento_Data_Collection $collection)
+    public function filterAttributeCollection(\Magento\Data\Collection $collection)
     {
-        /** @var $attribute Magento_Customer_Model_Attribute */
+        /** @var $attribute \Magento\Customer\Model\Attribute */
         foreach (parent::filterAttributeCollection($collection) as $attribute) {
             if (!empty($this->_attributeOverrides[$attribute->getAttributeCode()])) {
                 $data = $this->_attributeOverrides[$attribute->getAttributeCode()];

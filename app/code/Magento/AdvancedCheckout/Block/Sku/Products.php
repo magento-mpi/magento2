@@ -15,61 +15,63 @@
  * @category   Magento
  * @package    Magento_AdvancedCheckout
  */
-class Magento_AdvancedCheckout_Block_Sku_Products extends Magento_Checkout_Block_Cart
+namespace Magento\AdvancedCheckout\Block\Sku;
+
+class Products extends \Magento\Checkout\Block\Cart
 {
     /**
-     * @var Magento_AdvancedCheckout_Helper_Data
+     * @var \Magento\AdvancedCheckout\Helper\Data
      */
     protected $_checkoutData;
 
     /**
-     * @var Magento_Core_Helper_Url
+     * @var \Magento\Core\Helper\Url
      */
     protected $_coreUrl;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_AdvancedCheckout_Model_Cart
+     * @var \Magento\AdvancedCheckout\Model\Cart
      */
     protected $_cart;
 
     /**
-     * @var Magento_Catalog_Model_Resource_Url
+     * @var \Magento\Catalog\Model\Resource\Url
      */
     protected $_catalogUrlResource;
 
     /**
-     * @param Magento_AdvancedCheckout_Model_Cart $cart
-     * @param Magento_Catalog_Model_Resource_Url $catalogUrlResource
-     * @param Magento_Core_Helper_Url $coreUrl
-     * @param Magento_AdvancedCheckout_Helper_Data $checkoutData
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Checkout_Model_Session $checkoutSession
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Model_Resource_Url $catalogUrlBuilder
-     * @param Magento_Core_Model_UrlInterface $urlBuilder
+     * @param \Magento\AdvancedCheckout\Model\Cart $cart
+     * @param \Magento\Catalog\Model\Resource\Url $catalogUrlResource
+     * @param \Magento\Core\Helper\Url $coreUrl
+     * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Resource\Url $catalogUrlBuilder
+     * @param \Magento\Core\Model\UrlInterface $urlBuilder
      * @param array $data
      */
     public function __construct(
-        Magento_AdvancedCheckout_Model_Cart $cart,
-        Magento_Catalog_Model_Resource_Url $catalogUrlResource,
-        Magento_Core_Helper_Url $coreUrl,
-        Magento_AdvancedCheckout_Helper_Data $checkoutData,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Checkout_Model_Session $checkoutSession,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Model_Resource_Url $catalogUrlBuilder,
-        Magento_Core_Model_UrlInterface $urlBuilder,
+        \Magento\AdvancedCheckout\Model\Cart $cart,
+        \Magento\Catalog\Model\Resource\Url $catalogUrlResource,
+        \Magento\Core\Helper\Url $coreUrl,
+        \Magento\AdvancedCheckout\Helper\Data $checkoutData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Resource\Url $catalogUrlBuilder,
+        \Magento\Core\Model\UrlInterface $urlBuilder,
         array $data = array()
     ) {
         $this->_cart = $cart;
@@ -94,7 +96,7 @@ class Magento_AdvancedCheckout_Block_Sku_Products extends Magento_Checkout_Block
     /**
      * Retrieve helper instance
      *
-     * @return Magento_AdvancedCheckout_Helper_Data
+     * @return \Magento\AdvancedCheckout\Helper\Data
      */
     protected function _getHelper()
     {
@@ -127,7 +129,7 @@ class Magento_AdvancedCheckout_Block_Sku_Products extends Magento_Checkout_Block
     public function prepareItemUrls()
     {
         $products = array();
-        /* @var $item Magento_Sales_Model_Quote_Item */
+        /* @var $item \Magento\Sales\Model\Quote\Item */
         foreach ($this->getItems() as $item) {
             if ($item->getProductType() == 'undefined') {
                 continue;
@@ -159,7 +161,7 @@ class Magento_AdvancedCheckout_Block_Sku_Products extends Magento_Checkout_Block
                 }
 
                 if (isset($products[$product->getId()])) {
-                    $object = new Magento_Object($products[$product->getId()]);
+                    $object = new \Magento\Object($products[$product->getId()]);
                     $item->getProduct()->setUrlDataObject($object);
                 }
             }
@@ -169,15 +171,15 @@ class Magento_AdvancedCheckout_Block_Sku_Products extends Magento_Checkout_Block
     /**
      * Get item row html
      *
-     * @param Magento_Sales_Model_Quote_Item $item
+     * @param \Magento\Sales\Model\Quote\Item $item
      * @return string
      */
-    public function getItemHtml(Magento_Sales_Model_Quote_Item $item)
+    public function getItemHtml(\Magento\Sales\Model\Quote\Item $item)
     {
-        /** @var $renderer Magento_Checkout_Block_Cart_Item_Renderer */
+        /** @var $renderer \Magento\Checkout\Block\Cart\Item\Renderer */
         $renderer = $this->getItemRenderer($item->getProductType())->setQtyMode(false);
         if ($item->getProductType() == 'undefined') {
-            $renderer->overrideProductThumbnail($this->helper('Magento_Catalog_Helper_Image')->init($item, 'thumbnail'));
+            $renderer->overrideProductThumbnail($this->helper('Magento\Catalog\Helper\Image')->init($item, 'thumbnail'));
             $renderer->setProductName('');
         }
         $renderer->setDeleteUrl(
@@ -195,10 +197,10 @@ class Magento_AdvancedCheckout_Block_Sku_Products extends Magento_Checkout_Block
     /**
      * Check whether item link should be rendered
      *
-     * @param Magento_Sales_Model_Quote_Item $item
+     * @param \Magento\Sales\Model\Quote\Item $item
      * @return bool
      */
-    public function showItemLink(Magento_Sales_Model_Quote_Item $item)
+    public function showItemLink(\Magento\Sales\Model\Quote\Item $item)
     {
         $product = $item->getProduct();
         if ($product->isComposite()) {

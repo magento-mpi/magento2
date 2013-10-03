@@ -15,41 +15,43 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Cms_Page_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Cms\Page;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
-     * @var Magento_Cms_Model_Resource_Page_CollectionFactory
+     * @var \Magento\Cms\Model\Resource\Page\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @var Magento_Cms_Model_Page
+     * @var \Magento\Cms\Model\Page
      */
     protected $_cmsPage;
 
     /**
-     * @var Magento_Page_Model_Source_Layout
+     * @var \Magento\Page\Model\Source\Layout
      */
     protected $_pageLayout;
 
     /**
-     * @param Magento_Page_Model_Source_Layout $pageLayout
-     * @param Magento_Cms_Model_Page $cmsPage
-     * @param Magento_Cms_Model_Resource_Page_CollectionFactory $collectionFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
+     * @param \Magento\Page\Model\Source\Layout $pageLayout
+     * @param \Magento\Cms\Model\Page $cmsPage
+     * @param \Magento\Cms\Model\Resource\Page\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
      * @param array $data
      */
     public function __construct(
-        Magento_Page_Model_Source_Layout $pageLayout,
-        Magento_Cms_Model_Page $cmsPage,
-        Magento_Cms_Model_Resource_Page_CollectionFactory $collectionFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
+        \Magento\Page\Model\Source\Layout $pageLayout,
+        \Magento\Cms\Model\Page $cmsPage,
+        \Magento\Cms\Model\Resource\Page\CollectionFactory $collectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
@@ -69,7 +71,7 @@ class Magento_Adminhtml_Block_Cms_Page_Grid extends Magento_Adminhtml_Block_Widg
     protected function _prepareCollection()
     {
         $collection = $this->_collectionFactory->create();
-        /* @var $collection Magento_Cms_Model_Resource_Page_Collection */
+        /* @var $collection \Magento\Cms\Model\Resource\Page\Collection */
         $collection->setFirstStoreFlag(true);
         $this->setCollection($collection);
 
@@ -139,7 +141,7 @@ class Magento_Adminhtml_Block_Cms_Page_Grid extends Magento_Adminhtml_Block_Widg
             'width'     => 10,
             'sortable'  => false,
             'filter'    => false,
-            'renderer'  => 'Magento_Adminhtml_Block_Cms_Page_Grid_Renderer_Action',
+            'renderer'  => 'Magento\Adminhtml\Block\Cms\Page\Grid\Renderer\Action',
         ));
 
         return parent::_prepareColumns();

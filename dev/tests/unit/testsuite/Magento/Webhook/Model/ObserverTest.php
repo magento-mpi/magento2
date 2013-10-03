@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Observer
+ * \Magento\Webhook\Model\Observer
  *
  * {license_notice}
  *
@@ -9,27 +9,29 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model;
+
+class ObserverTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var PHPUnit_Framework_MockObject_MockObject|Magento_Webhook_Model_Observer */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Webhook\Model\Observer */
     protected $_observer;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     private $_webapiEventHandler;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     private $_subscriptionSet;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     private $_logger;
 
     protected function setUp()
     {
-        $this->_webapiEventHandler = $this->_getBasicMock('Magento_Webhook_Model_Webapi_EventHandler');
-        $this->_subscriptionSet = $this->_getBasicMock('Magento_Webhook_Model_Resource_Subscription_Collection');
-        $this->_logger = $this->_getBasicMock('Magento_Core_Model_Logger');
+        $this->_webapiEventHandler = $this->_getBasicMock('Magento\Webhook\Model\Webapi\EventHandler');
+        $this->_subscriptionSet = $this->_getBasicMock('Magento\Webhook\Model\Resource\Subscription\Collection');
+        $this->_logger = $this->_getBasicMock('Magento\Core\Model\Logger');
 
-        $this->_observer = new Magento_Webhook_Model_Observer(
+        $this->_observer = new \Magento\Webhook\Model\Observer(
             $this->_webapiEventHandler,
             $this->_subscriptionSet,
             $this->_logger
@@ -39,7 +41,7 @@ class Magento_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
     /**
      * @param string $className
      *
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getBasicMock($className)
     {
@@ -51,7 +53,7 @@ class Magento_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
     public function testAfterWebapiUserDeleteSuccess()
     {
 
-        $mockSubscription = $this->getMockBuilder('Magento_Webhook_Model_Subscription')
+        $mockSubscription = $this->getMockBuilder('Magento\Webhook\Model\Subscription')
             ->disableOriginalConstructor()
             ->setMethods(array('setStatus', 'save'))
             ->getMock();
@@ -63,7 +65,7 @@ class Magento_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         $mockSubscription->expects($this->once())
             ->method('setStatus')
-            ->with($this->equalTo(Magento_Webhook_Model_Subscription::STATUS_INACTIVE))
+            ->with($this->equalTo(\Magento\Webhook\Model\Subscription::STATUS_INACTIVE))
             ->will($this->returnSelf());
 
         $mockSubscription->expects($this->once())
@@ -78,7 +80,7 @@ class Magento_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
     public function testAfterWebapiUserDeleteWithException()
     {
 
-        $mockSubscription = $this->getMockBuilder('Magento_Webhook_Model_Subscription')
+        $mockSubscription = $this->getMockBuilder('Magento\Webhook\Model\Subscription')
             ->disableOriginalConstructor()
             ->setMethods(array('setStatus', 'save'))
             ->getMock();
@@ -90,10 +92,10 @@ class Magento_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         $mockSubscription->expects($this->once())
             ->method('setStatus')
-            ->with($this->equalTo(Magento_Webhook_Model_Subscription::STATUS_INACTIVE))
+            ->with($this->equalTo(\Magento\Webhook\Model\Subscription::STATUS_INACTIVE))
             ->will($this->returnSelf());
 
-        $exception = new Exception('exception');
+        $exception = new \Exception('exception');
         $mockSubscription->expects($this->once())
             ->method('save')
             ->withAnyParameters()
@@ -108,8 +110,8 @@ class Magento_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     public function testAfterWebapiUserChange()
     {
-        $mockObserver = $this->_getBasicMock('Magento_Event_Observer');
-        $mockVarienEvent = $this->getMockBuilder('Magento_Event')
+        $mockObserver = $this->_getBasicMock('Magento\Event\Observer');
+        $mockVarienEvent = $this->getMockBuilder('Magento\Event')
             ->setMethods(array('getObject'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -134,8 +136,8 @@ class Magento_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     public function testAfterWebapiUserChangeWithException()
     {
-        $mockObserver = $this->_getBasicMock('Magento_Event_Observer');
-        $mockVarienEvent = $this->getMockBuilder('Magento_Event')
+        $mockObserver = $this->_getBasicMock('Magento\Event\Observer');
+        $mockVarienEvent = $this->getMockBuilder('Magento\Event')
             ->setMethods(array('getObject'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -145,7 +147,7 @@ class Magento_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
             ->withAnyParameters()
             ->will($this->returnValue($mockVarienEvent));
 
-        $exception = new Exception('exception');
+        $exception = new \Exception('exception');
         $this->_logger->expects($this->once())
             ->method('logException')
             ->with($this->equalTo($exception));
@@ -160,8 +162,8 @@ class Magento_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     public function testAfterWebapiRoleChange()
     {
-        $mockObserver = $this->_getBasicMock('Magento_Event_Observer');
-        $mockVarienEvent = $this->getMockBuilder('Magento_Event')
+        $mockObserver = $this->_getBasicMock('Magento\Event\Observer');
+        $mockVarienEvent = $this->getMockBuilder('Magento\Event')
             ->setMethods(array('getObject'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -186,8 +188,8 @@ class Magento_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     public function testAfterWebapiRoleChangeWithException()
     {
-        $mockObserver = $this->_getBasicMock('Magento_Event_Observer');
-        $mockVarienEvent = $this->getMockBuilder('Magento_Event')
+        $mockObserver = $this->_getBasicMock('Magento\Event\Observer');
+        $mockVarienEvent = $this->getMockBuilder('Magento\Event')
             ->setMethods(array('getObject'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -197,7 +199,7 @@ class Magento_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
             ->withAnyParameters()
             ->will($this->returnValue($mockVarienEvent));
 
-        $exception = new Exception('exception');
+        $exception = new \Exception('exception');
         $this->_logger->expects($this->once())
             ->method('logException')
             ->with($this->equalTo($exception));

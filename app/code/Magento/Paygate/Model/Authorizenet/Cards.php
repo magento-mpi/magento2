@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Paygate_Model_Authorizenet_Cards
+namespace Magento\Paygate\Model\Authorizenet;
+
+class Cards
 {
     const CARDS_NAMESPACE = 'authorize_cards';
     const CARD_ID_KEY = 'id';
@@ -26,17 +28,17 @@ class Magento_Paygate_Model_Authorizenet_Cards
     /**
      * Payment instance
      *
-     * @var Magento_Payment_Model_Info
+     * @var \Magento\Payment\Model\Info
      */
     protected $_payment = null;
 
     /**
      * Set payment instance for storing credit card information and partial authorizations
      *
-     * @param Magento_Payment_Model_Info $payment
-     * @return Magento_Paygate_Model_Authorizenet_Cards
+     * @param \Magento\Payment\Model\Info $payment
+     * @return \Magento\Paygate\Model\Authorizenet\Cards
      */
-    public function setPayment(Magento_Payment_Model_Info $payment)
+    public function setPayment(\Magento\Payment\Model\Info $payment)
     {
         $this->_payment = $payment;
         $paymentCardsInformation = $this->_payment->getAdditionalInformation(self::CARDS_NAMESPACE);
@@ -66,8 +68,8 @@ class Magento_Paygate_Model_Authorizenet_Cards
     /**
      * Save data from card object in cards storage
      *
-     * @param Magento_Object $card
-     * @return Magento_Paygate_Model_Authorizenet_Cards
+     * @param \Magento\Object $card
+     * @return \Magento\Paygate\Model\Authorizenet\Cards
      */
     public function updateCard($card)
     {
@@ -83,12 +85,12 @@ class Magento_Paygate_Model_Authorizenet_Cards
      * Retrieve card by ID
      *
      * @param string $cardId
-     * @return Magento_Object|bool
+     * @return \Magento\Object|bool
      */
     public function getCard($cardId)
     {
         if (isset($this->_cards[$cardId])) {
-            $card = new Magento_Object($this->_cards[$cardId]);
+            $card = new \Magento\Object($this->_cards[$cardId]);
             return $card;
         }
         return false;
@@ -153,7 +155,7 @@ class Magento_Paygate_Model_Authorizenet_Cards
     /**
      * Remove all cards from payment instance
      *
-     * @return Magento_Paygate_Model_Authorizenet_Cart
+     * @return \Magento\Paygate\Model\Authorizenet_Cart
      */
     public function flushCards()
     {
@@ -165,12 +167,12 @@ class Magento_Paygate_Model_Authorizenet_Cards
     /**
      * Check for payment instace present
      *
-     * @throws Exception
+     * @throws \Exception
      */
     protected function _isPaymentValid()
     {
         if (!$this->_payment) {
-            throw new Exception('Payment instance is not set');
+            throw new \Exception('Payment instance is not set');
         }
     }
     /**

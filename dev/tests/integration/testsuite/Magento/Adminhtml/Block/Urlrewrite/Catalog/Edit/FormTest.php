@@ -9,25 +9,27 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Urlrewrite\Catalog\Edit;
+
 /**
- * Test for Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest
+ * Test for \Magento\Adminhtml\Block\Urlrewrite\Catalog\Edit\FormTest
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_Framework_TestCase
+class FormTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Get form instance
      *
      * @param array $args
-     * @return Magento_Data_Form
+     * @return \Magento\Data\Form
      */
     protected function _getFormInstance($args = array())
     {
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
-        /** @var $block Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form */
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
+        /** @var $block \Magento\Adminhtml\Block\Urlrewrite\Catalog\Edit\Form */
         $block = $layout->createBlock(
-            'Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form', 'block', array('data' => $args)
+            'Magento\Adminhtml\Block\Urlrewrite\Catalog\Edit\Form', 'block', array('data' => $args)
         );
         $block->setTemplate(null);
         $block->toHtml();
@@ -37,7 +39,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_F
     /**
      * Check _formPostInit set expected fields values
      *
-     * @covers Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form::_formPostInit
+     * @covers \Magento\Adminhtml\Block\Urlrewrite\Catalog\Edit\Form::_formPostInit
      *
      * @dataProvider formPostInitDataProvider
      *
@@ -54,10 +56,10 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_F
     {
         $args = array();
         if ($productData) {
-            $args['product'] = new Magento_Object($productData);
+            $args['product'] = new \Magento\Object($productData);
         }
         if ($categoryData) {
-            $args['category'] = new Magento_Object($categoryData);
+            $args['category'] = new \Magento\Object($categoryData);
         }
         $form = $this->_getFormInstance($args);
         $this->assertContains($action, $form->getAction());
@@ -85,10 +87,10 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_F
     {
         $args = array();
         if ($productData) {
-            $args['product'] = new Magento_Object($productData);
+            $args['product'] = new \Magento\Object($productData);
         }
         if ($categoryData) {
-            $args['category'] = new Magento_Object($categoryData);
+            $args['category'] = new \Magento\Object($categoryData);
         }
         $form = $this->_getFormInstance($args);
         $this->assertEquals($expectedStores, $form->getElement('store_id')->getValues());
@@ -100,13 +102,13 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_F
      * @magentoAppIsolation enabled
      * @magentoDataFixture Magento/Core/_files/store.php
      *
-     * @expectedException Magento_Core_Model_Store_Exception
+     * @expectedException \Magento\Core\Model\Store\Exception
      * @expectedExceptionMessage We can't set up a URL rewrite because the product you chose is not associated with
      */
     public function testGetEntityStoresProductStoresException()
     {
         $args = array(
-            'product' => new Magento_Object(array('id' => 1))
+            'product' => new \Magento\Object(array('id' => 1))
         );
         $this->_getFormInstance($args);
     }
@@ -117,14 +119,14 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_F
      * @magentoAppIsolation enabled
      * @magentoDataFixture Magento/Core/_files/store.php
      *
-     * @expectedException Magento_Core_Model_Store_Exception
+     * @expectedException \Magento\Core\Model\Store\Exception
      * @expectedExceptionMessage We can't set up a URL rewrite because the product you chose is not associated with
      */
     public function testGetEntityStoresProductCategoryStoresException()
     {
         $args = array(
-            'product' => new Magento_Object(array('id' => 1, 'store_ids' => array(1))),
-            'category' => new Magento_Object(array('id' => 1, 'store_ids' => array(3)))
+            'product' => new \Magento\Object(array('id' => 1, 'store_ids' => array(1))),
+            'category' => new \Magento\Object(array('id' => 1, 'store_ids' => array(3)))
         );
         $this->_getFormInstance($args);
     }
@@ -135,13 +137,13 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_F
      * @magentoAppIsolation enabled
      * @magentoDataFixture Magento/Core/_files/store.php
      *
-     * @expectedException Magento_Core_Model_Store_Exception
+     * @expectedException \Magento\Core\Model\Store\Exception
      * @expectedExceptionMessage We can't set up a URL rewrite because the category your chose is not associated with
      */
     public function testGetEntityStoresCategoryStoresException()
     {
         $args = array(
-            'category' => new Magento_Object(array('id' => 1))
+            'category' => new \Magento\Object(array('id' => 1))
         );
         $this->_getFormInstance($args);
     }

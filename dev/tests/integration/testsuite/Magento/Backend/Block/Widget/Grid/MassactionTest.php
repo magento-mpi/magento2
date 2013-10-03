@@ -9,20 +9,22 @@
  * @license     {license_link}
  */
 
+namespace Magento\Backend\Block\Widget\Grid;
+
 /**
  * @magentoDataFixture Magento/Backend/Block/_files/backend_theme.php
  *
  * @magentoAppArea adminhtml
  */
-class Magento_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_TestCase
+class MassactionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Block_Widget_Grid_Massaction
+     * @var \Magento\Backend\Block\Widget\Grid\Massaction
      */
     protected $_block;
 
     /**
-     * @var Magento_Core_Model_Layout
+     * @var \Magento\Core\Model\Layout
      */
     protected $_layout;
 
@@ -34,8 +36,8 @@ class Magento_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework
 
         $this->_setFixtureTheme();
 
-        $this->_layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Layout', array('area' => 'adminhtml'));
+        $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Layout', array('area' => 'adminhtml'));
         $this->_layout->getUpdate()->load('layout_test_grid_handle');
         $this->_layout->generateXml();
         $this->_layout->generateElements();
@@ -48,26 +50,26 @@ class Magento_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework
      */
     protected function _setFixtureTheme()
     {
-        Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
-            Magento_Core_Model_App::PARAM_RUN_CODE => 'admin',
-            Magento_Core_Model_App::PARAM_RUN_TYPE => 'store',
-            Magento_Core_Model_App::PARAM_APP_DIRS => array(
-                Magento_Core_Model_Dir::THEMES => __DIR__ . '/../../_files/design'
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
+            \Magento\Core\Model\App::PARAM_RUN_CODE => 'admin',
+            \Magento\Core\Model\App::PARAM_RUN_TYPE => 'store',
+            \Magento\Core\Model\App::PARAM_APP_DIRS => array(
+                \Magento\Core\Model\Dir::THEMES => __DIR__ . '/../../_files/design'
             ),
         ));
     }
 
     /**
-     * @covers Magento_Backend_Block_Widget_Grid_Massaction::getItems
-     * @covers Magento_Backend_Block_Widget_Grid_Massaction::getCount
-     * @covers Magento_Backend_Block_Widget_Grid_Massaction::getItemsJson
-     * @covers Magento_Backend_Block_Widget_Grid_Massaction::isAvailable
+     * @covers \Magento\Backend\Block\Widget\Grid\Massaction::getItems
+     * @covers \Magento\Backend\Block\Widget\Grid\Massaction::getCount
+     * @covers \Magento\Backend\Block\Widget\Grid\Massaction::getItemsJson
+     * @covers \Magento\Backend\Block\Widget\Grid\Massaction::isAvailable
      */
     public function testMassactionDefaultValues()
     {
-        /** @var $blockEmpty Magento_Backend_Block_Widget_Grid_Massaction */
-        $blockEmpty = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_Backend_Block_Widget_Grid_Massaction');
+        /** @var $blockEmpty \Magento\Backend\Block\Widget\Grid\Massaction */
+        $blockEmpty = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Backend\Block\Widget\Grid\Massaction');
         $this->assertEmpty($blockEmpty->getItems());
         $this->assertEquals(0, $blockEmpty->getCount());
         $this->assertSame('[]', $blockEmpty->getItemsJson());
@@ -168,9 +170,9 @@ class Magento_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework
             ->getChildBlock('massaction');
         $this->assertNotNull($gridMassactionColumn, 'Massaction column does not exist in the grid column set');
         $this->assertInstanceOf(
-            'Magento_Backend_Block_Widget_Grid_Column',
+            'Magento\Backend\Block\Widget\Grid\Column',
             $gridMassactionColumn,
-            'Massaction column is not an instance of Magento_Backend_Block_Widget_Column'
+            'Massaction column is not an instance of \Magento\Backend\Block\Widget\Column'
         );
     }
 }

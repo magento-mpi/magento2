@@ -5,16 +5,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Checkout_Block_Cart_LinkTest extends PHPUnit_Framework_TestCase
+namespace Magento\Checkout\Block\Cart;
+
+class LinkTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_Helper_ObjectManager
+     * @var \Magento\TestFramework\Helper\ObjectManager
      */
     protected $_objectManagerHelper;
 
     protected function setUp()
     {
-        $this->_objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $this->_objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
     }
 
     public function testGetUrl()
@@ -22,19 +24,19 @@ class Magento_Checkout_Block_Cart_LinkTest extends PHPUnit_Framework_TestCase
         $path = 'checkout/cart';
         $url = 'http://example.com/';
 
-        $urlBuilder = $this->getMockForAbstractClass('Magento_Core_Model_UrlInterface');
+        $urlBuilder = $this->getMockForAbstractClass('Magento\Core\Model\UrlInterface');
         $urlBuilder->expects($this->once())->method('getUrl')->with($path)->will($this->returnValue($url . $path));
 
-        $helper = $this->getMockBuilder('Magento_Core_Helper_Data')
+        $helper = $this->getMockBuilder('Magento\Core\Helper\Data')
             ->disableOriginalConstructor()
             ->getMock();
 
         $context = $this->_objectManagerHelper->getObject(
-            'Magento_Core_Block_Template_Context',
+            'Magento\Core\Block\Template\Context',
             array('urlBuilder' => $urlBuilder)
         );
         $link = $this->_objectManagerHelper->getObject(
-            'Magento_Checkout_Block_Cart_Link',
+            'Magento\Checkout\Block\Cart\Link',
             array(
                 'coreData' => $helper,
                 'context' => $context
@@ -45,30 +47,30 @@ class Magento_Checkout_Block_Cart_LinkTest extends PHPUnit_Framework_TestCase
 
     public function testToHtml()
     {
-        $moduleManager = $this->getMockBuilder('Magento_Core_Model_ModuleManager')
+        $moduleManager = $this->getMockBuilder('Magento\Core\Model\ModuleManager')
             ->disableOriginalConstructor()
             ->setMethods(array('isOutputEnabled'))
             ->getMock();
-        $helper = $this->getMockBuilder('Magento_Customer_Helper_Data')
+        $helper = $this->getMockBuilder('Magento\Customer\Helper\Data')
             ->disableOriginalConstructor()
             ->getMock();
-        $helperFactory = $this->getMockBuilder('Magento_Core_Model_Factory_Helper')
+        $helperFactory = $this->getMockBuilder('Magento\Core\Model\Factory\Helper')
             ->disableOriginalConstructor()
             ->setMethods(array('get'))
             ->getMock();
         $helperFactory->expects($this->any())->method('get')->will($this->returnValue($helper));
 
-        /** @var  Magento_Core_Block_Template_Context $context */
+        /** @var  \Magento\Core\Block\Template\Context $context */
         $context = $this->_objectManagerHelper->getObject(
-            'Magento_Core_Block_Template_Context',
+            'Magento\Core\Block\Template\Context',
             array(
                 'helperFactory' => $helperFactory
             )
         );
 
-        /** @var Magento_Invitation_Block_Link $block */
+        /** @var \Magento\Invitation\Block\Link $block */
         $block = $this->_objectManagerHelper->getObject(
-            'Magento_Checkout_Block_Cart_Link',
+            'Magento\Checkout\Block\Cart\Link',
             array(
                 'context' => $context,
                 'moduleManager' => $moduleManager
@@ -86,27 +88,27 @@ class Magento_Checkout_Block_Cart_LinkTest extends PHPUnit_Framework_TestCase
      */
     public function testGetLabel($productCount, $label)
     {
-        $helper = $this->getMockBuilder('Magento_Checkout_Helper_Cart')
+        $helper = $this->getMockBuilder('Magento\Checkout\Helper\Cart')
             ->disableOriginalConstructor()
             ->setMethods(array('getSummaryCount'))
             ->getMock();
-        $helperFactory = $this->getMockBuilder('Magento_Core_Model_Factory_Helper')
+        $helperFactory = $this->getMockBuilder('Magento\Core\Model\Factory\Helper')
             ->disableOriginalConstructor()
             ->setMethods(array('get'))
             ->getMock();
         $helperFactory->expects($this->any())->method('get')->will($this->returnValue($helper));
 
-        /** @var  Magento_Core_Block_Template_Context $context */
+        /** @var  \Magento\Core\Block\Template\Context $context */
         $context = $this->_objectManagerHelper->getObject(
-            'Magento_Core_Block_Template_Context',
+            'Magento\Core\Block\Template\Context',
             array(
                 'helperFactory' => $helperFactory
             )
         );
 
-        /** @var Magento_Invitation_Block_Link $block */
+        /** @var \Magento\Invitation\Block\Link $block */
         $block = $this->_objectManagerHelper->getObject(
-            'Magento_Checkout_Block_Cart_Link',
+            'Magento\Checkout\Block\Cart\Link',
             array(
                 'context' => $context,
             )

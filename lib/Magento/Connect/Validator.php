@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Connect_Validator
+namespace Magento\Connect;
+
+class Validator
 {
 	protected static $_stability = array(0=>'devel',1=>'alpha',2=>'beta',3=>'stable');
 
@@ -44,7 +46,7 @@ class Magento_Connect_Validator
 	    $tmp = array_combine(array_values($list),array_keys($list));
 	    
 	    if(!isset($tmp[$s1], $tmp[$s2])) {
-	        throw new Exception("Invalid stability in compareStabilities argument");
+	        throw new \Exception("Invalid stability in compareStabilities argument");
 	    }
 	    
 	    	    

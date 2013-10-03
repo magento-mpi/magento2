@@ -16,7 +16,9 @@
  * @package    Magento_Reports
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Flag extends Magento_Core_Model_Flag
+namespace Magento\Reports\Model;
+
+class Flag extends \Magento\Core\Model\Flag
 {
     const REPORT_ORDER_FLAG_CODE    = 'report_order_aggregated';
     const REPORT_TAX_FLAG_CODE      = 'report_tax_aggregated';
@@ -31,7 +33,7 @@ class Magento_Reports_Model_Flag extends Magento_Core_Model_Flag
      * Setter for flag code
      *
      * @param string $code
-     * @return Magento_Reports_Model_Flag
+     * @return \Magento\Reports\Model\Flag
      */
     public function setReportFlagCode($code)
     {

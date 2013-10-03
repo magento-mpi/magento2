@@ -15,32 +15,34 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Contents
-    extends Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Abstract
+namespace Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab;
+
+class Contents
+    extends \Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab\AbstractTab
 {
     /**
      * Extension factory
      *
-     * @var Magento_Connect_Model_ExtensionFactory
+     * @var \Magento\Connect\Model\ExtensionFactory
      */
     protected $_extensionFactory;
 
     /**
-     * @param Magento_Connect_Model_ExtensionFactory $extensionFactory
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Connect_Model_Session $session
+     * @param \Magento\Connect\Model\ExtensionFactory $extensionFactory
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Connect\Model\Session $session
      * @param array $data
      */
     public function __construct(
-        Magento_Connect_Model_ExtensionFactory $extensionFactory,
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Connect_Model_Session $session,
+        \Magento\Connect\Model\ExtensionFactory $extensionFactory,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Connect\Model\Session $session,
         array $data = array()
     ) {
         $this->_extensionFactory = $extensionFactory;

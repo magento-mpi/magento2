@@ -16,45 +16,47 @@
  * @package     Magento_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_User_Model_Resource_Rules extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\User\Model\Resource;
+
+class Rules extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Root ACL resource
      *
-     * @var Magento_Core_Model_Acl_RootResource
+     * @var \Magento\Core\Model\Acl\RootResource
      */
     protected $_rootResource;
 
     /**
      * Acl object cache
      *
-     * @var Magento_Acl_CacheInterface
+     * @var \Magento\Acl\CacheInterface
      */
     protected $_aclCache;
 
     /**
-     * @var Magento_Acl_Builder
+     * @var \Magento\Acl\Builder
      */
     protected $_aclBuilder;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @param Magento_Acl_Builder $aclBuilder
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Acl_RootResource $rootResource
-     * @param Magento_Acl_CacheInterface $aclCache
+     * @param \Magento\Acl\Builder $aclBuilder
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Acl\RootResource $rootResource
+     * @param \Magento\Acl\CacheInterface $aclCache
      */
     public function __construct(
-        Magento_Acl_Builder $aclBuilder,
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Acl_RootResource $rootResource,
-        Magento_Acl_CacheInterface $aclCache
+        \Magento\Acl\Builder $aclBuilder,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\Acl\RootResource $rootResource,
+        \Magento\Acl\CacheInterface $aclCache
     ) {
         $this->_aclBuilder = $aclBuilder;
         parent::__construct($resource);
@@ -75,10 +77,10 @@ class Magento_User_Model_Resource_Rules extends Magento_Core_Model_Resource_Db_A
     /**
      * Save ACL resources
      *
-     * @param Magento_User_Model_Rules $rule
-     * @throws Magento_Core_Exception
+     * @param \Magento\User\Model\Rules $rule
+     * @throws \Magento\Core\Exception
      */
-    public function saveRel(Magento_User_Model_Rules $rule)
+    public function saveRel(\Magento\User\Model\Rules $rule)
     {
         try {
             $adapter = $this->_getWriteAdapter();
@@ -103,17 +105,17 @@ class Magento_User_Model_Resource_Rules extends Magento_Core_Model_Resource_Db_A
 
                 // If all was selected save it only and nothing else.
                 if ($postedResources === array($this->_rootResource->getId())) {
-                    $insertData = $this->_prepareDataForTable(new Magento_Object($row), $this->getMainTable());
+                    $insertData = $this->_prepareDataForTable(new \Magento\Object($row), $this->getMainTable());
 
                     $adapter->insert($this->getMainTable(), $insertData);
                 } else {
                     $acl = $this->_aclBuilder->getAcl();
-                    /** @var $resource Magento_Acl_Resource */
+                    /** @var $resource \Magento\Acl\Resource */
                     foreach ($acl->getResources() as $resourceId) {
                         $row['permission'] = in_array($resourceId, $postedResources) ? 'allow' : 'deny';
                         $row['resource_id'] = $resourceId;
 
-                        $insertData = $this->_prepareDataForTable(new Magento_Object($row), $this->getMainTable());
+                        $insertData = $this->_prepareDataForTable(new \Magento\Object($row), $this->getMainTable());
                         $adapter->insert($this->getMainTable(), $insertData);
                     }
                 }
@@ -121,10 +123,10 @@ class Magento_User_Model_Resource_Rules extends Magento_Core_Model_Resource_Db_A
 
             $adapter->commit();
             $this->_aclCache->clean();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $adapter->rollBack();
             throw $e;
-        } catch (Exception $e){
+        } catch (\Exception $e){
             $adapter->rollBack();
             $this->_logger->logException($e);
         }

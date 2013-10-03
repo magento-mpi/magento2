@@ -15,60 +15,62 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Controller_Category extends Magento_Core_Controller_Front_Action
+namespace Magento\Catalog\Controller;
+
+class Category extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * Catalog session
      *
-     * @var Magento_Catalog_Model_Session
+     * @var \Magento\Catalog\Model\Session
      */
     protected $_catalogSession;
 
     /**
      * Catalog design
      *
-     * @var Magento_Catalog_Model_Design
+     * @var \Magento\Catalog\Model\Design
      */
     protected $_catalogDesign;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Category factory
      *
-     * @var Magento_Catalog_Model_CategoryFactory
+     * @var \Magento\Catalog\Model\CategoryFactory
      */
     protected $_categoryFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Model_Design $catalogDesign
-     * @param Magento_Catalog_Model_Session $catalogSession
-     * @param Magento_Core_Controller_Varien_Action_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Design $catalogDesign
+     * @param \Magento\Catalog\Model\Session $catalogSession
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Catalog_Model_CategoryFactory $categoryFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Model_Design $catalogDesign,
-        Magento_Catalog_Model_Session $catalogSession,
-        Magento_Core_Controller_Varien_Action_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Design $catalogDesign,
+        \Magento\Catalog\Model\Session $catalogSession,
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_categoryFactory = $categoryFactory;
         $this->_storeManager = $storeManager;
@@ -81,7 +83,7 @@ class Magento_Catalog_Controller_Category extends Magento_Core_Controller_Front_
     /**
      * Initialize requested category object
      *
-     * @return Magento_Catalog_Model_Category
+     * @return \Magento\Catalog\Model\Category
      */
     protected function _initCategory()
     {
@@ -90,12 +92,12 @@ class Magento_Catalog_Controller_Category extends Magento_Core_Controller_Front_
             return false;
         }
 
-        /** @var Magento_Catalog_Model_Category $category */
+        /** @var \Magento\Catalog\Model\Category $category */
         $category = $this->_categoryFactory->create()
             ->setStoreId($this->_storeManager->getStore()->getId())
             ->load($categoryId);
 
-        if (!$this->_objectManager->get('Magento_Catalog_Helper_Category')->canShow($category)) {
+        if (!$this->_objectManager->get('Magento\Catalog\Helper\Category')->canShow($category)) {
             return false;
         }
         $this->_catalogSession->setLastVisitedCategoryId($category->getId());
@@ -108,8 +110,8 @@ class Magento_Catalog_Controller_Category extends Magento_Core_Controller_Front_
                     'controller_action' => $this
                 )
             );
-        } catch (Magento_Core_Exception $e) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+        } catch (\Magento\Core\Exception $e) {
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             return false;
         }
 
@@ -152,7 +154,7 @@ class Magento_Catalog_Controller_Category extends Magento_Core_Controller_Front_
             $this->generateLayoutXml()->generateLayoutBlocks();
             // apply custom layout (page) template once the blocks are generated
             if ($settings->getPageLayout()) {
-                $this->_objectManager->get('Magento_Page_Helper_Layout')->applyTemplate($settings->getPageLayout());
+                $this->_objectManager->get('Magento\Page\Helper\Layout')->applyTemplate($settings->getPageLayout());
             }
 
             $root = $this->getLayout()->getBlock('root');
@@ -161,8 +163,8 @@ class Magento_Catalog_Controller_Category extends Magento_Core_Controller_Front_
                     ->addBodyClass('category-' . $category->getUrlKey());
             }
 
-            $this->_initLayoutMessages('Magento_Catalog_Model_Session');
-            $this->_initLayoutMessages('Magento_Checkout_Model_Session');
+            $this->_initLayoutMessages('Magento\Catalog\Model\Session');
+            $this->_initLayoutMessages('Magento\Checkout\Model\Session');
             $this->renderLayout();
         } elseif (!$this->getResponse()->isRedirect()) {
             $this->_forward('noRoute');

@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceContainer name="content">
-        <block class="Magento_Adminhtml_Block_Catalog_Search_Edit" name="adminhtml.catalog.search.edit"/>
+        <block class="Magento\Adminhtml\Block\Catalog\Search\Edit" name="adminhtml.catalog.search.edit"/>
     </referenceContainer>
 </layout>

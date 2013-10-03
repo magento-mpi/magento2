@@ -15,8 +15,9 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Model_System_Config_Source_Contentdisposition
-    implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Downloadable\Model\System\Config\Source;
+
+class Contentdisposition implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray()
     {

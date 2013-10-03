@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Index_Model_ProcessTest extends PHPUnit_Framework_TestCase
+namespace Magento\Index\Model;
+
+class ProcessTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test exception message
@@ -25,45 +27,45 @@ class Magento_Index_Model_ProcessTest extends PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_indexerMatchData = array(
-        'new_data' => array(Magento_Catalog_Model_Indexer_Url::EVENT_MATCH_RESULT_KEY => true)
+        'new_data' => array(\Magento\Catalog\Model\Indexer\Url::EVENT_MATCH_RESULT_KEY => true)
     );
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @var Magento_Index_Model_Process
+     * @var \Magento\Index\Model\Process
      */
     protected $_model;
 
     /**
-     * @var Magento_Index_Model_Process_File
+     * @var \Magento\Index\Model\Process\File
      */
     protected $_processFile;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_resourceMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_eventRepositoryMock;
 
     protected function setUp()
     {
-        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $this->_eventRepositoryMock = $this->getMock(
-            'Magento_Index_Model_EventRepository', array(), array(), '', false
+            'Magento\Index\Model\EventRepository', array(), array(), '', false
         );
 
         // get existing indexer process
         $this->_model = $this->_objectManager->create(
-            'Magento_Index_Model_Process', array('eventRepository' => $this->_eventRepositoryMock)
+            'Magento\Index\Model\Process', array('eventRepository' => $this->_eventRepositoryMock)
         );
         $this->_model->load(self::INDEXER_CODE, 'indexer_code');
         if ($this->_model->isObjectNew()) {
@@ -71,8 +73,8 @@ class Magento_Index_Model_ProcessTest extends PHPUnit_Framework_TestCase
         }
 
         // get new process file instance for current indexer
-        /** @var $lockStorage Magento_Index_Model_Lock_Storage */
-        $lockStorage = $this->_objectManager->create('Magento_Index_Model_Lock_Storage');
+        /** @var $lockStorage \Magento\Index\Model\Lock\Storage */
+        $lockStorage = $this->_objectManager->create('Magento\Index\Model\Lock\Storage');
         $this->_processFile = $lockStorage->getFile($this->_model->getId());
     }
 
@@ -107,7 +109,7 @@ class Magento_Index_Model_ProcessTest extends PHPUnit_Framework_TestCase
             $this->_processFile->processLock();
         }
 
-        $event = $this->_objectManager->create('Magento_Index_Model_Event', array('data' => $eventData));
+        $event = $this->_objectManager->create('Magento\Index\Model\Event', array('data' => $eventData));
         $this->assertEquals($this->_model, $this->_model->safeProcessEvent($event));
 
         if ($needLock) {
@@ -120,22 +122,22 @@ class Magento_Index_Model_ProcessTest extends PHPUnit_Framework_TestCase
     public function testSafeProcessEventException()
     {
         // prepare mock that throws exception
-        /** @var $eventMock Magento_Index_Model_Event */
-        $eventMock = $this->getMock('Magento_Index_Model_Event', array('setProcess'), array(), '', false);
+        /** @var $eventMock \Magento\Index\Model\Event */
+        $eventMock = $this->getMock('Magento\Index\Model\Event', array('setProcess'), array(), '', false);
         $eventMock->setData($this->_indexerMatchData);
         $exceptionMessage = self::EXCEPTION_MESSAGE;
         $eventMock->expects($this->any())
             ->method('setProcess')
             ->will($this->returnCallback(
                 function () use ($exceptionMessage) {
-                    throw new Exception($exceptionMessage);
+                    throw new \Exception($exceptionMessage);
                 }
             ));
 
         // can't use @expectedException because we need to assert indexer lock status
         try {
             $this->_model->safeProcessEvent($eventMock);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->assertEquals(self::EXCEPTION_MESSAGE, $e->getMessage());
         }
 
@@ -147,9 +149,9 @@ class Magento_Index_Model_ProcessTest extends PHPUnit_Framework_TestCase
      */
     public function testReindexAllDoesntTriggerUnprocessedEventFetchingInManualMode()
     {
-        $collection = $this->_objectManager->create('Magento_Index_Model_Resource_Event_Collection');
-        $this->_model->setMode(Magento_Index_Model_Process::MODE_REAL_TIME);
-        $this->_model->setStatus(Magento_Index_Model_Process::STATUS_PENDING);
+        $collection = $this->_objectManager->create('Magento\Index\Model\Resource\Event\Collection');
+        $this->_model->setMode(\Magento\Index\Model\Process::MODE_REAL_TIME);
+        $this->_model->setStatus(\Magento\Index\Model\Process::STATUS_PENDING);
         $this->_eventRepositoryMock->expects($this->once())->method('getUnprocessed')
             ->will($this->returnValue($collection));
         $this->_eventRepositoryMock->expects($this->never())->method('hasUnprocessed');

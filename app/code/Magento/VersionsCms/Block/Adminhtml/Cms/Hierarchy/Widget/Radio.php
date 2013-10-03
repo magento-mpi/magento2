@@ -11,7 +11,9 @@
 /**
  * Cms Pages Hierarchy Widget Radio Block
  */
-class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Radio extends Magento_Adminhtml_Block_Template
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget;
+
+class Radio extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Unique Hash Id
@@ -44,41 +46,41 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Radio extends Mag
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_VersionsCms_Model_Hierarchy_Node
+     * @var \Magento\VersionsCms\Model\Hierarchy\Node
      */
     protected $_hierarchyNode;
 
     /**
-     * @var Magento_Core_Model_System_Store
+     * @var \Magento\Core\Model\System\Store
      */
     protected $_systemStore;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_VersionsCms_Model_Hierarchy_Node $hierarchyNode
-     * @param Magento_Core_Model_System_Store $systemStore
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\VersionsCms\Model\Hierarchy\Node $hierarchyNode
+     * @param \Magento\Core\Model\System\Store $systemStore
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_VersionsCms_Model_Hierarchy_Node $hierarchyNode,
-        Magento_Core_Model_System_Store $systemStore,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\VersionsCms\Model\Hierarchy\Node $hierarchyNode,
+        \Magento\Core\Model\System\Store $systemStore,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;

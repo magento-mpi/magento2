@@ -11,7 +11,9 @@
 /**
  * Database config installation block
  */
-class Magento_Install_Block_Db_Main extends Magento_Core_Block_Template
+namespace Magento\Install\Block\Db;
+
+class Main extends \Magento\Core\Block\Template
 {
     /**
      * Array of Database blocks keyed by name
@@ -23,29 +25,29 @@ class Magento_Install_Block_Db_Main extends Magento_Core_Block_Template
     /**
      * Install installer config
      *
-     * @var Magento_Install_Model_Installer_Config
+     * @var \Magento\Install\Model\Installer\Config
      */
     protected $_installerConfig = null;
 
     /**
      * Install installer config
      *
-     * @var Magento_Core_Model_Session_Generic
+     * @var \Magento\Core\Model\Session\Generic
      */
     protected $_session;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Install_Model_Installer_Config $installerConfig
-     * @param Magento_Core_Model_Session_Generic $session
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Install\Model\Installer\Config $installerConfig
+     * @param \Magento\Core\Model\Session\Generic $session
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Install_Model_Installer_Config $installerConfig,
-        Magento_Core_Model_Session_Generic $session,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Install\Model\Installer\Config $installerConfig,
+        \Magento\Core\Model\Session\Generic $session,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);
@@ -59,7 +61,7 @@ class Magento_Install_Block_Db_Main extends Magento_Core_Block_Template
      * @param  string $type database type
      * @param  string $block database block type
      * @param  string $template
-     * @return Magento_Install_Block_Db_Main
+     * @return \Magento\Install\Block\Db\Main
      */
     public function addDatabaseBlock($type, $block, $template)
     {
@@ -76,7 +78,7 @@ class Magento_Install_Block_Db_Main extends Magento_Core_Block_Template
      * Retrieve database block by type
      *
      * @param  string $type database model type
-     * @return bool|Magento_Core_Block_Template
+     * @return bool|\Magento\Core\Block\Template
      */
     public function getDatabaseBlock($type)
     {
@@ -111,7 +113,7 @@ class Magento_Install_Block_Db_Main extends Magento_Core_Block_Template
     /**
      * Retrieve configuration form data object
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getFormData()
     {
@@ -121,7 +123,7 @@ class Magento_Install_Block_Db_Main extends Magento_Core_Block_Template
             if (empty($data)) {
                 $data = $this->_installerConfig->getFormData();
             } else {
-                $data = new Magento_Object($data);
+                $data = new \Magento\Object($data);
             }
             $this->setFormData($data);
         }

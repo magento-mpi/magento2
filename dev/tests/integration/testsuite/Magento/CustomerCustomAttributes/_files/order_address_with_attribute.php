@@ -14,21 +14,21 @@
  * All the changes are reverted in the appropriate "rollback" fixture.
  */
 
-/** @var $connection Magento_TestFramework_Db_Adapter_TransactionInterface */
-$connection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Resource')
+/** @var $connection \Magento\TestFramework\Db\Adapter\TransactionInterface */
+$connection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Resource')
     ->getConnection('core_write');
 $connection->commitTransparentTransaction();
 
-$entityType = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Eav_Model_Config')->getEntityType('customer_address');
-/** @var $entityType Magento_Eav_Model_Entity_Type */
+$entityType = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Eav\Model\Config')->getEntityType('customer_address');
+/** @var $entityType \Magento\Eav\Model\Entity\Type */
 
-$attributeSet = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Eav_Model_Entity_Attribute_Set');
-/** @var $attributeSet Magento_Eav_Model_Entity_Attribute_Set */
+$attributeSet = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Eav\Model\Entity\Attribute\Set');
+/** @var $attributeSet \Magento\Eav\Model\Entity\Attribute\Set */
 
-$attribute = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Customer_Model_Attribute',
+$attribute = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Customer\Model\Attribute',
     array(
         'data' => array(
             'frontend_input'     => 'text',
@@ -50,8 +50,8 @@ $attribute->setAttributeCode('fixture_address_attribute');
 $attribute->save();
 
 $addressData = include(__DIR__ . '/../../../Magento/Sales/_files/address_data.php');
-$billingAddress = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Sales_Model_Order_Address', array('data' => $addressData));
+$billingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Sales\Model\Order\Address', array('data' => $addressData));
 $billingAddress->setAddressType('billing');
 $billingAddress->setData($attribute->getAttributeCode(), 'fixture_attribute_custom_value');
 $billingAddress->save();

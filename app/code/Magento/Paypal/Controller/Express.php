@@ -9,64 +9,66 @@
 /**
  * Express Checkout Controller
  */
-class Magento_Paypal_Controller_Express extends Magento_Paypal_Controller_Express_Abstract
+namespace Magento\Paypal\Controller;
+
+class Express extends \Magento\Paypal\Controller\Express\AbstractExpress
 {
     /**
      * Config mode type
      *
      * @var string
      */
-    protected $_configType = 'Magento_Paypal_Model_Config';
+    protected $_configType = 'Magento\Paypal\Model\Config';
 
     /**
      * Config method type
      *
      * @var string
      */
-    protected $_configMethod = Magento_Paypal_Model_Config::METHOD_WPP_EXPRESS;
+    protected $_configMethod = \Magento\Paypal\Model\Config::METHOD_WPP_EXPRESS;
 
     /**
      * Checkout mode type
      *
      * @var string
      */
-    protected $_checkoutType = 'Magento_Paypal_Model_Express_Checkout';
+    protected $_checkoutType = 'Magento\Paypal\Model\Express\Checkout';
 
     /**
-     * @var Magento_Core_Helper_Url
+     * @var \Magento\Core\Helper\Url
      */
     protected $_urlHelper;
 
     /**
-     * @var Magento_Customer_Helper_Data
+     * @var \Magento\Customer\Helper\Data
      */
     protected $_customerHelper;
 
     /**
-     * @param Magento_Core_Controller_Varien_Action_Context $context
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Core_Model_UrlInterface $urlBuilder
-     * @param Magento_Sales_Model_QuoteFactory $quoteFactory
-     * @param Magento_Checkout_Model_Session $checkoutSession
-     * @param Magento_Sales_Model_OrderFactory $orderFactory
-     * @param Magento_Paypal_Model_Express_Checkout_Factory $checkoutFactory
-     * @param Magento_Core_Model_Session_Generic $paypalSession
-     * @param Magento_Core_Helper_Url $urlHelper
-     * @param Magento_Customer_Helper_Data $customerHelper
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\UrlInterface $urlBuilder
+     * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param \Magento\Paypal\Model\Express\Checkout\Factory $checkoutFactory
+     * @param \Magento\Core\Model\Session\Generic $paypalSession
+     * @param \Magento\Core\Helper\Url $urlHelper
+     * @param \Magento\Customer\Helper\Data $customerHelper
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Controller_Varien_Action_Context $context,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Core_Model_UrlInterface $urlBuilder,
-        Magento_Sales_Model_QuoteFactory $quoteFactory,
-        Magento_Checkout_Model_Session $checkoutSession,
-        Magento_Sales_Model_OrderFactory $orderFactory,
-        Magento_Paypal_Model_Express_Checkout_Factory $checkoutFactory,
-        Magento_Core_Model_Session_Generic $paypalSession,
-        Magento_Core_Helper_Url $urlHelper,
-        Magento_Customer_Helper_Data $customerHelper
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\UrlInterface $urlBuilder,
+        \Magento\Sales\Model\QuoteFactory $quoteFactory,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Sales\Model\OrderFactory $orderFactory,
+        \Magento\Paypal\Model\Express\Checkout\Factory $checkoutFactory,
+        \Magento\Core\Model\Session\Generic $paypalSession,
+        \Magento\Core\Helper\Url $urlHelper,
+        \Magento\Customer\Helper\Data $customerHelper
     ) {
         $this->_customerSession = $customerSession;
         $this->_urlHelper = $urlHelper;

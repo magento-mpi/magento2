@@ -15,35 +15,37 @@
  * @package     Magento_AdvancedCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdvancedCheckout_Block_Adminhtml_Sales_Order_Create_Sku_Errors
-    extends Magento_AdvancedCheckout_Block_Adminhtml_Sku_Errors_Abstract
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Sales\Order\Create\Sku;
+
+class Errors
+    extends \Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\AbstractErrors
 {
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager = null;
 
     /**
-     * @var Magento_Adminhtml_Model_Session_Quote
+     * @var \Magento\Adminhtml\Model\Session\Quote
      */
     protected $_sessionQuote;
 
     /**
-     * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_AdvancedCheckout_Model_CartFactory $cartFactory
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\AdvancedCheckout\Model\CartFactory $cartFactory
+     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Adminhtml_Model_Session_Quote $sessionQuote,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_AdvancedCheckout_Model_CartFactory $cartFactory,
-        Magento_Core_Model_StoreManager $storeManager,
+        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\AdvancedCheckout\Model\CartFactory $cartFactory,
+        \Magento\Core\Model\StoreManager $storeManager,
         array $data = array()
     ) {
         $this->_sessionQuote = $sessionQuote;
@@ -65,7 +67,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Sales_Order_Create_Sku_Errors
     /**
      * Returns enterprise cart model with custom session for order create page
      *
-     * @return Magento_AdvancedCheckout_Model_Cart
+     * @return \Magento\AdvancedCheckout\Model\Cart
      */
     public function getCart()
     {
@@ -78,7 +80,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Sales_Order_Create_Sku_Errors
     /**
      * Returns current store model
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getStore()
     {

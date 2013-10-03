@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Code_Generator_Proxy extends Magento_Code_Generator_EntityAbstract
+namespace Magento\Code\Generator;
+
+class Proxy extends \Magento\Code\Generator\EntityAbstract
 {
     /**
      * Entity type
@@ -92,7 +94,7 @@ class Magento_Code_Generator_Proxy extends Magento_Code_Generator_EntityAbstract
         );
         $methods[] = array(
             'name'     => '__wakeup',
-            'body'     => '$this->_objectManager = Magento_Core_Model_ObjectManager::getInstance();',
+            'body'     => '$this->_objectManager = \Magento\Core\Model\ObjectManager::getInstance();',
             'docblock' => array(
                 'shortDescription' => 'Retrieve ObjectManager from global scope',
             ),
@@ -122,8 +124,8 @@ class Magento_Code_Generator_Proxy extends Magento_Code_Generator_EntityAbstract
             ),
 
         );
-        $reflectionClass = new ReflectionClass($this->_getSourceClassName());
-        $publicMethods   = $reflectionClass->getMethods(ReflectionMethod::IS_PUBLIC);
+        $reflectionClass = new \ReflectionClass($this->_getSourceClassName());
+        $publicMethods   = $reflectionClass->getMethods(\ReflectionMethod::IS_PUBLIC);
         foreach ($publicMethods as $method) {
             if (!($method->isConstructor() || $method->isFinal() || $method->isStatic() || $method->isDestructor())
                 && !in_array($method->getName(), array('__sleep', '__wakeup', '__clone'))
@@ -141,7 +143,7 @@ class Magento_Code_Generator_Proxy extends Magento_Code_Generator_EntityAbstract
     protected function _generateCode()
     {
         $typeName = $this->_getFullyQualifiedClassName($this->_getSourceClassName());
-        $reflection = new ReflectionClass($typeName);
+        $reflection = new \ReflectionClass($typeName);
 
         if ($reflection->isInterface()) {
             $this->_classGenerator->setImplementedInterfaces(array($typeName));
@@ -154,10 +156,10 @@ class Magento_Code_Generator_Proxy extends Magento_Code_Generator_EntityAbstract
     /**
      * Collect method info
      *
-     * @param ReflectionMethod $method
+     * @param \ReflectionMethod $method
      * @return array
      */
-    protected function _getMethodInfo(ReflectionMethod $method)
+    protected function _getMethodInfo(\ReflectionMethod $method)
     {
         $parameterNames = array();
         $parameters     = array();
@@ -185,11 +187,11 @@ class Magento_Code_Generator_Proxy extends Magento_Code_Generator_EntityAbstract
      */
     protected function _getDefaultConstructorDefinition()
     {
-        // public function __construct(\Magento_ObjectManager $objectManager, $instanceName, $shared = false)
+        // public function __construct(\Magento\ObjectManager $objectManager, $instanceName, $shared = false)
         return array(
             'name'       => '__construct',
             'parameters' => array(
-                array('name' => 'objectManager', 'type' => '\Magento_ObjectManager'),
+                array('name' => 'objectManager', 'type' => '\Magento\ObjectManager'),
                 array('name' => 'instanceName', 'defaultValue' => $this->_getSourceClassName()),
                 array('name' => 'shared', 'defaultValue' => true),
             ),
@@ -201,7 +203,7 @@ class Magento_Code_Generator_Proxy extends Magento_Code_Generator_EntityAbstract
                 'tags'             => array(
                     array(
                         'name'        => 'param',
-                        'description' => '\Magento_ObjectManager $objectManager'
+                        'description' => '\Magento\ObjectManager $objectManager'
                     ),
                     array(
                         'name'        => 'param',

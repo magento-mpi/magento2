@@ -11,11 +11,13 @@
 /**
  * Grid row url generator
  */
-class Magento_Backend_Model_Widget_Grid_Row_UrlGenerator
-    implements Magento_Backend_Model_Widget_Grid_Row_GeneratorInterface
+namespace Magento\Backend\Model\Widget\Grid\Row;
+
+class UrlGenerator
+    implements \Magento\Backend\Model\Widget\Grid\Row\GeneratorInterface
 {
     /**
-     * @var Magento_Backend_Model_Url
+     * @var \Magento\Backend\Model\Url
      */
     protected $_urlModel;
 
@@ -35,14 +37,14 @@ class Magento_Backend_Model_Widget_Grid_Row_UrlGenerator
     protected $_extraParamsTemplate = array();
 
     /**
-     * @param Magento_Backend_Model_UrlProxy $backendUrl
+     * @param \Magento\Backend\Model\UrlProxy $backendUrl
      * @param array $args
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
-    public function __construct(Magento_Backend_Model_UrlProxy $backendUrl, array $args = array())
+    public function __construct(\Magento\Backend\Model\UrlProxy $backendUrl, array $args = array())
     {
         if (!isset($args['path'])) {
-            throw new InvalidArgumentException('Not all required parameters passed');
+            throw new \InvalidArgumentException('Not all required parameters passed');
         }
         $this->_urlModel = isset($args['urlModel']) ? $args['urlModel'] : $backendUrl;
         $this->_path = (string) $args['path'];
@@ -56,7 +58,7 @@ class Magento_Backend_Model_Widget_Grid_Row_UrlGenerator
 
     /**
      * Create url for passed item using passed url model
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return string
      */
     public function getUrl($item)

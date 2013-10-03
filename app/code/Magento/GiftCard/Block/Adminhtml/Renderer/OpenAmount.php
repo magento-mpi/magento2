@@ -15,23 +15,25 @@
  * @package    Magento_GiftCard
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftCard_Block_Adminhtml_Renderer_OpenAmount extends Magento_Data_Form_Element_Select
+namespace Magento\GiftCard\Block\Adminhtml\Renderer;
+
+class OpenAmount extends \Magento\Data\Form\Element\Select
 {
     /**
-     * @var Magento_Data_Form_Element_Checkbox
+     * @var \Magento\Data\Form\Element\Checkbox
      */
     protected $_element;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Data_Form_Element_Factory $factoryElement
-     * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
      * @param array $attributes
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Data_Form_Element_Factory $factoryElement,
-        Magento_Data_Form_Element_CollectionFactory $factoryCollection,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Data\Form\Element\Factory $factoryElement,
+        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
         array $attributes = array()
     ) {
         $this->_element = $factoryElement->create('checkbox');
@@ -42,7 +44,7 @@ class Magento_GiftCard_Block_Adminhtml_Renderer_OpenAmount extends Magento_Data_
      * Set form to element
      *
      * @param $form
-     * @return Magento_Data_Form
+     * @return \Magento\Data\Form
      */
     public function setForm($form)
     {
@@ -58,9 +60,9 @@ class Magento_GiftCard_Block_Adminhtml_Renderer_OpenAmount extends Magento_Data_
     public function getElementHtml()
     {
         $this->_element->setId($this->getHtmlId())->setName($this->getData('name'))
-            ->setChecked($this->getValue())->setValue(Magento_GiftCard_Model_Giftcard::OPEN_AMOUNT_ENABLED);
+            ->setChecked($this->getValue())->setValue(\Magento\GiftCard\Model\Giftcard::OPEN_AMOUNT_ENABLED);
         $hiddenField = '<input type="hidden" name="' . $this->getName()
-            . '" value="' . Magento_GiftCard_Model_Giftcard::OPEN_AMOUNT_DISABLED . '"/>';
+            . '" value="' . \Magento\GiftCard\Model\Giftcard::OPEN_AMOUNT_DISABLED . '"/>';
         return $hiddenField . $this->_element->getElementHtml();
     }
 }

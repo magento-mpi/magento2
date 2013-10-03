@@ -11,34 +11,36 @@
 /**
  * Setup Model of Sales Module
  */
-class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
+namespace Magento\Sales\Model\Resource;
+
+class Setup extends \Magento\Eav\Model\Entity\Setup
 {
     /**
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_config;
 
     /**
-     * @param Magento_Core_Model_Resource_Setup_Context $context
-     * @param Magento_Core_Model_CacheInterface $cache
-     * @param Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory
-     * @param Magento_Core_Helper_Data $coreHelper
-     * @param Magento_Core_Model_Config $config
+     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory
+     * @param \Magento\Core\Helper\Data $coreHelper
+     * @param \Magento\Core\Model\Config $config
      * @param string $resourceName
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
-        Magento_Core_Model_Resource_Setup_Context $context,
-        Magento_Core_Model_CacheInterface $cache,
-        Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory,
-        Magento_Core_Helper_Data $coreHelper,
-        Magento_Core_Model_Config $config,
+        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory,
+        \Magento\Core\Helper\Data $coreHelper,
+        \Magento\Core\Model\Config $config,
         $resourceName,
         $moduleName = 'Magento_Sales',
         $connectionName = ''
@@ -107,7 +109,7 @@ class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
      * @param int|string $entityTypeId
      * @param string $code
      * @param array $attr
-     * @return Magento_Sales_Model_Resource_Setup
+     * @return \Magento\Sales\Model\Resource\Setup
      */
     public function addAttribute($entityTypeId, $code, array $attr)
     {
@@ -128,7 +130,7 @@ class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
      * @param string $table
      * @param string $attribute
      * @param array $attr
-     * @return Magento_Sales_Model_Resource_Setup
+     * @return \Magento\Sales\Model\Resource\Setup
      */
     protected function _addFlatAttribute($table, $attribute, $attr)
     {
@@ -148,7 +150,7 @@ class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
      * @param string $attribute
      * @param array $attr
      * @param string $entityTypeId
-     * @return Magento_Sales_Model_Resource_Setup
+     * @return \Magento\Sales\Model\Resource\Setup
      */
     protected function _addGridAttribute($table, $attribute, $attr, $entityTypeId)
     {
@@ -174,25 +176,25 @@ class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
         $length = null;
         switch ($data['type']) {
             case 'timestamp':
-                $type = Magento_DB_Ddl_Table::TYPE_TIMESTAMP;
+                $type = \Magento\DB\Ddl\Table::TYPE_TIMESTAMP;
                 break;
             case 'datetime':
-                $type = Magento_DB_Ddl_Table::TYPE_DATETIME;
+                $type = \Magento\DB\Ddl\Table::TYPE_DATETIME;
                 break;
             case 'decimal':
-                $type = Magento_DB_Ddl_Table::TYPE_DECIMAL;
+                $type = \Magento\DB\Ddl\Table::TYPE_DECIMAL;
                 $length = '12,4';
                 break;
             case 'int':
-                $type = Magento_DB_Ddl_Table::TYPE_INTEGER;
+                $type = \Magento\DB\Ddl\Table::TYPE_INTEGER;
                 break;
             case 'text':
-                $type = Magento_DB_Ddl_Table::TYPE_TEXT;
+                $type = \Magento\DB\Ddl\Table::TYPE_TEXT;
                 $length = 65536;
                 break;
             case 'char':
             case 'varchar':
-                $type = Magento_DB_Ddl_Table::TYPE_TEXT;
+                $type = \Magento\DB\Ddl\Table::TYPE_TEXT;
                 $length = 255;
                 break;
         }
@@ -210,30 +212,30 @@ class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
     {
         $entities = array(
             'order'                       => array(
-                'entity_model'                   => 'Magento_Sales_Model_Resource_Order',
+                'entity_model'                   => 'Magento\Sales\Model\Resource\Order',
                 'table'                          => 'sales_flat_order',
-                'increment_model'                => 'Magento_Eav_Model_Entity_Increment_Numeric',
+                'increment_model'                => 'Magento\Eav\Model\Entity\Increment\Numeric',
                 'increment_per_store'            => true,
                 'attributes'                     => array()
             ),
             'invoice'                       => array(
-                'entity_model'                   => 'Magento_Sales_Model_Resource_Order_Invoice',
+                'entity_model'                   => 'Magento\Sales\Model\Resource\Order\Invoice',
                 'table'                          => 'sales_flat_invoice',
-                'increment_model'                => 'Magento_Eav_Model_Entity_Increment_Numeric',
+                'increment_model'                => 'Magento\Eav\Model\Entity\Increment\Numeric',
                 'increment_per_store'            => true,
                 'attributes'                     => array()
             ),
             'creditmemo'                       => array(
-                'entity_model'                   => 'Magento_Sales_Model_Resource_Order_Creditmemo',
+                'entity_model'                   => 'Magento\Sales\Model\Resource\Order\Creditmemo',
                 'table'                          => 'sales_flat_creditmemo',
-                'increment_model'                => 'Magento_Eav_Model_Entity_Increment_Numeric',
+                'increment_model'                => 'Magento\Eav\Model\Entity\Increment\Numeric',
                 'increment_per_store'            => true,
                 'attributes'                     => array()
             ),
             'shipment'                       => array(
-                'entity_model'                   => 'Magento_Sales_Model_Resource_Order_Shipment',
+                'entity_model'                   => 'Magento\Sales\Model\Resource\Order\Shipment',
                 'table'                          => 'sales_flat_shipment',
-                'increment_model'                => 'Magento_Eav_Model_Entity_Increment_Numeric',
+                'increment_model'                => 'Magento\Eav\Model\Entity\Increment\Numeric',
                 'increment_per_store'            => true,
                 'attributes'                     => array()
             )
@@ -244,7 +246,7 @@ class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
     /**
      * Get Core Helper
      *
-     * @return Magento_Core_Helper_Data
+     * @return \Magento\Core\Helper\Data
      */
     public function getCoreData()
     {
@@ -254,7 +256,7 @@ class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
     /**
      * Get config model
      *
-     * @return Magento_Core_Model_Config
+     * @return \Magento\Core\Model\Config
      */
     public function getConfigModel()
     {

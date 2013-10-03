@@ -15,13 +15,15 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Type_Configurable_Price extends Magento_Catalog_Model_Product_Type_Price
+namespace Magento\Catalog\Model\Product\Type\Configurable;
+
+class Price extends \Magento\Catalog\Model\Product\Type\Price
 {
     /**
      * Get product final price
      *
      * @param   double $qty
-     * @param   Magento_Catalog_Model_Product $product
+     * @param   \Magento\Catalog\Model\Product $product
      * @return  double
      */
     public function getFinalPrice($qty=null, $product)
@@ -47,7 +49,7 @@ class Magento_Catalog_Model_Product_Type_Configurable_Price extends Magento_Cata
     /**
      * Get Total price for configurable items
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param float $finalPrice
      * @return float
      */

@@ -11,14 +11,16 @@
 /**
  * Cms Hierarchy Node Widget Block
  */
-class Magento_VersionsCms_Block_Widget_Node
-    extends Magento_Core_Block_Html_Link
-    implements Magento_Widget_Block_Interface
+namespace Magento\VersionsCms\Block\Widget;
+
+class Node
+    extends \Magento\Core\Block\Html\Link
+    implements \Magento\Widget\Block\BlockInterface
 {
     /**
      * Current Hierarchy Node Page Instance
      *
-     * @var Magento_VersionsCms_Model_Hierarchy_Node
+     * @var \Magento\VersionsCms\Model\Hierarchy\Node
      */
     protected $_node;
 
@@ -32,34 +34,34 @@ class Magento_VersionsCms_Block_Widget_Node
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_VersionsCms_Model_Hierarchy_NodeFactory
+     * @var \Magento\VersionsCms\Model\Hierarchy\NodeFactory
      */
     protected $_hierarchyNodeFactory;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_VersionsCms_Model_Hierarchy_NodeFactory $hierarchyNodeFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $hierarchyNodeFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_VersionsCms_Model_Hierarchy_NodeFactory $hierarchyNodeFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\VersionsCms\Model\Hierarchy\NodeFactory $hierarchyNodeFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -155,7 +157,7 @@ class Magento_VersionsCms_Block_Widget_Node
     {
         $dataKeys = array(
             $key . '_' . $this->_getStoreId(),
-            $key . '_' . Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID,
+            $key . '_' . \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID,
             $key,
         );
         foreach($dataKeys as $value) {

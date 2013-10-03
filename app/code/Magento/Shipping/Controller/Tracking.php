@@ -16,38 +16,40 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Shipping_Controller_Tracking extends Magento_Core_Controller_Front_Action
+namespace Magento\Shipping\Controller;
+
+class Tracking extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry;
 
     /**
-     * @var Magento_Shipping_Model_InfoFactory
+     * @var \Magento\Shipping\Model\InfoFactory
      */
     protected $_shippingInfoFactory;
 
     /**
-     * @var Magento_Sales_Model_OrderFactory
+     * @var \Magento\Sales\Model\OrderFactory
      */
     protected $_orderFactory;
 
     /**
-     * @param Magento_Core_Controller_Varien_Action_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Shipping_Model_InfoFactory $shippingInfoFactory
-     * @param Magento_Sales_Model_OrderFactory $orderFactory
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Shipping\Model\InfoFactory $shippingInfoFactory
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
      */
     public function __construct(
-        Magento_Core_Controller_Varien_Action_Context $context,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Shipping_Model_InfoFactory $shippingInfoFactory,
-        Magento_Sales_Model_OrderFactory $orderFactory
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Shipping\Model\InfoFactory $shippingInfoFactory,
+        \Magento\Sales\Model\OrderFactory $orderFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_customerSession = $customerSession;
@@ -67,8 +69,8 @@ class Magento_Shipping_Controller_Tracking extends Magento_Core_Controller_Front
             $response = '';
             $tracks = $order->getTracksCollection();
 
-            $block = $this->_objectManager->create('Magento_Core_Block_Template');
-            $block->setType('Magento_Core_Block_Template')
+            $block = $this->_objectManager->create('Magento\Core\Block\Template');
+            $block->setType('Magento\Core\Block\Template')
                 ->setTemplate('order/trackinginfo.phtml');
 
             foreach ($tracks as $track) {
@@ -101,7 +103,7 @@ class Magento_Shipping_Controller_Tracking extends Magento_Core_Controller_Front
     /**
      * Initialize order model instance
      *
-     * @return Magento_Sales_Model_Order || false
+     * @return \Magento\Sales\Model\Order || false
      */
     protected function _initOrder()
     {

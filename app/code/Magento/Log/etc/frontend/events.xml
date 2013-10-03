@@ -9,21 +9,21 @@
 -->
 <config>
     <event name="controller_action_predispatch">
-        <observer name="log" instance="Magento_Log_Model_Visitor" method="initByRequest" />
+        <observer name="log" instance="Magento\Log\Model\Visitor" method="initByRequest" />
     </event>
     <event name="controller_action_postdispatch">
-        <observer name="log" instance="Magento_Log_Model_Visitor" method="saveByRequest" />
+        <observer name="log" instance="Magento\Log\Model\Visitor" method="saveByRequest" />
     </event>
     <event name="customer_login">
-        <observer name="log" instance="Magento_Log_Model_Visitor" method="bindCustomerLogin" />
+        <observer name="log" instance="Magento\Log\Model\Visitor" method="bindCustomerLogin" />
     </event>
     <event name="customer_logout">
-        <observer name="log" instance="Magento_Log_Model_Visitor" method="bindCustomerLogout" />
+        <observer name="log" instance="Magento\Log\Model\Visitor" method="bindCustomerLogout" />
     </event>
     <event name="sales_quote_save_after">
-        <observer name="log" instance="Magento_Log_Model_Visitor" method="bindQuoteCreate" />
+        <observer name="log" instance="Magento\Log\Model\Visitor" method="bindQuoteCreate" />
     </event>
     <event name="checkout_quote_destroy">
-        <observer name="log" instance="Magento_Log_Model_Visitor" method="bindQuoteDestroy" />
+        <observer name="log" instance="Magento\Log\Model\Visitor" method="bindQuoteDestroy" />
     </event>
 </config>

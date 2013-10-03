@@ -1,41 +1,43 @@
 <?php
 /**
- * Test class for Magento_Webapi_Block_Adminhtml_Role_Edit
+ * Test class for \Magento\Webapi\Block\Adminhtml\Role\Edit
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Block_Adminhtml_Role_EditTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Block\Adminhtml\Role;
+
+class EditTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Controller_Request_Http|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Controller\Request\Http|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_request;
 
     /**
-     * @var Magento_Backend_Model_Url|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Backend\Model\Url|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_urlBuilder;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Core_Helper_Data
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Helper\Data
      */
     protected $_coreData;
 
     /**
-     * @var Magento_Webapi_Block_Adminhtml_Role_Edit
+     * @var \Magento\Webapi\Block\Adminhtml\Role\Edit
      */
     protected $_block;
 
     protected function setUp()
     {
-        $this->_urlBuilder = $this->getMockBuilder('Magento_Backend_Model_Url')
+        $this->_urlBuilder = $this->getMockBuilder('Magento\Backend\Model\Url')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_request = $this->getMockBuilder('Magento_Core_Controller_Request_Http')
+        $this->_request = $this->getMockBuilder('Magento\Core\Controller\Request\Http')
             ->disableOriginalConstructor()
             ->setMethods(array('getParam'))
             ->getMock();
@@ -45,23 +47,23 @@ class Magento_Webapi_Block_Adminhtml_Role_EditTest extends PHPUnit_Framework_Tes
             ->with('role_id')
             ->will($this->returnValue(1));
 
-        $this->_coreData = $this->getMockBuilder('Magento_Core_Helper_Data')
+        $this->_coreData = $this->getMockBuilder('Magento\Core\Helper\Data')
             ->disableOriginalConstructor()
             ->setMethods(array('escapeHtml'))
             ->getMock();
 
-        $helperFactory = $this->getMockBuilder('Magento_Core_Model_Factory_Helper')
+        $helperFactory = $this->getMockBuilder('Magento\Core\Model\Factory\Helper')
             ->disableOriginalConstructor()
             ->setMethods(array('get'))
             ->getMock();
 
         $helperFactory->expects($this->any())
             ->method('get')
-            ->with($this->equalTo('Magento_Core_Helper_Data'))
+            ->with($this->equalTo('Magento\Core\Helper\Data'))
             ->will($this->returnValue($this->_coreData));
 
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_block = $helper->getObject('Magento_Webapi_Block_Adminhtml_Role_Edit', array(
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_block = $helper->getObject('Magento\Webapi\Block\Adminhtml\Role\Edit', array(
             'urlBuilder' => $this->_urlBuilder,
             'request' => $this->_request,
             'helperFactory' => $helperFactory,
@@ -100,7 +102,7 @@ class Magento_Webapi_Block_Adminhtml_Role_EditTest extends PHPUnit_Framework_Tes
      */
     public function testGetHeaderText()
     {
-        $apiRole = new Magento_Object();
+        $apiRole = new \Magento\Object();
         $this->_block->setApiRole($apiRole);
         $this->assertEquals('New API Role', $this->_block->getHeaderText());
 
@@ -123,7 +125,7 @@ class Magento_Webapi_Block_Adminhtml_Role_EditTest extends PHPUnit_Framework_Tes
      */
     protected function _assertBlockHasButton($level, $buttonId, $label)
     {
-        $buttonsProperty = new ReflectionProperty($this->_block, '_buttons');
+        $buttonsProperty = new \ReflectionProperty($this->_block, '_buttons');
         $buttonsProperty->setAccessible(true);
         $buttons = $buttonsProperty->getValue($this->_block);
         $this->assertInternalType('array', $buttons, 'Cannot get block buttons.');

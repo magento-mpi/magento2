@@ -11,7 +11,9 @@
 /**
  * Db migration logger. Output result put to file
  */
-class Magento_Tools_Migration_Acl_Db_Logger_File extends Magento_Tools_Migration_Acl_Db_LoggerAbstract
+namespace Magento\Tools\Migration\Acl\Db\Logger;
+
+class File extends \Magento\Tools\Migration\Acl\Db\AbstractLogger
 {
     /**
      * Path to log file
@@ -27,11 +29,11 @@ class Magento_Tools_Migration_Acl_Db_Logger_File extends Magento_Tools_Migration
             mkdir($logDir, 0777, true);
         }
         if (false == is_writeable($logDir)) {
-            throw new InvalidArgumentException('Directory ' . dirname($logDir) . ' is not writeable');
+            throw new \InvalidArgumentException('Directory ' . dirname($logDir) . ' is not writeable');
         }
 
         if (empty($file)) {
-            throw new InvalidArgumentException('Log file name is required');
+            throw new \InvalidArgumentException('Log file name is required');
         }
         $this->_file = $logDir . $file;
     }

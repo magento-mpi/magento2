@@ -15,7 +15,9 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Block_Adminhtml_Items extends Magento_Adminhtml_Block_Widget_Grid_Container
+namespace Magento\GoogleShopping\Block\Adminhtml;
+
+class Items extends \Magento\Adminhtml\Block\Widget\Grid\Container
 {
 
     protected $_template = 'items.phtml';
@@ -23,20 +25,20 @@ class Magento_GoogleShopping_Block_Adminhtml_Items extends Magento_Adminhtml_Blo
     /**
      * Flag factory
      *
-     * @var Magento_GoogleShopping_Model_FlagFactory
+     * @var \Magento\GoogleShopping\Model\FlagFactory
      */
     protected $_flagFactory;
 
     /**
-     * @param Magento_GoogleShopping_Model_FlagFactory $flagFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\GoogleShopping\Model\FlagFactory $flagFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_GoogleShopping_Model_FlagFactory $flagFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\GoogleShopping\Model\FlagFactory $flagFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_flagFactory = $flagFactory;
@@ -47,13 +49,13 @@ class Magento_GoogleShopping_Block_Adminhtml_Items extends Magento_Adminhtml_Blo
     /**
      * Preparing layout
      *
-     * @return Magento_GoogleShopping_Block_Adminhtml_Items
+     * @return \Magento\GoogleShopping\Block\Adminhtml\Items
      */
     protected function _prepareLayout()
     {
-        $this->addChild('item', 'Magento_GoogleShopping_Block_Adminhtml_Items_Item');
-        $this->addChild('product', 'Magento_GoogleShopping_Block_Adminhtml_Items_Product');
-        $this->addChild('store_switcher', 'Magento_GoogleShopping_Block_Adminhtml_Store_Switcher');
+        $this->addChild('item', 'Magento\GoogleShopping\Block\Adminhtml\Items\Item');
+        $this->addChild('product', 'Magento\GoogleShopping\Block\Adminhtml\Items\Product');
+        $this->addChild('store_switcher', 'Magento\GoogleShopping\Block\Adminhtml\Store\Switcher');
 
         return $this;
     }
@@ -75,7 +77,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Items extends Magento_Adminhtml_Blo
      */
     public function getCaptchaHtml()
     {
-        return $this->getLayout()->createBlock('Magento_GoogleShopping_Block_Adminhtml_Captcha')
+        return $this->getLayout()->createBlock('Magento\GoogleShopping\Block\Adminhtml\Captcha')
             ->setGcontentCaptchaToken($this->getGcontentCaptchaToken())
             ->setGcontentCaptchaUrl($this->getGcontentCaptchaUrl())
             ->toHtml();
@@ -84,7 +86,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Items extends Magento_Adminhtml_Blo
     /**
      * Get selecetd store
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getStore()
     {

@@ -9,17 +9,19 @@
  * @license     {license_link}
  */
 
-class Magento_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
+namespace Magento\PageCache\Model;
+
+class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_PageCache_Model_Observer
+     * @var \Magento\PageCache\Model\Observer
      */
     protected $_observer;
 
     protected function setUp()
     {
-        $this->_observer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_PageCache_Model_Observer');
+        $this->_observer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\PageCache\Model\Observer');
     }
 
     /**
@@ -27,11 +29,11 @@ class Magento_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     public function testSetNoCacheCookie()
     {
-        /** @var $cookie Magento_Core_Model_Cookie */
-        $cookie = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Cookie');
-        $this->assertEmpty($cookie->get(Magento_PageCache_Helper_Data::NO_CACHE_COOKIE));
-        $this->_observer->setNoCacheCookie(new Magento_Event_Observer());
-        $this->assertNotEmpty($cookie->get(Magento_PageCache_Helper_Data::NO_CACHE_COOKIE));
+        /** @var $cookie \Magento\Core\Model\Cookie */
+        $cookie = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Cookie');
+        $this->assertEmpty($cookie->get(\Magento\PageCache\Helper\Data::NO_CACHE_COOKIE));
+        $this->_observer->setNoCacheCookie(new \Magento\Event\Observer());
+        $this->assertNotEmpty($cookie->get(\Magento\PageCache\Helper\Data::NO_CACHE_COOKIE));
     }
 
     /**
@@ -39,10 +41,10 @@ class Magento_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     public function testDeleteNoCacheCookie()
     {
-        /** @var $cookie Magento_Core_Model_Cookie */
-        $cookie = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Cookie');
-        $cookie->set(Magento_PageCache_Helper_Data::NO_CACHE_COOKIE, '1');
-        $this->_observer->deleteNoCacheCookie(new Magento_Event_Observer());
-        $this->assertEmpty($cookie->get(Magento_PageCache_Helper_Data::NO_CACHE_COOKIE));
+        /** @var $cookie \Magento\Core\Model\Cookie */
+        $cookie = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Cookie');
+        $cookie->set(\Magento\PageCache\Helper\Data::NO_CACHE_COOKIE, '1');
+        $this->_observer->deleteNoCacheCookie(new \Magento\Event\Observer());
+        $this->assertEmpty($cookie->get(\Magento\PageCache\Helper\Data::NO_CACHE_COOKIE));
     }
 }

@@ -8,7 +8,7 @@
 return array(
     'new_products' => array(
         '@' => array(
-            'type' => 'Magento_Sales_Block_Widget_Guest_Form',
+            'type' => 'Magento\Sales\Block\Widget\Guest\Form',
         ),
         'is_email_compatible' => '1',
         'placeholder_image' => 'Magento_Catalog::images/product_widget_new.gif',
@@ -34,7 +34,7 @@ return array(
                 'description' => 'All products - recently added products, New products - products marked as new',
             ),
             'show_pager' => array(
-                'source_model' => "Magento_Backend_Model_Config_Source_Yesno",
+                'source_model' => "Magento\Backend\Model\Config\Source\Yesno",
                 'type' => 'select',
                 'visible' => '1',
                 'label' => 'Display Page Control',

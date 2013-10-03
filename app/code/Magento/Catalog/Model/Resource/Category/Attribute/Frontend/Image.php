@@ -16,25 +16,27 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Category_Attribute_Frontend_Image
-    extends Magento_Eav_Model_Entity_Attribute_Frontend_Abstract
+namespace Magento\Catalog\Model\Resource\Category\Attribute\Frontend;
+
+class Image
+    extends \Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend
 {
     const IMAGE_PATH_SEGMENT = 'catalog/category/';
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_storeManager = $storeManager;
     }
@@ -42,7 +44,7 @@ class Magento_Catalog_Model_Resource_Category_Attribute_Frontend_Image
     /**
      * Return image url
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return string|null
      */
     public function getUrl($object)
@@ -50,7 +52,7 @@ class Magento_Catalog_Model_Resource_Category_Attribute_Frontend_Image
         $url = false;
         if ($image = $object->getData($this->getAttribute()->getAttributeCode())) {
             $url = $this->_storeManager->getStore()
-                ->getBaseUrl(Magento_Core_Model_Store::URL_TYPE_MEDIA) . self::IMAGE_PATH_SEGMENT . $image;
+                ->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_MEDIA) . self::IMAGE_PATH_SEGMENT . $image;
         }
         return $url;
     }

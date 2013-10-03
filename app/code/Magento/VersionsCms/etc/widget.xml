@@ -9,14 +9,14 @@
 -->
 <widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../../../Magento/Widget/etc/widget.xsd">
-    <widget id="cms_hierarchy_node" class="Magento_VersionsCms_Block_Widget_Node" is_email_compatible="true"
+    <widget id="cms_hierarchy_node" class="Magento\VersionsCms\Block\Widget\Node" is_email_compatible="true"
             placeholder_image="Magento_VersionsCms::widget_node.gif">
         <label translate="true">CMS Hierarchy Node Link</label>
         <description translate="true">Link to Specified CMS Hierarchy Node</description>
         <parameters>
             <parameter name="node_id" xsi:type="block" visible="true" required="true" sort_order="10">
                 <label translate="true">Node</label>
-                <block class="Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser">
+                <block class="Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Chooser">
                     <data>
                         <item name="button" xsi:type="array">
                             <item name="open" xsi:type="string">Select a page or node.</item>

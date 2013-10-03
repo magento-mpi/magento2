@@ -11,7 +11,9 @@
 /**
  * Block that renders group of files
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Css_Group extends Magento_Backend_Block_Widget_Form
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Css;
+
+class Group extends \Magento\Backend\Block\Widget\Form
 {
     /**
      * Get url to download CSS file
@@ -24,7 +26,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Css_Group extends M
     {
         return $this->getUrl('*/system_design_theme/downloadCss', array(
             'theme_id' => $themeId,
-            'file'     => $this->_helperFactory->get('Magento_DesignEditor_Helper_Data')->urlEncode($fileId)
+            'file'     => $this->_helperFactory->get('Magento\DesignEditor\Helper\Data')->urlEncode($fileId)
         ));
     }
 

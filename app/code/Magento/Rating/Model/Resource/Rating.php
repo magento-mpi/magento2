@@ -15,42 +15,44 @@
  * @package     Magento_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rating_Model_Resource_Rating extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Rating\Model\Resource;
+
+class Rating extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     const RATING_STATUS_APPROVED = 'Approved';
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
      * Rating data
      *
-     * @var Magento_Rating_Helper_Data
+     * @var \Magento\Rating\Helper\Data
      */
     protected $_ratingData = null;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Rating_Helper_Data $ratingData
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Review_Model_Resource_Review_Summary $reviewSummary
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Rating\Helper\Data $ratingData
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Review\Model\Resource\Review\Summary $reviewSummary
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Rating_Helper_Data $ratingData,
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Review_Model_Resource_Review_Summary $reviewSummary
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Rating\Helper\Data $ratingData,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Review\Model\Resource\Review\Summary $reviewSummary
     ) {
         $this->_ratingData = $ratingData;
         $this->_storeManager = $storeManager;
@@ -70,7 +72,7 @@ class Magento_Rating_Model_Resource_Rating extends Magento_Core_Model_Resource_D
     /**
      * Initialize unique fields
      *
-     * @return Magento_Rating_Model_Resource_Rating
+     * @return \Magento\Rating\Model\Resource\Rating
      */
     protected function _initUniqueFields()
     {
@@ -86,8 +88,8 @@ class Magento_Rating_Model_Resource_Rating extends Magento_Core_Model_Resource_D
      *
      * @param string $field
      * @param mixed $value
-     * @param Magento_Rating_Model_Rating $object
-     * @return Magento_DB_Select
+     * @param \Magento\Rating\Model\Rating $object
+     * @return \Magento\DB\Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {
@@ -109,10 +111,10 @@ class Magento_Rating_Model_Resource_Rating extends Magento_Core_Model_Resource_D
     /**
      * Actions after load
      *
-     * @param Magento_Core_Model_Abstract|Magento_Rating_Model_Rating $object
-     * @return Magento_Rating_Model_Resource_Rating
+     * @param \Magento\Core\Model\AbstractModel|\Magento\Rating\Model\Rating $object
+     * @return \Magento\Rating\Model\Resource\Rating
      */
-    protected function _afterLoad(Magento_Core_Model_Abstract $object)
+    protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
     {
         parent::_afterLoad($object);
 
@@ -155,10 +157,10 @@ class Magento_Rating_Model_Resource_Rating extends Magento_Core_Model_Resource_D
     /**
      * Actions after save
      *
-     * @param Magento_Core_Model_Abstract|Magento_Rating_Model_Rating $object
-     * @return Magento_Rating_Model_Resource_Rating
+     * @param \Magento\Core\Model\AbstractModel|\Magento\Rating\Model\Rating $object
+     * @return \Magento\Rating\Model\Resource\Rating
      */
-    protected function _afterSave(Magento_Core_Model_Abstract $object)
+    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
         parent::_afterSave($object);
 
@@ -199,7 +201,7 @@ class Magento_Rating_Model_Resource_Rating extends Magento_Core_Model_Resource_D
                     }
                 }
                 $adapter->commit();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_logger->logException($e);
                 $adapter->rollBack();
             }
@@ -238,7 +240,7 @@ class Magento_Rating_Model_Resource_Rating extends Magento_Core_Model_Resource_D
                 }
 
                 $adapter->commit();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_logger->logException($e);
                 $adapter->rollBack();
             }
@@ -251,10 +253,10 @@ class Magento_Rating_Model_Resource_Rating extends Magento_Core_Model_Resource_D
      * Perform actions after object delete
      * Prepare rating data for reaggregate all data for reviews
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return $this|Magento_Core_Model_Resource_Db_Abstract
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return $this|\Magento\Core\Model\Resource\Db\AbstractDb
      */
-    protected function _afterDelete(Magento_Core_Model_Abstract $object)
+    protected function _afterDelete(\Magento\Core\Model\AbstractModel $object)
     {
         parent::_afterDelete($object);
         if (!$this->_ratingData->isModuleEnabled('Magento_Review')) {
@@ -274,7 +276,7 @@ class Magento_Rating_Model_Resource_Rating extends Magento_Core_Model_Resource_D
     /**
      * Return array of rating summary
      *
-     * @param Magento_Rating_Model_Rating $object
+     * @param \Magento\Rating\Model\Rating $object
      * @param boolean $onlyForCurrentStore
      * @return array
      */
@@ -316,15 +318,15 @@ class Magento_Rating_Model_Resource_Rating extends Magento_Core_Model_Resource_D
     /**
      * Return data of rating summary
      *
-     * @param Magento_Rating_Model_Rating $object
+     * @param \Magento\Rating\Model\Rating $object
      * @return array
      */
     protected function _getEntitySummaryData($object)
     {
         $adapter    = $this->_getReadAdapter();
 
-        $sumColumn      = new Zend_Db_Expr("SUM(rating_vote.{$adapter->quoteIdentifier('percent')})");
-        $countColumn    = new Zend_Db_Expr("COUNT(*)");
+        $sumColumn      = new \Zend_Db_Expr("SUM(rating_vote.{$adapter->quoteIdentifier('percent')})");
+        $countColumn    = new \Zend_Db_Expr("COUNT(*)");
 
         $select = $adapter->select()
             ->from(array('rating_vote' => $this->getTable('rating_option_vote')),
@@ -365,7 +367,7 @@ class Magento_Rating_Model_Resource_Rating extends Magento_Core_Model_Resource_D
     /**
      * Review summary
      *
-     * @param Magento_Rating_Model_Rating $object
+     * @param \Magento\Rating\Model\Rating $object
      * @param boolean $onlyForCurrentStore
      * @return array
      */
@@ -373,8 +375,8 @@ class Magento_Rating_Model_Resource_Rating extends Magento_Core_Model_Resource_D
     {
         $adapter = $this->_getReadAdapter();
 
-        $sumColumn      = new Zend_Db_Expr("SUM(rating_vote.{$adapter->quoteIdentifier('percent')})");
-        $countColumn    = new Zend_Db_Expr('COUNT(*)');
+        $sumColumn      = new \Zend_Db_Expr("SUM(rating_vote.{$adapter->quoteIdentifier('percent')})");
+        $countColumn    = new \Zend_Db_Expr('COUNT(*)');
         $select = $adapter->select()
             ->from(array('rating_vote' => $this->getTable('rating_option_vote')),
                 array(
@@ -451,11 +453,11 @@ class Magento_Rating_Model_Resource_Rating extends Magento_Core_Model_Resource_D
      * Delete ratings by product id
      *
      * @param int $productId
-     * @return Magento_Rating_Model_Resource_Rating
+     * @return \Magento\Rating\Model\Resource\Rating
      */
     public function deleteAggregatedRatingsByProductId($productId)
     {
-        $entityId = $this->getEntityIdByCode(Magento_Rating_Model_Rating::ENTITY_PRODUCT_CODE);
+        $entityId = $this->getEntityIdByCode(\Magento\Rating\Model\Rating::ENTITY_PRODUCT_CODE);
         $adapter  = $this->_getWriteAdapter();
         $select   = $adapter->select()
             ->from($this->getMainTable(), 'rating_id')

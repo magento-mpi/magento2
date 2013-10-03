@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Index_Model_Indexer_ConfigInterface
+namespace Magento\Index\Model\Indexer;
+
+interface ConfigInterface
 {
     /**
      * Get indexer data by name

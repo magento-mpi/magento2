@@ -15,37 +15,39 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_Grid
-    extends Magento_Backend_Block_Widget_Grid_Extended
+namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Search;
+
+class Grid
+    extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Bundle data
      *
-     * @var Magento_Bundle_Helper_Data
+     * @var \Magento\Bundle\Helper\Data
      */
     protected $_bundleData = null;
 
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Bundle_Helper_Data $bundleData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Bundle\Helper\Data $bundleData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Bundle_Helper_Data $bundleData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Bundle\Helper\Data $bundleData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
         array $data = array()
     ) {
         $this->_bundleData = $bundleData;
@@ -131,7 +133,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Sear
             array(
                 'header' => __('ID'),
                 'index' => 'entity_id',
-                'renderer' => 'Magento_Backend_Block_Widget_Grid_Column_Renderer_Checkbox',
+                'renderer' => 'Magento\Backend\Block\Widget\Grid\Column\Renderer\Checkbox',
                 'type' => 'skip-list'
             )
         );

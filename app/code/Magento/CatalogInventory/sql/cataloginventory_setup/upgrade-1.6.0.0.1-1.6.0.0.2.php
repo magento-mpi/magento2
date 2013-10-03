@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_Eav_Model_Entity_Setup */
+/** @var $installer \Magento\Eav\Model\Entity\Setup */
 $installer = $this;
 
 /**
@@ -19,7 +19,7 @@ $installer->getConnection()
         $installer->getTable('cataloginventory_stock_item'),
         'is_decimal_divided',
         array(
-            'TYPE' => Magento_DB_Ddl_Table::TYPE_SMALLINT,
+            'TYPE' => \Magento\DB\Ddl\Table::TYPE_SMALLINT,
             'LENGTH' => 5,
             'UNSIGNED' => true,
             'NULLABLE' => false,

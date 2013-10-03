@@ -15,21 +15,23 @@
  * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator extends Zend_Validate_InArray
+namespace Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype;
+
+class Validator extends \Zend_Validate_InArray
 {
 
     /**
      * Eav data
      *
-     * @var Magento_Eav_Helper_Data
+     * @var \Magento\Eav\Helper\Data
      */
     protected $_eavData = null;
 
     /**
-     * @param Magento_Eav_Helper_Data $eavData
+     * @param \Magento\Eav\Helper\Data $eavData
      */
     public function __construct(
-        Magento_Eav_Helper_Data $eavData
+        \Magento\Eav\Helper\Data $eavData
     ) {
         $this->_eavData = $eavData;
         //set data haystack
@@ -49,7 +51,7 @@ class Magento_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator exten
     /**
      * Initialize message templates with translating
      *
-     * @return Magento_Adminhtml_Model_Core_File_Validator_SavePath_Available
+     * @return \Magento\Core\Model\File\Validator\AvailablePath
      */
     protected function _initMessageTemplates()
     {
@@ -66,7 +68,7 @@ class Magento_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator exten
      * Add input type to haystack
      *
      * @param string $type
-     * @return Magento_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator
+     * @return \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\Validator
      */
     public function addInputType($type)
     {

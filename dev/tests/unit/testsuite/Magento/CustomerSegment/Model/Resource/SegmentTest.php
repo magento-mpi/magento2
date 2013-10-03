@@ -6,42 +6,44 @@
  * @license     {license_link}
  */
 
-class Magento_CustomerSegment_Model_Resource_SegmentTest extends PHPUnit_Framework_TestCase
+namespace Magento\CustomerSegment\Model\Resource;
+
+class SegmentTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_CustomerSegment_Model_Resource_Segment
+     * @var \Magento\CustomerSegment\Model\Resource\Segment
      */
     protected $_resourceModel;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_resource;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_writeAdapter;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configShare;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_conditions;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_segment;
 
     protected function setUp()
     {
         $this->_writeAdapter = $this->getMockForAbstractClass(
-            'Magento_DB_Adapter_Interface', array(), '', false, true, true,
+            'Magento\DB\Adapter\AdapterInterface', array(), '', false, true, true,
             array(
                 'query',
                 'insertMultiple',
@@ -51,7 +53,7 @@ class Magento_CustomerSegment_Model_Resource_SegmentTest extends PHPUnit_Framewo
         );
 
         $this->_resource = $this->getMock(
-            'Magento_Core_Model_Resource', array('getConnection', 'getTableName'), array(), '', false
+            'Magento\Core\Model\Resource', array('getConnection', 'getTableName'), array(), '', false
         );
         $this->_resource->expects($this->any())->method('getTableName')->will($this->returnArgument(0));
         $this->_resource
@@ -62,16 +64,16 @@ class Magento_CustomerSegment_Model_Resource_SegmentTest extends PHPUnit_Framewo
                 array('core_write', $this->_writeAdapter),
             )));
 
-        $this->_configShare = $this->getMock('Magento_Customer_Model_Config_Share',
+        $this->_configShare = $this->getMock('Magento\Customer\Model\Config\Share',
             array('isGlobalScope'), array(), '', false);
-        $this->_segment = $this->getMock('Magento_CustomerSegment_Model_Segment',
+        $this->_segment = $this->getMock('Magento\CustomerSegment\Model\Segment',
             array('getConditions', 'getWebsiteIds', 'getId'), array(), '', false);
 
-        $this->_conditions = $this->getMock('Magento_CustomerSegment_Model_Segment_Condition_Combine_Root',
+        $this->_conditions = $this->getMock('Magento\CustomerSegment\Model\Segment\Condition\Combine\Root',
             array('getConditionsSql', 'getConditions'), array(), '', false);
 
-        $this->_resourceModel = new Magento_CustomerSegment_Model_Resource_Segment(
-            $this->getMock('Magento_Core_Model_Resource_HelperPool', array(), array(), '', false),
+        $this->_resourceModel = new \Magento\CustomerSegment\Model\Resource\Segment(
+            $this->getMock('Magento\Core\Model\Resource\HelperPool', array(), array(), '', false),
             $this->_resource,
             $this->_configShare
         );
@@ -82,7 +84,7 @@ class Magento_CustomerSegment_Model_Resource_SegmentTest extends PHPUnit_Framewo
      */
     public function testSaveCustomersFromSelect()
     {
-        $select = $this->getMock('Magento_DB_Select', array('joinLeft', 'from', 'columns'), array(), '', false);
+        $select = $this->getMock('Magento\DB\Select', array('joinLeft', 'from', 'columns'), array(), '', false);
         $this->_segment->expects($this->any())
             ->method('getId')
             ->will($this->returnValue(3));
@@ -140,7 +142,7 @@ class Magento_CustomerSegment_Model_Resource_SegmentTest extends PHPUnit_Framewo
      */
     public function testAggregateMatchedCustomersOneWebsite($scope, $websites, $websiteIds)
     {
-        $select = $this->getMock('Magento_DB_Select', array('joinLeft', 'from', 'columns'), array(), '', false);
+        $select = $this->getMock('Magento\DB\Select', array('joinLeft', 'from', 'columns'), array(), '', false);
         $this->_conditions->expects($this->once())
             ->method('getConditionsSql')
             ->with($this->isNull(), $this->equalTo($websiteIds))

@@ -7,63 +7,65 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_TemplateEngine_Twig_CommonFunctions
+namespace Magento\Core\Model\TemplateEngine\Twig;
+
+class CommonFunctions
 {
     /**
-     * @var Magento_Core_Model_UrlInterface
+     * @var \Magento\Core\Model\UrlInterface
      */
     private $_urlBuilder;
 
     /**
-     * @var Magento_Core_Helper_Url
+     * @var \Magento\Core\Helper\Url
      */
     private $_urlHelper;
 
     /**
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     private $_dataHelper;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     private $_storeManager;
 
     /**
-     * @var Magento_Core_Model_View_Url
+     * @var \Magento\Core\Model\View\Url
      */
     private $_viewUrl;
 
     /**
-     * @var Magento_Core_Model_View_Config
+     * @var \Magento\Core\Model\View\Config
      */
     private $_viewConfig;
 
     /**
-     * @var Magento_Catalog_Helper_Image
+     * @var \Magento\Catalog\Helper\Image
      */
     private $_helperImage;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     private $_logger;
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     private $_locale;
 
     public function __construct(
-        Magento_Core_Model_UrlInterface $urlBuilder,
-        Magento_Core_Helper_Url $urlHelper,
-        Magento_Core_Helper_Data $dataHelper,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_View_Url $viewUrl,
-        Magento_Core_Model_View_Config $viewConfig,
-        Magento_Catalog_Helper_Image $helperImage,
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_LocaleInterface $locale
+        \Magento\Core\Model\UrlInterface $urlBuilder,
+        \Magento\Core\Helper\Url $urlHelper,
+        \Magento\Core\Helper\Data $dataHelper,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\Core\Model\View\Config $viewConfig,
+        \Magento\Catalog\Helper\Image $helperImage,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\LocaleInterface $locale
     ) {
         $this->_urlBuilder = $urlBuilder;
         $this->_urlHelper = $urlHelper;
@@ -85,19 +87,19 @@ class Magento_Core_Model_TemplateEngine_Twig_CommonFunctions
     {
         $options = array('is_safe' => array('html'));
         return array(
-            new Twig_SimpleFunction('viewFileUrl', array($this, 'getViewFileUrl'), $options),
-            new Twig_SimpleFunction('getSelectHtml', array($this, 'getSelectHtml'), $options),
-            new Twig_SimpleFunction('getDateFormat', array($this->_locale, 'getDateFormat')),
-            new Twig_SimpleFunction('getSelectFromToHtml', array($this, 'getSelectFromToHtml'), $options),
-            new Twig_SimpleFunction('getUrl', array($this->_urlBuilder, 'getUrl'), $options),
-            new Twig_SimpleFunction('encodeUrl', array($this->_urlHelper, 'getEncodedUrl'), $options),
-            new Twig_SimpleFunction('getCurrentUrl', array($this->_urlHelper, 'getCurrentUrl'), $options),
-            new Twig_SimpleFunction('isModuleOutputEnabled',
+            new \Twig_SimpleFunction('viewFileUrl', array($this, 'getViewFileUrl'), $options),
+            new \Twig_SimpleFunction('getSelectHtml', array($this, 'getSelectHtml'), $options),
+            new \Twig_SimpleFunction('getDateFormat', array($this->_locale, 'getDateFormat')),
+            new \Twig_SimpleFunction('getSelectFromToHtml', array($this, 'getSelectFromToHtml'), $options),
+            new \Twig_SimpleFunction('getUrl', array($this->_urlBuilder, 'getUrl'), $options),
+            new \Twig_SimpleFunction('encodeUrl', array($this->_urlHelper, 'getEncodedUrl'), $options),
+            new \Twig_SimpleFunction('getCurrentUrl', array($this->_urlHelper, 'getCurrentUrl'), $options),
+            new \Twig_SimpleFunction('isModuleOutputEnabled',
                 array($this->_dataHelper, 'isModuleOutputEnabled'), $options),
-            new Twig_SimpleFunction('getStoreConfig', array($this->_storeManager->getStore(), 'getConfig'), $options),
-            new Twig_SimpleFunction('getDesignVarValue', array($this->_viewConfig->getViewConfig(), 'getVarValue'),
+            new \Twig_SimpleFunction('getStoreConfig', array($this->_storeManager->getStore(), 'getConfig'), $options),
+            new \Twig_SimpleFunction('getDesignVarValue', array($this->_viewConfig->getViewConfig(), 'getVarValue'),
                 $options),
-            new Twig_SimpleFunction('getDefaultImage', array($this->_helperImage, 'getDefaultImage'), $options),
+            new \Twig_SimpleFunction('getDefaultImage', array($this->_helperImage, 'getDefaultImage'), $options),
         );
     }
 
@@ -107,20 +109,20 @@ class Magento_Core_Model_TemplateEngine_Twig_CommonFunctions
      * @param string $file path to file in theme
      * @param array $params
      * @return string
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     public function getViewFileUrl($file = null, array $params = array())
     {
         try {
             return $this->_viewUrl->getViewFileUrl($file, $params);
-        } catch (Magento_Exception $e) {
+        } catch (\Magento\Exception $e) {
             $this->_logger->logException($e);
             return $this->_urlBuilder->getUrl('', array('_direct' => 'core/index/notfound'));
         }
     }
 
     /**
-     * @param Magento_Core_Block_Html_Select $selectBlock
+     * @param \Magento\Core\Block\Html\Select $selectBlock
      * @param $identifier
      * @param $name
      * @param $nameOptionsById
@@ -140,9 +142,9 @@ class Magento_Core_Model_TemplateEngine_Twig_CommonFunctions
     }
 
     /**
-     * From Magento_Catalog_Block_Product_View_Options_Type_Date: Return drop-down html with range of values
+     * From \Magento\Catalog\Block\Product\View\Options\Type\Date: Return drop-down html with range of values
      *
-     * @param Magento_Core_Block_Html_Select $selectBlock
+     * @param \Magento\Core\Block\Html\Select $selectBlock
      * @param string $name Id/name of html select element
      * @param int $fromNumber  Start position
      * @param int $toNumber    End position
@@ -168,14 +170,14 @@ class Magento_Core_Model_TemplateEngine_Twig_CommonFunctions
 
     /**
      * Initializes values in the selection list.
-     * From Magento_Catalog_Block_Product_View_Options_Type_Date: HTML select element
+     * From \Magento\Catalog\Block\Product\View\Options\Type\Date: HTML select element
      *
-     * @param Magento_Core_Block_Html_Select $selectBlock
+     * @param \Magento\Core\Block\Html\Select $selectBlock
      * @param $identifier
      * @param $name
      * @param $nameOptionsById
      * @param null $value
-     * @return Magento_Core_Block_Html_Select
+     * @return \Magento\Core\Block\Html\Select
      */
     protected function _initSelectBlock($selectBlock, $identifier, $name, $nameOptionsById, $value = null)
     {
@@ -198,7 +200,7 @@ class Magento_Core_Model_TemplateEngine_Twig_CommonFunctions
     }
 
     /**
-     * From Magento_Catalog_Block_Product_View_Options_Type_Date: Add Leading Zeros to number less than 10
+     * From \Magento\Catalog\Block\Product\View\Options\Type\Date: Add Leading Zeros to number less than 10
      *
      * @param int|string $value value to pad with zeros
      * @return string

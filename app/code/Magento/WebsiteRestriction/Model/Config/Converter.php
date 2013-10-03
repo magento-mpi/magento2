@@ -1,24 +1,26 @@
 <?php
 /**
- *  Converter of website restrictions configuration from DOMDocument to tree array
+ *  Converter of website restrictions configuration from \DOMDocument to tree array
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_WebsiteRestriction_Model_Config_Converter implements Magento_Config_ConverterInterface
+namespace Magento\WebsiteRestriction\Model\Config;
+
+class Converter implements \Magento\Config\ConverterInterface
 {
     /**
      * Convert config
      *
-     * @param DOMDocument $source
+     * @param \DOMDocument $source
      * @return array
      */
     public function convert($source)
     {
         $output = array();
-        /** @var DOMNodeList $actions */
+        /** @var \DOMNodeList $actions */
         $actions = $source->getElementsByTagName('action');
         /** @var DOMNode $actionConfig */
         foreach ($actions as $actionConfig) {

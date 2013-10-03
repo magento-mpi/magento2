@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Install_Model_EntryPoint_Output
+namespace Magento\Install\Model\EntryPoint;
+
+class Output
 {
     /**
      * Export variable

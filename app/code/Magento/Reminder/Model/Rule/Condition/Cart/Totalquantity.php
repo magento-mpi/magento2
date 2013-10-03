@@ -11,8 +11,10 @@
 /**
  * Cart product qty condition
  */
-class Magento_Reminder_Model_Rule_Condition_Cart_Totalquantity
-    extends Magento_Reminder_Model_Condition_Abstract
+namespace Magento\Reminder\Model\Rule\Condition\Cart;
+
+class Totalquantity
+    extends \Magento\Reminder\Model\Condition\AbstractCondition
 {
     /**
      * @var string
@@ -20,17 +22,17 @@ class Magento_Reminder_Model_Rule_Condition_Cart_Totalquantity
     protected $_inputType = 'numeric';
 
     /**
-     * @param Magento_Rule_Model_Condition_Context $context
-     * @param Magento_Reminder_Model_Resource_Rule $ruleResource
+     * @param \Magento\Rule\Model\Condition\Context $context
+     * @param \Magento\Reminder\Model\Resource\Rule $ruleResource
      * @param array $data
      */
     public function __construct(
-        Magento_Rule_Model_Condition_Context $context,
-        Magento_Reminder_Model_Resource_Rule $ruleResource,
+        \Magento\Rule\Model\Condition\Context $context,
+        \Magento\Reminder\Model\Resource\Rule $ruleResource,
         array $data = array()
     ) {
         parent::__construct($context, $ruleResource, $data);
-        $this->setType('Magento_Reminder_Model_Rule_Condition_Cart_Totalquantity');
+        $this->setType('Magento\Reminder\Model\Rule\Condition\Cart\Totalquantity');
         $this->setValue(null);
     }
 
@@ -62,7 +64,7 @@ class Magento_Reminder_Model_Rule_Condition_Cart_Totalquantity
      *
      * @param $customer
      * @param int|Zend_Db_Expr $website
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)
     {
@@ -70,7 +72,7 @@ class Magento_Reminder_Model_Rule_Condition_Cart_Totalquantity
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('quote' => $table), array(new Zend_Db_Expr(1)));
+        $select->from(array('quote' => $table), array(new \Zend_Db_Expr(1)));
 
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
         $select->where('quote.is_active = 1');

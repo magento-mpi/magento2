@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var $this Magento_Paypal_Block_Express_Review */
+/** @var $this \Magento\Paypal\Block\Express\Review */
 
 $billingBlock = $this->getChildBlock('billing')->setFieldNamePrefix('billing')->setHideEmailAddress(true);
 $shippingAddress = $this->getShippingAddress();
@@ -18,7 +18,7 @@ $shippingAddress = $this->getShippingAddress();
 <?php echo $this->getLayout()->renderElement('messages') ?>
 <script type="text/javascript">
 //<![CDATA[
-    var countryRegions = <?php echo $this->helper('Magento_Directory_Helper_Data')->getRegionJson() ?>
+    var countryRegions = <?php echo $this->helper('Magento\Directory\Helper\Data')->getRegionJson() ?>
 //]]>
 </script>
 <div class="paypal-review-order">

@@ -14,7 +14,7 @@
 final class Mage
 {
     /**
-     * Is allow throw Exception about headers already sent
+     * Is allow throw \Exception about headers already sent
      *
      * @var bool
      */
@@ -27,9 +27,9 @@ final class Mage
      * @param string $type
      * @return string
      */
-    public static function getBaseDir($type = Magento_Core_Model_Dir::ROOT)
+    public static function getBaseDir($type = \Magento\Core\Model\Dir::ROOT)
     {
-        return self::getSingleton('Magento_Core_Model_Dir')->getDir($type);
+        return self::getSingleton('Magento\Core\Model\Dir')->getDir($type);
     }
 
     /**
@@ -41,8 +41,8 @@ final class Mage
      */
     public static function getModuleDir($type, $moduleName)
     {
-        return Magento_Core_Model_ObjectManager::getInstance()
-            ->get('Magento_Core_Model_Config_Modules_Reader')
+        return \Magento\Core\Model\ObjectManager::getInstance()
+            ->get('Magento\Core\Model\Config\Modules\Reader')
             ->getModuleDir($type, $moduleName);
     }
 
@@ -54,7 +54,7 @@ final class Mage
      * @param null|bool $secure
      * @return string
      */
-    public static function getBaseUrl($type = Magento_Core_Model_Store::URL_TYPE_LINK, $secure = null)
+    public static function getBaseUrl($type = \Magento\Core\Model\Store::URL_TYPE_LINK, $secure = null)
     {
         return self::app()->getStore()->getBaseUrl($type, $secure);
     }
@@ -69,8 +69,8 @@ final class Mage
      */
     public static function getUrl($route = '', $params = array())
     {
-        return Magento_Core_Model_ObjectManager::getInstance()
-            ->create('Magento_Core_Model_Url')
+        return \Magento\Core\Model\ObjectManager::getInstance()
+            ->create('Magento\Core\Model\Url')
             ->getUrl($route, $params);
     }
 
@@ -80,14 +80,14 @@ final class Mage
      * @deprecated
      * @param   string $modelClass
      * @param   array|object $arguments
-     * @return  Magento_Core_Model_Abstract|false
+     * @return  \Magento\Core\Model\AbstractModel|false
      */
     public static function getModel($modelClass = '', $arguments = array())
     {
         if (!is_array($arguments)) {
             $arguments = array($arguments);
         }
-        return Magento_Core_Model_ObjectManager::getInstance()->create($modelClass, $arguments);
+        return \Magento\Core\Model\ObjectManager::getInstance()->create($modelClass, $arguments);
     }
 
     /**
@@ -95,14 +95,14 @@ final class Mage
      *
      * @deprecated
      * @param   string $modelClass
-     * @return  Magento_Core_Model_Abstract
+     * @return  \Magento\Core\Model\AbstractModel
      */
     public static function getSingleton($modelClass = '')
     {
         $registryKey = '_singleton/' . $modelClass;
-        $objectManager = Magento_Core_Model_ObjectManager::getInstance();
-        /** @var Magento_Core_Model_Registry $registryObject */
-        $registryObject = $objectManager->get('Magento_Core_Model_Registry');
+        $objectManager = \Magento\Core\Model\ObjectManager::getInstance();
+        /** @var \Magento\Core\Model\Registry $registryObject */
+        $registryObject = $objectManager->get('Magento\Core\Model\Registry');
         if (!$registryObject->registry($registryKey)) {
             $registryObject->register($registryKey, $objectManager->get($modelClass));
         }
@@ -122,7 +122,7 @@ final class Mage
         if (!is_array($arguments)) {
             $arguments = array($arguments);
         }
-        return Magento_Core_Model_ObjectManager::getInstance()->create($modelClass, $arguments);
+        return \Magento\Core\Model\ObjectManager::getInstance()->create($modelClass, $arguments);
     }
 
     /**
@@ -134,9 +134,9 @@ final class Mage
      */
     public static function getResourceSingleton($modelClass = '')
     {
-        $objectManager = Magento_Core_Model_ObjectManager::getInstance();
-        /** @var Magento_Core_Model_Registry $registryObject */
-        $registryObject = $objectManager->get('Magento_Core_Model_Registry');
+        $objectManager = \Magento\Core\Model\ObjectManager::getInstance();
+        /** @var \Magento\Core\Model\Registry $registryObject */
+        $registryObject = $objectManager->get('Magento\Core\Model\Registry');
         $registryKey = '_resource_singleton/' . $modelClass;
         if (!$registryObject->registry($registryKey)) {
             $registryObject->register($registryKey, $objectManager->get($modelClass));
@@ -162,11 +162,11 @@ final class Mage
      *
      * @deprecated
      * @param string $moduleName
-     * @return Magento_Core_Model_Resource_Helper_Abstract
+     * @return \Magento\Core\Model\Resource\Helper\AbstractHelper
      */
     public static function getResourceHelper($moduleName)
     {
-        return Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_Resource_HelperPool')
+        return \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Core\Model\Resource\HelperPool')
             ->get($moduleName);
     }
 
@@ -177,81 +177,82 @@ final class Mage
      * @param string $module
      * @param string $message
      * @param integer $code
-     * @return Magento_Core_Exception
+     * @return \Magento\Core\Exception
      */
     public static function exception($module = 'Magento_Core', $message = '', $code = 0)
     {
-        $className = $module . '_Exception';
+        $module = str_replace('_', \Magento\Autoload\IncludePath::NS_SEPARATOR, $module);
+        $className = $module . \Magento\Autoload\IncludePath::NS_SEPARATOR . 'Exception';
         return new $className($message, $code);
     }
 
     /**
-     * Throw Exception
+     * Throw \Exception
      *
      * @deprecated
      * @param string $message
      * @param string $messageStorage
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public static function throwException($message, $messageStorage = null)
     {
         if ($messageStorage && ($storage = self::getSingleton($messageStorage))) {
             $storage->addError($message);
         }
-        throw new Magento_Core_Exception($message);
+        throw new \Magento\Core\Exception($message);
     }
 
     /**
      * Get application object.
      *
-     * @return Magento_Core_Model_App
+     * @return \Magento\Core\Model\App
      * @deprecated
      */
     public static function app()
     {
-        return Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_App');
+        return \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Core\Model\App');
     }
 
     /**
      * Check if application is installed
      *
      * @return bool
-     * @deprecated use Magento_Core_Model_App_State::isInstalled()
+     * @deprecated use \Magento\Core\Model\App\State::isInstalled()
      */
     public static function isInstalled()
     {
-        return (bool) Mage::getSingleton('Magento_Core_Model_App_State')->isInstalled();
+        return (bool) \Mage::getSingleton('Magento\Core\Model\App\State')->isInstalled();
     }
 
     /**
      * Retrieve enabled developer mode
      *
      * @return bool
-     * @deprecated use Magento_Core_Model_App_State::getMode()
+     * @deprecated use \Magento\Core\Model\App\State::getMode()
      */
     public static function getIsDeveloperMode()
     {
-        $objectManager = Magento_Core_Model_ObjectManager::getInstance();
+        $objectManager = \Magento\Core\Model\ObjectManager::getInstance();
         if (!$objectManager) {
             return false;
         }
 
-        $appState = $objectManager->get('Magento_Core_Model_App_State');
+        $appState = $objectManager->get('Magento\Core\Model\App\State');
         if (!$appState) {
             return false;
         }
 
         $mode = $appState->getMode();
-        return $mode == Magento_Core_Model_App_State::MODE_DEVELOPER;
+        return $mode == \Magento\Core\Model\App\State::MODE_DEVELOPER;
     }
 
     /**
      * Display exception
      *
-     * @param Exception $e
+     * @param \Exception $e
      * @param string $extra
      */
-    public static function printException(Exception $e, $extra = '')
+    public static function printException(\Exception $e, $extra = '')
     {
         if (self::getIsDeveloperMode()) {
             print '<pre>';
@@ -284,10 +285,10 @@ final class Mage
             try {
                 $storeCode = self::app()->getStore()->getCode();
                 $reportData['skin'] = $storeCode;
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
             }
 
-            require_once(self::getBaseDir(Magento_Core_Model_Dir::PUB) . DS . 'errors' . DS . 'report.php');
+            require_once(self::getBaseDir(\Magento\Core\Model\Dir::PUB) . DS . 'errors' . DS . 'report.php');
         }
 
         die();

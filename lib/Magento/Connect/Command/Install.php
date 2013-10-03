@@ -9,8 +9,10 @@
  */
 
 
-final class Magento_Connect_Command_Install
-extends Magento_Connect_Command
+namespace Magento\Connect\Command;
+
+final class Install
+extends \Magento\Connect\Command
 {
 
     /**
@@ -48,21 +50,21 @@ extends Magento_Connect_Command
             }
             if($installFileMode) {
                 if(count($params) < 1) {
-                    throw new Exception("Argument should be: filename");
+                    throw new \Exception("Argument should be: filename");
                 }
                 $filename = $params[0];
                 if(!@file_exists($filename)) {
-                    throw new Exception("File '{$filename}' not found");
+                    throw new \Exception("File '{$filename}' not found");
                 }
                 if(!@is_readable($filename)) {
-                    throw new Exception("File '{$filename}' is not readable");
+                    throw new \Exception("File '{$filename}' is not readable");
                 }
 
-                $package = new Magento_Connect_Package($filename);
+                $package = new \Magento\Connect\Package($filename);
                 $package->validate();
                 $errors = $package->getErrors();
                 if(count($errors)) {
-                    throw new Exception("Package file is invalid\n".implode("\n", $errors));
+                    throw new \Exception("Package file is invalid\n".implode("\n", $errors));
                 }
 
                 $pChan = $package->getChannel();
@@ -71,7 +73,7 @@ extends Magento_Connect_Command
 
 
                 if(!$cache->isChannel($pChan)) {
-                    throw new Exception("'{$pChan}' is not installed channel");
+                    throw new \Exception("'{$pChan}' is not installed channel");
                 }
 
                 $conflicts = $cache->hasConflicts($pChan, $pName, $pVer);
@@ -81,7 +83,7 @@ extends Magento_Connect_Command
                     if($forceMode) {
                         $this->doError($command, "Package {$pChan}/{$pName} {$pVer} conflicts with: ".$conflicts);
                     } else {
-                        throw new Exception("Package {$pChan}/{$pName} {$pVer} conflicts with: ".$conflicts);
+                        throw new \Exception("Package {$pChan}/{$pName} {$pVer} conflicts with: ".$conflicts);
                     }
                 }
 
@@ -92,7 +94,7 @@ extends Magento_Connect_Command
                     if($forceMode) {
                         $this->doError($command, $err);
                     } else {
-                        throw new Exception($err);
+                        throw new \Exception($err);
                     }
                 }
 
@@ -102,7 +104,7 @@ extends Magento_Connect_Command
                     if($forceMode) {
                         $this->doError($command, $err);
                     } else {
-                        throw new Exception($err);
+                        throw new \Exception($err);
                     }
                 }
 
@@ -136,7 +138,7 @@ extends Magento_Connect_Command
             if(!$upgradeAllMode) {
 
                 if(count($params) < 2) {
-                    throw new Exception("Argument should be: channelName packageName");
+                    throw new \Exception("Argument should be: channelName packageName");
                 }
                 $channel = $params[0];
                 $package = $params[1];
@@ -150,7 +152,7 @@ extends Magento_Connect_Command
                 } elseif($channel) {
                     $uri = $config->protocol.'://'.$channel;
                 } else {
-                    throw new Exception("'{$channel}' is not existant channel name / valid uri");
+                    throw new \Exception("'{$channel}' is not existant channel name / valid uri");
                 }
 
                 if($uri && !$cache->isChannel($uri)) {
@@ -172,7 +174,7 @@ extends Magento_Connect_Command
                 } else {
                     $channel = $params[0];
                     if(!$cache->isChannel($channel)) {
-                        throw new Exception("'{$channel}' is not existant channel name / valid uri");
+                        throw new \Exception("'{$channel}' is not existant channel name / valid uri");
                     }
                     $channels = $cache->chanName($channel);
                 }
@@ -218,7 +220,7 @@ extends Magento_Connect_Command
                         if($forceMode) {
                             $this->doError($command, "Package {$pChan}/{$pName} {$pVer} conflicts with: ".$conflicts);
                         } else {
-                            throw new Exception("Package {$pChan}/{$pName} {$pVer} conflicts with: ".$conflicts);
+                            throw new \Exception("Package {$pChan}/{$pName} {$pVer} conflicts with: ".$conflicts);
                         }
                     }
 
@@ -252,7 +254,7 @@ extends Magento_Connect_Command
                     if(!@file_exists($file)) {
                         $rest->downloadPackageFileOfRelease($pName, $pVer, $file);
                     }
-                    $package = new Magento_Connect_Package($file);
+                    $package = new \Magento\Connect\Package($file);
 
 
 
@@ -263,7 +265,7 @@ extends Magento_Connect_Command
                         if($forceMode) {
                             $this->doError($command, $err);
                         } else {
-                            throw new Exception($err);
+                            throw new \Exception($err);
                         }
                     }
 
@@ -273,7 +275,7 @@ extends Magento_Connect_Command
                         if($forceMode) {
                             $this->doError($command, $err);
                         } else {
-                            throw new Exception($err);
+                            throw new \Exception($err);
                         }
                     }
 
@@ -289,7 +291,7 @@ extends Magento_Connect_Command
                     $installedDepsAssoc[] = array('channel'=>$pChan, 'name'=>$pName, 'version'=>$pVer);
                     $installedDeps[] = array($pChan, $pName, $pVer);
 
-                } catch(Exception $e) {
+                } catch(\Exception $e) {
                     $this->doError($command, $e->getMessage());
                 }
             }
@@ -307,7 +309,7 @@ extends Magento_Connect_Command
             $this->ui()->output($out);
             return $out[$command]['data'];
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if($ftp) {
                 $packager->writeToRemoteCache($cache, $ftpObj);
                 @unlink($config->getFilename());
@@ -356,7 +358,7 @@ extends Magento_Connect_Command
 
         try {
             if(count($params) != 2) {
-                throw new Exception("Argument count should be = 2");
+                throw new \Exception("Argument count should be = 2");
             }
 
             $channel = $params[0];
@@ -376,7 +378,7 @@ extends Magento_Connect_Command
             $chan = $cache->getChannel($channel);
             $channel = $cache->chanName($channel);
             if(!$cache->hasPackage($channel, $package)) {
-                throw new Exception("Package is not installed");
+                throw new \Exception("Package is not installed");
             }
 
             $deletedPackages = array();
@@ -394,7 +396,7 @@ extends Magento_Connect_Command
                         if($forceMode) {
                             $this->ui()->output("Warning: ".$errMessage);
                         } else {
-                            throw new Exception($errMessage);
+                            throw new \Exception($errMessage);
                         }
                     }
 
@@ -407,11 +409,11 @@ extends Magento_Connect_Command
                     $cache->deletePackage($chan, $pack);
                     $deletedPackages[] = array($chan, $pack);
 
-                } catch(Exception $e) {
+                } catch(\Exception $e) {
                     if($forceMode) {
                         $this->doError($command, $e->getMessage());
                     } else {
-                        throw new Exception($e->getMessage());
+                        throw new \Exception($e->getMessage());
                     }
                 }
             }
@@ -422,7 +424,7 @@ extends Magento_Connect_Command
             $out = array($command=>array('data'=>$deletedPackages, 'title'=>'Package deleted: '));
             $this->ui()->output($out);
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return $this->doError($command, $e->getMessage());
         }
 

@@ -11,44 +11,47 @@
 /**
  * Block for Catalog Category URL rewrites editing
  *
- * @method Magento_Catalog_Model_Category getCategory()
- * @method Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit setCategory(Magento_Catalog_Model_Category $category)
- * @method Magento_Catalog_Model_Product getProduct()
- * @method Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit setProduct(Magento_Catalog_Model_Product $product)
+ * @method \Magento\Catalog\Model\Category getCategory()
+ * @method
+ * \Magento\Adminhtml\Block\Urlrewrite\Catalog\Product\Edit setCategory(\Magento\Catalog\Model\Category $category)
+ * @method \Magento\Catalog\Model\Product getProduct()
+ * @method \Magento\Adminhtml\Block\Urlrewrite\Catalog\Product\Edit setProduct(\Magento\Catalog\Model\Product $product)
  * @method bool getIsCategoryMode()
  *
  * @category   Magento
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit extends Magento_Adminhtml_Block_Urlrewrite_Edit
+namespace Magento\Adminhtml\Block\Urlrewrite\Catalog\Product;
+
+class Edit extends \Magento\Adminhtml\Block\Urlrewrite\Edit
 {
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
-     * @var Magento_Catalog_Model_CategoryFactory
+     * @var \Magento\Catalog\Model\CategoryFactory
      */
     protected $_categoryFactory;
 
     /**
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
-     * @param Magento_Core_Model_Url_RewriteFactory $rewriteFactory
-     * @param Magento_Backend_Helper_Data $adminhtmlData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Core\Model\Url\RewriteFactory $rewriteFactory
+     * @param \Magento\Backend\Helper\Data $adminhtmlData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Catalog_Model_CategoryFactory $categoryFactory,
-        Magento_Core_Model_Url_RewriteFactory $rewriteFactory,
-        Magento_Backend_Helper_Data $adminhtmlData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Core\Model\Url\RewriteFactory $rewriteFactory,
+        \Magento\Backend\Helper\Data $adminhtmlData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_categoryFactory = $categoryFactory;
@@ -97,7 +100,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit extends Magento_Ad
     /**
      * Get or create new instance of product
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     private function _getProduct()
     {
@@ -110,7 +113,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit extends Magento_Ad
     /**
      * Get or create new instance of category
      *
-     * @return Magento_Catalog_Model_Category
+     * @return \Magento\Catalog\Model\Category
      */
     private function _getCategory()
     {
@@ -125,7 +128,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit extends Magento_Ad
      */
     private function _addProductLinkBlock()
     {
-        $this->addChild('product_link', 'Magento_Adminhtml_Block_Urlrewrite_Link', array(
+        $this->addChild('product_link', 'Magento\Adminhtml\Block\Urlrewrite\Link', array(
             'item_url'  => $this->_adminhtmlData->getUrl('*/*/*') . 'product',
             'item_name' => $this->_getProduct()->getName(),
             'label'     => __('Product:')
@@ -137,7 +140,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit extends Magento_Ad
      */
     private function _addCategoryLinkBlock()
     {
-        $this->addChild('category_link', 'Magento_Adminhtml_Block_Urlrewrite_Link', array(
+        $this->addChild('category_link', 'Magento\Adminhtml\Block\Urlrewrite\Link', array(
             'item_url'  => $this->_adminhtmlData
                 ->getUrl('*/*/*', array('product' => $this->_getProduct()->getId())) . 'category',
             'item_name' => $this->_getCategory()->getName(),
@@ -150,7 +153,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit extends Magento_Ad
      */
     private function _addProductsGridBlock()
     {
-        $this->addChild('products_grid', 'Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_Grid');
+        $this->addChild('products_grid', 'Magento\Adminhtml\Block\Urlrewrite\Catalog\Product\Grid');
     }
 
     /**
@@ -158,7 +161,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit extends Magento_Ad
      */
     private function _addCategoriesTreeBlock()
     {
-        $this->addChild('categories_tree', 'Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Tree');
+        $this->addChild('categories_tree', 'Magento\Adminhtml\Block\Urlrewrite\Catalog\Category\Tree');
     }
 
     /**
@@ -166,7 +169,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit extends Magento_Ad
      */
     private function _addSkipCategoriesBlock()
     {
-        $this->addChild('skip_categories', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('skip_categories', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Skip Category Selection'),
             'onclick' => 'window.location = \''
                 . $this->_adminhtmlData->getUrl('*/*/*', array('product' => $this->_getProduct()->getId())) . '\'',
@@ -178,11 +181,11 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit extends Magento_Ad
     /**
      * Creates edit form block
      *
-     * @return Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form
+     * @return \Magento\Adminhtml\Block\Urlrewrite\Catalog\Edit\Form
      */
     protected function _createEditFormBlock()
     {
-        return $this->getLayout()->createBlock('Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form', '', array(
+        return $this->getLayout()->createBlock('Magento\Adminhtml\Block\Urlrewrite\Catalog\Edit\Form', '', array(
             'data' => array(
                 'product'     => $this->_getProduct(),
                 'category'    => $this->_getCategory(),

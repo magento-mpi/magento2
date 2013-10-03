@@ -17,33 +17,35 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Catalog_Form_Renderer_Attribute_Urlkey
-    extends Magento_Adminhtml_Block_Catalog_Form_Renderer_Fieldset_Element
+namespace Magento\Adminhtml\Block\Catalog\Form\Renderer\Attribute;
+
+class Urlkey
+    extends \Magento\Adminhtml\Block\Catalog\Form\Renderer\Fieldset\Element
 {
     /**
      * Catalog data
      *
-     * @var Magento_Catalog_Helper_Data
+     * @var \Magento\Catalog\Helper\Data
      */
     protected $_catalogData = null;
 
     /**
-     * @var Magento_Data_Form_Element_Factory
+     * @var \Magento\Data\Form\Element\Factory
      */
     protected $_elementFactory;
 
     /**
-     * @param Magento_Data_Form_Element_Factory $elementFactory
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Data\Form\Element\Factory $elementFactory
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Data_Form_Element_Factory $elementFactory,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Data\Form\Element\Factory $elementFactory,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_elementFactory = $elementFactory;
@@ -53,7 +55,7 @@ class Magento_Adminhtml_Block_Catalog_Form_Renderer_Attribute_Urlkey
 
     public function getElementHtml()
     {
-        /** @var Magento_Data_Form_Element_Abstract $element */
+        /** @var \Magento\Data\Form\Element\AbstractElement $element */
         $element = $this->getElement();
         if(!$element->getValue()) {
             return parent::getElementHtml();
@@ -65,7 +67,7 @@ class Magento_Adminhtml_Block_Catalog_Form_Renderer_Attribute_Urlkey
             'name' => $element->getData('name') . '_create_redirect',
             'disabled' => true,
         );
-        /** @var Magento_Data_Form_Element_Hidden $hidden */
+        /** @var \Magento\Data\Form\Element\Hidden $hidden */
         $hidden = $this->_elementFactory->create('hidden', array('attributes' => $data));
         $hidden->setForm($element->getForm());
 
@@ -74,7 +76,7 @@ class Magento_Adminhtml_Block_Catalog_Form_Renderer_Attribute_Urlkey
         $data['label'] = __('Create Permanent Redirect for old URL');
         $data['value'] = $element->getValue();
         $data['checked'] = $this->_catalogData->shouldSaveUrlRewritesHistory($storeId);
-        /** @var Magento_Data_Form_Element_Checkbox $checkbox */
+        /** @var \Magento\Data\Form\Element\Checkbox $checkbox */
         $checkbox = $this->_elementFactory->create('checkbox', array('attributes' => $data));
         $checkbox->setForm($element->getForm());
 

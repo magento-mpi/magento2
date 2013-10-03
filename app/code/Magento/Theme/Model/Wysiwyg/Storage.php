@@ -11,7 +11,9 @@
 /**
  * Theme wysiwyg storage model
  */
-class Magento_Theme_Model_Wysiwyg_Storage
+namespace Magento\Theme\Model\Wysiwyg;
+
+class Storage
 {
     /**
      * Type font
@@ -24,7 +26,7 @@ class Magento_Theme_Model_Wysiwyg_Storage
     const TYPE_IMAGE = 'image';
 
     /**
-     * Directory for image thumbnail
+     * \Directory for image thumbnail
      */
     const THUMBNAIL_DIRECTORY = '.thumbnail';
 
@@ -39,45 +41,45 @@ class Magento_Theme_Model_Wysiwyg_Storage
     const THUMBNAIL_HEIGHT = 100;
 
     /**
-     * Directory name regular expression
+     * \Directory name regular expression
      */
     const DIRECTORY_NAME_REGEXP = '/^[a-z0-9\-\_]+$/si';
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
     /**
      * Storage helper
      *
-     * @var Magento_Theme_Helper_Storage
+     * @var \Magento\Theme\Helper\Storage
      */
     protected $_helper;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @var Magento_Core_Model_Image_AdapterFactory
+     * @var \Magento\Core\Model\Image\AdapterFactory
      */
     protected $_imageFactory;
 
     /**
      * Initialize dependencies
      *
-     * @param Magento_Filesystem $filesystem
-     * @param Magento_Theme_Helper_Storage $helper
-     * @param Magento_ObjectManager $objectManager
-     * @param Magento_Core_Model_Image_AdapterFactory $imageFactory
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Theme\Helper\Storage $helper
+     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Core\Model\Image\AdapterFactory $imageFactory
      */
     public function __construct(
-        Magento_Filesystem $filesystem,
-        Magento_Theme_Helper_Storage $helper,
-        Magento_ObjectManager $objectManager,
-        Magento_Core_Model_Image_AdapterFactory $imageFactory
+        \Magento\Filesystem $filesystem,
+        \Magento\Theme\Helper\Storage $helper,
+        \Magento\ObjectManager $objectManager,
+        \Magento\Core\Model\Image\AdapterFactory $imageFactory
     ) {
         $this->_filesystem = $filesystem;
         $this->_filesystem->setIsAllowCreateDirectories(true);
@@ -91,23 +93,23 @@ class Magento_Theme_Model_Wysiwyg_Storage
      *
      * @param string $targetPath
      * @return bool
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function uploadFile($targetPath)
     {
-        /** @var $uploader Magento_Core_Model_File_Uploader */
-        $uploader = $this->_objectManager->create('Magento_Core_Model_File_Uploader', array('fileId' => 'file'));
+        /** @var $uploader \Magento\Core\Model\File\Uploader */
+        $uploader = $this->_objectManager->create('Magento\Core\Model\File\Uploader', array('fileId' => 'file'));
         $uploader->setAllowedExtensions($this->_helper->getAllowedExtensionsByType());
         $uploader->setAllowRenameFiles(true);
         $uploader->setFilesDispersion(false);
         $result = $uploader->save($targetPath);
 
         if (!$result) {
-            throw new Magento_Core_Exception(__('We cannot upload the file.') );
+            throw new \Magento\Core\Exception(__('We cannot upload the file.') );
         }
 
         $this->_createThumbnail(
-            $targetPath . Magento_Filesystem::DIRECTORY_SEPARATOR . $uploader->getUploadedFileName()
+            $targetPath . \Magento\Filesystem::DIRECTORY_SEPARATOR . $uploader->getUploadedFileName()
         );
 
         $result['cookie'] = array(
@@ -135,7 +137,8 @@ class Magento_Theme_Model_Wysiwyg_Storage
             return false;
         }
         $thumbnailDir = $this->_helper->getThumbnailDirectory($source);
-        $thumbnailPath = $thumbnailDir . Magento_Filesystem::DIRECTORY_SEPARATOR . pathinfo($source, PATHINFO_BASENAME);
+        $thumbnailPath =
+            $thumbnailDir . \Magento\Filesystem::DIRECTORY_SEPARATOR . pathinfo($source, PATHINFO_BASENAME);
         try {
             $this->_filesystem->ensureDirectoryExists($thumbnailDir);
             $image = $this->_imageFactory->create();
@@ -143,8 +146,8 @@ class Magento_Theme_Model_Wysiwyg_Storage
             $image->keepAspectRatio(true);
             $image->resize(self::THUMBNAIL_WIDTH, self::THUMBNAIL_HEIGHT);
             $image->save($thumbnailPath);
-        } catch (Magento_Filesystem_Exception $e) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+        } catch (\Magento\Filesystem\FilesystemException $e) {
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             return false;
         }
 
@@ -160,12 +163,12 @@ class Magento_Theme_Model_Wysiwyg_Storage
      * @param string $name
      * @param string $path
      * @return array
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function createFolder($name, $path)
     {
         if (!preg_match(self::DIRECTORY_NAME_REGEXP, $name)) {
-            throw new Magento_Core_Exception(
+            throw new \Magento\Core\Exception(
                 __('Use only standard alphanumeric, dashes and underscores.')
             );
         }
@@ -173,10 +176,10 @@ class Magento_Theme_Model_Wysiwyg_Storage
             $path = $this->_helper->getStorageRoot();
         }
 
-        $newPath = $path . Magento_Filesystem::DIRECTORY_SEPARATOR . $name;
+        $newPath = $path . \Magento\Filesystem::DIRECTORY_SEPARATOR . $name;
 
         if ($this->_filesystem->has($newPath)) {
-            throw new Magento_Core_Exception(__('We found a directory with the same name.'));
+            throw new \Magento\Core\Exception(__('We found a directory with the same name.'));
         }
 
         $this->_filesystem->ensureDirectoryExists($newPath);
@@ -195,7 +198,7 @@ class Magento_Theme_Model_Wysiwyg_Storage
      * Delete file
      *
      * @param string $file
-     * @return Magento_Theme_Model_Wysiwyg_Storage
+     * @return \Magento\Theme\Model\Wysiwyg\Storage
      */
     public function deleteFile($file)
     {
@@ -204,7 +207,7 @@ class Magento_Theme_Model_Wysiwyg_Storage
 
         $filePath = $this->_filesystem->normalizePath($path . '/' . $file);
         $thumbnailPath = $this->_helper->getThumbnailDirectory($filePath)
-            . Magento_Filesystem::DIRECTORY_SEPARATOR
+            . \Magento\Filesystem::DIRECTORY_SEPARATOR
             . $file;
 
         if ($this->_filesystem->isPathInDirectory($filePath, $path)
@@ -221,12 +224,12 @@ class Magento_Theme_Model_Wysiwyg_Storage
      *
      * @param string $currentPath
      * @return array
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function getDirsCollection($currentPath)
     {
         if (!$this->_filesystem->has($currentPath)) {
-            throw new Magento_Core_Exception(__('We cannot find a directory with this name.'));
+            throw new \Magento\Core\Exception(__('We cannot find a directory with this name.'));
         }
 
         $paths = $this->_filesystem->searchKeys($currentPath, '*');
@@ -298,15 +301,15 @@ class Magento_Theme_Model_Wysiwyg_Storage
      *
      * @param string $path
      * @return bool
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function deleteDirectory($path)
     {
-        $rootCmp = rtrim($this->_helper->getStorageRoot(), Magento_Filesystem::DIRECTORY_SEPARATOR);
-        $pathCmp = rtrim($path, Magento_Filesystem::DIRECTORY_SEPARATOR);
+        $rootCmp = rtrim($this->_helper->getStorageRoot(), \Magento\Filesystem::DIRECTORY_SEPARATOR);
+        $pathCmp = rtrim($path, \Magento\Filesystem::DIRECTORY_SEPARATOR);
 
         if ($rootCmp == $pathCmp) {
-            throw new Magento_Core_Exception(__('We cannot delete root directory %1.', $path));
+            throw new \Magento\Core\Exception(__('We cannot delete root directory %1.', $path));
         }
 
         return $this->_filesystem->delete($path);

@@ -11,7 +11,9 @@
 /**
  * Payment information model
  */
-class Magento_Payment_Model_Info extends Magento_Core_Model_Abstract
+namespace Magento\Payment\Model;
+
+class Info extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Additional information container
@@ -23,33 +25,33 @@ class Magento_Payment_Model_Info extends Magento_Core_Model_Abstract
     /**
      * Payment data
      *
-     * @var Magento_Payment_Helper_Data
+     * @var \Magento\Payment\Helper\Data
      */
     protected $_paymentData = null;
 
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Payment_Helper_Data $paymentData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Payment_Helper_Data $paymentData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -82,8 +84,8 @@ class Magento_Payment_Model_Info extends Magento_Core_Model_Abstract
     /**
      * Retrieve payment method model object
      *
-     * @return Magento_Payment_Model_Method_Abstract
-     * @throws Magento_Core_Exception
+     * @return \Magento\Payment\Model\Method\AbstractMethod
+     * @throws \Magento\Core\Exception
      */
     public function getMethodInstance()
     {
@@ -96,7 +98,7 @@ class Magento_Payment_Model_Info extends Magento_Core_Model_Abstract
                     return $instance;
                 }
             }
-            throw new Magento_Core_Exception(__('The payment method you requested is not available.'));
+            throw new \Magento\Core\Exception(__('The payment method you requested is not available.'));
         }
 
         return $this->_getData('method_instance');
@@ -137,13 +139,13 @@ class Magento_Payment_Model_Info extends Magento_Core_Model_Abstract
      *
      * @param string|array $key
      * @param mixed $value
-     * @return Magento_Payment_Model_Info
-     * @throws Magento_Core_Exception
+     * @return \Magento\Payment\Model\Info
+     * @throws \Magento\Core\Exception
      */
     public function setAdditionalInformation($key, $value = null)
     {
         if (is_object($value)) {
-           throw new Magento_Core_Exception(__('The payment disallows storing objects.'));
+           throw new \Magento\Core\Exception(__('The payment disallows storing objects.'));
         }
         $this->_initAdditionalInformation();
         if (is_array($key) && is_null($value)) {
@@ -173,7 +175,7 @@ class Magento_Payment_Model_Info extends Magento_Core_Model_Abstract
      * Unsetter for entire additional_information value or one of its element by key
      *
      * @param string $key
-     * @return Magento_Payment_Model_Info
+     * @return \Magento\Payment\Model\Info
      */
     public function unsAdditionalInformation($key = null)
     {

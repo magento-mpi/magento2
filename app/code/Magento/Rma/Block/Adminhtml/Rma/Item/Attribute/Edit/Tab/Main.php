@@ -11,41 +11,43 @@
 /**
  * RMA Item Attributes Edit Form
  */
-class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
-    extends Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
-    implements Magento_Backend_Block_Widget_Tab_Interface
+namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit\Tab;
+
+class Main
+    extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Rma eav
      *
-     * @var Magento_Rma_Helper_Eav
+     * @var \Magento\Rma\Helper\Eav
      */
     protected $_rmaEav;
 
     /**
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Eav_Helper_Data $eavData
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Backend_Model_Config_Source_YesnoFactory $yesnoFactory
-     * @param Magento_Eav_Model_Adminhtml_System_Config_Source_InputtypeFactory $inputTypeFactory
-     * @param Magento_Eav_Model_Entity_Attribute_Config $attributeConfig
-     * @param Magento_Rma_Helper_Eav $rmaEav
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Eav\Helper\Data $eavData
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Backend\Model\Config\Source\YesnoFactory $yesnoFactory
+     * @param \Magento\Eav\Model\Adminhtml\System\Config\Source\InputtypeFactory $inputTypeFactory
+     * @param \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig
+     * @param \Magento\Rma\Helper\Eav $rmaEav
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Eav_Helper_Data $eavData,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Backend_Model_Config_Source_YesnoFactory $yesnoFactory,
-        Magento_Eav_Model_Adminhtml_System_Config_Source_InputtypeFactory $inputTypeFactory,
-        Magento_Eav_Model_Entity_Attribute_Config $attributeConfig,
-        Magento_Rma_Helper_Eav $rmaEav,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Eav\Helper\Data $eavData,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Backend\Model\Config\Source\YesnoFactory $yesnoFactory,
+        \Magento\Eav\Model\Adminhtml\System\Config\Source\InputtypeFactory $inputTypeFactory,
+        \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig,
+        \Magento\Rma\Helper\Eav $rmaEav,
         array $data = array()
     ) {
         $this->_rmaEav = $rmaEav;
@@ -66,14 +68,14 @@ class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
     /**
      * Preparing global layout
      *
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {
         $result = parent::_prepareLayout();
         $renderer = $this->getLayout()->getBlock('fieldset_element_renderer');
-        if ($renderer instanceof Magento_Data_Form_Element_Renderer_Interface) {
-            Magento_Data_Form::setFieldsetElementRenderer($renderer);
+        if ($renderer instanceof \Magento\Data\Form\Element\Renderer\RendererInterface) {
+            \Magento\Data\Form::setFieldsetElementRenderer($renderer);
         }
         return $result;
     }
@@ -81,7 +83,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
     /**
      * Adding customer form elements for edit form
      *
-     * @return Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
+     * @return \Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit\Tab_Main
      */
     protected function _prepareForm()
     {
@@ -90,7 +92,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
         $attribute  = $this->getAttributeObject();
         $form       = $this->getForm();
         $fieldset   = $form->getElement('base_fieldset');
-        /* @var $helper Magento_Rma_Helper_Eav */
+        /* @var $helper \Magento\Rma\Helper\Eav */
         $helper     = $this->_rmaEav;
 
         $fieldset->removeField('frontend_class');
@@ -106,7 +108,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
         // customer attribute code can have prefix "rma_item_" and its length must be max length minus prefix length
         $element      = $form->getElement('attribute_code');
         $element->setNote(
-            __('For internal use. Must be unique with no spaces. Maximum length of attribute code must be less than %1 symbols', Magento_Eav_Model_Entity_Attribute::ATTRIBUTE_CODE_MAX_LENGTH)
+            __('For internal use. Must be unique with no spaces. Maximum length of attribute code must be less than %1 symbols', \Magento\Eav\Model\Entity\Attribute::ATTRIBUTE_CODE_MAX_LENGTH)
         );
 
         $fieldset->addField('multiline_count', 'text', array(
@@ -174,7 +176,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
             'values'    => array('' => __('None')),
         ));
 
-        /** @var $config Magento_Backend_Model_Config_Source_Yesno */
+        /** @var $config \Magento\Backend\Model\Config\Source\Yesno */
         $config = $this->_yesnoFactory->create();
         $yesnoSource = $config->toOptionArray();
 
@@ -260,7 +262,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
     /**
      * Initialize form fileds values
      *
-     * @return Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
+     * @return \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
      */
     protected function _initFormValues()
     {

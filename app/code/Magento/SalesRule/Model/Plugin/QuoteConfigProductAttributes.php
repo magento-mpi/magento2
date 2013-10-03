@@ -5,26 +5,28 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_SalesRule_Model_Plugin_QuoteConfigProductAttributes
+namespace Magento\SalesRule\Model\Plugin;
+
+class QuoteConfigProductAttributes
 {
-    /** @var \Magento_SalesRule_Model_Resource_Rule */
+    /** @var \Magento\SalesRule\Model\Resource\Rule */
     protected $_ruleResource;
 
-    /** @var \Magento_Customer_Model_Session */
+    /** @var \Magento\Customer\Model\Session */
     protected $_customerSession;
 
-    /** @var \Magento_Core_Model_StoreManager */
+    /** @var \Magento\Core\Model\StoreManager */
     protected $_storeManager;
 
     /**
-     * @param Magento_SalesRule_Model_Resource_Rule $ruleResource
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param \Magento\SalesRule\Model\Resource\Rule $ruleResource
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\StoreManager $storeManager
      */
     public function __construct(
-        Magento_SalesRule_Model_Resource_Rule $ruleResource,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Core_Model_StoreManager $storeManager
+        \Magento\SalesRule\Model\Resource\Rule $ruleResource,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\StoreManager $storeManager
     ) {
         $this->_ruleResource = $ruleResource;
         $this->_customerSession = $customerSession;

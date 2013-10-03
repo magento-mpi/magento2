@@ -8,16 +8,18 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Block_Widget_Grid_Column_Renderer_Button
-    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
+
+class Button
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Render grid row
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         $buttonType = $this->getColumn()->getButtonType();
         $buttonClass = $this->getColumn()->getButtonClass();

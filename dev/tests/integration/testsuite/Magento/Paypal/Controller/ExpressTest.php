@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Paypal_Controller_ExpressTest extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\Paypal\Controller;
+
+class ExpressTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
      * @magentoDataFixture Magento/Sales/_files/quote.php
@@ -15,11 +17,11 @@ class Magento_Paypal_Controller_ExpressTest extends Magento_TestFramework_TestCa
     public function testReviewAction()
     {
         $this->markTestSkipped('There is a dependency that needs to be identified for this test');
-        $quote = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Quote');
+        $quote = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Quote');
         $quote->load('test01', 'reserved_order_id');
         echo "Quote ID: {$quote->getId}\n";
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Checkout_Model_Session')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Checkout\Model\Session')
             ->setQuoteId($quote->getId());
 
         $this->dispatch('paypal/express/review');
@@ -36,17 +38,17 @@ class Magento_Paypal_Controller_ExpressTest extends Magento_TestFramework_TestCa
      */
     public function testCancelAction()
     {
-        $quote = $this->_objectManager->create('Magento_Sales_Model_Quote');
+        $quote = $this->_objectManager->create('Magento\Sales\Model\Quote');
         $quote->load('test02', 'reserved_order_id');
-        $order = $this->_objectManager->create('Magento_Sales_Model_Order');
+        $order = $this->_objectManager->create('Magento\Sales\Model\Order');
         $order->load('100000002', 'increment_id');
-        $session = $this->_objectManager->get('Magento_Checkout_Model_Session');
+        $session = $this->_objectManager->get('Magento\Checkout\Model\Session');
         $session->setLastRealOrderId($order->getRealOrderId())
             ->setLastOrderId($order->getId())
             ->setLastQuoteId($order->getQuoteId())
             ->setQuoteId($order->getQuoteId());
-        /** @var $paypalSession Magento_Core_Model_Session_Generic */
-        $paypalSession = $this->_objectManager->get('Magento_Core_Model_Session_Generic');
+        /** @var $paypalSession \Magento\Core\Model\Session\Generic */
+        $paypalSession = $this->_objectManager->get('Magento\Core\Model\Session\Generic');
         $paypalSession->setExpressCheckoutToken('token');
 
         $this->dispatch('paypal/express/cancel');

@@ -12,9 +12,11 @@
 /**
  * UPS shipping implementation
  */
-class Magento_Usa_Model_Shipping_Carrier_Ups
-    extends Magento_Usa_Model_Shipping_Carrier_Abstract
-    implements Magento_Shipping_Model_Carrier_Interface
+namespace Magento\Usa\Model\Shipping\Carrier;
+
+class Ups
+    extends \Magento\Usa\Model\Shipping\Carrier\AbstractCarrier
+    implements \Magento\Shipping\Model\Carrier\CarrierInterface
 {
 
     /**
@@ -40,21 +42,21 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
     /**
      * Rate request data
      *
-     * @var Magento_Shipping_Model_Rate_Request
+     * @var \Magento\Shipping\Model\Rate\Request
      */
     protected $_request;
 
     /**
      * Raw rate request data
      *
-     * @var Magento_Object
+     * @var \Magento\Object
      */
     protected $_rawRequest;
 
     /**
      * Rate result data
      *
-     * @var Magento_Shipping_Model_Rate_Result
+     * @var \Magento\Shipping\Model\Rate\Result
      */
     protected $_result;
 
@@ -107,53 +109,53 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
     protected $_customizableContainerTypes = array('CP', 'CSP');
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory
-     * @param Magento_Shipping_Model_Rate_ResultFactory $rateFactory
-     * @param Magento_Shipping_Model_Rate_Result_MethodFactory $rateMethodFactory
-     * @param Magento_Shipping_Model_Tracking_ResultFactory $trackFactory
-     * @param Magento_Shipping_Model_Tracking_Result_ErrorFactory $trackErrorFactory
-     * @param Magento_Shipping_Model_Tracking_Result_StatusFactory $trackStatusFactory
-     * @param Magento_Directory_Model_RegionFactory $regionFactory
-     * @param Magento_Directory_Model_CountryFactory $countryFactory
-     * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
-     * @param Magento_Directory_Helper_Data $directoryData
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Shipping_Model_Rate_Result_ErrorFactory $rateErrorFactory
-     * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Usa\Model\Simplexml\ElementFactory $simpleXmlElementFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory
+     * @param \Magento\Shipping\Model\Rate\ResultFactory $rateFactory
+     * @param \Magento\Shipping\Model\Rate\Result\MethodFactory $rateMethodFactory
+     * @param \Magento\Shipping\Model\Tracking\ResultFactory $trackFactory
+     * @param \Magento\Shipping\Model\Tracking\Result\ErrorFactory $trackErrorFactory
+     * @param \Magento\Shipping\Model\Tracking\Result\StatusFactory $trackStatusFactory
+     * @param \Magento\Directory\Model\RegionFactory $regionFactory
+     * @param \Magento\Directory\Model\CountryFactory $countryFactory
+     * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
+     * @param \Magento\Directory\Helper\Data $directoryData
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory,
-        Magento_Shipping_Model_Rate_ResultFactory $rateFactory,
-        Magento_Shipping_Model_Rate_Result_MethodFactory $rateMethodFactory,
-        Magento_Shipping_Model_Tracking_ResultFactory $trackFactory,
-        Magento_Shipping_Model_Tracking_Result_ErrorFactory $trackErrorFactory,
-        Magento_Shipping_Model_Tracking_Result_StatusFactory $trackStatusFactory,
-        Magento_Directory_Model_RegionFactory $regionFactory,
-        Magento_Directory_Model_CountryFactory $countryFactory,
-        Magento_Directory_Model_CurrencyFactory $currencyFactory,
-        Magento_Directory_Helper_Data $directoryData,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Shipping_Model_Rate_Result_ErrorFactory $rateErrorFactory,
-        Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Usa\Model\Simplexml\ElementFactory $simpleXmlElementFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory,
+        \Magento\Shipping\Model\Rate\ResultFactory $rateFactory,
+        \Magento\Shipping\Model\Rate\Result\MethodFactory $rateMethodFactory,
+        \Magento\Shipping\Model\Tracking\ResultFactory $trackFactory,
+        \Magento\Shipping\Model\Tracking\Result\ErrorFactory $trackErrorFactory,
+        \Magento\Shipping\Model\Tracking\Result\StatusFactory $trackStatusFactory,
+        \Magento\Directory\Model\RegionFactory $regionFactory,
+        \Magento\Directory\Model\CountryFactory $countryFactory,
+        \Magento\Directory\Model\CurrencyFactory $currencyFactory,
+        \Magento\Directory\Helper\Data $directoryData,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
         array $data = array()
     ) {
         $this->_logger = $logger;
@@ -170,11 +172,11 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
     /**
      * Collect and get rates
      *
-     * @param Magento_Shipping_Model_Rate_Request $request
-     * @return Magento_Shipping_Model_Rate_Result|bool|null
+     * @param \Magento\Shipping\Model\Rate\Request $request
+     * @return \Magento\Shipping\Model\Rate\Result|bool|null
      */
 
-    public function collectRates(Magento_Shipping_Model_Rate_Request $request)
+    public function collectRates(\Magento\Shipping\Model\Rate\Request $request)
     {
         if (!$this->getConfigFlag($this->_activeFlag)) {
             return false;
@@ -191,14 +193,14 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
     /**
      * Prepare and set request to this instance
      *
-     * @param Magento_Shipping_Model_Rate_Request $request
-     * @return Magento_Usa_Model_Shipping_Carrier_Ups
+     * @param \Magento\Shipping\Model\Rate\Request $request
+     * @return \Magento\Usa\Model\Shipping\Carrier\Ups
      */
-    public function setRequest(Magento_Shipping_Model_Rate_Request $request)
+    public function setRequest(\Magento\Shipping\Model\Rate\Request $request)
     {
         $this->_request = $request;
 
-        $rowRequest = new Magento_Object();
+        $rowRequest = new \Magento\Object();
 
         if ($request->getLimitMethod()) {
             $rowRequest->setAction($this->getCode('action', 'single'));
@@ -233,7 +235,7 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
             $origCountry = $request->getOrigCountry();
         } else {
             $origCountry = $this->_coreStoreConfig->getConfig(
-                Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID,
+                \Magento\Shipping\Model\Shipping::XML_PATH_STORE_COUNTRY_ID,
                 $request->getStoreId()
             );
         }
@@ -244,7 +246,7 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
             $origRegionCode = $request->getOrigRegionCode();
         } else {
             $origRegionCode = $this->_coreStoreConfig->getConfig(
-                Magento_Shipping_Model_Shipping::XML_PATH_STORE_REGION_ID,
+                \Magento\Shipping\Model\Shipping::XML_PATH_STORE_REGION_ID,
                 $request->getStoreId()
             );
         }
@@ -257,7 +259,7 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
             $rowRequest->setOrigPostal($request->getOrigPostcode());
         } else {
             $rowRequest->setOrigPostal($this->_coreStoreConfig->getConfig(
-                Magento_Shipping_Model_Shipping::XML_PATH_STORE_ZIP,
+                \Magento\Shipping\Model\Shipping::XML_PATH_STORE_ZIP,
                 $request->getStoreId()
             ));
         }
@@ -266,7 +268,7 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
             $rowRequest->setOrigCity($request->getOrigCity());
         } else {
             $rowRequest->setOrigCity($this->_coreStoreConfig->getConfig(
-                Magento_Shipping_Model_Shipping::XML_PATH_STORE_CITY,
+                \Magento\Shipping\Model\Shipping::XML_PATH_STORE_CITY,
                 $request->getStoreId()
             ));
         }
@@ -363,7 +365,7 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
     /**
      * Do remote request for  and handle errors
      *
-     * @return Magento_Shipping_Model_Rate_Result
+     * @return \Magento\Shipping\Model\Rate\Result
      */
     protected function _getQuotes()
     {
@@ -398,12 +400,12 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
     /**
      * Get cgi rates
      *
-     * @return Magento_Shipping_Model_Rate_Result
+     * @return \Magento\Shipping\Model\Rate\Result
      */
     protected function _getCgiQuotes()
     {
         $rowRequest = $this->_rawRequest;
-        if (Magento_Usa_Model_Shipping_Carrier_Abstract::USA_COUNTRY_ID == $rowRequest->getDestCountry()) {
+        if (\Magento\Usa\Model\Shipping\Carrier\AbstractCarrier::USA_COUNTRY_ID == $rowRequest->getDestCountry()) {
             $destPostal = substr($rowRequest->getDestPostal(), 0, 5);
         } else {
             $destPostal = $rowRequest->getDestPostal();
@@ -434,7 +436,7 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
                 if (!$url) {
                     $url = $this->_defaultCgiGatewayUrl;
                 }
-                $client = new Zend_Http_Client();
+                $client = new \Zend_Http_Client();
                 $client->setUri($url);
                 $client->setConfig(array('maxredirects' => 0, 'timeout' => 30));
                 $client->setParameterGet($params);
@@ -443,7 +445,7 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
 
                 $debugData['result'] = $responseBody;
                 $this->_setCachedQuotes($params, $responseBody);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
                 $responseBody = '';
             }
@@ -478,7 +480,7 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
      * Prepare shipping rate result based on response
      *
      * @param mixed $response
-     * @return Magento_Shipping_Model_Rate_Result
+     * @return \Magento\Shipping\Model\Rate\Result
      */
     protected function _parseCgiResponse($response)
     {
@@ -840,7 +842,7 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
     /**
      * Get xml rates
      *
-     * @return Magento_Shipping_Model_Rate_Result
+     * @return \Magento\Shipping\Model\Rate\Result
      */
     protected function _getXmlQuotes()
     {
@@ -850,7 +852,7 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
         $xmlRequest=$this->_xmlAccessRequest;
 
         $rowRequest = $this->_rawRequest;
-        if (Magento_Usa_Model_Shipping_Carrier_Abstract::USA_COUNTRY_ID == $rowRequest->getDestCountry()) {
+        if (\Magento\Usa\Model\Shipping\Carrier\AbstractCarrier::USA_COUNTRY_ID == $rowRequest->getDestCountry()) {
             $destPostal = substr($rowRequest->getDestPostal(), 0, 5);
         } else {
             $destPostal = $rowRequest->getDestPostal();
@@ -994,7 +996,7 @@ XMLRequest;
 
                 $debugData['result'] = $xmlResponse;
                 $this->_setCachedQuotes($xmlRequest, $xmlResponse);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
                 $xmlResponse = '';
             }
@@ -1025,14 +1027,14 @@ XMLRequest;
      * Prepare shipping rate result based on response
      *
      * @param mixed $xmlResponse
-     * @return Magento_Shipping_Model_Rate_Result
+     * @return \Magento\Shipping\Model\Rate\Result
      */
     protected function _parseXmlResponse($xmlResponse)
     {
         $costArr = array();
         $priceArr = array();
         if (strlen(trim($xmlResponse)) > 0) {
-            $xml = new Magento_Simplexml_Config();
+            $xml = new \Magento\Simplexml\Config();
             $xml->loadString($xmlResponse);
             $arr = $xml->getXpath("//RatingServiceSelectionResponse/Response/ResponseStatusCode/text()");
             $success = (int)$arr[0];
@@ -1230,7 +1232,7 @@ XMLAuth;
                 $xmlResponse = curl_exec($ch);
                 $debugData['result'] = $xmlResponse;
                 curl_close($ch);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
                 $xmlResponse = '';
             }
@@ -1256,7 +1258,7 @@ XMLAuth;
         $packageProgress = array();
 
         if ($xmlResponse) {
-            $xml = new Magento_Simplexml_Config();
+            $xml = new \Magento\Simplexml\Config();
             $xml->loadString($xmlResponse);
             $arr = $xml->getXpath("//TrackResponse/Response/ResponseStatusCode/text()");
             $success = (int)$arr[0][0];
@@ -1361,7 +1363,7 @@ XMLAuth;
     public function getResponse()
     {
         $statuses = '';
-        if ($this->_result instanceof Magento_Shipping_Model_Tracking_Result) {
+        if ($this->_result instanceof \Magento\Shipping\Model\Tracking\Result) {
             $trackings = $this->_result->getAllTrackings();
             if ($trackings) {
                 foreach ($trackings as $tracking) {
@@ -1401,22 +1403,22 @@ XMLAuth;
     /**
      * Form XML for shipment request
      *
-     * @param Magento_Object $request
+     * @param \Magento\Object $request
      * @return string
      */
-    protected function _formShipmentRequest(Magento_Object $request)
+    protected function _formShipmentRequest(\Magento\Object $request)
     {
         $packageParams = $request->getPackageParams();
         $height = $packageParams->getHeight();
         $width = $packageParams->getWidth();
         $length = $packageParams->getLength();
-        $weightUnits = $packageParams->getWeightUnits() == Zend_Measure_Weight::POUND ? 'LBS' : 'KGS';
-        $dimensionsUnits = $packageParams->getDimensionUnits() == Zend_Measure_Length::INCH ? 'IN' : 'CM';
+        $weightUnits = $packageParams->getWeightUnits() == \Zend_Measure_Weight::POUND ? 'LBS' : 'KGS';
+        $dimensionsUnits = $packageParams->getDimensionUnits() == \Zend_Measure_Length::INCH ? 'IN' : 'CM';
 
         $itemsDesc = array();
         $itemsShipment = $request->getPackageItems();
         foreach ($itemsShipment as $itemShipment) {
-            $item = new Magento_Object();
+            $item = new \Magento\Object();
             $item->setData($itemShipment);
             $itemsDesc[] = $item->getName();
         }
@@ -1557,7 +1559,7 @@ XMLAuth;
 
         $deliveryConfirmation = $packageParams->getDeliveryConfirmation();
         if ($deliveryConfirmation) {
-            /** @var $serviceOptionsNode Magento_Usa_Model_Simplexml_Element */
+            /** @var $serviceOptionsNode \Magento\Usa\Model\Simplexml\Element */
             $serviceOptionsNode = null;
             switch ($this->_getDeliveryConfirmationLevel($request->getRecipientAddressCountryCode())) {
                 case self::DELIVERY_CONFIRMATION_PACKAGE:
@@ -1582,7 +1584,7 @@ XMLAuth;
             ->addChild('AccountNumber', $this->getConfigData('shipper_number'));
 
         if ($request->getPackagingType() != $this->getCode('container', 'ULE')
-            && $request->getShipperAddressCountryCode() == Magento_Usa_Model_Shipping_Carrier_Abstract::USA_COUNTRY_ID
+            && $request->getShipperAddressCountryCode() == \Magento\Usa\Model\Shipping\Carrier\AbstractCarrier::USA_COUNTRY_ID
             && ($request->getRecipientAddressCountryCode() == 'CA' //Canada
                 || $request->getRecipientAddressCountryCode() == 'PR') //Puerto Rico
         ) {
@@ -1603,10 +1605,10 @@ XMLAuth;
     /**
      * Send and process shipment accept request
      *
-     * @param Magento_Usa_Model_Simplexml_Element
-     * @return Magento_Object
+     * @param \Magento\Usa\Model\Simplexml\Element
+     * @return \Magento\Object
      */
-    protected function _sendShipmentAcceptRequest(Magento_Usa_Model_Simplexml_Element $shipmentConfirmResponse)
+    protected function _sendShipmentAcceptRequest(\Magento\Usa\Model\Simplexml\Element $shipmentConfirmResponse)
     {
         $xmlRequest = $this->_xmlElFactory->create(
             array('<?xml version = "1.0" ?><ShipmentAcceptRequest/>')
@@ -1628,18 +1630,18 @@ XMLAuth;
 
             $debugData['result'] = $xmlResponse;
             $this->_setCachedQuotes($xmlRequest, $xmlResponse);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
             $xmlResponse = '';
         }
 
         try {
             $response = $this->_xmlElFactory->create(array($xmlResponse));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
         }
 
-        $result = new Magento_Object();
+        $result = new \Magento\Object();
         if (isset($response->Error)) {
             $result->setErrors((string)$response->Error->ErrorDescription);
         } else {
@@ -1672,14 +1674,14 @@ XMLAuth;
     /**
      * Do shipment request to carrier web service, obtain Print Shipping Labels and process errors in response
      *
-     * @param Magento_Object $request
-     * @return Magento_Object
-     * @throws Exception
+     * @param \Magento\Object $request
+     * @return \Magento\Object
+     * @throws \Exception
      */
-    protected function _doShipmentRequest(Magento_Object $request)
+    protected function _doShipmentRequest(\Magento\Object $request)
     {
         $this->_prepareShipmentRequest($request);
-        $result = new Magento_Object();
+        $result = new \Magento\Object();
         $xmlRequest = $this->_formShipmentRequest($request);
         $xmlResponse = $this->_getCachedQuotes($xmlRequest);
 
@@ -1697,7 +1699,7 @@ XMLAuth;
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, (boolean)$this->getConfigFlag('mode_xml'));
             $xmlResponse = curl_exec($ch);
             if ($xmlResponse === false) {
-                throw new Exception(curl_error($ch));
+                throw new \Exception(curl_error($ch));
             } else {
                 $debugData['result'] = $xmlResponse;
                 $this->_setCachedQuotes($xmlRequest, $xmlResponse);
@@ -1706,7 +1708,7 @@ XMLAuth;
 
         try {
             $response = $this->_xmlElFactory->create(array($xmlResponse));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
             $result->setErrors($e->getMessage());
         }
@@ -1749,10 +1751,10 @@ XMLAuth;
     /**
      * Return container types of carrier
      *
-     * @param Magento_Object|null $params
+     * @param \Magento\Object|null $params
      * @return array|bool
      */
-    public function getContainerTypes(Magento_Object $params = null)
+    public function getContainerTypes(\Magento\Object $params = null)
     {
         if ($params === null) {
             return $this->_getAllowedContainers($params);
@@ -1832,10 +1834,10 @@ XMLAuth;
     /**
      * Return delivery confirmation types of carrier
      *
-     * @param Magento_Object|null $params
+     * @param \Magento\Object|null $params
      * @return array|bool
      */
-    public function getDeliveryConfirmationTypes(Magento_Object $params = null)
+    public function getDeliveryConfirmationTypes(\Magento\Object $params = null)
     {
         $countryRecipient           = $params != null ? $params->getCountryRecipient() : null;
         $deliveryConfirmationTypes  = array();
@@ -1889,7 +1891,7 @@ XMLAuth;
             return null;
         }
 
-        if ($countyDestination == Magento_Usa_Model_Shipping_Carrier_Abstract::USA_COUNTRY_ID) {
+        if ($countyDestination == \Magento\Usa\Model\Shipping\Carrier\AbstractCarrier::USA_COUNTRY_ID) {
             return self::DELIVERY_CONFIRMATION_PACKAGE;
         }
 

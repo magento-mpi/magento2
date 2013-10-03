@@ -11,97 +11,99 @@
 /**
  * Order data convert model
  */
-class Magento_Sales_Model_Convert_Order extends Magento_Object
+namespace Magento\Sales\Model\Convert;
+
+class Order extends \Magento\Object
 {
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @var Magento_Sales_Model_QuoteFactory
+     * @var \Magento\Sales\Model\QuoteFactory
      */
     protected $_quoteFactory;
 
     /**
-     * @var Magento_Sales_Model_Quote_AddressFactory
+     * @var \Magento\Sales\Model\Quote\AddressFactory
      */
     protected $_quoteAddressFactory;
 
     /**
-     * @var Magento_Sales_Model_Quote_PaymentFactory
+     * @var \Magento\Sales\Model\Quote\PaymentFactory
      */
     protected $_quotePaymentFactory;
 
     /**
-     * @var Magento_Sales_Model_Quote_ItemFactory
+     * @var \Magento\Sales\Model\Quote\ItemFactory
      */
     protected $_quoteItemFactory;
 
     /**
-     * @var Magento_Sales_Model_Order_Invoice
+     * @var \Magento\Sales\Model\Order\Invoice
      */
     protected $_orderInvoiceFactory;
 
     /**
-     * @var Magento_Sales_Model_Order_Invoice_ItemFactory
+     * @var \Magento\Sales\Model\Order\Invoice\ItemFactory
      */
     protected $_invoiceItemFactory;
 
     /**
-     * @var Magento_Sales_Model_Order_ShipmentFactory
+     * @var \Magento\Sales\Model\Order\ShipmentFactory
      */
     protected $_orderShipmentFactory;
 
     /**
-     * @var Magento_Sales_Model_Order_CreditmemoFactory
+     * @var \Magento\Sales\Model\Order\CreditmemoFactory
      */
     protected $_creditmemoFactory;
 
     /**
-     * @var Magento_Sales_Model_Order_Creditmemo_ItemFactory
+     * @var \Magento\Sales\Model\Order\Creditmemo\ItemFactory
      */
     protected $_creditmemoItemFactory;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Sales_Model_QuoteFactory $quoteFactory
-     * @param Magento_Sales_Model_Quote_AddressFactory $quoteAddressFactory
-     * @param Magento_Sales_Model_Quote_PaymentFactory $quotePaymentFactory
-     * @param Magento_Sales_Model_Quote_ItemFactory $quoteItemFactory
-     * @param Magento_Sales_Model_Order_InvoiceFactory $orderInvoiceFactory
-     * @param Magento_Sales_Model_Order_Invoice_ItemFactory $invoiceItemFactory
-     * @param Magento_Sales_Model_Order_ShipmentFactory $orderShipmentFactory
-     * @param Magento_Sales_Model_Order_Shipment_ItemFactory $shipmentItemFactory
-     * @param Magento_Sales_Model_Order_CreditmemoFactory $creditmemoFactory
-     * @param Magento_Sales_Model_Order_Creditmemo_ItemFactory $creditmemoItemFactory
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
+     * @param \Magento\Sales\Model\Quote\AddressFactory $quoteAddressFactory
+     * @param \Magento\Sales\Model\Quote\PaymentFactory $quotePaymentFactory
+     * @param \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory
+     * @param \Magento\Sales\Model\Order\InvoiceFactory $orderInvoiceFactory
+     * @param \Magento\Sales\Model\Order\Invoice\ItemFactory $invoiceItemFactory
+     * @param \Magento\Sales\Model\Order\ShipmentFactory $orderShipmentFactory
+     * @param \Magento\Sales\Model\Order\Shipment\ItemFactory $shipmentItemFactory
+     * @param \Magento\Sales\Model\Order\CreditmemoFactory $creditmemoFactory
+     * @param \Magento\Sales\Model\Order\Creditmemo\ItemFactory $creditmemoItemFactory
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Sales_Model_QuoteFactory $quoteFactory,
-        Magento_Sales_Model_Quote_AddressFactory $quoteAddressFactory,
-        Magento_Sales_Model_Quote_PaymentFactory $quotePaymentFactory,
-        Magento_Sales_Model_Quote_ItemFactory $quoteItemFactory,
-        Magento_Sales_Model_Order_InvoiceFactory $orderInvoiceFactory,
-        Magento_Sales_Model_Order_Invoice_ItemFactory $invoiceItemFactory,
-        Magento_Sales_Model_Order_ShipmentFactory $orderShipmentFactory,
-        Magento_Sales_Model_Order_Shipment_ItemFactory $shipmentItemFactory,
-        Magento_Sales_Model_Order_CreditmemoFactory $creditmemoFactory,
-        Magento_Sales_Model_Order_Creditmemo_ItemFactory $creditmemoItemFactory,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Sales\Model\QuoteFactory $quoteFactory,
+        \Magento\Sales\Model\Quote\AddressFactory $quoteAddressFactory,
+        \Magento\Sales\Model\Quote\PaymentFactory $quotePaymentFactory,
+        \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory,
+        \Magento\Sales\Model\Order\InvoiceFactory $orderInvoiceFactory,
+        \Magento\Sales\Model\Order\Invoice\ItemFactory $invoiceItemFactory,
+        \Magento\Sales\Model\Order\ShipmentFactory $orderShipmentFactory,
+        \Magento\Sales\Model\Order\Shipment\ItemFactory $shipmentItemFactory,
+        \Magento\Sales\Model\Order\CreditmemoFactory $creditmemoFactory,
+        \Magento\Sales\Model\Order\Creditmemo\ItemFactory $creditmemoItemFactory,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -122,13 +124,13 @@ class Magento_Sales_Model_Convert_Order extends Magento_Object
     /**
      * Converting order object to quote object
      *
-     * @param Magento_Sales_Model_Order $order
-     * @param null|Magento_Sales_Model_Quote $quote
-     * @return Magento_Sales_Model_Quote
+     * @param \Magento\Sales\Model\Order $order
+     * @param null|\Magento\Sales\Model\Quote $quote
+     * @return \Magento\Sales\Model\Quote
      */
-    public function toQuote(Magento_Sales_Model_Order $order, $quote = null)
+    public function toQuote(\Magento\Sales\Model\Order $order, $quote = null)
     {
-        if (!($quote instanceof Magento_Sales_Model_Quote)) {
+        if (!($quote instanceof \Magento\Sales\Model\Quote)) {
             $quote = $this->_quoteFactory->create();
         }
 
@@ -144,10 +146,10 @@ class Magento_Sales_Model_Convert_Order extends Magento_Object
     /**
      * Convert order to shipping address
      *
-     * @param   Magento_Sales_Model_Order $order
-     * @return  Magento_Sales_Model_Quote_Address
+     * @param   \Magento\Sales\Model\Order $order
+     * @return  \Magento\Sales\Model\Quote\Address
      */
-    public function toQuoteShippingAddress(Magento_Sales_Model_Order $order)
+    public function toQuoteShippingAddress(\Magento\Sales\Model\Order $order)
     {
         $address = $this->addressToQuoteAddress($order->getShippingAddress());
 
@@ -158,10 +160,10 @@ class Magento_Sales_Model_Convert_Order extends Magento_Object
     /**
      * Convert order address to quote address
      *
-     * @param   Magento_Sales_Model_Order_Address $address
-     * @return  Magento_Sales_Model_Quote_Address
+     * @param   \Magento\Sales\Model\Order\Address $address
+     * @return  \Magento\Sales\Model\Quote\Address
      */
-    public function addressToQuoteAddress(Magento_Sales_Model_Order_Address $address)
+    public function addressToQuoteAddress(\Magento\Sales\Model\Order\Address $address)
     {
         $quoteAddress = $this->_quoteAddressFactory->create()
             ->setStoreId($address->getStoreId())
@@ -181,13 +183,13 @@ class Magento_Sales_Model_Convert_Order extends Magento_Object
     /**
      * Convert order payment to quote payment
      *
-     * @param Magento_Sales_Model_Order_Payment $payment
-     * @param null|Magento_Sales_Model_Quote_Payment $quotePayment
-     * @return Magento_Sales_Model_Quote_Payment
+     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @param null|\Magento\Sales\Model\Quote\Payment $quotePayment
+     * @return \Magento\Sales\Model\Quote\Payment
      */
-    public function paymentToQuotePayment(Magento_Sales_Model_Order_Payment $payment, $quotePayment = null)
+    public function paymentToQuotePayment(\Magento\Sales\Model\Order\Payment $payment, $quotePayment = null)
     {
-        if (!($quotePayment instanceof Magento_Sales_Model_Quote_Payment)) {
+        if (!($quotePayment instanceof \Magento\Sales\Model\Quote\Payment)) {
             $quotePayment = $this->_quotePaymentFactory->create();
         }
 
@@ -206,10 +208,10 @@ class Magento_Sales_Model_Convert_Order extends Magento_Object
     /**
      * Retrieve
      *
-     * @param Magento_Sales_Model_Order_Item $item
-     * @return Magento_Sales_Model_Quote_Item
+     * @param \Magento\Sales\Model\Order\Item $item
+     * @return \Magento\Sales\Model\Quote\Item
      */
-    public function itemToQuoteItem(Magento_Sales_Model_Order_Item $item)
+    public function itemToQuoteItem(\Magento\Sales\Model\Order\Item $item)
     {
         $quoteItem = $this->_quoteItemFactory->create()
             ->setStoreId($item->getOrder()->getStoreId())
@@ -224,10 +226,10 @@ class Magento_Sales_Model_Convert_Order extends Magento_Object
     /**
      * Convert order object to invoice
      *
-     * @param   Magento_Sales_Model_Order $order
-     * @return  Magento_Sales_Model_Order_Invoice
+     * @param   \Magento\Sales\Model\Order $order
+     * @return  \Magento\Sales\Model\Order\Invoice
      */
-    public function toInvoice(Magento_Sales_Model_Order $order)
+    public function toInvoice(\Magento\Sales\Model\Order $order)
     {
         $invoice = $this->_orderInvoiceFactory->create();
         $invoice->setOrder($order)
@@ -243,10 +245,10 @@ class Magento_Sales_Model_Convert_Order extends Magento_Object
     /**
      * Convert order item object to invoice item
      *
-     * @param   Magento_Sales_Model_Order_Item $item
-     * @return  Magento_Sales_Model_Order_Invoice_Item
+     * @param   \Magento\Sales\Model\Order\Item $item
+     * @return  \Magento\Sales\Model\Order\Invoice\Item
      */
-    public function itemToInvoiceItem(Magento_Sales_Model_Order_Item $item)
+    public function itemToInvoiceItem(\Magento\Sales\Model\Order\Item $item)
     {
         $invoiceItem = $this->_invoiceItemFactory->create();
         $invoiceItem->setOrderItem($item)
@@ -259,10 +261,10 @@ class Magento_Sales_Model_Convert_Order extends Magento_Object
     /**
      * Convert order object to Shipment
      *
-     * @param   Magento_Sales_Model_Order $order
-     * @return  Magento_Sales_Model_Order_Shipment
+     * @param   \Magento\Sales\Model\Order $order
+     * @return  \Magento\Sales\Model\Order\Shipment
      */
-    public function toShipment(Magento_Sales_Model_Order $order)
+    public function toShipment(\Magento\Sales\Model\Order $order)
     {
         $shipment = $this->_orderShipmentFactory->create();
         $shipment->setOrder($order)
@@ -278,10 +280,10 @@ class Magento_Sales_Model_Convert_Order extends Magento_Object
     /**
      * Convert order item object to Shipment item
      *
-     * @param   Magento_Sales_Model_Order_Item $item
-     * @return  Magento_Sales_Model_Order_Shipment_Item
+     * @param   \Magento\Sales\Model\Order\Item $item
+     * @return  \Magento\Sales\Model\Order\Shipment\Item
      */
-    public function itemToShipmentItem(Magento_Sales_Model_Order_Item $item)
+    public function itemToShipmentItem(\Magento\Sales\Model\Order\Item $item)
     {
         $shipmentItem = $this->_shipmentItemFactory->create();
         $shipmentItem->setOrderItem($item)
@@ -294,10 +296,10 @@ class Magento_Sales_Model_Convert_Order extends Magento_Object
     /**
      * Convert order object to creditmemo
      *
-     * @param   Magento_Sales_Model_Order $order
-     * @return  Magento_Sales_Model_Order_Creditmemo
+     * @param   \Magento\Sales\Model\Order $order
+     * @return  \Magento\Sales\Model\Order\Creditmemo
      */
-    public function toCreditmemo(Magento_Sales_Model_Order $order)
+    public function toCreditmemo(\Magento\Sales\Model\Order $order)
     {
         $creditmemo = $this->_creditmemoFactory->create();
         $creditmemo->setOrder($order)
@@ -313,10 +315,10 @@ class Magento_Sales_Model_Convert_Order extends Magento_Object
     /**
      * Convert order item object to Creditmemo item
      *
-     * @param   Magento_Sales_Model_Order_Item $item
-     * @return  Magento_Sales_Model_Order_Creditmemo_Item
+     * @param   \Magento\Sales\Model\Order\Item $item
+     * @return  \Magento\Sales\Model\Order\Creditmemo\Item
      */
-    public function itemToCreditmemoItem(Magento_Sales_Model_Order_Item $item)
+    public function itemToCreditmemoItem(\Magento\Sales\Model\Order\Item $item)
     {
         $creditmemoItem = $this->_creditmemoItemFactory->create();
         $creditmemoItem->setOrderItem($item)

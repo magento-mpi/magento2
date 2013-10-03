@@ -8,30 +8,32 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Block_System_Config_Switcher extends Magento_Backend_Block_Template
+namespace Magento\Backend\Block\System\Config;
+
+class Switcher extends \Magento\Backend\Block\Template
 {
     /**
-     * @var Magento_Core_Model_System_Store
+     * @var \Magento\Core\Model\System\Store
      */
     protected $_systemStore;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_System_Store $systemStore
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_System_Store $systemStore,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_systemStore = $systemStore;
@@ -40,7 +42,7 @@ class Magento_Backend_Block_System_Config_Switcher extends Magento_Backend_Block
     }
 
     /**
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {
@@ -79,8 +81,8 @@ class Magento_Backend_Block_System_Config_Switcher extends Magento_Backend_Block
     /**
      * Process website info
      *
-     * @param Magento_Core_Model_System_Store $storeModel
-     * @param Magento_Core_Model_Website $website
+     * @param \Magento\Core\Model\System\Store $storeModel
+     * @param \Magento\Core\Model\Website $website
      * @param string $section
      * @param string $curStore
      * @param string $curWebsite
@@ -88,8 +90,8 @@ class Magento_Backend_Block_System_Config_Switcher extends Magento_Backend_Block
      * @return array
      */
     protected function _processWebsite(
-        Magento_Core_Model_System_Store $storeModel,
-        Magento_Core_Model_Website $website,
+        \Magento\Core\Model\System\Store $storeModel,
+        \Magento\Core\Model\Website $website,
         $section,
         $curStore,
         $curWebsite,
@@ -151,8 +153,8 @@ class Magento_Backend_Block_System_Config_Switcher extends Magento_Backend_Block
      */
     public function getHintHtml()
     {
-        /** @var $storeSwitcher Magento_Backend_Block_Store_Switcher */
-        $storeSwitcher = $this->_layout->getBlockSingleton('Magento_Backend_Block_Store_Switcher');
+        /** @var $storeSwitcher \Magento\Backend\Block\Store\Switcher */
+        $storeSwitcher = $this->_layout->getBlockSingleton('Magento\Backend\Block\Store\Switcher');
         return $storeSwitcher->getHintHtml();
     }
 

@@ -8,26 +8,28 @@
  * @license     {license_link}
  */
 
+namespace Magento\Page\Block\Html\Head;
+
 /**
  * Link page block
  */
-class Magento_Page_Block_Html_Head_Link extends Magento_Core_Block_Template
-    implements Magento_Page_Block_Html_Head_AssetBlock
+class Link extends \Magento\Core\Block\Template
+    implements \Magento\Page\Block\Html\Head\AssetBlock
 {
     const VIRTUAL_CONTENT_TYPE = 'link';
 
     /**
      * Contructor
      *
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Page_Asset_RemoteFactory $remoteFactory
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Page\Asset\RemoteFactory $remoteFactory
+     * @param \Magento\Core\Helper\Data $coreData
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Page_Asset_RemoteFactory $remoteFactory,
-        Magento_Core_Helper_Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Page\Asset\RemoteFactory $remoteFactory,
+        \Magento\Core\Helper\Data $coreData,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);
@@ -42,7 +44,7 @@ class Magento_Page_Block_Html_Head_Link extends Magento_Core_Block_Template
     /**
      * Get block asset
      *
-     * @return Magento_Core_Model_Page_Asset_AssetInterface
+     * @return \Magento\Core\Model\Page\Asset\AssetInterface
      */
     public function getAsset()
     {

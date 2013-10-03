@@ -15,43 +15,45 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ImportExport_Block_Adminhtml_Import_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\ImportExport\Block\Adminhtml\Import\Edit;
+
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Basic import model
      *
-     * @var Magento_ImportExport_Model_Import
+     * @var \Magento\ImportExport\Model\Import
      */
     protected $_importModel;
 
     /**
-     * @var Magento_ImportExport_Model_Source_Import_EntityFactory
+     * @var \Magento\ImportExport\Model\Source\Import\EntityFactory
      */
     protected $_entityFactory;
 
     /**
-     * @var Magento_ImportExport_Model_Source_Import_Behavior_Factory
+     * @var \Magento\ImportExport\Model\Source\Import\Behavior\Factory
      */
     protected $_behaviorFactory;
 
     /**
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_ImportExport_Model_Import $importModel
-     * @param Magento_ImportExport_Model_Source_Import_EntityFactory $entityFactory
-     * @param Magento_ImportExport_Model_Source_Import_Behavior_Factory $behaviorFactory
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\ImportExport\Model\Import $importModel
+     * @param \Magento\ImportExport\Model\Source\Import\EntityFactory $entityFactory
+     * @param \Magento\ImportExport\Model\Source\Import\Behavior\Factory $behaviorFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_ImportExport_Model_Import $importModel,
-        Magento_ImportExport_Model_Source_Import_EntityFactory $entityFactory,
-        Magento_ImportExport_Model_Source_Import_Behavior_Factory $behaviorFactory,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\ImportExport\Model\Import $importModel,
+        \Magento\ImportExport\Model\Source\Import\EntityFactory $entityFactory,
+        \Magento\ImportExport\Model\Source\Import\Behavior\Factory $behaviorFactory,
         array $data = array()
     ) {
         $this->_entityFactory = $entityFactory;
@@ -63,11 +65,11 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_Form extends Magento_Back
     /**
      * Add fieldsets
      *
-     * @return Magento_ImportExport_Block_Adminhtml_Import_Edit_Form
+     * @return \Magento\ImportExport\Block\Adminhtml\Import\Edit\Form
      */
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id'      => 'edit_form',
@@ -98,7 +100,7 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_Form extends Magento_Back
                     'class'  => 'no-display',
                 )
             );
-            /** @var $behaviorSource Magento_ImportExport_Model_Source_Import_BehaviorAbstract */
+            /** @var $behaviorSource \Magento\ImportExport\Model\Source\Import\AbstractBehavior */
             $fieldsets[$behaviorCode]->addField($behaviorCode, 'select', array(
                 'name'     => 'behavior',
                 'title'    => __('Import Behavior'),
@@ -116,8 +118,8 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_Form extends Magento_Back
                 'class'  => 'no-display',
             )
         );
-        $fieldsets['upload']->addField(Magento_ImportExport_Model_Import::FIELD_NAME_SOURCE_FILE, 'file', array(
-            'name'     => Magento_ImportExport_Model_Import::FIELD_NAME_SOURCE_FILE,
+        $fieldsets['upload']->addField(\Magento\ImportExport\Model\Import::FIELD_NAME_SOURCE_FILE, 'file', array(
+            'name'     => \Magento\ImportExport\Model\Import::FIELD_NAME_SOURCE_FILE,
             'label'    => __('Select File to Import'),
             'title'    => __('Select File to Import'),
             'required' => true,

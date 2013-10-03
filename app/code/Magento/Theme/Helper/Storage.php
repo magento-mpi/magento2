@@ -11,7 +11,9 @@
 /**
  * Theme storage helper
  */
-class Magento_Theme_Helper_Storage extends Magento_Core_Helper_Abstract
+namespace Magento\Theme\Helper;
+
+class Storage extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Parameter name of node
@@ -65,31 +67,31 @@ class Magento_Theme_Helper_Storage extends Magento_Core_Helper_Abstract
     /**
      * Magento filesystem
      *
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
     /**
-     * @var Magento_Backend_Model_Session
+     * @var \Magento\Backend\Model\Session
      */
     protected $_session;
 
     /**
-     * @var Magento_Core_Model_Theme_FlyweightFactory
+     * @var \Magento\Core\Model\Theme\FlyweightFactory
      */
     protected $_themeFactory;
 
     /**
-     * @param Magento_Filesystem $filesystem
-     * @param Magento_Backend_Model_Session $session
-     * @param Magento_Core_Model_Theme_FlyweightFactory $themeFactory
-     * @param Magento_Core_Helper_Context $context
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Backend\Model\Session $session
+     * @param \Magento\Core\Model\Theme\FlyweightFactory $themeFactory
+     * @param \Magento\Core\Helper\Context $context
      */
     public function __construct(
-        Magento_Filesystem $filesystem,
-        Magento_Backend_Model_Session $session,
-        Magento_Core_Model_Theme_FlyweightFactory $themeFactory,
-        Magento_Core_Helper_Context $context
+        \Magento\Filesystem $filesystem,
+        \Magento\Backend\Model\Session $session,
+        \Magento\Core\Model\Theme\FlyweightFactory $themeFactory,
+        \Magento\Core\Helper\Context $context
     ) {
         parent::__construct($context);
         $this->_filesystem = $filesystem;
@@ -147,8 +149,8 @@ class Magento_Theme_Helper_Storage extends Magento_Core_Helper_Abstract
     public function getStorageRoot()
     {
         if (null === $this->_storageRoot) {
-            $this->_storageRoot = implode(Magento_Filesystem::DIRECTORY_SEPARATOR, array(
-                Magento_Filesystem::fixSeparator($this->_getTheme()->getCustomization()->getCustomizationPath()),
+            $this->_storageRoot = implode(\Magento\Filesystem::DIRECTORY_SEPARATOR, array(
+                \Magento\Filesystem::fixSeparator($this->_getTheme()->getCustomization()->getCustomizationPath()),
                 $this->getStorageType()
             ));
         }
@@ -158,15 +160,15 @@ class Magento_Theme_Helper_Storage extends Magento_Core_Helper_Abstract
     /**
      * Get theme module for custom static files
      *
-     * @return Magento_Core_Model_Theme
-     * @throws InvalidArgumentException
+     * @return \Magento\Core\Model\Theme
+     * @throws \InvalidArgumentException
      */
     protected function _getTheme()
     {
         $themeId = $this->_getRequest()->getParam(self::PARAM_THEME_ID);
         $theme = $this->_themeFactory->create($themeId);
         if (!$themeId || !$theme) {
-            throw new InvalidArgumentException('Theme was not found.');
+            throw new \InvalidArgumentException('Theme was not found.');
         }
         return $theme;
     }
@@ -175,17 +177,17 @@ class Magento_Theme_Helper_Storage extends Magento_Core_Helper_Abstract
      * Get storage type
      *
      * @return string
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     public function getStorageType()
     {
         $allowedTypes = array(
-            Magento_Theme_Model_Wysiwyg_Storage::TYPE_FONT,
-            Magento_Theme_Model_Wysiwyg_Storage::TYPE_IMAGE
+            \Magento\Theme\Model\Wysiwyg\Storage::TYPE_FONT,
+            \Magento\Theme\Model\Wysiwyg\Storage::TYPE_IMAGE
         );
         $type = (string)$this->_getRequest()->getParam(self::PARAM_CONTENT_TYPE);
         if (!in_array($type, $allowedTypes)) {
-            throw new Magento_Exception('Invalid type');
+            throw new \Magento\Exception('Invalid type');
         }
         return $type;
     }
@@ -202,8 +204,8 @@ class Magento_Theme_Helper_Storage extends Magento_Core_Helper_Abstract
         if ($node !== self::NODE_ROOT) {
             $node = $this->urlDecode($node);
             $nodes = explode(
-                Magento_Filesystem::DIRECTORY_SEPARATOR,
-                trim($node, Magento_Filesystem::DIRECTORY_SEPARATOR)
+                \Magento\Filesystem::DIRECTORY_SEPARATOR,
+                trim($node, \Magento\Filesystem::DIRECTORY_SEPARATOR)
             );
             $pathPieces = array_merge($pathPieces, $nodes);
         }
@@ -242,8 +244,8 @@ class Magento_Theme_Helper_Storage extends Magento_Core_Helper_Abstract
      */
     public function getThumbnailDirectory($path)
     {
-        return pathinfo($path, PATHINFO_DIRNAME) . Magento_Filesystem::DIRECTORY_SEPARATOR
-            . Magento_Theme_Model_Wysiwyg_Storage::THUMBNAIL_DIRECTORY;
+        return pathinfo($path, PATHINFO_DIRNAME) . \Magento\Filesystem::DIRECTORY_SEPARATOR
+            . \Magento\Theme\Model\Wysiwyg\Storage::THUMBNAIL_DIRECTORY;
     }
 
     /**
@@ -251,17 +253,17 @@ class Magento_Theme_Helper_Storage extends Magento_Core_Helper_Abstract
      *
      * @param $imageName
      * @return string
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function getThumbnailPath($imageName)
     {
-        $imagePath = $this->getCurrentPath() . Magento_Filesystem::DIRECTORY_SEPARATOR . $imageName;
+        $imagePath = $this->getCurrentPath() . \Magento\Filesystem::DIRECTORY_SEPARATOR . $imageName;
         if (!$this->_filesystem->has($imagePath)
             || !$this->_filesystem->isPathInDirectory($imagePath, $this->getStorageRoot())
         ) {
-            throw new InvalidArgumentException('The image not found.');
+            throw new \InvalidArgumentException('The image not found.');
         }
-        return $this->getThumbnailDirectory($imagePath) . Magento_Filesystem::DIRECTORY_SEPARATOR
+        return $this->getThumbnailDirectory($imagePath) . \Magento\Filesystem::DIRECTORY_SEPARATOR
             . pathinfo($imageName, PATHINFO_BASENAME);
     }
 
@@ -286,19 +288,19 @@ class Magento_Theme_Helper_Storage extends Magento_Core_Helper_Abstract
      * Get allowed extensions by type
      *
      * @return array
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     public function getAllowedExtensionsByType()
     {
         switch ($this->getStorageType()) {
-            case Magento_Theme_Model_Wysiwyg_Storage::TYPE_FONT:
+            case \Magento\Theme\Model\Wysiwyg\Storage::TYPE_FONT:
                 $extensions = array('ttf', 'otf', 'eot', 'svg', 'woff');
                 break;
-            case Magento_Theme_Model_Wysiwyg_Storage::TYPE_IMAGE:
+            case \Magento\Theme\Model\Wysiwyg\Storage::TYPE_IMAGE:
                 $extensions = array('jpg', 'jpeg', 'gif', 'png', 'xbm', 'wbmp');
                 break;
             default:
-                throw new Magento_Exception('Invalid type');
+                throw new \Magento\Exception('Invalid type');
         }
 
         return $extensions;
@@ -308,19 +310,19 @@ class Magento_Theme_Helper_Storage extends Magento_Core_Helper_Abstract
      * Get storage type name for display.
      *
      * @return string
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     public function getStorageTypeName()
     {
         switch ($this->getStorageType()) {
-            case Magento_Theme_Model_Wysiwyg_Storage::TYPE_FONT:
+            case \Magento\Theme\Model\Wysiwyg\Storage::TYPE_FONT:
                 $name = self::FONTS;
                 break;
-            case Magento_Theme_Model_Wysiwyg_Storage::TYPE_IMAGE:
+            case \Magento\Theme\Model\Wysiwyg\Storage::TYPE_IMAGE:
                 $name = self::IMAGES;
                 break;
             default:
-                throw new Magento_Exception('Invalid type');
+                throw new \Magento\Exception('Invalid type');
         }
 
         return $name;
@@ -329,7 +331,7 @@ class Magento_Theme_Helper_Storage extends Magento_Core_Helper_Abstract
     /**
      * Get session model
      *
-     * @return Magento_Backend_Model_Session
+     * @return \Magento\Backend\Model\Session
      */
     public function getSession()
     {

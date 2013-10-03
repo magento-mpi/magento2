@@ -15,34 +15,36 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ImportExport_Block_Adminhtml_Export_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\ImportExport\Block\Adminhtml\Export\Edit;
+
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var Magento_ImportExport_Model_Source_Export_EntityFactory
+     * @var \Magento\ImportExport\Model\Source\Export\EntityFactory
      */
     protected $_entityFactory;
 
     /**
-     * @var Magento_ImportExport_Model_Source_Export_FormatFactory
+     * @var \Magento\ImportExport\Model\Source\Export\FormatFactory
      */
     protected $_formatFactory;
 
     /**
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_ImportExport_Model_Source_Export_EntityFactory $entityFactory
-     * @param Magento_ImportExport_Model_Source_Export_FormatFactory $formatFactory
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\ImportExport\Model\Source\Export\EntityFactory $entityFactory
+     * @param \Magento\ImportExport\Model\Source\Export\FormatFactory $formatFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_ImportExport_Model_Source_Export_EntityFactory $entityFactory,
-        Magento_ImportExport_Model_Source_Export_FormatFactory $formatFactory,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\ImportExport\Model\Source\Export\EntityFactory $entityFactory,
+        \Magento\ImportExport\Model\Source\Export\FormatFactory $formatFactory,
         array $data = array()
     ) {
         $this->_entityFactory = $entityFactory;
@@ -53,11 +55,11 @@ class Magento_ImportExport_Block_Adminhtml_Export_Edit_Form extends Magento_Back
     /**
      * Prepare form before rendering HTML.
      *
-     * @return Magento_ImportExport_Block_Adminhtml_Export_Edit_Form
+     * @return \Magento\ImportExport\Block\Adminhtml\Export\Edit\Form
      */
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id'     => 'edit_form',

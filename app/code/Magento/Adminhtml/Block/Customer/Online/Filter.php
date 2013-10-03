@@ -16,11 +16,13 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Customer_Online_Filter extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\Adminhtml\Block\Customer\Online;
+
+class Filter extends \Magento\Backend\Block\Widget\Form\Generic
 {
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
 
         $form->addField('filter_value', 'select',

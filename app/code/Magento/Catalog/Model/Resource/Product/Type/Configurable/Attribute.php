@@ -16,7 +16,9 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Catalog\Model\Resource\Product\Type\Configurable;
+
+class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Label table name cache
@@ -35,28 +37,28 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute extends
     /**
      * Catalog data
      *
-     * @var Magento_Catalog_Helper_Data
+     * @var \Magento\Catalog\Helper\Data
      */
     protected $_catalogData = null;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Model_Resource $resource
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Model\Resource $resource
     ) {
         $this->_storeManager = $storeManager;
         $this->_catalogData = $catalogData;
@@ -77,7 +79,7 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute extends
     /**
      * Retrieve Catalog Helper
      *
-     * @return Magento_Catalog_Helper_Data
+     * @return \Magento\Catalog\Helper\Data
      */
     public function getCatalogHelper()
     {
@@ -87,8 +89,8 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute extends
     /**
      * Save Custom labels for Attribute name
      *
-     * @param Magento_Catalog_Model_Product_Type_Configurable_Attribute $attribute
-     * @return Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute
+     * @param \Magento\Catalog\Model\Product\Type\Configurable\Attribute $attribute
+     * @return \Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute
      */
     public function saveLabel($attribute)
     {
@@ -129,8 +131,8 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute extends
     /**
      * Save Options prices (Depends from price save scope)
      *
-     * @param Magento_Catalog_Model_Product_Type_Configurable_Attribute $attribute
-     * @return Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute
+     * @param \Magento\Catalog\Model\Product\Type\Configurable\Attribute $attribute
+     * @return \Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute
      */
     public function savePrices($attribute)
     {
@@ -287,7 +289,7 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute extends
 
         $bind = array(
             'attribute_set_id' => $setId,
-            'type_id'          => Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE,
+            'type_id'          => \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE,
         );
 
         return $adapter->fetchCol($select, $bind);
@@ -296,7 +298,7 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute extends
     /**
      * Get configurable attribute id by product id and attribute id
      *
-     * @param Magento_Catalog_Model_Product_Type_Configurable_Attribute $attribute
+     * @param \Magento\Catalog\Model\Product\Type\Configurable\Attribute $attribute
      * @param $productId
      * @param $attributeId
      *

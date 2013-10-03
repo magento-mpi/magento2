@@ -9,28 +9,30 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Theme_LabelTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Theme;
+
+class LabelTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Theme_Label
+     * @var \Magento\Core\Model\Theme\Label
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Theme_Label');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Theme\Label');
     }
 
     /**
-     * @covers Magento_Core_Model_Theme_Label::getLabelsCollection
+     * @covers \Magento\Core\Model\Theme\Label::getLabelsCollection
      */
     public function testGetLabelsCollection()
     {
-        /** @var $expectedCollection Magento_Core_Model_Resource_Theme_Collection */
-        $expectedCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Resource_Theme_Collection');
-        $expectedCollection->addAreaFilter(Magento_Core_Model_App_Area::AREA_FRONTEND)
+        /** @var $expectedCollection \Magento\Core\Model\Resource\Theme\Collection */
+        $expectedCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Resource\Theme\Collection');
+        $expectedCollection->addAreaFilter(\Magento\Core\Model\App\Area::AREA_FRONTEND)
             ->filterVisibleThemes();
 
         $expectedItemsCount = count($expectedCollection);

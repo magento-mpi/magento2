@@ -8,20 +8,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
-    ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
-$session = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_DesignEditor_Model_Session');
-/** @var $auth Magento_Backend_Model_Auth */
-$auth = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Backend_Model_Auth');
+\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Scope')
+    ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
+$session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\DesignEditor\Model\Session');
+/** @var $auth \Magento\Backend\Model\Auth */
+$auth = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Backend\Model\Auth');
 $auth->setAuthStorage($session);
-$auth->login(Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
+$auth->login(\Magento\TestFramework\Bootstrap::ADMIN_NAME, \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD);
 $session->activateDesignEditor();
 
-/** @var $theme Magento_Core_Model_Theme */
-$theme = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Core_Model_Theme');
+/** @var $theme \Magento\Core\Model\Theme */
+$theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Core\Model\Theme');
 $theme->setData(array(
     'theme_code'           => 'blank',
     'area'                 => 'frontend',

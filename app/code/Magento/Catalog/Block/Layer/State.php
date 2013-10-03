@@ -15,29 +15,31 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Block_Layer_State extends Magento_Core_Block_Template
+namespace Magento\Catalog\Block\Layer;
+
+class State extends \Magento\Core\Block\Template
 {
     protected $_template = 'layer/state.phtml';
 
     /**
      * Catalog layer
      *
-     * @var Magento_Catalog_Model_Layer
+     * @var \Magento\Catalog\Model\Layer
      */
     protected $_catalogLayer;
 
     /**
      * Construct
      *
-     * @param Magento_Catalog_Model_Layer $catalogLayer
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Catalog\Model\Layer $catalogLayer
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Model_Layer $catalogLayer,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Catalog\Model\Layer $catalogLayer,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_catalogLayer = $catalogLayer;
@@ -79,7 +81,7 @@ class Magento_Catalog_Block_Layer_State extends Magento_Core_Block_Template
     /**
      * Retrieve Layer object
      *
-     * @return Magento_Catalog_Model_Layer
+     * @return \Magento\Catalog\Model\Layer
      */
     public function getLayer()
     {

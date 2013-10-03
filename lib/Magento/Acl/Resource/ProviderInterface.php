@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Acl_Resource_ProviderInterface
+namespace Magento\Acl\Resource;
+
+interface ProviderInterface
 {
     /**
      * Retrieve ACL resources

@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-interface Magento_Config_FileResolverInterface
+namespace Magento\Config;
+
+interface FileResolverInterface
 {
     /**
      * Retrieve the list of configuration files with given name that relate to specified scope

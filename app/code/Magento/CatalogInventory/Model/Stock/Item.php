@@ -10,49 +10,51 @@
 /**
  * Catalog Inventory Stock Model
  *
- * @method Magento_CatalogInventory_Model_Resource_Stock_Item _getResource()
- * @method Magento_CatalogInventory_Model_Resource_Stock_Item getResource()
- * @method Magento_CatalogInventory_Model_Stock_Item setProductId(int $value)
- * @method Magento_CatalogInventory_Model_Stock_Item setStockId(int $value)
+ * @method \Magento\CatalogInventory\Model\Resource\Stock\Item _getResource()
+ * @method \Magento\CatalogInventory\Model\Resource\Stock\Item getResource()
+ * @method \Magento\CatalogInventory\Model\Stock\Item setProductId(int $value)
+ * @method \Magento\CatalogInventory\Model\Stock\Item setStockId(int $value)
  * @method float getQty()
- * @method Magento_CatalogInventory_Model_Stock_Item setQty(float $value)
- * @method Magento_CatalogInventory_Model_Stock_Item setMinQty(float $value)
+ * @method \Magento\CatalogInventory\Model\Stock\Item setQty(float $value)
+ * @method \Magento\CatalogInventory\Model\Stock\Item setMinQty(float $value)
  * @method int getUseConfigMinQty()
- * @method Magento_CatalogInventory_Model_Stock_Item setUseConfigMinQty(int $value)
+ * @method \Magento\CatalogInventory\Model\Stock\Item setUseConfigMinQty(int $value)
  * @method int getIsQtyDecimal()
- * @method Magento_CatalogInventory_Model_Stock_Item setIsQtyDecimal(int $value)
- * @method Magento_CatalogInventory_Model_Stock_Item setBackorders(int $value)
+ * @method \Magento\CatalogInventory\Model\Stock\Item setIsQtyDecimal(int $value)
+ * @method \Magento\CatalogInventory\Model\Stock\Item setBackorders(int $value)
  * @method int getUseConfigBackorders()
- * @method Magento_CatalogInventory_Model_Stock_Item setUseConfigBackorders(int $value)
- * @method Magento_CatalogInventory_Model_Stock_Item setMinSaleQty(float $value)
+ * @method \Magento\CatalogInventory\Model\Stock\Item setUseConfigBackorders(int $value)
+ * @method \Magento\CatalogInventory\Model\Stock\Item setMinSaleQty(float $value)
  * @method int getUseConfigMinSaleQty()
- * @method Magento_CatalogInventory_Model_Stock_Item setUseConfigMinSaleQty(int $value)
- * @method Magento_CatalogInventory_Model_Stock_Item setMaxSaleQty(float $value)
+ * @method \Magento\CatalogInventory\Model\Stock\Item setUseConfigMinSaleQty(int $value)
+ * @method \Magento\CatalogInventory\Model\Stock\Item setMaxSaleQty(float $value)
  * @method int getUseConfigMaxSaleQty()
- * @method Magento_CatalogInventory_Model_Stock_Item setUseConfigMaxSaleQty(int $value)
- * @method Magento_CatalogInventory_Model_Stock_Item setIsInStock(int $value)
+ * @method \Magento\CatalogInventory\Model\Stock\Item setUseConfigMaxSaleQty(int $value)
+ * @method \Magento\CatalogInventory\Model\Stock\Item setIsInStock(int $value)
  * @method string getLowStockDate()
- * @method Magento_CatalogInventory_Model_Stock_Item setLowStockDate(string $value)
- * @method Magento_CatalogInventory_Model_Stock_Item setNotifyStockQty(float $value)
+ * @method \Magento\CatalogInventory\Model\Stock\Item setLowStockDate(string $value)
+ * @method \Magento\CatalogInventory\Model\Stock\Item setNotifyStockQty(float $value)
  * @method int getUseConfigNotifyStockQty()
- * @method Magento_CatalogInventory_Model_Stock_Item setUseConfigNotifyStockQty(int $value)
- * @method Magento_CatalogInventory_Model_Stock_Item setManageStock(int $value)
+ * @method \Magento\CatalogInventory\Model\Stock\Item setUseConfigNotifyStockQty(int $value)
+ * @method \Magento\CatalogInventory\Model\Stock\Item setManageStock(int $value)
  * @method int getUseConfigManageStock()
- * @method Magento_CatalogInventory_Model_Stock_Item setUseConfigManageStock(int $value)
+ * @method \Magento\CatalogInventory\Model\Stock\Item setUseConfigManageStock(int $value)
  * @method int getStockStatusChangedAutomatically()
- * @method Magento_CatalogInventory_Model_Stock_Item setStockStatusChangedAutomatically(int $value)
+ * @method \Magento\CatalogInventory\Model\Stock\Item setStockStatusChangedAutomatically(int $value)
  * @method int getUseConfigQtyIncrements()
- * @method Magento_CatalogInventory_Model_Stock_Item setUseConfigQtyIncrements(int $value)
- * @method Magento_CatalogInventory_Model_Stock_Item setQtyIncrements(float $value)
+ * @method \Magento\CatalogInventory\Model\Stock\Item setUseConfigQtyIncrements(int $value)
+ * @method \Magento\CatalogInventory\Model\Stock\Item setQtyIncrements(float $value)
  * @method int getUseConfigEnableQtyInc()
- * @method Magento_CatalogInventory_Model_Stock_Item setUseConfigEnableQtyInc(int $value)
- * @method Magento_CatalogInventory_Model_Stock_Item setEnableQtyIncrements(int $value)
+ * @method \Magento\CatalogInventory\Model\Stock\Item setUseConfigEnableQtyInc(int $value)
+ * @method \Magento\CatalogInventory\Model\Stock\Item setEnableQtyIncrements(int $value)
  *
  * @category    Magento
  * @package     Magento_CatalogInventory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstract
+namespace Magento\CatalogInventory\Model\Stock;
+
+class Item extends \Magento\Core\Model\AbstractModel
 {
     const XML_PATH_GLOBAL                = 'cataloginventory/options/';
     const XML_PATH_CAN_SUBTRACT          = 'cataloginventory/options/can_subtract';
@@ -99,7 +101,7 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
     /**
      * Associated product instance
      *
-     * @var Magento_Catalog_Model_Product
+     * @var \Magento\Catalog\Model\Product
      */
     protected $_productInstance = null;
 
@@ -120,92 +122,92 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
     /**
      * Catalog inventory minsaleqty
      *
-     * @var Magento_CatalogInventory_Helper_Minsaleqty
+     * @var \Magento\CatalogInventory\Helper\Minsaleqty
      */
     protected $_catalogInventoryMinsaleqty;
 
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData;
 
     /**
      * Catalog inventory data
      *
-     * @var Magento_CatalogInventory_Helper_Data
+     * @var \Magento\CatalogInventory\Helper\Data
      */
     protected $_catalogInventoryData;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
      * Store model manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Locale model
      *
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @var Magento_CatalogInventory_Model_Stock_Status
+     * @var \Magento\CatalogInventory\Model\Stock\Status
      */
     protected $_stockStatus;
 
     /**
-     * @var Magento_Index_Model_Indexer
+     * @var \Magento\Index\Model\Indexer
      */
     protected $_indexer;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
      * Construct
      *
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Index_Model_Indexer $indexer
-     * @param Magento_CatalogInventory_Model_Stock_Status $stockStatus
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_CatalogInventory_Helper_Minsaleqty $catalogInventoryMinsaleqty
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Index\Model\Indexer $indexer
+     * @param \Magento\CatalogInventory\Model\Stock\Status $stockStatus
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\CatalogInventory\Helper\Minsaleqty $catalogInventoryMinsaleqty
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Index_Model_Indexer $indexer,
-        Magento_CatalogInventory_Model_Stock_Status $stockStatus,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_CatalogInventory_Helper_Data $catalogInventoryData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_CatalogInventory_Helper_Minsaleqty $catalogInventoryMinsaleqty,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Index\Model\Indexer $indexer,
+        \Magento\CatalogInventory\Model\Stock\Status $stockStatus,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\CatalogInventory\Helper\Minsaleqty $catalogInventoryMinsaleqty,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -227,7 +229,7 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
      */
     protected function _construct()
     {
-        $this->_init('Magento_CatalogInventory_Model_Resource_Stock_Item');
+        $this->_init('Magento\CatalogInventory\Model\Resource\Stock\Item');
     }
 
     /**
@@ -255,11 +257,11 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
      * Load item data by product
      *
      * @param   mixed $product
-     * @return  Magento_CatalogInventory_Model_Stock_Item
+     * @return  \Magento\CatalogInventory\Model\Stock\Item
      */
     public function loadByProduct($product)
     {
-        if ($product instanceof Magento_Catalog_Model_Product) {
+        if ($product instanceof \Magento\Catalog\Model\Product) {
             $product = $product->getId();
         }
         $this->_getResource()->loadByProductId($this, $product);
@@ -271,7 +273,7 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
      * Subtract quote item quantity
      *
      * @param   decimal $qty
-     * @return  Magento_CatalogInventory_Model_Stock_Item
+     * @return  \Magento\CatalogInventory\Model\Stock\Item
      */
     public function subtractQty($qty)
     {
@@ -295,7 +297,7 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
      * Add quantity process
      *
      * @param float $qty
-     * @return Magento_CatalogInventory_Model_Stock_Item
+     * @return \Magento\CatalogInventory\Model\Stock\Item
      */
     public function addQty($qty)
     {
@@ -329,10 +331,10 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
     /**
      * Adding stock data to product
      *
-     * @param   Magento_Catalog_Model_Product $product
-     * @return  Magento_CatalogInventory_Model_Stock_Item
+     * @param   \Magento\Catalog\Model\Product $product
+     * @return  \Magento\CatalogInventory\Model\Stock\Item
      */
-    public function assignProduct(Magento_Catalog_Model_Product $product)
+    public function assignProduct(\Magento\Catalog\Model\Product $product)
     {
         if (!$this->getId() || !$this->getProductId()) {
             $this->_getResource()->loadByProductId($this, $product->getId());
@@ -374,7 +376,7 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
      * Setter for customer group id
      *
      * @param int Value of customer group id
-     * @return Magento_CatalogInventory_Model_Stock_Item
+     * @return \Magento\CatalogInventory\Model\Stock\Item
      */
     public function setCustomerGroupId($value)
     {
@@ -392,7 +394,7 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
         $customerGroupId = $this->getCustomerGroupId();
         if (!$customerGroupId) {
             $customerGroupId = $this->_storeManager->getStore()->isAdmin()
-                ? Magento_Customer_Model_Group::CUST_GROUP_ALL
+                ? \Magento\Customer\Model\Group::CUST_GROUP_ALL
                 : $this->_customerSession->getCustomerGroupId();
         }
 
@@ -519,7 +521,7 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
      * Check quantity
      *
      * @param   decimal $qty
-     * @exception Magento_Core_Exception
+     * @exception \Magento\Core\Exception
      * @return  bool
      */
     public function checkQty($qty)
@@ -530,8 +532,8 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
 
         if ($this->getQty() - $this->getMinQty() - $qty < 0) {
             switch ($this->getBackorders()) {
-                case Magento_CatalogInventory_Model_Stock::BACKORDERS_YES_NONOTIFY:
-                case Magento_CatalogInventory_Model_Stock::BACKORDERS_YES_NOTIFY:
+                case \Magento\CatalogInventory\Model\Stock::BACKORDERS_YES_NONOTIFY:
+                case \Magento\CatalogInventory\Model\Stock::BACKORDERS_YES_NOTIFY:
                     break;
                 default:
                     return false;
@@ -588,11 +590,11 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
      * @param mixed $qty quantity of this item (item qty x parent item qty)
      * @param mixed $summaryQty quantity of this product
      * @param mixed $origQty original qty of item (not multiplied on parent item qty)
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function checkQuoteItemQty($qty, $summaryQty, $origQty = 0)
     {
-        $result = new Magento_Object();
+        $result = new \Magento\Object();
         $result->setHasError(false);
 
         if (!is_numeric($qty)) {
@@ -688,7 +690,7 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
                         $this->setOrderedItems($orderedItems + $qty);
                     }
 
-                    if ($this->getBackorders() == Magento_CatalogInventory_Model_Stock::BACKORDERS_YES_NOTIFY) {
+                    if ($this->getBackorders() == \Magento\CatalogInventory\Model\Stock::BACKORDERS_YES_NOTIFY) {
                         if (!$this->getIsChildItem()) {
                             $result->setMessage(
                                 __('We don\'t have as many "%1" as you requested, but we\'ll back order the remaining %2.', $this->getProductName(), ($backorderQty * 1))
@@ -718,11 +720,11 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
      * Check qty increments
      *
      * @param int|float $qty
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function checkQtyIncrements($qty)
     {
-        $result = new Magento_Object();
+        $result = new \Magento\Object();
         if ($this->getSuppressCheckQtyIncrements()) {
             return $result;
         }
@@ -756,8 +758,8 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
     /**
      * Add join for catalog in stock field to product collection
      *
-     * @param Magento_Catalog_Model_Entity_Product_Collection $productCollection
-     * @return Magento_CatalogInventory_Model_Stock_Item
+     * @param \Magento\Catalog\Model\Entity\Product\Collection $productCollection
+     * @return \Magento\CatalogInventory\Model\Stock\Item
      */
     public function addCatalogInventoryToProductCollection($productCollection)
     {
@@ -768,13 +770,13 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
     /**
      * Add error to Quote Item
      *
-     * @param Magento_Sales_Model_Quote_Item $item
+     * @param \Magento\Sales\Model\Quote\Item $item
      * @param string $itemError
      * @param string $quoteError
      * @param string $errorIndex
-     * @return Magento_CatalogInventory_Model_Stock_Item
+     * @return \Magento\CatalogInventory\Model\Stock\Item
      */
-    protected function _addQuoteItemError(Magento_Sales_Model_Quote_Item $item, $itemError,
+    protected function _addQuoteItemError(\Magento\Sales\Model\Quote\Item $item, $itemError,
         $quoteError, $errorIndex='error'
     ) {
         $item->setHasError(true);
@@ -787,7 +789,7 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
     /**
      * Before save prepare process
      *
-     * @return Magento_CatalogInventory_Model_Stock_Item
+     * @return \Magento\CatalogInventory\Model\Stock\Item
      */
     protected function _beforeSave()
     {
@@ -809,7 +811,7 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
             $this->setLowStockDate(null);
             if ($this->verifyNotification()) {
                 $this->setLowStockDate($this->_locale->date(null, null, null, false)
-                    ->toString(Magento_Date::DATETIME_INTERNAL_FORMAT)
+                    ->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT)
                 );
             }
 
@@ -836,7 +838,7 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
             $qty = $this->getQty();
         }
         if ($qty !== null
-            && $this->getBackorders() == Magento_CatalogInventory_Model_Stock::BACKORDERS_NO
+            && $this->getBackorders() == \Magento\CatalogInventory\Model\Stock::BACKORDERS_NO
             && $qty <= $this->getMinQty()
         ) {
             return false;
@@ -861,16 +863,16 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
     /**
      * Reindex CatalogInventory save event
      *
-     * @return Magento_CatalogInventory_Model_Stock_Item
+     * @return \Magento\CatalogInventory\Model\Stock\Item
      */
     protected function _afterSave()
     {
         parent::_afterSave();
 
         if ($this->_processIndexEvents) {
-            $this->_indexer->processEntityAction($this, self::ENTITY, Magento_Index_Model_Event::TYPE_SAVE);
+            $this->_indexer->processEntityAction($this, self::ENTITY, \Magento\Index\Model\Event::TYPE_SAVE);
         } else {
-            $this->_indexer->logEvent($this, self::ENTITY, Magento_Index_Model_Event::TYPE_SAVE);
+            $this->_indexer->logEvent($this, self::ENTITY, \Magento\Index\Model\Event::TYPE_SAVE);
         }
         return $this;
     }
@@ -892,8 +894,8 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
     /**
      * Add product data to stock item
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_CatalogInventory_Model_Stock_Item
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\CatalogInventory\Model\Stock\Item
      */
     public function setProduct($product)
     {
@@ -913,7 +915,7 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
     /**
      * Returns product instance
      *
-     * @return Magento_Catalog_Model_Product|null
+     * @return \Magento\Catalog\Model\Product|null
      */
     public function getProduct()
     {
@@ -960,7 +962,7 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
 
     /**
      * Reset model data
-     * @return Magento_CatalogInventory_Model_Stock_Item
+     * @return \Magento\CatalogInventory\Model\Stock\Item
      */
     public function reset()
     {
@@ -974,7 +976,7 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
      * Set whether index events should be processed immediately
      *
      * @param bool $process
-     * @return Magento_CatalogInventory_Model_Stock_Item
+     * @return \Magento\CatalogInventory\Model\Stock\Item
      */
     public function setProcessIndexEvents($process = true)
     {

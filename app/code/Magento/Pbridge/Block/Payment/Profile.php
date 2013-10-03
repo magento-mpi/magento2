@@ -16,7 +16,9 @@
  * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Pbridge_Block_Payment_Profile extends Magento_Pbridge_Block_Iframe_Abstract
+namespace Magento\Pbridge\Block\Payment;
+
+class Profile extends \Magento\Pbridge\Block\Iframe\AbstractIframe
 {
     /**
      * Default iframe height

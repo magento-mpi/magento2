@@ -15,36 +15,38 @@
  * @package     Magento_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Search_Block_Catalog_Layer_View extends Magento_Catalog_Block_Layer_View
+namespace Magento\Search\Block\Catalog\Layer;
+
+class View extends \Magento\Catalog\Block\Layer\View
 {
     /**
      * Extended search layer
      *
-     * @var Magento_Search_Model_Search_Layer
+     * @var \Magento\Search\Model\Search\Layer
      */
     protected $_searchLayer;
 
     /**
      * Search data
      *
-     * @var Magento_Search_Helper_Data
+     * @var \Magento\Search\Helper\Data
      */
     protected $_searchData;
 
     /**
-     * @param Magento_Search_Helper_Data $searchData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Search_Model_Search_Layer $searchLayer
-     * @param Magento_Catalog_Model_Layer $layer
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Search\Helper\Data $searchData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Search\Model\Search\Layer $searchLayer
+     * @param \Magento\Catalog\Model\Layer $layer
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Search_Helper_Data $searchData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Search_Model_Search_Layer $searchLayer,
-        Magento_Catalog_Model_Layer $layer,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Search\Helper\Data $searchData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Search\Model\Search\Layer $searchLayer,
+        \Magento\Catalog\Model\Layer $layer,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_searchData = $searchData;
@@ -60,17 +62,17 @@ class Magento_Search_Block_Catalog_Layer_View extends Magento_Catalog_Block_Laye
         parent::_initBlocks();
 
         if ($this->_searchData->getIsEngineAvailableForNavigation()) {
-            $this->_categoryBlockName        = 'Magento_Search_Block_Catalog_Layer_Filter_Category';
-            $this->_attributeFilterBlockName = 'Magento_Search_Block_Catalog_Layer_Filter_Attribute';
-            $this->_priceFilterBlockName     = 'Magento_Search_Block_Catalog_Layer_Filter_Price';
-            $this->_decimalFilterBlockName   = 'Magento_Search_Block_Catalog_Layer_Filter_Decimal';
+            $this->_categoryBlockName        = 'Magento\Search\Block\Catalog\Layer\Filter\Category';
+            $this->_attributeFilterBlockName = 'Magento\Search\Block\Catalog\Layer\Filter\Attribute';
+            $this->_priceFilterBlockName     = 'Magento\Search\Block\Catalog\Layer\Filter\Price';
+            $this->_decimalFilterBlockName   = 'Magento\Search\Block\Catalog\Layer\Filter\Decimal';
         }
     }
 
     /**
      * Prepare child blocks
      *
-     * @return Magento_Search_Block_Catalog_Layer_View
+     * @return \Magento\Search\Block\Catalog\Layer\View
      */
     protected function _prepareLayout()
     {
@@ -118,7 +120,7 @@ class Magento_Search_Block_Catalog_Layer_View extends Magento_Catalog_Block_Laye
     /**
      * Get layer object
      *
-     * @return Magento_Catalog_Model_Layer
+     * @return \Magento\Catalog\Model\Layer
      */
     public function getLayer()
     {

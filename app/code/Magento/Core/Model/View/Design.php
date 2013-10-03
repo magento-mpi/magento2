@@ -11,7 +11,9 @@
 /**
  * Keeps design settings for current request
  */
-class Magento_Core_Model_View_Design implements Magento_Core_Model_View_DesignInterface
+namespace Magento\Core\Model\View;
+
+class Design implements \Magento\Core\Model\View\DesignInterface
 {
     /**
      * Common node path to theme design configuration
@@ -42,7 +44,7 @@ class Magento_Core_Model_View_Design implements Magento_Core_Model_View_DesignIn
     /**
      * Package theme
      *
-     * @var Magento_Core_Model_Theme
+     * @var \Magento\Core\Model\Theme
      */
     protected $_theme;
 
@@ -57,51 +59,51 @@ class Magento_Core_Model_View_Design implements Magento_Core_Model_View_DesignIn
     /**
      * Store list manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Model_Theme_FlyweightFactory
+     * @var \Magento\Core\Model\Theme\FlyweightFactory
      */
     protected $_flyweightFactory;
 
     /**
-     * @var Magento_Core_Model_Theme
+     * @var \Magento\Core\Model\Theme
      */
     protected $_themeFactory;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_config;
 
     /**
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     private $_storeConfig;
 
     /**
-     * @var Magento_Core_Model_App
+     * @var \Magento\Core\Model\App
      */
     protected $_app;
 
     /**
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Theme_FlyweightFactory $flyweightFactory
-     * @param Magento_Core_Model_ConfigInterface $config
-     * @param Magento_Core_Model_Store_ConfigInterface $storeConfig
-     * @param Magento_Core_Model_ThemeFactory $themeFactory
-     * @param Magento_Core_Model_App $app
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Theme\FlyweightFactory $flyweightFactory
+     * @param \Magento\Core\Model\ConfigInterface $config
+     * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
+     * @param \Magento\Core\Model\ThemeFactory $themeFactory
+     * @param \Magento\Core\Model\App $app
      * @param array $themes
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Theme_FlyweightFactory $flyweightFactory,
-        Magento_Core_Model_ConfigInterface $config,
-        Magento_Core_Model_Store_ConfigInterface $storeConfig,
-        Magento_Core_Model_ThemeFactory $themeFactory,
-        Magento_Core_Model_App $app,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Theme\FlyweightFactory $flyweightFactory,
+        \Magento\Core\Model\ConfigInterface $config,
+        \Magento\Core\Model\Store\ConfigInterface $storeConfig,
+        \Magento\Core\Model\ThemeFactory $themeFactory,
+        \Magento\Core\Model\App $app,
         array $themes
     ) {
         $this->_storeManager = $storeManager;
@@ -117,7 +119,7 @@ class Magento_Core_Model_View_Design implements Magento_Core_Model_View_DesignIn
      * Set package area
      *
      * @param string $area
-     * @return Magento_Core_Model_View_Design
+     * @return \Magento\Core\Model\View\Design
      */
     public function setArea($area)
     {
@@ -142,9 +144,9 @@ class Magento_Core_Model_View_Design implements Magento_Core_Model_View_DesignIn
     /**
      * Set theme path
      *
-     * @param Magento_Core_Model_Theme|int|string $theme
+     * @param \Magento\Core\Model\Theme|int|string $theme
      * @param string $area
-     * @return Magento_Core_Model_View_Design
+     * @return \Magento\Core\Model\View\Design
      */
     public function setDesignTheme($theme, $area = null)
     {
@@ -152,7 +154,7 @@ class Magento_Core_Model_View_Design implements Magento_Core_Model_View_DesignIn
             $this->setArea($area);
         }
 
-        if ($theme instanceof Magento_Core_Model_Theme) {
+        if ($theme instanceof \Magento\Core\Model\Theme) {
             $this->_theme = $theme;
         } else {
             $this->_theme = $this->_flyweightFactory->create($theme, $this->getArea());
@@ -206,7 +208,7 @@ class Magento_Core_Model_View_Design implements Magento_Core_Model_View_DesignIn
     /**
      * Set default design theme
      *
-     * @return Magento_Core_Model_View_Design
+     * @return \Magento\Core\Model\View\Design
      */
     public function setDefaultDesignTheme()
     {
@@ -217,7 +219,7 @@ class Magento_Core_Model_View_Design implements Magento_Core_Model_View_DesignIn
     /**
      * Design theme model getter
      *
-     * @return Magento_Core_Model_Theme
+     * @return \Magento\Core\Model\Theme
      */
     public function getDesignTheme()
     {

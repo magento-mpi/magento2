@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceBlock name="adminhtml.targetrule.grid.container">
-        <block class="Magento_TargetRule_Block_Adminhtml_Product" name="targetrule.adminhtml.product" template="product.phtml" before="catalog.product.edit.tab.related">
+        <block class="Magento\TargetRule\Block\Adminhtml\Product" name="targetrule.adminhtml.product" template="product.phtml" before="catalog.product.edit.tab.related">
             <action method="setFormPrefix">
                 <argument name="params" xsi:type="string">related</argument>
             </action>

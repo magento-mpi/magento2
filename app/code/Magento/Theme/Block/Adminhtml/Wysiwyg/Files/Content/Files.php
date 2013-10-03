@@ -12,10 +12,12 @@
  * Files files block
  *
  * @method
- *  Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Files setStorage(Magento_Theme_Model_Wysiwyg_Storage $storage)
- * @method Magento_Theme_Model_Wysiwyg_Storage getStorage
+ *  \Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Content\Files setStorage(\Magento\Theme\Model\Wysiwyg\Storage $storage)
+ * @method \Magento\Theme\Model\Wysiwyg\Storage getStorage
  */
-class Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Files extends Magento_Backend_Block_Template
+namespace Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Content;
+
+class Files extends \Magento\Backend\Block\Template
 {
     /**
      * Files list

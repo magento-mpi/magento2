@@ -6,57 +6,59 @@
  * @license   {license_link}
  */
 
-class Magento_Reward_Model_Observer_PlaceOrderTest extends PHPUnit_Framework_TestCase
+namespace Magento\Reward\Model\Observer;
+
+class PlaceOrderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Reward_Model_Observer_PlaceOrder
+     * @var \Magento\Reward\Model\Observer\PlaceOrder
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_restrictionMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_modelFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_resourceFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeManagerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_validatorMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_observerMock;
 
     protected function setUp()
     {
-        $this->_restrictionMock = $this->getMock('Magento_Reward_Model_Observer_PlaceOrder_RestrictionInterface');
-        $this->_storeManagerMock = $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false);
+        $this->_restrictionMock = $this->getMock('Magento\Reward\Model\Observer\PlaceOrder\RestrictionInterface');
+        $this->_storeManagerMock = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
         $this->_modelFactoryMock
-            = $this->getMock('Magento_Reward_Model_RewardFactory', array('create'), array(), '', false);
+            = $this->getMock('Magento\Reward\Model\RewardFactory', array('create'), array(), '', false);
         $this->_resourceFactoryMock
-            = $this->getMock('Magento_Reward_Model_Resource_RewardFactory', array('create'), array(), '', false);
+            = $this->getMock('Magento\Reward\Model\Resource\RewardFactory', array('create'), array(), '', false);
         $this->_validatorMock
-            = $this->getMock('Magento_Reward_Model_Reward_Balance_Validator', array(), array(), '', false);
+            = $this->getMock('Magento\Reward\Model\Reward\Balance\Validator', array(), array(), '', false);
 
-        $this->_observerMock = $this->getMock('Magento_Event_Observer', array(), array(), '', false);
+        $this->_observerMock = $this->getMock('Magento\Event\Observer', array(), array(), '', false);
 
-        $this->_model = new Magento_Reward_Model_Observer_PlaceOrder(
+        $this->_model = new \Magento\Reward\Model\Observer\PlaceOrder(
             $this->_restrictionMock,
             $this->_storeManagerMock,
             $this->_modelFactoryMock,
@@ -74,18 +76,18 @@ class Magento_Reward_Model_Observer_PlaceOrderTest extends PHPUnit_Framework_Tes
     public function testDispatchIfRewardCurrencyAmountAboveNull()
     {
         $this->_restrictionMock->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
-        $order = $this->getMock('Magento_Sales_Model_Order', array('getBaseRewardCurrencyAmount'), array(), '', false);
-        $event = $this->getMock('Magento_Event', array('getOrder'), array(), '', false);
+        $order = $this->getMock('Magento\Sales\Model\Order', array('getBaseRewardCurrencyAmount'), array(), '', false);
+        $event = $this->getMock('Magento\Event', array('getOrder'), array(), '', false);
         $this->_observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
         $event->expects($this->once())->method('getOrder')->will($this->returnValue($order));
         $order->expects($this->once())
             ->method('getBaseRewardCurrencyAmount', 'getCustomerId')->will($this->returnValue(1));
-        $model = $this->getMock('Magento_Reward_Model_Reward', array(), array(), '', false);
+        $model = $this->getMock('Magento\Reward\Model\Reward', array(), array(), '', false);
         $this->_modelFactoryMock->expects($this->once())->method('create')->will($this->returnValue($model));
-        $store = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);
+        $store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
         $this->_storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($store));
         $store->expects($this->once())->method('getWebsiteId');
-        $resource = $this->getMock('Magento_Reward_Model_Resource_Reward', array(), array(), '', false);
+        $resource = $this->getMock('Magento\Reward\Model\Resource\Reward', array(), array(), '', false);
         $this->_resourceFactoryMock->expects($this->once())->method('create')->will($this->returnValue($resource));
         $resource->expects($this->once())->method('getRewardSalesrule')->will($this->returnValue(array()));
         $order->expects($this->never())->method('setRewardSalesrulePoints');
@@ -95,12 +97,12 @@ class Magento_Reward_Model_Observer_PlaceOrderTest extends PHPUnit_Framework_Tes
     public function testDispatchIfRewardCurrencyAmountBelowNull()
     {
         $this->_restrictionMock->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
-        $order = $this->getMock('Magento_Sales_Model_Order', array('getBaseRewardCurrencyAmount'), array(), '', false);
-        $event = $this->getMock('Magento_Event', array('getOrder'), array(), '', false);
+        $order = $this->getMock('Magento\Sales\Model\Order', array('getBaseRewardCurrencyAmount'), array(), '', false);
+        $event = $this->getMock('Magento\Event', array('getOrder'), array(), '', false);
         $this->_observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
         $event->expects($this->once())->method('getOrder')->will($this->returnValue($order));
         $order->expects($this->once())->method('getBaseRewardCurrencyAmount')->will($this->returnValue(-1));
-        $resource = $this->getMock('Magento_Reward_Model_Resource_Reward', array(), array(), '', false);
+        $resource = $this->getMock('Magento\Reward\Model\Resource\Reward', array(), array(), '', false);
         $this->_resourceFactoryMock->expects($this->once())->method('create')->will($this->returnValue($resource));
         $resource->expects($this->once())->method('getRewardSalesrule')->will($this->returnValue(array()));
         $this->_model->dispatch($this->_observerMock);
@@ -110,14 +112,14 @@ class Magento_Reward_Model_Observer_PlaceOrderTest extends PHPUnit_Framework_Tes
     {
         $data = array('key1' => array('points_delta' => 60), 'key2' => array('points_delta' => 45));
         $this->_restrictionMock->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
-        $order = $this->getMock('Magento_Sales_Model_Order',
+        $order = $this->getMock('Magento\Sales\Model\Order',
             array('getBaseRewardCurrencyAmount', 'setRewardSalesrulePoints'), array(), '', false
         );
-        $event = $this->getMock('Magento_Event', array('getOrder'), array(), '', false);
+        $event = $this->getMock('Magento\Event', array('getOrder'), array(), '', false);
         $this->_observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
         $event->expects($this->once())->method('getOrder')->will($this->returnValue($order));
         $order->expects($this->once())->method('getBaseRewardCurrencyAmount')->will($this->returnValue(-1));
-        $resource = $this->getMock('Magento_Reward_Model_Resource_Reward', array(), array(), '', false);
+        $resource = $this->getMock('Magento\Reward\Model\Resource\Reward', array(), array(), '', false);
         $this->_resourceFactoryMock->expects($this->once())->method('create')->will($this->returnValue($resource));
         $resource->expects($this->once())->method('getRewardSalesrule')->will($this->returnValue($data));
         $order->expects($this->once())->method('setRewardSalesrulePoints')->with(105);

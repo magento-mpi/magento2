@@ -16,25 +16,27 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  * @method array getTemplateOptions()
  */
-class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminhtml_Block_Widget
+namespace Magento\Adminhtml\Block\System\Email\Template;
+
+class Edit extends \Magento\Adminhtml\Block\Widget
 {
     /**
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_registryManager;
 
     /**
-     * @var Magento_Backend_Model_Menu_Config
+     * @var \Magento\Backend\Model\Menu\Config
      */
     protected $_menuConfig;
 
     /**
-     * @var Magento_Backend_Model_Config_Structure
+     * @var \Magento\Backend\Model\Config\Structure
      */
     protected $_configStructure;
 
     /**
-     * @var Magento_Core_Model_Email_Template_Config
+     * @var \Magento\Core\Model\Email\Template\Config
      */
     private $_emailConfig;
 
@@ -46,21 +48,21 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
     protected $_template = 'system/email/template/edit.phtml';
     
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Backend_Model_Menu_Config $menuConfig
-     * @param Magento_Backend_Model_Config_Structure $configStructure
-     * @param Magento_Core_Model_Email_Template_Config $emailConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Backend\Model\Menu\Config $menuConfig
+     * @param \Magento\Backend\Model\Config\Structure $configStructure
+     * @param \Magento\Core\Model\Email\Template\Config $emailConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Backend_Model_Menu_Config $menuConfig,
-        Magento_Backend_Model_Config_Structure $configStructure,
-        Magento_Core_Model_Email_Template_Config $emailConfig,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Backend\Model\Menu\Config $menuConfig,
+        \Magento\Backend\Model\Config\Structure $configStructure,
+        \Magento\Core\Model\Email\Template\Config $emailConfig,
         array $data = array()
     ) {
         $this->_registryManager = $registry;
@@ -73,7 +75,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
     protected function _prepareLayout()
     {
         $this->setChild('back_button',
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
                 ->setData(
                     array(
                         'label'   => __('Back'),
@@ -84,7 +86,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
         );
 
         $this->setChild('reset_button',
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
                 ->setData(
                     array(
                         'label'   => __('Reset'),
@@ -94,7 +96,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
         );
 
         $this->setChild('delete_button',
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
                 ->setData(
                     array(
                         'label'   => __('Delete Template'),
@@ -105,7 +107,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
         );
 
         $this->setChild('to_plain_button',
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
                 ->setData(
                     array(
                         'label'   => __('Convert to Plain Text'),
@@ -116,7 +118,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
         );
 
         $this->setChild('to_html_button',
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
                 ->setData(
                     array(
                         'label'   => __('Return Html Version'),
@@ -128,7 +130,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
         );
 
         $this->setChild('toggle_button',
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
                 ->setData(
                     array(
                         'label'   => __('Toggle Editor'),
@@ -139,7 +141,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
         );
 
         $this->setChild('preview_button',
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
                 ->setData(
                     array(
                         'label'   => __('Preview Template'),
@@ -149,7 +151,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
         );
 
         $this->setChild('save_button',
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
                 ->setData(
                     array(
                         'label'   => __('Save Template'),
@@ -160,7 +162,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
         );
 
         $this->setChild('load_button',
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
                 ->setData(
                     array(
                         'label'   => __('Load Template'),
@@ -171,14 +173,14 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
                 )
         );
 
-        $this->addChild('form', 'Magento_Adminhtml_Block_System_Email_Template_Edit_Form');
+        $this->addChild('form', 'Magento\Adminhtml\Block\System\Email\Template\Edit\Form');
         return parent::_prepareLayout();
     }
 
     /**
      * Collect, sort and set template options
      *
-     * @return Magento_Adminhtml_Block_System_Email_Template_Edit
+     * @return \Magento\Adminhtml\Block\System\Email\Template\Edit
      */
     protected function _beforeToHtml()
     {
@@ -329,7 +331,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
     /**
      * Retrive email template model
      *
-     * @return Magento_Core_Model_Email_Template
+     * @return \Magento\Core\Model\Email\Template
      */
     public function getEmailTemplate()
     {
@@ -354,12 +356,12 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
      */
     public function getUsedDefaultForPaths($asJSON = true)
     {
-        /** @var $template Magento_Adminhtml_Model_Email_Template */
+        /** @var $template \Magento\Adminhtml\Model\Email\Template */
         $template = $this->getEmailTemplate();
         $paths = $template->getSystemConfigPathsWhereUsedAsDefault();
         $pathsParts = $this->_getSystemConfigPathsParts($paths);
         if ($asJSON) {
-            return $this->helper('Magento_Core_Helper_Data')->jsonEncode($pathsParts);
+            return $this->helper('Magento\Core\Helper\Data')->jsonEncode($pathsParts);
         }
         return $pathsParts;
     }
@@ -372,7 +374,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
      */
     public function getUsedCurrentlyForPaths($asJSON = true)
     {
-        /** @var $template Magento_Adminhtml_Model_Email_Template */
+        /** @var $template \Magento\Adminhtml\Model\Email\Template */
         $template = $this->getEmailTemplate();
         $paths = $template->getSystemConfigPathsWhereUsedCurrently();
         $pathsParts = $this->_getSystemConfigPathsParts($paths);
@@ -393,7 +395,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
         $result = $urlParams = $prefixParts = array();
         $scopeLabel = __('GLOBAL');
         if ($paths) {
-            /** @var $menu Magento_Backend_Model_Menu */
+            /** @var $menu \Magento\Backend\Model\Menu */
             $menu = $this->_menuConfig->getMenu();
             $item = $menu->get('Magento_Adminhtml::system');
             // create prefix path parts

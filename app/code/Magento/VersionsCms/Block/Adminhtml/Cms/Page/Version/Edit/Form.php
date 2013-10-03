@@ -11,8 +11,10 @@
 /**
  * Form for version edit page
  */
-class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Form
-    extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Version\Edit;
+
+class Form
+    extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * @var string
@@ -22,31 +24,31 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Form
     /**
      * Cms data
      *
-     * @var Magento_VersionsCms_Helper_Data
+     * @var \Magento\VersionsCms\Helper\Data
      */
     protected $_cmsData;
 
     /**
-     * @var Magento_VersionsCms_Model_Config
+     * @var \Magento\VersionsCms\Model\Config
      */
     protected $_cmsConfig;
 
     /**
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_VersionsCms_Helper_Data $cmsData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_VersionsCms_Model_Config $cmsConfig
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\VersionsCms\Helper\Data $cmsData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Data_Form_Factory $formFactory,
-        Magento_VersionsCms_Helper_Data $cmsData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_VersionsCms_Model_Config $cmsConfig,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\VersionsCms\Helper\Data $cmsData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\VersionsCms\Model\Config $cmsConfig,
         array $data = array()
     ) {
         $this->_cmsData = $cmsData;
@@ -57,11 +59,11 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Form
     /**
      * Preparing from for version page
      *
-     * @return Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Form
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Form
      */
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id' => 'edit_form',
@@ -72,7 +74,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Form
 
         $form->setUseContainer(true);
 
-        /* @var $model Magento_Cms_Model_Page */
+        /* @var $model \Magento\Cms\Model\Page */
         $version = $this->_coreRegistry->registry('cms_page_version');
 
         $isOwner = $this->_cmsConfig->isCurrentUserOwner($version->getUserId());

@@ -5,11 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Modular_CrontabConfigFilesTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Modular;
+
+class CrontabConfigFilesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * attributes represent merging rules
-     * copied from original class Magento_Core_Model_Route_Config_Reader
+     * copied from original class \Magento\Core\Model\Route\Config\Reader
      *
      * @var array
      */
@@ -26,16 +28,16 @@ class Magento_Test_Integrity_Modular_CrontabConfigFilesTest extends PHPUnit_Fram
 
     protected function setUp()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $this->_mergedSchemaFile = $objectManager->get('Magento_Cron_Model_Config_SchemaLocator')->getSchema();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->_mergedSchemaFile = $objectManager->get('Magento\Cron\Model\Config\SchemaLocator')->getSchema();
     }
 
     public function testCrontabConfigFiles()
     {
         $invalidFiles = array();
 
-        $files = Magento_TestFramework_Utility_Files::init()->getConfigFiles('crontab.xml');
-        $mergedConfig = new Magento_Config_Dom(
+        $files = \Magento\TestFramework\Utility\Files::init()->getConfigFiles('crontab.xml');
+        $mergedConfig = new \Magento\Config\Dom(
             '<config></config>',
             $this->_idAttributes
         );
@@ -43,10 +45,10 @@ class Magento_Test_Integrity_Modular_CrontabConfigFilesTest extends PHPUnit_Fram
         foreach ($files as $file) {
             $content = file_get_contents($file[0]);
             try {
-                new Magento_Config_Dom($content, $this->_idAttributes);
+                new \Magento\Config\Dom($content, $this->_idAttributes);
                 //merge won't be performed if file is invalid because of exception thrown
                 $mergedConfig->merge($content);
-            } catch (Magento_Config_Dom_ValidationException $e) {
+            } catch (\Magento\Config\Dom\ValidationException $e) {
                 $invalidFiles[] = $file[0];
             }
         }

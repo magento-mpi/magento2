@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $this Magento_Wishlist_Block_Customer_Sharing */
+/** @var $this \Magento\Wishlist\Block\Customer\Sharing */
 ?>
 <div class="page-title">
     <h1><?php echo __('Share Your Wish List') ?></h1>
@@ -31,7 +31,7 @@
                     <textarea id="message" name="message" cols="60" rows="5" class="validate-length maximum-length-<?php echo $this->getTextSharingLimit();?>"><?php echo $this->getEnteredData('message') ?></textarea>
                 </div>
             </li>
-            <?php if($this->helper('Magento_Wishlist_Helper_Data')->isRssAllow()): ?>
+            <?php if($this->helper('Magento\Wishlist\Helper\Data')->isRssAllow()): ?>
             <li class="control">
                 <div class="input-box">
                     <input type="checkbox" name="rss_url" id="rss_url" value="1" title="<?php echo __('Check this checkbox if you want to add a link to an rss feed to your wishlist.') ?>" class="checkbox" />

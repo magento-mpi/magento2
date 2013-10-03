@@ -10,9 +10,11 @@
  */
 
 /**
- * Test class for Magento_CatalogEvent_Model_Resource_Event_Collection
+ * Test class for \Magento\CatalogEvent\Model\Resource\Event\Collection
  */
-class Magento_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUnit_Framework_TestCase
+namespace Magento\CatalogEvent\Model\Resource\Event;
+
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Main table name
@@ -69,7 +71,7 @@ class Magento_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUnit_F
     );
 
     /**
-     * @var Magento_CatalogEvent_Model_Resource_Event_Collection
+     * @var \Magento\CatalogEvent\Model\Resource\Event\Collection
      */
     protected $_collection;
 
@@ -84,19 +86,19 @@ class Magento_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUnit_F
             );
         }
 
-        $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
+        $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
 
-        $store = $this->getMock('Magento_Core_Model_Store', array('getId', '__sleep', '__wakeup'), array(), '', false);
+        $store = $this->getMock('Magento\Core\Model\Store', array('getId', '__sleep', '__wakeup'), array(), '', false);
         $store->expects($this->once())
             ->method('getId')
             ->will($this->returnValue(self::CURRENT_STORE_ID));
 
-        $application = $this->getMock('Magento_Core_Model_App', array('getStore'), array(), '', false);
+        $application = $this->getMock('Magento\Core\Model\App', array('getStore'), array(), '', false);
         $application->expects($this->once())
             ->method('getStore')
             ->will($this->returnValue($store));
 
-        $select = $this->getMock('Magento_DB_Select', array('joinLeft', 'from', 'columns'), array(), '', false);
+        $select = $this->getMock('Magento\DB\Select', array('joinLeft', 'from', 'columns'), array(), '', false);
         foreach ($this->_joinValues as $key => $arguments) {
             $select->expects($this->at($key))
                 ->method('joinLeft')
@@ -104,7 +106,7 @@ class Magento_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUnit_F
                 ->will($this->returnSelf());
         }
 
-        $adapter = $this->getMock('Magento_DB_Adapter_Pdo_Mysql', array('select', 'quoteInto', 'getCheckSql', 'quote'),
+        $adapter = $this->getMock('Magento\DB\Adapter\Pdo\Mysql', array('select', 'quoteInto', 'getCheckSql', 'quote'),
             array(), '', false
         );
         $adapter->expects($this->once())
@@ -121,7 +123,7 @@ class Magento_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUnit_F
             ->method('getCheckSql')
             ->will($this->returnCallback(array($this, 'verifyGetCheckSql')));
 
-        $resource = $this->getMockForAbstractClass('Magento_Core_Model_Resource_Db_Abstract',
+        $resource = $this->getMockForAbstractClass('Magento\Core\Model\Resource\Db\AbstractDb',
             array(), '', false, true, true,
             array(
                 'getReadConnection',
@@ -139,12 +141,12 @@ class Magento_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUnit_F
             ->method('getTable')
             ->will($this->returnValue(self::MAIN_TABLE));
 
-        $fetchStrategy = $this->getMockForAbstractClass('Magento_Data_Collection_Db_FetchStrategyInterface');
-        $entityFactory = $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false);
-        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
+        $fetchStrategy = $this->getMockForAbstractClass('Magento\Data\Collection\Db\FetchStrategyInterface');
+        $entityFactory = $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
 
         $this->_collection = $this->getMock(
-            'Magento_CatalogEvent_Model_Resource_Event_Collection',
+            'Magento\CatalogEvent\Model\Resource\Event\Collection',
             array('setModel'),
             array($eventManager, $logger, $fetchStrategy, $entityFactory, $application, $resource)
         );
@@ -174,7 +176,7 @@ class Magento_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUnit_F
 
     public function testAddImageData()
     {
-        $this->assertInstanceOf('Magento_CatalogEvent_Model_Resource_Event_Collection',
+        $this->assertInstanceOf('Magento\CatalogEvent\Model\Resource\Event\Collection',
             $this->_collection->addImageData()
         );
     }

@@ -14,7 +14,9 @@
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resource_Abstract
+namespace Magento\Catalog\Model\Resource;
+
+class Product extends \Magento\Catalog\Model\Resource\AbstractResource
 {
     /**
      * Product to website linkage table
@@ -33,45 +35,45 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
     /**
      * Catalog category
      *
-     * @var Magento_Catalog_Model_Resource_Category
+     * @var \Magento\Catalog\Model\Resource\Category
      */
     protected $_catalogCategory;
 
     /**
      * Category collection factory
      *
-     * @var Magento_Catalog_Model_Resource_Category_CollectionFactory
+     * @var \Magento\Catalog\Model\Resource\Category\CollectionFactory
      */
     protected $_categoryCollectionFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Eav_Model_Resource_Helper $resourceHelper
-     * @param Magento_Validator_UniversalFactory $universalFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Model_Factory $modelFactory
-     * @param Magento_Catalog_Model_Resource_Category_CollectionFactory $categoryCollectionFactory
-     * @param Magento_Catalog_Model_Resource_Category $catalogCategory
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Factory $modelFactory
+     * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory
+     * @param \Magento\Catalog\Model\Resource\Category $catalogCategory
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Eav_Model_Resource_Helper $resourceHelper,
-        Magento_Validator_UniversalFactory $universalFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Model_Factory $modelFactory,
-        Magento_Catalog_Model_Resource_Category_CollectionFactory $categoryCollectionFactory,
-        Magento_Catalog_Model_Resource_Category $catalogCategory,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Eav\Model\Resource\Helper $resourceHelper,
+        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Factory $modelFactory,
+        \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory,
+        \Magento\Catalog\Model\Resource\Category $catalogCategory,
         $data = array()
     ) {
         $this->_categoryCollectionFactory = $categoryCollectionFactory;
@@ -87,7 +89,7 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
             $modelFactory,
             $data
         );
-        $this->setType(Magento_Catalog_Model_Product::ENTITY)->setConnection('catalog_read', 'catalog_write');
+        $this->setType(\Magento\Catalog\Model\Product::ENTITY)->setConnection('catalog_read', 'catalog_write');
         $this->_productWebsiteTable = $this->getTable('catalog_product_website');
         $this->_productCategoryTable = $this->getTable('catalog_category_product');
     }
@@ -105,14 +107,14 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
     /**
      * Retrieve product website identifiers
      *
-     * @param Magento_Catalog_Model_Product|int $product
+     * @param \Magento\Catalog\Model\Product|int $product
      * @return array
      */
     public function getWebsiteIds($product)
     {
         $adapter = $this->_getReadAdapter();
 
-        if ($product instanceof Magento_Catalog_Model_Product) {
+        if ($product instanceof \Magento\Catalog\Model\Product) {
             $productId = $product->getId();
         } else {
             $productId = $product;
@@ -152,7 +154,7 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
     /**
      * Retrieve product category identifiers
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return array
      */
     public function getCategoryIds($product)
@@ -188,10 +190,10 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
     /**
      * Process product data before save
      *
-     * @param Magento_Object $object
-     * @return Magento_Catalog_Model_Resource_Product
+     * @param \Magento\Object $object
+     * @return \Magento\Catalog\Model\Resource\Product
      */
-    protected function _beforeSave(Magento_Object $object)
+    protected function _beforeSave(\Magento\Object $object)
     {
         /**
          * Check if declared category ids in object data.
@@ -216,10 +218,10 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
     /**
      * Save data related with product
      *
-     * @param Magento_Object $product
-     * @return Magento_Catalog_Model_Resource_Product
+     * @param \Magento\Object $product
+     * @return \Magento\Catalog\Model\Resource\Product
      */
-    protected function _afterSave(Magento_Object $product)
+    protected function _afterSave(\Magento\Object $product)
     {
         $this->_saveWebsiteIds($product)
             ->_saveCategories($product);
@@ -229,8 +231,8 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
     /**
      * Save product website relations
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_Catalog_Model_Resource_Product
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\Catalog\Model\Resource\Product
      */
     protected function _saveWebsiteIds($product)
     {
@@ -278,10 +280,10 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
     /**
      * Save product category relations
      *
-     * @param Magento_Object $object
-     * @return Magento_Catalog_Model_Resource_Product
+     * @param \Magento\Object $object
+     * @return \Magento\Catalog\Model\Resource\Product
      */
-    protected function _saveCategories(Magento_Object $object)
+    protected function _saveCategories(\Magento\Object $object)
     {
         /**
          * If category ids data is not declared we haven't do manipulations
@@ -337,8 +339,8 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
     /**
      * Refresh Product Enabled Index
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_Catalog_Model_Resource_Product
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\Catalog\Model\Resource\Product
      */
     public function refreshIndex($product)
     {
@@ -401,10 +403,10 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
      * if store parameter is null - index will refreshed for all stores
      * if product parameter is null - idex will be refreshed for all products
      *
-     * @param Magento_Core_Model_Store $store
-     * @param Magento_Catalog_Model_Product $product
-     * @throws Magento_Core_Exception
-     * @return Magento_Catalog_Model_Resource_Product
+     * @param \Magento\Core\Model\Store $store
+     * @param \Magento\Catalog\Model\Product $product
+     * @throws \Magento\Core\Exception
+     * @return \Magento\Catalog\Model\Resource\Product
      */
     public function refreshEnabledIndex($store = null, $product = null)
     {
@@ -422,7 +424,7 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
 
         $indexTable = $this->getTable('catalog_product_enabled_index');
         if (is_null($store) && is_null($product)) {
-            throw new Magento_Core_Exception(
+            throw new \Magento\Core\Exception(
                 __('To reindex the enabled product(s), please specify the store or product.')
             );
         } elseif (is_null($product) || is_array($product)) {
@@ -437,7 +439,7 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
 
             $selectFields = array(
                 't_v_default.entity_id',
-                new Zend_Db_Expr($storeId),
+                new \Zend_Db_Expr($storeId),
                 $adapter->getCheckSql('t_v.value_id > 0', 't_v.value', 't_v_default.value'),
             );
 
@@ -464,8 +466,8 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
             );
 
             $selectFields = array(
-                new Zend_Db_Expr($productId),
-                new Zend_Db_Expr($storeId),
+                new \Zend_Db_Expr($productId),
+                new \Zend_Db_Expr($storeId),
                 $adapter->getCheckSql('t_v.value_id > 0', 't_v.value', 't_v_default.value')
             );
 
@@ -517,7 +519,7 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
 
         $select->where('t_v_default.attribute_id = ?', $visibilityAttributeId)
             ->where('t_v_default.store_id = ?', 0)
-            ->where(sprintf('%s = ?', $valueCondition), Magento_Catalog_Model_Product_Status::STATUS_ENABLED);
+            ->where(sprintf('%s = ?', $valueCondition), \Magento\Catalog\Model\Product\Status::STATUS_ENABLED);
 
         if (is_array($product) && !empty($product)) {
             $select->where('t_v_default.entity_id IN (?)', $product);
@@ -532,12 +534,12 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
     /**
      * Get collection of product categories
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_Catalog_Model_Resource_Category_Collection
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\Catalog\Model\Resource\Category\Collection
      */
     public function getCategoryCollection($product)
     {
-        /** @var Magento_Catalog_Model_Resource_Category_Collection $collection */
+        /** @var \Magento\Catalog\Model\Resource\Category\Collection $collection */
         $collection = $this->_categoryCollectionFactory->create();
         $collection->joinField('product_id',
                 'catalog_category_product',
@@ -551,7 +553,7 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
     /**
      * Retrieve category ids where product is available
      *
-     * @param Magento_Catalog_Model_Product $object
+     * @param \Magento\Catalog\Model\Product $object
      * @return array
      */
     public function getAvailableInCategories($object)
@@ -572,13 +574,13 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
      */
     public function getDefaultAttributeSourceModel()
     {
-        return 'Magento_Eav_Model_Entity_Attribute_Source_Table';
+        return 'Magento\Eav\Model\Entity\Attribute\Source\Table';
     }
 
     /**
      * Check availability display product in category
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param int $categoryId
      * @return string
      */
@@ -597,7 +599,7 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
      *
      * @param int $oldId
      * @param int $newId
-     * @return Magento_Catalog_Model_Resource_Product
+     * @return \Magento\Catalog\Model\Resource\Product
      */
     public function duplicate($oldId, $newId)
     {
@@ -615,7 +617,7 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
                     'entity_type_id',
                     'attribute_id',
                     'store_id',
-                    'entity_id' => new Zend_Db_Expr($adapter->quote($newId)),
+                    'entity_id' => new \Zend_Db_Expr($adapter->quote($newId)),
                     'value'
                 ))
                 ->where('entity_id = ?', $oldId)
@@ -631,7 +633,7 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
                     'entity_id',
                     'value'
                 ),
-                Magento_DB_Adapter_Interface::INSERT_ON_DUPLICATE
+                \Magento\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
             ));
         }
 
@@ -644,7 +646,7 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
         $updateCond[]         = $adapter->quoteInto('attribute_id = ?', $statusAttributeId);
         $adapter->update(
             $statusAttributeTable,
-            array('value' => Magento_Catalog_Model_Product_Status::STATUS_DISABLED),
+            array('value' => \Magento\Catalog\Model\Product\Status::STATUS_DISABLED),
             $updateCond
         );
 
@@ -690,7 +692,7 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
     /**
      * Return assigned images for specific stores
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param int|array $storeIds
      * @return array
      *

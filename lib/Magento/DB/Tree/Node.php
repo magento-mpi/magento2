@@ -9,9 +9,11 @@
  */
 
 
-require_once 'Magento/Db/Tree/Node/Exception.php';
+namespace Magento\DB\Tree;
 
-class Magento_DB_Tree_Node {
+
+
+class Node {
 
     private $left;
     private $right;
@@ -28,10 +30,10 @@ class Magento_DB_Tree_Node {
 
     function __construct($nodeData = array(), $keys) {
         if (empty($nodeData)) {
-            throw new Magento_DB_Tree_Node_Exception('Empty array of node information');
+            throw new \Magento\DB\Tree\Node\NodeException('Empty array of node information');
         }
         if (empty($keys)) {
-            throw new Magento_DB_Tree_Node_Exception('Empty keys array');
+            throw new \Magento\DB\Tree\Node\NodeException('Empty keys array');
         }
 
         $this->id    = $nodeData[$keys['id']];

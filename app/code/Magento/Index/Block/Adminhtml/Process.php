@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Index_Block_Adminhtml_Process extends Magento_Adminhtml_Block_Widget_Grid_Container
+namespace Magento\Index\Block\Adminhtml;
+
+class Process extends \Magento\Adminhtml\Block\Widget\Grid\Container
 {
     protected function _construct()
     {

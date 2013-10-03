@@ -11,7 +11,9 @@
 /**
  * Abstract Validation State Model for Visa
  */
-class Magento_Centinel_Model_State_Visa extends Magento_Centinel_Model_StateAbstract
+namespace Magento\Centinel\Model\State;
+
+class Visa extends \Magento\Centinel\Model\AbstractState
 {
     /**
      * Analyse lookup`s results. If it has require params for authenticate, return true

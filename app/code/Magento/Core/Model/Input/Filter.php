@@ -7,7 +7,7 @@
  * Model for multi-filtering all data which set to models
  * Example:
  * <code>
- * /** @var $filterFactory Magento_Core_Model_Input_FilterFactory {@*}
+ * /** @var $filterFactory \Magento\Core\Model\Input\FilterFactory {@*}
  * $filter = $filterFactory->create()
  *     ->setFilters(array(
  *      'list_values' => array(
@@ -36,12 +36,12 @@
  *          )
  *      )
  *  ));
- *  $filter->addFilter('name2', new Zend_Filter_Alnum());
+ *  $filter->addFilter('name2', new \Zend_Filter_Alnum());
  *  $filter->addFilter('name1',
  *      array(
  *          'zend' => 'StringToUpper',
  *          'args' => array('encoding' => 'utf-8')));
- *  $filter->addFilter('name1', array('zend' => 'StripTags'), Zend_Filter::CHAIN_PREPEND);
+ *  $filter->addFilter('name1', array('zend' => 'StripTags'), \Zend_Filter::CHAIN_PREPEND);
  *  $filter->addFilters(protected $_filtersToAdd = array(
  *      'list_values_with_name' => array(
  *          'children_filters' => array(
@@ -76,29 +76,31 @@
  *  ));
  * </code>
  *
- * @see Magento_Core_Model_Input_FilterTest    See this class for manual
+ * @see \Magento\Core\Model\Input\FilterTest    See this class for manual
  * @copyright  {copyright}
  * @license    {license_link}
  */
-class Magento_Core_Model_Input_Filter implements Zend_Filter_Interface
+namespace Magento\Core\Model\Input;
+
+class Filter implements \Zend_Filter_Interface
 {
     /**
-     * @var Magento_Core_Model_Factory_Helper
+     * @var \Magento\Core\Model\Factory\Helper
      */
     protected $_helperFactory;
 
     /**
-     * @var Magento_Core_Model_ObjectManager
+     * @var \Magento\Core\Model\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_Core_Model_Factory_Helper $helperFactory
-     * @param Magento_Core_Model_ObjectManager $objectManager
+     * @param \Magento\Core\Model\Factory\Helper $helperFactory
+     * @param \Magento\Core\Model\ObjectManager $objectManager
      */
     function __construct(
-        Magento_Core_Model_Factory_Helper $helperFactory,
-        Magento_Core_Model_ObjectManager $objectManager
+        \Magento\Core\Model\Factory\Helper $helperFactory,
+        \Magento\Core\Model\ObjectManager $objectManager
     ) {
         $this->_helperFactory = $helperFactory;
         $this->_objectManager = $objectManager;
@@ -117,11 +119,11 @@ class Magento_Core_Model_Input_Filter implements Zend_Filter_Interface
      * @param string $name
      * @param array|Zend_Filter_Interface $filter
      * @param string $placement
-     * @return Magento_Core_Model_Input_Filter
+     * @return \Magento\Core\Model\Input\Filter
      */
-    public function addFilter($name, $filter, $placement = Zend_Filter::CHAIN_APPEND)
+    public function addFilter($name, $filter, $placement = \Zend_Filter::CHAIN_APPEND)
     {
-        if ($placement == Zend_Filter::CHAIN_PREPEND) {
+        if ($placement == \Zend_Filter::CHAIN_PREPEND) {
             array_unshift($this->_filters[$name], $filter);
         } else {
             $this->_filters[$name][] = $filter;
@@ -133,22 +135,22 @@ class Magento_Core_Model_Input_Filter implements Zend_Filter_Interface
      * Add a filter to the end of the chain
      *
      * @param  array|Zend_Filter_Interface $filter
-     * @return Magento_Core_Model_Input_Filter
+     * @return \Magento\Core\Model\Input\Filter
      */
-    public function appendFilter(Zend_Filter_Interface $filter)
+    public function appendFilter(\Zend_Filter_Interface $filter)
     {
-        return $this->addFilter($filter, Zend_Filter::CHAIN_APPEND);
+        return $this->addFilter($filter, \Zend_Filter::CHAIN_APPEND);
     }
 
     /**
      * Add a filter to the start of the chain
      *
      * @param  array|Zend_Filter_Interface $filter
-     * @return Magento_Core_Model_Input_Filter
+     * @return \Magento\Core\Model\Input\Filter
      */
     public function prependFilter($filter)
     {
-        return $this->addFilter($filter, Zend_Filter::CHAIN_PREPEND);
+        return $this->addFilter($filter, \Zend_Filter::CHAIN_PREPEND);
     }
 
     /**
@@ -162,7 +164,7 @@ class Magento_Core_Model_Input_Filter implements Zend_Filter_Interface
      *      )
      *
      * @param array $filters
-     * @return Magento_Core_Model_Input_Filter
+     * @return \Magento\Core\Model\Input\Filter
      */
     public function addFilters(array $filters)
     {
@@ -174,7 +176,7 @@ class Magento_Core_Model_Input_Filter implements Zend_Filter_Interface
      * Set filters
      *
      * @param array $filters
-     * @return Magento_Core_Model_Input_Filter
+     * @return \Magento\Core\Model\Input\Filter
      */
     public function setFilters(array $filters)
     {
@@ -215,7 +217,7 @@ class Magento_Core_Model_Input_Filter implements Zend_Filter_Interface
      * @param array|null $filters
      * @param bool $isFilterListSimple
      * @return array
-     * @throws Exception    Exception when filter is not found or not instance of defined instances
+     * @throws \Exception    \Exception when filter is not found or not instance of defined instances
      */
     protected function _filter(array $data, &$filters = null, $isFilterListSimple = false)
     {
@@ -252,14 +254,14 @@ class Magento_Core_Model_Input_Filter implements Zend_Filter_Interface
      * Call specified helper method for $value filtration
      *
      * @param mixed $value
-     * @param Magento_Core_Helper_Abstract $helper
+     * @param \Magento\Core\Helper\AbstractHelper $helper
      * @param array $filterData
      * @return mixed
      */
-    protected function _applyFiltrationWithHelper($value, Magento_Core_Helper_Abstract $helper, array $filterData)
+    protected function _applyFiltrationWithHelper($value, \Magento\Core\Helper\AbstractHelper $helper, array $filterData)
     {
         if (!isset($filterData['method']) || empty($filterData['method'])) {
-            throw new Exception("Helper filtration method is not set");
+            throw new \Exception("Helper filtration method is not set");
         }
         if (!isset($filterData['args']) || empty($filterData['args'])) {
             $filterData['args'] = array();
@@ -274,8 +276,8 @@ class Magento_Core_Model_Input_Filter implements Zend_Filter_Interface
      * Try to create Magento helper for filtration based on $filterData. Return false on failure
      *
      * @param $filterData
-     * @return bool|Magento_Core_Helper_Abstract
-     * @throws Exception
+     * @return bool|\Magento\Core\Helper\AbstractHelper
+     * @throws \Exception
      */
     protected function _getFiltrationHelper($filterData)
     {
@@ -284,8 +286,8 @@ class Magento_Core_Model_Input_Filter implements Zend_Filter_Interface
             $helper = $filterData['helper'];
             if (is_string($helper)) {
                 $helper = $this->_helperFactory->get($helper);
-            } elseif (!($helper instanceof Magento_Core_Helper_Abstract)) {
-                throw new Exception("Filter '{$helper}' not found");
+            } elseif (!($helper instanceof \Magento\Core\Helper\AbstractHelper)) {
+                throw new \Exception("Filter '{$helper}' not found");
             }
         }
         return $helper;
@@ -300,8 +302,8 @@ class Magento_Core_Model_Input_Filter implements Zend_Filter_Interface
     protected function _getZendFilter($filterData)
     {
         $zendFilter = false;
-        if (is_object($filterData) && $filterData instanceof Zend_Filter_Interface) {
-            /** @var $zendFilter Zend_Filter_Interface */
+        if (is_object($filterData) && $filterData instanceof \Zend_Filter_Interface) {
+            /** @var $zendFilter \Zend_Filter_Interface */
             $zendFilter = $filterData;
         } elseif (isset($filterData['model'])) {
             $zendFilter = $this->_createCustomZendFilter($filterData);
@@ -315,8 +317,8 @@ class Magento_Core_Model_Input_Filter implements Zend_Filter_Interface
      * Get Magento filters
      *
      * @param $filterData
-     * @return Zend_Filter_Interface
-     * @throws Exception
+     * @return \Zend_Filter_Interface
+     * @throws \Exception
      */
     protected function _createCustomZendFilter($filterData)
     {
@@ -330,24 +332,24 @@ class Magento_Core_Model_Input_Filter implements Zend_Filter_Interface
         if (is_string($filterData['model'])) {
             $filter = $this->_objectManager->create($filterData['model'], $filterData['args']);
         }
-        if (!($filter instanceof Zend_Filter_Interface)) {
-            throw new Exception('Filter is not instance of Zend_Filter_Interface');
+        if (!($filter instanceof \Zend_Filter_Interface)) {
+            throw new \Exception('Filter is not instance of \Zend_Filter_Interface');
         }
         return $filter;
     }
 
     /**
-     * Get native Zend_Filter
+     * Get native \Zend_Filter
      *
      * @param $filterData
-     * @return Zend_Filter_Interface
-     * @throws Exception
+     * @return \Zend_Filter_Interface
+     * @throws \Exception
      */
     protected function _createNativeZendFilter($filterData)
     {
         $filter = $filterData['zend'];
         if (is_string($filter)) {
-            $class = new ReflectionClass('Zend_Filter_' . $filter);
+            $class = new \ReflectionClass('Zend_Filter_' . $filter);
             if ($class->implementsInterface('Zend_Filter_Interface')) {
                 if (isset($filterData['args']) && $class->hasMethod('__construct')) {
                     $filter = $class->newInstanceArgs($filterData['args']);
@@ -355,7 +357,7 @@ class Magento_Core_Model_Input_Filter implements Zend_Filter_Interface
                     $filter = $class->newInstance();
                 }
             } else {
-                throw new Exception('Filter is not instance of Zend_Filter_Interface');
+                throw new \Exception('Filter is not instance of \Zend_Filter_Interface');
             }
         }
         return $filter;

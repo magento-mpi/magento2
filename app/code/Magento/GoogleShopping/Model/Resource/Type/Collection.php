@@ -15,18 +15,20 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Model_Resource_Type_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\GoogleShopping\Model\Resource\Type;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
 
     protected function _construct()
     {
-        $this->_init('Magento_GoogleShopping_Model_Type', 'Magento_GoogleShopping_Model_Resource_Type');
+        $this->_init('Magento\GoogleShopping\Model\Type', 'Magento\GoogleShopping\Model\Resource\Type');
     }
 
     /**
      * Init collection select
      *
-     * @return Magento_GoogleShopping_Model_Resource_Type_Collection
+     * @return \Magento\GoogleShopping\Model\Resource\Type\Collection
      */
     protected function _initSelect()
     {
@@ -38,19 +40,19 @@ class Magento_GoogleShopping_Model_Resource_Type_Collection extends Magento_Core
    /**
     * Get SQL for get record count
     *
-    * @return Magento_DB_Select
+    * @return \Magento\DB\Select
     */
    public function getSelectCountSql()
    {
        $this->_renderFilters();
-       $paginatorAdapter = new Zend_Paginator_Adapter_DbSelect($this->getSelect());
+       $paginatorAdapter = new \Zend_Paginator_Adapter_DbSelect($this->getSelect());
        return $paginatorAdapter->getCountSelect();
    }
 
     /**
      * Add total count of Items for each type
      *
-     * @return Magento_GoogleShopping_Model_Resource_Type_Collection
+     * @return \Magento\GoogleShopping\Model\Resource\Type\Collection
      */
     public function addItemsCount()
     {
@@ -58,7 +60,7 @@ class Magento_GoogleShopping_Model_Resource_Type_Collection extends Magento_Core
             ->joinLeft(
                 array('items'=>$this->getTable('googleshopping_items')),
                 'main_table.type_id=items.type_id',
-                array('items_total' => new Zend_Db_Expr('COUNT(items.item_id)')))
+                array('items_total' => new \Zend_Db_Expr('COUNT(items.item_id)')))
             ->group('main_table.type_id');
         return $this;
     }
@@ -67,7 +69,7 @@ class Magento_GoogleShopping_Model_Resource_Type_Collection extends Magento_Core
      * Add country ISO filter to collection
      *
      * @param string $iso Two-letter country ISO code
-     * @return Magento_GoogleShopping_Model_Resource_Type_Collection
+     * @return \Magento\GoogleShopping\Model\Resource\Type\Collection
      */
     public function addCountryFilter($iso)
     {
@@ -78,7 +80,7 @@ class Magento_GoogleShopping_Model_Resource_Type_Collection extends Magento_Core
     /**
      * Join Attribute Set data
      *
-     * @return Magento_GoogleShopping_Model_Resource_Type_Collection
+     * @return \Magento\GoogleShopping\Model\Resource\Type\Collection
      */
     protected function _joinAttributeSet()
     {

@@ -10,9 +10,11 @@
  */
 
 /**
- * Test class for Magento_Catalog_Controller_Index.
+ * Test class for \Magento\Catalog\Controller\Index.
  */
-class Magento_Catalog_Controller_IndexTest extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\Catalog\Controller;
+
+class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     public function testIndexAction()
     {

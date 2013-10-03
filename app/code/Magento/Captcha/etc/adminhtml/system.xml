@@ -16,25 +16,25 @@
                 <label>CAPTCHA</label>
                 <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Enable CAPTCHA in Admin</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="font" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Font</label>
-                    <source_model>Magento_Captcha_Model_Config_Font</source_model>
+                    <source_model>Magento\Captcha\Model\Config\Font</source_model>
                     <depends>
                         <field id="enable">1</field>
                     </depends>
                 </field>
                 <field id="forms" translate="label" type="multiselect" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Forms</label>
-                    <source_model>Magento_Captcha_Model_Config_Form_Backend</source_model>
+                    <source_model>Magento\Captcha\Model\Config\Form\Backend</source_model>
                     <depends>
                         <field id="enable">1</field>
                     </depends>
                 </field>
                 <field id="mode" translate="label" type="select" sortOrder="4" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Displaying Mode</label>
-                    <source_model>Magento_Captcha_Model_Config_Mode</source_model>
+                    <source_model>Magento\Captcha\Model\Config\Mode</source_model>
                     <depends>
                         <field id="enable">1</field>
                     </depends>
@@ -75,7 +75,7 @@
                 </field>
                 <field id="case_sensitive" translate="label" type="select" sortOrder="9" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Case Sensitive</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                     <depends>
                         <field id="enable">1</field>
                     </depends>
@@ -87,18 +87,18 @@
                 <label>CAPTCHA</label>
                 <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enable CAPTCHA on Frontend</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="font" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Font</label>
-                    <source_model>Magento_Captcha_Model_Config_Font</source_model>
+                    <source_model>Magento\Captcha\Model\Config\Font</source_model>
                     <depends>
                         <field id="enable">1</field>
                     </depends>
                 </field>
                 <field id="forms" translate="label comment" type="multiselect" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Forms</label>
-                    <source_model>Magento_Captcha_Model_Config_Form_Frontend</source_model>
+                    <source_model>Magento\Captcha\Model\Config\Form\Frontend</source_model>
                     <comment>CAPTCHA for "Create user" and "Forgot password" forms is always enabled if chosen.</comment>
                     <depends>
                         <field id="enable">1</field>
@@ -106,7 +106,7 @@
                 </field>
                 <field id="mode" translate="label" type="select" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Displaying Mode</label>
-                    <source_model>Magento_Captcha_Model_Config_Mode</source_model>
+                    <source_model>Magento\Captcha\Model\Config\Mode</source_model>
                     <depends>
                         <field id="enable">1</field>
                     </depends>
@@ -147,7 +147,7 @@
                 </field>
                 <field id="case_sensitive" translate="label" type="select" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Case Sensitive</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                     <depends>
                         <field id="enable">1</field>
                     </depends>

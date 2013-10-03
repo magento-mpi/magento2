@@ -8,7 +8,7 @@
 return array(
     'cataloginventory_stock' => array(
         'name' => 'cataloginventory_stock',
-        'instance' => 'Magento_CatalogInventory_Model_Indexer_Stock',
+        'instance' => 'Magento\CatalogInventory\Model\Indexer\Stock',
         'depends' => array()
     ),
     'catalog_product_attribute' => array(

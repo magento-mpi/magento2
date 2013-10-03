@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_History extends Magento_Adminhtml_Block_Template
+namespace Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance;
+
+class History extends \Magento\Adminhtml\Block\Template
 {
 
     protected $_template = 'balance/history.phtml';
@@ -18,7 +20,7 @@ class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_
         $this->setChild(
             'grid',
             $this->getLayout()->createBlock(
-                'Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_History_Grid',
+                'Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance\History\Grid',
                 'customer.balance.history.grid'
             )
         );

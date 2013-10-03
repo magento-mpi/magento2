@@ -11,28 +11,30 @@
 /**
  * Customer Address Attributes Grid Block
  */
-class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribute_Grid
-    extends Magento_Eav_Block_Adminhtml_Attribute_Grid_Abstract
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute;
+
+class Grid
+    extends \Magento\Eav\Block\Adminhtml\Attribute\Grid\AbstractGrid
 {
     /**
-     * @var Magento_Customer_Model_Resource_Address_Attribute_CollectionFactory
+     * @var \Magento\Customer\Model\Resource\Address\Attribute\CollectionFactory
      */
     protected $_addressesFactory;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Customer_Model_Resource_Address_Attribute_CollectionFactory $addressesFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Customer\Model\Resource\Address\Attribute\CollectionFactory $addressesFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Customer_Model_Resource_Address_Attribute_CollectionFactory $addressesFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Customer\Model\Resource\Address\Attribute\CollectionFactory $addressesFactory,
         array $data = array()
     ) {
         $this->_addressesFactory = $addressesFactory;
@@ -53,11 +55,11 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
     /**
      * Prepare customer address attributes grid collection object
      *
-     * @return Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribute_Grid
+     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Grid
      */
     protected function _prepareCollection()
     {
-        /** @var $collection Magento_Customer_Model_Resource_Address_Attribute_Collection */
+        /** @var $collection \Magento\Customer\Model\Resource\Address\Attribute\Collection */
         $collection = $this->_addressesFactory->create();
         $collection->addSystemHiddenFilter()->addExcludeHiddenFrontendFilter();
         $this->setCollection($collection);
@@ -67,7 +69,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
     /**
      * Prepare customer address attributes grid columns
      *
-     * @return Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribute_Grid
+     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Grid
      */
     protected function _prepareColumns()
     {

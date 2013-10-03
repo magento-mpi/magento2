@@ -11,6 +11,6 @@
 
 copy(
     __DIR__ . DS . 'robots.txt',
-    Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')->getDir()
+    \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')->getDir()
         . DS . 'robots.txt'
 );

@@ -10,16 +10,16 @@
 <config>
     <global>
         <di>
-            <Magento_Core_Model_Cache>
+            <Node1 type="Magento\Core\Model\Cache">
                 <parameters>
                     <storeManager>
                         <instance>customStoreManagerProxy</instance>
                     </storeManager>
                 </parameters>
-            </Magento_Core_Model_Cache>
-            <Magento_Core_Controller_Varien_Action_Context>
+            </Node1>
+            <Node2 type ="Magento\Core\Controller\Varien\Action\Context">
                 <plugins>
-                    <first><instance>Magento_Core_Model_Action_Plugin</instance></first>
+                    <first><instance>Magento\Core\Model\Action\Plugin</instance></first>
                     <second><instance>Custom_PageCache_Model_Action_Plugin</instance></second>
                 </plugins>
                 <parameters>
@@ -27,12 +27,12 @@
                         <instance>customLayoutFactory</instance>
                     </layoutFactory>
                 </parameters>
-            </Magento_Core_Controller_Varien_Action_Context>
+            </Node2>
             <customStoreManagerProxy>
-                <type>Magento_Core_Model_StoreManager_Proxy</type>
+                <type>Magento\Core\Model\StoreManager\Proxy</type>
             </customStoreManagerProxy>
             <customLayoutFactory>
-                <type>Magento_Core_Model_Layout_Factory</type>
+                <type>Magento\Core\Model\Layout\Factory</type>
             </customLayoutFactory>
         </di>
     </global>

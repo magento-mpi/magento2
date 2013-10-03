@@ -15,8 +15,10 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
-    extends Magento_ImportExport_Model_Import_Entity_Product_Type_Abstract
+namespace Magento\ImportExport\Model\Import\Entity\Product\Type;
+
+class Configurable
+    extends \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
 {
     /**
      * Error codes.
@@ -113,41 +115,41 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
     protected $_superAttrValuesCombs = null;
 
     /**
-     * @var Magento_Catalog_Model_ProductTypes_ConfigInterface
+     * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
      */
     protected $_productTypesConfig;
 
     /**
-     * @var Magento_ImportExport_Model_Resource_Helper
+     * @var \Magento\ImportExport\Model\Resource\Helper
      */
     protected $_resourceHelper;
 
     /**
-     * @var Magento_Core_Model_Resource
+     * @var \Magento\Core\Model\Resource
      */
     protected $_resource;
 
     /**
-     * @var Magento_Catalog_Model_Resource_Product_CollectionFactory
+     * @var \Magento\Catalog\Model\Resource\Product\CollectionFactory
      */
     protected $_productColFac;
 
     /**
-     * @param Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $attrSetColFac
-     * @param Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $prodAttrColFac
-     * @param Magento_Catalog_Model_ProductTypes_ConfigInterface $productTypesConfig
-     * @param Magento_ImportExport_Model_Resource_Helper $resourceHelper
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $_productColFac
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $attrSetColFac
+     * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $prodAttrColFac
+     * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypesConfig
+     * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $_productColFac
      * @param array $params
      */
     public function __construct(
-        Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $attrSetColFac,
-        Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $prodAttrColFac,
-        Magento_Catalog_Model_ProductTypes_ConfigInterface $productTypesConfig,
-        Magento_ImportExport_Model_Resource_Helper $resourceHelper,
-        Magento_Core_Model_Resource $resource,
-        Magento_Catalog_Model_Resource_Product_CollectionFactory $_productColFac,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $attrSetColFac,
+        \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $prodAttrColFac,
+        \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypesConfig,
+        \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Catalog\Model\Resource\Product\CollectionFactory $_productColFac,
         array $params
     ) {
         $this->_productTypesConfig = $productTypesConfig;
@@ -162,7 +164,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
      *
      * @param string $attrParams Name of attribute set.
      * @param array $attrParams Refined attribute parameters.
-     * @return Magento_ImportExport_Model_Import_Entity_Product_Type_Abstract
+     * @return \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
      */
     protected function _addAttributeParams($attrSetName, array $attrParams)
     {
@@ -247,7 +249,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
     /**
      * Array of SKU to array of super attribute values for all products.
      *
-     * @return Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
+     * @return \Magento\ImportExport\Model\Import\Entity\Product\Type\Configurable
      */
     protected function _loadSkuSuperAttributeValues()
     {
@@ -277,7 +279,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
     /**
      * Array of SKU to array of super attribute values for all products.
      *
-     * @return Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
+     * @return \Magento\ImportExport\Model\Import\Entity\Product\Type\Configurable
      */
     protected function _loadSkuSuperData()
     {
@@ -311,7 +313,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
      *
      * @param array $superData
      * @param array $superAttributes
-     * @return Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
+     * @return \Magento\ImportExport\Model\Import\Entity\Product\Type\Configurable
      */
     protected function _processSuperData(array $superData, array &$superAttributes)
     {
@@ -368,8 +370,8 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
     /**
      * Save product type specific data.
      *
-     * @throws Exception
-     * @return Magento_ImportExport_Model_Import_Entity_Product_Type_Abstract
+     * @throws \Exception
+     * @return \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
      */
     public function saveData()
     {
@@ -385,7 +387,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
         $productData     = null;
         $nextAttrId      = $this->_resourceHelper->getNextAutoincrement($mainTable);
 
-        if ($this->_entityModel->getBehavior() == Magento_ImportExport_Model_Import::BEHAVIOR_APPEND) {
+        if ($this->_entityModel->getBehavior() == \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND) {
             $this->_loadSkuSuperData();
         }
         $this->_loadSkuSuperAttributeValues();
@@ -404,8 +406,8 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
                 }
                 // remember SCOPE_DEFAULT row data
                 $scope = $this->_entityModel->getRowScope($rowData);
-                if (Magento_ImportExport_Model_Import_Entity_Product::SCOPE_DEFAULT == $scope) {
-                    $productData = $newSku[$rowData[Magento_ImportExport_Model_Import_Entity_Product::COL_SKU]];
+                if (\Magento\ImportExport\Model\Import\Entity\Product::SCOPE_DEFAULT == $scope) {
+                    $productData = $newSku[$rowData[\Magento\ImportExport\Model\Import\Entity\Product::COL_SKU]];
 
                     if ($this->_type != $productData['type_id']) {
                         $productData = null;
@@ -472,7 +474,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
             $this->_processSuperData($productSuperData, $superAttributes);
 
             // remove old data if needed
-            if ($this->_entityModel->getBehavior() != Magento_ImportExport_Model_Import::BEHAVIOR_APPEND
+            if ($this->_entityModel->getBehavior() != \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND
                 && $superAttributes['attributes']) {
                 $quoted = $connection->quoteInto('IN (?)', array_keys($superAttributes['attributes']));
                 $connection->delete($mainTable, "product_id {$quoted}");

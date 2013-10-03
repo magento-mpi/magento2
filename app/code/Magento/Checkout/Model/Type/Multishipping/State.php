@@ -15,7 +15,9 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Model_Type_Multishipping_State extends Magento_Object
+namespace Magento\Checkout\Model\Type\Multishipping;
+
+class State extends \Magento\Object
 {
     const STEP_SELECT_ADDRESSES = 'multishipping_addresses';
     const STEP_SHIPPING         = 'multishipping_shipping';
@@ -33,12 +35,12 @@ class Magento_Checkout_Model_Type_Multishipping_State extends Magento_Object
     /**
      * Checkout model
      *
-     * @var Magento_Checkout_Model_Type_Multishipping
+     * @var \Magento\Checkout\Model\Type\Multishipping
      */
     protected $_multishipping;
 
     /**
-     * @var Magento_Checkout_Model_Session
+     * @var \Magento\Checkout\Model\Session
      */
     protected $_checkoutSession;
 
@@ -47,26 +49,26 @@ class Magento_Checkout_Model_Type_Multishipping_State extends Magento_Object
      *
      */
     public function __construct(
-        Magento_Checkout_Model_Session $checkoutSession,
-        Magento_Checkout_Model_Type_Multishipping $multishipping
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Checkout\Model\Type\Multishipping $multishipping
     ) {
         $this->_checkoutSession = $checkoutSession;
         $this->_multishipping = $multishipping;
         parent::__construct();
         $this->_steps = array(
-            self::STEP_SELECT_ADDRESSES => new Magento_Object(array(
+            self::STEP_SELECT_ADDRESSES => new \Magento\Object(array(
                 'label' => __('Select Addresses')
             )),
-            self::STEP_SHIPPING => new Magento_Object(array(
+            self::STEP_SHIPPING => new \Magento\Object(array(
                 'label' => __('Shipping Information')
             )),
-            self::STEP_BILLING => new Magento_Object(array(
+            self::STEP_BILLING => new \Magento\Object(array(
                 'label' => __('Billing Information')
             )),
-            self::STEP_OVERVIEW => new Magento_Object(array(
+            self::STEP_OVERVIEW => new \Magento\Object(array(
                 'label' => __('Place Order')
             )),
-            self::STEP_SUCCESS => new Magento_Object(array(
+            self::STEP_SUCCESS => new \Magento\Object(array(
                 'label' => __('Order Success')
             )),
         );
@@ -80,7 +82,7 @@ class Magento_Checkout_Model_Type_Multishipping_State extends Magento_Object
     /**
      * Retrieve checkout model
      *
-     * @return Magento_Checkout_Model_Type_Multishipping
+     * @return \Magento\Checkout\Model\Type\Multishipping
      */
     public function getCheckout()
     {
@@ -134,7 +136,7 @@ class Magento_Checkout_Model_Type_Multishipping_State extends Magento_Object
      * Mark step as completed
      *
      * @param string $step
-     * @return Magento_Checkout_Model_Type_Multishipping_State
+     * @return \Magento\Checkout\Model\Type\Multishipping\State
      */
     public function setCompleteStep($step)
     {
@@ -162,7 +164,7 @@ class Magento_Checkout_Model_Type_Multishipping_State extends Magento_Object
      * Unset complete status from step
      *
      * @param string $step
-     * @return Magento_Checkout_Model_Type_Multishipping_State
+     * @return \Magento\Checkout\Model\Type\Multishipping\State
      */
     public function unsCompleteStep($step)
     {
@@ -195,7 +197,7 @@ class Magento_Checkout_Model_Type_Multishipping_State extends Magento_Object
     /**
      * Retrieve checkout session
      *
-     * @return Magento_Checkout_Model_Session
+     * @return \Magento\Checkout\Model\Session
      */
     public function getCheckoutSession()
     {

@@ -1,37 +1,39 @@
 <?php
 /**
- * Magento_PubSub_Message_DispatcherAsync
+ * \Magento\PubSub\Message\DispatcherAsync
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_PubSub_Message_DispatcherAsyncTest extends PHPUnit_Framework_TestCase
+namespace Magento\PubSub\Message;
+
+class DispatcherAsyncTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var  Magento_PubSub_Message_DispatcherAsync */
+    /** @var  \Magento\PubSub\Message\DispatcherAsync */
     private $_dispatcher;
 
-    /** PHPUnit_Framework_MockObject_MockObject */
+    /** \PHPUnit_Framework_MockObject_MockObject */
     private $_eventFactoryMock;
 
-    /** PHPUnit_Framework_MockObject_MockObject */
+    /** \PHPUnit_Framework_MockObject_MockObject */
     private $_eventMock;
 
     /** @var  string[] Data that gets passed to event factory */
     private $_actualData = array();
 
-    /** PHPUnit_Framework_MockObject_MockObject */
+    /** \PHPUnit_Framework_MockObject_MockObject */
     private $_queueWriter;
 
 
     protected function setUp()
     {
-        $this->_eventFactoryMock = $this->getMockBuilder('Magento_PubSub_Event_FactoryInterface')
+        $this->_eventFactoryMock = $this->getMockBuilder('Magento\PubSub\Event\FactoryInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_queueWriter = $this->getMockBuilder('Magento_PubSub_Event_QueueWriterInterface')
+        $this->_queueWriter = $this->getMockBuilder('Magento\PubSub\Event\QueueWriterInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_queueWriter->expects($this->once())
@@ -43,11 +45,11 @@ class Magento_PubSub_Message_DispatcherAsyncTest extends PHPUnit_Framework_TestC
             ->method('create')
             ->with()
             ->will($this->returnCallback(array($this, 'logEventData')));
-        $this->_eventMock = $this->getMockBuilder('Magento_PubSub_EventInterface')
+        $this->_eventMock = $this->getMockBuilder('Magento\PubSub\EventInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_dispatcher = new Magento_PubSub_Message_DispatcherAsync($this->_eventFactoryMock, $this->_queueWriter);
+        $this->_dispatcher = new \Magento\PubSub\Message\DispatcherAsync($this->_eventFactoryMock, $this->_queueWriter);
     }
 
     public function testDispatch()
@@ -63,7 +65,7 @@ class Magento_PubSub_Message_DispatcherAsyncTest extends PHPUnit_Framework_TestC
      *
      * @param $topic
      * @param $data
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     public function logEventData($topic, $data)
     {

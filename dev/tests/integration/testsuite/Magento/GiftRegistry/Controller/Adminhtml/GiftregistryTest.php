@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\GiftRegistry\Controller\Adminhtml;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_GiftRegistry_Controller_Adminhtml_GiftregistryTest extends Magento_Backend_Utility_Controller
+class GiftregistryTest extends \Magento\Backend\Utility\Controller
 {
     public function testNewAction()
     {
@@ -42,14 +44,14 @@ class Magento_GiftRegistry_Controller_Adminhtml_GiftregistryTest extends Magento
             'is_listed'  => 1,
         ));
         $this->dispatch('backend/admin/giftregistry/save/store/0');
-        /** @var $type Magento_GiftRegistry_Model_Type */
-        $type = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_GiftRegistry_Model_Type');
+        /** @var $type \Magento\GiftRegistry\Model\Type */
+        $type = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\GiftRegistry\Model\Type');
         $type->setStoreId(0);
 
         $type = $type->load('test_registry', 'code');
 
-        $this->assertInstanceOf('Magento_GiftRegistry_Model_Type', $type);
+        $this->assertInstanceOf('Magento\GiftRegistry\Model\Type', $type);
         $this->assertNotEmpty($type->getId());
     }
 }

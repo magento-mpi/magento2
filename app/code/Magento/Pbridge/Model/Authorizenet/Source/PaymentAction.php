@@ -14,7 +14,9 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Pbridge_Model_Authorizenet_Source_PaymentAction implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Pbridge\Model\Authorizenet\Source;
+
+class PaymentAction implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * @return array
@@ -23,11 +25,11 @@ class Magento_Pbridge_Model_Authorizenet_Source_PaymentAction implements Magento
     {
         return array(
             array(
-                'value' => Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE,
+                'value' => \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE,
                 'label' => __('Authorize Only')
             ),
             array(
-                'value' => Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE,
+                'value' => \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE_CAPTURE,
                 'label' => __('Authorize and Capture')
             ),
         );

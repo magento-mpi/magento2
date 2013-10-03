@@ -10,9 +10,11 @@
  */
 
 /**
- * Test class for Magento_TestFramework_Workaround_Cleanup_TestCaseProperties.
+ * Test class for \Magento\TestFramework\Workaround\Cleanup\TestCaseProperties.
  */
-class Magento_Test_Workaround_Cleanup_TestCasePropertiesTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Workaround\Cleanup;
+
+class TestCasePropertiesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var array
@@ -33,13 +35,13 @@ class Magento_Test_Workaround_Cleanup_TestCasePropertiesTest extends PHPUnit_Fra
 
     public function testEndTestSuiteDestruct()
     {
-        $phpUnitTestSuite = new PHPUnit_Framework_TestSuite();
+        $phpUnitTestSuite = new \PHPUnit_Framework_TestSuite();
         $phpUnitTestSuite->addTestFile(__DIR__ . '/TestCasePropertiesTest/DummyTestCase.php');
         // Because addTestFile() adds classes from file to tests array, use first testsuite
-        /** @var $testSuite PHPUnit_Framework_TestSuite */
+        /** @var $testSuite \PHPUnit_Framework_TestSuite */
         $testSuite = $phpUnitTestSuite->testAt(0);
         $testSuite->run();
-        /** @var $testClass Magento_Test_Workaround_Cleanup_TestCasePropertiesTest_DummyTestCase */
+        /** @var $testClass \Magento\Test\Workaround\Cleanup\TestCasePropertiesTest\DummyTestCase */
         $testClass = $testSuite->testAt(0);
 
         $propertyObjectMock = $this->getMock('stdClass', array('__destruct'));
@@ -56,7 +58,7 @@ class Magento_Test_Workaround_Cleanup_TestCasePropertiesTest extends PHPUnit_Fra
             }
         }
 
-        $clearProperties = new Magento_TestFramework_Workaround_Cleanup_TestCaseProperties();
+        $clearProperties = new \Magento\TestFramework\Workaround\Cleanup\TestCaseProperties();
         $clearProperties->endTestSuite($testSuite);
 
         foreach ($this->_fixtureProperties as $property) {

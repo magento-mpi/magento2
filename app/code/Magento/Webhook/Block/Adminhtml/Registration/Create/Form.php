@@ -9,9 +9,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  *
+ */
+namespace Magento\Webhook\Block\Adminhtml\Registration\Create;
+
+/**
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Magento_Webhook_Block_Adminhtml_Registration_Create_Form extends Magento_Backend_Block_Widget_Form_Generic
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /** Constants for API user details */
     const API_KEY_LENGTH = 32;
@@ -27,7 +31,7 @@ class Magento_Webhook_Block_Adminhtml_Registration_Create_Form extends Magento_B
     /**
      * Prepares registration form
      *
-     * @return Magento_Backend_Block_Widget_Form
+     * @return \Magento\Backend\Block\Widget\Form
      */
     protected function _prepareForm()
     {
@@ -94,6 +98,8 @@ class Magento_Webhook_Block_Adminhtml_Registration_Create_Form extends Magento_B
     private function _generateRandomString($length)
     {
         return $this->_coreData
-            ->getRandomString($length, Magento_Core_Helper_Data::CHARS_DIGITS . Magento_Core_Helper_Data::CHARS_LOWERS);
+            ->getRandomString(
+                $length, \Magento\Core\Helper\Data::CHARS_DIGITS . \Magento\Core\Helper\Data::CHARS_LOWERS
+            );
     }
 }

@@ -11,47 +11,49 @@
 /**
  * Product attribute value condition
  */
-class Magento_Reminder_Model_Rule_Condition_Wishlist_Attributes
-    extends Magento_Rule_Model_Condition_Product_Abstract
+namespace Magento\Reminder\Model\Rule\Condition\Wishlist;
+
+class Attributes
+    extends \Magento\Rule\Model\Condition\Product\AbstractProduct
 {
     /**
      * Config
      *
-     * @var Magento_Eav_Model_Config
+     * @var \Magento\Eav\Model\Config
      */
     protected $_config;
 
     /**
      * Rule Resource
      *
-     * @var Magento_Reminder_Model_Resource_Rule
+     * @var \Magento\Reminder\Model\Resource\Rule
      */
     protected $_ruleResource;
 
     /**
-     * @param Magento_Backend_Helper_Data $backendData
-     * @param Magento_Rule_Model_Condition_Context $context
-     * @param Magento_Eav_Model_Config $config
-     * @param Magento_Catalog_Model_Product $product
-     * @param Magento_Catalog_Model_Resource_Product $productResource
-     * @param Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection $attrSetCollection
-     * @param Magento_Reminder_Model_Resource_Rule $ruleResource
+     * @param \Magento\Backend\Helper\Data $backendData
+     * @param \Magento\Rule\Model\Condition\Context $context
+     * @param \Magento\Eav\Model\Config $config
+     * @param \Magento\Catalog\Model\Product $product
+     * @param \Magento\Catalog\Model\Resource\Product $productResource
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection
+     * @param \Magento\Reminder\Model\Resource\Rule $ruleResource
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Helper_Data $backendData,
-        Magento_Rule_Model_Condition_Context $context,
-        Magento_Eav_Model_Config $config,
-        Magento_Catalog_Model_Product $product,
-        Magento_Catalog_Model_Resource_Product $productResource,
-        Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection $attrSetCollection,
-        Magento_Reminder_Model_Resource_Rule $ruleResource,
+        \Magento\Backend\Helper\Data $backendData,
+        \Magento\Rule\Model\Condition\Context $context,
+        \Magento\Eav\Model\Config $config,
+        \Magento\Catalog\Model\Product $product,
+        \Magento\Catalog\Model\Resource\Product $productResource,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection,
+        \Magento\Reminder\Model\Resource\Rule $ruleResource,
         array $data = array()
     ) {
         parent::__construct(
             $backendData, $context, $config, $product, $productResource, $attrSetCollection, $data
         );
-        $this->setType('Magento_Reminder_Model_Rule_Condition_Wishlist_Attributes');
+        $this->setType('Magento\Reminder\Model\Rule\Condition\Wishlist\Attributes');
         $this->setValue(null);
         $this->_config = $config;
         $this->_ruleResource = $ruleResource;
@@ -128,7 +130,7 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Attributes
     /**
      * Get product attribute object
      *
-     * @return Magento_Catalog_Model_Resource_Eav_Attribute
+     * @return \Magento\Catalog\Model\Resource\Eav\Attribute
      */
     public function getAttributeObject()
     {
@@ -138,7 +140,7 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Attributes
     /**
      * Get resource
      *
-     * @return Magento_Reminder_Model_Resource_Rule
+     * @return \Magento\Reminder\Model\Resource\Rule
      */
     public function getResource()
     {

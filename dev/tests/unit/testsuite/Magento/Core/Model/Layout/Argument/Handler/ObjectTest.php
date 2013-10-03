@@ -10,17 +10,19 @@
  */
 
 /**
- * Test class for Magento_Core_Model_Layout_Argument_Handler_Object
+ * Test class for \Magento\Core\Model\Layout\Argument\Handler\Object
  */
-class Magento_Core_Model_Layout_Argument_Handler_ObjectTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Layout\Argument\Handler;
+
+class ObjectTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Layout_Argument_Handler_Object
+     * @var \Magento\Core\Model\Layout\Argument\Handler\Object
      */
     protected $_model;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManagerMock;
 
@@ -28,17 +30,17 @@ class Magento_Core_Model_Layout_Argument_Handler_ObjectTest extends PHPUnit_Fram
     {
         include_once(__DIR__ . DIRECTORY_SEPARATOR . 'TestObject.php');
 
-        $helperObjectManager = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
+        $helperObjectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
         $this->_model = $helperObjectManager->getObject(
-            'Magento_Core_Model_Layout_Argument_Handler_Object',
+            'Magento\Core\Model\Layout\Argument\Handler\Object',
             array('objectManager' => $this->_objectManagerMock)
         );
     }
 
     /**
      * @dataProvider parseDataProvider()
-     * @param Magento_Core_Model_Layout_Element $argument
+     * @param \Magento\Core\Model\Layout\Element $argument
      * @param array $expectedResult
      */
     public function testParse($argument, $expectedResult)
@@ -57,7 +59,7 @@ class Magento_Core_Model_Layout_Argument_Handler_ObjectTest extends PHPUnit_Fram
     {
         $layout = simplexml_load_file(
             __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'arguments.xml',
-            'Magento_Core_Model_Layout_Element'
+            'Magento\Core\Model\Layout\Element'
         );
         $simpleObject = $layout->xpath('//argument[@name="testSimpleObject"]');
         $complexObject = $layout->xpath('//argument[@name="testComplexObject"]');
@@ -65,7 +67,7 @@ class Magento_Core_Model_Layout_Argument_Handler_ObjectTest extends PHPUnit_Fram
             array(
                 reset($simpleObject), array(
                     'value' => array(
-                        'object' => 'Magento_Core_Model_Layout_Argument_Handler_TestObject',
+                        'object' => 'Magento\Core\Model\Layout\Argument\Handler\TestObject',
                     ),
                     'type' => 'object',
                 )
@@ -73,7 +75,7 @@ class Magento_Core_Model_Layout_Argument_Handler_ObjectTest extends PHPUnit_Fram
             array(
                 reset($complexObject), array(
                     'value' => array(
-                        'object' => 'Magento_Core_Model_Layout_Argument_Handler_TestObject',
+                        'object' => 'Magento\Core\Model\Layout\Argument\Handler\TestObject',
                     ),
                     'type' => 'object',
                     'updaters' => array('Magento_Test_Updater')
@@ -89,11 +91,11 @@ class Magento_Core_Model_Layout_Argument_Handler_ObjectTest extends PHPUnit_Fram
     public function testProcess($argument)
     {
         $objectMock = $this->getMock(
-            'Magento_Core_Model_Layout_Argument_Handler_TestObject', array(), array(), '', false, false
+            'Magento\Core\Model\Layout\Argument\Handler\TestObject', array(), array(), '', false, false
         );
         $this->_objectManagerMock->expects($this->once())
             ->method('create')
-            ->with('Magento_Core_Model_Layout_Argument_Handler_TestObject')
+            ->with('Magento\Core\Model\Layout\Argument\Handler\TestObject')
             ->will($this->returnValue($objectMock));
 
         $this->assertSame($this->_model->process($argument), $objectMock);
@@ -108,7 +110,7 @@ class Magento_Core_Model_Layout_Argument_Handler_ObjectTest extends PHPUnit_Fram
             array(
                 array(
                     'value' => array(
-                        'object' => 'Magento_Core_Model_Layout_Argument_Handler_TestObject',
+                        'object' => 'Magento\Core\Model\Layout\Argument\Handler\TestObject',
                     ),
                     'type' => 'object',
                 )

@@ -9,23 +9,25 @@
  */
 
 /**
- * Factory class for \Magento_Paypal_Model_Api_Abstract
+ * Factory class for \Magento\Paypal\Model\Api\AbstractApi
  */
-class Magento_Paypal_Model_Api_Type_Factory
+namespace Magento\Paypal\Model\Api\Type;
+
+class Factory
 {
     /**
      * Object Manager instance
      *
-     * @var \Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager = null;
 
     /**
      * Factory constructor
      *
-     * @param \Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(\Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -35,7 +37,7 @@ class Magento_Paypal_Model_Api_Type_Factory
      *
      * @param string $className
      * @param array $data
-     * @return \Magento_Paypal_Model_Api_Abstract
+     * @return \Magento\Paypal\Model\Api\AbstractApi
      */
     public function create($className, array $data = array())
     {

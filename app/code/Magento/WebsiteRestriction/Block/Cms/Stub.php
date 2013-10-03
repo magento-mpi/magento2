@@ -12,33 +12,35 @@
  * Stub block that outputs a raw CMS-page
  *
  */
-class Magento_WebsiteRestriction_Block_Cms_Stub extends Magento_Cms_Block_Page
+namespace Magento\WebsiteRestriction\Block\Cms;
+
+class Stub extends \Magento\Cms\Block\Page
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Block_Context $context
-     * @param Magento_Cms_Model_Page $page
-     * @param Magento_Cms_Model_Template_FilterProvider $filterProvider
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Cms_Model_PageFactory $pageFactory
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Block\Context $context
+     * @param \Magento\Cms\Model\Page $page
+     * @param \Magento\Cms\Model\Template\FilterProvider $filterProvider
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Cms\Model\PageFactory $pageFactory
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Context $context,
-        Magento_Cms_Model_Page $page,
-        Magento_Cms_Model_Template_FilterProvider $filterProvider,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Cms_Model_PageFactory $pageFactory,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Block\Context $context,
+        \Magento\Cms\Model\Page $page,
+        \Magento\Cms\Model\Template\FilterProvider $filterProvider,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Cms\Model\PageFactory $pageFactory,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         parent::__construct($context, $page, $filterProvider, $storeManager, $pageFactory, $data);
@@ -48,7 +50,7 @@ class Magento_WebsiteRestriction_Block_Cms_Stub extends Magento_Cms_Block_Page
     /**
      * Retrieve page from registry if it is not there try to laod it by indetifier
      *
-     * @return Magento_Cms_Model_Page
+     * @return \Magento\Cms\Model\Page
      */
 
     public function getPage()

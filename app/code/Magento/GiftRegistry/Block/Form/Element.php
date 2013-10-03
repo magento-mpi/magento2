@@ -11,20 +11,22 @@
 /**
  * Abstract block to render form elements
  */
-class Magento_GiftRegistry_Block_Form_Element extends Magento_Core_Block_Template
+namespace Magento\GiftRegistry\Block\Form;
+
+class Element extends \Magento\Core\Block\Template
 {
     /**
-     * @var Magento_Directory_Model_Country
+     * @var \Magento\Directory\Model\Country
      */
     protected $country;
 
     /**
-     * @var Magento_Directory_Model_RegionFactory
+     * @var \Magento\Directory\Model\RegionFactory
      */
     protected $region;
 
     /**
-     * @var Magento_Core_Model_Cache_Type_Config
+     * @var \Magento\Core\Model\Cache\Type\Config
      */
     protected $_configCacheType;
 
@@ -32,33 +34,33 @@ class Magento_GiftRegistry_Block_Form_Element extends Magento_Core_Block_Templat
     protected $_regionCollection;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $storeManager;
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $locale;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
-     * @param Magento_Directory_Model_Country $country
-     * @param Magento_Directory_Model_RegionFactory $region
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\Directory\Model\Country $country
+     * @param \Magento\Directory\Model\RegionFactory $region
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Cache_Type_Config $configCacheType,
-        Magento_Directory_Model_Country $country,
-        Magento_Directory_Model_RegionFactory $region,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_LocaleInterface $locale,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Directory\Model\Country $country,
+        \Magento\Directory\Model\RegionFactory $region,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
         array $data = array()
     ) {
         $this->_configCacheType = $configCacheType;
@@ -90,7 +92,7 @@ class Magento_GiftRegistry_Block_Form_Element extends Magento_Core_Block_Templat
      * Load region collection by specified country code
      *
      * @param null|string $country
-     * @return Magento_Directory_Model_Resource_Region_Collection
+     * @return \Magento\Directory\Model\Resource\Region\Collection
      */
     protected function _getRegionCollection($country = null)
     {
@@ -184,7 +186,7 @@ class Magento_GiftRegistry_Block_Form_Element extends Magento_Core_Block_Templat
      */
     public function getSelectHtml($name, $id, $options = array(), $value = null, $class = '')
     {
-        $select = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
             ->setName($this->_getFieldName($name))
             ->setId($this->_getFieldId($id))
             ->setClass('select ' . $class)
@@ -238,10 +240,10 @@ class Magento_GiftRegistry_Block_Form_Element extends Magento_Core_Block_Templat
     public function getCalendarDateHtml($name, $id, $value = null, $formatType = null, $class = '')
     {
         if (is_null($formatType)) {
-            $formatType = Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM;
+            $formatType = \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM;
         }
 
-        $calendar = $this->getLayout()->createBlock('Magento_Core_Block_Html_Date')
+        $calendar = $this->getLayout()->createBlock('Magento\Core\Block\Html\Date')
             ->setName($this->_getFieldName($name))
             ->setId($this->_getFieldId($id))
             ->setValue($value)
