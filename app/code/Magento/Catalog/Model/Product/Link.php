@@ -37,6 +37,45 @@ class Link extends \Magento\Core\Model\AbstractModel
     protected $_attributeCollection = null;
 
     /**
+     * Product collection factory
+     *
+     * @var \Magento\Catalog\Model\Resource\Product\Link\Product\CollectionFactory
+     */
+    protected $_productCollectionFactory;
+
+    /**
+     * Link collection factory
+     *
+     * @var \Magento\Catalog\Model\Resource\Product\Link\CollectionFactory
+     */
+    protected $_linkCollectionFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Catalog\Model\Resource\Product\Link\CollectionFactory $linkCollectionFactory
+     * @param \Magento\Catalog\Model\Resource\Product\Link\Product\CollectionFactory $productCollectionFactory
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Model\Resource\Product\Link\CollectionFactory $linkCollectionFactory,
+        \Magento\Catalog\Model\Resource\Product\Link\Product\CollectionFactory $productCollectionFactory,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_linkCollectionFactory = $linkCollectionFactory;
+        $this->_productCollectionFactory = $productCollectionFactory;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize resource
      */
     protected function _construct()
@@ -87,7 +126,7 @@ class Link extends \Magento\Core\Model\AbstractModel
      */
     public function getProductCollection()
     {
-        $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Link\Product\Collection')
+        $collection = $this->_productCollectionFactory->create()
             ->setLinkModel($this);
         return $collection;
     }
@@ -97,7 +136,7 @@ class Link extends \Magento\Core\Model\AbstractModel
      */
     public function getLinkCollection()
     {
-        $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Link\Collection')
+        $collection = $this->_linkCollectionFactory->create()
             ->setLinkModel($this);
         return $collection;
     }

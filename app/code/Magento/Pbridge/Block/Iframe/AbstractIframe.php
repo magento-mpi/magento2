@@ -70,18 +70,60 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
     protected $_pbridgeData = null;
 
     /**
-     * @param \Magento\Pbridge\Helper\Data $pbridgeData
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Region factory
+     *
+     * @var \Magento\Directory\Model\RegionFactory
+     */
+    protected $_regionFactory;
+
+    /**
+     * Pbridge session
+     *
+     * @var \Magento\Pbridge\Model\Session
+     */
+    protected $_pbridgeSession;
+
+    /**
+     * Customer session
+     *
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * Construct
+     *
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Pbridge\Model\Session $pbridgeSession
+     * @param \Magento\Directory\Model\RegionFactory $regionFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param array $data
      */
     public function __construct(
-        \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Pbridge\Model\Session $pbridgeSession,
+        \Magento\Directory\Model\RegionFactory $regionFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Pbridge\Helper\Data $pbridgeData,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
+        $this->_customerSession = $customerSession;
+        $this->_pbridgeSession = $pbridgeSession;
+        $this->_regionFactory = $regionFactory;
+        $this->_storeManager = $storeManager;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -131,7 +173,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
                 $result['street2'] = $street2;
             }
             //Region code lookup
-            $region = \Mage::getModel('Magento\Directory\Model\Region')->load($address->getData('region_id'));
+            $region = $this->_regionFactory->create()->load($address->getData('region_id'));
             if ($region && $region->getId()) {
                 $result['region'] = $region->getCode();
             }
@@ -189,7 +231,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
         }
         $shouldMergeCss = $this->_storeConfig->getConfigFlag('dev/css/merge_css_files');
         if (!is_object($this->getLayout()->getBlock('head'))) {
-            return \Mage::getSingleton('Magento\Pbridge\Model\Session')->getCssUrl();
+            return $this->_pbridgeSession->getCssUrl();
         }
         $items = $this->getLayout()->getBlock('head')->getData('items');
         $lines  = array();
@@ -213,7 +255,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
                 $shouldMergeCss ? array($this->_design, 'getMergedCssUrl') : null
             );
         }
-        \Mage::getSingleton('Magento\Pbridge\Model\Session')->setCssUrl($url);
+        $this->_pbridgeSession->setCssUrl($url);
         return $url;
     }
 
@@ -227,7 +269,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
      */
     protected function _prepareCssElements(array $staticItems, array $skinItems, $mergeCallback = null)
     {
-        $baseJsUrl = \Mage::getBaseUrl('js');
+        $baseJsUrl = $this->_storeManager->getStore()->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_JS);
         $items = array();
         if ($mergeCallback && !is_callable($mergeCallback)) {
             $mergeCallback = null;
@@ -236,7 +278,8 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
         // get static files from the js folder, no need in lookups
         foreach ($staticItems as $params => $rows) {
             foreach ($rows as $name) {
-                $items[$params][] = $mergeCallback ? \Mage::getBaseDir() . DS . 'js' . DS . $name : $baseJsUrl . $name;
+                $items[$params][] = $mergeCallback ? $this->_dirs->getDir() . DS . 'js' . DS . $name : $baseJsUrl
+                    . $name;
             }
         }
 
@@ -321,8 +364,8 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
      */
     protected function _getCurrentCustomer()
     {
-        if (\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
-            return \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer();
+        if ($this->_customerSession->isLoggedIn()) {
+            return $this->_customerSession->getCustomer();
         }
 
         return null;
@@ -335,6 +378,6 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
      */
     protected function _getCurrentStore()
     {
-        return \Mage::app()->getStore();
+        return $this->_storeManager->getStore();
     }
 }

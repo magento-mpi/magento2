@@ -7,6 +7,7 @@
  */
 
 namespace Magento\CatalogInventory\Block\Adminhtml\Form\Field;
+
 /**
  * @SuppressWarnings(PHPMD.LongVariable)
  */

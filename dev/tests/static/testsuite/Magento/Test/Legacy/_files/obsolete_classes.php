@@ -274,7 +274,7 @@ return array(
         'Magento\Catalog\Model\Config\Backend\Seo\Product'
     ),
     array('Mage_Adminhtml_Model_System_Config_Backend_Serialized_Array',
-        'Magento\Backend\Model\Config\Backend\Serialized\ArraySerialized'
+        'Magento\Backend\Model\Config\Backend\Serialized\Array'
     ),
     array('Mage_Adminhtml_Model_System_Config_Backend_Shipping_Tablerate',
         'Magento\Shipping\Model\Config\Backend\Tablerate'
@@ -608,7 +608,7 @@ return array(
     array('Mage_GoogleOptimizer_IndexController', 'Magento\GoogleOptimizer\Adminhtml\Googleoptimizer\IndexController'),
     array('Mage_GoogleShopping_Block_Adminhtml_Types_Grid'),
     array('Mage_GoogleShopping_Helper_SiteVerification', 'Mage_GoogleShopping_Block_SiteVerification'),
-    array('Mage_ImportExport_Model_Import_Adapter_Abstract', 'Mage_ImportExport_Model_Import_AbstractSource'),
+    array('Mage_ImportExport_Model_Import_Adapter_Abstract', 'Mage_ImportExport_Model_Import_SourceAbstract'),
     array('Mage_ImportExport_Model_Import_Adapter_Csv', 'Mage_ImportExport_Model_Import_Source_Csv'),
     array('Mage_Install_Model_Installer_Env'),
     array('Mage_Ogone_Model_Api_Debug'),
@@ -989,4 +989,5 @@ return array(
     array('Magento\Poll\Model\Resource\Poll\Answer\Collection'),
     array('Magento\Poll\Model\Resource\Poll\Collection'),
     array('Magento\Poll\Model\Resource\Poll\Vote'),
+    array('Mage:'),
 );

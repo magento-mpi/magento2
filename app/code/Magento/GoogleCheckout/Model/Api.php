@@ -34,15 +34,23 @@ class Api extends \Magento\Object
     protected $_coreStoreConfig;
 
     /**
+     * @var \Magento\ObjectManager
+     */
+    protected $objectManager;
+
+    /**
+     * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
+        \Magento\ObjectManager $objectManager,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         array $data = array()
     ) {
+        $this->objectManager = $objectManager;
         $this->_eventManager = $eventManager;
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($data);
@@ -50,7 +58,8 @@ class Api extends \Magento\Object
 
     protected function _getApi($area)
     {
-        $api = \Mage::getModel('Magento\GoogleCheckout\Model\Api\Xml\\' . uc_words($area))->setStoreId($this->getStoreId());
+        $api = $this->objectManager->create('Magento\GoogleCheckout\Model\Api\Xml\\' . uc_words($area))
+            ->setStoreId($this->getStoreId());
         $api->setApi($this);
         return $api;
     }
@@ -221,9 +230,10 @@ class Api extends \Magento\Object
     public function debugData($debugData)
     {
         if ($this->getDebugFlag()) {
-            \Mage::getModel('Magento\Core\Model\Log\Adapter', array('fileName' => 'payment_googlecheckout.log'))
-               ->setFilterDataKeys($this->_debugReplacePrivateDataKeys)
-               ->log($debugData);
+            $this->objectManager->create(
+                'Magento\Core\Model\Log\Adapter',
+                array('fileName' => 'payment_googlecheckout.log')
+            )->setFilterDataKeys($this->_debugReplacePrivateDataKeys)->log($debugData);
         }
     }
 

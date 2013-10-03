@@ -162,7 +162,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Event\Manager
+     * @return \\Magento\Core\Model\Event\Manager
      */
     public function getEventManager()
     {
@@ -170,7 +170,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Helper\Http
+     * @return \\Magento\Core\Helper\Http
      */
     public function getHttpHelper()
     {
@@ -178,7 +178,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Logger
+     * @return \\Magento\Core\Model\Logger
      */
     public function getLogger()
     {
@@ -186,7 +186,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Store\Config
+     * @return \\Magento\Core\Model\Store\Config
      */
     public function getStoreConfig()
     {
@@ -194,7 +194,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Session\Validator
+     * @return \\Magento\Core\Model\Session\Validator
      */
     public function getValidator()
     {
@@ -234,7 +234,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\App\State
+     * @return \\Magento\Core\Model\App\State
      */
     public function getAppState()
     {
@@ -242,7 +242,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Cookie
+     * @return \\Magento\Core\Model\Cookie
      */
     public function getCookie()
     {
@@ -250,7 +250,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Dir
+     * @return \\Magento\Core\Model\Dir
      */
     public function getDir()
     {
@@ -258,7 +258,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Message
+     * @return \\Magento\Core\Model\Message
      */
     public function getMessage()
     {
@@ -266,7 +266,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Message\CollectionFactory
+     * @return \\Magento\Core\Model\Message\CollectionFactory
      */
     public function getMessageFactory()
     {
@@ -274,7 +274,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Controller\Request\Http
+     * @return \\Magento\Core\Controller\Request\Http
      */
     public function getRequest()
     {
@@ -282,7 +282,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\StoreManager
+     * @return \\Magento\Core\Model\StoreManager
      */
     public function getStoreManager()
     {
@@ -290,7 +290,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Url
+     * @return \\Magento\Core\Model\Url
      */
     public function getUrl()
     {

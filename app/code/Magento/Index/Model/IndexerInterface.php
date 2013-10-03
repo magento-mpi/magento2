@@ -72,7 +72,7 @@ interface IndexerInterface
      * Handler name will be generated from event entity and type code
      *
      * @param   \Magento\Index\Model\Event $event
-     * @return  \Magento\Index\Model\Indexer_Abstract
+     * @return  \Magento\Index\Model\Indexer\AbstractIndexer
      */
     public function callEventHandler(\Magento\Index\Model\Event $event);
 

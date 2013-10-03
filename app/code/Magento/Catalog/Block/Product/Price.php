@@ -44,6 +44,16 @@ class Price extends \Magento\Core\Block\Template
     protected $_catalogData = null;
 
     /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Core\Helper\Data $coreData
@@ -52,6 +62,7 @@ class Price extends \Magento\Core\Block\Template
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Core\Helper\Data $coreData,
@@ -59,6 +70,7 @@ class Price extends \Magento\Core\Block\Template
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
+        $this->_storeManager = $storeManager;
         $this->_coreRegistry = $registry;
         $this->_catalogData = $catalogData;
         $this->_taxData = $taxData;
@@ -127,12 +139,12 @@ class Price extends \Magento\Core\Block\Template
                 if ($price['price'] < $productPrice) {
                     $price['savePercent'] = ceil(100 - ((100 / $productPrice) * $price['price']));
 
-                    $tierPrice = \Mage::app()->getStore()->convertPrice(
+                    $tierPrice = $this->_storeManager->getStore()->convertPrice(
                         $this->_taxData->getPrice($product, $price['website_price'])
                     );
-                    $price['formated_price'] = \Mage::app()->getStore()->formatPrice($tierPrice);
-                    $price['formated_price_incl_tax'] = \Mage::app()->getStore()->formatPrice(
-                        \Mage::app()->getStore()->convertPrice(
+                    $price['formated_price'] = $this->_storeManager->getStore()->formatPrice($tierPrice);
+                    $price['formated_price_incl_tax'] = $this->_storeManager->getStore()->formatPrice(
+                        $this->_storeManager->getStore()->convertPrice(
                             $this->_taxData->getPrice($product, $price['website_price'], true)
                         )
                     );

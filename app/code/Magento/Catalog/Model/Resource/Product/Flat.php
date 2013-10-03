@@ -28,13 +28,44 @@ class Flat extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_storeId;
 
     /**
+     * Catalog config
+     *
+     * @var \Magento\Catalog\Model\Config
+     */
+    protected $_catalogConfig;
+
+    /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Class constructor
+     *
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Core\Model\Resource $resource
+     */
+    public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\Core\Model\Resource $resource
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_catalogConfig = $catalogConfig;
+        parent::__construct($resource);
+    }
+
+    /**
      * Init connection and resource table
      *
      */
     protected function _construct()
     {
         $this->_init('catalog_product_flat', 'entity_id');
-        $this->_storeId = (int)\Mage::app()->getStore()->getId();
+        $this->_storeId = (int)$this->_storeManager->getStore()->getId();
     }
 
     /**
@@ -58,7 +89,7 @@ class Flat extends \Magento\Core\Model\Resource\Db\AbstractDb
         if (is_int($store)) {
             $this->_storeId = $store;
         } else {
-            $this->_storeId = (int)\Mage::app()->getStore($store)->getId();
+            $this->_storeId = (int)$this->_storeManager->getStore($store)->getId();
         }
         return $this;
     }
@@ -84,8 +115,7 @@ class Flat extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getTypeId()
     {
-        return \Mage::getSingleton('Magento\Catalog\Model\Config')
-            ->getEntityType(\Magento\Catalog\Model\Product::ENTITY)
+        return $this->_catalogConfig->getEntityType(\Magento\Catalog\Model\Product::ENTITY)
             ->getEntityTypeId();
     }
 
@@ -190,8 +220,7 @@ class Flat extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getAttribute($attribute)
     {
-        return \Mage::getSingleton('Magento\Catalog\Model\Config')
-            ->getAttribute(\Magento\Catalog\Model\Product::ENTITY, $attribute);
+        return $this->_catalogConfig->getAttribute(\Magento\Catalog\Model\Product::ENTITY, $attribute);
     }
 
     /**
