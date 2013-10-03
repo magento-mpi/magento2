@@ -49,19 +49,19 @@ abstract class AbstractEntryPoint
     /**
      * Process exception
      *
-     * @param \Exception $e
+     * @param \Exception $exception
      */
-    public function processException(\Exception $e)
+    public function processException(\Exception $exception)
     {
         $this->_init();
         $appMode = $this->_objectManager->get('Magento\Core\Model\App\State')->getMode();
         if ($appMode == \Magento\Core\Model\App\State::MODE_DEVELOPER) {
             print '<pre>';
-            print $e->getMessage() . "\n\n";
-            print $e->getTraceAsString();
+            print $exception->getMessage() . "\n\n";
+            print $exception->getTraceAsString();
             print '</pre>';
         } else {
-            $reportData = array($e->getMessage(), $e->getTraceAsString());
+            $reportData = array($exception->getMessage(), $exception->getTraceAsString());
 
             // retrieve server data
             if (isset($_SERVER)) {
@@ -77,7 +77,7 @@ abstract class AbstractEntryPoint
             try {
                 $storeManager = $this->_objectManager->get('Magento\Core\Model\StoreManager');
                 $reportData['skin'] = $storeManager->getStore()->getCode;
-            } catch (\Exception $e) {
+            } catch (\Exception $exception) {
             }
 
             $modelDir = $this->_objectManager->get('Magento\Core\Model\Dir');
