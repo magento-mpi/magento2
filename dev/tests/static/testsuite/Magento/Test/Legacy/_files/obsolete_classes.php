@@ -10,7 +10,6 @@
  * @license     {license_link}
  */
 return array(
-    array('Mage::'),
     array('Mage_Admin_Helper_Data', 'Magento\Backend\Helper\Data'),
     array('Mage_Admin_Model_Acl', 'Magento_Acl'),
     array('Mage_Admin_Model_Acl_Role'),
@@ -990,4 +989,5 @@ return array(
     array('Magento\Poll\Model\Resource\Poll\Answer\Collection'),
     array('Magento\Poll\Model\Resource\Poll\Collection'),
     array('Magento\Poll\Model\Resource\Poll\Vote'),
+    array('Mage:'),
 );
