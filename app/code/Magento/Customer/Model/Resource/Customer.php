@@ -138,14 +138,14 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
      * Validate customer entity
      *
      * @param \Magento\Customer\Model\Customer $customer
-     * @throws \Magento\Validator\Exception when validation failed
+     * @throws \Magento\Validator\ValidatorException when validation failed
      */
     protected function _validate($customer)
     {
         $validator = $this->_validatorFactory->createValidator('customer', 'save');
 
         if (!$validator->isValid($customer)) {
-            throw new \Magento\Validator\Exception($validator->getMessages());
+            throw new \Magento\Validator\ValidatorException($validator->getMessages());
         }
     }
 
