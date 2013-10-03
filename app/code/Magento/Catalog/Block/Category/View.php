@@ -189,7 +189,7 @@ class View extends \Magento\Core\Block\Template
     {
         $category = $this->getCurrentCategory();
         $res = false;
-        if ($category->getDisplayMode()==Magento_Catalog_Model_Category::DM_PAGE) {
+        if ($category->getDisplayMode() == \Magento\Catalog\Model\Category::DM_PAGE) {
             $res = true;
             if ($category->getIsAnchor()) {
                 $state = $this->_catalogLayer->getState();

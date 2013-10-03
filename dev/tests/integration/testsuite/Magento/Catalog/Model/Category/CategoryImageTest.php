@@ -80,7 +80,7 @@ class CategoryImageTest extends \PHPUnit_Framework_TestCase
 
         /** @var $category \Magento\Catalog\Model\Category */
         $category = $objectManager->get('Magento\Core\Model\Registry')
-            ->registry('_fixture/Magento_Catalog_Model_Category');
+            ->registry('_fixture/Magento\Catalog\Model\Category');
         $this->assertNotEmpty($category->getId());
 
         foreach (\Magento\Catalog\Model\Category\CategoryImageTest\StubZendLogWriterStreamTest::$exceptions
