@@ -279,7 +279,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
                 );
         }
 
-        $translate->setTranslateInline(true);
+        $this->_translator->setTranslateInline(true);
 
         return $this;
     }
