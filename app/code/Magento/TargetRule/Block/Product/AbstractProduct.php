@@ -83,6 +83,8 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
     protected $_resourceIndex;
 
     /**
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\TargetRule\Model\Resource\Index $index
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\TargetRule\Helper\Data $targetRuleData
@@ -93,6 +95,8 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\TargetRule\Model\Resource\Index $index,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\TargetRule\Helper\Data $targetRuleData,
@@ -104,7 +108,8 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
     ) {
         $this->_resourceIndex = $index;
         $this->_targetRuleData = $targetRuleData;
-        parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $data);
+        parent::__construct($storeManager, $catalogConfig, $coreRegistry, $taxData, $catalogData, $coreData,
+            $context, $data);
     }
 
     /**
@@ -132,7 +137,8 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
             \Magento\TargetRule\Model\Rule::SELECTED_ONLY,
         );
     }
-     /**
+
+    /**
      * Get link collection
      *
      * @return \Magento\Catalog\Model\Resource\Product\Collection|null

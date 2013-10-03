@@ -28,23 +28,27 @@ class Tax extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
     protected $_directoryHelper;
 
     /**
+     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Directory\Helper\Data $directoryHelper
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Weee\Model\Resource\Attribute\Backend\Weee\Tax $attributeTax
-     * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Model\Logger $logger
      */
     public function __construct(
+        \Magento\Core\Model\Logger $logger,
         \Magento\Directory\Helper\Data $directoryHelper,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Weee\Model\Resource\Attribute\Backend\Weee\Tax $attributeTax,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Model\Logger $logger
+        \Magento\Core\Model\Config $config,
+        \Magento\Directory\Model\CurrencyFactory $currencyFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Weee\Model\Resource\Attribute\Backend\Weee\Tax $attributeTax
     ) {
         $this->_directoryHelper = $directoryHelper;
         $this->_storeManager = $storeManager;
         $this->_attributeTax = $attributeTax;
-        parent::__construct($catalogData, $logger);
+        parent::__construct($logger, $currencyFactory, $storeManager, $catalogData, $config);
     }
 
     public static function getBackendModelName()

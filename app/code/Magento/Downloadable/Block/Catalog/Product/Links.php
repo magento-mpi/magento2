@@ -25,6 +25,10 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
     protected $_calculationModel;
 
     /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
@@ -34,6 +38,8 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
@@ -43,7 +49,8 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
         array $data = array()
     ) {
         $this->_calculationModel = $calculationModel;
-        parent::__construct($registry, $taxData, $catalogData, $coreData, $context, $data);
+        parent::__construct($storeManager, $catalogConfig, $registry, $taxData, $catalogData, $coreData, $context, 
+            $data);
     }
 
     /**

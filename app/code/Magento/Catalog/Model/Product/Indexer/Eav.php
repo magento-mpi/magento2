@@ -45,6 +45,35 @@ class Eav extends \Magento\Index\Model\Indexer\AbstractIndexer
     );
 
     /**
+     * Eav config
+     *
+     * @var \Magento\Eav\Model\Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_eavConfig = $eavConfig;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Retrieve Indexer name
      *
      * @return string
@@ -114,7 +143,7 @@ class Eav extends \Magento\Index\Model\Indexer\AbstractIndexer
     protected function _attributeIsIndexable($attribute)
     {
         if (!$attribute instanceof \Magento\Catalog\Model\Resource\Eav\Attribute) {
-            $attribute = \Mage::getSingleton('Magento\Eav\Model\Config')
+            $attribute = $this->_eavConfig
                 ->getAttribute(\Magento\Catalog\Model\Product::ENTITY, $attribute);
         }
 

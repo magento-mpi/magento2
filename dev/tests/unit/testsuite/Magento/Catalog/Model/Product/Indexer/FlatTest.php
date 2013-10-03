@@ -29,7 +29,11 @@ class FlatTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_model = $objectManagerHelper->getObject('Magento\Catalog\Model\Product\Indexer\Flat');
+        $indexerFactoryMock = $this->getMock('Magento\Catalog\Model\Product\Flat\IndexerFactory', array(), array(),
+            '', false);
+        $this->_model = $objectManagerHelper->getObject('Magento\Catalog\Model\Product\Indexer\Flat', array(
+            'flatIndexerFactory' => $indexerFactoryMock,
+        ));
         $this->_event = $this->getMock('Magento\Index\Model\Event',
             array('getFlatHelper', 'getEntity', 'getType', 'getDataObject'), array(), '', false
         );

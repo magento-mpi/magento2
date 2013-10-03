@@ -170,7 +170,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
     {
         $this->_openFile();
 
-        $this->assertFalse($this->_model->isProcessLocked());
+        $this->assertFalse($this->_model->isProcessLocked(false));
         $this->assertFalse($this->_tryGetSharedLock(), 'File must be locked');
         $this->assertAttributeSame(true, '_streamLocked', $this->_model);
 

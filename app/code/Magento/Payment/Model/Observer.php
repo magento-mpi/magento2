@@ -52,11 +52,13 @@ class Observer
     protected $_resourceConfig;
 
     /**
+     * Construct
+     *
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param Recurring\ProfileFactory $profileFactory
+     * @param \Magento\Payment\Model\Recurring\ProfileFactory $profileFactory
      * @param \Magento\Sales\Model\Order\Config $salesOrderConfig
-     * @param Config $paymentConfig
+     * @param \Magento\Payment\Model\Config $paymentConfig
      * @param \Magento\Core\Model\Resource\Config $resourceConfig
      */
     public function __construct(
@@ -74,7 +76,6 @@ class Observer
         $this->_paymentConfig = $paymentConfig;
         $this->_resourceConfig = $resourceConfig;
     }
-
     /**
      * Set forced canCreditmemo flag
      *

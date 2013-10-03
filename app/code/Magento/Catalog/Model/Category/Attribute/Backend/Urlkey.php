@@ -43,23 +43,4 @@ class Urlkey extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 
         return $this;
     }
-
-    /**
-     * Enter description here...
-     *
-     * @param \Magento\Object $object
-     */
-    public function afterSave($object)
-    {
-        /* @var $object \Magento\Catalog\Model\Category */
-        /**
-         * Logic moved to \Magento\Catalog\Model\Indexer\Url
-         */
-        /*if (!$object->getInitialSetupFlag() && $object->getLevel() > 1) {
-            if ($object->dataHasChangedFor('url_key') || $object->getIsChangedProductList()) {
-                \Mage::getSingleton('Magento\Catalog\Model\Url')->refreshCategoryRewrite($object->getId());
-            }
-        }*/
-    }
-
 }

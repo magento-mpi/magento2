@@ -38,6 +38,13 @@ class Pro extends \Magento\Paypal\Model\Pro
     protected $_paymentData;
 
     /**
+     * Info factory
+     *
+     * @var \Magento\Paypal\Model\InfoFactory
+     */
+    protected $_infoFactory;
+
+    /**
      * @param \Magento\Paypal\Model\Config\Factory $configFactory
      * @param \Magento\Paypal\Model\Api\Type\Factory $apiFactory
      * @param \Magento\Paypal\Model\InfoFactory $infoFactory
@@ -49,6 +56,7 @@ class Pro extends \Magento\Paypal\Model\Pro
         \Magento\Paypal\Model\InfoFactory $infoFactory,
         \Magento\Payment\Helper\Data $paymentData
     ) {
+        $this->_infoFactory = $infoFactory;
         $this->_paymentData = $paymentData;
         parent::__construct($configFactory, $apiFactory, $infoFactory);
     }
@@ -102,7 +110,7 @@ class Pro extends \Magento\Paypal\Model\Pro
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return \Magento\Object|\Magento\Payment\Model\AbstractModel|void
+     * @return \\Magento\Object|\\Magento\Payment\Model\AbstractModel|void
      */
     public function refund(\Magento\Object $payment, $amount)
     {
@@ -122,7 +130,7 @@ class Pro extends \Magento\Paypal\Model\Pro
      * Refund a capture transaction
      *
      * @param \Magento\Object $payment
-     * @return \Magento\Payment\Model\AbstractModel|null
+     * @return \\Magento\Payment\Model\AbstractModel|null
      */
     public function void(\Magento\Object $payment)
     {
