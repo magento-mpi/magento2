@@ -15,6 +15,31 @@ class Product extends \Magento\Core\Block\Template
 {
     protected $_finalPrice = array();
 
+    /**
+     * Product factory
+     *
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_productFactory = $productFactory;
+        parent::__construct($coreData, $context, $data);
+    }
+
     public function getProduct()
     {
         if (!$this->getData('product') instanceof \Magento\Catalog\Model\Product) {
@@ -22,7 +47,7 @@ class Product extends \Magento\Core\Block\Template
                 $productId = $this->getData('product')->getProductId();
             }
             if ($productId) {
-                $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($productId);
+                $product = $this->_productFactory->create()->load($productId);
                 if ($product) {
                     $this->setProduct($product);
                 }

@@ -117,7 +117,7 @@ class Config
      * @param string $code
      * @param string $config
      * @param mixed $store
-     * @return \Magento\Payment\Model\Method\Abstract
+     * @return \Magento\Payment\Model\Method\AbstractMethod
      */
     protected function _getMethod($code, $config, $store = null)
     {
@@ -133,7 +133,7 @@ class Config
             return false;
         }
 
-        /** @var \Magento\Payment\Model\Method\Abstract $method */
+        /** @var \Magento\Payment\Model\Method\AbstractMethod $method */
         $method = $this->_methodFactory->create($modelName);
         $method->setId($code)->setStore($store);
         $this->_methods[$code] = $method;

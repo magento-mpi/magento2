@@ -174,7 +174,7 @@ class Factory
      * @param \Magento\Cache\FrontendInterface $frontend
      * @return \Magento\Cache\FrontendInterface
      * @throws \LogicException
-     * @throws UnexpectedValueException
+     * @throws \UnexpectedValueException
      */
     private function _applyDecorators(\Magento\Cache\FrontendInterface $frontend)
     {
@@ -187,7 +187,7 @@ class Factory
             $decoratorParams['frontend'] = $frontend; // conventionally, 'frontend' argument is a decoration subject
             $frontend = $this->_objectManager->create($decoratorClass, $decoratorParams);
             if (!($frontend instanceof \Magento\Cache\FrontendInterface)) {
-                throw new UnexpectedValueException('Decorator has to implement the cache frontend interface.');
+                throw new \UnexpectedValueException('Decorator has to implement the cache frontend interface.');
             }
         }
         return $frontend;

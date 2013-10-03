@@ -59,9 +59,46 @@ class Option extends \Magento\Core\Model\AbstractModel
 
     protected $_options = array();
 
-    protected $_valueInstance;
-
     protected $_values = array();
+
+    /**
+     * Catalog product option value
+     *
+     * @var \Magento\Catalog\Model\Product\Option\Value
+     */
+    protected $_productOptionValue;
+
+    /**
+     * Product option factory
+     *
+     * @var \Magento\Catalog\Model\Product\Option\Type\Factory
+     */
+    protected $_optionFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Catalog\Model\Product\Option\Value $productOptionValue
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Catalog\Model\Product\Option\Type\Factory $optionFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Model\Product\Option\Value $productOptionValue,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Catalog\Model\Product\Option\Type\Factory $optionFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_productOptionValue = $productOptionValue;
+        $this->_optionFactory = $optionFactory;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
 
     /**
      * Get resource instance
@@ -118,10 +155,7 @@ class Option extends \Magento\Core\Model\AbstractModel
      */
     public function getValueInstance()
     {
-        if (!$this->_valueInstance) {
-            $this->_valueInstance = \Mage::getSingleton('Magento\Catalog\Model\Product\Option\Value');
-        }
-        return $this->_valueInstance;
+        return $this->_productOptionValue;
     }
 
     /**
@@ -222,15 +256,16 @@ class Option extends \Magento\Core\Model\AbstractModel
      * Group model factory
      *
      * @param string $type Option type
-     * @return \Magento\Catalog\Model\Product\Option_Group_Abstract
+     * @return \Magento\Catalog\Model\Product\Option\Type\DefaultType
+     * @throws \Magento\Core\Exception
      */
     public function groupFactory($type)
     {
         $group = $this->getGroupByType($type);
         if (!empty($group)) {
-            return \Mage::getModel('Magento\Catalog\Model\Product\Option\Type\\' . uc_words($group));
+            return $this->_optionFactory->create('Magento\Catalog\Model\Product\Option\Type\\' . uc_words($group));
         }
-        \Mage::throwException(__('The option type to get group instance is incorrect.'));
+        throw new \Magento\Core\Exception(__('The option type to get group instance is incorrect.'));
     }
 
     /**
@@ -313,7 +348,7 @@ class Option extends \Magento\Core\Model\AbstractModel
             $this->getValueInstance()->setOption($this)
                 ->saveValues();
         } elseif ($this->getGroupByType($this->getType()) == self::OPTION_GROUP_SELECT) {
-            \Mage::throwException(__('Select type options required values rows.'));
+            throw new \Magento\Core\Exception(__('Select type options required values rows.'));
         }
 
         return parent::_afterSave();
@@ -405,8 +440,7 @@ class Option extends \Magento\Core\Model\AbstractModel
      */
     public function getOptionValuesByOptionId($optionIds, $store_id)
     {
-        $collection = \Mage::getModel('Magento\Catalog\Model\Product\Option\Value')
-            ->getValuesByOption($optionIds, $this->getId(), $store_id);
+        $collection = $this->_productOptionValue->getValuesByOption($optionIds, $this->getId(), $store_id);
 
         return $collection;
     }
@@ -420,7 +454,7 @@ class Option extends \Magento\Core\Model\AbstractModel
     {
         $this->setProductId(null);
         $this->setOptionId(null);
-        $newOption = $this->convertToArray();
+        $newOption = $this->__toArray();
         if ($_values = $this->getValues()) {
             $newValuesArray = array();
             foreach ($_values as $_value) {

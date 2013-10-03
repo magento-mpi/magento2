@@ -21,6 +21,47 @@ namespace Magento\Catalog\Model\Resource\Product\Option;
 class Value extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Currency factory
+     *
+     * @var \Magento\Directory\Model\CurrencyFactory
+     */
+    protected $_currencyFactory;
+
+    /**
+     * Core config model
+     *
+     * @var \Magento\Core\Model\ConfigInterface
+     */
+    protected $_config;
+
+    /**
+     * Class constructor
+     *
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Config $config
+     */
+    public function __construct(
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Directory\Model\CurrencyFactory $currencyFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Config $config
+    ) {
+        $this->_currencyFactory = $currencyFactory;
+        $this->_storeManager = $storeManager;
+        $this->_config = $config;
+        parent::__construct($resource);
+    }
+
+    /**
      * Define main table and initialize connection
      *
      */
@@ -88,22 +129,23 @@ class Value extends \Magento\Core\Model\Resource\Db\AbstractDb
             }
         }
 
-        $scope = (int)\Mage::app()->getStore()->getConfig(\Magento\Core\Model\Store::XML_PATH_PRICE_SCOPE);
+        $scope = (int)$this->_storeManager->getStore()->getConfig(\Magento\Core\Model\Store::XML_PATH_PRICE_SCOPE);
 
         if ($object->getStoreId() != '0' && $scope == \Magento\Core\Model\Store::PRICE_SCOPE_WEBSITE
             && !$object->getData('scope', 'price')) {
 
-            $baseCurrency = \Mage::app()->getBaseCurrencyCode();
+            $baseCurrency = $this->_config->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE,
+                'default');
 
-            $storeIds = \Mage::app()->getStore($object->getStoreId())
+            $storeIds = $this->_storeManager->getStore($object->getStoreId())
                 ->getWebsite()
                 ->getStoreIds();
             if (is_array($storeIds)) {
                 foreach ($storeIds as $storeId) {
                     if ($priceType == 'fixed') {
-                        $storeCurrency = \Mage::app()->getStore($storeId)->getBaseCurrencyCode();
+                        $storeCurrency = $this->_storeManager->getStore($storeId)->getBaseCurrencyCode();
                         /** @var $currencyModel \Magento\Directory\Model\Currency */
-                        $currencyModel = \Mage::getModel('Magento\Directory\Model\Currency');
+                        $currencyModel = $this->_currencyFactory->create();
                         $currencyModel->load($baseCurrency);
                         $rate = $currencyModel->getRate($storeCurrency);
                         if (!$rate) {

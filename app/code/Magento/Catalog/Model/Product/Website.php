@@ -50,13 +50,14 @@ class Website extends \Magento\Core\Model\AbstractModel
      * @param array $websiteIds
      * @param array $productIds
      * @return \Magento\Catalog\Model\Product\Website
+     * @throws \Magento\Core\Exception
      */
     public function removeProducts($websiteIds, $productIds)
     {
         try {
             $this->_getResource()->removeProducts($websiteIds, $productIds);
         } catch (\Exception $e) {
-            \Mage::throwException(
+            throw new \Magento\Core\Exception(
                 __('Something went wrong removing products from the websites.')
             );
         }
@@ -69,13 +70,14 @@ class Website extends \Magento\Core\Model\AbstractModel
      * @param array $websiteIds
      * @param array $productIds
      * @return \Magento\Catalog\Model\Product\Website
+     * @throws \Magento\Core\Exception
      */
     public function addProducts($websiteIds, $productIds)
     {
         try {
             $this->_getResource()->addProducts($websiteIds, $productIds);
         } catch (\Exception $e) {
-            \Mage::throwException(
+            throw new \Magento\Core\Exception(
                 __('Something went wrong adding products to websites.')
             );
         }

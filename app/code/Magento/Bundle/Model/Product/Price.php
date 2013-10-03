@@ -42,15 +42,25 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
     protected $_taxData = null;
 
     /**
-     * @param \Magento\Tax\Helper\Data $taxData
+     *  Construct
+     *
+     * @param \Magento\CatalogRule\Model\Resource\RuleFactory $ruleFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Tax\Helper\Data $taxData
      */
     public function __construct(
-        \Magento\Tax\Helper\Data $taxData,
-        \Magento\Core\Model\Event\Manager $eventManager
+        \Magento\CatalogRule\Model\Resource\RuleFactory $ruleFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Tax\Helper\Data $taxData
     ) {
         $this->_taxData = $taxData;
-        parent::__construct($eventManager);
+        parent::__construct($ruleFactory, $storeManager, $locale, $customerSession, $eventManager);
     }
 
     public function getIsPricesCalculatedByIndex()

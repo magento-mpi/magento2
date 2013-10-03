@@ -186,7 +186,7 @@ return array(
     array('addRouter', 'Magento\Core\Controller\Varien\Front'),
     array('addOptionRenderer', 'Magento\Catalog\Block\Product\View\Options'),
     array('addPageHandles', 'Magento\Core\Model\Layout\Update', 'Magento\Core\Model\Layout\Merge'),
-    array('addPagerLimit', 'Magento\Catalog\Block\Product\ListProduct\Toolbar'),
+    array('addPagerLimit', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
     array('addRegisterLink', 'Magento\Customer\Block\Account\Link'),
     array('addReviewSummaryTemplate', 'Magento\Catalog\Block\Product\AbstractProduct'),
     array('addRowItemRender', 'Magento\Checkout\Block\Multishipping\Overview'),

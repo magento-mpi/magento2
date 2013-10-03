@@ -22,6 +22,27 @@ class Urlkey
     extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
+     * Catalog url
+     *
+     * @var \Magento\Catalog\Model\Url
+     */
+    protected $_catalogUrl;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Catalog\Model\Url $catalogUrl
+     * @param \Magento\Core\Model\Logger $logger
+     */
+    public function __construct(
+        \Magento\Catalog\Model\Url $catalogUrl,
+        \Magento\Core\Model\Logger $logger
+    ) {
+        $this->_catalogUrl = $catalogUrl;
+        parent::__construct($logger);
+    }
+
+    /**
      * Before save
      *
      * @param \Magento\Object $object
@@ -50,7 +71,7 @@ class Urlkey
     public function afterSave($object)
     {
         if ($object->dataHasChangedFor($this->getAttribute()->getName())) {
-            \Mage::getSingleton('Magento\Catalog\Model\Url')->refreshProductRewrites(null, $object, true);
+            $this->_catalogUrl->refreshProductRewrites(null, $object, true);
         }
         return $this;
     }

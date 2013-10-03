@@ -24,6 +24,24 @@ class Image
     const IMAGE_PATH_SEGMENT = 'catalog/category/';
 
     /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     */
+    public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager
+    ) {
+        $this->_storeManager = $storeManager;
+    }
+
+    /**
      * Return image url
      *
      * @param \Magento\Object $object
@@ -33,7 +51,8 @@ class Image
     {
         $url = false;
         if ($image = $object->getData($this->getAttribute()->getAttributeCode())) {
-            $url = \Mage::getBaseUrl('media') . self::IMAGE_PATH_SEGMENT . $image;
+            $url = $this->_storeManager->getStore()
+                ->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_MEDIA) . self::IMAGE_PATH_SEGMENT . $image;
         }
         return $url;
     }

@@ -1,4 +1,7 @@
 <?php
+
+namespace Magento\Catalog\Model\Product\Indexer;
+
 /**
  * {license_notice}
  *
@@ -6,9 +9,9 @@
  * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
+ *
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Model\Product\Indexer;
-
 class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
 {
     /**
@@ -55,6 +58,32 @@ class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
     protected $_catalogProductFlat = null;
 
     /**
+     * Catalog product flat indexer
+     *
+     * @var \Magento\Catalog\Model\Product\Flat\Indexer
+     */
+    protected $_catalogProductFlatIndexer;
+
+    /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Flat indexer factory
+     *
+     * @var \Magento\Catalog\Model\Product\Flat\IndexerFactory
+     */
+    protected $_flatIndexerFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Catalog\Model\Product\Flat\IndexerFactory $flatIndexerFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Product\Flat\Indexer $catalogProductFlatIndexer
      * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
@@ -63,6 +92,9 @@ class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
      * @param array $data
      */
     public function __construct(
+        \Magento\Catalog\Model\Product\Flat\IndexerFactory $flatIndexerFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Product\Flat\Indexer $catalogProductFlatIndexer,
         \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
@@ -70,6 +102,9 @@ class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_flatIndexerFactory = $flatIndexerFactory;
+        $this->_storeManager = $storeManager;
+        $this->_catalogProductFlatIndexer = $catalogProductFlatIndexer;
         $this->_catalogProductFlat = $catalogProductFlat;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -99,16 +134,6 @@ class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
     public function getDescription()
     {
         return __('Reorganize EAV product structure to flat structure');
-    }
-
-    /**
-     * Retrieve Catalog Product Flat Indexer model
-     *
-     * @return \Magento\Catalog\Model\Product\Flat\Indexer
-     */
-    protected function _getIndexer()
-    {
-        return \Mage::getSingleton('Magento\Catalog\Model\Product\Flat\Indexer');
     }
 
     /**
@@ -354,7 +379,7 @@ class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
     {
         $data = $event->getNewData();
         if ($event->getType() == \Magento\Catalog\Model\Product\Flat\Indexer::EVENT_TYPE_REBUILD) {
-            $this->_getIndexer()->getResource()->rebuild($data['id']);
+            $this->_catalogProductFlatIndexer->getResource()->rebuild($data['id']);
             return;
         }
 
@@ -364,7 +389,7 @@ class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
         } else if (!empty($data['catalog_product_flat_product_id'])) {
             // catalog_product save
             $productId = $data['catalog_product_flat_product_id'];
-            $this->_getIndexer()->saveProduct($productId);
+            $this->_catalogProductFlatIndexer->saveProduct($productId);
         } else if (!empty($data['catalog_product_flat_product_ids'])) {
             // catalog_product mass_action
             $productIds = $data['catalog_product_flat_product_ids'];
@@ -372,12 +397,12 @@ class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
             if (!empty($data['catalog_product_flat_website_ids'])) {
                 $websiteIds = $data['catalog_product_flat_website_ids'];
                 foreach ($websiteIds as $websiteId) {
-                    $website = \Mage::app()->getWebsite($websiteId);
+                    $website = $this->_storeManager->getWebsite($websiteId);
                     foreach ($website->getStores() as $store) {
                         if ($data['catalog_product_flat_action_type'] == 'remove') {
-                            $this->_getIndexer()->removeProduct($productIds, $store->getId());
+                            $this->_catalogProductFlatIndexer->removeProduct($productIds, $store->getId());
                         } else {
-                            $this->_getIndexer()->updateProduct($productIds, $store->getId());
+                            $this->_catalogProductFlatIndexer->updateProduct($productIds, $store->getId());
                         }
                     }
                 }
@@ -385,14 +410,14 @@ class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
 
             if (isset($data['catalog_product_flat_status'])) {
                 $status = $data['catalog_product_flat_status'];
-                $this->_getIndexer()->updateProductStatus($productIds, $status);
+                $this->_catalogProductFlatIndexer->updateProductStatus($productIds, $status);
             }
 
             if (isset($data['catalog_product_flat_force_update'])) {
-                $this->_getIndexer()->updateProduct($productIds);
+                $this->_catalogProductFlatIndexer->updateProduct($productIds);
             }
         } else if (!empty($data['catalog_product_flat_delete_store_id'])) {
-            $this->_getIndexer()->deleteStore($data['catalog_product_flat_delete_store_id']);
+            $this->_catalogProductFlatIndexer->deleteStore($data['catalog_product_flat_delete_store_id']);
         }
     }
 
@@ -402,7 +427,7 @@ class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
      */
     public function reindexAll()
     {
-        $this->_getIndexer()->reindexAll();
+        $this->_catalogProductFlatIndexer->reindexAll();
     }
 
     /**
@@ -412,6 +437,6 @@ class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
      */
     protected function _getFlatAttributes()
     {
-        return \Mage::getModel('Magento\Catalog\Model\Product\Flat\Indexer')->getAttributeCodes();
+        return $this->_flatIndexerFactory->create()->getAttributeCodes();
     }
 }
