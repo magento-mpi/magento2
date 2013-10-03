@@ -37,17 +37,17 @@ class Observer
     protected $_profileFactory;
 
     /**
-     * @var Magento_Sales_Model_Order_Config
+     * @var \Magento\Sales\Model\Order\Config
      */
     protected $_salesOrderConfig;
 
     /**
-     * @var Magento_Payment_Model_Config
+     * @var Config
      */
     protected $_paymentConfig;
 
     /**
-     * @var Magento_Core_Model_Resource_Config
+     * @var \Magento\Core\Model\Resource\Config
      */
     protected $_resourceConfig;
 
