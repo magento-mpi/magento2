@@ -20,7 +20,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
     public function testCreateWritableDir($isWritable, $throwException)
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $filesystemMock = $this->getMock('\Magento\Filesystem', array(), array(), '', false);
+        $filesystemMock = $this->getMock('Magento\Filesystem', array(), array(), '', false);
         $filesystemMock->expects($this->once())
             ->method('isWritable')
             ->will($this->returnValue($isWritable));

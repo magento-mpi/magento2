@@ -140,9 +140,9 @@ abstract class AbstractHelper
     {
         if (!$this->_moduleName) {
             $class = get_class($this);
-            $this->_moduleName = substr($class, 0, strpos($class, '_Helper'));
+            $this->_moduleName = substr($class, 0, strpos($class, '\\Helper'));
         }
-        return $this->_moduleName;
+        return str_replace(\Magento\Autoload\IncludePath::NS_SEPARATOR, '_', $this->_moduleName);
     }
 
     /**
@@ -163,7 +163,7 @@ abstract class AbstractHelper
     /**
      * Check is module exists and enabled in global config.
      *
-     * @param string $moduleName the full module name, example \Magento\Core
+     * @param string $moduleName the full module name, example Magento_Core
      * @return boolean
      * @deprecated use \Magento\Core\Model\ModuleManager::isEnabled()
      */

@@ -485,7 +485,7 @@ class Migration extends \Magento\Core\Model\Resource\Setup
      */
     protected function _getClassName($module, $type, $name = null)
     {
-        $className = implode('_', array_map('ucfirst', explode('_', $module . '_' . $type . '_' . $name)));
+        $className = implode('\\', array_map('ucfirst', explode('_', $module . '_' . $type . '_' . $name)));
 
         if (class_exists($className)) {
             return $className;
