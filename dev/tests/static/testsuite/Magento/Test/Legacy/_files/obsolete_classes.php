@@ -989,4 +989,5 @@ return array(
     array('Magento\Poll\Model\Resource\Poll\Answer\Collection'),
     array('Magento\Poll\Model\Resource\Poll\Collection'),
     array('Magento\Poll\Model\Resource\Poll\Vote'),
+    array('Mage:'),
 );

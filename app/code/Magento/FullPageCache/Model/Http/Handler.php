@@ -64,8 +64,6 @@ class Handler implements \Magento\HTTP\HandlerInterface
             return;
         }
 
-        $response->headersSentThrowsException = \Mage::$headersSentThrowsException;
-
         $content = false;
         foreach ($this->_processors as $processor) {
             $content = $processor->extractContent($request, $response, $content);

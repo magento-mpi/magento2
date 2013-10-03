@@ -82,6 +82,7 @@ class Checkout extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
      * @param \Magento\GoogleCheckout\Helper\Data $googleCheckoutData
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Weee\Helper\Data $weeeData
+     * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Core\Model\Translate $translator
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param array $data
@@ -92,6 +93,7 @@ class Checkout extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
         \Magento\GoogleCheckout\Helper\Data $googleCheckoutData,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Weee\Helper\Data $weeeData,
+        \Magento\ObjectManager $objectManager,
         \Magento\Core\Model\Translate $translator,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         array $data = array()
@@ -101,7 +103,7 @@ class Checkout extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
         $this->_googleCheckoutData = $googleCheckoutData;
         $this->_taxData = $taxData;
         $this->_weeeData = $weeeData;
-        parent::__construct($translator, $coreStoreConfig, $data);
+        parent::__construct($objectManager, $translator, $coreStoreConfig, $data);
     }
 
     /**
@@ -119,13 +121,14 @@ class Checkout extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
     /**
      * Send checkout data to google
      *
+     * @throws \Magento\Core\Exception
      * @return \Magento\GoogleCheckout\Model\Api\Xml\Checkout
      */
     public function checkout()
     {
         $quote = $this->getQuote();
         if (!($quote instanceof \Magento\Sales\Model\Quote)) {
-            \Mage::throwException('Invalid quote');
+            throw new \Magento\Core\Exception('Invalid quote');
         }
 
         $xmlns = self::CHECKOUT_SHOPPING_CART_XMLNS;
@@ -717,7 +720,7 @@ EOT;
         $xml           = '';
         $methods       = unserialize($methods);
         $taxHelper     = $this->_taxData;
-        $shippingModel = \Mage::getModel('Magento\Shipping\Model\Shipping');
+        $shippingModel = $this->objectManager->create('Magento\Shipping\Model\Shipping');
 
         foreach ($methods['method'] as $i => $method) {
             if (!$i || !$method) {
@@ -979,7 +982,7 @@ EOT;
         if (!$customerGroup) {
             $customerGroup = $this->_customerData->getDefaultCustomerGroupId($this->getQuote()->getStoreId());
         }
-        return \Mage::getModel('Magento\Customer\Model\Group')->load($customerGroup)->getTaxClassId();
+        return $this->objectManager->create('Magento\Customer\Model\Group')->load($customerGroup)->getTaxClassId();
     }
 
     /**
@@ -994,7 +997,7 @@ EOT;
             \Magento\Tax\Model\Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS,
             $this->getQuote()->getStoreId()
         );
-        $taxCalculationModel = \Mage::getSingleton('Magento\Tax\Model\Calculation');
+        $taxCalculationModel = $this->objectManager->get('Magento\Tax\Model\Calculation');
 
         if ($shippingTaxClass) {
             if ($this->_taxData->getTaxBasedOn() == 'origin') {
@@ -1028,7 +1031,7 @@ EOT;
     protected function _getTaxRules()
     {
         $customerTaxClass    = $this->_getCustomerTaxClass();
-        $taxCalculationModel = \Mage::getSingleton('Magento\Tax\Model\Calculation');
+        $taxCalculationModel = $this->objectManager->get('Magento\Tax\Model\Calculation');
 
         if ($this->_taxData->getTaxBasedOn() == 'origin') {
             $request = $taxCalculationModel->getRateRequest()->setCustomerClassId($customerTaxClass);
@@ -1109,7 +1112,7 @@ EOT;
      */
     protected function _getEditCartUrl()
     {
-        return \Mage::getUrl('googlecheckout/redirect/cart');
+        return $this->objectManager->create('Magento\Core\Model\Url')->getUrl('googlecheckout/redirect/cart');
     }
 
     /**
@@ -1119,7 +1122,7 @@ EOT;
      */
     protected function _getContinueShoppingUrl()
     {
-        return \Mage::getUrl('googlecheckout/redirect/continue');
+        return $this->objectManager->create('Magento\Core\Model\Url')->getUrl('googlecheckout/redirect/continue');
     }
 
     /**
@@ -1149,7 +1152,7 @@ EOT;
      */
     protected function _getParameterizedUrl()
     {
-        return \Mage::getUrl('googlecheckout/api/beacon');
+        return $this->objectManager->create('Magento\Core\Model\Url')->getUrl('googlecheckout/api/beacon');
     }
 
     /**

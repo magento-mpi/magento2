@@ -42,7 +42,7 @@ class Observer
     protected $_salesOrderConfig;
 
     /**
-     * @var \Magento\Payment\Model\Config
+     * @var Config
      */
     protected $_paymentConfig;
 
