@@ -26,7 +26,7 @@ class Action extends \Magento\Catalog\Model\Resource\AbstractResource
      */
     protected function _construct()
     {
-        $resource = \Mage::getSingleton('Magento\Core\Model\Resource');
+        $resource = $this->_resource;
         $this->setType(\Magento\Catalog\Model\Product::ENTITY)
             ->setConnection(
                 $resource->getConnection('catalog_read'),

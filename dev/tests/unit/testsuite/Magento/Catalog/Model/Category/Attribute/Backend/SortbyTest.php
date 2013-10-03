@@ -17,11 +17,20 @@ class SortbyTest extends \PHPUnit_Framework_TestCase
      */
     protected $_model;
 
+    /**
+     * @var \Magento\TestFramework\Helper\ObjectManager
+     */
+    protected $_objectHelper;
+
     protected function setUp()
     {
-        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $this->_objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
-        $this->_model = new \Magento\Catalog\Model\Category\Attribute\Backend\Sortby($logger, $coreStoreConfig);
+        $this->_model = $this->_objectHelper->getObject('Magento\Catalog\Model\Category\Attribute\Backend\Sortby',
+            array(
+                'coreStoreConfig' => $coreStoreConfig
+            )
+        );
         $attribute = $this->getMockForAbstractClass('Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
             array(), '', false, true, true, array('getName')
         );

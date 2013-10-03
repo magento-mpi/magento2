@@ -28,6 +28,24 @@ class Action extends \Magento\Core\Model\AbstractModel
     protected $_eventManager = null;
 
     /**
+     * Index indexer
+     *
+     * @var \Magento\Index\Model\Indexer
+     */
+    protected $_indexIndexer;
+
+    /**
+     * Product website factory
+     *
+     * @var \Magento\Catalog\Model\Product\WebsiteFactory
+     */
+    protected $_productWebsiteFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Catalog\Model\Product\WebsiteFactory $productWebsiteFactory
+     * @param \Magento\Index\Model\Indexer $indexIndexer
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
@@ -36,6 +54,8 @@ class Action extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
+        \Magento\Catalog\Model\Product\WebsiteFactory $productWebsiteFactory,
+        \Magento\Index\Model\Indexer $indexIndexer,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
@@ -43,6 +63,8 @@ class Action extends \Magento\Core\Model\AbstractModel
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_productWebsiteFactory = $productWebsiteFactory;
+        $this->_indexIndexer = $indexIndexer;
         $this->_eventManager = $eventManager;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -90,7 +112,7 @@ class Action extends \Magento\Core\Model\AbstractModel
         ));
 
         // register mass action indexer event
-        \Mage::getSingleton('Magento\Index\Model\Indexer')->processEntityAction(
+        $this->_indexIndexer->processEntityAction(
             $this, \Magento\Catalog\Model\Product::ENTITY, \Magento\Index\Model\Event::TYPE_MASS_ACTION
         );
         return $this;
@@ -110,9 +132,9 @@ class Action extends \Magento\Core\Model\AbstractModel
     public function updateWebsites($productIds, $websiteIds, $type)
     {
         if ($type == 'add') {
-            \Mage::getModel('Magento\Catalog\Model\Product\Website')->addProducts($websiteIds, $productIds);
+            $this->_productWebsiteFactory->create()->addProducts($websiteIds, $productIds);
         } else if ($type == 'remove') {
-            \Mage::getModel('Magento\Catalog\Model\Product\Website')->removeProducts($websiteIds, $productIds);
+            $this->_productWebsiteFactory->create()->removeProducts($websiteIds, $productIds);
         }
 
         $this->setData(array(
@@ -122,7 +144,7 @@ class Action extends \Magento\Core\Model\AbstractModel
         ));
 
         // register mass action indexer event
-        \Mage::getSingleton('Magento\Index\Model\Indexer')->processEntityAction(
+        $this->_indexIndexer->processEntityAction(
             $this, \Magento\Catalog\Model\Product::ENTITY, \Magento\Index\Model\Event::TYPE_MASS_ACTION
         );
     }

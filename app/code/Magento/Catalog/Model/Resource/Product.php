@@ -8,16 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model\Resource;
 
 /**
  * Product entity resource model
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Model\Resource;
-
 class Product extends \Magento\Catalog\Model\Resource\AbstractResource
 {
     /**
@@ -35,13 +32,35 @@ class Product extends \Magento\Catalog\Model\Resource\AbstractResource
     protected $_productCategoryTable;
 
     /**
+     * Catalog category
+     *
+     * @var \Magento\Catalog\Model\Resource\Category
+     */
+    protected $_catalogCategory;
+
+    /**
+     * Category collection factory
+     *
+     * @var \Magento\Catalog\Model\Resource\Category\CollectionFactory
+     */
+    protected $_categoryCollectionFactory;
+
+    /**
+     * Construct
+     *
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
      * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Factory $modelFactory
+     * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory
+     * @param \Magento\Catalog\Model\Resource\Category $catalogCategory
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Model\Resource $resource,
@@ -50,8 +69,14 @@ class Product extends \Magento\Catalog\Model\Resource\AbstractResource
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
         \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Factory $modelFactory,
+        \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory,
+        \Magento\Catalog\Model\Resource\Category $catalogCategory,
         $data = array()
     ) {
+        $this->_categoryCollectionFactory = $categoryCollectionFactory;
+        $this->_catalogCategory = $catalogCategory;
         parent::__construct(
             $resource,
             $eavConfig,
@@ -59,6 +84,8 @@ class Product extends \Magento\Catalog\Model\Resource\AbstractResource
             $locale,
             $resourceHelper,
             $universalFactory,
+            $storeManager,
+            $modelFactory,
             $data
         );
         $this->setType(\Magento\Catalog\Model\Product::ENTITY)->setConnection('catalog_read', 'catalog_write');
@@ -171,7 +198,7 @@ class Product extends \Magento\Catalog\Model\Resource\AbstractResource
          * Check if declared category ids in object data.
          */
         if ($object->hasCategoryIds()) {
-            $categoryIds = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Category')->verifyIds(
+            $categoryIds = $this->_catalogCategory->verifyIds(
                 $object->getCategoryIds()
             );
             $object->setCategoryIds($categoryIds);
@@ -329,8 +356,6 @@ class Product extends \Magento\Catalog\Model\Resource\AbstractResource
         $condition = array('product_id = ?' => (int)$product->getId());
         $writeAdapter->delete($this->getTable('catalog_category_product_index'), $condition);
 
-        /** @var $categoryObject \Magento\Catalog\Model\Resource\Category */
-        $categoryObject = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Category');
         if (!empty($categoryIds)) {
             $categoriesSelect = $writeAdapter->select()
                 ->from($this->getTable('catalog_category_entity'))
@@ -348,7 +373,7 @@ class Product extends \Magento\Catalog\Model\Resource\AbstractResource
             $indexCategoryIds   = array_unique($indexCategoryIds);
             $indexProductIds    = array($product->getId());
 
-           $categoryObject->refreshProductIndex($indexCategoryIds, $indexProductIds);
+            $this->_catalogCategory->refreshProductIndex($indexCategoryIds, $indexProductIds);
         } else {
             $websites = $product->getWebsiteIds();
 
@@ -356,11 +381,11 @@ class Product extends \Magento\Catalog\Model\Resource\AbstractResource
                 $storeIds = array();
 
                 foreach ($websites as $websiteId) {
-                    $website  = \Mage::app()->getWebsite($websiteId);
+                    $website  = $this->_storeManager->getWebsite($websiteId);
                     $storeIds = array_merge($storeIds, $website->getStoreIds());
                 }
 
-                $categoryObject->refreshProductIndex(array(), array($product->getId()), $storeIds);
+                $this->_catalogCategory->refreshProductIndex(array(), array($product->getId()), $storeIds);
             }
         }
 
@@ -398,7 +423,7 @@ class Product extends \Magento\Catalog\Model\Resource\AbstractResource
 
         $indexTable = $this->getTable('catalog_product_enabled_index');
         if (is_null($store) && is_null($product)) {
-            \Mage::throwException(
+            throw new \Magento\Core\Exception(
                 __('To reindex the enabled product(s), please specify the store or product.')
             );
         } elseif (is_null($product) || is_array($product)) {
@@ -426,7 +451,7 @@ class Product extends \Magento\Catalog\Model\Resource\AbstractResource
             );
         } elseif ($store === null) {
             foreach ($product->getStoreIds() as $storeId) {
-                $store = \Mage::app()->getStore($storeId);
+                $store = $this->_storeManager->getStore($storeId);
                 $this->refreshEnabledIndex($store, $product);
             }
             return $this;
@@ -513,8 +538,9 @@ class Product extends \Magento\Catalog\Model\Resource\AbstractResource
      */
     public function getCategoryCollection($product)
     {
-        $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Category\Collection')
-            ->joinField('product_id',
+        /** @var \Magento\Catalog\Model\Resource\Category\Collection $collection */
+        $collection = $this->_categoryCollectionFactory->create();
+        $collection->joinField('product_id',
                 'catalog_category_product',
                 'product_id',
                 'category_id = entity_id',

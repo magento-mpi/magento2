@@ -16,7 +16,7 @@
  */
 namespace Magento\ImportExport\Model\Import\Entity\Eav;
 
-class CustomerAbstractTest extends \PHPUnit_Framework_TestCase
+class AbstractCustomerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Abstract customer export model
