@@ -34,7 +34,7 @@ class Paypaluk extends \Magento\PaypalUk\Model\Direct
      *
      * @var \Magento\Pbridge\Model\Payment\Method\Pbridge
      */
-    protected $_pbridgeMethodInstance;
+    protected $_pbridgeMethodInstance = null;
 
     /**
      * Website Payments Pro instance type
@@ -206,7 +206,7 @@ class Paypaluk extends \Magento\PaypalUk\Model\Direct
      */
     public function getFormBlockType()
     {
-        return $this->_storeManager->getStore()->isAdmin() ?
+        return \Mage::app()->getStore()->isAdmin() ?
             $this->_backendFormBlockType :
             $this->_formBlockType;
     }

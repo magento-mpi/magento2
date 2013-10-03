@@ -14,8 +14,8 @@ namespace Magento\Backend\Controller\Router;
 /**
  * Class \Magento\Backend\Controller\Router\DefaultRouter
  *
- * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  */
 class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
 {
@@ -279,6 +279,7 @@ class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
             \Magento\Autoload\IncludePath::NS_SEPARATOR . ucfirst($this->_areaCode) .
             \Magento\Autoload\IncludePath::NS_SEPARATOR .
             str_replace('_', '\\', uc_words(str_replace('_', ' ', $controller)));
+
     }
 
     /**

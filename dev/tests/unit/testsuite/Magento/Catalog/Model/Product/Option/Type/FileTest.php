@@ -28,7 +28,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
             $filesystemMock->expects($this->once())
                 ->method('createDirectory')
                 ->will($throwException
-                    ? $this->throwException(new \Magento\Filesystem\FilesystemException)
+                    ? $this->throwException(new \Magento\Core\Exception)
                     : $this->returnValue(null)
                 );
         } else {
@@ -39,8 +39,12 @@ class FileTest extends \PHPUnit_Framework_TestCase
             $this->setExpectedException('Magento\Core\Exception');
         }
 
-        $parameters = array('filesystem' => $filesystemMock);
-        $model = $helper->getObject('Magento\Catalog\Model\Product\Option\Type\File', $parameters);
+        $optionFactoryMock = $this->getMock('Magento\Sales\Model\Quote\Item\OptionFactory', array(), array(),
+            '', false);
+        $model = $helper->getObject('Magento\Catalog\Model\Product\Option\Type\File', array(
+            'filesystem' => $filesystemMock,
+            'itemOptionFactory' => $optionFactoryMock,
+        ));
         $method = new \ReflectionMethod('Magento\Catalog\Model\Product\Option\Type\File', '_createWritableDir');
         $method->setAccessible(true);
         $method->invoke($model, 'dummy/path');

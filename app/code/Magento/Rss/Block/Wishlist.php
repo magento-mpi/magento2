@@ -43,35 +43,40 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
      */
     protected $_customerFactory;
 
-
     /**
      * @var \Magento\Rss\Model\RssFactory
      */
     protected $_rssFactory;
 
     /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Wishlist\Helper\Data $wishlistData
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Wishlist\Helper\Data $wishlistData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Rss\Model\RssFactory $rssFactory
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Wishlist\Helper\Data $wishlistData,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Wishlist\Helper\Data $wishlistData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
@@ -82,8 +87,8 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
         $this->_wishlistFactory = $wishlistFactory;
         $this->_customerFactory = $customerFactory;
         $this->_rssFactory = $rssFactory;
-        parent::__construct($coreRegistry, $wishlistData, $taxData, $catalogData, $coreData, $context, $storeManager,
-            $customerSession, $productFactory, $data);
+        parent::__construct($storeManager, $catalogConfig, $coreRegistry, $taxData, $catalogData, $coreData, $context,
+            $wishlistData, $customerSession, $productFactory, $data);
     }
 
     /**

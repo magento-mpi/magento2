@@ -8,15 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Helper\Product;
+
 /**
  * Helper for fetching properties by product configurational item
  *
- * @category   Magento
- * @package    Magento_Catalog
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Helper\Product;
-
 class Configuration extends \Magento\Core\Helper\AbstractHelper
     implements \Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface
 {
@@ -33,15 +31,27 @@ class Configuration extends \Magento\Core\Helper\AbstractHelper
     protected $_coreString = null;
 
     /**
+     * Product option factory
+     *
+     * @var \Magento\Catalog\Model\Product\OptionFactory
+     */
+    protected $_productOptionFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
      * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $config
      */
     public function __construct(
+        \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
         \Magento\Core\Helper\String $coreString,
         \Magento\Core\Helper\Context $context,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $config
     ) {
+        $this->_productOptionFactory = $productOptionFactory;
         $this->_coreString = $coreString;
         $this->_config = $config;
         parent::__construct($context);
@@ -108,13 +118,14 @@ class Configuration extends \Magento\Core\Helper\AbstractHelper
      *
      * @param \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item
      * @return array
+     * @throws \Magento\Core\Exception
      */
     public function getConfigurableOptions(\Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item)
     {
         $product = $item->getProduct();
         $typeId = $product->getTypeId();
         if ($typeId != \Magento\Catalog\Model\Product\Type\Configurable::TYPE_CODE) {
-             \Mage::throwException(__('The product type to extract configurable options is incorrect.'));
+             throw new \Magento\Core\Exception(__('The product type to extract configurable options is incorrect.'));
         }
         $attributes = $product->getTypeInstance()
             ->getSelectedAttributesInfo($product);
@@ -126,13 +137,14 @@ class Configuration extends \Magento\Core\Helper\AbstractHelper
      *
      * @param \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item
      * @return array
+     * @throws \Magento\Core\Exception
      */
     public function getGroupedOptions(\Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item)
     {
         $product = $item->getProduct();
         $typeId = $product->getTypeId();
         if ($typeId != \Magento\Catalog\Model\Product\Type\Grouped::TYPE_CODE) {
-             \Mage::throwException(__('The product type to extract configurable options is incorrect.'));
+             throw new \Magento\Core\Exception(__('The product type to extract configurable options is incorrect.'));
         }
 
         $options = array();
@@ -238,7 +250,7 @@ class Configuration extends \Magento\Core\Helper\AbstractHelper
             $_default = array('value' => $optionValue);
             if (isset($optionInfo['option_type'])) {
                 try {
-                    $group = \Mage::getModel('Magento\Catalog\Model\Product\Option')->groupFactory($optionInfo['option_type']);
+                    $group = $this->_productOptionFactory->create()->groupFactory($optionInfo['option_type']);
                     return array('value' => $group->getCustomizedView($optionInfo));
                 } catch (\Exception $e) {
                     return $_default;

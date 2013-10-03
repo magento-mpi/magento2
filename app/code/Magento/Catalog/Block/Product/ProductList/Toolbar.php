@@ -128,13 +128,48 @@ class Toolbar extends \Magento\Core\Block\Template
 
 
     /**
+     * Catalog config
+     *
+     * @var \Magento\Catalog\Model\Config
+     */
+    protected $_catalogConfig;
+
+    /**
+     * Catalog session
+     *
+     * @var \Magento\Catalog\Model\Session
+     */
+    protected $_catalogSession;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Catalog\Model\Session $catalogSession
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Model\Session $catalogSession,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_catalogSession = $catalogSession;
+        $this->_catalogConfig = $catalogConfig;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Retrieve Catalog Config object
      *
      * @return \Magento\Catalog\Model\Config
      */
     protected function _getConfig()
     {
-        return \Mage::getSingleton('Magento\Catalog\Model\Config');
+        return $this->_catalogConfig;
     }
 
     /**
@@ -188,9 +223,8 @@ class Toolbar extends \Magento\Core\Block\Template
      */
     protected function _memorizeParam($param, $value)
     {
-        $session = \Mage::getSingleton('Magento\Catalog\Model\Session');
-        if ($this->_paramsMemorizeAllowed && !$session->getParamsMemorizeDisabled()) {
-            $session->setData($param, $value);
+        if ($this->_paramsMemorizeAllowed && !$this->_catalogSession->getParamsMemorizeDisabled()) {
+            $this->_catalogSession->setData($param, $value);
         }
         return $this;
     }
@@ -314,12 +348,12 @@ class Toolbar extends \Magento\Core\Block\Template
         $order = $this->getRequest()->getParam($this->getOrderVarName());
         if ($order && isset($orders[$order])) {
             if ($order == $defaultOrder) {
-                \Mage::getSingleton('Magento\Catalog\Model\Session')->unsSortOrder();
+                $this->_catalogSession->unsSortOrder();
             } else {
                 $this->_memorizeParam('sort_order', $order);
             }
         } else {
-            $order = \Mage::getSingleton('Magento\Catalog\Model\Session')->getSortOrder();
+            $order = $this->_catalogSession->getSortOrder();
         }
         // validate session value
         if (!$order || !isset($orders[$order])) {
@@ -345,12 +379,12 @@ class Toolbar extends \Magento\Core\Block\Template
         $dir = strtolower($this->getRequest()->getParam($this->getDirectionVarName()));
         if ($dir && in_array($dir, $directions)) {
             if ($dir == $this->_direction) {
-                \Mage::getSingleton('Magento\Catalog\Model\Session')->unsSortDirection();
+                $this->_catalogSession->unsSortDirection();
             } else {
                 $this->_memorizeParam('sort_direction', $dir);
             }
         } else {
-            $dir = \Mage::getSingleton('Magento\Catalog\Model\Session')->getSortDirection();
+            $dir = $this->_catalogSession->getSortDirection();
         }
         // validate direction
         if (!$dir || !in_array($dir, $directions)) {
@@ -498,12 +532,12 @@ class Toolbar extends \Magento\Core\Block\Template
         $mode = $this->getRequest()->getParam($this->getModeVarName());
         if ($mode) {
             if ($mode == $defaultMode) {
-                \Mage::getSingleton('Magento\Catalog\Model\Session')->unsDisplayMode();
+                $this->_catalogSession->unsDisplayMode();
             } else {
                 $this->_memorizeParam('display_mode', $mode);
             }
         } else {
-            $mode = \Mage::getSingleton('Magento\Catalog\Model\Session')->getDisplayMode();
+            $mode = $this->_catalogSession->getDisplayMode();
         }
 
         if (!$mode || !isset($this->_availableMode[$mode])) {
@@ -701,12 +735,12 @@ class Toolbar extends \Magento\Core\Block\Template
         $limit = $this->getRequest()->getParam($this->getLimitVarName());
         if ($limit && isset($limits[$limit])) {
             if ($limit == $defaultLimit) {
-                \Mage::getSingleton('Magento\Catalog\Model\Session')->unsLimitPage();
+                $this->_catalogSession->unsLimitPage();
             } else {
                 $this->_memorizeParam('limit_page', $limit);
             }
         } else {
-            $limit = \Mage::getSingleton('Magento\Catalog\Model\Session')->getLimitPage();
+            $limit = $this->_catalogSession->getLimitPage();
         }
         if (!$limit || !isset($limits[$limit])) {
             $limit = $defaultLimit;

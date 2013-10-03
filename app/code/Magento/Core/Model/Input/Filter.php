@@ -117,7 +117,7 @@ class Filter implements \Zend_Filter_Interface
      * Add filter
      *
      * @param string $name
-     * @param array|Zend_Filter_Interface $filter
+     * @param array|\Zend_Filter_Interface $filter
      * @param string $placement
      * @return \Magento\Core\Model\Input\Filter
      */
@@ -134,7 +134,7 @@ class Filter implements \Zend_Filter_Interface
     /**
      * Add a filter to the end of the chain
      *
-     * @param  array|Zend_Filter_Interface $filter
+     * @param  array|\Zend_Filter_Interface $filter
      * @return \Magento\Core\Model\Input\Filter
      */
     public function appendFilter(\Zend_Filter_Interface $filter)
@@ -145,7 +145,7 @@ class Filter implements \Zend_Filter_Interface
     /**
      * Add a filter to the start of the chain
      *
-     * @param  array|Zend_Filter_Interface $filter
+     * @param  array|\Zend_Filter_Interface $filter
      * @return \Magento\Core\Model\Input\Filter
      */
     public function prependFilter($filter)
@@ -297,7 +297,7 @@ class Filter implements \Zend_Filter_Interface
      * Try to create Zend filter based on $filterData. Return false on failure
      *
      * @param $filterData
-     * @return bool|Zend_Filter_Interface
+     * @return bool|\Zend_Filter_Interface
      */
     protected function _getZendFilter($filterData)
     {

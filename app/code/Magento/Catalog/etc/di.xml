@@ -71,10 +71,16 @@
         <param name="eventManager">
             <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
+        <param name="catalogProductStatus">
+            <instance type="Magento\Catalog\Model\Product\Status\Proxy" />
+        </param>
     </type>
     <type name="Magento\Catalog\Model\Resource\Category\Flat">
         <param name="eventManager">
             <instance type="Magento\Core\Model\Event\Manager\Proxy" />
+        </param>
+        <param name="catalogCategory">
+            <instance type="Magento\Catalog\Model\Category\Proxy" />
         </param>
     </type>
     <type name="Magento\Catalog\Model\Resource\Category\Tree">
@@ -113,6 +119,11 @@
     <type name="Magento\Catalog\Model\Resource\Product\Indexer\Price\DefaultPrice">
         <param name="eventManager">
             <instance type="Magento\Core\Model\Event\Manager\Proxy" />
+        </param>
+    </type>
+    <type name="Magento\Catalog\Model\Resource\Product\Collection">
+        <param name="catalogUrl">
+            <instance type="Magento\Catalog\Model\Resource\Url\Proxy" />
         </param>
     </type>
     <type name="Magento\Catalog\Model\Entity\Product\Attribute\Design\Options\Container">

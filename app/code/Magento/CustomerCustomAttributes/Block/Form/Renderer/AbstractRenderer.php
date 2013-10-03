@@ -25,13 +25,21 @@ abstract class AbstractRenderer extends \Magento\CustomAttribute\Block\Form\Rend
      */
     protected $_attrDataFactory;
 
+    /**
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Eav\Model\AttributeDataFactory $attrDataFactory
+     * @param array $data
+     */
     public function __construct(
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Eav\Model\AttributeDataFactory $attrDataFactory,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($locale, $coreData, $context, $data);
         $this->_attrDataFactory = $attrDataFactory;
     }
 
