@@ -296,7 +296,7 @@ class Gate extends \Magento\Payment\Model\Method\Cc
      * Store id setter, also set storeId to helper
      *
      * @param int $store
-     * @return \Magento_Pbridge_Model_Payment_Method_Payone_Gate
+     * @return \Magento\Pbridge\Model\Payment\Method\Payone\Gate
      */
     public function setStore($store)
     {

@@ -46,19 +46,32 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
     protected $_filesystem;
 
     /**
+     * Store Manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Install\Model\InstallerProxy $installer
      * @param \Magento\Core\Controller\Request\Http $request
      * @param \Magento\Core\Model\Dir $dirs
      * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
+        \Magento\Install\Model\InstallerProxy $installer,
         \Magento\Core\Controller\Request\Http $request,
         \Magento\Core\Model\Dir $dirs,
-        \Magento\Filesystem $filesystem
+        \Magento\Filesystem $filesystem,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
+        parent::__construct($installer);
         $this->_localConfigFile = $dirs->getDir(\Magento\Core\Model\Dir::CONFIG) . DIRECTORY_SEPARATOR . 'local.xml';
         $this->_dirs = $dirs;
         $this->_request = $request;
         $this->_filesystem = $filesystem;
+        $this->_storeManager = $storeManager;
     }
 
     public function setConfigData($data)
@@ -134,7 +147,7 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
 
     public function getFormData()
     {
-        $uri = \Zend_Uri::factory(\Mage::getBaseUrl('web'));
+        $uri = \Zend_Uri::factory($this->_storeManager->getStore()->getBaseUrl('web'));
 
         $baseUrl = $uri->getUri();
         if ($uri->getScheme() !== 'https') {
@@ -162,6 +175,7 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
      * Check validity of a base URL
      *
      * @param string $baseUrl
+     * @throws \Magento\Core\Exception
      * @throws \Exception
      */
     protected function _checkUrl($baseUrl)
@@ -182,7 +196,7 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
             $this->_getInstaller()->getDataModel()->addError(
                 __('The URL "%1" is invalid.', $baseUrl)
             );
-            \Mage::throwException(__('Response from the server is invalid.'));
+            throw new \Magento\Core\Exception(__('Response from the server is invalid.'));
         }
     }
 

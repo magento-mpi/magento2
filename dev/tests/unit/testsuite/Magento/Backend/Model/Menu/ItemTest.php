@@ -8,6 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Backend\Model\Menu;
 
 class ItemTest extends \PHPUnit_Framework_TestCase
@@ -78,31 +79,27 @@ class ItemTest extends \PHPUnit_Framework_TestCase
             ->method('validate');
         $this->_moduleListMock = $this->getMock('Magento\Core\Model\ModuleListInterface');
 
-        $this->_model = new \Magento\Backend\Model\Menu\Item(
-            $this->_validatorMock,
-            $this->_aclMock,
-            $this->_storeConfigMock,
-            $this->_menuFactoryMock,
-            $this->_urlModelMock,
-            $this->_helperMock,
-            $this->_moduleListMock,
-            $this->_params
-        );
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_model = $helper->getObject('Magento\Backend\Model\Menu\Item', array(
+            'validator'     => $this->_validatorMock,
+            'authorization' => $this->_aclMock,
+            'storeConfig'   => $this->_storeConfigMock,
+            'menuFactory'   => $this->_menuFactoryMock,
+            'urlModel'      => $this->_urlModelMock,
+            'helper'        => $this->_helperMock,
+            'moduleList'    => $this->_moduleListMock,
+            'data'          => $this->_params
+        ));
     }
 
     public function testGetUrlWithEmptyActionReturnsHashSign()
     {
         $this->_params['action'] = '';
-        $item = new \Magento\Backend\Model\Menu\Item(
-            $this->_validatorMock,
-            $this->_aclMock,
-            $this->_storeConfigMock,
-            $this->_menuFactoryMock,
-            $this->_urlModelMock,
-            $this->_helperMock,
-            $this->_moduleListMock,
-            $this->_params
-        );
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $item = $helper->getObject('Magento\Backend\Model\Menu\Item', array(
+            'menuFactory' => $this->_menuFactoryMock,
+            'data'        => $this->_params
+        ));
         $this->assertEquals('#', $item->getUrl());
     }
 
@@ -125,32 +122,22 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     public function testHasClickCallbackReturnsTrueIfItemHasNoAction()
     {
         $this->_params['action'] = '';
-        $item = new \Magento\Backend\Model\Menu\Item(
-            $this->_validatorMock,
-            $this->_aclMock,
-            $this->_storeConfigMock,
-            $this->_menuFactoryMock,
-            $this->_urlModelMock,
-            $this->_helperMock,
-            $this->_moduleListMock,
-            $this->_params
-        );
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $item = $helper->getObject('Magento\Backend\Model\Menu\Item', array(
+            'menuFactory' => $this->_menuFactoryMock,
+            'data'        => $this->_params
+        ));
         $this->assertTrue($item->hasClickCallback());
     }
 
     public function testGetClickCallbackReturnsStoppingJsIfItemDoesntHaveAction()
     {
         $this->_params['action'] = '';
-        $item = new \Magento\Backend\Model\Menu\Item(
-            $this->_validatorMock,
-            $this->_aclMock,
-            $this->_storeConfigMock,
-            $this->_menuFactoryMock,
-            $this->_urlModelMock,
-            $this->_helperMock,
-            $this->_moduleListMock,
-            $this->_params
-        );
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $item = $helper->getObject('Magento\Backend\Model\Menu\Item', array(
+            'menuFactory' => $this->_menuFactoryMock,
+            'data'        => $this->_params
+        ));
         $this->assertEquals('return false;', $item->getClickCallback());
     }
 
@@ -241,3 +228,16 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     }
 }
 
+namespace Magento\Test\Module;
+
+class Config
+{
+    /**
+     *
+     * @SuppressWarnings(PHPMD.ShortMethodName))
+     */
+    public function is()
+    {
+
+    }
+}

@@ -17,7 +17,44 @@ namespace Magento\GiftRegistry\Block;
 class View extends \Magento\GiftRegistry\Block\Customer\Items
 {
     /**
-     * Return current giftregistry entity
+     * @var \Magento\Directory\Model\CountryFactory
+     */
+    protected $countryFactory;
+
+    /**
+     * @var \Magento\GiftRegistry\Model\TypeFactory
+     */
+    protected $typeFactory;
+
+    /**
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\GiftRegistry\Model\ItemFactory $itemFactory
+     * @param \Magento\Directory\Model\CountryFactory $countryFactory
+     * @param \Magento\GiftRegistry\Model\TypeFactory $typeFactory
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
+        \Magento\Directory\Model\CountryFactory $countryFactory,
+        \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
+        array $data = array()
+    ) {
+        $this->countryFactory = $countryFactory;
+        $this->typeFactory = $typeFactory;
+        parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $itemFactory, $data);
+    }
+
+    /**
+     * Return current gift registry entity
      *
      * @return \Magento\GiftRegistry\Model\Entity
      */
@@ -49,7 +86,7 @@ class View extends \Magento\GiftRegistry\Block\Customer\Items
     public function getCountryName($countryCode)
     {
         if ($countryCode) {
-            $country = \Mage::getModel('Magento\Directory\Model\Country')->loadByCode($countryCode);
+            $country = $this->countryFactory->create()->loadByCode($countryCode);
             return $country->getName();
         }
         return '';
@@ -88,7 +125,7 @@ class View extends \Magento\GiftRegistry\Block\Customer\Items
     public function getAttributesToDisplay()
     {
         $typeId = $this->getEntity()->getTypeId();
-        $type = \Mage::getModel('Magento\GiftRegistry\Model\Type')->load($typeId);
+        $type = $this->typeFactory->create()->load($typeId);
 
         $attributes = array_merge(
             array(

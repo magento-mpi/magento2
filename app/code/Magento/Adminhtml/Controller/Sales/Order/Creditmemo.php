@@ -18,7 +18,7 @@
 namespace Magento\Adminhtml\Controller\Sales\Order;
 
 class Creditmemo
-    extends \Magento\Adminhtml\Controller\Sales\Creditmemo\CreditmemoAbstract
+    extends \Magento\Adminhtml\Controller\Sales\Creditmemo\AbstractCreditmemo
 {
     /**
      * Get requested items qtys and return to stock flags

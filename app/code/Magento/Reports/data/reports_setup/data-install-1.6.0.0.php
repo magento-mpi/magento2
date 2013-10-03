@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer \Magento\Core\Model\Resource\Setup */
+/** @var $installer \Magento\Reports\Model\Resource\Setup */
 $installer = $this;
 /*
  * Prepare database for data upgrade
@@ -57,7 +57,7 @@ $installer->endSetup();
  * Cms Page  with 'home' identifier page modification for report pages
  */
 /** @var $cms \Magento\Cms\Model\Page */
-$cms = \Mage::getModel('Magento\Cms\Model\Page')->load('home', 'identifier');
+$cms = $installer->getPage()->load('home', 'identifier');
 
 $reportLayoutUpdate    = '<!--<referenceContainer name="content">
         <block class="Magento\Catalog\Block\Product\NewProduct" name="home.catalog.product.new" alias="product_new" template="product/new.phtml" after="cms_page">

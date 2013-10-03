@@ -127,8 +127,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      *
      * @param string $type
      * @param int $id
-     * @throws \Magento\Core\Exception
      * @return \Magento\Tax\Model\Resource\Calculation\Rule\Collection
+     * @throws \Magento\Core\Exception
      */
     public function setClassTypeFilter($type, $id)
     {
@@ -140,7 +140,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
                 $field = 'cd.customer_tax_class_id';
                 break;
             default:
-                \Mage::throwException('Invalid type supplied');
+                throw new \Magento\Core\Exception('Invalid type supplied');
         }
 
         $this->joinCalculationData('cd');

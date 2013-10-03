@@ -35,7 +35,7 @@ class Admin extends \Magento\Install\Block\AbstractBlock
     {
         $data = $this->getData('form_data');
         if (null === $data) {
-            $data = \Mage::getSingleton('Magento\Install\Model\Session')->getAdminData(true);
+            $data = $this->_session->getAdminData(true);
             $data = is_array($data) ? $data : array();
             $data = new \Magento\Object($data);
             $this->setData('form_data', $data);

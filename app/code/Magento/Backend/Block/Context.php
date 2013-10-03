@@ -7,12 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 namespace Magento\Backend\Block;
 
-/**
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
- */
 class Context extends \Magento\Core\Block\Context
 {
     /**
@@ -37,6 +35,7 @@ class Context extends \Magento\Core\Block\Context
      * @param \Magento\Core\Model\Cache\StateInterface $cacheState
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\App $app
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -58,11 +57,13 @@ class Context extends \Magento\Core\Block\Context
         \Magento\Core\Model\Cache\StateInterface $cacheState,
         \Magento\AuthorizationInterface $authorization,
         \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\App $app,
         array $data = array()
     ) {
         $this->_authorization = $authorization;
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $design,
-            $session, $storeConfig, $frontController, $helperFactory, $viewUrl, $viewConfig, $cacheState, $logger, $data
+            $session, $storeConfig, $frontController, $helperFactory, $viewUrl, $viewConfig, $cacheState, $logger, $app,
+            $data
         );
     }
 

@@ -9,7 +9,7 @@
  */
 namespace Magento\Profiler\Driver\Standard\Output;
 
-class Html extends \Magento\Profiler\Driver\Standard\OutputAbstract
+class Html extends \Magento\Profiler\Driver\Standard\AbstractOutput
 {
     /**
      * Display profiling results

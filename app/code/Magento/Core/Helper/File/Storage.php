@@ -43,14 +43,22 @@ class Storage extends \Magento\Core\Helper\AbstractHelper
     protected $_coreFileStorageDb = null;
 
     /**
+     * @var \Magento\Core\Model\File\Storage
+     */
+    protected $_storage;
+
+    /**
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
      * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\File\Storage $storage
      */
     public function __construct(
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
-        \Magento\Core\Helper\Context $context
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\File\Storage $storage
     ) {
         $this->_coreFileStorageDb = $coreFileStorageDb;
+        $this->_storage = $storage;
         parent::__construct($context);
     }
 
@@ -62,7 +70,7 @@ class Storage extends \Magento\Core\Helper\AbstractHelper
     public function getCurrentStorageCode()
     {
         if (is_null($this->_currentStorage)) {
-            $this->_currentStorage = (int) \Mage::app()
+            $this->_currentStorage = (int) $this->_app
                 ->getConfig()->getValue(\Magento\Core\Model\File\Storage::XML_PATH_STORAGE_MEDIA, 'default');
         }
 
@@ -76,7 +84,8 @@ class Storage extends \Magento\Core\Helper\AbstractHelper
      */
     public function getStorageFileModel()
     {
-        return \Mage::getSingleton('Magento\Core\Model\File\Storage\File');
+        return $objectManager = \Magento\Core\Model\ObjectManager::getInstance()
+            ->getSingleton('Magento\Core\Model\File\Storage\File');
     }
 
     /**
@@ -101,7 +110,7 @@ class Storage extends \Magento\Core\Helper\AbstractHelper
      */
     public function getStorageModel($storage = null, $params = array())
     {
-        return \Mage::getSingleton('Magento\Core\Model\File\Storage')->getStorageModel($storage, $params);
+        return $this->_storage->getStorageModel($storage, $params);
     }
 
     /**

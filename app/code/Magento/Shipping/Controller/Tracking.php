@@ -25,17 +25,36 @@ class Tracking extends \Magento\Core\Controller\Front\Action
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var \Magento\Shipping\Model\InfoFactory
+     */
+    protected $_shippingInfoFactory;
+
+    /**
+     * @var \Magento\Sales\Model\OrderFactory
+     */
+    protected $_orderFactory;
 
     /**
      * @param \Magento\Core\Controller\Varien\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Shipping\Model\InfoFactory $shippingInfoFactory
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
      */
     public function __construct(
         \Magento\Core\Controller\Varien\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Shipping\Model\InfoFactory $shippingInfoFactory,
+        \Magento\Sales\Model\OrderFactory $orderFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_customerSession = $customerSession;
+        $this->_shippingInfoFactory = $shippingInfoFactory;
+        $this->_orderFactory = $orderFactory;
         parent::__construct($context);
     }
 
@@ -45,7 +64,8 @@ class Tracking extends \Magento\Core\Controller\Front\Action
      */
     public function ajaxAction()
     {
-        if ($order = $this->_initOrder()) {
+        $order = $this->_initOrder();
+        if ($order) {
             $response = '';
             $tracks = $order->getTracksCollection();
 
@@ -69,7 +89,7 @@ class Tracking extends \Magento\Core\Controller\Front\Action
      */
     public function popupAction()
     {
-        $shippingInfoModel = \Mage::getModel('Magento\Shipping\Model\Info')->loadByHash($this->getRequest()->getParam('hash'));
+        $shippingInfoModel = $this->_shippingInfoFactory->create()->loadByHash($this->getRequest()->getParam('hash'));
         $this->_coreRegistry->register('current_shipping_info', $shippingInfoModel);
         if (count($shippingInfoModel->getTrackingInfo()) == 0) {
             $this->norouteAction();
@@ -89,8 +109,8 @@ class Tracking extends \Magento\Core\Controller\Front\Action
     {
         $id = $this->getRequest()->getParam('order_id');
 
-        $order = \Mage::getModel('Magento\Sales\Model\Order')->load($id);
-        $customerId = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId();
+        $order = $this->_orderFactory->create()->load($id);
+        $customerId = $this->_customerSession->getCustomerId();
 
         if (!$order->getId() || !$customerId || $order->getCustomerId() != $customerId) {
             return false;

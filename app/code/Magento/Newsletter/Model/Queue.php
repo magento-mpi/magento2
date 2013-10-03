@@ -126,6 +126,8 @@ class Queue extends \Magento\Core\Model\Template
      * @param \Magento\Core\Model\View\DesignInterface $design
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\App\Emulation $appEmulation
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Newsletter\Model\Template\Filter $templateFilter
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\Date $date
@@ -139,6 +141,8 @@ class Queue extends \Magento\Core\Model\Template
         \Magento\Core\Model\View\DesignInterface $design,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\App\Emulation $appEmulation,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Newsletter\Model\Template\Filter $templateFilter,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\Date $date,
@@ -148,7 +152,7 @@ class Queue extends \Magento\Core\Model\Template
         \Magento\Newsletter\Model\Resource\Subscriber\CollectionFactory $subscriberCollectionFactory,
         array $data = array()
     ) {
-        parent::__construct($design, $context, $registry, $data);
+        parent::__construct($design, $context, $registry, $appEmulation, $storeManager, $data);
         $this->_templateFilter = $templateFilter;
         $this->_date = $date;
         $this->_locale = $locale;

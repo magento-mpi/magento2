@@ -15,23 +15,15 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     protected $_helper;
 
+    /**
+     * @var \Magento\TestFramework\Helper\ObjectManager
+     */
+    protected $_objectManager;
+
     protected function setUp()
     {
-        $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
-        $coreHttp = $this->getMock('Magento\Core\Helper\Http', array(), array(), '', false);
-        $contextMock = $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false);
-        $coreConfig = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
-        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
-        $encryptor = $this->getMock('Magento\Core\Model\Encryption', array(), array(), '', false);
-        $this->_helper = new \Magento\Core\Helper\Data(
-            $eventManager,
-            $coreHttp,
-            $contextMock,
-            $coreConfig,
-            $coreStoreConfig,
-            $encryptor,
-            true
-        );
+        $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_helper = $this->_objectManager->getObject('Magento\Core\Helper\Data');
     }
 
     /**

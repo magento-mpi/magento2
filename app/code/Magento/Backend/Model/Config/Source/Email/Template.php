@@ -21,17 +21,25 @@ class Template extends \Magento\Object
     private $_emailConfig;
 
     /**
+     * @var \Magento\Core\Model\Resource\Email\Template\CollectionFactory
+     */
+    protected $_templatesFactory;
+
+    /**
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\Resource\Email\Template\CollectionFactory $templatesFactory
      * @param \Magento\Core\Model\Email\Template\Config $emailConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\Resource\Email\Template\CollectionFactory $templatesFactory,
         \Magento\Core\Model\Email\Template\Config $emailConfig,
         array $data = array()
     ) {
         parent::__construct($data);
         $this->_coreRegistry = $coreRegistry;
+        $this->_templatesFactory = $templatesFactory;
         $this->_emailConfig = $emailConfig;
     }
 
@@ -42,10 +50,10 @@ class Template extends \Magento\Object
      */
     public function toOptionArray()
     {
-        /** @var \Magento\Core\Model\Resource\Email\Template\Collection $collection */
+        /** @var $collection \Magento\Core\Model\Resource\Email\Template\Collection */
         if (!$collection = $this->_coreRegistry->registry('config_system_email_template')) {
-            $collection = \Mage::getResourceModel('Magento\Core\Model\Resource\Email\Template\Collection')
-                ->load();
+            $collection = $this->_templatesFactory->create();
+            $collection->load();
             $this->_coreRegistry->register('config_system_email_template', $collection);
         }
         $options = $collection->toOptionArray();

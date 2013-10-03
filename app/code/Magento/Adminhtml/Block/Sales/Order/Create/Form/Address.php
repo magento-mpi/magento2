@@ -121,12 +121,12 @@ class Address
             ->getAddressById(null)
             ->setCountryId($this->_coreData->getDefaultCountry($this->getStore()));
         $data[0] = $addressForm->setEntity($emptyAddress)
-            ->outputData(\Magento\Customer\Model\Attribute\Data::OUTPUT_FORMAT_JSON);
+            ->outputData(\Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON);
 
         foreach ($this->getAddressCollection() as $address) {
             $addressForm->setEntity($address);
             $data[$address->getId()] = $addressForm->outputData(
-                \Magento\Customer\Model\Attribute\Data::OUTPUT_FORMAT_JSON
+                \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON
             );
         }
         return $this->_coreData->jsonEncode($data);

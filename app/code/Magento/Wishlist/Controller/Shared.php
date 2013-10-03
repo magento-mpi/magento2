@@ -51,12 +51,12 @@ class Shared extends \Magento\Wishlist\Controller\AbstractController
             return false;
         }
 
-        $wishlist = \Mage::getModel('Magento\Wishlist\Model\Wishlist')->loadByCode($code);
+        $wishlist = $this->_objectManager->create('Magento\Wishlist\Model\Wishlist')->loadByCode($code);
         if (!$wishlist->getId()) {
             return false;
         }
 
-        \Mage::getSingleton('Magento\Checkout\Model\Session')->setSharedWishlist($code);
+        $this->_objectManager->get('Magento\Checkout\Model\Session')->setSharedWishlist($code);
 
         return $wishlist;
     }
@@ -68,7 +68,7 @@ class Shared extends \Magento\Wishlist\Controller\AbstractController
     public function indexAction()
     {
         $wishlist   = $this->_getWishlist();
-        $customerId = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId();
+        $customerId = $this->_objectManager->get('Magento\Customer\Model\Session')->getCustomerId();
 
         if ($wishlist && $wishlist->getCustomerId() && $wishlist->getCustomerId() == $customerId) {
             $this->_redirectUrl($this->_objectManager->get('Magento\Wishlist\Helper\Data')->getListUrl($wishlist->getId()));
@@ -95,17 +95,17 @@ class Shared extends \Magento\Wishlist\Controller\AbstractController
         $itemId = (int) $this->getRequest()->getParam('item');
 
         /* @var $item \Magento\Wishlist\Model\Item */
-        $item = \Mage::getModel('Magento\Wishlist\Model\Item')->load($itemId);
+        $item = $this->_objectManager->create('Magento\Wishlist\Model\Item')->load($itemId);
 
 
         /* @var $session \Magento\Core\Model\Session\Generic */
-        $session    = \Mage::getSingleton('Magento\Wishlist\Model\Session');
-        $cart       = \Mage::getSingleton('Magento\Checkout\Model\Cart');
+        $session    = $this->_objectManager->get('Magento\Wishlist\Model\Session');
+        $cart       = $this->_objectManager->get('Magento\Checkout\Model\Cart');
 
         $redirectUrl = $this->_getRefererUrl();
 
         try {
-            $options = \Mage::getModel('Magento\Wishlist\Model\Item\Option')->getCollection()
+            $options = $this->_objectManager->create('Magento\Wishlist\Model\Item\Option')->getCollection()
                     ->addItemFilter(array($itemId));
             $item->setOptions($options->getOptionsByItem($itemId));
 
@@ -119,7 +119,7 @@ class Shared extends \Magento\Wishlist\Controller\AbstractController
             if ($e->getCode() == \Magento\Wishlist\Model\Item::EXCEPTION_CODE_NOT_SALABLE) {
                 $session->addError(__('This product(s) is out of stock.'));
             } else {
-                \Mage::getSingleton('Magento\Catalog\Model\Session')->addNotice($e->getMessage());
+                $this->_objectManager->get('Magento\Catalog\Model\Session')->addNotice($e->getMessage());
                 $redirectUrl = $item->getProductUrl();
             }
         } catch (\Exception $e) {

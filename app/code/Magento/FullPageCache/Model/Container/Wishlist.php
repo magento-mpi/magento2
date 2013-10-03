@@ -48,11 +48,11 @@ class Wishlist extends \Magento\FullPageCache\Model\Container\AbstractContainer
         $template = $this->_placeholder->getAttribute('template');
 
         /** @var $block \Magento\Core\Block\Template */
-        $block = \Mage::app()->getLayout()->createBlock($block);
+        $block = $this->_layout->createBlock($block);
         $block->setTemplate($template);
 
         /** @var $blockPrice \Magento\Catalog\Block\Product\Price\Template */
-        $blockPrice = \Mage::app()->getLayout()
+        $blockPrice = $this->_layout
             ->createBlock('Magento\Catalog\Block\Product\Price\Template', 'catalog_product_price_template');
         $blockPrice->addPriceBlockType('msrp', 'Magento\Catalog\Block\Product\Price', 'catalog/product/price_msrp.phtml');
 

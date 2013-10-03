@@ -124,12 +124,18 @@ class Db implements \Magento\Core\Model\Store\StorageInterface
     protected $_appState;
 
     /**
+     * @var \Magento\Backend\Model\Url\Proxy
+     */
+    protected $_proxy;
+
+    /**
      * @param \Magento\Core\Model\StoreFactory $storeFactory
      * @param \Magento\Core\Model\Website\Factory $websiteFactory
      * @param \Magento\Core\Model\Store\Group\Factory $groupFactory
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\Cookie $cookie
      * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\Backend\Model\Url\Proxy $proxy
      * @param bool $isSingleStoreAllowed
      * @param string $scopeCode
      * @param string $scopeType
@@ -142,6 +148,7 @@ class Db implements \Magento\Core\Model\Store\StorageInterface
         \Magento\Core\Model\Config $config,
         \Magento\Core\Model\Cookie $cookie,
         \Magento\Core\Model\App\State $appState,
+        \Magento\Backend\Model\Url\Proxy $proxy,
         $isSingleStoreAllowed,
         $scopeCode,
         $scopeType,
@@ -156,6 +163,7 @@ class Db implements \Magento\Core\Model\Store\StorageInterface
         $this->_isSingleStoreAllowed = $isSingleStoreAllowed;
         $this->_appState = $appState;
         $this->_cookie = $cookie;
+        $this->_proxy = $proxy;
         if ($currentStore) {
             $this->_currentStore = $currentStore;
         }
@@ -375,7 +383,7 @@ class Db implements \Magento\Core\Model\Store\StorageInterface
             }
 
             if (0 == $store->getId()) {
-                $store->setUrlModel(\Mage::getSingleton('Magento\Backend\Model\Url\Proxy'));
+                $store->setUrlModel($this->_proxy);
             }
         }
 
@@ -521,7 +529,7 @@ class Db implements \Magento\Core\Model\Store\StorageInterface
             // load method will load website by code if given ID is not a numeric value
             $website->load($websiteId);
             if (!$website->hasWebsiteId()) {
-                throw \Mage::exception('Magento_Core', 'Invalid website id/code requested.');
+                throw new \Magento\Core\Exception('Invalid website id/code requested.');
             }
             $this->_websites[$website->getWebsiteId()] = $website;
             $this->_websites[$website->getCode()] = $website;
@@ -573,7 +581,7 @@ class Db implements \Magento\Core\Model\Store\StorageInterface
             if (is_numeric($groupId)) {
                 $group->load($groupId);
                 if (!$group->hasGroupId()) {
-                    throw \Mage::exception('Magento_Core', 'Invalid store group id requested.');
+                    throw new \Magento\Core\Exception('Invalid store group id requested.');
                 }
             }
             $this->_groups[$group->getGroupId()] = $group;

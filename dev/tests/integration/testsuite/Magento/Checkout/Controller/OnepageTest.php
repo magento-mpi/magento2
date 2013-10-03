@@ -14,7 +14,7 @@ namespace Magento\Checkout\Controller;
 /**
  * @magentoDataFixture Magento/Sales/_files/quote.php
  */
-class OnepageTest extends \Magento\TestFramework\TestCase\ControllerAbstract
+class OnepageTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     protected function setUp()
     {

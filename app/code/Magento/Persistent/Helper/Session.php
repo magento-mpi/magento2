@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Persistent Shopping Cart Data Helper
  */
@@ -66,37 +65,47 @@ class Session extends \Magento\Core\Helper\Data
     protected $_checkoutSession;
 
     /**
-     * @param \Magento\Core\Model\Event\Manager        $eventManager
-     * @param \Magento\Core\Helper\Http                $coreHttp
-     * @param \Magento\Core\Helper\Context             $context
-     * @param \Magento\Core\Model\Config               $config
-     * @param \Magento\Core\Model\Store\Config         $coreStoreConfig
-     * @param \Magento\Core\Model\Encryption           $encryptor
-     * @param \Magento\Persistent\Helper\Data          $persistentData
-     * @param \Magento\Checkout\Model\Session          $checkoutSession
-     * @param \Magento\Customer\Model\CustomerFactory  $customerFactory
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Http $coreHttp
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Locale $locale
+     * @param \Magento\Core\Model\Date $dateModel
+     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\Core\Model\Encryption $encryptor
+     * @param \Magento\Persistent\Helper\Data $persistentData
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Persistent\Model\SessionFactory $sessionFactory
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     * @param bool $dbCompatibleMode
      */
     public function __construct(
+        \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Helper\Http $coreHttp,
-        \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Config $config,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Locale $locale,
+        \Magento\Core\Model\Date $dateModel,
+        \Magento\Core\Model\App\State $appState,
         \Magento\Core\Model\Encryption $encryptor,
         \Magento\Persistent\Helper\Data $persistentData,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Persistent\Model\SessionFactory $sessionFactory
-    ) {
+        \Magento\Persistent\Model\SessionFactory $sessionFactory,
+        $dbCompatibleMode = true
+    )
+    {
         $this->_persistentData = $persistentData;
         $this->_checkoutSession = $checkoutSession;
         $this->_customerFactory = $customerFactory;
         $this->_sessionFactory = $sessionFactory;
-
-        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig, $encryptor);
+        parent::__construct($context, $eventManager, $coreHttp, $config, $coreStoreConfig, $storeManager,
+            $locale, $dateModel, $appState, $encryptor, $dbCompatibleMode
+        );
     }
 
     /**

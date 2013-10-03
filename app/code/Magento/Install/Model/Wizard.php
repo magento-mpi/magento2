@@ -23,12 +23,24 @@ class Wizard
     protected $_steps = array();
 
     /**
+     * Url builder
+     *
+     * @var \Magento\Core\Model\UrlInterface
+     */
+    protected $_urlBuilder;
+
+    /**
      * Init install wizard
      */
-    public function __construct()
+    public function __construct(\Magento\Core\Model\UrlInterface $urlBuilder, \Magento\Install\Model\Config $installConfig)
     {
-        $this->_steps = \Mage::getSingleton('Magento\Install\Model\Config')->getWizardSteps();
+        $this->_steps = $installConfig->getWizardSteps();
+        $this->_urlBuilder = $urlBuilder;
+        $this->_initSteps();
+    }
 
+    protected function _initSteps()
+    {
         foreach (array_keys($this->_steps) as $index) {
             $this->_steps[$index]->setUrl(
                 $this->_getUrl($this->_steps[$index]->getController(), $this->_steps[$index]->getAction())
@@ -111,7 +123,7 @@ class Wizard
      */
     protected function _getUrl($controller, $action)
     {
-        return \Mage::getUrl($this->_getUrlPath($controller, $action));
+        return $this->_urlBuilder->getUrl($this->_getUrlPath($controller, $action));
     }
 
     /**

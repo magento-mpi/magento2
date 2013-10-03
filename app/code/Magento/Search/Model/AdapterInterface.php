@@ -82,7 +82,7 @@ interface AdapterInterface
      *
      * @param  int|string|array $docIDs
      * @param  string|array|null $queries if "all" specified and $docIDs are empty, then all documents will be removed
-     * @return Magento_Search_Model_Adapter_Interface
+     * @return \Magento\Search\Model\Adapter\Interface
      */
     public function deleteDocs($docIDs = array(), $queries = null);
 
@@ -111,14 +111,14 @@ interface AdapterInterface
     /**
      * Hold commit of changes for adapter
      *
-     * @return Magento_Search_Model_Adapter_Interface
+     * @return \Magento\Search\Model\Adapter\Interface
      */
     public function holdCommit();
 
     /**
      * Allow changes commit for adapter
      *
-     * @return Magento_Search_Model_Adapter_Interface
+     * @return \Magento\Search\Model\Adapter\Interface
      */
     public function allowCommit();
 
@@ -126,7 +126,7 @@ interface AdapterInterface
      * Define if third party search engine index needs optimization
      *
      * @param  bool $state
-     * @return Magento_Search_Model_Adapter_Interface
+     * @return \Magento\Search\Model\Adapter\Interface
      */
     public function setIndexNeedsOptimization($state);
 
@@ -141,7 +141,7 @@ interface AdapterInterface
      * Store searchable attributes to prevent additional collection load
      *
      * @param   array $attributes
-     * @return  Magento_Search_Model_Adapter_Interface
+     * @return  \Magento\Search\Model\Adapter\Interface
      */
     public function storeSearchableAttributes(array $attributes);
 

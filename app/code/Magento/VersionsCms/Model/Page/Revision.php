@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Cms page revision model
  *
@@ -46,12 +45,7 @@
  * @method \Magento\VersionsCms\Model\Page\Revision setUserId(int $value)
  * @method int getRevisionNumber()
  * @method \Magento\VersionsCms\Model\Page\Revision setRevisionNumber(int $value)
- *
- * @category    Magento
- * @package     Magento_VersionsCms
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\VersionsCms\Model\Page;
 
 class Revision extends \Magento\Core\Model\AbstractModel
@@ -73,11 +67,59 @@ class Revision extends \Magento\Core\Model\AbstractModel
 
     /**
      * Configuration model
+     *
      * @var \Magento\VersionsCms\Model\Config
      */
     protected $_config;
 
+    /**
+     * @var string
+     */
     protected $_cacheTag = 'CMS_REVISION';
+
+    /**
+     * @var \Magento\Core\Model\Date
+     */
+    protected $_coreDate;
+
+    /**
+     * @var \Magento\VersionsCms\Model\IncrementFactory
+     */
+    protected $_cmsIncrementFactory;
+
+    /**
+     * @var \Magento\VersionsCms\Model\Page\RevisionFactory
+     */
+    protected $_pageRevisionFactory;
+
+    /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\VersionsCms\Model\Config $cmsConfig
+     * @param \Magento\Core\Model\Date $coreDate
+     * @param \Magento\VersionsCms\Model\IncrementFactory $cmsIncrementFactory
+     * @param \Magento\VersionsCms\Model\Page\RevisionFactory $pageRevisionFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\VersionsCms\Model\Config $cmsConfig,
+        \Magento\Core\Model\Date $coreDate,
+        \Magento\VersionsCms\Model\IncrementFactory $cmsIncrementFactory,
+        \Magento\VersionsCms\Model\Page\RevisionFactory $pageRevisionFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_config = $cmsConfig;
+        $this->_coreDate = $coreDate;
+        $this->_cmsIncrementFactory = $cmsIncrementFactory;
+        $this->_pageRevisionFactory = $pageRevisionFactory;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
 
     /**
      * Constructor
@@ -86,7 +128,6 @@ class Revision extends \Magento\Core\Model\AbstractModel
     {
         parent::_construct();
         $this->_init('Magento\VersionsCms\Model\Resource\Page\Revision');
-        $this->_config = \Mage::getSingleton('Magento\VersionsCms\Model\Config');
     }
 
     /**
@@ -98,7 +139,7 @@ class Revision extends \Magento\Core\Model\AbstractModel
     {
         $tags = parent::getCacheIdTags();
         if ($tags && $this->getPageId()) {
-            $tags[] = \Magento\Cms\Model\Page::CACHE_TAG.'_'.$this->getPageId();
+            $tags[] = \Magento\Cms\Model\Page::CACHE_TAG . '_' . $this->getPageId();
         }
         return $tags;
     }
@@ -110,17 +151,19 @@ class Revision extends \Magento\Core\Model\AbstractModel
      */
     protected function _beforeSave()
     {
-        /*
-         * Reseting revision id this revision should be saved as new.
+        /**
+         * Resetting revision id this revision should be saved as new.
          * Bc data was changed or original version id not equals to new version id.
          */
         if ($this->_revisionedDataWasModified() || $this->getVersionId() != $this->getOrigData('version_id')) {
             $this->unsetData($this->getIdFieldName());
-            $this->setCreatedAt(\Mage::getSingleton('Magento\Core\Model\Date')->gmtDate());
+            $this->setCreatedAt($this->_coreDate->gmtDate());
 
-            $incrementNumber = \Mage::getModel('Magento\VersionsCms\Model\Increment')
-                ->getNewIncrementId(\Magento\VersionsCms\Model\Increment::TYPE_PAGE,
-                        $this->getVersionId(), \Magento\VersionsCms\Model\Increment::LEVEL_REVISION);
+            $incrementNumber = $this->_cmsIncrementFactory->create()->getNewIncrementId(
+                \Magento\VersionsCms\Model\Increment::TYPE_PAGE,
+                $this->getVersionId(),
+                \Magento\VersionsCms\Model\Increment::LEVEL_REVISION
+            );
 
             $this->setRevisionNumber($incrementNumber);
         }
@@ -173,13 +216,14 @@ class Revision extends \Magento\Core\Model\AbstractModel
      * Publishing current revision
      *
      * @return \Magento\VersionsCms\Model\Page\Revision
+     * @throws \Exception
      */
     public function publish()
     {
         $this->_getResource()->beginTransaction();
         try {
             $data = $this->_prepareDataForPublish($this);
-            $object = \Mage::getModel('Magento\VersionsCms\Model\Page\Revision')->setData($data);
+            $object = $this->_pageRevisionFactory->create()->setData($data);
             $this->_getResource()->publish($object, $this->getPageId());
             $this->_getResource()->commit();
         } catch (\Exception $e){
@@ -194,13 +238,14 @@ class Revision extends \Magento\Core\Model\AbstractModel
      * Checking some moments before we can actually delete revision
      *
      * @return \Magento\VersionsCms\Model\Page\Revision
+     * @throws \Magento\Core\Exception
      */
     protected function _beforeDelete()
     {
         $resource = $this->_getResource();
         /* @var $resource \Magento\VersionsCms\Model\Resource\Page\Revision */
         if ($resource->isRevisionPublished($this)) {
-            \Mage::throwException(
+            throw new \Magento\Core\Exception(
                 __('Revision #%1 could not be removed because it is published.', $this->getRevisionNumber())
             );
         }

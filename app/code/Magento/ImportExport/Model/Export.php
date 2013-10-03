@@ -50,24 +50,44 @@ class Export extends \Magento\ImportExport\Model\AbstractModel
     protected $_exportConfig;
 
     /**
+     * @var \Magento\ImportExport\Model\Export\Entity\Factory
+     */
+    protected $_entityFactory;
+
+    /**
+     * @var \Magento\ImportExport\Model\Export\Adapter\Factory
+     */
+    protected $_exportAdapterFac;
+
+    /**
      * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\Core\Model\Log\AdapterFactory $adapterFactory
      * @param \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig
+     * @param \Magento\ImportExport\Model\Export\Entity\Factory $entityFactory
+     * @param \Magento\ImportExport\Model\Export\Adapter\Factory $exportAdapterFac
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Dir $dir,
+        \Magento\Core\Model\Log\AdapterFactory $adapterFactory,
         \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig,
+        \Magento\ImportExport\Model\Export\Entity\Factory $entityFactory,
+        \Magento\ImportExport\Model\Export\Adapter\Factory $exportAdapterFac,
         array $data = array()
     ) {
-        parent::__construct($logger, $data);
         $this->_exportConfig = $exportConfig;
+        $this->_entityFactory = $entityFactory;
+        $this->_exportAdapterFac = $exportAdapterFac;
+        parent::__construct($logger, $dir, $adapterFactory, $data);
     }
 
     /**
      * Create instance of entity adapter and return it
      *
      * @throws \Magento\Core\Exception
-     * @return \Magento\ImportExport\Model\Export\Entity\AbstractEntity|\Magento\ImportExport\Model\Export\EntityAbstract
+     * @return \Magento\ImportExport\Model\Export\Entity\AbstractEntity|\Magento\ImportExport\Model\Export\AbstractEntity
      */
     protected function _getEntityAdapter()
     {
@@ -76,32 +96,32 @@ class Export extends \Magento\ImportExport\Model\AbstractModel
 
             if (isset($entities[$this->getEntity()])) {
                 try {
-                    $this->_entityAdapter = \Mage::getModel($entities[$this->getEntity()]['model']);
+                    $this->_entityAdapter = $this->_entityFactory->create($entities[$this->getEntity()]['model']);
                 } catch (\Exception $e) {
                     $this->_logger->logException($e);
-                    \Mage::throwException(
+                    throw new \Magento\Core\Exception(
                         __('Please enter a correct entity model')
                     );
                 }
                 if (!($this->_entityAdapter instanceof \Magento\ImportExport\Model\Export\Entity\AbstractEntity)
-                    && !($this->_entityAdapter instanceof \Magento\ImportExport\Model\Export\EntityAbstract)
+                    && !($this->_entityAdapter instanceof \Magento\ImportExport\Model\Export\AbstractEntity)
                 ) {
-                    \Mage::throwException(
+                    throw new \Magento\Core\Exception(
                         __('Entity adapter object must be an instance of %1 or %2',
                                 'Magento\ImportExport\Model\Export\Entity\AbstractEntity',
-                                'Magento\ImportExport\Model\Export\EntityAbstract'
+                                'Magento\ImportExport\Model\Export\AbstractEntity'
                             )
                     );
                 }
 
                 // check for entity codes integrity
                 if ($this->getEntity() != $this->_entityAdapter->getEntityTypeCode()) {
-                    \Mage::throwException(
+                    throw new \Magento\Core\Exception(
                         __('The input entity code is not equal to entity adapter code.')
                     );
                 }
             } else {
-                \Mage::throwException(__('Please enter a correct entity.'));
+                throw new \Magento\Core\Exception(__('Please enter a correct entity.'));
             }
             $this->_entityAdapter->setParameters($this->getData());
         }
@@ -121,22 +141,22 @@ class Export extends \Magento\ImportExport\Model\AbstractModel
 
             if (isset($fileFormats[$this->getFileFormat()])) {
                 try {
-                    $this->_writer = \Mage::getModel($fileFormats[$this->getFileFormat()]['model']);
+                    $this->_writer = $this->_exportAdapterFac->create($fileFormats[$this->getFileFormat()]['model']);
                 } catch (\Exception $e) {
                     $this->_logger->logException($e);
-                    \Mage::throwException(
+                    throw new \Magento\Core\Exception(
                         __('Please enter a correct entity model')
                     );
                 }
                 if (! $this->_writer instanceof \Magento\ImportExport\Model\Export\Adapter\AbstractAdapter) {
-                    \Mage::throwException(
+                    throw new \Magento\Core\Exception(
                         __('Adapter object must be an instance of %1',
                                 'Magento\ImportExport\Model\Export\Adapter\AbstractAdapter'
                             )
                     );
                 }
             } else {
-                \Mage::throwException(__('Please correct the file format.'));
+                throw new \Magento\Core\Exception(__('Please correct the file format.'));
             }
         }
         return $this->_writer;
@@ -157,7 +177,7 @@ class Export extends \Magento\ImportExport\Model\AbstractModel
                 ->export();
             $countRows = substr_count(trim($result), "\n");
             if (!$countRows) {
-                \Mage::throwException(
+                throw new \Magento\Core\Exception(
                     __('There is no data for export')
                 );
             }
@@ -169,7 +189,7 @@ class Export extends \Magento\ImportExport\Model\AbstractModel
             }
             return $result;
         } else {
-            \Mage::throwException(
+            throw new \Magento\Core\Exception(
                 __('Please provide filter data.')
             );
         }
@@ -208,7 +228,7 @@ class Export extends \Magento\ImportExport\Model\AbstractModel
         ) {
             return self::FILTER_TYPE_INPUT;
         } else {
-            \Mage::throwException(
+            throw new \Magento\Core\Exception(
                 __('Cannot determine attribute filter type')
             );
         }
@@ -233,7 +253,7 @@ class Export extends \Magento\ImportExport\Model\AbstractModel
     public function getEntity()
     {
         if (empty($this->_data['entity'])) {
-            \Mage::throwException(__('Entity is unknown'));
+            throw new \Magento\Core\Exception(__('Entity is unknown'));
         }
         return $this->_data['entity'];
     }
@@ -257,7 +277,7 @@ class Export extends \Magento\ImportExport\Model\AbstractModel
     public function getFileFormat()
     {
         if (empty($this->_data['file_format'])) {
-            \Mage::throwException(__('File format is unknown'));
+            throw new \Magento\Core\Exception(__('File format is unknown'));
         }
         return $this->_data['file_format'];
     }
@@ -271,7 +291,7 @@ class Export extends \Magento\ImportExport\Model\AbstractModel
     {
         $fileName = null;
         $entityAdapter = $this->_getEntityAdapter();
-        if ($entityAdapter instanceof \Magento\ImportExport\Model\Export\EntityAbstract) {
+        if ($entityAdapter instanceof \Magento\ImportExport\Model\Export\AbstractEntity) {
             $fileName = $entityAdapter->getFileName();
         }
         if (!$fileName) {

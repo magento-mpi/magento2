@@ -16,13 +16,33 @@ namespace Magento\Install\Model\Installer;
 class Pear extends \Magento\Install\Model\Installer\AbstractInstaller
 {
     /**
+     * Installer Session
+     *
+     * @var \Magento\Core\Model\Session\Generic
+     */
+    protected $_session;
+
+    /**
+     * @param \Magento\Install\Model\InstallerProxy $installer
+     * @param \Magento\Core\Model\Session\Generic $session
+     */
+    public function __construct(
+        \Magento\Install\Model\InstallerProxy $installer,
+        \Magento\Core\Model\Session\Generic $session
+    ) {
+        parent::__construct($installer);
+        $this->_session = $session;
+    }
+
+
+    /**
      * @return array
      */
     public function getPackages()
     {
         $packages = array(
             'pear/PEAR-stable',
-            'connect.magentocommerce.com/core/\Magento\Pear_Helpers',
+            'connect.magentocommerce.com/core/Magento_Pear_Helpers',
             'connect.magentocommerce.com/core/Lib_ZF',
             'connect.magentocommerce.com/core/Lib_Varien',
             'connect.magentocommerce.com/core/Magento_All',
@@ -50,7 +70,7 @@ class Pear extends \Magento\Install\Model\Installer\AbstractInstaller
                         if (is_array($message)) {
                             $message = $message['message'];
                         }
-                        \Mage::getSingleton('Magento\Install\Model\Session')->addError($message);
+                        $this->_session->addError($message);
                     }
                 } else {
                     print_r($obj->getUserInfo());

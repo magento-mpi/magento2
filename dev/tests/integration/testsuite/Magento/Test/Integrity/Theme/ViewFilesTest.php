@@ -11,7 +11,7 @@
 
 namespace Magento\Test\Integrity\Theme;
 
-class ViewFilesTest extends \Magento\TestFramework\TestCase\IntegrityAbstract
+class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
 {
     /**
      * @param string $area

@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * System config image field backend model
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backend\Model\Config\Backend;
 

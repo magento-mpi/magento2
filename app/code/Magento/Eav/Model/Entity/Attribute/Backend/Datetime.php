@@ -13,6 +13,19 @@ namespace Magento\Eav\Model\Entity\Attribute\Backend;
 class Datetime extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     */
+    public function __construct(\Magento\Core\Model\LocaleInterface $locale)
+    {
+        $this->_locale = $locale;
+    }
+
+    /**
      * Formatting date value before save
      *
      * Should set (bool, string) correct type for empty value from html form,
@@ -30,7 +43,7 @@ class Datetime extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBacke
             try {
                 $value = $this->formatDate($object->getData($attributeName));
             } catch (\Exception $e) {
-                throw \Mage::exception('Magento_Eav', __('Invalid date'));
+                throw new \Magento\Eav\Exception(__('Invalid date'));
             }
 
             if (is_null($value)) {
@@ -69,9 +82,11 @@ class Datetime extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBacke
         }
         // parse this date in current locale, do not apply GMT offset
         else {
-            $date = \Mage::app()->getLocale()->date($date,
-               \Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT),
-               null, false
+            $date = $this->_locale->date(
+                $date,
+                $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT),
+                null,
+                false
             );
         }
         return $date->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT);

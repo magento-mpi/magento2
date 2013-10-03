@@ -13,12 +13,45 @@ namespace Magento\GiftRegistry\Block\Adminhtml\Customer;
 class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
+     * @var \Magento\GiftRegistry\Model\EntityFactory
+     */
+    protected $entityFactory;
+
+    /**
+     * @var \Magento\Core\Model\System\Store
+     */
+    protected $systemStore;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\System\Store $systemStore,
+        array $data = array()
+    ) {
+        $this->entityFactory = $entityFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+
+        $this->systemStore = $systemStore;
+    }
+
+    /**
      * Set default sort
      */
     protected function _construct()
     {
         parent::_construct();
-
         $this->setId('customerGrid');
         $this->setUseAjax(true);
         $this->setDefaultSort('registry_id');
@@ -28,12 +61,12 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     /**
      * Instantiate and prepare collection
      *
-     * @return \Magento\GiftRegistry\Block\Adminhtml\Giftregistry_Customer_Grid
+     * @return \Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Customer\Grid
      */
     protected function _prepareCollection()
     {
         /** @var $collection \Magento\GiftRegistry\Model\Resource\Entity\Collection */
-        $collection = \Mage::getModel('Magento\GiftRegistry\Model\Entity')->getCollection();
+        $collection = $this->entityFactory->create()->getCollection();
         $collection->filterByCustomerId($this->getRequest()->getParam('id'));
         $collection->addRegistryInfo();
 
@@ -44,7 +77,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     /**
      * Prepare columns for grid
      *
-     * @return \Magento\GiftRegistry\Block\Adminhtml\Giftregistry_Customer_Grid
+     * @return \Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Customer\Grid
      */
     protected function _prepareColumns()
     {
@@ -93,12 +126,12 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
             )
         ));
 
-        if (!\Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn('website_id', array(
                 'header' => __('Website'),
                 'index'  => 'website_id',
                 'type'   => 'options',
-                'options' => \Mage::getSingleton('Magento\Core\Model\System\Store')->getWebsiteOptionHash()
+                'options' => $this->systemStore->getWebsiteOptionHash()
             ));
         }
 

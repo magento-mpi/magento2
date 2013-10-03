@@ -180,24 +180,23 @@ class Banner extends \Magento\Core\Model\AbstractModel
     /**
      * Validate some data before saving
      * @return \Magento\Banner\Model\Banner
+     * @throws \Magento\Core\Exception
      */
     protected function _beforeSave()
     {
         if ('' == trim($this->getName())) {
-            \Mage::throwException(__('Please enter a name.'));
+            throw new \Magento\Core\Exception(__('Please enter a name.'));
         }
         $bannerContents = $this->getStoreContents();
-        $flag = false;
+        $error = true;
         foreach ($bannerContents as $content) {
             if ('' != trim($content)) {
-                $flag = true;
+                $error = false;
                 break;
             }
         }
-        if (!$flag) {
-            // @codingStandardsIgnoreStart
-            \Mage::throwException(__('Please specify default content for at least one store view.'));
-            // @codingStandardsIgnoreEnd
+        if ($error) {
+            throw new \Magento\Core\Exception(__('Please specify default content for at least one store view.'));
         }
         return parent::_beforeSave();
     }

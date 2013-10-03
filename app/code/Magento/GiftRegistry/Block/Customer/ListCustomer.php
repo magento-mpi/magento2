@@ -10,15 +10,59 @@
 
 /**
  * Customer giftregistry list block
- *
- * @category   Magento
- * @package    Magento_GiftRegistry
  */
 namespace Magento\GiftRegistry\Block\Customer;
 
 class ListCustomer
     extends \Magento\Customer\Block\Account\Dashboard
 {
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $customerSession;
+
+    /**
+     * @var \Magento\GiftRegistry\Model\EntityFactory
+     */
+    protected $entityFactory;
+
+    /**
+     * @var \Magento\GiftRegistry\Model\TypeFactory
+     */
+    protected $typeFactory;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
+     * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
+     * @param \Magento\GiftRegistry\Model\TypeFactory $typeFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
+        \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
+        \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        array $data = array()
+    ) {
+        $this->customerSession = $customerSession;
+        $this->entityFactory = $entityFactory;
+        $this->typeFactory = $typeFactory;
+        $this->storeManager = $storeManager;
+        parent::__construct($coreData,$context, $customerSession, $subscriberFactory, $data);
+    }
+
     /**
      * Instantiate pagination
      *
@@ -40,8 +84,8 @@ class ListCustomer
     public function getEntityCollection()
     {
         if (!$this->hasEntityCollection()) {
-            $this->setData('entity_collection', \Mage::getModel('Magento\GiftRegistry\Model\Entity')->getCollection()
-                ->filterByCustomerId(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId())
+            $this->setData('entity_collection', $this->entityFactory->create()->getCollection()
+                ->filterByCustomerId($this->customerSession->getCustomerId())
             );
         }
         return $this->_getData('entity_collection');
@@ -54,8 +98,8 @@ class ListCustomer
      */
     public function canAddNewEntity()
     {
-        $collection = \Mage::getModel('Magento\GiftRegistry\Model\Type')->getCollection()
-            ->addStoreData(\Mage::app()->getStore()->getId())
+        $collection = $this->typeFactory->create()->getCollection()
+            ->addStoreData($this->storeManager->getStore()->getId())
             ->applyListedFilter();
 
         return (bool)$collection->getSize();

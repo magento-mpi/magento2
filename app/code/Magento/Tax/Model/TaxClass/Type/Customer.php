@@ -14,7 +14,7 @@
 namespace Magento\Tax\Model\TaxClass\Type;
 
 class Customer
-    extends \Magento\Tax\Model\TaxClass\TypeAbstract
+    extends \Magento\Tax\Model\TaxClass\AbstractType
     implements \Magento\Tax\Model\TaxClass\Type\TypeInterface
 {
     /**

@@ -83,12 +83,11 @@ class StandardTest extends \PHPUnit_Framework_TestCase
         );
 
         // test data to verify routers match logic
-        $helperMock = $this->getMockBuilder('Magento\Backend\Helper\DataProxy')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
+        $helperMock = $this->getMock('Magento\Backend\Helper\DataProxy', array(), array(), '', false);
         $matchedRequest = $this->getMock('Magento\Core\Controller\Request\Http',
             $silencedMethods,
-            array($helperMock, $vdeUrl)
+            array($storeManager, $helperMock, $vdeUrl)
         );
         $routerMockedMethods = array('match');
 
@@ -118,7 +117,9 @@ class StandardTest extends \PHPUnit_Framework_TestCase
         return array(
             'not vde request' => array(
                 '$request' => $this->getMock(
-                    'Magento\Core\Controller\Request\Http', $silencedMethods, array($helperMock, $notVdeUrl)
+                    'Magento\Core\Controller\Request\Http', $silencedMethods, array(
+                        $storeManager, $helperMock, $notVdeUrl
+                    )
                 ),
                 '$isVde'           => false,
                 '$isLoggedIn'      => true,
@@ -126,7 +127,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
             ),
             'not logged as admin' => array(
                 '$request' => $this->getMock(
-                    'Magento\Core\Controller\Request\Http', $silencedMethods, array($helperMock, $vdeUrl)
+                    'Magento\Core\Controller\Request\Http', $silencedMethods, array($storeManager, $helperMock, $vdeUrl)
                 ),
                 '$isVde'           => true,
                 '$isLoggedIn'      => false,
@@ -134,7 +135,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
             ),
             'no matched routers' => array(
                 '$request' => $this->getMock(
-                    'Magento\Core\Controller\Request\Http', $silencedMethods, array($helperMock, $vdeUrl)
+                    'Magento\Core\Controller\Request\Http', $silencedMethods, array($storeManager, $helperMock, $vdeUrl)
                 ),
                 '$isVde'           => true,
                 '$isLoggedIn'      => true,
@@ -218,6 +219,9 @@ class StandardTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Core\Model\Url\SecurityInfoInterface'),
             $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\Config', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\Url', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\App\State', array(), array(), '', false),
             'frontend',
             'Magento\Core\Controller\Varien\Action',
             'vde'

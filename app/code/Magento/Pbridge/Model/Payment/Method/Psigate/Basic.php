@@ -300,7 +300,7 @@ class Basic extends \Magento\Payment\Model\Method\Cc
      * Store id setter, also set storeId to helper
      *
      * @param int $store
-     * @return \Magento_Pbridge_Model_Payment_Method_Psigate_Basic
+     * @return \Magento\Pbridge\Model\Payment\Method\Psigate\Basic
      */
     public function setStore($store)
     {

@@ -68,6 +68,55 @@ class Type extends \Magento\Core\Model\AbstractModel
     protected $_sets;
 
     /**
+     * @var \Magento\Eav\Model\Entity\AttributeFactory
+     */
+    protected $_attributeFactory;
+
+    /**
+     * @var \Magento\Eav\Model\Entity\Attribute\SetFactory
+     */
+    protected $_attSetFactory;
+
+    /***
+     * @var \Magento\Eav\Model\Entity\StoreFactory
+     */
+    protected $_storeFactory;
+
+    /**
+     * @var \Magento\Validator\UniversalFactory
+     */
+    protected $_universalFactory;
+
+    /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
+     * @param \Magento\Eav\Model\Entity\Attribute\SetFactory $attSetFactory
+     * @param \Magento\Eav\Model\Entity\StoreFactory $storeFactory
+     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
+        \Magento\Eav\Model\Entity\Attribute\SetFactory $attSetFactory,
+        \Magento\Eav\Model\Entity\StoreFactory $storeFactory,
+        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_attributeFactory = $attributeFactory;
+        $this->_attSetFactory = $attSetFactory;
+        $this->_storeFactory = $storeFactory;
+        $this->_universalFactory = $universalFactory;
+    }
+
+    /**
      * Resource initialization
      */
     protected function _construct()
@@ -121,7 +170,7 @@ class Type extends \Magento\Core\Model\AbstractModel
      */
     protected function _getAttributeCollection()
     {
-        $collection = \Mage::getModel('Magento\Eav\Model\Entity\Attribute')->getCollection();
+        $collection = $this->_attributeFactory->create()->getCollection();
         $objectsModel = $this->getAttributeModel();
         if ($objectsModel) {
             $collection->setModel($objectsModel);
@@ -138,7 +187,7 @@ class Type extends \Magento\Core\Model\AbstractModel
     public function getAttributeSetCollection()
     {
         if (empty($this->_sets)) {
-            $this->_sets = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Set')->getResourceCollection()
+            $this->_sets = $this->_attSetFactory->create()->getResourceCollection()
                 ->setEntityTypeFilter($this->getId());
         }
         return $this->_sets;
@@ -166,7 +215,7 @@ class Type extends \Magento\Core\Model\AbstractModel
         // Start transaction to run SELECT ... FOR UPDATE
         $this->_getResource()->beginTransaction();
 
-        $entityStoreConfig = \Mage::getModel('Magento\Eav\Model\Entity\Store')
+        $entityStoreConfig = $this->_storeFactory->create()
             ->loadByEntityStore($this->getId(), $storeId);
 
         if (!$entityStoreConfig->getId()) {
@@ -177,7 +226,7 @@ class Type extends \Magento\Core\Model\AbstractModel
                 ->save();
         }
 
-        $incrementInstance = \Mage::getModel($this->getIncrementModel())
+        $incrementInstance = $this->_universalFactory->create($this->getIncrementModel())
             ->setPrefix($entityStoreConfig->getIncrementPrefix())
             ->setPadLength($this->getIncrementPadLength())
             ->setPadChar($this->getIncrementPadChar())
@@ -311,7 +360,7 @@ class Type extends \Magento\Core\Model\AbstractModel
      */
     public function getEntity()
     {
-        return \Mage::getResourceSingleton($this->_data['entity_model']);
+        return $this->_universalFactory->create($this->_data['entity_model']);
     }
 
     /**

@@ -11,7 +11,7 @@ namespace Magento\Paypal\Controller;
 /**
  * @magentoDataFixture Magento/Sales/_files/order.php
  */
-class HostedproTest extends \Magento\TestFramework\TestCase\ControllerAbstract
+class HostedproTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     public function testCancelActionIsContentGenerated()
     {

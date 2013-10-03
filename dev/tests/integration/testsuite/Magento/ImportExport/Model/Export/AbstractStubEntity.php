@@ -15,11 +15,11 @@
 namespace Magento\ImportExport\Model\Export;
 
 abstract class AbstractStubEntity
-    extends \Magento\ImportExport\Model\Export\EntityAbstract
+    extends \Magento\ImportExport\Model\Export\AbstractEntity
 {
     public function __construct()
     {
-        /** @var Magento_TestFramework_ObjectManager  $objectManager */
+        /** @var \Magento\TestFramework\ObjectManager  $objectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $storeConfig = $objectManager->get('Magento\Core\Model\Store\Config');
