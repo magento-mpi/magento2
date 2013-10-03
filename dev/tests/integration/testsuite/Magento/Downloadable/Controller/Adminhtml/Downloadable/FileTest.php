@@ -23,7 +23,7 @@ class FileTest extends \Magento\Backend\Utility\Controller
                 'size' => 0
             )
         );
-        $this->getRequest()->setParam('type', "samples");
+        
         $this->dispatch('backend/admin/downloadable_file/upload/type/samples');
         $body = $this->getResponse()->getBody();
         $result = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data')

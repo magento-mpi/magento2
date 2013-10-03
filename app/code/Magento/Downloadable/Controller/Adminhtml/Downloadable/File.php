@@ -88,7 +88,6 @@ class File extends \Magento\Adminhtml\Controller\Action
         }
 
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
-
     }
 
     /**
