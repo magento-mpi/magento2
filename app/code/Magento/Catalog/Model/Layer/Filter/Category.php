@@ -48,18 +48,36 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     protected $_coreRegistry = null;
 
     /**
+     * Category factory
+     *
+     * @var \Magento\Catalog\Model\CategoryFactory
+     */
+    protected $_categoryFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Layer $catalogLayer
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
+        \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Layer $catalogLayer,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_categoryFactory = $categoryFactory;
         $this->_coreData = $coreData;
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($data);
+        parent::__construct($filterItemFactory, $storeManager, $catalogLayer, $data);
         $this->_requestVar = 'cat';
     }
 
@@ -99,8 +117,8 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
         $this->_categoryId = $filter;
         $this->_coreRegistry->register('current_category_filter', $this->getCategory(), true);
 
-        $this->_appliedCategory = \Mage::getModel('Magento\Catalog\Model\Category')
-            ->setStoreId(\Mage::app()->getStore()->getId())
+        $this->_appliedCategory = $this->_categoryFactory->create()
+            ->setStoreId($this->_storeManager->getStore()->getId())
             ->load($filter);
 
         if ($this->_isValidCategory($this->_appliedCategory)) {
@@ -144,7 +162,8 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     public function getCategory()
     {
         if (!is_null($this->_categoryId)) {
-            $category = \Mage::getModel('Magento\Catalog\Model\Category')
+            /** @var \Magento\Catalog\Model\Category $category */
+            $category = $this->_categoryFactory->create()
                 ->load($this->_categoryId);
             if ($category->getId()) {
                 return $category;

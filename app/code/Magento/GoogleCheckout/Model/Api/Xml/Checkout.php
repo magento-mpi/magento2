@@ -77,13 +77,6 @@ class Checkout extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
     protected $_eventManager = null;
 
     /**
-     * Core store config
-     *
-     * @var \Magento\Core\Model\Store\Config
-     */
-    protected $_coreStoreConfig;
-
-    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\GoogleCheckout\Helper\Data $googleCheckoutData
@@ -108,8 +101,7 @@ class Checkout extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
         $this->_googleCheckoutData = $googleCheckoutData;
         $this->_taxData = $taxData;
         $this->_weeeData = $weeeData;
-        $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($translator, $data);
+        parent::__construct($translator, $coreStoreConfig, $data);
     }
 
     /**

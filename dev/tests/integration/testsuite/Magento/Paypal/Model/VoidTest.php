@@ -21,7 +21,6 @@ class VoidTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $eventManager = $objectManager->get('Magento\Core\Model\Event\Manager');
-        $coreData = $objectManager->get('Magento\Core\Helper\Data');
         $moduleList = $objectManager->get('Magento\Core\Model\ModuleListInterface');
         $paymentData = $objectManager->get('Magento\Payment\Helper\Data');
         $coreStoreConfig = $objectManager->get('Magento\Core\Model\Store\Config');
@@ -31,6 +30,7 @@ class VoidTest extends \PHPUnit_Framework_TestCase
         $centinelService = $objectManager->get('Magento\Centinel\Model\Service');
         $storeManager = $objectManager->get('Magento\Core\Model\StoreManagerInterface');
         $configFactory = $objectManager->get('Magento\Paypal\Model\ConfigFactory');
+        $coreData = $objectManager->get('Magento\Core\Helper\Data');
 
         /** @var $order \Magento\Sales\Model\Order */
         $order = $objectManager->create('Magento\Sales\Model\Order');

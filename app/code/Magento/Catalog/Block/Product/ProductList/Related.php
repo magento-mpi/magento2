@@ -8,16 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Block\Product\ProductList;
 
 /**
  * Catalog product related items block
  *
- * @category   Magento
- * @package    Magento_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Block\Product\ProductList;
-
 class Related extends \Magento\Catalog\Block\Product\AbstractProduct
 {
     /**
@@ -28,6 +25,62 @@ class Related extends \Magento\Catalog\Block\Product\AbstractProduct
     protected $_mapRenderer = 'msrp_noform';
 
     protected $_itemCollection;
+
+    /**
+     * Checkout session
+     *
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * Catalog product visibility
+     *
+     * @var \Magento\Catalog\Model\Product\Visibility
+     */
+    protected $_catalogProductVisibility;
+
+    /**
+     * Checkout cart
+     *
+     * @var \Magento\Checkout\Model\Resource\Cart
+     */
+    protected $_checkoutCart;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Checkout\Model\Resource\Cart $checkoutCart
+     * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\Checkout\Model\Resource\Cart $checkoutCart,
+        \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_checkoutCart = $checkoutCart;
+        $this->_catalogProductVisibility = $catalogProductVisibility;
+        $this->_checkoutSession = $checkoutSession;
+        parent::__construct($storeManager, $catalogConfig, $coreRegistry, $taxData, $catalogData, $coreData,
+            $context, $data);
+    }
 
     protected function _prepareData()
     {
@@ -40,15 +93,14 @@ class Related extends \Magento\Catalog\Block\Product\AbstractProduct
             ->addStoreFilter();
 
         if ($this->_catalogData->isModuleEnabled('Magento_Checkout')) {
-            \Mage::getResourceSingleton('Magento\Checkout\Model\Resource\Cart')
-                ->addExcludeProductFilter(
-                    $this->_itemCollection,
-                    \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuoteId()
+            $this->_checkoutCart->addExcludeProductFilter(
+                $this->_itemCollection,
+                $this->_checkoutSession->getQuoteId()
             );
             $this->_addProductAttributesAndPrices($this->_itemCollection);
         }
         $this->_itemCollection->setVisibility(
-            \Mage::getSingleton('Magento\Catalog\Model\Product\Visibility')->getVisibleInCatalogIds()
+            $this->_catalogProductVisibility->getVisibleInCatalogIds()
         );
 
         $this->_itemCollection->load();

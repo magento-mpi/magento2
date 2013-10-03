@@ -198,7 +198,7 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
     /**
      * Authorize payment
      *
-     * @param \Magento\Object|\Magento\Sales\Model\Order\Payment $payment
+     * @param \\Magento\Object|\\Magento\Sales\Model\Order\Payment $payment
      * @param float $amount
      * @return \Magento\Paypal\Model\Payflowpro
      */
@@ -228,7 +228,7 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
     /**
      * Capture payment
      *
-     * @param \Magento\Object|\Magento\Sales\Model\Order\Payment $payment
+     * @param \\Magento\Object|\\Magento\Sales\Model\Order\Payment $payment
      * @param float $amount
      * @return \Magento\Paypal\Model\Payflowpro
      */
@@ -268,7 +268,7 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
     /**
      * Void payment
      *
-     * @param \Magento\Object|\Magento\Sales\Model\Order\Payment $payment
+     * @param \\Magento\Object|\\Magento\Sales\Model\Order\Payment $payment
      * @return \Magento\Paypal\Model\Payflowpro
      */
     public function void(\Magento\Object $payment)
@@ -302,7 +302,7 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
     /**
      * Refund capture
      *
-     * @param \Magento\Object|\Magento\Sales\Model\Order\Payment $payment
+     * @param \\Magento\Object|\\Magento\Sales\Model\Order\Payment $payment
      * @param float $amount
      * @return \Magento\Paypal\Model\Payflowpro
      */
@@ -419,10 +419,10 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
             ->setHeaders('X-VPS-CLIENT-TIMEOUT: ' . $this->_clientTimeout);
 
         try {
-           /**
-            * we are sending request to payflow pro without url encoding
-            * so we set up _urlEncodeBody flag to false
-            */
+            /**
+             * we are sending request to payflow pro without url encoding
+             * so we set up _urlEncodeBody flag to false
+             */
             $response = $client->setUrlEncodeBody(false)->request();
         } catch (\Exception $e) {
             $result->setResponseCode(-1)
@@ -445,7 +445,7 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
         }
 
         $result->setResultCode($result->getResult())
-                ->setRespmsg($result->getRespmsg());
+            ->setRespmsg($result->getRespmsg());
 
         $debugData['result'] = $result->getData();
         $this->_debug($debugData);
@@ -456,7 +456,7 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
     /**
      * Return request object with information for 'authorization' or 'sale' action
      *
-     * @param \Magento\Object|\Magento\Sales\Model\Order\Payment $payment
+     * @param \\Magento\Object|\\Magento\Sales\Model\Order\Payment $payment
      * @param float $amount
      * @return \Magento\Object
      */
@@ -511,7 +511,7 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
     /**
      * Return request object with basic information for gateway request
      *
-     * @param \Magento\Object|\Magento\Sales\Model\Order\Payment $payment
+     * @param \\Magento\Object|\\Magento\Sales\Model\Order\Payment $payment
      * @return \Magento\Object
      */
     protected function _buildBasicRequest(\Magento\Object $payment)
@@ -528,21 +528,21 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
         return $request;
     }
 
-     /**
-      * Return unique value for request
-      *
-      * @return string
-      */
+    /**
+     * Return unique value for request
+     *
+     * @return string
+     */
     protected function _generateRequestId()
     {
         return $this->_coreData->uniqHash();
     }
 
-     /**
-      * If response is failed throw exception
-      *
-      * @throws \Magento\Core\Exception
-      */
+    /**
+     * If response is failed throw exception
+     *
+     * @throws \Magento\Core\Exception
+     */
     protected function _processErrors(\Magento\Object $response)
     {
         if ($response->getResultCode() == self::RESPONSE_CODE_VOID_ERROR) {

@@ -163,7 +163,7 @@ abstract class AbstractHelper
     /**
      * Check is module exists and enabled in global config.
      *
-     * @param string $moduleName the full module name, example \Magento\Core
+     * @param string $moduleName the full module name, example Magento_Core
      * @return boolean
      * @deprecated use \Magento\Core\Model\ModuleManager::isEnabled()
      */

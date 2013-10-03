@@ -22,6 +22,35 @@ class Collection
     extends \Magento\Eav\Model\Resource\Entity\Attribute\Collection
 {
     /**
+     * Entity factory1
+     *
+     * @var \Magento\Eav\Model\EntityFactory
+     */
+    protected $_eavEntityFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     */
+    public function __construct(
+        \Magento\Eav\Model\EntityFactory $eavEntityFactory,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+    ) {
+        $this->_eavEntityFactory = $eavEntityFactory;
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+    }
+
+    /**
      * Resource model initialization
      *
      */
@@ -37,7 +66,7 @@ class Collection
      */
     protected function _initSelect()
     {
-        $entityTypeId = (int)\Mage::getModel('Magento\Eav\Model\Entity')->setType(\Magento\Catalog\Model\Product::ENTITY)
+        $entityTypeId = (int)$this->_eavEntityFactory->create()->setType(\Magento\Catalog\Model\Product::ENTITY)
             ->getTypeId();
         $columns = $this->getConnection()->describeTable($this->getResource()->getMainTable());
         unset($columns['attribute_id']);

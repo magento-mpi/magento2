@@ -209,7 +209,7 @@ class Index extends \Magento\Wishlist\Controller\Index
     /**
      * Edit wishlist properties
      *
-     * @return \Magento\Core\Controller\Varien\Action|Zend_Controller_Response_Abstract
+     * @return \Magento\Core\Controller\Varien\Action|\Zend_Controller_Response_Abstract
      */
     public function editwishlistAction()
     {

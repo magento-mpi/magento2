@@ -10,36 +10,12 @@
 
 /**
  * Adminhtml grid item renderer date
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\Adminhtml\Block\Report\Sales\Grid\Column\Renderer;
 
 class Date
     extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Date
 {
-    /**
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
-     * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Backend\Block\Context $context
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Backend\Block\Context $context,
-        array $data = array()
-    ) {
-        $this->_locale = $locale;
-        parent::__construct($context, $data);
-    }
-
     /**
      * Retrieve date format
      *
