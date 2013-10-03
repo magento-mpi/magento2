@@ -11,7 +11,7 @@
  */
 
 require dirname(__DIR__) . '/app/bootstrap.php';
-Magento_Profiler::start('mage');
+\Magento\Profiler::start('mage');
 umask(0);
 
 try {
@@ -25,4 +25,4 @@ try {
 } catch (\Exception $e) {
     \Mage::printException($e);
 }
-Magento_Profiler::stop('mage');
+\Magento\Profiler::stop('mage');
