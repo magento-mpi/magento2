@@ -906,7 +906,7 @@ class App implements \Magento\Core\Model\AppInterface
             'revision'  => '0',
             'patch'     => '0',
             'stability' => 'dev',
-            'number'    => '45',
+            'number'    => '46',
         );
     }
 }
