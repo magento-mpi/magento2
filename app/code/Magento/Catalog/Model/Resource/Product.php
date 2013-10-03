@@ -35,14 +35,34 @@ class Product extends \Magento\Catalog\Model\Resource\AbstractResource
     protected $_productCategoryTable;
 
     /**
-     * Initialize resource
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param array $data
      */
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setType(\Magento\Catalog\Model\Product::ENTITY)
-             ->setConnection('catalog_read', 'catalog_write');
-        $this->_productWebsiteTable  = $this->getTable('catalog_product_website');
+    public function __construct(
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Eav\Model\Resource\Helper $resourceHelper,
+        \Magento\Validator\UniversalFactory $universalFactory,
+        $data = array()
+    ) {
+        parent::__construct(
+            $resource,
+            $eavConfig,
+            $attrSetEntity,
+            $locale,
+            $resourceHelper,
+            $universalFactory,
+            $data
+        );
+        $this->setType(\Magento\Catalog\Model\Product::ENTITY)->setConnection('catalog_read', 'catalog_write');
+        $this->_productWebsiteTable = $this->getTable('catalog_product_website');
         $this->_productCategoryTable = $this->getTable('catalog_category_product');
     }
 

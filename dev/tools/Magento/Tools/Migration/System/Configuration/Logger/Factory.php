@@ -18,11 +18,11 @@ class Factory
      * @param string $loggerType
      * @param string $filePath
      * @param \Magento\Tools\Migration\System\FileManager $fileManager
-     * @return \Magento\Tools\Migration\System\Configuration\LoggerAbstract
+     * @return \Magento\Tools\Migration\System\Configuration\AbstractLogger
      */
     public function getLogger($loggerType, $filePath, \Magento\Tools\Migration\System\FileManager $fileManager)
     {
-        /** @var \Magento\Tools\Migration\System\Configuration\LoggerAbstract $loggerInstance  */
+        /** @var \Magento\Tools\Migration\System\Configuration\AbstractLogger $loggerInstance  */
         $loggerInstance = null;
         switch ($loggerType) {
             case 'file':

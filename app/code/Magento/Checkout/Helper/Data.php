@@ -37,17 +37,57 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_coreStoreConfig;
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var \Magento\Checkout\Model\Resource\Agreement\CollectionFactory
+     */
+    protected $_agreementCollFactory;
+
+    /**
+     * @var \Magento\Core\Model\Email\TemplateFactory
+     */
+    protected $_emailTemplFactory;
+
+    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Checkout\Model\Resource\Agreement\CollectionFactory $agreementCollFactory
+     * @param \Magento\Core\Model\Email\TemplateFactory $emailTemplFactory
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Checkout\Model\Resource\Agreement\CollectionFactory $agreementCollFactory,
+        \Magento\Core\Model\Email\TemplateFactory $emailTemplFactory
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeManager = $storeManager;
+        $this->_checkoutSession = $checkoutSession;
+        $this->_locale = $locale;
+        $this->_agreementCollFactory = $agreementCollFactory;
+        $this->_emailTemplFactory = $emailTemplFactory;
         parent::__construct($context);
     }
 
@@ -58,7 +98,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getCheckout()
     {
-        return \Mage::getSingleton('Magento\Checkout\Model\Session');
+        return $this->_checkoutSession;
     }
 
     /**
@@ -87,8 +127,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             if (!$this->_coreStoreConfig->getConfigFlag('checkout/options/enable_agreements')) {
                 $this->_agreements = array();
             } else {
-                $this->_agreements = \Mage::getModel('Magento\Checkout\Model\Agreement')->getCollection()
-                    ->addStoreFilter(\Mage::app()->getStore()->getId())
+                $this->_agreements = $this->_agreementCollFactory->create()
+                    ->addStoreFilter($this->_storeManager->getStore()->getId())
                     ->addFieldToFilter('is_active', 1)
                     ->getAllIds();
             }
@@ -120,7 +160,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $qty = ($item->getQty() ? $item->getQty() : ($item->getQtyOrdered() ? $item->getQtyOrdered() : 1));
         $taxAmount = $item->getTaxAmount() + $item->getDiscountTaxCompensation();
         $price = (floatval($qty)) ? ($item->getRowTotal() + $taxAmount)/$qty : 0;
-        return \Mage::app()->getStore()->roundPrice($price);
+        return $this->_storeManager->getStore()->roundPrice($price);
     }
 
     /**
@@ -143,7 +183,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $qty = ($item->getQty() ? $item->getQty() : ($item->getQtyOrdered() ? $item->getQtyOrdered() : 1));
         $taxAmount = $item->getBaseTaxAmount() + $item->getBaseDiscountTaxCompensation();
         $price = (floatval($qty)) ? ($item->getBaseRowTotal() + $taxAmount)/$qty : 0;
-        return \Mage::app()->getStore()->roundPrice($price);
+        return $this->_storeManager->getStore()->roundPrice($price);
     }
 
     public function getBaseSubtotalInclTax($item)
@@ -162,11 +202,11 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function sendPaymentFailedEmail($checkout, $message, $checkoutType = 'onepage')
     {
-        $translate = \Mage::getSingleton('Magento\Core\Model\Translate');
         /* @var $translate \Magento\Core\Model\Translate */
-        $translate->setTranslateInline(false);
+        $this->_translator->setTranslateInline(false);
 
-        $mailTemplate = \Mage::getModel('Magento\Core\Model\Email\Template');
+        /** @var \Magento\Core\Model\Email\Template $mailTemplate */
+        $mailTemplate = $this->_emailTemplFactory->create();
         /* @var $mailTemplate \Magento\Core\Model\Email\Template */
 
         $template = $this->_coreStoreConfig->getConfig('checkout/payment_failed/template', $checkout->getStoreId());
@@ -226,7 +266,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
                     array(
                         'reason' => $message,
                         'checkoutType' => $checkoutType,
-                        'dateAndTime' => \Mage::app()->getLocale()->date(),
+                        'dateAndTime' => $this->_locale->date(),
                         'customer' => $checkout->getCustomerFirstname() . ' ' . $checkout->getCustomerLastname(),
                         'customerEmail' => $checkout->getCustomerEmail(),
                         'billingAddress' => $checkout->getBillingAddress(),
@@ -313,7 +353,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function isContextCheckout()
     {
-        return (\Mage::app()->getRequest()->getParam('context') == 'checkout');
+        return ($this->_request->getParam('context') == 'checkout');
     }
 
     /**

@@ -10,7 +10,7 @@
 namespace Magento\GoogleOptimizer\Block\Adminhtml\Cms\Page\Edit\Tab;
 
 class Googleoptimizer
-    extends \Magento\GoogleOptimizer\Block\Adminhtml\TabAbstract
+    extends \Magento\GoogleOptimizer\Block\Adminhtml\AbstractTab
 {
     /**
      * Get cms page model

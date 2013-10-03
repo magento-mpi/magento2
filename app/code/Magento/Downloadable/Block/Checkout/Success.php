@@ -20,35 +20,6 @@ namespace Magento\Downloadable\Block\Checkout;
 class Success extends \Magento\Checkout\Block\Onepage\Success
 {
     /**
-     * @var \Magento\Checkout\Model\Session
-     */
-    protected $_checkoutSession;
-
-    /**
-     * @var \Magento\Customer\Model\Session
-     */
-    protected $_customerSession;
-
-    /**
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
-     * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\Customer\Model\Session $customerSession
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
-        \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Customer\Model\Session $customerSession,
-        array $data = array()
-    ) {
-        $this->_checkoutSession = $checkoutSession;
-        $this->_customerSession = $customerSession;
-        parent::__construct($coreData, $context, $data);
-    }
-
-    /**
      * Return true if order(s) has one or more downloadable products
      *
      * @return bool

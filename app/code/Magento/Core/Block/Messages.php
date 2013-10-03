@@ -74,6 +74,39 @@ class Messages extends \Magento\Core\Block\Template
     );
 
     /**
+     * Message singleton
+     *
+     * @var \Magento\Core\Model\Message
+     */
+    protected $_message;
+
+    /**
+     * Message model factory
+     *
+     * @var \Magento\Core\Model\MessageFactory
+     */
+    protected $_messageFactory;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Message $message
+     * @param \Magento\Core\Model\Message\CollectionFactory $messageFactory
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Message $message,
+        \Magento\Core\Model\Message\CollectionFactory $messageFactory,
+        array $data = array()
+    ) {
+        $this->_message = $message;
+        $this->_messageFactory = $messageFactory;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Preparing global layout
      *
      * @return \Magento\Core\Block\Messages
@@ -132,7 +165,7 @@ class Messages extends \Magento\Core\Block\Template
     public function getMessageCollection()
     {
         if (!($this->_messages instanceof \Magento\Core\Model\Message\Collection)) {
-            $this->_messages = \Mage::getModel('Magento\Core\Model\Message\Collection');
+            $this->_messages = $this->_messageFactory->create();
         }
         return $this->_messages;
     }
@@ -157,7 +190,7 @@ class Messages extends \Magento\Core\Block\Template
      */
     public function addError($message)
     {
-        $this->addMessage(\Mage::getSingleton('Magento\Core\Model\Message')->error($message));
+        $this->addMessage($this->_message->error($message));
         return $this;
     }
 
@@ -169,7 +202,7 @@ class Messages extends \Magento\Core\Block\Template
      */
     public function addWarning($message)
     {
-        $this->addMessage(\Mage::getSingleton('Magento\Core\Model\Message')->warning($message));
+        $this->addMessage($this->_message->warning($message));
         return $this;
     }
 
@@ -181,7 +214,7 @@ class Messages extends \Magento\Core\Block\Template
      */
     public function addNotice($message)
     {
-        $this->addMessage(\Mage::getSingleton('Magento\Core\Model\Message')->notice($message));
+        $this->addMessage($this->_message->notice($message));
         return $this;
     }
 
@@ -193,7 +226,7 @@ class Messages extends \Magento\Core\Block\Template
      */
     public function addSuccess($message)
     {
-        $this->addMessage(\Mage::getSingleton('Magento\Core\Model\Message')->success($message));
+        $this->addMessage($this->_message->success($message));
         return $this;
     }
 

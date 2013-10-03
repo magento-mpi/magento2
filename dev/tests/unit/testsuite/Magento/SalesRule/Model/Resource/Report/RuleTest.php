@@ -57,10 +57,21 @@ class RuleTest extends \PHPUnit_Framework_TestCase
             ->method('getTableName')
             ->will($this->returnValue(self::TABLE_NAME));
 
-        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $model = $objectManager->getObject(
+        $flagFactory = $this->getMock('Magento\Reports\Model\FlagFactory', array(), array(), '', false);
+        $createdatFactoryMock = $this->getMock('Magento\SalesRule\Model\Resource\Report\Rule\CreatedatFactory',
+            array('create'), array(), '', false);
+        $updatedatFactoryMock = $this->getMock('Magento\SalesRule\Model\Resource\Report\Rule\UpdatedatFactory',
+            array('create'), array(), '', false);
+
+        $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $model = $objectHelper->getObject(
             'Magento\SalesRule\Model\Resource\Report\Rule',
-            array('resource' => $resourceMock)
+            array(
+                'resource' => $resourceMock,
+                'reportsFlagFactory' => $flagFactory,
+                'createdatFactory' => $createdatFactoryMock,
+                'updatedatFactory' => $updatedatFactoryMock,
+            )
         );
 
         $expectedRuleNames = array();

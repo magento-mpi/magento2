@@ -113,8 +113,8 @@ class Encryption implements \Magento\Core\Model\EncryptionInterface
      *
      * @param string $password
      * @param string $hash
+     * @throws \Magento\Core\Exception
      * @return bool
-     * @throws \Exception
      */
     public function validateHash($password, $hash)
     {
@@ -125,7 +125,7 @@ class Encryption implements \Magento\Core\Model\EncryptionInterface
             case 2:
                 return $this->hash($hashArr[1] . $password) === $hashArr[0];
         }
-        \Mage::throwException('Invalid hash.');
+        throw new \Magento\Core\Exception('Invalid hash.');
     }
 
     /**
@@ -136,12 +136,14 @@ class Encryption implements \Magento\Core\Model\EncryptionInterface
      */
     protected function _getCrypt($key = null)
     {
-        if (!$this->_crypt) {
-            if (null === $key) {
-                $key = $this->_cryptKey;
-            }
-            $this->_crypt = new \Magento\Crypt($key);
+        if (null !== $key) {
+            return $this->_objectManager->create('Magento\Crypt', array('key' => $key));
         }
+
+        if (!$this->_crypt) {
+            $this->_crypt = $this->_objectManager->create('Magento\Crypt', array('key' => $this->_cryptKey));
+        }
+        
         return $this->_crypt;
     }
 

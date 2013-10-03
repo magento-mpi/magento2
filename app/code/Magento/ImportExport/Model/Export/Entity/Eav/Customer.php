@@ -20,7 +20,7 @@
 namespace Magento\ImportExport\Model\Export\Entity\Eav;
 
 class Customer
-    extends \Magento\ImportExport\Model\Export\Entity\EavAbstract
+    extends \Magento\ImportExport\Model\Export\Entity\AbstractEav
 {
     /**#@+
      * Permanent column names.
@@ -86,16 +86,30 @@ class Customer
 
     /**
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
+     * @param \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Customer\Model\Resource\Customer\CollectionFactory $customerColFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\App $app,
+        \Magento\ImportExport\Model\Export\Factory $collectionFactory,
+        \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Customer\Model\Resource\Customer\CollectionFactory $customerColFactory,
         array $data = array()
     ) {
-        parent::__construct($coreStoreConfig, $data);
+        parent::__construct(
+            $coreStoreConfig, $app, $collectionFactory, $resourceColFactory, $locale, $eavConfig, $data
+        );
 
         $this->_customerCollection = isset($data['customer_collection']) ? $data['customer_collection']
-            : \Mage::getResourceModel('Magento\Customer\Model\Resource\Customer\Collection');
+            : $customerColFactory->create();
 
         $this->_initAttributeValues()
             ->_initStores()

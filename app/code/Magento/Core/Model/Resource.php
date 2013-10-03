@@ -18,8 +18,6 @@ class Resource
 
     const PARAM_TABLE_PREFIX = 'db.table_prefix';
 
-
-
     /**
      * Instances of actual connections
      *
@@ -61,20 +59,28 @@ class Resource
     protected $_tablePrefix;
 
     /**
+     * @var \Magento\Core\Model\AppInterface
+     */
+    protected $_app;
+
+    /**
      * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\Core\Model\AppInterface $app
      * @param \Magento\Core\Model\Config\ResourceInterface $resourceConfig
      * @param \Magento\Core\Model\Resource\ConnectionFactory $adapterFactory
      * @param string $tablePrefix
      */
     public function __construct(
         \Magento\Core\Model\CacheInterface $cache,
+        \Magento\Core\Model\AppInterface $app,
         \Magento\Core\Model\Config\ResourceInterface $resourceConfig,
         \Magento\Core\Model\Resource\ConnectionFactory $adapterFactory,
         $tablePrefix = ''
     ) {
+        $this->_cache = $cache;
+        $this->_app = $app;
         $this->_resourceConfig = $resourceConfig;
         $this->_connectionFactory = $adapterFactory;
-        $this->_cache = $cache;
         $this->_tablePrefix = $tablePrefix;
     }
 
@@ -89,6 +95,8 @@ class Resource
     }
 
     /**
+     * Retrieve connection adapter class name by connection type
+     *
      * @param \Magento\Core\Model\Config\ResourceInterface $resourceConfig
      */
     public function setConfig(\Magento\Core\Model\Config\ResourceInterface $resourceConfig)

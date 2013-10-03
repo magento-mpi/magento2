@@ -9,6 +9,7 @@ Magento/CustomerBalance/Block/Adminhtml
 Magento/CustomerBalance/Block/Sales/Order
 Magento/CustomerSegment/Model
 Magento/CustomerSegment/Block/Adminhtml
+Magento/FullPageCache/Model/Container
 Magento/GiftRegistry
 Magento/GiftCard/Block/Adminhtml/Renderer
 Magento/GiftCard/Model/Source
@@ -19,6 +20,7 @@ Magento/GiftWrapping/Model/Total/Quote/Tax
 Magento/ScheduledImportExport/Model/Import/Entity/Eav/Customer
 Magento/Invitation
 Magento/Logging/Block
+Magento/MultipleWishlist/Model/Resource/Item
 Magento/Pbridge
 Magento/FullPageCache/Model/Container/Sidebar
 Magento/Reminder

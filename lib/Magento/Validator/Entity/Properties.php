@@ -9,7 +9,7 @@
  */
 namespace Magento\Validator\Entity;
 
-class Properties extends \Magento\Validator\ValidatorAbstract
+class Properties extends \Magento\Validator\AbstractValidator
 {
     /**
      * @var array

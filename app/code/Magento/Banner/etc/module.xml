@@ -18,6 +18,7 @@
         <depends>
             <module name="Magento_Adminhtml"/>
             <module name="Magento_CatalogRule"/>
+            <module name="Magento_Eav"/>
             <module name="Magento_SalesRule"/>
             <module name="Magento_Core"/>
             <module name="Magento_Backend"/>

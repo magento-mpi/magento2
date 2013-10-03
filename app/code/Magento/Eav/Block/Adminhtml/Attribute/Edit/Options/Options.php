@@ -25,16 +25,26 @@ class Options extends \Magento\Backend\Block\Template
     /** @var \Magento\Core\Model\Registry */
     protected $_registry;
 
+    /** @var \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory */
+    protected $_attrOptCollFactory;
+
     /**
      * @inheritdoc
      */
     protected $_template = 'Magento_Adminhtml::catalog/product/attribute/options.phtml';
 
     /**
+     * @var \Magento\Validator\UniversalFactory $universalFactory
+     */
+    protected $_universalFactory;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptCollFactory
+     * @param \Magento\Validator\UniversalFactory $universalFactory
      * @param array $data
      */
     public function __construct(
@@ -42,11 +52,15 @@ class Options extends \Magento\Backend\Block\Template
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptCollFactory,
+        \Magento\Validator\UniversalFactory $universalFactory,
         array $data = array()
     ) {
+        parent::__construct($coreData, $context, $data);
         $this->_storeManager = $storeManager;
         $this->_registry = $registry;
-        parent::__construct($coreData, $context, $data);
+        $this->_attrOptCollFactory = $attrOptCollFactory;
+        $this->_universalFactory = $universalFactory;
     }
 
     /**
@@ -138,12 +152,12 @@ class Options extends \Magento\Backend\Block\Template
     protected function _getOptionValuesCollection(\Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute)
     {
         if ($this->canManageOptionDefaultOnly()) {
-            $options = \Mage::getModel($attribute->getSourceModel())
+            $options = $this->_universalFactory->create($attribute->getSourceModel())
                 ->setAttribute($attribute)
                 ->getAllOptions();
             return $options;
         } else {
-            return \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection')
+            return $this->_attrOptCollFactory->create()
                 ->setAttributeFilter($attribute->getId())
                 ->setPositionOrder('asc', true)
                 ->load();
@@ -226,7 +240,7 @@ class Options extends \Magento\Backend\Block\Template
         $values = $this->getData('store_option_values_'.$storeId);
         if (is_null($values)) {
             $values = array();
-            $valuesCollection = \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection')
+            $valuesCollection = $this->_attrOptCollFactory->create()
                 ->setAttributeFilter($this->getAttributeObject()->getId())
                 ->setStoreFilter($storeId, false)
                 ->load();

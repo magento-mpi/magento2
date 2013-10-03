@@ -64,11 +64,11 @@ class Iterator extends \Magento\Object
 
         if (is_string($query)) {
             if (!$conn instanceof \Zend_Db_Adapter_Abstract) {
-                \Mage::throwException(__('Invalid connection'));
+                throw new \Magento\Core\Exception(__('Invalid connection'));
             }
             return $conn->query($query);
         }
 
-        \Mage::throwException(__('Invalid query'));
+        throw new \Magento\Core\Exception(__('Invalid query'));
     }
 }

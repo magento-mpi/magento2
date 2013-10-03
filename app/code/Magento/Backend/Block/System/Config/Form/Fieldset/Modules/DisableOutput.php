@@ -39,15 +39,17 @@ class DisableOutput
 
     /**
      * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Core\Model\ModuleListInterface $moduleList
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
+        \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Core\Model\ModuleListInterface $moduleList,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($context, $authSession, $data);
         $this->_moduleList = $moduleList;
     }
 
@@ -97,7 +99,7 @@ class DisableOutput
     protected function _getFieldRenderer()
     {
         if (empty($this->_fieldRenderer)) {
-            $this->_fieldRenderer = \Mage::getBlockSingleton('Magento\Backend\Block\System\Config\Form\Field');
+            $this->_fieldRenderer = $this->_layout->getBlockSingleton('Magento\Backend\Block\System\Config\Form\Field');
         }
         return $this->_fieldRenderer;
     }

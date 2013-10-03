@@ -25,7 +25,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      *
      * @var \Magento\Connect\Helper\Data
      */
-    protected $_connectData = null;
+    protected $_connectData;
 
     /**
      * @param \Magento\Core\Model\Session\Context $context

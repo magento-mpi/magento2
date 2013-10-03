@@ -14,7 +14,7 @@ namespace Magento\AdminGws\Model;
 /**
  * @magentoAppArea adminhtml
  */
-class BlocksTest extends \Magento\TestFramework\TestCase\ControllerAbstract
+class BlocksTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     protected function setUp()
     {

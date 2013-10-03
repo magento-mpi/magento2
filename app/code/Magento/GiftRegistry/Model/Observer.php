@@ -16,6 +16,26 @@ namespace Magento\GiftRegistry\Model;
 class Observer
 {
     /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $customerSession;
+
+    /**
+     * @var \Magento\GiftRegistry\Model\EntityFactory
+     */
+    protected $entityFactory;
+
+    /**
+     * @var \Magento\GiftRegistry\Model\ItemFactory
+     */
+    protected $itemFactory;
+
+    /**
+     * @var \Magento\GiftRegistry\Model\Item\OptionFactory
+     */
+    protected $optionFactory;
+
+    /**
      * Module enabled flag
      * @var bool
      */
@@ -38,14 +58,26 @@ class Observer
     /**
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
+     * @param \Magento\GiftRegistry\Model\ItemFactory $itemFactory
+     * @param \Magento\GiftRegistry\Model\Item\OptionFactory $optionFactory
      */
     public function __construct(
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
-        \Magento\Core\Model\View\DesignInterface $design
+        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
+        \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
+        \Magento\GiftRegistry\Model\Item\OptionFactory $optionFactory
     ) {
         $this->_giftRegistryData = $giftRegistryData;
         $this->_design = $design;
         $this->_isEnabled = $this->_giftRegistryData->isEnabled();
+        $this->customerSession = $customerSession;
+        $this->entityFactory = $entityFactory;
+        $this->itemFactory = $itemFactory;
+        $this->optionFactory = $optionFactory;
     }
 
     /**
@@ -64,7 +96,7 @@ class Observer
      */
     protected function _getSession()
     {
-        return \Mage::getSingleton('Magento\Customer\Model\Session');
+        return $this->customerSession;
     }
 
     /**
@@ -100,7 +132,7 @@ class Observer
         $object = $observer->getEvent()->getDataObject();
 
         if ($registryItemId = $object->getGiftregistryItemId()) {
-            $model = \Mage::getModel('Magento\GiftRegistry\Model\Entity')
+            $model = $this->entityFactory->create()
                 ->loadByEntityItem($registryItemId);
             if ($model->getId()) {
                 $object->setId(
@@ -162,29 +194,6 @@ class Observer
     }
 
     /**
-     * Copy gift registry item id flag from quote item to order item
-     *
-     * @param \Magento\Event\Observer $observer
-     * @return \Magento\GiftRegistry\Model\Observer
-     */
-    public function convertItems($observer)
-    {
-        $orderItem = $observer->getEvent()->getOrderItem();
-        $item = $observer->getEvent()->getItem();
-
-        if ($item instanceof \Magento\Sales\Model\Quote\Address\Item) {
-            $registryItemId = $item->getQuoteItem()->getGiftregistryItemId();
-        } else {
-            $registryItemId = $item->getGiftregistryItemId();
-        }
-
-        if ($registryItemId) {
-            $orderItem->setGiftregistryItemId($registryItemId);
-        }
-        return $this;
-    }
-
-    /**
      * After place order processing, update gift registry items fulfilled qty
      *
      * @param \Magento\Event\Observer $observer
@@ -193,7 +202,7 @@ class Observer
     public function orderPlaced($observer)
     {
         $order = $observer->getEvent()->getOrder();
-        $item = \Mage::getModel('Magento\GiftRegistry\Model\Item');
+        $item = $this->itemFactory->create();
         $giftRegistries = array();
         $updatedQty = array();
 
@@ -215,7 +224,7 @@ class Observer
 
         $giftRegistries = array_unique($giftRegistries);
         if (count($giftRegistries)) {
-            $entity = \Mage::getModel('Magento\GiftRegistry\Model\Entity');
+            $entity = $this->entityFactory->create();
             foreach ($giftRegistries as $registryId) {
                 $entity->load($registryId);
                 $entity->sendUpdateRegistryEmail($updatedQty);
@@ -268,7 +277,7 @@ class Observer
         }
 
         /** @var $grItem \Magento\GiftRegistry\Model\Item */
-        $grItem = \Mage::getModel('Magento\GiftRegistry\Model\Item');
+        $grItem = $this->itemFactory->create();
         /** @var $collection \Magento\GiftRegistry\Model\Resource\Item\Collection */
         $collection = $grItem->getCollection()->addProductFilter($productId);
 
@@ -277,7 +286,7 @@ class Observer
         }
 
         /** @var $options \Magento\GiftRegistry\Model\Item\Option*/
-        $options = \Mage::getModel('Magento\GiftRegistry\Model\Item\Option');
+        $options = $this->optionFactory->create();
         $optionCollection = $options->getCollection()->addProductFilter($productId);
 
         $itemsArray = array();

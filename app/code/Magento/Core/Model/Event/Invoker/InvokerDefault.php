@@ -70,7 +70,7 @@ class InvokerDefault implements \Magento\Core\Model\Event\InvokerInterface
         if (method_exists($object, $method)) {
             $object->$method($observer);
         } elseif ($this->_appState->getMode() == \Magento\Core\Model\App\State::MODE_DEVELOPER) {
-            \Mage::throwException('Method "' . $method . '" is not defined in "' . get_class($object) . '"');
+            throw new \Magento\Core\Exception('Method "' . $method . '" is not defined in "' . get_class($object) . '"');
         }
         return $this;
     }

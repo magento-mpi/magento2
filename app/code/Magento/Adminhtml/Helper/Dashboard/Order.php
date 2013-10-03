@@ -10,48 +10,49 @@
 
 /**
  * Adminhtml dashboard helper for orders
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Adminhtml\Helper\Dashboard;
 
 class Order extends \Magento\Adminhtml\Helper\Dashboard\AbstractDashboard
 {
     /**
-     * @var \Magento\Core\Model\StoreManager
-     */
-    protected $_storeManger;
-
-    /**
      * @var \Magento\Reports\Model\Resource\Order\Collection
      */
     protected $_orderCollection;
 
     /**
-     * @param \Magento\Reports\Model\Resource\Order\Collection $orderCollection
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Http $coreHttp
-     * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Locale $locale
+     * @param \Magento\Core\Model\Date $dateModel
+     * @param \Magento\Core\Model\App\State $appState
      * @param \Magento\Core\Model\Encryption $encryptor
+     * @param \Magento\Reports\Model\Resource\Order\Collection $orderCollection
+     * @param bool $dbCompatibleMode
      */
     public function __construct(
-        \Magento\Reports\Model\Resource\Order\Collection $orderCollection,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Helper\Http $coreHttp,
-        \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Config $config,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Encryption $encryptor
-    ) {
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Locale $locale,
+        \Magento\Core\Model\Date $dateModel,
+        \Magento\Core\Model\App\State $appState,
+        \Magento\Core\Model\Encryption $encryptor,
+        \Magento\Reports\Model\Resource\Order\Collection $orderCollection,
+        $dbCompatibleMode = true
+    )
+    {
         $this->_orderCollection = $orderCollection;
-        $this->_storeManger = $storeManager;
-        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig, $encryptor);
+        parent::__construct($context, $eventManager, $coreHttp, $config, $coreStoreConfig, $storeManager,
+            $locale, $dateModel, $appState, $encryptor, $dbCompatibleMode
+        );
     }
 
     protected function _initCollection()

@@ -51,6 +51,11 @@ class Collection
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
+     * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Validator\UniversalFactory $universalFactory
      * @param \Magento\Core\Model\Fieldset\Config $fieldsetConfig
      */
     public function __construct(
@@ -61,12 +66,28 @@ class Collection
         \Magento\Core\Model\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Eav\Model\EntityFactory $eavEntityFactory,
+        \Magento\Eav\Model\Resource\Helper $resourceHelper,
+        \Magento\Validator\UniversalFactory $universalFactory,
         \Magento\Core\Model\Fieldset\Config $fieldsetConfig
     ) {
         $this->_resourceReward = $resourceReward;
         $this->_resourceBalance = $resourceBalance;
         $this->_storeManager = $storeManager;
-        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $fieldsetConfig);
+        parent::__construct(
+            $eventManager,
+            $logger,
+            $fetchStrategy,
+            $entityFactory,
+            $eavConfig,
+            $resource,
+            $eavEntityFactory,
+            $resourceHelper,
+            $universalFactory,
+            $fieldsetConfig
+        );
     }
 
     /**

@@ -84,10 +84,18 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-
-        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
         $this->_model = new \Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address(
-            $coreStoreConfig,
+            $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\App', array(), array(), '', false),
+            $this->getMock('Magento\ImportExport\Model\Export\Factory', array(), array(), '', false),
+            $this->getMock(
+                'Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory', array(), array(), '', false
+            ),
+            $this->getMock('Magento\Core\Model\LocaleInterface', array(), array(), '', false),
+            $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
+            $this->getMock('Magento\Customer\Model\Resource\Customer\CollectionFactory', array(), array(), '', false),
+            $this->getMock('Magento\ImportExport\Model\Export\Entity\Eav\CustomerFactory', array(), array(), '', false),
+            $this->getMock('Magento\Customer\Model\Resource\Address\CollectionFactory', array(), array(), '', false),
             $this->_getModelDependencies()
         );
     }
@@ -124,10 +132,11 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('customer_address'));
         foreach ($this->_attributes as $attributeData) {
             $arguments = $this->_objectManager->getConstructArguments(
-                'Magento\Eav\Model\Entity\Attribute\AbstractAttribute');
-            $arguments['data'] = $attributeData;
-            $attribute = $this->getMockForAbstractClass(
                 'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
+                array('eavTypeFactory' => $this->getMock('Magento\Eav\Model\Entity\TypeFactory'))
+            );
+            $arguments['data'] = $attributeData;
+            $attribute = $this->getMockForAbstractClass('Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
                 $arguments, '', true, true, true, array('_construct')
             );
             $attributeCollection->addItem($attribute);
@@ -212,8 +221,15 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $arguments = array(
             'data' => $this->_customerData,
             'resource' => $resource,
+            $this->getMock('Magento\Customer\Model\Config\Share', array(), array(), '', false),
+            $this->getMock('Magento\Customer\Model\AddressFactory', array(), array(), '', false),
+            $this->getMock('Magento\Customer\Model\Resource\Address\CollectionFactory', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\Email\Template\MailerFactory', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\Email\InfoFactory', array(), array(), '', false),
+            $this->getMock('Magento\Customer\Model\GroupFactory', array(), array(), '', false),
+            $this->getMock('Magento\Customer\Model\AttributeFactory', array(), array(), '', false),
         );
-        /** @var $customer \Magento\Customer\Model\Customer|PHPUnit_Framework_MockObject_MockObject */
+        /** @var $customer \Magento\Customer\Model\Customer|\PHPUnit_Framework_MockObject_MockObject */
         $customer = $this->_objectManager->getObject('Magento\Customer\Model\Customer', $arguments);
 
         foreach ($callbacks as $callback) {

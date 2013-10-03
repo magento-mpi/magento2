@@ -15,7 +15,7 @@ require_once realpath(__DIR__ . '/../../../../../../../../../')
 require_once realpath(__DIR__ . '/../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/FileManager.php';
 require_once realpath(__DIR__ . '/../../../../../../../../../')
-    . '/tools/Magento/Tools/Migration/System/Configuration/LoggerAbstract.php';
+    . '/tools/Magento/Tools/Migration/System/Configuration/AbstractLogger.php';
 require_once realpath(__DIR__ . '/../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/Formatter.php';
 
@@ -46,7 +46,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $this->_fileManagerMock = $this->getMock(
             'Magento\Tools\Migration\System\FileManager', array(), array(), '', false);
         $this->_loggerMock = $this->getMockForAbstractClass(
-            'Magento\Tools\Migration\System\Configuration\LoggerAbstract',
+            'Magento\Tools\Migration\System\Configuration\AbstractLogger',
             array(), '', false, false, false, array('add')
         );
         $this->_formatterMock = $this->getMock('Magento\Tools\Migration\System\Configuration\Formatter', array(),
@@ -90,7 +90,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
 
         $this->_loggerMock->expects($this->once())->method('add')->with(
             'someFile',
-            \Magento\Tools\Migration\System\Configuration\LoggerAbstract:: FILE_KEY_INVALID
+            \Magento\Tools\Migration\System\Configuration\AbstractLogger:: FILE_KEY_INVALID
         );
 
         $this->_model->createConfiguration('someFile', include __DIR__ . '/_files/mappedConfiguration.php');

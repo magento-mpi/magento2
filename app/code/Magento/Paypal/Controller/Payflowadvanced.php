@@ -8,10 +8,6 @@
 
 /**
  * Payflow Advanced Checkout Controller
- *
- * @category   Magento
- * @package    Magento_Paypal
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Paypal\Controller;
 
@@ -39,9 +35,55 @@ class Payflowadvanced extends \Magento\Paypal\Controller\Express\AbstractExpress
     protected $_checkoutType = 'Magento\Paypal\Model\Payflowadvanced';
 
     /**
-     * When a customer cancel payment from payflow gateway.
+     * @var \Magento\Core\Model\Logger
+     */
+    protected $_logger;
+
+    /**
+     * @var \Magento\Paypal\Helper\Checkout
+     */
+    protected $_checkoutHelper;
+
+    /**
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\UrlInterface $urlBuilder
+     * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param \Magento\Paypal\Model\Express\Checkout\Factory $checkoutFactory
+     * @param \Magento\Core\Model\Session\Generic $paypalSession
+     * @param \Magento\Paypal\Helper\Checkout $checkoutHelper
      *
-     * @return void
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\UrlInterface $urlBuilder,
+        \Magento\Sales\Model\QuoteFactory $quoteFactory,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Sales\Model\OrderFactory $orderFactory,
+        \Magento\Paypal\Model\Express\Checkout\Factory $checkoutFactory,
+        \Magento\Core\Model\Session\Generic $paypalSession,
+        \Magento\Paypal\Helper\Checkout $checkoutHelper
+    ) {
+        $this->_logger = $context->getLogger();
+        $this->_checkoutHelper = $checkoutHelper;
+        parent::__construct(
+            $context,
+            $customerSession,
+            $urlBuilder,
+            $quoteFactory,
+            $checkoutSession,
+            $orderFactory,
+            $checkoutFactory,
+            $paypalSession
+        );
+    }
+
+    /**
+     * When a customer cancel payment from payflow gateway.
      */
     public function cancelPaymentAction()
     {
@@ -54,25 +96,22 @@ class Payflowadvanced extends \Magento\Paypal\Controller\Express\AbstractExpress
 
     /**
      * When a customer return to website from payflow gateway.
-     *
-     * @return void
      */
     public function returnUrlAction()
     {
         $this->loadLayout(false);
         $redirectBlock = $this->getLayout()->getBlock('payflow.advanced.iframe');;
 
-        $session = $this->_objectManager->get('Magento\Checkout\Model\Session');
-        if ($session->getLastRealOrderId()) {
-            $order = \Mage::getModel('Magento\Sales\Model\Order')->loadByIncrementId($session->getLastRealOrderId());
+        if ($this->_checkoutSession->getLastRealOrderId()) {
+            $order = $this->_orderFactory->create()->loadByIncrementId($this->_checkoutSession->getLastRealOrderId());
 
-            if ($order && $order->getIncrementId() == $session->getLastRealOrderId()) {
+            if ($order && $order->getIncrementId() == $this->_checkoutSession->getLastRealOrderId()) {
                 $allowedOrderStates = array(
                     \Magento\Sales\Model\Order::STATE_PROCESSING,
                     \Magento\Sales\Model\Order::STATE_COMPLETE
                 );
                 if (in_array($order->getState(), $allowedOrderStates)) {
-                    $session->unsLastRealOrderId();
+                    $this->_checkoutSession->unsLastRealOrderId();
                     $redirectBlock->setGotoSuccessPage(true);
                 } else {
                     $gotoSection = $this->_cancelPayment(strval($this->getRequest()->getParam('RESPMSG')));
@@ -87,8 +126,6 @@ class Payflowadvanced extends \Magento\Paypal\Controller\Express\AbstractExpress
 
     /**
      * Submit transaction to Payflow getaway into iframe
-     *
-     * @return void
      */
     public function formAction()
     {
@@ -99,19 +136,17 @@ class Payflowadvanced extends \Magento\Paypal\Controller\Express\AbstractExpress
 
     /**
      * Get response from PayPal by silent post method
-     *
-     * @return void
      */
     public function silentPostAction()
     {
         $data = $this->getRequest()->getPost();
         if (isset($data['INVNUM'])) {
             /** @var $paymentModel \Magento\Paypal\Model\Payflowadvanced */
-            $paymentModel = \Mage::getModel('Magento\Paypal\Model\Payflowadvanced');
+            $paymentModel = $this->_checkoutFactory->create($this->_checkoutType);
             try {
                 $paymentModel->process($data);
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                $this->_logger->logException($e);
             }
         }
     }
@@ -125,12 +160,10 @@ class Payflowadvanced extends \Magento\Paypal\Controller\Express\AbstractExpress
     protected function _cancelPayment($errorMsg = '')
     {
         $gotoSection = false;
-        $helper = $this->_objectManager->get('Magento\Paypal\Helper\Checkout');
-        $helper->cancelCurrentOrder($errorMsg);
-        if ($helper->restoreQuote()) {
+        $this->_checkoutHelper->cancelCurrentOrder($errorMsg);
+        if ($this->_checkoutHelper->restoreQuote()) {
             $gotoSection = 'payment';
         }
-
         return $gotoSection;
     }
 }

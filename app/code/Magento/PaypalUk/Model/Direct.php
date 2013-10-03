@@ -61,8 +61,10 @@ class Direct extends \Magento\Paypal\Model\Direct
     {
         $payment->setTransactionId($api->getPaypalTransactionId())->setIsTransactionClosed(0)
             ->setIsTransactionPending($api->getIsPaymentPending())
-            ->setTransactionAdditionalInfo(\Magento\PaypalUk\Model\Pro::TRANSPORT_PAYFLOW_TXN_ID, $api->getTransactionId())
-            ;
+            ->setTransactionAdditionalInfo(
+                \Magento\PaypalUk\Model\Pro::TRANSPORT_PAYFLOW_TXN_ID,
+                $api->getTransactionId()
+        );
         $payment->setPreparedMessage(__('Payflow PNREF: #%1.', $api->getTransactionId()));
         $this->_pro->importPaymentInfo($api, $payment);
     }

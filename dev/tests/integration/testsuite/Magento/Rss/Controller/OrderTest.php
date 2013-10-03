@@ -14,7 +14,7 @@ namespace Magento\Rss\Controller;
 /**
  * @magentoAppArea adminhtml
  */
-class OrderTest extends \Magento\TestFramework\TestCase\ControllerAbstract
+class OrderTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
      * Reuse URI for "new" action

@@ -72,9 +72,17 @@ class Factory
     );
 
     /**
+     * Resource
+     *
+     * @var \Magento\Core\Model\Resource
+     */
+    protected $_resource;
+
+    /**
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\Dir $dirs
+     * @param \Magento\Core\Model\Resource $resource
      * @param array $enforcedOptions
      * @param array $decorators
      */
@@ -82,12 +90,14 @@ class Factory
         \Magento\ObjectManager $objectManager,
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\Dir $dirs,
+        \Magento\Core\Model\Resource $resource,
         array $enforcedOptions = array(),
         array $decorators = array()
     ) {
         $this->_objectManager = $objectManager;
         $this->_filesystem = $filesystem;
         $this->_dirs = $dirs;
+        $this->_resource = $resource;
         $this->_enforcedOptions = $enforcedOptions;
         $this->_decorators = $decorators;
     }
@@ -164,7 +174,7 @@ class Factory
      * @param \Magento\Cache\FrontendInterface $frontend
      * @return \Magento\Cache\FrontendInterface
      * @throws \LogicException
-     * @throws \UnexpectedValueException
+     * @throws UnexpectedValueException
      */
     private function _applyDecorators(\Magento\Cache\FrontendInterface $frontend)
     {
@@ -177,7 +187,7 @@ class Factory
             $decoratorParams['frontend'] = $frontend; // conventionally, 'frontend' argument is a decoration subject
             $frontend = $this->_objectManager->create($decoratorClass, $decoratorParams);
             if (!($frontend instanceof \Magento\Cache\FrontendInterface)) {
-                throw new \UnexpectedValueException('Decorator has to implement the cache frontend interface.');
+                throw new UnexpectedValueException('Decorator has to implement the cache frontend interface.');
             }
         }
         return $frontend;
@@ -284,13 +294,13 @@ class Factory
     protected function _getDbAdapterOptions()
     {
         $options['adapter_callback'] = function () {
-            return \Mage::getSingleton('Magento\Core\Model\Resource')->getConnection('core_write');
+            return $this->_resource->getConnection('core_write');
         };
         $options['data_table_callback'] = function () {
-            return \Mage::getSingleton('Magento\Core\Model\Resource')->getTableName('core_cache');
+            return $this->_resource->getTableName('core_cache');
         };
         $options['tags_table_callback'] = function () {
-            return \Mage::getSingleton('Magento\Core\Model\Resource')->getTableName('core_cache_tag');
+            return $this->_resource->getTableName('core_cache_tag');
         };
         return $options;
     }

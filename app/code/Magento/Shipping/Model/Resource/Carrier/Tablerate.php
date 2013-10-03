@@ -92,22 +92,55 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
-    
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Shipping\Model\Carrier\Tablerate
+     */
+    protected $_carrierTablerate;
+
+    /**
+     * @var \Magento\Directory\Model\Resource\Country\CollectionFactory
+     */
+    protected $_countryCollFactory;
+
+    /**
+     * @var \Magento\Directory\Model\Resource\Region\CollectionFactory
+     */
+    protected $_regionCollFactory;
+
+
     /**
      * Class constructor
      *
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Shipping\Model\Carrier\Tablerate $carrierTablerate
+     * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
+     * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
      */
     public function __construct(
         \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\Resource $resource,
-        \Magento\Core\Model\Config $coreConfig
+        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Shipping\Model\Carrier\Tablerate $carrierTablerate,
+        \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
+        \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
     ) {
         parent::__construct($resource);
         $this->_coreConfig = $coreConfig;
         $this->_logger = $logger;
+        $this->_storeManager = $storeManager;
+        $this->_carrierTablerate = $carrierTablerate;
+        $this->_countryCollFactory = $countryCollFactory;
+        $this->_regionCollFactory = $regionCollFactory;
     }
 
     /**
@@ -124,7 +157,7 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Return table rate array or false by rate request
      *
      * @param \Magento\Shipping\Model\Rate\Request $request
-     * @return array|boolean
+     * @return array|bool
      */
     public function getRate(\Magento\Shipping\Model\Rate\Request $request)
     {
@@ -204,7 +237,7 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
         }
 
         $csvFile = $_FILES['groups']['tmp_name']['tablerate']['fields']['import']['value'];
-        $website = \Mage::app()->getWebsite($object->getScopeId());
+        $website = $this->_storeManager->getWebsite($object->getScopeId());
 
         $this->_importWebsiteId     = (int)$website->getId();
         $this->_importUniqueHash    = array();
@@ -220,7 +253,7 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
         $headers = $io->streamReadCsv();
         if ($headers === false || count($headers) < 5) {
             $io->streamClose();
-            \Mage::throwException(__('Please correct Table Rates File Format.'));
+            throw new \Magento\Core\Exception(__('Please correct Table Rates File Format.'));
         }
 
         if ($object->getData('groups/tablerate/fields/condition_name/inherit') == '1') {
@@ -269,19 +302,19 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
         } catch (\Magento\Core\Exception $e) {
             $adapter->rollback();
             $io->streamClose();
-            \Mage::throwException($e->getMessage());
+            throw new \Magento\Core\Exception($e->getMessage());
         } catch (\Exception $e) {
             $adapter->rollback();
             $io->streamClose();
             $this->_logger->logException($e);
-            \Mage::throwException(__('Something went wrong while importing table rates.'));
+            throw new \Magento\Core\Exception(__('Something went wrong while importing table rates.'));
         }
 
         $adapter->commit();
 
         if ($this->_importErrors) {
             $error = __('We couldn\'t import this file because of these errors: %1', implode(" \n", $this->_importErrors));
-            \Mage::throwException($error);
+            throw new \Magento\Core\Exception($error);
         }
 
         return $this;
@@ -302,7 +335,7 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
         $this->_importIso3Countries = array();
 
         /** @var $collection \Magento\Directory\Model\Resource\Country\Collection */
-        $collection = \Mage::getResourceModel('Magento\Directory\Model\Resource\Country\Collection');
+        $collection = $this->_countryCollFactory->create();
         foreach ($collection->getData() as $row) {
             $this->_importIso2Countries[$row['iso2_code']] = $row['country_id'];
             $this->_importIso3Countries[$row['iso3_code']] = $row['country_id'];
@@ -325,7 +358,7 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
         $this->_importRegions = array();
 
         /** @var $collection \Magento\Directory\Model\Resource\Region\Collection */
-        $collection = \Mage::getResourceModel('Magento\Directory\Model\Resource\Region\Collection');
+        $collection = $this->_regionCollFactory->create();
         foreach ($collection->getData() as $row) {
             $this->_importRegions[$row['country_id']][$row['code']] = (int)$row['region_id'];
         }
@@ -342,7 +375,7 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _getConditionFullName($conditionName)
     {
         if (!isset($this->_conditionFullNames[$conditionName])) {
-            $name = \Mage::getSingleton('Magento\Shipping\Model\Carrier\Tablerate')->getCode('condition_name_short', $conditionName);
+            $name = $this->_carrierTablerate->getCode('condition_name_short', $conditionName);
             $this->_conditionFullNames[$conditionName] = $name;
         }
 

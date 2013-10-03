@@ -21,18 +21,11 @@ namespace Magento\Reports\Block\Product;
 abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractProduct
 {
     /**
-     * Product Index model name
+     * Product Index model type
      *
      * @var string
      */
-    protected $_indexName;
-
-    /**
-     * Product Index model instance
-     *
-     * @var \Magento\Reports\Model\Product\Index\AbstractIndex
-     */
-    protected $_indexModel;
+    protected $_indexType;
 
     /**
      * Product Index Collection
@@ -40,6 +33,49 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
      * @var \Magento\Reports\Model\Resource\Product\Index\Collection\AbstractCollection
      */
     protected $_collection;
+
+    /**
+     * @var \Magento\Catalog\Model\Config
+     */
+    protected $_catalogConfig;
+
+    /**
+     * @var \Magento\Catalog\Model\Product\Visibility
+     */
+    protected $_productVisibility;
+
+    /**
+     * @var \Magento\Reports\Model\Product\Index\Factory
+     */
+    protected $_indexFactory;
+
+    /**
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
+     * @param \Magento\Reports\Model\Product\Index\Factory $indexFactory
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\Catalog\Model\Product\Visibility $productVisibility,
+        \Magento\Reports\Model\Product\Index\Factory $indexFactory,
+        array $data = array()
+    ) {
+        parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $data);
+        $this->_catalogConfig = $catalogConfig;
+        $this->_productVisibility = $productVisibility;
+        $this->_indexFactory = $indexFactory;
+    }
 
     /**
      * Retrieve page size
@@ -71,15 +107,13 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
      */
     protected function _getModel()
     {
-        if (is_null($this->_indexModel)) {
-            if (is_null($this->_indexName)) {
-                \Mage::throwException(__('Index model name must be defined'));
-            }
-
-            $this->_indexModel = \Mage::getModel($this->_indexName);
+        try {
+            $model = $this->_indexFactory->get($this->_indexType);
+        } catch (\InvalidArgumentException $e) {
+            new \Magento\Core\Exception(__('Index type is not valid'));
         }
 
-        return $this->_indexModel;
+        return $model;
     }
 
     /**
@@ -100,7 +134,7 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
     public function getItemsCollection()
     {
         if (is_null($this->_collection)) {
-            $attributes = \Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes();
+            $attributes = $this->_catalogConfig->getProductAttributes();
 
             $this->_collection = $this->_getModel()
                 ->getCollection()
@@ -125,7 +159,7 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
                 $this->_collection->addFilterByIds($ids);
             }
             $this->_collection->setAddedAtOrder()
-                ->setVisibility(\Mage::getSingleton('Magento\Catalog\Model\Product\Visibility')->getVisibleInSiteIds());
+                ->setVisibility($this->_productVisibility->getVisibleInSiteIds());
         }
 
         return $this->_collection;

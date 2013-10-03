@@ -13,7 +13,7 @@
  */
 namespace Magento\Sales\Block\Adminhtml\Recurring\Profile;
 
-class Grid extends \Magento\Backend\Block\Widget\Grid
+class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Set ajax/session parameters

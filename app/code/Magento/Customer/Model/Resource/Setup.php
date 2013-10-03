@@ -21,20 +21,30 @@ namespace Magento\Customer\Model\Resource;
 class Setup extends \Magento\Eav\Model\Entity\Setup
 {
     /**
+     * @var \Magento\Eav\Model\Config
+     */
+    protected $_eavConfig;
+
+    /**
      * @param \Magento\Core\Model\Resource\Setup\Context $context
      * @param \Magento\Core\Model\CacheInterface $cache
-     * @param string $resourceName
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Model\CacheInterface $resourceName
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
         \Magento\Core\Model\Resource\Setup\Context $context,
         \Magento\Core\Model\CacheInterface $cache,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory,
+        \Magento\Eav\Model\Config $eavConfig,
         $resourceName,
         $moduleName = 'Magento_Customer',
         $connectionName = ''
     ) {
-        parent::__construct($context, $cache, $resourceName, $moduleName, $connectionName);
+        $this->_eavConfig = $eavConfig;
+        parent::__construct($context, $cache, $attrGrCollFactory, $resourceName, $moduleName, $connectionName);
     }
 
     /**
@@ -467,5 +477,13 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
             )
         );
         return $entities;
+    }
+
+    /**
+     * @return \Magento\Eav\Model\Config
+     */
+    public function getEavConfig()
+    {
+        return $this->_eavConfig;
     }
 }

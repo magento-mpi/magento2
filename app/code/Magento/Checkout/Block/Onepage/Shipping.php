@@ -23,6 +23,40 @@ class Shipping extends \Magento\Checkout\Block\Onepage\AbstractOnepage
     protected $_address = null;
 
     /**
+     * @var \Magento\Sales\Model\Quote\AddressFactory
+     */
+    protected $_addressFactory;
+
+    /**
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Checkout\Model\Session $resourceSession
+     * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
+     * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Sales\Model\Quote\AddressFactory $addressFactory
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Checkout\Model\Session $resourceSession,
+        \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
+        \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Sales\Model\Quote\AddressFactory $addressFactory,
+        array $data = array()
+    ) {
+        $this->_addressFactory = $addressFactory;
+        parent::__construct($configCacheType, $coreData, $context, $customerSession, $resourceSession,
+            $countryCollFactory, $regionCollFactory, $storeManager, $data);
+    }
+
+    /**
      * Initialize shipping address step
      */
     protected function _construct()
@@ -56,7 +90,7 @@ class Shipping extends \Magento\Checkout\Block\Onepage\AbstractOnepage
             if ($this->isCustomerLoggedIn()) {
                 $this->_address = $this->getQuote()->getShippingAddress();
             } else {
-                $this->_address = \Mage::getModel('Magento\Sales\Model\Quote\Address');
+                $this->_address = $this->_addressFactory->create();
             }
         }
 

@@ -73,9 +73,6 @@ class AbstractSession extends \Magento\Object
     protected $_validator;
 
     /**
-     * @param \Magento\Core\Model\Session\Validator $validator
-     * Core store config
-     *
      * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
@@ -84,6 +81,52 @@ class AbstractSession extends \Magento\Object
      * @var string
      */
     protected $_saveMethod;
+
+    /**
+     * Core cookie
+     *
+     * @var \Magento\Core\Model\Cookie
+     */
+    protected $_cookie;
+
+    /**
+     * Core message
+     *
+     * @var \Magento\Core\Model\Message
+     */
+    protected $_message;
+
+    /**
+     * Core message collection factory
+     *
+     * @var \Magento\Core\Model\Message\CollectionFactory
+     */
+    protected $_messageFactory;
+
+    /**
+     * @var \Magento\Core\Controller\Request\Http
+     */
+    protected $_request;
+
+    /**
+     * @var \Magento\Core\Model\App\State
+     */
+    protected $_appState;
+
+    /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Core\Model\Dir
+     */
+    protected $_dir;
+
+    /**
+     * @var \Magento\Core\Model\Url
+     */
+    protected $_url;
 
     /**
      * @var string
@@ -104,8 +147,10 @@ class AbstractSession extends \Magento\Object
      * @param \Magento\Core\Model\Session\Context $context
      * @param array $data
      */
-    public function __construct(\Magento\Core\Model\Session\Context $context, array $data = array())
-    {
+    public function __construct(
+        \Magento\Core\Model\Session\Context $context,
+        array $data = array()
+    ) {
         $this->_validator = $context->getValidator();
         $this->_eventManager = $context->getEventManager();
         $this->_coreHttp = $context->getHttpHelper();
@@ -115,6 +160,14 @@ class AbstractSession extends \Magento\Object
         $this->_saveMethod = $this->_saveMethod ?: $context->getSaveMethod();
         $this->_cacheLimiter = $this->_cacheLimiter ?: $context->getCacheLimiter();
         $this->_sidNameMap = $context->getSidMap();
+        $this->_messageFactory = $context->getMessageFactory();
+        $this->_message = $context->getMessage();
+        $this->_cookie = $context->getCookie();
+        $this->_request = $context->getRequest();
+        $this->_appState = $context->getAppState();
+        $this->_storeManager = $context->getStoreManager();
+        $this->_dir = $context->getDir();
+        $this->_url = $context->getUrl();
         parent::__construct($data);
     }
 
@@ -141,8 +194,9 @@ class AbstractSession extends \Magento\Object
         switch($this->getSessionSaveMethod()) {
             case 'db':
                 ini_set('session.save_handler', 'user');
-                $sessionResource = \Mage::getResourceSingleton('Magento\Core\Model\Resource\Session');
                 /* @var $sessionResource \Magento\Core\Model\Resource\Session */
+                $sessionResource = \Magento\Core\Model\ObjectManager::getInstance()
+                    ->get('Magento\Core\Model\Resource\Session');
                 $sessionResource->setSaveHandler();
                 break;
             case 'memcache':
@@ -217,7 +271,7 @@ class AbstractSession extends \Magento\Object
      */
     public function getCookie()
     {
-        return \Mage::getSingleton('Magento\Core\Model\Cookie');
+        return $this->_cookie;
     }
 
     /**
@@ -351,7 +405,7 @@ class AbstractSession extends \Magento\Object
     public function getMessages($clear = false)
     {
         if (!$this->getData('messages')) {
-            $this->setMessages(\Mage::getModel('Magento\Core\Model\Message\Collection'));
+            $this->setMessages($this->_messageFactory->create());
         }
 
         if ($clear) {
@@ -380,7 +434,7 @@ class AbstractSession extends \Magento\Object
         $file = $this->_coreStoreConfig->getConfig(self::XML_PATH_LOG_EXCEPTION_FILE);
         $this->_logger->logFile($message, \Zend_Log::DEBUG, $file);
 
-        $this->addMessage(\Mage::getSingleton('Magento\Core\Model\Message')->error($alternativeText));
+        $this->addMessage($this->_message->error($alternativeText));
         return $this;
     }
 
@@ -405,7 +459,7 @@ class AbstractSession extends \Magento\Object
      */
     public function addError($message)
     {
-        $this->addMessage(\Mage::getSingleton('Magento\Core\Model\Message')->error($message));
+        $this->addMessage($this->_message->error($message));
         return $this;
     }
 
@@ -417,7 +471,7 @@ class AbstractSession extends \Magento\Object
      */
     public function addWarning($message)
     {
-        $this->addMessage(\Mage::getSingleton('Magento\Core\Model\Message')->warning($message));
+        $this->addMessage($this->_message->warning($message));
         return $this;
     }
 
@@ -429,7 +483,7 @@ class AbstractSession extends \Magento\Object
      */
     public function addNotice($message)
     {
-        $this->addMessage(\Mage::getSingleton('Magento\Core\Model\Message')->notice($message));
+        $this->addMessage($this->_message->notice($message));
         return $this;
     }
 
@@ -441,7 +495,7 @@ class AbstractSession extends \Magento\Object
      */
     public function addSuccess($message)
     {
-        $this->addMessage(\Mage::getSingleton('Magento\Core\Model\Message')->success($message));
+        $this->addMessage($this->_message->success($message));
         return $this;
     }
 
@@ -521,10 +575,10 @@ class AbstractSession extends \Magento\Object
     {
 
         if (null === $id
-            && (\Mage::app()->getStore()->isAdmin() || $this->_coreStoreConfig->getConfig(self::XML_PATH_USE_FRONTEND_SID))
+            && ($this->_storeManager->getStore()->isAdmin() || $this->_coreStoreConfig->getConfig(self::XML_PATH_USE_FRONTEND_SID))
         ) {
             $_queryParam = $this->getSessionIdQueryParam();
-            if (isset($_GET[$_queryParam]) && \Mage::getSingleton('Magento\Core\Model\Url')->isOwnOriginUrl()) {
+            if (isset($_GET[$_queryParam]) && $this->_url->isOwnOriginUrl()) {
                 $id = $_GET[$_queryParam];
             }
         }
@@ -598,7 +652,7 @@ class AbstractSession extends \Magento\Object
             return '';
         }
 
-        $httpHost = \Mage::app()->getRequest()->getHttpHost();
+        $httpHost = $this->_request->getHttpHost();
         if (!$httpHost) {
             return '';
         }
@@ -617,7 +671,7 @@ class AbstractSession extends \Magento\Object
             self::$_urlHostCache[$urlHost] = $sessionId;
         }
 
-        return \Mage::app()->getStore()->isAdmin() || $this->isValidForPath($urlPath)
+        return $this->_storeManager->getStore()->isAdmin() || $this->isValidForPath($urlPath)
             ? self::$_urlHostCache[$urlHost]
             : $this->getEncryptedSessionId();
     }
@@ -659,7 +713,7 @@ class AbstractSession extends \Magento\Object
      */
     protected function _addHost()
     {
-        $host = \Mage::app()->getRequest()->getHttpHost();
+        $host = $this->_request->getHttpHost();
         if (!$host) {
             return $this;
         }
@@ -698,7 +752,7 @@ class AbstractSession extends \Magento\Object
      */
     public function getSessionSaveMethod()
     {
-        if (\Mage::isInstalled() && $this->_saveMethod) {
+        if ($this->_appState->isInstalled() && $this->_saveMethod) {
             return $this->_saveMethod;
         }
         return 'files';
@@ -711,10 +765,10 @@ class AbstractSession extends \Magento\Object
      */
     public function getSessionSavePath()
     {
-        if (\Mage::isInstalled() && $this->_savePath) {
+        if ($this->_appState->isInstalled() && $this->_savePath) {
             return $this->_savePath;
         }
-        return \Mage::getBaseDir('session');
+        return $this->_dir->getDir('session');
     }
 
     /**
