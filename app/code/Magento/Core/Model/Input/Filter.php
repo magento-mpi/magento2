@@ -217,7 +217,7 @@ class Filter implements \Zend_Filter_Interface
      * @param array|null $filters
      * @param bool $isFilterListSimple
      * @return array
-     * @throws \Exception    \Exception when filter is not found or not instance of defined instances
+     * @throws \Exception when filter is not found or not instance of defined instances
      */
     protected function _filter(array $data, &$filters = null, $isFilterListSimple = false)
     {
@@ -326,7 +326,7 @@ class Filter implements \Zend_Filter_Interface
         if (!isset($filterData['args'])) {
             $filterData['args'] = null;
         } else {
-            //use only first element because Mage factory cannot get more
+            //use only first element because object manager cannot get more
             $filterData['args'] = $filterData['args'][0];
         }
         if (is_string($filterData['model'])) {

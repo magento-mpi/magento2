@@ -5,13 +5,13 @@
  * {license_notice}
  *
  * @category   Magento
- * @package    Mage
+ * @package    Magento
  * @copyright  {copyright}
  * @license    {license_link}
  */
 
 require dirname(__DIR__) . '/app/bootstrap.php';
-Magento_Profiler::start('mage');
+Magento_Profiler::start('magento');
 umask(0);
 
 try {
@@ -26,4 +26,4 @@ try {
     print $e->getMessage() . "\n\n";
     print $e->getTraceAsString();
 }
-Magento_Profiler::stop('mage');
+Magento_Profiler::stop('magento');
