@@ -18,6 +18,7 @@ class Response extends \Magento\Core\Controller\Response\Http
 {
     /**
      * @inherit
+     * @SuppressWarnings(PHPMD.LongVariable)
      */
     public $headersSentThrowsException = false;
 
