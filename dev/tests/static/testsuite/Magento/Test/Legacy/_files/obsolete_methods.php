@@ -740,7 +740,10 @@ return array(
     array('_prepareOptionValues', 'Magento\Eav\Block\Adminhtml\Attribute\Edit\Options\AbstractOptions'),
     array('_getOptionValuesCollection', 'Magento\Eav\Block\Adminhtml\Attribute\Edit\Options\AbstractOptions'),
     array(' _prepareSystemAttributeOptionValues', 'Magento\Eav\Block\Adminhtml\Attribute\Edit\Options\AbstractOptions'),
-    array('_prepareUserDefinedAttributeOptionValues', 'Magento\Eav\Block\Adminhtml\Attribute\Edit\Options\AbstractOptions'),
+    array(
+        '_prepareUserDefinedAttributeOptionValues',
+        'Magento\Eav\Block\Adminhtml\Attribute\Edit\Options\AbstractOptions'
+    ),
     array('getLabelValues', 'Magento\Eav\Block\Adminhtml\Attribute\Edit\Options\AbstractOptions'),
     array('getStoreOptionValues', 'Magento\Eav\Block\Adminhtml\Attribute\Edit\Options\AbstractOptions'),
     array('getAttributeObject', 'Magento\Eav\Block\Adminhtml\Attribute\Edit\Options\AbstractOptions'),
@@ -782,7 +785,11 @@ return array(
     array('_getProduct', 'Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Crosssell', 'getProduct'),
     array('_getProduct', 'Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Related', 'getProduct'),
     array('_getProduct', 'Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Upsell', 'getProduct'),
-    array('_renderCellTemplate', 'Magento\Backend\Block\System\Config\Form\Field\Array\AbstractArray', 'renderCellTemplate'),
+    array(
+        '_renderCellTemplate',
+        'Magento\Backend\Block\System\Config\Form\Field\Array\AbstractArray',
+        'renderCellTemplate'
+    ),
     array('_showSingle', 'Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option', 'showSingle'),
     array('_getDefaultValues', 'Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option', 'getDefaultValues'),
     array('_isSelected', 'Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option', 'isSelected'),
@@ -878,4 +885,6 @@ return array(
     array('getIsSerializable', 'Magento\Core\Model\App\State'),
     array('_getInventoryItemResource', 'Magento\Reports\Model\Resource\Product\Lowstock\Collection'),
     array('getMigrationInstance', 'Magento\Customer\Model\Resource\Setup', '$this->_migrationFactory->create()'),
+    array('turnOnReadCommittedMode', 'Magento\Backup\Model\Resource\Db'),
+    array('turnOnSerializableMode', 'Magento\Backup\Model\Resource\Db', 'prepareTransactionIsolationLevel'),
 );
