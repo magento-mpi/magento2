@@ -77,4 +77,5 @@ return array(
     array('Magento\Rma\Block\Order\Info'),
     array('Magento\Rma\Block\Returns\Info'),
     array('Magento\MultipleWishlist\Block\Links', 'Magento\MultipleWishlist\Block\Link'),
+    array('\Magento\Reminder\Model\Resource\Setup', '\Magento\Core\Model\Resource\Setup'),
 );

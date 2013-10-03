@@ -5,7 +5,7 @@
  * {license_notice}
  *
  * @category   Magento
- * @package    Mage
+ * @package    Magento
  * @copyright  {copyright}
  * @license    {license_link}
  */
