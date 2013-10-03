@@ -206,7 +206,7 @@ class Paypaluk extends \Magento\PaypalUk\Model\Direct
      */
     public function getFormBlockType()
     {
-        return \Mage::app()->getStore()->isAdmin() ?
+        return $this->_storeManager->getStore()->isAdmin() ?
             $this->_backendFormBlockType :
             $this->_formBlockType;
     }

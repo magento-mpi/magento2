@@ -93,67 +93,7 @@
   * Made application compatible with PHP 5.4 and 5.5
   * Removed workarounds for older PHP versions
   * Minimum supported PHP version is set to 5.4.0
-* God Class Mage Elimination
-  * dispatchEvent, getConfig, getStoreConfig, getStoreConfigFlag, getObjectManager, helper, log, logException, register, registry, resetRegistry, unregister, getVersion, getVersionInfo, getEdition, setEdition, reset, getRoot, objects, setIsSerializable, setIsDownloader, setUpdateMode, getUpdateMode static methods of class Mage were eliminated
-  * Eliminated Mage::getModel, Mage::getBaseDir, Mage::getBaseUrl in /lib and /pub
-  * Eliminated Mage::DEFAULT_ERROR_HANDLER, Mage::DEFAULT_TIMEZONE, Mage::VERSION, Mage::PARAM_APP_DIRS, Mage::PARAM_APP_URIS, Mage::PARAM_CUSTOM_LOCAL_FILE, Mage::PARAM_CUSTOM_LOCAL_CONFIG, Mage::PARAM_MODE, Mage::PARAM_RUN_CODE, Mage::PARAM_RUN_TYPE, Mage::PARAM_BASEDIR, Mage::PARAM_BAN_CACHE, Mage::PARAM_ALLOWED_MODULES, Mage::PARAM_CACHE_OPTIONS, Mage::PARAM_EDITION constants from code
-  * Eliminated Mage:: static methods usage in:
-    * Magento_Adminhtml
-    * Magento_Authorizenet
-    * Magento_Backend
-    * Magento_Backup
-    * Magento_Bundle
-    * Magento_Captcha
-    * Magento_Catalog
-    * Magento_CatalogInventory
-    * Magento_CatalogRule
-    * Magento_CatalogSearch
-    * Magento_Checkout
-    * Magento_Cms
-    * Magento_Connect
-    * Magento_Contacts
-    * Magento_Cron
-    * Magento_CurrencySymbol
-    * Magento_Customer
-    * Magento_DesignEditor
-    * Magento_Directory
-    * Magento_Downloadable
-    * Magento_GiftMessage
-    * Magento_GoogleAdwords
-    * Magento_GoogleAnalytics
-    * Magento_GoogleOptimizer
-    * Magento_GoogleShopping
-    * Magento_Index
-    * Magento_Install
-    * Magento_Media
-    * Magento_Newsletter
-    * Magento_Ogone
-    * Magento_Page
-    * Magento_PageCache
-    * Magento_Paygate
-    * Magento_Payment
-    * Magento_Paypal
-    * Magento_PaypalUk
-    * Magento_Persistent
-    * Magento_ProductAlert
-    * Magento_Rating
-    * Magento_Reports
-    * Magento_Review
-    * Magento_Rss
-    * Magento_Rule
-    * Magento_Sales
-    * Magento_SalesRule
-    * Magento_Sendfriend
-    * Magento_Service
-    * Magento_Shipping
-    * Magento_Sitemap
-    * Magento_Theme
-    * Magento_Usa
-    * Magento_User
-    * Magento_Webhook
-    * Magento_Weee
-    * Magento_Widget
-    * Magento_Wishlist
+* God Class Mage Eliminated
 * Fixed bugs:
   * Fixed address field "State/Province" on frontend, which contained "[object Object]" items instead of necessary values
   * Fixed overriding/extending of global plugin configuration in area specific configuration

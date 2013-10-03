@@ -568,7 +568,6 @@ class App implements \Magento\Core\Model\AppInterface
     {
         if (!$this->_response) {
             $this->_response = $this->_objectManager->get('Magento\Core\Controller\Response\Http');
-            $this->_response->headersSentThrowsException = \Mage::$headersSentThrowsException;
             $this->_response->setHeader('Content-Type', 'text/html; charset=UTF-8');
         }
         return $this->_response;
