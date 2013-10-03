@@ -27,8 +27,6 @@ dev/tools/Magento/Tools/I18n/Zend
 # Not required to scan build director
 dev/build
 # Not magento code
-dev/tools/PHP-Parser
-# Not magento code
 dev/tools/layout
 # Not magento code
 dev/tools/xml

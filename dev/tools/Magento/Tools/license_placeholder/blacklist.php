@@ -30,7 +30,6 @@ return array(
     'dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeMessTest/phpmd_ruleset.xsd',
     'dev/tests/unit/testsuite/Magento/Test/Tools/View/Generator/_files/ThemeDeployment/run/source',
     'dev/tools/Magento/Tools/I18n/Zend',
-    'dev/tools/PHP-Parser',
     'downloader/js/prototype.js',
     'lib/Apache',
     'lib/PEAR',
