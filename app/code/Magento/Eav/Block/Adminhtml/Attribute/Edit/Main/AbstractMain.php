@@ -24,13 +24,6 @@ abstract class AbstractMain
     protected $_attribute = null;
 
     /**
-     * Core registry
-     *
-     * @var \Magento\Core\Model\Registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
      * Eav data
      *
      * @var \Magento\Eav\Helper\Data
@@ -60,7 +53,6 @@ abstract class AbstractMain
         \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig,
         array $data = array()
     ) {
-        $this->_coreRegistry = $registry;
         $this->_eavData = $eavData;
         $this->_attributeConfig = $attributeConfig;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
