@@ -211,7 +211,7 @@ class RestTest extends \Magento\TestFramework\TestCase\WebapiAbstract
     protected function _getOauthClient($consumerKey, $consumerSecret)
     {
         if (!isset($this->_oAuthClients[$consumerKey])) {
-            $credentials = new OAuth\Common\Consumer\Credentials($consumerKey, $consumerSecret, TESTS_BASE_URL);
+            $credentials = new \OAuth\Common\Consumer\Credentials($consumerKey, $consumerSecret, TESTS_BASE_URL);
             $this->_oAuthClients[$consumerKey] =
                 new \Magento\TestFramework\Authentication\Rest\OauthClient($credentials);
         }
