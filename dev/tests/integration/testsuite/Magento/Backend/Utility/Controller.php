@@ -16,7 +16,7 @@ namespace Magento\Backend\Utility;
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  * @SuppressWarnings(PHPMD.numberOfChildren)
  */
-class Controller extends \Magento\TestFramework\TestCase\ControllerAbstract
+class Controller extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
      * @var \Magento\Backend\Model\Auth\Session

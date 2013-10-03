@@ -17,7 +17,7 @@
  */
 namespace Magento\Eav\Model\Validator\Attribute;
 
-class Backend extends \Magento\Validator\ValidatorAbstract
+class Backend extends \Magento\Validator\AbstractValidator
 {
     /**
      * Returns true if and only if $value meets the validation requirements.

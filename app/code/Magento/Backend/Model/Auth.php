@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Backend Auth model
- *
- * @category    Magento
- * @package     Magento_Backend
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backend\Model;
 
@@ -23,32 +18,59 @@ class Auth
     /**
      * @var \Magento\Backend\Model\Auth\StorageInterface
      */
-    protected $_authStorage = null;
+    protected $_authStorage;
 
     /**
      * @var \Magento\Backend\Model\Auth\Credential\StorageInterface
      */
-    protected $_credentialStorage = null;
+    protected $_credentialStorage;
 
     /**
-     * @param \Magento\Core\Model\Event\Manager                       $eventManager
-     * @param \Magento\Backend\Helper\Data                            $backendData
-     * @param \Magento\Backend\Model\Auth\StorageInterface            $authStorage
+     * Backend data
+     *
+     * @var \Magento\Backend\Helper\Data
+     */
+    protected $_backendData;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    protected $_eventManager;
+
+    /**
+     * @var \Magento\Core\Model\Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * @var \Magento\Core\Model\Factory
+     */
+    protected $_modelFactory;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Backend\Helper\Data $backendData
+     * @param \Magento\Backend\Model\Auth\StorageInterface $authStorage
      * @param \Magento\Backend\Model\Auth\Credential\StorageInterface $credentialStorage
-     * @param \Magento\Core\Model\Config                              $coreConfig
+     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Core\Model\Factory $modelFactory
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Backend\Helper\Data $backendData,
         \Magento\Backend\Model\Auth\StorageInterface $authStorage,
         \Magento\Backend\Model\Auth\Credential\StorageInterface $credentialStorage,
-        \Magento\Core\Model\Config $coreConfig
+        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Core\Model\Factory $modelFactory
     ) {
         $this->_eventManager = $eventManager;
         $this->_backendData = $backendData;
         $this->_authStorage = $authStorage;
         $this->_credentialStorage = $credentialStorage;
         $this->_coreConfig = $coreConfig;
+        $this->_modelFactory = $modelFactory;
     }
 
     /**
@@ -100,7 +122,7 @@ class Auth
         $areaConfig = $this->_coreConfig->getAreaConfig($this->_backendData->getAreaCode());
 
         if (isset($areaConfig['auth_credential_storage'])) {
-            $storage = \Mage::getModel($areaConfig['auth_credential_storage']);
+            $storage = $this->_modelFactory->create($areaConfig['auth_credential_storage']);
             if ($storage instanceof \Magento\Backend\Model\Auth\Credential\StorageInterface) {
                 $this->_credentialStorage = $storage;
                 return;
@@ -126,8 +148,7 @@ class Auth
      *
      * @param string $username
      * @param string $password
-     * @return void
-     * @throws \Magento\Backend\Model\Auth\Exception if login process was unsuccessful
+     * @throws \Exception|\Magento\Backend\Model\Auth\Plugin\Exception
      */
     public function login($username, $password)
     {

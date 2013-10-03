@@ -55,7 +55,7 @@ class Multiselect extends \Magento\Eav\Model\Attribute\Data\Select
      * @param string $format
      * @return array|string
      */
-    public function outputValue($format = \Magento\Eav\Model\Attribute\Data::OUTPUT_FORMAT_TEXT)
+    public function outputValue($format = \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_TEXT)
     {
         $values = $this->getEntity()->getData($this->getAttribute()->getAttributeCode());
         if (!is_array($values)) {
@@ -63,8 +63,8 @@ class Multiselect extends \Magento\Eav\Model\Attribute\Data\Select
         }
 
         switch ($format) {
-            case \Magento\Eav\Model\Attribute\Data::OUTPUT_FORMAT_JSON:
-            case \Magento\Eav\Model\Attribute\Data::OUTPUT_FORMAT_ARRAY:
+            case \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON:
+            case \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_ARRAY:
                 $output = $values;
             default:
                 $output = array();

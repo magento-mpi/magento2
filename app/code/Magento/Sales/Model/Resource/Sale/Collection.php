@@ -74,7 +74,9 @@ class Collection extends \Magento\Data\Collection\Db
      * Set sales order entity and establish read connection
      *
      * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Sales\Model\Resource\Order $resource
      * @param \Magento\Core\Model\Resource\Store\CollectionFactory $storeCollFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -84,6 +86,7 @@ class Collection extends \Magento\Data\Collection\Db
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Sales\Model\Resource\Order $resource,
         \Magento\Core\Model\Resource\Store\CollectionFactory $storeCollFactory,
         \Magento\Core\Model\EntityFactory $entityFactory,

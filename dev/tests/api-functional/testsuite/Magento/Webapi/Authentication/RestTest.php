@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
-/**
- * @magentoApiDataFixture consumerFixture
- */
 namespace Magento\Webapi\Authentication;
 
 require_once __DIR__ . '/../../../../lib/OAuth/bootstrap.php';
 
+/**
+ * @magentoApiDataFixture consumerFixture
+ */
 class RestTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
     /** @var \Magento\TestFramework\Authentication\Rest\OauthClient[] */

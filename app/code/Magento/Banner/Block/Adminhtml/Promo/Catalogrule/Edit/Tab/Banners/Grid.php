@@ -32,6 +32,8 @@ class Grid
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Banner\Model\Resource\Banner\CollectionFactory $bannerColFactory
+     * @param \Magento\Banner\Model\Config $bannerConfig
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Banner\Model\BannerFactory $bannerFactory
      * @param array $data
@@ -41,12 +43,14 @@ class Grid
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\Banner\Model\Resource\Banner\CollectionFactory $bannerColFactory,
+        \Magento\Banner\Model\Config $bannerConfig,
         \Magento\Core\Model\Registry $registry,
         \Magento\Banner\Model\BannerFactory $bannerFactory,
         array $data = array()
     ) {
         $this->_registry = $registry;
-        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $bannerColFactory, $bannerConfig, $data);
         $this->_bannerFactory = $bannerFactory;
     }
 

@@ -14,7 +14,7 @@
  */
 namespace Magento\TestFramework\Db;
 
-class Mysql extends \Magento\TestFramework\Db\DbAbstract
+class Mysql extends \Magento\TestFramework\Db\AbstractDb
 {
     /**
      * Remove all DB objects

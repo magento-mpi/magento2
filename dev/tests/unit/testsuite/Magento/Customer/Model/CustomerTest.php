@@ -24,28 +24,28 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     /** @var  \Magento\Core\Helper\Data */
     protected $_coreData;
 
-    /** @var \Magento\Core\Model\Website|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Core\Model\Website|\PHPUnit_Framework_MockObject_MockObject */
     protected $_website;
 
-    /** @var \Magento\Core\Model\Sender|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Core\Model\Sender|\PHPUnit_Framework_MockObject_MockObject */
     protected $_senderMock;
 
-    /** @var \Magento\Core\Model\StoreManager|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Core\Model\StoreManager|\PHPUnit_Framework_MockObject_MockObject */
     protected $_storeManager;
 
-    /** @var \Magento\Eav\Model\Config|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Eav\Model\Config|\PHPUnit_Framework_MockObject_MockObject */
     protected $_config;
 
-    /** @var \Magento\Eav\Model\Attribute|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Eav\Model\Attribute|\PHPUnit_Framework_MockObject_MockObject */
     protected $_attribute;
 
-    /** @var \Magento\Core\Model\Context|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Core\Model\Context|\PHPUnit_Framework_MockObject_MockObject */
     protected $_contextMock;
 
-    /** @var \Magento\Customer\Model\Resource\Customer\Collection|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Customer\Model\Resource\Customer\Collection|\PHPUnit_Framework_MockObject_MockObject */
     protected $_resourceMock;
 
-    /** @var \Magento\Data\Collection\Db|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Data\Collection\Db|\PHPUnit_Framework_MockObject_MockObject */
     protected $_collectionMock;
 
     /**
@@ -69,10 +69,6 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(array('send'))
             ->getMock();
-        $this->_storeManager = $this->getMockBuilder('Magento\Core\Model\StoreManager')
-            ->disableOriginalConstructor()
-            ->setMethods(array('getWebsite'))
-            ->getMock();
         $this->_config = $this->getMockBuilder('Magento\Eav\Model\Config')
             ->disableOriginalConstructor()
             ->setMethods(array('getAttribute'))
@@ -80,10 +76,6 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $this->_attribute = $this->getMockBuilder('Magento\Eav\Model\Attribute')
             ->disableOriginalConstructor()
             ->setMethods(array('getIsVisible'))
-            ->getMock();
-        $this->_contextMock = $this->getMockBuilder('Magento\Core\Model\Context')
-            ->disableOriginalConstructor()
-            ->setMethods(array())
             ->getMock();
         $this->_resourceMock = $this->getMockBuilder('Magento\Customer\Model\Resource\Customer')
             ->disableOriginalConstructor()
@@ -96,6 +88,17 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
         $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
 
+        $this->_storeManager = $this->getMockBuilder('Magento\Core\Model\StoreManager')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getWebsite'))
+            ->getMock();
+        $this->_contextMock = $this->getMockBuilder('Magento\Core\Model\Context')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getStoreManager'))
+            ->getMock();
+        $this->_contextMock->expects($this->any())->method('getStoreManager')
+            ->will($this->returnValue($this->_storeManager));
+
         $this->_model = new \Magento\Customer\Model\Customer(
             $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false),
             $this->_customerData,
@@ -107,6 +110,13 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             $this->_config,
             $coreStoreConfig,
             $this->_resourceMock,
+            $this->getMock('Magento\Customer\Model\Config\Share', array(), array(), '', false),
+            $this->getMock('Magento\Customer\Model\AddressFactory', array(), array(), '', false),
+            $this->getMock('Magento\Customer\Model\Resource\Address\CollectionFactory', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\Email\Template\MailerFactory', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\Email\InfoFactory', array(), array(), '', false),
+            $this->getMock('Magento\Customer\Model\GroupFactory', array(), array(), '', false),
+            $this->getMock('Magento\Customer\Model\AttributeFactory', array(), array(), '', false),
             $this->_collectionMock,
             array()
         );

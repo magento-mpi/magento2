@@ -9,7 +9,7 @@
  */
 namespace Magento\GoogleOptimizer\Block\Code;
 
-class Product extends \Magento\GoogleOptimizer\Block\CodeAbstract
+class Product extends \Magento\GoogleOptimizer\Block\AbstractCode
 {
     /**
      * @var Entity name in registry

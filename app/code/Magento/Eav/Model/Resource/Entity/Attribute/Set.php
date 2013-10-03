@@ -21,6 +21,23 @@ namespace Magento\Eav\Model\Resource\Entity\Attribute;
 class Set extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\GroupFactory
+     */
+    protected $_attrGroupFactory;
+
+    /**
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\GroupFactory $attrGroupFactory
+     */
+    public function __construct(
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Eav\Model\Resource\Entity\Attribute\GroupFactory $attrGroupFactory
+    ) {
+        parent::__construct($resource);
+        $this->_attrGroupFactory = $attrGroupFactory;
+    }
+
+    /**
      * Initialize connection
      *
      */
@@ -52,8 +69,7 @@ class Set extends \Magento\Core\Model\Resource\Db\AbstractDb
                 /* @var $group \Magento\Eav\Model\Entity\Attribute\Group */
                 $group->delete();
             }
-            \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Group')
-                ->updateDefaultGroup($object->getId());
+            $this->_attrGroupFactory->create()->updateDefaultGroup($object->getId());
         }
         if ($object->getRemoveAttributes()) {
             foreach ($object->getRemoveAttributes() as $attribute) {

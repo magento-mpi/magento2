@@ -82,7 +82,7 @@ class Mage_Selenium_TestSuite extends PHPUnit_Framework_TestSuite
     public function addTestSuite($testClass)
     {
         if (is_string($testClass) && class_exists($testClass)) {
-            $testClass = new ReflectionClass($testClass);
+            $testClass = new \ReflectionClass($testClass);
         }
 
         if (!is_object($testClass)) {
@@ -124,9 +124,9 @@ class Mage_Selenium_TestSuite extends PHPUnit_Framework_TestSuite
      * Add test method
      *
      * @param ReflectionClass  $class
-     * @param ReflectionMethod $method
+     * @param \ReflectionMethod $method
      */
-    protected function addTestMethod(ReflectionClass $class, ReflectionMethod $method)
+    protected function addTestMethod(ReflectionClass $class, \ReflectionMethod $method)
     {
         $name = $class->getName() . '::' . $method->getName();
         if (empty($this->_testCaseFilter) || !$this->_testCaseFilter->filter($name)) {
@@ -164,7 +164,7 @@ class Mage_Selenium_TestSuite extends PHPUnit_Framework_TestSuite
 
         foreach ($newClasses as $className) {
             if (substr($className, 0 - strlen($baseName)) == $baseName) {
-                $class = new ReflectionClass($className);
+                $class = new \ReflectionClass($className);
 
                 if ($class->getFileName() == $filename) {
                     $newClasses = array($className);
@@ -174,7 +174,7 @@ class Mage_Selenium_TestSuite extends PHPUnit_Framework_TestSuite
         }
 
         foreach ($newClasses as $className) {
-            $class = new ReflectionClass($className);
+            $class = new \ReflectionClass($className);
 
             if (!$class->isAbstract()) {
                 if ($class->hasMethod(PHPUnit_Runner_BaseTestRunner::SUITE_METHODNAME)) {

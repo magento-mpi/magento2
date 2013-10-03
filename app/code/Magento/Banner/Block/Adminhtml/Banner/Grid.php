@@ -10,13 +10,29 @@
 
 namespace Magento\Banner\Block\Adminhtml\Banner;
 
-class Grid extends \Magento\Adminhtml\Block\Widget\Grid
+class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
+    /**
+     * Banner resource collection factory
+     *
+     * @var \Magento\Banner\Model\Resource\Banner\CollectionFactory
+     */
+    protected $_bannerColFactory = null;
+
+    /**
+     * Banner config
+     *
+     * @var \Magento\Banner\Model\Config
+     */
+    protected $_bannerConfig = null;
+
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Banner\Model\Resource\Banner\CollectionFactory $bannerColFactory
+     * @param \Magento\Banner\Model\Config $bannerConfig
      * @param array $data
      */
     public function __construct(
@@ -24,9 +40,13 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\Banner\Model\Resource\Banner\CollectionFactory $bannerColFactory,
+        \Magento\Banner\Model\Config $bannerConfig,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+        $this->_bannerColFactory = $bannerColFactory;
+        $this->_bannerConfig = $bannerConfig;
     }
 
     /**
@@ -50,7 +70,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getResourceModel('Magento\Banner\Model\Resource\Banner\Collection')
+        $collection = $this->_bannerColFactory->create()
             ->addStoresVisibility();
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -79,7 +99,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
         $this->addColumn('banner_types', array(
             'header'  => __('Banner Types'),
             'type'    => 'options',
-            'options' => \Mage::getSingleton('Magento\Banner\Model\Config')->toOptionArray(true, false),
+            'options' => $this->_bannerConfig->toOptionArray(true, false),
             'index'   => 'types',
             'width'   => 250,
             'filter'  => false, // TODO implement

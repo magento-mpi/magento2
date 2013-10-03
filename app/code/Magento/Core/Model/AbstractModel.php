@@ -108,11 +108,9 @@ abstract class AbstractModel extends \Magento\Object
     protected $_cacheManager;
 
     /**
-     * Core registry
-     *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
      * @var \Magento\Core\Model\Logger
@@ -139,7 +137,6 @@ abstract class AbstractModel extends \Magento\Object
         $this->_resource = $resource;
         $this->_resourceCollection = $resourceCollection;
         $this->_logger = $context->getLogger();
-
         if ($this->_resource) {
             $this->_idFieldName = $this->_getResource()->getIdFieldName();
         }
@@ -168,8 +165,6 @@ abstract class AbstractModel extends \Magento\Object
     }
 
     /**
-     * Remove not serializable fields
-     *
      * @return array
      */
     public function __sleep()
@@ -202,8 +197,7 @@ abstract class AbstractModel extends \Magento\Object
     {
         $this->_resourceName = $resourceName;
         if (is_null($collectionName)) {
-            $collectionName = $resourceName .
-                \Magento\Autoload\IncludePath::NS_SEPARATOR . 'Collection';
+            $collectionName = $resourceName . \Magento\Autoload\IncludePath::NS_SEPARATOR . 'Collection';
         }
         $this->_collectionName = $collectionName;
     }
@@ -211,15 +205,16 @@ abstract class AbstractModel extends \Magento\Object
     /**
      * Get resource instance
      *
+     * @throws \Magento\Core\Exception
      * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _getResource()
     {
         if (empty($this->_resourceName) && empty($this->_resource)) {
-            \Mage::throwException(__('Resource is not set.'));
+            throw new \Magento\Core\Exception(__('Resource is not set.'));
         }
 
-        return $this->_resource ?: \Mage::getResourceSingleton($this->_resourceName);
+        return $this->_resource ?: \Magento\Core\Model\ObjectManager::getInstance()->get($this->_resourceName);
     }
 
     /**
@@ -235,18 +230,21 @@ abstract class AbstractModel extends \Magento\Object
     /**
      * Get collection instance
      *
+     * @throws \Magento\Core\Exception
      * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
     public function getResourceCollection()
     {
         if (empty($this->_resourceCollection) && empty($this->_collectionName)) {
-            \Mage::throwException(
+            throw new \Magento\Core\Exception(
                 __('Model collection resource name is not defined.')
             );
         }
         return $this->_resourceCollection
             ? clone $this->_resourceCollection
-            : \Mage::getResourceModel($this->_collectionName, array('resource' => $this->_getResource()));
+            : \Magento\Core\Model\ObjectManager::getInstance()->create(
+                $this->_collectionName, array('resource' => $this->_getResource())
+            );
     }
 
     /**
@@ -616,8 +614,11 @@ abstract class AbstractModel extends \Magento\Object
         if ($this->_coreRegistry->registry('isSecureArea')) {
             return;
         }
-        if (!\Mage::app()->getStore()->isAdmin()) {
-            \Mage::throwException(__('Cannot complete this operation from non-admin area.'));
+        /* Store manager does not work well in this place when injected via context */
+        if (!\Magento\Core\Model\ObjectManager::getInstance()
+            ->get('Magento\Core\Model\StoreManager')->getStore()->isAdmin()
+        ) {
+            throw new \Magento\Core\Exception(__('Cannot complete this operation from non-admin area.'));
         }
     }
 

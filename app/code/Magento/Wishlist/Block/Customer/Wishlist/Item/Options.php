@@ -25,30 +25,47 @@ class Options extends \Magento\Wishlist\Block\AbstractBlock
     protected $_helperPool;
 
     /**
-     * @param \Magento\Catalog\Helper\Product\ConfigurationPool $helperPool
-     * @param \Magento\Wishlist\Helper\Data $wishlistData
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Wishlist\Helper\Data $wishlistData
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Helper\Product\ConfigurationPool $helperPool
      * @param array $data
      */
     public function __construct(
-        \Magento\Catalog\Helper\Product\ConfigurationPool $helperPool,
-        \Magento\Wishlist\Helper\Data $wishlistData,
         \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Wishlist\Helper\Data $wishlistData,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Helper\Product\ConfigurationPool $helperPool,
         array $data = array()
     ) {
         $this->_helperPool = $helperPool;
-        parent::__construct($coreRegistry, $wishlistData, $taxData, $catalogData, $coreData, $context, $data);
+        parent::__construct(
+            $coreRegistry,
+            $wishlistData,
+            $taxData,
+            $catalogData,
+            $coreData,
+            $context,
+            $storeManager,
+            $customerSession,
+            $productFactory,
+            $data
+        );
     }
 
-    /*
+    /**
      * List of product options rendering configurations by product type
      *
      * @var array

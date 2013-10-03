@@ -8,12 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Cms Hierarchy Context Menu
- *
- * @category   Magento
- * @package    Magento_VersionsCms
  */
 namespace Magento\VersionsCms\Block\Hierarchy;
 
@@ -52,11 +48,6 @@ class Menu extends \Magento\Core\Block\Template
     protected $_totalMenuNodes = 0;
 
     /**
-     * Initialize allowed Tags attributes
-     *
-     */
-
-    /**
      * Current Hierarchy Node Page Instance
      *
      * @var \Magento\VersionsCms\Model\Hierarchy\Node
@@ -68,20 +59,29 @@ class Menu extends \Magento\Core\Block\Template
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
+     * @var \Magento\VersionsCms\Model\Hierarchy\NodeFactory
+     */
+    protected $_nodeFactory;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->_nodeFactory = $nodeFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -90,8 +90,7 @@ class Menu extends \Magento\Core\Block\Template
         parent::_construct();
 
         if ($this->getNodeId()) {
-            $this->_node = \Mage::getModel('Magento\VersionsCms\Model\Hierarchy\Node')
-                ->load($this->getNodeId());
+            $this->_node = $this->_nodeFactory->create()->load($this->getNodeId());
         } else {
             $this->_node = $this->_coreRegistry->registry('current_cms_hierarchy_node');
         }
@@ -130,10 +129,7 @@ class Menu extends \Magento\Core\Block\Template
 
         if ($this->_node instanceof \Magento\Core\Model\AbstractModel) {
             $params = $this->_node->getMetadataContextMenuParams();
-            if ($params !== null
-                && isset($params['menu_visibility'])
-                && $params['menu_visibility'] == 1)
-            {
+            if ($params !== null && isset($params['menu_visibility']) && $params['menu_visibility'] == 1) {
                 $this->addData(array(
                     'down'      => isset($params['menu_levels_down']) ? $params['menu_levels_down'] : 0,
                     'ordered'   => isset($params['menu_ordered']) ? $params['menu_ordered'] : '0',
@@ -183,7 +179,7 @@ class Menu extends \Magento\Core\Block\Template
                 if (in_array($type, array('1','A','a','I','i'))) {
                     return $type;
                 }
-            } else if ($this->getListContainer() == self::TAG_UL) {
+            } elseif ($this->getListContainer() == self::TAG_UL) {
                 if (in_array($type, array('disc', 'circle', 'square'))) {
                     return $type;
                 }
@@ -228,16 +224,16 @@ class Menu extends \Magento\Core\Block\Template
                 $type = $this->getListType();
                 if ($type) {
                     //$template .= ' type="'.$type.'"';
-                    $class .= ' type-'.$type;
+                    $class .= ' type-' . $type;
                 }
 
-                $template .= ' class="'.$class.'"';
+                $template .= ' class="' . $class . '"';
             }
 
             foreach ($this->_allowedListAttributes as $attribute) {
                 $value = $this->getData('list_' . $attribute);
                 if (!empty($value)) {
-                    $template .= ' '.$attribute.'="'.$this->escapeHtml($value).'"';
+                    $template .= ' ' . $attribute . '="' . $this->escapeHtml($value) . '"';
                 }
             }
             if ($this->getData('list_props')) {
@@ -280,7 +276,7 @@ class Menu extends \Magento\Core\Block\Template
             foreach ($this->_allowedListAttributes as $attribute) {
                 $value = $this->getData('item_' . $attribute);
                 if (!empty($value)) {
-                    $template .= ' '.$attribute.'="'.$this->escapeHtml($value).'"';
+                    $template .= ' ' . $attribute . '="' . $this->escapeHtml($value) . '"';
                 }
             }
             if ($this->getData('item_props')) {
@@ -332,7 +328,7 @@ class Menu extends \Magento\Core\Block\Template
             foreach ($this->_allowedLinkAttributes as $attribute) {
                 $value = $this->getData('link_' . $attribute);
                 if (!empty($value)) {
-                    $template .= ' '.$attribute.'="'.$this->escapeHtml($value).'"';
+                    $template .= ' ' . $attribute . '="' . $this->escapeHtml($value) . '"';
                 }
             }
             $template .= '><span>__LABEL__</span></a>';
@@ -356,7 +352,7 @@ class Menu extends \Magento\Core\Block\Template
             foreach ($this->_allowedSpanAttributes as $attribute) {
                 $value = $this->getData('span_' . $attribute);
                 if (!empty($value)) {
-                    $template .= ' '.$attribute.'="'.$this->escapeHtml($value).'"';
+                    $template .= ' ' . $attribute . '="' . $this->escapeHtml($value) . '"';
                 }
             }
             $template .= '>__LABEL__</strong>';
@@ -437,6 +433,9 @@ class Menu extends \Magento\Core\Block\Template
         return $html;
     }
 
+    /**
+     * @return string
+     */
     protected function _toHtml()
     {
         if (!$this->_node || !$this->getMenuEnabled()) {

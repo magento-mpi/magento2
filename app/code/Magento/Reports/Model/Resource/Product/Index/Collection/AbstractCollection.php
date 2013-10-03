@@ -29,6 +29,56 @@ abstract class AbstractCollection
     protected $_customerId = null;
 
     /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\Log\Model\Visitor
+     */
+    protected $_logVisitor;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Model\Resource $coreResource
+     * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
+     * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Log\Model\Visitor $logVisitor
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Model\Resource $coreResource,
+        \Magento\Eav\Model\EntityFactory $eavEntityFactory,
+        \Magento\Eav\Model\Resource\Helper $resourceHelper,
+        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Log\Model\Visitor $logVisitor
+    )
+    {
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $eavConfig, $coreResource,
+            $eavEntityFactory, $resourceHelper, $universalFactory, $catalogData, $catalogProductFlat, $coreStoreConfig
+        );
+        $this->_customerSession = $customerSession;
+        $this->_logVisitor = $logVisitor;
+    }
+
+    /**
      * Retrieve Product Index table name
      *
      */
@@ -96,12 +146,12 @@ abstract class AbstractCollection
     {
         $condition = array();
 
-        if (\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
-            $condition['customer_id'] = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId();
+        if ($this->_customerSession->isLoggedIn()) {
+            $condition['customer_id'] = $this->_customerSession->getCustomerId();
         } elseif ($this->_customerId) {
             $condition['customer_id'] = $this->_customerId;
         } else {
-            $condition['visitor_id'] = \Mage::getSingleton('Magento\Log\Model\Visitor')->getId();
+            $condition['visitor_id'] = $this->_logVisitor->getId();
         }
 
         return $condition;

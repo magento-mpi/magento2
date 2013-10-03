@@ -8,12 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * CMS Hierarchy data helper
- *
- * @category   Magento
- * @package    Magento_VersionsCms
  */
 namespace Magento\VersionsCms\Helper;
 
@@ -37,14 +33,22 @@ class Hierarchy extends \Magento\Core\Helper\AbstractHelper
     protected $_coreStoreConfig;
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeManager = $storeManager;
         parent::__construct($context);
     }
 
@@ -195,7 +199,6 @@ class Hierarchy extends \Magento\Core\Helper\AbstractHelper
 
         $default = array('pager_visibility' => array(self::METADATA_VISIBILITY_PARENT => $paginationDefault,
                                                      self::METADATA_VISIBILITY_NO => $paginationDefault),
-
                          'menu_visibility' => array('0' => $menuDefault));
 
         return isset($default[$field][$value]) ? $default[$field][$value] : null;
@@ -213,7 +216,7 @@ class Hierarchy extends \Magento\Core\Helper\AbstractHelper
         if ($scope === \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_STORE) {
             return array(
                 \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_WEBSITE,
-                \Mage::app()->getStore($scopeId)->getWebsiteId(),
+                $this->_storeManager->getStore($scopeId)->getWebsiteId(),
             );
         } elseif ($scope === \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_WEBSITE) {
             return array(

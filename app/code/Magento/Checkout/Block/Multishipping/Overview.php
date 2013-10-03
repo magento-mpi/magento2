@@ -25,6 +25,27 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
     const DEFAULT_TYPE = 'default';
 
     /**
+     * @var \Magento\Checkout\Model\Type\Multishipping
+     */
+    protected $_multishipping;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Checkout\Model\Type\Multishipping $multishipping
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Checkout\Model\Type\Multishipping $multishipping,
+        array $data = array()
+    ) {
+        $this->_multishipping = $multishipping;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Initialize default item renderer
      */
     protected function _prepareLayout()
@@ -37,7 +58,8 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
                 array('template' => 'multishipping/overview/item.phtml')
             );
         }
-        if ($headBlock = $this->getLayout()->getBlock('head')) {
+        $headBlock = $this->getLayout()->getBlock('head');
+        if ($headBlock) {
             $headBlock->setTitle(
                 __('Review Order - %1', $headBlock->getDefaultTitle())
             );
@@ -52,14 +74,20 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
      */
     public function getCheckout()
     {
-        return \Mage::getSingleton('Magento\Checkout\Model\Type\Multishipping');
+        return $this->_multishipping;
     }
 
+    /**
+     * @return \Magento\Sales\Model\Quote\Address
+     */
     public function getBillingAddress()
     {
         return $this->getCheckout()->getQuote()->getBillingAddress();
     }
 
+    /**
+     * @return string
+     */
     public function getPaymentHtml()
     {
         return $this->getChildHtml('payment_info');
@@ -79,11 +107,17 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
         return $this->_getData('payment');
     }
 
+    /**
+     * @return array
+     */
     public function getShippingAddresses()
     {
         return $this->getCheckout()->getQuote()->getAllShippingAddresses();
     }
 
+    /**
+     * @return int|mixed
+     */
     public function getShippingAddressCount()
     {
         $count = $this->getData('shipping_address_count');
@@ -94,14 +128,23 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
         return $count;
     }
 
+    /**
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @return bool
+     */
     public function getShippingAddressRate($address)
     {
-        if ($rate = $address->getShippingRateByCode($address->getShippingMethod())) {
+        $rate = $address->getShippingRateByCode($address->getShippingMethod());
+        if ($rate) {
             return $rate;
         }
         return false;
     }
 
+    /**
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @return mixed
+     */
     public function getShippingPriceInclTax($address)
     {
         $exclTax = $address->getShippingAmount();
@@ -109,21 +152,37 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
         return $this->formatPrice($exclTax + $taxAmount);
     }
 
+    /**
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @return mixed
+     */
     public function getShippingPriceExclTax($address)
     {
         return $this->formatPrice($address->getShippingAmount());
     }
 
+    /**
+     * @param $price
+     * @return mixed
+     */
     public function formatPrice($price)
     {
         return $this->getQuote()->getStore()->formatPrice($price);
     }
 
+    /**
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @return mixed
+     */
     public function getShippingAddressItems($address)
     {
         return $address->getAllVisibleItems();
     }
 
+    /**
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @return mixed
+     */
     public function getShippingAddressTotals($address)
     {
         $totals = $address->getTotals();
@@ -140,41 +199,67 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
         return $totals;
     }
 
+    /**
+     * @return float
+     */
     public function getTotal()
     {
         return $this->getCheckout()->getQuote()->getGrandTotal();
     }
 
+    /**
+     * @return string
+     */
     public function getAddressesEditUrl()
     {
         return $this->getUrl('*/*/backtoaddresses');
     }
 
+    /**
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @return string
+     */
     public function getEditShippingAddressUrl($address)
     {
         return $this->getUrl('*/multishipping_address/editShipping', array('id'=>$address->getCustomerAddressId()));
     }
 
+    /**
+     * @param $address
+     * @return string
+     */
     public function getEditBillingAddressUrl($address)
     {
         return $this->getUrl('*/multishipping_address/editBilling', array('id'=>$address->getCustomerAddressId()));
     }
 
+    /**
+     * @return string
+     */
     public function getEditShippingUrl()
     {
         return $this->getUrl('*/*/backtoshipping');
     }
 
+    /**
+     * @return string
+     */
     public function getPostActionUrl()
     {
         return $this->getUrl('*/*/overviewPost');
     }
 
+    /**
+     * @return string
+     */
     public function getEditBillingUrl()
     {
         return $this->getUrl('*/*/backtobilling');
     }
 
+    /**
+     * @return string
+     */
     public function getBackUrl()
     {
         return $this->getUrl('*/*/backtobilling');
@@ -219,14 +304,21 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
         return $this->getCheckout()->getQuote();
     }
 
+    /**
+     * @return mixed
+     */
     public function getBillinAddressTotals()
     {
         $_address = $this->getQuote()->getBillingAddress();
         return $this->getShippingAddressTotals($_address);
     }
 
-
-    public function renderTotals($totals, $colspan=null)
+    /**
+     * @param $totals
+     * @param null $colspan
+     * @return string
+     */
+    public function renderTotals($totals, $colspan = null)
     {
         if ($colspan === null) {
             $colspan = $this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices() ? 5 : 3;

@@ -25,17 +25,25 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      *
      * @var \Magento\Core\Helper\Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
+
+    /**
+     * @var \Magento\Sales\Model\Billing\AgreementFactory
+     */
+    protected $_agreementFactory;
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Helper\Context $context
+        \Magento\Core\Helper\Context $context,
+        \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory
     ) {
         $this->_coreData = $coreData;
+        $this->_agreementFactory = $agreementFactory;
         parent::__construct($context);
     }
 
@@ -51,7 +59,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         if (null === self::$_shouldAskToCreateBillingAgreement) {
             self::$_shouldAskToCreateBillingAgreement = false;
             if ($customerId && $config->shouldAskToCreateBillingAgreement()) {
-                if (\Mage::getModel('Magento\Sales\Model\Billing\Agreement')->needToCreateForCustomer($customerId)) {
+                if ($this->_agreementFactory->create()->needToCreateForCustomer($customerId)) {
                     self::$_shouldAskToCreateBillingAgreement = true;
                 }
             }

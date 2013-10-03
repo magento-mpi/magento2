@@ -485,9 +485,9 @@ class Action extends \Magento\Core\Controller\Varien\AbstractAction
         if (!$this->getFlag('', self::FLAG_NO_START_SESSION)) {
             $checkCookie = in_array($this->getRequest()->getActionName(), $this->_cookieCheckActions)
                 && !$this->getRequest()->getParam('nocookie', false);
-            $cookies = \Mage::getSingleton('Magento\Core\Model\Cookie')->get();
+            $cookies = $this->_objectManager->get('Magento\Core\Model\Cookie')->get();
             /** @var $session \Magento\Core\Model\Session */
-            $session = \Mage::getSingleton('Magento\Core\Model\Session')->start();
+            $session = $this->_objectManager->get('Magento\Core\Model\Session')->start();
 
             if (empty($cookies)) {
                 if ($session->getCookieShouldBeReceived()) {
@@ -495,7 +495,8 @@ class Action extends \Magento\Core\Controller\Varien\AbstractAction
                     $session->unsCookieShouldBeReceived();
                     $session->setSkipSessionIdFlag(true);
                 } elseif ($checkCookie) {
-                    if (isset($_GET[$session->getSessionIdQueryParam()]) && \Mage::app()->getUseSessionInUrl()
+                    if (isset($_GET[$session->getSessionIdQueryParam()])
+                        && $this->_objectManager->get('Magento\Core\Model\App')->getUseSessionInUrl()
                         && $this->_sessionNamespace != \Magento\Backend\Controller\AbstractAction::SESSION_NAMESPACE
                     ) {
                         $session->setCookieShouldBeReceived(true);
@@ -515,7 +516,7 @@ class Action extends \Magento\Core\Controller\Varien\AbstractAction
      */
     protected function _initDesign()
     {
-        $area = \Mage::app()->getArea($this->getLayout()->getArea());
+        $area = $this->_objectManager->get('Magento\Core\Model\App')->getArea($this->getLayout()->getArea());
         $area->load();
         $area->detectDesign($this->getRequest());
         return $this;
@@ -529,7 +530,7 @@ class Action extends \Magento\Core\Controller\Varien\AbstractAction
     public function preDispatch()
     {
         if (!$this->getFlag('', self::FLAG_NO_CHECK_INSTALLATION)) {
-            if (!\Mage::isInstalled()) {
+            if (!$this->_objectManager->get('Magento\Core\Model\App\State')->isInstalled()) {
                 $this->setFlag('', self::FLAG_NO_DISPATCH, true);
                 $this->_redirect('install');
                 return;
@@ -538,8 +539,8 @@ class Action extends \Magento\Core\Controller\Varien\AbstractAction
 
         // Prohibit disabled store actions
         $storeManager = $this->_objectManager->get('Magento\Core\Model\StoreManager');
-        if (\Mage::isInstalled() && !$storeManager->getStore()->getIsActive()) {
-            \Mage::app()->throwStoreException();
+        if ($this->_objectManager->get('Magento\Core\Model\App\State') && !$storeManager->getStore()->getIsActive()) {
+            $this->_objectManager->get('Magento\Core\Model\StoreManager')->throwStoreException();
         }
 
         if ($this->_rewrite()) {
@@ -687,6 +688,7 @@ class Action extends \Magento\Core\Controller\Varien\AbstractAction
      * Initializing layout messages by message storage(s), loading and adding messages to layout messages block
      *
      * @param string|array $messagesStorage
+     * @throws \Magento\Core\Exception
      * @return \Magento\Core\Controller\Varien\Action
      */
     protected function _initLayoutMessages($messagesStorage)
@@ -702,7 +704,7 @@ class Action extends \Magento\Core\Controller\Varien\AbstractAction
                 $block->setEscapeMessageFlag($storage->getEscapeMessages(true));
                 $block->addStorageType($storageName);
             } else {
-                \Mage::throwException(
+                throw new \Magento\Core\Exception(
                      __('Invalid messages storage "%1" for layout messages initialization', (string)$storageName)
                 );
             }
@@ -757,7 +759,8 @@ class Action extends \Magento\Core\Controller\Varien\AbstractAction
     {
         /** @var $session \Magento\Core\Model\Session */
         $session = $this->_objectManager->get('Magento\Core\Model\Session');
-        if ($session->getCookieShouldBeReceived() && \Mage::app()->getUseSessionInUrl()
+        if ($session->getCookieShouldBeReceived()
+            && $this->_objectManager->get('Magento\Core\Model\App')->getUseSessionInUrl()
             && $this->_sessionNamespace != \Magento\Backend\Controller\AbstractAction::SESSION_NAMESPACE
         ) {
             $arguments += array('_query' => array(
@@ -820,7 +823,9 @@ class Action extends \Magento\Core\Controller\Varien\AbstractAction
 
         $refererUrl = $this->_getRefererUrl();
         if (empty($refererUrl)) {
-            $refererUrl = empty($defaultUrl) ? \Mage::getBaseUrl() : $defaultUrl;
+            $refererUrl = empty($defaultUrl)
+                ? $this->_objectManager->get('Magento\Core\Model\StoreManager')->getBaseUrl()
+                : $defaultUrl;
         }
 
         $this->getResponse()->setRedirect($refererUrl);
@@ -944,7 +949,7 @@ class Action extends \Magento\Core\Controller\Varien\AbstractAction
     protected function _validateFormKey()
     {
         if (!($formKey = $this->getRequest()->getParam('form_key', null))
-            || $formKey != \Mage::getSingleton('Magento\Core\Model\Session')->getFormKey()
+            || $formKey != $this->_objectManager->get('Magento\Core\Model\Session')->getFormKey()
         ) {
             return false;
         }
@@ -1005,7 +1010,8 @@ class Action extends \Magento\Core\Controller\Varien\AbstractAction
             return $array;
         }
         $filterInput = new \Zend_Filter_LocalizedToNormalized(array(
-            'date_format' => \Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT)
+            'date_format' => $this->_objectManager->get('Magento\Core\Model\LocaleInterface')
+                ->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT)
         ));
         $filterInternal = new \Zend_Filter_NormalizedToLocalized(array(
             'date_format' => \Magento\Date::DATE_INTERNAL_FORMAT
@@ -1033,7 +1039,7 @@ class Action extends \Magento\Core\Controller\Varien\AbstractAction
             return $array;
         }
         $filterInput = new \Zend_Filter_LocalizedToNormalized(array(
-            'date_format' => \Mage::app()->getLocale()
+            'date_format' => $this->_objectManager->get('Magento\Core\Model\LocaleInterface')
                 ->getDateTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT)
         ));
         $filterInternal = new \Zend_Filter_NormalizedToLocalized(array(
@@ -1057,6 +1063,7 @@ class Action extends \Magento\Core\Controller\Varien\AbstractAction
      *                              that case
      * @param string $contentType
      * @param int $contentLength    explicit content length, if strlen($content) isn't applicable
+     * @throws \Magento\Core\Exception
      * @return \Magento\Core\Controller\Varien\Action
      */
     protected function _prepareDownloadResponse(
@@ -1095,7 +1102,7 @@ class Action extends \Magento\Core\Controller\Varien\AbstractAction
                 $this->getResponse()->sendHeaders();
 
                 if (!$filesystem->isFile($file)) {
-                    \Mage::throwException(__('File not found'));
+                    throw new \Magento\Core\Exception(__('File not found'));
                 }
                 $stream = $filesystem->createAndOpenStream($file, 'r');
                 while ($buffer = $stream->read(1024)) {

@@ -17,12 +17,12 @@ namespace Magento\Test\Event;
 class TransactionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\TestFramework\Event\Transaction|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\TestFramework\Event\Transaction|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_object;
 
     /**
-     * @var \Magento\TestFramework\EventManager|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\TestFramework\EventManager|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_eventManager;
 

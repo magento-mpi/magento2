@@ -27,13 +27,13 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      *
      * @var \Magento\Core\Helper\Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
 
     /**
      * @param \Magento\Core\Model\Session\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param array $data
-     * @param string $sessionName
+     * @param string|null $sessionName
      */
     public function __construct(
         \Magento\Core\Model\Session\Context $context,

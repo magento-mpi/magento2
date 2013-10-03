@@ -8,15 +8,9 @@
  * @license     {license_link}
  */
 
-
 /**
- * Mian tab with cms page attributes and some modifications to CE version
- *
- * @category    Magento
- * @package     Magento_VersionsCms
- * @author      Magento Core Team <core@magentocommerce.com>
+ * Main tab with cms page attributes and some modifications to CE version
  */
-
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab;
 
 class Content
@@ -27,7 +21,12 @@ class Content
      *
      * @var \Magento\VersionsCms\Helper\Data
      */
-    protected $_cmsData = null;
+    protected $_cmsData;
+
+    /**
+     * @var \Magento\Backend\Model\Auth\Session
+     */
+    protected $_backendAuthSession;
 
     /**
      * @param \Magento\VersionsCms\Helper\Data $cmsData
@@ -37,6 +36,7 @@ class Content
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param array $data
      */
     public function __construct(
@@ -47,9 +47,11 @@ class Content
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Backend\Model\Auth\Session $backendAuthSession,
         array $data = array()
     ) {
         $this->_cmsData = $cmsData;
+        $this->_backendAuthSession = $backendAuthSession;
         parent::__construct($wysiwygConfig, $context, $formFactory, $coreData, $eventManager, $coreRegistry, $data);
     }
 
@@ -97,7 +99,7 @@ class Content
 
         // setting current user id for new version functionality.
         // in posted data there will be current user
-        $this->getForm()->getElement('user_id')->setValue(\Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->getId());
+        $this->getForm()->getElement('user_id')->setValue($this->_backendAuthSession->getUser()->getId());
 
         return $this;
     }

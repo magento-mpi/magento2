@@ -10,10 +10,6 @@
 
 /**
  * Category tabs
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Adminhtml\Block\Catalog\Category;
 
@@ -52,6 +48,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
      * @param \Magento\Adminhtml\Helper\Catalog $adminhtmlCatalog
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
@@ -60,18 +57,18 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
         \Magento\Adminhtml\Helper\Catalog $adminhtmlCatalog,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_coreRegistry = $registry;
         $this->_adminhtmlCatalog = $adminhtmlCatalog;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($coreData, $context, $authSession, $data);
     }
 
     /**
      * Initialize Tabs
-     *
      */
     protected function _construct()
     {

@@ -23,15 +23,31 @@ class Search extends \Magento\Core\Controller\Front\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $locale;
+
+    /**
      * @param \Magento\Core\Controller\Varien\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
      */
     public function __construct(
         \Magento\Core\Controller\Varien\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale
     ) {
-        $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
+        $this->_coreRegistry = $coreRegistry;
+        $this->storeManager = $storeManager;
+        $this->locale = $locale;
     }
 
     /**
@@ -54,7 +70,7 @@ class Search extends \Magento\Core\Controller\Front\Action
      */
     protected function _getSession()
     {
-        return \Mage::getSingleton('Magento\Customer\Model\Session');
+        return $this->_objectManager->get('Magento\Customer\Model\Session');
     }
 
     /**
@@ -65,8 +81,8 @@ class Search extends \Magento\Core\Controller\Front\Action
      */
     protected function _initType($typeId)
     {
-        $type = \Mage::getModel('Magento\GiftRegistry\Model\Type')
-            ->setStoreId(\Mage::app()->getStore()->getId())
+        $type = $this->_objectManager->create('Magento\GiftRegistry\Model\Type')
+            ->setStoreId($this->storeManager->getStore()->getId())
             ->load($typeId);
 
         $this->_coreRegistry->register('current_giftregistry_type', $type);
@@ -86,7 +102,7 @@ class Search extends \Magento\Core\Controller\Front\Action
         }
         if (isset($params['type_id'])) {
             $type = $this->_initType($params['type_id']);
-            $dateType = \Mage::getSingleton('Magento\GiftRegistry\Model\Attribute\Config')->getStaticDateType();
+            $dateType = $this->_objectManager->get('Magento\GiftRegistry\Model\Attribute\Config')->getStaticDateType();
             if ($dateType) {
                 $attribute = $type->getAttributeByCode($dateType);
                 $format = (isset($attribute['date_format'])) ? $attribute['date_format'] : null;
@@ -182,8 +198,8 @@ class Search extends \Magento\Core\Controller\Front\Action
         }
 
         $filterInput = new \Zend_Filter_LocalizedToNormalized(array(
-            'locale' => \Mage::app()->getLocale()->getLocaleCode(),
-            'date_format' => \Mage::app()->getLocale()->getDateFormat($format)
+            'locale' => $this->locale->getLocaleCode(),
+            'date_format' => $this->locale->getDateFormat($format)
         ));
         $filterInternal = new \Zend_Filter_NormalizedToLocalized(array(
             'date_format' => \Magento\Date::DATE_INTERNAL_FORMAT
@@ -228,7 +244,7 @@ class Search extends \Magento\Core\Controller\Front\Action
         }
 
         if ($this->_validateSearchParams($params)) {
-            $results = \Mage::getModel('Magento\GiftRegistry\Model\Entity')->getCollection()
+            $results = $this->_objectManager->create('Magento\GiftRegistry\Model\Entity')->getCollection()
                 ->applySearchFilters($this->_filterInputParams($params));
 
             $this->getLayout()->getBlock('giftregistry.search.results')

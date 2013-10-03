@@ -17,7 +17,7 @@
 namespace Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar;
 
 class Buttons
-    extends \Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\BlockAbstract
+    extends \Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\AbstractBlock
 {
     /**
      * Current theme used for preview

@@ -76,7 +76,7 @@ class State
      */
     public function isInstalled()
     {
-        return (bool) $this->_installDate;
+        return (bool)$this->_installDate;
     }
 
     /**

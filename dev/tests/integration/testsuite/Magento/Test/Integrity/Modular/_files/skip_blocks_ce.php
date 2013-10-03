@@ -27,4 +27,6 @@ return array(
     'Magento\Sales\Block\Adminhtml\Billing\Agreement\View',
     'Magento\User\Block\Role\Tab\Edit',
     'Magento\Webapi\Block\Adminhtml\Role\Edit\Tab\Resource',
+    // Fails because of dependence on registry
+    'Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\Customers',
 );
