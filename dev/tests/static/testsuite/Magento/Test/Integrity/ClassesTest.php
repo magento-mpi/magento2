@@ -272,8 +272,6 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
      */
     public function testClassReferences($file)
     {
-        //$file = "/Users/yuxzheng/env/polarseals-develop/dev/tools/Magento/Tools/I18n/Code/Parser/Adapter/Php/Tokenizer.php";
-        //$file = "/Users/yuxzheng/env/polarseals-develop/dev/tools/Magento/Tools/Di/Definition/Compressor.php";
         $contents = file_get_contents($file);
         $formalPattern = '/^namespace\s[a-zA-Z]+(\\\\[a-zA-Z0-9]+)*/m';
 
@@ -335,7 +333,7 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
      * @param array $badClasses
      * @param string $file
      * @param string $contents
-     * @returns array $badClasses
+     * @return array
      */
     protected function removeSpecialCases($badClasses, $file, $contents)
     {
@@ -365,7 +363,8 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
             }
 
             // Remove usage of classes that have been declared as "use" or "include"
-            if (preg_match('/use\s.*' . str_replace('\\', '\\\\', $badClass) . '/', $contents)) {
+            // Also deals with case like: "use \Zend\Code\Scanner\FileScanner, Magento\Tools\Di\Compiler\Log\Log;"
+            if (preg_match('/use\s.*[\\n]?.*' . str_replace('\\', '\\\\', $badClass) . '[\,\;]/', $contents)) {
                 unset($badClasses[array_search($badClass, $badClasses)]);
             }
         }
