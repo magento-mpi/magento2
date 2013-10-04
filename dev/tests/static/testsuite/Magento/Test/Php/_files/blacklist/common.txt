@@ -39,7 +39,6 @@ lib/Magento/Archive/Helper/File/Gz.php
 lib/Magento/Archive/ArchiveInterface.php
 lib/Magento/Archive/Tar.php
 lib/Magento/Autoload/Simple.php
-lib/Magento/Backup.php
 lib/Magento/Backup/AbstractBackup.php
 lib/Magento/Backup/Archive/Tar.php
 lib/Magento/Backup/Db.php

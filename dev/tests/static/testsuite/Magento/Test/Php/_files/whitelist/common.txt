@@ -162,3 +162,4 @@ lib/Magento/Convert
 lib/Magento/Date.php
 lib/Magento/Object.php
 lib/Magento/Cache/Core.php
+lib/Magento/BackupFactory.php
