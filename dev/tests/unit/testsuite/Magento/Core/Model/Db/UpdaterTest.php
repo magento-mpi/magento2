@@ -22,7 +22,7 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_resourceResolverMock;
+    protected $_resourceResolver;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -43,7 +43,7 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
     {
         $this->_factoryMock = $this->getMock('Magento\Core\Model\Resource\SetupFactory', array(), array(), '', false);
         $this->_appStateMock = $this->getMock('Magento\Core\Model\App\State', array(), array(), '', false);
-        $this->_resourceResolverMock = $this->getMock('Magento\Core\Model\Module\ResourceResolverInterface');
+        $this->_resourceResolver = $this->getMock('Magento\Core\Model\Module\ResourceResolverInterface');
         $this->_moduleListMock = $this->getMock('Magento\Core\Model\ModuleListInterface');
         $this->_resourceSetupMock = $this->getMock('Magento\Catalog\Model\Resource\Setup', array(), array(), '', false);
 
@@ -53,7 +53,7 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($moduleList));
 
         $resourceList = array('catalog_setup');
-        $this->_resourceResolverMock->expects($this->any())
+        $this->_resourceResolver->expects($this->any())
             ->method('getResourceList')
             ->with('Test_Module')
             ->will($this->returnValue($resourceList));
@@ -71,7 +71,7 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
             $this->_factoryMock,
             $this->_appStateMock,
             $this->_moduleListMock,
-            $this->_resourceResolverMock,
+            $this->_resourceResolver,
             array('catalog_setup' => 'Magento\Catalog\Model\Resource\Setup'),
             true
         );
