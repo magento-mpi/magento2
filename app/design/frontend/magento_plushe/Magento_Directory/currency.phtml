@@ -1,0 +1,38 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * Currency switcher
+ *
+ * @see \Magento\Directory\Block\Currency
+ */
+?>
+<?php if ($this->getCurrencyCount() > 1): ?>
+<?php $currencies = $this->getCurrencies(); ?>
+<?php $currentCurrencyCode = $this->getCurrentCurrencyCode(); ?>
+<div class="switcher currency">
+    <strong class="label"><span><?php echo __('Currency') ?></span></strong>
+    <div class="options">
+        <strong class="language-<?php echo $this->escapeHtml($this->getCurrentCurrencyCode()) ?>">
+            <span><?php echo $this->escapeHtml($currentCurrencyCode) ?> - <?php echo @$this->escapeHtml($currencies[$currentCurrencyCode]) ?></span>
+        </strong>
+        <button type="button" data-toggle="dropdown" class="action switch"><span><?php echo __('Change')?></span></button>
+        <ul data-target="dropdown">
+            <?php foreach ($currencies as $_code => $_name): ?>
+                <?php if($_code != $currentCurrencyCode): ?>
+                    <li class="currency-<?php echo $_code ?>">
+                        <a href="<?php echo $this->getSwitchCurrencyUrl($_code) ?>"><?php echo $_code ?> - <?php echo $_name ?></a>
+                    </li>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+</div>
+<?php endif; ?>
