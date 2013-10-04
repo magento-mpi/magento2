@@ -107,7 +107,6 @@ class Index extends \Magento\Adminhtml\Controller\Action
      */
     private function _getPayment()
     {
-        $model = \Mage::getSingleton('Magento\Adminhtml\Model\Sales\Order\Create');
         return $this->_objectManager->get('Magento\Adminhtml\Model\Sales\Order\Create')->getQuote()->getPayment();
     }
 

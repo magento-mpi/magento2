@@ -71,6 +71,18 @@ class Token extends \Magento\Core\Model\AbstractModel
     protected $_consumerFactory;
 
     /**
+     * @var \Magento\Core\Model\Url\Validator
+     */
+    protected $urlValidator;
+
+    /**
+     * @var Consumer\Validator\KeyLengthFactory
+     */
+    protected $keyLengthFactory;
+
+    /**
+     * @param \Magento\Oauth\Model\Consumer\Validator\KeyLengthFactory $keyLengthFactory
+     * @param \Magento\Core\Model\Url\Validator $urlValidator
      * @param \Magento\Oauth\Model\Consumer\Factory $consumerFactory
      * @param \Magento\Oauth\Helper\Service $oauthData
      * @param \Magento\Core\Model\Context $context
@@ -80,6 +92,8 @@ class Token extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
+        \Magento\Oauth\Model\Consumer\Validator\KeyLengthFactory $keyLengthFactory,
+        \Magento\Core\Model\Url\Validator $urlValidator,
         \Magento\Oauth\Model\Consumer\Factory $consumerFactory,
         \Magento\Oauth\Helper\Service $oauthData,
         \Magento\Core\Model\Context $context,
@@ -88,6 +102,8 @@ class Token extends \Magento\Core\Model\AbstractModel
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->keyLengthFactory = $keyLengthFactory;
+        $this->urlValidator = $urlValidator;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_consumerFactory = $consumerFactory;
         $this->_oauthData = $oauthData;
@@ -271,18 +287,15 @@ class Token extends \Magento\Core\Model\AbstractModel
      */
     public function validate()
     {
-        /** @var $validatorUrl \Magento\Core\Model\Url\Validator */
-        $validatorUrl = \Mage::getSingleton('Magento\Core\Model\Url\Validator');
         if (\Magento\Oauth\Helper\Service::CALLBACK_ESTABLISHED != $this->getCallbackUrl()
-            && !$validatorUrl->isValid($this->getCallbackUrl())
+            && !$this->urlValidator->isValid($this->getCallbackUrl())
         ) {
-            $messages = $validatorUrl->getMessages();
+            $messages = $this->urlValidator->getMessages();
             throw new \Magento\Oauth\Exception(array_shift($messages));
         }
 
         /** @var $validatorLength \Magento\Oauth\Model\Consumer\Validator\KeyLength */
-        $validatorLength = \Mage::getModel(
-            'Magento\Oauth\Model\Consumer\Validator\KeyLength');
+        $validatorLength = $this->keyLengthFactory->create();
         $validatorLength->setLength(self::LENGTH_SECRET);
         $validatorLength->setName('Token Secret Key');
         if (!$validatorLength->isValid($this->getSecret())) {

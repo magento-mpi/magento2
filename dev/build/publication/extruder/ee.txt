@@ -72,7 +72,6 @@ dev/tests/integration/testsuite/Magento/GiftWrapping
 app/code/Magento/Invitation
 dev/tests/unit/testsuite/Magento/Invitation
 dev/tests/integration/testsuite/Magento/Invitation
-dev/tests/static/testsuite/Magento/Test/Legacy/Magento/Invitation
 dev/tests/unit/testsuite/Magento/Invitation
 app/code/Magento/License
 app/code/Magento/Logging
