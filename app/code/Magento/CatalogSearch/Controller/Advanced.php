@@ -37,7 +37,7 @@ class Advanced extends \Magento\Core\Controller\Front\Action
     /**
      * Catalog search session
      *
-     * @var \Magento\CatalogSearch\Model\Session
+     * @var \Magento\Core\Model\Session\Generic
      */
     protected $_catalogSearchSession;
 
@@ -45,13 +45,13 @@ class Advanced extends \Magento\Core\Controller\Front\Action
      * Construct
      *
      * @param \Magento\Core\Controller\Varien\Action\Context $context
-     * @param \Magento\CatalogSearch\Model\Session $catalogSearchSession
+     * @param \Magento\Core\Model\Session\Generic $catalogSearchSession
      * @param \Magento\CatalogSearch\Model\Advanced $catalogSearchAdvanced
      * @param \Magento\Core\Model\UrlFactory $urlFactory
      */
     public function __construct(
         \Magento\Core\Controller\Varien\Action\Context $context,
-        \Magento\CatalogSearch\Model\Session $catalogSearchSession,
+        \Magento\Core\Model\Session\Generic $catalogSearchSession,
         \Magento\CatalogSearch\Model\Advanced $catalogSearchAdvanced,
         \Magento\Core\Model\UrlFactory $urlFactory
     ) {

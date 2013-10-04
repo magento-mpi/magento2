@@ -1,0 +1,14 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/* @var $this \Magento\Reward\Block\Checkout\Payment\Additional */
+?>
+<?php if ($this->getCanUseRewardPoints()): ?>
+quoteBaseGrandTotal = <?php echo (float)$this->getQuote()->getBaseGrandTotal(); ?>;
+<?php endif; ?>
