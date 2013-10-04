@@ -29,7 +29,7 @@ class Http extends \Magento\Core\Model\AbstractEntryPoint
             header('Content-Type: text/plain', true, 503);
             echo $e->getMessage();
         } catch (\Exception $e) {
-            \Mage::printException($e);
+            $this->processException($e);
         }
     }
 

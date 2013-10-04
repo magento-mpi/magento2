@@ -389,4 +389,9 @@
             <instance type="Magento\Core\Model\View\Design\Proxy" />
         </param>
     </type>
+    <type name="Magento\Core\Controller\Varien\Front">
+        <param name="backendData">
+            <instance type="Magento\Backend\Helper\Data\Proxy" />
+        </param>
+    </type>
 </config>
