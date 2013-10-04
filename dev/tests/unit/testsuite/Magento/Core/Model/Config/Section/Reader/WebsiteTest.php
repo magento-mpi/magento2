@@ -80,8 +80,13 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
         $sectionMock->expects($this->once())
             ->method('getValue')
             ->will($this->returnValue(array(
-                'config' => array('key0' => 'default_value0', 'key1' => 'default_value1'),
-            )));
+            'config' => array('key0' => 'default_value0', 'key1' => 'default_value1'),
+        )));
+        $sectionMock->expects($this->once())
+            ->method('getSource')
+            ->will($this->returnValue(array(
+            'config' => array('key0' => 'default_value0', 'key1' => 'default_value1'),
+        )));
         $this->_sectionPullMock->expects($this->once())
             ->method('getSection')
             ->with('default', null)
