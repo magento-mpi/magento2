@@ -849,4 +849,5 @@ return array(
     array('_getInventoryItemResource', 'Magento\Reports\Model\Resource\Product\Lowstock\Collection'),
     array('getMigrationInstance', 'Magento\Customer\Model\Resource\Setup', '$this->_migrationFactory->create()'),
     array('_getResourceModel', '\Magento\Webapi\Model\Source\Acl\Role', '$this->_resource'),
+    array('_getSession', '\Magento\Adminhtml\Model\Giftmessage\Save', '$this->_session'),
 );
