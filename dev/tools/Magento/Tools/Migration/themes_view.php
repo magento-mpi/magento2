@@ -13,8 +13,9 @@ try {
     $config = new \Magento\Core\Model\Config\Primary($rootDir, array());
     $entryPoint = new \Magento\Core\Model\EntryPoint\Cron($config);
 
+    $objectManager = new \Magento\Core\Model\ObjectManager($config);
     /** @var $configModel \Magento\Core\Model\Config */
-    $configModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Config');
+    $configModel = $objectManager->get('Magento\Core\Model\Config');
     $configModel->removeCache();
     $configModel->reinit();
     $config = array();
@@ -24,7 +25,7 @@ try {
     }
 
     foreach ($config as $table => $field) {
-        updateFieldForTable($table, $field);
+        updateFieldForTable($objectManager, $table, $field);
     }
 } catch (\Exception $e) {
     echo "Make sure that you launch this script with Magento 2 configured sources. \n\n";
@@ -34,13 +35,14 @@ try {
 /**
  * Replace {{skin url=""}} with {{view url=""}} for given table field
  *
+ * @param \Magento\Core\Model\Config\Primary $objectManager
  * @param string $table
  * @param string $col
  */
-function updateFieldForTable($table, $col)
+function updateFieldForTable($objectManager, $table, $col)
 {
     /** @var $installer \Magento\Core\Model\Resource\Setup */
-    $installer = \Mage::getResourceModel('Magento\Core\Model\Resource\Setup', array('resourceName' => 'core_setup'));
+    $installer = $objectManager->create('Magento\Core\Model\Resource\Setup', array('resourceName' => 'core_setup'));
     $installer->startSetup();
 
     $table = $installer->getTable($table);

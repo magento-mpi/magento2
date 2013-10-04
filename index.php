@@ -18,7 +18,7 @@
  */
 require __DIR__ . '/app/bootstrap.php';
 
-\Magento\Profiler::start('mage');
+\Magento\Profiler::start('magento');
 $entryPoint = new \Magento\Core\Model\EntryPoint\Http(new \Magento\Core\Model\Config\Primary(BP, $_SERVER));
 $entryPoint->processRequest();
-\Magento\Profiler::stop('mage');
+\Magento\Profiler::stop('magento');

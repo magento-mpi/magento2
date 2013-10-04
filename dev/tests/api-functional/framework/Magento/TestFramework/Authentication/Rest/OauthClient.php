@@ -36,13 +36,13 @@ class OauthClient extends AbstractService
         UriInterface $baseApiUri = null
     ) {
         if (!isset($httpClient)) {
-            $httpClient = new OAuth\Common\Http\Client\StreamClient();
+            $httpClient = new \OAuth\Common\Http\Client\StreamClient();
         }
         if (!isset($storage)) {
-            $storage = new OAuth\Common\Storage\Session();
+            $storage = new \OAuth\Common\Storage\Session();
         }
         if (!isset($signature)) {
-            $signature = new OAuth\OAuth1\Signature\Signature($credentials);
+            $signature = new \OAuth\OAuth1\Signature\Signature($credentials);
         }
         parent::__construct($credentials, $httpClient, $storage, $signature, $baseApiUri);
     }
@@ -62,7 +62,7 @@ class OauthClient extends AbstractService
      */
     public function getAuthorizationEndpoint()
     {
-        throw new OAuth\Common\Exception\Exception('Magento REST API is 2-legged. Current operation is not available.');
+        throw new \OAuth\Common\Exception\Exception('Magento REST API is 2-legged. Current operation is not available.');
     }
 
     /**
@@ -138,7 +138,7 @@ class OauthClient extends AbstractService
      *
      * @param string $responseBody
      * @return array
-     * @throws OAuth\Common\Http\Exception\TokenResponseException
+     * @throws \OAuth\Common\Http\Exception\TokenResponseException
      */
     protected function _parseResponseBody($responseBody)
     {
@@ -158,7 +158,7 @@ class OauthClient extends AbstractService
      * Retrieve oAuth verifier that was obtained during request token request.
      *
      * @return string
-     * @throws OAuth\Common\Http\Exception\TokenResponseException
+     * @throws \OAuth\Common\Http\Exception\TokenResponseException
      */
     public function getOauthVerifier()
     {

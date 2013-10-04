@@ -54,7 +54,7 @@ return array(
     array('_moduleReader', 'Magento\Backend\Model\Menu\Config'),
     array('_option', 'Magento\Captcha\Helper\Data', '_dirs'),
     array('_options', 'Magento\Core\Model\Config', 'Magento\Core\Model\Dir'),
-    array('_optionsMapping', null, 'Mage::getBaseDir($nodeKey)'),
+    array('_optionsMapping', null, '\Magento\Core\Model\Dir::getBaseDir($nodeKey)'),
     array('_order', 'Magento\Checkout\Block\Onepage\Success'),
     array('_order_id'),
     array('_parent', 'Magento\Core\Block\AbstractBlock'),
@@ -83,6 +83,5 @@ return array(
     array('decoratedIsLast', null, 'getDecoratedIsLast'),
     array('static', 'Magento\Core\Model\Email\Template\Filter'),
     array('_useAnalyticFunction'),
-    array('_registry', 'Mage'),
     array('_defaultIndexer', 'Magento\CatalogInventory\Model\Resource\Indexer\Stock'),
 );
