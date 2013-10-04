@@ -97,6 +97,7 @@
 * Fixed bugs:
   * Fixed address field "State/Province" on frontend, which contained "[object Object]" items instead of necessary values
   * Fixed overriding/extending of global plugin configuration in area specific configuration
+
 2.0.0.0-dev45
 =============
 * Product management improvements:
