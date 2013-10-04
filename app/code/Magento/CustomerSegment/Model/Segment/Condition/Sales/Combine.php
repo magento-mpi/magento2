@@ -45,7 +45,7 @@ class Combine
     public function getNewChildSelectOptions()
     {
         return array_merge_recursive(parent::getNewChildSelectOptions(), array(
-            $this->_conditionFactory->create('Order_Status')->getNewChildSelectOptions(),
+            $this->_conditionFactory->create('Order\Status')->getNewChildSelectOptions(),
             // date ranges
             array(
                 'value' => array(

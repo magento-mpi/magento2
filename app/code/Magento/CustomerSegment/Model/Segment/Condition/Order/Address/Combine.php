@@ -45,8 +45,8 @@ class Combine
                 'value' => $this->getType(),
                 'label' => __('Conditions Combination'),
             ),
-            $this->_conditionFactory->create('Order_Address_Type')->getNewChildSelectOptions(),
-            $this->_conditionFactory->create('Order_Address_Attributes')->getNewChildSelectOptions(),
+            $this->_conditionFactory->create('Order\Address\Type')->getNewChildSelectOptions(),
+            $this->_conditionFactory->create('Order\Address\Attributes')->getNewChildSelectOptions(),
         ));
         return $result;
     }

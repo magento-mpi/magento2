@@ -66,7 +66,7 @@ class Combine
         $children = array_merge_recursive(
             $children,
             array(
-                $this->_conditionFactory->create('Product_Attributes')->getNewChildSelectOptions(),
+                $this->_conditionFactory->create('Product\Attributes')->getNewChildSelectOptions(),
             )
         );
         return $children;

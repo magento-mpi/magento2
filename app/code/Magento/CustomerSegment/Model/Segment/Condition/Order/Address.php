@@ -54,7 +54,7 @@ class Address
      */
     public function getNewChildSelectOptions()
     {
-        return $this->_conditionFactory->create('Order_Address_Combine')
+        return $this->_conditionFactory->create('Order\Address\Combine')
             ->getNewChildSelectOptions();
     }
 

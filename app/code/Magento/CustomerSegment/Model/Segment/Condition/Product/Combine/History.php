@@ -72,7 +72,7 @@ class History
      */
     public function getNewChildSelectOptions()
     {
-        return $this->_conditionFactory->create('Product_Combine')
+        return $this->_conditionFactory->create('Product\Combine')
             ->setDateConditions(true)
             ->getNewChildSelectOptions();
     }
