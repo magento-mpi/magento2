@@ -112,7 +112,7 @@ class Config
             $this->_soapServices = array();
             foreach ($this->_config->getServices() as $serviceData) {
                 $serviceClass = $serviceData[\Magento\Webapi\Model\Config::ATTR_SERVICE_CLASS];
-                $reflection = new ReflectionClass($serviceClass);
+                $reflection = new \ReflectionClass($serviceClass);
                 foreach ($reflection->getMethods() as $method) {
                     // find if method is secure, assume operation is not secure by default
                     $isSecure = false;
