@@ -22,11 +22,6 @@ class Address
     protected $_eavConfig;
 
     /**
-     * @var \Magento\CustomerSegment\Model\ConditionFactory
-     */
-    protected $_conditionFactory;
-
-    /**
      * @param \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory
      * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
      * @param \Magento\Eav\Model\Config $eavConfig
@@ -40,9 +35,8 @@ class Address
         \Magento\Rule\Model\Condition\Context $context,
         array $data = array()
     ) {
-        $this->_conditionFactory = $conditionFactory;
         $this->_eavConfig = $eavConfig;
-        parent::__construct($resourceSegment, $context, $data);
+        parent::__construct($conditionFactory, $resourceSegment, $context, $data);
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Customer\Address');
     }
 
