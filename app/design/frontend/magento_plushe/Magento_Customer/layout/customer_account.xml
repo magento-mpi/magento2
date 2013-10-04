@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <update handle="page_two_columns_left"/>
+    <referenceBlock name="root">
+        <action method="addBodyClass">
+            <argument name="class" xsi:type="string">account</argument>
+        </action>
+    </referenceBlock>
+    <remove name="catalog.compare.sidebar"/>
+    <remove name="tags_popular"/>
+</layout>

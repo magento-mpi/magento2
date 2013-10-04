@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <update handle="checkout_multishipping"/>
+    <referenceContainer name="content">
+        <block class="Magento\Checkout\Block\Multishipping\Address\Select" name="checkout_address_select" template="multishipping/address/select.phtml"/>
+    </referenceContainer>
+    <referenceBlock name="page.main.title">
+        <action method="setPageTitle">
+            <argument name="label" translate="true" xsi:type="string">Change Billing Address</argument>
+        </action>
+    </referenceBlock>
+</layout>

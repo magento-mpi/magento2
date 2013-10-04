@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <referenceContainer name="content.aside">
+        <!-- remove name="catalog.product.related" / -->
+        <block class="Magento\TargetRule\Block\Catalog\Product\ProductList\Related" name="catalog.product.related" template="Magento_Catalog::product/list/items.phtml">
+            <arguments>
+                <argument name="type" xsi:type="string">related-rule</argument>
+            </arguments>
+        </block>
+        <!-- remove name="product.info.upsell" / -->
+        <block class="Magento\TargetRule\Block\Catalog\Product\ProductList\Upsell" name="product.info.upsell" template="Magento_Catalog::product/list/items.phtml">
+            <arguments>
+                <argument name="type" xsi:type="string">upsell-rule</argument>
+            </arguments>
+        </block>
+    </referenceContainer>
+</layout>

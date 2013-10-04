@@ -1,0 +1,16 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * Product description template
+ *
+ * @see \Magento\Catalog\Block\Product\View\Description
+ */
+?>
+<?php echo $this->helper('Magento\Catalog\Helper\Output')->productAttribute($this->getProduct(), $this->getProduct()->getDescription(), 'description') ?>

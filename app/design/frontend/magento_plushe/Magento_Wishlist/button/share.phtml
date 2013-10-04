@@ -1,0 +1,12 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php if($this->getWishlist()->getItemsCount() && $this->getWishlist()->getShared() < $this->getConfig()->getSharingEmailLimit()): ?>
+    <button type="submit" name="save_and_share" title="<?php echo __('Share Wish List') ?>" class="action share"><span><span><?php echo __('Share Wish List') ?></span></span></button>
+<?php endif;?>

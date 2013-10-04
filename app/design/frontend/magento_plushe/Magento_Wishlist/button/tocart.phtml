@@ -1,0 +1,13 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<?php if($this->getWishlist()->getItemsCount() && $this->getWishlist()->isSalable()): ?>
+    <button type="button" title="<?php echo __('Add All to Cart') ?>" class="action tocart"><span><?php echo __('Add All to Cart') ?></span></button>
+<?php endif;?>
