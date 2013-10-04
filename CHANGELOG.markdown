@@ -9,27 +9,27 @@
      * config.xml file is designed to store only default/store/website configuration data
      * concrete store/website configuration is loaded on demand
   * Improved Install, Category, Product, EAV, Customer, Wishlist, PDF, VDE, Currency, Email Template, Crontab, Events, Routes, Modules, Locale, Import/Export, Indexer, Resources configuration segments:
-    * Configuration moved to separate files. Some parts are transformed to DI configuration and moved to `di.xml` files
-    * New configuration files are validated with XSD
-    * Format of the configuration changed to make possible its validation
+     * Configuration moved to separate files. Some parts are transformed to DI configuration and moved to `di.xml` files
+     * New configuration files are validated with XSD
+     * Format of the configuration changed to make possible its validation
   * Improved configuration in `widget.xml`, `fieldset.xml`, `persistent.xml` and `install.xml` files:
-    * `install.xml` was renamed to `install_wizard.xml`
-    * The configuration is validated with XSD
-    * Format of the configuration changed to make possible its validation
-    * Some parts are transformed to DI configuration and moved to `di.xml` files
+     * `install.xml` was renamed to `install_wizard.xml`
+     * The configuration is validated with XSD
+     * Format of the configuration changed to make possible its validation
+     * Some parts are transformed to DI configuration and moved to `di.xml` files
   * Removed `jstranslate.xml` files and moved all message definitions to `Magento_Core_Helper_Js`.
   * List of non-structured nodes from config.xml were transformed into DI configuration
 * JavaScript improvements:
   * Prototype.js usages converted to jQuery:
-    * Deprecated prototype.js based method removed from app/code/Magento/Weee/view/frontend/tax-toggle.js
-    * Removed deprecated prototype.js based file: app/code/Magento/Checkout/view/frontend/opcheckout.js
-    * Updated to use jQuery redirectUrl widget vs prototype based solution:
-      * app/code/Magento/Oauth/view/adminhtml/authorize/form/login.phtml
-      * app/code/Magento/Oauth/view/frontend/authorize/form/login.phtml
-      * app/code/Magento/Catalog/view/frontend/product/list.phtml
-    * Removed file containing jQuery that did not meet the Magento 2 coding standard. Replaced with redirect-url widget
-      * app/code/Magento/Catalog/view/frontend/js/mage-attributes-processing.js
-    * Updated to meet Magento 2 coding standard: app/code/Magento/Checkout/view/frontend/cart/item/default.phtml
+     * Deprecated prototype.js based method removed from app/code/Magento/Weee/view/frontend/tax-toggle.js
+     * Removed deprecated prototype.js based file: app/code/Magento/Checkout/view/frontend/opcheckout.js
+     * Updated to use jQuery redirectUrl widget vs prototype based solution:
+       * app/code/Magento/Oauth/view/adminhtml/authorize/form/login.phtml
+       * app/code/Magento/Oauth/view/frontend/authorize/form/login.phtml
+       * app/code/Magento/Catalog/view/frontend/product/list.phtml
+  * Removed file containing jQuery that did not meet the Magento 2 coding standard. Replaced with redirect-url widget
+     * app/code/Magento/Catalog/view/frontend/js/mage-attributes-processing.js
+  * Updated to meet Magento 2 coding standard: app/code/Magento/Checkout/view/frontend/cart/item/default.phtml
   * Added jQuery widgets:
     * mage.deletableItem - Widget to tag DOM element as deletable, by default on click
     * mage.fieldsetControls & mage.fieldsetResetControl - Widget to easily reset a subset of form fields with a reset ui control
