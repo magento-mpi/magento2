@@ -77,7 +77,7 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
         $websiteId = 1;
 
         $sectionMock = $this->getMock('Magento\Core\Model\Config\Data', array(), array(), '', false);
-        $sectionMock->expects($this->once())
+        $sectionMock->expects($this->any())
             ->method('getValue')
             ->will($this->returnValue(array(
             'config' => array('key0' => 'default_value0', 'key1' => 'default_value1'),
