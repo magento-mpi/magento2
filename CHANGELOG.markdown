@@ -97,6 +97,9 @@
 * Fixed bugs:
   * Fixed address field "State/Province" on frontend, which contained "[object Object]" items instead of necessary values
   * Fixed overriding/extending of global plugin configuration in area specific configuration
+  * Fixed advanced search
+  * Fixed Tax tab
+  * Fixed placing order within OnePageCheckout using online payment methods
 
 2.0.0.0-dev45
 =============
