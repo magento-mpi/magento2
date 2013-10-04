@@ -19,14 +19,14 @@ class MediaTest extends \PHPUnit_Framework_TestCase
     protected $_dirMock;
 
     /**
-     * @var \Magento\BackupFactory
+     * @var \Magento\Backup\Factory
      */
     protected $_backupFactoryMock;
 
     protected function setUp()
     {
         $this->_dirMock = $this->getMock('Magento\Core\Model\Dir', array(), array(), '', false);
-        $this->_backupFactoryMock = $this->getMock('Magento\BackupFactory', array(), array(), '', false);
+        $this->_backupFactoryMock = $this->getMock('Magento\Backup\Factory', array(), array(), '', false);
     }
     /**
      * @param string $action

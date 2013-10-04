@@ -27,19 +27,19 @@ class Backup extends \Magento\Adminhtml\Controller\Action
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\BackupFactory
+     * @var \Magento\Backup\Factory
      */
     protected $_backupFactory;
 
     /**
      * @param \Magento\Backend\Controller\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\BackupFactory $backupFactory
+     * @param \Magento\Backup\Factory $backupFactory
      */
     public function __construct(
         \Magento\Backend\Controller\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\BackupFactory $backupFactory
+        \Magento\Backup\Factory $backupFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_backupFactory = $backupFactory;

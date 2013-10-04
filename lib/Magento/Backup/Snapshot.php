@@ -34,17 +34,17 @@ class Snapshot extends \Magento\Backup\Filesystem
     protected $_dirs;
 
     /**
-     * @var \Magento\BackupFactory
+     * @var \Magento\Backup\Factory
      */
     protected $_backupFactory;
 
     /**
      * @param \Magento\Core\Model\Dir $dirs
-     * @param \Magento\BackupFactory $backupFactory
+     * @param \Magento\Backup\Factory $backupFactory
      */
     public function __construct(
         \Magento\Core\Model\Dir $dirs,
-        \Magento\BackupFactory $backupFactory
+        \Magento\Backup\Factory $backupFactory
     ) {
         $this->_dirs = $dirs;
         $this->_backupFactory = $backupFactory;

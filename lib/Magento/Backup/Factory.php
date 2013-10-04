@@ -7,9 +7,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento;
+namespace Magento\Backup;
 
-class BackupFactory
+class Factory
 {
     /**
      * Object manager

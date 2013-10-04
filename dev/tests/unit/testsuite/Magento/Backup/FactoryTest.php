@@ -13,7 +13,7 @@ namespace Magento\Backup;
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\BackupFactory
+     * @var \Magento\Backup\Factory
      */
     protected $_model;
 
@@ -25,7 +25,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManager = $this->getMock('Magento\ObjectManager');
-        $this->_model = new \Magento\BackupFactory($this->_objectManager);
+        $this->_model = new \Magento\Backup\Factory($this->_objectManager);
     }
 
     /**
