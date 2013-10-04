@@ -1,0 +1,77 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php $_product = $this->getProduct(); ?>
+<?php $buttonTitle = __('Add to Cart'); ?>
+<?php if ($_product->isSaleable()): ?>
+<div class="box tocart">
+    <?php if (!$_product->isGrouped()): ?>
+    <div class="field qty">
+        <label class="label" for="qty"><span><?php echo __('Qty') ?></span></label>
+        <div class="control">
+            <input type="text" name="qty" id="qty" maxlength="12" value="<?php echo $this->getProductDefaultQty() * 1 ?>"
+               title="<?php echo __('Qty') ?>" class="input-text qty" data-validate="{required:true,digits:true}"/>
+        </div>
+    </div>
+    <?php endif; ?>
+    <div class="actions">
+        <button type="submit" title="<?php echo $buttonTitle ?>" class="action primary tocart" id="product-addtocart-button">
+            <span><?php echo $buttonTitle ?></span>
+        </button>
+        <?php echo $this->getChildHtml('', true) ?>
+    </div>
+</div>
+<?php endif; ?>
+
+<script type="text/javascript">
+    (function ($) {
+        head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
+            "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
+            "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
+            "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>", function () {
+                $('#product_addtocart_form').validation({
+                    errorPlacement: function (error, element) {
+                        if (element.attr('data-validate') && element.attr('data-validate').indexOf('validate-one-checkbox-required-by-name') > 0) {
+                            error.appendTo('#links-advice-container');
+                        } else if (element.attr('data-validate')&& element.attr('data-validate').indexOf('validate-grouped-qty') > 0) {
+                            $('#super-product-table').siblings(this.errorElement + '.' + this.errorClass).remove();
+                            $('#super-product-table').after(error);
+                        } else if (element.is(':radio, :checkbox')) {
+                            element.closest('.nested').after(error);
+                        } else {
+                            element.after(error);
+                        }
+                    },
+                    highlight: function (element, errorClass) {
+                        if ($(element).attr('data-validate') && $(element).attr('data-validate').indexOf('validate-required-datetime') > 0) {
+                            $(element).parent().find('.datetime-picker').each(function() {
+                                $(this).removeClass(errorClass);
+                                if ($(this).val().length === 0) {
+                                    $(this).addClass(errorClass);
+                                }
+                            });
+                        } else if ($(element).is(':radio, :checkbox')) {
+                            $(element).closest('.nested').addClass(errorClass+'-group');
+                        } else {
+                            $(element).addClass(errorClass);
+                        }
+                    },
+                    unhighlight: function (element, errorClass) {
+                        if ($(element).attr('data-validate') && $(element).attr('data-validate').indexOf('validate-required-datetime') > 0) {
+                            $(element).parent().find('.datetime-picker').removeClass(errorClass);
+                        } else if ($(element).is(':radio, :checkbox')) {
+                            $(element).closest('.nested').removeClass(errorClass+'-group');
+                        } else {
+                            $(element).removeClass(errorClass);
+                        }
+                    }
+                });
+            });
+    })(jQuery);
+</script>

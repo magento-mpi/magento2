@@ -1,0 +1,41 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/**
+ * @var $this \Magento\Tax\Block\Checkout\Grandtotal
+ * @see \Magento\Tax\Block\Checkout\Grandtotal
+ */
+?>
+<?php if ($this->includeTax() && $this->getTotalExclTax()>=0):?>
+<tr class="grand total excl">
+    <td style="<?php echo $this->getStyle() ?>" class="mark" colspan="<?php echo $this->getColspan(); ?>">
+        <strong><?php echo __('Grand Total Excl. Tax')?></strong>
+    </td>
+    <td style="<?php echo $this->getStyle() ?>" class="amount">
+        <strong><?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($this->getTotalExclTax()) ?></strong>
+    </td>
+</tr>
+<?php echo $this->renderTotals('taxes', $this->getColspan()); ?>
+<tr class="grand total incl">
+    <td style="<?php echo $this->getStyle() ?>" class="mark" colspan="<?php echo $this->getColspan(); ?>">
+        <strong><?php echo __('Grand Total Incl. Tax')?></strong>
+    </td>
+    <td style="<?php echo $this->getStyle() ?>" class="amount">
+        <strong><?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($this->getTotal()->getValue()) ?></strong>
+    </td>
+</tr>
+<?php else:?>
+<tr class="grand total">
+    <td style="<?php echo $this->getStyle() ?>" class="mark" colspan="<?php echo $this->getColspan(); ?>">
+        <strong><?php echo $this->getTotal()->getTitle() ?></strong>
+    </td>
+    <td style="<?php echo $this->getStyle() ?>" class="amount">
+        <strong><?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($this->getTotal()->getValue()) ?></strong>
+    </td>
+</tr>
+<?php endif;?>
