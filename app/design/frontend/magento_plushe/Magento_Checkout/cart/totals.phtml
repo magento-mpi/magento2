@@ -1,0 +1,33 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * Shopping cart totals template
+ *
+ * @see \Magento\Checkout\Block\Cart\Totals
+ * @var $this \Magento\Checkout\Block\Cart\Totals
+ */
+?>
+<div class="cart totals">
+<?php if ($this->canApplyMsrp()): ?>
+    <div class="cart-msrp-totals"><?php echo __('ORDER TOTAL WILL BE DISPLAYED BEFORE YOU SUBMIT THE ORDER'); ?></div>
+<?php else: ?>
+    <table id="shopping-cart-totals-table" class="table totals">
+        <col />
+        <col width="1" />
+        <tfoot>
+            <?php echo $this->renderTotals('footer'); ?>
+        </tfoot>
+        <tbody>
+            <?php echo $this->renderTotals(); ?>
+        </tbody>
+    </table>
+<?php endif; ?>
+</div>

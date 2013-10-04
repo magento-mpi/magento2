@@ -1,0 +1,85 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<input type="hidden" name="entity_id" id="entity_id" value="<?php echo $this->getEntity()->getEntityId(); ?>" />
+<input type="hidden" name="type_id" id="type_id" value="<?php echo $this->getTypeId(); ?>" />
+
+<fieldset class="fieldset">
+    <legend class="legend"><span><?php echo __('General Information') ?></span></legend>
+
+    <div class="field type">
+        <label class="label"><span><?php echo __('Gift Registry Type:') ?></span></label>
+        <div class="control">
+            <strong><?php echo $this->getTypeLabel(); ?></strong>
+        </div>
+    </div>
+    <div class="field event required">
+        <label for="title" class="label"><span><?php echo __('Event') ?></span></label>
+        <div class="control">
+            <input type="text" name="title" id="title" value="<?php echo $this->escapeHtml($this->getEntity()->getTitle());?>" title="<?php echo __('Event') ?>" class="input-text" data-validate="{required:true}" />
+        </div>
+    </div>
+    <div class="field textarea required">
+        <label for="message" class="label"><span><?php echo __('Message') ?></span></label>
+        <div class="control">
+            <textarea name="message" id="message" cols="5" rows="3" title="<?php echo __('Message') ?>" data-validate="{required:true}" ><?php echo $this->escapeHtml($this->getEntity()->getMessage());?></textarea>
+        </div>
+    </div>
+    <div class="field privacy required">
+        <label for="is_public" class="label"><span><?php echo __('Privacy Settings') ?></span></label>
+        <div class="control">
+            <?php echo $this->getIsPublicHtml()?>
+        </div>
+    </div>
+    <div class="field status required">
+        <label for="select" class="label"><span><?php echo __('Status') ?></span></label>
+        <div class="control">
+            <?php echo $this->getStatusHtml()?>
+        </div>
+    </div>
+</fieldset>
+
+<?php
+$fieldsets = $this->getGroupedRegistryAttributes();
+foreach ($fieldsets as $fieldset => $fields) : ?>
+<fieldset class="fieldset">
+    <legend class="legend"><span><?php echo $this->getGroupLabel($fieldset);?></span></legend>
+
+    <?php foreach ($fields as $field => $data) : ?>
+        <?php $isRequired = $this->isAttributeRequired($data); ?>
+        <div class="field<?php echo ($isRequired ? ' required' : ''); ?><?php echo $field == 'event_date' ? ' date' : ''; ?>">
+            <label for="<?php echo $field ?>" class="label"><span><?php echo __($data['label']); ?></span></label>
+            <div class="control">
+                <?php echo $this->renderField($data, $field) ?>
+            </div>
+        </div>
+    <?php endforeach; ?>
+    <?php foreach ($fields as $field => $data) : ?>
+        <?php if ($this->useRegionUpdater($data)) : ?>
+            <script type="text/javascript">
+                (function($) {
+                    head.js("<?php echo $this->getViewFileUrl('Magento_Checkout::js/region-updater.js') ?>",
+                        function() {
+                            $('#<?php echo $field ?>').regionUpdater({
+                                optionalRegionAllowed: <?php echo ($this->getConfig('general/region/display_all')? 'true' : 'false'); ?>,
+                                regionListId: '#<?php echo $field ?>_region',
+                                regionInputId: '#<?php echo $field ?>_region_text',
+                                isRegionRequired: false,
+                                isZipRequired: false,
+                                isCountryRequired: true,
+                                regionJson: <?php echo $this->helper('Magento\Directory\Helper\Data')->getRegionJson(); ?>
+                            });
+                        });
+                })(jQuery);
+            </script>
+        <?php endif; ?>
+    <?php endforeach; ?>
+</fieldset>
+<?php endforeach; ?>

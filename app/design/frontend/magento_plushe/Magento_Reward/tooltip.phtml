@@ -1,0 +1,33 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * @see \Magento\Reward\Block\Tooltip
+ */
+?>
+<div class="message info reward <?php echo $this->getWrapperClass()?>">
+    <?php if ($this->hasRewardMessage()):?>
+        <p><?php echo __($this->getRewardMessage(), $this->helper('Magento\Reward\Helper\Data')->formatReward($this->getRewardPoints(), $this->getRewardAmount(), null, '<strong>%s</strong>'))?></p>
+    <?php endif;?>
+    <?php if ($this->hasPointsBalance() && !$this->hasHideBalance()):?>
+    <p class="reward balance">
+        <?php echo __('Your current balance is %1.', $this->helper('Magento\Reward\Helper\Data')->formatReward($this->getPointsBalance(), null, null, '<strong>%s</strong>'))?>
+    </p>
+    <?php endif;?>
+    <?php if (!$this->hasHideLink()):?>
+        <p><?php echo $this->renderLearnMoreLink()?></p>
+    <?php endif;?>
+    <?php if ($this->hasQtyLimit() && $this->hasRewardQtyLimitationMessage()):?>
+        <p class="reward limit"><?php echo __($this->getRewardQtyLimitationMessage(), "<strong>{$this->getQtyLimit()}</strong>")?></p>
+    <?php endif;?>
+    <?php if ($this->hasGuestNote()):?>
+        <p class="reward limit"><?php echo __($this->getGuestNote())?></p>
+    <?php endif;?>
+</div>

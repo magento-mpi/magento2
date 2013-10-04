@@ -89,6 +89,7 @@ class Collection extends \Magento\Data\Collection\Db
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Sales\Model\Resource\Order $resource,
         \Magento\Core\Model\Resource\Store\CollectionFactory $storeCollFactory,
+        \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_eventManager = $eventManager;
