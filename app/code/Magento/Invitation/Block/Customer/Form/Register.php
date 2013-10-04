@@ -20,14 +20,7 @@ class Register extends \Magento\Customer\Block\Form\Register
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
-
-    /**
-     * Customer Session
-     *
-     * @var \Magento\Customer\Model\Session
-     */
-    protected $_session;
+    protected $_coreRegistry;
 
     /**
      * @param \Magento\Core\Model\Registry $coreRegistry
@@ -70,7 +63,7 @@ class Register extends \Magento\Customer\Block\Form\Register
         $data = $this->getData('form_data');
         if (is_null($data)) {
             $customerFormData = $this->_customerSession->getCustomerFormData(true);
-            $data = new \Magento\Object($customerFormData);
+            $data = new \Magento\Object($customerFormData ?: array());
             if (empty($customerFormData)) {
                 $invitation = $this->getCustomerInvitation();
 
