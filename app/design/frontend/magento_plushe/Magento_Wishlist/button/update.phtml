@@ -1,0 +1,13 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<?php if($this->getWishlist()->getItemsCount()): ?>
+    <button type="submit" name="do" title="<?php echo __('Update Wishlist') ?>" class="action update"><span><?php echo __('Update Wish List') ?></span></button>
+<?php endif;?>
