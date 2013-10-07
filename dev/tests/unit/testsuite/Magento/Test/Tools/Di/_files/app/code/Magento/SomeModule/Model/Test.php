@@ -7,7 +7,6 @@
  */
 namespace Magento\SomeModule\Model;
 
-
 /**
  * @SuppressWarnings(PHPMD.ConstructorWithNameAsEnclosingClass)
  */

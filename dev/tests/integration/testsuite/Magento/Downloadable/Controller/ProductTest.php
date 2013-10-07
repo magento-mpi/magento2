@@ -14,7 +14,7 @@
  */
 namespace Magento\Downloadable\Controller;
 
-class ProductTest extends \Magento\TestFramework\TestCase\ControllerAbstract
+class ProductTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
      * @magentoDataFixture Magento/Downloadable/_files/product.php

@@ -46,7 +46,7 @@ class Additional extends \Magento\Core\Block\Template
      * @var \Magento\Checkout\Model\Session
      */
     protected $_checkoutSession;
-    
+
     /**
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Reward\Helper\Data $rewardData

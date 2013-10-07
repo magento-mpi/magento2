@@ -51,13 +51,39 @@ class Database extends \Magento\Core\Helper\AbstractHelper
     protected $_filesystem;
 
     /**
+     * @var \Magento\Core\Model\File\Storage\DatabaseFactory
+     */
+    protected $_dbStorageFactory;
+
+    /**
+     * @var \Magento\Core\Model\File\Storage\File\Proxy
+     */
+    protected $_fileStorage;
+
+    /**
+     * @var \Magento\Core\Model\Dir
+     */
+    protected $_dir;
+
+    /**
      * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\File\Storage\DatabaseFactory $dbStorageFactory
+     * @param \Magento\Core\Model\File\Storage\File $fileStorage
+     * @param \Magento\Core\Model\Dir $dir
      * @param \Magento\Filesystem $filesystem
      */
-    public function __construct(\Magento\Core\Helper\Context $context, \Magento\Filesystem $filesystem)
-    {
+    public function __construct(
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\File\Storage\DatabaseFactory $dbStorageFactory,
+        \Magento\Core\Model\File\Storage\File $fileStorage,
+        \Magento\Core\Model\Dir $dir,
+        \Magento\Filesystem $filesystem
+    ) {
         parent::__construct($context);
         $this->_filesystem = $filesystem;
+        $this->_dbStorageFactory = $dbStorageFactory;
+        $this->_fileStorage = $fileStorage;
+        $this->_dir = $dir;
     }
 
     /**
@@ -69,7 +95,7 @@ class Database extends \Magento\Core\Helper\AbstractHelper
     public function checkDbUsage()
     {
         if (null === $this->_useDb) {
-            $currentStorage = (int) \Mage::app()->getConfig()
+            $currentStorage = (int) $this->_app->getConfig()
                 ->getValue(\Magento\Core\Model\File\Storage::XML_PATH_STORAGE_MEDIA, 'default');
             $this->_useDb = ($currentStorage == \Magento\Core\Model\File\Storage::STORAGE_MEDIA_DATABASE);
         }
@@ -85,7 +111,7 @@ class Database extends \Magento\Core\Helper\AbstractHelper
     public function getStorageDatabaseModel()
     {
         if (is_null($this->_databaseModel)) {
-            $this->_databaseModel = \Mage::getModel('Magento\Core\Model\File\Storage\Database');
+            $this->_databaseModel = $this->_dbStorageFactory->create();
         }
 
         return $this->_databaseModel;
@@ -98,7 +124,7 @@ class Database extends \Magento\Core\Helper\AbstractHelper
      */
     public function getStorageFileModel()
     {
-        return \Mage::getSingleton('Magento\Core\Model\File\Storage\File');
+        return $this->_fileStorage;
     }
 
     /**
@@ -201,7 +227,7 @@ class Database extends \Magento\Core\Helper\AbstractHelper
     public function saveFileToFilesystem($filename) {
         if ($this->checkDbUsage()) {
             /** @var $file \Magento\Core\Model\File\Storage\Database */
-            $file = \Mage::getModel('Magento\Core\Model\File\Storage\Database')
+            $file = $this->_dbStorageFactory->create()
                 ->loadByFilename($this->_removeAbsPathFromFileName($filename));
             if (!$file->getId()) {
                 return false;
@@ -300,7 +326,7 @@ class Database extends \Magento\Core\Helper\AbstractHelper
     public function getMediaBaseDir()
     {
         if (null === $this->_mediaBaseDirectory) {
-            $this->_mediaBaseDirectory = rtrim(\Mage::getBaseDir('media'), '\\/');
+            $this->_mediaBaseDirectory = rtrim($this->_dir->getDir('media'), '\\/');
         }
         return $this->_mediaBaseDirectory;
     }

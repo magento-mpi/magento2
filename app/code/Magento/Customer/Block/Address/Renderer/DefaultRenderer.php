@@ -37,16 +37,24 @@ class DefaultRenderer
     protected $_customerAddress = null;
 
     /**
+     * @var \Magento\Eav\Model\AttributeDataFactory
+     */
+    protected $_attrDataFactory;
+
+    /**
      * @param \Magento\Customer\Helper\Address $customerAddress
      * @param \Magento\Core\Block\Context $context
+     * @param \Magento\Eav\Model\AttributeDataFactory $attrDataFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Customer\Helper\Address $customerAddress,
         \Magento\Core\Block\Context $context,
+        \Magento\Eav\Model\AttributeDataFactory $attrDataFactory,
         array $data = array()
     ) {
         $this->_customerAddress = $customerAddress;
+        $this->_attrDataFactory = $attrDataFactory;
         parent::__construct($context, $data);
     }
 
@@ -64,7 +72,7 @@ class DefaultRenderer
      * Retrive format type object
      *
      * @param  \Magento\Object $type
-     * @return \Magento\Customer\Model\Address_Renderer_Default
+     * @return \Magento\Customer\Model\Address\Renderer\DefaultRenderer
      */
     public function setType(\Magento\Object $type)
     {
@@ -91,16 +99,16 @@ class DefaultRenderer
     {
         switch ($this->getType()->getCode()) {
             case 'html':
-                $dataFormat = \Magento\Customer\Model\Attribute\Data::OUTPUT_FORMAT_HTML;
+                $dataFormat = \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_HTML;
                 break;
             case 'pdf':
-                $dataFormat = \Magento\Customer\Model\Attribute\Data::OUTPUT_FORMAT_PDF;
+                $dataFormat = \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_PDF;
                 break;
             case 'oneline':
-                $dataFormat = \Magento\Customer\Model\Attribute\Data::OUTPUT_FORMAT_ONELINE;
+                $dataFormat = \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_ONELINE;
                 break;
             default:
-                $dataFormat = \Magento\Customer\Model\Attribute\Data::OUTPUT_FORMAT_TEXT;
+                $dataFormat = \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_TEXT;
                 break;
         }
 
@@ -118,10 +126,10 @@ class DefaultRenderer
             } else if ($attribute->getAttributeCode() == 'region') {
                 $data['region'] = __($address->getRegion());
             } else {
-                $dataModel = \Magento\Customer\Model\Attribute\Data::factory($attribute, $address);
+                $dataModel = $this->_attrDataFactory->create($attribute, $address);
                 $value     = $dataModel->outputValue($dataFormat);
                 if ($attribute->getFrontendInput() == 'multiline') {
-                    $values    = $dataModel->outputValue(\Magento\Customer\Model\Attribute\Data::OUTPUT_FORMAT_ARRAY);
+                    $values    = $dataModel->outputValue(\Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_ARRAY);
                     // explode lines
                     foreach ($values as $k => $v) {
                         $key = sprintf('%s%d', $attribute->getAttributeCode(), $k + 1);

@@ -10,10 +10,6 @@
 
 /**
  * HSS iframe block
- *
- * @category   Magento
- * @package    Magento_Paypal
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Paypal\Block;
 
@@ -47,12 +43,42 @@ class Iframe extends \Magento\Payment\Block\Form
      */
     protected $_block;
 
-
+    /**
+     * @var string
+     */
     protected $_template = 'hss/js.phtml';
 
     /**
+     * @var \Magento\Sales\Model\OrderFactory
+     */
+    protected $_orderFactory;
+
+    /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Sales\Model\OrderFactory $orderFactory,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        array $data = array()
+    ) {
+        $this->_orderFactory = $orderFactory;
+        $this->_checkoutSession = $checkoutSession;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Internal constructor
-     *
      */
     protected function _construct()
     {
@@ -77,6 +103,7 @@ class Iframe extends \Magento\Payment\Block\Form
      * Get current block instance
      *
      * @return \Magento\Paypal\Block\Iframe
+     * @throws \Magento\Core\Exception
      */
     protected function _getBlock()
     {
@@ -88,7 +115,7 @@ class Iframe extends \Magento\Payment\Block\Form
                                         ->_paymentMethodCode)))
                     . '_Iframe');
             if (!$this->_block instanceof \Magento\Paypal\Block\Iframe) {
-                \Mage::throwException('Invalid block type');
+                throw new \Magento\Core\Exception('Invalid block type');
             }
         }
 
@@ -104,8 +131,7 @@ class Iframe extends \Magento\Payment\Block\Form
     {
         if (!$this->_order) {
             $incrementId = $this->_getCheckout()->getLastRealOrderId();
-            $this->_order = \Mage::getModel('Magento\Sales\Model\Order')
-                ->loadByIncrementId($incrementId);
+            $this->_order = $this->_orderFactory->create()->loadByIncrementId($incrementId);
         }
         return $this->_order;
     }
@@ -117,7 +143,7 @@ class Iframe extends \Magento\Payment\Block\Form
      */
     protected function _getCheckout()
     {
-        return \Mage::getSingleton('Magento\Checkout\Model\Session');
+        return $this->_checkoutSession;
     }
 
     /**
@@ -127,9 +153,10 @@ class Iframe extends \Magento\Payment\Block\Form
      */
     protected function _beforeToHtml()
     {
-        if ($this->_getOrder()->getId() &&
-            $this->_getOrder()->getQuoteId() == $this->_getCheckout()->getLastQuoteId() &&
-            $this->_paymentMethodCode) {
+        if ($this->_getOrder()->getId()
+            && $this->_getOrder()->getQuoteId() == $this->_getCheckout()->getLastQuoteId()
+            && $this->_paymentMethodCode
+        ) {
             $this->_shouldRender = true;
         }
 
@@ -165,10 +192,11 @@ class Iframe extends \Magento\Payment\Block\Form
     protected function _isAfterPaymentSave()
     {
         $quote = $this->_getCheckout()->getQuote();
-        if ($quote->getPayment()->getMethod() == $this->_paymentMethodCode &&
-            $quote->getIsActive() &&
-            $this->getTemplate() &&
-            $this->getRequest()->getActionName() == 'savePayment') {
+        if ($quote->getPayment()->getMethod() == $this->_paymentMethodCode
+            && $quote->getIsActive()
+            && $this->getTemplate()
+            && $this->getRequest()->getActionName() == 'savePayment'
+        ) {
             return true;
         }
 

@@ -19,14 +19,43 @@ namespace Magento\Customer\Model\Customer\Attribute\Source;
 
 class Store extends \Magento\Eav\Model\Entity\Attribute\Source\Table
 {
+    /**
+     * @var \Magento\Core\Model\System\Store
+     */
+    protected $_store;
+
+    /**
+     * @var \Magento\Core\Model\Resource\Store\CollectionFactory
+     */
+    protected $_storesFactory;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptCollFactory
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\OptionFactory $attrOptionFactory
+     * @param \Magento\Core\Model\System\Store $store
+     * @param \Magento\Core\Model\Resource\Store\CollectionFactory $storesFactory
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptCollFactory,
+        \Magento\Eav\Model\Resource\Entity\Attribute\OptionFactory $attrOptionFactory,
+        \Magento\Core\Model\System\Store $store,
+        \Magento\Core\Model\Resource\Store\CollectionFactory $storesFactory
+    ) {
+        parent::__construct($coreData, $attrOptCollFactory, $attrOptionFactory);
+        $this->_store = $store;
+        $this->_storesFactory = $storesFactory;
+    }
+
     public function getAllOptions()
     {
         if (!$this->_options) {
-            $collection = \Mage::getResourceModel('Magento\Core\Model\Resource\Store\Collection');
+            $collection = $this->_createStoresCollection();
             if ('store_id' == $this->getAttribute()->getAttributeCode()) {
                 $collection->setWithoutDefaultFilter();
             }
-            $this->_options = \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm();
+            $this->_options = $this->_store->getStoreValuesForForm();
             if ('created_in' == $this->getAttribute()->getAttributeCode()) {
                 array_unshift($this->_options, array('value' => '0', 'label' => __('Admin')));
             }
@@ -44,7 +73,7 @@ class Store extends \Magento\Eav\Model\Entity\Attribute\Source\Table
         }
 
         if (!$this->_options) {
-            $collection = \Mage::getResourceModel('Magento\Core\Model\Resource\Store\Collection');
+            $collection = $this->_createStoresCollection();
             if ('store_id' == $this->getAttribute()->getAttributeCode()) {
                 $collection->setWithoutDefaultFilter();
             }
@@ -65,5 +94,13 @@ class Store extends \Magento\Eav\Model\Entity\Attribute\Source\Table
             return $this->_options[$value];
         }
         return false;
+    }
+
+    /**
+     * @return \Magento\Core\Model\Resource\Store\Collection
+     */
+    protected function _createStoresCollection()
+    {
+        return $this->_storesFactory->create();
     }
 }

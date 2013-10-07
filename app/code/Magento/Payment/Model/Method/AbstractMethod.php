@@ -37,12 +37,24 @@ abstract class AbstractMethod extends \Magento\Object
     const CHECK_RECURRING_PROFILES    = 64;
     const CHECK_ZERO_TOTAL            = 128;
 
+    /**
+     * @var string
+     */
     protected $_code;
-    protected $_formBlockType = 'Magento\Payment\Block\Form';
-    protected $_infoBlockType = 'Magento\Payment\Block\Info';
 
     /**
+     * @var string
+     */
+    protected $_formBlockType = 'Magento\Payment\Block\Form';
+
+    /**
+     * @var string
+     */
+    protected $_infoBlockType = 'Magento\Payment\Block\Info';
+
+    /**#@+
      * Payment Method features
+     *
      * @var bool
      */
     protected $_isGateway                   = false;
@@ -61,6 +73,8 @@ abstract class AbstractMethod extends \Magento\Object
     protected $_canReviewPayment            = false;
     protected $_canCreateBillingAgreement   = false;
     protected $_canManageRecurringProfiles  = true;
+    /**#@-*/
+
     /**
      * TODO: whether a captured transaction may be voided by this gateway
      * This may happen when amount is captured, but not settled
@@ -80,12 +94,12 @@ abstract class AbstractMethod extends \Magento\Object
      *
      * @var \Magento\Payment\Helper\Data
      */
-    protected $_paymentData = null;
+    protected $_paymentData;
 
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Core\Model\Store\ConfigInterface
      */
     protected $_coreStoreConfig;
 
@@ -94,7 +108,7 @@ abstract class AbstractMethod extends \Magento\Object
      *
      * @var \Magento\Core\Model\Event\Manager
      */
-    protected $_eventManager = null;
+    protected $_eventManager;
 
     /**
      * Log adapter factory
@@ -108,14 +122,14 @@ abstract class AbstractMethod extends \Magento\Object
      *
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
         array $data = array()
     ) {
@@ -293,6 +307,7 @@ abstract class AbstractMethod extends \Magento\Object
     /**
      * To check billing country is allowed for the payment method
      *
+     * @param string $country
      * @return bool
      */
     public function canUseForCountry($country)
@@ -300,9 +315,9 @@ abstract class AbstractMethod extends \Magento\Object
         /*
         for specific country, the flag will set up as 1
         */
-        if($this->getConfigData('allowspecific')==1){
+        if ($this->getConfigData('allowspecific') == 1) {
             $availableCountries = explode(',', $this->getConfigData('specificcountry'));
-            if(!in_array($country, $availableCountries)){
+            if (!in_array($country, $availableCountries)) {
                 return false;
             }
 

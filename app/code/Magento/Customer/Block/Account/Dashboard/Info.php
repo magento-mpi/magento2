@@ -22,18 +22,49 @@ class Info extends \Magento\Core\Block\Template
 {
     /**
      * Cached subscription object
+     *
      * @var \Magento\Newsletter\Model\Subscriber
      */
     protected $_subscription;
 
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\Newsletter\Model\SubscriberFactory
+     */
+    protected $_subscriberFactory;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
+        array $data = array()
+    ) {
+        $this->_customerSession = $customerSession;
+        $this->_subscriberFactory = $subscriberFactory;
+        parent::__construct($coreData, $context, $data);
+    }
+
+
     public function getCustomer()
     {
-        return \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer();
+        return $this->_customerSession->getCustomer();
     }
 
     public function getChangePasswordUrl()
     {
-        return \Mage::getUrl('*/account/edit/changepass/1');
+        return $this->_urlBuilder->getUrl('*/account/edit/changepass/1');
     }
 
     /**
@@ -44,8 +75,8 @@ class Info extends \Magento\Core\Block\Template
     public function getSubscriptionObject()
     {
         if (!$this->_subscription) {
-            $this->_subscription = \Mage::getModel('Magento\Newsletter\Model\Subscriber');
-            $this->_subscription->loadByCustomer(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer());
+            $this->_subscription = $this->_createSubscriber();
+            $this->_subscription->loadByCustomer($this->_customerSession->getCustomer());
         }
         return $this->_subscription;
     }
@@ -68,5 +99,13 @@ class Info extends \Magento\Core\Block\Template
     public function isNewsletterEnabled()
     {
         return $this->getLayout()->getBlockSingleton('Magento\Customer\Block\Form\Register')->isNewsletterEnabled();
+    }
+
+    /**
+     * @return \Magento\Newsletter\Model\Subscriber
+     */
+    protected function _createSubscriber()
+    {
+        return $this->_subscriberFactory->create();
     }
 }

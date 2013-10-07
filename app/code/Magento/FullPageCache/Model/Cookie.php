@@ -76,22 +76,32 @@ class Cookie extends \Magento\Core\Model\Cookie
     protected $_eventManager = null;
 
     /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
      * @param \Magento\Core\Controller\Request\Http $httpRequest
      * @param \Magento\Core\Controller\Response\Http $httpResponse
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\FullPageCache\Model\Cache $_fpcCache
+     * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
         \Magento\Core\Controller\Request\Http $httpRequest,
         \Magento\Core\Controller\Response\Http $httpResponse,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\FullPageCache\Model\Cache $_fpcCache
+        \Magento\FullPageCache\Model\Cache $_fpcCache,
+        \Magento\Customer\Model\Session $customerSession
     ) {
+        parent::__construct($httpRequest, $httpResponse, $coreStoreConfig, $storeManager);
         $this->_eventManager = $eventManager;
         $this->_fpcCache = $_fpcCache;
-        parent::__construct($httpRequest, $httpResponse, $coreStoreConfig);
+        $this->_customerSession = $customerSession;
     }
 
     /**
@@ -139,10 +149,8 @@ class Cookie extends \Magento\Core\Model\Cookie
      */
     public function updateCustomerCookies()
     {
-        /** @var \Magento\Customer\Model\Session $session */
-        $session = \Mage::getSingleton('Magento\Customer\Model\Session');
-        $customerId = $session->getCustomerId();
-        $customerGroupId = $session->getCustomerGroupId();
+        $customerId = $this->_customerSession->getCustomerId();
+        $customerGroupId = $this->_customerSession->getCustomerGroupId();
         if (!$customerId || is_null($customerGroupId)) {
             $customerCookies = new \Magento\Object();
             $this->_eventManager->dispatch('update_customer_cookies', array('customer_cookies' => $customerCookies));
@@ -156,8 +164,10 @@ class Cookie extends \Magento\Core\Model\Cookie
         if ($customerId && !is_null($customerGroupId)) {
             $this->setObscure(self::COOKIE_CUSTOMER, 'customer_' . $customerId);
             $this->setObscure(self::COOKIE_CUSTOMER_GROUP, 'customer_group_' . $customerGroupId);
-            if ($session->isLoggedIn()) {
-                $this->setObscure(self::COOKIE_CUSTOMER_LOGGED_IN, 'customer_logged_in_' . $session->isLoggedIn());
+            if ($this->_customerSession->isLoggedIn()) {
+                $this->setObscure(
+                    self::COOKIE_CUSTOMER_LOGGED_IN, 'customer_logged_in_' . $this->_customerSession->isLoggedIn()
+                );
             } else {
                 $this->delete(self::COOKIE_CUSTOMER_LOGGED_IN);
             }

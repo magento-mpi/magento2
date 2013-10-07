@@ -6,6 +6,8 @@
  * @license     {license_link}
  */
 
+/** @var \Magento\TestFramework\Application $this */
+
 if (!isset($customersNumber)) {
     $customersNumber = 100000;
 }
@@ -54,7 +56,7 @@ $pattern = array(
 );
 $generator = new \Magento\TestFramework\ImportExport\Fixture\Generator($pattern, $customersNumber);
 /** @var \Magento\ImportExport\Model\Import $import */
-$import = \Mage::getModel(
+$import = $this->getObjectManager()->create(
     'Magento\ImportExport\Model\Import',
     array('data' => array('entity' => 'customer_composite', 'behavior' => 'append'))
 );

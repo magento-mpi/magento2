@@ -17,8 +17,28 @@
  */
 namespace Magento\Customer\Model\Customer\Attribute\Backend;
 
-class Website extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
+class Website
+    extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        parent::__construct($logger, $data);
+    }
+
     /**
      * Before save
      *
@@ -32,7 +52,7 @@ class Website extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBacken
         }
 
         if (!$object->hasData('website_id')) {
-            $object->setData('website_id', \Mage::app()->getStore()->getWebsiteId());
+            $object->setData('website_id', $this->_storeManager->getStore()->getWebsiteId());
         }
 
         return $this;

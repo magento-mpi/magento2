@@ -28,8 +28,10 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         $this->_coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false, false);
         $this->_emailConfig = $this->getMock('Magento\Core\Model\Email\Template\Config', array(), array(), '', false);
+        $this->_templatesFactory = $this->getMock('Magento\Core\Model\Resource\Email\Template\CollectionFactory',
+            array(), array(), '', false);
         $this->_model = new \Magento\Backend\Model\Config\Source\Email\Template(
-            $this->_coreRegistry, $this->_emailConfig
+            $this->_coreRegistry, $this->_templatesFactory, $this->_emailConfig
         );
     }
 

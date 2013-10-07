@@ -20,6 +20,36 @@ namespace Magento\Invitation\Model\Adminhtml\System\Config\Backend;
 class Limited
     extends \Magento\Core\Model\Config\Value
 {
+    /**
+     * Admin Session
+     *
+     * @var \Magento\Adminhtml\Model\Session
+     */
+    protected $_session;
+
+    /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Adminhtml\Model\Session $session
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Config $config,
+        \Magento\Adminhtml\Model\Session $session,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+        $this->_session = $session;
+    }
 
     /**
      * Validating entered value if it will be 0 (unlimited)
@@ -41,8 +71,9 @@ class Limited
 
             }
             $this->setValue($value);
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addNotice(
-                __('Please correct the value for "%1" parameter, otherwise we\'ll use the saved value instead.', $parameter)
+            $this->_session->addNotice(
+                __('Please correct the value for "%1" parameter, otherwise we\'ll use the saved value instead.',
+                    $parameter)
             );
         }
         return $this;

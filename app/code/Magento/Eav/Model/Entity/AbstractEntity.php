@@ -163,6 +163,69 @@ abstract class AbstractEntity extends \Magento\Core\Model\Resource\AbstractResou
     protected static $_attributeBackendTables   = array();
 
     /**
+     * @var \Magento\Core\Model\Resource
+     */
+    protected $_resource;
+
+    /**
+     * @var \Magento\Eav\Model\Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @var \Magento\Eav\Model\Entity\Attribute\Set
+     */
+    protected $_attrSetEntity;
+
+    /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var \Magento\Eav\Model\Resource\Helper
+     */
+    protected $_resourceHelper;
+
+    /**
+     * @var \Magento\Validator\UniversalFactory
+     */
+    protected $_universalFactory;
+
+    /**
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Eav\Model\Resource\Helper $resourceHelper,
+        \Magento\Validator\UniversalFactory $universalFactory,
+        $data = array()
+    ) {
+        $this->_eavConfig = $eavConfig;
+        $this->_resource = $resource;
+        $this->_attrSetEntity = $attrSetEntity;
+        $this->_locale = $locale;
+        $this->_resourceHelper = $resourceHelper;
+        $this->_universalFactory = $universalFactory;
+        parent::__construct();
+        $properties = get_object_vars($this);
+        foreach ($data as $key => $value) {
+            if (array_key_exists('_' . $key, $properties)) {
+                $this->{'_' . $key} = $value;
+            }
+        }
+    }
+
+    /**
      * Set connections for entity operations
      *
      * @param \Zend_Db_Adapter_Abstract|string $read
@@ -175,20 +238,6 @@ abstract class AbstractEntity extends \Magento\Core\Model\Resource\AbstractResou
         $this->_write = $write ? $write : $read;
 
         return $this;
-    }
-
-    /**
-     * Main constructor
-     */
-    public function __construct($data = array())
-    {
-        parent::__construct();
-        $properties = get_object_vars($this);
-        foreach ($data as $key => $value) {
-            if (array_key_exists('_' . $key, $properties)) {
-                $this->{'_' . $key} = $value;
-            }
-        }
     }
 
     /**
@@ -206,7 +255,7 @@ abstract class AbstractEntity extends \Magento\Core\Model\Resource\AbstractResou
     protected function _getReadAdapter()
     {
         if (is_string($this->_read)) {
-            $this->_read = \Mage::getSingleton('Magento\Core\Model\Resource')->getConnection($this->_read);
+            $this->_read = $this->_resource->getConnection($this->_read);
         }
         return $this->_read;
     }
@@ -219,7 +268,7 @@ abstract class AbstractEntity extends \Magento\Core\Model\Resource\AbstractResou
     protected function _getWriteAdapter()
     {
         if (is_string($this->_write)) {
-            $this->_write = \Mage::getSingleton('Magento\Core\Model\Resource')->getConnection($this->_write);
+            $this->_write = $this->_resource->getConnection($this->_write);
         }
         return $this->_write;
     }
@@ -262,7 +311,7 @@ abstract class AbstractEntity extends \Magento\Core\Model\Resource\AbstractResou
      */
     public function getTable($alias)
     {
-        return \Mage::getSingleton('Magento\Core\Model\Resource')->getTableName($alias);
+        return $this->_resource->getTableName($alias);
     }
 
     /**
@@ -275,7 +324,7 @@ abstract class AbstractEntity extends \Magento\Core\Model\Resource\AbstractResou
      */
     public function setType($type)
     {
-        $this->_type = \Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType($type);
+        $this->_type = $this->_eavConfig->getEntityType($type);
         return $this;
     }
 
@@ -288,7 +337,7 @@ abstract class AbstractEntity extends \Magento\Core\Model\Resource\AbstractResou
     public function getEntityType()
     {
         if (empty($this->_type)) {
-            throw \Mage::exception('Magento_Eav', __('Entity is not initialized'));
+            throw new \Magento\Eav\Exception(__('Entity is not initialized'));
         }
         return $this->_type;
     }
@@ -337,7 +386,7 @@ abstract class AbstractEntity extends \Magento\Core\Model\Resource\AbstractResou
         }
 
         if (!is_array($attributes)) {
-            throw \Mage::exception('Magento_Eav', __('Unknown parameter'));
+            throw new \Magento\Eav\Exception(__('Unknown parameter'));
         }
 
         foreach ($attributes as $attrCode) {
@@ -361,7 +410,7 @@ abstract class AbstractEntity extends \Magento\Core\Model\Resource\AbstractResou
      */
     protected function _getConfig()
     {
-        return \Mage::getSingleton('Magento\Eav\Model\Config');
+        return $this->_eavConfig;
     }
 
     /**
@@ -448,7 +497,7 @@ abstract class AbstractEntity extends \Magento\Core\Model\Resource\AbstractResou
     {
         $entityTypeId = $this->getEntityType()->getId();
         if (!isset(self::$_defaultAttributes[$entityTypeId][$attributeCode])) {
-            $attribute = \Mage::getModel($this->getEntityType()->getAttributeModel())
+            $attribute = $this->_universalFactory->create($this->getEntityType()->getAttributeModel())
                 ->setAttributeCode($attributeCode)
                 ->setBackendType(\Magento\Eav\Model\Entity\Attribute\AbstractAttribute::TYPE_STATIC)
                 ->setIsGlobal(1)
@@ -521,8 +570,7 @@ abstract class AbstractEntity extends \Magento\Core\Model\Resource\AbstractResou
      */
     public function loadAllAttributes($object = null)
     {
-        $attributeCodes = \Mage::getSingleton('Magento\Eav\Model\Config')
-            ->getEntityAttributeCodes($this->getEntityType(), $object);
+        $attributeCodes = $this->_eavConfig->getEntityAttributeCodes($this->getEntityType(), $object);
 
         /**
          * Check and init default attributes
@@ -559,8 +607,7 @@ abstract class AbstractEntity extends \Magento\Core\Model\Resource\AbstractResou
         }
 
         // initialize set info
-        \Mage::getSingleton('Magento\Eav\Model\Entity\Attribute\Set')
-            ->addSetInfo($this->getEntityType(), $attributes, $setId);
+        $this->_attrSetEntity->addSetInfo($this->getEntityType(), $attributes, $setId);
 
         foreach ($attributes as $code => $attribute) {
             /* @var $attribute \Magento\Eav\Model\Entity\Attribute\AbstractAttribute */
@@ -638,7 +685,6 @@ abstract class AbstractEntity extends \Magento\Core\Model\Resource\AbstractResou
         }
         $results = array();
         foreach ($this->getAttributesByCode() as $attrCode => $attribute) {
-
             if (isset($args[0]) && is_object($args[0]) && !$this->_isApplicableAttribute($args[0], $attribute)) {
                 continue;
             }
@@ -677,7 +723,8 @@ abstract class AbstractEntity extends \Magento\Core\Model\Resource\AbstractResou
                 if ($collectExceptionMessages) {
                     $results[$attrCode] = $e->getMessage();
                 } else {
-                    $e = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Exception',
+                    /** @var \Magento\Eav\Model\Entity\Attribute\Exception $e */
+                    $e = $this->_universalFactory->create('Magento\Eav\Model\Entity\Attribute\Exception',
                         array('message' => $e->getMessage())
                     );
                     $e->setAttributeCode($attrCode)->setPart($part);
@@ -748,7 +795,7 @@ abstract class AbstractEntity extends \Magento\Core\Model\Resource\AbstractResou
             if (!$table) {
                 $table = \Magento\Eav\Model\Entity::DEFAULT_ENTITY_TABLE;
             }
-            $this->_entityTable = \Mage::getSingleton('Magento\Core\Model\Resource')->getTableName($table);
+            $this->_entityTable = $this->_resource->getTableName($table);
         }
 
         return $this->_entityTable;
@@ -795,7 +842,7 @@ abstract class AbstractEntity extends \Magento\Core\Model\Resource\AbstractResou
                 /**
                  * entity type prefix include DB table name prefix
                  */
-                //Mage::getSingleton('Magento\Core\Model\Resource')->getTableName($prefix);
+                //$this->_resource->getTableName($prefix);
             } else {
                 $this->_valueTablePrefix = $this->getEntityTable();
             }
@@ -1008,7 +1055,7 @@ abstract class AbstractEntity extends \Magento\Core\Model\Resource\AbstractResou
             $select = $this->_getLoadAttributesSelect($object, $table);
             $selects[$eavType][] = $select->columns('*');
         }
-        $selectGroups = \Mage::getResourceHelper('Magento_Eav')->getLoadAttributesSelectGroups($selects);
+        $selectGroups = $this->_resourceHelper->getLoadAttributesSelectGroups($selects);
         foreach ($selectGroups as $selects) {
             if (!empty($selects)) {
                 $select = $this->_prepareLoadSelect($selects);
@@ -1124,7 +1171,7 @@ abstract class AbstractEntity extends \Magento\Core\Model\Resource\AbstractResou
     protected function _getOrigObject($object)
     {
         $className  = get_class($object);
-        $origObject = \Mage::getModel($className);
+        $origObject = $this->_universalFactory->create($className);
         $origObject->setData(array());
         $this->load($origObject, $object->getData($this->getEntityIdField()));
 
@@ -1305,7 +1352,7 @@ abstract class AbstractEntity extends \Magento\Core\Model\Resource\AbstractResou
         }
 
         if ($fieldProp['DATA_TYPE'] == 'decimal') {
-            $value = \Mage::app()->getLocale()->getNumber($value);
+            $value = $this->_locale->getNumber($value);
         }
 
         return $value;
@@ -1500,7 +1547,7 @@ abstract class AbstractEntity extends \Magento\Core\Model\Resource\AbstractResou
         if (($type == 'int' || $type == 'decimal' || $type == 'datetime') && $value === '') {
             $value = null;
         } else if ($type == 'decimal') {
-            $value = \Mage::app()->getLocale()->getNumber($value);
+            $value = $this->_locale->getNumber($value);
         }
         $backendTable = $attribute->getBackendTable();
         if (!isset(self::$_attributeBackendTables[$backendTable])) {

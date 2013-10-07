@@ -208,7 +208,7 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
                 2345,
                 array('datail1' => 'value1', 'resource_id' => 'resource10')
             ),
-            'Magento\Service\ResourceNotFoundException (Empty message)' => array(
+            'Magento_Service_ResourceNotFoundException (Empty message)' => array(
                 new \Magento\Service\ResourceNotFoundException('', 2345, null,
                     array('datail1' => 'value1'), 'resource10'),
                 \Magento\Webapi\Exception::HTTP_NOT_FOUND,
@@ -217,8 +217,14 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
                 array('datail1' => 'value1', 'resource_id' => 'resource10')
             ),
             'Magento\Service\AuthorizationException' => array(
-                new \Magento\Service\AuthorizationException('Service authorization exception', 345, null,
-                    array(), 3, 4),
+                new \Magento\Service\AuthorizationException(
+                    'Service authorization exception',
+                    345,
+                    null,
+                    array(),
+                    3,
+                    4
+                ),
                 \Magento\Webapi\Exception::HTTP_UNAUTHORIZED,
                 'Service authorization exception',
                 345,
@@ -271,7 +277,7 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
         $expectedCode,
         $expectedDetails
     ) {
-        /** All masked exceptions must be Mage_Webapi_Exception */
+        /** All masked exceptions must be \Magento\Webapi\Exception */
         $expectedType = 'Magento\Webapi\Exception';
         $this->assertInstanceOf(
             $expectedType,

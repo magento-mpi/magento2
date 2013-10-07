@@ -101,6 +101,7 @@ class Product extends \Magento\Core\Controller\Front\Action
      * @param \Magento\Rating\Model\RatingFactory $ratingFactory
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Catalog\Model\Design $catalogDesign
+     * @param \Magento\Core\Model\Session\Generic $reviewSession
      */
     public function __construct(
         \Magento\Core\Controller\Varien\Action\Context $context,
@@ -114,13 +115,13 @@ class Product extends \Magento\Core\Controller\Front\Action
         \Magento\Review\Model\ReviewFactory $reviewFactory,
         \Magento\Rating\Model\RatingFactory $ratingFactory,
         \Magento\Core\Model\Session $session,
-        \Magento\Catalog\Model\Design $catalogDesign
+        \Magento\Catalog\Model\Design $catalogDesign,
+        \Magento\Core\Model\Session\Generic $reviewSession
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_customerSession = $customerSession;
         $this->_urlModel = $urlModel;
-        /** @todo Should be fixed in scope of MAGETWO-14639 */
-        $this->_reviewSession = \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Review\Model\Session');
+        $this->_reviewSession = $reviewSession;
         $this->_storeManager = $storeManager;
         $this->_categoryFactory = $categoryFactory;
         $this->_logger = $logger;

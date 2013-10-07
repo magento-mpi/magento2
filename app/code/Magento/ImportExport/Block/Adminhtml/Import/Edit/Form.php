@@ -27,11 +27,23 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_importModel;
 
     /**
+     * @var \Magento\ImportExport\Model\Source\Import\EntityFactory
+     */
+    protected $_entityFactory;
+
+    /**
+     * @var \Magento\ImportExport\Model\Source\Import\Behavior\Factory
+     */
+    protected $_behaviorFactory;
+
+    /**
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\ImportExport\Model\Import $importModel
+     * @param \Magento\ImportExport\Model\Source\Import\EntityFactory $entityFactory
+     * @param \Magento\ImportExport\Model\Source\Import\Behavior\Factory $behaviorFactory
      * @param array $data
      */
     public function __construct(
@@ -40,8 +52,12 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\ImportExport\Model\Import $importModel,
+        \Magento\ImportExport\Model\Source\Import\EntityFactory $entityFactory,
+        \Magento\ImportExport\Model\Source\Import\Behavior\Factory $behaviorFactory,
         array $data = array()
     ) {
+        $this->_entityFactory = $entityFactory;
+        $this->_behaviorFactory = $behaviorFactory;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
         $this->_importModel = $importModel;
     }
@@ -64,8 +80,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         );
 
         // base fieldset
-        /** @var $importEntity \Magento\ImportExport\Model\Source\Import\Entity */
-        $importEntity = \Mage::getModel('Magento\ImportExport\Model\Source\Import\Entity');
         $fieldsets['base'] = $form->addFieldset('base_fieldset', array('legend' => __('Import Settings')));
         $fieldsets['base']->addField('entity', 'select', array(
             'name'     => 'entity',
@@ -73,7 +87,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'label'    => __('Entity Type'),
             'required' => true,
             'onchange' => 'varienImport.handleEntityTypeSelector();',
-            'values'   => $importEntity->toOptionArray(),
+            'values'   => $this->_entityFactory->create()->toOptionArray(),
         ));
 
         // add behaviour fieldsets
@@ -86,15 +100,14 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                     'class'  => 'no-display',
                 )
             );
-            /** @var $behaviorSource \Magento\ImportExport\Model\Source\Import\BehaviorAbstract */
-            $behaviorSource = \Mage::getModel($behaviorClass);
+            /** @var $behaviorSource \Magento\ImportExport\Model\Source\Import\AbstractBehavior */
             $fieldsets[$behaviorCode]->addField($behaviorCode, 'select', array(
                 'name'     => 'behavior',
                 'title'    => __('Import Behavior'),
                 'label'    => __('Import Behavior'),
                 'required' => true,
                 'disabled' => true,
-                'values'   => $behaviorSource->toOptionArray(),
+                'values'   => $this->_behaviorFactory->create($behaviorClass)->toOptionArray(),
             ));
         }
 

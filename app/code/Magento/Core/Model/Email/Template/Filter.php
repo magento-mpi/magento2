@@ -64,28 +64,63 @@ class Filter extends \Magento\Filter\Template
 
     /**
      * Core store config
+     * Variable factory
+     *
+     * @var \Magento\Core\Model\VariableFactory
+     */
+    protected $_variableFactory;
+
+    /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Core\Model\Layout
+     */
+    protected $_layout;
+
+    /**
+     * @var \Magento\Core\Model\LayoutFactory
+     */
+    protected $_layoutFactory;
+
+    /**
+     * Setup callbacks for filters
      *
      * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
-    
+
     /**
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\View\Url $viewUrl
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\VariableFactory $coreVariableFactory
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\Core\Model\LayoutFactory $layoutFactory
      */
     public function __construct(
         \Magento\Core\Model\Logger $logger,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\View\Url $viewUrl,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\VariableFactory $coreVariableFactory,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Layout $layout,
+        \Magento\Core\Model\LayoutFactory $layoutFactory
     ) {
         $this->_coreData = $coreData;
         $this->_viewUrl = $viewUrl;
         $this->_logger = $logger;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_modifiers['escape'] = array($this, 'modifierEscape');
+        $this->_variableFactory = $coreVariableFactory;
+        $this->_storeManager = $storeManager;
+        $this->_layout = $layout;
+        $this->_layoutFactory = $layoutFactory;
     }
 
     /**
@@ -156,7 +191,7 @@ class Filter extends \Magento\Filter\Template
     public function getStoreId()
     {
         if (null === $this->_storeId) {
-            $this->_storeId = \Mage::app()->getStore()->getId();
+            $this->_storeId = $this->_storeManager->getStore()->getId();
         }
         return $this->_storeId;
     }
@@ -171,13 +206,12 @@ class Filter extends \Magento\Filter\Template
     {
         $skipParams = array('type', 'id', 'output');
         $blockParameters = $this->_getIncludeParameters($construction[2]);
-        $layout = \Mage::app()->getLayout();
 
         if (isset($blockParameters['type'])) {
             $type = $blockParameters['type'];
-            $block = $layout->createBlock($type, null, array('data' => $blockParameters));
+            $block = $this->_layout->createBlock($type, null, array('data' => $blockParameters));
         } elseif (isset($blockParameters['id'])) {
-            $block = $layout->createBlock('Magento\Cms\Block\Block');
+            $block = $this->_layout->createBlock('Magento\Cms\Block\Block');
             if ($block) {
                 $block->setBlockId($blockParameters['id']);
             }
@@ -220,7 +254,7 @@ class Filter extends \Magento\Filter\Template
             $layoutParams['area'] = $params['area'];
         }
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = \Mage::getModel('Magento\Core\Model\Layout', $layoutParams);
+        $layout = $this->_layoutFactory->create($layoutParams);
         $layout->getUpdate()->addHandle($params['handle'])
             ->load();
 
@@ -290,7 +324,7 @@ class Filter extends \Magento\Filter\Template
     public function mediaDirective($construction)
     {
         $params = $this->_getIncludeParameters($construction[2]);
-        return \Mage::getBaseUrl('media') . $params['url'];
+        return $this->_storeManager->getStore()->getBaseUrl('media') . $params['url'];
     }
 
     /**
@@ -327,7 +361,7 @@ class Filter extends \Magento\Filter\Template
             unset($params['url']);
         }
 
-        return \Mage::app()->getStore($this->getStoreId())->getUrl($path, $params);
+        return $this->_storeManager->getStore($this->getStoreId())->getUrl($path, $params);
     }
 
     /**
@@ -442,9 +476,9 @@ class Filter extends \Magento\Filter\Template
         $params = $this->_getIncludeParameters($construction[2]);
         $store = null;
         if (isset($params['store'])) {
-            $store = \Mage::app()->getSafeStore($params['store']);
+            $store = $this->_storeManager->getSafeStore($params['store']);
         }
-        $isSecure = \Mage::app()->getStore($store)->isCurrentlySecure();
+        $isSecure = $this->_storeManager->getStore($store)->isCurrentlySecure();
         $protocol = $isSecure ? 'https' : 'http';
         if (isset($params['url'])) {
             return $protocol . '://' . $params['url'];
@@ -486,7 +520,7 @@ class Filter extends \Magento\Filter\Template
         $customVarValue = '';
         $params = $this->_getIncludeParameters($construction[2]);
         if (isset($params['code'])) {
-            $variable = \Mage::getModel('Magento\Core\Model\Variable')
+            $variable = $this->_variableFactory->create()
                 ->setStoreId($this->getStoreId())
                 ->loadByCode($params['code']);
             $mode = $this->getPlainTemplateMode()

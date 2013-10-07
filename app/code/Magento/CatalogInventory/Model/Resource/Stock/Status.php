@@ -166,7 +166,7 @@ class Status extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getWebsiteStores()
     {
-        /** @var \\Magento\Core\Model\Website $website */
+        /** @var \Magento\Core\Model\Website $website */
         $website = $this->_websiteFactory->create();
         return $this->_getReadAdapter()->fetchPairs($website->getDefaultStoresSelect(false));
     }

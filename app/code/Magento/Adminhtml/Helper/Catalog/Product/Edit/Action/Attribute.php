@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Adminhtml catalog product action attribute update helper
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Adminhtml\Helper\Catalog\Product\Edit\Action;
 
@@ -65,6 +60,9 @@ class Attribute extends \Magento\Backend\Helper\Data
      * @param \Magento\Core\Model\ConfigInterface $applicationConfig
      * @param \Magento\Core\Model\Config\Primary $primaryConfig
      * @param \Magento\Core\Model\RouterList $routerList
+     * @param \Magento\Core\Model\AppProxy $app
+     * @param \Magento\Backend\Model\UrlProxy $backendUrl
+     * @param \Magento\Backend\Model\AuthProxy $auth
      * @param string $defaultAreaFrontName
      * @param string $backendFrontName
      */
@@ -77,6 +75,9 @@ class Attribute extends \Magento\Backend\Helper\Data
         \Magento\Core\Model\ConfigInterface $applicationConfig,
         \Magento\Core\Model\Config\Primary $primaryConfig,
         \Magento\Core\Model\RouterList $routerList,
+        \Magento\Core\Model\AppProxy $app,
+        \Magento\Backend\Model\UrlProxy $backendUrl,
+        \Magento\Backend\Model\AuthProxy $auth,
         $defaultAreaFrontName,
         $backendFrontName
     ) {
@@ -84,7 +85,7 @@ class Attribute extends \Magento\Backend\Helper\Data
         $this->_session = $session;
         $this->_productsFactory = $productsFactory;
         parent::__construct(
-            $context, $coreData, $applicationConfig, $primaryConfig, $routerList,
+            $context, $coreData, $applicationConfig, $primaryConfig, $routerList, $app, $backendUrl, $auth,
             $defaultAreaFrontName, $backendFrontName
         );
     }

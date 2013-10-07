@@ -21,7 +21,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
     /**
      * Abstract import entity model
      *
-     * @var \Magento\ImportExport\Model\Import\EntityAbstract|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\ImportExport\Model\Import\AbstractEntity|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
@@ -39,7 +39,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_model = $this->getMockForAbstractClass(
-            'Magento\ImportExport\Model\Import\EntityAbstract',
+            'Magento\ImportExport\Model\Import\AbstractEntity',
             $this->_getModelDependencies()
         );
     }
@@ -57,12 +57,21 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
     protected function _getModelDependencies()
     {
         $coreHelper = $this->getMock('Magento\Core\Helper\Data', array('__construct'), array(), '', false);
-        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
         $stringHelper = $this->getMock('Magento\Core\Helper\String', array('__construct'), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
+        $importFactory = $this->getMock('Magento\ImportExport\Model\ImportFactory', array(), array(), '', false);
+        $resourceHelper = $this->getMock(
+            'Magento\ImportExport\Model\Resource\Helper', array(), array(), '', false
+        );
+        $resource = $this->getMock('Magento\Core\Model\Resource', array(), array(), '', false);
+
         $data = array(
             'coreData'   => $coreHelper,
             'coreString' => $stringHelper,
             'coreStoreConfig' => $coreStoreConfig,
+            'importFactory' => $importFactory,
+            'resourceHelper' => $resourceHelper,
+            'resource' => $resource,
             'data'       => array(
                 'data_source_model'            => 'not_used',
                 'connection'                   => 'not_used',
@@ -80,7 +89,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
     /**
      * Test for method _prepareRowForDb()
      *
-     * @covers \Magento\ImportExport\Model\Import\EntityAbstract::_prepareRowForDb
+     * @covers \Magento\ImportExport\Model\Import\AbstractEntity::_prepareRowForDb
      */
     public function testPrepareRowForDb()
     {
@@ -161,8 +170,8 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsDataValid()
     {
-        /** @var $model \Magento\ImportExport\Model\Import\EntityAbstract|PHPUnit_Framework_MockObject_MockObject */
-        $model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\EntityAbstract', array(), '', false,
+        /** @var $model \Magento\ImportExport\Model\Import\AbstractEntity|\PHPUnit_Framework_MockObject_MockObject */
+        $model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\AbstractEntity', array(), '', false,
             true, true, array('validateData'));
         $model->expects($this->any())
             ->method('validateData');
@@ -211,7 +220,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
     /**
      * Test for method getBehavior() with $rowData argument = null
      *
-     * @covers \Magento\ImportExport\Model\Import\EntityAbstract::getBehavior
+     * @covers \Magento\ImportExport\Model\Import\AbstractEntity::getBehavior
      */
     public function testGetBehaviorWithoutRowData()
     {
@@ -219,7 +228,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
         $property->setAccessible(true);
         $property->setValue($this->_model, $this->_availableBehaviors);
 
-        $default = \Magento\ImportExport\Model\Import\EntityAbstract::getDefaultBehavior();
+        $default = \Magento\ImportExport\Model\Import\AbstractEntity::getDefaultBehavior();
 
         foreach ($this->_availableBehaviors as $behavior) {
             $this->_model->setParameters(array(
@@ -235,7 +244,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Different cases to cover all code parts in \Magento\ImportExport\Model\Import\EntityAbstract::getBehavior()
+     * Different cases to cover all code parts in \Magento\ImportExport\Model\Import\AbstractEntity::getBehavior()
      *
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      * @return array
@@ -246,87 +255,87 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
             "add/update behavior and row with delete in action column" => array(
                 '$inputBehavior'    => \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE,
                 '$rowData'          => array(
-                    \Magento\ImportExport\Model\Import\EntityAbstract::COLUMN_ACTION =>
-                    \Magento\ImportExport\Model\Import\EntityAbstract::COLUMN_ACTION_VALUE_DELETE
+                    \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION =>
+                    \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION_VALUE_DELETE
                 ),
                 '$expectedBehavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE
             ),
             "delete behavior and row with delete in action column" => array(
                 '$inputBehavior'    => \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE,
                 '$rowData'          => array(
-                    \Magento\ImportExport\Model\Import\EntityAbstract::COLUMN_ACTION =>
-                    \Magento\ImportExport\Model\Import\EntityAbstract::COLUMN_ACTION_VALUE_DELETE
+                    \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION =>
+                    \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION_VALUE_DELETE
                 ),
                 '$expectedBehavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE
             ),
             "custom behavior and row with delete in action column" => array(
                 '$inputBehavior'    => \Magento\ImportExport\Model\Import::BEHAVIOR_CUSTOM,
                 '$rowData'          => array(
-                    \Magento\ImportExport\Model\Import\EntityAbstract::COLUMN_ACTION =>
-                    \Magento\ImportExport\Model\Import\EntityAbstract::COLUMN_ACTION_VALUE_DELETE
+                    \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION =>
+                    \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION_VALUE_DELETE
                 ),
                 '$expectedBehavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE
             ),
             "add/update behavior and row with update in action column" => array(
                 '$inputBehavior'    => \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE,
                 '$rowData'          => array(
-                    \Magento\ImportExport\Model\Import\EntityAbstract::COLUMN_ACTION => 'update'
+                    \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION => 'update'
                 ),
                 '$expectedBehavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE
             ),
             "delete behavior and row with update in action column" => array(
                 '$inputBehavior'    => \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE,
                 '$rowData'          => array(
-                    \Magento\ImportExport\Model\Import\EntityAbstract::COLUMN_ACTION => 'update'
+                    \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION => 'update'
                 ),
                 '$expectedBehavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE
             ),
             "custom behavior and row with update in action column" => array(
                 '$inputBehavior'    => \Magento\ImportExport\Model\Import::BEHAVIOR_CUSTOM,
                 '$rowData'          => array(
-                    \Magento\ImportExport\Model\Import\EntityAbstract::COLUMN_ACTION => 'update'
+                    \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION => 'update'
                 ),
                 '$expectedBehavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE
             ),
             "add/update behavior and row with bogus string in action column" => array(
                 '$inputBehavior'    => \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE,
                 '$rowData'          => array(
-                    \Magento\ImportExport\Model\Import\EntityAbstract::COLUMN_ACTION => microtime(true)
+                    \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION => microtime(true)
                 ),
                 '$expectedBehavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE
             ),
             "delete behavior and row with bogus string in action column" => array(
                 '$inputBehavior'    => \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE,
                 '$rowData'          => array(
-                    \Magento\ImportExport\Model\Import\EntityAbstract::COLUMN_ACTION => microtime(true)
+                    \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION => microtime(true)
                 ),
                 '$expectedBehavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE
             ),
             "custom behavior and row with bogus string in action column" => array(
                 '$inputBehavior'    => \Magento\ImportExport\Model\Import::BEHAVIOR_CUSTOM,
                 '$rowData'          => array(
-                    \Magento\ImportExport\Model\Import\EntityAbstract::COLUMN_ACTION => microtime(true)
+                    \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION => microtime(true)
                 ),
                 '$expectedBehavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE
             ),
             "add/update behavior and row with null in action column" => array(
                 '$inputBehavior'    => \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE,
                 '$rowData'          => array(
-                    \Magento\ImportExport\Model\Import\EntityAbstract::COLUMN_ACTION => null
+                    \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION => null
                 ),
                 '$expectedBehavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE
             ),
             "delete behavior and row with null in action column" => array(
                 '$inputBehavior'    => \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE,
                 '$rowData'          => array(
-                    \Magento\ImportExport\Model\Import\EntityAbstract::COLUMN_ACTION => null
+                    \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION => null
                 ),
                 '$expectedBehavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE
             ),
             "custom behavior and row with null in action column" => array(
                 '$inputBehavior'    => \Magento\ImportExport\Model\Import::BEHAVIOR_CUSTOM,
                 '$rowData'          => array(
-                    \Magento\ImportExport\Model\Import\EntityAbstract::COLUMN_ACTION => null
+                    \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION => null
                 ),
                 '$expectedBehavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE
             ),
@@ -358,39 +367,39 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
             "custom behavior and empty row is empty array" => array(
                 '$inputBehavior'    => \Magento\ImportExport\Model\Import::BEHAVIOR_CUSTOM,
                 '$rowData'          => array(),
-                '$expectedBehavior' => \Magento\ImportExport\Model\Import\EntityAbstract::getDefaultBehavior()
+                '$expectedBehavior' => \Magento\ImportExport\Model\Import\AbstractEntity::getDefaultBehavior()
             ),
             "custom behavior and row with delete in action column and empty available behaviors" => array(
                 '$inputBehavior'      => \Magento\ImportExport\Model\Import::BEHAVIOR_CUSTOM,
                 '$rowData'            => array(
-                    \Magento\ImportExport\Model\Import\EntityAbstract::COLUMN_ACTION =>
-                    \Magento\ImportExport\Model\Import\EntityAbstract::COLUMN_ACTION_VALUE_DELETE
+                    \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION =>
+                    \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION_VALUE_DELETE
                 ),
-                '$expectedBehavior'   => \Magento\ImportExport\Model\Import\EntityAbstract::getDefaultBehavior(),
+                '$expectedBehavior'   => \Magento\ImportExport\Model\Import\AbstractEntity::getDefaultBehavior(),
                 '$availableBehaviors' => array()
             ),
             "custom behavior and row with update in action column and empty available behaviors" => array(
                 '$inputBehavior'      => \Magento\ImportExport\Model\Import::BEHAVIOR_CUSTOM,
                 '$rowData'            => array(
-                    \Magento\ImportExport\Model\Import\EntityAbstract::COLUMN_ACTION => 'update'
+                    \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION => 'update'
                 ),
-                '$expectedBehavior'   => \Magento\ImportExport\Model\Import\EntityAbstract::getDefaultBehavior(),
+                '$expectedBehavior'   => \Magento\ImportExport\Model\Import\AbstractEntity::getDefaultBehavior(),
                 '$availableBehaviors' => array()
             ),
             "custom behavior and row with bogus string in action column and empty available behaviors" => array(
                 '$inputBehavior'      => \Magento\ImportExport\Model\Import::BEHAVIOR_CUSTOM,
                 '$rowData'            => array(
-                    \Magento\ImportExport\Model\Import\EntityAbstract::COLUMN_ACTION => microtime(true)
+                    \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION => microtime(true)
                 ),
-                '$expectedBehavior'   => \Magento\ImportExport\Model\Import\EntityAbstract::getDefaultBehavior(),
+                '$expectedBehavior'   => \Magento\ImportExport\Model\Import\AbstractEntity::getDefaultBehavior(),
                 '$availableBehaviors' => array()
             ),
             "custom behavior and row with null in action column and empty available behaviors" => array(
                 '$inputBehavior'      => \Magento\ImportExport\Model\Import::BEHAVIOR_CUSTOM,
                 '$rowData'            => array(
-                    \Magento\ImportExport\Model\Import\EntityAbstract::COLUMN_ACTION => null
+                    \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION => null
                 ),
-                '$expectedBehavior'   => \Magento\ImportExport\Model\Import\EntityAbstract::getDefaultBehavior(),
+                '$expectedBehavior'   => \Magento\ImportExport\Model\Import\AbstractEntity::getDefaultBehavior(),
                 '$availableBehaviors' => array()
             ),
         );
@@ -399,7 +408,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
     /**
      * Test for method getBehavior() with $rowData argument = null
      *
-     * @covers \Magento\ImportExport\Model\Import\EntityAbstract::getBehavior
+     * @covers \Magento\ImportExport\Model\Import\AbstractEntity::getBehavior
      *
      * @dataProvider dataProviderForTestGetBehaviorWithRowData
      * @param $inputBehavior
@@ -454,7 +463,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function attributeList()
     {
-        $longString = str_pad('', \Magento\ImportExport\Model\Import\EntityAbstract::DB_MAX_TEXT_LENGTH, 'x');
+        $longString = str_pad('', \Magento\ImportExport\Model\Import\AbstractEntity::DB_MAX_TEXT_LENGTH, 'x');
 
         return array(
             array(
@@ -463,7 +472,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
             array(
                 $this->_getDataSet('test2', 'varchar', 'test string',
                     substr($longString, 0,
-                        \Magento\ImportExport\Model\Import\EntityAbstract::DB_MAX_VARCHAR_LENGTH
+                        \Magento\ImportExport\Model\Import\AbstractEntity::DB_MAX_VARCHAR_LENGTH
                     )
                 )
             ),
@@ -565,7 +574,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
     /**
      * Test for method validateData()
      *
-     * @covers \Magento\ImportExport\Model\Import\EntityAbstract::validateData
+     * @covers \Magento\ImportExport\Model\Import\AbstractEntity::validateData
      * @expectedException \Magento\Core\Exception
      */
     public function testValidateDataPermanentAttributes()
@@ -584,7 +593,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
     /**
      * Test for method validateData()
      *
-     * @covers \Magento\ImportExport\Model\Import\EntityAbstract::validateData
+     * @covers \Magento\ImportExport\Model\Import\AbstractEntity::validateData
      * @expectedException \Magento\Core\Exception
      */
     public function testValidateDataEmptyColumnName()
@@ -596,7 +605,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
     /**
      * Test for method validateData()
      *
-     * @covers \Magento\ImportExport\Model\Import\EntityAbstract::validateData
+     * @covers \Magento\ImportExport\Model\Import\AbstractEntity::validateData
      * @expectedException \Magento\Core\Exception
      */
     public function testValidateDataColumnNameWithWhitespaces()
@@ -608,7 +617,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
     /**
      * Test for method validateData()
      *
-     * @covers \Magento\ImportExport\Model\Import\EntityAbstract::validateData
+     * @covers \Magento\ImportExport\Model\Import\AbstractEntity::validateData
      * @expectedException \Magento\Core\Exception
      */
     public function testValidateDataAttributeNames()
@@ -621,12 +630,12 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
      * Create source adapter mock and set it into model object which tested in this class
      *
      * @param array $columns value which will be returned by method getColNames()
-     * @return \Magento\ImportExport\Model\Import\SourceAbstract|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\ImportExport\Model\Import\AbstractSource|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _createSourceAdapterMock(array $columns)
     {
-        /** @var $source \Magento\ImportExport\Model\Import\SourceAbstract|PHPUnit_Framework_MockObject_MockObject */
-        $source = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\SourceAbstract', array(), '', false,
+        /** @var $source \Magento\ImportExport\Model\Import\AbstractSource|\PHPUnit_Framework_MockObject_MockObject */
+        $source = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\AbstractSource', array(), '', false,
             true, true, array('getColNames')
         );
         $source->expects($this->any())

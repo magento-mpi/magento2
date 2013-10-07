@@ -21,6 +21,27 @@ class Helper extends \Magento\Core\Model\Resource\Helper
     protected $_foreignKeys    = array();
 
     /**
+     * Core Date
+     *
+     * @var \Magento\Core\Model\Date
+     */
+    protected $_coreDate;
+
+    /**
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Date $coreDate
+     * @param $modulePrefix
+     */
+    public function __construct(
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\Date $coreDate,
+        $modulePrefix
+    ) {
+        parent::__construct($resource, $modulePrefix);
+        $this->_coreDate = $coreDate;
+    }
+
+    /**
      * Retrieve SQL fragment for drop table
      *
      * @param string $tableName
@@ -186,7 +207,7 @@ class Helper extends \Magento\Core\Model\Resource\Helper
             . "/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;\n"
             . "/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;\n"
             . "/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;\n"
-            . "\n-- Dump completed on " . \Mage::getSingleton('Magento\Core\Model\Date')->gmtDate() . " GMT";
+            . "\n-- Dump completed on " . $this->_coreDate->gmtDate() . " GMT";
 
         return $footer;
     }
@@ -293,18 +314,18 @@ class Helper extends \Magento\Core\Model\Resource\Helper
     }
 
     /**
-     * Turn on serializable mode
+     * Prepare transaction isolation level for backup process
      */
-    public function turnOnSerializableMode()
+    public function prepareTransactionIsolationLevel()
     {
-        $this->_getReadAdapter()->query("SET SESSION TRANSACTION ISOLATION LEVEL SERIALIZABLE");
+        $this->_getWriteAdapter()->query('SET SESSION TRANSACTION ISOLATION LEVEL SERIALIZABLE');
     }
 
     /**
-     * Turn on read committed mode
+     * Restore transaction isolation level after backup
      */
-    public function turnOnReadCommittedMode()
+    public function restoreTransactionIsolationLevel()
     {
-        $this->_getReadAdapter()->query("SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED");
+        $this->_getWriteAdapter()->query('SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ');
     }
 }

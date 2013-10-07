@@ -19,6 +19,35 @@ namespace Magento\GoogleCheckout\Block;
 
 class Link extends \Magento\Core\Block\Template
 {
+    /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $checkoutSession;
+
+    /**
+     * @var \Magento\GoogleCheckout\Model\PaymentFactory
+     */
+    protected $paymentFactory;
+
+    /**
+     * @param \Magento\GoogleCheckout\Model\PaymentFactory $paymentFactory
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\GoogleCheckout\Model\PaymentFactory $paymentFactory,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->paymentFactory = $paymentFactory;
+        $this->checkoutSession = $checkoutSession;
+        parent::__construct($coreData, $context, $data);
+    }
+
     public function getImageStyle()
     {
         $s = $this->_storeConfig->getConfig('google/checkout/checkout_image');
@@ -62,8 +91,8 @@ class Link extends \Magento\Core\Block\Template
      */
     public function _toHtml()
     {
-        $quote = \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
-        if (\Mage::getModel('Magento\GoogleCheckout\Model\Payment')->isAvailable($quote) && $quote->validateMinimumAmount()) {
+        $quote = $this->checkoutSession->getQuote();
+        if ($this->paymentFactory->create()->isAvailable($quote) && $quote->validateMinimumAmount()) {
             $this->_eventManager->dispatch('googlecheckout_block_link_html_before', array('block' => $this));
             return parent::_toHtml();
         }
@@ -72,7 +101,7 @@ class Link extends \Magento\Core\Block\Template
 
     public function getIsDisabled()
     {
-        $quote = \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
+        $quote = $this->checkoutSession->getQuote();
         /* @var $quote \Magento\Sales\Model\Quote */
         foreach ($quote->getAllVisibleItems() as $item) {
             /* @var $item \Magento\Sales\Model\Quote\Item */

@@ -36,16 +36,9 @@ class View extends \Magento\Core\Block\Template
 
     /**
      * @param \Magento\Core\Block\Template\Context $context
-     *
-     * @var \Magento\Core\Model\Registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
-     * @param \Magento\ProductAlert\Helper\Data $productAlertData
      * @param \Magento\ProductAlert\Helper\Data $helper
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Helper\Data $coreData
      * @param array $data
      */
     public function __construct(

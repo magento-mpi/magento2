@@ -58,7 +58,7 @@ class Configure extends \Magento\Core\Block\Template
      *
      * @return \Magento\Catalog\Model\Product
      */
-    protected function getProduct()
+    public function getProduct()
     {
         return $this->_coreRegistry->registry('product');
     }

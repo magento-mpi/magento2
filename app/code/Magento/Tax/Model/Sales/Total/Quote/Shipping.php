@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 namespace Magento\Tax\Model\Sales\Total\Quote;
 
 class Shipping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
@@ -45,11 +44,11 @@ class Shipping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     /**
      * Class constructor
      */
-    public function __construct()
+    public function __construct(\Magento\Tax\Model\Calculation $calculation, \Magento\Tax\Model\Config $taxConfig)
     {
         $this->setCode('shipping');
-        $this->_calculator  = \Mage::getSingleton('Magento\Tax\Model\Calculation');
-        $this->_config      = \Mage::getSingleton('Magento\Tax\Model\Config');
+        $this->_calculator = $calculation;
+        $this->_config = $taxConfig;
     }
 
     /**

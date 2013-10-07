@@ -40,18 +40,30 @@ class Observer
     protected $_coreStoreConfig;
 
     /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
      * @param \Magento\Core\Model\Config\Storage\WriterInterface $configWriter
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Core\Model\Config\Storage\WriterInterface $configWriter,
         \Magento\Core\Model\Cache\Type\Config $configCacheType,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_configWriter = $configWriter;
         $this->_configCacheType = $configCacheType;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -96,7 +108,7 @@ class Observer
      */
     public function updatePaymentProfileStatus(\Magento\Event\Observer $observer)
     {
-        $website = \Mage::app()->getWebsite($observer->getEvent()->getData('website'));
+        $website = $this->_storeManager->getWebsite($observer->getEvent()->getData('website'));
         $braintreeEnabled = $website->getConfig('payment/braintree_basic/active')
             && $website->getConfig('payment/braintree_basic/payment_profiles_enabled');
         $authorizenetEnabled = $website->getConfig('payment/pbridge_authorizenet/active')

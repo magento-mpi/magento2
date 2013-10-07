@@ -48,17 +48,65 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     protected $_coreStoreConfig;
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var \Magento\Checkout\Model\Resource\Cart
+     */
+    protected $_resourceCart;
+
+    /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\Core\Model\Message
+     */
+    protected $_message;
+
+    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Checkout\Model\Resource\Cart $resourceCart
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\Message $message
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Checkout\Model\Resource\Cart $resourceCart,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\Message $message,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_productFactory = $productFactory;
+        $this->_storeManager = $storeManager;
+        $this->_resourceCart = $resourceCart;
+        $this->_checkoutSession = $checkoutSession;
+        $this->_customerSession = $customerSession;
+        $this->_message = $message;
         parent::__construct($data);
     }
 
@@ -69,7 +117,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      */
     protected function _getResource()
     {
-        return \Mage::getResourceSingleton('Magento\Checkout\Model\Resource\Cart');
+        return $this->_resourceCart;
     }
 
     /**
@@ -79,7 +127,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      */
     public function getCheckoutSession()
     {
-        return \Mage::getSingleton('Magento\Checkout\Model\Session');
+        return $this->_checkoutSession;
     }
 
     /**
@@ -89,7 +137,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      */
     public function getCustomerSession()
     {
-        return \Mage::getSingleton('Magento\Customer\Model\Session');
+        return $this->_customerSession;
     }
 
     /**
@@ -131,7 +179,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     public function getQuote()
     {
         if (!$this->hasData('quote')) {
-            $this->setData('quote', $this->getCheckoutSession()->getQuote());
+            $this->setData('quote', $this->_checkoutSession->getQuote());
         }
         return $this->_getData('quote');
     }
@@ -157,9 +205,9 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     {
         $quote = $this->getQuote()->setCheckoutMethod('');
 
-        if ($this->getCheckoutSession()->getCheckoutState() !== \Magento\Checkout\Model\Session::CHECKOUT_STATE_BEGIN) {
+        if ($this->_checkoutSession->getCheckoutState() !== \Magento\Checkout\Model\Session::CHECKOUT_STATE_BEGIN) {
             $quote->removeAllAddresses()->removePayment();
-            $this->getCheckoutSession()->resetCheckout();
+            $this->_checkoutSession->resetCheckout();
         }
 
         if (!$quote->hasItems()) {
@@ -181,8 +229,8 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     {
         /* @var $orderItem \Magento\Sales\Model\Order\Item */
         if (is_null($orderItem->getParentItem())) {
-            $product = \Mage::getModel('Magento\Catalog\Model\Product')
-                ->setStoreId(\Mage::app()->getStore()->getId())
+            $product = $this->_productFactory->create()
+                ->setStoreId($this->_storeManager->getStore()->getId())
                 ->load($orderItem->getProductId());
             if (!$product->getId()) {
                 return $this;
@@ -206,6 +254,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      *
      * @param   mixed $productInfo
      * @return  \Magento\Catalog\Model\Product
+     * @throws \Magento\Core\Exception
      */
     protected function _getProduct($productInfo)
     {
@@ -213,17 +262,17 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         if ($productInfo instanceof \Magento\Catalog\Model\Product) {
             $product = $productInfo;
         } elseif (is_int($productInfo) || is_string($productInfo)) {
-            $product = \Mage::getModel('Magento\Catalog\Model\Product')
-                ->setStoreId(\Mage::app()->getStore()->getId())
+            $product = $this->_productFactory->create()
+                ->setStoreId($this->_storeManager->getStore()->getId())
                 ->load($productInfo);
         }
-        $currentWebsiteId = \Mage::app()->getStore()->getWebsiteId();
+        $currentWebsiteId = $this->_storeManager->getStore()->getWebsiteId();
         if (!$product
             || !$product->getId()
             || !is_array($product->getWebsiteIds())
             || !in_array($currentWebsiteId, $product->getWebsiteIds())
         ) {
-            \Mage::throwException(__('We can\'t find the product.'));
+            throw new \Magento\Core\Exception(__('We can\'t find the product.'));
         }
         return $product;
     }
@@ -254,9 +303,10 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * Add product to shopping cart (quote)
      *
-     * @param   int|\Magento\Catalog\Model\Product $productInfo
-     * @param   mixed $requestInfo
-     * @return  \Magento\Checkout\Model\Cart
+     * @param int|\Magento\Catalog\Model\Product $productInfo
+     * @param mixed $requestInfo
+     * @return \Magento\Checkout\Model\Cart
+     * @throws \Magento\Core\Exception
      */
     public function addProduct($productInfo, $requestInfo=null)
     {
@@ -279,7 +329,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
             try {
                 $result = $this->getQuote()->addProduct($product, $request);
             } catch (\Magento\Core\Exception $e) {
-                $this->getCheckoutSession()->setUseNotice(false);
+                $this->_checkoutSession->setUseNotice(false);
                 $result = $e->getMessage();
             }
             /**
@@ -292,21 +342,21 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
                         array('_query' => array('startcustomization' => 1))
                     )
                     : $product->getProductUrl();
-                $this->getCheckoutSession()->setRedirectUrl($redirectUrl);
-                if ($this->getCheckoutSession()->getUseNotice() === null) {
-                    $this->getCheckoutSession()->setUseNotice(true);
+                $this->_checkoutSession->setRedirectUrl($redirectUrl);
+                if ($this->_checkoutSession->getUseNotice() === null) {
+                    $this->_checkoutSession->setUseNotice(true);
                 }
-                \Mage::throwException($result);
+                throw new \Magento\Core\Exception($result);
             }
         } else {
-            \Mage::throwException(__('The product does not exist.'));
+            throw new \Magento\Core\Exception(__('The product does not exist.'));
         }
 
         $this->_eventManager->dispatch('checkout_cart_product_add_after', array(
             'quote_item' => $result,
             'product' => $product,
         ));
-        $this->getCheckoutSession()->setLastAddedProductId($productId);
+        $this->_checkoutSession->setLastAddedProductId($productId);
         return $this;
     }
 
@@ -340,12 +390,12 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
             }
 
             if (!$allAvailable) {
-                $this->getCheckoutSession()->addError(
+                $this->_checkoutSession->addError(
                     __("We don't have some of the products you want.")
                 );
             }
             if (!$allAdded) {
-                $this->getCheckoutSession()->addError(
+                $this->_checkoutSession->addError(
                     __("We don't have as many of some products as you want.")
                 );
             }
@@ -402,14 +452,13 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      *
      * @param   array $data
      * @return  \Magento\Checkout\Model\Cart
+     * @throws \Magento\Core\Exception
      */
     public function updateItems($data)
     {
         $this->_eventManager->dispatch('checkout_cart_update_items_before', array('cart'=>$this, 'info'=>$data));
 
-        /* @var $messageFactory \Magento\Core\Model\Message */
-        $messageFactory = \Mage::getSingleton('Magento\Core\Model\Message');
-        $session = $this->getCheckoutSession();
+        $session = $this->_checkoutSession;
         $qtyRecalculatedFlag = false;
         foreach ($data as $itemId => $itemInfo) {
             $item = $this->getQuote()->getItemById($itemId);
@@ -429,12 +478,12 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
                 $itemInQuote = $this->getQuote()->getItemById($item->getId());
 
                 if (!$itemInQuote && $item->getHasError()) {
-                    \Mage::throwException($item->getMessage());
+                    throw new \Magento\Core\Exception($item->getMessage());
                 }
 
                 if (isset($itemInfo['before_suggest_qty']) && ($itemInfo['before_suggest_qty'] != $qty)) {
                     $qtyRecalculatedFlag = true;
-                    $message = $messageFactory->notice(__('Quantity was recalculated from %1 to %2', $itemInfo['before_suggest_qty'], $qty));
+                    $message = $this->_message->notice(__('Quantity was recalculated from %1 to %2', $itemInfo['before_suggest_qty'], $qty));
                     $session->addQuoteItemMessage($item->getId(), $message);
                 }
             }
@@ -475,7 +524,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         $this->getQuote()->getShippingAddress()->setCollectShippingRates(true);
         $this->getQuote()->collectTotals();
         $this->getQuote()->save();
-        $this->getCheckoutSession()->setQuoteId($this->getQuote()->getId());
+        $this->_checkoutSession->setQuoteId($this->getQuote()->getId());
         /**
          * Cart save usually called after changes with cart items.
          */
@@ -502,9 +551,11 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         return $this;
     }
 
+    /**
+     * @return array|null
+     */
     public function getProductIds()
     {
-        $quoteId = \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuoteId();
         if (null === $this->_productIds) {
             $this->_productIds = array();
             if ($this->getSummaryQty()>0) {
@@ -524,14 +575,14 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      */
     public function getSummaryQty()
     {
-        $quoteId = \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuoteId();
+        $quoteId = $this->_checkoutSession->getQuoteId();
 
         //If there is no quote id in session trying to load quote
         //and get new quote id. This is done for cases when quote was created
         //not by customer (from backend for example).
-        if (!$quoteId && \Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
-            $quote = \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
-            $quoteId = \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuoteId();
+        if (!$quoteId && $this->_customerSession->isLoggedIn()) {
+            $quote = $this->_checkoutSession->getQuote();
+            $quoteId = $this->_checkoutSession->getQuoteId();
         }
 
         if ($quoteId && $this->_summaryQty === null) {
@@ -569,19 +620,20 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      * $requestInfo - either qty (int) or buyRequest in form of array or \Magento\Object
      * $updatingParams - information on how to perform update, passed to Quote->updateItem() method
      *
+     * @see \Magento\Sales\Model\Quote::updateItem()
+     *
      * @param int $itemId
      * @param int|array|\Magento\Object $requestInfo
      * @param null|array|\Magento\Object $updatingParams
      * @return \Magento\Sales\Model\Quote\Item|string
-     *
-     * @see \Magento\Sales\Model\Quote::updateItem()
+     * @throws \Magento\Core\Exception
      */
     public function updateItem($itemId, $requestInfo = null, $updatingParams = null)
     {
         try {
             $item = $this->getQuote()->getItemById($itemId);
             if (!$item) {
-                \Mage::throwException(__('This quote item does not exist.'));
+                throw new \Magento\Core\Exception(__('This quote item does not exist.'));
             }
             $productId = $item->getProduct()->getId();
             $product = $this->_getProduct($productId);
@@ -600,7 +652,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
 
             $result = $this->getQuote()->updateItem($itemId, $request, $updatingParams);
         } catch (\Magento\Core\Exception $e) {
-            $this->getCheckoutSession()->setUseNotice(false);
+            $this->_checkoutSession->setUseNotice(false);
             $result = $e->getMessage();
         }
 
@@ -608,17 +660,17 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
          * We can get string if updating process had some errors
          */
         if (is_string($result)) {
-            if ($this->getCheckoutSession()->getUseNotice() === null) {
-                $this->getCheckoutSession()->setUseNotice(true);
+            if ($this->_checkoutSession->getUseNotice() === null) {
+                $this->_checkoutSession->setUseNotice(true);
             }
-            \Mage::throwException($result);
+            throw new \Magento\Core\Exception($result);
         }
 
         $this->_eventManager->dispatch('checkout_cart_product_update_after', array(
             'quote_item' => $result,
             'product' => $product
         ));
-        $this->getCheckoutSession()->setLastAddedProductId($productId);
+        $this->_checkoutSession->setLastAddedProductId($productId);
         return $result;
     }
 }

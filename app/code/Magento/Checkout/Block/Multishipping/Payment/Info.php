@@ -17,8 +17,31 @@
  */
 namespace Magento\Checkout\Block\Multishipping\Payment;
 
-class Info extends \Magento\Payment\Block\Info\ContainerAbstract
+class Info extends \Magento\Payment\Block\Info\AbstractContainer
 {
+    /**
+     * @var \Magento\Checkout\Model\Type\Multishipping
+     */
+    protected $_multishipping;
+
+    /**
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Checkout\Model\Type\Multishipping $multishipping
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Checkout\Model\Type\Multishipping $multishipping,
+        array $data = array()
+    ) {
+        $this->_multishipping = $multishipping;
+        parent::__construct($paymentData, $coreData, $context, $data);
+    }
+
     /**
      * Retrieve payment info model
      *
@@ -26,13 +49,17 @@ class Info extends \Magento\Payment\Block\Info\ContainerAbstract
      */
     public function getPaymentInfo()
     {
-        return \Mage::getSingleton('Magento\Checkout\Model\Type\Multishipping')->getQuote()->getPayment();
+        return $this->_multishipping->getQuote()->getPayment();
     }
 
+    /**
+     * @return string
+     */
     protected function _toHtml()
     {
         $html = '';
-        if ($block = $this->getChildBlock($this->_getInfoBlockName())) {
+        $block = $this->getChildBlock($this->_getInfoBlockName());
+        if ($block) {
             $html = $block->toHtml();
         }
         return $html;

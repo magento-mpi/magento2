@@ -117,7 +117,7 @@ abstract class AbstractGroup
      * Set form element instance
      *
      * @param \Magento\Data\Form\Element\AbstractElement $element
-     * @return \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Price\Group_AbstractGroup
+     * @return \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Price\Group\AbstractGroup
      */
     public function setElement(\Magento\Data\Form\Element\AbstractElement $element)
     {

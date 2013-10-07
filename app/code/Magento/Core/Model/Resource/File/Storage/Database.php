@@ -21,6 +21,24 @@ namespace Magento\Core\Model\Resource\File\Storage;
 class Database extends \Magento\Core\Model\Resource\File\Storage\AbstractStorage
 {
     /**
+     * @var \Magento\Core\Model\Resource\Helper\AbstractHelper
+     */
+    protected $_resourceHelper;
+
+    /**
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Resource\Helper\AbstractHelper $resourceHelper
+     */
+    public function __construct(
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\Resource\Helper\AbstractHelper $resourceHelper
+    ) {
+        parent::__construct($resource);
+        $this->_resourceHelper = $resourceHelper;
+    }
+
+
+    /**
      * Define table name and id field for resource
      */
     protected function _construct()
@@ -63,7 +81,7 @@ class Database extends \Magento\Core\Model\Resource\File\Storage\AbstractStorage
             ->addColumn('directory_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
                 'unsigned' => true,
                 'default' => null
-                ), 'Identifier of \Directory where File is Located')
+                ), 'Identifier of Directory where File is Located')
             ->addColumn('directory', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
                 'default' => null
                 ), 'Directory Path')
@@ -284,9 +302,7 @@ class Database extends \Magento\Core\Model\Resource\File\Storage\AbstractStorage
             return;
         }
 
-        /* @var $resHelper \Magento\Core\Model\Resource\Helper\AbstractHelper */
-        $resHelper = \Mage::getResourceHelper('Magento_Core');
-        $likeExpression = $resHelper->addLikeEscape($folderName . '/', array('position' => 'start'));
+        $likeExpression = $this->_resourceHelper->addLikeEscape($folderName . '/', array('position' => 'start'));
         $this->_getWriteAdapter()
             ->delete($this->getMainTable(), new \Zend_Db_Expr('filename LIKE ' . $likeExpression));
     }

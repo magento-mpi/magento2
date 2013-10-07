@@ -8,12 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
- * Admihtml Manage Cms Hierarchy Controller
- *
- * @category   Magento
- * @package    Magento_VersionsCms
+ * Adminhtml Manage Cms Hierarchy Controller
  */
 namespace Magento\VersionsCms\Controller\Adminhtml\Cms;
 
@@ -52,17 +48,25 @@ class Hierarchy extends \Magento\Adminhtml\Controller\Action
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
 
     /**
      * @param \Magento\Backend\Controller\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Backend\Controller\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_storeManager = $storeManager;
         parent::__construct($context);
     }
 
@@ -84,8 +88,6 @@ class Hierarchy extends \Magento\Adminhtml\Controller\Action
 
     /**
      * Init scope and scope code by website and store for actions
-     *
-     * @return null
      */
     protected function _initScope()
     {
@@ -94,14 +96,14 @@ class Hierarchy extends \Magento\Adminhtml\Controller\Action
 
         if (!is_null($this->_website)) {
             $this->_scope = \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_WEBSITE;
-            $website = \Mage::app()->getWebsite($this->_website);
+            $website = $this->_storeManager->getWebsite($this->_website);
             $this->_scopeId = $website->getId();
             $this->_website = $website->getCode();
         }
 
         if (!is_null($this->_store)) {
             $this->_scope = \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_STORE;
-            $store = \Mage::app()->getStore($this->_store);
+            $store = $this->_storeManager->getStore($this->_store);
             $this->_scopeId = $store->getId();
             $this->_store = $store->getCode();
         }
@@ -116,10 +118,8 @@ class Hierarchy extends \Magento\Adminhtml\Controller\Action
     {
         $this->loadLayout()
             ->_setActiveMenu('Magento_VersionsCms::versionscms_page_hierarchy')
-            ->_addBreadcrumb(__('CMS'),
-                __('CMS'))
-            ->_addBreadcrumb(__('CMS Page Trees'),
-                __('CMS Page Trees'));
+            ->_addBreadcrumb(__('CMS'), __('CMS'))
+            ->_addBreadcrumb(__('CMS Page Trees'), __('CMS Page Trees'));
         return $this;
     }
 
@@ -158,7 +158,7 @@ class Hierarchy extends \Magento\Adminhtml\Controller\Action
 
         $this->_initScope();
 
-        $nodeModel = \Mage::getModel('Magento\VersionsCms\Model\Hierarchy\Node', array('data' =>
+        $nodeModel = $this->_objectManager->create('Magento\VersionsCms\Model\Hierarchy\Node', array('data' =>
                 array('scope' => $this->_scope, 'scope_id' => $this->_scopeId)));
 
         // restore data if exists
@@ -170,14 +170,11 @@ class Hierarchy extends \Magento\Adminhtml\Controller\Action
 
         $this->_coreRegistry->register('current_hierarchy_node', $nodeModel);
 
-        $this->_initAction()
-            ->renderLayout();
+        $this->_initAction()->renderLayout();
     }
 
     /**
      * Delete hierarchy from one or several scopes
-     *
-     * @return null
      */
     public function deleteAction()
     {
@@ -193,7 +190,7 @@ class Hierarchy extends \Magento\Adminhtml\Controller\Action
             }
             try {
                 /* @var $nodeModel \Magento\VersionsCms\Model\Hierarchy\Node */
-                $nodeModel = \Mage::getModel('Magento\VersionsCms\Model\Hierarchy\Node');
+                $nodeModel = $this->_objectManager->create('Magento\VersionsCms\Model\Hierarchy\Node');
                 foreach (array_unique($scopes) as $value) {
                     list ($scope, $scopeId) = $this->_getScopeData($value);
                     $nodeModel->setScope($scope);
@@ -217,8 +214,6 @@ class Hierarchy extends \Magento\Adminhtml\Controller\Action
 
     /**
      * Copy hierarchy from one scope to other scopes
-     *
-     * @return null
      */
     public function copyAction()
     {
@@ -226,7 +221,7 @@ class Hierarchy extends \Magento\Adminhtml\Controller\Action
         $scopes = $this->getRequest()->getParam('scopes');
         if ($this->getRequest()->isPost() && is_array($scopes) && !empty($scopes)) {
             /** @var $nodeModel \Magento\VersionsCms\Model\Hierarchy\Node */
-            $nodeModel = \Mage::getModel('Magento\VersionsCms\Model\Hierarchy\Node', array(
+            $nodeModel = $this->_objectManager->create('Magento\VersionsCms\Model\Hierarchy\Node', array(
                 'data' => array('scope'    => $this->_scope,
                                 'scope_id' => $this->_scopeId)
             ));
@@ -261,15 +256,13 @@ class Hierarchy extends \Magento\Adminhtml\Controller\Action
 
     /**
      * Save changes
-     *
-     * @return null
      */
     public function saveAction()
     {
         $this->_initScope();
         if ($this->getRequest()->isPost()) {
             /** @var $node \Magento\VersionsCms\Model\Hierarchy\Node */
-            $node       = \Mage::getModel('Magento\VersionsCms\Model\Hierarchy\Node', array(
+            $node = $this->_objectManager->create('Magento\VersionsCms\Model\Hierarchy\Node', array(
                 'data' => array('scope'    => $this->_scope,
                                 'scope_id' => $this->_scopeId)
             ));
@@ -282,8 +275,9 @@ class Hierarchy extends \Magento\Adminhtml\Controller\Action
                 } else {
                     if (!empty($data['nodes_data'])) {
                         try{
-                            $nodesData = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonDecode($data['nodes_data']);
-                        }catch (\Zend_Json_Exception $e){
+                            $nodesData = $this->_objectManager->get('Magento\Core\Helper\Data')
+                                ->jsonDecode($data['nodes_data']);
+                        } catch (\Zend_Json_Exception $e) {
                             $nodesData = array();
                         }
                     } else {
@@ -314,9 +308,7 @@ class Hierarchy extends \Magento\Adminhtml\Controller\Action
                 }
 
                 $hasError = false;
-                $this->_getSession()->addSuccess(
-                    __('You have saved the hierarchy.')
-                );
+                $this->_getSession()->addSuccess(__('You have saved the hierarchy.'));
             } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (\Exception $e) {
@@ -354,7 +346,7 @@ class Hierarchy extends \Magento\Adminhtml\Controller\Action
      */
     protected function _getLockModel()
     {
-        return \Mage::getSingleton('Magento\VersionsCms\Model\Hierarchy\Lock');
+        return $this->_objectManager->get('Magento\VersionsCms\Model\Hierarchy\Lock');
     }
 
     /**

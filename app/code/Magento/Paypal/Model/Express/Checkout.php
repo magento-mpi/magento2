@@ -25,7 +25,6 @@ class Checkout
     /**
      * Keys for passthrough variables in sales/quote_payment and sales/order_payment
      * Uses additional_information as storage
-     * @var string
      */
     const PAYMENT_INFO_TRANSPORT_TOKEN    = 'paypal_express_checkout_token';
     const PAYMENT_INFO_TRANSPORT_SHIPPING_OVERRIDEN = 'paypal_express_checkout_shipping_overriden';
@@ -37,19 +36,21 @@ class Checkout
     /**
      * @var \Magento\Sales\Model\Quote
      */
-    protected $_quote = null;
+    protected $_quote;
 
     /**
      * Config instance
+     *
      * @var \Magento\Paypal\Model\Config
      */
-    protected $_config = null;
+    protected $_config;
 
     /**
      * API instance
+     *
      * @var \Magento\Paypal\Model\Api\Nvp
      */
-    protected $_api = null;
+    protected $_api;
 
     /**
      * Api Model Type
@@ -61,12 +62,13 @@ class Checkout
     /**
      * Payment method type
      *
-     * @var unknown_type
+     * @var string
      */
     protected $_methodType = \Magento\Paypal\Model\Config::METHOD_WPP_EXPRESS;
 
     /**
      * State helper variables
+     *
      * @var string
      */
     protected $_redirectUrl = '';
@@ -97,7 +99,7 @@ class Checkout
      *
      * @var int
      */
-    protected $_customerId = null;
+    protected $_customerId;
 
     /**
      * Recurring payment profiles
@@ -111,14 +113,14 @@ class Checkout
      *
      * @var \Magento\Sales\Model\Billing\Agreement
      */
-    protected $_billingAgreement = null;
+    protected $_billingAgreement;
 
     /**
      * Order
      *
      * @var \Magento\Sales\Model\Quote
      */
-    protected $_order = null;
+    protected $_order;
 
     /**
      * @var \Magento\Core\Model\Cache\Type\Config
@@ -130,33 +132,83 @@ class Checkout
      *
      * @var \Magento\Checkout\Helper\Data
      */
-    protected $_checkoutData = null;
+    protected $_checkoutData;
 
     /**
      * Tax data
      *
      * @var \Magento\Tax\Helper\Data
      */
-    protected $_taxData = null;
+    protected $_taxData;
 
     /**
      * Core data
      *
      * @var \Magento\Core\Helper\Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
 
     /**
      * Customer data
      *
      * @var \Magento\Customer\Helper\Data
      */
-    protected $_customerData = null;
+    protected $_customerData;
 
     /**
      * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
+
+    /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var \Magento\Paypal\Model\Info
+     */
+    protected $_paypalInfo;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Core\Model\Url
+     */
+    protected $_coreUrl;
+
+    /**
+     * @var \Magento\Paypal\Model\CartFactory
+     */
+    protected $_cartFactory;
+
+    /**
+     * @var \Magento\Core\Model\Log\AdapterFactory
+     */
+    protected $_logFactory;
+
+    /**
+     * @var \Magento\Checkout\Model\Type\OnepageFactory
+     */
+    protected $_checkoutOnepageFactory;
+
+    /**
+     * @var \Magento\Sales\Model\Service\QuoteFactory
+     */
+    protected $_serviceQuoteFactory;
+
+    /**
+     * @var \Magento\Sales\Model\Billing\AgreementFactory
+     */
+    protected $_agreementFactory;
+
+    /**
+     * @var \Magento\Paypal\Model\Api\Type\Factory
+     */
+    protected $_apiTypeFactory;
 
     /**
      * Set config, session and quote instances
@@ -168,8 +220,20 @@ class Checkout
      * @param \Magento\Checkout\Helper\Data $checkoutData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Paypal\Model\Info $paypalInfo
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $coreUrl
+     * @param \Magento\Paypal\Model\CartFactory $cartFactory
+     * @param \Magento\Core\Model\Log\AdapterFactory $logFactory
+     * @param \Magento\Checkout\Model\Type\OnepageFactory $onepageFactory
+     * @param \Magento\Sales\Model\Service\QuoteFactory $serviceQuoteFactory
+     * @param \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory
+     * @param \Magento\Paypal\Model\Api\Type\Factory $apiTypeFactory
      * @param array $params
      * @throws \Exception
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Model\Logger $logger,
@@ -179,6 +243,16 @@ class Checkout
         \Magento\Checkout\Helper\Data $checkoutData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Paypal\Model\Info $paypalInfo,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $coreUrl,
+        \Magento\Paypal\Model\CartFactory $cartFactory,
+        \Magento\Core\Model\Log\AdapterFactory $logFactory,
+        \Magento\Checkout\Model\Type\OnepageFactory $onepageFactory,
+        \Magento\Sales\Model\Service\QuoteFactory $serviceQuoteFactory,
+        \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory,
+        \Magento\Paypal\Model\Api\Type\Factory $apiTypeFactory,
         $params = array()
     ) {
         $this->_customerData = $customerData;
@@ -188,6 +262,16 @@ class Checkout
         $this->_customerSession = $customerSession;
         $this->_configCacheType = $configCacheType;
         $this->_logger = $logger;
+        $this->_locale = $locale;
+        $this->_paypalInfo = $paypalInfo;
+        $this->_storeManager = $storeManager;
+        $this->_coreUrl = $coreUrl;
+        $this->_cartFactory = $cartFactory;
+        $this->_logFactory = $logFactory;
+        $this->_checkoutOnepageFactory = $onepageFactory;
+        $this->_serviceQuoteFactory = $serviceQuoteFactory;
+        $this->_agreementFactory = $agreementFactory;
+        $this->_apiTypeFactory = $apiTypeFactory;
 
         if (isset($params['config']) && $params['config'] instanceof \Magento\Paypal\Model\Config) {
             $this->_config = $params['config'];
@@ -205,6 +289,7 @@ class Checkout
     /**
      * Checkout with PayPal image URL getter
      * Spares API calls of getting "pal" variable, by putting it into cache per store view
+     *
      * @return string
      */
     public function getCheckoutShortcutImageUrl()
@@ -212,7 +297,7 @@ class Checkout
         // get "pal" thing from cache or lookup it via API
         $pal = null;
         if ($this->_config->areButtonsDynamic()) {
-            $cacheId = self::PAL_CACHE_ID . \Mage::app()->getStore()->getId();
+            $cacheId = self::PAL_CACHE_ID . $this->_storeManager->getStore()->getId();
             $pal = $this->_configCacheType->load($cacheId);
             if (self::PAL_CACHE_ID == $pal) {
                 $pal = null;
@@ -231,7 +316,7 @@ class Checkout
         }
 
         return $this->_config->getExpressCheckoutShortcutImageUrl(
-            \Mage::app()->getLocale()->getLocaleCode(),
+            $this->_locale->getLocaleCode(),
             $this->_quote->getBaseGrandTotal(),
             $pal
         );
@@ -297,13 +382,14 @@ class Checkout
      * @param string $returnUrl
      * @param string $cancelUrl
      * @return mixed
+     * @throws \Magento\Core\Exception
      */
     public function start($returnUrl, $cancelUrl)
     {
         $this->_quote->collectTotals();
 
         if (!$this->_quote->getGrandTotal() && !$this->_quote->hasNominalItems()) {
-            \Mage::throwException(__('PayPal can\'t process orders with a zero balance due. '
+            throw new \Magento\Core\Exception(__('PayPal can\'t process orders with a zero balance due. '
                 . 'To finish your purchase, please go through the standard checkout process.'));
         }
 
@@ -354,28 +440,31 @@ class Checkout
 
         // add line items
         $parameters = array('params' => array($this->_quote));
-        $paypalCart = \Mage::getModel('Magento\Paypal\Model\Cart', $parameters);
+        $paypalCart = $this->_cartFactory->create($parameters);
         $this->_api->setPaypalCart($paypalCart)
-            ->setIsLineItemsEnabled($this->_config->lineItemsEnabled)
-        ;
+            ->setIsLineItemsEnabled($this->_config->lineItemsEnabled);
 
         // add shipping options if needed and line items are available
         if ($this->_config->lineItemsEnabled && $this->_config->transferShippingOptions && $paypalCart->getItems()) {
             if (!$this->_quote->getIsVirtual() && !$this->_quote->hasNominalItems()) {
-                if ($options = $this->_prepareShippingOptions($address, true)) {
+                $options = $this->_prepareShippingOptions($address, true);
+                if ($options) {
                     $this->_api->setShippingOptionsCallbackUrl(
-                        \Mage::getUrl('*/*/shippingOptionsCallback', array('quote_id' => $this->_quote->getId()))
+                        $this->_coreUrl->getUrl('*/*/shippingOptionsCallback', array(
+                            'quote_id' => $this->_quote->getId()
+                        ))
                     )->setShippingOptions($options);
                 }
             }
         }
 
         // add recurring payment profiles information
-        if ($profiles = $this->_quote->prepareRecurringPaymentProfiles()) {
+        $profiles = $this->_quote->prepareRecurringPaymentProfiles();
+        if ($profiles) {
             foreach ($profiles as $profile) {
                 $profile->setMethodCode(\Magento\Paypal\Model\Config::METHOD_WPP_EXPRESS);
                 if (!$profile->isValid()) {
-                    \Mage::throwException($profile->getValidationErrors(true, true));
+                    throw new \Magento\Core\Exception($profile->getValidationErrors(true, true));
                 }
             }
             $this->_api->addRecurringPaymentProfiles($profiles);
@@ -436,7 +525,8 @@ class Checkout
                 // import shipping method
                 $code = '';
                 if ($this->_api->getShippingRateCode()) {
-                    if ($code = $this->_matchShippingMethodCode($shippingAddress, $this->_api->getShippingRateCode())) {
+                    $code = $this->_matchShippingMethodCode($shippingAddress, $this->_api->getShippingRateCode());
+                    if ($code) {
                          // possible bug of double collecting rates :-/
                         $shippingAddress->setShippingMethod($code)->setCollectShippingRates(true);
                     }
@@ -451,10 +541,9 @@ class Checkout
         // import payment info
         $payment = $quote->getPayment();
         $payment->setMethod($this->_methodType);
-        \Mage::getSingleton('Magento\Paypal\Model\Info')->importToPayment($this->_api, $payment);
+        $this->_paypalInfo->importToPayment($this->_api, $payment);
         $payment->setAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_PAYER_ID, $this->_api->getPayerId())
-            ->setAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_TOKEN, $token)
-        ;
+            ->setAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_TOKEN, $token);
         $quote->collectTotals()->save();
     }
 
@@ -468,7 +557,7 @@ class Checkout
     {
         $payment = $this->_quote->getPayment();
         if (!$payment || !$payment->getAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_PAYER_ID)) {
-            \Mage::throwException(__('Payer is not identified.'));
+            throw new \Magento\Core\Exception(__('Payer is not identified.'));
         }
         $this->_quote->setMayEditShippingAddress(
             1 != $this->_quote->getPayment()->getAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_SHIPPING_OVERRIDEN)
@@ -485,14 +574,12 @@ class Checkout
      *
      * @param array $request
      * @return string
+     * @throws \Exception
      */
     public function getShippingOptionsCallbackResponse(array $request)
     {
         // prepare debug data
-        $logger = \Mage::getModel(
-            'Magento\Core\Model\Log\Adapter',
-            array('fileName' => 'payment_' . $this->_methodType . '.log')
-        );
+        $logger = $this->_logFactory->create(array('fileName' => 'payment_' . $this->_methodType . '.log'));
         $debugData = array('request' => $request, 'response' => array());
 
         try {
@@ -545,7 +632,7 @@ class Checkout
     public function updateOrder($data)
     {
         /** @var $checkout \Magento\Checkout\Model\Type\Onepage */
-        $checkout = \Mage::getModel('Magento\Checkout\Model\Type\Onepage');
+        $checkout = $this->_checkoutOnepageFactory->create();
 
         $this->_quote->setTotalsCollectedFlag(true);
         $checkout->setQuote($this->_quote);
@@ -598,7 +685,7 @@ class Checkout
         $this->_ignoreAddressValidation();
         $this->_quote->collectTotals();
         $parameters = array('quote' => $this->_quote);
-        $service = \Mage::getModel('Magento\Sales\Model\Service\Quote', $parameters);
+        $service = $this->_serviceQuoteFactory->create($parameters);
         $service->submitAll();
         $this->_quote->save();
 
@@ -636,6 +723,8 @@ class Checkout
             case \Magento\Sales\Model\Order::STATE_COMPLETE:
             case \Magento\Sales\Model\Order::STATE_PAYMENT_REVIEW:
                 $order->sendNewOrderEmail();
+                break;
+            default:
                 break;
         }
         $this->_order = $order;
@@ -756,11 +845,12 @@ class Checkout
             ->getAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT);
 
         if (!($this->_config->allow_ba_signup == \Magento\Paypal\Model\Config::EC_BA_SIGNUP_AUTO
-            || $isRequested && $this->_config->shouldAskToCreateBillingAgreement())) {
+            || $isRequested && $this->_config->shouldAskToCreateBillingAgreement())
+        ) {
             return $this;
         }
 
-        if (!\Mage::getModel('Magento\Sales\Model\Billing\Agreement')->needToCreateForCustomer($this->_customerId)) {
+        if (!$this->_agreementFactory->create()->needToCreateForCustomer($this->_customerId)) {
             return $this;
         }
         $this->_api->setBillingType($this->_api->getBillingAgreementType());
@@ -773,7 +863,7 @@ class Checkout
     protected function _getApi()
     {
         if (null === $this->_api) {
-            $this->_api = \Mage::getModel($this->_apiType)->setConfigObject($this->_config);
+            $this->_api = $this->_apiTypeFactory->create($this->_apiType)->setConfigObject($this->_config);
         }
         return $this->_api;
     }
@@ -785,6 +875,7 @@ class Checkout
      *
      * @param \Magento\Sales\Model\Quote\Address $address
      * @param bool $mayReturnEmpty
+     * @param bool $calculateTax
      * @return array|false
      */
     protected function _prepareShippingOptions(

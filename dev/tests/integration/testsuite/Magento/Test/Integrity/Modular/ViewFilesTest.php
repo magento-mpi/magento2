@@ -11,7 +11,7 @@
 
 namespace Magento\Test\Integrity\Modular;
 
-class ViewFilesTest extends \Magento\TestFramework\TestCase\IntegrityAbstract
+class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
 {
     /**
      * @param string $application

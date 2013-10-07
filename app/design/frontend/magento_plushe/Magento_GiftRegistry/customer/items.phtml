@@ -1,0 +1,61 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     enterprise_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<?php if (count($this->getItems()) > 0): ?>
+<form action="<?php echo $this->getActionUpdateUrl() ?>" method="post" id="gift-registry-items-form" class="form giftregistry">
+    <fieldset class="fieldset">
+        <?php echo $this->getBlockHtml('formkey')?>
+
+        <table id="shopping-cart-table" class="data table giftregistry">
+            <thead>
+                <tr>
+                    <th class="col product"><?php echo __('Product') ?></th>
+                    <th class="col name"><?php echo __('Product Name') ?></th>
+                    <th class="col note"><?php echo __('Note') ?></th>
+                    <th class="col date"><?php echo __('Added On') ?></th>
+                    <th class="col qty"><?php echo __('Qty') ?></th>
+                    <th class="col qty-fulfilled"><?php echo __('Qty Fulfilled') ?></th>
+                    <th class="col actions"><?php echo __('Delete') ?></th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php foreach($this->getItems() as $_item): ?>
+                <?php echo $this->getItemHtml($_item) ?>
+            <?php endforeach ?>
+            </tbody>
+        </table>
+        <div class="actions">
+            <div class="primary">
+                <button type="submit" class="action primary update">
+                    <span><?php echo __('Update Gift Registry') ?></span>
+                </button>
+            </div>
+        </div>
+    </fieldset>
+</form>
+<script type="text/javascript">
+    (function($) {
+        head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
+            "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
+            "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
+            "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>", function() {
+                $('#gift-registry-items-form').validation();
+            });
+    })(jQuery);
+</script>
+<?php else: ?>
+    <p class="no giftregistry items"><?php echo __('This gift registry has no items.') ?></p>
+<?php endif ?>
+<div class="actions">
+    <div class="secondary">
+        <a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>" class="action back"><span><?php echo __('Back') ?></span></a>
+    </div>
+</div>

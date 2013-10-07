@@ -391,33 +391,33 @@ class Order extends \Magento\Sales\Model\AbstractModel
      *
      * @var \Magento\Sales\Helper\Data
      */
-    protected $_salesData = null;
+    protected $_salesData;
 
     /**
      * Payment data
      *
      * @var \Magento\Payment\Helper\Data
      */
-    protected $_paymentData = null;
+    protected $_paymentData;
 
     /**
      * Core data
      *
      * @var \Magento\Core\Helper\Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
 
     /**
      * Core event manager proxy
      *
      * @var \Magento\Core\Model\Event\Manager
      */
-    protected $_eventManager = null;
+    protected $_eventManager;
 
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Core\Model\Store\ConfigInterface
      */
     protected $_coreStoreConfig;
 
@@ -503,7 +503,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * @param \Magento\Sales\Helper\Data $salesData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\LocaleInterface $coreLocale
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Sales\Model\ResourceFactory $resourceFactory
@@ -533,7 +533,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
         \Magento\Sales\Helper\Data $salesData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Core\Model\LocaleInterface $coreLocale,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Sales\Model\ResourceFactory $resourceFactory,

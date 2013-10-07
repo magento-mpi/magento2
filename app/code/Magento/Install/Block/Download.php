@@ -28,24 +28,24 @@ class Download extends \Magento\Install\Block\AbstractBlock
     protected $_coreConfig;
 
     /**
-     * Constructor
-     *
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Install\Model\Installer $installer
+     * @param \Magento\Install\Model\Wizard $installWizard
+     * @param \Magento\Core\Model\Session\Generic $session
      * @param \Magento\Core\Model\Config $coreConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Install\Model\Installer $installer,
+        \Magento\Install\Model\Wizard $installWizard,
+        \Magento\Core\Model\Session\Generic $session,
         \Magento\Core\Model\Config $coreConfig,
         array $data = array()
     ) {
-        parent::__construct(
-            $coreData,
-            $context,
-            $data
-        );
+        parent::__construct($coreData, $context, $installer, $installWizard, $session, $data);
         $this->_coreConfig = $coreConfig;
     }
 
@@ -64,7 +64,7 @@ class Download extends \Magento\Install\Block\AbstractBlock
      */
     public function getNextUrl()
     {
-        return \Mage::getModel('Magento\Install\Model\Wizard')
+        return $this->_installWizard
             ->getStepByName('download')
             ->getNextUrl();
     }

@@ -72,8 +72,8 @@ class AppIsolationTest extends \PHPUnit_Framework_TestCase
 
     public function testEndTestIsolationController()
     {
-        /** @var $controllerTest \Magento\TestFramework\TestCase\ControllerAbstract */
-        $controllerTest = $this->getMockForAbstractClass('Magento\TestFramework\TestCase\ControllerAbstract');
+        /** @var $controllerTest \Magento\TestFramework\TestCase\AbstractController */
+        $controllerTest = $this->getMockForAbstractClass('Magento\TestFramework\TestCase\AbstractController');
         $this->_application->expects($this->once())->method('reinitialize');
         $this->_object->endTest($controllerTest);
     }

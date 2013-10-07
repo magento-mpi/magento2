@@ -22,24 +22,21 @@ class Setup extends \Magento\Core\Model\Resource\Setup
 
     /**
      * @param \Magento\Core\Model\Resource\Setup\Context $context
-     * @param \Magento\Core\Model\Resource\Setup\MigrationFactory $setupMigrationFactory
      * @param string $resourceName
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
         \Magento\Core\Model\Resource\Setup\Context $context,
-        \Magento\Core\Model\Resource\Setup\MigrationFactory $setupMigrationFactory,
         $resourceName,
         $moduleName = 'Magento_Newsletter',
         $connectionName = ''
     ) {
         parent::__construct($context, $resourceName, $moduleName, $connectionName);
-        $this->_setupMigration = $setupMigrationFactory->create(
+        $this->_setupMigration = $this->_migrationFactory->create(
             array('resourceName' => 'core_setup')
         );
     }
-
 
     /**
      * Get block factory
@@ -48,6 +45,6 @@ class Setup extends \Magento\Core\Model\Resource\Setup
      */
     public function getSetupMigration()
     {
-        return $this->_setupMigration;
+        return $this->_migrationFactory->create(array('resourceName' => 'core_setup'));
     }
 }

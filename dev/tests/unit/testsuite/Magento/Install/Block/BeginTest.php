@@ -8,11 +8,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Install\Block;
 
 /**
  * Test class for \Magento\Install\Block\Begin
  */
+namespace Magento\Install\Block;
+
 class BeginTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -22,12 +23,15 @@ class BeginTest extends \PHPUnit_Framework_TestCase
      * @param string|null $fileName
      * @return \Magento\Install\Block\Begin
      */
-    public function getBlockModel($contextFileSystem, $fileName = null)
+    protected function _getBlockModel($contextFileSystem, $fileName = null)
     {
         $helper = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
         $context = $this->getMock('Magento\Core\Block\Template\Context', array(), array(), '', false);
         $context->expects($this->once())->method('getFileSystem')->will($this->returnValue($contextFileSystem));
-        $block = new \Magento\Install\Block\Begin($helper, $context, array(), $fileName);
+        $installer = $this->getMock('Magento\Install\Model\Installer', array(), array(), '', false);
+        $wizard = $this->getMock('Magento\Install\Model\Wizard', array(), array(), '', false);
+        $session = $this->getMock('Magento\Core\Model\Session\Generic', array(), array(), '', false);
+        $block = new \Magento\Install\Block\Begin($helper, $context, $installer, $wizard, $session, $fileName, array());
         return $block;
     }
 
@@ -45,7 +49,7 @@ class BeginTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo(BP . DS . $fileName))
             ->will($this->returnValue($expectedTxt));
 
-        $block = $this->getBlockModel($fileSystem, $fileName);
+        $block = $this->_getBlockModel($fileSystem, $fileName);
         $this->assertEquals($expectedTxt, $block->getLicenseHtml());
     }
 
@@ -61,7 +65,7 @@ class BeginTest extends \PHPUnit_Framework_TestCase
         $fileSystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
         $fileSystem->expects($this->never())->method('read');
 
-        $block = $this->getBlockModel($fileSystem, $fileName);
+        $block = $this->_getBlockModel($fileSystem, $fileName);
         $this->assertEquals('', $block->getLicenseHtml());
     }
 

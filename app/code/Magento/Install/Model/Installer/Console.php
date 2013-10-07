@@ -71,6 +71,13 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
     protected $_dataModel;
 
     /**
+     * Resource config
+     *
+     * @var \Magento\Core\Model\Config\Resource
+     */
+    protected $_resourceConfig;
+
+    /**
      * DB updater
      *
      * @var \Magento\Core\Model\Db\UpdaterInterface
@@ -78,16 +85,72 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
     protected $_dbUpdater;
 
     /**
-     * @param \Magento\Core\Model\Db\UpdaterInterface $daUpdater
+     * Install installer data
+     *
+     * @var \Magento\Install\Model\Installer\Data
+     */
+    protected $_installerData = null;
+
+    /**
+     * Application State
+     *
+     * @var \Magento\Core\Model\App\State
+     */
+    protected $_appState;
+
+    /**
+     * Core Dir model
+     *
+     * @var \Magento\Core\Model\Dir
+     */
+    protected $_coreDir;
+
+    /**
+     * Locale model
+     *
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * Magento Object Manager
+     *
+     * @var \Magento\ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
+     * @param \Magento\Install\Model\InstallerProxy $installer
+     * @param \Magento\Core\Model\Config\Resource $resourceConfig
+     * @param \Magento\Core\Model\Db\UpdaterInterface $dbUpdater
      * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Install\Model\Installer\Data $installerData
+     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\Core\Model\Dir $coreDir
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(
-        \Magento\Core\Model\Db\UpdaterInterface $daUpdater,
-        \Magento\Filesystem $filesystem
+        \Magento\Install\Model\InstallerProxy $installer,
+        \Magento\Core\Model\Config\Resource $resourceConfig,
+        \Magento\Core\Model\Db\UpdaterInterface $dbUpdater,
+        \Magento\Filesystem $filesystem,
+        \Magento\Install\Model\Installer\Data $installerData,
+        \Magento\Core\Model\App\State $appState,
+        \Magento\Core\Model\Dir $coreDir,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\ObjectManager $objectManager
     ) {
-        $this->_dbUpdater = $daUpdater;
-        $this->_getInstaller()->setDataModel($this->_getDataModel());
+        parent::__construct($installer);
+        $this->_resourceConfig = $resourceConfig;
+        $this->_dbUpdater = $dbUpdater;
         $this->_filesystem = $filesystem;
+        $this->_installerData = $installerData;
+        $this->_installer->setDataModel($this->_installerData);
+        $this->_appState = $appState;
+        $this->_coreDir = $coreDir;
+        $this->_locale = $locale;
+        $this->_objectManager = $objectManager;
     }
 
     /**
@@ -137,7 +200,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
      */
     public function addError($error)
     {
-        $this->_getDataModel()->addError($error);
+        $this->_installerData->addError($error);
         return $this;
     }
 
@@ -148,7 +211,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
      */
     public function hasErrors()
     {
-        return (count($this->_getDataModel()->getErrors()) > 0);
+        return (count($this->_installerData->getErrors()) > 0);
     }
 
     /**
@@ -158,7 +221,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
      */
     public function getErrors()
     {
-        return $this->_getDataModel()->getErrors();
+        return $this->_installerData->getErrors();
     }
 
     /**
@@ -171,19 +234,6 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
     {
         $res = (1 == $value) || preg_match('/^(yes|y|true)$/i', $value);
         return $res;
-    }
-
-    /**
-     * Get data model (used to store data between installation steps
-     *
-     * @return \Magento\Install\Model\Installer\Data
-     */
-    protected function _getDataModel()
-    {
-        if (null === $this->_dataModel) {
-            $this->_dataModel = \Mage::getModel('Magento\Install\Model\Installer\Data');
-        }
-        return $this->_dataModel;
     }
 
     /**
@@ -203,7 +253,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
             /**
              * Check if already installed
              */
-            if (\Mage::isInstalled()) {
+            if ($this->_appState->isInstalled()) {
                 $this->addError('ERROR: Magento is already installed.');
                 return false;
             }
@@ -211,13 +261,13 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
             /**
              * Skip URL validation, if set
              */
-            $this->_getDataModel()->setSkipUrlValidation($options['skip_url_validation']);
-            $this->_getDataModel()->setSkipBaseUrlValidation($options['skip_url_validation']);
+            $this->_installerData->setSkipUrlValidation($options['skip_url_validation']);
+            $this->_installerData->setSkipBaseUrlValidation($options['skip_url_validation']);
 
             /**
              * Locale settings
              */
-            $this->_getDataModel()->setLocaleData(array(
+            $this->_installerData->setLocaleData(array(
                 'locale'            => $options['locale'],
                 'timezone'          => $options['timezone'],
                 'currency'          => $options['default_currency'],
@@ -226,7 +276,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
             /**
              * Database and web config
              */
-            $this->_getDataModel()->setConfigData(array(
+            $this->_installerData->setConfigData(array(
                 'db_model'               => $options['db_model'],
                 'db_host'                => $options['db_host'],
                 'db_name'                => $options['db_name'],
@@ -249,7 +299,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
             /**
              * Primary admin user
              */
-            $this->_getDataModel()->setAdminData(array(
+            $this->_installerData->setAdminData(array(
                 'firstname'         => $options['admin_firstname'],
                 'lastname'          => $options['admin_lastname'],
                 'email'             => $options['admin_email'],
@@ -262,7 +312,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
             /**
              * Install configuration
              */
-            $installer->installConfig($this->_getDataModel()->getConfigData());
+            $installer->installConfig($this->_installerData->getConfigData());
 
             if (!empty($options['cleanup_database'])) {
                 $this->_cleanUpDatabase();
@@ -289,7 +339,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
              */
             $encryptionKey = !empty($options['encryption_key']) ? $options['encryption_key'] : null;
             $encryptionKey = $installer->getValidEncryptionKey($encryptionKey);
-            $installer->createAdministrator($this->_getDataModel()->getAdminData());
+            $installer->createAdministrator($this->_installerData->getAdminData());
             $installer->installEncryptionKey($encryptionKey);
 
             /**
@@ -304,7 +354,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
             /**
              * Change directories mode to be writable by apache user
              */
-            $this->_filesystem->changePermissions(\Mage::getBaseDir('var'), 0777, true);
+            $this->_filesystem->changePermissions($this->_coreDir->getDir('var'), 0777, true);
             return $encryptionKey;
         } catch (\Exception $e) {
             if ($e instanceof \Magento\Core\Exception) {
@@ -325,7 +375,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
     {
         $modelName = 'Magento\Install\Model\Installer\Db\Mysql4';
         /** @var $resourceModel \Magento\Install\Model\Installer\Db\AbstractDb */
-        $resourceModel = \Mage::getModel($modelName);
+        $resourceModel = $this->_objectManager->get($modelName);
         $resourceModel->cleanUpDatabase();
     }
 
@@ -336,17 +386,18 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
      */
     public function uninstall()
     {
-        if (!\Mage::isInstalled()) {
+        if (!$this->_appState->isInstalled()) {
             return false;
         }
 
         $this->_cleanUpDatabase();
 
         /* Remove temporary directories and local.xml */
-        foreach (glob(\Mage::getBaseDir(\Magento\Core\Model\Dir::VAR_DIR) . '/*', GLOB_ONLYDIR) as $dir) {
+        foreach (glob($this->_coreDir->getDir(\Magento\Core\Model\Dir::VAR_DIR) . '/*', GLOB_ONLYDIR) as $dir) {
             $this->_filesystem->delete($dir);
         }
-        $this->_filesystem->delete(\Mage::getBaseDir(\Magento\Core\Model\Dir::CONFIG) . DIRECTORY_SEPARATOR . '/local.xml');
+        $this->_filesystem->delete($this->_coreDir->getDir(\Magento\Core\Model\Dir::CONFIG)
+            . DIRECTORY_SEPARATOR . '/local.xml');
         return true;
     }
 
@@ -357,7 +408,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
      */
     public function getAvailableLocales()
     {
-        return \Mage::app()->getLocale()->getOptionLocales();
+        return $this->_locale->getOptionLocales();
     }
 
     /**
@@ -367,7 +418,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
      */
     public function getAvailableCurrencies()
     {
-        return \Mage::app()->getLocale()->getOptionCurrencies();
+        return $this->_locale->getOptionCurrencies();
     }
 
     /**
@@ -377,7 +428,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
      */
     public function getAvailableTimezones()
     {
-        return \Mage::app()->getLocale()->getOptionTimezones();
+        return $this->_locale->getOptionTimezones();
     }
 
     /**

@@ -24,7 +24,7 @@ class Generator
     protected $_xmlFormatter;
 
     /**
-     * @var \Magento\Tools\Migration\System\Configuration\LoggerAbstract
+     * @var \Magento\Tools\Migration\System\Configuration\AbstractLogger
      */
     protected $_logger;
 
@@ -36,14 +36,14 @@ class Generator
     protected $_basePath;
 
     /**
-     * @var \Magento\Tools\Migration\System\Configuration\LoggerAbstract
+     * @var \Magento\Tools\Migration\System\Configuration\AbstractLogger
      */
     protected $_fileSchemaPath;
 
     public function __construct(
         \Magento\Tools\Migration\System\Configuration\Formatter $xmlFormatter,
         \Magento\Tools\Migration\System\FileManager $fileManager,
-        \Magento\Tools\Migration\System\Configuration\LoggerAbstract $logger
+        \Magento\Tools\Migration\System\Configuration\AbstractLogger $logger
     ) {
         $this->_fileManager = $fileManager;
         $this->_xmlFormatter = $xmlFormatter;
@@ -67,12 +67,12 @@ class Generator
         if (@!$domDocument->schemaValidate($this->_fileSchemaPath)) {
             $this->_logger->add(
                 $this->_removeBasePath($fileName),
-                \Magento\Tools\Migration\System\Configuration\LoggerAbstract::FILE_KEY_INVALID
+                \Magento\Tools\Migration\System\Configuration\AbstractLogger::FILE_KEY_INVALID
             );
         } else {
             $this->_logger->add(
                 $this->_removeBasePath($fileName),
-                \Magento\Tools\Migration\System\Configuration\LoggerAbstract::FILE_KEY_VALID
+                \Magento\Tools\Migration\System\Configuration\AbstractLogger::FILE_KEY_VALID
             );
         }
 

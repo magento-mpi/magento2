@@ -22,7 +22,7 @@ class MemoryTest extends \PHPUnit_Framework_TestCase
     protected $_object;
 
     /**
-     * @var \Magento\TestFramework\MemoryLimit|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\TestFramework\MemoryLimit|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_memoryLimit;
 

@@ -12,7 +12,6 @@
 /**
  * Eav Form Fieldset Model
  *
- * @method \Magento\Eav\Model\Resource\Form\Fieldset _getResource()
  * @method \Magento\Eav\Model\Resource\Form\Fieldset getResource()
  * @method int getTypeId()
  * @method \Magento\Eav\Model\Form\Fieldset setTypeId(int $value)
@@ -35,6 +34,23 @@ class Fieldset extends \Magento\Core\Model\AbstractModel
      * @var string
      */
     protected $_eventPrefix = 'eav_form_fieldset';
+
+    /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_storeManager = $storeManager;
+    }
 
     /**
      * Initialize resource model
@@ -74,7 +90,7 @@ class Fieldset extends \Magento\Core\Model\AbstractModel
     protected function _beforeSave()
     {
         if (!$this->getTypeId()) {
-            \Mage::throwException(__('Invalid form type.'));
+            throw new \Magento\Core\Exception(__('Invalid form type.'));
         }
         if (!$this->getStoreId() && $this->getLabel()) {
             $this->setStoreLabel($this->getStoreId(), $this->getLabel());
@@ -131,7 +147,7 @@ class Fieldset extends \Magento\Core\Model\AbstractModel
     public function getStoreId()
     {
         if (!$this->hasStoreId()) {
-            $this->setData('store_id', \Mage::app()->getStore()->getId());
+            $this->setData('store_id', $this->_storeManager->getStore()->getId());
         }
         return $this->_getData('store_id');
     }

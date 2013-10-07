@@ -20,6 +20,28 @@ namespace Magento\CustomerCustomAttributes\Block\Form\Renderer;
 
 abstract class AbstractRenderer extends \Magento\CustomAttribute\Block\Form\Renderer\AbstractRenderer
 {
+    /**
+     * @var \Magento\Eav\Model\AttributeDataFactory
+     */
+    protected $_attrDataFactory;
+
+    /**
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Eav\Model\AttributeDataFactory $attrDataFactory
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Eav\Model\AttributeDataFactory $attrDataFactory,
+        array $data = array()
+    ) {
+        parent::__construct($locale, $coreData, $context, $data);
+        $this->_attrDataFactory = $attrDataFactory;
+    }
 
     /**
      * Get additional description message for attribute field
@@ -48,7 +70,7 @@ abstract class AbstractRenderer extends \Magento\CustomAttribute\Block\Form\Rend
      */
     public function validateValue($value)
     {
-        $dataModel = \Magento\Customer\Model\Attribute\Data::factory($this->getAttributeObject(), $this->getEntity());
+        $dataModel = $this->_attrDataFactory->create($this->getAttributeObject(), $this->getEntity());
         $result = $dataModel->validateValue($this->getValue());
         return $result;
     }

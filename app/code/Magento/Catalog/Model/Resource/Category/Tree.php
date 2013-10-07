@@ -65,17 +65,55 @@ class Tree extends \Magento\Data\Tree\Dbp
     protected $_storeId                          = null;
 
     /**
+     * @var \Magento\Core\Model\Resource
+     */
+    protected $_coreResource;
+
+    /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Cache
+     *
+     * @var \Magento\Core\Model\CacheInterface
+     */
+    protected $_cache;
+
+    /**
+     * Catalog category
+     *
+     * @var \Magento\Catalog\Model\Resource\Category
+     */
+    protected $_catalogCategory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Catalog\Model\Resource\Category $catalogCategory
+     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Catalog\Model\Attribute\Config $attributeConfig
      * @param \Magento\Catalog\Model\Resource\Category\Collection\Factory $collectionFactory
      */
     public function __construct(
+        \Magento\Catalog\Model\Resource\Category $catalogCategory,
+        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Resource $resource,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Catalog\Model\Attribute\Config $attributeConfig,
         \Magento\Catalog\Model\Resource\Category\Collection\Factory $collectionFactory
     ) {
+        $this->_catalogCategory = $catalogCategory;
+        $this->_cache = $cache;
+        $this->_storeManager = $storeManager;
+        $this->_coreResource = $resource;
         parent::__construct(
             $resource->getConnection('catalog_write'),
             $resource->getTableName('catalog_category_entity'),
@@ -111,7 +149,7 @@ class Tree extends \Magento\Data\Tree\Dbp
     public function getStoreId()
     {
         if ($this->_storeId === null) {
-            $this->_storeId = \Mage::app()->getStore()->getId();
+            $this->_storeId = $this->_storeManager->getStore()->getId();
         }
         return $this->_storeId;
     }
@@ -230,7 +268,7 @@ class Tree extends \Magento\Data\Tree\Dbp
      */
     protected function _getDisabledIds($collection)
     {
-        $storeId = \Mage::app()->getStore()->getId();
+        $storeId = $this->_storeManager->getStore()->getId();
 
         $this->_inactiveItems = $this->getInactiveCategoryIds();
 
@@ -263,15 +301,15 @@ class Tree extends \Magento\Data\Tree\Dbp
      */
     protected function _getIsActiveAttributeId()
     {
-        $resource = \Mage::getSingleton('Magento\Core\Model\Resource');
         if (is_null($this->_isActiveAttributeId)) {
             $bind = array(
                 'entity_type_code' => \Magento\Catalog\Model\Category::ENTITY,
                 'attribute_code'   => 'is_active'
             );
             $select = $this->_conn->select()
-                ->from(array('a'=>$resource->getTableName('eav_attribute')), array('attribute_id'))
-                ->join(array('t'=>$resource->getTableName('eav_entity_type')), 'a.entity_type_id = t.entity_type_id')
+                ->from(array('a' => $this->_coreResource->getTableName('eav_attribute')), array('attribute_id'))
+                ->join(array('t' => $this->_coreResource->getTableName('eav_entity_type')),
+                    'a.entity_type_id = t.entity_type_id')
                 ->where('entity_type_code = :entity_type_code')
                 ->where('attribute_code = :attribute_code');
 
@@ -293,7 +331,7 @@ class Tree extends \Magento\Data\Tree\Dbp
         $attributeId = $this->_getIsActiveAttributeId();
 
         $conditionSql = $this->_conn->getCheckSql('c.value_id > 0', 'c.value', 'd.value');
-        $table = \Mage::getSingleton('Magento\Core\Model\Resource')->getTableName('catalog_category_entity_int');
+        $table = $this->_coreResource->getTableName('catalog_category_entity_int');
         $bind = array(
             'attribute_id' => $attributeId,
             'store_id'     => $storeId,
@@ -393,7 +431,7 @@ class Tree extends \Magento\Data\Tree\Dbp
      */
     public function move($category, $newParent, $prevNode = null)
     {
-        \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Category')
+        $this->_catalogCategory
             ->move($category->getId(), $newParent->getId());
         parent::move($category, $newParent, $prevNode);
 
@@ -407,7 +445,7 @@ class Tree extends \Magento\Data\Tree\Dbp
      */
     protected function _afterMove()
     {
-        \Mage::app()->cleanCache(array(\Magento\Catalog\Model\Category::CACHE_TAG));
+        $this->_cache->clean(array(\Magento\Catalog\Model\Category::CACHE_TAG));
         return $this;
     }
 
@@ -547,7 +585,7 @@ class Tree extends \Magento\Data\Tree\Dbp
         if ($optionalAttributes) {
             $attributes = array_unique(array_merge($attributes, $optionalAttributes));
         }
-        $resource = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Category');
+        $resource = $this->_catalogCategory;
         foreach ($attributes as $attributeCode) {
             /* @var $attribute \Magento\Eav\Model\Entity\Attribute */
             $attribute = $resource->getAttribute($attributeCode);
@@ -576,8 +614,8 @@ class Tree extends \Magento\Data\Tree\Dbp
         }
 
         // count children products qty plus self products qty
-        $categoriesTable         = \Mage::getSingleton('Magento\Core\Model\Resource')->getTableName('catalog_category_entity');
-        $categoriesProductsTable = \Mage::getSingleton('Magento\Core\Model\Resource')->getTableName('catalog_category_product');
+        $categoriesTable         = $this->_coreResource->getTableName('catalog_category_entity');
+        $categoriesProductsTable = $this->_coreResource->getTableName('catalog_category_product');
 
         $subConcat = $this->_conn->getConcatSql(array('e.path', $this->_conn->quote('/%')));
         $subSelect = $this->_conn->select()

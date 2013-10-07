@@ -31,11 +31,53 @@ class Price
     protected $_eventManager = null;
 
     /**
+     * Customer session
+     *
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * Locale
+     *
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Rule factory
+     *
+     * @var \Magento\CatalogRule\Model\Resource\RuleFactory
+     */
+    protected $_ruleFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\CatalogRule\Model\Resource\RuleFactory $ruleFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\Model\Event\Manager $eventManager
      */
     public function __construct(
+        \Magento\CatalogRule\Model\Resource\RuleFactory $ruleFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Customer\Model\Session $customerSession,
         \Magento\Core\Model\Event\Manager $eventManager
     ) {
+        $this->_ruleFactory = $ruleFactory;
+        $this->_storeManager = $storeManager;
+        $this->_locale = $locale;
+        $this->_customerSession = $customerSession;
         $this->_eventManager = $eventManager;
     }
 
@@ -259,7 +301,7 @@ class Price
         if ($product->getCustomerGroupId()) {
             return $product->getCustomerGroupId();
         }
-        return \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerGroupId();
+        return $this->_customerSession->getCustomerGroupId();
     }
 
     /**
@@ -300,13 +342,13 @@ class Price
         $price = $product->getTierPrice($qty);
         if (is_array($price)) {
             foreach ($price as $index => $value) {
-                $price[$index]['formated_price'] = \Mage::app()->getStore()->convertPrice(
+                $price[$index]['formated_price'] = $this->_storeManager->getStore()->convertPrice(
                         $price[$index]['website_price'], true
                 );
             }
         }
         else {
-            $price = \Mage::app()->getStore()->formatPrice($price);
+            $price = $this->_storeManager->getStore()->formatPrice($price);
         }
 
         return $price;
@@ -320,7 +362,7 @@ class Price
      */
     public function getFormatedPrice($product)
     {
-        return \Mage::app()->getStore()->formatPrice($product->getFinalPrice());
+        return $this->_storeManager->getStore()->formatPrice($product->getFinalPrice());
     }
 
     /**
@@ -363,7 +405,7 @@ class Price
      * @param   null|int $productId
      * @return  float
      */
-    public static function calculatePrice($basePrice, $specialPrice, $specialPriceFrom, $specialPriceTo,
+    public function calculatePrice($basePrice, $specialPrice, $specialPriceFrom, $specialPriceTo,
             $rulePrice = false, $wId = null, $gId = null, $productId = null)
     {
         \Magento\Profiler::start('__PRODUCT_CALCULATE_PRICE__');
@@ -371,7 +413,7 @@ class Price
             $sId = $wId->getId();
             $wId = $wId->getWebsiteId();
         } else {
-            $sId = \Mage::app()->getWebsite($wId)->getDefaultGroup()->getDefaultStoreId();
+            $sId = $this->_storeManager->getWebsite($wId)->getDefaultGroup()->getDefaultStoreId();
         }
 
         $finalPrice = $basePrice;
@@ -379,11 +421,11 @@ class Price
             $gId = $gId->getId();
         }
 
-        $finalPrice = self::calculateSpecialPrice($finalPrice, $specialPrice, $specialPriceFrom, $specialPriceTo, $sId);
+        $finalPrice = $this->calculateSpecialPrice($finalPrice, $specialPrice, $specialPriceFrom, $specialPriceTo, $sId);
 
         if ($rulePrice === false) {
-            $storeTimestamp = \Mage::app()->getLocale()->storeTimeStamp($sId);
-            $rulePrice = \Mage::getResourceModel('Magento\CatalogRule\Model\Resource\Rule')
+            $storeTimestamp = $this->_locale->storeTimeStamp($sId);
+            $rulePrice = $this->_ruleFactory->create()
                 ->getRulePrice($storeTimestamp, $wId, $gId, $productId);
         }
 
@@ -406,11 +448,11 @@ class Price
      * @param mixed $store
      * @return float
      */
-    public static function calculateSpecialPrice($finalPrice, $specialPrice, $specialPriceFrom, $specialPriceTo,
+    public function calculateSpecialPrice($finalPrice, $specialPrice, $specialPriceFrom, $specialPriceTo,
             $store = null)
     {
         if (!is_null($specialPrice) && $specialPrice != false) {
-            if (\Mage::app()->getLocale()->isStoreDateInInterval($store, $specialPriceFrom, $specialPriceTo)) {
+            if ($this->_locale->isStoreDateInInterval($store, $specialPriceFrom, $specialPriceTo)) {
                 $finalPrice     = min($finalPrice, $specialPrice);
             }
         }

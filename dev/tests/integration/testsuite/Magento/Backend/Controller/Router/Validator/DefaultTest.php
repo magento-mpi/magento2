@@ -28,7 +28,7 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
 
         $options = array(
             'areaCode' => \Magento\Core\Model\App\Area::AREA_ADMINHTML,
-            'baseController' => 'Magento\Backend\Controller\ActionAbstract',
+            'baseController' => 'Magento\Backend\Controller\AbstractAction',
             'backendData' => $dataHelperMock,
         );
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
@@ -43,7 +43,7 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
     {
         $options = array(
             'areaCode'       => \Magento\Core\Model\App\Area::AREA_ADMINHTML,
-            'baseController' => 'Magento\Backend\Controller\ActionAbstract',
+            'baseController' => 'Magento\Backend\Controller\AbstractAction',
         );
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Backend\Controller\Router\DefaultRouter', $options);

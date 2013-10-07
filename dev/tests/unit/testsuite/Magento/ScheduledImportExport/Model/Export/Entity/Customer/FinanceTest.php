@@ -73,10 +73,16 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_model = new \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance(
+            $coreStoreConfig,
+            $this->getMock('Magento\Core\Model\App', array(), array(), '', false, false),
+            $this->getMock('Magento\ImportExport\Model\Export\Factory', array(), array(), '', false, false),
+            $this->getMock(
+                'Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory',
+                array(), array(), '', false, false
+            ),
             $customerCollFactory,
             $eavCustomerFactory,
             $this->getMock('Magento\ScheduledImportExport\Helper\Data', array(), array(), '', false, false),
-            $coreStoreConfig,
             $this->_getModelDependencies()
         );
     }

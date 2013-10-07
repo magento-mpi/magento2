@@ -67,13 +67,35 @@ class Ipn
     protected $_logger;
 
     /**
+     * Order factory
+     *
+     * @var \Magento\Sales\Model\OrderFactory
+     */
+    protected $_orderFactory;
+
+    /**
+     * Paypal info
+     *
+     * @var \Magento\Paypal\Model\Info
+     */
+    protected $_paypalInfo;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Paypal\Model\Info $paypalInfo
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      */
     public function __construct(
+        \Magento\Paypal\Model\Info $paypalInfo,
+        \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Core\Model\Logger $logger,
         \Magento\Pbridge\Helper\Data $pbridgeData
     ) {
+        $this->_paypalInfo = $paypalInfo;
+        $this->_orderFactory = $orderFactory;
         $this->_pbridgeData = $pbridgeData;
         $this->_logger = $logger;
     }
@@ -166,7 +188,7 @@ class Ipn
         if (empty($this->_order)) {
             // get proper order
             $id = $this->getIpnFormData('invoice');
-            $order = \Mage::getModel('Magento\Sales\Model\Order');
+            $order = $this->_orderFactory->create();
             $order->loadByIncrementId($id);
             if (!$order->getId()) {
                 // throws \Exception intentionally, because cannot be logged to order comments
@@ -193,7 +215,8 @@ class Ipn
                 $receiverEmail = $this->getIpnFormData('receiver_email');
             }
             if ($merchantEmail != $receiverEmail) {
-                \Mage::throwException(__('Requested %1 and configured %2 merchant emails do not match.', $receiverEmail, $merchantEmail));
+                throw new \Magento\Core\Exception(__('Requested %1 and configured %2 merchant emails do not match.',
+                    $receiverEmail, $merchantEmail));
             }
         }
     }
@@ -355,6 +378,7 @@ class Ipn
 
     /**
      * @see pending_reason at https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_admin_IPNReference
+     * @throws \Magento\Core\Exception
      */
     public function _registerPaymentPending()
     {
@@ -375,7 +399,8 @@ class Ipn
                 $message = __('This payment includes multiple currencies. You can accept or deny this payment in your PayPal account overview.');
                 break;
             case 'order':
-                \Mage::throwException('"Order" authorizations are not implemented. Please use "simple" authorization.');
+                throw new \Magento\Core\Exception(
+                    '"Order" authorizations are not implemented. Please use "simple" authorization.');
             case 'authorization':
                 $this->_registerPaymentAuthorization();
                 break;
@@ -556,7 +581,7 @@ class Ipn
             $from[\Magento\Paypal\Model\Info::FRAUD_FILTERS] = $fraudFilters;
         }
 
-        \Mage::getSingleton('Magento\Paypal\Model\Info')->importToPayment($from, $payment);
+        $this->_paypalInfo->importToPayment($from, $payment);
         return $was != $payment->getAdditionalInformation();
     }
 
