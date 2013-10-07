@@ -2,7 +2,10 @@
   * Fixed advanced search
   * Fixed Tax tab
   * Fixed placing order within OnePageCheckout using online payment methods
-
+  * Error, when trying to register by invitation in EE
+  * Impossible to add product in order from backend if enable Gift Messages
+  * It's impossible to add product to cart if MAP is enabled
+  
 2.0.0.0-dev46
 =============
 * Translation mechanism improvements:
