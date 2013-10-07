@@ -21,45 +21,6 @@ namespace Magento\Search\Model\Resource;
 class Index extends \Magento\CatalogSearch\Model\Resource\Fulltext
 {
     /**
-     * Store manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
-     * Core resource helper
-     *
-     * @var \Magento\Core\Model\Resource\Helper
-     */
-    protected $_resourceHelper;
-
-    /**
-     * Construct
-     *
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Helper\String $coreString
-     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
-     * @param \Magento\Core\Model\Resource $resource
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Resource\Helper $resourceHelper
-     */
-    public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Helper\String $coreString,
-        \Magento\CatalogSearch\Helper\Data $catalogSearchData,
-        \Magento\Core\Model\Resource $resource,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Resource\Helper $resourceHelper
-    ) {
-        parent::__construct($eventManager, $coreString, $catalogSearchData, $resource, $coreStoreConfig);
-        $this->_storeManager = $storeManager;
-        $this->_resourceHelper = $resourceHelper;
-    }
-
-    /**
      * Return array of price data per customer and website by products
      *
      * @param   null|array $productIds
@@ -190,7 +151,7 @@ class Index extends \Magento\CatalogSearch\Model\Resource\Fulltext
     protected function _getCatalogCategoryData($storeId, $productIds = null, $visibility = true)
     {
         $adapter = $this->_getWriteAdapter();
-        $prefix  = $this->_engine->getFieldsPrefix();
+        $prefix  = $this->getEngine()->getFieldsPrefix();
 
         $columns = array(
             'product_id' => 'product_id',
@@ -250,7 +211,7 @@ class Index extends \Magento\CatalogSearch\Model\Resource\Fulltext
             }
         }
 
-        $prefix         = $this->_engine->getFieldsPrefix();
+        $prefix         = $this->getEngine()->getFieldsPrefix();
         $categoryData   = $this->_getCatalogCategoryData($storeId, $productIds, true);
         $priceData      = $this->_getCatalogProductPriceData($productIds);
 
