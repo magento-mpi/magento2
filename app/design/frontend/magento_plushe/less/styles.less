@@ -1952,6 +1952,11 @@ body {
         padding: 10px;
     }
 }
+.field.choice.payment {
+    > .label {
+        font-weight: bold;
+    }
+}
 
 .data-table {
     width: 100%;
@@ -1967,6 +1972,9 @@ body {
 }
 
 .form.giftcard.redeem {
+    > .fieldset {
+        margin: 0 0 30px;
+    }
     .field {
         margin: 15px 0;
     }
@@ -2015,6 +2023,9 @@ body {
     .action.check {
         .resetAction();
         .actionLink();
+        &:hover {
+            background: none;
+        }
         position: absolute;
         left: 0;
         bottom: 0;
