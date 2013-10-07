@@ -1,0 +1,32 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php if ($this->canShow() && $this->getEvents() && count($this->getEvents())): ?>
+    <h2 class="subtitle caption"><?php echo __('Balance History'); ?></h2>
+    <table id="customerbalance-history" class="data table balance history">
+        <thead>
+            <tr>
+                <th class="col actions"><?php echo __('Action'); ?></th>
+                <th class="col change"><?php echo __('Balance Change'); ?></th>
+                <th class="col balance"><?php echo __('Balance'); ?></th>
+                <th class="col date"><?php echo __('Date'); ?></th>
+            </tr>
+        </thead>
+        <?php foreach ($this->getEvents() as $event): ?>
+        <tbody>
+            <tr>
+                <td class="col actions"><?php echo $this->getActionLabel($event->getAction()); ?></td>
+                <td class="col change"><?php echo $this->helper('Magento\Core\Helper\Data')->currency($event->getBalanceDelta()); ?></td>
+                <td class="col balance"><?php echo $this->helper('Magento\Core\Helper\Data')->currency($event->getBalanceAmount()); ?></td>
+                <td class="col date"><?php echo $this->helper('Magento\Core\Helper\Data')->formatDate($event->getUpdatedAt(), 'short', true); ?></td>
+            </tr>
+        </tbody>
+        <?php endforeach; ?>
+    </table>
+<?php endif; ?>

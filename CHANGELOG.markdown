@@ -1,75 +1,54 @@
-* Implemented PSR-1 Coding Standards
-  * All Magento source code has been converted.
-  * Tests have been written to enforce PSR-1 coding standards.
-* Removed the Poll module including references and dependencies to/on it.
-* Removed from configuration XML files and implemented into di the following nodes:
-  * Skip_process_modules_updates
-  * external_cache
-  * ignoredModules
-  * migration
-  * helpers
-* Altered format of `giftregistry.xml` and added `giftregistry.xsd` to allow for validation of XML files.
-* Vde segment was moved from config.xml to di.xml
-* Covered XSDs with unit tests;
-* Removed config/global/resources and config/global/resource nodes from config.xml files;
-* Removed empty module setup models. Core resource setup model is used as a default setup model now;
+* Fixed bugs:
+  * Fixed advanced search
+  * Fixed Tax tab
+  * Fixed placing order within OnePageCheckout using online payment methods
+  * Fixed error when product is being added to order from backend if Gift Messages are enabled
+  * Fixed error when product is being added to cart if MAP is enabled
+  
+2.0.0.0-dev46
+=============
+* Translation mechanism improvements:
+  * Translate function ->__() was removed from Magento model interfaces. Global function __() was created
+  * Added I18n tools for translation dictionary generation and language package generation
 * Configuration improvements:
-  * Introduced scoped configuration model - Magento_Config_Data_Scoped and non-scoped one - Magento_Config_Data;
-  * Import/Export configuration was moved from config.xml to import.xml and export.xml files with new format;
-  * Product type configuration was moved from config.xml to product_types.xml files with new format;
-  * Product option configuration was moved from config.xml to product_options.xml files with new format;
-  * EAV attributes configuration was moved from config.xml to eav_attributes.xml files with new format;
-  * Indexer configuration was moved from config.xml to indexers.xml files with new format;
-  * Catalog rules configuration was moved from config.xml to di.xml;
-  * Sales rules configuration was moved from config.xml to di.xml;
-  * Session configuration was moved from config.xml to di.xml;
-  * <ignore_user_agents> node was removed from config.xml and related data was moved to di.xml;
-  * <request> node was removed from config.xml and related data was moved to di.xml;
-  * <secure_url> node was removed from config.xml and related data was moved to di.xml;
-  * <dev> node was removed from config.xml and related data was moved to di.xml;
-  * <webapi> node was removed from config.xml and related data was moved to di.xml;
-  * CMS configuration was moved from config.xml to di.xml;
-  * Widget configuration was moved from config.xml to di.xml;
-  * /config/global/catalog/product/flat node was removed from config.xml and related data was moved to di.xml;
-  * /config/global/catalog/content/template_filter node was removed from config.xml and related data was moved to di.xml;
-  * /config/frontend/catalog/per_page_values node was removed from config.xml and related data was moved to di.xml;
-  * /config/global/page/layouts node was removed from the config.xml and related data was moved into page_layouts.xml
-  * /config/global/theme node was removed from the config.xml and related data was moved to di.xml
-  * /config/global/payment node was removed from config.xml and related data was moved to payment.xml and di.xml
-  * Removed "translate" node from configuration XML files
-  * Improved Install, Category, Product, Customer, Wishlist, PDF, VDE, Currency, Email Template configuration segments:
-    * Configuration moved to separate files. Some parts are transformed to DI configuration and moved to `di.xml` files
-    * New configuration files are validated with XSD
-    * Format of the configuration changed to make possible its validation
+  * Implemented Magento Config component that allows to create new configuration types in a simple way
+  * Improved default/store/website configuration
+     * config.xml file is designed to store only default/store/website configuration data
+     * concrete store/website configuration is loaded on demand
+  * Improved Install, Category, Product, EAV, Customer, Wishlist, PDF, VDE, Currency, Email Template, Crontab, Events, Routes, Modules, Locale, Import/Export, Indexer, Resources configuration segments:
+     * Configuration moved to separate files. Some parts are transformed to DI configuration and moved to `di.xml` files
+     * New configuration files are validated with XSD
+     * Format of the configuration changed to make possible its validation
   * Improved configuration in `widget.xml`, `fieldset.xml`, `persistent.xml` and `install.xml` files:
-    * `install.xml` was renamed to `install_wizard.xml`
-    * The configuration is validated with XSD
-    * Format of the configuration changed to make possible its validation
+     * `install.xml` was renamed to `install_wizard.xml`
+     * The configuration is validated with XSD
+     * Format of the configuration changed to make possible its validation
+     * Some parts are transformed to DI configuration and moved to `di.xml` files
   * Removed `jstranslate.xml` files and moved all message definitions to `Magento_Core_Helper_Js`.
-  * Newsletter configuration segment was eliminated. Custom Newsletter Template Filter can be configured via DI configuration
-* Prototype.js uses converted to jQuery:
-  * Deprecated prototype.js based method removed from app/code/Magento/Weee/view/frontend/tax-toggle.js
-  * Removed depreacted prototype.js based file: app/code/Magento/Checkout/view/frontend/opcheckout.js
-  * Updated to use jQuery redirectUrl widget vs prototype based solution:
-    * app/code/Magento/Oauth/view/adminhtml/authorize/form/login.phtml
-    * app/code/Magento/Oauth/view/frontend/authorize/form/login.phtml
-    * app/code/Magento/Catalog/view/frontend/product/list.phtml
+  * List of non-structured nodes from config.xml were transformed into DI configuration
+* JavaScript improvements:
+  * Prototype.js usages converted to jQuery:
+     * Deprecated prototype.js based method removed from app/code/Magento/Weee/view/frontend/tax-toggle.js
+     * Removed deprecated prototype.js based file: app/code/Magento/Checkout/view/frontend/opcheckout.js
+     * Updated to use jQuery redirectUrl widget vs prototype based solution:
+       * app/code/Magento/Oauth/view/adminhtml/authorize/form/login.phtml
+       * app/code/Magento/Oauth/view/frontend/authorize/form/login.phtml
+       * app/code/Magento/Catalog/view/frontend/product/list.phtml
   * Removed file containing jQuery that did not meet the Magento 2 coding standard. Replaced with redirect-url widget
-    * app/code/Magento/Catalog/view/frontend/js/mage-attributes-processing.js
-  * Updated to meet Magento 2 coding stanadrd: app/code/Magento/Checkout/view/frontend/cart/item/default.phtml
-* Added jQuery widgets:
-  * mage.deletableItem - Widget to tag DOM element as deletable, by default on click
-  * mage.fieldsetControls & mage.fieldsetResetControl - Widget to easily reset a subset of form fields with a reset ui control
-  * mage.itemTable  - Widget to easily add a data template block dynamically on an event, by default click.
-  * mage.redirectUrl - Simple widget to allow for consistent javascript based redirects that meet the Magento 2 coding standard
-  * Added new validation rules for validation widget: 'required-if-not-specified', 'required-if-specified', and 'validate-item-quantity'
-* Сrontab segment improvements:
-  * crontab configurations were moved from config.xml to new crontab.xml with new format
-  * XSD validation schema for crontab.xml was added
-* Install segment was moved from config.xml to di.xml for next configuration nodes:
-  * config/install/databases
-  * config/install/eula_file
+     * app/code/Magento/Catalog/view/frontend/js/mage-attributes-processing.js
+  * Updated to meet Magento 2 coding standard: app/code/Magento/Checkout/view/frontend/cart/item/default.phtml
+  * Added jQuery widgets:
+    * mage.deletableItem - Widget to tag DOM element as deletable, by default on click
+    * mage.fieldsetControls & mage.fieldsetResetControl - Widget to easily reset a subset of form fields with a reset ui control
+    * mage.itemTable  - Widget to easily add a data template block dynamically on an event, by default click.
+    * mage.redirectUrl - Simple widget to allow for consistent javascript based redirects that meet the Magento 2 coding standard
+    * Added new validation rules for validation widget: 'required-if-not-specified', 'required-if-specified', and 'validate-item-quantity'
 * Various improvements:
+  * Changed VendorName from Mage to Magento
+  * Implemented PSR-0 and PSR-1 Coding Standards
+    * All Magento source code has been converted.
+    * Tests have been written to enforce PSR-0 and PSR-1 coding standards.
+  * Removed empty module setup models. Core resource setup model is used as a default setup model now. Custom setup model must be injected via DI configuration
   * Removed some events (plugins must be used instead):
     * adminhtml_widget_container_html_before
     * admin_session_user_logout
@@ -99,18 +78,11 @@
     * sales_convert_quote_payment_to_order_payment
     * sales_convert_quote_item_to_order_item
     * sales_quote_config_get_product_attributes
+  * Removed the Poll module including references and dependencies to/on it.
 * Redesign and reimplementation of web services framework
   * Removed the Api module and all existing SOAP V1, SOAP V2, and XML-RPC web services code
   * Implemented new web services framework to support both REST and SOAP based off of a common service interface
   * Implemented a 2-legged OAuth 1.0a based authentication mechanism for both REST and SOAP API calls
-* XML Validation
-  * Altered format of `widget.xml` and added `widget.xsd` to allow for validation of XML files.
-  * Altered format of `fieldset.xml` and added `fieldset.xsd` to allow for validation of XML files.
-  * Altered format of `install.xml`
-    * Renamed to `install_wizard.xml`
-    * Added `install_wizard.xsd` to allow for validation of XML files.
-* Removed "translate" node from configuration XML files
-* Added I18n tools for translation dictionary generation and language package generation
 * Layout improvements:
   * Arbitrary handle name moved to handle node, id attribute
   * New arguments format, which introduce argument types implemented
@@ -131,7 +103,7 @@
 * God Class Mage Eliminated
 * Fixed bugs:
   * Fixed address field "State/Province" on frontend, which contained "[object Object]" items instead of necessary values
-  * Fixed inability to create gift registry on frontend
+  * Fixed overriding/extending of global plugin configuration in area specific configuration
 
 2.0.0.0-dev45
 =============
@@ -278,7 +250,7 @@
   * [#215](https://github.com/magento/magento2/pull/215) -- There is no sort-order "best value"
   * [#217](https://github.com/magento/magento2/pull/217) -- Update `app/code/core/Mage/Adminhtml/locale/de_DE/Mage_Adminhtml.csv`
   * [#243](https://github.com/magento/magento2/pull/243) -- Fix helper for determining system memory usage on Windows (pull request for issue #237)
-  * [#267](https://github.com/magento/magento2/pull/267) -- Issue with camel case in cusutom defined source models
+  * [#267](https://github.com/magento/magento2/pull/267) -- Issue with camel case in custom defined source models
 * Bug fixes:
   * Fixed absence of a product for store view created after the product
   * Fixed incorrectly displayed or absent product image on configurable product pages
@@ -1131,7 +1103,7 @@
   * Fixed absence of the success message upon newsletter template creation/deletion/queueing
   * Workaround for occasional segmentation fault in integration tests caused by `Mage_Core_Model_Resource_Setup_Migration`
 * GitHub requests:
-  * [#51](https://github.com/magento/magento2/issues/51) -- fixed managing of scope-spefic values for Categories
+  * [#51](https://github.com/magento/magento2/issues/51) -- fixed managing of scope-specific values for Categories
   * [#56](https://github.com/magento/magento2/pull/56) -- removed excessive semicolon in the CSS file
   * [#60](https://github.com/magento/magento2/issues/60) -- fixed taking bind parameters into account in `Mage_Core_Model_Resource_Db_Collection_Abstract::getAllIds()`
   * [#61](https://github.com/magento/magento2/pull/61) -- relocated declaration of the "Google Checkout" payment method into `Mage_GoogleCheckout` module from `Mage_Sales`

@@ -1,0 +1,26 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php if ($detailedInfoGroup = $this->getGroupChildNames('detailed_info', 'getChildHtml')):?>
+    <div class="product info detailed">
+        <?php $layout = $this->getLayout(); ?>
+        <dl class="product data items" data-sections="tabs">
+            <?php foreach ($detailedInfoGroup as $name):?>
+                <?php
+                    $html = $layout->renderElement($name);
+                    if (!trim($html)) continue;
+                    $alias = $layout->getElementAlias($name);
+                    $label = $this->escapeHtml($this->getChildData($alias, 'title'));
+                ?>
+                <dt class="data item title" data-section="title"><a class="data switch" data-toggle="switch" href="#<?php echo $alias; ?>"><?php echo $label; ?></a></dt>
+                <dd class="data item content" id="<?php echo $alias; ?>" data-section="content"><?php echo $html; ?></dd>
+            <?php endforeach;?>
+        </dl>
+    </div>
+<?php endif; ?>

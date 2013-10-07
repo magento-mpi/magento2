@@ -1,0 +1,25 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * Downloadable product type
+ *
+ * @see \Magento\Downloadable\Block\Catalog\Product\View\Type
+ */
+?>
+<?php $_product = $this->getProduct() ?>
+
+<?php if($_product->getIsSalable()): ?>
+    <p class="stock available" title="<?php echo __('Availability') ?>"><span><?php echo __('In stock') ?></span></p>
+<?php else: ?>
+    <p class="stock unavailable" title="<?php echo __('Availability') ?>"><span><?php echo __('Out of stock') ?></span></p>
+<?php endif; ?>
+<?php echo $this->getChildHtml('product_type_data_extra') ?>
+<?php echo $this->getPriceHtml($_product) ?>
+<?php echo $this->getChildHtml('samples') ?>
