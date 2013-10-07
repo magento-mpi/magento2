@@ -1226,38 +1226,7 @@ input[type="reset"],
   text-decoration: none;
   position: absolute;
   right: 0;
-  top: 4px;
-  width: 25px;
-  display: block;
-  line-height: 0;
-  white-space: nowrap;
-  vertical-align: middle;
-  text-align: center;
-  text-indent: -999em;
-}
-.fieldset .fields.dates .field .ui-datepicker-trigger:after {
-  font-family: "icons";
-  font-size: 25px;
-  line-height: 25px;
-  height: 25px;
-  margin: 0;
-  overflow: hidden;
-  content: "\e00b";
-  font-style: normal;
-  speak: none;
-  font-weight: normal;
-  -webkit-font-smoothing: antialiased;
-  display: inline-block;
-  vertical-align: middle;
-  text-align: center;
-}
-.fieldset .fields.dates .field .ui-datepicker-trigger:active {
-  outline: 0;
-}
-.fieldset .fields.dates .field .ui-datepicker-trigger:after {
-  text-indent: 0;
-  display: block;
-  margin: 0;
+  top: 9px;
 }
 input[type="text"],
 input[type="search"],
@@ -10570,14 +10539,18 @@ img[align="right"] {
 .form.orders.search .fields.range .field:first-child .control,
 .form.contact .fields.range .field:first-child .control {
   padding-right: 30px;
+  position: relative;
 }
 .form.search.advanced .fields.range .field:first-child .control:after,
 .form.orders.search .fields.range .field:first-child .control:after,
 .form.contact .fields.range .field:first-child .control:after {
   content: '\2014';
   display: inline-block;
+  margin-right: 0;
+  position: absolute;
+  right: 6px;
+  top: 5px;
   text-align: center;
-  margin-right: -30px;
   width: 25px;
 }
 .form.contact .fieldset .field {
@@ -11129,7 +11102,7 @@ img[align="right"] {
 /*
     Page -> Advanced Search
 -------------------------------------- */
-.form.search.advanced .field.price .range.price.fields.group .field {
+.form.search.advanced .range.price.fields.group .field {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   -ms-box-sizing: border-box;
@@ -11139,13 +11112,83 @@ img[align="right"] {
   margin-right: 0%;
   padding-right: 0;
 }
-.form.search.advanced .field.price .range.price.fields.group .field:first-child input {
+.form.search.advanced .range.price.fields.group .field:first-child input {
   width: 96%;
+}
+.form.search.advanced .range.dates.fields.group .field {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  float: left;
+  width: 50%;
+  margin-right: 0%;
+  padding-right: 0;
+}
+.form.search.advanced .range.dates.fields.group .field .control {
+  padding-right: 20px;
+}
+.form.search.advanced .range.dates.fields.group .field:first-child .control {
+  padding-right: 50px;
+}
+.form.search.advanced .range.dates.fields.group .field:first-child .control .ui-datepicker-trigger {
+  right: 32px;
 }
 .form.search.advanced .group.price .addon .addafter {
   color: #675f55;
   border: none;
   background: none;
+}
+/*
+    Enterprise Search: recommendations and suggestios
+-------------------------------------- */
+.column.main .block.recommendations {
+  margin: 0 0 5px;
+}
+.column.main .block.recommendations .count {
+  color: #999999;
+}
+.column.main .block.recommendations .count:before {
+  content: "(";
+}
+.column.main .block.recommendations .count:after {
+  content: ")";
+}
+.column.main .block.recommendations strong {
+  font-weight: 400;
+  margin-right: 3px;
+}
+.column.main .block.recommendations + .products.wrapper {
+  margin: 45px 0 0;
+}
+.search.found {
+  margin: 0 0 10px;
+}
+.search.summary {
+  margin: 10px 20px;
+}
+.search.summary ul {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  list-style-image: none;
+}
+.note-msg + .search.results,
+.error-msg + .search.results {
+  margin-top: 45px;
+}
+/*
+    Popular Search Terms
+-------------------------------------- */
+.search.terms {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  list-style-image: none;
+}
+.search.terms li {
+  display: inline-block;
+  margin-right: 3px;
 }
 /*
     My Account -> My orders

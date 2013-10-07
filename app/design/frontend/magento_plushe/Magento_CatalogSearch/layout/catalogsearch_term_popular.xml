@@ -8,5 +8,10 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <update handle="page_one_column"/>
+        <update handle="page_one_column"/>
+        <referenceBlock name="page.main.title">
+            <action method="setPageTitle">
+                <argument translate="true" name="label" xsi:type="string">Popular Search Terms</argument>
+            </action>
+        </referenceBlock>
 </layout>

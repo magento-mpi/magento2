@@ -1,0 +1,27 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     enterprise_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<?php
+$countResultsEnabled = $this->isCountResultsEnabled();
+$suggestions = $this->getSuggestions();
+$suggestionsCount = count($suggestions);
+if ($suggestionsCount): ?>
+<div class="block recommendations">
+    <strong><?php echo __('Did you mean:');?></strong>
+    <?php for($i=0; $i<$suggestionsCount; $i++) :?>
+    <a href="<?php echo $suggestions[$i]['link']?>"><?php echo $suggestions[$i]['word']?>word</a>
+        <?php if($countResultsEnabled) :?>
+            <span class="count"><?php echo $suggestions[$i]['num_results']?>1</span>
+        <?php endif;?>
+        <?php if ($i != $suggestionsCount-1) echo ","?>
+    <?php endfor;?>
+</div>
+<?php endif; ?>

@@ -4541,11 +4541,15 @@ img[align="right"] {
         .field:first-child {
             .control {
                 padding-right: 30px;
+                position: relative;
                 &:after {
                     content: '\2014';
                     display: inline-block;
+                    margin-right: 0;
+                    position: absolute;
+                    right: 6px;
+                    top: 5px;
                     text-align: center;
-                    margin-right: -30px;
                     width: 25px;
                 }
             }
@@ -5028,15 +5032,29 @@ img[align="right"] {
     Page -> Advanced Search
 -------------------------------------- */
 .form.search.advanced {
-    .field.price {
-        .range.price.fields.group {
-            .field {
-                .box-sizing();
-                .column(6);
-                padding-right: 0;
+    .range.price.fields.group {
+        .field {
+            .box-sizing();
+            .column(6);
+            padding-right: 0;
+        }
+        .field:first-child input {
+            width: 96%;
+        }
+    }
+    .range.dates.fields.group {
+        .field {
+            .box-sizing();
+            .column(6);
+            padding-right: 0;
+            .control {
+                padding-right: 20px;
             }
-            .field:first-child input {
-                width: 96%;
+        }
+        .field:first-child .control {
+            padding-right: 50px;
+            .ui-datepicker-trigger {
+                right: 32px;
             }
         }
     }
@@ -5048,6 +5066,57 @@ img[align="right"] {
                 background: none;
             }
         }
+    }
+}
+
+/*
+    Enterprise Search: recommendations and suggestios
+-------------------------------------- */
+
+.column.main .block.recommendations {
+    margin: 0 0 5px;
+    .count {
+        color: @primary4;
+        &:before {
+            content: "(";
+        }
+        &:after {
+            content: ")";
+        }
+    }
+    strong {
+        font-weight: 400;
+        margin-right: 3px;
+    }
+    + .products.wrapper {
+        margin: 45px 0 0;
+    }
+}
+.search {
+    &.found {
+        margin: 0 0 10px;
+    }
+    &.summary {
+        margin: 10px 20px;
+        ul {
+            .resetList();
+        }
+    }
+}
+
+.note-msg + .search.results,
+.error-msg + .search.results {
+    margin-top: 45px;
+}
+
+/*
+    Popular Search Terms
+-------------------------------------- */
+.search.terms {
+    .resetList();
+    li {
+        display: inline-block;
+        margin-right: 3px;
     }
 }
 
