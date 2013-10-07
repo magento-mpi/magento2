@@ -1,4 +1,7 @@
 <?php
+
+namespace Magento\Backend\Block\Template;
+
 /**
  * Backend block template context
  *
@@ -7,10 +10,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  *
- */
-namespace Magento\Backend\Block\Template;
-
-/**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Context extends \Magento\Core\Block\Template\Context
@@ -108,7 +107,7 @@ class Context extends \Magento\Core\Block\Template\Context
     /**
      * Retrieve Authorization
      *
-     * @return \Magento\AuthorizationInterface
+     * @return \\Magento\AuthorizationInterface
      */
     public function getAuthorization()
     {

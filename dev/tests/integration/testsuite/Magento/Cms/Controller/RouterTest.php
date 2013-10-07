@@ -52,8 +52,6 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Core\Controller\Request\Http');
         //Open Node
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Controller\Response\Http')
-            ->headersSentThrowsException = \Mage::$headersSentThrowsException;
         $request->setPathInfo('parent_node');
         $controller = $this->_model->match($request);
         $this->assertInstanceOf('Magento\Core\Controller\Varien\Action\Redirect', $controller);

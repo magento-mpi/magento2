@@ -44,6 +44,16 @@ class Options extends \Magento\Core\Block\Template
     protected $_taxData = null;
 
     /**
+     * Catalog product
+     *
+     * @var \Magento\Catalog\Model\Product
+     */
+    protected $_catalogProduct;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Catalog\Model\Product $catalogProduct
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
@@ -52,6 +62,7 @@ class Options extends \Magento\Core\Block\Template
      * @param array $data
      */
     public function __construct(
+        \Magento\Catalog\Model\Product $catalogProduct,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
@@ -59,6 +70,7 @@ class Options extends \Magento\Core\Block\Template
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
+        $this->_catalogProduct = $catalogProduct;
         parent::__construct($coreData, $context, $data);
         $this->_registry = $registry;
         $this->_option = $option;
@@ -76,7 +88,7 @@ class Options extends \Magento\Core\Block\Template
             if ($this->_registry->registry('current_product')) {
                 $this->_product = $this->_registry->registry('current_product');
             } else {
-                $this->_product = \Mage::getSingleton('Magento\Catalog\Model\Product');
+                $this->_product = $this->_catalogProduct;
             }
         }
         return $this->_product;

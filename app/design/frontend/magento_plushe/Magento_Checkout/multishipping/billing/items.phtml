@@ -1,0 +1,36 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php if ($this->getQuote()->hasVirtualItems()): ?>
+<div class="block other">
+    <div class="title"><strong><?php echo __('Other items in your order') ?></strong></div>
+    <div class="content">
+        <strong class="subtitle">
+            <span><?php echo __('Items') ?></span>
+            <a href="<?php echo $this->getVirtualProductEditUrl() ?>" class="action edit"><span><?php echo __('Edit Items') ?></></a>
+        </strong>
+        <table class="items data" id="unavailable-shipping-table">
+            <thead>
+                <tr>
+                    <th class="col item"><?php echo __('Product Name') ?></th>
+                    <th class="col qty"><?php echo __('Qty') ?></th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($this->getVirtualQuoteItems() as $_item): ?>
+                <tr>
+                    <td class="col item"><?php echo $this->getItemHtml($_item) ?></td>
+                    <td class="col qty"><?php echo $_item->getQty() ?></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+<?php endif; ?>

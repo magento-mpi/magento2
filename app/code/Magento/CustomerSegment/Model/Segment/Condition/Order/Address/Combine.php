@@ -16,10 +16,6 @@ namespace Magento\CustomerSegment\Model\Segment\Condition\Order\Address;
 class Combine
     extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine
 {
-    /**
-     * @var \Magento\CustomerSegment\Model\ConditionFactory
-     */
-    protected $_conditionFactory;
 
     /**
      * @param \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory
@@ -33,8 +29,7 @@ class Combine
         \Magento\Rule\Model\Condition\Context $context,
         array $data = array()
     ) {
-        $this->_conditionFactory = $conditionFactory;
-        parent::__construct($resourceSegment, $context, $data);
+        parent::__construct($conditionFactory, $resourceSegment, $context, $data);
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Order\Address\Combine');
     }
 
@@ -50,8 +45,8 @@ class Combine
                 'value' => $this->getType(),
                 'label' => __('Conditions Combination'),
             ),
-            $this->_conditionFactory->create('Order_Address_Type')->getNewChildSelectOptions(),
-            $this->_conditionFactory->create('Order_Address_Attributes')->getNewChildSelectOptions(),
+            $this->_conditionFactory->create('Order\Address\Type')->getNewChildSelectOptions(),
+            $this->_conditionFactory->create('Order\Address\Attributes')->getNewChildSelectOptions(),
         ));
         return $result;
     }

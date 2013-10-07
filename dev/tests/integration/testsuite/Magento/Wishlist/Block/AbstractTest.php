@@ -22,15 +22,16 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_block = $this->getMockForAbstractClass('Magento\Wishlist\Block\AbstractBlock', array(
+            $objectManager->get('Magento\Core\Model\StoreManagerInterface'),
+            $objectManager->get('Magento\Catalog\Model\Config'),
             $objectManager->get('Magento\Core\Model\Registry'),
-            $objectManager->get('Magento\Wishlist\Helper\Data'),
             $objectManager->get('Magento\Tax\Helper\Data'),
             $objectManager->get('Magento\Catalog\Helper\Data'),
             $objectManager->get('Magento\Core\Helper\Data'),
             $objectManager->get('Magento\Core\Block\Template\Context'),
-            $objectManager->get('Magento\Core\Model\StoreManagerInterface'),
+            $objectManager->get('Magento\Wishlist\Helper\Data'),
             $objectManager->get('Magento\Customer\Model\Session'),
-            $objectManager->get('Magento\Catalog\Model\ProductFactory')
+            $objectManager->get('Magento\Catalog\Model\ProductFactory'),
         ));
     }
 

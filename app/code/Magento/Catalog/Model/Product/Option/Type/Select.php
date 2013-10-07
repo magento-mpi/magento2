@@ -39,12 +39,16 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     protected $_coreString = null;
 
     /**
+     * Construct
+     *
+     * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
+        \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Core\Helper\String $coreString,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
@@ -52,7 +56,7 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     ) {
         $this->_coreString = $coreString;
         $this->_coreData = $coreData;
-        parent::__construct($coreStoreConfig, $data);
+        parent::__construct($checkoutSession, $coreStoreConfig, $data);
     }
 
     /**
@@ -71,14 +75,14 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
 
         if (empty($value) && $option->getIsRequire() && !$this->getSkipCheckRequiredOption()) {
             $this->setIsValid(false);
-            \Mage::throwException(__('Please specify the product required option(s).'));
+            throw new \Magento\Core\Exception(__('Please specify the product required option(s).'));
         }
         if (!$this->_isSingleSelection()) {
             $valuesCollection = $option->getOptionValuesByOptionId($value, $this->getProduct()->getStoreId())
                 ->load();
             if ($valuesCollection->count() != count($value)) {
                 $this->setIsValid(false);
-                \Mage::throwException(__('Please specify the product required option(s).'));
+                throw new \Magento\Core\Exception(__('Please specify the product required option(s).'));
             }
         }
         return $this;

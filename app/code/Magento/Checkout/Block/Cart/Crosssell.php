@@ -32,11 +32,6 @@ class Crosssell extends \Magento\Catalog\Block\Product\AbstractProduct
     protected $_checkoutSession;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Catalog\Model\Product\Visibility
      */
     protected $_productVisibility;
@@ -52,37 +47,43 @@ class Crosssell extends \Magento\Catalog\Block\Product\AbstractProduct
     protected $_productLinkFactory;
 
     /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
      * @param \Magento\CatalogInventory\Model\Stock $stock
      * @param \Magento\Catalog\Model\Product\LinkFactory $productLinkFactory
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\Visibility $productVisibility,
         \Magento\CatalogInventory\Model\Stock $stock,
         \Magento\Catalog\Model\Product\LinkFactory $productLinkFactory,
         array $data = array()
     ) {
         $this->_checkoutSession = $checkoutSession;
-        $this->_storeManager = $storeManager;
         $this->_productVisibility = $productVisibility;
         $this->_stock = $stock;
         $this->_productLinkFactory = $productLinkFactory;
-        parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $data);
+        parent::__construct($storeManager, $catalogConfig, $coreRegistry, $taxData, $catalogData, $coreData, $context,
+            $data);
     }
 
     /**

@@ -9,12 +9,14 @@
  * @license     {license_link}
  */
 
-$installer = $installer = \Mage::getModel('Magento\Catalog\Model\Resource\Setup',
+/** @var \Magento\TestFramework\Application $this */
+
+$installer = $this->getObjectManager()->create('Magento\Catalog\Model\Resource\Setup',
     array('resourceName' => 'catalog_setup'));
 /**
  * After installation system has two categories: root one with ID:1 and Default category with ID:2
  */
-$category = \Mage::getModel('Magento\Catalog\Model\Category');
+$category = $this->getObjectManager()->create('Magento\Catalog\Model\Category');
 
 $category->setId(3)
     ->setName('Category 1')
@@ -27,7 +29,7 @@ $category->setId(3)
     ->setPosition(1)
     ->save();
 
-$product = \Mage::getModel('Magento\Catalog\Model\Product');
+$product = $this->getObjectManager()->create('Magento\Catalog\Model\Product');
 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setAttributeSetId($installer->getAttributeSetId('catalog_product', 'Default'))
     ->setStoreId(1)
@@ -44,7 +46,7 @@ $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setTaxClassId(0)
     ->save();
 
-$stockItem = \Mage::getModel('Magento\CatalogInventory\Model\Stock\Item');
+$stockItem = $this->getObjectManager()->create('Magento\CatalogInventory\Model\Stock\Item');
 $stockItem->setProductId($product->getId())
     ->setTypeId($product->getTypeId())
     ->setStockId(\Magento\CatalogInventory\Model\Stock::DEFAULT_STOCK_ID)

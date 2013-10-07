@@ -111,12 +111,13 @@ class Inbox extends \Magento\Core\Model\AbstractModel
      * @param string|array $description
      * @param string $url
      * @param bool $isInternal
+     * @throws \Magento\Core\Exception
      * @return \Magento\AdminNotification\Model\Inbox
      */
     public function add($severity, $title, $description, $url = '', $isInternal = true)
     {
         if (!$this->getSeverities($severity)) {
-            \Mage::throwException(__('Wrong message type'));
+            throw new \Magento\Core\Exception(__('Wrong message type'));
         }
         if (is_array($description)) {
             $description = '<ul><li>' . implode('</li><li>', $description) . '</li></ul>';

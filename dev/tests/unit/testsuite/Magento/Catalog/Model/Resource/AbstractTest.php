@@ -83,11 +83,10 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
         $attributes[$code] = $attribute;
 
-
         /** @var $model \Magento\Catalog\Model\Resource\AbstractResource */
         $model = $this->getMock(
             'Magento\Catalog\Model\Resource\AbstractResource',
-            null,
+            array('getAttributesByCode'),
             array(
                 $this->getMock('Magento\Core\Model\Resource', array(), array(), '', false, false),
                 $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false, false),
@@ -95,13 +94,15 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
                 $this->getMock('Magento\Core\Model\LocaleInterface'),
                 $this->getMock('Magento\Eav\Model\Resource\Helper', array(), array(), '', false, false),
                 $this->getMock('Magento\Validator\UniversalFactory', array(), array(), '', false, false),
-                array(
-                    'type' => $entityType,
-                    'entityTable' => 'entityTable',
-                    'attributesByCode' => $attributes,
-                )
+                $this->getMock('Magento\Core\Model\StoreManagerInterface', array(), array(), '', false),
+                $this->getMock('Magento\Catalog\Model\Factory', array(), array(), '', false),
+                array(),
             )
         );
+
+        $model->expects($this->once())
+            ->method('getAttributesByCode')
+            ->will($this->returnValue($attributes));
 
         $model->walkAttributes('backend/afterSave', array($object));
     }

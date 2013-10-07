@@ -36,6 +36,34 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     protected $_coreString = null;
 
     /**
+     * Tax calculation
+     *
+     * @var \Magento\Tax\Model\Calculation
+     */
+    protected $_taxCalculation;
+
+    /**
+     * Locale
+     *
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * Product factory
+     *
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Tax\Model\Calculation $taxCalculation
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\Tax\Helper\Data $taxData
@@ -45,6 +73,11 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Tax\Model\Calculation $taxCalculation,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Core\Helper\String $coreString,
         \Magento\Tax\Helper\Data $taxData,
@@ -53,8 +86,12 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
         \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
+        $this->_productFactory = $productFactory;
+        $this->_locale = $locale;
+        $this->_taxCalculation = $taxCalculation;
         $this->_coreString = $coreString;
-        parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $data);
+        parent::__construct($storeManager, $catalogConfig, $coreRegistry, $taxData, $catalogData, $coreData,
+            $context, $data);
     }
 
     /**
@@ -116,7 +153,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     public function getProduct()
     {
         if (!$this->_coreRegistry->registry('product') && $this->getProductId()) {
-            $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($this->getProductId());
+            $product = $this->_productFactory->create()->load($this->getProductId());
             $this->_coreRegistry->register('product', $product);
         }
         return $this->_coreRegistry->registry('product');
@@ -151,7 +188,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
         }
 
         $addUrlKey = \Magento\Core\Controller\Front\Action::PARAM_NAME_URL_ENCODED;
-        $addUrlValue = \Mage::getUrl('*/*/*', array('_use_rewrite' => true, '_current' => true));
+        $addUrlValue = $this->_urlBuilder->getUrl('*/*/*', array('_use_rewrite' => true, '_current' => true));
         $additional[$addUrlKey] = $this->_coreData->urlEncode($addUrlValue);
 
         return $this->helper('Magento\Checkout\Helper\Cart')->getAddUrl($product, $additional);
@@ -170,15 +207,15 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
             return $this->_coreData->jsonEncode($config);
         }
 
-        $_request = \Mage::getSingleton('Magento\Tax\Model\Calculation')->getRateRequest(false, false, false);
+        $_request = $this->_taxCalculation->getRateRequest(false, false, false);
         /* @var $product \Magento\Catalog\Model\Product */
         $product = $this->getProduct();
         $_request->setProductClassId($product->getTaxClassId());
-        $defaultTax = \Mage::getSingleton('Magento\Tax\Model\Calculation')->getRate($_request);
+        $defaultTax = $this->_taxCalculation->getRate($_request);
 
-        $_request = \Mage::getSingleton('Magento\Tax\Model\Calculation')->getRateRequest();
+        $_request = $this->_taxCalculation->getRateRequest();
         $_request->setProductClassId($product->getTaxClassId());
-        $currentTax = \Mage::getSingleton('Magento\Tax\Model\Calculation')->getRate($_request);
+        $currentTax = $this->_taxCalculation->getRate($_request);
 
         $_regularPrice = $product->getPrice();
         $_finalPrice = $product->getFinalPrice();
@@ -194,7 +231,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
         }
         $config = array(
             'productId'           => $product->getId(),
-            'priceFormat'         => \Mage::app()->getLocale()->getJsPriceFormat(),
+            'priceFormat'         => $this->_locale->getJsPriceFormat(),
             'includeTax'          => $this->_taxData->priceIncludesTax() ? 'true' : 'false',
             'showIncludeTax'      => $this->_taxData->displayPriceIncludingTax(),
             'showBothPrices'      => $this->_taxData->displayBothPrices(),
@@ -258,7 +295,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function isStartCustomization()
     {
-        return $this->getProduct()->getConfigureMode() || \Mage::app()->getRequest()->getParam('startcustomization');
+        return $this->getProduct()->getConfigureMode() || $this->_request->getParam('startcustomization');
     }
 
     /**

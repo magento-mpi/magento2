@@ -90,25 +90,87 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @var string
      */
     protected $_templateFilterModel;
+    
+    /**
+     * Catalog session
+     *
+     * @var \Magento\Catalog\Model\Session
+     */
+    protected $_catalogSession;
 
     /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Product factory
+     *
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * Category factory
+     *
+     * @var \Magento\Catalog\Model\CategoryFactory
+     */
+    protected $_categoryFactory;
+
+    /**
+     * Eav attribute factory
+     *
+     * @var \Magento\Catalog\Model\Resource\Eav\AttributeFactory
+     */
+    protected $_eavAttributeFactory;
+
+    /**
+     * Template filter factory
+     *
+     * @var \Magento\Catalog\Model\Template\Filter\Factory
+     */
+    protected $_templateFilterFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Catalog\Model\Resource\Eav\AttributeFactory $eavAttributeFactory
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Session $catalogSession
      * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\Catalog\Helper\Category $catalogCategory
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Catalog\Model\Template\Filter\Factory $templateFilterFactory
      * @param $templateFilterModel
      */
     public function __construct(
+        \Magento\Catalog\Model\Resource\Eav\AttributeFactory $eavAttributeFactory,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Session $catalogSession,
         \Magento\Core\Helper\String $coreString,
         \Magento\Catalog\Helper\Category $catalogCategory,
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Catalog\Model\Template\Filter\Factory $templateFilterFactory,
         $templateFilterModel
     ) {
+        $this->_eavAttributeFactory = $eavAttributeFactory;
+        $this->_categoryFactory = $categoryFactory;
+        $this->_productFactory = $productFactory;
+        $this->_storeManager = $storeManager;
+        $this->_catalogSession = $catalogSession;
+        $this->_templateFilterFactory = $templateFilterFactory;
         $this->_coreString = $coreString;
         $this->_catalogCategory = $catalogCategory;
         $this->_catalogProduct = $catalogProduct;
@@ -212,17 +274,17 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getLastViewedUrl()
     {
-        $productId = \Mage::getSingleton('Magento\Catalog\Model\Session')->getLastViewedProductId();
+        $productId = $this->_catalogSession->getLastViewedProductId();
         if ($productId) {
-            $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($productId);
+            $product = $this->_productFactory->create()->load($productId);
             /* @var $product \Magento\Catalog\Model\Product */
             if ($this->_catalogProduct->canShow($product, 'catalog')) {
                 return $product->getProductUrl();
             }
         }
-        $categoryId = \Mage::getSingleton('Magento\Catalog\Model\Session')->getLastViewedCategoryId();
+        $categoryId = $this->_catalogSession->getLastViewedCategoryId();
         if ($categoryId) {
-            $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($categoryId);
+            $category = $this->_categoryFactory->create()->load($categoryId);
             /* @var $category \Magento\Catalog\Model\Category */
             if (!$this->_catalogCategory->canShow($category)) {
                 return '';
@@ -331,7 +393,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getPageTemplateProcessor()
     {
-        return \Mage::getModel($this->_templateFilterModel);
+        return $this->_templateFilterFactory->create($this->_templateFilterModel);
     }
 
     /**
@@ -406,8 +468,9 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         }
 
         if (is_numeric($product)) {
-            $product = \Mage::getModel('Magento\Catalog\Model\Product')
-                ->setStoreId(\Mage::app()->getStore()->getId())
+            /** @var \Magento\Catalog\Model\Product $product */
+            $product = $this->_productFactory->create()
+                ->setStoreId($this->_storeManager->getStore()->getId())
                 ->load($product);
         }
 
@@ -455,7 +518,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     {
         if($this->_mapApplyToProductType === null) {
             /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
-            $attribute = \Mage::getModel('Magento\Catalog\Model\Resource\Eav\Attribute')
+            $attribute = $this->_eavAttributeFactory->create()
                 ->loadByCode(\Magento\Catalog\Model\Product::ENTITY, 'msrp_enabled');
             $this->_mapApplyToProductType = $attribute->getApplyTo();
         }

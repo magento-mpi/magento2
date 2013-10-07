@@ -19,6 +19,28 @@ namespace Magento\GoogleCheckout\Model;
 
 class Observer
 {
+    /**
+     * @var ShippingFactory
+     */
+    protected $shippingFactory;
+
+    /**
+     * @var ApiFactory
+     */
+    protected $apiFactory;
+
+    /**
+     * @param ShippingFactory $shippingFactory
+     * @param ApiFactory $apiFactory
+     */
+    public function __construct(
+        ShippingFactory $shippingFactory,
+        ApiFactory $apiFactory
+    ) {
+        $this->shippingFactory = $shippingFactory;
+        $this->apiFactory = $apiFactory;
+    }
+
     public function salesOrderShipmentTrackSaveAfter(\Magento\Event\Observer $observer)
     {
         $track = $observer->getEvent()->getTrack();
@@ -31,7 +53,7 @@ class Observer
 
         // Process only Google Checkout internal methods
         /* @var $gcCarrier \Magento\GoogleCheckout\Model\Shipping */
-        $gcCarrier = \Mage::getModel('Magento\GoogleCheckout\Model\Shipping');
+        $gcCarrier = $this->shippingFactory->create();
         list($carrierCode, $methodCode) = explode('_', $shippingMethod);
         if ($gcCarrier->getCarrierCode() != $carrierCode) {
             return;
@@ -41,7 +63,7 @@ class Observer
             return;
         }
 
-        \Mage::getModel('Magento\GoogleCheckout\Model\Api')
+        $this->apiFactory->create()
             ->setStoreId($order->getStoreId())
             ->deliver($order->getExtOrderId(), $track->getCarrierCode(), $track->getNumber());
     }
@@ -63,7 +85,7 @@ class Observer
 
         // Process only Google Checkout internal methods
         /* @var $gcCarrier \Magento\GoogleCheckout\Model\Shipping */
-        $gcCarrier = \Mage::getModel('Magento\GoogleCheckout\Model\Shipping');
+        $gcCarrier = $this->shippingFactory->create();
         list($carrierCode, $methodCode) = explode('_', $shippingMethod);
         if ($gcCarrier->getCarrierCode() != $carrierCode) {
             return;
@@ -83,7 +105,7 @@ class Observer
         }
 
         if ($items) {
-            \Mage::getModel('Magento\GoogleCheckout\Model\Api')
+            $this->apiFactory->create()
                 ->setStoreId($order->getStoreId())
                 ->shipItems($order->getExtOrderId(), $items);
         }

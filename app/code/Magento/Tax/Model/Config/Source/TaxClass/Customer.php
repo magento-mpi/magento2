@@ -13,9 +13,14 @@ namespace Magento\Tax\Model\Config\Source\TaxClass;
 class Customer implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @param \Magento\Tax\Model\ClassModel\Source\CustomerFactory $taxCustomerFactory
+     * @var \Magento\Tax\Model\TaxClass\Source\CustomerFactory
      */
-    public function __construct(\Magento\Tax\Model\ClassModel\Source\CustomerFactory $taxCustomerFactory)
+    protected $_taxCustomerFactory;
+
+    /**
+     * @param \Magento\Tax\Model\TaxClass\Source\CustomerFactory $taxCustomerFactory
+     */
+    public function __construct(\Magento\Tax\Model\TaxClass\Source\CustomerFactory $taxCustomerFactory)
     {
         $this->_taxCustomreFactory = $taxCustomerFactory;
     }
@@ -27,7 +32,7 @@ class Customer implements \Magento\Core\Model\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        /** @var $classCustomer \Magento\Tax\Model\ClassModel\Source\Customer */
+        /** @var $classCustomer \Magento\Tax\Model\TaxClass\Source\Customer */
         $classCustomer = $this->_taxCustomreFactory->create();
         $taxClasses = $classCustomer->toOptionArray();
         array_unshift($taxClasses, array('value' => '0', 'label' => __('None')));

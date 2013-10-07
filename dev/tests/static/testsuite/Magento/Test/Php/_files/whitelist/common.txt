@@ -158,7 +158,8 @@ dev/tests/performance
 dev/tests/static
 dev/tests/unit
 dev/tools
+lib/Magento/Backup/Factory.php
+lib/Magento/Cache/Core.php
 lib/Magento/Convert
 lib/Magento/Date.php
 lib/Magento/Object.php
-lib/Magento/Cache/Core.php

@@ -1,12 +1,15 @@
 <?php
+
+namespace Magento\Catalog\Model;
+
 /**
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
+ *
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Model;
-
 class Config extends \Magento\Eav\Model\Config
 {
     const XML_PATH_LIST_DEFAULT_SORT_BY     = 'catalog/frontend/default_sort_by';
@@ -54,16 +57,85 @@ class Config extends \Magento\Eav\Model\Config
      * @param \Magento\Eav\Model\Entity\TypeFactory $entityTypeFactory
      * @param \Magento\Core\Model\Cache\StateInterface $cacheState
      * @param \Magento\Validator\UniversalFactory $universalFactory
+     * Eav config
+     *
+     * @var \Magento\Eav\Model\Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Set collection factory
+     *
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory
+     */
+    protected $_setCollectionFactory;
+
+    /**
+     * Group collection factory
+     *
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory
+     */
+    protected $_groupCollectionFactory;
+
+    /**
+     * Product type factory
+     *
+     * @var \Magento\Catalog\Model\Product\TypeFactory
+     */
+    protected $_productTypeFactory;
+
+    /**
+     * Config factory
+     *
+     * @var \Magento\Catalog\Model\Resource\ConfigFactory
+     */
+    protected $_configFactory;
+
+    /**
+     * Constructor
+     *
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Eav\Model\Entity\TypeFactory $entityTypeFactory
+     * @param \Magento\Core\Model\Cache\StateInterface $cacheState
+     * @param \Magento\Validator\UniversalFactory $universalFactory
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Catalog\Model\Resource\ConfigFactory $configFactory
+     * @param \Magento\Catalog\Model\Product\TypeFactory $productTypeFactory
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $groupCollectionFactory
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setCollectionFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Eav\Model\Config $eavConfig
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Model\App $app,
         \Magento\Eav\Model\Entity\TypeFactory $entityTypeFactory,
         \Magento\Core\Model\Cache\StateInterface $cacheState,
         \Magento\Validator\UniversalFactory $universalFactory,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Catalog\Model\Resource\ConfigFactory $configFactory,
+        \Magento\Catalog\Model\Product\TypeFactory $productTypeFactory,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $groupCollectionFactory,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setCollectionFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Eav\Model\Config $eavConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_configFactory = $configFactory;
+        $this->_productTypeFactory = $productTypeFactory;
+        $this->_groupCollectionFactory = $groupCollectionFactory;
+        $this->_setCollectionFactory = $setCollectionFactory;
+        $this->_storeManager = $storeManager;
+        $this->_eavConfig = $eavConfig;
+
         parent::__construct($app, $entityTypeFactory, $cacheState, $universalFactory);
     }
 
@@ -96,7 +168,7 @@ class Config extends \Magento\Eav\Model\Config
     public function getStoreId()
     {
         if ($this->_storeId === null) {
-            return \Mage::app()->getStore()->getId();
+            return $this->_storeManager->getStore()->getId();
         }
         return $this->_storeId;
     }
@@ -107,7 +179,7 @@ class Config extends \Magento\Eav\Model\Config
             return $this;
         }
 
-        $attributeSetCollection = \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
+        $attributeSetCollection = $this->_setCollectionFactory->create()
             ->load();
 
         $this->_attributeSetsById = array();
@@ -154,7 +226,7 @@ class Config extends \Magento\Eav\Model\Config
             return $this;
         }
 
-        $attributeSetCollection = \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Group\Collection')
+        $attributeSetCollection = $this->_groupCollectionFactory->create()
             ->load();
 
         $this->_attributeGroupsById = array();
@@ -203,7 +275,7 @@ class Config extends \Magento\Eav\Model\Config
             return $this;
         }
 
-        $productTypeCollection = \Mage::getModel('Magento\Catalog\Model\Product\Type')
+        $productTypeCollection = $this->_productTypeFactory->create()
             ->getOptionArray();
 
         $this->_productTypesById = array();
@@ -269,7 +341,7 @@ class Config extends \Magento\Eav\Model\Config
      */
     protected function _getResource()
     {
-        return \Mage::getResourceModel('Magento\Catalog\Model\Resource\Config');
+        return $this->_configFactory->create();
     }
 
     /**
@@ -284,11 +356,10 @@ class Config extends \Magento\Eav\Model\Config
             $attributesData = $this->_getResource()
                 ->setStoreId($this->getStoreId())
                 ->getAttributesUsedInListing();
-            \Mage::getSingleton('Magento\Eav\Model\Config')
-                ->importAttributesData($entityType, $attributesData);
+            $this->_eavConfig->importAttributesData($entityType, $attributesData);
             foreach ($attributesData as $attributeData) {
                 $attributeCode = $attributeData['attribute_code'];
-                $this->_usedInProductListing[$attributeCode] = \Mage::getSingleton('Magento\Eav\Model\Config')
+                $this->_usedInProductListing[$attributeCode] = $this->_eavConfig
                     ->getAttribute($entityType, $attributeCode);
             }
         }
@@ -306,11 +377,10 @@ class Config extends \Magento\Eav\Model\Config
             $entityType     = \Magento\Catalog\Model\Product::ENTITY;
             $attributesData = $this->_getResource()
                 ->getAttributesUsedForSortBy();
-            \Mage::getSingleton('Magento\Eav\Model\Config')
-                ->importAttributesData($entityType, $attributesData);
+            $this->_eavConfig->importAttributesData($entityType, $attributesData);
             foreach ($attributesData as $attributeData) {
                 $attributeCode = $attributeData['attribute_code'];
-                $this->_usedForSortBy[$attributeCode] = \Mage::getSingleton('Magento\Eav\Model\Config')
+                $this->_usedForSortBy[$attributeCode] = $this->_eavConfig
                     ->getAttribute($entityType, $attributeCode);
             }
         }

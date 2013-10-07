@@ -246,7 +246,7 @@ class Observer
         }
 
         $customer->setGroupId(
-            $customer->getOrigData('group_id')
+            (int)$customer->getOrigData('group_id')
         );
         $customer->save();
     }

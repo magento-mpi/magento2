@@ -1,0 +1,33 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * @see \Magento\Checkout\Block\Agreements
+ */
+?>
+<?php  if (!$this->getAgreements()) return;  ?>
+<ol id="checkout-agreements" class="checkout agreements">
+<?php foreach ($this->getAgreements() as $_a): ?>
+    <li class="item">
+        <div class="agreement"<?php echo ($_a->getContentHeight() ? ' style="height:' . $_a->getContentHeight() . '"' : '')?>>
+            <?php if ($_a->getIsHtml()):?>
+                <?php echo $_a->getContent() ?>
+            <?php else:?>
+                <?php echo nl2br($this->escapeHtml($_a->getContent())) ?>
+            <?php endif; ?>
+        </div>
+        <div class="field choice">
+            <input type="checkbox" id="agreement-<?php echo $_a->getId()?>" name="agreement[<?php echo $_a->getId()?>]" value="1" title="<?php echo $this->escapeHtml($_a->getCheckboxText()) ?>" class="checkbox" />
+            <label for="agreement-<?php echo $_a->getId()?>" class="label"><?php echo $_a->getIsHtml() ? $_a->getCheckboxText() : $this->escapeHtml($_a->getCheckboxText()) ?></label>
+        </div>
+    </li>
+<?php endforeach ?>
+</ol>
