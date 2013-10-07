@@ -2,8 +2,8 @@
   * Fixed advanced search
   * Fixed Tax tab
   * Fixed placing order within OnePageCheckout using online payment methods
-  * Impossible to add product in order from backend if enable Gift Messages
-  * It's impossible to add product to cart if MAP is enabled
+  * Fixed error when product is being added to order from backend if Gift Messages are enabled
+  * Fixed error when product is being added to cart if MAP is enabled
   
 2.0.0.0-dev46
 =============
