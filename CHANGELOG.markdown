@@ -2,7 +2,9 @@
   * Fixed advanced search
   * Fixed Tax tab
   * Fixed placing order within OnePageCheckout using online payment methods
-
+  * Fixed error when product is being added to order from backend if Gift Messages are enabled
+  * Fixed error when product is being added to cart if MAP is enabled
+  
 2.0.0.0-dev46
 =============
 * Translation mechanism improvements:
