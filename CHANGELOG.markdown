@@ -1,5 +1,9 @@
 * Fixed bugs:
-  * Fixed incorrect arguments for shipping xml elements fatory
+  * Fixed Fatal error after saving customer address with VAT number
+  * Fixed USPS shipping method with debug caused fatal error
+  * Fixed url to Tax Class controller was corrected
+  * Fixed incorrect subtotal displayed on the Order page
+  * Fixed incorrect arguments for shipping xml elements factory
   * Fixed theme editing in developer mode (PHP 5.4)
   * Fixed frontend error when persistent shopping cart functionality is enabled
   * Fixed Tax tab
