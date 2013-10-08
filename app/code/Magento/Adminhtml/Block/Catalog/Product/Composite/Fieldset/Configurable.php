@@ -16,12 +16,11 @@ namespace Magento\Adminhtml\Block\Catalog\Product\Composite\Fieldset;
 class Configurable extends \Magento\Catalog\Block\Product\View\Type\Configurable
 {
     /**
-     * @var \Magento\Core\Model\StoreManager
-     */
-    protected $_storeManager;
-
-    /**
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * Construct
+     *
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Tax\Model\Calculation $taxCalculation
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Tax\Helper\Data $taxData
@@ -29,9 +28,13 @@ class Configurable extends \Magento\Catalog\Block\Product\View\Type\Configurable
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\Tax\Model\Calculation $taxCalculation,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Tax\Helper\Data $taxData,
@@ -40,8 +43,8 @@ class Configurable extends \Magento\Catalog\Block\Product\View\Type\Configurable
         \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
-        $this->_storeManager = $storeManager;
-        parent::__construct($coreRegistry, $catalogProduct, $taxData, $catalogData, $coreData, $context, $data);
+        parent::__construct($storeManager, $catalogConfig, $taxCalculation, $coreRegistry, $catalogProduct, $taxData,
+            $catalogData, $coreData, $context, $data);
     }
 
     /**

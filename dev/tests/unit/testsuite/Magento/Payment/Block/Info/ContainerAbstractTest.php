@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for \Magento\Payment\Block\Info\ContainerAbstract
+ * Test class for \Magento\Payment\Block\Info\AbstractContainer
  */
 namespace Magento\Payment\Block\Info;
 
@@ -18,7 +18,7 @@ class ContainerAbstractTest extends \PHPUnit_Framework_TestCase
 {
     public function testSetInfoTemplate()
     {
-        $block = $this->getMock('Magento\Payment\Block\Info\ContainerAbstract',
+        $block = $this->getMock('Magento\Payment\Block\Info\AbstractContainer',
             array('getChildBlock', 'getPaymentInfo'), array(), '', false);
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $paymentInfo = $objectManagerHelper->getObject('Magento\Payment\Model\Info');

@@ -5,13 +5,13 @@
  * {license_notice}
  *
  * @category   Magento
- * @package    Mage
+ * @package    Magento
  * @copyright  {copyright}
  * @license    {license_link}
  */
 
 require dirname(__DIR__) . '/app/bootstrap.php';
-Magento_Profiler::start('mage');
+\Magento\Profiler::start('mage');
 umask(0);
 
 try {
@@ -23,6 +23,7 @@ try {
     $entryPoint = new \Magento\Core\Model\EntryPoint\Cron($config);
     $entryPoint->processRequest();
 } catch (\Exception $e) {
-    \Mage::printException($e);
+    print $e->getMessage() . "\n\n";
+    print $e->getTraceAsString();
 }
-Magento_Profiler::stop('mage');
+\Magento\Profiler::stop('mage');

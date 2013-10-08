@@ -34,7 +34,7 @@ class End extends \Magento\Install\Block\AbstractBlock
 
     /**
      * Cryptographic key
-     * 
+     *
      * @var string
      */
     protected $_cryptKey;
@@ -44,7 +44,10 @@ class End extends \Magento\Install\Block\AbstractBlock
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Model\Config $coreConfig
      * @param \Magento\AdminNotification\Model\Survey $survey
-     * @param string $cryptKey
+     * @param \Magento\Core\Model\Session\Generic $cryptKey
+     * @param \Magento\Install\Model\Installer $installer
+     * @param \Magento\Install\Model\Wizard $installWizard
+     * @param \Magento\Core\Model\Session\Generic $session
      * @param array $data
      */
     public function __construct(
@@ -53,10 +56,13 @@ class End extends \Magento\Install\Block\AbstractBlock
         \Magento\Core\Model\Config $coreConfig,
         \Magento\AdminNotification\Model\Survey $survey,
         $cryptKey,
+        \Magento\Install\Model\Installer $installer,
+        \Magento\Install\Model\Wizard $installWizard,
+        \Magento\Core\Model\Session\Generic $session,
         array $data = array()
     ) {
         $this->_cryptKey = $cryptKey;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($coreData, $context, $installer, $installWizard, $session, $data);
         $this->_coreConfig = $coreConfig;
         $this->_survey = $survey;
     }
@@ -82,7 +88,7 @@ class End extends \Magento\Install\Block\AbstractBlock
     public function getIframeSourceUrl()
     {
         if (!$this->_survey->isSurveyUrlValid()
-            || \Mage::getSingleton('Magento\Install\Model\Installer')->getHideIframe()) {
+            || $this->_installer->getHideIframe()) {
             return null;
         }
         return $this->_survey->getSurveyUrl();

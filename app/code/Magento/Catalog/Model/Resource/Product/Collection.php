@@ -207,27 +207,92 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     protected $_coreStoreConfig;
 
     /**
-     * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
+     * Customer session
+     *
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * Locale
+     *
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * Catalog url
+     *
+     * @var \Magento\Catalog\Model\Resource\Url
+     */
+    protected $_catalogUrl;
+
+    /**
+     * Product option factory
+     *
+     * @var \Magento\Catalog\Model\Product\OptionFactory
+     */
+    protected $_productOptionFactory;
+
+    /**
+     * Catalog resource helper
+     *
+     * @var \Magento\Catalog\Model\Resource\Helper
+     */
+    protected $_resourceHelper;
+
+    /**
+     * Construct
+     *
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Model\Resource $coreResource
+     * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
+     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
+     * @param \Magento\Catalog\Model\Resource\Url $catalogUrl
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Catalog\Model\Resource\Helper $resourceHelper
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Model\Resource $coreResource,
+        \Magento\Eav\Model\EntityFactory $eavEntityFactory,
+        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\EntityFactory $entityFactory
+        \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
+        \Magento\Catalog\Model\Resource\Url $catalogUrl,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Catalog\Model\Resource\Helper $resourceHelper
     ) {
         $this->_catalogData = $catalogData;
         $this->_catalogProductFlat = $catalogProductFlat;
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory);
+        $this->_productOptionFactory = $productOptionFactory;
+        $this->_catalogUrl = $catalogUrl;
+        $this->_locale = $locale;
+        $this->_customerSession = $customerSession;
+        $this->_resourceHelper = $resourceHelper;
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $eavConfig, $coreResource,
+            $eavEntityFactory, $resourceHelper, $universalFactory, $storeManager);
     }
 
     /**
@@ -311,7 +376,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      */
     public function getCurrencyRate()
     {
-        return \Mage::app()->getStore($this->getStoreId())->getCurrentCurrencyRate();
+        return $this->_storeManager->getStore($this->getStoreId())->getCurrentCurrencyRate();
     }
 
     /**
@@ -333,7 +398,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     public function isEnabledFlat()
     {
         // Flat Data can be used only on frontend
-        if (\Mage::app()->getStore()->isAdmin()) {
+        if ($this->_storeManager->getStore()->isAdmin()) {
             return false;
         }
         if (!isset($this->_flatEnabled[$this->getStoreId()])) {
@@ -563,8 +628,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         }
 
         if ($objects && $this->hasFlag('url_data_object')) {
-            $objects = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Url')
-                ->getRewriteByProductStore($objects);
+            $objects = $this->_catalogUrl->getRewriteByProductStore($objects);
             foreach ($this->_items as $item) {
                 if (isset($objects[$item->getEntityId()])) {
                     $object = new \Magento\Object($objects[$item->getEntityId()]);
@@ -659,7 +723,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         if ($store === null) {
             $store = $this->getStoreId();
         }
-        $store = \Mage::app()->getStore($store);
+        $store = $this->_storeManager->getStore($store);
 
         if (!$store->isAdmin()) {
             $this->setStoreId($store);
@@ -679,7 +743,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     public function addWebsiteFilter($websites = null)
     {
         if (!is_array($websites)) {
-            $websites = array(\Mage::app()->getWebsite($websites)->getId());
+            $websites = array($this->_storeManager->getWebsite($websites)->getId());
         }
 
         $this->_productLimitationFilters['website_ids'] = $websites;
@@ -1158,7 +1222,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
 
         $select = $this->getConnection()->select()
             ->from($this->getTable('core_url_rewrite'), array('product_id', 'request_path'))
-            ->where('store_id = ?', \Mage::app()->getStore()->getId())
+            ->where('store_id = ?', $this->_storeManager->getStore()->getId())
             ->where('is_system = ?', 1)
             ->where('category_id = ? OR category_id IS NULL', $this->_urlRewriteCategory)
             ->where('product_id IN(?)', $productIds)
@@ -1208,7 +1272,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     protected function _joinPriceRules()
     {
         if ($this->isEnabledFlat()) {
-            $customerGroup = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerGroupId();
+            $customerGroup = $this->_customerSession->getCustomerGroupId();
             $priceColumn   = 'e.display_price_group_' . $customerGroup;
             $this->getSelect()->columns(array('_rule_price' => $priceColumn));
 
@@ -1217,10 +1281,10 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         if (!$this->_catalogData->isModuleEnabled('Magento_CatalogRule')) {
             return $this;
         }
-        $wId = \Mage::app()->getWebsite()->getId();
-        $gId = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerGroupId();
+        $wId = $this->_storeManager->getWebsite()->getId();
+        $gId = $this->_customerSession->getCustomerGroupId();
 
-        $storeDate = \Mage::app()->getLocale()->storeTimeStamp($this->getStoreId());
+        $storeDate = $this->_locale->storeTimeStamp($this->getStoreId());
         $conditions  = 'price_rule.product_id = e.entity_id AND ';
         $conditions .= "price_rule.rule_date = '".$this->getResource()->formatDate($storeDate, false)."' AND ";
         $conditions .= $this->getConnection()->quoteInto('price_rule.website_id = ? AND', $wId);
@@ -1279,10 +1343,10 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         $this->_productLimitationFilters['use_price_index'] = true;
 
         if (!isset($this->_productLimitationFilters['customer_group_id']) && is_null($customerGroupId)) {
-            $customerGroupId = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerGroupId();
+            $customerGroupId = $this->_customerSession->getCustomerGroupId();
         }
         if (!isset($this->_productLimitationFilters['website_id']) && is_null($websiteId)) {
-            $websiteId       = \Mage::app()->getStore($this->getStoreId())->getWebsiteId();
+            $websiteId       = $this->_storeManager->getStore($this->getStoreId())->getWebsiteId();
         }
 
         if (!is_null($customerGroupId)) {
@@ -1395,10 +1459,10 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
             $productIds[] = $product->getId();
         }
         if (!empty($productIds)) {
-            $options = \Mage::getModel('Magento\Catalog\Model\Product\Option')
+            $options = $this->_productOptionFactory->create()
                 ->getCollection()
-                ->addTitleToResult(\Mage::app()->getStore()->getId())
-                ->addPriceToResult(\Mage::app()->getStore()->getId())
+                ->addTitleToResult($this->_storeManager->getStore()->getId())
+                ->addPriceToResult($this->_storeManager->getStore()->getId())
                 ->addProductToFilter($productIds)
                 ->addValuesToResult();
 
@@ -1519,7 +1583,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
             && isset($this->_productLimitationFilters['visibility'])
             && !isset($this->_productLimitationFilters['category_id'])
         ) {
-            $this->_productLimitationFilters['category_id'] = \Mage::app()
+            $this->_productLimitationFilters['category_id'] = $this->_storeManager
                 ->getStore($this->_productLimitationFilters['store_id'])
                 ->getRootCategoryId();
         }
@@ -1550,7 +1614,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
             && !$this->isEnabledFlat()
         ) {
             $joinWebsite = true;
-            $websiteId = \Mage::app()->getStore($filters['store_id'])->getWebsiteId();
+            $websiteId = $this->_storeManager->getStore($filters['store_id'])->getWebsiteId();
             $conditions[] = $this->getConnection()
                 ->quoteInto('product_website.website_id = ?', $websiteId);
         }
@@ -1624,7 +1688,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
             );
         }
         // Avoid column duplication problems
-        \Mage::getResourceHelper('Magento_Core')->prepareColumnsList($this->getSelect());
+        $this->_resourceHelper->prepareColumnsList($this->getSelect());
 
         $whereCond = join(' OR ', array(
             $this->getConnection()->quoteInto('cat_index.visibility IN(?)', $filters['visibility']),
@@ -1670,7 +1734,6 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
             return $this;
         }
 
-        $helper     = \Mage::getResourceHelper('Magento_Core');
         $connection = $this->getConnection();
         $select     = $this->getSelect();
         $joinCond   = join(' AND ', array(
@@ -1701,7 +1764,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
             $select->setPart(\Zend_Db_Select::FROM, $fromPart);
         }
         //Clean duplicated fields
-        $helper->prepareColumnsList($select);
+        $this->_resourceHelper->prepareColumnsList($select);
 
 
         return $this;
@@ -1716,11 +1779,11 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     {
         $this->_productLimitationFilters['use_price_index'] = true;
         if (!isset($this->_productLimitationFilters['customer_group_id'])) {
-            $customerGroupId = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerGroupId();
+            $customerGroupId = $this->_customerSession->getCustomerGroupId();
             $this->_productLimitationFilters['customer_group_id'] = $customerGroupId;
         }
         if (!isset($this->_productLimitationFilters['website_id'])) {
-            $websiteId = \Mage::app()->getStore($this->getStoreId())->getWebsiteId();
+            $websiteId = $this->_storeManager->getStore($this->getStoreId())->getWebsiteId();
             $this->_productLimitationFilters['website_id'] = $websiteId;
         }
         $this->_applyProductLimitations();
@@ -1887,7 +1950,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         if ($attribute->isScopeGlobal()) {
             $websiteId = 0;
         } else if ($this->getStoreId()) {
-            $websiteId = \Mage::app()->getStore($this->getStoreId())->getWebsiteId();
+            $websiteId = $this->_storeManager->getStore($this->getStoreId())->getWebsiteId();
         }
 
         $adapter   = $this->getConnection();

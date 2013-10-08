@@ -12,8 +12,7 @@
 $installer = $this;
 
 // Create Root Catalog Node
-\Mage::getModel('Magento\Catalog\Model\Category')
-    ->load(1)
+$installer->createCategory()->load(1)
     ->setId(1)
     ->setStoreId(0)
     ->setPath(1)
@@ -24,10 +23,9 @@ $installer = $this;
     ->setInitialSetupFlag(true)
     ->save();
 
-/* @var $category \Magento\Catalog\Model\Category */
-$category = \Mage::getModel('Magento\Catalog\Model\Category');
+$category = $installer->createCategory();
 
-$category->setStoreId(0)
+$installer->createCategory()->setStoreId(0)
     ->setName('Default Category')
     ->setDisplayMode('PRODUCTS')
     ->setAttributeSetId($category->getDefaultAttributeSetId())

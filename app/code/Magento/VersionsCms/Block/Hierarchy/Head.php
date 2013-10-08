@@ -50,7 +50,7 @@ class Head extends \Magento\Core\Block\AbstractBlock
     /**
      * Prepare Global Layout
      *
-     * @return Magento_VersionsCms_Block_Hieararchy_Head
+     * @return \Magento\VersionsCms\Block\Hierarchy\Head
      */
     protected function _prepareLayout()
     {

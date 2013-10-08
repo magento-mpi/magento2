@@ -20,14 +20,8 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
     protected $_customerSession;
 
     /**
-     * Store manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Tax\Helper\Data $taxData
@@ -38,6 +32,7 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
      */
     public function __construct(
         \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Tax\Helper\Data $taxData,
@@ -46,9 +41,9 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
         \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
-        $this->_storeManager = $storeManager;
         $this->_customerSession = $customerSession;
-        parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $data);
+        parent::__construct($storeManager, $catalogConfig, $coreRegistry, $taxData, $catalogData, $coreData, $context,
+            $data);
     }
 
     public function getAmountSettingsJson($product)

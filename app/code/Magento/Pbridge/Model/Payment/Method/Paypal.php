@@ -34,7 +34,7 @@ class Paypal extends \Magento\Paypal\Model\Direct
      *
      * @var \Magento\Pbridge\Model\Payment\Method\Pbridge
      */
-    protected $_pbridgeMethodInstance = null;
+    protected $_pbridgeMethodInstance;
 
     /**
      * Website Payments Pro instance type
@@ -48,37 +48,61 @@ class Paypal extends \Magento\Paypal\Model\Direct
      *
      * @var \Magento\Pbridge\Helper\Data
      */
-    protected $_pbridgeData = null;
+    protected $_pbridgeData;
 
     /**
-     * Construct
-     *
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\ModuleListInterface $moduleList
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Centinel\Model\Service $centinelService
+     * @param \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\UrlInterface $urlBuilder
+     * @param \Magento\Core\Controller\Request\Http $requestHttp
+     * @param \Magento\Paypal\Model\CartFactory $cartFactory
+     * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\ModuleListInterface $moduleList,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Centinel\Model\Service $centinelService,
+        \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\UrlInterface $urlBuilder,
+        \Magento\Core\Controller\Request\Http $requestHttp,
+        \Magento\Paypal\Model\CartFactory $cartFactory,
+        \Magento\Pbridge\Helper\Data $pbridgeData,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
-        parent::__construct($logger, $eventManager, $coreStoreConfig, $moduleList, $paymentData, $logAdapterFactory,
-            $locale, $centinelService, $data);
+        parent::__construct(
+            $logger,
+            $eventManager,
+            $coreStoreConfig,
+            $moduleList,
+            $paymentData,
+            $logAdapterFactory,
+            $locale,
+            $centinelService,
+            $proTypeFactory,
+            $storeManager,
+            $urlBuilder,
+            $requestHttp,
+            $cartFactory,
+            $data
+        );
         $this->_pro->setPaymentMethod($this);
     }
 
@@ -126,6 +150,9 @@ class Paypal extends \Magento\Paypal\Model\Direct
         return parent::getCode();
     }
 
+    /**
+     * @return string
+     */
     public function getTitle()
     {
         return parent::getTitle();
@@ -146,15 +173,16 @@ class Paypal extends \Magento\Paypal\Model\Direct
     /**
      * Retrieve information from original payment configuration
      *
-     * @param   string $field
-     * @return  mixed
+     * @param string $field
+     * @param null $storeId
+     * @return string|null
      */
     public function getConfigData($field, $storeId = null)
     {
         if (null === $storeId) {
             $storeId = $this->getStore();
         }
-        $path = 'payment/'.$this->getOriginalCode().'/'.$field;
+        $path = 'payment/' . $this->getOriginalCode() . '/' . $field;
         return $this->_coreStoreConfig->getConfig($path, $storeId);
     }
 
@@ -177,9 +205,7 @@ class Paypal extends \Magento\Paypal\Model\Direct
      */
     public function getFormBlockType()
     {
-        return \Mage::app()->getStore()->isAdmin() ?
-            $this->_backendFormBlockType :
-            $this->_formBlockType;
+        return $this->_storeManager->getStore()->isAdmin() ? $this->_backendFormBlockType : $this->_formBlockType;
     }
 
     /**
@@ -251,6 +277,7 @@ class Paypal extends \Magento\Paypal\Model\Direct
      * Store id setter, also set storeId to helper
      *
      * @param int $store
+     * @return \Magento\Pbridge\Model\Payment\Method\Paypal
      */
     public function setStore($store)
     {

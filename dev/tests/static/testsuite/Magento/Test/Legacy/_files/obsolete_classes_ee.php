@@ -10,7 +10,6 @@
 return array(
     array('Magento\CatalogEvent\Block\Adminhtml\Event\Grid'),
     array('Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\Grid'),
-    array('Magento\VersionsCms\Model\Resource\Setup'),
     array('Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Grid'),
     array('Magento\GiftCard\Block\Email\Generated'),
     array('Magento\GiftRegistry\Block\Adminhtml\Customer\View'),
@@ -65,7 +64,6 @@ return array(
     array('Varien_Db_Adapter_Oracle'),
     array('Mage_Install_Block_Db_Type_Oracle'),
     array('Mage_Install_Model_Installer_Db_Oracle'),
-    array('Magento\Reminder\Model\Resource\Helper\Mysql4'),
     array('Magento\Queue\Model\Queue'),
     array('Magento\Queue\Model\AddException'),
     array('Magento\Queue\Model\Config'),
@@ -79,4 +77,5 @@ return array(
     array('Magento\Rma\Block\Order\Info'),
     array('Magento\Rma\Block\Returns\Info'),
     array('Magento\MultipleWishlist\Block\Links', 'Magento\MultipleWishlist\Block\Link'),
+    array('\Magento\Reminder\Model\Resource\Setup', '\Magento\Core\Model\Resource\Setup'),
 );

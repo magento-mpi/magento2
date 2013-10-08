@@ -21,6 +21,43 @@ class Form extends \Magento\Core\Block\Template
     protected $_formData = null;
 
     /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $customerSession;
+
+    /**
+     * @var \Magento\GiftRegistry\Model\TypeFactory
+     */
+    protected $typeFactory;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\GiftRegistry\Model\TypeFactory $typeFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $context, $data);
+        $this->customerSession = $customerSession;
+        $this->typeFactory = $typeFactory;
+        $this->storeManager = $storeManager;
+    }
+
+    /**
      * Retrieve form header
      *
      * @return string
@@ -39,7 +76,7 @@ class Form extends \Magento\Core\Block\Template
     public function getFormData($key)
     {
         if (is_null($this->_formData)) {
-            $this->_formData = \Mage::getSingleton('Magento\Customer\Model\Session')->getRegistrySearchData();
+            $this->_formData = $this->customerSession->getRegistrySearchData();
         }
         if (!$this->_formData || !isset($this->_formData[$key])) {
             return null;
@@ -54,8 +91,8 @@ class Form extends \Magento\Core\Block\Template
      */
     public function getTypesCollection()
     {
-        return \Mage::getModel('Magento\GiftRegistry\Model\Type')->getCollection()
-            ->addStoreData(\Mage::app()->getStore()->getId());
+        return $this->typeFactory->create()->getCollection()
+            ->addStoreData($this->storeManager->getStore()->getId());
     }
 
     /**

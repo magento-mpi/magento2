@@ -11,7 +11,7 @@
 
 namespace Magento\GiftCardAccount\Controller;
 
-class CartTest extends \Magento\TestFramework\TestCase\ControllerAbstract
+class CartTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
      * @magentoDataFixture Magento/GiftCardAccount/_files/giftcardaccount.php

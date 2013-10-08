@@ -64,7 +64,7 @@ class File extends \Magento\Io\File
      * @param bool $needUnlock
      * @return bool|null
      */
-    public function isProcessLocked($needUnlock = false)
+    public function isProcessLocked($needUnlock = true)
     {
         if (!$this->_streamHandler) {
             return null;
@@ -76,6 +76,7 @@ class File extends \Magento\Io\File
             if (flock($this->_streamHandler, LOCK_EX | LOCK_NB)) {
                 if ($needUnlock) {
                     flock($this->_streamHandler, LOCK_UN);
+                    $this->_processLocked = false;
                 } else {
                     $this->_streamLocked = true;
                 }

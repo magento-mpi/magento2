@@ -1,6 +1,6 @@
 <?php
 /**
- * A helper to gather specific kinds if files in Magento application
+ * A helper to gather specific kind of files in Magento application
  *
  * {license_notice}
  *
@@ -588,4 +588,25 @@ class Files
 
     }
 
+    /**
+     * Returns array of PHP-files for specified module
+     *
+     * @param string $module
+     * @param bool $asDataSet
+     * @return array
+     */
+    public function getModulePhpFiles($module, $asDataSet = true)
+    {
+        $key = __METHOD__ . "/{$module}";
+        if (!isset(self::$_cache[$key])) {
+            $files = self::_getFiles(array("{$this->_path}/app/code/Magento/{$module}"), '*.php');
+            self::$_cache[$key] = $files;
+        }
+
+        if ($asDataSet) {
+            return self::composeDataSets(self::$_cache[$key]);
+        }
+
+        return self::$_cache[$key];
+    }
 }

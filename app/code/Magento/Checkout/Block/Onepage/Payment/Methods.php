@@ -20,15 +20,39 @@ namespace Magento\Checkout\Block\Onepage\Payment;
 
 class Methods extends \Magento\Payment\Block\Form\Container
 {
+    /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        array $data = array()
+    ) {
+        $this->_checkoutSession = $checkoutSession;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
+     * @return \Magento\Sales\Model\Quote|\Magento\Sales\Model\Quote
+     */
     public function getQuote()
     {
-        return \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
+        return $this->_checkoutSession->getQuote();
     }
 
     /**
      * Check payment method model
      *
-     * @param \Magento\Payment\Model\Method\AbstractMethod|null
+     * @param \Magento\Payment\Model\Method\AbstractMethod $method
      * @return bool
      */
     protected function _canUseMethod($method)
@@ -43,7 +67,8 @@ class Methods extends \Magento\Payment\Block\Form\Container
      */
     public function getSelectedMethodCode()
     {
-        if ($method = $this->getQuote()->getPayment()->getMethod()) {
+        $method = $this->getQuote()->getPayment()->getMethod();
+        if ($method) {
             return $method;
         }
         return false;
@@ -52,6 +77,7 @@ class Methods extends \Magento\Payment\Block\Form\Container
     /**
      * Payment method form html getter
      * @param \Magento\Payment\Model\Method\AbstractMethod $method
+     * @return string
      */
     public function getPaymentMethodFormHtml(\Magento\Payment\Model\Method\AbstractMethod $method)
     {
@@ -62,6 +88,7 @@ class Methods extends \Magento\Payment\Block\Form\Container
      * Return method title for payment selection page
      *
      * @param \Magento\Payment\Model\Method\AbstractMethod $method
+     * @return string
      */
     public function getMethodTitle(\Magento\Payment\Model\Method\AbstractMethod $method)
     {
@@ -78,7 +105,8 @@ class Methods extends \Magento\Payment\Block\Form\Container
      */
     public function getMethodLabelAfterHtml(\Magento\Payment\Model\Method\AbstractMethod $method)
     {
-        if ($form = $this->getChildBlock('payment.method.' . $method->getCode())) {
+        $form = $this->getChildBlock('payment.method.' . $method->getCode());
+        if ($form) {
             return $form->getMethodLabelAfterHtml();
         }
     }

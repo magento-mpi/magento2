@@ -1,0 +1,41 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/* @var $this \Magento\Wishlist\Block\Customer\Wishlist\Item\Column\Cart */
+/* @var \Magento\Wishlist\Model\Item $item */
+$item = $this->getItem();
+$product = $item->getProduct();
+$options = $this->getChildBlock('customer.wishlist.item.options')
+    ->setItem($item)
+    ->getConfiguredOptions();
+?>
+    <?php echo $this->getPriceHtml($product, empty($options));?>
+    <div class="box tocart">
+        <?php if ($item->canHaveQty() && $item->getProduct()->isVisibleInSiteVisibility()): ?>
+            <input type="text" class="input-text qty" data-validate="{required:true,'validate-greater-than-zero':true}" name="qty[<?php echo $item->getId() ?>]"
+                   value="<?php echo $this->getAddToCartQty($item) * 1 ?>"/>
+        <?php endif; ?>
+        <?php if ($product->isSaleable()): ?>
+            <button type="button" title="<?php echo __('Add to Cart') ?>" data-item-id="<?php echo $item->getId()?>" class="action tocart"><span><span><?php echo __('Add to Cart') ?></span></span></button>
+        <?php else: ?>
+            <?php if ($product->getIsSalable()): ?>
+                <p class="available stock" title="<?php echo __('Availability') ?>"><span><?php echo __('In stock') ?></span></p>
+            <?php else: ?>
+                <p class="unavailable stock" title="<?php echo __('Availability') ?>"><span><?php echo __('Out of stock') ?></span></p>
+            <?php endif; ?>
+        <?php endif; ?>
+    </div>
+    <?php foreach ($this->getChildNames() as $childName): ?>
+        <?php echo $this->getLayout()->renderElement($childName, false); ?>
+    <?php endforeach;?>
+    <?php if ($product->isVisibleInSiteVisibility()): ?>
+        <p><a class="action edit" href="<?php echo $this->getItemConfigureUrl($item) ?>"><span><?php echo __('Edit') ?></span></a>
+    </p>
+    <?php endif ?>
+

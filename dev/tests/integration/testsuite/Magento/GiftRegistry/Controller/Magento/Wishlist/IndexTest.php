@@ -12,7 +12,7 @@
 namespace Magento\GiftRegistry\Controller\Magento\Wishlist;
 
 class IndexTest
-    extends \Magento\TestFramework\TestCase\ControllerAbstract
+    extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php

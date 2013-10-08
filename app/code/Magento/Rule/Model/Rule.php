@@ -36,8 +36,8 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Rule\Model\Condition\Combine $conditions
-     * @param \Magento\Rule\Model\Action\Collection $actions
+     * @param \Magento\Rule\Model\Condition\CombineFactory $conditionsFactory
+     * @param \Magento\Rule\Model\Action\CollectionFactory $actionsFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data

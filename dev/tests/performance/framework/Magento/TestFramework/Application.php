@@ -148,7 +148,7 @@ class Application
         $this->_bootstrap();
 
         /** @var $indexer \Magento\Index\Model\Indexer */
-        $indexer = \Mage::getModel('Magento\Index\Model\Indexer');
+        $indexer = $this->_objectManager->create('Magento\Index\Model\Indexer');
         /** @var $process \Magento\Index\Model\Process */
         foreach ($indexer->getProcessesCollection() as $process) {
             if ($process->getIndexer()->isVisible()) {
@@ -164,7 +164,7 @@ class Application
      */
     protected function _updateFilesystemPermissions()
     {
-        \Magento\Io\File::chmodRecursive(\Mage::getBaseDir('var'), 0777);
+        \Magento\Io\File::chmodRecursive($this->_objectManager->get('Magento\Core\Model\Dir')->getDir('var'), 0777);
     }
 
     /**
@@ -223,5 +223,13 @@ class Application
     {
         $excessiveFixtures = array_diff($this->_fixtures, $fixtures);
         return (bool)$excessiveFixtures;
+    }
+
+    /**
+     * @return \Magento\ObjectManager
+     */
+    public function getObjectManager()
+    {
+        return $this->_objectManager;
     }
 }

@@ -29,12 +29,34 @@ class Entity extends \Magento\Eav\Model\Entity\AbstractEntity
     const DEFAULT_ENTITY_ID_FIELD   = 'entity_id';
 
     /**
-     * Resource initialization
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Core\Model\Resource $coreResource
+     * @param array $data
      */
-    public function __construct()
-    {
-        $resource = \Mage::getSingleton('Magento\Core\Model\Resource');
-        $this->setConnection($resource->getConnection('eav_read'));
+    public function __construct(
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Eav\Model\Resource\Helper $resourceHelper,
+        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Core\Model\Resource $coreResource,
+        $data = array()
+    ) {
+        parent::__construct(
+            $resource,
+            $eavConfig,
+            $attrSetEntity,
+            $locale,
+            $resourceHelper,
+            $universalFactory,
+            $data
+        );
+        $this->setConnection($coreResource->getConnection('eav_read'));
     }
-
 }

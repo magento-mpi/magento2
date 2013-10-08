@@ -17,7 +17,7 @@ class Core extends \Zend_Cache_Core
      *
      * ====> (array) backend_decorators :
      * - array of decorators to decorate cache backend. Each element of this array should contain:
-     * -- 'class' - concrete decorator, descendant of Magento_Cache_Backend_Decorator_Abstract
+     * -- 'class' - concrete decorator, descendant of \Magento\Cache\Backend\Decorator\AbstractDecorator
      * -- 'options' - optional array of specific decorator options
      * @var array
      */
@@ -171,9 +171,9 @@ class Core extends \Zend_Cache_Core
             }
 
             $backendObject = new $decoratorOptions['class']($classOptions);
-            if (!($backendObject instanceof \Magento\Cache\Backend\Decorator\DecoratorAbstract)) {
+            if (!($backendObject instanceof \Magento\Cache\Backend\Decorator\AbstractDecorator)) {
                 \Zend_Cache::throwException("Decorator in '" . $decoratorName
-                    . "' should extend \Magento\Cache\Backend\Decorator\DecoratorAbstract");
+                    . "' should extend \Magento\Cache\Backend\Decorator\AbstractDecorator");
             }
         }
 

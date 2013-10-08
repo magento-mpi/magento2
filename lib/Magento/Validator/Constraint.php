@@ -9,7 +9,7 @@
  */
 namespace Magento\Validator;
 
-class Constraint extends \Magento\Validator\ValidatorAbstract
+class Constraint extends \Magento\Validator\AbstractValidator
 {
     /**
      * Wrapped validator
@@ -84,7 +84,7 @@ class Constraint extends \Magento\Validator\ValidatorAbstract
      * Set translator to wrapped validator.
      *
      * @param \Magento\Translate\AdapterInterface|null $translator
-     * @return \Magento\Validator\ValidatorAbstract
+     * @return \Magento\Validator\AbstractValidator
      */
     public function setTranslator($translator = null)
     {

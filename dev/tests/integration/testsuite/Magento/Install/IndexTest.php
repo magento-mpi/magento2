@@ -7,7 +7,7 @@
  */
 namespace Magento\Install;
 
-class IndexTest extends \Magento\TestFramework\TestCase\ControllerAbstract
+class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     public function testIndexAction()
     {

@@ -41,7 +41,7 @@ $compositeModules = getFilesCombinedArray(__DIR__ . '/AliasesMap', '/^composite_
 // PHP code
 foreach ($utilityFiles->getPhpFiles(true, true, true, false) as $file) {
     $content = file_get_contents($file);
-    $classes = Magento_Test_Legacy_ClassesTest::collectPhpCodeClasses($content);
+    $classes = \Magento\Test\Legacy\ClassesTest::collectPhpCodeClasses($content);
     if ($classes) {
         $factoryNames = array_filter($classes, 'isFactoryName');
         foreach ($factoryNames as $factoryName) {

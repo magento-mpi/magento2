@@ -28,15 +28,18 @@ class Shipping extends \Magento\Sales\Block\Items\AbstractItems
      * @param \Magento\Filter\Object\GridFactory $filterGridFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Checkout\Model\Type\Multishipping $multishipping
      * @param array $data
      */
     public function __construct(
         \Magento\Filter\Object\GridFactory $filterGridFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Checkout\Model\Type\Multishipping $multishipping,
         array $data = array()
     ) {
         $this->_filterGridFactory = $filterGridFactory;
+        $this->_multishipping = $multishipping;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -47,7 +50,7 @@ class Shipping extends \Magento\Sales\Block\Items\AbstractItems
      */
     public function getCheckout()
     {
-        return \Mage::getSingleton('Magento\Checkout\Model\Type\Multishipping');
+        return $this->_multishipping;
     }
 
     protected function _prepareLayout()

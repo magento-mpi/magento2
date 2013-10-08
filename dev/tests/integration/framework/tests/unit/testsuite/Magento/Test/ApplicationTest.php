@@ -20,7 +20,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructor()
     {
-        $dbInstance = $this->getMockForAbstractClass('Magento\TestFramework\Db\DbAbstract', array(), '', false);
+        $dbInstance = $this->getMockForAbstractClass('Magento\TestFramework\Db\AbstractDb', array(), '', false);
         $installDir = '/install/dir';
         $appMode = \Magento\Core\Model\App\State::MODE_DEVELOPER;
 

@@ -21,13 +21,14 @@ namespace Magento\CatalogSearch\Model\Resource;
 class Helper extends \Magento\Eav\Model\Resource\Helper
 {
     /**
-     * Construct
-     *
+     * @param \Magento\Core\Model\Resource $resource
      * @param string $modulePrefix
      */
-    public function __construct($modulePrefix = 'Magento_CatalogSearch')
-    {
-        parent::__construct($modulePrefix);
+    public function __construct(
+        \Magento\Core\Model\Resource $resource,
+        $modulePrefix = 'Magento_CatalogSearch'
+    ) {
+        parent::__construct($resource, $modulePrefix);
     }
 
     /**

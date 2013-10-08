@@ -33,27 +33,27 @@ class Related
     protected $_cart;
 
     /**
-     * @param \Magento\Checkout\Model\Cart $cart
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\TargetRule\Model\Resource\Index $index
-     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
-     * @param \Magento\Catalog\Model\Product\Visibility $visibility
-     * @param \Magento\TargetRule\Model\IndexFactory $indexFactory
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\TargetRule\Helper\Data $targetRuleData
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
+     * @param \Magento\Catalog\Model\Product\Visibility $visibility
+     * @param \Magento\TargetRule\Model\IndexFactory $indexFactory
+     * @param \Magento\Checkout\Model\Cart $cart
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      * @SuppressWarnings(PHPMD.LongVariable)
      */
     public function __construct(
-        \Magento\Checkout\Model\Cart $cart,
-        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
-        \Magento\Catalog\Model\Product\Visibility $visibility,
-        \Magento\TargetRule\Model\IndexFactory $indexFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\TargetRule\Model\Resource\Index $index,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\TargetRule\Helper\Data $targetRuleData,
@@ -61,12 +61,16 @@ class Related
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
+        \Magento\Catalog\Model\Product\Visibility $visibility,
+        \Magento\TargetRule\Model\IndexFactory $indexFactory,
+        \Magento\Checkout\Model\Cart $cart,
         array $data = array()
     ) {
         $this->_cart = $cart;
         parent::__construct(
-            $productCollectionFactory, $visibility, $indexFactory, $index, $coreRegistry,
-            $targetRuleData, $taxData, $catalogData, $coreData, $context, $data
+            $storeManager, $catalogConfig, $index, $coreRegistry, $targetRuleData, $taxData, $catalogData,
+            $coreData, $context, $productCollectionFactory, $visibility, $indexFactory, $data
         );
     }
 

@@ -8,20 +8,40 @@
  * @license     {license_link}
  */
 
-
 /**
  * Cms Hierarchy Pages Tree Edit Cms Page Grid Block
- *
- * @category   Magento
- * @package    Magento_VersionsCms
  */
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form;
 
 class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
+     * @var \Magento\Cms\Model\Resource\Page\CollectionFactory
+     */
+    protected $_pageCollFactory;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Cms\Model\Resource\Page\CollectionFactory $pageCollFactory
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Cms\Model\Resource\Page\CollectionFactory $pageCollFactory,
+        array $data = array()
+    ) {
+        $this->_pageCollFactory = $pageCollFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Initialize Grid block
-     *
      */
     protected function _construct()
     {
@@ -37,11 +57,11 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     /**
      * Prepare Cms Page Collection for Grid
      *
-     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit_Tab_Pages_Grid
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Tab\Pages\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getModel('Magento\Cms\Model\Page')->getCollection();
+        $collection = $this->_pageCollFactory->create();
 
         $store = $this->_getStore();
         if ($store->getId()) {
@@ -55,7 +75,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     /**
      * Prepare Grid columns
      *
-     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit_Tab_Pages_Grid
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Tab\Pages\Grid
      */
     protected function _prepareColumns()
     {
@@ -109,7 +129,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _getStore()
     {
-        $storeId = (int) $this->getRequest()->getParam('store', 0);
-        return \Mage::app()->getStore($storeId);
+        $storeId = (int)$this->getRequest()->getParam('store', 0);
+        return $this->_storeManager->getStore($storeId);
     }
 }

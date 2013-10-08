@@ -61,6 +61,34 @@ class Url extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_logger;
 
     /**
+     * Catalog category
+     *
+     * @var \Magento\Catalog\Model\Category
+     */
+    protected $_catalogCategory;
+
+    /**
+     * Catalog product
+     *
+     * @var \Magento\Catalog\Model\Product
+     */
+    protected $_catalogProduct;
+
+    /**
+     * Eav config
+     *
+     * @var \Magento\Eav\Model\Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * Load core Url rewrite model
      *
      */
@@ -72,11 +100,25 @@ class Url extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Class constructor
      *
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Catalog\Model\Product $catalogProduct
+     * @param \Magento\Catalog\Model\Category $catalogCategory
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Resource $resource
      */
-    public function __construct(\Magento\Core\Model\Logger $logger, \Magento\Core\Model\Resource $resource)
-    {
+    public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Catalog\Model\Product $catalogProduct,
+        \Magento\Catalog\Model\Category $catalogCategory,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Resource $resource
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_eavConfig = $eavConfig;
+        $this->_catalogProduct = $catalogProduct;
+        $this->_catalogCategory = $catalogCategory;
         $this->_logger = $logger;
         parent::__construct($resource);
     }
@@ -90,7 +132,7 @@ class Url extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function getStores($storeId = null)
     {
         if ($this->_stores === null) {
-            $this->_stores = $this->_prepareStoreRootCategories(\Mage::app()->getStores());
+            $this->_stores = $this->_prepareStoreRootCategories($this->_storeManager->getStores());
         }
         if ($storeId && isset($this->_stores[$storeId])) {
             return $this->_stores[$storeId];
@@ -105,7 +147,7 @@ class Url extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getCategoryModel()
     {
-        return \Mage::getSingleton('Magento\Catalog\Model\Category');
+        return $this->_catalogCategory;
     }
 
     /**
@@ -115,7 +157,7 @@ class Url extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getProductModel()
     {
-        return \Mage::getSingleton('Magento\Catalog\Model\Product');
+        return $this->_catalogProduct;
     }
 
     /**
@@ -295,6 +337,7 @@ class Url extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param array $rewriteData
      * @param int|\Magento\Object $rewrite
      * @return \Magento\Catalog\Model\Resource\Url
+     * @throws \Magento\Core\Exception
      */
     public function saveRewrite($rewriteData, $rewrite)
     {
@@ -303,7 +346,7 @@ class Url extends \Magento\Core\Model\Resource\Db\AbstractDb
             $adapter->insertOnDuplicate($this->getMainTable(), $rewriteData);
         } catch (\Exception $e) {
             $this->_logger->logException($e);
-            \Mage::throwException(__('Something went wrong saving the URL rewite.'));
+            throw new \Magento\Core\Exception(__('Something went wrong saving the URL rewite.'));
         }
 
         if ($rewrite && $rewrite->getId()) {
@@ -691,8 +734,7 @@ class Url extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _getCategories($categoryIds, $storeId = null, $path = null)
     {
-        $isActiveAttribute = \Mage::getSingleton('Magento\Eav\Model\Config')
-            ->getAttribute(\Magento\Catalog\Model\Category::ENTITY, 'is_active');
+        $isActiveAttribute = $this->_eavConfig->getAttribute(\Magento\Catalog\Model\Category::ENTITY, 'is_active');
         $categories        = array();
         $adapter           = $this->_getReadAdapter();
 
@@ -892,7 +934,7 @@ class Url extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getCategoryParentPath(\Magento\Object $category)
     {
-        $store = \Mage::app()->getStore($category->getStoreId());
+        $store = $this->_storeManager->getStore($category->getStoreId());
 
         if ($category->getId() == $store->getRootCategoryId()) {
             return '';
@@ -939,7 +981,7 @@ class Url extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _getProducts($productIds, $storeId, $entityId, &$lastEntityId)
     {
         $products   = array();
-        $websiteId  = \Mage::app()->getStore($storeId)->getWebsiteId();
+        $websiteId  = $this->_storeManager->getStore($storeId)->getWebsiteId();
         $adapter    = $this->_getReadAdapter();
         if ($productIds !== null) {
             if (!is_array($productIds)) {
@@ -1276,7 +1318,7 @@ class Url extends \Magento\Core\Model\Resource\Db\AbstractDb
 
         $bind = array();
         foreach ($products as $productId => $storeId) {
-            $catId = \Mage::app()->getStore($storeId)->getRootCategoryId();
+            $catId = $this->_storeManager->getStore($storeId)->getRootCategoryId();
             $productBind = 'product_id' . $productId;
             $storeBind   = 'store_id' . $storeId;
             $catBind     = 'category_id' . $catId;

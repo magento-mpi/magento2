@@ -19,14 +19,17 @@ class Http extends \Magento\Core\Model\AbstractEntryPoint
         try {
             parent::processRequest();
         } catch (\Magento\Core\Model\Session\Exception $e) {
-            header('Location: ' . \Mage::getBaseUrl());
+            header(
+                'Location: ' . $this->_objectManager->get('Magento\Core\Model\StoreManager')->getStore()->getBaseUrl()
+            );
         } catch (\Magento\Core\Model\Store\Exception $e) {
-            require \Mage::getBaseDir(\Magento\Core\Model\Dir::PUB) . DS . 'errors' . DS . '404.php';
+            require $this->_objectManager->get('Magento\Core\Model\Dir')
+                    ->getDir(\Magento\Core\Model\Dir::PUB) . DS . 'errors' . DS . '404.php';
         } catch (\Magento\BootstrapException $e) {
             header('Content-Type: text/plain', true, 503);
             echo $e->getMessage();
         } catch (\Exception $e) {
-            \Mage::printException($e);
+            $this->processException($e);
         }
     }
 

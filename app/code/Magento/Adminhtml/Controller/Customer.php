@@ -247,7 +247,7 @@ class Customer extends \Magento\Adminhtml\Controller\Action
 
                 $returnToEdit = (bool)$this->getRequest()->getParam('back', false);
                 $customerId = $customer->getId();
-            } catch (\Magento\Validator\Exception $exception) {
+            } catch (\Magento\Validator\ValidatorException $exception) {
                 $this->_addSessionErrorMessages($exception->getMessages());
                 $this->_getSession()->setCustomerData($originalRequestData);
                 $returnToEdit = true;

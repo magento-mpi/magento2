@@ -10,7 +10,7 @@
 
 namespace Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit;
 
-class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
+class Tabs extends \Magento\Backend\Block\Widget\Tabs
 {
     /**
      * Core registry
@@ -28,6 +28,7 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
      * @param \Magento\CustomerSegment\Model\SegmentFactory $segmentFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
@@ -35,12 +36,13 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
         \Magento\CustomerSegment\Model\SegmentFactory $segmentFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_segmentFactory = $segmentFactory;
         $this->_coreRegistry = $registry;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($coreData, $context, $authSession, $data);
     }
 
     /**

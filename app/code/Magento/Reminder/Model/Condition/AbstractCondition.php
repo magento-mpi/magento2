@@ -16,6 +16,27 @@ namespace Magento\Reminder\Model\Condition;
 class AbstractCondition extends \Magento\Rule\Model\Condition\AbstractCondition
 {
     /**
+     * Rule Resource
+     *
+     * @var \Magento\Reminder\Model\Resource\Rule
+     */
+    protected $_ruleResource;
+
+    /**
+     * @param \Magento\Rule\Model\Condition\Context $context
+     * @param \Magento\Reminder\Model\Resource\Rule $ruleResource
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Rule\Model\Condition\Context $context,
+        \Magento\Reminder\Model\Resource\Rule $ruleResource,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_ruleResource = $ruleResource;
+    }
+
+    /**
      * Customize default operator input by type mapper for some types
      * @return array
      */
@@ -36,7 +57,7 @@ class AbstractCondition extends \Magento\Rule\Model\Condition\AbstractCondition
      */
     public function getResource()
     {
-        return \Mage::getResourceSingleton('Magento\Reminder\Model\Resource\Rule');
+        return $this->_ruleResource;
     }
 
     /**

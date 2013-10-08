@@ -25,35 +25,47 @@ class Main
     protected $_attributeHelper = null;
 
     /**
-     * @var \Magento\Backend\Model\Config\Source\YesnoFactory
-     */
-    protected $_configFactory;
-
-    /**
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\CustomAttribute\Helper\Data $attributeHelper
-     * @param \Magento\Eav\Helper\Data $eavData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Backend\Model\Config\Source\YesnoFactory configFctory
+     * @param \Magento\Eav\Helper\Data $eavData
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Backend\Model\Config\Source\YesnoFactory $yesnoFactory
+     * @param \Magento\Eav\Model\Adminhtml\System\Config\Source\InputtypeFactory $inputTypeFactory
      * @param \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig
+     * @param \Magento\Rma\Helper\Eav $rmaEav
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\Registry $registry,
         \Magento\Data\Form\Factory $formFactory,
         \Magento\CustomAttribute\Helper\Data $attributeHelper,
-        \Magento\Eav\Helper\Data $eavData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Backend\Model\Config\Source\YesnoFactory $configFactory,
+        \Magento\Eav\Helper\Data $eavData,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Backend\Model\Config\Source\YesnoFactory $yesnoFactory,
+        \Magento\Eav\Model\Adminhtml\System\Config\Source\InputtypeFactory $inputTypeFactory,
         \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig,
+        \Magento\Rma\Helper\Eav $rmaEav,
         array $data = array()
     ) {
         $this->_attributeHelper = $attributeHelper;
-        $this->_configFactory = $configFactory;
-        parent::__construct($formFactory, $eavData, $coreData, $context, $registry, $attributeConfig, $data);
+        $this->_rmaEav = $rmaEav;
+        parent::__construct(
+            $registry,
+            $formFactory,
+            $coreData,
+            $context,
+            $eavData,
+            $locale,
+            $yesnoFactory,
+            $inputTypeFactory,
+            $attributeConfig,
+            $data
+        );
     }
 
     /**
@@ -167,7 +179,7 @@ class Main
         ));
 
         /** @var $config \Magento\Backend\Model\Config\Source\Yesno */
-        $config = $this->_configFactory->create();
+        $config = $this->_yesnoFactory->create();
         $yesnoSource = $config->toOptionArray();
 
         $fieldset = $form->addFieldset('front_fieldset', array(

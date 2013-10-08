@@ -293,7 +293,7 @@ class ColumnSetTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Retrieve prepared mock for Magento_Backend_Model_Widget_Grid with collection
+     * Retrieve prepared mock for \Magento\Backend\Model\Widget\Grid with collection
      *
      * @param \Magento\Data\Collection $collection
      * @return \PHPUnit_Framework_MockObject_MockObject
@@ -301,7 +301,7 @@ class ColumnSetTest extends \PHPUnit_Framework_TestCase
     protected function _prepareGridMock($collection)
     {
         // prepare block grid
-        $gridMock = $this->getMock('Magento_Backend_Model_Widget_Grid', array('getCollection'), array(), '', true);
+        $gridMock = $this->getMock('Magento\Backend\Model\Widget\Grid', array('getCollection'), array(), '', true);
         $gridMock->expects($this->any())
             ->method('getCollection')
             ->will($this->returnValue($collection));

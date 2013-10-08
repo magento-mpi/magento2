@@ -50,6 +50,27 @@ abstract class AbstractFlat extends \Magento\Core\Helper\AbstractHelper
     abstract public function isEnabled($deprecatedParam = false);
 
     /**
+     * Process factory
+     *
+     * @var \Magento\Index\Model\ProcessFactory
+     */
+    protected $_processFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Index\Model\ProcessFactory $processFactory
+     * @param \Magento\Core\Helper\Context $context
+     */
+    public function __construct(
+        \Magento\Index\Model\ProcessFactory $processFactory,
+        \Magento\Core\Helper\Context $context
+    ) {
+        $this->_processFactory = $processFactory;
+        parent::__construct($context);
+    }
+
+    /**
      * Check if Catalog Category Flat Data is available for use
      *
      * @return bool
@@ -68,7 +89,7 @@ abstract class AbstractFlat extends \Magento\Core\Helper\AbstractHelper
     public function getProcess()
     {
         if (is_null($this->_process)) {
-            $this->_process = \Mage::getModel('Magento\Index\Model\Process')
+            $this->_process = $this->_processFactory->create()
                 ->load($this->_indexerCode, 'indexer_code');
         }
         return $this->_process;
