@@ -117,7 +117,7 @@ class Layer extends \Magento\CatalogSearch\Model\Layer
             return array();
         }
         /* @var $collection \Magento\Catalog\Model\Resource\Product\Attribute\Collection */
-        $collection = $this->_collectionFactory->create()
+        $collection = $this->_attributeCollectionFactory->create()
             ->setItemObjectClass('Magento\Catalog\Model\Resource\Eav\Attribute');
 
         if ($this->_searchData->getTaxInfluence()) {

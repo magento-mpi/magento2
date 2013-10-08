@@ -151,7 +151,7 @@ class Index extends \Magento\CatalogSearch\Model\Resource\Fulltext
     protected function _getCatalogCategoryData($storeId, $productIds = null, $visibility = true)
     {
         $adapter = $this->_getWriteAdapter();
-        $prefix  = $this->getEngine()->getFieldsPrefix();
+        $prefix  = $this->engineProvider->get()->getFieldsPrefix();
 
         $columns = array(
             'product_id' => 'product_id',
@@ -211,7 +211,7 @@ class Index extends \Magento\CatalogSearch\Model\Resource\Fulltext
             }
         }
 
-        $prefix         = $this->getEngine()->getFieldsPrefix();
+        $prefix         = $this->engineProvider->get()->getFieldsPrefix();
         $categoryData   = $this->_getCatalogCategoryData($storeId, $productIds, true);
         $priceData      = $this->_getCatalogProductPriceData($productIds);
 

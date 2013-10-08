@@ -56,13 +56,6 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_productEmulators         = array();
 
     /**
-     * Store search engine instance
-     *
-     * @var \Magento\CatalogSearch\Model\Resource\EngineInterface
-     */
-    protected $_engine;
-
-    /**
      * @var \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory
      */
     protected $_productAttributeCollFactory;
@@ -247,7 +240,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
         $visibility     = $this->_getSearchableAttribute('visibility');
         $status         = $this->_getSearchableAttribute('status');
         $statusVals     = $this->_catalogProductStatus->getVisibleStatusIds();
-        $allowedVisibility = $this->getEngine()->getAllowedVisibility();
+        $allowedVisibility = $this->engineProvider->get()->getAllowedVisibility();
 
         $lastProductId = 0;
         while (true) {
@@ -431,8 +424,8 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function cleanIndex($storeId = null, $productId = null)
     {
-        if ($this->getEngine()) {
-            $this->getEngine()->cleanIndex($storeId, $productId);
+        if ($this->engineProvider->get()) {
+            $this->engineProvider->get()->cleanIndex($storeId, $productId);
         }
 
         return $this;
@@ -534,7 +527,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
 
             $productAttributes = $this->_productAttributeCollFactory->create();
 
-            if ($this->getEngine() && $this->getEngine()->allowAdvancedIndex()) {
+            if ($this->engineProvider->get() && $this->engineProvider->get()->allowAdvancedIndex()) {
                 $productAttributes->addToIndexFilter(true);
             } else {
                 $productAttributes->addSearchableAttributeFilter();
@@ -542,7 +535,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
             $attributes = $productAttributes->getItems();
 
             $this->_eventManager->dispatch('catelogsearch_searchable_attributes_load_after', array(
-                'engine' => $this->getEngine(),
+                'engine' => $this->engineProvider->get(),
                 'attributes' => $attributes
             ));
 
@@ -767,7 +760,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
             }
         }
 
-        if (!$this->getEngine()->allowAdvancedIndex()) {
+        if (!$this->engineProvider->get()->allowAdvancedIndex()) {
             $product = $this->_getProductEmulator($productData['type_id'])
                 ->setId($productData['entity_id'])
                 ->setStoreId($storeId);
@@ -782,8 +775,8 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
             $index['in_stock'] = $productData['in_stock'];
         }
 
-        if ($this->getEngine()) {
-            return $this->getEngine()->prepareEntityIndex($index, $this->_separator);
+        if ($this->engineProvider->get()) {
+            return $this->engineProvider->get()->prepareEntityIndex($index, $this->_separator);
         }
 
         return $this->_catalogSearchData->prepareIndexdata($index, $this->_separator);
@@ -801,7 +794,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
     {
         $attribute = $this->_getSearchableAttribute($attributeId);
         if (!$attribute->getIsSearchable()) {
-            if ($this->getEngine()->allowAdvancedIndex()) {
+            if ($this->engineProvider->get()->allowAdvancedIndex()) {
                 if ($attribute->getAttributeCode() == 'visibility') {
                     return $value;
                 } elseif (!($attribute->getIsVisibleInAdvancedSearch()
@@ -817,7 +810,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
         }
 
         if ($attribute->usesSource()) {
-            if ($this->getEngine()->allowAdvancedIndex()) {
+            if ($this->engineProvider->get()->allowAdvancedIndex()) {
                 return $value;
             }
 
@@ -856,8 +849,8 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _saveProductIndex($productId, $storeId, $index)
     {
-        if ($this->getEngine()) {
-            $this->getEngine()->saveEntityIndex($productId, $storeId, $index);
+        if ($this->engineProvider->get()) {
+            $this->engineProvider->get()->saveEntityIndex($productId, $storeId, $index);
         }
 
         return $this;
@@ -872,8 +865,8 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _saveProductIndexes($storeId, $productIndexes)
     {
-        if ($this->getEngine()) {
-            $this->getEngine()->saveEntityIndexes($storeId, $productIndexes);
+        if ($this->engineProvider->get()) {
+            $this->engineProvider->get()->saveEntityIndexes($storeId, $productIndexes);
         }
 
         return $this;
@@ -925,13 +918,5 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function updateCategoryIndex($productIds, $categoryIds)
     {
         return $this;
-    }
-
-    protected function getEngine()
-    {
-        if (is_null($this->_engine)) {
-            $this->_engine = $this->engineProvider->get();
-        }
-        return $this->_engine;
     }
 }
