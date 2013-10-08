@@ -1,4 +1,5 @@
 * Fixed bugs:
+  * Fixed incorrect arguments for shipping xml elements fatory
   * Fixed theme editing in developer mode (PHP 5.4)
   * Fixed frontend error when persistent shopping cart functionality is enabled
   * Fixed Tax tab
