@@ -1,5 +1,6 @@
 * Fixed bugs:
-  * Fixed advanced search
+  * Fixed theme editing in developer mode (PHP 5.4)
+  * Fixed frontend error when persistent shopping cart functionality is enabled
   * Fixed Tax tab
   * Fixed placing order within OnePageCheckout using online payment methods
   * Fixed error when product is being added to order from backend if Gift Messages are enabled
