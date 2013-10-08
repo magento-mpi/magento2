@@ -62,9 +62,9 @@ class AppTest extends \PHPUnit_Framework_TestCase
         $this->_dbUpdaterMock = $this->getMock('Magento\Core\Model\Db\UpdaterInterface',
             array(), array(), '', false, false);
         $this->_storeManagerMock = $this->getMock('Magento\Core\Model\StoreManagerInterface');
-        $this->_eventManagerMock = $this->getMock('Magento\Core\Model\Event\Manager',
+        $this->_eventManagerMock = $this->getMock('Magento\Event\ManagerInterface',
             array(), array(), '', false, false);
-        $this->_appStateMock = $this->getMock('Magento\Core\Model\App\State', array(), array(), '', false, false);
+        $this->_appStateMock = $this->getMock('Magento\App\State', array(), array(), '', false, false);
         $this->_model = new \Magento\Core\Model\App(
             $this->_configMock,
             $this->_cacheMock,
@@ -73,7 +73,7 @@ class AppTest extends \PHPUnit_Framework_TestCase
             $this->_storeManagerMock,
             $this->_eventManagerMock,
             $this->_appStateMock,
-            $this->getMock('Magento\Core\Model\Config\Scope', array(), array(), '', false)
+            $this->getMock('Magento\Config\ScopeInterface', array(), array(), '', false)
         );
     }
 

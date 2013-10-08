@@ -54,7 +54,7 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
         $this->_fallbackFactory = $this->getMock(
             'Magento\Core\Model\Design\Fallback\Factory',
             array('createLocaleFileRule', 'createFileRule', 'createViewFileRule'),
-            array($this->getMock('Magento\Core\Model\Dir', array(), array(), '', false))
+            array($this->getMock('Magento\App\Dir', array(), array(), '', false))
         );
         $this->_fallbackFactory
             ->expects($this->any())->method('createLocaleFileRule')->will($this->returnValue($this->_fallbackLocale));

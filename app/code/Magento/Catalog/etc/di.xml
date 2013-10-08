@@ -19,9 +19,6 @@
         </param>
     </type>
     <type name="Magento\Catalog\Helper\Product\View">
-        <param name="eventManager">
-            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
-        </param>
         <param name="messageModels">
             <value>
                 <catalog>Magento\Catalog\Model\Session</catalog>
@@ -30,78 +27,21 @@
         </param>
     </type>
     <type name="Magento\Catalog\Helper\Product">
-        <param name="eventManager">
-            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
-        </param>
         <param name="typeSwitcherLabel">
             <value>Virtual</value>
         </param>
     </type>
-    <type name="Magento\Catalog\Model\Category">
-        <param name="eventManager">
-            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
-        </param>
-    </type>
-    <type name="Magento\Catalog\Model\Product\Attribute\Backend\Media">
-        <param name="eventManager">
-            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
-        </param>
-    </type>
-    <type name="Magento\Catalog\Model\Product\Attribute\Source\Inputtype">
-        <param name="eventManager">
-            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
-        </param>
-    </type>
-    <type name="Magento\Catalog\Model\Product\Status">
-        <param name="eventManager">
-            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
-        </param>
-    </type>
-    <type name="Magento\Catalog\Model\Product\Type\AbstractType">
-        <param name="eventManager">
-            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
-        </param>
-    </type>
-    <type name="Magento\Catalog\Model\Product\Type\Price">
-        <param name="eventManager">
-            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
-        </param>
-    </type>
     <type name="Magento\Catalog\Model\Product">
-        <param name="eventManager">
-            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
-        </param>
         <param name="catalogProductStatus">
             <instance type="Magento\Catalog\Model\Product\Status\Proxy" />
         </param>
     </type>
     <type name="Magento\Catalog\Model\Resource\Category\Flat">
-        <param name="eventManager">
-            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
-        </param>
         <param name="catalogCategory">
             <instance type="Magento\Catalog\Model\Category\Proxy" />
         </param>
     </type>
-    <type name="Magento\Catalog\Model\Resource\Category\Tree">
-        <param name="eventManager">
-            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
-        </param>
-    </type>
-    <type name="Magento\Catalog\Model\Resource\Category">
-        <param name="eventManager">
-            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
-        </param>
-    </type>
-    <type name="Magento\Catalog\Model\Resource\Layer\Filter\Price">
-        <param name="eventManager">
-            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
-        </param>
-    </type>
     <type name="Magento\Catalog\Model\Resource\Product\Flat\Indexer">
-        <param name="eventManager">
-            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
-        </param>
         <param name="maxIndexCount">
             <value type="int">64</value>
         </param>
@@ -109,16 +49,6 @@
             <value>
                 <catalog_product>catalog_product</catalog_product>
             </value>
-        </param>
-    </type>
-    <type name="Magento\Catalog\Model\Resource\Product\Indexer\Eav\AbstractEav">
-        <param name="eventManager">
-            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
-        </param>
-    </type>
-    <type name="Magento\Catalog\Model\Resource\Product\Indexer\Price\DefaultPrice">
-        <param name="eventManager">
-            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
     <type name="Magento\Catalog\Model\Resource\Product\Collection">

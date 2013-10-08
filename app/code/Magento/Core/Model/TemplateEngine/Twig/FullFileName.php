@@ -19,16 +19,16 @@ class FullFileName implements \Twig_LoaderInterface, \Twig_ExistsLoaderInterface
     private $_existsCache = array();
     
     /**
-     * @var \Magento\Core\Model\App\State
+     * @var \Magento\App\State
      */
     private $_appState;
     
     /**
      * Create new instance of FullFileName loader
      *
-     * @param \Magento\Core\Model\App\State
+     * @param \Magento\App\State
      */
-    public function __construct(\Magento\Core\Model\App\State $appState)
+    public function __construct(\Magento\App\State $appState)
     {
         $this->_appState = $appState;
     }
@@ -73,7 +73,7 @@ class FullFileName implements \Twig_LoaderInterface, \Twig_ExistsLoaderInterface
      */
     public function isFresh($name, $time) 
     {
-        if ($this->_appState->getMode() === \Magento\Core\Model\App\State::MODE_DEVELOPER) {
+        if ($this->_appState->getMode() === \Magento\App\State::MODE_DEVELOPER) {
             $lastModifiedTime = filemtime($name);
             if ($lastModifiedTime === false) {
                 throw new \Twig_Error_Loader(sprintf('Could not get last-modified time for "%s".', $name));

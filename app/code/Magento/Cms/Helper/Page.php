@@ -34,7 +34,7 @@ class Page extends \Magento\Core\Helper\AbstractHelper
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager;
 
@@ -89,7 +89,7 @@ class Page extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Session\Pool $sessionFactory
      * @param \Magento\Cms\Model\Page $page
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Page\Helper\Layout $pageLayout
      * @param \Magento\Core\Model\View\DesignInterface $design
      * @param \Magento\Core\Model\UrlInterface $url
@@ -101,7 +101,7 @@ class Page extends \Magento\Core\Helper\AbstractHelper
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Session\Pool $sessionFactory,
         \Magento\Cms\Model\Page $page,
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Page\Helper\Layout $pageLayout,
         \Magento\Core\Model\View\DesignInterface $design,
         \Magento\Core\Model\UrlInterface $url,

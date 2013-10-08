@@ -27,8 +27,8 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetSafePath($filePath, $basePath, $expectedResult)
     {
-        /** @var $dirs \Magento\Core\Model\Dir */
-        $dirs = $this->getMock('Magento\Core\Model\Dir', null, array(), '', false);
+        /** @var $dirs \Magento\App\Dir */
+        $dirs = $this->getMock('Magento\App\Dir', null, array(), '', false);
 
         /** @var $layoutMergeFactory \Magento\Core\Model\Layout\MergeFactory */
         $layoutMergeFactory = $this->getMock('Magento\Core\Model\Layout\MergeFactory', array('create'),
@@ -499,20 +499,20 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \Magento\Core\Model\Dir|\PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\App\Dir|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getDirs()
     {
-        /** @var $dirs \Magento\Core\Model\Dir */
-        $dirs = $this->getMock('Magento\Core\Model\Dir', array('getDir'), array(), '', false);
+        /** @var $dirs \Magento\App\Dir */
+        $dirs = $this->getMock('Magento\App\Dir', array('getDir'), array(), '', false);
         $dirs->expects($this->any())
             ->method('getDir')
             ->will($this->returnValueMap(array(
-                array(\Magento\Core\Model\Dir::ROOT, self::ROOT),
-                array(\Magento\Core\Model\Dir::APP, self::APP),
-                array(\Magento\Core\Model\Dir::MODULES, self::MODULES),
-                array(\Magento\Core\Model\Dir::THEMES, self::THEMES),
-                array(\Magento\Core\Model\Dir::PUB_LIB, self::PUB_LIB),
+                array(\Magento\App\Dir::ROOT, self::ROOT),
+                array(\Magento\App\Dir::APP, self::APP),
+                array(\Magento\App\Dir::MODULES, self::MODULES),
+                array(\Magento\App\Dir::THEMES, self::THEMES),
+                array(\Magento\App\Dir::PUB_LIB, self::PUB_LIB),
             )));
 
         return $dirs;

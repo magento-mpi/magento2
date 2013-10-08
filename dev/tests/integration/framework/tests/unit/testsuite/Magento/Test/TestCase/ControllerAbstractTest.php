@@ -34,7 +34,7 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\AbstractCon
             $this->getMock('Magento\Backend\Helper\Data', [], [], '', false)
         );
         $response = new \Magento\TestFramework\Response(
-            $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false)
+            $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false)
         );
 
         $this->_objectManager = $this->getMock(
@@ -110,7 +110,7 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\AbstractCon
     public function testAssertRedirect()
     {
         /*
-         * Prevent calling \Magento\Core\Controller\Response\Http::setRedirect() because it dispatches event,
+         * Prevent calling \Magento\App\Response\Http::setRedirect() because it dispatches event,
          * which requires fully initialized application environment intentionally not available
          * for unit tests
          */

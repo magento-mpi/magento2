@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Event\Invoker;
+namespace Magento\Event\Invoker;
 
 class InvokerDefaultTest extends \PHPUnit_Framework_TestCase
 {
@@ -30,7 +30,7 @@ class InvokerDefaultTest extends \PHPUnit_Framework_TestCase
     protected $_appStateMock;
 
     /**
-     * @var \Magento\Core\Model\Event\Invoker\InvokerDefault
+     * @var \Magento\Event\Invoker\InvokerDefault
      */
     protected $_invokerDefault;
 
@@ -42,9 +42,9 @@ class InvokerDefaultTest extends \PHPUnit_Framework_TestCase
         $this->_observerMock = $this->getMock('Magento\Event\Observer', array(), array(), '', false);
         $this->_listenerMock = $this->getMock('Magento_Some_Model_Observer_Some', array('method_name'), array(), '',
             false);
-        $this->_appStateMock = $this->getMock('Magento\Core\Model\App\State', array(), array(), '', false);
+        $this->_appStateMock = $this->getMock('Magento\App\State', array(), array(), '', false);
 
-        $this->_invokerDefault = new \Magento\Core\Model\Event\Invoker\InvokerDefault(
+        $this->_invokerDefault = new \Magento\Event\Invoker\InvokerDefault(
             $this->_observerFactoryMock,
             $this->_appStateMock
         );
@@ -96,7 +96,7 @@ class InvokerDefaultTest extends \PHPUnit_Framework_TestCase
         $this->_observerFactoryMock->expects($this->any())->method('get')->with('class_name')
             ->will($this->returnValue($this->_listenerMock));
         $this->_appStateMock->expects($this->once())->method('getMode')
-            ->will($this->returnValue(\Magento\Core\Model\App\State::MODE_DEVELOPER));
+            ->will($this->returnValue(\Magento\App\State::MODE_DEVELOPER));
 
         $this->_invokerDefault->dispatch(
             array(
@@ -120,7 +120,7 @@ class InvokerDefaultTest extends \PHPUnit_Framework_TestCase
         $this->_observerFactoryMock->expects($this->any())->method('get')->with('class_name')
             ->will($this->returnValue($this->_listenerMock));
         $this->_appStateMock->expects($this->once())->method('getMode')
-            ->will($this->returnValue(\Magento\Core\Model\App\State::MODE_PRODUCTION));
+            ->will($this->returnValue(\Magento\App\State::MODE_PRODUCTION));
 
         $this->_invokerDefault->dispatch(
             array(

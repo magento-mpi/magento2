@@ -14,8 +14,8 @@ interface NoRouteHandlerInterface
     /**
      * Check and process no route request
      *
-     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\App\RequestInterface $request
      * @return bool
      */
-    public function process(\Magento\Core\Controller\Request\Http $request);
+    public function process(\Magento\App\RequestInterface $request);
 }

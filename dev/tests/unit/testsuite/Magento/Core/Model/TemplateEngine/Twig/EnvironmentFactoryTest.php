@@ -76,7 +76,7 @@ class EnvironmentFactoryTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
                 
-        $this->_dirMock = $this->getMockBuilder('Magento\Core\Model\Dir')
+        $this->_dirMock = $this->getMockBuilder('Magento\App\Dir')
             ->disableOriginalConstructor()
             ->getMock();
 

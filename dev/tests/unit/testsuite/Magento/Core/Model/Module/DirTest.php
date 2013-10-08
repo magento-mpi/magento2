@@ -15,17 +15,17 @@ class DirTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\Core\Model\Dir|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\Dir|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_applicationDirs;
 
     protected function setUp()
     {
-        $this->_applicationDirs = $this->getMock('Magento\Core\Model\Dir', array(), array(), '', false, false);
+        $this->_applicationDirs = $this->getMock('Magento\App\Dir', array(), array(), '', false, false);
         $this->_applicationDirs
             ->expects($this->once())
             ->method('getDir')
-            ->with(\Magento\Core\Model\Dir::MODULES)
+            ->with(\Magento\App\Dir::MODULES)
             ->will($this->returnValue('app' . DIRECTORY_SEPARATOR . 'code'))
         ;
         $this->_model = new \Magento\Core\Model\Module\Dir($this->_applicationDirs);

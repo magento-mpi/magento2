@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Event\Config;
+namespace Magento\Event\Config;
 
 class XsdTest extends \PHPUnit_Framework_TestCase
 {

@@ -569,7 +569,7 @@ return array(
     array('Mage_Core_Controller_Magento_Router_Admin', 'Magento\Backend\Controller\Router\DefaultRouter'),
     array('Mage_Core_Model_Convert'),
     array('Mage_Core_Model_Config_Fieldset', 'Magento\Core\Model\Fieldset\Config'),
-    array('Mage_Core_Model_Config_Options', 'Magento\Core\Model\Dir'),
+    array('Mage_Core_Model_Config_Options', 'Magento\App\Dir'),
     array('Mage_Core_Model_Config_Module'),
     array('Mage_Core_Model_Config_System'),
     array('Mage_Core_Model_Design_Source_Apply'),

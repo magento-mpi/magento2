@@ -497,7 +497,7 @@ final class Controller
                     include_once self::$_instance->getBootstrapPath();
 
                     \Magento\Core\Model\ObjectManager::getInstance()
-                        ->get('Magento\Core\Model\App\State')
+                        ->get('Magento\App\State')
                         ->setIsDownloader();
                 }
                 \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Core\Model\App');

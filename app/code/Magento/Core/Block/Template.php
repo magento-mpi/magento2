@@ -46,7 +46,7 @@ class Template extends \Magento\Core\Block\AbstractBlock
     protected static $_showTemplateHintsBlocks;
 
     /**
-     * @var \Magento\Core\Model\Dir
+     * @var \Magento\App\Dir
      */
     protected $_dirs;
 
@@ -230,7 +230,7 @@ class Template extends \Magento\Core\Block\AbstractBlock
      */
     public function fetchView($fileName)
     {
-        $viewShortPath = str_replace($this->_dirs->getDir(\Magento\Core\Model\Dir::ROOT), '', $fileName);
+        $viewShortPath = str_replace($this->_dirs->getDir(\Magento\App\Dir::ROOT), '', $fileName);
         \Magento\Profiler::start('TEMPLATE:' . $fileName, array('group' => 'TEMPLATE', 'file_name' => $viewShortPath));
 
 
@@ -257,8 +257,8 @@ HTML;
         }
 
         try {
-            if (($this->_filesystem->isPathInDirectory($fileName, $this->_dirs->getDir(\Magento\Core\Model\Dir::APP))
-                || $this->_filesystem->isPathInDirectory($fileName, $this->_dirs->getDir(\Magento\Core\Model\Dir::THEMES))
+            if (($this->_filesystem->isPathInDirectory($fileName, $this->_dirs->getDir(\Magento\App\Dir::APP))
+                || $this->_filesystem->isPathInDirectory($fileName, $this->_dirs->getDir(\Magento\App\Dir::THEMES))
                 || $this->_getAllowSymlinks()) && $this->_filesystem->isFile($fileName)
             ) {
                 $extension = pathinfo($fileName, PATHINFO_EXTENSION); 

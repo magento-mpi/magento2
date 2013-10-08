@@ -66,7 +66,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         $viewUrl = $objectManager->get('Magento\Core\Model\View\Url');
         $imageHelper = $objectManager->get('Magento\Cms\Helper\Wysiwyg\Images');
         $coreFileStorageDb = $objectManager->get('Magento\Core\Helper\File\Storage\Database');
-        $dir = $objectManager->get('Magento\Core\Model\Dir');
+        $dir = $objectManager->get('Magento\App\Dir');
         $storageCollectionFactory = $objectManager->get('Magento\Cms\Model\Wysiwyg\Images\Storage\CollectionFactory');
         $storageFileFactory = $objectManager->get('Magento\Core\Model\File\Storage\FileFactory');
         $storageDatabaseFactory = $objectManager->get('Magento\Core\Model\File\Storage\DatabaseFactory');

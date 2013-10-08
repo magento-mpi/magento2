@@ -41,7 +41,7 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
                 'class' => 'Class_Fpc_Handler',
             ),
         );
-        $this->_requestMock = $this->getMock('Zend_Controller_Request_Http', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('\Magento\App\RequestInterface', array(), array(), '', false);
         $this->_responseMock = $this->getMock('Zend_Controller_Response_Http', array(), array(), '', false);
         $this->_handlerFactoryMock = $this->getMock('Magento\HTTP\HandlerFactory', array(), array(), '', false, false);
         $this->_handlerMock = $this->getMock('Magento\HTTP\HandlerInterface', array(), array(), '', false, false);

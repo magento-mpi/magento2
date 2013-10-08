@@ -169,7 +169,7 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
 
             /** Check error trace */
             $traceNode = \Magento\Webapi\Model\Soap\Fault::NODE_ERROR_DETAIL_TRACE;
-            $mode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App\State')
+            $mode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
                 ->getMode();
             if ($mode != Magento_Core_Model_App_State::MODE_DEVELOPER) {
                 /** Developer mode changes tested behavior and it cannot properly be tested for now */

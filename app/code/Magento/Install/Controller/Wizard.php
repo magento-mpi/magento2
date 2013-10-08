@@ -52,11 +52,11 @@ class Wizard extends \Magento\Install\Controller\Action
 
     /**
      * @param \Magento\Core\Controller\Varien\Action\Context $context
-     * @param \Magento\Core\Model\Config\Scope $configScope
+     * @param \Magento\Config\Scope $configScope
      * @param \Magento\Core\Model\View\DesignInterface $viewDesign
      * @param \Magento\Core\Model\Theme\CollectionFactory $collectionFactory
      * @param \Magento\Core\Model\App $app
-     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\App\State $appState
      * @param \Magento\Install\Model\Installer $installer
      * @param \Magento\Install\Model\Wizard $wizard
      * @param \Magento\Core\Model\Session\Generic $session
@@ -65,11 +65,11 @@ class Wizard extends \Magento\Install\Controller\Action
      */
     public function __construct(
         \Magento\Core\Controller\Varien\Action\Context $context,
-        \Magento\Core\Model\Config\Scope $configScope,
+        \Magento\Config\Scope $configScope,
         \Magento\Core\Model\View\DesignInterface $viewDesign,
         \Magento\Core\Model\Theme\CollectionFactory $collectionFactory,
         \Magento\Core\Model\App $app,
-        \Magento\Core\Model\App\State $appState,
+        \Magento\App\State $appState,
         \Magento\Install\Model\Installer $installer,
         \Magento\Install\Model\Wizard $wizard,
         \Magento\Core\Model\Session\Generic $session,

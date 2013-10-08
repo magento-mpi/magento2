@@ -41,12 +41,12 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $dirs = $this->_objectManager->create(
-            'Magento\Core\Model\Dir',
+            'Magento\App\Dir',
             array(
                 'baseDir' => BP,
                 'dirs'    => array(
-                    \Magento\Core\Model\Dir::MODULES => __DIR__ . '/_files',
-                    \Magento\Core\Model\Dir::CONFIG => __DIR__ . '/_files'
+                    \Magento\App\Dir::MODULES => __DIR__ . '/_files',
+                    \Magento\App\Dir::CONFIG => __DIR__ . '/_files'
                 ),
             )
         );
@@ -58,7 +58,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             array('fileResolver' => $fileResolver)
         );
         $moduleList = $this->_objectManager->create(
-            'Magento\Core\Model\ModuleList',
+            'Magento\App\ModuleList',
             array('reader' => $filesystemReader, 'cache' => $this->getMock("Magento\Config\CacheInterface"))
         );
 

@@ -10,7 +10,7 @@ namespace Magento\Core\Controller\Request;
 
 class HttpTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Core\Controller\Request\Http */
+    /** @var \Magento\App\RequestInterface */
     protected $_model;
 
     protected function setUp()
@@ -18,7 +18,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
         $helperMock = $this->getMock('Magento\Backend\Helper\DataProxy', array(), array(),
             '', false);
-        $this->_model = new \Magento\Core\Controller\Request\Http($storeManager, $helperMock);
+        $this->_model = new \Magento\App\RequestInterface($storeManager, $helperMock, null);
     }
 
     /**

@@ -48,14 +48,14 @@ class ControllersTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_roleMock = $this->getMock('Magento\AdminGws\Model\Role', array(), array(), '', false);
-        $this->_requestMock = $this->getMock('Magento\Core\Controller\Request\Http', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento\App\RequestInterface', array(), array(), '', false);
         $this->_objectFactory = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
         $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
         $app = $this->getMock('Magento\Core\Model\App', array(), array(), '', false);
 
         $this->_controllerMock = $this->getMock('Magento\Adminhtml\Controller\Action', array(), array(), '', false);
         $this->_ctrlRequestMock = $this->getMock(
-            'Magento\Core\Controller\Request\Http',
+            'Magento\App\RequestInterface',
             array(),
             array(),
             '',

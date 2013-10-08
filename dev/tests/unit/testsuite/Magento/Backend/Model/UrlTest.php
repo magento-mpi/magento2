@@ -35,7 +35,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     protected $_coreSessionMock;
 
     /**
-     * @var \Magento\Core\Controller\Request\Http
+     * @var \Magento\App\RequestInterface
      */
     protected $_storeConfigMock;
 
@@ -45,7 +45,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     protected $_menuConfigMock;
 
     /**
-     * @var \Magento\Core\Controller\Request\Http
+     * @var \Magento\App\RequestInterface
      */
     protected $_backendHelperMock;
 
@@ -55,7 +55,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     protected $_coreDataMock;
 
     /**
-     * @var \Magento\Core\Controller\Request\Http|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\RequestInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_requestMock;
 
@@ -111,7 +111,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
             'authSession'     => $this->_authSessionMock
         ));
 
-        $this->_requestMock = $this->getMock('Magento\Core\Controller\Request\Http', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento\App\RequestInterface', array(), array(), '', false);
         $this->_model->setRequest($this->_requestMock);
     }
 
@@ -276,7 +276,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
 
         $keyFromParams = $this->_model->getSecretKey($routeName, $controllerName, $actionName);
 
-        $requestMock = $this->getMock('Magento\Core\Controller\Request\Http',
+        $requestMock = $this->getMock('Magento\App\RequestInterface',
             array('getRouteName', 'getControllerName', 'getActionName', 'getBeforeForwardInfo'),
             array(),
             '',
@@ -303,7 +303,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
 
         $keyFromParams = $this->_model->getSecretKey($routeName, $controllerName, $actionName);
 
-        $requestMock = $this->getMock('Magento\Core\Controller\Request\Http',
+        $requestMock = $this->getMock('Magento\App\RequestInterface',
             array('getBeforeForwardInfo'),
             array(),
             '',

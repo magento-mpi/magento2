@@ -201,7 +201,7 @@ class Layout extends \Magento\Simplexml\Config
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
@@ -231,7 +231,7 @@ class Layout extends \Magento\Simplexml\Config
      * @param \Magento\Core\Model\Layout\MergeFactory $mergeFactory
      * @param \Magento\Core\Model\Resource\Theme\CollectionFactory $themeFactory
      * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Factory\Helper $factoryHelper
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\View\DesignInterface $design
@@ -247,7 +247,7 @@ class Layout extends \Magento\Simplexml\Config
         \Magento\Core\Model\Layout\MergeFactory $mergeFactory,
         \Magento\Core\Model\Resource\Theme\CollectionFactory $themeFactory,
         \Magento\Core\Model\Logger $logger,
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Factory\Helper $factoryHelper,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\View\DesignInterface $design,

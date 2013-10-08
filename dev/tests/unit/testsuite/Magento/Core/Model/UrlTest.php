@@ -70,7 +70,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $actionName = 'actionName';
 
         $backendData = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false);
-        $requestMock = $this->getMockForAbstractClass('Magento\Core\Controller\Request\Http',
+        $requestMock = $this->getMockForAbstractClass('Magento\App\RequestInterface',
             array($backendData), '', false, false, true,
             array('getRequestedRouteName', 'getRequestedControllerName', 'getRequestedActionName'));
 

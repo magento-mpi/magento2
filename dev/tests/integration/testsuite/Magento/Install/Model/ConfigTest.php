@@ -37,13 +37,13 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         }
         $cacheState->persist();
 
-        /** @var \Magento\Core\Model\Dir $dirs */
+        /** @var \Magento\App\Dir $dirs */
         $dirs = $this->_objectManager->create(
-            'Magento\Core\Model\Dir', array(
+            'Magento\App\Dir', array(
                 'baseDir' => BP,
                 'dirs' => array(
-                    \Magento\Core\Model\Dir::MODULES => __DIR__ . '/_files',
-                    \Magento\Core\Model\Dir::CONFIG => __DIR__ . '/_files'
+                    \Magento\App\Dir::MODULES => __DIR__ . '/_files',
+                    \Magento\App\Dir::CONFIG => __DIR__ . '/_files'
                 )
             )
         );
@@ -63,9 +63,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        /** @var \Magento\Core\Model\ModuleList $modulesList */
+        /** @var \Magento\App\ModuleList $modulesList */
         $modulesList = $this->_objectManager->create(
-            'Magento\Core\Model\ModuleList', array(
+            'Magento\App\ModuleList', array(
                 'reader' => $filesystemReader,
             )
         );

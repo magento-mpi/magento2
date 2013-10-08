@@ -45,7 +45,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             array(), array(), '', false, false);
         $this->_dirsMock = $this->getMock('Magento\Core\Model\Module\Dir', array(), array(), '', false, false);
         $this->_baseConfigMock = $this->getMock('Magento\Core\Model\Config\Base', array(), array(), '', false, false);
-        $this->_moduleListMock = $this->getMock('Magento\Core\Model\ModuleListInterface');
+        $this->_moduleListMock = $this->getMock('Magento\App\ModuleListInterface');
 
         $this->_model = new \Magento\Core\Model\Config\Modules\Reader(
             $this->_dirsMock,

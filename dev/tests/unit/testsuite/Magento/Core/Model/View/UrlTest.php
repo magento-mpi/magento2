@@ -38,8 +38,8 @@ class UrlTest extends \PHPUnit_Framework_TestCase
             ->method('copy');
 
         // 2. Get directories configuration
-        /** @var $dirs \Magento\Core\Model\Dir|PHPUnit_Framework_MockObject_MockObject */
-        $dirs = $this->getMock('Magento\Core\Model\Dir', array(), array(), '', false);
+        /** @var $dirs \Magento\App\Dir|PHPUnit_Framework_MockObject_MockObject */
+        $dirs = $this->getMock('Magento\App\Dir', array(), array(), '', false);
         $dirs->expects($this->any())
             ->method('getDir')
             ->will($this->returnValue('some_dir'));

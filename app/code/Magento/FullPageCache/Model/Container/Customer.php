@@ -21,7 +21,7 @@ class Customer extends \Magento\FullPageCache\Model\Container\AbstractContainer
     protected $_coreConfig;
 
     /**
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\FullPageCache\Model\Cache $fpcCache
      * @param \Magento\FullPageCache\Model\Container\Placeholder $placeholder
      * @param \Magento\Core\Model\Registry $coreRegistry
@@ -31,7 +31,7 @@ class Customer extends \Magento\FullPageCache\Model\Container\AbstractContainer
      * @param \Magento\Core\Model\Config $coreConfig
      */
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\FullPageCache\Model\Cache $fpcCache,
         \Magento\FullPageCache\Model\Container\Placeholder $placeholder,
         \Magento\Core\Model\Registry $coreRegistry,

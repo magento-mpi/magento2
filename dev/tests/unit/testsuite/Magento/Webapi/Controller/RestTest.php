@@ -32,7 +32,7 @@ class RestTest extends \PHPUnit_Framework_TestCase
     /** @var \stdClass */
     protected $_serviceMock;
 
-    /** @var \Magento\Core\Model\App\State */
+    /** @var \Magento\App\State */
     protected $_appStateMock;
 
     /** @var \Magento\Oauth\Service\OauthV1 */
@@ -75,7 +75,7 @@ class RestTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_appStateMock =  $this->getMockBuilder('Magento\Core\Model\App\State')
+        $this->_appStateMock =  $this->getMockBuilder('Magento\App\State')
             ->disableOriginalConstructor()
             ->getMock();
 

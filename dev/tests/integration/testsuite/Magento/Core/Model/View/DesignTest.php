@@ -38,18 +38,18 @@ class DesignTest extends \PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        $themeDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')
-                ->getDir(\Magento\Core\Model\Dir::MEDIA) . 'theme';
+        $themeDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir')
+                ->getDir(\Magento\App\Dir::MEDIA) . 'theme';
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Filesystem');
         $filesystem->delete($themeDir . '/frontend');
         $filesystem->delete($themeDir . '/_merged');
 
         $ioAdapter = new \Magento\Io\File();
         $ioAdapter->cp(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')
-                ->getDir(\Magento\Core\Model\Dir::PUB_LIB) . '/prototype/prototype.js',
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')
-                ->getDir(\Magento\Core\Model\Dir::PUB_LIB) . '/prototype/prototype.min.js'
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir')
+                ->getDir(\Magento\App\Dir::PUB_LIB) . '/prototype/prototype.js',
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir')
+                ->getDir(\Magento\App\Dir::PUB_LIB) . '/prototype/prototype.min.js'
         );
     }
 
@@ -57,8 +57,8 @@ class DesignTest extends \PHPUnit_Framework_TestCase
     {
         $ioAdapter = new \Magento\Io\File();
         $ioAdapter->rm(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')
-                ->getDir(\Magento\Core\Model\Dir::PUB_LIB) . '/prototype/prototype.min.js'
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir')
+                ->getDir(\Magento\App\Dir::PUB_LIB) . '/prototype/prototype.min.js'
         );
     }
 
@@ -83,7 +83,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
             \Magento\Core\Model\App::PARAM_APP_DIRS => array(
-                \Magento\Core\Model\Dir::THEMES => realpath(__DIR__ . '/../_files/design'),
+                \Magento\App\Dir::THEMES => realpath(__DIR__ . '/../_files/design'),
             ),
         ));
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
@@ -254,7 +254,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
     public function testGetViewUrl($appMode, $file, $result)
     {
         $currentAppMode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\App\State')->getMode();
+            ->get('Magento\App\State')->getMode();
         if ($currentAppMode != $appMode) {
             $this->markTestSkipped("Implemented to be run in {$appMode} mode");
         }
@@ -275,7 +275,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
     public function testGetViewUrlSigned($appMode, $file, $result)
     {
         $currentAppMode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\App\State')->getMode();
+            ->get('Magento\App\State')->getMode();
         if ($currentAppMode != $appMode) {
             $this->markTestSkipped("Implemented to be run in {$appMode} mode");
         }
@@ -296,32 +296,32 @@ class DesignTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                \Magento\Core\Model\App\State::MODE_DEFAULT,
+                \Magento\App\State::MODE_DEFAULT,
                 'Magento_Page::favicon.ico',
                 'http://localhost/pub/static/frontend/test_default/en_US/Magento_Page/favicon.ico',
             ),
             array(
-                \Magento\Core\Model\App\State::MODE_DEFAULT,
+                \Magento\App\State::MODE_DEFAULT,
                 'prototype/prototype.js',
                 'http://localhost/pub/lib/prototype/prototype.js'
             ),
             array(
-                \Magento\Core\Model\App\State::MODE_DEVELOPER,
+                \Magento\App\State::MODE_DEVELOPER,
                 'Magento_Page::menu.js',
                 'http://localhost/pub/static/frontend/test_default/en_US/Magento_Page/menu.js'
             ),
             array(
-                \Magento\Core\Model\App\State::MODE_DEFAULT,
+                \Magento\App\State::MODE_DEFAULT,
                 'Magento_Page::menu.js',
                 'http://localhost/pub/static/frontend/test_default/en_US/Magento_Page/menu.js'
             ),
             array(
-                \Magento\Core\Model\App\State::MODE_DEFAULT,
+                \Magento\App\State::MODE_DEFAULT,
                 'Magento_Catalog::widgets.css',
                 'http://localhost/pub/static/frontend/test_default/en_US/Magento_Catalog/widgets.css'
             ),
             array(
-                \Magento\Core\Model\App\State::MODE_DEVELOPER,
+                \Magento\App\State::MODE_DEVELOPER,
                 'Magento_Catalog::widgets.css',
                 'http://localhost/pub/static/frontend/test_default/en_US/Magento_Catalog/widgets.css'
             ),
@@ -330,8 +330,8 @@ class DesignTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPublicFileUrl()
     {
-        $pubLibFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')
-                ->getDir(\Magento\Core\Model\Dir::PUB_LIB) . '/jquery/jquery.js';
+        $pubLibFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir')
+                ->getDir(\Magento\App\Dir::PUB_LIB) . '/jquery/jquery.js';
         $actualResult = $this->_viewUrl->getPublicFileUrl($pubLibFile);
         $this->assertStringEndsWith('/jquery/jquery.js', $actualResult);
     }
@@ -341,8 +341,8 @@ class DesignTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPublicFileUrlSigned()
     {
-        $pubLibFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')
-                ->getDir(\Magento\Core\Model\Dir::PUB_LIB) . '/jquery/jquery.js';
+        $pubLibFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir')
+                ->getDir(\Magento\App\Dir::PUB_LIB) . '/jquery/jquery.js';
         $actualResult = $this->_viewUrl->getPublicFileUrl($pubLibFile);
         $this->assertStringMatchesFormat('%a/jquery/jquery.js?%d', $actualResult);
     }

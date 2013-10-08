@@ -27,7 +27,7 @@ class MonitorTest extends \PHPUnit_Framework_TestCase
     public function testPrepareLayout($blockType, $blockName, $tabsType, $tabsName)
     {
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Scope')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Config\ScopeInterface')
             ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
         $layout->addBlock($blockType, $blockName);
         $tabs = $layout->addBlock($tabsType, $tabsName);

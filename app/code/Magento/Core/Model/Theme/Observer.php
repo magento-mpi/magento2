@@ -31,7 +31,7 @@ class Observer
     protected $_themeConfig;
 
     /**
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventDispatcher;
 
@@ -39,13 +39,13 @@ class Observer
      * @param \Magento\Core\Model\Theme\ImageFactory $themeImageFactory
      * @param \Magento\Core\Model\Resource\Layout\Update\Collection $updateCollection
      * @param \Magento\Theme\Model\Config\Customization $themeConfig
-     * @param \Magento\Core\Model\Event\Manager $eventDispatcher
+     * @param \Magento\Event\ManagerInterface $eventDispatcher
      */
     public function __construct(
         \Magento\Core\Model\Theme\ImageFactory $themeImageFactory,
         \Magento\Core\Model\Resource\Layout\Update\Collection $updateCollection,
         \Magento\Theme\Model\Config\Customization $themeConfig,
-        \Magento\Core\Model\Event\Manager $eventDispatcher
+        \Magento\Event\ManagerInterface $eventDispatcher
     ) {
         $this->_themeImageFactory = $themeImageFactory;
         $this->_updateCollection = $updateCollection;

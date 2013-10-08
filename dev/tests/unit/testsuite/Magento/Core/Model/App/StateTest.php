@@ -14,7 +14,7 @@ namespace Magento\Core\Model\App;
 class StateTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\App\State
+     * @var \Magento\App\State
      */
     protected $_model;
 
@@ -24,7 +24,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructor($mode)
     {
-        $model = new \Magento\Core\Model\App\State(time(), $mode);
+        $model = new \Magento\App\State(time(), $mode);
         $this->assertEquals($mode, $model->getMode());
     }
 
@@ -35,13 +35,13 @@ class StateTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             'default mode' => array(
-                \Magento\Core\Model\App\State::MODE_DEFAULT
+                \Magento\App\State::MODE_DEFAULT
             ),
             'production mode' => array(
-                \Magento\Core\Model\App\State::MODE_PRODUCTION
+                \Magento\App\State::MODE_PRODUCTION
             ),
             'developer mode' => array(
-                \Magento\Core\Model\App\State::MODE_DEVELOPER
+                \Magento\App\State::MODE_DEVELOPER
             ),
         );
     }
@@ -52,6 +52,6 @@ class StateTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructorException()
     {
-        new \Magento\Core\Model\App\State(time(), "unknown mode");
+        new \Magento\App\State(time(), "unknown mode");
     }
 }

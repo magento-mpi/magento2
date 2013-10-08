@@ -16,19 +16,9 @@ namespace Magento\Backend\Helper;
 class Data extends \Magento\Core\Helper\AbstractHelper
 {
     const XML_PATH_USE_CUSTOM_ADMIN_URL         = 'admin/url/use_custom';
-    const XML_PATH_USE_CUSTOM_ADMIN_PATH        = 'admin/url/use_custom_path';
-    const XML_PATH_CUSTOM_ADMIN_PATH            = 'admin/url/custom_path';
-    const XML_PATH_BACKEND_AREA_FRONTNAME       = 'default/backend/frontName';
     const BACKEND_AREA_CODE                     = 'adminhtml';
 
-    const PARAM_BACKEND_FRONT_NAME              = 'backend.frontName';
-
     protected $_pageHelpUrl;
-
-    /**
-     * @var \Magento\Core\Model\ConfigInterface
-     */
-    protected $_config;
 
     /**
      * @var \Magento\Core\Model\Config\Primary
@@ -36,18 +26,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_primaryConfig;
 
     /**
-     * @var string
-     */
-    protected $_defaultAreaFrontName;
-
-    /**
-     * Area front name
-     * @var string
-     */
-    protected $_areaFrontName = null;
-
-    /**
-     * @var \Magento\Core\Model\RouterList
+     * @var \Magento\App\RouterList
      */
     protected $_routerList;
 
@@ -59,63 +38,53 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_coreData = null;
 
     /**
-     * @var \Magento\Core\Model\AppProxy
+     * @var \Magento\Core\Model\App\Proxy
      */
     protected $_app;
 
     /**
-     * @var \Magento\Backend\Model\UrlProxy
+     * @var \Magento\Backend\Model\Url\Proxy
      */
     protected $_backendUrl;
 
     /**
-     * @var \Magento\Backend\Model\AuthProxy
+     * @var \Magento\Backend\Model\Auth\Proxy
      */
     protected $_auth;
 
     /**
-     * Backend area front name
-     *
-     * @var string
+     * @var \Magento\Backend\App\Area\FrontNameResolver
      */
-    protected $_backendFrontName;
+    protected $_frontNameResolver;
 
     /**
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\ConfigInterface $applicationConfig
      * @param \Magento\Core\Model\Config\Primary $primaryConfig
-     * @param \Magento\Core\Model\RouterList $routerList
-     * @param \Magento\Core\Model\AppProxy $app
+     * @param \Magento\App\RouterList $routerList
+     * @param \Magento\Core\Model\App $app
      * @param \Magento\Backend\Model\UrlProxy $backendUrl
      * @param \Magento\Backend\Model\AuthProxy $auth
-     * @param string $defaultAreaFrontName
-     * @param string $backendFrontName
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     * @param \Magento\Backend\App\Area\FrontNameResolver $frontNameResolver
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\ConfigInterface $applicationConfig,
         \Magento\Core\Model\Config\Primary $primaryConfig,
-        \Magento\Core\Model\RouterList $routerList,
-        \Magento\Core\Model\AppProxy $app,
+        \Magento\App\RouterList $routerList,
+        \Magento\Core\Model\App $app,
         \Magento\Backend\Model\UrlProxy $backendUrl,
         \Magento\Backend\Model\AuthProxy $auth,
-        $defaultAreaFrontName,
-        $backendFrontName
+        \Magento\Backend\App\Area\FrontNameResolver $frontNameResolver
     ) {
         parent::__construct($context);
         $this->_coreData = $coreData;
-        $this->_config = $applicationConfig;
         $this->_primaryConfig = $primaryConfig;
-        $this->_defaultAreaFrontName = $defaultAreaFrontName;
         $this->_routerList = $routerList;
         $this->_app = $app;
         $this->_backendUrl = $backendUrl;
         $this->_auth = $auth;
-        $this->_backendFrontName = $backendFrontName;
+        $this->_frontNameResolver = $frontNameResolver;
     }
 
     public function getPageHelpUrl()
@@ -236,18 +205,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getAreaFrontName()
     {
-        if (null === $this->_areaFrontName) {
-            $isCustomPathUsed = (bool)(string)$this->_config->getValue(self::XML_PATH_USE_CUSTOM_ADMIN_PATH, 'default');
-
-            if ($isCustomPathUsed) {
-                $this->_areaFrontName = (string)$this->_config->getValue(self::XML_PATH_CUSTOM_ADMIN_PATH, 'default');
-            } elseif ($this->_backendFrontName) {
-                $this->_areaFrontName = $this->_backendFrontName;
-            } else {
-                $this->_areaFrontName = $this->_defaultAreaFrontName;
-            }
-        }
-        return $this->_areaFrontName;
+        return $this->_frontNameResolver->getFrontName();
     }
 
     /**

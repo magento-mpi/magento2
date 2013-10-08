@@ -17,17 +17,17 @@ namespace Magento\Core\Controller\Varien\Action;
 class RedirectTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Controller\Varien\Action\Redirect
+     * @var \Magento\App\Action\Redirect
      */
     protected $_object = null;
 
     /**
-     * @var \Magento\Core\Controller\Request\Http
+     * @var \Magento\App\RequestInterface
      */
     protected $_request;
 
     /**
-     * @var \Magento\Core\Controller\Response\Http
+     * @var \Magento\App\Response\Http
      */
     protected $_response;
 
@@ -36,12 +36,12 @@ class RedirectTest extends \PHPUnit_Framework_TestCase
         $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
         $helperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(),
             '', false);
-        $this->_request  = new \Magento\Core\Controller\Request\Http($storeManager, $helperMock);
-        $this->_response = new \Magento\Core\Controller\Response\Http(
-            $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false)
+        $this->_request  = new \Magento\App\RequestInterface($storeManager, $helperMock, null);
+        $this->_response = new \Magento\App\Response\Http(
+            $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false)
         );
 
-        $this->_object = new \Magento\Core\Controller\Varien\Action\Redirect($this->_request, $this->_response);
+        $this->_object = new \Magento\App\Action\Redirect($this->_request, $this->_response);
     }
 
     protected function tearDown()

@@ -41,7 +41,7 @@ class Updater implements \Magento\Core\Model\Db\UpdaterInterface
     /**
      * Application state model
      *
-     * @var \Magento\Core\Model\App\State
+     * @var \Magento\App\State
      */
     protected $_appState;
 
@@ -60,7 +60,7 @@ class Updater implements \Magento\Core\Model\Db\UpdaterInterface
     protected $_resourceList;
 
     /**
-     * @var \Magento\Core\Model\ModuleListInterface
+     * @var \Magento\App\ModuleListInterface
      */
     protected $_moduleList;
 
@@ -72,8 +72,8 @@ class Updater implements \Magento\Core\Model\Db\UpdaterInterface
     /**
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\Resource\SetupFactory $factory
-     * @param \Magento\Core\Model\App\State $appState
-     * @param \Magento\Core\Model\ModuleListInterface $moduleList
+     * @param \Magento\App\State $appState
+     * @param \Magento\App\ModuleListInterface $moduleList
      * @param \Magento\Core\Model\Module\ResourceResolverInterface $resourceResolver
      * @param array $resourceList
      * @param bool $skipModuleUpdate
@@ -81,8 +81,8 @@ class Updater implements \Magento\Core\Model\Db\UpdaterInterface
     public function __construct(
         \Magento\Core\Model\Config $config,
         \Magento\Core\Model\Resource\SetupFactory $factory,
-        \Magento\Core\Model\App\State $appState,
-        \Magento\Core\Model\ModuleListInterface $moduleList,
+        \Magento\App\State $appState,
+        \Magento\App\ModuleListInterface $moduleList,
         \Magento\Core\Model\Module\ResourceResolverInterface $resourceResolver,
         array $resourceList,
         $skipModuleUpdate = false

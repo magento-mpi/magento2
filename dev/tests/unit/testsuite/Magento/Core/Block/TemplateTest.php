@@ -40,10 +40,10 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     public function testFetchView($filename, $expectedOutput)
     {
         $map = array(
-            array(\Magento\Core\Model\Dir::APP, __DIR__),
-            array(\Magento\Core\Model\Dir::THEMES, __DIR__ . 'design'),
+            array(\Magento\App\Dir::APP, __DIR__),
+            array(\Magento\App\Dir::THEMES, __DIR__ . 'design'),
         );
-        $dirMock = $this->getMock('Magento\Core\Model\Dir', array(), array(), '', false, false);
+        $dirMock = $this->getMock('Magento\App\Dir', array(), array(), '', false, false);
         $dirMock->expects($this->any())->method('getDir')->will($this->returnValueMap($map));
         $layout = $this->getMock('Magento\Core\Model\Layout', array('isDirectOutput'), array(), '', false);
         $filesystem = new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local);

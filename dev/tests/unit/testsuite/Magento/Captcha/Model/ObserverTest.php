@@ -97,7 +97,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $captchaValue = 'some-value';
 
         $controller = $this->getMock('Magento\Core\Controller\Varien\Action', array(), array(), '', false);
-        $request = $this->getMock('Magento\Core\Controller\Request\Http', array(), array(), '', false);
+        $request = $this->getMock('Magento\App\RequestInterface', array(), array(), '', false);
         $request->expects($this->any())
             ->method('getPost')
             ->with(\Magento\Captcha\Helper\Data::INPUT_NAME_FIELD_VALUE, null)
@@ -135,8 +135,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($redirectUrl));
 
         $controller = $this->getMock('Magento\Core\Controller\Varien\Action', array(), array(), '', false);
-        $request = $this->getMock('Magento\Core\Controller\Request\Http', array(), array(), '', false);
-        $response = $this->getMock('Magento\Core\Controller\Response\Http', array(), array(), '', false);
+        $request = $this->getMock('Magento\App\RequestInterface', array(), array(), '', false);
+        $response = $this->getMock('Magento\App\ResponseInterface', array(), array(), '', false);
         $request->expects($this->any())->method('getPost')->with(\Magento\Captcha\Helper\Data::INPUT_NAME_FIELD_VALUE,
             null)
             ->will($this->returnValue(array(

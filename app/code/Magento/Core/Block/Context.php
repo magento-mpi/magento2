@@ -13,7 +13,7 @@ namespace Magento\Core\Block;
 class Context implements \Magento\ObjectManager\ContextInterface
 {
     /**
-     * @var \Magento\Core\Controller\Request\Http
+     * @var \Magento\App\RequestInterface
      */
     protected $_request;
 
@@ -23,7 +23,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_layout;
 
     /**
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager;
 
@@ -58,7 +58,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_storeConfig;
 
     /**
-     * @var \Magento\Core\Controller\Varien\Front
+     * @var \Magento\App\FrontController
      */
     protected $_frontController;
 
@@ -95,16 +95,16 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_app;
 
     /**
-     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\App\RequestInterface $request
      * @param \Magento\Core\Model\Layout $layout
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\UrlInterface $urlBuilder
      * @param \Magento\Core\Model\Translate $translator
      * @param \Magento\Core\Model\CacheInterface $cache
      * @param \Magento\Core\Model\View\DesignInterface $design
      * @param \Magento\Core\Model\Session\AbstractSession $session
      * @param \Magento\Core\Model\Store\Config $storeConfig
-     * @param \Magento\Core\Controller\Varien\Front $frontController
+     * @param \Magento\App\FrontController $frontController
      * @param \Magento\Core\Model\Factory\Helper $helperFactory
      * @param \Magento\Core\Model\View\Url $viewUrl
      * @param \Magento\Core\Model\View\Config $viewConfig
@@ -114,16 +114,16 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Controller\Request\Http $request,
+        \Magento\App\RequestInterface $request,
         \Magento\Core\Model\Layout $layout,
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\UrlInterface $urlBuilder,
         \Magento\Core\Model\Translate $translator,
         \Magento\Core\Model\CacheInterface $cache,
         \Magento\Core\Model\View\DesignInterface $design,
         \Magento\Core\Model\Session\AbstractSession $session,
         \Magento\Core\Model\Store\Config $storeConfig,
-        \Magento\Core\Controller\Varien\Front $frontController,
+        \Magento\App\FrontController $frontController,
         \Magento\Core\Model\Factory\Helper $helperFactory,
         \Magento\Core\Model\View\Url $viewUrl,
         \Magento\Core\Model\View\Config $viewConfig,
@@ -167,7 +167,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Event\Manager
+     * @return \Magento\Event\ManagerInterface
      */
     public function getEventManager()
     {
@@ -175,7 +175,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Controller\Varien\Front
+     * @return \Magento\App\FrontController
      */
     public function getFrontController()
     {
@@ -199,7 +199,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Controller\Request\Http
+     * @return \Magento\App\RequestInterface
      */
     public function getRequest()
     {

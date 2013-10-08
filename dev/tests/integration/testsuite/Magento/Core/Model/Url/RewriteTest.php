@@ -100,7 +100,7 @@ class RewriteTest extends \PHPUnit_Framework_TestCase
     public function testRewrite()
     {
         $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Controller\Request\Http')->setPathInfo('fancy/url.html');
+            ->get('Magento\App\RequestInterface')->setPathInfo('fancy/url.html');
         $response = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\TestFramework\Response');
         $_SERVER['QUERY_STRING'] = 'foo=bar&___fooo=bar';

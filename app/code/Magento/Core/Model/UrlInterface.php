@@ -94,15 +94,15 @@ interface UrlInterface
     /**
      * Set request
      *
-     * @param \Zend_Controller_Request_Http $request
+     * @param \Magento\App\RequestInterface $request
      * @return \Magento\Core\Model\UrlInterface
      */
-    public function setRequest(\Zend_Controller_Request_Http $request);
+    public function setRequest(\Magento\App\RequestInterface $request);
 
     /**
      * Zend request object
      *
-     * @return \Magento\Core\Controller\Request\Http
+     * @return \Magento\App\RequestInterface
      */
     public function getRequest();
 

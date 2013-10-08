@@ -15,7 +15,7 @@ class NoRouteHandlerTest extends \PHPUnit_Framework_TestCase
     protected $_helperMock;
 
     /**
-     * @var \Magento\Core\Controller\Request\Http
+     * @var \Magento\App\RequestInterface
      */
     protected $_requestMock;
 
@@ -26,7 +26,7 @@ class NoRouteHandlerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_requestMock = $this->getMock('Magento\Core\Controller\Request\Http', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento\App\RequestInterface', array(), array(), '', false);
         $this->_helperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false);
         $this->_helperMock->expects($this->any())->method('getAreaFrontName')->will($this->returnValue('backend'));
         $this->_model = new \Magento\Backend\Model\Router\NoRouteHandler($this->_helperMock);

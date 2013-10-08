@@ -14,7 +14,7 @@ namespace Magento\Core\Controller\Varien\Router;
 class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Controller\Varien\Router\AbstractRouter
+     * @var \Magento\App\Router\AbstractRouter
      */
     protected $_model;
 
@@ -28,7 +28,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     public function testGetSetFront()
     {
         $expected = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Controller\Varien\Front');
+            ->create('Magento\App\FrontController');
         $this->assertNull($this->_model->getFront());
         $this->_model->setFront($expected);
         $this->assertSame($expected, $this->_model->getFront());

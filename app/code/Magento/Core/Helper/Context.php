@@ -22,7 +22,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_moduleManager;
 
     /** 
-     * @var  \Magento\Core\Model\Event\Manager 
+     * @var  \Magento\Event\ManagerInterface
      */
     protected $_eventManager;
 
@@ -32,7 +32,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_logger;
 
     /**
-     * @var \Magento\Core\Controller\Request\HttpProxy
+     * @var \Magento\App\RequestInterface
      */
     protected $_httpRequest;
 
@@ -65,11 +65,11 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Translate $translator
      * @param \Magento\Core\Model\ModuleManager $moduleManager
-     * @param \Magento\Core\Controller\Request\HttpProxy $httpRequest
+     * @param \Magento\App\RequestInterface $httpRequest
      * @param \Magento\Core\Model\Cache\Config $cacheConfig
      * @param \Magento\Core\Model\EncryptionFactory $encryptorFactory
      * @param \Magento\Core\Model\Fieldset\Config $fieldsetConfig
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\UrlInterface $urlBuilder
      */
@@ -77,11 +77,11 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\Translate $translator,
         \Magento\Core\Model\ModuleManager $moduleManager,
-        \Magento\Core\Controller\Request\HttpProxy $httpRequest,
+        \Magento\App\RequestInterface $httpRequest,
         \Magento\Core\Model\Cache\Config $cacheConfig,
         \Magento\Core\Model\EncryptionFactory $encryptorFactory,
         \Magento\Core\Model\Fieldset\Config $fieldsetConfig,
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\App $app,
         \Magento\Core\Model\UrlInterface $urlBuilder
     ) {
@@ -130,7 +130,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Controller\Request\HttpProxy
+     * @return \Magento\App\RequestInterface
      */
     public function getRequest()
     {
@@ -154,7 +154,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Event\Manager
+     * @return \Magento\Event\ManagerInterface
      */
     public function getEventManager()
     {

@@ -17,17 +17,17 @@ namespace Magento\Core\Controller\Varien;
 class AbstractActionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Controller\Varien\AbstractAction
+     * @var \Magento\App\Action\AbstractAction
      */
     protected $_actionAbstract;
 
     /**
-     * @var \Magento\Core\Controller\Request\Http|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\RequestInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_request;
 
     /**
-     * @var \Magento\Core\Controller\Response\Http|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\ResponseInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_response;
 
@@ -40,15 +40,15 @@ class AbstractActionTest extends \PHPUnit_Framework_TestCase
     {
         $helperMock = $this->getMock( 'Magento\Backend\Helper\DataProxy', array(), array(), '', false);
         $this->_request = $this->getMock(
-            'Magento\Core\Controller\Request\Http',
+            'Magento\App\RequestInterface',
             array('getRequestedRouteName', 'getRequestedControllerName', 'getRequestedActionName'),
             array($helperMock),
             '',
             false
         );
-        $this->_response = $this->getMock('Magento\Core\Controller\Response\Http', array(), array(), '', false);
+        $this->_response = $this->getMock('Magento\App\ResponseInterface', array(), array(), '', false);
         $this->_response->headersSentThrowsException = false;
-        $this->_actionAbstract = new \Magento\Core\Controller\Varien\Action\Forward($this->_request, $this->_response);
+        $this->_actionAbstract = new \Magento\App\Action\Forward($this->_request, $this->_response);
     }
 
     /**
@@ -81,14 +81,14 @@ class AbstractActionTest extends \PHPUnit_Framework_TestCase
      */
     public function testResponseHeaders()
     {
-        $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
+        $eventManager = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
 
         $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
         $helperMock = $this->getMock('Magento\Backend\Helper\DataProxy', array(), array(), '', false);
-        $request = new \Magento\Core\Controller\Request\Http($storeManager, $helperMock);
-        $response = new \Magento\Core\Controller\Response\Http($eventManager);
+        $request = new \Magento\App\RequestInterface($storeManager, $helperMock, null);
+        $response = new \Magento\App\Response\Http($eventManager);
         $response->headersSentThrowsException = false;
-        $action = new \Magento\Core\Controller\Varien\Action\Forward($request, $response);
+        $action = new \Magento\App\Action\Forward($request, $response);
 
         $headers = array(
             array(

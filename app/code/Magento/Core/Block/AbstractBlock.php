@@ -64,7 +64,7 @@ abstract class AbstractBlock extends \Magento\Object
     protected $_layout;
 
     /**
-     * @var \Magento\Core\Controller\Request\Http
+     * @var \Magento\App\RequestInterface
      */
     protected $_request;
 
@@ -98,14 +98,14 @@ abstract class AbstractBlock extends \Magento\Object
      * System event manager
      *
      *
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager;
 
     /**
      * Application front controller
      *
-     * @var \Magento\Core\Controller\Varien\Front
+     * @var \Magento\App\FrontController
      */
     protected $_frontController;
 
@@ -168,7 +168,7 @@ abstract class AbstractBlock extends \Magento\Object
     }
 
     /**
-     * @return \Magento\Core\Controller\Request\Http
+     * @return \Magento\App\RequestInterface
      */
     public function getRequest()
     {

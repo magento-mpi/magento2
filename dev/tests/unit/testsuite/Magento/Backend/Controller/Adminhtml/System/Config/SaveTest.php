@@ -55,9 +55,9 @@ class SaveTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_requestMock = $this->getMock('Magento\Core\Controller\Request\Http', array(), array(), '', false,
+        $this->_requestMock = $this->getMock('Magento\App\RequestInterface', array(), array(), '', false,
             false);
-        $responseMock = $this->getMock('Magento\Core\Controller\Response\Http', array(), array(), '', false, false);
+        $responseMock = $this->getMock('Magento\App\ResponseInterface', array(), array(), '', false, false);
 
         $configStructureMock = $this->getMock('Magento\Backend\Model\Config\Structure',
             array(), array(), '', false, false
@@ -65,7 +65,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
         $this->_configFactoryMock = $this->getMock('Magento\Backend\Model\Config\Factory',
             array(), array(), '', false, false
         );
-        $this->_eventManagerMock = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false,
+        $this->_eventManagerMock = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false,
             false);
 
         $helperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false, false);

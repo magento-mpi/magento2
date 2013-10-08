@@ -66,7 +66,7 @@ class AreaTest extends \PHPUnit_Framework_TestCase
     public function testDetectDesignUserAgent()
     {
         $_SERVER['HTTP_USER_AGENT'] = 'Mozilla Firefox';
-        $this->_model->detectDesign(new \Zend_Controller_Request_Http);
+        $this->_model->detectDesign(new \Magento\App\RequestInterface);
         $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\View\DesignInterface');
         $this->assertEquals('magento_blank', $design->getDesignTheme()->getThemePath());
@@ -98,7 +98,7 @@ class AreaTest extends \PHPUnit_Framework_TestCase
         $_SERVER['HTTP_USER_AGENT'] = 'Mozilla Firefox';
         $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Core\Model\App\Area', array('areaCode' => 'install'));
-        $model->detectDesign(new \Zend_Controller_Request_Http);
+        $model->detectDesign(new \Magento\App\RequestInterface);
         $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\View\DesignInterface');
         $this->assertNotEquals('magento_blank', $design->getDesignTheme()->getThemePath());

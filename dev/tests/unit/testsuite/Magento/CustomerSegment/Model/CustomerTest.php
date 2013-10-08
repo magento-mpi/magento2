@@ -61,7 +61,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Customer\Model\Resource\Customer', array(), array(), '', false),
             $this->getMock('Magento\Customer\Model\Config\Share', array(), array(), '', false),
             $this->getMock('Magento\Log\Model\Visitor', array(), array(), '', false),
-            $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false),
+            $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\Context', array(), array(), '', false),
             $this->_registry,
             $storeManager,

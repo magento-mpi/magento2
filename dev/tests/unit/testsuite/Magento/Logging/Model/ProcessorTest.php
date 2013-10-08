@@ -39,7 +39,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
      */
     protected $_eventFactoryMock;
 
-    /** @var  \Magento\Core\Controller\Request\Http|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \Magento\App\RequestInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $_requestMock;
 
     /** @var  \Magento\Core\Model\Logger|\PHPUnit_Framework_MockObject_MockObject */
@@ -88,7 +88,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
         $this->_eventFactoryMock = $this->getMock('Magento\Logging\Model\EventFactory', array('create'),
             array(), '', false);
 
-        $this->_requestMock = $this->getMockBuilder('Magento\Core\Controller\Request\Http')
+        $this->_requestMock = $this->getMockBuilder('Magento\App\RequestInterface')
             ->disableOriginalConstructor()
             ->getMock();
 

@@ -97,7 +97,7 @@ class Installer extends \Magento\Object
     /**
      * Application
      *
-     * @var \Magento\Core\Model\App\State
+     * @var \Magento\App\State
      */
     protected $_appState;
 
@@ -147,7 +147,7 @@ class Installer extends \Magento\Object
      * @param \Magento\Core\Model\Config\Primary $primaryConfig
      * @param \Magento\Core\Model\Config\Local $localConfig
      * @param \Magento\Core\Model\App $app
-     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\App\State $appState
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\User\Model\UserFactory $userModelFactory
      * @param \Magento\Install\Model\Installer\Filesystem $filesystem
@@ -168,7 +168,7 @@ class Installer extends \Magento\Object
         \Magento\Core\Model\Config\Primary $primaryConfig,
         \Magento\Core\Model\Config\Local $localConfig,
         \Magento\Core\Model\App $app,
-        \Magento\Core\Model\App\State $appState,
+        \Magento\App\State $appState,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\User\Model\UserFactory $userModelFactory,
         \Magento\Install\Model\Installer\Filesystem $filesystem,

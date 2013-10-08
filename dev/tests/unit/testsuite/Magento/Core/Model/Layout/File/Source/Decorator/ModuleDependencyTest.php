@@ -40,7 +40,7 @@ class ModuleDependencyTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_fileSource = $this->getMockForAbstractClass('Magento\Core\Model\Layout\File\SourceInterface');
-        $this->_moduleListMock = $this->getMock('Magento\Core\Model\ModuleListInterface');
+        $this->_moduleListMock = $this->getMock('Magento\App\ModuleListInterface');
         $this->_moduleListMock->expects($this->any())->method('getModules')->will($this->returnValue($modulesConfig));
         $this->_model = new \Magento\Core\Model\Layout\File\Source\Decorator\ModuleDependency(
             $this->_fileSource, $this->_moduleListMock

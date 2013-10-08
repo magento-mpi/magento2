@@ -19,14 +19,14 @@ class FrontTest extends \PHPUnit_Framework_TestCase
     protected $_objectManager;
 
     /**
-     * @var \Magento\Core\Controller\Varien\Front
+     * @var \Magento\App\FrontController
      */
     protected $_model;
 
     protected function setUp()
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->_model = $this->_objectManager->create('Magento\Core\Controller\Varien\Front');
+        $this->_model = $this->_objectManager->create('Magento\App\FrontController');
     }
 
     public function testSetGetDefault()
@@ -41,25 +41,19 @@ class FrontTest extends \PHPUnit_Framework_TestCase
 
     public function testGetRequest()
     {
-        $this->assertInstanceOf('Magento\Core\Controller\Request\Http', $this->_model->getRequest());
+        $this->assertInstanceOf('Magento\App\RequestInterface', $this->_model->getRequest());
     }
 
     public function testGetResponse()
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')->setResponse(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->get('Magento\Core\Controller\Response\Http')
+                ->get('Magento\App\ResponseInterface')
         );
         if (!\Magento\TestFramework\Helper\Bootstrap::canTestHeaders()) {
             $this->markTestSkipped('Can\'t test get response without sending headers');
         }
-        $this->assertInstanceOf('Magento\Core\Controller\Response\Http', $this->_model->getResponse());
-    }
-
-    public function testGetRouter()
-    {
-        $this->assertInstanceOf('Magento\Core\Controller\Varien\Router\DefaultRouter',
-            $this->_model->getRouter('default'));
+        $this->assertInstanceOf('Magento\App\ResponseInterface', $this->_model->getResponse());
     }
 
     public function testGetRouters()
@@ -80,7 +74,7 @@ class FrontTest extends \PHPUnit_Framework_TestCase
         $_SERVER['HTTP_HOST'] = 'localhost';
         /* empty action */
         $this->_model->getRequest()->setRequestUri('core/index/index');
-        $this->_model->dispatch();
+        $this->_model->dispatch($request);
         $this->assertEmpty($this->_model->getResponse()->getBody());
     }
 
@@ -96,8 +90,8 @@ class FrontTest extends \PHPUnit_Framework_TestCase
      */
     public function testApplyRewrites($sourcePath, $resultPath)
     {
-        /** @var $request \Magento\Core\Controller\Request\Http */
-        $request = $this->_objectManager->create('Magento\Core\Controller\Request\Http');
+        /** @var $request \Magento\App\RequestInterface */
+        $request = $this->_objectManager->create('Magento\App\RequestInterface');
         $request->setPathInfo($sourcePath);
 
         $this->_model->applyRewrites($request);

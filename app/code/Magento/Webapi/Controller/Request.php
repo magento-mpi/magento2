@@ -9,7 +9,7 @@
  */
 namespace Magento\Webapi\Controller;
 
-class Request extends \Zend_Controller_Request_Http
+class Request extends \Zend_Controller_Request_Http implements \Magento\App\RequestInterface
 {
     /**
      * Modify pathInfo: strip down the front name and query parameters.

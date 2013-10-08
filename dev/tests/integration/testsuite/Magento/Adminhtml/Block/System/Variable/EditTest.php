@@ -35,7 +35,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
             ->save();
 
         $objectManager->get('Magento\Core\Model\Registry')->register('current_variable', $variable);
-        $objectManager->get('Magento\Core\Controller\Request\Http')
+        $objectManager->get('Magento\App\RequestInterface')
             ->setParam('variable_id', $variable->getId());
         $block = $objectManager->get('Magento\Core\Model\Layout')
             ->createBlock('Magento\Adminhtml\Block\System\Variable\Edit', 'variable');

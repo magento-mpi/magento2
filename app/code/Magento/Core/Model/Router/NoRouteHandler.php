@@ -28,11 +28,11 @@ class NoRouteHandler implements \Magento\Core\Model\Router\NoRouteHandlerInterfa
     /**
      * Check and process no route request
      *
-     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\App\RequestInterface $request
      * @return bool
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
-    public function process(\Magento\Core\Controller\Request\Http $request)
+    public function process(\Magento\App\RequestInterface $request)
     {
         $noRoutePath = $this->_config->getValue('web/default/no_route', 'default');
 

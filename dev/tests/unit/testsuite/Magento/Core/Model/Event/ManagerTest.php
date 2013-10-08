@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Event;
+namespace Magento\Event;
 
 class ManagerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Event\InvokerInterface|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Event\InvokerInterface|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_invoker;
 
@@ -40,21 +40,21 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     protected $_eventConfigMock;
 
     /**
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager;
 
     protected function setUp()
     {
-        $this->_invoker = $this->getMock('Magento\Core\Model\Event\InvokerInterface');
+        $this->_invoker = $this->getMock('Magento\Event\InvokerInterface');
         $this->_eventFactory = $this->getMock('Magento\EventFactory', array('create'), array(), '', false);
         $this->_event = $this->getMock('Magento\Event', array(), array(), '', false);
         $this->_observerFactory = $this->getMock('Magento\Event\ObserverFactory', array('create'), array(), '',
             false);
         $this->_observer = $this->getMock('Magento\Event\Observer', array(), array(), '', false);
-        $this->_eventConfigMock = $this->getMock('Magento\Core\Model\Event\ConfigInterface');
+        $this->_eventConfigMock = $this->getMock('Magento\Event\ConfigInterface');
 
-        $this->_eventManager = new \Magento\Core\Model\Event\Manager(
+        $this->_eventManager = new \Magento\Event\Manager(
             $this->_invoker, $this->_eventConfigMock, $this->_eventFactory, $this->_observerFactory
         );
     }

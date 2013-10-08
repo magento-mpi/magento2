@@ -35,7 +35,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetHttpAuthCredentials($server, $expectedLogin, $expectedPass)
     {
-        $request = $this->getMock('Zend_Controller_Request_Http', array('getServer'));
+        $request = $this->getMock('\Magento\App\RequestInterface', array('getServer'));
         $request->expects($this->once())->method('getServer')->will($this->returnValue($server));
         $this->assertSame(array($expectedLogin, $expectedPass), $this->_object->getHttpAuthCredentials($request));
     }
@@ -79,7 +79,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     public function testFailHttpAuthentication()
     {
-        $response = new \Zend_Controller_Response_Http;
+        $response = new \Magento\App\ResponseInterface;
         $realm = uniqid();
         $response->headersSentThrowsException = false;
         $this->_object->failHttpAuthentication($response, $realm);

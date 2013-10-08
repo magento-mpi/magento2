@@ -37,7 +37,7 @@ class Index extends \Magento\CatalogSearch\Model\Resource\Fulltext
     /**
      * Construct
      *
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
      * @param \Magento\Core\Model\Resource $resource
@@ -46,7 +46,7 @@ class Index extends \Magento\CatalogSearch\Model\Resource\Fulltext
      * @param \Magento\Core\Model\Resource\Helper $resourceHelper
      */
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Helper\String $coreString,
         \Magento\CatalogSearch\Helper\Data $catalogSearchData,
         \Magento\Core\Model\Resource $resource,

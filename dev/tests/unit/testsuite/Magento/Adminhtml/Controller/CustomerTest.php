@@ -19,14 +19,14 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     /**
      * Request mock instance
      *
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Controller\Request\Http
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\App\RequestInterface
      */
     protected $_request;
 
     /**
      * Response mock instance
      *
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Controller\Response\Http
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\App\ResponseInterface
      */
     protected $_response;
 
@@ -63,12 +63,12 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_request = $this->getMockBuilder('Magento\Core\Controller\Request\Http')
+        $this->_request = $this->getMockBuilder('Magento\App\RequestInterface')
             ->disableOriginalConstructor()
             ->setMethods(array('getParam'))
             ->getMock();
 
-        $this->_response = $this->getMockBuilder('Magento\Core\Controller\Response\Http')
+        $this->_response = $this->getMockBuilder('Magento\App\ResponseInterface')
             ->disableOriginalConstructor()
             ->setMethods(array('setRedirect', 'getHeader'))
             ->getMock();
@@ -81,7 +81,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(array('get', 'create'))
             ->getMock();
-        $frontControllerMock = $this->getMockBuilder('Magento\Core\Controller\Varien\Front')
+        $frontControllerMock = $this->getMockBuilder('Magento\App\FrontController')
             ->disableOriginalConstructor()
             ->getMock();
 

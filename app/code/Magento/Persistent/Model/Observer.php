@@ -48,7 +48,7 @@ class Observer
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
@@ -62,7 +62,7 @@ class Observer
     /**
      * Request http
      *
-     * @var \Magento\Core\Controller\Request\Http
+     * @var \Magento\App\RequestInterface
      */
     protected $_requestHttp;
 
@@ -132,7 +132,7 @@ class Observer
     /**
      * Construct
      *
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Persistent\Helper\Session $persistentSession
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Persistent\Helper\Data $persistentData
@@ -145,13 +145,13 @@ class Observer
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Persistent\Model\Persistent\ConfigFactory $persistentConfigFactory
-     * @param \Magento\Core\Controller\Request\Http $requestHttp
+     * @param \Magento\App\RequestInterface $requestHttp
      * @param \Magento\Core\Model\Layout $layout
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Persistent\Helper\Session $persistentSession,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Persistent\Helper\Data $persistentData,
@@ -164,7 +164,7 @@ class Observer
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Persistent\Model\Persistent\ConfigFactory $persistentConfigFactory,
-        \Magento\Core\Controller\Request\Http $requestHttp,
+        \Magento\App\RequestInterface $requestHttp,
         \Magento\Core\Model\Layout $layout
     ) {
         $this->_eventManager = $eventManager;

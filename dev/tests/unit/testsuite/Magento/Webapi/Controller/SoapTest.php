@@ -29,7 +29,7 @@ class SoapTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Webapi\Controller\ErrorProcessor */
     protected $_errorProcessorMock;
 
-    /** @var \Magento\Core\Model\App\State */
+    /** @var \Magento\App\State */
     protected $_appStateMock;
 
     /** @var \Magento\Core\Model\App */
@@ -68,7 +68,7 @@ class SoapTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(array('maskException'))
             ->getMock();
-        $this->_appStateMock =  $this->getMockBuilder('Magento\Core\Model\App\State')
+        $this->_appStateMock =  $this->getMockBuilder('Magento\App\State')
             ->disableOriginalConstructor()
             ->getMock();
         $localeMock =  $this->getMockBuilder('Magento\Core\Model\Locale')

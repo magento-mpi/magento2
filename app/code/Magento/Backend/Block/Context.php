@@ -20,16 +20,16 @@ class Context extends \Magento\Core\Block\Context
     protected $_authorization;
 
     /**
-     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\App\RequestInterface $request
      * @param \Magento\Core\Model\Layout $layout
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\UrlInterface $urlBuilder
      * @param \Magento\Core\Model\Translate $translator
      * @param \Magento\Core\Model\CacheInterface $cache
      * @param \Magento\Core\Model\View\DesignInterface $design
      * @param \Magento\Core\Model\Session\AbstractSession $session
      * @param \Magento\Core\Model\Store\Config $storeConfig
-     * @param \Magento\Core\Controller\Varien\Front $frontController
+     * @param \Magento\App\FrontController $frontController
      * @param \Magento\Core\Model\Factory\Helper $helperFactory
      * @param \Magento\Core\Model\View\Url $viewUrl
      * @param \Magento\Core\Model\View\Config $viewConfig
@@ -42,16 +42,16 @@ class Context extends \Magento\Core\Block\Context
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Controller\Request\Http $request,
+        \Magento\App\RequestInterface $request,
         \Magento\Core\Model\Layout $layout,
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\UrlInterface $urlBuilder,
         \Magento\Core\Model\Translate $translator,
         \Magento\Core\Model\CacheInterface $cache,
         \Magento\Core\Model\View\DesignInterface $design,
         \Magento\Core\Model\Session\AbstractSession $session,
         \Magento\Core\Model\Store\Config $storeConfig,
-        \Magento\Core\Controller\Varien\Front $frontController,
+        \Magento\App\FrontController $frontController,
         \Magento\Core\Model\Factory\Helper $helperFactory,
         \Magento\Core\Model\View\Url $viewUrl,
         \Magento\Core\Model\View\Config $viewConfig,

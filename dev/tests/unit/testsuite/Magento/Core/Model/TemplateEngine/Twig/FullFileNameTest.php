@@ -25,7 +25,7 @@ class FullFileNameTest extends \PHPUnit_Framework_TestCase
     private $_prevFrameworkNoticeEnabled;
 
     /** 
-     * @var \PHPUnit_Framework_MockObject_MockObject \Magento\Core\Model\App\State
+     * @var \PHPUnit_Framework_MockObject_MockObject \Magento\App\State
      */
     private $_appStateMock;
 
@@ -39,7 +39,7 @@ class FullFileNameTest extends \PHPUnit_Framework_TestCase
         $this->_prevFrameworkWarningEnabled = \PHPUnit_Framework_Error_Warning::$enabled;
         \PHPUnit_Framework_Error_Warning::$enabled = false;
         
-        $this->_appStateMock = $this->getMockBuilder('Magento\Core\Model\App\State')
+        $this->_appStateMock = $this->getMockBuilder('Magento\App\State')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -47,7 +47,7 @@ class FullFileNameTest extends \PHPUnit_Framework_TestCase
         $this->_appStateMock
             ->expects($this->any())
             ->method('getMode')
-            ->will($this->returnValue(\Magento\Core\Model\App\State::MODE_DEVELOPER));
+            ->will($this->returnValue(\Magento\App\State::MODE_DEVELOPER));
     }
 
     protected function tearDown()
@@ -121,12 +121,12 @@ class FullFileNameTest extends \PHPUnit_Framework_TestCase
     public function testIsFreshAppModes() 
     {
         // set to return production mode
-        $productionStateMock = $this->getMockBuilder('Magento\Core\Model\App\State')
+        $productionStateMock = $this->getMockBuilder('Magento\App\State')
             ->disableOriginalConstructor()
             ->getMock();
         $productionStateMock->expects($this->any())
             ->method('getMode')
-            ->will($this->returnValue(\Magento\Core\Model\App\State::MODE_PRODUCTION));
+            ->will($this->returnValue(\Magento\App\State::MODE_PRODUCTION));
         $loader = new \Magento\Core\Model\TemplateEngine\Twig\FullFileName($productionStateMock);
 
         // in production mode, even a bad file will return as fresh

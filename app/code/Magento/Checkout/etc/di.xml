@@ -8,31 +8,6 @@
  */
 -->
 <config>
-    <type name="Magento\Checkout\Helper\Data">
-        <param name="eventManager">
-            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
-        </param>
-    </type>
-    <type name="Magento\Checkout\Model\Cart\Api">
-        <param name="eventManager">
-            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
-        </param>
-    </type>
-    <type name="Magento\Checkout\Model\Cart">
-        <param name="eventManager">
-            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
-        </param>
-    </type>
-    <type name="Magento\Checkout\Model\Type\Multishipping">
-        <param name="eventManager">
-            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
-        </param>
-    </type>
-    <type name="Magento\Checkout\Model\Type\Onepage">
-        <param name="eventManager">
-            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
-        </param>
-    </type>
     <type name="Magento\Core\Model\Db\Updater">
         <param name="resourceList">
             <value>

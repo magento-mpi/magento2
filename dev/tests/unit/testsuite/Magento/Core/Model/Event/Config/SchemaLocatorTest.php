@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Event\Config;
+namespace Magento\Event\Config;
 
 class SchemaLocatorTest extends \PHPUnit_Framework_TestCase
 {
@@ -15,7 +15,7 @@ class SchemaLocatorTest extends \PHPUnit_Framework_TestCase
     protected $_moduleReaderMock;
 
     /**
-     * @var \Magento\Core\Model\Event\Config\SchemaLocator
+     * @var \Magento\Event\Config\SchemaLocator
      */
     protected $_model;
 
@@ -26,7 +26,7 @@ class SchemaLocatorTest extends \PHPUnit_Framework_TestCase
         );
         $this->_moduleReaderMock->expects($this->once())
             ->method('getModuleDir')->with('etc', 'Magento_Core')->will($this->returnValue('schema_dir'));
-        $this->_model = new \Magento\Core\Model\Event\Config\SchemaLocator($this->_moduleReaderMock);
+        $this->_model = new \Magento\Event\Config\SchemaLocator($this->_moduleReaderMock);
     }
 
     public function testGetSchema()

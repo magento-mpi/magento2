@@ -219,7 +219,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
     public function testUpdateNavigationMode()
     {
         $this->_setAdditionalExpectations();
-        $request = $this->getMock('Magento\Core\Controller\Request\Http', array('getPathInfo'), array(), '', false);
+        $request = $this->getMock('Magento\App\RequestInterface', array('getPathInfo'), array(), '', false);
 
         $request->expects($this->once())
             ->method('getPathInfo')

@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Event\Config;
+namespace Magento\Event\Config;
 
 class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Event\Config\Data
+     * @var \Magento\Event\Config\Data
      */
     protected $_model;
 
@@ -36,11 +36,11 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_readerMock = $this->getMock('Magento\Core\Model\Event\Config\Reader', array(), array(), '', false);
+        $this->_readerMock = $this->getMock('Magento\Event\Config\Reader', array(), array(), '', false);
         $this->_configScopeMock = $this->getMock('Magento\Config\ScopeInterface');
         $this->_cacheMock = $this->getMock('Magento\Config\CacheInterface');
-        $this->_appStateMock = $this->getMock('Magento\Core\Model\App\State', array(), array(), '', false);
-        $this->_model = new \Magento\Core\Model\Event\Config\Data(
+        $this->_appStateMock = $this->getMock('Magento\App\State', array(), array(), '', false);
+        $this->_model = new \Magento\Event\Config\Data(
             $this->_readerMock,
             $this->_configScopeMock,
             $this->_cacheMock,

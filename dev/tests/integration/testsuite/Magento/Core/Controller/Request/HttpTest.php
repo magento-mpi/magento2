@@ -14,14 +14,14 @@ namespace Magento\Core\Controller\Request;
 class HttpTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Controller\Request\Http
+     * @var \Magento\App\RequestInterface
      */
     protected $_model;
 
     protected function setUp()
     {
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Controller\Request\Http');
+            ->create('Magento\App\RequestInterface');
     }
 
     public function testGetOriginalPathInfo()
@@ -82,8 +82,8 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Core\Controller\Request\Http::rewritePathInfo
-     * @covers \Magento\Core\Controller\Request\Http::getOriginalPathInfo
+     * @covers \Magento\App\Request\Http::rewritePathInfo
+     * @covers \Magento\App\Request\Http::getOriginalPathInfo
      * @magentoConfigFixture current_store web/url/use_store 1
      */
     public function testRewritePathInfoStoreCodeInUrl()

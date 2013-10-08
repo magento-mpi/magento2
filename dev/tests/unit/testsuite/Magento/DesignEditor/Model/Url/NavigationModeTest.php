@@ -46,7 +46,7 @@ class NavigationModeTest extends \PHPUnit_Framework_TestCase
         $this->_helper = $this->getMock('Magento\DesignEditor\Helper\Data', array('getFrontName'),
             array(), '', false);
         $this->_coreData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
-        $requestMock = $this->getMock('Magento\Core\Controller\Request\Http', array('getAlias'), array(), '', false);
+        $requestMock = $this->getMock('Magento\App\RequestInterface', array('getAlias'), array(), '', false);
         $requestMock->expects($this->any())->method('getAlias')->will($this->returnValueMap(array(
              array('editorMode', 'navigation'),
              array('themeId', 1)

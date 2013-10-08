@@ -21,16 +21,16 @@ class Path
     const DIR_NAME = 'theme_customization';
 
     /**
-     * @var \Magento\Core\Model\Dir
+     * @var \Magento\App\Dir
      */
     protected $_dir;
 
     /**
      * Initialize dependencies
      *
-     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\App\Dir $dir
      */
-    public function __construct(\Magento\Core\Model\Dir $dir)
+    public function __construct(\Magento\App\Dir $dir)
     {
         $this->_dir = $dir;
     }
@@ -45,7 +45,7 @@ class Path
     {
         $path = null;
         if ($theme->getId()) {
-            $path = $this->_dir->getDir(\Magento\Core\Model\Dir::MEDIA)
+            $path = $this->_dir->getDir(\Magento\App\Dir::MEDIA)
                 . DIRECTORY_SEPARATOR . self::DIR_NAME
                 . DIRECTORY_SEPARATOR . $theme->getId();
         }
@@ -62,7 +62,7 @@ class Path
     {
         $path = null;
         if ($theme->getFullPath()) {
-            $physicalThemesDir = $this->_dir->getDir(\Magento\Core\Model\Dir::THEMES);
+            $physicalThemesDir = $this->_dir->getDir(\Magento\App\Dir::THEMES);
             $path = \Magento\Filesystem::fixSeparator($physicalThemesDir . DIRECTORY_SEPARATOR . $theme->getFullPath());
         }
         return $path;

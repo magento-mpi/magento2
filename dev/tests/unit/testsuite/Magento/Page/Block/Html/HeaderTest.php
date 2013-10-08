@@ -40,10 +40,10 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
             ->method('get')
             ->will($this->returnValue($helper));
 
-        $dirsMock = $this->getMock('Magento\Core\Model\Dir', array('getDir'), array(), '', false);
+        $dirsMock = $this->getMock('Magento\App\Dir', array('getDir'), array(), '', false);
         $dirsMock->expects($this->any())
             ->method('getDir')
-            ->with(\Magento\Core\Model\Dir::MEDIA)
+            ->with(\Magento\App\Dir::MEDIA)
             ->will($this->returnValue(__DIR__ . DIRECTORY_SEPARATOR . '_files'));
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);

@@ -188,7 +188,7 @@ return array(
         'Magento_Core_Model_Session_Validator::XML_PATH_USE_USER_AGENT'
     ),
 
-    array('XML_NODE_DIRECT_FRONT_NAMES', 'Magento\Core\Controller\Request\Http'),
+    array('XML_NODE_DIRECT_FRONT_NAMES', 'Magento\App\Request\Http'),
 
     array('XML_NODE_USET_AGENT_SKIP', 'Magento\Core\Model\Session\AbstractSession'),
     array('XML_PAGE_TYPE_RENDER_INHERITED', 'Magento\Core\Controller\Varien\Action'),

@@ -14,14 +14,14 @@ class Dir
     /**
      * Directory registry
      *
-     * @var \Magento\Core\Model\Dir
+     * @var \Magento\App\Dir
      */
     protected $_applicationDirs;
 
     /**
-     * @param \Magento\Core\Model\Dir $applicationDirs
+     * @param \Magento\App\Dir $applicationDirs
      */
-    public function __construct(\Magento\Core\Model\Dir $applicationDirs)
+    public function __construct(\Magento\App\Dir $applicationDirs)
     {
         $this->_applicationDirs = $applicationDirs;
     }
@@ -36,7 +36,7 @@ class Dir
      */
     public function getDir($moduleName, $type = '')
     {
-        $result = $this->_applicationDirs->getDir(\Magento\Core\Model\Dir::MODULES)
+        $result = $this->_applicationDirs->getDir(\Magento\App\Dir::MODULES)
             . DIRECTORY_SEPARATOR
             . uc_words($moduleName, DIRECTORY_SEPARATOR);
         if ($type) {

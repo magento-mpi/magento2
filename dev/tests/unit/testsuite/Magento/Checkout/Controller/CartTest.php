@@ -24,7 +24,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
     public function testGoBack()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $responseMock = $this->getMock('Magento\Core\Controller\Response\Http',
+        $responseMock = $this->getMock('Magento\App\ResponseInterface',
             array('setRedirect'), array(), '', false
         );
         $responseMock->headersSentThrowsException = false;
@@ -33,7 +33,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
             ->with('http://some-url/index.php/checkout/cart/')
             ->will($this->returnSelf());
 
-        $requestMock = $this->getMock('Magento\Core\Controller\Request\Http', array(), array(), '', false);
+        $requestMock = $this->getMock('Magento\App\RequestInterface', array(), array(), '', false);
         $requestMock->expects($this->any())->method('getActionName')->will($this->returnValue('add'));
         $requestMock->expects($this->at(0))
             ->method('getParam')->with('return_url')->will($this->returnValue('http://malicious.com/'));

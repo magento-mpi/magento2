@@ -11,7 +11,7 @@ return array(
         'Magento\Core\Model\AppInterface' => 'Magento\Core\Model\App\Proxy',
     ),
 
-    'Magento\Core\Model\App\State' => array(
+    'Magento\App\State' => array(
         'parameters' => array(
             'mode' => array(
                 'argument' => 'MAGE_MODE',

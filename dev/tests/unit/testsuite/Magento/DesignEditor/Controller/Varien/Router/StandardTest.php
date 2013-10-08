@@ -41,7 +41,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\App\RequestInterface $request
      * @param bool $isVde
      * @param bool $isLoggedIn
      * @param bool $isConfiguration
@@ -51,7 +51,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
      * @dataProvider matchDataProvider
      */
     public function testMatch(
-        \Magento\Core\Controller\Request\Http $request,
+        \Magento\App\RequestInterface $request,
         $isVde,
         $isLoggedIn,
         $isConfiguration,
@@ -85,7 +85,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
         // test data to verify routers match logic
         $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
         $helperMock = $this->getMock('Magento\Backend\Helper\DataProxy', array(), array(), '', false);
-        $matchedRequest = $this->getMock('Magento\Core\Controller\Request\Http',
+        $matchedRequest = $this->getMock('Magento\App\RequestInterface',
             $silencedMethods,
             array($storeManager, $helperMock, $vdeUrl)
         );
@@ -117,7 +117,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
         return array(
             'not vde request' => array(
                 '$request' => $this->getMock(
-                    'Magento\Core\Controller\Request\Http', $silencedMethods, array(
+                    'Magento\App\RequestInterface', $silencedMethods, array(
                         $storeManager, $helperMock, $notVdeUrl
                     )
                 ),
@@ -127,7 +127,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
             ),
             'not logged as admin' => array(
                 '$request' => $this->getMock(
-                    'Magento\Core\Controller\Request\Http', $silencedMethods, array($storeManager, $helperMock, $vdeUrl)
+                    'Magento\App\RequestInterface', $silencedMethods, array($storeManager, $helperMock, $vdeUrl)
                 ),
                 '$isVde'           => true,
                 '$isLoggedIn'      => false,
@@ -135,7 +135,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
             ),
             'no matched routers' => array(
                 '$request' => $this->getMock(
-                    'Magento\Core\Controller\Request\Http', $silencedMethods, array($storeManager, $helperMock, $vdeUrl)
+                    'Magento\App\RequestInterface', $silencedMethods, array($storeManager, $helperMock, $vdeUrl)
                 ),
                 '$isVde'           => true,
                 '$isLoggedIn'      => true,
@@ -154,7 +154,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\App\RequestInterface $request
      * @param bool $isVde
      * @param bool $isLoggedIn
      * @param bool $isConfiguration
@@ -162,7 +162,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
      * @return \Magento\DesignEditor\Controller\Varien\Router\Standard
      */
     protected function _prepareMocksForTestMatch(
-        \Magento\Core\Controller\Request\Http $request,
+        \Magento\App\RequestInterface $request,
         $isVde,
         $isLoggedIn,
         $isConfiguration,
@@ -197,7 +197,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
             ->method('get')
             ->will($this->returnCallback($callback));
 
-        $frontController = $this->getMock('Magento\Core\Controller\Varien\Front',
+        $frontController = $this->getMock('Magento\App\FrontController',
             array('applyRewrites', 'getRouters'), array(), '', false
         );
         if ($isVde && $isLoggedIn) {
@@ -214,14 +214,14 @@ class StandardTest extends \PHPUnit_Framework_TestCase
             $objectManager,
             $filesystem,
             $app,
-            $this->getMock('Magento\Core\Model\Config\Scope', array(), array(), '', false),
+            $this->getMock('Magento\Config\ScopeInterface', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\Route\Config', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\Url\SecurityInfoInterface'),
             $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\Config', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\Url', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false),
-            $this->getMock('Magento\Core\Model\App\State', array(), array(), '', false),
+            $this->getMock('Magento\App\State', array(), array(), '', false),
             'frontend',
             'Magento\Core\Controller\Varien\Action',
             'vde'

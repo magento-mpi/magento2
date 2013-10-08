@@ -20,7 +20,7 @@ namespace Magento\AdminGws\Model;
 class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
 {
     /**
-     * @var \Magento\Core\Controller\Request\Http
+     * @var \Magento\App\RequestInterface
      */
     protected $_request;
 
@@ -78,7 +78,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * @param \Magento\Catalog\Model\Resource\ProductFactory $productFactoryRes
      * @param \Magento\AdminGws\Model\Role $role
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\App\RequestInterface $request
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\App $app
@@ -90,7 +90,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
         \Magento\Catalog\Model\Resource\ProductFactory $productFactoryRes,
         \Magento\AdminGws\Model\Role $role,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Controller\Request\Http $request,
+        \Magento\App\RequestInterface $request,
         \Magento\ObjectManager $objectManager,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\App $app

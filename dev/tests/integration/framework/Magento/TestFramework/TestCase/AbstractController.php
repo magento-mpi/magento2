@@ -64,8 +64,8 @@ abstract class AbstractController extends \PHPUnit_Framework_TestCase
         $this->_objectManager = \Magento\TestFramework\ObjectManager::getInstance();
         $this->_objectManager->configure(array(
             'preferences' => array(
-                'Magento\Core\Controller\Request\Http' => 'Magento\TestFramework\Request',
-                'Magento\Core\Controller\Response\Http' => 'Magento\TestFramework\Response'
+                'Magento\App\Request\Http' => 'Magento\TestFramework\Request',
+                'Magento\App\Response\Http' => 'Magento\TestFramework\Response'
             )
         ));
     }

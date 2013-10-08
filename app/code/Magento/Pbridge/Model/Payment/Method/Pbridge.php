@@ -73,7 +73,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Request http
      *
-     * @var \Magento\Core\Controller\Request\Http
+     * @var \Magento\App\RequestInterface
      */
     protected $_requestHttp;
 
@@ -108,7 +108,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Construct
      *
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
@@ -117,11 +117,11 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
      * @param \Magento\Core\Model\UrlInterface $url
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Pbridge\Model\Payment\Method\Pbridge\ApiFactory $pbridgeApiFactory
-     * @param \Magento\Core\Controller\Request\Http $requestHttp
+     * @param \Magento\App\RequestInterface $requestHttp
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
@@ -130,7 +130,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
         \Magento\Core\Model\UrlInterface $url,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Pbridge\Model\Payment\Method\Pbridge\ApiFactory $pbridgeApiFactory,
-        \Magento\Core\Controller\Request\Http $requestHttp,
+        \Magento\App\RequestInterface $requestHttp,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;

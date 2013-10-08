@@ -36,7 +36,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
 
         $this->_request = $this->getMock(
-            'Magento\Core\Controller\Request\Http', array('getParam', 'getPost'), array(), '', false
+            'Magento\App\RequestInterface', array('getParam', 'getPost'), array(), '', false
         );
 
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);

@@ -54,12 +54,12 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
 
     /**
      * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Core\Controller\Request\Http $request
-     * @param \Magento\Core\Controller\Response\Http $response
+     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\App\ResponseInterface $response
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Core\Controller\Varien\Front $frontController
+     * @param \Magento\App\FrontController $frontController
      * @param \Magento\Core\Model\Layout $layout
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param bool $isRenderInherited
      * @param \Magento\Backend\Model\Session $session
      * @param \Magento\Backend\Helper\Data $helper
@@ -73,12 +73,12 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
      */
     public function __construct(
         \Magento\Core\Model\Logger $logger,
-        \Magento\Core\Controller\Request\Http $request,
-        \Magento\Core\Controller\Response\Http $response,
+        \Magento\App\RequestInterface $request,
+        \Magento\App\ResponseInterface $response,
         \Magento\ObjectManager $objectManager,
-        \Magento\Core\Controller\Varien\Front $frontController,
+        \Magento\App\FrontController $frontController,
         \Magento\Core\Model\Layout $layout,
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Event\ManagerInterface $eventManager,
         $isRenderInherited,
         \Magento\Backend\Model\Session $session,
         \Magento\Backend\Helper\Data $helper,

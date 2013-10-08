@@ -19,7 +19,7 @@ class InlineVdeTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\Core\Controller\Request\Http
+     * @var \Magento\App\RequestInterface
      */
     protected $_request;
 
@@ -39,7 +39,7 @@ class InlineVdeTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $this->_model = $objectManager->get('Magento\DesignEditor\Model\Translate\InlineVde');
-        $this->_request = $objectManager->get('Magento\Core\Controller\Request\Http');
+        $this->_request = $objectManager->get('Magento\App\RequestInterface');
         $this->_request->setParam('translation_mode', 'text');
 
         $this->_helperData = $objectManager->get('Magento\DesignEditor\Helper\Data');
@@ -49,7 +49,7 @@ class InlineVdeTest extends \PHPUnit_Framework_TestCase
     public function testObjectCreation()
     {
         $this->assertInstanceOf('Magento\DesignEditor\Model\Translate\InlineVde', $this->_model);
-        $this->assertInstanceOf('Magento\Core\Controller\Request\Http', $this->_request);
+        $this->assertInstanceOf('Magento\App\RequestInterface', $this->_request);
         $this->assertInstanceOf('Magento\DesignEditor\Helper\Data', $this->_helperData);
     }
 

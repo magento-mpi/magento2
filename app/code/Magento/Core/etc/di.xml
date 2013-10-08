@@ -27,6 +27,22 @@
     <preference for="Magento\Phrase\RendererInterface" type="Magento\Phrase\Renderer\Composite" />
     <preference for="Magento\Core\Model\Url\SecurityInfoInterface" type="Magento\Core\Model\Url\SecurityInfo\Proxy" />
     <preference for="Magento\Core\Model\Module\ResourceResolverInterface" type="Magento\Core\Model\Module\ResourceResolver" />
+    <type name="Magento\App\FrontControllerInterface">
+        <plugin name="install" type="Magento\Core\App\FrontController\Plugin\Install" sortOrder="40"/>
+        <plugin name="requestPreprocessor" type="Magento\Core\App\FrontController\Plugin\RequestPreprocessor" sortOrder="50"/>
+    </type>
+    <type name="Magento\App\AreaList">
+        <param name="areas">
+            <value>
+                <frontend>
+                    <frontName />
+                </frontend>
+            </value>
+        </param>
+        <param name="default">
+            <value>frontend</value>
+        </param>
+    </type>
     <type name="Magento\Data\Structure" shared="false" />
     <type name="Magento\Data\Collection\Db\FetchStrategy\Cache">
         <param name="cache">
@@ -224,7 +240,7 @@
             <instance type="Magento\Core\Model\Config\SectionPool\Proxy" />
         </param>
     </type>
-    <type name="Magento\Core\Model\RouterList" shared="true">
+    <type name="Magento\App\RouterList" shared="true">
         <param name="routerList">
             <value>
                 <standard>
@@ -233,7 +249,7 @@
                     <sortOrder>20</sortOrder>
                 </standard>
                 <default>
-                    <instance>Magento\Core\Controller\Varien\Router\DefaultRouter</instance>
+                    <instance>Magento\App\Router\DefaultRouter</instance>
                     <disable type="bool">false</disable>
                     <sortOrder>100</sortOrder>
                 </default>
@@ -251,7 +267,7 @@
             <value>standard</value>
         </param>
     </type>
-    <type name="Magento\Core\Model\NoRouteHandlerList">
+    <type name="Magento\App\Router\NoRouteHandlerList">
         <param name="handlerClassesList">
             <value>
                 <default>
@@ -351,17 +367,20 @@
     </type>
     <type name="Magento\Core\Model\StoreManager">
         <param name="request">
-            <instance type="Magento\Core\Controller\Request\Http\Proxy" />
+            <instance type="Magento\App\Request\Http\Proxy" />
         </param>
     </type>
     <type name="Magento\Core\Model\Config\Section\Processor\Placeholder">
         <param name="request">
-            <instance type="Magento\Core\Controller\Request\Http\Proxy" />
+            <instance type="Magento\App\Request\Http\Proxy" />
         </param>
     </type>
     <type name="Magento\Core\Helper\Context">
         <param name="urlBuilder">
             <instance type="Magento\Core\Model\Url\Proxy" />
+        </param>
+        <param name='httpRequest'>
+            <instance type="Magento\App\Request\Http\Proxy" />
         </param>
     </type>
     <type name="Magento\Core\Helper\String">
@@ -389,7 +408,7 @@
             <instance type="Magento\Core\Model\View\Design\Proxy" />
         </param>
     </type>
-    <type name="Magento\Core\Controller\Varien\Front">
+    <type name="Magento\App\FrontController">
         <param name="backendData">
             <instance type="Magento\Backend\Helper\Data\Proxy" />
         </param>

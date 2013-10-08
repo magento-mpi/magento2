@@ -27,7 +27,7 @@ abstract class AbstractHelper
     /**
      * Request object
      *
-     * @var \Zend_Controller_Request_Http
+     * @var \Magento\App\RequestInterface
      */
     protected $_request;
 
@@ -74,7 +74,7 @@ abstract class AbstractHelper
     /**
      * Retrieve request object
      *
-     * @return \Zend_Controller_Request_Http
+     * @return \Magento\App\RequestInterface
      */
     protected function _getRequest()
     {

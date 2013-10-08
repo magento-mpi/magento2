@@ -23,7 +23,7 @@ class Configuration
     /**
      * Application Event Dispatcher
      *
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Event\ManagerInterface
      */
     protected $_eventDispatcher;
 
@@ -88,7 +88,7 @@ class Configuration
      *
      * @param \Magento\Core\Model\View\DesignInterface $design
      * @param \Magento\Filesystem $filesystem
-     * @param \Magento\Core\Model\Event\Manager $eventDispatcher
+     * @param \Magento\Event\ManagerInterface $eventDispatcher
      * @param \Magento\Core\Model\View\Config $viewConfig
      * @param \Magento\DesignEditor\Model\Config\Control\AbstractControl|null $configuration
      * @param \Magento\Core\Model\Theme|null $theme
@@ -97,7 +97,7 @@ class Configuration
     public function __construct(
         \Magento\Core\Model\View\DesignInterface $design,
         \Magento\Filesystem $filesystem,
-        \Magento\Core\Model\Event\Manager $eventDispatcher,
+        \Magento\Event\ManagerInterface $eventDispatcher,
         \Magento\Core\Model\View\Config $viewConfig,
         \Magento\DesignEditor\Model\Config\Control\AbstractControl $configuration = null,
         \Magento\Core\Model\Theme $theme = null,

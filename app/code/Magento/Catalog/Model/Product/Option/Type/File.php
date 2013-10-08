@@ -57,7 +57,7 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     /**
      * Dir
      *
-     * @var \Magento\Core\Model\Dir
+     * @var \Magento\App\Dir
      */
     protected $_dir;
 
@@ -80,7 +80,7 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
      *
      * @param \Magento\Sales\Model\Quote\Item\OptionFactory $itemOptionFactory
      * @param \Magento\Core\Model\UrlInterface $url
-     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\App\Dir $dir
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
@@ -92,7 +92,7 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     public function __construct(
         \Magento\Sales\Model\Quote\Item\OptionFactory $itemOptionFactory,
         \Magento\Core\Model\UrlInterface $url,
-        \Magento\Core\Model\Dir $dir,
+        \Magento\App\Dir $dir,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
@@ -745,7 +745,7 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
      */
     public function getTargetDir($relative = false)
     {
-        $fullPath = $this->_dir->getDir(\Magento\Core\Model\Dir::MEDIA) . DS . 'custom_options';
+        $fullPath = $this->_dir->getDir(\Magento\App\Dir::MEDIA) . DS . 'custom_options';
         return $relative ? str_replace($this->_dir->getDir(), '', $fullPath) : $fullPath;
     }
 

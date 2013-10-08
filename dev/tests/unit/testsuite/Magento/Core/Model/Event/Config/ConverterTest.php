@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Event\Config;
+namespace Magento\Event\Config;
 
 class ConverterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Event\Config\Converter
+     * @var \Magento\Event\Config\Converter
      */
     protected $_model;
 
@@ -28,7 +28,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
     {
         $this->_filePath = __DIR__ . DIRECTORY_SEPARATOR . '/../../_files' . DIRECTORY_SEPARATOR;
         $this->_source = new \DOMDocument();
-        $this->_model = new \Magento\Core\Model\Event\Config\Converter();
+        $this->_model = new \Magento\Event\Config\Converter();
     }
 
     public function testConvert()

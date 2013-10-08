@@ -19,13 +19,21 @@ class Handler implements \Magento\HTTP\HandlerInterface
     protected $_processors = array();
 
     /**
-     * @param array $requestProcessors
+     * @var \Magento\App\ResponseFactory
+     */
+    protected $_responseFactory;
+
+    /**
+     * @param \Magento\App\ResponseFactory $responseFactory
      * @param \Magento\FullPageCache\Model\RequestProcessorFactory $factory
+     * @param array $requestProcessors
      */
     public function __construct(
-        array $requestProcessors,
-        \Magento\FullPageCache\Model\RequestProcessorFactory $factory
+        \Magento\App\ResponseFactory $responseFactory,
+        \Magento\FullPageCache\Model\RequestProcessorFactory $factory,
+        array $requestProcessors
     ) {
+        $this->_responseFactory = $responseFactory;
         if ($requestProcessors) {
             usort($requestProcessors, array($this, '_cmp'));
 
@@ -53,18 +61,19 @@ class Handler implements \Magento\HTTP\HandlerInterface
     }
 
     /**
-     * Handle http request
+     * Handle request
      *
-     * @param \Zend_Controller_Request_Http $request
-     * @param \Zend_Controller_Response_Http $response
+     * @param \Magento\App\RequestInterface $request
+     * @return \Magento\App\ResponseInterface
      */
-    public function handle(\Zend_Controller_Request_Http $request, \Zend_Controller_Response_Http $response)
+    public function handle(\Magento\App\RequestInterface $request)
     {
         if (empty($this->_processors)) {
             return;
         }
 
         $content = false;
+        $response = $this->_responseFactory->create();
         foreach ($this->_processors as $processor) {
             $content = $processor->extractContent($request, $response, $content);
         }

@@ -28,7 +28,7 @@ class Reader
     /**
      * Modules configuration provider
      *
-     * @var \Magento\Core\Model\ModuleListInterface
+     * @var \Magento\App\ModuleListInterface
      */
     protected $_modulesList;
 
@@ -42,12 +42,12 @@ class Reader
     /**
      * @param \Magento\Core\Model\Module\Dir $moduleDirs
      * @param \Magento\Core\Model\Config\BaseFactory $prototypeFactory
-     * @param \Magento\Core\Model\ModuleListInterface $moduleList
+     * @param \Magento\App\ModuleListInterface $moduleList
      */
     public function __construct(
         \Magento\Core\Model\Module\Dir $moduleDirs,
         \Magento\Core\Model\Config\BaseFactory $prototypeFactory,
-        \Magento\Core\Model\ModuleListInterface $moduleList
+        \Magento\App\ModuleListInterface $moduleList
     ) {
         $this->_moduleDirs = $moduleDirs;
         $this->_prototypeFactory = $prototypeFactory;

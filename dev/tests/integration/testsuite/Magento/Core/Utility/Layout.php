@@ -81,7 +81,7 @@ class Layout
             'mergeFactory'       => $objectManager->get('Magento\Core\Model\Layout\MergeFactory'),
             'themeFactory'       => $objectManager->get('Magento\Core\Model\Resource\Theme\CollectionFactory'),
             'logger'             => $objectManager->get('Magento\Core\Model\Logger'),
-            'eventManager'       => $objectManager->get('Magento\Core\Model\Event\Manager'),
+            'eventManager'       => $objectManager->get('Magento\Event\ManagerInterface'),
             'factoryHelper'      => $objectManager->get('Magento\Core\Model\Factory\Helper'),
             'coreData'           => $objectManager->get('Magento\Core\Helper\Data'),
             'design'             => $objectManager->get('Magento\Core\Model\View\DesignInterface'),

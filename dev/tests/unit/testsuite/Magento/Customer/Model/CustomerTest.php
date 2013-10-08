@@ -100,7 +100,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_storeManager));
 
         $this->_model = new \Magento\Customer\Model\Customer(
-            $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false),
+            $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false),
             $this->_customerData,
             $this->_coreData,
             $this->_contextMock,

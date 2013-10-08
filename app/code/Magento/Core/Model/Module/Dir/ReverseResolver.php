@@ -12,7 +12,7 @@ namespace Magento\Core\Model\Module\Dir;
 class ReverseResolver
 {
     /**
-     * @var \Magento\Core\Model\ModuleListInterface
+     * @var \Magento\App\ModuleListInterface
      */
     protected $_moduleList;
 
@@ -22,11 +22,11 @@ class ReverseResolver
     protected $_moduleDirs;
 
     /**
-     * @param \Magento\Core\Model\ModuleListInterface $moduleList
+     * @param \Magento\App\ModuleListInterface $moduleList
      * @param \Magento\Core\Model\Module\Dir $moduleDirs
      */
     public function __construct(
-        \Magento\Core\Model\ModuleListInterface $moduleList,
+        \Magento\App\ModuleListInterface $moduleList,
         \Magento\Core\Model\Module\Dir $moduleDirs
     ) {
         $this->_moduleList = $moduleList;

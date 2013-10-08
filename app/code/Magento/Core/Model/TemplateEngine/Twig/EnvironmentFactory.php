@@ -27,7 +27,7 @@ class EnvironmentFactory
     private $_environment;
 
     /**
-     * @var \Magento\Core\Model\Dir
+     * @var \Magento\App\Dir
      */
     private $_dir;
     
@@ -46,14 +46,14 @@ class EnvironmentFactory
      *
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\TemplateEngine\Twig\Extension $extension
-     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\App\Dir $dir
      * @param \Magento\Core\Model\Logger $logger
      * @param \Twig_LoaderInterface $loader
      */
     public function __construct(
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\TemplateEngine\Twig\Extension $extension,
-        \Magento\Core\Model\Dir $dir,
+        \Magento\App\Dir $dir,
         \Magento\Core\Model\Logger $logger,
         \Twig_LoaderInterface $loader
     ) {
@@ -75,7 +75,7 @@ class EnvironmentFactory
         if ($this->_environment === null) {
             $this->_environment = new \Twig_Environment($this->_loader);
             try {
-                $precompiledTmpltDir = $this->_dir->getDir(\Magento\Core\Model\Dir::VAR_DIR) . '/twig_templates';
+                $precompiledTmpltDir = $this->_dir->getDir(\Magento\App\Dir::VAR_DIR) . '/twig_templates';
                 $this->_filesystem->createDirectory($precompiledTmpltDir);
                 $this->_environment->setCache($precompiledTmpltDir);
             } catch (\Magento\Filesystem\FilesystemException $e) {
