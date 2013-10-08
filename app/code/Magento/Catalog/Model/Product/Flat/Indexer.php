@@ -50,6 +50,45 @@ class Indexer extends \Magento\Core\Model\AbstractModel
     const EVENT_TYPE_REBUILD = 'catalog_product_flat_rebuild';
 
     /**
+     * Index indexer
+     *
+     * @var \Magento\Index\Model\Indexer
+     */
+    protected $_index;
+
+    /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Index\Model\Indexer $index
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Index\Model\Indexer $index,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_index = $index;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Standart model resource initialization
      *
      */
@@ -71,7 +110,7 @@ class Indexer extends \Magento\Core\Model\AbstractModel
         } else {
             $this->_getResource()->prepareFlatTable($store);
         }
-        \Mage::getSingleton('Magento\Index\Model\Indexer')->processEntityAction(
+        $this->_index->processEntityAction(
             new \Magento\Object(array('id' => $store)),
             self::ENTITY,
             self::EVENT_TYPE_REBUILD
@@ -90,7 +129,7 @@ class Indexer extends \Magento\Core\Model\AbstractModel
     public function updateAttribute($attributeCode, $store = null, $productIds = null)
     {
         if (is_null($store)) {
-            foreach (\Mage::app()->getStores() as $store) {
+            foreach ($this->_storeManager->getStores() as $store) {
                 $this->updateAttribute($attributeCode, $store->getId(), $productIds);
             }
 
@@ -114,7 +153,7 @@ class Indexer extends \Magento\Core\Model\AbstractModel
     public function prepareDataStorage($store = null)
     {
         if (is_null($store)) {
-            foreach (\Mage::app()->getStores() as $store) {
+            foreach ($this->_storeManager->getStores() as $store) {
                 $this->prepareDataStorage($store->getId());
             }
 
@@ -135,7 +174,7 @@ class Indexer extends \Magento\Core\Model\AbstractModel
     public function updateEventAttributes($store = null)
     {
         if (is_null($store)) {
-            foreach (\Mage::app()->getStores() as $store) {
+            foreach ($this->_storeManager->getStores() as $store) {
                 $this->updateEventAttributes($store->getId());
             }
 
@@ -160,7 +199,7 @@ class Indexer extends \Magento\Core\Model\AbstractModel
     public function updateProductStatus($productId, $status, $store = null)
     {
         if (is_null($store)) {
-            foreach (\Mage::app()->getStores() as $store) {
+            foreach ($this->_storeManager->getStores() as $store) {
                 $this->updateProductStatus($productId, $status, $store->getId());
             }
             return $this;
@@ -186,7 +225,7 @@ class Indexer extends \Magento\Core\Model\AbstractModel
     public function updateProduct($productIds, $store = null)
     {
         if (is_null($store)) {
-            foreach (\Mage::app()->getStores() as $store) {
+            foreach ($this->_storeManager->getStores() as $store) {
                 $this->updateProduct($productIds, $store->getId());
             }
             return $this;
@@ -217,7 +256,7 @@ class Indexer extends \Magento\Core\Model\AbstractModel
     public function saveProduct($productIds, $store = null)
     {
         if (is_null($store)) {
-            foreach (\Mage::app()->getStores() as $store) {
+            foreach ($this->_storeManager->getStores() as $store) {
                 $this->saveProduct($productIds, $store->getId());
             }
             return $this;
@@ -248,7 +287,7 @@ class Indexer extends \Magento\Core\Model\AbstractModel
     public function removeProduct($productIds, $store = null)
     {
         if (is_null($store)) {
-            foreach (\Mage::app()->getStores() as $store) {
+            foreach ($this->_storeManager->getStores() as $store) {
                 $this->removeProduct($productIds, $store->getId());
             }
             return $this;

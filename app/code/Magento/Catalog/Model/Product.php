@@ -22,9 +22,7 @@
  * @method \Magento\Catalog\Model\Product setNewVariationsAttributeSetId(int $value)
  * @method int getNewVariationsAttributeSetId()
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 namespace Magento\Catalog\Model;
 
@@ -75,6 +73,11 @@ class Product extends \Magento\Catalog\Model\AbstractModel
 
     protected $_errors = array();
 
+    /**
+     * Product option
+     *
+     * @var \Magento\Catalog\Model\Product\Option
+     */
     protected $_optionInstance;
 
     protected $_options = array();
@@ -132,6 +135,84 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     protected $_collectionFactory;
 
     /**
+     * Catalog product type
+     *
+     * @var \Magento\Catalog\Model\Product\Type
+     */
+    protected $_catalogProductType;
+
+    /**
+     * Index indexer
+     *
+     * @var \Magento\Index\Model\Indexer
+     */
+    protected $_indexIndexer;
+
+    /**
+     * Catalog product media config
+     *
+     * @var \Magento\Catalog\Model\Product\Media\Config
+     */
+    protected $_catalogProductMediaConfig;
+
+    /**
+     * Catalog product status
+     *
+     * @var \Magento\Catalog\Model\Product\Status
+     */
+    protected $_catalogProductStatus;
+
+    /**
+     * Catalog product visibility
+     *
+     * @var \Magento\Catalog\Model\Product\Visibility
+     */
+    protected $_catalogProductVisibility;
+
+    /**
+     * Category factory
+     *
+     * @var \Magento\Catalog\Model\CategoryFactory
+     */
+    protected $_categoryFactory;
+
+    /**
+     * Product factory
+     *
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * Stock item factory
+     *
+     * @var \Magento\CatalogInventory\Model\Stock\ItemFactory
+     */
+    protected $_stockItemFactory;
+
+    /**
+     * Item option factory
+     *
+     * @var \Magento\Catalog\Model\Product\Configuration\Item\OptionFactory
+     */
+    protected $_itemOptionFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Catalog\Model\Product\Url $url
+     * @param \Magento\Catalog\Model\Product\Link $productLink
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Product\Configuration\Item\OptionFactory $itemOptionFactory
+     * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Catalog\Model\Product\Option $catalogProductOption
+     * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
+     * @param \Magento\Catalog\Model\Product\Status $catalogProductStatus
+     * @param \Magento\Catalog\Model\Product\Media\Config $catalogProductMediaConfig
+     * @param \Magento\Index\Model\Indexer $indexIndexer
+     * @param \Magento\Catalog\Model\Product\Type $catalogProductType
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Catalog\Helper\Image $catalogImage
      * @param \Magento\Catalog\Helper\Data $catalogData
@@ -142,8 +223,23 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      * @param \Magento\Catalog\Model\Resource\Product\Collection $resourceCollection
      * @param \Magento\Data\CollectionFactory $collectionFactory
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        \Magento\Catalog\Model\Product\Url $url,
+        \Magento\Catalog\Model\Product\Link $productLink,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Product\Configuration\Item\OptionFactory $itemOptionFactory,
+        \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Catalog\Model\Product\Option $catalogProductOption,
+        \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
+        \Magento\Catalog\Model\Product\Status $catalogProductStatus,
+        \Magento\Catalog\Model\Product\Media\Config $catalogProductMediaConfig,
+        \Magento\Index\Model\Indexer $indexIndexer,
+        \Magento\Catalog\Model\Product\Type $catalogProductType,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Catalog\Helper\Image $catalogImage,
         \Magento\Catalog\Helper\Data $catalogData,
@@ -155,12 +251,24 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         \Magento\Data\CollectionFactory $collectionFactory,
         array $data = array()
     ) {
+        $this->_itemOptionFactory = $itemOptionFactory;
+        $this->_stockItemFactory = $stockItemFactory;
+        $this->_productFactory = $productFactory;
+        $this->_categoryFactory = $categoryFactory;
+        $this->_optionInstance = $catalogProductOption;
+        $this->_catalogProductVisibility = $catalogProductVisibility;
+        $this->_catalogProductStatus = $catalogProductStatus;
+        $this->_catalogProductMediaConfig = $catalogProductMediaConfig;
+        $this->_indexIndexer = $indexIndexer;
+        $this->_catalogProductType = $catalogProductType;
         $this->_eventManager = $eventManager;
         $this->_catalogImage = $catalogImage;
         $this->_catalogData = $catalogData;
         $this->_catalogProduct = $catalogProduct;
         $this->_collectionFactory = $collectionFactory;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_urlModel = $url;
+        $this->_linkInstance = $productLink;
+        parent::__construct($storeManager, $context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -181,7 +289,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         if ($this->hasData('store_id')) {
             return $this->getData('store_id');
         }
-        return \Mage::app()->getStore()->getId();
+        return $this->_storeManager->getStore()->getId();
     }
 
     /**
@@ -203,9 +311,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     public function getUrlModel()
     {
-        if ($this->_urlModel === null) {
-            $this->_urlModel = \Mage::getSingleton('Magento\Catalog\Model\Product\Url');
-        }
         return $this->_urlModel;
     }
 
@@ -291,7 +396,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     public function getTypeInstance()
     {
         if ($this->_typeInstance === null) {
-            $this->_typeInstance = \Mage::getSingleton('Magento\Catalog\Model\Product\Type')
+            $this->_typeInstance = $this->_catalogProductType
                 ->factory($this);
         }
         return $this->_typeInstance;
@@ -316,9 +421,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     public function getLinkInstance()
     {
-        if (!$this->_linkInstance) {
-            $this->_linkInstance = \Mage::getSingleton('Magento\Catalog\Model\Product\Link');
-        }
         return $this->_linkInstance;
     }
 
@@ -356,7 +458,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     {
         $category = $this->getData('category');
         if (is_null($category) && $this->getCategoryId()) {
-            $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($this->getCategoryId());
+            $category = $this->_categoryFactory->create()->load($this->getCategoryId());
             $this->setCategory($category);
         }
         return $category;
@@ -420,7 +522,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
             $storeIds = array();
             if ($websiteIds = $this->getWebsiteIds()) {
                 foreach ($websiteIds as $websiteId) {
-                    $websiteStores = \Mage::app()->getWebsite($websiteId)->getStoreIds();
+                    $websiteStores = $this->_storeManager->getWebsite($websiteId)->getStoreIds();
                     $storeIds = array_merge($storeIds, $websiteStores);
                 }
             }
@@ -545,7 +647,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
 
         $result = parent::_afterSave();
 
-        \Mage::getSingleton('Magento\Index\Model\Indexer')->processEntityAction(
+        $this->_indexIndexer->processEntityAction(
             $this, self::ENTITY, \Magento\Index\Model\Event::TYPE_SAVE
         );
         return $result;
@@ -561,7 +663,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     {
         $this->_protectFromNonAdmin();
         $this->cleanCache();
-        \Mage::getSingleton('Magento\Index\Model\Indexer')->logEvent(
+        $this->_indexIndexer->logEvent(
             $this, self::ENTITY, \Magento\Index\Model\Event::TYPE_DELETE
         );
         return parent::_beforeDelete();
@@ -575,7 +677,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     protected function _afterDeleteCommit()
     {
         parent::_afterDeleteCommit();
-        \Mage::getSingleton('Magento\Index\Model\Indexer')->indexEvents(
+        $this->_indexIndexer->indexEvents(
             self::ENTITY, \Magento\Index\Model\Event::TYPE_DELETE
         );
     }
@@ -607,7 +709,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     public function cleanCache()
     {
-        \Mage::app()->cleanCache('catalog_product_'.$this->getId());
+        $this->_cacheManager->clean('catalog_product_'.$this->getId());
         return $this;
     }
 
@@ -618,7 +720,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     public function getPriceModel()
     {
-        return \Mage::getSingleton('Magento\Catalog\Model\Product\Type')->priceFactory($this->getTypeId());
+        return $this->_catalogProductType->priceFactory($this->getTypeId());
     }
 
     /**
@@ -1042,7 +1144,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     public function getMediaConfig()
     {
-        return \Mage::getSingleton('Magento\Catalog\Model\Product\Media\Config');
+        return $this->_catalogProductMediaConfig;
     }
 
     /**
@@ -1056,14 +1158,14 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         $this->getCategoryIds();
 
         /* @var $newProduct \Magento\Catalog\Model\Product */
-        $newProduct = \Mage::getModel('Magento\Catalog\Model\Product')->setData($this->getData())
+        $newProduct = $this->_productFactory->create()->setData($this->getData())
             ->setIsDuplicate(true)
             ->setOriginalId($this->getId())
             ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_DISABLED)
             ->setCreatedAt(null)
             ->setUpdatedAt(null)
             ->setId(null)
-            ->setStoreId(\Mage::app()->getStore()->getId());
+            ->setStoreId($this->_storeManager->getStore()->getId());
 
         $this->_eventManager->dispatch(
             'catalog_model_product_duplicate',
@@ -1203,7 +1305,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     public function getVisibleInCatalogStatuses()
     {
-        return \Mage::getSingleton('Magento\Catalog\Model\Product\Status')->getVisibleStatusIds();
+        return $this->_catalogProductStatus->getVisibleStatusIds();
     }
 
     /**
@@ -1213,7 +1315,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     public function getVisibleStatuses()
     {
-        return \Mage::getSingleton('Magento\Catalog\Model\Product\Status')->getVisibleStatusIds();
+        return $this->_catalogProductStatus->getVisibleStatusIds();
     }
 
     /**
@@ -1233,7 +1335,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     public function getVisibleInSiteVisibilities()
     {
-        return \Mage::getSingleton('Magento\Catalog\Model\Product\Visibility')->getVisibleInSiteIds();
+        return $this->_catalogProductVisibility->getVisibleInSiteIds();
     }
 
     /**
@@ -1373,8 +1475,8 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     {
         return $this->getResource()
             ->getAttribute($attributeCode)
-                ->getSource()
-                    ->getOptionText($this->getData($attributeCode));
+            ->getSource()
+            ->getOptionText($this->getData($attributeCode));
     }
 
     /**
@@ -1482,7 +1584,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     {
         if (isset($data['stock_item'])) {
             if ($this->_catalogData->isModuleEnabled('Magento_CatalogInventory')) {
-                $stockItem = \Mage::getModel('Magento\CatalogInventory\Model\Stock\Item')
+                $stockItem = $this->_stockItemFactory->create()
                     ->setData($data['stock_item'])
                     ->setProduct($this);
                 $this->setStockItem($stockItem);
@@ -1583,9 +1685,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     public function getOptionInstance()
     {
-        if (!$this->_optionInstance) {
-            $this->_optionInstance = \Mage::getSingleton('Magento\Catalog\Model\Product\Option');
-        }
         return $this->_optionInstance;
     }
 
@@ -1660,7 +1759,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     public function addCustomOption($code, $value, $product=null)
     {
         $product = $product ? $product : $this;
-        $option = \Mage::getModel('Magento\Catalog\Model\Product\Configuration\Item\Option')
+        $option = $this->_itemOptionFactory->create()
             ->addData(array(
                 'product_id'=> $product->getId(),
                 'product'   => $product,
@@ -1807,7 +1906,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     public function setOrigData($key=null, $data=null)
     {
-        if (\Mage::app()->getStore()->isAdmin()) {
+        if ($this->_storeManager->getStore()->isAdmin()) {
             return parent::setOrigData($key, $data);
         }
 

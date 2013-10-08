@@ -277,7 +277,7 @@ class Paypal extends \Magento\Paypal\Model\Direct
      * Store id setter, also set storeId to helper
      *
      * @param int $store
-     * @return $this
+     * @return \Magento\Pbridge\Model\Payment\Method\Paypal
      */
     public function setStore($store)
     {

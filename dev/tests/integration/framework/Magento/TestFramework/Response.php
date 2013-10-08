@@ -14,8 +14,17 @@
  */
 namespace Magento\TestFramework;
 
+/**
+ * @package Magento\TestFramework
+ * @SuppressWarnings(PHPMD.LongVariable)
+ */
 class Response extends \Magento\Core\Controller\Response\Http
 {
+    /**
+     * @inherit
+     */
+    public $headersSentThrowsException = false;
+
     /**
      * Prevent generating exceptions if headers are already sent
      *

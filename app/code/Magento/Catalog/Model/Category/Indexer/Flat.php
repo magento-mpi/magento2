@@ -56,6 +56,16 @@ class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
     protected $_catalogCategoryFlat = null;
 
     /**
+     * Catalog resource category flat
+     *
+     * @var \Magento\Catalog\Model\Resource\Category\Flat
+     */
+    protected $_resourceCategoryFlat;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Catalog\Model\Resource\Category\Flat $resourceCategoryFlat
      * @param \Magento\Catalog\Helper\Category\Flat $catalogCategoryFlat
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
@@ -64,6 +74,7 @@ class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
      * @param array $data
      */
     public function __construct(
+        \Magento\Catalog\Model\Resource\Category\Flat $resourceCategoryFlat,
         \Magento\Catalog\Helper\Category\Flat $catalogCategoryFlat,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
@@ -71,6 +82,7 @@ class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_resourceCategoryFlat = $resourceCategoryFlat;
         $this->_catalogCategoryFlat = $catalogCategoryFlat;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -107,7 +119,7 @@ class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
      */
     protected function _getIndexer()
     {
-        return \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Category\Flat');
+        return $this->_resourceCategoryFlat;
     }
 
     /**

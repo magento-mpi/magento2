@@ -35,7 +35,7 @@ class App implements \Magento\Core\Model\AppInterface
     /**
      * Magento version
      */
-    const VERSION = '2.0.0.0-dev43';
+    const VERSION = '2.0.0.0-dev46';
 
     /**
      * Custom application dirs
@@ -568,7 +568,6 @@ class App implements \Magento\Core\Model\AppInterface
     {
         if (!$this->_response) {
             $this->_response = $this->_objectManager->get('Magento\Core\Controller\Response\Http');
-            $this->_response->headersSentThrowsException = \Mage::$headersSentThrowsException;
             $this->_response->setHeader('Content-Type', 'text/html; charset=UTF-8');
         }
         return $this->_response;
@@ -906,7 +905,7 @@ class App implements \Magento\Core\Model\AppInterface
             'revision'  => '0',
             'patch'     => '0',
             'stability' => 'dev',
-            'number'    => '45',
+            'number'    => '46',
         );
     }
 }

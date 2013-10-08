@@ -17,11 +17,15 @@ class Store extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     protected $_storeManager;
 
     /**
+     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\StoreManager $storeManager
      */
-    public function __construct(\Magento\Core\Model\StoreManager $storeManager)
-    {
+    public function __construct(
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\StoreManager $storeManager
+    ) {
         $this->_storeManager = $storeManager;
+        parent::__construct($logger);
     }
 
     /**

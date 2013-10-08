@@ -28,6 +28,47 @@ class Status extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_productAttributes  = array();
 
     /**
+     * Catalog product
+     *
+     * @var \Magento\Catalog\Model\Product
+     */
+    protected $_catalogProduct;
+
+    /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Catalog product1
+     *
+     * @var \Magento\Catalog\Model\Resource\Product
+     */
+    protected $_productResource;
+
+    /**
+     * Class constructor
+     *
+     * @param \Magento\Catalog\Model\Resource\Product $productResource
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Product $catalogProduct
+     * @param \Magento\Core\Model\Resource $resource
+     */
+    public function __construct(
+        \Magento\Catalog\Model\Resource\Product $productResource,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Product $catalogProduct,
+        \Magento\Core\Model\Resource $resource
+    ) {
+        $this->_productResource = $productResource;
+        $this->_storeManager = $storeManager;
+        $this->_catalogProduct = $catalogProduct;
+        parent::__construct($resource);
+    }
+
+    /**
      * Initialize connection
      *
      */
@@ -56,8 +97,7 @@ class Status extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _getProductAttribute($attribute)
     {
         if (empty($this->_productAttributes[$attribute])) {
-            $this->_productAttributes[$attribute] =
-                \Mage::getSingleton('Magento\Catalog\Model\Product')->getResource()->getAttribute($attribute);
+            $this->_productAttributes[$attribute] = $this->_catalogProduct->getResource()->getAttribute($attribute);
         }
         return $this->_productAttributes[$attribute];
     }
@@ -72,14 +112,14 @@ class Status extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function refreshEnabledIndex($productId, $storeId)
     {
         if ($storeId == \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID) {
-            foreach (\Mage::app()->getStores() as $store) {
+            foreach ($this->_storeManager->getStores() as $store) {
                 $this->refreshEnabledIndex($productId, $store->getId());
             }
 
             return $this;
         }
 
-        \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product')->refreshEnabledIndex($storeId, $productId);
+        $this->_productResource->refreshEnabledIndex($storeId, $productId);
 
         return $this;
     }

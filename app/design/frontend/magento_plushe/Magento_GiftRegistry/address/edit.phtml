@@ -1,0 +1,118 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     magento_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * Edit shipping address template
+ *
+ * @see \Magento\GiftRegistry\Block\Customer\Address\Edit
+ *
+ */
+/* @var $this \Magento\GiftRegistry\Block\Customer\Address\Edit */
+?>
+
+<fieldset class="fieldset shipping_address">
+    <legend class="legend"><span><?php echo __('Shipping Address'); ?></span></legend>
+
+    <?php if ($this->customerHasAddresses()) : ?>
+        <div class="field address">
+            <label for="address_type_or_id" class="label"><span><?php echo __('Select a shipping address from your address book or enter a new address.'); ?></span></label>
+            <div class="control" data-shipping-address="<?php echo $this->getEntity()->getShippingAddress() ? 'true' : 'false'; ?>">
+                <?php echo $this->getAddressHtmlSelect('address_type_or_id') ?>
+            </div>
+        </div>
+    <?php endif ?>
+
+    <fieldset class="fieldset" id="shipping-new-address-form"<?php if ($this->customerHasAddresses()): ?> style="display: none;"<?php endif ?>>
+        <?php echo $this->getLayout()->createBlock('Magento\Customer\Block\Widget\Name')->setObject($this->getAddress())->setFieldNameFormat('address[%s]')->toHtml(); ?>
+
+        <div class="field company">
+            <label for="address:company" class="label"><span><?php echo __('Company'); ?></span></label>
+            <div class="control">
+                <input type="text" id="address:company" name="address[company]" value="<?php echo $this->escapeHtml($this->getAddress()->getCompany()); ?>" title="<?php echo __('Company'); ?>" class="input-text <?php echo $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('company'); ?>"/>
+            </div>
+        </div>
+
+        <?php $_streetValidationClass = $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('street'); ?>
+        <div class="field address street required">
+            <label for="address:street1" class="label"><span><?php echo __('Address'); ?></span></label>
+            <div class="control">
+                <input type="text" title="<?php echo __('Street Address') ?>" name="address[street][]" id="address:street1" value="<?php echo $this->escapeHtml($this->getAddress()->getStreet(1)) ?>" class="input-text <?php echo $_streetValidationClass ?>" />
+            </div>
+            <div class="nested">
+                <?php $_streetValidationClass = trim(str_replace('required-entry', '', $_streetValidationClass)); ?>
+                <?php for ($_i = 2, $_n = $this->helper('Magento\Customer\Helper\Address')->getStreetLines(); $_i <= $_n; $_i++): ?>
+                    <div class="field additional">
+                        <div class="control">
+                            <input type="text" title="<?php echo __('Street Address %1', $_i) ?>" name="address[street][]" id="address:street<?php echo $_i ?>" value="<?php echo $this->escapeHtml($this->getAddress()->getStreet($_i)) ?>" class="input-text <?php echo $_streetValidationClass ?>"/>
+                        </div>
+                    </div>
+                <?php endfor; ?>
+            </div>
+        </div>
+
+        <div class="field address city required">
+            <label for="address:city" class="label"><span><?php echo __('City') ?></span></label>
+            <div class="control">
+                <input type="text" title="<?php echo __('City') ?>" name="address[city]" value="<?php echo $this->escapeHtml($this->getAddress()->getCity()) ?>" class="input-text <?php echo $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('city') ?>" id="address:city"/>
+            </div>
+        </div>
+        <div class="field address region required">
+            <label for="address:region" class="label"><span><?php echo __('State/Province') ?></span></label>
+            <div class="control">
+                <select id="address:region_id" name="address[region_id]" title="<?php echo __('State/Province') ?>" class="validate-select" style="display:none;">
+                    <option value=""><?php echo __('Please select a region, state or province.') ?></option>
+                </select>
+                <input type="text" id="address:region" name="address[region]" value="<?php echo $this->escapeHtml($this->getAddress()->getRegion()) ?>" title="<?php echo __('State/Province') ?>" class="input-text <?php echo $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('region') ?>" style="display:none;" />
+            </div>
+        </div>
+
+        <div class="field address postcode required">
+            <label for="address:postcode" class="label"><span><?php echo __('Zip/Postal Code') ?></span></label>
+            <div class="control">
+                <input type="text" title="<?php echo __('Zip/Postal Code') ?>" name="address[postcode]" id="address:postcode" value="<?php echo $this->escapeHtml($this->getAddress()->getPostcode()) ?>" class="input-text validate-zip-international <?php echo $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('postcode') ?>"/>
+            </div>
+        </div>
+        <div class="field address country required">
+            <label for="address:country_id" class="label"><span><?php echo __('Country') ?></span></label>
+            <div class="control">
+                <?php echo $this->getCountryHtmlSelect($this->getAddress()->getCountryId(), 'address[country_id]', 'address:country_id');?>
+            </div>
+        </div>
+
+        <div class="field address telephone required">
+            <label for="address:telephone" class="label"><span><?php echo __('Telephone') ?></span></label>
+            <div class="control">
+                <input type="text" name="address[telephone]" value="<?php echo $this->escapeHtml($this->getAddress()->getTelephone()) ?>" title="<?php echo __('Telephone') ?>" class="input-text <?php echo $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('telephone') ?>" id="address:telephone"/>
+            </div>
+        </div>
+        <div class="field address fax">
+            <label for="address:fax" class="label"><span><?php echo __('Fax') ?></span></label>
+            <div class="control">
+                <input type="text" name="address[fax]" value="<?php echo $this->escapeHtml($this->getAddress()->getFax()) ?>" title="<?php echo __('Fax') ?>" class="input-text <?php echo $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('fax') ?>" id="address:fax"/>
+            </div>
+        </div>
+    </fieldset>
+</fieldset>
+
+<script type="text/javascript">
+    head.js(
+        "<?php echo $this->getViewFileUrl('Magento_Checkout::js/region-updater.js') ?>",
+        function() {
+            jQuery('#address\\:country_id').regionUpdater({
+                optionalRegionAllowed: <?php echo ($this->getConfig('general/region/display_all')? 'true' : 'false'); ?>,
+                regionListId: '#address\\:region_id',
+                regionInputId: '#address\\:region',
+                postcodeId: '#address\\:postcode',
+                regionJson: <?php echo $this->helper('Magento\Directory\Helper\Data')->getRegionJson(); ?>,
+                defaultRegion: "<?php echo $this->getAddress()->getRegionId() ?>"
+            });
+        });
+</script>

@@ -64,7 +64,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     ) {
         $this->_config = $config;
         $this->_taxData = $taxData;
-        parent::__construct($productFactory, $gsData, $gsProduct, $gsPrice, $context, $resource, $resource,
+        parent::__construct($productFactory, $gsData, $gsProduct, $gsPrice, $context, $registry, $resource,
             $resourceCollection, $data);
     }
 

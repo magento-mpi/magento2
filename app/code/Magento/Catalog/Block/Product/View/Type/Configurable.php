@@ -42,6 +42,18 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
     protected $_catalogProduct = null;
 
     /**
+     * Tax calculation
+     *
+     * @var \Magento\Tax\Model\Calculation
+     */
+    protected $_taxCalculation;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Tax\Model\Calculation $taxCalculation
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Tax\Helper\Data $taxData
@@ -51,6 +63,9 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\Tax\Model\Calculation $taxCalculation,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Tax\Helper\Data $taxData,
@@ -59,8 +74,10 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
         \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
+        $this->_taxCalculation = $taxCalculation;
         $this->_catalogProduct = $catalogProduct;
-        parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $data);
+        parent::__construct($storeManager, $catalogConfig, $coreRegistry, $taxData, $catalogData, $coreData,
+            $context, $data);
     }
 
     /**
@@ -122,7 +139,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
      */
     public function getCurrentStore()
     {
-        return \Mage::app()->getStore();
+        return $this->_storeManager->getStore();
     }
 
     /**
@@ -244,18 +261,17 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
             }
         }
 
-        $taxCalculation = \Mage::getSingleton('Magento\Tax\Model\Calculation');
-        if (!$taxCalculation->getCustomer() && $this->_coreRegistry->registry('current_customer')) {
-            $taxCalculation->setCustomer($this->_coreRegistry->registry('current_customer'));
+        if (!$this->_taxCalculation->getCustomer() && $this->_coreRegistry->registry('current_customer')) {
+            $this->_taxCalculation->setCustomer($this->_coreRegistry->registry('current_customer'));
         }
 
-        $_request = $taxCalculation->getRateRequest(false, false, false);
+        $_request = $this->_taxCalculation->getRateRequest(false, false, false);
         $_request->setProductClassId($currentProduct->getTaxClassId());
-        $defaultTax = $taxCalculation->getRate($_request);
+        $defaultTax = $this->_taxCalculation->getRate($_request);
 
-        $_request = $taxCalculation->getRateRequest();
+        $_request = $this->_taxCalculation->getRateRequest();
         $_request->setProductClassId($currentProduct->getTaxClassId());
-        $currentTax = $taxCalculation->getRate($_request);
+        $currentTax = $this->_taxCalculation->getRate($_request);
 
         $taxConfig = array(
             'includeTax'        => $taxHelper->priceIncludesTax(),

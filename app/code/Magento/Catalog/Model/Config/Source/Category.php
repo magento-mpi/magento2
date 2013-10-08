@@ -8,22 +8,37 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model\Config\Source;
+
 /**
  * Config category source
  *
- * @category   Magento
- * @package    Magento_Backend
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Model\Config\Source;
-
 class Category implements \Magento\Core\Model\Option\ArrayInterface
 {
+    /**
+     * Category collection factory
+     *
+     * @var \Magento\Catalog\Model\Resource\Category\CollectionFactory
+     */
+    protected $_categoryCollectionFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory
+     */
+    public function __construct(
+        \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory
+    ) {
+        $this->_categoryCollectionFactory = $categoryCollectionFactory;
+    }
+
     public function toOptionArray($addEmpty = true)
     {
-        $tree = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Category\Tree');
-
-        $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Category\Collection');
+        /** @var \Magento\Catalog\Model\Resource\Category\Collection $collection */
+        $collection = $this->_categoryCollectionFactory->create();
 
         $collection->addAttributeToSelect('name')
             ->addRootLevelFilter()

@@ -41,10 +41,23 @@ class Filter extends \Magento\Filter\Template
     protected $_viewUrl;
 
     /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\View\Url $viewUrl
      */
-    public function __construct(\Magento\Core\Model\View\Url $viewUrl)
-    {
+    public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\View\Url $viewUrl
+    ) {
+        $this->_storeManager = $storeManager;
         $this->_viewUrl = $viewUrl;
     }
 
@@ -100,7 +113,7 @@ class Filter extends \Magento\Filter\Template
     public function mediaDirective($construction)
     {
         $params = $this->_getIncludeParameters($construction[2]);
-        return \Mage::getBaseUrl('media') . $params['url'];
+        return $this->_storeManager->getStore()->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_MEDIA) . $params['url'];
     }
 
     /**
@@ -138,6 +151,6 @@ class Filter extends \Magento\Filter\Template
             unset($params['url']);
         }
 
-        return \Mage::app()->getStore()->getUrl($path, $params);
+        return $this->_storeManager->getStore()->getUrl($path, $params);
     }
 }

@@ -17,7 +17,7 @@ class Soap
     /**
      * SOAP client initialized with different WSDLs.
      *
-     * @var Zend\Soap\Client[]
+     * @var \Zend\Soap\Client[]
      */
     protected $_soapClients = array();
 
@@ -55,7 +55,7 @@ class Soap
      * Get proper SOAP client instance that is initialized with with WSDL corresponding to requested service interface.
      *
      * @param string $serviceInfo PHP service interface name, should include version if present
-     * @return Zend\Soap\Client
+     * @return \Zend\Soap\Client
      */
     protected function _getSoapClient($serviceInfo)
     {
@@ -84,7 +84,7 @@ class Soap
             )
         );
         $context = stream_context_create($opts);
-        $soapClient = new Zend\Soap\Client($wsdlUrl);
+        $soapClient = new \Zend\Soap\Client($wsdlUrl);
         $soapClient->setSoapVersion(SOAP_1_2);
         $soapClient->setStreamContext($context);
         return $soapClient;

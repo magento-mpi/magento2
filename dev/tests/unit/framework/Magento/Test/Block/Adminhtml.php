@@ -16,8 +16,6 @@
 namespace Magento\Test\Block;
 
 /**
- * Class Adminhtml
- * @package Magento\Test\Block
  * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class Adminhtml extends \PHPUnit_Framework_TestCase

@@ -34,7 +34,6 @@ class Handler implements \Magento\HTTP\HandlerInterface
      */
     public function handle(\Zend_Controller_Request_Http $request, \Zend_Controller_Response_Http $response)
     {
-        $response->headersSentThrowsException = \Mage::$headersSentThrowsException;
         $this->_app->setRequest($request)->setResponse($response)->run();
     }
 }

@@ -225,6 +225,8 @@ class AppTest extends \PHPUnit_Framework_TestCase
 
     public function testSetGetResponse()
     {
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Controller\Response\Http')->headersSentThrowsException = false;
         $this->assertInstanceOf('Magento\Core\Controller\Response\Http', $this->_model->getResponse());
         $expectedHeader = array(
             'name' => 'Content-Type',

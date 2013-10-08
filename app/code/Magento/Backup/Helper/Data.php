@@ -235,7 +235,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             $this->_dir->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DS . 'locks',
             $this->_dir->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DS . 'log',
             $this->_dir->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DS . 'report',
-            $this->_dir->getDir(\Magento\Core\Model\Dir::APP) . DS . 'Mage.php',
             $this->_dir->getDir() . DS . 'errors',
             $this->_dir->getDir() . DS . 'index.php',
         );
