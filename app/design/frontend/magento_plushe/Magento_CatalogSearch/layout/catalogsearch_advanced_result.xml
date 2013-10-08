@@ -11,12 +11,7 @@
     <update handle="page_two_columns_left"/>
     <referenceBlock name="page.main.title">
         <action method="setPageTitle">
-            <argument translate="true" name="label" xsi:type="string">Catalog Advanced Search</argument>
-        </action>
-    </referenceBlock>
-    <referenceBlock name="search_result_list">
-        <action method="setPageLayout">
-            <argument name="layout" xsi:type="string">two_columns_left</argument>
+            <argument translate="true" name="title" xsi:type="string">Catalog Advanced Search</argument>
         </action>
     </referenceBlock>
 </layout>

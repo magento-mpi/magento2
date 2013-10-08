@@ -11160,9 +11160,22 @@ img[align="right"] {
 .column.main .block.recommendations .count:after {
   content: ")";
 }
-.column.main .block.recommendations strong {
-  font-weight: 400;
+.column.main .block.recommendations .title {
+  display: inline;
   margin-right: 3px;
+}
+.column.main .block.recommendations .title:after {
+  content: ":";
+}
+.column.main .block.recommendations .item {
+  display: inline;
+  margin: 0;
+}
+.column.main .block.recommendations .item:after {
+  content: ",";
+}
+.column.main .block.recommendations .item:last-child:after {
+  content: "";
 }
 .column.main .block.recommendations + .products.wrapper {
   margin: 45px 0 0;
@@ -11173,7 +11186,7 @@ img[align="right"] {
 .search.summary {
   margin: 10px 20px;
 }
-.search.summary ul {
+.search.summary .items {
   padding: 0;
   margin: 0;
   list-style-type: none;

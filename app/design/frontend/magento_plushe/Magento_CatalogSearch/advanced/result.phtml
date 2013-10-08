@@ -7,7 +7,6 @@
  * @license     {license_link}
  */
 ?>
-<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <?php if($this->getResultCount()): ?>
     <div class="search found">
         <?php echo __('<strong>%1 item(s)</strong> were found using the following search criteria', $this->getResultCount()); ?>
@@ -24,9 +23,9 @@
 <div class="search summary">
     <?php foreach (array('left', 'right') as $side): ?>
         <?php if(@$searchCriterias[$side]): ?>
-            <ul>
+            <ul class="items">
                 <?php foreach($searchCriterias[$side] as $criteria): ?>
-                    <li><strong><?php echo $this->escapeHtml(__($criteria['name'])); ?>:</strong> <?php echo $this->escapeHtml($criteria['value']); ?></li>
+                    <li class="item"><strong><?php echo $this->escapeHtml(__($criteria['name'])); ?>:</strong> <?php echo $this->escapeHtml($criteria['value']); ?></li>
                 <?php endforeach; ?>
             </ul>
         <?php endif; ?>

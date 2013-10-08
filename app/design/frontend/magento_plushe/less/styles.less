@@ -5083,7 +5083,6 @@ img[align="right"] {
 /*
     Enterprise Search: recommendations and suggestios
 -------------------------------------- */
-
 .column.main .block.recommendations {
     margin: 0 0 5px;
     .count {
@@ -5095,9 +5094,22 @@ img[align="right"] {
             content: ")";
         }
     }
-    strong {
-        font-weight: 400;
+    .title {
+        display: inline;
         margin-right: 3px;
+        &:after {
+            content: ":";
+        }
+    }
+    .item {
+        display: inline;
+        margin: 0;
+        &:after {
+            content: ",";
+        }
+        &:last-child:after {
+            content: "";
+        }
     }
     + .products.wrapper {
         margin: 45px 0 0;
@@ -5109,7 +5121,7 @@ img[align="right"] {
     }
     &.summary {
         margin: 10px 20px;
-        ul {
+        .items {
             .resetList();
         }
     }
@@ -5125,7 +5137,7 @@ img[align="right"] {
 -------------------------------------- */
 .search.terms {
     .resetList();
-    li {
+    .item {
         display: inline-block;
         margin-right: 3px;
     }
