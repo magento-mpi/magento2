@@ -25,8 +25,8 @@
             </arguments>
         </block>
     </referenceBlock>
+    <update handle="adminhtml_sku_errors_block"/>
     <referenceContainer name="content">
-        <update handle="adminhtml_sku_errors_block"/>
         <block class="Magento\Adminhtml\Block\Catalog\Product\Composite\Configure" name="configure.popup"/>
         <block class="Magento\AdvancedCheckout\Block\Adminhtml\Manage" name="ID" template="manage.phtml">
             <block class="Magento\AdvancedCheckout\Block\Adminhtml\Manage\Store\Switcher" name="checkout.store.switcher"/>

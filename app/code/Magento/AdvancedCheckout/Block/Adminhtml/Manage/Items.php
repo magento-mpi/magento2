@@ -71,7 +71,7 @@ class Items extends \Magento\Adminhtml\Block\Template
      *
      * @return array
      */
-    protected function getItems()
+    public function getItems()
     {
         return $this->getQuote()->getAllVisibleItems();
     }
@@ -81,7 +81,7 @@ class Items extends \Magento\Adminhtml\Block\Template
      *
      * @return int
      */
-    protected function getCustomerId()
+    public function getCustomerId()
     {
         return $this->getCustomer()->getId();
     }
@@ -192,7 +192,7 @@ class Items extends \Magento\Adminhtml\Block\Template
      *
      * @return \Magento\Core\Model\Store
      */
-    protected function getStore()
+    public function getStore()
     {
         return $this->_registry->registry('checkout_current_store');
     }
@@ -202,7 +202,7 @@ class Items extends \Magento\Adminhtml\Block\Template
      *
      * @return \Magento\Customer\Model\Customer
      */
-    protected function getCustomer()
+    public function getCustomer()
     {
         return $this->_registry->registry('checkout_current_customer');
     }

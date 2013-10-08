@@ -13,7 +13,7 @@
 
     <target name="copy-test-modules">
         <copy todir="${mage.code.dir}" overwrite="true">
-            <fileset dir="${basedir}/">
+            <fileset dir="${basedir}/Magento/">
                 <include name="TestModule*/**" />
             </fileset>
         </copy>
