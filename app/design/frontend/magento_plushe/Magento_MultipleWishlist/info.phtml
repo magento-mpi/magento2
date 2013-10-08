@@ -12,8 +12,8 @@
 ?>
 <div class="block wishlist info">
     <div class="actions">
-        <?php if ($this->helper('Magento_Wishlist_Helper_Data')->isRssAllow() && count($this->getWishlistItems())): ?>
-            <a href="<?php echo $this->helper('Magento_Wishlist_Helper_Data')->getRssUrl($this->getWishlistInstance()->getId()); ?>" class="action rss"><span><?php echo __('RSS Feed') ?></span></a>
+        <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isRssAllow() && count($this->getWishlistItems())): ?>
+            <a href="<?php echo $this->helper('Magento\Wishlist\Helper\Data')->getRssUrl($this->getWishlistInstance()->getId()); ?>" class="action rss"><span><?php echo __('RSS Feed') ?></span></a>
         <?php endif; ?>
     </div>
     <table class="data table wishlist info">
@@ -28,7 +28,7 @@
         </tr>
         <tr>
             <th class="col updated"><?php echo __('Updated at');?></th>
-            <td class="col updated"><?php echo $this->formatDate($this->getWishlistInstance()->getUpdatedAt(), Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);?></td>
+            <td class="col updated"><?php echo $this->formatDate($this->getWishlistInstance()->getUpdatedAt(), \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);?></td>
         </tr>
         </tbody>
     </table>
