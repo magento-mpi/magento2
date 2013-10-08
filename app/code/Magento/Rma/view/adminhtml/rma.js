@@ -318,7 +318,7 @@ AdminRma.prototype = {
 
     addSelectedProduct : function(event) {
         Ajax.Responders.register(this.reloadResponder);
-        this.grid.resetFilter();
+        this.grid.resetFilter(this.doAddSelectedProduct.bind(this));
     },
 
     doAddSelectedProduct : function(event) {
