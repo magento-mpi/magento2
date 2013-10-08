@@ -1,0 +1,44 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php $_product = $this->getProduct(); ?>
+<?php $buttonTitle = __('Update Cart'); ?>
+<?php if ($_product->isSaleable()): ?>
+    <div class="box tocart update">
+        <?php if (!$_product->isGrouped()): ?>
+        <div class="field qty">
+            <label class="label" for="qty"><span><?php echo __('Qty:') ?></span></label>
+            <div class="control">
+                <input type="text" name="qty" id="qty" maxlength="12" value="<?php echo $this->getProductDefaultQty() * 1 ?>" title="<?php echo __('Qty') ?>" class="input-text qty" data-validate=" {required:true,digits:true}"/>
+            </div>
+        </div>
+        <?php endif; ?>
+        <div class="actions">
+            <button type="button" class="action primary tocart" title="<?php echo $buttonTitle ?>" id="product-updatecart-button"><span><?php echo $buttonTitle ?></span></button>
+        </div>
+        <?php echo $this->getChildHtml('', true) ?>
+    </div>
+
+    <script type="text/javascript">
+        (function ($) {
+            head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
+                "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
+                "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
+                "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
+                "<?php echo $this->getViewFileUrl('Magento_Catalog::js/msrp.js') ?>", function () {
+                    $('#product_addtocart_form').addToCart({
+                        cartButtonId: "#product-updatecart-button",
+                        cartForm: "#product_addtocart_form"
+                    }).validation();
+                });
+        })(jQuery);
+    </script>
+<?php endif; ?>
+
+

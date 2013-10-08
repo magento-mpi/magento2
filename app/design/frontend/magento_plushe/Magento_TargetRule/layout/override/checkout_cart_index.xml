@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <referenceContainer name="checkout.cart.items">
+        <block class="Magento\TargetRule\Block\Checkout\Cart\Crosssell" name="checkout.cart.crosssell" template="Magento_Catalog::product/list/items.phtml" after="-">
+            <arguments>
+                <argument name="type" xsi:type="string">crosssell-rule</argument>
+            </arguments>
+        </block>
+    </referenceContainer>
+</layout>

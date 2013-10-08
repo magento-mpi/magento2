@@ -1,0 +1,40 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+
+<form action="<?php echo $this->getUrl('*/*/editPost'); ?>" method="post" id="form-validate" class="form giftregistry edit validation" data-hasrequired="<?php echo __('* Required Fields') ?>">
+    <?php echo $this->getBlockHtml('formkey')?>
+    <?php echo $this->getChildHtml(); ?>
+
+    <div class="actions">
+        <div class="secondary">
+            <a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>" class="action back">
+                <span><?php echo __('Back') ?></span>
+            </a>
+        </div>
+        <div class="primary">
+            <button type="submit" id="submit.save" title="<?php echo __('Save') ?>" class="action primary save">
+                <span><?php echo __('Save') ?></span>
+            </button>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    (function($) {
+        head.js("<?php echo $this->getViewFileUrl('jquery/jquery.tmpl.min.js')?>",
+            "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
+            "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
+            "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
+            "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>", function() {
+                $('#form-validate').validation();
+            });
+    })(jQuery);
+</script>

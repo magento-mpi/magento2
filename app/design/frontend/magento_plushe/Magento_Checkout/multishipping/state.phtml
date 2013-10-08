@@ -1,0 +1,22 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * Mustishipping state
+ *
+ * @see \Magento\Checkout\Block\Multishipping\State
+ */
+?>
+<ul class="block multicheckout progress" id="checkout-progress-state">
+    <?php foreach ($this->getSteps() as $_step): ?>
+        <li title="<?php echo $_step->getLabel() ?>"<?php if($_step->getIsActive()): ?> class="active"<?php endif; ?>><span><?php echo $_step->getLabel() ?></span></li>
+    <?php endforeach; ?>
+</ul>

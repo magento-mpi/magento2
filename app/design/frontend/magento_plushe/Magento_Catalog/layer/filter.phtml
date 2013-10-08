@@ -1,0 +1,30 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * Template for filter items block
+ *
+ * @see \Magento\Catalog\Block\Layer\Filter
+ */
+?>
+
+<ol class="items">
+<?php foreach ($this->getItems() as $_item): ?>
+    <li class="item">
+        <?php if ($_item->getCount() > 0): ?>
+        <a href="<?php echo $this->escapeUrl($_item->getUrl()) ?>"><?php echo $_item->getLabel() ?></a>
+        <?php else: echo $_item->getLabel() ?>
+        <?php endif; ?>
+        <?php if ($this->shouldDisplayProductCount()): ?>
+        <span class="count"><?php echo $_item->getCount() ?></span>
+        <?php endif; ?>
+    </li>
+<?php endforeach ?>
+</ol>

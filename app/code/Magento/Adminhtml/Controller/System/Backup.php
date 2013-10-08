@@ -27,14 +27,22 @@ class Backup extends \Magento\Adminhtml\Controller\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Backup\Factory
+     */
+    protected $_backupFactory;
+
+    /**
      * @param \Magento\Backend\Controller\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Backup\Factory $backupFactory
      */
     public function __construct(
         \Magento\Backend\Controller\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Backup\Factory $backupFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_backupFactory = $backupFactory;
         parent::__construct($context);
     }
 
@@ -95,7 +103,7 @@ class Backup extends \Magento\Adminhtml\Controller\Action
                 $type = \Magento\Backup\Helper\Data::TYPE_SNAPSHOT_WITHOUT_MEDIA;
             }
 
-            $backupManager = \Magento\Backup::getBackupInstance($type)
+            $backupManager = $this->_backupFactory->create($type)
                 ->setBackupExtension($helper->getExtensionByType($type))
                 ->setTime(time())
                 ->setBackupsDir($helper->getBackupsDir());
@@ -215,7 +223,7 @@ class Backup extends \Magento\Adminhtml\Controller\Action
 
             $type = $backup->getType();
 
-            $backupManager = \Magento\Backup::getBackupInstance($type)
+            $backupManager = $this->_backupFactory->create($type)
                 ->setBackupExtension($helper->getExtensionByType($type))
                 ->setTime($backup->getTime())
                 ->setBackupsDir($helper->getBackupsDir())
