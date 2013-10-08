@@ -14,14 +14,14 @@ class UsaConfigFilesTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Backend\Model\Config\Structure\Reader
      */
-    protected $_model;
+    protected $_reader;
 
     protected function setUp()
     {
         $moduleReader = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Core\Model\Config\Modules\Reader');
-        $schemaFile = $moduleReader->getModuleDir('etc', 'Magento_Backend') . DIRECTORY_SEPARATOR . 'system.xsd';
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+        $schemaFile = $moduleReader->getModuleDir('etc', 'Magento_Backend') . '/system.xsd';
+        $this->_reader = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create(
                 'Magento\Backend\Model\Config\Structure\Reader',
                 array(
@@ -36,7 +36,7 @@ class UsaConfigFilesTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidateShippingSourceModels()
     {
-        $config = $this->_model->read('adminhtml');
+        $config = $this->_reader->read('adminhtml');
 
         $carriers = $config['config']['system']['sections']['carriers']['children'];
         foreach ($carriers as $carrier) {
