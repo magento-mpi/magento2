@@ -8,7 +8,7 @@
  */
 ?>
 <?php
-/* @var $this Magento_MultipleWishlist_Block_Customer_Wishlist_Management */
+/* @var $this Magento\MultipleWishlist\Block\Customer\Wishlist\Management */
 ?>
 <?php if ($this->getCurrentWishlist()): ?>
 <div class="block wishlist management">
@@ -17,7 +17,7 @@
     <?php endif;?>
     <div class="title">
         <strong>
-            <?php echo $this->escapeHtml($this->getCurrentWishlist()->getName());?><a href="#" data-wishlist-edit='{"url":"<?php echo $this->getEditUrl($this->getCurrentWishlist()->getId());?>", "name":"<?php echo $this->helper('Magento_Core_Helper_Data')->quoteEscape($this->getCurrentWishlist()->getName(), true);?>", "isPublic":<?php echo $this->getCurrentWishlist()->getVisibility() ? 'true' : 'false';?>}' title="<?php echo __('Edit Wish List')?>" class="action edit"><?php echo __('Edit')?></a><span class="number"><?php echo $this->getItemCount($this->getCurrentWishlist());?></span>
+            <?php echo $this->escapeHtml($this->getCurrentWishlist()->getName());?><a href="#" data-wishlist-edit='{"url":"<?php echo $this->getEditUrl($this->getCurrentWishlist()->getId());?>", "name":"<?php echo $this->helper('Magento\Core\Helper\Data')->quoteEscape($this->getCurrentWishlist()->getName(), true);?>", "isPublic":<?php echo $this->getCurrentWishlist()->getVisibility() ? 'true' : 'false';?>}' title="<?php echo __('Edit Wish List')?>" class="action edit"><?php echo __('Edit')?></a><span class="number"><?php echo $this->getItemCount($this->getCurrentWishlist());?></span>
         </strong>
     </div>
     <?php if ($this->getCurrentWishlist()->getVisibility()): ?>
