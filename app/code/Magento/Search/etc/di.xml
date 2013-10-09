@@ -49,4 +49,29 @@
             <instance type="Magento\Core\Model\Registry\Proxy" />
         </param>
     </type>
+    <type name="Magento\Search\Model\Resource\Engine">
+        <param name="catalogSearchResourceFulltext">
+            <instance type="Magento\CatalogSearch\Model\Resource\Fulltext\Proxy" />
+        </param>
+        <param name="searchResourceIndex">
+            <instance type="Magento\Search\Model\Resource\Index\Proxy" />
+        </param>
+        <param name="catalogProductVisibility">
+            <instance type="Magento\Catalog\Model\Product\Visibility\Proxy" />
+        </param>
+        <param name="searchResource">
+            <instance type="Magento\Search\Model\Resource\Advanced\Proxy" />
+        </param>
+    </type>
+    <type name="Magento\Search\Model\Adapter\AbstractAdapter">
+        <param name="customerSession">
+            <instance type="Magento\Customer\Model\Session\Proxy" />
+        </param>
+        <param name="resourceIndex">
+            <instance type="Magento\Search\Model\Resource\Index\Proxy" />
+        </param>
+        <param name="resourceFulltext">
+            <instance type="Magento\CatalogSearch\Model\Resource\Fulltext\Proxy" />
+        </param>
+    </type>
 </config>

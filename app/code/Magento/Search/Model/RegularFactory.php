@@ -31,7 +31,7 @@ class RegularFactory implements \Magento\Search\Model\FactoryInterface
      */
     public function createClient(array $options = array())
     {
-        return $this->_objectManager->create('Magento\Search\Model\Client\Solr', array('clientOptions' => $options));
+        return $this->_objectManager->create('Magento\Search\Model\Client\Solr', array('options' => $options));
     }
 
     /**
