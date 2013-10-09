@@ -12,6 +12,7 @@
   * Fixed placing order within OnePageCheckout using online payment methods
   * Fixed error when product is being added to order from backend if Gift Messages are enabled
   * Fixed error when product is being added to cart if MAP is enabled
+  * Fixed error when product attribute template is being edited
   * Fixed Impossible to set configuration for Google API
 
 2.0.0.0-dev46
