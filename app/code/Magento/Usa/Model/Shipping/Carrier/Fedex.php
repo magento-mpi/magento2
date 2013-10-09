@@ -616,7 +616,7 @@ class Fedex
     {
         $r = $this->_rawRequest;
         $xml = $this->_xmlElFactory->create(
-            array('<?xml version = "1.0" encoding = "UTF-8"?><FDXRateAvailableServicesRequest/>')
+            array('data' => '<?xml version = "1.0" encoding = "UTF-8"?><FDXRateAvailableServicesRequest/>')
         );
 
         $xml->addAttribute('xmlns:api', 'http://www.fedex.com/fsmapi');

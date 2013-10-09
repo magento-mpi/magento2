@@ -1,11 +1,15 @@
 * Fixed bugs:
+  * Fixed incorrect arguments for shipping xml elements fatory
   * Fixed theme editing in developer mode (PHP 5.4)
+  * Fixed fatal error while try to edit created configurable product while Dev Mode enabled (PHP 5.4)
   * Fixed frontend error when persistent shopping cart functionality is enabled
   * Fixed Tax tab
+  * Fixed broken link "Orders and returns" on frontend
   * Fixed placing order within OnePageCheckout using online payment methods
   * Fixed error when product is being added to order from backend if Gift Messages are enabled
   * Fixed error when product is being added to cart if MAP is enabled
   * Fixed error when product attribute template is being edited
+  * Fixed Impossible to set configuration for Google API
 
 2.0.0.0-dev46
 =============
