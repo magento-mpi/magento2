@@ -11,6 +11,7 @@
   * Fixed error when product attribute template is being edited
   * Fixed Impossible to set configuration for Google API
   * Fixed backend issue when Stores>Configuration>System>Advanced page was not displayed and did not allow to save changes
+  * Fixed custom customer date attributes not appearing on the frontend (e.g. registration, account information)
 
 2.0.0.0-dev46
 =============
