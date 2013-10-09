@@ -1,0 +1,42 @@
+# This list contains items that should not be included in the formatter
+#
+app/code/Magento/Usa/sql/usa_setup/install-1.6.0.0.php
+# sample tool files--intentionally invalid
+dev/tests/integration/framework/tests/unit/testsuite/Magento/Test/Annotation/_files
+dev/tests/integration/testsuite/Magento/Core/Model/_files/design/frontend/access_violation.php
+dev/tests/integration/testsuite/Magento/Core/Model/_files/design/frontend/vendor_default/access_violation.php
+dev/tests/performance/framework/tests/unit/testsuite/Magento/Test/Performance/_files/app_base_dir/dev/shell/install.php
+dev/tests/performance/framework/tests/unit/testsuite/Magento/Test/Performance/_files/scenario.php
+dev/tests/performance/framework/tests/unit/testsuite/Magento/Test/Performance/_files/scenario_without_report.php
+# sample tool files--intentionally invalid
+dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeMessTest/phpmd/input
+# sample tool files--intentionally invalid
+dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeStyleTest/phpcs/input
+dev/tests/unit/testsuite/Magento/Core/Model/Config/_files/dirtest/etc/test.php
+dev/tests/unit/testsuite/Magento/Test/Tools/View/Generator/_files/ThemeDeployment/run/source/frontend/package1/theme11/non_public_file.php
+downloader/lib/Magento/Connect/Channel/Parser.php
+lib/Magento/Connect/Channel/Parser.php
+lib/Magento/Translate/Adapter.php
+lib/Magento/Translate/AdapterInterface.php
+# Pretty printer overrides methods that do not comply with standard, so just ignore entire file
+dev/tools/Magento/Tools/Formatter/PrettyPrinter.php
+# Has special characters in it that should not get pretty printed
+lib/Magento/DB/Adapter/Pdo/Mysql.php
+# formatter incorrectly formats these files causing failures
+dev/tests/unit/testsuite/Magento/DB/Adapter/Pdo/MysqlTest.php
+dev/tests/unit/testsuite/Magento/Simplexml/ElementTest.php
+dev/tests/unit/testsuite/Magento/Test/Tools/Migration/System/Configuration/ParserTest.php
+dev/tests/unit/testsuite/Magento/Webhook/Model/Resource/SubscriptionTest.php
+dev/tests/unit/testsuite/Magento/Webhook/Model/Subscription/ConfigTest.php
+# The following is third party code not really in the correct location
+dev/tools/Magento/Tools/I18n/Zend
+# don't format the test files in these directories. 
+dev/tests/integration/testsuite/Magento/Core/Model/Translate/_files
+# don't format the test files in these directories. 
+dev/tests/unit/testsuite/Magento/Backend/Model/_files
+# don't format the test files in these directories. 
+dev/tests/unit/testsuite/Magento/Core/Model/Layout/_files
+# don't format the test files in these directories. 
+dev/tests/unit/testsuite/Magento/Crypt/_files
+# Ignore the test class in anticipation of the Mage class being removed
+dev/tests/integration/testsuite/MageTest.php
