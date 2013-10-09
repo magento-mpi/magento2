@@ -83,7 +83,7 @@ class Solr extends \Apache_Solr_Service
      * Send an rollback command.
      *
      * @param float|int $timeout Maximum expected duration of the commit operation on the server (otherwise, will throw a communication exception)
-     * @return Apache_Solr_Response
+     * @return \Apache_Solr_Response
      *
      * @throws \Exception If an error occurs during the service call
      */
@@ -100,7 +100,7 @@ class Solr extends \Apache_Solr_Service
      * @param boolean $fromPending
      * @param boolean $fromCommitted
      * @param float|int $timeout Maximum expected duration of the delete operation on the server (otherwise, will throw a communication exception)
-     * @return Apache_Solr_Response
+     * @return \Apache_Solr_Response
      *
      * @throws \Exception If an error occurs during the service call
      */
@@ -131,7 +131,7 @@ class Solr extends \Apache_Solr_Service
      * @param boolean $fromPending
      * @param boolean $fromCommitted
      * @param float|int $timeout Maximum expected duration of the delete operation on the server (otherwise, will throw a communication exception)
-     * @return Apache_Solr_Response
+     * @return \Apache_Solr_Response
      *
      * @throws \Exception If an error occurs during the service call
      */
@@ -145,7 +145,7 @@ class Solr extends \Apache_Solr_Service
      *
      * @param string $url
      * @param bool|float $timeout Read timeout in seconds
-     * @return Apache_Solr_Response
+     * @return \Apache_Solr_Response
      */
     protected function _sendRawGet($url, $timeout = FALSE)
     {
@@ -167,7 +167,7 @@ class Solr extends \Apache_Solr_Service
      * @param string $rawPost
      * @param bool|float $timeout Read timeout in seconds
      * @param string $contentType
-     * @return Apache_Solr_Response
+     * @return \Apache_Solr_Response
      */
     protected function _sendRawPost($url, $rawPost, $timeout = FALSE, $contentType = 'text/xml; charset=UTF-8')
     {

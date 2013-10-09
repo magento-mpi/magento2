@@ -192,19 +192,19 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
      */
     public function testClassNamespace($file)
     {
-        $contents = file_get_contents($file);
         $relativePath = str_replace(\Magento\TestFramework\Utility\Files::init()->getPathToSource(), "", $file);
+        // exceptions made for the files from the blacklist
+        $blacklist = require __DIR__ . '/NamespaceBlacklist.php';
+        if (in_array($relativePath, $blacklist)) {
+            return;
+        }
+
+        $contents = file_get_contents($file);
 
         $classPattern = '/^(abstract\s)?class\s[A-Z][^\s\/]+/m';
 
         $classNameMatch = array();
         $className = null;
-
-        // exceptions made for the files from the blacklist
-        $blacklist = require __DIR__ . '/Blacklist.php';
-        if (in_array($relativePath, $blacklist)) {
-            return;
-        }
 
         // if no class declaration found for $file, then skip this file
         if (preg_match($classPattern, $contents, $classNameMatch) == 0) {
@@ -272,6 +272,11 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
      */
     public function testClassReferences($file)
     {
+        $relativePath = str_replace(\Magento\TestFramework\Utility\Files::init()->getPathToSource(), "", $file);
+        // Due to the examples given with the regex patterns, we skip this test file itself
+        if ($relativePath == "/dev/tests/static/testsuite/Magento/Test/Integrity/ClassesTest.php") {
+            return;
+        }
         $contents = file_get_contents($file);
         $formalPattern = '/^namespace\s[a-zA-Z]+(\\\\[a-zA-Z0-9]+)*/m';
 
@@ -289,17 +294,17 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
 
         // Static function/variable, for example: "Foo::someStaticFunction();"
         $staticCallPattern = '/^'
-            . '.*(?<venderClass>\\\\Magento(?:\\\\[a-zA-Z0-9_]+)+)\:\:.*'
-            . '|[^\\\\^a-z^A-Z^0-9^_](?<badClass>[A-Z][a-zA-Z0-9_]+)\:\:.*\(.*\)'
+            . '((?!Magento).)*(?<venderClass>\\\\Magento(?:\\\\[a-zA-Z0-9_]+)+)\:\:.*\;'
+            . '|[^\\\\^a-z^A-Z^0-9^_^:](?<badClass>[A-Z][a-zA-Z0-9_]+)\:\:.*\;'
             . '/m';
         $result2 = array();
         preg_match_all($staticCallPattern, $contents, $result2);
 
-        // Annotation, for example: "*throws \Magento\Foo\Bar" or "* @throws Exception" or "* @return Foo"
+        // Annotation, for example: "* @return \Magento\Foo\Bar" or "* @throws Exception" or "* @return Foo"
         $annotationPattern = '/^'
-            . '[\s]*\*\s\@return\s(?<venderClass>\\\\Magento(?:\\\\[a-zA-Z0-9_]+)+)'
-            . '|[\s]*\*\s\@return\s(?<badClass>[A-Z][a-zA-Z0-9_]+)'
-            . '|[\s]*\*\s\@throws\s(?<exception>Exception)'
+            . '[\s]*\*\s\@(?:return|throws)\s(?<venderClass>\\\\Magento(?:\\\\[a-zA-Z0-9_]+)+)'
+            . '|[\s]*\*\s\@return\s(?<badClass>[A-Z][a-zA-Z0-9_\\\\]+)'
+            . '|[\s]*\*\s\@throws\s(?<exception>[A-Z][a-zA-Z0-9_\\\\]+)'
             . '/m';
         $result3 = array();
         preg_match_all($annotationPattern, $contents, $result3);
@@ -313,19 +318,39 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
         );
 
         $vendorClasses = array_filter($vendorClasses, 'strlen');
+        $vendorClasses = $this->referenceBlacklistFilter($vendorClasses);
         if (!empty($vendorClasses)) {
             $this->_assertClassesExist($vendorClasses, $file);
         }
 
         if (!empty($result3['exception']) && $result3['exception'][0] != "") {
-            array_push($badClasses, $result3['exception'][0]);
+            $badClasses = array_merge($badClasses, array_filter($result3['exception'], 'strlen'));
         }
 
         $badClasses = array_filter($badClasses, 'strlen');
-        if (!empty($badClasses)) {
-            $badClasses = $this->removeSpecialCases($badClasses, $file, $contents);
-            $this->_assertClassReferences($badClasses, $file);
+        if (empty($badClasses)) {
+            return;
         }
+        $badClasses = $this->referenceBlacklistFilter($badClasses);
+        $badClasses = $this->removeSpecialCases($badClasses, $file, $contents);
+        $this->_assertClassReferences($badClasses, $file);
+    }
+
+    /**
+     * This function is to remove legacy code usages according to ReferenceBlacklist.php
+     * @param $classes
+     * @return array
+     */
+    protected function referenceBlacklistFilter($classes)
+    {
+        // exceptions made for the files from the blacklist
+        $blacklist = require __DIR__ . '/ReferenceBlacklist.php';
+        foreach ($classes as $class) {
+            if (in_array($class, $blacklist)) {
+                unset($classes[array_search($class, $classes)]);
+            }
+        }
+        return $classes;
     }
 
     /**

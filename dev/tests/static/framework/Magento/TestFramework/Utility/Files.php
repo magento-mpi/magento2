@@ -553,8 +553,15 @@ class Files
         $className = array_pop($classParts);
         $namespace = implode('\\', $classParts);
         $path = implode(DIRECTORY_SEPARATOR, explode('\\', $class)) . '.php';
-        $directories = array('/app/code/', '/lib/', '/downloader/app/', '/downloader/lib/', '/dev/tools/',
-            '/dev/tests/integration/framework/', '/dev/tests/static/framework/', '/dev/tests/unit/framework/');
+        $directories = array(
+            '/app/code/', '/lib/', '/downloader/app/', '/downloader/lib/', '/dev/tools/',
+            '/dev/tests/api-functional/framework/', '/dev/tests/integration/framework/',
+            '/dev/tests/integration/framework/tests/unit/testsuite/', '/dev/tests/integration/testsuite/',
+            '/dev/tests/integration/testsuite/Magento/Test/Integrity/', '/dev/tests/performance/framework/',
+            '/dev/tests/static/framework/', '/dev/tests/static/testsuite/',
+            '/dev/tests/unit/framework/', '/dev/tests/unit/testsuite/',
+        );
+
         foreach ($directories as $dir) {
             $fullPath = str_replace('/', DIRECTORY_SEPARATOR, $this->_path . $dir . $path);
             /**

@@ -23,7 +23,7 @@ class Sku extends \Magento\Core\Controller\Front\Action
     /**
      * Check functionality is enabled and applicable to the Customer
      *
-     * @return \Magento\AdvancedCheckout\Controller\Sku
+     * @return \Magento\AdvancedCheckout\IndexController
      */
     public function preDispatch()
     {

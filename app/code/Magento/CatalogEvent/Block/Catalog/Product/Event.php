@@ -54,7 +54,7 @@ class Event extends \Magento\CatalogEvent\Block\Event\AbstractEvent
     /**
      * Return current category event
      *
-     * @return \Magento\CategoryEvent\Model\Event
+     * @return \Magento\CatalogEvent\Block\Catalog\Category\Event
      */
     public function getEvent()
     {

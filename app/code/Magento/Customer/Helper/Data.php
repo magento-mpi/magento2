@@ -678,11 +678,11 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * Create SOAP client based on VAT validation service WSDL
      *
      * @param boolean $trace
-     * @return SoapClient
+     * @return \SoapClient
      */
     protected function _createVatNumberValidationSoapClient($trace = false)
     {
-        return new SoapClient(self::VAT_VALIDATION_WSDL_URL, array('trace' => $trace));
+        return new \SoapClient(self::VAT_VALIDATION_WSDL_URL, array('trace' => $trace));
     }
 
     /**

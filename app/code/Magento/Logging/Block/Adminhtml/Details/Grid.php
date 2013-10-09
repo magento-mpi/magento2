@@ -65,7 +65,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     /**
      * Prepare grid collection
      *
-     * @return \Magento\Logging\Block\Events\Archive\Grid
+     * @return \Magento\Logging\Block\Adminhtml\Details\Grid
      */
     protected function _prepareCollection()
     {
@@ -79,7 +79,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     /**
      * Prepare grid columns
      *
-     * @return \Magento\Logging\Block\Events\Archive\Grid
+     * @return \Magento\Logging\Block\Adminhtml\Details\Grid
      */
     protected function _prepareColumns()
     {

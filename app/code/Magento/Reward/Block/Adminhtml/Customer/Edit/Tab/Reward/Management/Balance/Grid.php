@@ -107,7 +107,7 @@ class Grid
     /**
      * Prepare grid collection
      *
-     * @return \Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management_Balance_Grid
+     * @return \Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance\Grid
      */
     protected function _prepareCollection()
     {
@@ -119,7 +119,7 @@ class Grid
     /**
      * After load collection processing
      *
-     * @return \Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management_Balance_Grid
+     * @return \Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance\Grid
      */
     protected function _afterLoadCollection()
     {
@@ -155,7 +155,7 @@ class Grid
     /**
      * Prepare grid columns
      *
-     * @return \Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management_Balance_Grid
+     * @return \Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance\Grid
      */
     protected function _prepareColumns()
     {

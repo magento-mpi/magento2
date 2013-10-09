@@ -77,7 +77,7 @@ class Grid
     /**
      * Prepare grid collection
      *
-     * @return \Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance_History_Grid
+     * @return \Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance\History\Grid
      */
     protected function _prepareCollection()
     {
@@ -92,7 +92,7 @@ class Grid
     /**
      * Prepare grid columns
      *
-     * @return \Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance_History_Grid
+     * @return \Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance\History\Grid
      */
     protected function _prepareColumns()
     {

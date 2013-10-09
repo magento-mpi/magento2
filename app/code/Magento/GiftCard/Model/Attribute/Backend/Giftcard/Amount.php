@@ -94,7 +94,7 @@ class Amount
      * Assign amounts to product data
      *
      * @param   \Magento\Catalog\Model\Product $object
-     * @return  \Magento\GiftCard\Model\Attribute\Backend\Giftcard\Amounts
+     * @return  \Magento\GiftCard\Model\Attribute\Backend\Giftcard\Amount
      */
     public function afterLoad($object)
     {
@@ -122,7 +122,7 @@ class Amount
      * Save amounts data
      *
      * @param \Magento\Catalog\Model\Product $object
-     * @return \Magento\GiftCard\Model\Attribute\Backend\Giftcard\Amounts
+     * @return \Magento\GiftCard\Model\Attribute\Backend\Giftcard\Amount
      */
     public function afterSave($object)
     {
@@ -162,7 +162,7 @@ class Amount
      * Delete amounts data
      *
      * @param \Magento\Catalog\Model\Product $object
-     * @return \Magento\GiftCard\Model\Attribute\Backend\Giftcard\Amounts
+     * @return \Magento\GiftCard\Model\Attribute\Backend\Giftcard\Amount
      */
     public function afterDelete($object)
     {
