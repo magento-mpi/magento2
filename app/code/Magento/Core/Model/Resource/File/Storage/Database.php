@@ -21,17 +21,17 @@ namespace Magento\Core\Model\Resource\File\Storage;
 class Database extends \Magento\Core\Model\Resource\File\Storage\AbstractStorage
 {
     /**
-     * @var \Magento\Core\Model\Resource\Helper\AbstractHelper
+     * @var \Magento\Core\Model\Resource\Helper
      */
     protected $_resourceHelper;
 
     /**
      * @param \Magento\Core\Model\Resource $resource
-     * @param \Magento\Core\Model\Resource\Helper\AbstractHelper $resourceHelper
+     * @param \Magento\Core\Model\Resource\Helper $resourceHelper
      */
     public function __construct(
         \Magento\Core\Model\Resource $resource,
-        \Magento\Core\Model\Resource\Helper\AbstractHelper $resourceHelper
+        \Magento\Core\Model\Resource\Helper $resourceHelper
     ) {
         parent::__construct($resource);
         $this->_resourceHelper = $resourceHelper;

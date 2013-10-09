@@ -69,6 +69,9 @@ class CacheControlFactory
     public function getCacheControls()
     {
         $controls = $this->_config->getNode(self::XML_PATH_EXTERNAL_CACHE_CONTROLS);
+        if (!$controls) {
+            return array();
+        }
         return $controls->asCanonicalArray();
     }
 

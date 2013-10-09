@@ -50,7 +50,6 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
      * @param \Magento\Core\Model\File\Storage\Directory\DatabaseFactory $directoryFactory
      * @param \Magento\Core\Model\Resource\File\Storage\Directory\Database $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
-     * @param array $data
      * @param null $connectionName
      */
     public function __construct(
@@ -60,18 +59,21 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
         \Magento\Core\Model\Date $dateModel,
         \Magento\Core\Model\App $app,
         \Magento\Core\Model\File\Storage\Directory\DatabaseFactory $directoryFactory,
-        \Magento\Core\Model\Resource\File\Storage\Directory\Database $resource = null,
+        \Magento\Core\Model\Resource\File\Storage\Directory\Database $resource,
         \Magento\Data\Collection\Db $resourceCollection = null,
-        array $data = array(),
         $connectionName = null
     ) {
-        parent::__construct(
-            $coreFileStorageDb, $context, $registry, $dateModel, $app, $resource, $resourceCollection,
-            $data
-        );
-
         $this->_directoryFactory = $directoryFactory;
-        $this->_init('Magento\Core\Model\Resource\File\Storage\Directory\Database');
+        parent::__construct(
+            $coreFileStorageDb,
+            $context,
+            $registry,
+            $dateModel,
+            $app,
+            $resource,
+            $resourceCollection,
+            $connectionName
+        );
     }
 
     /**
@@ -201,8 +203,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
             }
 
             try {
-                $arguments = array('connection' => $this->getConnectionName());
-                $directory = $this->_directoryFactory->create(array('connectionName' => $arguments));
+                $directory = $this->_directoryFactory->create(array('connectionName' => $this->getConnectionName()));
                 $directory->setPath($dir['path']);
 
                 $parentId = $directory->getParentId();

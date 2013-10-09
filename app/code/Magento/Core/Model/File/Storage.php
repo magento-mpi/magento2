@@ -175,8 +175,7 @@ class Storage extends \Magento\Core\Model\AbstractModel
                 break;
             case self::STORAGE_MEDIA_DATABASE:
                 $connection = (isset($params['connection'])) ? $params['connection'] : null;
-                $arguments = array('connection' => $connection);
-                $model = $this->_databaseFactory->create(array('connectionName' => $arguments));
+                $model = $this->_databaseFactory->create(array('connectionName' => $connection));
                 break;
             default:
                 return false;

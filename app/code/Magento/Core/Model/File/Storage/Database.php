@@ -62,7 +62,6 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
      * @param \Magento\Core\Model\Resource\File\Storage\Database $resource
      * @param \Magento\Core\Model\File\Storage\Directory\DatabaseFactory $directoryFactory
      * @param \Magento\Data\Collection\Db $resourceCollection
-     * @param array $data
      * @param string $connectionName
      */
     public function __construct(
@@ -75,10 +74,8 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
         \Magento\Core\Model\Resource\File\Storage\Database $resource,
         \Magento\Core\Model\File\Storage\Directory\DatabaseFactory $directoryFactory,
         \Magento\Data\Collection\Db $resourceCollection = null,
-        array $data = array(),
         $connectionName = null
     ) {
-        $this->_init('Magento\Core\Model\Resource\File\Storage\Database');
         $this->_directoryFactory = $directoryFactory;
         $this->_logger = $logger;
         parent::__construct(
@@ -89,7 +86,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
             $app,
             $resource,
             $resourceCollection,
-            $data);
+            $connectionName);
     }
 
     /**
@@ -100,8 +97,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
     public function getDirectoryModel()
     {
         if (is_null($this->_directoryModel)) {
-            $arguments = array('connection' => $this->getConnectionName());
-            $this->_directoryModel = $this->_directoryFactory->create(array('connectionName' => $arguments));
+            $this->_directoryModel = $this->_directoryFactory->create(array('connectionName' => $this->getConnectionName()));
         }
 
         return $this->_directoryModel;
@@ -227,9 +223,8 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
 
             try {
                 $file['update_time'] = $dateSingleton->date();
-                $arguments = array('connection' => $this->getConnectionName());
                 $file['directory_id'] = (isset($file['directory']) && strlen($file['directory']))
-                    ? $this->_directoryFactory->create(array('connectionName' => $arguments))
+                    ? $this->_directoryFactory->create(array('connectionName' => $this->getConnectionName()))
                         ->loadByPath($file['directory'])->getId()
                     : null;
 

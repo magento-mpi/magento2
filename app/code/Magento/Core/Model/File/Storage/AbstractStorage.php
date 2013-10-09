@@ -48,7 +48,6 @@ abstract class AbstractStorage extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Date $date
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
-     * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
@@ -56,12 +55,11 @@ abstract class AbstractStorage extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Date $date,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        \Magento\Data\Collection\Db $resourceCollection = null
     ) {
         $this->_coreFileStorageDb = $coreFileStorageDb;
         $this->_date = $date;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry,  $resource, null);
     }
 
     /**

@@ -47,6 +47,11 @@ class File extends \Magento\Core\Model\File\Storage\AbstractStorage
     protected $_logger;
 
     /**
+     * @var \Magento\Core\Model\Resource\File\Storage\File
+     */
+    protected $_fileUtility;
+
+    /**
      * Class construct
      *
      * @param \Magento\Core\Model\Logger $logger
@@ -54,10 +59,9 @@ class File extends \Magento\Core\Model\File\Storage\AbstractStorage
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Date $dateModel
-     * @param \Magento\Core\Model\Resource\AbstractResource|\Magento\Core\Model\Resource\File\Storage\File $resource
-     * @param \Magento\Core\Model\Resource\File\Storage\File $fileResource
-     * @param \Magento\Data\Collection\Db|null $resourceCollection
-     * @param array $data
+     * @param \Magento\Core\Model\Resource\File\Storage\Database $resource
+     * @param \Magento\Core\Model\Resource\File\Storage\File $fileUtility
+     * @param \Magento\Data\Collection\Db $resourceCollection
      */
     public function __construct(
         \Magento\Core\Model\Logger $logger,
@@ -65,15 +69,14 @@ class File extends \Magento\Core\Model\File\Storage\AbstractStorage
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Date $dateModel,
-        \Magento\Core\Model\Resource\AbstractResource $resource,
-        \Magento\Core\Model\Resource\File\Storage\File $fileResource,
-        \Magento\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        \Magento\Core\Model\Resource\File\Storage\Database $resource,
+        \Magento\Core\Model\Resource\File\Storage\File $fileUtility,
+        \Magento\Data\Collection\Db $resourceCollection = null
     ) {
-        parent::__construct($coreFileStorageDb, $context, $registry, $dateModel, $resource,
-            $fileResource, $resourceCollection, $data);
-        $this->_setResourceModel('Magento\Core\Model\Resource\File\Storage\File');
+        $this->_fileUtility = $fileUtility;
         $this->_logger = $logger;
+        parent::__construct($coreFileStorageDb, $context, $registry, $dateModel, null,
+             $resourceCollection, null);
     }
 
     /**
@@ -103,7 +106,7 @@ class File extends \Magento\Core\Model\File\Storage\AbstractStorage
      */
     public function getStorageData()
     {
-        return $this->_getResource()->getStorageData();
+        return $this->_fileUtility->getStorageData();
     }
 
     /**
@@ -123,7 +126,7 @@ class File extends \Magento\Core\Model\File\Storage\AbstractStorage
      */
     public function clear()
     {
-        $this->_getResource()->clear();
+        $this->_fileUtility->clear();
         return $this;
     }
 
@@ -144,7 +147,7 @@ class File extends \Magento\Core\Model\File\Storage\AbstractStorage
         $offset = ((int) $offset >= 0) ? (int) $offset : 0;
         $count  = ((int) $count >= 1) ? (int) $count : 1;
 
-        if (is_null($this->_data)) {
+        if (empty($this->_data)) {
             $this->_data = $this->getStorageData();
         }
 
@@ -253,7 +256,7 @@ class File extends \Magento\Core\Model\File\Storage\AbstractStorage
      */
     public function saveDir($dir)
     {
-        return $this->_getResource()->saveDir($dir);
+        return $this->_fileUtility->saveDir($dir);
     }
 
     /**
@@ -274,7 +277,7 @@ class File extends \Magento\Core\Model\File\Storage\AbstractStorage
                     ? $file['directory'] . DS . $file['filename']
                     : $file['filename'];
 
-                return $this->_getResource()
+                return $this->_fileUtility
                     ->saveFile($filename, $file['content'], $overwrite);
             } catch (\Exception $e) {
                 $this->_logger->logException($e);
