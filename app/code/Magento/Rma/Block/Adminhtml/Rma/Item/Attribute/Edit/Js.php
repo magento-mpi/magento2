@@ -24,23 +24,23 @@ class Js
     /**
      * Rma eav
      *
-     * @var \Magento\Rma\Helper\Eav
+     * @var \Magento\CustomAttribute\Helper\Data
      */
-    protected $_rmaEav = null;
+    protected $_attributeHelper = null;
 
     /**
-     * @param \Magento\Rma\Helper\Eav $rmaEav
+     * @param \Magento\CustomAttribute\Helper\Data $attributeHelper
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        \Magento\Rma\Helper\Eav $rmaEav,
+        \Magento\CustomAttribute\Helper\Data $attributeHelper,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
-        $this->_rmaEav = $rmaEav;
+        $this->_attributeHelper = $attributeHelper;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -52,7 +52,7 @@ class Js
     public function getValidateFiltersJson()
     {
         return $this->_coreData->jsonEncode(
-            $this->_rmaEav->getAttributeValidateFilters()
+            $this->_attributeHelper->getAttributeValidateFilters()
         );
     }
 
@@ -64,7 +64,7 @@ class Js
     public function getFilteTypesJson()
     {
         return $this->_coreData->jsonEncode(
-            $this->_rmaEav->getAttributeFilterTypes()
+            $this->_attributeHelper->getAttributeFilterTypes()
         );
     }
 
@@ -75,6 +75,6 @@ class Js
      */
     public function getAttributeInputTypes()
     {
-        return $this->_rmaEav->getAttributeInputTypes();
+        return $this->_attributeHelper->getAttributeInputTypes();
     }
 }
