@@ -192,11 +192,11 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
         if ($this->getRequest()->isPost() && $data) {
             /* @var $attributeObject \Magento\Rma\Model\Item\Attribute */
             $attributeObject = $this->_initAttribute();
-            /* @var $helper \Magento\Rma\Helper\Eav */
-            $helper = $this->_objectManager->get('Magento\Rma\Helper\Eav');
+            /* @var $helper Magento\CustomAttribute\Helper\Data */
+            $helper = $this->_objectManager->get('Magento\CustomAttribute\Helper\Data');
 
             try {
-                $data = $this->_objectManager->get('Magento\Rma\Helper\Eav')->filterPostData($data);
+                $data = $helper->filterPostData($data);
             } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 if (isset($data['attribute_id'])) {
