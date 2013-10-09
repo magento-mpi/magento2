@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <referenceBlock name="product.info.addtocart">
+        <container name="product.info.addtocart.paypal.wrapper" label="PayPal Express Checkout Shortcut Wrapper">
+            <block class="Magento\Paypal\Block\Express\Shortcut" name="product.info.addtocart.paypal" template="express/shortcut.phtml">
+                <action method="setIsInCatalogProduct">
+                    <argument name="value" xsi:type="string">1</argument>
+                </action>
+            </block>
+        </container>
+    </referenceBlock>
+    <update handle="SHORTCUT_popup"/>
+    <referenceContainer name="right">
+        <block class="Magento\Paypal\Block\Logo" name="paypal.partner.right.logo" template="partner/logo.phtml">
+            <!--action method="setLogoType"><value>wePrefer_150x60</value></action-->
+        </block>
+    </referenceContainer>
+</layout>

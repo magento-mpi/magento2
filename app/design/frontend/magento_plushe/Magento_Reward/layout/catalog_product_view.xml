@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <referenceContainer name="product.review.form.fields.before">
+        <block class="Magento\Reward\Block\Tooltip" name="reward.hint.review" template="tooltip.phtml" after="product.info">
+            <arguments>
+                <argument name="reward_type" xsi:type="string">Magento\Reward\Model\Action\Review</argument>
+                <argument name="wrapper_class" xsi:type="string">reward-newsletter</argument>
+                <argument translate="true" name="reward_message" xsi:type="string">Submit a review now and earn %1 after the review is approved.</argument>
+                <argument name="reward_qtylimitation_message" translate="true" xsi:type="string">You can reward up to %1 new reviews(s).</argument>
+                <argument name="is_guest_note" xsi:type="string">1</argument>
+            </arguments>
+        </block>
+    </referenceContainer>
+</layout>

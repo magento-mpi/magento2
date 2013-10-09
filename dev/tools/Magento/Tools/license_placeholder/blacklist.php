@@ -29,6 +29,7 @@ return array(
     'dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeStyleTest/phpcs/expected',
     'dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeMessTest/phpmd_ruleset.xsd',
     'dev/tests/unit/testsuite/Magento/Test/Tools/View/Generator/_files/ThemeDeployment/run/source',
+    'dev/tools/Magento/Tools/I18n/Zend',
     'downloader/js/prototype.js',
     'lib/Apache',
     'lib/PEAR',
@@ -50,6 +51,5 @@ return array(
     'pub/lib/underscore.js',
     'pub/lib/head.load.min.js',
     'pub/media',
-    'var',
-    'dev/tools/Magento/Tools/I18n/Zend'
+    'var'
 );

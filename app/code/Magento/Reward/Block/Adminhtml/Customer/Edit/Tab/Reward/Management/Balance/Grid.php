@@ -111,8 +111,7 @@ class Grid
      */
     protected function _prepareCollection()
     {
-        $collection = $this->_rewardsFactory->create();
-        $collection->addFieldToFilter('customer_id', $this->getCustomer()->getId());
+        $collection = $this->_rewardsFactory->create()->addFieldToFilter('customer_id', $this->getCustomer()->getId());
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
