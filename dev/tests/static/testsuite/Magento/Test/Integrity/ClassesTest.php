@@ -21,6 +21,8 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
      */
     protected static $_existingClasses = array();
 
+    protected static $_keywordsBlacklist = array("String", "Array", "Boolean", "Element");
+
     /**
      * @param string $file
      * @dataProvider phpFileDataProvider
@@ -29,32 +31,32 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
     {
         $contents = file_get_contents($file);
         $classes = \Magento\TestFramework\Utility\Classes::getAllMatches($contents, '/
-            # ::getResourceModel ::getBlockSingleton ::getModel ::getSingleton
-            \:\:get(?:ResourceModel | BlockSingleton | Model | Singleton)?\(\s*[\'"]([a-z\d\\\\]+)[\'"]\s*[\),]
+        # ::getResourceModel ::getBlockSingleton ::getModel ::getSingleton
+        \:\:get(?:ResourceModel | BlockSingleton | Model | Singleton)?\(\s*[\'"]([a-z\d\\\\]+)[\'"]\s*[\),]
 
-            # various methods, first argument
-            | \->(?:initReport | addBlock | createBlock | setDataHelperName | _?initLayoutMessages
-                | setAttributeModel | setBackendModel | setFrontendModel | setSourceModel | setModel
-            )\(\s*\'([a-z\d\\\\]+)\'\s*[\),]
+        # various methods, first argument
+        | \->(?:initReport | addBlock | createBlock | setDataHelperName | _?initLayoutMessages
+            | setAttributeModel | setBackendModel | setFrontendModel | setSourceModel | setModel
+        )\(\s*\'([a-z\d\\\\]+)\'\s*[\),]
 
-            # various methods, second argument
-            | \->add(?:ProductConfigurationHelper | OptionsRenderCfg)\(.+?,\s*\'([a-z\d\\\\]+)\'\s*[\),]
+        # various methods, second argument
+        | \->add(?:ProductConfigurationHelper | OptionsRenderCfg)\(.+?,\s*\'([a-z\d\\\\]+)\'\s*[\),]
 
-            # \Mage::helper ->helper
-            | (?:Mage\:\:|\->)helper\(\s*\'([a-z\d\\\\]+)\'\s*\)
+        # \Mage::helper ->helper
+        | (?:Mage\:\:|\->)helper\(\s*\'([a-z\d\\\\]+)\'\s*\)
 
-            # misc
-            | function\s_getCollectionClass\(\)\s+{\s+return\s+[\'"]([a-z\d\\\\]+)[\'"]
-            | \'resource_model\'\s*=>\s*[\'"]([a-z\d\\\\]+)[\'"]
-            | (?:_parentResourceModelName | _checkoutType | _apiType)\s*=\s*\'([a-z\d\\\\]+)\'
-            | \'renderer\'\s*=>\s*\'([a-z\d\\\\]+)\'
-            /ix'
+        # misc
+        | function\s_getCollectionClass\(\)\s+{\s+return\s+[\'"]([a-z\d\\\\]+)[\'"]
+        | \'resource_model\'\s*=>\s*[\'"]([a-z\d\\\\]+)[\'"]
+        | (?:_parentResourceModelName | _checkoutType | _apiType)\s*=\s*\'([a-z\d\\\\]+)\'
+        | \'renderer\'\s*=>\s*\'([a-z\d\\\\]+)\'
+        /ix'
         );
 
         // without modifier "i". Starting from capital letter is a significant characteristic of a class name
         \Magento\TestFramework\Utility\Classes::getAllMatches($contents, '/(?:\-> | parent\:\:)(?:_init | setType)\(\s*
-                \'([A-Z][a-z\d][A-Za-z\d\\\\]+)\'(?:,\s*\'([A-Z][a-z\d][A-Za-z\d\\\\]+)\')
-            \s*\)/x',
+            \'([A-Z][a-z\d][A-Za-z\d\\\\]+)\'(?:,\s*\'([A-Z][a-z\d][A-Za-z\d\\\\]+)\')
+        \s*\)/x',
             $classes
         );
 
@@ -93,7 +95,7 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
     public function testConfigFile($path)
     {
         $classes = \Magento\TestFramework\Utility\Classes::collectClassesInConfig(simplexml_load_file($path));
-        $this->_assertClassesExist($classes);
+        $this->_assertClassesExist($classes, $path);
     }
 
     /**
@@ -113,7 +115,7 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
         $xml = simplexml_load_file($path);
 
         $classes = \Magento\TestFramework\Utility\Classes::getXmlNodeValues($xml,
-            '/layout//*[contains(text(), "\\\\Block\\\\")  or contains(text(),
+            '/layout//*[contains(text(), "\\\\Block\\\\") or contains(text(),
                 "\\\\Model\\\\") or contains(text(), "\\\\Helper\\\\")]'
         );
         foreach (\Magento\TestFramework\Utility\Classes::getXmlAttributeValues($xml,
@@ -147,12 +149,13 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
-    protected function _assertClassesExist($classes)
+    protected function _assertClassesExist($classes, $path)
     {
         if (!$classes) {
             return;
         }
         $badClasses = array();
+        $badUsages = array();
         $isBug = false;
         foreach ($classes as $class) {
             try {
@@ -160,18 +163,28 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
                     $isBug = true;
                     continue;
                 }
-                $this->assertTrue(isset(self::$_existingClasses[$class])
-                    || \Magento\TestFramework\Utility\Files::init()->classFileExists($class)
-                    || \Magento\TestFramework\Utility\Classes::isVirtual($class)
-                    || \Magento\TestFramework\Utility\Classes::isAutogenerated($class)
-                );
+                if (strrchr($class, '\\') == false) {
+                    $badUsages[] = $class;
+                    continue;
+                } else {
+                    $this->assertTrue(isset(self::$_existingClasses[$class])
+                        || \Magento\TestFramework\Utility\Files::init()->classFileExists($class)
+                        || \Magento\TestFramework\Utility\Classes::isVirtual($class)
+                        || \Magento\TestFramework\Utility\Classes::isAutogenerated($class)
+                    );
+                }
                 self::$_existingClasses[$class] = 1;
             } catch (\PHPUnit_Framework_AssertionFailedError $e) {
                 $badClasses[] = $class;
             }
         }
         if ($badClasses) {
-            $this->fail("Missing files with declaration of classes:\n" . implode("\n", $badClasses));
+            $this->fail(
+                "Files not found for following usages in $path:\n" . implode("\n", $badClasses)
+            );
+        }
+        if ($badUsages) {
+            $this->fail("Bad usages of classes in $path: \n" . implode("\n", $badUsages));
         }
         if ($isBug) {
             $this->markTestIncomplete('Bug MAGE-4763');
@@ -179,7 +192,7 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Assert PHP classes have valid pseudo-namespaces according to file locations
+     * Assert PHP classes have valid formal namespaces according to file locations
      *
      *
      * @param array $file
@@ -187,31 +200,32 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
      */
     public function testClassNamespace($file)
     {
-        $contents = file_get_contents($file);
         $relativePath = str_replace(\Magento\TestFramework\Utility\Files::init()->getPathToSource(), "", $file);
-
-        $classPattern = '/^class\s[A-Z][^\s\/]+/m';
-
-        $classNameMatch = array();
-        $className = null;
-
         // exceptions made for the files from the blacklist
-        $blacklist = require __DIR__ . '/Blacklist.php';
+        $blacklist = require __DIR__ . '/NamespaceBlacklist.php';
         if (in_array($relativePath, $blacklist)) {
             return;
         }
 
+        $contents = file_get_contents($file);
+
+        $classPattern = '/^(abstract\s)?class\s[A-Z][^\s\/]+/m';
+
+        $classNameMatch = array();
+        $className = null;
+
         // if no class declaration found for $file, then skip this file
-        if (!preg_match($classPattern, $contents, $classNameMatch) != 0) {
+        if (preg_match($classPattern, $contents, $classNameMatch) == 0) {
             return;
         }
 
-        $className = substr($classNameMatch[0], 6);
+        $classParts = explode(' ', $classNameMatch[0]);
+        $className = array_pop($classParts);
         $this->_assertClassNamespace($file, $relativePath, $contents, $className);
     }
 
     /**
-     * Assert PHP classes have valid pseudo-namespaces according to file locations
+     * Assert PHP classes have valid formal namespaces according to file locations
      *
      *
      * @param string $file
@@ -221,32 +235,33 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
      */
     protected function _assertClassNamespace($file, $relativePath, $contents, $className)
     {
-        $namespacePattern = '/(Maged|Magento|Zend)\/[a-zA-Z]+[^\.]+/';
-        $formalPattern = '/^namespace\s[\\\\a-zA-Z\d]+/m';
+        $namespacePattern = '/(Magento|Zend)\/[a-zA-Z]+[^\.]+/';
+        $formalPattern = '/^namespace\s[a-zA-Z]+(\\\\[a-zA-Z0-9]+)*/m';
 
         $namespaceMatch = array();
         $formalNamespaceArray = array();
-        $namespace = null;
         $namespaceFolders = null;
 
-        if (preg_match($namespacePattern, $relativePath, $namespaceMatch) != 0) {
-            $namespace = str_replace('/', '_', $namespaceMatch[0]);
-            $namespaceFolders = $namespaceMatch[0];
+        // if no namespace pattern found according to the path of the file, skip the file
+        if (preg_match($namespacePattern, $relativePath, $namespaceMatch) == 0) {
+            return;
         }
 
+        $namespaceFolders = $namespaceMatch[0];
+        $classParts = explode('/', $namespaceFolders);
+        array_pop($classParts);
+        $expectedNamespace = implode('\\', $classParts);
+
         if (preg_match($formalPattern, $contents, $formalNamespaceArray) != 0) {
-            $formalNamespace = substr($formalNamespaceArray[0], 10);
-            $formalNamespace = str_replace('\\', '/', $formalNamespace);
-            $formalNamespace .= '/'. $className;
-            if ($namespaceFolders != null && $formalNamespace != null) {
-                $this->assertEquals($formalNamespace, $namespaceFolders,
-                    "Location of $file does not match formal namespace: $formalNamespace\n");
+            $foundNamespace = substr($formalNamespaceArray[0], 10);
+            $foundNamespace = str_replace('\\', '/', $foundNamespace);
+            $foundNamespace .= '/'. $className;
+            if ($namespaceFolders != null && $foundNamespace != null) {
+                $this->assertEquals($namespaceFolders, $foundNamespace,
+                    "Location of $file does not match formal namespace: $expectedNamespace\n");
             }
         } else {
-            if ($className != null && $namespace != null) {
-                $this->assertEquals($className, $namespace,
-                    "Declaration of $file does not match namespace: $namespace\n");
-            }
+            $this->fail("Missing expected namespace \"$expectedNamespace\" for file: $file");
         }
     }
 
@@ -256,5 +271,162 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
     public function phpClassDataProvider()
     {
         return \Magento\TestFramework\Utility\Files::init()->getClassFiles();
+    }
+
+    /**
+     *
+     * @param array $file
+     * @dataProvider classReferencesDataProvider
+     */
+    public function testClassReferences($file)
+    {
+        $relativePath = str_replace(\Magento\TestFramework\Utility\Files::init()->getPathToSource(), "", $file);
+        // Due to the examples given with the regex patterns, we skip this test file itself
+        if ($relativePath == "/dev/tests/static/testsuite/Magento/Test/Integrity/ClassesTest.php") {
+            return;
+        }
+        $contents = file_get_contents($file);
+        $formalPattern = '/^namespace\s[a-zA-Z]+(\\\\[a-zA-Z0-9]+)*/m';
+
+        // Skip the file if the class is not defined using formal namespace
+        if (preg_match($formalPattern, $contents) == 0) {
+            return;
+        }
+        // Instantiation of new object, for example: "return new Foo();"
+        $newObjectPattern = '/^'
+            . '.*new\s(?<venderClass>\\\\Magento(?:\\\\[a-zA-Z0-9_]+)+)\(.*\)'
+            . '|.*new\s(?<badClass>[A-Z][a-zA-Z0-9]+[a-zA-Z0-9_\\\\]*)\(.*\)\;'
+            . '/m';
+        $result1 = array();
+        preg_match_all($newObjectPattern, $contents, $result1);
+
+        // Static function/variable, for example: "Foo::someStaticFunction();"
+        $staticCallPattern = '/^'
+            . '((?!Magento).)*(?<venderClass>\\\\Magento(?:\\\\[a-zA-Z0-9_]+)+)\:\:.*\;'
+            . '|[^\\\\^a-z^A-Z^0-9^_^:](?<badClass>[A-Z][a-zA-Z0-9_]+)\:\:.*\;'
+            . '/m';
+        $result2 = array();
+        preg_match_all($staticCallPattern, $contents, $result2);
+
+        // Annotation, for example: "* @return \Magento\Foo\Bar" or "* @throws Exception" or "* @return Foo"
+        $annotationPattern = '/^'
+            . '[\s]*\*\s\@(?:return|throws)\s(?<venderClass>\\\\Magento(?:\\\\[a-zA-Z0-9_]+)+)'
+            . '|[\s]*\*\s\@return\s(?<badClass>[A-Z][a-zA-Z0-9_\\\\]+)'
+            . '|[\s]*\*\s\@throws\s(?<exception>[A-Z][a-zA-Z0-9_\\\\]+)'
+            . '/m';
+        $result3 = array();
+        preg_match_all($annotationPattern, $contents, $result3);
+
+        $vendorClasses = array_unique(
+            array_merge_recursive($result1['venderClass'], $result2['venderClass'], $result3['venderClass'])
+        );
+
+        $badClasses = array_unique(
+            array_merge_recursive($result1['badClass'], $result2['badClass'], $result3['badClass'])
+        );
+
+        $vendorClasses = array_filter($vendorClasses, 'strlen');
+        $vendorClasses = $this->referenceBlacklistFilter($vendorClasses);
+        if (!empty($vendorClasses)) {
+            $this->_assertClassesExist($vendorClasses, $file);
+        }
+
+        if (!empty($result3['exception']) && $result3['exception'][0] != "") {
+            $badClasses = array_merge($badClasses, array_filter($result3['exception'], 'strlen'));
+        }
+
+        $badClasses = array_filter($badClasses, 'strlen');
+        if (empty($badClasses)) {
+            return;
+        }
+        $badClasses = $this->referenceBlacklistFilter($badClasses);
+        $badClasses = $this->removeSpecialCases($badClasses, $file, $contents);
+        $this->_assertClassReferences($badClasses, $file);
+    }
+
+    /**
+     * This function is to remove legacy code usages according to ReferenceBlacklist.php
+     * @param $classes
+     * @return array
+     */
+    protected function referenceBlacklistFilter($classes)
+    {
+        // exceptions made for the files from the blacklist
+        $blacklist = require __DIR__ . '/ReferenceBlacklist.php';
+        foreach ($classes as $class) {
+            if (in_array($class, $blacklist)) {
+                unset($classes[array_search($class, $classes)]);
+            }
+        }
+        return $classes;
+    }
+
+    /**
+     * This function is to remove special cases (if any) from the list of found bad classes
+     * @param array $badClasses
+     * @param string $file
+     * @param string $contents
+     * @return array
+     */
+    protected function removeSpecialCases($badClasses, $file, $contents)
+    {
+        foreach ($badClasses as $badClass) {
+            // Remove valid usages of Magento modules from the list
+            // for example: 'Magento_Sales::actions_edit'
+            if (preg_match('/Magento_[A-Z0-9][a-z0-9]*/', $badClass)) {
+                unset($badClasses[array_search($badClass, $badClasses)]);
+            }
+
+            // Remove usage of key words such as "Array", "String", and "Boolean"
+            if (in_array($badClass, self::$_keywordsBlacklist)) {
+                unset($badClasses[array_search($badClass, $badClasses)]);
+            }
+
+            $classParts = explode('/', $file);
+            $className = array_pop($classParts);
+            // Remove usage of the class itself from the list
+            if ($badClass . '.php' == $className) {
+                unset($badClasses[array_search($badClass, $badClasses)]);
+            }
+
+            // Remove usage of classes that do NOT using fully-qualified class names (possibly under same namespace)
+            $referenceFile = implode('/', $classParts) . '/' . str_replace('\\', '/', $badClass) . '.php';
+            if (file_exists($referenceFile)) {
+                unset($badClasses[array_search($badClass, $badClasses)]);
+            }
+
+            // Remove usage of classes that have been declared as "use" or "include"
+            // Also deals with case like: "use \Zend\Code\Scanner\FileScanner, Magento\Tools\Di\Compiler\Log\Log;"
+            if (preg_match('/use\s.*[\\n]?.*' . str_replace('\\', '\\\\', $badClass) . '[\,\;]/', $contents)) {
+                unset($badClasses[array_search($badClass, $badClasses)]);
+            }
+        }
+        return $badClasses;
+    }
+
+    /**
+     * Assert any found class name resolves into a file name and corresponds to an existing file
+     *
+     * @param array $badClasses
+     * @param string $file
+     */
+    protected function _assertClassReferences($badClasses, $file)
+    {
+        if (empty($badClasses)) {
+            return;
+        }
+        $this->fail(
+            "Incorrect namespace usage(s) found in file $file:\n" . implode("\n", $badClasses)
+        );
+    }
+
+    /**
+     * Returns all php classes from lib/Magento
+     * @return array
+     */
+    public function classReferencesDataProvider()
+    {
+        return \Magento\TestFramework\Utility\Files::init()
+            ->getClassFiles();
     }
 }

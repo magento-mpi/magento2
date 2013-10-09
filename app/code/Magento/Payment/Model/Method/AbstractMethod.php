@@ -477,7 +477,7 @@ abstract class AbstractMethod extends \Magento\Object
     public function capture(\Magento\Object $payment, $amount)
     {
         if (!$this->canCapture()) {
-            throw new \Magento\Core\Exception(__('Th capture action is not available.'));
+            throw new \Magento\Core\Exception(__('The capture action is not available.'));
         }
 
         return $this;

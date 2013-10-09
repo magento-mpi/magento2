@@ -59,7 +59,7 @@ class Content
      * Preparing form by adding extra fields.
      * Adding on change js call.
      *
-     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab_Content
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab\Content
      */
     protected function _prepareForm()
     {
