@@ -10,6 +10,7 @@
   * Fixed error when product is being added to cart if MAP is enabled
   * Fixed error when product attribute template is being edited
   * Fixed Impossible to set configuration for Google API
+  * Fixed backend issue when Stores>Configuration>System>Advanced page was not displayed and did not allow to save changes
 
 2.0.0.0-dev46
 =============
