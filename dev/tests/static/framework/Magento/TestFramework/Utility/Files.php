@@ -146,9 +146,10 @@ class Files
      * @param bool $asDataSet
      * @return array
      */
-    public function getClassFiles($appCode = true, $devTests = true, $devTools = true,
-                                  $downloaderApp = true, $downloaderLib = true, $lib = true, $asDataSet = true)
-    {
+    public function getClassFiles(
+        $appCode = true, $devTests = true, $devTools = true,
+        $downloaderApp = true, $downloaderLib = true, $lib = true, $asDataSet = true
+    ) {
         $key = __METHOD__ .
             "/{$this->_path}/{$appCode}/{$devTests}/{$devTools}/{$downloaderApp}/{$downloaderLib}/{$lib}";
         if (!isset(self::$_cache[$key])) {
