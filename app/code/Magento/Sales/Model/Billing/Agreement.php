@@ -59,7 +59,7 @@ class Agreement extends \Magento\Payment\Model\Billing\AbstractAgreement
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Sales\Model\Resource\Billing\Agreement\CollectionFactory $billingAgreementFactory
-     * @param \Magento\Core\Model\Date $dateFactory
+     * @param \Magento\Core\Model\DateFactory $dateFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -69,7 +69,7 @@ class Agreement extends \Magento\Payment\Model\Billing\AbstractAgreement
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Sales\Model\Resource\Billing\Agreement\CollectionFactory $billingAgreementFactory,
-        \Magento\Core\Model\Date $dateFactory,
+        \Magento\Core\Model\DateFactory $dateFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
