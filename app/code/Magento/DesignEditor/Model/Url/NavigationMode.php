@@ -45,7 +45,7 @@ class NavigationMode extends \Magento\Core\Model\Url
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\StoreManager $storeManager
-     * @param \Magento\Core\Model\Session $session
+     * @param \Magento\Core\Model\SessionProxy $session
      * @param array $data
      */
     public function __construct(
@@ -55,7 +55,7 @@ class NavigationMode extends \Magento\Core\Model\Url
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\App $app,
         \Magento\Core\Model\StoreManager $storeManager,
-        \Magento\Core\Model\Session $session,
+        \Magento\Core\Model\SessionProxy $session,
         array $data = array()
     ) {
         $this->_helper = $helper;

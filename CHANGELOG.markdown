@@ -25,6 +25,9 @@
   * Fixed Impossible to set configuration for Catalog
   * Fixed It's impossible to place order with Configurable product
   * Fixed issue with downloadable product creation
+  * Fixed Unable to update configuration for payment methods
+  * Fixed FedEx: Blank page on shopping cart if method is enabled
+  * Fixed Fatal error when SID presents in URL
 
 2.0.0.0-dev46
 =============
