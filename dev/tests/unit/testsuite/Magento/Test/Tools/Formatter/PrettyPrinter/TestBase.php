@@ -18,5 +18,5 @@ require_once __DIR__ . '/../../../../../../../../tools/PHP-Parser/lib/bootstrap.
  * Class TestBase
  * @package Magento\Test\Tools\Formatter\PrettyPrinter
  */
-class TestBase extends \PHPUnit_Framework_TestCase {
+abstract class TestBase extends \PHPUnit_Framework_TestCase {
 }

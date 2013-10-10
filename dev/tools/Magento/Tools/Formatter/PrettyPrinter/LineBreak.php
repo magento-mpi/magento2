@@ -10,6 +10,6 @@
 namespace Magento\Tools\Formatter\PrettyPrinter;
 
 
-class Tree {
+class LineBreak {
 
 }

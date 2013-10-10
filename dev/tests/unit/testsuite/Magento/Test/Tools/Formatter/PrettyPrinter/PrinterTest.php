@@ -22,16 +22,16 @@ class PrinterTest extends TestBase {
 
     public function dataProviderBasics() {
         return array(
-            array('Test code', 'Test code'),
             array(<<<ORIGINALCODESNIPPET
 <?php
 class Foo {
-};
+}
 ORIGINALCODESNIPPET
                 , <<<FORMATTEDCODESNIPPET
 <?php
-class Foo {
-};
+class Foo
+{
+}
 FORMATTEDCODESNIPPET
                 )
         );

@@ -46,6 +46,7 @@ class StatementFactory {
      */
     protected function __construct() {
         $this->register('Stmt_Class', ClassStatement::getType());
+        $this->register('Stmt_InlineHTML', InlineHtmlStatement::getType());
     }
 
     /**

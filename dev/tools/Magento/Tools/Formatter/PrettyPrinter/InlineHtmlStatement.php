@@ -6,19 +6,19 @@
  * @license   {license_link}
  */
 
+
 namespace Magento\Tools\Formatter\PrettyPrinter;
+
+
 use Magento\Tools\Formatter\Tree\Tree;
 use Magento\Tools\Formatter\Tree\TreeNode;
 
-/**
- * This class generically represents the passed in node.
- */
-class UnknownStatement extends StatementAbstract {
+class InlineHtmlStatement extends StatementAbstract {
     /**
      * This method constructs a new statement based on the specify class node
-     * @param \PHPParser_NodeAbstract $node
+     * @param \PHPParser_Node_Stmt_InlineHTML $node
      */
-    public function __construct(\PHPParser_NodeAbstract $node) {
+    public function __construct(\PHPParser_Node_Stmt_InlineHTML $node) {
         parent::__construct($node);
     }
 
@@ -28,6 +28,9 @@ class UnknownStatement extends StatementAbstract {
      * @param Tree $tree
      */
     public function process(Tree $tree) {
-        $tree->addChild(new TreeNode('Unknown node: ' . $this->node->getType()));
+        /* Reference
+        return '?>' . $this->pNoIndent("\n" . $node->value) . '<?php ';
+         */
+        $tree->addChild(new TreeNode(new Line($this->node->value)));
     }
 }

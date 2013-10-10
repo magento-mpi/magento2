@@ -9,6 +9,8 @@ namespace Magento\Tools\Formatter\PrettyPrinter;
 
 use PHPParser_Parser;
 use Magento\Tools\Formatter\ParserLexer;
+use Magento\Tools\Formatter\Tree\Tree;
+use Magento\Tools\Formatter\Tree\TreeNode;
 
 /**
  * This class is used to control pretty printing of a block of code.
@@ -19,12 +21,12 @@ class Printer {
     /**
      * @var string
      */
-    protected $originalCode;
+    protected $formattedCode;
 
     /**
      * @var string
      */
-    protected $formattedCode;
+    protected $originalCode;
 
     /**
      * This method is used to construct the printer for the given code block.
@@ -38,14 +40,19 @@ class Printer {
         $statements = $parser->parse($this->originalCode);
         // resolve the code into its final version
         $tree = new Tree();
-        $this->formattedCode = $this->processStatements($statements, $tree);
+        $tree->addChild(new TreeNode((new Line('<?php'))->add(new HardLineBreak())), false);
+        $this->processStatements($statements, $tree);
+        // print out the nodes
+        $visitor = new NodePrinter();
+        $tree->traverse($visitor);
+        $this->formattedCode = $visitor->result;
     }
 
     /**
      * This method returns the code as a fomatted block.
      */
     public function getFormattedCode() {
-        return $this->originalCode;
+        return $this->formattedCode;
     }
 
     /**

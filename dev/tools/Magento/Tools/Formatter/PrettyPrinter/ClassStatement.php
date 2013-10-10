@@ -7,6 +7,8 @@
  */
 
 namespace Magento\Tools\Formatter\PrettyPrinter;
+use Magento\Tools\Formatter\Tree\Tree;
+use Magento\Tools\Formatter\Tree\TreeNode;
 
 /**
  * This class represents a class statement.
@@ -26,6 +28,19 @@ class ClassStatement extends StatementAbstract {
      * @param Tree $tree
      */
     public function process(Tree $tree) {
-        // TODO: fill in here
+        /* Reference
+        return $this->pModifiers($node->type)
+             . 'class ' . $node->name
+             . (null !== $node->extends ? ' extends ' . $this->p($node->extends) : '')
+             . (!empty($node->implements) ? ' implements ' . $this->pCommaSeparated($node->implements) : '')
+             . "\n" . '{' . "\n" . $this->pStmts($node->stmts) . "\n" . '}';
+         */
+        $line = new Line();
+
+        $line->add('class ')->add($this->node->name)->add(new HardLineBreak());
+        $line->add('{')->add(new HardLineBreak());
+        $line->add('}');
+
+        $tree->addChild(new TreeNode($line));
     }
 }
