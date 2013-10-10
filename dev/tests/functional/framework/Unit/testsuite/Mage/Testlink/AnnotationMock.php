@@ -28,7 +28,7 @@ class Mage_Testlink_AnnotationMock extends Mage_Testlink_Annotation
      */
     public function __call($name, $arguments)
     {
-        $class = new ReflectionClass('Mage_Testlink_Annotation');
+        $class = new \ReflectionClass('Mage_Testlink_Annotation');
         $method = $class->getMethod($name);
         $method->setAccessible(true);
         return $method->invokeArgs($this, $arguments);

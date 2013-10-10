@@ -1,0 +1,48 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     magento_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * @see \Magento\Invitation\Block\Customer\ListCustomer
+ */
+?>
+<div class="invitations">
+    <?php echo $this->getChildHtml('list_before')?>
+
+    <?php if (count($this->getInvitationCollection())): ?>
+        <table class="data table invitations" id="invitations-list-table">
+            <thead>
+                <tr>
+                    <th class="col email"><?php echo __('Email'); ?></th>
+                    <th class="col status"><?php echo __('Status'); ?></th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($this->getInvitationCollection() as $invitation): ?>
+                <tr>
+                    <td class="col email"><?php echo $this->escapeHtml($invitation->getEmail()); ?></td>
+                    <td class="col status"> <?php echo $this->helper('Magento\Invitation\Helper\Data')->getInvitationStatusText($invitation);?></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <p class="empty"><?php echo __('There are no sent invitations.'); ?></p>
+    <?php endif; ?>
+
+    <div class="actions">
+        <div class="primary">
+            <a href="<?php echo $this->helper('Magento\Invitation\Helper\Data')->getCustomerInvitationFormUrl(); ?>" class="action send"><span><?php echo __('Send Invitations') ?></span></a>
+        </div>
+        <div class="secondary">
+            <a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>" class="action back"><span><?php echo __('Back') ?></span></a>
+        </div>
+    </div>
+</div>

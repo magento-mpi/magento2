@@ -334,8 +334,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     private function setLastTestNameInClass()
     {
         $testMethods = array();
-        $class = new ReflectionClass(self::$testClass);
-        /** @var ReflectionMethod $method */
+        $class = new \ReflectionClass(self::$testClass);
+        /** @var \ReflectionMethod $method */
         foreach ($class->getMethods() as $method) {
             if (PHPUnit_Framework_TestSuite::isPublicTestMethod($method)) {
                 $testMethods[] = $method->getName();
@@ -4378,7 +4378,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public static function suite($className, $filter = null)
     {
-        $class = new ReflectionClass($className);
+        $class = new \ReflectionClass($className);
         $staticProperties = $class->getStaticProperties();
 
         // Create tests from test methods for multiple browsers.

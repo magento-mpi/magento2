@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <!-- TODO: this prefence should be check -->
+    <!-- TODO: this preference should be check -->
     <preference for="Magento\Wishlist\Helper\Data" type="Magento\MultipleWishlist\Helper\Data"/>
     <type name="Magento\MultipleWishlist\Model\Item\Collection">
         <param name="resource">
@@ -16,6 +16,11 @@
         </param>
     </type>
     <type name="Magento\MultipleWishlist\Controller\Index">
+        <param name="wishlistSession">
+            <instance type="Magento\Wishlist\Model\Session" />
+        </param>
+    </type>
+    <type name="Magento\MultipleWishlist\Block\Customer\Sharing">
         <param name="wishlistSession">
             <instance type="Magento\Wishlist\Model\Session" />
         </param>

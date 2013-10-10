@@ -17,7 +17,7 @@ class Observer
      *
      * @var \Magento\GiftCardAccount\Helper\Data
      */
-    protected $_giftCardAccountData = null;
+    protected $_giftCAHelper = null;
 
     /**
      * Core event manager proxy
@@ -27,15 +27,65 @@ class Observer
     protected $_eventManager = null;
 
     /**
+     * Gift card account giftcardaccount
+     *
+     * @var \Magento\GiftCardAccount\Model\GiftcardaccountFactory
+     */
+    protected $_giftCAFactory = null;
+
+    /**
+     * Gift card account history
+     *
+     * @var \Magento\GiftCardAccount\Model\History
+     */
+    protected $_giftCAHistory = null;
+
+    /**
+     * Customer balance balance
+     *
+     * @var \Magento\CustomerBalance\Model\Balance
+     */
+    protected $_customerBalance = null;
+
+    /**
+     * Admin Session Quote
+     *
+     * @var \Magento\Adminhtml\Model\Session\Quote
+     */
+    protected $_adminSessionQuote = null;
+
+    /**
+     * Store Manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager = null;
+
+    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
+     * @param \Magento\GiftCardAccount\Helper\Data $giftCAHelper
+     * @param \Magento\CustomerBalance\Model\Balance $customerBalance
+     * @param \Magento\GiftCardAccount\Model\History $giftCAHistory
+     * @param \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftCAFactory
+     * @param \Magento\Adminhtml\Model\Session\Quote $adminSessionQuote
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
+        \Magento\GiftCardAccount\Helper\Data $giftCAHelper,
+        \Magento\CustomerBalance\Model\Balance $customerBalance,
+        \Magento\GiftCardAccount\Model\History $giftCAHistory,
+        \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftCAFactory,
+        \Magento\Adminhtml\Model\Session\Quote $adminSessionQuote,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_eventManager = $eventManager;
-        $this->_giftCardAccountData = $giftCardAccountData;
+        $this->_giftCAHelper = $giftCAHelper;
+        $this->_customerBalance = $customerBalance;
+        $this->_giftCAHistory = $giftCAHistory;
+        $this->_giftCAFactory = $giftCAFactory;
+        $this->_adminSessionQuote = $adminSessionQuote;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -48,10 +98,10 @@ class Observer
     public function processOrderPlace(\Magento\Event\Observer $observer)
     {
         $order = $observer->getEvent()->getOrder();
-        $cards = $this->_giftCardAccountData->getCards($order);
+        $cards = $this->_giftCAHelper->getCards($order);
         if (is_array($cards)) {
             foreach ($cards as &$card) {
-                \Mage::getModel('Magento\GiftCardAccount\Model\Giftcardaccount')
+                $this->_giftCAFactory->create()
                     ->load($card['i'])
                     ->charge($card['ba'])
                     ->setOrder($order)
@@ -59,7 +109,7 @@ class Observer
                 $card['authorized'] = $card['ba'];
             }
 
-            $this->_giftCardAccountData->setCards($order, $cards);
+            $this->_giftCAHelper->setCards($order, $cards);
         }
 
         return $this;
@@ -74,12 +124,12 @@ class Observer
     public function processOrderCreateBefore(\Magento\Event\Observer $observer)
     {
         $quote = $observer->getEvent()->getQuote();
-        $cards = $this->_giftCardAccountData->getCards($quote);
+        $cards = $this->_giftCAHelper->getCards($quote);
 
         if (is_array($cards)) {
             foreach ($cards as $card) {
                 /** @var $giftCardAccount \Magento\GiftCardAccount\Model\Giftcardaccount */
-                $giftCardAccount = \Mage::getSingleton('Magento\GiftCardAccount\Model\Giftcardaccount');
+                $giftCardAccount = $this->_giftCAFactory->create();
                 $giftCardAccount->load($card['i']);
                 try {
                     $giftCardAccount->isValid(true, true, false, (float)$quote->getBaseGiftCardsAmountUsed());
@@ -102,7 +152,7 @@ class Observer
         $id = $observer->getEvent()->getGiftcardaccountCode();
         $amount = $observer->getEvent()->getAmount();
 
-        \Mage::getModel('Magento\GiftCardAccount\Model\Giftcardaccount')
+        $this->_giftCAFactory->create()
             ->loadByCode($id)
             ->charge($amount)
             ->setOrder($observer->getEvent()->getOrder())
@@ -142,7 +192,7 @@ class Observer
         $code = $observer->getEvent()->getCode();
         $order = $data->getOrder() ?: ($data->getOrderItem()->getOrder() ?: null);
 
-        $model = \Mage::getModel('Magento\GiftCardAccount\Model\Giftcardaccount')
+        $model = $this->_giftCAFactory->create()
             ->setStatus(\Magento\GiftCardAccount\Model\Giftcardaccount::STATUS_ENABLED)
             ->setWebsiteId($data->getWebsiteId())
             ->setBalance($data->getAmount())
@@ -168,7 +218,7 @@ class Observer
         $gca = $observer->getEvent()->getGiftcardaccount();
 
         if ($gca->hasHistoryAction()) {
-            \Mage::getModel('Magento\GiftCardAccount\Model\History')
+            $this->_giftCAHistory
                 ->setGiftcardaccount($gca)
                 ->save();
         }
@@ -190,15 +240,15 @@ class Observer
         if (isset($request['giftcard_add'])) {
             $code = $request['giftcard_add'];
             try {
-                \Mage::getModel('Magento\GiftCardAccount\Model\Giftcardaccount')
+                $this->_giftCAFactory->create()
                     ->loadByCode($code)
                     ->addToCart(true, $quote);
             } catch (\Magento\Core\Exception $e) {
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote')->addError(
+                $this->_adminSessionQuote->addError(
                     $e->getMessage()
                 );
             } catch (\Exception $e) {
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote')->addException(
+                $this->_adminSessionQuote->addException(
                     $e,
                     __('We cannot apply this gift card.')
                 );
@@ -209,15 +259,15 @@ class Observer
             $code = $request['giftcard_remove'];
 
             try {
-                \Mage::getModel('Magento\GiftCardAccount\Model\Giftcardaccount')
+                $this->_giftCAFactory->create()
                     ->loadByCode($code)
                     ->removeFromCart(false, $quote);
             } catch (\Magento\Core\Exception $e) {
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote')->addError(
+                $this->_adminSessionQuote->addError(
                     $e->getMessage()
                 );
             } catch (\Exception $e) {
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote')->addException(
+                $this->_adminSessionQuote->addException(
                     $e,
                     __('We cannot remove this gift card.')
                 );
@@ -240,10 +290,10 @@ class Observer
             return $this;
         }
         /* Gift cards validation */
-        $cards = $this->_giftCardAccountData->getCards($quote);
-        $website = \Mage::app()->getStore($quote->getStoreId())->getWebsite();
+        $cards = $this->_giftCAHelper->getCards($quote);
+        $website = $this->_storeManager->getStore($quote->getStoreId())->getWebsite();
         foreach ($cards as $one) {
-            \Mage::getModel('Magento\GiftCardAccount\Model\Giftcardaccount')
+            $this->_giftCAFactory->create()
                 ->loadByCode($one['c'])
                 ->isValid(true, true, $website);
         }
@@ -425,7 +475,7 @@ class Observer
             $value = abs($salesEntity->getBaseGiftCardsAmount());
             if ($value > 0.0001) {
                 $paypalCart->updateTotal(\Magento\Paypal\Model\Cart::TOTAL_DISCOUNT, $value,
-                    __('Gift Card (%1)', \Mage::app()->getStore()->convertPrice($value, true, false))
+                    __('Gift Card (%1)', $this->_storeManager->getStore()->convertPrice($value, true, false))
                 );
             }
         }
@@ -434,13 +484,14 @@ class Observer
     /**
      * Revert amount to gift card
      *
-     * @param   int $id
-     * @param   float $amount
-     * @return  \Magento\GiftCardAccount\Model\Observer
+     * @param int $id
+     * @param float $amount
+     * @return \Magento\GiftCardAccount\Model\Observer
      */
     protected function _revertById($id, $amount = 0)
     {
-        $giftCard = \Mage::getModel('Magento\GiftCardAccount\Model\Giftcardaccount')->load($id);
+        /** @var \Magento\GiftCardAccount\Model\Giftcardaccount $giftCard */
+        $giftCard = $this->_giftCAFactory->create()->load($id);
 
         if ($giftCard) {
             $giftCard->revert($amount)
@@ -459,7 +510,7 @@ class Observer
      */
     protected function _revertGiftCardsForOrder(\Magento\Sales\Model\Order $order)
     {
-        $cards = $this->_giftCardAccountData->getCards($order);
+        $cards = $this->_giftCAHelper->getCards($order);
         if (is_array($cards)) {
             foreach ($cards as $card) {
                 if (isset($card['authorized'])) {
@@ -515,7 +566,7 @@ class Observer
         /** @var \Magento\Sales\Model\Order $order */
         $order = $observer->getEvent()->getOrder();
 
-        $cards = $this->_giftCardAccountData->getCards($order);
+        $cards = $this->_giftCAHelper->getCards($order);
         if (is_array($cards)) {
             $balance = 0;
             foreach ($cards as $card) {
@@ -523,9 +574,9 @@ class Observer
             }
 
             if ($balance > 0) {
-                \Mage::getModel('Magento\CustomerBalance\Model\Balance')
+                $this->_customerBalance
                     ->setCustomerId($order->getCustomerId())
-                    ->setWebsiteId(\Mage::app()->getStore($order->getStoreId())->getWebsiteId())
+                    ->setWebsiteId($this->_storeManager->getStore($order->getStoreId())->getWebsiteId())
                     ->setAmountDelta($balance)
                     ->setHistoryAction(\Magento\CustomerBalance\Model\Balance\History::ACTION_REVERTED)
                     ->setOrder($order)

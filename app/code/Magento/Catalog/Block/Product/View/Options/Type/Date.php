@@ -8,16 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Block\Product\View\Options\Type;
 
 /**
  * Product options text type block
  *
- * @category   Magento
- * @package    Magento_Catalog
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Block\Product\View\Options\Type;
-
 class Date extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
 {
 
@@ -27,6 +24,44 @@ class Date extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
      * @var boolean
      */
     protected $_fillLeadingZeros = true;
+
+    /**
+     * Catalog product option type date
+     *
+     * @var \Magento\Catalog\Model\Product\Option\Type\Date
+     */
+    protected $_catalogProductOptionTypeDate;
+
+    /**
+     * Locale
+     *
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Catalog\Model\Product\Option\Type\Date
+     * $catalogProductOptionTypeDate
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Catalog\Model\Product\Option\Type\Date $catalogProductOptionTypeDate,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_locale = $locale;
+        $this->_catalogProductOptionTypeDate = $catalogProductOptionTypeDate;
+        parent::__construct($taxData, $coreData, $context, $data);
+    }
 
     protected function _prepareLayout()
     {
@@ -43,7 +78,7 @@ class Date extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
      */
     public function useCalendar()
     {
-        return \Mage::getSingleton('Magento\Catalog\Model\Product\Option\Type\Date')->useCalendar();
+        return $this->_catalogProductOptionTypeDate->useCalendar();
     }
 
     /**
@@ -70,8 +105,8 @@ class Date extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
         $option = $this->getOption();
         $value = $this->getProduct()->getPreconfiguredValues()->getData('options/' . $option->getId() . '/date');
 
-        $yearStart = \Mage::getSingleton('Magento\Catalog\Model\Product\Option\Type\Date')->getYearStart();
-        $yearEnd = \Mage::getSingleton('Magento\Catalog\Model\Product\Option\Type\Date')->getYearEnd();
+        $yearStart = $this->_catalogProductOptionTypeDate->getYearStart();
+        $yearEnd = $this->_catalogProductOptionTypeDate->getYearEnd();
 
         $calendar = $this->getLayout()
             ->createBlock('Magento\Core\Block\Html\Date')
@@ -79,7 +114,7 @@ class Date extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
             ->setName('options['.$this->getOption()->getId().'][date]')
             ->setClass('product-custom-option datetime-picker input-text')
             ->setImage($this->getViewFileUrl('Magento_Core::calendar.gif'))
-            ->setDateFormat(\Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT))
+            ->setDateFormat($this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT))
             ->setValue($value)
             ->setYearsRange($yearStart . ':' . $yearEnd);
 
@@ -94,14 +129,14 @@ class Date extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
     public function getDropDownsDateHtml()
     {
         $fieldsSeparator = '&nbsp;';
-        $fieldsOrder = \Mage::getSingleton('Magento\Catalog\Model\Product\Option\Type\Date')->getConfigData('date_fields_order');
+        $fieldsOrder = $this->_catalogProductOptionTypeDate->getConfigData('date_fields_order');
         $fieldsOrder = str_replace(',', $fieldsSeparator, $fieldsOrder);
 
         $monthsHtml = $this->_getSelectFromToHtml('month', 1, 12);
         $daysHtml = $this->_getSelectFromToHtml('day', 1, 31);
 
-        $yearStart = \Mage::getSingleton('Magento\Catalog\Model\Product\Option\Type\Date')->getYearStart();
-        $yearEnd = \Mage::getSingleton('Magento\Catalog\Model\Product\Option\Type\Date')->getYearEnd();
+        $yearStart = $this->_catalogProductOptionTypeDate->getYearStart();
+        $yearEnd = $this->_catalogProductOptionTypeDate->getYearEnd();
         $yearsHtml = $this->_getSelectFromToHtml('year', $yearStart, $yearEnd);
 
         $translations = array(
@@ -119,7 +154,7 @@ class Date extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
      */
     public function getTimeHtml()
     {
-        if (\Mage::getSingleton('Magento\Catalog\Model\Product\Option\Type\Date')->is24hTimeFormat()) {
+        if ($this->_catalogProductOptionTypeDate->is24hTimeFormat()) {
             $hourStart = 0;
             $hourEnd = 23;
             $dayPartHtml = '';

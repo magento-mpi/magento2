@@ -32,19 +32,24 @@ class Bestsellers extends \Magento\Sales\Model\Resource\Report\AbstractReport
     /**
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Reports\Model\FlagFactory $reportsFlagFactory
      * @param \Magento\Catalog\Model\Resource\Product $productResource
      * @param \Magento\Sales\Model\Resource\Helper $salesResourceHelper
      */
     public function __construct(
         \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Reports\Model\FlagFactory $reportsFlagFactory,
         \Magento\Catalog\Model\Resource\Product $productResource,
         \Magento\Sales\Model\Resource\Helper $salesResourceHelper
     ) {
-        parent::__construct($logger, $resource);
+        parent::__construct($logger, $resource, $locale, $reportsFlagFactory);
         $this->_productResource = $productResource;
         $this->_salesResourceHelper = $salesResourceHelper;
     }
+
 
     /**
      * Model initialization

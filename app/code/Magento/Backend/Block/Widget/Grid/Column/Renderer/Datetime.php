@@ -10,12 +10,7 @@
 
 /**
  * Backend grid item renderer datetime
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
 
 class Datetime
@@ -25,6 +20,25 @@ class Datetime
      * Date format string
      */
     protected static $_format = null;
+
+    /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Backend\Block\Context $context,
+        \Magento\Core\Model\LocaleInterface $locale,
+        array $data = array()
+    ) {
+        $this->_locale = $locale;
+        parent::__construct($context, $data);
+    }
 
     /**
      * Retrieve datetime format
@@ -37,7 +51,7 @@ class Datetime
         if (!$format) {
             if (is_null(self::$_format)) {
                 try {
-                    self::$_format = \Mage::app()->getLocale()->getDateTimeFormat(
+                    self::$_format = $this->_locale->getDateTimeFormat(
                         \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM
                     );
                 }
@@ -61,13 +75,11 @@ class Datetime
         if ($data = $this->_getValue($row)) {
             $format = $this->_getFormat();
             try {
-                $data = \Mage::app()->getLocale()
-                    ->date($data, \Magento\Date::DATETIME_INTERNAL_FORMAT)->toString($format);
+                $data = $this->_locale->date($data, \Magento\Date::DATETIME_INTERNAL_FORMAT)->toString($format);
             }
             catch (\Exception $e)
             {
-                $data = \Mage::app()->getLocale()
-                    ->date($data, \Magento\Date::DATETIME_INTERNAL_FORMAT)->toString($format);
+                $data = $this->_locale->date($data, \Magento\Date::DATETIME_INTERNAL_FORMAT)->toString($format);
             }
             return $data;
         }

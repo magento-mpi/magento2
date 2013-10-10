@@ -11,10 +11,6 @@
 
 /**
  * Backend Auth Storage interface
- *
- * @category    Magento
- * @package     Magento_Backend
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backend\Model\Auth;
 

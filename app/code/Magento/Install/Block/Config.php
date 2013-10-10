@@ -23,6 +23,35 @@ class Config extends \Magento\Install\Block\AbstractBlock
     protected $_template = 'config.phtml';
 
     /**
+     * Install installer config
+     *
+     * @var \Magento\Install\Model\Installer\Config
+     */
+    protected $_installerConfig = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Install\Model\Installer $installer
+     * @param \Magento\Install\Model\Wizard $installWizard
+     * @param \Magento\Core\Model\Session\Generic $session
+     * @param \Magento\Install\Model\Installer\Config $installerConfig
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Install\Model\Installer $installer,
+        \Magento\Install\Model\Wizard $installWizard,
+        \Magento\Core\Model\Session\Generic $session,
+        \Magento\Install\Model\Installer\Config $installerConfig,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $context, $installer, $installWizard, $session, $data);
+        $this->_installerConfig = $installerConfig;
+    }
+
+    /**
      * Retrieve form data post url
      *
      * @return string
@@ -41,9 +70,9 @@ class Config extends \Magento\Install\Block\AbstractBlock
     {
         $data = $this->getData('form_data');
         if (is_null($data)) {
-            $data = \Mage::getSingleton('Magento\Install\Model\Session')->getConfigData(true);
+            $data = $this->_session->getConfigData(true);
             if (empty($data)) {
-                $data = \Mage::getModel('Magento\Install\Model\Installer\Config')->getFormData();
+                $data = $this->_installerConfig->getFormData();
             } else {
                 $data = new \Magento\Object($data);
             }
@@ -57,7 +86,7 @@ class Config extends \Magento\Install\Block\AbstractBlock
      */
     public function getSkipUrlValidation()
     {
-        return \Mage::getSingleton('Magento\Install\Model\Session')->getSkipUrlValidation();
+        return $this->_session->getSkipUrlValidation();
     }
 
     /**
@@ -65,7 +94,7 @@ class Config extends \Magento\Install\Block\AbstractBlock
      */
     public function getSkipBaseUrlValidation()
     {
-        return \Mage::getSingleton('Magento\Install\Model\Session')->getSkipBaseUrlValidation();
+        return $this->_session->getSkipBaseUrlValidation();
     }
 
     /**

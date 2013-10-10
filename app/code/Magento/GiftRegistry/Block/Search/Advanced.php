@@ -15,7 +15,53 @@ namespace Magento\GiftRegistry\Block\Search;
 
 class Advanced extends \Magento\GiftRegistry\Block\Form\Element
 {
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $customerSession;
+
+    /**
+     * @var \Magento\GiftRegistry\Model\Attribute\Config
+     */
+    protected $attributeConfig;
+
     protected $_attributes = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\Directory\Model\Country $country
+     * @param \Magento\Directory\Model\RegionFactory $region
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Directory\Model\Country $country,
+        \Magento\Directory\Model\RegionFactory $region,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $coreData, $context, $configCacheType, $country,
+            $region, $storeManager, $locale, $data
+        );
+        $this->_coreRegistry = $coreRegistry;
+        $this->customerSession = $customerSession;
+        $this->attributeConfig = $attributeConfig;
+    }
+
     protected $_formData = null;
 
     /**
@@ -24,24 +70,6 @@ class Advanced extends \Magento\GiftRegistry\Block\Form\Element
      * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
-
-    /**
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
-     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
-     * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
-        \Magento\Core\Model\Cache\Type\Config $configCacheType,
-        \Magento\Core\Model\Registry $coreRegistry,
-        array $data = array()
-    ) {
-        $this->_coreRegistry = $coreRegistry;
-        parent::__construct($coreData, $context, $configCacheType, $data);
-    }
 
     /**
      * Get config
@@ -73,7 +101,7 @@ class Advanced extends \Magento\GiftRegistry\Block\Form\Element
     public function getFormData($key)
     {
         if (is_null($this->_formData)) {
-            $this->_formData = \Mage::getSingleton('Magento\Customer\Model\Session')->getRegistrySearchData();
+            $this->_formData = $this->customerSession->getRegistrySearchData();
         }
         if (!$this->_formData || !isset($this->_formData[$key])) {
             return null;
@@ -90,7 +118,7 @@ class Advanced extends \Magento\GiftRegistry\Block\Form\Element
     {
         if (is_null($this->_attributes)) {
             $type = $this->_coreRegistry->registry('current_giftregistry_type');
-            $config = \Mage::getSingleton('Magento\GiftRegistry\Model\Attribute\Config');
+            $config = $this->attributeConfig;
             $staticTypes = $config->getStaticTypesCodes();
 
             $attributes = array();

@@ -21,6 +21,11 @@
             <instance type="Magento\Review\Model\Session" />
         </param>
     </type>
+    <type name="Magento\Review\Controller\Product">
+        <param name="reviewSession">
+            <instance type="Magento\Review\Model\Session" />
+        </param>
+    </type>
     <type name="Magento\Core\Model\Url\SecurityInfo">
         <param name="secureUrlList">
             <value>

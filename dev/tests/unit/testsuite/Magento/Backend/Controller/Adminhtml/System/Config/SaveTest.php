@@ -73,7 +73,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
             array('addSuccess', 'addException'), array(), '', false, false
         );
 
-        $this->_authMock = $this->getMock('Magento\Backend\Model\Auth\Session',
+        $this->_authMock = $this->getMock('Magento\Backend\Model\Auth',
             array('getUser'), array(), '', false, false
         );
 
@@ -97,6 +97,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
             'session' => $this->_sessionMock,
             'helper' => $helperMock,
             'eventManager' => $this->_eventManagerMock,
+            'auth' => $this->_authMock
         );
 
         $context = $helper->getObject('Magento\Backend\Controller\Context', $arguments);
@@ -106,7 +107,6 @@ class SaveTest extends \PHPUnit_Framework_TestCase
             array(
                 $context,
                 $configStructureMock,
-                $this->_authMock,
                 $this->_configFactoryMock,
                 $this->_cacheMock,
                 null,

@@ -2,7 +2,7 @@
 /**
  * {license_notice}
  *
- * @category    Mage
+ * @category    Magento
  * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
@@ -23,10 +23,6 @@ namespace Magento\Core\Model\Config;
  * @method \Magento\Core\Model\Config\Value setPath(string $value)
  * @method string getValue()
  * @method \Magento\Core\Model\Config\Value setValue(string $value)
- *
- * @category    Mage
- * @package     Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */

@@ -8,19 +8,48 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model\Product\Attribute\Backend;
 
 /**
  * Catalog product group price backend attribute model
  *
- * @category   Magento
- * @package    Magento_Catalog
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Model\Product\Attribute\Backend;
-
 class Groupprice
     extends \Magento\Catalog\Model\Product\Attribute\Backend\Groupprice\AbstractGroupprice
 {
+    /**
+     * Catalog product attribute backend groupprice
+     *
+     * @var \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Groupprice
+     */
+    protected $_productAttributeBackendGroupprice;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
+     * @param \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Groupprice $productAttributeBackendGroupprice
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Product\Type $catalogProductType
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Model\Config $config
+     */
+    public function __construct(
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Directory\Model\CurrencyFactory $currencyFactory,
+        \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Groupprice $productAttributeBackendGroupprice,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Product\Type $catalogProductType,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Model\Config $config
+    ) {
+        $this->_productAttributeBackendGroupprice = $productAttributeBackendGroupprice;
+        parent::__construct($logger, $currencyFactory, $storeManager, $catalogProductType, $catalogData,
+            $config);
+    }
+
     /**
      * Retrieve resource instance
      *
@@ -28,7 +57,7 @@ class Groupprice
      */
     protected function _getResource()
     {
-        return \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product\Attribute\Backend\Groupprice');
+        return $this->_productAttributeBackendGroupprice;
     }
 
     /**

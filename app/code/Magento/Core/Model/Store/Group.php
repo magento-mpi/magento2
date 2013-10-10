@@ -10,10 +10,7 @@
 
 /**
  * Store group model
- */
-namespace Magento\Core\Model\Store;
-
-/**
+ *
  * @method \Magento\Core\Model\Resource\Store\Group _getResource()
  * @method \Magento\Core\Model\Resource\Store\Group getResource()
  * @method \Magento\Core\Model\Store\Group setWebsiteId(int $value)
@@ -23,6 +20,8 @@ namespace Magento\Core\Model\Store;
  * @method \Magento\Core\Model\Store\Group setRootCategoryId(int $value)
  * @method \Magento\Core\Model\Store\Group setDefaultStoreId(int $value)
  */
+namespace Magento\Core\Model\Store;
+
 class Group extends \Magento\Core\Model\AbstractModel
 {
     const ENTITY         = 'store_group';
@@ -86,9 +85,21 @@ class Group extends \Magento\Core\Model\AbstractModel
     protected $_configDataResource;
 
     /**
+     * @var \Magento\Core\Model\Store
+     */
+    protected $_store;
+
+    /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Resource\Config\Data $configDataResource
+     * @param \Magento\Core\Model\Store $store
+     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -97,11 +108,15 @@ class Group extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Resource\Config\Data $configDataResource,
+        \Magento\Core\Model\Store $store,
+        \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_configDataResource = $configDataResource;
+        $this->_store = $store;
+        $this->_storeManager = $storeManager;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -161,7 +176,7 @@ class Group extends \Magento\Core\Model\AbstractModel
      */
     public function getStoreCollection()
     {
-        return \Mage::getModel('Magento\Core\Model\Store')
+        return $this->_store
             ->getCollection()
             ->addGroupFilter($this->getId());
     }
@@ -289,7 +304,7 @@ class Group extends \Magento\Core\Model\AbstractModel
         if (is_null($this->getWebsiteId())) {
             return false;
         }
-        return \Mage::app()->getWebsite($this->getWebsiteId());
+        return $this->_storeManager->getWebsite($this->getWebsiteId());
     }
 
     /**

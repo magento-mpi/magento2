@@ -14,17 +14,17 @@ class Api extends \Magento\Core\Controller\Front\Action
 {
     public function indexAction()
     {
-        $res = \Mage::getModel('Magento\GoogleCheckout\Model\Api')->processCallback();
+        $res = $this->_objectManager->create('Magento\GoogleCheckout\Model\Api')->processCallback();
         if ($res === false) {
             $this->_forward('noRoute');
-        }
-        else {
+        } else {
             exit;
         }
     }
 
     public function beaconAction()
     {
-        \Mage::getModel('Magento\GoogleCheckout\Model\Api')->debugData(array('request' => $_SERVER['QUERY_STRING'], 'dir' => 'in'));
+        $this->_objectManager->create('Magento\GoogleCheckout\Model\Api')
+            ->debugData(array('request' => $_SERVER['QUERY_STRING'], 'dir' => 'in'));
     }
 }

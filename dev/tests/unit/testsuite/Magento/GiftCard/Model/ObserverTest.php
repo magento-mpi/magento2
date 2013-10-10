@@ -19,37 +19,38 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
+     * @var \Magento\TestFramework\Helper\ObjectManager
+     */
+    protected $_objectManager;
+
+    protected function setUp()
+    {
+        $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+    }
+
+    /**
      * Test that dependency injections passed to the constructor will not be duplicated in _data property
      */
     public function testConstructorValidArguments()
     {
-        $context = new \Magento\Core\Model\Context(
-            $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false),
-            $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false),
-            $this->getMock('Magento\Core\Model\Cache', array(), array(), '', false)
+        $this->_model = $this->_objectManager->getObject(
+            'Magento\GiftCard\Model\Observer',
+            [
+                'itemsFactory' => $this->getMock(
+                    'Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory', [], [], '', false
+                ),
+                'templateFactory' => $this->getMock(
+                    'Magento\Core\Model\Email\TemplateFactory', [], [], '', false
+                ),
+                'invoiceFactory' => $this->getMock(
+                    'Magento\Sales\Model\Order\InvoiceFactory', [], [], '', false
+                ),
+                'data' => [
+                    'email_template_model' => $this->getMock('Magento\Core\Model\Email\Template', [], [], '', false),
+                    'custom_field'         => 'custom_value',
+                ]
+            ]
         );
-        $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
-        $this->_model = new \Magento\GiftCard\Model\Observer(
-            $this->getMockForAbstractClass('Magento\Core\Model\StoreManagerInterface', array(), '', false),
-            $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false),
-            $this->getMockForAbstractClass('Magento\Core\Model\LocaleInterface', array(), '', false),
-            $this->getMock(
-                'Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory', array(), array(), '', false
-            ),
-            $this->getMock('Magento\Core\Model\Email\TemplateFactory', array(), array(), '', false),
-            $this->getMock('Magento\Sales\Model\Order\InvoiceFactory', array(), array(), '', false),
-            $this->getMock('Magento\Backend\Model\Session', array(), array(), '', false),
-            $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false),
-            $this->getMock('Magento\GiftCard\Helper\Data', array(), array(), '', false),
-            $context,
-            $coreRegistry,
-            $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false),
-            null,
-            null,
-            array(
-            'email_template_model' => $this->getMock('Magento\Core\Model\Email\Template', array(), array(), '', false),
-            'custom_field'         => 'custom_value',
-        ));
         $this->assertEquals(array('custom_field' => 'custom_value'), $this->_model->getData());
     }
 
@@ -60,29 +61,20 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructorInvalidArgument()
     {
-        $context = new \Magento\Core\Model\Context(
-            $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false),
-            $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false),
-            $this->getMock('Magento\Core\Model\CacheInterface', array(), array(), '', false)
-        );
-        $this->_model = new \Magento\GiftCard\Model\Observer(
-            $this->getMockForAbstractClass('Magento\Core\Model\StoreManagerInterface', array(), '', false),
-            $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false),
-            $this->getMockForAbstractClass('Magento\Core\Model\LocaleInterface', array(), '', false),
-            $this->getMock(
-                'Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory', array(), array(), '', false
-            ),
-            $this->getMock('Magento\Core\Model\Email\TemplateFactory', array(), array(), '', false),
-            $this->getMock('Magento\Sales\Model\Order\InvoiceFactory', array(), array(), '', false),
-            $this->getMock('Magento\Backend\Model\Session', array(), array(), '', false),
-            $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false),
-            $this->getMock('Magento\GiftCard\Helper\Data', array(), array(), '', false),
-            $context,
-            $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false),
-            $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false),
-            null,
-            null,
-            array('email_template_model' => new \stdClass())
+        $this->_objectManager->getObject(
+            'Magento\GiftCard\Model\Observer',
+            [
+                'itemsFactory' => $this->getMock(
+                    'Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory', [], [], '', false
+                ),
+                'templateFactory' => $this->getMock(
+                    'Magento\Core\Model\Email\TemplateFactory', [], [], '', false
+                ),
+                'invoiceFactory' => $this->getMock(
+                    'Magento\Sales\Model\Order\InvoiceFactory', [], [], '', false
+                ),
+                'data' => ['email_template_model' => new \stdClass()],
+            ]
         );
     }
 }

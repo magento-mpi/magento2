@@ -25,6 +25,16 @@ class Edit extends \Magento\Directory\Block\Data
     protected $_config;
 
     /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\Customer\Model\AddressFactory
+     */
+    protected $_addressFactory;
+
+    /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
@@ -32,6 +42,8 @@ class Edit extends \Magento\Directory\Block\Data
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
      * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param array $data
      */
     public function __construct(
@@ -42,30 +54,27 @@ class Edit extends \Magento\Directory\Block\Data
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
         \Magento\Core\Model\Config $config,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Customer\Model\AddressFactory $addressFactory,
         array $data = array()
     ) {
-        parent::__construct(
-            $configCacheType,
-            $coreData,
-            $context,
-            $storeManager,
-            $regionCollFactory,
-            $countryCollFactory,
-            $data
-        );
         $this->_config = $config;
+        $this->_customerSession = $customerSession;
+        $this->_addressFactory = $addressFactory;
+        parent::__construct(
+            $configCacheType, $coreData, $context, $storeManager, $regionCollFactory, $countryCollFactory, $data
+        );
     }
-
 
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        $this->_address = \Mage::getModel('Magento\Customer\Model\Address');
+        $this->_address = $this->_createAddress();
 
         // Init address object
         if ($id = $this->getRequest()->getParam('id')) {
             $this->_address->load($id);
-            if ($this->_address->getCustomerId() != \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId()) {
+            if ($this->_address->getCustomerId() != $this->_customerSession->getCustomerId()) {
                 $this->_address->setData(array());
             }
         }
@@ -82,7 +91,7 @@ class Edit extends \Magento\Directory\Block\Data
             $headBlock->setTitle($this->getTitle());
         }
 
-        if ($postedData = \Mage::getSingleton('Magento\Customer\Model\Session')->getAddressFormData(true)) {
+        if ($postedData = $this->_customerSession->getAddressFormData(true)) {
             $this->_address->addData($postedData);
         }
     }
@@ -130,7 +139,7 @@ class Edit extends \Magento\Directory\Block\Data
 
     public function getSaveUrl()
     {
-        return \Mage::getUrl('customer/address/formPost', array('_secure'=>true, 'id'=>$this->getAddress()->getId()));
+        return $this->_urlBuilder->getUrl('customer/address/formPost', array('_secure'=>true, 'id'=>$this->getAddress()->getId()));
     }
 
     public function getAddress()
@@ -153,7 +162,7 @@ class Edit extends \Magento\Directory\Block\Data
 
     public function getCustomerAddressCount()
     {
-        return count(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer()->getAddresses());
+        return count($this->_customerSession->getCustomer()->getAddresses());
     }
 
     public function canSetAsDefaultBilling()
@@ -174,19 +183,19 @@ class Edit extends \Magento\Directory\Block\Data
 
     public function isDefaultBilling()
     {
-        $defaultBilling = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer()->getDefaultBilling();
+        $defaultBilling = $this->_customerSession->getCustomer()->getDefaultBilling();
         return $this->getAddress()->getId() && $this->getAddress()->getId() == $defaultBilling;
     }
 
     public function isDefaultShipping()
     {
-        $defaultShipping = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer()->getDefaultShipping();
+        $defaultShipping = $this->_customerSession->getCustomer()->getDefaultShipping();
         return $this->getAddress()->getId() && $this->getAddress()->getId() == $defaultShipping;
     }
 
     public function getCustomer()
     {
-        return \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer();
+        return $this->_customerSession->getCustomer();
     }
 
     public function getBackButtonUrl()
@@ -216,5 +225,13 @@ class Edit extends \Magento\Directory\Block\Data
     public function getConfig($path)
     {
         return $this->_storeConfig->getConfig($path);
+    }
+
+    /**
+     * @return \Magento\Customer\Model\Address
+     */
+    protected function _createAddress()
+    {
+        return $this->_addressFactory->create();
     }
 }

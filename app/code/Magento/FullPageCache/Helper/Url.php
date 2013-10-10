@@ -21,11 +21,20 @@ class Url
     protected $_urlHelper;
 
     /**
-     * @param \Magento\Core\Helper\Url $urlHelper
+     * @var \Magento\Core\Model\Session
      */
-    public function __construct(\Magento\Core\Helper\Url $urlHelper)
-    {
+    protected $_coreSession;
+
+    /**
+     * @param \Magento\Core\Helper\Url $urlHelper
+     * @param \Magento\Core\Model\Session $coreSession
+     */
+    public function __construct(
+        \Magento\Core\Helper\Url $urlHelper,
+        \Magento\Core\Model\Session $coreSession
+    ) {
         $this->_urlHelper = $urlHelper;
+        $this->_coreSession = $coreSession;
     }
 
     /**
@@ -44,17 +53,15 @@ class Url
      * @param  string $content
      * @return bool
      */
-    public static function replaceSid(&$content)
+    public function replaceSid(&$content)
     {
         if (!$content) {
             return false;
         }
-        /** @var $session \Magento\Core\Model\Session */
-        $session = \Mage::getSingleton('Magento\Core\Model\Session');
         $replacementCount = 0;
         $content = str_replace(
-            $session->getSessionIdQueryParam() . '=' . $session->getSessionId(),
-            $session->getSessionIdQueryParam() . '=' . self::_getSidMarker(),
+            $this->_coreSession->getSessionIdQueryParam() . '=' . $this->_coreSession->getSessionId(),
+            $this->_coreSession->getSessionIdQueryParam() . '=' . self::_getSidMarker(),
             $content, $replacementCount);
         return ($replacementCount > 0);
     }

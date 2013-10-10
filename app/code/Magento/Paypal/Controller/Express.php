@@ -35,18 +35,65 @@ class Express extends \Magento\Paypal\Controller\Express\AbstractExpress
     protected $_checkoutType = 'Magento\Paypal\Model\Express\Checkout';
 
     /**
-     * Redirect to login page
+     * @var \Magento\Core\Helper\Url
+     */
+    protected $_urlHelper;
+
+    /**
+     * @var \Magento\Customer\Helper\Data
+     */
+    protected $_customerHelper;
+
+    /**
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\UrlInterface $urlBuilder
+     * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param \Magento\Paypal\Model\Express\Checkout\Factory $checkoutFactory
+     * @param \Magento\Core\Model\Session\Generic $paypalSession
+     * @param \Magento\Core\Helper\Url $urlHelper
+     * @param \Magento\Customer\Helper\Data $customerHelper
      *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\UrlInterface $urlBuilder,
+        \Magento\Sales\Model\QuoteFactory $quoteFactory,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Sales\Model\OrderFactory $orderFactory,
+        \Magento\Paypal\Model\Express\Checkout\Factory $checkoutFactory,
+        \Magento\Core\Model\Session\Generic $paypalSession,
+        \Magento\Core\Helper\Url $urlHelper,
+        \Magento\Customer\Helper\Data $customerHelper
+    ) {
+        $this->_customerSession = $customerSession;
+        $this->_urlHelper = $urlHelper;
+        $this->_customerHelper = $customerHelper;
+        parent::__construct(
+            $context,
+            $customerSession,
+            $urlBuilder,
+            $quoteFactory,
+            $checkoutSession,
+            $orderFactory,
+            $checkoutFactory,
+            $paypalSession
+        );
+    }
+
+    /**
+     * Redirect to login page
      */
     public function redirectLogin()
     {
         $this->setFlag('', 'no-dispatch', true);
-        \Mage::getSingleton('Magento\Customer\Model\Session')->setBeforeAuthUrl($this->_getRefererUrl());
+        $this->_customerSession->setBeforeAuthUrl($this->_getRefererUrl());
         $this->getResponse()->setRedirect(
-            $this->_objectManager->get('Magento\Core\Helper\Url')->addRequestParam(
-                $this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl(),
-                array('context' => 'checkout')
-            )
+            $this->_urlHelper->addRequestParam($this->_customerHelper->getLoginUrl(), array('context' => 'checkout'))
         );
     }
 }

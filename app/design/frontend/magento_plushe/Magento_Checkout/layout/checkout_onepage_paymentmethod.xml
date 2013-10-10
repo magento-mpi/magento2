@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <referenceBlock name="payment_method">
+        <block class="Magento\Core\Block\Template" name="checkout.onepage.payment.methods.scripts" as="scripts"/>
+        <block class="Magento\Core\Block\Template" name="checkout.onepage.payment.methods.additional" as="additional"/>
+    </referenceBlock>
+</layout>

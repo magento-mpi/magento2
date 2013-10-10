@@ -11,8 +11,18 @@
 
 namespace Magento\Catalog\Model;
 
+/**
+ * Class \Magento\Catalog\Model\ObserverTest
+ *
+ * @SuppressWarnings(PHPMD.LongVariable)
+ */
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var \Magento\TestFramework\Helper\ObjectManager
+     */
+    protected $_objectHelper;
+
     /**
      * @var \Magento\Event\Observer
      */
@@ -30,18 +40,27 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->_objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_catalogCategory = $this->getMock('Magento\Catalog\Helper\Category', array(), array(), '', false);
         $this->_catalogData = $this->getMock('Magento\Catalog\Helper\Data', array(), array(), '', false);
+        $urlFactoryMock = $this->getMock('Magento\Catalog\Model\UrlFactory', array(), array(), '', false);
+        $catFlatFactoryMock = $this->getMock('Magento\Catalog\Model\Resource\Category\FlatFactory', array(),
+            array(), '', false);
+        $productFactoryMock = $this->getMock('Magento\Catalog\Model\Resource\ProductFactory', array(),
+            array(), '', false);
         $this->_catalogCategoryFlat = $this->getMock(
             'Magento\Catalog\Helper\Category\Flat', array(), array(), '', false
         );
         $coreConfig = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
-        $this->_model = new \Magento\Catalog\Model\Observer(
-            $this->_catalogCategory,
-            $this->_catalogData,
-            $this->_catalogCategoryFlat,
-            $coreConfig
-        );
+        $this->_model = $this->_objectHelper->getObject('Magento\Catalog\Model\Observer', array(
+            'catalogCategory' => $this->_catalogCategory,
+            'catalogData' => $this->_catalogData,
+            'catalogCategoryFlat' => $this->_catalogCategoryFlat,
+            'coreConfig' => $coreConfig,
+            'urlFactory' => $urlFactoryMock,
+            'flatResourceFactory' => $catFlatFactoryMock,
+            'productResourceFactory' => $productFactoryMock,
+        ));
         $this->_requestMock = $this->getMock('Magento\Core\Controller\Request\Http', array(), array(), '', false);
     }
 

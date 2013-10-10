@@ -87,16 +87,36 @@ class Config
     protected $_collectionAttributes              = array();
 
     /**
-     * @var \Magento\Core\Model\Cache\StateInterface
+     * @var \Magento\Core\Model\App
      */
-    protected $_cacheState;
+    protected $_app;
 
     /**
-     * @param \Magento\Core\Model\Cache\StateInterface $cacheState
+     * @var \Magento\Eav\Model\Entity\TypeFactory
      */
-    public function __construct(\Magento\Core\Model\Cache\StateInterface $cacheState)
-    {
+    protected $_entityTypeFactory;
+
+    /**
+     * @var \Magento\Validator\UniversalFactory
+     */
+    protected $_universalFactory;
+
+    /**
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Eav\Model\Entity\TypeFactory $entityTypeFactory
+     * @param \Magento\Core\Model\Cache\StateInterface $cacheState
+     * @param \Magento\Validator\UniversalFactory $universalFactory
+     */
+    public function __construct(
+        \Magento\Core\Model\App $app,
+        \Magento\Eav\Model\Entity\TypeFactory $entityTypeFactory,
+        \Magento\Core\Model\Cache\StateInterface $cacheState,
+        \Magento\Validator\UniversalFactory $universalFactory
+    ) {
+        $this->_app = $app;
+        $this->_entityTypeFactory = $entityTypeFactory;
         $this->_cacheState = $cacheState;
+        $this->_universalFactory = $universalFactory;
     }
 
     /**
@@ -245,7 +265,7 @@ class Config
          * try load information about entity types from cache
          */
         if ($this->_isCacheEnabled()
-            && ($cache = \Mage::app()->loadCache(self::ENTITIES_CACHE_ID))) {
+            && ($cache = $this->_app->loadCache(self::ENTITIES_CACHE_ID))) {
 
             $this->_entityData = unserialize($cache);
             foreach ($this->_entityData as $typeCode => $data) {
@@ -256,7 +276,7 @@ class Config
             return $this;
         }
 
-        $entityTypesData = \Mage::getModel('Magento\Eav\Model\Entity\Type')->getCollection()->getData();
+        $entityTypesData = $this->_entityTypeFactory->create()->getCollection()->getData();
         $types           = array();
 
         /**
@@ -277,7 +297,7 @@ class Config
         $this->_entityData = $types;
 
         if ($this->_isCacheEnabled()) {
-            \Mage::app()->saveCache(serialize($this->_entityData), self::ENTITIES_CACHE_ID,
+            $this->_app->saveCache(serialize($this->_entityData), self::ENTITIES_CACHE_ID,
                 array(\Magento\Eav\Model\Cache\Type::CACHE_TAG, \Magento\Eav\Model\Entity\Attribute::CACHE_TAG)
             );
         }
@@ -313,7 +333,7 @@ class Config
         }
 
 
-        $entityType = \Mage::getModel('Magento\Eav\Model\Entity\Type');
+        $entityType = $this->_entityTypeFactory->create();
         if (isset($this->_entityData[$code])) {
             $entityType->setData($this->_entityData[$code]);
         } else {
@@ -324,7 +344,7 @@ class Config
             }
 
             if (!$entityType->getId()) {
-                \Mage::throwException(__('Invalid entity_type specified: %1', $code));
+                throw new \Magento\Core\Exception(__('Invalid entity_type specified: %1', $code));
             }
         }
         $this->_addEntityTypeReference($entityType->getId(), $entityType->getEntityTypeCode());
@@ -350,7 +370,7 @@ class Config
         }
         \Magento\Profiler::start('EAV: '.__METHOD__, array('group' => 'EAV', 'method' => __METHOD__));
 
-        $attributesInfo = \Mage::getResourceModel($entityType->getEntityAttributeCollection())
+        $attributesInfo = $this->_universalFactory->create($entityType->getEntityAttributeCollection())
             ->setEntityTypeFilter($entityType)
             ->getData();
 
@@ -408,16 +428,16 @@ class Config
         if (isset($this->_attributeData[$entityTypeCode][$code])) {
             $data = $this->_attributeData[$entityTypeCode][$code];
             unset($this->_attributeData[$entityTypeCode][$code]);
-            $attribute = \Mage::getModel($data['attribute_model'], array('data' => $data));
+            $attribute = $this->_universalFactory->create($data['attribute_model'], array('data' => $data));
         } else {
             if (is_numeric($code)) {
-                $attribute = \Mage::getModel($entityType->getAttributeModel())->load($code);
+                $attribute = $this->_universalFactory->create($entityType->getAttributeModel())->load($code);
                 if ($attribute->getEntityTypeId() != $entityType->getId()) {
                     return false;
                 }
                 $attributeKey = $this->_getAttributeKey($entityTypeCode, $attribute->getAttributeCode());
             } else {
-                $attribute = \Mage::getModel($entityType->getAttributeModel())
+                $attribute = $this->_universalFactory->create($entityType->getAttributeModel())
                     ->loadByCode($entityType, $code)
                     ->setAttributeCode($code);
             }
@@ -451,7 +471,7 @@ class Config
         $entityType     = $this->getEntityType($entityType);
         $attributeSetId = 0;
         if (($object instanceof \Magento\Object) && $object->getAttributeSetId()) {
-             $attributeSetId = $object->getAttributeSetId();
+            $attributeSetId = $object->getAttributeSetId();
         }
         $storeId = 0;
         if (($object instanceof \Magento\Object) && $object->getStoreId()) {
@@ -463,7 +483,7 @@ class Config
         }
 
         if ($attributeSetId) {
-            $attributesInfo = \Mage::getResourceModel($entityType->getEntityAttributeCollection())
+            $attributesInfo = $this->_universalFactory->create($entityType->getEntityAttributeCollection())
                 ->setEntityTypeFilter($entityType)
                 ->setAttributeSetFilter($attributeSetId)
                 ->addStoreLabel($storeId)
@@ -514,7 +534,7 @@ class Config
         \Magento\Profiler::start('EAV: '.__METHOD__ . ':'.$entityTypeCode,
             array('group' => 'EAV', 'method' => __METHOD__, 'entity_type_code' => $entityTypeCode));
 
-        $attributesInfo = \Mage::getResourceModel($entityType->getEntityAttributeCollection())
+        $attributesInfo = $this->_universalFactory->create($entityType->getEntityAttributeCollection())
             ->setEntityTypeFilter($entityType)
             ->setCodeFilter($attributes)
             ->getData();
@@ -606,7 +626,7 @@ class Config
             return $this;
         }
         $attributeCollection = $entityType->getEntityAttributeCollection();
-        $attributesInfo = \Mage::getResourceModel($attributeCollection)
+        $attributesInfo = $this->_universalFactory->create($attributeCollection)
             ->useLoadDataFields()
             ->setEntityTypeFilter($entityType)
             ->setCodeFilter($attributes)
@@ -648,7 +668,7 @@ class Config
         } else {
             $model = $entityType->getAttributeModel();
         }
-        $attribute = \Mage::getModel($model)->setData($attributeData);
+        $attribute = $this->_universalFactory->create($model)->setData($attributeData);
         $this->_addAttributeReference(
             $attributeData['attribute_id'],
             $attributeData['attribute_code'],

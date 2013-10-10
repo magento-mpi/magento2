@@ -11,8 +11,7 @@
 /** @var $installer \Magento\Catalog\Model\Resource\Setup */
 $installer = $this;
 
-/** @var $eavResource \Magento\Catalog\Model\Resource\Eav\Attribute */
-$eavResource = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Eav\Attribute');
+$eavResource = $installer->createEavAttributeResource();
 
 $multiSelectAttributeCodes = $eavResource->getAttributeCodesByFrontendType('multiselect');
 

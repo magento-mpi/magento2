@@ -178,7 +178,10 @@ class Item extends \Magento\Core\Model\AbstractModel
 
     /**
      * Construct
-     * 
+     *
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Index\Model\Indexer $indexer
+     * @param \Magento\CatalogInventory\Model\Stock\Status $stockStatus
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData

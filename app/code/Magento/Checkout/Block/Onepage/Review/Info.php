@@ -10,22 +10,45 @@
 
 /**
  * One page checkout order review
- *
- * @category    Magento
- * @package     Magento_Checkout
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Checkout\Block\Onepage\Review;
 
 class Info extends \Magento\Sales\Block\Items\AbstractItems
 {
-    public function getItems()
-    {
-        return \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote()->getAllVisibleItems();
+    /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        array $data = array()
+    ) {
+        $this->_checkoutSession = $checkoutSession;
+        parent::__construct($coreData, $context, $data);
     }
 
+    /**
+     * @return array
+     */
+    public function getItems()
+    {
+        return $this->_checkoutSession->getQuote()->getAllVisibleItems();
+    }
+
+    /**
+     * @return array
+     */
     public function getTotals()
     {
-        return \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote()->getTotals();
+        return $this->_checkoutSession->getQuote()->getTotals();
     }
 }

@@ -48,6 +48,11 @@ class Compared extends \Magento\Reports\Model\Product\Index\AbstractIndex
      * @param \Magento\Catalog\Helper\Product\Compare $productCompare
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Log\Model\Visitor $logVisitor
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\Session\Generic $reportSession
+     * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -56,12 +61,20 @@ class Compared extends \Magento\Reports\Model\Product\Index\AbstractIndex
         \Magento\Catalog\Helper\Product\Compare $productCompare,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Log\Model\Visitor $logVisitor,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\Session\Generic $reportSession,
+        \Magento\Catalog\Model\Product\Visibility $productVisibility,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
+        parent::__construct(
+            $context, $registry, $storeManager, $logVisitor, $customerSession,
+            $reportSession, $productVisibility, $resource, $resourceCollection, $data
+        );
         $this->_productCompare = $productCompare;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**

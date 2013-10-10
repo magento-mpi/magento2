@@ -15,7 +15,7 @@
  */
 namespace Magento\Adminhtml\Controller\Sales;
 
-class Invoice extends \Magento\Adminhtml\Controller\Sales\Invoice\InvoiceAbstract
+class Invoice extends \Magento\Adminhtml\Controller\Sales\Invoice\AbstractInvoice
 {
     /**
      * Export invoice grid to CSV format

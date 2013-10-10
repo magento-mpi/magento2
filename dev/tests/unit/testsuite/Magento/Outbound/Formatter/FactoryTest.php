@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Formatter_Factory
+ * \Magento\Outbound\Formatter\Factory
  *
  * {license_notice}
  *

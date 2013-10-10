@@ -16,6 +16,27 @@ namespace Magento\FullPageCache\Model\Container;
 class Catalognavigation extends \Magento\FullPageCache\Model\Container\AbstractContainer
 {
     /**
+     * @var \Magento\Catalog\Model\CategoryFactory
+     */
+    protected $_categoryFactory;
+
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\FullPageCache\Model\Cache $fpcCache,
+        \Magento\FullPageCache\Model\Container\Placeholder $placeholder,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\FullPageCache\Helper\Url $urlHelper,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Layout $layout,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory
+    ) {
+        parent::__construct(
+            $eventManager, $fpcCache, $placeholder, $coreRegistry, $urlHelper, $coreStoreConfig, $layout
+        );
+        $this->_categoryFactory = $categoryFactory;
+    }
+
+    /**
      * @return string
      */
     protected function _getBlockCacheId()
@@ -110,7 +131,7 @@ class Catalognavigation extends \Magento\FullPageCache\Model\Container\AbstractC
 
         $categoryId = $this->_getCategoryId();
         if (!$this->_coreRegistry->registry('current_category') && $categoryId) {
-            $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($categoryId);
+            $category = $this->_categoryFactory->create()->load($categoryId);
             $this->_coreRegistry->register('current_category', $category);
         }
 

@@ -31,21 +31,32 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
     protected $_taxData = null;
 
     /**
-     * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Checkout\Model\Session $resourceSession
+     * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
+     * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Tax\Helper\Data $taxData
      * @param array $data
      */
     public function __construct(
-        \Magento\Tax\Helper\Data $taxData,
         \Magento\Core\Model\Cache\Type\Config $configCacheType,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Checkout\Model\Session $resourceSession,
+        \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
+        \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Tax\Helper\Data $taxData,
         array $data = array()
     ) {
         $this->_taxData = $taxData;
-        parent::__construct($configCacheType, $coreData, $context, $data);
+        parent::__construct($configCacheType, $coreData, $context, $customerSession, $resourceSession,
+            $countryCollFactory, $regionCollFactory, $storeManager, $data);
     }
 
     public function getShippingRates()

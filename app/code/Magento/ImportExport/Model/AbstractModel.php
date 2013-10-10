@@ -52,14 +52,30 @@ abstract class AbstractModel extends \Magento\Object
     protected $_logger;
 
     /**
-     * Constructor
-     *
+     * @var \Magento\Core\Model\Dir
+     */
+    protected $_dir;
+
+    /**
+     * @var \Magento\Core\Model\Log\AdapterFactory
+     */
+    protected $_adapterFactory;
+
+    /**
      * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\Core\Model\Log\AdapterFactory $adapterFactory
      * @param array $data
      */
-    public function __construct(\Magento\Core\Model\Logger $logger, array $data = array())
-    {
+    public function __construct(
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Dir $dir,
+        \Magento\Core\Model\Log\AdapterFactory $adapterFactory,
+        array $data = array()
+    ) {
         $this->_logger = $logger;
+        $this->_dir = $dir;
+        $this->_adapterFactory = $adapterFactory;
         parent::__construct($data);
     }
 
@@ -89,14 +105,14 @@ abstract class AbstractModel extends \Magento\Object
                 $this->getOperationType(),
                 $this->getEntity()
             ));
-            $dirPath = \Mage::getBaseDir('var') . DS . \Magento\ImportExport\Model\Scheduled\Operation::LOG_DIRECTORY
+            $dirPath = $this->_dir->getDir('var') . DS . \Magento\ImportExport\Model\Scheduled\Operation::LOG_DIRECTORY
                 . $dirName;
             if (!is_dir($dirPath)) {
                 mkdir($dirPath, 0777, true);
             }
             $fileName = substr(strstr(\Magento\ImportExport\Model\Scheduled\Operation::LOG_DIRECTORY, DS), 1)
                 . $dirName . $fileName . '.log';
-            $this->_logInstance = \Mage::getModel('Magento\Core\Model\Log\Adapter', array('fileName' => $fileName))
+            $this->_logInstance = $this->_adapterFactory->create(array('fileName' => $fileName))
                 ->setFilterDataKeys($this->_debugReplacePrivateDataKeys);
         }
         $this->_logInstance->log($debugData);

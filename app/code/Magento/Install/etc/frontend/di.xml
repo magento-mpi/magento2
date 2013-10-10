@@ -15,4 +15,9 @@
             </value>
         </param>
     </type>
+    <type name="Magento\Install\Model\Session">
+        <param name="sessionNamespace">
+            <value>install</value>
+        </param>
+    </type>
 </config>

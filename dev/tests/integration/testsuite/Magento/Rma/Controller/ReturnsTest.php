@@ -11,7 +11,7 @@
 
 namespace Magento\Rma\Controller;
 
-class ReturnsTest extends \Magento\TestFramework\TestCase\ControllerAbstract
+class ReturnsTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
      * @var \Magento\Customer\Model\Session

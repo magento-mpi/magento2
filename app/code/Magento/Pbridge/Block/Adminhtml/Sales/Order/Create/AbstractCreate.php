@@ -50,13 +50,71 @@ class AbstractCreate
     protected $_iframeTemplate = 'Magento_Pbridge::iframe.phtml';
 
     /**
+     * Backend url
+     *
+     * @var \Magento\Backend\Model\Url
+     */
+    protected $_backendUrl;
+
+    /**
+     * Adminhtml session quote
+     *
+     * @var \Magento\Adminhtml\Model\Session\Quote
+     */
+    protected $_adminhtmlSessionQuote;
+
+    /**
+     * @var \Magento\Core\Model\Config
+     */
+    protected $_config;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Pbridge\Model\Session $pbridgeSession
+     * @param \Magento\Directory\Model\RegionFactory $regionFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Pbridge\Helper\Data $pbridgeData
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Adminhtml\Model\Session\Quote $adminhtmlSessionQuote
+     * @param \Magento\Backend\Model\Url $backendUrl
+     * @param \Magento\Core\Model\Config $config
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Pbridge\Model\Session $pbridgeSession,
+        \Magento\Directory\Model\RegionFactory $regionFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Pbridge\Helper\Data $pbridgeData,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Adminhtml\Model\Session\Quote $adminhtmlSessionQuote,
+        \Magento\Backend\Model\Url $backendUrl,
+        \Magento\Core\Model\Config $config,
+        array $data = array()
+    ) {
+        $this->_adminhtmlSessionQuote = $adminhtmlSessionQuote;
+        $this->_backendUrl = $backendUrl;
+        $this->_config = $config;
+        parent::__construct($coreData, $context, $customerSession, $pbridgeSession, $regionFactory, $storeManager,
+            $pbridgeData, $checkoutSession, $data);
+    }
+
+    /**
      * Return redirect url for Payment Bridge application
      *
      * @return string
      */
     public function getRedirectUrl()
     {
-        return \Mage::getSingleton('Magento\Backend\Model\Url')->getUrl('*/pbridge/result',
+        return $this->_backendUrl->getUrl('*/pbridge/result',
             array('store' => $this->getQuote()->getStoreId())
         );
     }
@@ -68,7 +126,7 @@ class AbstractCreate
      */
     public function getQuote()
     {
-        return \Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote')->getQuote();
+        return $this->_adminhtmlSessionQuote->getQuote();
     }
 
     /**
@@ -78,7 +136,7 @@ class AbstractCreate
      */
     protected function _getVariation()
     {
-        return \Mage::app()->getConfig()->getValue('payment/pbridge/merchantcode', 'default')
+        return $this->_config->getValue('payment/pbridge/merchantcode', 'default')
             . '_' . $this->getQuote()->getStore()->getWebsite()->getCode();
     }
 
@@ -98,8 +156,8 @@ class AbstractCreate
      */
     protected function _getCurrentCustomer()
     {
-        if (\Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote')->getCustomer() instanceof \Magento\Customer\Model\Customer) {
-            return \Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote')->getCustomer();
+        if ($this->_adminhtmlSessionQuote->getCustomer() instanceof \Magento\Customer\Model\Customer) {
+            return $this->_adminhtmlSessionQuote->getCustomer();
         }
 
         return null;

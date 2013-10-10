@@ -62,7 +62,7 @@ class Region
      */
     public function getMatchedEvents()
     {
-        return $this->_conditionFactory->create('Customer_Address_Attributes')
+        return $this->_conditionFactory->create('Customer\Address\Attributes')
             ->getMatchedEvents();
     }
 

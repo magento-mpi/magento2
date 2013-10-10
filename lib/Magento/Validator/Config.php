@@ -9,7 +9,7 @@
  */
 namespace Magento\Validator;
 
-class Config extends \Magento\Config\XmlAbstract
+class Config extends \Magento\Config\AbstractXml
 {
     /**#@+
      * Constraints types
@@ -22,6 +22,23 @@ class Config extends \Magento\Config\XmlAbstract
      * @var string
      */
     protected $_defaultBuilderClass = 'Magento\Validator\Builder';
+
+    /**
+     * @var \Magento\Validator\UniversalFactory
+     */
+    protected $_builderFactory;
+
+    /**
+     * @param array $configFiles
+     * @param \Magento\Validator\UniversalFactory $builderFactory
+     */
+    public function __construct(
+        array $configFiles,
+        \Magento\Validator\UniversalFactory $builderFactory
+    ) {
+        parent::__construct($configFiles);
+        $this->_builderFactory = $builderFactory;
+    }
 
     /**
      * Create validator builder instance based on entity and group.
@@ -43,20 +60,21 @@ class Config extends \Magento\Config\XmlAbstract
                 $entityName));
         }
 
-        if (array_key_exists('builder', $this->_data[$entityName][$groupName])) {
-            $builderClass = $this->_data[$entityName][$groupName]['builder'];
-        } else {
-            $builderClass = $this->_defaultBuilderClass;
-        }
+        $builderClass = isset($this->_data[$entityName][$groupName]['builder'])
+            ? $this->_data[$entityName][$groupName]['builder'] : $this->_defaultBuilderClass;
 
         if (!class_exists($builderClass)) {
             throw new \InvalidArgumentException(sprintf('Builder class "%s" was not found', $builderClass));
         }
 
-        $builder = new $builderClass($this->_data[$entityName][$groupName]['constraints']);
+        $builder = $this->_builderFactory->create(
+            $builderClass,
+            array('constraints' => $this->_data[$entityName][$groupName]['constraints'])
+        );
         if (!$builder instanceof \Magento\Validator\Builder) {
             throw new \InvalidArgumentException(
-                sprintf('Builder "%s" must extend \Magento\Validator\Builder', $builderClass));
+                sprintf('Builder "%s" must extend \Magento\Validator\Builder', $builderClass)
+            );
         }
         if ($builderConfig) {
             $builder->addConfigurations($builderConfig);

@@ -14,7 +14,7 @@ namespace Magento\Catalog\Controller\Product;
 /**
  * @magentoDataFixture Magento/Catalog/controllers/_files/products.php
  */
-class CompareTest extends \Magento\TestFramework\TestCase\ControllerAbstract
+class CompareTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     public function testAddAction()
     {

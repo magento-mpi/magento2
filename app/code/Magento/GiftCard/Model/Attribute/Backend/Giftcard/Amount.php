@@ -35,6 +35,8 @@ class Amount
     protected $_directoryHelper;
 
     /**
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Directory\Helper\Data $directoryHelper
      * @param \Magento\GiftCard\Model\Resource\Attribute\Backend\Giftcard\Amount $amountResource
@@ -42,6 +44,8 @@ class Amount
      * @param \Magento\Core\Model\Logger $logger
      */
     public function __construct(
+        \Magento\Core\Model\Config $config,
+        \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Directory\Helper\Data $directoryHelper,
         \Magento\GiftCard\Model\Resource\Attribute\Backend\Giftcard\Amount $amountResource,
@@ -51,14 +55,15 @@ class Amount
         $this->_storeManager = $storeManager;
         $this->_directoryHelper = $directoryHelper;
         $this->_amountResource = $amountResource;
-        parent::__construct($catalogData, $logger);
+        parent::__construct($logger, $currencyFactory, $storeManager, $catalogData, $config);
     }
 
     /**
      * Validate data
      *
      * @param   \Magento\Catalog\Model\Product $object
-     * @return  \Magento\GiftCard\Model\Attribute\Backend\Giftcard\Amounts
+     * @return  \Magento\GiftCard\Model\Attribute\Backend\Giftcard\Amount
+     * @throws \Magento\Core\Exception
      */
     public function validate($object)
     {

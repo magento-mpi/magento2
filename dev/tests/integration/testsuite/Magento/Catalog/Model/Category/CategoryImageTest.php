@@ -70,10 +70,11 @@ class CategoryImageTest extends \PHPUnit_Framework_TestCase
      * Test that there is no exception '$_FILES array is empty' in \Magento\File\Uploader::_setUploadFileId()
      * if category image was not set
      *
-     * @magentoDataFixture Magento/Catalog/Model/Category/_files/category_without_image.php
      */
     public function testSaveCategoryWithoutImage()
     {
+        $this->markTestSkipped('MAGETWO-15096');
+
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 

@@ -44,6 +44,63 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
     protected $_cacheTag    = 'EAV_ATTRIBUTE';
 
     /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_catalogProductFactory;
+
+    /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Eav\Model\Entity\TypeFactory $eavTypeFactory
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Catalog\Model\ProductFactory $catalogProductFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Eav\Model\Entity\TypeFactory $eavTypeFactory,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Eav\Model\Resource\Helper $resourceHelper,
+        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Catalog\Model\ProductFactory $catalogProductFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $context,
+            $registry,
+            $coreData,
+            $eavConfig,
+            $eavTypeFactory,
+            $storeManager,
+            $resourceHelper,
+            $universalFactory,
+            $resource,
+            $resourceCollection,
+            $data
+        );
+        $this->_locale = $locale;
+        $this->_catalogProductFactory = $catalogProductFactory;
+    }
+
+    /**
      * Retrieve default attribute backend model by attribute code
      *
      * @return string
@@ -128,9 +185,9 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
     {
         // prevent overriding product data
         if (isset($this->_data['attribute_code'])
-            && \Mage::getModel('Magento\Catalog\Model\Product')->isReservedAttribute($this))
-        {
-            throw \Mage::exception('Magento_Eav', __('The attribute code \'%1\' is reserved by system. Please try another attribute code', $this->_data['attribute_code']));
+            && $this->_catalogProductFactory->create()->isReservedAttribute($this)
+        ) {
+            throw new \Magento\Eav\Exception(__('The attribute code \'%1\' is reserved by system. Please try another attribute code', $this->_data['attribute_code']));
         }
 
         /**
@@ -141,7 +198,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
                               'StringLength',
                               array('max' => self::ATTRIBUTE_CODE_MAX_LENGTH))
         ) {
-            throw \Mage::exception('Magento_Eav', __('Maximum length of attribute code must be less than %1 symbols', self::ATTRIBUTE_CODE_MAX_LENGTH));
+            throw new \Magento\Eav\Exception(__('Maximum length of attribute code must be less than %1 symbols', self::ATTRIBUTE_CODE_MAX_LENGTH));
         }
 
         $defaultValue   = $this->getDefaultValue();
@@ -149,18 +206,18 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
 
         if ($this->getBackendType() == 'decimal' && $hasDefaultValue) {
             if (!\Zend_Locale_Format::isNumber($defaultValue,
-                                              array('locale' => \Mage::app()->getLocale()->getLocaleCode()))
+                                              array('locale' => $this->_locale->getLocaleCode()))
             ) {
-                 throw \Mage::exception('Magento_Eav', __('Invalid default decimal value'));
+                throw new \Magento\Eav\Exception(__('Invalid default decimal value'));
             }
 
             try {
                 $filter = new \Zend_Filter_LocalizedToNormalized(
-                    array('locale' => \Mage::app()->getLocale()->getLocaleCode())
+                    array('locale' => $this->_locale->getLocaleCode())
                 );
                 $this->setDefaultValue($filter->filter($defaultValue));
             } catch (\Exception $e) {
-                throw \Mage::exception('Magento_Eav', __('Invalid default decimal value'));
+                throw new \Magento\Eav\Exception(__('Invalid default decimal value'));
             }
         }
 
@@ -175,12 +232,12 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
 
             // save default date value as timestamp
             if ($hasDefaultValue) {
-                $format = \Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+                $format = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
                 try {
-                    $defaultValue = \Mage::app()->getLocale()->date($defaultValue, $format, null, false)->toValue();
+                    $defaultValue = $this->_locale->date($defaultValue, $format, null, false)->toValue();
                     $this->setDefaultValue($defaultValue);
                 } catch (\Exception $e) {
-                    throw \Mage::exception('Magento_Eav', __('Invalid default date'));
+                    throw new \Magento\Eav\Exception(__('Invalid default date'));
                 }
             }
         }
@@ -321,7 +378,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
         if ($this->hasData('store_label')) {
             return $this->getData('store_label');
         }
-        $store = \Mage::app()->getStore($storeId);
+        $store = $this->_storeManager->getStore($storeId);
         $label = false;
         if (!$store->isAdmin()) {
             $labels = $this->getStoreLabels();

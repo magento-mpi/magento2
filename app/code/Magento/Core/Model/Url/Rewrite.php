@@ -60,9 +60,27 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
     protected $_coreStoreConfig;
 
     /**
+     * @var \Magento\Core\Model\App
+     */
+    protected $_app;
+
+    /**
+     * @var \Magento\Core\Model\App\State
+     */
+    protected $_appState;
+
+    /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -71,11 +89,17 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\App $app,
+        \Magento\Core\Model\App\State $appState,
+        \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_app = $app;
+        $this->_appState = $appState;
+        $this->_storeManager = $storeManager;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -209,17 +233,17 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
      */
     public function rewrite(\Zend_Controller_Request_Http $request=null, \Zend_Controller_Response_Http $response=null)
     {
-        if (!\Mage::isInstalled()) {
+        if (!$this->_appState->isInstalled()) {
             return false;
         }
         if (is_null($request)) {
-            $request = \Mage::app()->getFrontController()->getRequest();
+            $request = $this->_app->getFrontController()->getRequest();
         }
         if (is_null($response)) {
-            $response = \Mage::app()->getFrontController()->getResponse();
+            $response = $this->_app->getFrontController()->getResponse();
         }
         if (is_null($this->getStoreId()) || false === $this->getStoreId()) {
-            $this->setStoreId(\Mage::app()->getStore()->getId());
+            $this->setStoreId($this->_storeManager->getStore()->getId());
         }
 
         /**
@@ -250,7 +274,7 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
          */
         if (!$this->getId() && isset($_GET['___from_store'])) {
             try {
-                $fromStoreId = \Mage::app()->getStore($_GET['___from_store'])->getId();
+                $fromStoreId = $this->_storeManager->getStore($_GET['___from_store'])->getId();
             } catch (\Exception $e) {
                 return false;
             }
@@ -259,10 +283,10 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
             if (!$this->getId()) {
                 return false;
             }
-            $currentStore = \Mage::app()->getStore();
+            $currentStore = $this->_storeManager->getStore();
             $this->setStoreId($currentStore->getId())->loadByIdPath($this->getIdPath());
 
-            \Mage::app()->getCookie()->set(\Magento\Core\Model\Store::COOKIE_NAME, $currentStore->getCode(), true);
+            $this->_app->getCookie()->set(\Magento\Core\Model\Store::COOKIE_NAME, $currentStore->getCode(), true);
             $targetUrl = $request->getBaseUrl(). '/' . $this->getRequestPath();
 
             $this->_sendRedirectHeaders($targetUrl, true);
@@ -277,8 +301,8 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
         $external = substr($this->getTargetPath(), 0, 6);
         $isPermanentRedirectOption = $this->hasOption('RP');
         if ($external === 'http:/' || $external === 'https:') {
-            $destinationStoreCode = \Mage::app()->getStore($this->getStoreId())->getCode();
-            \Mage::app()->getCookie()->set(\Magento\Core\Model\Store::COOKIE_NAME, $destinationStoreCode, true);
+            $destinationStoreCode = $this->_storeManager->getStore($this->getStoreId())->getCode();
+            $this->_app->getCookie()->set(\Magento\Core\Model\Store::COOKIE_NAME, $destinationStoreCode, true);
 
             $this->_sendRedirectHeaders($this->getTargetPath(), $isPermanentRedirectOption);
         } else {
@@ -286,14 +310,14 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
         }
         $isRedirectOption = $this->hasOption('R');
         if ($isRedirectOption || $isPermanentRedirectOption) {
-            if ($this->_coreStoreConfig->getConfig('web/url/use_store') && $storeCode = \Mage::app()->getStore()->getCode()) {
+            if ($this->_coreStoreConfig->getConfig('web/url/use_store') && $storeCode = $this->_storeManager->getStore()->getCode()) {
                 $targetUrl = $request->getBaseUrl(). '/' . $storeCode . '/' .$this->getTargetPath();
             }
 
             $this->_sendRedirectHeaders($targetUrl, $isPermanentRedirectOption);
         }
 
-        if ($this->_coreStoreConfig->getConfig('web/url/use_store') && $storeCode = \Mage::app()->getStore()->getCode()) {
+        if ($this->_coreStoreConfig->getConfig('web/url/use_store') && $storeCode = $this->_storeManager->getStore()->getCode()) {
                 $targetUrl = $request->getBaseUrl(). '/' . $storeCode . '/' .$this->getTargetPath();
         }
 

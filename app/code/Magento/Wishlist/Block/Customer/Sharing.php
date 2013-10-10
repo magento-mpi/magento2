@@ -35,18 +35,26 @@ class Sharing extends \Magento\Core\Block\Template
     protected $_wishlistConfig;
 
     /**
+     * @var \Magento\Core\Model\Session\Generic
+     */
+    protected $_wishlistSession;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
+     * @param \Magento\Core\Model\Session\Generic $wishlistlSession
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Wishlist\Model\Config $wishlistConfig,
+        \Magento\Core\Model\Session\Generic $wishlistlSession,
         array $data = array()
     ) {
         $this->_wishlistConfig = $wishlistConfig;
+        $this->_wishlistSession = $wishlistlSession;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -82,8 +90,7 @@ class Sharing extends \Magento\Core\Block\Template
     public function getEnteredData($key)
     {
         if (is_null($this->_enteredData)) {
-            $this->_enteredData = \Mage::getSingleton('Magento\Wishlist\Model\Session')
-                ->getData('sharing_form', true);
+            $this->_enteredData = $this->_wishlistSession->getData('sharing_form', true);
         }
 
         if (!$this->_enteredData || !isset($this->_enteredData[$key])) {

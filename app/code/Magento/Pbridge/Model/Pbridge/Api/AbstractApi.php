@@ -54,14 +54,20 @@ class AbstractApi extends \Magento\Object
     protected $_logger;
 
     /**
+     * Log adapter factory
+     *
+     * @var \Magento\Core\Model\Log\AdapterFactory
+     */
+    protected $_logAdapterFactory;
+
+    /**
      * Constructor
      *
-     * By default is looking for first argument as array and assigns it as object
-     * attributes This behavior may change in child classes
-     *
+     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
      * @param array $data
      */
     public function __construct(
@@ -69,12 +75,14 @@ class AbstractApi extends \Magento\Object
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
         $this->_coreData = $coreData;
         $this->_logger = $logger;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_logAdapterFactory = $logAdapterFactory;
         parent::__construct($data);
     }
 
@@ -84,6 +92,7 @@ class AbstractApi extends \Magento\Object
      * @param array $request
      * @throws \Exception
      * @return bool
+     * @throws \Magento\Core\Exception
      */
     protected function _call(array $request)
     {
@@ -126,7 +135,7 @@ class AbstractApi extends \Magento\Object
                     sprintf('Payment Bridge CURL connection error #%s: %s', $curlErrorNumber, $curlError)
                 ));
 
-                \Mage::throwException(
+                throw new \Magento\Core\Exception(
                     __('Unable to communicate with Payment Bridge service.')
                 );
             }
@@ -156,9 +165,9 @@ class AbstractApi extends \Magento\Object
     protected function _handleError($response)
     {
         if (isset($response['status']) && $response['status'] == 'Fail' && isset($response['error'])) {
-            \Mage::throwException($response['error']);
+            throw new \Magento\Core\Exception($response['error']);
         }
-        \Mage::throwException(__('There was a payment gateway internal error.'));
+        throw new \Magento\Core\Exception(__('There was a payment gateway internal error.'));
     }
 
     /**
@@ -195,7 +204,7 @@ class AbstractApi extends \Magento\Object
     {
         $this->_debugFlag = (bool)$this->_coreStoreConfig->getConfigFlag('payment/pbridge/debug');
         if ($this->_debugFlag) {
-            \Mage::getModel('Magento\Core\Model\Log\Adapter', array('fileName' => 'payment_pbridge.log'))
+            $this->_logAdapterFactory->create(array('fileName' => 'payment_pbridge.log'))
                ->log($debugData);
         }
     }

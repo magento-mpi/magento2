@@ -15,7 +15,6 @@ namespace Magento\Banner\Model;
 
 class Observer
 {
-
     /**
      * Adminhtml js
      *
@@ -24,12 +23,22 @@ class Observer
     protected $_adminhtmlJs = null;
 
     /**
+     * Banner factory
+     *
+     * @var \Magento\Banner\Model\Resource\BannerFactory
+     */
+    protected $_bannerFactory = null;
+
+    /**
      * @param \Magento\Adminhtml\Helper\Js $adminhtmlJs
+     * @param \Magento\Banner\Model\Resource\BannerFactory $bannerFactory
      */
     public function __construct(
-        \Magento\Adminhtml\Helper\Js $adminhtmlJs
+        \Magento\Adminhtml\Helper\Js $adminhtmlJs,
+        \Magento\Banner\Model\Resource\BannerFactory $bannerFactory
     ) {
         $this->_adminhtmlJs = $adminhtmlJs;
+        $this->_bannerFactory = $bannerFactory;
     }
 
     /**
@@ -57,12 +66,12 @@ class Observer
     public function bindRelatedBannersToCatalogRule(\Magento\Event\Observer $observer)
     {
         $catalogRule = $observer->getEvent()->getRule();
-        $resource = \Mage::getResourceModel('Magento\Banner\Model\Resource\Banner');
         $banners = $catalogRule->getRelatedBanners();
         if (empty($banners)) {
             $banners = array();
         }
-        $resource->bindBannersToCatalogRule($catalogRule->getId(), $banners);
+        $this->_bannerFactory->create()
+            ->bindBannersToCatalogRule($catalogRule->getId(), $banners);
         return $this;
     }
 
@@ -91,12 +100,12 @@ class Observer
     public function bindRelatedBannersToSalesRule(\Magento\Event\Observer $observer)
     {
         $salesRule = $observer->getEvent()->getRule();
-        $resource = \Mage::getResourceModel('Magento\Banner\Model\Resource\Banner');
         $banners = $salesRule->getRelatedBanners();
         if (empty($banners)) {
             $banners = array();
         }
-        $resource->bindBannersToSalesRule($salesRule->getId(), $banners);
+        $this->_bannerFactory->create()
+            ->bindBannersToSalesRule($salesRule->getId(), $banners);
         return $this;
     }
 }

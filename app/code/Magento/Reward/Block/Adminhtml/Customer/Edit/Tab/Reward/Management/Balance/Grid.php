@@ -18,8 +18,7 @@
  */
 namespace Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance;
 
-class Grid
-    extends \Magento\Backend\Block\Widget\Grid\Extended
+class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Flag to store if customer has orphan points
@@ -107,11 +106,11 @@ class Grid
     /**
      * Prepare grid collection
      *
-     * @return \Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management_Balance_Grid
+     * @return \Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = $this->_rewardsFactory->addFieldToFilter('customer_id', $this->getCustomer()->getId());
+        $collection = $this->_rewardsFactory->create()->addFieldToFilter('customer_id', $this->getCustomer()->getId());
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -119,7 +118,7 @@ class Grid
     /**
      * After load collection processing
      *
-     * @return \Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management_Balance_Grid
+     * @return \Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance\Grid
      */
     protected function _afterLoadCollection()
     {
@@ -155,7 +154,7 @@ class Grid
     /**
      * Prepare grid columns
      *
-     * @return \Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management_Balance_Grid
+     * @return \Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance\Grid
      */
     protected function _prepareColumns()
     {

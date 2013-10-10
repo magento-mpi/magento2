@@ -25,7 +25,7 @@ class Price extends \Magento\Index\Model\Resource\AbstractResource
      *
      * @var string
      */
-    protected $_defaultPriceIndexer    = 'Magento\Catalog\Model\Resource\Product\Indexer\Price\DefaultPrice';
+    protected $_defaultPriceIndexer = 'Magento\Catalog\Model\Resource\Product\Indexer\Price\DefaultPrice';
 
     /**
      * Product Type Price indexer resource models
@@ -33,6 +33,77 @@ class Price extends \Magento\Index\Model\Resource\AbstractResource
      * @var array
      */
     protected $_indexers;
+
+    /**
+     * Catalog product type
+     *
+     * @var \Magento\Catalog\Model\Product\Type
+     */
+    protected $_catalogProductType;
+
+    /**
+     * Locale
+     *
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Currency factory
+     *
+     * @var \Magento\Directory\Model\CurrencyFactory
+     */
+    protected $_currencyFactory;
+
+    /**
+     * Core config model
+     *
+     * @var \Magento\Core\Model\ConfigInterface
+     */
+    protected $_config;
+
+    /**
+     * Indexer price factory
+     *
+     * @var \Magento\Catalog\Model\Resource\Product\Indexer\Price\Factory
+     */
+    protected $_indexerPriceFactory;
+
+    /**
+     * Class constructor
+     *
+     * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Catalog\Model\Product\Type $catalogProductType
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Catalog\Model\Resource\Product\Indexer\Price\Factory $indexerPriceFactory
+     */
+    public function __construct(
+        \Magento\Directory\Model\CurrencyFactory $currencyFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Catalog\Model\Product\Type $catalogProductType,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\Config $config,
+        \Magento\Catalog\Model\Resource\Product\Indexer\Price\Factory $indexerPriceFactory
+    ) {
+        $this->_currencyFactory = $currencyFactory;
+        $this->_storeManager = $storeManager;
+        $this->_locale = $locale;
+        $this->_catalogProductType = $catalogProductType;
+        $this->_config = $config;
+        $this->_indexerPriceFactory = $indexerPriceFactory;
+        parent::__construct($resource);
+    }
 
     /**
      * Define main index table
@@ -314,7 +385,7 @@ class Price extends \Magento\Index\Model\Resource\AbstractResource
     {
         $types = $this->getTypeIndexers();
         if (!isset($types[$productTypeId])) {
-            \Mage::throwException(__('We found an unsupported product type "%1".', $productTypeId));
+            throw new \Magento\Core\Exception(__('We found an unsupported product type "%1".', $productTypeId));
         }
         return $types[$productTypeId];
     }
@@ -328,7 +399,7 @@ class Price extends \Magento\Index\Model\Resource\AbstractResource
     {
         if (is_null($this->_indexers)) {
             $this->_indexers = array();
-            $types = \Mage::getSingleton('Magento\Catalog\Model\Product\Type')->getTypesByPriority();
+            $types = $this->_catalogProductType->getTypesByPriority();
             foreach ($types as $typeId => $typeInfo) {
                 if (isset($typeInfo['price_indexer'])) {
                     $modelName = $typeInfo['price_indexer'];
@@ -336,7 +407,7 @@ class Price extends \Magento\Index\Model\Resource\AbstractResource
                     $modelName = $this->_defaultPriceIndexer;
                 }
                 $isComposite = !empty($typeInfo['composite']);
-                $indexer = \Mage::getResourceModel($modelName)
+                $indexer = $this->_indexerPriceFactory->create($modelName)
                     ->setTypeId($typeId)
                     ->setIsComposite($isComposite);
 
@@ -533,7 +604,7 @@ class Price extends \Magento\Index\Model\Resource\AbstractResource
     protected function _prepareWebsiteDateTable()
     {
         $write = $this->_getWriteAdapter();
-        $baseCurrency = \Mage::app()->getBaseCurrencyCode();
+        $baseCurrency = $this->_config->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, 'default');
 
         $select = $write->select()
             ->from(
@@ -549,10 +620,10 @@ class Price extends \Magento\Index\Model\Resource\AbstractResource
         $data = array();
         foreach ($write->fetchAll($select) as $item) {
             /** @var $website \Magento\Core\Model\Website */
-            $website = \Mage::app()->getWebsite($item['website_id']);
+            $website = $this->_storeManager->getWebsite($item['website_id']);
 
             if ($website->getBaseCurrencyCode() != $baseCurrency) {
-                $rate = \Mage::getModel('Magento\Directory\Model\Currency')
+                $rate = $this->_currencyFactory->create()
                     ->load($baseCurrency)
                     ->getRate($website->getBaseCurrencyCode());
                 if (!$rate) {
@@ -563,9 +634,9 @@ class Price extends \Magento\Index\Model\Resource\AbstractResource
             }
 
             /** @var $store \Magento\Core\Model\Store */
-            $store = \Mage::app()->getStore($item['store_id']);
+            $store = $this->_storeManager->getStore($item['store_id']);
             if ($store) {
-                $timestamp = \Mage::app()->getLocale()->storeTimeStamp($store);
+                $timestamp = $this->_locale->storeTimeStamp($store);
                 $data[] = array(
                     'website_id' => $website->getId(),
                     'website_date'       => $this->formatDate($timestamp, false),

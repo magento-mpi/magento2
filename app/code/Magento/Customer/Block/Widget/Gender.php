@@ -20,6 +20,37 @@ namespace Magento\Customer\Block\Widget;
 class Gender extends \Magento\Customer\Block\Widget\AbstractWidget
 {
     /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\Customer\Model\Resource\Customer
+     */
+    protected $_customerResource;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Customer\Model\Resource\Customer $customerResource
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Customer\Model\Resource\Customer $customerResource,
+        array $data = array()
+    ) {
+        $this->_customerSession = $customerSession;
+        $this->_customerResource = $customerResource;
+        parent::__construct($coreData, $context, $eavConfig, $data);
+    }
+
+    /**
      * Initialize block
      */
     public function _construct()
@@ -55,7 +86,7 @@ class Gender extends \Magento\Customer\Block\Widget\AbstractWidget
      */
     public function getCustomer()
     {
-        return \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer();
+        return $this->_customerSession->getCustomer();
     }
 
     /**
@@ -65,7 +96,7 @@ class Gender extends \Magento\Customer\Block\Widget\AbstractWidget
      */
     public function getGenderOptions()
     {
-        return \Mage::getResourceSingleton('Magento\Customer\Model\Resource\Customer')
+        return $this->_customerResource
             ->getAttribute('gender')
             ->getSource()
             ->getAllOptions();

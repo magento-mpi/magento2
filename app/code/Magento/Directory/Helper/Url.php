@@ -23,23 +23,17 @@ class Url extends \Magento\Core\Helper\Url
     protected $_coreData = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\StoreManager $storeManager
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Core\Model\StoreManager $storeManager
     ) {
         $this->_coreData = $coreData;
-        $this->_storeManager = $storeManager;
-        parent::__construct($context);
+        parent::__construct($context, $storeManager);
     }
 
     /**

@@ -22,6 +22,31 @@ class Source
     extends \Magento\Catalog\Model\Resource\Product\Indexer\Eav\AbstractEav
 {
     /**
+     * Catalog resource helper
+     *
+     * @var \Magento\Catalog\Model\Resource\Helper
+     */
+    protected $_resourceHelper;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Catalog\Model\Resource\Helper $resourceHelper
+     */
+    public function __construct(
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Catalog\Model\Resource\Helper $resourceHelper
+    ) {
+        $this->_resourceHelper = $resourceHelper;
+        parent::__construct($resource, $eavConfig, $eventManager);
+    }
+
+    /**
      * Initialize connection and define main index table
      *
      */
@@ -132,7 +157,7 @@ class Source
             )
             ->where('pid.attribute_id IN(?)', $attrIds);
 
-        $select->where(\Mage::getResourceHelper('Magento_Catalog')->getIsNullNotNullCondition('pis.value', 'pid.value'));
+        $select->where($this->_resourceHelper->getIsNullNotNullCondition('pis.value', 'pid.value'));
 
         /**
          * Add additional external limitation

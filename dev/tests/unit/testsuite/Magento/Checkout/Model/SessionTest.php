@@ -28,15 +28,26 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $orderFactory->expects($this->once())
             ->method('create')
             ->will($this->returnValue($orderMock));
-        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $context = $helper->getObject('Magento\Core\Model\Session\Context');
-        /** @var \Magento\Checkout\Model\Session $session */
-        $session = $this->getMock(
+
+        $messageCollFactory = $this->getMockBuilder('Magento\Core\Model\Message\CollectionFactory')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $quoteFactory = $this->getMockBuilder('Magento\Sales\Model\QuoteFactory')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $constructArguments = $objectManager->getConstructArguments(
             'Magento\Checkout\Model\Session',
-            array('init'),
-            array($context, $orderFactory),
-            ''
+            array(
+                 'context' => $this->getMock('Magento\Core\Model\Session\Context', array(), array(), '', false),
+                 'orderFactory' => $orderFactory,
+                 'messageCollFactory' => $messageCollFactory,
+                 'quoteFactory' => $quoteFactory,
+            )
         );
+        /** @var \Magento\Checkout\Model\Session $session */
+        $session = $this->getMock('Magento\Checkout\Model\Session', array('init'), $constructArguments);
         $session->setLastRealOrderId($orderId);
 
         $this->assertSame($orderMock, $session->getLastRealOrder());

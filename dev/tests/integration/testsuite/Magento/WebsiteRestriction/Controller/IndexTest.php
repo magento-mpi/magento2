@@ -11,7 +11,7 @@
 
 namespace Magento\WebsiteRestriction\Controller;
 
-class IndexTest extends \Magento\TestFramework\TestCase\ControllerAbstract
+class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
      * @magentoConfigFixture current_store general/restriction/is_active 1

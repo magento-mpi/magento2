@@ -20,6 +20,49 @@ namespace Magento\Checkout\Block;
 class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
 {
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Catalog\Model\Resource\Url
+     */
+    protected $_catalogUrlBuilder;
+
+    /**
+     * @var \Magento\Core\Model\UrlInterface
+     */
+    protected $_urlBuilder;
+
+    /**
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Resource\Url $catalogUrlBuilder
+     * @param \Magento\Core\Model\UrlInterface $urlBuilder
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Resource\Url $catalogUrlBuilder,
+        \Magento\Core\Model\UrlInterface $urlBuilder,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_catalogUrlBuilder = $catalogUrlBuilder;
+        $this->_urlBuilder = $urlBuilder;
+        parent::__construct($catalogData, $coreData, $context, $customerSession, $checkoutSession, $data);
+    }
+
+    /**
      * Prepare Quote Item Product URLs
      *
      */
@@ -43,7 +86,7 @@ class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
                 $product = $option->getProduct();
             }
 
-            if ($item->getStoreId() != \Mage::app()->getStore()->getId()
+            if ($item->getStoreId() != $this->_storeManager->getStore()->getId()
                 && !$item->getRedirectUrl()
                 && !$product->isVisibleInSiteVisibility())
             {
@@ -52,8 +95,7 @@ class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
         }
 
         if ($products) {
-            $products = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Url')
-                ->getRewriteByProductStore($products);
+            $products = $this->_catalogUrlBuilder->getRewriteByProductStore($products);
             foreach ($this->getItems() as $item) {
                 $product    = $item->getProduct();
                 $option     = $item->getOptionByCode('product_type');
@@ -69,45 +111,63 @@ class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
         }
     }
 
+    /**
+     * @return bool
+     */
     public function hasError()
     {
         return $this->getQuote()->getHasError();
     }
 
+    /**
+     * @return int
+     */
     public function getItemsSummaryQty()
     {
         return $this->getQuote()->getItemsSummaryQty();
     }
 
+    /**
+     * @return bool
+     */
     public function isWishlistActive()
     {
         $isActive = $this->_getData('is_wishlist_active');
         if ($isActive === null) {
             $isActive = $this->_storeConfig->getConfig('wishlist/general/active')
-                && \Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn();
+                && $this->_customerSession->isLoggedIn();
             $this->setIsWishlistActive($isActive);
         }
         return $isActive;
     }
 
+    /**
+     * @return string
+     */
     public function getCheckoutUrl()
     {
         return $this->getUrl('checkout/onepage', array('_secure'=>true));
     }
 
+    /**
+     * @return mixed
+     */
     public function getContinueShoppingUrl()
     {
         $url = $this->getData('continue_shopping_url');
         if (is_null($url)) {
-            $url = \Mage::getSingleton('Magento\Checkout\Model\Session')->getContinueShoppingUrl(true);
+            $url = $this->_checkoutSession->getContinueShoppingUrl(true);
             if (!$url) {
-                $url = \Mage::getUrl();
+                $url = $this->_urlBuilder->getUrl();
             }
             $this->setData('continue_shopping_url', $url);
         }
         return $url;
     }
 
+    /**
+     * @return bool
+     */
     public function getIsVirtual()
     {
         return $this->helper('Magento\Checkout\Helper\Cart')->getIsVirtualQuote();
@@ -133,12 +193,13 @@ class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
      *
      * @param string $name Block name in layout
      * @return string
+     * @throws \Magento\Core\Exception
      */
     public function getMethodHtml($name)
     {
         $block = $this->getLayout()->getBlock($name);
         if (!$block) {
-            \Mage::throwException(__('Invalid method: %1', $name));
+            throw new \Magento\Core\Exception(__('Invalid method: %1', $name));
         }
         return $block->toHtml();
     }

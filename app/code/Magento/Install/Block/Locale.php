@@ -23,6 +23,34 @@ class Locale extends \Magento\Install\Block\AbstractBlock
     protected $_template = 'locale.phtml';
 
     /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Install\Model\Installer $installer
+     * @param \Magento\Install\Model\Wizard $installWizard
+     * @param \Magento\Core\Model\Session\Generic $session
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Install\Model\Installer $installer,
+        \Magento\Install\Model\Wizard $installWizard,
+        \Magento\Core\Model\Session\Generic $session,
+        \Magento\Core\Model\LocaleInterface $locale,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $context, $installer, $installWizard, $session, $data);
+        $this->_locale = $locale;
+    }
+
+
+    /**
      * Retrieve locale object
      *
      * @return \Zend_Locale
@@ -31,7 +59,7 @@ class Locale extends \Magento\Install\Block\AbstractBlock
     {
         $locale = $this->getData('locale');
         if (null === $locale) {
-            $locale = \Mage::app()->getLocale()->getLocale();
+            $locale = $this->_locale->getLocale();
             $this->setData('locale', $locale);
         }
         return $locale;
@@ -70,7 +98,7 @@ class Locale extends \Magento\Install\Block\AbstractBlock
             ->setTitle(__('Locale'))
             ->setClass('required-entry')
             ->setValue($this->getLocale()->__toString())
-            ->setOptions(\Mage::app()->getLocale()->getTranslatedOptionLocales())
+            ->setOptions($this->_locale->getTranslatedOptionLocales())
             ->getHtml();
         return $html;
     }
@@ -88,7 +116,7 @@ class Locale extends \Magento\Install\Block\AbstractBlock
             ->setTitle(__('Time Zone'))
             ->setClass('required-entry')
             ->setValue($this->getTimezone())
-            ->setOptions(\Mage::app()->getLocale()->getOptionTimezones())
+            ->setOptions($this->_locale->getOptionTimezones())
             ->getHtml();
         return $html;
     }
@@ -100,9 +128,9 @@ class Locale extends \Magento\Install\Block\AbstractBlock
      */
     public function getTimezone()
     {
-        $timezone = \Mage::getSingleton('Magento\Install\Model\Session')->getTimezone()
-            ? \Mage::getSingleton('Magento\Install\Model\Session')->getTimezone()
-            : \Mage::app()->getLocale()->getTimezone();
+        $timezone = $this->_session->getTimezone()
+            ? $this->_session->getTimezone()
+            : $this->_locale->getTimezone();
         if ($timezone == \Magento\Core\Model\LocaleInterface::DEFAULT_TIMEZONE) {
             $timezone = 'America/Los_Angeles';
         }
@@ -122,7 +150,7 @@ class Locale extends \Magento\Install\Block\AbstractBlock
             ->setTitle(__('Default Currency'))
             ->setClass('required-entry')
             ->setValue($this->getCurrency())
-            ->setOptions(\Mage::app()->getLocale()->getOptionCurrencies())
+            ->setOptions($this->_locale->getOptionCurrencies())
             ->getHtml();
         return $html;
     }
@@ -134,9 +162,9 @@ class Locale extends \Magento\Install\Block\AbstractBlock
      */
     public function getCurrency()
     {
-        return \Mage::getSingleton('Magento\Install\Model\Session')->getCurrency()
-            ? \Mage::getSingleton('Magento\Install\Model\Session')->getCurrency()
-            : \Mage::app()->getLocale()->getCurrency();
+        return $this->_session->getCurrency()
+            ? $this->_session->getCurrency()
+            : $this->_locale->getCurrency();
     }
 
     /**

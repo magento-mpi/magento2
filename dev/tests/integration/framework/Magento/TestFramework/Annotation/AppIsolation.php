@@ -79,7 +79,7 @@ class AppIsolation
             $isIsolationEnabled = $isolation === array('enabled');
         } else {
             /* Controller tests should be isolated by default */
-            $isIsolationEnabled = $test instanceof \Magento\TestFramework\TestCase\ControllerAbstract;
+            $isIsolationEnabled = $test instanceof \Magento\TestFramework\TestCase\AbstractController;
         }
 
         if ($isIsolationEnabled) {

@@ -20,6 +20,27 @@ namespace Magento\Pbridge\Controller\Payment;
 class Profile extends \Magento\Core\Controller\Front\Action
 {
     /**
+     * Customer session
+     *
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     */
+    public function __construct(
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Customer\Model\Session $customerSession
+    ) {
+        $this->_customerSession = $customerSession;
+        parent::__construct($context);
+    }
+
+    /**
      * Check whether Payment Profiles functionality enabled
      *
      * @return \Magento\Pbridge\Controller\Payment\Profile
@@ -40,8 +61,8 @@ class Profile extends \Magento\Core\Controller\Front\Action
      */
     public function indexAction()
     {
-        if(!\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId()) {
-            \Mage::getSingleton('Magento\Customer\Model\Session')->authenticate($this);
+        if(!$this->_customerSession->getCustomerId()) {
+            $this->_customerSession->authenticate($this);
             return;
         }
 

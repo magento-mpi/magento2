@@ -27,6 +27,17 @@ class Helper extends \Magento\Core\Model\Resource\Helper
     const DB_MAX_PACKET_COEFFICIENT = 0.85; // The coefficient of useful data from maximum packet length
 
     /**
+     * @param \Magento\Core\Model\Resource $resource
+     * @param string $modulePrefix
+     */
+    public function __construct(
+        \Magento\Core\Model\Resource $resource,
+        $modulePrefix = 'importexport'
+    ) {
+        parent::__construct($resource, $modulePrefix);
+    }
+
+    /**
      * Returns maximum size of packet, that we can send to DB
      *
      * @return int
@@ -50,7 +61,7 @@ class Helper extends \Magento\Core\Model\Resource\Helper
         $entityStatus = $adapter->showTableStatus($tableName);
 
         if (empty($entityStatus['Auto_increment'])) {
-            \Mage::throwException(__('Cannot get autoincrement value'));
+            throw new \Magento\Core\Exception(__('Cannot get autoincrement value'));
         }
         return $entityStatus['Auto_increment'];
     }

@@ -62,14 +62,41 @@ class Storage extends \Magento\Core\Model\AbstractModel
     protected $_coreConfig;
 
     /**
+     * Core file storage flag
+     *
+     * @var \Magento\Core\Model\File\Storage\Flag
+     */
+    protected $_fileFlag;
+
+    /**
+     * File factory
+     *
+     * @var \Magento\Core\Model\File\Storage\FileFactory
+     */
+    protected $_fileFactory;
+
+    /**
+     * @var \Magento\Core\Model\File\Storage\DatabaseFactory
+     */
+    protected $_databaseFactory;
+
+    /**
+     * @var \Magento\Core\Model\Dir
+     */
+    protected $_dir;
+
+    /**
      * @param \Magento\Core\Helper\File\Storage $coreFileStorage
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Core\Model\File\Storage\Flag $fileFlag
+     * @param \Magento\Core\Model\File\Storage\FileFactory $fileFactory
+     * @param \Magento\Core\Model\File\Storage\DatabaseFactory $databaseFactory
+     * @param \Magento\Core\Model\Dir $dir
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \\Magento\Data\Collection\Db $resourceCollection
-     * $resourceCollection
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -78,6 +105,10 @@ class Storage extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Config $coreConfig,
+        \Magento\Core\Model\File\Storage\Flag $fileFlag,
+        \Magento\Core\Model\File\Storage\FileFactory $fileFactory,
+        \Magento\Core\Model\File\Storage\DatabaseFactory $databaseFactory,
+        \Magento\Core\Model\Dir $dir,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -85,6 +116,10 @@ class Storage extends \Magento\Core\Model\AbstractModel
         $this->_coreFileStorage = $coreFileStorage;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreConfig = $coreConfig;
+        $this->_fileFlag = $fileFlag;
+        $this->_fileFactory = $fileFactory;
+        $this->_databaseFactory = $databaseFactory;
+        $this->_dir = $dir;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -112,7 +147,7 @@ class Storage extends \Magento\Core\Model\AbstractModel
      */
     public function getSyncFlag()
     {
-        return \Mage::getSingleton('Magento\Core\Model\File\Storage\Flag')->loadSelf();
+        return $this->_fileFlag->loadSelf();
     }
 
     /**
@@ -136,13 +171,12 @@ class Storage extends \Magento\Core\Model\AbstractModel
 
         switch ($storage) {
             case self::STORAGE_MEDIA_FILE_SYSTEM:
-                $model = \Mage::getModel('Magento\Core\Model\File\Storage\File');
+                $model = $this->_fileFactory->create();
                 break;
             case self::STORAGE_MEDIA_DATABASE:
                 $connection = (isset($params['connection'])) ? $params['connection'] : null;
                 $arguments = array('connection' => $connection);
-                $model = \Mage::getModel('Magento\Core\Model\File\Storage\Database',
-                    array('connectionName' => $arguments));
+                $model = $this->_databaseFactory->create(array('connectionName' => $arguments));
                 break;
             default:
                 return false;
@@ -252,7 +286,7 @@ class Storage extends \Magento\Core\Model\AbstractModel
     public function getScriptConfig()
     {
         $config = array();
-        $config['media_directory'] = \Mage::getBaseDir('media');
+        $config['media_directory'] = $this->_dir->getDir('media');
 
         $allowedResources = $this->_coreConfig->getValue(self::XML_PATH_MEDIA_RESOURCE_WHITELIST, 'default');
         foreach ($allowedResources as $allowedResource) {

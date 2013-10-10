@@ -21,6 +21,27 @@ namespace Magento\Pbridge\Controller;
 class PbridgeIpn extends \Magento\Core\Controller\Front\Action
 {
     /**
+     * Pbridge ipn factory
+     *
+     * @var \Magento\Pbridge\Model\Payment\Method\Pbridge\IpnFactory
+     */
+    protected $_pbridgeIpnFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Pbridge\Model\Payment\Method\Pbridge\IpnFactory $pbridgeIpnFactory
+     */
+    public function __construct(
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Pbridge\Model\Payment\Method\Pbridge\IpnFactory $pbridgeIpnFactory
+    ) {
+        $this->_pbridgeIpnFactory = $pbridgeIpnFactory;
+        parent::__construct($context);
+    }
+
+    /**
      * Index Action.
      * Forward to result action
      *
@@ -28,7 +49,8 @@ class PbridgeIpn extends \Magento\Core\Controller\Front\Action
      */
     public function indexAction()
     {
-        $ipn = \Mage::getModel('Magento\Pbridge\Model\Payment\Method\Pbridge\Ipn');
+        /** @var \Magento\Pbridge\Model\Payment\Method\Pbridge\Ipn $ipn */
+        $ipn = $this->_pbridgeIpnFactory->create();
 
         $ipn->setIpnFormData($this->getRequest()->getPost())
             ->processIpnRequest();

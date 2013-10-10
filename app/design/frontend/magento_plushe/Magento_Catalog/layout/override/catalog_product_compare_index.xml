@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Catalog Product Compare List" type="page" parent="default">
+    <referenceContainer name="content">
+        <block class="Magento\Catalog\Block\Product\Compare\ListCompare" name="catalog.compare.list" template="product/compare/list.phtml"/>
+    </referenceContainer>
+    <update handle="MAP_popup"/>
+</layout>

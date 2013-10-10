@@ -25,11 +25,18 @@ class Config
     protected $_viewUrl;
 
     /**
-     * @param \Magento\Core\Model\View\Url $viewUrl
+     * @var \Magento\Backend\Model\Url
      */
-    public function __construct(\Magento\Core\Model\View\Url $viewUrl)
+    protected $_url;
+
+    /**
+     * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\Backend\Model\Url $url
+     */
+    public function __construct(\Magento\Core\Model\View\Url $viewUrl, \Magento\Backend\Model\Url $url)
     {
         $this->_viewUrl = $viewUrl;
+        $this->_url = $url;
     }
 
     /**
@@ -77,6 +84,6 @@ class Config
      */
     public function getVariablesWysiwygActionUrl()
     {
-        return \Mage::getSingleton('Magento\Backend\Model\Url')->getUrl('*/system_variable/wysiwygPlugin');
+        return $this->_url->getUrl('*/system_variable/wysiwygPlugin');
     }
 }

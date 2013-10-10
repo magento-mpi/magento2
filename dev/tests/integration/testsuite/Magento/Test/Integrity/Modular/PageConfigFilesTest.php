@@ -9,7 +9,7 @@
  */
 namespace Magento\Test\Integrity\Modular;
 
-class PageConfigFilesTest extends \Magento\TestFramework\TestCase\ConfigFilesAbstract
+class PageConfigFilesTest extends \Magento\TestFramework\TestCase\AbstractConfigFiles
 {
     /**
      * Returns the reader class name that will be instantiated via ObjectManager

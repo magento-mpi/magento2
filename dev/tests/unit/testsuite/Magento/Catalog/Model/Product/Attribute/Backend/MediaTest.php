@@ -18,13 +18,20 @@ class MediaTest extends \PHPUnit_Framework_TestCase
      */
     protected $_model;
 
+    /**
+     * @var \Magento\TestFramework\Helper\ObjectManager
+     */
+    protected $_objectHelper;
+
     protected function setUp()
     {
+        $this->_objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
 
         $fileStorageDb = $this->getMock('Magento\Core\Helper\File\Storage\Database', array(), array(), '', false);
         $coreData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
-        $resource = $this->getMock('StdClass', array('getMainTable'));
+        $resource = $this->getMock('Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media',
+            array('getMainTable'), array(), '', false);
         $resource->expects($this->any())
             ->method('getMainTable')
             ->will($this->returnValue('table'));
@@ -32,17 +39,15 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         $mediaConfig = $this->getMock('Magento\Catalog\Model\Product\Media\Config', array(), array(), '', false);
         $dirs = $this->getMock('Magento\Core\Model\Dir', array(), array(), '', false);
         $filesystem = $this->getMockBuilder('Magento\Filesystem')->disableOriginalConstructor()->getMock();
-        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
-        $this->_model = new \Magento\Catalog\Model\Product\Attribute\Backend\Media(
-            $eventManager,
-            $fileStorageDb,
-            $coreData,
-            $mediaConfig,
-            $dirs,
-            $filesystem,
-            $logger,
-            array('resourceModel' => $resource)
-        );
+        $this->_model = $this->_objectHelper->getObject('Magento\Catalog\Model\Product\Attribute\Backend\Media', array(
+            'eventManager' => $eventManager,
+            'fileStorageDb' => $fileStorageDb,
+            'coreData' => $coreData,
+            'mediaConfig' => $mediaConfig,
+            'dirs' => $dirs,
+            'filesystem' => $filesystem,
+            'resourceProductAttribute' => $resource,
+        ));
     }
 
     public function testGetAffectedFields()

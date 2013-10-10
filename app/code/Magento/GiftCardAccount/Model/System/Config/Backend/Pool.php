@@ -12,6 +12,37 @@ namespace Magento\GiftCardAccount\Model\System\Config\Backend;
 
 class Pool extends \Magento\Core\Model\Config\Value
 {
+    /**
+     * Gift card account pool
+     *
+     * @var \Magento\GiftCardAccount\Model\Pool
+     */
+    protected $_giftCardAccountPool = null;
+
+    /**
+     * @param \Magento\GiftCardAccount\Model\Pool $giftCardAccountPool
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\GiftCardAccount\Model\Pool $giftCardAccountPool,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_giftCardAccountPool = $giftCardAccountPool;
+        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+    }
+
     protected function _beforeSave()
     {
         if ($this->isValueChanged()) {
@@ -26,11 +57,16 @@ class Pool extends \Magento\Core\Model\Config\Value
     protected function _afterSave()
     {
         if ($this->isValueChanged()) {
-            \Mage::getModel('Magento\GiftCardAccount\Model\Pool')->cleanupFree();
+            $this->_giftCardAccountPool->cleanupFree();
         }
         parent::_afterSave();
     }
 
+    /**
+     * Check Max Length
+     *
+     * @throws \Magento\Core\Exception
+     */
     protected function _checkMaxLength()
     {
         $groups = $this->getGroups();
@@ -53,13 +89,13 @@ class Pool extends \Magento\Core\Model\Config\Value
         if (isset($fields['code_split']['value'])) {
             $v = (int)$fields['code_split']['value'];
             if ($v > 0 && $v < $codeLen) {
-                $sep = \Mage::getModel('Magento\GiftCardAccount\Model\Pool')->getCodeSeparator();
+                $sep = $this->_giftCardAccountPool->getCodeSeparator();
                 $len += (ceil($codeLen / $v) * strlen($sep)) - 1;
             }
         }
 
         if ($len > 255) {
-            \Mage::throwException(__('Maximum generated code length is 255. Please correct your settings.'));
+            throw new \Magento\Core\Exception(__('Maximum generated code length is 255. Please correct your settings.'));
         }
     }
 }

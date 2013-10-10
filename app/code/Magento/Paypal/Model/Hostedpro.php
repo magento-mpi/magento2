@@ -10,52 +10,111 @@
 
 /**
  * Website Payments Pro Hosted Solution payment gateway model
- *
- * @category    Magento
- * @package     Magento_Paypal
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\Paypal\Model;
 
 class Hostedpro extends \Magento\Paypal\Model\Direct
 {
     /**
      * Button code
-     *
-     * @var string
      */
     const BM_BUTTON_CODE    = 'TOKEN';
 
     /**
      * Button type
-     *
-     * @var string
      */
     const BM_BUTTON_TYPE    = 'PAYMENT';
 
     /**
      * Paypal API method name for button creation
-     *
-     * @var string
      */
     const BM_BUTTON_METHOD  = 'BMCreateButton';
 
     /**
      * Payment method code
+     *
+     * @var string
      */
     protected $_code = \Magento\Paypal\Model\Config::METHOD_HOSTEDPRO;
 
+    /**
+     * @var string
+     */
     protected $_formBlockType = 'Magento\Paypal\Block\Hosted\Pro\Form';
-    protected $_infoBlockType = 'Magento\Paypal\Block\Hosted\Pro\Info';
 
     /**
+     * @var string
+     */
+    protected $_infoBlockType = 'Magento\Paypal\Block\Hosted\Pro\Info';
+
+    /**#@+
      * Availability options
      */
     protected $_canUseInternal          = false;
     protected $_canUseForMultishipping  = false;
     protected $_canSaveCc               = false;
     protected $_isInitializeNeeded      = true;
+    /**#@-*/
+
+    /**
+     * @var \Magento\Paypal\Model\Hostedpro\RequestFactory
+     */
+    protected $_hostedproRequestFactory;
+
+    /**
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\ModuleListInterface $moduleList
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Centinel\Model\Service $centinelService
+     * @param \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\UrlInterface $urlBuilder
+     * @param \Magento\Core\Controller\Request\Http $requestHttp
+     * @param \Magento\Paypal\Model\CartFactory $cartFactory
+     * @param \Magento\Paypal\Model\Hostedpro\RequestFactory $hostedproRequestFactory
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\ModuleListInterface $moduleList,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Centinel\Model\Service $centinelService,
+        \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\UrlInterface $urlBuilder,
+        \Magento\Core\Controller\Request\Http $requestHttp,
+        \Magento\Paypal\Model\CartFactory $cartFactory,
+        \Magento\Paypal\Model\Hostedpro\RequestFactory $hostedproRequestFactory,
+        array $data = array()
+    ) {
+        $this->_hostedproRequestFactory = $hostedproRequestFactory;
+        parent::__construct(
+            $logger,
+            $eventManager,
+            $coreStoreConfig,
+            $moduleList,
+            $paymentData,
+            $logAdapterFactory,
+            $locale,
+            $centinelService,
+            $proTypeFactory,
+            $storeManager,
+            $urlBuilder,
+            $requestHttp,
+            $cartFactory,
+            $data
+        );
+    }
 
     /**
      * Return available CC types for gateway based on merchant country.
@@ -94,6 +153,7 @@ class Hostedpro extends \Magento\Paypal\Model\Direct
      *
      * @param string $paymentAction
      * @param \Magento\Object $stateObject
+     * @return \Magento\Payment\Model\AbstractModel|null
      */
     public function initialize($paymentAction, $stateObject)
     {
@@ -121,6 +181,7 @@ class Hostedpro extends \Magento\Paypal\Model\Direct
      * Sends API request to PayPal to get form URL, then sets this URL to $payment object.
      *
      * @param \Magento\Payment\Model\Info $payment
+     * @throws \Magento\Core\Exception
      */
     protected function _setPaymentFormUrl(\Magento\Payment\Model\Info $payment)
     {
@@ -129,7 +190,7 @@ class Hostedpro extends \Magento\Paypal\Model\Direct
         if ($response) {
             $payment->setAdditionalInformation('secure_form_url', $response);
         } else {
-            \Mage::throwException('Cannot get secure form URL from PayPal');
+            throw new \Magento\Core\Exception('Cannot get secure form URL from PayPal');
         }
     }
 
@@ -172,8 +233,7 @@ class Hostedpro extends \Magento\Paypal\Model\Direct
      */
     protected function _buildBasicRequest()
     {
-        $request = \Mage::getModel('Magento\Paypal\Model\Hostedpro\Request');
-        $request->setData(array(
+        $request = $this->_hostedproRequestFactory->create()->setData(array(
             'METHOD'     => self::BM_BUTTON_METHOD,
             'BUTTONCODE' => self::BM_BUTTON_CODE,
             'BUTTONTYPE' => self::BM_BUTTON_TYPE
@@ -224,8 +284,8 @@ class Hostedpro extends \Magento\Paypal\Model\Direct
      */
     protected function _getUrl($path, $storeId, $secure = null)
     {
-        $store = \Mage::app()->getStore($storeId);
-        return \Mage::getUrl($path, array(
+        $store = $this->_storeManager->getStore($storeId);
+        return $this->_urlBuilder->getUrl($path, array(
             "_store"   => $store,
             "_secure"  => is_null($secure) ? $store->isCurrentlySecure() : $secure
         ));

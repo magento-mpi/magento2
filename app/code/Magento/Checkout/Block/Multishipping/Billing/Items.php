@@ -20,13 +20,42 @@ namespace Magento\Checkout\Block\Multishipping\Billing;
 class Items extends \Magento\Sales\Block\Items\AbstractItems
 {
     /**
+     * @var \Magento\Checkout\Model\Type\Multishipping
+     */
+    protected $_multishipping;
+
+    /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Checkout\Model\Type\Multishipping $multishipping
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Checkout\Model\Type\Multishipping $multishipping,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        array $data = array()
+    ) {
+        $this->_multishipping = $multishipping;
+        $this->_checkoutSession = $checkoutSession;
+        parent::__construct($coreData, $context);
+    }
+
+    /**
      * Get multishipping checkout model
      *
      * @return \Magento\Checkout\Model\Type\Multishipping
      */
     public function getCheckout()
     {
-        return \Mage::getSingleton('Magento\Checkout\Model\Type\Multishipping');
+        return $this->_multishipping;
     }
 
     /**
@@ -36,7 +65,7 @@ class Items extends \Magento\Sales\Block\Items\AbstractItems
      */
     public function getQuote()
     {
-        return \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
+        return $this->_checkoutSession->getQuote();
     }
 
     /**

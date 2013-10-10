@@ -21,6 +21,34 @@ namespace Magento\Catalog\Model\Product\Media;
 class Config implements \Magento\Media\Model\Image\Config\ConfigInterface
 {
     /**
+     * Dir
+     *
+     * @var \Magento\Core\Model\Dir
+     */
+    protected $_dir;
+
+    /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Dir $dir
+     */
+    public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Dir $dir
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_dir = $dir;
+    }
+
+    /**
      * Filesystem directory path of product images
      * relatively to media folder
      *
@@ -66,22 +94,26 @@ class Config implements \Magento\Media\Model\Image\Config\ConfigInterface
 
     public function getBaseMediaPath()
     {
-        return \Mage::getBaseDir('media') . DIRECTORY_SEPARATOR . 'catalog' . DIRECTORY_SEPARATOR . 'product';
+        return $this->_dir->getDir(\Magento\Core\Model\Dir::MEDIA) . DIRECTORY_SEPARATOR
+            . 'catalog' . DIRECTORY_SEPARATOR . 'product';
     }
 
     public function getBaseMediaUrl()
     {
-        return \Mage::getBaseUrl('media') . 'catalog/product';
+        return $this->_storeManager->getStore()
+            ->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_MEDIA) . 'catalog/product';
     }
 
     public function getBaseTmpMediaPath()
     {
-        return \Mage::getBaseDir('media') . DIRECTORY_SEPARATOR . $this->getBaseTmpMediaPathAddition();
+        return $this->_dir->getDir(\Magento\Core\Model\Dir::MEDIA) . DIRECTORY_SEPARATOR
+            . $this->getBaseTmpMediaPathAddition();
     }
 
     public function getBaseTmpMediaUrl()
     {
-        return \Mage::getBaseUrl('media') . $this->getBaseTmpMediaUrlAddition();
+        return $this->_storeManager->getStore()
+            ->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_MEDIA) . $this->getBaseTmpMediaUrlAddition();
     }
 
     public function getMediaUrl($file)

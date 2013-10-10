@@ -1,0 +1,32 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/** @var $this \Magento\AdvancedCheckout\Block\Customer\Sku */
+
+?>
+
+<div class="fieldset file-upload">
+    <ul class="form-list">
+        <li>
+            <label for="customer_sku_csv"><?php echo __('File'); ?></label>
+            <div class="input-box">
+                <input id="customer_sku_csv" type="file" name="<?php echo \Magento\AdvancedCheckout\Model\Import::FIELD_NAME_SOURCE_FILE ?>" class="customer-sku-csv"/>
+                <p class="btn-reset"><span onclick="resetUploadField()"><?php echo __('Reset')?></span></p>
+                <p class="note"><span><?php echo __('File extensions allowed: .csv'); ?></span></p>
+                <p class="note"><span><?php echo __('File must contain two columns, with "sku" and "qty" in the header row.'); ?></span></p>
+            </div>
+        </li>
+    </ul>
+    <script type="text/javascript">
+        function resetUploadField() {
+            $('customer_sku_csv').replace('<input id="customer_sku_csv" type="file" name="<?php echo \Magento\AdvancedCheckout\Model\Import::FIELD_NAME_SOURCE_FILE ?>" class="customer-sku-csv"/>')
+        }
+    </script>
+</div>

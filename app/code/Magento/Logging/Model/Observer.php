@@ -65,8 +65,12 @@ class Observer
     protected $_flagFactory;
 
     /**
-     * Construct
-     * 
+     * @var \Magento\Logging\Model\Resource\EventFactory
+     */
+    protected $eventFactory;
+
+    /**
+     * @param \Magento\Logging\Model\Resource\EventFactory $eventFactory
      * @param \Magento\Logging\Model\Config $config
      * @param \Magento\User\Model\User $user
      * @param \Magento\Logging\Model\Event $event
@@ -77,6 +81,7 @@ class Observer
      * @param \Magento\Logging\Model\FlagFactory $flagFactory
      */
     public function __construct(
+        \Magento\Logging\Model\Resource\EventFactory $eventFactory,
         \Magento\Logging\Model\Config $config,
         \Magento\User\Model\User $user,
         \Magento\Logging\Model\Event $event,
@@ -86,6 +91,7 @@ class Observer
         \Magento\Core\Controller\Request\Http $request,
         \Magento\Logging\Model\FlagFactory $flagFactory
     ) {
+        $this->eventFactory = $eventFactory;
         $this->_config = $config;
         $this->_user = $user;
         $this->_event = $event;
@@ -245,7 +251,7 @@ class Observer
         $lastRotationTime = $lastRotationFlag->getFlagData();
         $rotationFrequency = 3600 * 24 * (int)$this->_coreConfig->getValue('system/rotation/frequency', 'default');
         if (!$lastRotationTime || ($lastRotationTime < time() - $rotationFrequency)) {
-            \Mage::getResourceModel('Magento\Logging\Model\Resource\Event')->rotate(
+            $this->eventFactory->create()->rotate(
                 3600 * 24 *(int)$this->_coreConfig->getValue('system/rotation/lifetime', 'default')
             );
         }

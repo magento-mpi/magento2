@@ -78,6 +78,8 @@ class Layout
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         return array(
+            'mergeFactory'       => $objectManager->get('Magento\Core\Model\Layout\MergeFactory'),
+            'themeFactory'       => $objectManager->get('Magento\Core\Model\Resource\Theme\CollectionFactory'),
             'logger'             => $objectManager->get('Magento\Core\Model\Logger'),
             'eventManager'       => $objectManager->get('Magento\Core\Model\Event\Manager'),
             'factoryHelper'      => $objectManager->get('Magento\Core\Model\Factory\Helper'),

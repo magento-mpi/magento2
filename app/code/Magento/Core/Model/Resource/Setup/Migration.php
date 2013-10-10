@@ -13,6 +13,7 @@ namespace Magento\Core\Model\Resource\Setup;
 /**
  * Resource setup model with methods needed for migration process between Magento versions
  * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Migration extends \Magento\Core\Model\Resource\Setup
 {
@@ -133,12 +134,17 @@ class Migration extends \Magento\Core\Model\Resource\Setup
     protected $_filesystem;
 
     /**
+     * @var \Magento\Core\Model\Dir
+     */
+    protected $_dir;
+
+    /**
      * @param \Magento\Core\Model\Resource\Setup\Context $context
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Helper\Data $helper
      * @param \Magento\Core\Model\Dir $dir
-     * @param $resourceName
-     * @param $confPathToMapFile
+     * @param string $resourceName
+     * @param string $confPathToMapFile
      * @param string $moduleName
      * @param string $connectionName
      */
@@ -156,7 +162,6 @@ class Migration extends \Magento\Core\Model\Resource\Setup
         $this->_coreHelper = $helper;
         $this->_baseDir = $dir->getDir();
         $this->_pathToMapFile = $confPathToMapFile;
-
         parent::__construct($context, $resourceName, $moduleName, $connectionName);
     }
 

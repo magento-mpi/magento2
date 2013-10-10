@@ -35,12 +35,14 @@ class Sku extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     protected $_coreString = null;
 
     /**
-     * @param \Magento\Core\Helper\String $coreString
+     * Construct
+     *
      * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Helper\String $coreString
      */
     public function __construct(
-        \Magento\Core\Helper\String $coreString,
-        \Magento\Core\Model\Logger $logger
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Helper\String $coreString
     ) {
         $this->_coreString = $coreString;
         parent::__construct($logger);
@@ -63,7 +65,7 @@ class Sku extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
         }
 
         if ($helper->strlen($object->getSku()) > self::SKU_MAX_LENGTH) {
-            \Mage::throwException(
+            throw new \Magento\Core\Exception(
                 __('SKU length should be %1 characters maximum.', self::SKU_MAX_LENGTH)
             );
         }

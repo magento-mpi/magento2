@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer \Magento\Core\Model\Resource\Setup */
+/** @var $installer \Magento\VersionsCms\Model\Resource\Setup */
 $installer = $this;
 $installer->startSetup();
 
@@ -34,7 +34,7 @@ $select->from(array('p' => $installer->getTable('cms_page')))
 
 $resource = $adapter->query($select);
 
-while ($page = $resource->fetch(\Zend_Db::FETCH_ASSOC)) {
+while (true == ($page = $resource->fetch(\Zend_Db::FETCH_ASSOC))) {
     $adapter->insert($installer->getTable('magento_versionscms_increment'), array(
         'increment_type'    => 0,
         'increment_node'    => $page['page_id'],
@@ -49,7 +49,7 @@ while ($page = $resource->fetch(\Zend_Db::FETCH_ASSOC)) {
         'user_id'         => new \Zend_Db_Expr('NULL'),
         'revisions_count' => 1,
         'label'           => $page['title'],
-        'created_at'      => \Mage::getSingleton('Magento\Core\Model\Date')->gmtDate()
+        'created_at'      => $this->_coreDate->gmtDate()
     ));
 
     $versionId = $adapter->lastInsertId($installer->getTable('magento_versionscms_page_version'), 'version_id');
@@ -70,7 +70,7 @@ while ($page = $resource->fetch(\Zend_Db::FETCH_ASSOC)) {
         $_data[$attr] = $page[$attr];
     }
 
-    $_data['created_at']      = \Mage::getSingleton('Magento\Core\Model\Date')->gmtDate();
+    $_data['created_at']      = $this->_coreDate->gmtDate();
     $_data['user_id']         = new \Zend_Db_Expr('NULL');
     $_data['revision_number'] = 1;
     $_data['version_id']      = $versionId;

@@ -10,10 +10,6 @@
 
 /**
  * Paypal Express Onepage checkout block for Shipping Address
- *
- * @category   Magento
- * @package    Magento_Paypal
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Paypal\Block\Express\Review;
 
@@ -30,7 +26,7 @@ class Shipping extends \Magento\Checkout\Block\Onepage\Shipping
             if ($this->isCustomerLoggedIn() || $this->getQuote()->getShippingAddress()) {
                 $this->_address = $this->getQuote()->getShippingAddress();
             } else {
-                $this->_address = \Mage::getModel('Magento\Sales\Model\Quote\Address');
+                $this->_address = $this->_addressFactory->create();
             }
         }
 

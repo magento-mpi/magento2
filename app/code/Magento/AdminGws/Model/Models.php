@@ -35,6 +35,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $_storeManager = null;
 
     /**
+     * @param \Magento\AdminGws\Helper\Data $adminGwsData
      * @param \Magento\AdminGws\Model\Role $role
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Core\Model\StoreManager $storeManager
@@ -214,7 +215,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Prevent loading disallowed queue
      *
-     * @param Magento_Newsletter_Model_Queque $model
+     * @param \Magento\Newsletter\Model\Queque $model
      */
     public function newsletterQueueLoadAfter($model)
     {
@@ -1094,7 +1095,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     private function _throwLoad()
     {
-        throw new Magento_AdminGws_Controller_Exception(__('You need more permissions to view this item.'));
+        throw new \Magento\AdminGws\Controller\Exception(__('You need more permissions to view this item.'));
     }
 
     /**

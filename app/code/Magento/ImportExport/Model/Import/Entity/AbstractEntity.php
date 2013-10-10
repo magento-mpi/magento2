@@ -168,7 +168,7 @@ abstract class AbstractEntity
     /**
      * Source model.
      *
-     * @var \Magento\ImportExport\Model\Import\SourceAbstract
+     * @var \Magento\ImportExport\Model\Import\AbstractSource
      */
     protected $_source;
 
@@ -199,38 +199,50 @@ abstract class AbstractEntity
      * @var \Magento\Core\Helper\String
      */
     protected $_coreString = null;
+    /**
+     * @var \Magento\ImportExport\Model\Resource\Helper
+     */
+    protected $_resourceHelper;
 
     /**
      * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\ImportExport\Helper\Data $importExportData
+     * @param \Magento\ImportExport\Model\Resource\Import\Data $importData
+     * @param \Magento\Eav\Model\Config $config
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
      */
     public function __construct(
         \Magento\Core\Helper\String $coreString,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\ImportExport\Helper\Data $importExportData
+        \Magento\ImportExport\Helper\Data $importExportData,
+        \Magento\ImportExport\Model\Resource\Import\Data $importData,
+        \Magento\Eav\Model\Config $config,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\ImportExport\Model\Resource\Helper $resourceHelper
     ) {
         $this->_coreString = $coreString;
         $this->_coreData = $coreData;
         $this->_importExportData = $importExportData;
+        $this->_resourceHelper = $resourceHelper;
 
-        $entityType = \Mage::getSingleton('Magento\Eav\Model\Config')
-            ->getEntityType($this->getEntityTypeCode());
+        $entityType = $config->getEntityType($this->getEntityTypeCode());
 
         $this->_entityTypeId    = $entityType->getEntityTypeId();
-        $this->_dataSourceModel = \Magento\ImportExport\Model\Import::getDataSourceModel();
-        $this->_connection      = \Mage::getSingleton('Magento\Core\Model\Resource')->getConnection('core_write');
+        $this->_dataSourceModel = $importData;
+        $this->_connection      = $resource->getConnection('write');
     }
 
     /**
      * Inner source object getter.
      *
-     * @return \Magento\ImportExport\Model\Import\SourceAbstract
+     * @return \Magento\ImportExport\Model\Import\AbstractSource
      */
     protected function _getSource()
     {
         if (!$this->_source) {
-            \Mage::throwException(__('Please specify a source.'));
+            throw new \Magento\Core\Exception(__('Please specify a source.'));
         }
         return $this->_source;
     }
@@ -287,7 +299,7 @@ abstract class AbstractEntity
         $bunchRows       = array();
         $startNewBunch   = false;
         $nextRowBackup   = array();
-        $maxDataSize = \Mage::getResourceHelper('Magento_ImportExport')->getMaxDataSize();
+        $maxDataSize = $this->_resourceHelper->getMaxDataSize();
         $bunchSize = $this->_importExportData->getBunchSize();
 
         $source->rewind();
@@ -336,7 +348,7 @@ abstract class AbstractEntity
      * @param string $errorCode Error code or simply column name
      * @param int $errorRowNum Row number.
      * @param string $colName OPTIONAL Column name.
-     * @return \Magento\ImportExport\Model\Import\SourceAbstract
+     * @return \Magento\ImportExport\Model\Import\AbstractSource
      */
     public function addRowError($errorCode, $errorRowNum, $colName = null)
     {
@@ -519,12 +531,12 @@ abstract class AbstractEntity
      * Source object getter.
      *
      * @throws \Exception
-     * @return \Magento\ImportExport\Model\Import\SourceAbstract
+     * @return \Magento\ImportExport\Model\Import\AbstractSource
      */
     public function getSource()
     {
         if (!$this->_source) {
-            \Mage::throwException(__('Source is not set'));
+            throw new \Magento\Core\Exception(__('Source is not set'));
         }
         return $this->_source;
     }
@@ -660,10 +672,10 @@ abstract class AbstractEntity
     /**
      * Source model setter.
      *
-     * @param \Magento\ImportExport\Model\Import\SourceAbstract $source
+     * @param \Magento\ImportExport\Model\Import\AbstractSource $source
      * @return \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      */
-    public function setSource(\Magento\ImportExport\Model\Import\SourceAbstract $source)
+    public function setSource(\Magento\ImportExport\Model\Import\AbstractSource $source)
     {
         $this->_source = $source;
         $this->_dataValidated = false;
@@ -682,7 +694,7 @@ abstract class AbstractEntity
         if (!$this->_dataValidated) {
             // do all permanent columns exist?
             if ($absentColumns = array_diff($this->_permanentAttributes, $this->getSource()->getColNames())) {
-                \Mage::throwException(
+                throw new \Magento\Core\Exception(
                     __('Cannot find required columns: %1', implode(', ', $absentColumns))
                 );
             }
@@ -703,12 +715,12 @@ abstract class AbstractEntity
             }
 
             if ($emptyHeaderColumns) {
-                \Mage::throwException(
+                throw new \Magento\Core\Exception(
                     __('Columns number: "%1" have empty headers', implode('", "', $emptyHeaderColumns))
                 );
             }
             if ($invalidColumns) {
-                \Mage::throwException(
+                throw new \Magento\Core\Exception(
                     __('Column names: "%1" are invalid', implode('", "', $invalidColumns))
                 );
             }

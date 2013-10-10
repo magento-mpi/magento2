@@ -78,7 +78,7 @@ class AvailablePath extends \Zend_Validate_Abstract
     /**
      * Initialize message templates with translating
      *
-     * @return Magento_Adminhtml_Model_Core_File_Validator_SavePath_Available
+     * @return \Magento\Core\Model\File\Validator\AvailablePath
      */
     protected function _initMessageTemplates()
     {
@@ -100,7 +100,7 @@ class AvailablePath extends \Zend_Validate_Abstract
      *
      * @param array $paths  All paths masks types.
      *                      E.g.: array('available' => array(...), 'protected' => array(...))
-     * @return Magento_Adminhtml_Model_Core_File_Validator_SavePath_Available
+     * @return \Magento\Core\Model\File\Validator\AvailablePath
      */
     public function setPaths(array $paths)
     {
@@ -117,7 +117,7 @@ class AvailablePath extends \Zend_Validate_Abstract
      * Set protected paths masks
      *
      * @param array $paths
-     * @return Magento_Adminhtml_Model_Core_File_Validator_SavePath_Available
+     * @return \Magento\Core\Model\File\Validator\AvailablePath
      */
     public function setProtectedPaths(array $paths)
     {
@@ -129,7 +129,7 @@ class AvailablePath extends \Zend_Validate_Abstract
      * Add protected paths masks
      *
      * @param string|array $path
-     * @return Magento_Adminhtml_Model_Core_File_Validator_SavePath_Available
+     * @return \Magento\Core\Model\File\Validator\AvailablePath
      */
     public function addProtectedPath($path)
     {
@@ -155,7 +155,7 @@ class AvailablePath extends \Zend_Validate_Abstract
      * Set available paths masks
      *
      * @param array $paths
-     * @return Magento_Adminhtml_Model_Core_File_Validator_SavePath_Available
+     * @return \Magento\Core\Model\File\Validator\AvailablePath
      */
     public function setAvailablePaths(array $paths)
     {
@@ -167,7 +167,7 @@ class AvailablePath extends \Zend_Validate_Abstract
      * Add available paths mask
      *
      * @param string|array $path
-     * @return Magento_Adminhtml_Model_Core_File_Validator_SavePath_Available
+     * @return \Magento\Core\Model\File\Validator\AvailablePath
      */
     public function addAvailablePath($path)
     {

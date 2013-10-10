@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Cache\Frontend;
 
 class FactoryTest extends \PHPUnit_Framework_TestCase
@@ -171,12 +170,13 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             array(\Magento\Core\Model\Dir::CONFIG, 'CONFIG_DIR'),
         );
         $dirs = $this->getMock('Magento\Core\Model\Dir', array('getDir'), array(), '', false);
+        $resource = $this->getMock('Magento\Core\Model\Resource', array(), array(), '', false);
         $dirs->expects($this->any())
             ->method('getDir')
             ->will($this->returnValueMap($map));
 
-        $model = new \Magento\Core\Model\Cache\Frontend\Factory($objectManager, $filesystem, $dirs, $enforcedOptions,
-            $decorators);
+        $model = new \Magento\Core\Model\Cache\Frontend\Factory($objectManager, $filesystem, $dirs, $resource,
+            $enforcedOptions, $decorators);
 
         return $model;
     }

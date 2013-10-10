@@ -16,10 +16,13 @@ class Helper extends \Magento\Core\Model\Resource\Helper
     /**
      * Construct
      *
+     * @param \Magento\Core\Model\Resource $resource
      * @param string $modulePrefix
      */
-    public function __construct($modulePrefix = 'Logging')
-    {
-        parent::__construct($modulePrefix);
+    public function __construct(
+        \Magento\Core\Model\Resource $resource,
+        $modulePrefix = 'Logging'
+    ) {
+        parent::__construct($resource, $modulePrefix);
     }
 }

@@ -29,15 +29,19 @@ abstract class AbstractEav
     protected $_eventManager = null;
 
     /**
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * Construct
+     *
      * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Model\Event\Manager $eventManager
      */
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Model\Resource $resource
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Model\Event\Manager $eventManager
     ) {
         $this->_eventManager = $eventManager;
-        parent::__construct($resource);
+        parent::__construct($resource, $eavConfig);
     }
 
     /**
@@ -161,7 +165,7 @@ abstract class AbstractEav
         $select = $write->select()
             ->from($idxTable, null);
 
-        $condition = $write->quoteInto('=?',\Magento\Catalog\Model\Product\Visibility::VISIBILITY_NOT_VISIBLE);
+        $condition = $write->quoteInto('=?', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_NOT_VISIBLE);
         $this->_addAttributeToSelect(
             $select,
             'visibility',
@@ -214,7 +218,9 @@ abstract class AbstractEav
             'store_field'   => new \Zend_Db_Expr('cs.store_id')
         ));
 
-        $query = $write->insertFromSelect($select, $idxTable, array(), \Magento\DB\Adapter\AdapterInterface::INSERT_IGNORE);
+        $query = $write->insertFromSelect($select, $idxTable, array(),
+            \Magento\DB\Adapter\AdapterInterface::INSERT_IGNORE
+        );
         $write->query($query);
 
         return $this;

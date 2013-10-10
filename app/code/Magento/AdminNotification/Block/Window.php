@@ -40,7 +40,7 @@ class Window extends \Magento\Backend\Block\Template
     protected $_criticalCollection;
 
     /**
-     * @var Magento_Adminnotification_Model_Inbox
+     * @var \Magento\Adminnotification\Model\Inbox
      */
     protected $_latestItem;
 
@@ -85,7 +85,7 @@ class Window extends \Magento\Backend\Block\Template
     /**
      * Retrieve latest critical item
      *
-     * @return bool|Magento_Adminnotification_Model_Inbox
+     * @return bool|\Magento\Adminnotification\Model\Inbox
      */
     protected function _getLatestItem()
     {

@@ -1,0 +1,18 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     magento_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/** @var $this \Magento\GiftWrapping\Block\Product\Info */
+?>
+<?php if ($this->getGiftWrappingInfo()) : ?>
+    <dl class="gift wrapping">
+        <dt><?php echo __('Gift Wrapping'); ?></dt>
+        <dd><?php echo __('Design'); ?> : <?php echo $this->escapeHtml($this->getGiftWrappingInfo()->getDesign()); ?></dd>
+    </dl>
+<?php endif; ?>

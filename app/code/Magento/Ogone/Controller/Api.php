@@ -33,12 +33,12 @@ class Api extends \Magento\Core\Controller\Front\Action
     /**
      * @param \Magento\Core\Model\Resource\TransactionFactory $transactionFactory
      * @param \Magento\Sales\Model\OrderFactory $salesOrderFactory
-     * @param \Magento\Core\Controller\Varien\Action_Context $context
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
      */
     public function __construct(
         \Magento\Core\Model\Resource\TransactionFactory $transactionFactory,
         \Magento\Sales\Model\OrderFactory $salesOrderFactory,
-        \Magento\Core\Controller\Varien\Action_Context $context
+        \Magento\Core\Controller\Varien\Action\Context $context
     ) {
         parent::__construct($context);
         $this->_transactionFactory = $transactionFactory;
@@ -503,7 +503,7 @@ class Api extends \Magento\Core\Controller\Front\Action
      *
      * @param string $status
      * @param string $comment
-     * @return Magento_Ogone_Controller_Api
+     * @return \Magento\Ogone\Controller\Api
      */
     protected function _cancelOrder($status, $comment='')
     {

@@ -25,11 +25,38 @@ class State extends \Magento\Core\Block\Template
     protected $_template = 'state.phtml';
 
     /**
-     * Assign steps
+     * Install Wizard
+     *
+     * @var \Magento\Install\Model\Wizard
      */
-    protected function _construct()
-    {
-        $this->assign('steps', \Mage::getSingleton('Magento\Install\Model\Wizard')->getSteps());
+    protected $_wizard;
+
+    /**
+     * Core Cookie
+     *
+     * @var \Magento\Core\Model\Cookie
+     */
+    protected $_cookie;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Install\Model\Wizard $wizard
+     * @param \Magento\Core\Model\Cookie $cookie
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Install\Model\Wizard $wizard,
+        \Magento\Core\Model\Cookie $cookie,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $context, $data);
+        $this->_wizard = $wizard;
+        $this->_cookie = $cookie;
+
+        $this->assign('steps', $this->_wizard->getSteps());
     }
 
     /**
@@ -58,7 +85,7 @@ class State extends \Magento\Core\Block\Template
      */
     public function isDownloaderInstall()
     {
-        $session = \Mage::app()->getCookie()->get('magento_downloader_session');
+        $session = $this->_cookie->get('magento_downloader_session');
         return $session ? true : false;
     }
 }

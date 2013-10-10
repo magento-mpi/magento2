@@ -38,7 +38,7 @@ class UrlGeneratorFactory
      *
      * @param string $generatorClassName
      * @param array $arguments
-     * @return Magento_Backend_Model_Widget_Grid_Row_Row_Generator_UrlGenerator
+     * @return \Magento\Backend\Model\Widget\Grid\Row\UrlGenerator
      * @throws \InvalidArgumentException
      */
     public function createUrlGenerator($generatorClassName, array $arguments = array())

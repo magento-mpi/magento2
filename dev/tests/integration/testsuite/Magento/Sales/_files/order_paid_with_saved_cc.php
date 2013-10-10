@@ -9,6 +9,10 @@
  * @license     {license_link}
  */
 
+/** @var \Magento\Core\Model\App $app */
+$app = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App');
+$app->loadArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
+
 $addressData = include(__DIR__ . '/address_data.php');
 
 $billingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()

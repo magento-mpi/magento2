@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Controller\Sales\Order;
 
-class Invoice extends \Magento\Adminhtml\Controller\Sales\Invoice\InvoiceAbstract
+class Invoice extends \Magento\Adminhtml\Controller\Sales\Invoice\AbstractInvoice
 {
     /**
      * Core registry

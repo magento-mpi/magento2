@@ -42,7 +42,7 @@ class Mage_Test_Loader extends PHPUnit_Runner_StandardTestSuiteLoader
             $offset = 0 - strlen($suiteClassName);
 
             foreach ($loadedClasses as $loadedClass) {
-                $class = new ReflectionClass($loadedClass);
+                $class = new \ReflectionClass($loadedClass);
                 if (substr($loadedClass, $offset) === $suiteClassName
                     && $class->getFileName() == $filename
                 ) {
@@ -56,7 +56,7 @@ class Mage_Test_Loader extends PHPUnit_Runner_StandardTestSuiteLoader
             $testCaseClass = 'PHPUnit_Framework_TestCase';
 
             foreach ($loadedClasses as $loadedClass) {
-                $class = new ReflectionClass($loadedClass);
+                $class = new \ReflectionClass($loadedClass);
                 $classFile = $class->getFileName();
 
                 if ($class->isSubclassOf($testCaseClass)
@@ -88,7 +88,7 @@ class Mage_Test_Loader extends PHPUnit_Runner_StandardTestSuiteLoader
         }
 
         if (class_exists($suiteClassName, FALSE)) {
-            $class = new ReflectionClass($suiteClassName);
+            $class = new \ReflectionClass($suiteClassName);
             if ($class->getFileName() == $filename) {
                 return $class;
             }

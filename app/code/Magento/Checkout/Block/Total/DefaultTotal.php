@@ -11,19 +11,25 @@
 
 /**
  * Default Total Row Renderer
- *
- * @author Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Checkout\Block\Total;
 
 class DefaultTotal extends \Magento\Checkout\Block\Cart\Totals
 {
+    /**
+     * @var string
+     */
     protected $_template = 'Magento_Checkout::total/default.phtml';
+
+    /**
+     * @var \Magento\Core\Model\Store
+     */
     protected $_store;
 
     protected function _construct()
     {
-        $this->_store = \Mage::app()->getStore();
+        parent::_construct();
+        $this->_store = $this->_storeManager->getStore();
     }
 
     /**
@@ -36,6 +42,10 @@ class DefaultTotal extends \Magento\Checkout\Block\Cart\Totals
         return $this->getTotal()->getStyle();
     }
 
+    /**
+     * @param $total
+     * @return $this
+     */
     public function setTotal($total)
     {
         $this->setData('total', $total);
@@ -45,6 +55,9 @@ class DefaultTotal extends \Magento\Checkout\Block\Cart\Totals
         return $this;
     }
 
+    /**
+     * @return \Magento\Core\Model\Store
+     */
     public function getStore()
     {
         return $this->_store;

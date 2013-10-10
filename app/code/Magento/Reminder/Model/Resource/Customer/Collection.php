@@ -30,6 +30,11 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
+     * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Validator\UniversalFactory $universalFactory
      * @param \Magento\Core\Model\Fieldset\Config $fieldsetConfig
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
@@ -38,11 +43,27 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
         \Magento\Core\Model\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Eav\Model\EntityFactory $eavEntityFactory,
+        \Magento\Eav\Model\Resource\Helper $resourceHelper,
+        \Magento\Validator\UniversalFactory $universalFactory,
         \Magento\Core\Model\Fieldset\Config $fieldsetConfig,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $fieldsetConfig);
+        parent::__construct(
+            $eventManager,
+            $logger,
+            $fetchStrategy,
+            $entityFactory,
+            $eavConfig,
+            $resource,
+            $eavEntityFactory,
+            $resourceHelper,
+            $universalFactory,
+            $fieldsetConfig
+        );
     }
 
     /**

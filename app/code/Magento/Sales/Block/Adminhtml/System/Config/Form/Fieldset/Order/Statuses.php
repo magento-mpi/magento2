@@ -35,16 +35,18 @@ class Statuses
 
     /**
      * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Sales\Model\Resource\Order\Status\CollectionFactory $orderStatusCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
+        \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Sales\Model\Resource\Order\Status\CollectionFactory $orderStatusCollection,
         array $data = array()
     ) {
         $this->_orderStatusCollection = $orderStatusCollection;
-        parent::__construct($context, $data);
+        parent::__construct($context, $authSession, $data);
     }
 
     /**

@@ -30,11 +30,13 @@ class View extends \Magento\Catalog\Block\Product\View
     protected $_reviewsColFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Tax\Model\Calculation $taxCalculation
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\Tax\Helper\Data $taxData
@@ -42,10 +44,16 @@ class View extends \Magento\Catalog\Block\Product\View
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Review\Model\Resource\Review\CollectionFactory $collectionFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Tax\Model\Calculation $taxCalculation,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Core\Helper\String $coreString,
         \Magento\Tax\Helper\Data $taxData,
@@ -53,12 +61,11 @@ class View extends \Magento\Catalog\Block\Product\View
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Review\Model\Resource\Review\CollectionFactory $collectionFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_reviewsColFactory = $collectionFactory;
-        $this->_storeManager = $storeManager;
-        parent::__construct($coreRegistry, $coreString, $taxData, $catalogData, $coreData, $context, $data);
+        parent::__construct($storeManager, $catalogConfig, $productFactory, $locale, $taxCalculation, $coreRegistry,
+            $coreString, $taxData, $catalogData, $coreData, $context, $data);
     }
 
     /**

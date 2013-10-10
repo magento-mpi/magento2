@@ -43,6 +43,9 @@
         <param name="isCustomEntryPoint">
             <value type="argument">Magento\Core\Model\Store::CUSTOM_ENTRY_POINT_PARAM</value>
         </param>
+        <param name="url">
+            <instance type="Magento\Core\Model\Url\Proxy" />
+        </param>
     </type>
     <type name="Magento\Core\Model\Acl\Cache">
         <param name="cacheKey">
@@ -258,11 +261,6 @@
             </value>
         </param>
     </type>
-    <type name="Magento\Core\Controller\Request\Http">
-        <param name="backendData">
-            <instance type="Magento\Backend\Helper\Data\Proxy" />
-        </param>
-    </type>
     <type name="Magento\Core\Model\Session\Validator">
         <param name="skippedUserAgentList">
             <value>
@@ -311,9 +309,20 @@
             <instance type="Magento\Core\Model\Locale\Hierarchy\Config\Reader" />
         </param>
     </type>
+    <type name="Magento\Core\Model\Resource\Helper">
+        <param name="modulePrefix">
+            <value>core</value>
+        </param>
+    </type>
     <type name="Magento\Core\Helper\Data">
         <param name="encryptor">
             <instance type="Magento\Core\Model\Encryption" />
+        </param>
+        <param name="locale">
+            <instance type="Magento\Core\Model\Locale\Proxy" />
+        </param>
+        <param name="dateModel">
+            <instance type="Magento\Core\Model\Date\Proxy" />
         </param>
     </type>
     <type name="Magento\Core\Model\Resource\Setup\Migration">
@@ -335,6 +344,54 @@
         </param>
         <param name="cacheLimiter">
             <value type="argument">Magento\Core\Model\Session\AbstractSession::PARAM_SESSION_CACHE_LIMITER</value>
+        </param>
+        <param name="url">
+            <instance type="Magento\Core\Model\Url\Proxy" />
+        </param>
+    </type>
+    <type name="Magento\Core\Model\StoreManager">
+        <param name="request">
+            <instance type="Magento\Core\Controller\Request\Http\Proxy" />
+        </param>
+    </type>
+    <type name="Magento\Core\Model\Config\Section\Processor\Placeholder">
+        <param name="request">
+            <instance type="Magento\Core\Controller\Request\Http\Proxy" />
+        </param>
+    </type>
+    <type name="Magento\Core\Helper\Context">
+        <param name="urlBuilder">
+            <instance type="Magento\Core\Model\Url\Proxy" />
+        </param>
+    </type>
+    <type name="Magento\Core\Helper\String">
+        <param name="locale">
+            <instance type="Magento\Core\Model\Locale\Proxy" />
+        </param>
+    </type>
+    <type name="Magento\Core\Helper\File\Storage">
+        <param name="storage">
+            <instance type="Magento\Core\Model\File\Storage\Proxy" />
+        </param>
+    </type>
+    <type name="Magento\Core\Helper\File\Storage\Database">
+        <param name="fileStorage">
+            <instance type="Magento\Core\Model\File\Storage\File\Proxy" />
+        </param>
+    </type>
+    <type name="Magento\Core\Model\Session\AbstractSession">
+        <param name="url">
+            <instance type="Magento\Core\Model\Url\Proxy" />
+        </param>
+    </type>
+    <type name="Magento\Core\Model\View\Service">
+        <param name="design">
+            <instance type="Magento\Core\Model\View\Design\Proxy" />
+        </param>
+    </type>
+    <type name="Magento\Core\Controller\Varien\Front">
+        <param name="backendData">
+            <instance type="Magento\Backend\Helper\Data\Proxy" />
         </param>
     </type>
 </config>

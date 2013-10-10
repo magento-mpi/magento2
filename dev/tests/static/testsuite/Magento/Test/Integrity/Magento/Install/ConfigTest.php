@@ -9,7 +9,7 @@
  */
 namespace Magento\Test\Integrity\Magento\Install;
 
-class ConfigTest extends \Magento\TestFramework\Integrity\ConfigAbstract
+class ConfigTest extends \Magento\TestFramework\Integrity\AbstractConfig
 {
     protected function _getXsd()
     {

@@ -17,8 +17,6 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
 {
     /**#@+
      * Transaction types declaration
-     *
-     * @var mixed
      */
     const TRXTYPE_AUTH_ONLY         = 'A';
     const TRXTYPE_SALE              = 'S';
@@ -29,8 +27,6 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
 
     /**#@+
      * Tender definition
-     *
-     * @var mixed
      */
     const TENDER_CC                 = 'C';
     const TENDER_PAYPAL             = 'P';
@@ -38,8 +34,6 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
 
     /**#@+
      * Express Checkout Actions
-     *
-     * @var string
      */
     const EXPRESS_SET               = 'S';
     const EXPRESS_GET               = 'G';
@@ -48,8 +42,6 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
 
     /**#@+
      * Response codes definition
-     *
-     * @var mixed
      */
     const RESPONSE_CODE_APPROVED = 0;
     const RESPONSE_CODE_FRAUD = 126;
@@ -57,8 +49,6 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
 
     /**#@+
      * Capture types (make authorization close or remain open)
-     *
-     * @var string
      */
     protected $_captureTypeComplete = 'Y';
     protected $_captureTypeNotcomplete = 'N';
@@ -332,7 +322,7 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
      *
      * @var \Magento\Core\Helper\Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
 
     /**
      * Constructor
@@ -340,19 +330,25 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
-     * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Customer\Helper\Address $customerAddress
-     * @param array $data
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Directory\Model\RegionFactory $regionFactory
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Directory\Model\CountryFactory $countryFactory
+     * @param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Customer\Helper\Address $customerAddress,
-        array $data = array()
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Directory\Model\RegionFactory $regionFactory,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Directory\Model\CountryFactory $countryFactory,
+        \Magento\Core\Helper\Data $coreData
     ) {
         $this->_coreData = $coreData;
-        parent::__construct($customerAddress, $logger, $data);
+        parent::__construct($customerAddress, $logger, $locale, $regionFactory, $logAdapterFactory, $countryFactory);
     }
 
     /**
@@ -514,7 +510,6 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
      * Handle logical errors
      *
      * @param array $response
-     *
      * @throws \Magento\Core\Exception
      */
     protected function _handleCallErrors($response)
@@ -536,8 +531,8 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
     protected function _buildQuery($request)
     {
         $result = '';
-        foreach ($request as $k=>$v) {
-            $result .= '&'.$k.'='.$v;
+        foreach ($request as $k => $v) {
+            $result .= '&' . $k . '=' . $v;
         }
         return trim($result, '&');
     }
@@ -555,7 +550,7 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
     /**
      * "GetTransactionDetails" method does not exists in PaypalUK
      */
-    function callGetTransactionDetails()
+    public function callGetTransactionDetails()
     {
     }
 

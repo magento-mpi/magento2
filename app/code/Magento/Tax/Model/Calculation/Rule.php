@@ -19,10 +19,6 @@
  * @method \Magento\Tax\Model\Calculation\Rule setPriority(int $value)
  * @method int getPosition()
  * @method \Magento\Tax\Model\Calculation\Rule setPosition(int $value)
- *
- * @category    Magento
- * @package     Magento_Tax
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Tax\Model\Calculation;
 
@@ -35,8 +31,6 @@ class Rule extends \Magento\Core\Model\AbstractModel
     protected $_ctcModel            = null;
     protected $_ptcModel            = null;
     protected $_rateModel           = null;
-
-    protected $_calculationModel    = null;
 
     /**
      * Prefix of model events names
@@ -64,7 +58,12 @@ class Rule extends \Magento\Core\Model\AbstractModel
      *
      * @var \Magento\Core\Model\Event\Manager
      */
-    protected $_eventManager = null;
+    protected $_eventManager;
+
+    /**
+     * @var \Magento\Tax\Model\Calculation
+     */
+    protected $_calculation;
 
     /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
@@ -72,6 +71,7 @@ class Rule extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxHelper
      * @param \Magento\Tax\Model\ClassModel $taxClass
+     * @param \Magento\Tax\Model\Calculation $calculation
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -82,11 +82,13 @@ class Rule extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxHelper,
         \Magento\Tax\Model\ClassModel $taxClass,
+        \Magento\Tax\Model\Calculation $calculation,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
+        $this->_calculation = $calculation;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
 
         $this->_init('Magento\Tax\Model\Resource\Calculation\Rule');
@@ -127,7 +129,7 @@ class Rule extends \Magento\Core\Model\AbstractModel
         $ptc = $this->getData('tax_product_class');
         $rates = $this->getData('tax_rate');
 
-        \Mage::getSingleton('Magento\Tax\Model\Calculation')->deleteByRuleId($this->getId());
+        $this->_calculation->deleteByRuleId($this->getId());
         foreach ($ctc as $c) {
             foreach ($ptc as $p) {
                 foreach ($rates as $r) {
@@ -137,18 +139,18 @@ class Rule extends \Magento\Core\Model\AbstractModel
                         'customer_tax_class_id'     =>$c,
                         'product_tax_class_id'      =>$p,
                     );
-                    \Mage::getSingleton('Magento\Tax\Model\Calculation')->setData($dataArray)->save();
+                    $this->_calculation->setData($dataArray)->save();
                 }
             }
         }
     }
 
+    /**
+     * @return \Magento\Tax\Model\Calculation
+     */
     public function getCalculationModel()
     {
-        if (is_null($this->_calculationModel)) {
-            $this->_calculationModel = \Mage::getSingleton('Magento\Tax\Model\Calculation');
-        }
-        return $this->_calculationModel;
+        return $this->_calculation;
     }
 
     public function getRates()

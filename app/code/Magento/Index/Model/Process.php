@@ -53,7 +53,7 @@ class Process extends \Magento\Core\Model\AbstractModel
     const MODE_REAL_TIME           = 'real_time';
 
     /**
-     * Indexer strategy object
+     * Indexer stategy object
      *
      * @var \Magento\Index\Model\Indexer\AbstractIndexer
      */
@@ -74,7 +74,7 @@ class Process extends \Magento\Core\Model\AbstractModel
     protected $_processFile;
 
     /**
-     * Event repository
+     * Event repostiory
      *
      * @var \Magento\Index\Model\EventRepository
      */
@@ -88,7 +88,7 @@ class Process extends \Magento\Core\Model\AbstractModel
     protected $_eventManager = null;
 
     /**
-     * @var \Magento\Index\Model\Indexer\Factory
+     * @var \Magento\Index\Model\IndexerFactory
      */
     protected $_indexerFactory;
 
@@ -109,6 +109,7 @@ class Process extends \Magento\Core\Model\AbstractModel
 
     /**
      * @param \Magento\Index\Model\Resource\Event $resourceEvent
+     * @param \Magento\Index\Model\Indexer\Factory $indexerFactory
      * @param \Magento\Index\Model\Indexer $indexer
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Context $context
@@ -116,15 +117,15 @@ class Process extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Index\Model\Lock\Storage $lockStorage
      * @param \Magento\Index\Model\EventRepository $eventRepository
-     * @param \Magento\Index\Model\Indexer\Factory $indexerFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Index\Model\Resource\Event $resourceEvent,
+        \Magento\Index\Model\Indexer\Factory $indexerFactory,
         \Magento\Index\Model\Indexer $indexer,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Context $context,
@@ -132,7 +133,6 @@ class Process extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Registry $registry,
         \Magento\Index\Model\Lock\Storage $lockStorage,
         \Magento\Index\Model\EventRepository $eventRepository,
-        \Magento\Index\Model\Indexer\Factory $indexerFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -520,7 +520,7 @@ class Process extends \Magento\Core\Model\AbstractModel
      * @param bool $needUnlock
      * @return bool
      */
-    public function isLocked($needUnlock = false)
+    public function isLocked($needUnlock = true)
     {
         return $this->_getProcessFile()->isProcessLocked($needUnlock);
     }

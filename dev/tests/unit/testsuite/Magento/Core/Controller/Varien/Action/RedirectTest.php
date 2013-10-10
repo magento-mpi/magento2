@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class Magento_Core_Controller_Varien_Action_Redirect
+ * Test class \Magento\Core\Controller\Varien\Action\Redirect
  */
 namespace Magento\Core\Controller\Varien\Action;
 
@@ -33,10 +33,10 @@ class RedirectTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $helperMock = $this->getMockBuilder('Magento\Backend\Helper\DataProxy')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->_request  = new \Magento\Core\Controller\Request\Http($helperMock);
+        $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
+        $helperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(),
+            '', false);
+        $this->_request  = new \Magento\Core\Controller\Request\Http($storeManager, $helperMock);
         $this->_response = new \Magento\Core\Controller\Response\Http(
             $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false)
         );

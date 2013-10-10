@@ -27,18 +27,8 @@ class Setup extends \Magento\Core\Model\Resource\Setup\Generic
      */
     protected $_pageFactory;
 
-    /**
-     * @param \Magento\Core\Model\Resource\Setup\Context $context
-     * @param \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory
-     * @param \Magento\Cms\Model\BlockFactory $blockFactory
-     * @param \Magento\Cms\Model\PageFactory $pageFactory
-     * @param string $resourceName
-     * @param string $moduleName
-     * @param string $connectionName
-     */
     public function __construct(
         \Magento\Core\Model\Resource\Setup\Context $context,
-        \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory,
         \Magento\Cms\Model\BlockFactory $blockFactory,
         \Magento\Cms\Model\PageFactory $pageFactory,
         $resourceName,
@@ -47,9 +37,8 @@ class Setup extends \Magento\Core\Model\Resource\Setup\Generic
     ) {
         $this->_blockFactory = $blockFactory;
         $this->_pageFactory = $pageFactory;
-        parent::__construct($context, $migrationFactory, $resourceName, $moduleName, $connectionName);
+        parent::__construct($context, $resourceName, $moduleName, $connectionName);
     }
-
 
     /**
      * Create block

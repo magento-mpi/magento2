@@ -105,25 +105,53 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_coreStoreConfig;
 
     /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Core\Model\Locale
+     */
+    protected $_locale;
+
+    /**
+     * @var \Magento\Core\Model\Date
+     */
+    protected $_dateModel;
+
+    /**
+     * @var \Magento\Core\Model\App\State
+     */
+    protected $_appState;
+
+    /**
      * @var boolean
      */
     protected $_dbCompatibleMode;
 
     /**
+     * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Http $coreHttp
-     * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Locale $locale
+     * @param \Magento\Core\Model\Date $dateModel
+     * @param \Magento\Core\Model\App\State $appState
      * @param \Magento\Core\Model\Encryption $encryptor
      * @param bool $dbCompatibleMode
      */
     public function __construct(
+        \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Helper\Http $coreHttp,
-        \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Config $config,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Locale $locale,
+        \Magento\Core\Model\Date $dateModel,
+        \Magento\Core\Model\App\State $appState,
         \Magento\Core\Model\Encryption $encryptor,
         $dbCompatibleMode = true
     ) {
@@ -135,6 +163,10 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $this->_cacheConfig = $context->getCacheConfig();
         $this->_encryptorFactory = $context->getEncryptorFactory();
         $this->_fieldsetConfig = $context->getFieldsetConfig();
+        $this->_storeManager = $storeManager;
+        $this->_locale = $locale;
+        $this->_dateModel = $dateModel;
+        $this->_appState = $appState;
         $this->_encryptor = $encryptor;
         $this->_encryptor->setHelper($this);
         $this->_dbCompatibleMode = $dbCompatibleMode;
@@ -156,9 +188,9 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param   bool $includeContainer
      * @return  mixed
      */
-    public static function currency($value, $format = true, $includeContainer = true)
+    public function currency($value, $format = true, $includeContainer = true)
     {
-        return self::currencyByStore($value, null, $format, $includeContainer);
+        return $this->currencyByStore($value, null, $format, $includeContainer);
     }
 
     /**
@@ -170,11 +202,11 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param   bool $includeContainer
      * @return  mixed
      */
-    public static function currencyByStore($value, $store = null, $format = true, $includeContainer = true)
+    public function currencyByStore($value, $store = null, $format = true, $includeContainer = true)
     {
         try {
             if (!($store instanceof \Magento\Core\Model\Store)) {
-                $store = \Mage::app()->getStore($store);
+                $store = $this->_app->getStore($store);
             }
 
             $value = $store->convertPrice($value, $format, $includeContainer);
@@ -207,7 +239,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function formatPrice($price, $includeContainer = true)
     {
-        return \Mage::app()->getStore()->formatPrice($price, $includeContainer);
+        return $this->_storeManager->getStore()->formatPrice($price, $includeContainer);
     }
 
     /**
@@ -227,19 +259,19 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             return '';
         }
         if (is_null($date)) {
-            $date = \Mage::app()->getLocale()->date(
-                \Mage::getSingleton('Magento\Core\Model\Date')->gmtTimestamp(),
+            $date = $this->_locale->date(
+                $this->_dateModel->gmtTimestamp(),
                 null,
                 null
             );
         } elseif (!$date instanceof \Zend_Date) {
-            $date = \Mage::app()->getLocale()->date(strtotime($date), null, null);
+            $date = $this->_locale->date(strtotime($date), null, null);
         }
 
         if ($showTime) {
-            $format = \Mage::app()->getLocale()->getDateTimeFormat($format);
+            $format = $this->_locale->getDateTimeFormat($format);
         } else {
-            $format = \Mage::app()->getLocale()->getDateFormat($format);
+            $format = $this->_locale->getDateFormat($format);
         }
 
         return $date->toString($format);
@@ -260,17 +292,17 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         }
 
         if (is_null($time)) {
-            $date = \Mage::app()->getLocale()->date(time());
+            $date = $this->_locale->date(time());
         } else if ($time instanceof \Zend_Date) {
             $date = $time;
         } else {
-            $date = \Mage::app()->getLocale()->date(strtotime($time));
+            $date = $this->_locale->date(strtotime($time));
         }
 
         if ($showDate) {
-            $format = \Mage::app()->getLocale()->getDateTimeFormat($format);
+            $format = $this->_locale->getDateTimeFormat($format);
         } else {
-            $format = \Mage::app()->getLocale()->getTimeFormat($format);
+            $format = $this->_locale->getTimeFormat($format);
         }
 
         return $date->toString($format);
@@ -284,7 +316,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function encrypt($data)
     {
-        if (!\Mage::isInstalled()) {
+        if (!$this->_appState->isInstalled()) {
             return $data;
         }
         return $this->getEncryptor()->encrypt($data);
@@ -298,7 +330,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function decrypt($data)
     {
-        if (!\Mage::isInstalled()) {
+        if (!$this->_appState->isInstalled()) {
             return $data;
         }
         return $this->getEncryptor()->decrypt($data);
@@ -346,7 +378,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getStoreId($store=null)
     {
-        return \Mage::app()->getStore($store)->getId();
+        return $this->_storeManager->getStore($store)->getId();
     }
 
     /**

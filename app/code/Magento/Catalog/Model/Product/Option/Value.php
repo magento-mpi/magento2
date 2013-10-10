@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model\Product\Option;
+
 /**
  * Catalog product option select type model
  *
@@ -20,12 +22,8 @@
  * @method int getSortOrder()
  * @method \Magento\Catalog\Model\Product\Option\Value setSortOrder(int $value)
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Model\Product\Option;
-
 class Value extends \Magento\Core\Model\AbstractModel
 {
     protected $_values = array();
@@ -33,6 +31,35 @@ class Value extends \Magento\Core\Model\AbstractModel
     protected $_product;
 
     protected $_option;
+
+    /**
+     * Value collection factory
+     *
+     * @var \Magento\Catalog\Model\Resource\Product\Option\Value\CollectionFactory
+     */
+    protected $_valueCollectionFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Catalog\Model\Resource\Product\Option\Value\CollectionFactory $valueCollectionFactory
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Model\Resource\Product\Option\Value\CollectionFactory $valueCollectionFactory,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_valueCollectionFactory = $valueCollectionFactory;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
 
     protected function _construct()
     {
@@ -148,7 +175,7 @@ class Value extends \Magento\Core\Model\AbstractModel
      */
     public function getValuesCollection(\Magento\Catalog\Model\Product\Option $option)
     {
-        $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Option\Value\Collection')
+        $collection = $this->_valueCollectionFactory->create()
             ->addFieldToFilter('option_id', $option->getId())
             ->getValues($option->getStoreId());
 
@@ -157,7 +184,7 @@ class Value extends \Magento\Core\Model\AbstractModel
 
     public function getValuesByOption($optionIds, $option_id, $store_id)
     {
-        $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Option\Value\Collection')
+        $collection = $this->_valueCollectionFactory->create()
             ->addFieldToFilter('option_id', $option_id)
             ->getValuesByOption($optionIds, $store_id);
 
@@ -186,7 +213,7 @@ class Value extends \Magento\Core\Model\AbstractModel
         $this->setOptionId(null);
         $this->setOptionTypeId(null);
 
-        return $this->convertToArray();
+        return $this->__toArray();
     }
 
     /**

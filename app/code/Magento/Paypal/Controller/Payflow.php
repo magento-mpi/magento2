@@ -8,15 +8,58 @@
 
 /**
  * Payflow Checkout Controller
- *
- * @category   Magento
- * @package    Magento_Paypal
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Paypal\Controller;
 
 class Payflow extends \Magento\Core\Controller\Front\Action
 {
+    /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * @var \Magento\Sales\Model\OrderFactory
+     */
+    protected $_orderFactory;
+
+    /**
+     * @var \Magento\Core\Model\Logger
+     */
+    protected $_logger;
+
+    /**
+     * @var \Magento\Paypal\Model\PayflowlinkFactory
+     */
+    protected $_payflowlinkFactory;
+
+    /**
+     * @var \Magento\Paypal\Helper\Checkout
+     */
+    protected $_checkoutHelper;
+
+    /**
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param \Magento\Paypal\Model\PayflowlinkFactory $payflowlinkFactory
+     * @param \Magento\Paypal\Helper\Checkout $checkoutHelper
+     */
+    public function __construct(
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Sales\Model\OrderFactory $orderFactory,
+        \Magento\Paypal\Model\PayflowlinkFactory $payflowlinkFactory,
+        \Magento\Paypal\Helper\Checkout $checkoutHelper
+    ) {
+        $this->_checkoutSession = $checkoutSession;
+        $this->_orderFactory = $orderFactory;
+        $this->_logger = $context->getLogger();
+        $this->_payflowlinkFactory = $payflowlinkFactory;
+        $this->_checkoutHelper = $checkoutHelper;
+        parent::__construct($context);
+    }
+
     /**
      * When a customer cancel payment from payflow gateway.
      */
@@ -37,17 +80,16 @@ class Payflow extends \Magento\Core\Controller\Front\Action
         $this->loadLayout(false);
         $redirectBlock = $this->getLayout()->getBlock('payflow.link.iframe');
 
-        $session = $this->_objectManager->get('Magento\Checkout\Model\Session');
-        if ($session->getLastRealOrderId()) {
-            $order = $this->_objectManager->create('Magento\Sales\Model\Order')->loadByIncrementId($session->getLastRealOrderId());
+        if ($this->_checkoutSession->getLastRealOrderId()) {
+            $order = $this->_orderFactory->create()->loadByIncrementId($this->_checkoutSession->getLastRealOrderId());
 
-            if ($order && $order->getIncrementId() == $session->getLastRealOrderId()) {
+            if ($order && $order->getIncrementId() == $this->_checkoutSession->getLastRealOrderId()) {
                 $allowedOrderStates = array(
                     \Magento\Sales\Model\Order::STATE_PROCESSING,
                     \Magento\Sales\Model\Order::STATE_COMPLETE
                 );
                 if (in_array($order->getState(), $allowedOrderStates)) {
-                    $session->unsLastRealOrderId();
+                    $this->_checkoutSession->unsLastRealOrderId();
                     $redirectBlock->setGotoSuccessPage(true);
                 } else {
                     $gotoSection = $this->_cancelPayment(strval($this->getRequest()->getParam('RESPMSG')));
@@ -76,11 +118,11 @@ class Payflow extends \Magento\Core\Controller\Front\Action
         $data = $this->getRequest()->getPost();
         if (isset($data['INVNUM'])) {
             /** @var $paymentModel \Magento\Paypal\Model\Payflowlink */
-            $paymentModel = \Mage::getModel('Magento\Paypal\Model\Payflowlink');
+            $paymentModel = $this->_payflowlinkFactory->create();
             try {
                 $paymentModel->process($data);
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                $this->_logger->logException($e);
             }
         }
     }
@@ -94,9 +136,8 @@ class Payflow extends \Magento\Core\Controller\Front\Action
     protected function _cancelPayment($errorMsg = '')
     {
         $gotoSection = false;
-        $helper = $this->_objectManager->get('Magento\Paypal\Helper\Checkout');
-        $helper->cancelCurrentOrder($errorMsg);
-        if ($helper->restoreQuote()) {
+        $this->_checkoutHelper->cancelCurrentOrder($errorMsg);
+        if ($this->_checkoutHelper->restoreQuote()) {
             //Redirect to payment step
             $gotoSection = 'payment';
         }

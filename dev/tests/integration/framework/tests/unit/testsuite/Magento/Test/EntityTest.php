@@ -14,7 +14,7 @@ namespace Magento\Test;
 class EntityTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\AbstractModel|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\AbstractModel|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 

@@ -8,15 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Helper;
+
 /**
  * Catalog category helper
  *
- * @category   Magento
- * @package    Magento_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Helper;
-
 class Category extends \Magento\Core\Helper\AbstractHelper
 {
     const XML_PATH_CATEGORY_URL_SUFFIX          = 'catalog/seo/category_url_suffix';
@@ -45,21 +43,45 @@ class Category extends \Magento\Core\Helper\AbstractHelper
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\Data\CollectionFactory
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
-    protected $_collectionFactory;
+    protected $_storeManager;
 
     /**
-     * @param \Magento\Data\CollectionFactory $collectionFactory
+     * Category factory
+     *
+     * @var \Magento\Catalog\Model\CategoryFactory
+     */
+    protected $_categoryFactory;
+
+    /**
+     * Lib data collection factory
+     *
+     * @var \Magento\Data\CollectionFactory
+     */
+    protected $_dataCollectionFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Data\CollectionFactory $dataCollectionFactory
      */
     public function __construct(
-        \Magento\Data\CollectionFactory $collectionFactory,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Data\CollectionFactory $dataCollectionFactory
     ) {
-        $this->_collectionFactory = $collectionFactory;
+        $this->_categoryFactory = $categoryFactory;
+        $this->_storeManager = $storeManager;
+        $this->_dataCollectionFactory = $dataCollectionFactory;
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
     }
@@ -73,7 +95,7 @@ class Category extends \Magento\Core\Helper\AbstractHelper
      */
     public function getStoreCategories($sorted=false, $asCollection=false, $toLoad=true)
     {
-        $parent     = \Mage::app()->getStore()->getRootCategoryId();
+        $parent     = $this->_storeManager->getStore()->getRootCategoryId();
         $cacheKey   = sprintf('%d-%d-%d-%d', $parent, $sorted, $asCollection, $toLoad);
         if (isset($this->_storeCategories[$cacheKey])) {
             return $this->_storeCategories[$cacheKey];
@@ -82,16 +104,16 @@ class Category extends \Magento\Core\Helper\AbstractHelper
         /**
          * Check if parent node of the store still exists
          */
-        $category = \Mage::getModel('Magento\Catalog\Model\Category');
+        $category = $this->_categoryFactory->create();
         /* @var $category \Magento\Catalog\Model\Category */
         if (!$category->checkId($parent)) {
             if ($asCollection) {
-                return $this->_collectionFactory->create();
+                return $this->_dataCollectionFactory->create();
             }
             return array();
         }
 
-        $recursionLevel  = max(0, (int) \Mage::app()->getStore()->getConfig('catalog/navigation/max_depth'));
+        $recursionLevel  = max(0, (int) $this->_storeManager->getStore()->getConfig('catalog/navigation/max_depth'));
         $storeCategories = $category->getCategories($parent, $recursionLevel, $sorted, $asCollection, $toLoad);
 
         $this->_storeCategories[$cacheKey] = $storeCategories;
@@ -109,7 +131,7 @@ class Category extends \Magento\Core\Helper\AbstractHelper
         if ($category instanceof \Magento\Catalog\Model\Category) {
             return $category->getUrl();
         }
-        return \Mage::getModel('Magento\Catalog\Model\Category')
+        return $this->_categoryFactory->create()
             ->setData($category->getData())
             ->getUrl();
     }
@@ -123,7 +145,7 @@ class Category extends \Magento\Core\Helper\AbstractHelper
     public function canShow($category)
     {
         if (is_int($category)) {
-            $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($category);
+            $category = $this->_categoryFactory->create()->load($category);
         }
 
         if (!$category->getId()) {
@@ -149,7 +171,7 @@ class Category extends \Magento\Core\Helper\AbstractHelper
     public function getCategoryUrlSuffix($storeId = null)
     {
         if (is_null($storeId)) {
-            $storeId = \Mage::app()->getStore()->getId();
+            $storeId = $this->_storeManager->getStore()->getId();
         }
 
         if (!isset($this->_categoryUrlSuffix[$storeId])) {

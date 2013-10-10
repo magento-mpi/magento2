@@ -24,9 +24,19 @@ class SetTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $resource = $this->getMock('Magento\Eav\Model\Resource\Entity\Attribute\Set', array(), array(), '', false);
-
+        $attrGroupFactory = $this->getMock(
+            'Magento\Eav\Model\Entity\Attribute\GroupFactory',
+            array(),
+            array(),
+            '',
+            false,
+            false
+        );
+        $attrFactory = $this->getMock('Magento\Eav\Model\Entity\AttributeFactory', array(), array(), '', false, false);
         $arguments = array(
-            'resource'  => $resource,
+            'attrGroupFactory' => $attrGroupFactory,
+            'attributeFactory' => $attrFactory,
+            'resource' => $resource,
         );
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject('Magento\Eav\Model\Entity\Attribute\Set', $arguments);

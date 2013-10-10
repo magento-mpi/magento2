@@ -9,7 +9,7 @@
  */
 namespace Magento\Core\Model\DataService;
 
-class LayoutTest extends \Magento\TestFramework\TestCase\ControllerAbstract
+class LayoutTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     private $_dataServiceGraph;
 

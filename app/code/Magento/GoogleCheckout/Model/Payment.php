@@ -33,6 +33,37 @@ class Payment extends \Magento\Payment\Model\Method\AbstractMethod
     protected $_canUseForMultishipping  = false;
 
     /**
+     * @var \Magento\GoogleCheckout\Model\ApiFactory
+     */
+    protected $apiFactory;
+
+    /**
+     * @var \Magento\Core\Model\UrlFactory
+     */
+    protected $urlFactory;
+
+    /**
+     * @var \Magento\Core\Model\DateFactory
+     */
+    protected $dateFactory;
+
+    public function __construct(
+        \Magento\Core\Model\DateFactory $dateFactory,
+        \Magento\Core\Model\UrlFactory $urlFactory,
+        \Magento\GoogleCheckout\Model\ApiFactory $apiFactory,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        array $data = array()
+    ) {
+        $this->dateFactory = $dateFactory;
+        $this->urlFactory = $urlFactory;
+        $this->apiFactory = $apiFactory;
+        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $logAdapterFactory, $data);
+    }
+
+    /**
      * Can be edit order (renew order)
      *
      * @return bool
@@ -49,7 +80,7 @@ class Payment extends \Magento\Payment\Model\Method\AbstractMethod
      */
     public function getOrderPlaceRedirectUrl()
     {
-        return \Mage::getUrl('googlecheckout/redirect/redirect');
+        return $this->urlFactory->create()->getUrl('googlecheckout/redirect/redirect');
     }
 
     /**
@@ -61,7 +92,7 @@ class Payment extends \Magento\Payment\Model\Method\AbstractMethod
      */
     public function authorize(\Magento\Object $payment, $amount)
     {
-        $api = \Mage::getModel('Magento\GoogleCheckout\Model\Api')->setStoreId($payment->getOrder()->getStoreId());
+        $api = $this->apiFactory->create()->setStoreId($payment->getOrder()->getStoreId());
         $api->authorize($payment->getOrder()->getExtOrderId());
 
         return $this;
@@ -76,7 +107,7 @@ class Payment extends \Magento\Payment\Model\Method\AbstractMethod
      */
     public function capture(\Magento\Object $payment, $amount)
     {
-        if ($payment->getOrder()->getPaymentAuthExpiration() < \Mage::getModel('Magento\Core\Model\Date')->gmtTimestamp()) {
+        if ($payment->getOrder()->getPaymentAuthExpiration() < $this->dateFactory->create()->gmtTimestamp()) {
             try {
                 $this->authorize($payment, $amount);
             } catch (\Exception $e) {
@@ -84,7 +115,7 @@ class Payment extends \Magento\Payment\Model\Method\AbstractMethod
             }
         }
 
-        $api = \Mage::getModel('Magento\GoogleCheckout\Model\Api')->setStoreId($payment->getOrder()->getStoreId());
+        $api = $this->apiFactory->create()->setStoreId($payment->getOrder()->getStoreId());
         $api->charge($payment->getOrder()->getExtOrderId(), $amount);
         $payment->setForcedState(\Magento\Sales\Model\Order\Invoice::STATE_OPEN);
 
@@ -104,7 +135,7 @@ class Payment extends \Magento\Payment\Model\Method\AbstractMethod
         $reason = $this->getReason() ? $this->getReason() : __('No Reason');
         $comment = $this->getComment() ? $this->getComment() : __('No Comment');
 
-        $api = \Mage::getModel('Magento\GoogleCheckout\Model\Api')->setStoreId($payment->getOrder()->getStoreId());
+        $api = $this->apiFactory->create()->setStoreId($payment->getOrder()->getStoreId());
         $api->refund($payment->getOrder()->getExtOrderId(), $amount, $reason, $comment);
 
         return $this;
@@ -130,7 +161,7 @@ class Payment extends \Magento\Payment\Model\Method\AbstractMethod
             $reason = $this->getReason() ? $this->getReason() : __('Unknown Reason');
             $comment = $this->getComment() ? $this->getComment() : __('No Comment');
 
-            $api = \Mage::getModel('Magento\GoogleCheckout\Model\Api')->setStoreId($payment->getOrder()->getStoreId());
+            $api = $this->apiFactory->create()->setStoreId($payment->getOrder()->getStoreId());
             $api->cancel($payment->getOrder()->getExtOrderId(), $reason, $comment);
         }
 

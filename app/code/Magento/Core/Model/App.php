@@ -35,7 +35,7 @@ class App implements \Magento\Core\Model\AppInterface
     /**
      * Magento version
      */
-    const VERSION = '2.0.0.0-dev43';
+    const VERSION = '2.0.0.0-dev46';
 
     /**
      * Custom application dirs
@@ -196,7 +196,6 @@ class App implements \Magento\Core\Model\AppInterface
 
     /**
      * @param \Magento\Core\Model\Config $config
-     * @param \Magento\Core\Controller\Varien\Front $frontController
      * @param \Magento\Core\Model\CacheInterface $cache
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Core\Model\Db\UpdaterInterface $dbUpdater
@@ -207,7 +206,6 @@ class App implements \Magento\Core\Model\AppInterface
      */
     public function __construct(
         \Magento\Core\Model\Config $config,
-        \Magento\Core\Controller\Varien\Front $frontController,
         \Magento\Core\Model\CacheInterface $cache,
         \Magento\ObjectManager $objectManager,
         \Magento\Core\Model\Db\UpdaterInterface $dbUpdater,
@@ -221,7 +219,6 @@ class App implements \Magento\Core\Model\AppInterface
         $this->_objectManager = $objectManager;
         $this->_storeManager = $storeManager;
         $this->_dbUpdater = $dbUpdater;
-        $this->_frontController = $frontController;
         $this->_appState = $appState;
         $this->_eventManager = $eventManager;
         $this->_configScope = $configScope;
@@ -571,7 +568,6 @@ class App implements \Magento\Core\Model\AppInterface
     {
         if (!$this->_response) {
             $this->_response = $this->_objectManager->get('Magento\Core\Controller\Response\Http');
-            $this->_response->headersSentThrowsException = \Mage::$headersSentThrowsException;
             $this->_response->setHeader('Content-Type', 'text/html; charset=UTF-8');
         }
         return $this->_response;
@@ -909,7 +905,7 @@ class App implements \Magento\Core\Model\AppInterface
             'revision'  => '0',
             'patch'     => '0',
             'stability' => 'dev',
-            'number'    => '45',
+            'number'    => '46',
         );
     }
 }

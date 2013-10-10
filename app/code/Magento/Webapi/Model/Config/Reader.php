@@ -9,7 +9,7 @@
  */
 namespace Magento\Webapi\Model\Config;
 
-class Reader extends \Magento\Config\XmlAbstract
+class Reader extends \Magento\Config\AbstractXml
 {
     /**
      * Get absolute path to the XML-schema file

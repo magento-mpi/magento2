@@ -35,16 +35,22 @@ class Uploader extends \Magento\Core\Model\File\Uploader
     protected $_imageFactory;
 
     /**
+     * @var \Magento\Core\Model\File\Validator\NotProtectedExtension
+     */
+    protected $_validator;
+
+    /**
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
      * @param \Magento\Core\Helper\File\Storage $coreFileStorage
      * @param \Magento\Core\Model\Image\AdapterFactory $imageFactory
-     * @param null $filePath
-     * @internal param $fileId
+     * @param \Magento\Core\Model\File\Validator\NotProtectedExtension $validator
+     * @param string $filePath
      */
     public function __construct(
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
         \Magento\Core\Helper\File\Storage $coreFileStorage,
         \Magento\Core\Model\Image\AdapterFactory $imageFactory,
+        \Magento\Core\Model\File\Validator\NotProtectedExtension $validator,
         $filePath = null
     ) {
         if (!is_null($filePath)) {
@@ -53,6 +59,7 @@ class Uploader extends \Magento\Core\Model\File\Uploader
         $this->_imageFactory = $imageFactory;
         $this->_coreFileStorageDb = $coreFileStorageDb;
         $this->_coreFileStorage = $coreFileStorage;
+        $this->_validator = $validator;
     }
 
     /**
@@ -92,7 +99,7 @@ class Uploader extends \Magento\Core\Model\File\Uploader
     protected function _setUploadFile($filePath)
     {
         if (!is_readable($filePath)) {
-            \Mage::throwException("File '{$filePath}' was not found or has read restriction.");
+            throw new \Magento\Core\Exception("File '{$filePath}' was not found or has read restriction.");
         }
         $this->_file = $this->_readFileInfo($filePath);
 

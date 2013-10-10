@@ -10,23 +10,37 @@
 
 /**
  * Grid column filter block
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backend\Block\Widget\Grid\Column\Filter;
 
 class AbstractFilter extends \Magento\Backend\Block\AbstractBlock
     implements \Magento\Backend\Block\Widget\Grid\Column\Filter\FilterInterface
 {
-
     /**
      * Column related to filter
      *
      * @var \Magento\Backend\Block\Widget\Grid\Column
      */
     protected $_column;
+
+    /**
+     * @var \Magento\Core\Model\Resource\Helper
+     */
+    protected $_resourceHelper;
+
+    /**
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Core\Model\Resource\Helper $resourceHelper
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Backend\Block\Context $context,
+        \Magento\Core\Model\Resource\Helper $resourceHelper,
+        array $data = array()
+    ) {
+        $this->_resourceHelper = $resourceHelper;
+        parent::__construct($context, $data);
+    }
 
     /**
      * Set column related to filter
@@ -88,8 +102,7 @@ class AbstractFilter extends \Magento\Backend\Block\AbstractBlock
      */
     public function getCondition()
     {
-        $helper = \Mage::getResourceHelper('Magento_Core');
-        $likeExpression = $helper->addLikeEscape($this->getValue(), array('position' => 'any'));
+        $likeExpression = $this->_resourceHelper->addLikeEscape($this->getValue(), array('position' => 'any'));
         return array('like' => $likeExpression);
     }
 

@@ -1,0 +1,16 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<?php $_product = $this->getProduct() ?>
+<?php if ($_product->isSaleable() && $this->hasOptions()):?>
+    <div class="actions bundle">
+        <button id="bundle-slide" class="action primary customize" type="button"><span><?php echo __('Customize and Add to Cart'); ?></span></button>
+    </div>
+<?php endif;?>

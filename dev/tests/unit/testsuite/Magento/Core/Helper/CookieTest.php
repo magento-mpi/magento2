@@ -22,6 +22,8 @@ class CookieTest extends \PHPUnit_Framework_TestCase
     {
         $this->_object = new \Magento\Core\Helper\Cookie(
             $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false, false),
+            $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false, false),
+            $this->getMock('Magento\Core\Model\Cookie', array(), array(), '', false, false),
             array(
                 'current_store' => $this->_getStoreStub(),
                 'cookie_model' => $this->_getCookieStub(array(1 => 1)),
@@ -35,6 +37,8 @@ class CookieTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->_object->isUserNotAllowSaveCookie());
         $this->_object = new \Magento\Core\Helper\Cookie(
             $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false, false),
+            $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false, false),
+            $this->getMock('Magento\Core\Model\Cookie', array(), array(), '', false, false),
             array(
                 'current_store' => $this->_getStoreStub(),
                 'cookie_model' => $this->_getCookieStub(array()),
@@ -57,10 +61,12 @@ class CookieTest extends \PHPUnit_Framework_TestCase
         $storeStub = $this->_getStoreStub();
         $storeStub->expects($this->once())
             ->method('getConfig')
-            ->will($this->returnCallback('Magento\Core\Helper\CookieTest::getConfigMethodStub'))
+            ->will($this->returnCallback('Magento\\Core\\Helper\\CookieTest::getConfigMethodStub'))
             ->with($this->equalTo('web/cookie/cookie_restriction_lifetime'));
         $this->_object = new \Magento\Core\Helper\Cookie(
             $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false, false),
+            $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false, false),
+            $this->getMock('Magento\Core\Model\Cookie', array(), array(), '', false, false),
             array(
                 'current_store' => $storeStub,
                 'cookie_model' => $this->_getCookieStub(array(1 => 1)),
@@ -80,7 +86,7 @@ class CookieTest extends \PHPUnit_Framework_TestCase
 
         $store->expects($this->any())
             ->method('getConfig')
-            ->will($this->returnCallback('Magento\Core\Helper\CookieTest::getConfigMethodStub'));
+            ->will($this->returnCallback('Magento\\Core\\Helper\\CookieTest::getConfigMethodStub'));
 
         return $store;
     }

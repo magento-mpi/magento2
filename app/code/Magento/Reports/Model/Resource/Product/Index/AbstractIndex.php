@@ -21,6 +21,19 @@ namespace Magento\Reports\Model\Resource\Product\Index;
 abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
+     * @var \Magento\Reports\Model\Resource\HelperFactory
+     */
+    protected $_helperFactory;
+
+    public function __construct(
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Reports\Model\Resource\HelperFactory $helperFactory
+    ) {
+        parent::__construct($resource);
+        $this->_helperFactory = $helperFactory;
+    }
+
+    /**
      * Update Customer from visitor (Customer logged in)
      *
      * @param \Magento\Reports\Model\Product\Index\AbstractIndex $object
@@ -122,7 +135,7 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
 
         $matchFields = array('product_id', 'store_id');
 
-        \Mage::getResourceHelper('Magento_Reports')->mergeVisitorProductIndex(
+        $this->_helperFactory->create()->mergeVisitorProductIndex(
             $this->getMainTable(),
             $data,
             $matchFields
@@ -195,7 +208,7 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
 
         $matchFields = array('product_id', 'store_id');
         foreach ($data as $row) {
-            \Mage::getResourceHelper('Magento_Reports')->mergeVisitorProductIndex(
+            $this->_helperFactory->create()->mergeVisitorProductIndex(
                 $this->getMainTable(),
                 $row,
                 $matchFields

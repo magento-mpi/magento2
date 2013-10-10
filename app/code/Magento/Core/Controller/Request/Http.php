@@ -58,19 +58,30 @@ class Http extends \Zend_Controller_Request_Http
     protected $_beforeForwardInfo = array();
 
     /**
-     * @var \Magento\Backend\Helper\DataProxy
+     * @var \Magento\Backend\Helper\Data
      */
     protected $_helper;
 
     /**
-     * @param \Magento\Backend\Helper\DataProxy $helper
-     * @param null $uri
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Backend\Helper\Data $helper
+     * @param string|Zend_Uri $uri
      * @param array $directFrontNames
      */
-    public function __construct(\Magento\Backend\Helper\DataProxy $helper, $uri = null, $directFrontNames = array())
-    {
+    public function __construct(
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Backend\Helper\Data $helper,
+        $uri = null,
+        $directFrontNames = array()
+    ) {
         $this->_helper = $helper;
         $this->_directFrontNames = $directFrontNames;
+        $this->_storeManager = $storeManager;
         parent::__construct($uri);
     }
 
@@ -122,10 +133,10 @@ class Http extends \Zend_Controller_Request_Http
             $storeCode = $pathParts[0];
 
             if ($this->_isFrontArea($storeCode)) {
-                $stores = \Mage::app()->getStores(true, true);
+                $stores = $this->_storeManager->getStores(true, true);
                 if (isset($stores[$storeCode]) && $stores[$storeCode]->isUseStoreInUrl()) {
                     if (!$this->isDirectAccessFrontendName($storeCode)) {
-                        \Mage::app()->setCurrentStore($storeCode);
+                        $this->_storeManager->setCurrentStore($storeCode);
                         $pathInfo = '/'.(isset($pathParts[1]) ? $pathParts[1] : '');
                     } elseif (!empty($storeCode)) {
                         $this->setActionName('noRoute');
@@ -239,7 +250,9 @@ class Http extends \Zend_Controller_Request_Http
     public function setRouteName($route)
     {
         $this->_route = $route;
-        $router = \Mage::app()->getFrontController()->getRouterList()->getRouterByRoute($route);
+        $router = \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Core\Model\App')
+            ->getFrontController()
+            ->getRouterList()->getRouterByRoute($route);
         if (!$router) {
             return $this;
         }
@@ -386,7 +399,9 @@ class Http extends \Zend_Controller_Request_Http
         if ($this->_requestedRouteName === null) {
             if ($this->_rewritedPathInfo !== null && isset($this->_rewritedPathInfo[0])) {
                 $frontName = $this->_rewritedPathInfo[0];
-                $router = \Mage::app()->getFrontController()->getRouterList()->getRouterByFrontName($frontName);
+                $router = \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Core\Model\App')
+                    ->getFrontController()
+                    ->getRouterList()->getRouterByFrontName($frontName);
                 $this->_requestedRouteName = $router->getRouteByFrontName($frontName);
             } else {
                 // no rewritten path found, use default route name

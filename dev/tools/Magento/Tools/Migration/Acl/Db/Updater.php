@@ -31,7 +31,7 @@ class Updater
     /**
      * Operation logger
      *
-     * @var \Magento\Tools\Migration\Acl\Db\LoggerAbstract
+     * @var \Magento\Tools\Migration\Acl\Db\AbstractLogger
      */
     protected $_logger;
 
@@ -45,13 +45,13 @@ class Updater
     /**
      * @param \Magento\Tools\Migration\Acl\Db\Reader $reader
      * @param \Magento\Tools\Migration\Acl\Db\Writer $writer
-     * @param \Magento\Tools\Migration\Acl\Db\LoggerAbstract $logger
+     * @param \Magento\Tools\Migration\Acl\Db\AbstractLogger $logger
      * @param string $mode - if value is "preview" migration does not happen
      */
     public function __construct(
         \Magento\Tools\Migration\Acl\Db\Reader $reader,
         \Magento\Tools\Migration\Acl\Db\Writer $writer,
-        \Magento\Tools\Migration\Acl\Db\LoggerAbstract $logger,
+        \Magento\Tools\Migration\Acl\Db\AbstractLogger $logger,
         $mode
     ) {
         $this->_reader = $reader;

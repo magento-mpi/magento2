@@ -18,6 +18,16 @@ class Cart
     extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
+     * @var \Magento\Customer\Model\CustomerFactory
+     */
+    protected $customerFactory;
+
+    /**
+     * @var \Magento\Sales\Model\QuoteFactory
+     */
+    protected $salesQuoteFactory;
+
+    /**
      * Core registry
      *
      * @var \Magento\Core\Model\Registry
@@ -27,28 +37,35 @@ class Cart
     /**
      * @var \Magento\Data\CollectionFactory
      */
-    protected $_dataCollectionFactory;
+    protected $_dataFactory;
 
     /**
-     * @param \Magento\Data\CollectionFactory $dataCollectionFactory
+     * @param \Magento\Data\CollectionFactory $dataFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Sales\Model\QuoteFactory $salesQuoteFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\CollectionFactory $dataCollectionFactory,
+        \Magento\Data\CollectionFactory $dataFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Sales\Model\QuoteFactory $salesQuoteFactory,
         array $data = array()
     ) {
-        $this->_dataCollectionFactory = $dataCollectionFactory;
+        $this->_dataFactory = $dataFactory;
         $this->_coreRegistry = $coreRegistry;
+        $this->customerFactory = $customerFactory;
+        $this->salesQuoteFactory = $salesQuoteFactory;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
@@ -63,11 +80,11 @@ class Cart
 
     protected function _prepareCollection()
     {
-        $quote = \Mage::getModel('Magento\Sales\Model\Quote');
-        $quote->setWebsite(\Mage::app()->getWebsite($this->getEntity()->getWebsiteId()));
-        $quote->loadByCustomer(\Mage::getModel('Magento\Customer\Model\Customer')->load($this->getEntity()->getCustomerId()));
+        $quote = $this->salesQuoteFactory->create();
+        $quote->setWebsite($this->_storeManager->getWebsite($this->getEntity()->getWebsiteId()));
+        $quote->loadByCustomer($this->customerFactory->create()->load($this->getEntity()->getCustomerId()));
 
-        $collection = ($quote) ? $quote->getItemsCollection(false) : $this->_dataCollectionFactory->create();
+        $collection = ($quote) ? $quote->getItemsCollection(false) : $this->_dataFactory->create();
         $collection->addFieldToFilter('parent_item_id', array('null' => true));
         $this->setCollection($collection);
 

@@ -308,7 +308,7 @@ class ObsoleteCodeTest extends \PHPUnit_Framework_TestCase
             '/getOptions\(\)\s*->get(Base|App|Code|Design|Etc|Lib|Locale|Js|Media'
                 .'|Var|Tmp|Cache|Log|Session|Upload|Export)?Dir\(/S',
             $content,
-            'The class Magento_Core_Model_Config_Options is obsolete. Replacement suggestion: \Magento\Core\Model\Dir'
+            'The class \Magento\Core\Model\Config\Options is obsolete. Replacement suggestion: \Magento\Core\Model\Dir'
         );
     }
 
@@ -492,5 +492,41 @@ class ObsoleteCodeTest extends \PHPUnit_Framework_TestCase
     protected function _assertNotRegexp($regex, $content, $message)
     {
         $this->assertSame(0, preg_match($regex, $content), $message);
+    }
+
+    /**
+     * Check elimination of "Mage" class usages
+     *
+     * @dataProvider mageObsoleteDataProvider
+     * @param string $file
+     */
+    public function testMageMethodsObsolete($file)
+    {
+        $this->_assertNotRegExp(
+            '/[^a-z\d_]Mage::[^\s]+?\(/i',
+            file_get_contents($file),
+            '"Mage" class methods are obsolete'
+        );
+    }
+
+    /**
+     * @return array
+     */
+    public function mageObsoleteDataProvider()
+    {
+        $blackList = include(
+            __DIR__ . DIRECTORY_SEPARATOR .'_files'
+            . DIRECTORY_SEPARATOR . 'blacklist'
+            . DIRECTORY_SEPARATOR . 'obsolete_mage.php'
+        );
+        $ignored = array();
+        $appPath = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
+        foreach ($blackList as $file) {
+            $ignored[] = realpath($appPath . DIRECTORY_SEPARATOR . $file);
+        }
+        $files = \Magento\TestFramework\Utility\Files::init()->getClassFiles(false);
+        $files = array_map('realpath', $files);
+        $files = array_diff($files, $ignored);
+        return \Magento\TestFramework\Utility\Files::composeDataSets($files);
     }
 }

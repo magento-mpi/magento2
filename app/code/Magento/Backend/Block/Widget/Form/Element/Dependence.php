@@ -55,19 +55,27 @@ class Dependence extends \Magento\Backend\Block\AbstractBlock
      *
      * @var \Magento\Core\Helper\Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
+
+    /**
+     * @var \Magento\Backend\Model\Config\Structure\Element\Dependency\FieldFactory
+     */
+    protected $_fieldFactory;
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Backend\Model\Config\Structure\Element\Dependency\FieldFactory $fieldFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Context $context,
+        \Magento\Backend\Model\Config\Structure\Element\Dependency\FieldFactory $fieldFactory,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
+        $this->_fieldFactory = $fieldFactory;
         parent::__construct($context, $data);
     }
 
@@ -88,7 +96,8 @@ class Dependence extends \Magento\Backend\Block\AbstractBlock
     public function addFieldDependence($fieldName, $fieldNameFrom, $refField)
     {
         if (!is_object($refField)) {
-            $refField = \Mage::getModel('Magento\Backend\Model\Config\Structure\Element\Dependency\Field', array(
+            /** @var $refField \Magento\Backend\Model\Config\Structure\Element\Dependency\Field */
+            $refField = $this->_fieldFactory->create(array(
                 'fieldData' => array('value' => (string)$refField),
                 'fieldPrefix' => '',
             ));

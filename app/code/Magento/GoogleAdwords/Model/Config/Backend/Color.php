@@ -9,7 +9,7 @@
  */
 namespace Magento\GoogleAdwords\Model\Config\Backend;
 
-class Color extends \Magento\GoogleAdwords\Model\Config\Backend\ConversionAbstract
+class Color extends \Magento\GoogleAdwords\Model\Config\Backend\AbstractConversion
 {
     /**
      * Validation rule conversion color

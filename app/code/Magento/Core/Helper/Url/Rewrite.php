@@ -26,6 +26,23 @@ class Rewrite extends \Magento\Core\Helper\AbstractHelper
     const VERR_ANCHOR = 2;      // Anchor is not supported in request path, e.g. 'foo#bar'
 
     /**
+     * @var \Magento\Core\Model\Source\Urlrewrite\Options
+     */
+    protected $_urlrewrite;
+
+    /**
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Source\Urlrewrite\Options $urlrewrite
+     */
+    public function __construct(
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Source\Urlrewrite\Options $urlrewrite
+    ) {
+        parent::__construct($context);
+        $this->_urlrewrite = $urlrewrite;
+    }
+
+    /**
      * Core func to validate request path
      * If something is wrong with a path it throws localized error message and error code,
      * that can be checked to by wrapper func to alternate error message
@@ -47,6 +64,8 @@ class Rewrite extends \Magento\Core\Helper\AbstractHelper
      * Validates request path
      * Either returns TRUE (success) or throws error (validation failed)
      *
+     * @param $requestPath
+     * @throws \Magento\Core\Exception
      * @return bool
      */
     public function validateRequestPath($requestPath)
@@ -54,7 +73,7 @@ class Rewrite extends \Magento\Core\Helper\AbstractHelper
         try {
             $this->_validateRequestPath($requestPath);
         } catch (\Exception $e) {
-            \Mage::throwException($e->getMessage());
+            throw new \Magento\Core\Exception($e->getMessage());
         }
         return true;
     }
@@ -63,6 +82,8 @@ class Rewrite extends \Magento\Core\Helper\AbstractHelper
      * Validates suffix for url rewrites to inform user about errors in it
      * Either returns TRUE (success) or throws error (validation failed)
      *
+     * @param $suffix
+     * @throws \Magento\Core\Exception
      * @return bool
      */
     public function validateSuffix($suffix)
@@ -73,9 +94,11 @@ class Rewrite extends \Magento\Core\Helper\AbstractHelper
             // Make message saying about suffix, not request path
             switch ($e->getCode()) {
                 case self::VERR_MANYSLASHES:
-                    \Mage::throwException(__('Two and more slashes together are not permitted in url rewrite suffix'));
+                    throw new \Magento\Core\Exception(
+                        __('Two and more slashes together are not permitted in url rewrite suffix')
+                    );
                 case self::VERR_ANCHOR:
-                    \Mage::throwException(__('Anchor symbol (#) is not supported in url rewrite suffix'));
+                    throw new \Magento\Core\Exception(__('Anchor symbol (#) is not supported in url rewrite suffix'));
             }
         }
         return true;
@@ -89,8 +112,6 @@ class Rewrite extends \Magento\Core\Helper\AbstractHelper
      */
     public function hasRedirectOptions($urlRewrite)
     {
-        /** @var $options \Magento\Core\Model\Source\Urlrewrite\Options */
-        $options = \Mage::getSingleton('Magento\Core\Model\Source\Urlrewrite\Options');
-        return in_array($urlRewrite->getOptions(), $options->getRedirectOptions());
+        return in_array($urlRewrite->getOptions(), $this->_urlrewrite->getRedirectOptions());
     }
 }

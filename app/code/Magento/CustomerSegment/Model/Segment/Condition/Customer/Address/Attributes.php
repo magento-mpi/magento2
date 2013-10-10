@@ -93,7 +93,7 @@ class Attributes
             $conditions[] = array('value'=> $this->getType() . '|' . $code, 'label'=>$label);
         }
         $conditions = array_merge($conditions,
-            $this->_conditionFactory->create('Customer_Address_Region')->getNewChildSelectOptions());
+            $this->_conditionFactory->create('Customer\Address\Region')->getNewChildSelectOptions());
         return array(
             'value' => $conditions,
             'label' => __('Address Attributes'),

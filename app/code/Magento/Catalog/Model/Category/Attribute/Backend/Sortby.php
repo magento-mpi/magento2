@@ -28,6 +28,8 @@ class Sortby
     protected $_coreStoreConfig;
 
     /**
+     * Construct
+     *
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
@@ -44,6 +46,7 @@ class Sortby
      *
      * @param \Magento\Object $object
      * @return bool
+     * @throws \Magento\Core\Exception
      */
     public function validate($object)
     {
@@ -71,7 +74,7 @@ class Sortby
         if ($this->getAttribute()->getIsUnique()) {
             if (!$this->getAttribute()->getEntity()->checkAttributeUniqueValue($this->getAttribute(), $object)) {
                 $label = $this->getAttribute()->getFrontend()->getLabel();
-                \Mage::throwException(__('The value of attribute "%1" must be unique.', $label));
+                throw new \Magento\Core\Exception(__('The value of attribute "%1" must be unique.', $label));
             }
         }
 
@@ -83,11 +86,15 @@ class Sortby
                 $data = (!in_array('default_sort_by', $postDataConfig))? $object->getData($attributeCode):
                        $this->_coreStoreConfig->getConfig("catalog/frontend/default_sort_by");
                 if (!in_array($data, $available)) {
-                    \Mage::throwException(__('Default Product Listing Sort by does not exist in Available Product Listing Sort By.'));
+                    throw new \Magento\Core\Exception(
+                        __('Default Product Listing Sort by does not exist in Available Product Listing Sort By.')
+                    );
                 }
             } else {
                 if (!in_array('available_sort_by', $postDataConfig)) {
-                    \Mage::throwException(__('Default Product Listing Sort by does not exist in Available Product Listing Sort By.'));
+                    throw new \Magento\Core\Exception(
+                        __('Default Product Listing Sort by does not exist in Available Product Listing Sort By.')
+                    );
                 }
             }
         }

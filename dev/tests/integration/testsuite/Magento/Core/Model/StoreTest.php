@@ -39,14 +39,15 @@ class StoreTest extends \PHPUnit_Framework_TestCase
             'context'                 => $objectManager->get('Magento\Core\Model\Context'),
             'registry'                => $objectManager->get('Magento\Core\Model\Registry'),
             'configCacheType'         => $objectManager->get('Magento\Core\Model\Cache\Type\Config'),
-            'urlModel'                => $objectManager->get('Magento\Core\Model\Url'),
+            'url'                     => $objectManager->get('Magento\Core\Model\Url'),
             'appState'                => $objectManager->get('Magento\Core\Model\App\State'),
             'request'                 => $objectManager->get('Magento\Core\Controller\Request\Http'),
             'configDataResource'      => $objectManager->get('Magento\Core\Model\Resource\Config\Data'),
             'dir'                     => $objectManager->get('Magento\Core\Model\Dir'),
             'coreStoreConfig'         => $objectManager->get('Magento\Core\Model\Store\Config'),
-            'coreStore'               => $objectManager->get('Magento\Core\Model\Config'),
+            'coreConfig'              => $objectManager->get('Magento\Core\Model\Config'),
             'resource'                => $objectManager->get('Magento\Core\Model\Resource\Store'),
+            'storeManager'            => $objectManager->get('Magento\Core\Model\StoreManager'),
         );
 
         return $this->getMock(

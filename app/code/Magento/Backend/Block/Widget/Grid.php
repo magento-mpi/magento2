@@ -11,10 +11,6 @@
 /**
  * Backend grid widget block
  *
- * @category   Magento
- * @package    Magento_Backend
- * @author     Magento Core Team <core@magentocommerce.com>
- *
  * @method string getRowClickCallback() getRowClickCallback()
  * @method \Magento\Backend\Block\Widget\Grid setRowClickCallback() setRowClickCallback(string $value)
  */
@@ -108,6 +104,11 @@ class Grid extends \Magento\Backend\Block\Widget
     protected $_urlModel;
 
     /**
+     * @var \Magento\Backend\Model\Session
+     */
+    protected $_backendSession;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -123,6 +124,7 @@ class Grid extends \Magento\Backend\Block\Widget
     ) {
         $this->_storeManager = $storeManager;
         $this->_urlModel = $urlModel;
+        $this->_backendSession = $context->getBackendSession();
         parent::__construct($coreData, $context, $data);
     }
 
@@ -203,7 +205,7 @@ class Grid extends \Magento\Backend\Block\Widget
     public function getExportBlock()
     {
         if (!$this->getChildBlock('grid.export')) {
-            \Mage::throwException('Export block for grid ' . $this->getNameInLayout() . ' is not defined');
+            throw new \Magento\Core\Exception('Export block for grid ' . $this->getNameInLayout() . ' is not defined');
         }
         return $this->getChildBlock('grid.export');
     }
@@ -739,21 +741,20 @@ class Grid extends \Magento\Backend\Block\Widget
     /**
      * Retrieve grid
      *
-     * @param   string $paramName
-     * @param   mixed $default
-     * @return  mixed
+     * @param string $paramName
+     * @param mixed $default
+     * @return mixed
      */
-    public function getParam($paramName, $default=null)
+    public function getParam($paramName, $default = null)
     {
-        $session = \Mage::getSingleton('Magento\Backend\Model\Session');
         $sessionParamName = $this->getId() . $paramName;
         if ($this->getRequest()->has($paramName)) {
             $param = $this->getRequest()->getParam($paramName);
             if ($this->_saveParametersInSession) {
-                $session->setData($sessionParamName, $param);
+                $this->_backendSession->setData($sessionParamName, $param);
             }
             return $param;
-        } elseif ($this->_saveParametersInSession && ($param = $session->getData($sessionParamName))) {
+        } elseif ($this->_saveParametersInSession && ($param = $this->_backendSession->getData($sessionParamName))) {
             return $param;
         }
 

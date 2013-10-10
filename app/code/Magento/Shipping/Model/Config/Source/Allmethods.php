@@ -20,12 +20,20 @@ class Allmethods implements \Magento\Core\Model\Option\ArrayInterface
     protected $_coreStoreConfig;
 
     /**
+     * @var \Magento\Shipping\Model\Config
+     */
+    protected $_shippingConfig;
+
+    /**
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Shipping\Model\Config $shippingConfig
      */
     public function __construct(
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Shipping\Model\Config $shippingConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_shippingConfig = $shippingConfig;
     }
 
     /**
@@ -38,7 +46,7 @@ class Allmethods implements \Magento\Core\Model\Option\ArrayInterface
     public function toOptionArray($isActiveOnlyFlag=false)
     {
         $methods = array(array('value'=>'', 'label'=>''));
-        $carriers = \Mage::getSingleton('Magento\Shipping\Model\Config')->getAllCarriers();
+        $carriers = $this->_shippingConfig->getAllCarriers();
         foreach ($carriers as $carrierCode=>$carrierModel) {
             if (!$carrierModel->isActive() && (bool)$isActiveOnlyFlag === true) {
                 continue;

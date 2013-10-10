@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     \Magento\Backup
+ * @package     Magento_Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,12 +13,12 @@
  * Database backup model
  *
  * @category    Magento
- * @package     \Magento\Backup
+ * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backup\Model;
 
-class Db
+class Db implements \Magento\Backup\Db\BackupDbInterface
 {
 
     /**
@@ -27,6 +27,30 @@ class Db
      *
      */
     const BUFFER_LENGTH = 102400;
+
+    /**
+     * Backup resource model
+     *
+     * @var \Magento\Backup\Model\Resource\Db
+     */
+    protected $_resourceDb = null;
+
+    /**
+     * Core resource model
+     *
+     * @var \Magento\Core\Model\Resource
+     */
+    protected $_resource = null;
+
+    /**
+     * @param \Magento\Backup\Model\Resource\Db $resourceDb
+     * @param \Magento\Core\Model\Resource $resource
+     */
+    public function __construct(\Magento\Backup\Model\Resource\Db $resourceDb, \Magento\Core\Model\Resource $resource)
+    {
+        $this->_resourceDb = $resourceDb;
+        $this->_resource = $resource;
+    }
 
     /**
      * List of tables which data should not be backed up
@@ -44,7 +68,7 @@ class Db
      */
     public function getResource()
     {
-        return \Mage::getResourceSingleton('Magento\Backup\Model\Resource\Db');
+        return $this->_resourceDb;
     }
 
     public function getTables()
@@ -90,10 +114,10 @@ class Db
     /**
      * Create backup and stream write to adapter
      *
-     * @param \Magento\Backup\Model\Backup $backup
+     * @param \Magento\Backup\Db\BackupInterface $backup
      * @return \Magento\Backup\Model\Db
      */
-    public function createBackup(\Magento\Backup\Model\Backup $backup)
+    public function createBackup(\Magento\Backup\Db\BackupInterface $backup)
     {
         $backup->open(true);
 
@@ -155,10 +179,9 @@ class Db
     public function getIgnoreDataTablesList()
     {
         $result = array();
-        $resource = \Mage::getSingleton('Magento\Core\Model\Resource');
 
         foreach ($this->_ignoreDataTablesList as $table) {
-            $result[] = $resource->getTableName($table);
+            $result[] = $this->_resource->getTableName($table);
         }
 
         return $result;

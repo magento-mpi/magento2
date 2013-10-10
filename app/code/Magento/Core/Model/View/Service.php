@@ -26,7 +26,7 @@ class Service
     protected $_appState;
 
     /**
-     * @var \Magento\Core\Model\View\Design\Proxy
+     * @var \Magento\Core\Model\View\DesignInterface
      */
     private $_design;
 
@@ -36,27 +36,35 @@ class Service
     protected $_themeFactory;
 
     /**
+     * @var \Magento\Core\Model\Dir
+     */
+    protected $_dir;
+
+    /**
      * View files system model
      *
      *
      * @param \Magento\Core\Model\App\State $appState
-     * @param \Magento\Core\Model\View\Design\Proxy $design
+     * @param \Magento\Core\Model\View\DesignInterface $design
      * @param \Magento\Core\Model\Theme\FlyweightFactory $themeFactory
+     * @param \Magento\Core\Model\Dir $dir
      */
     public function __construct(
         \Magento\Core\Model\App\State $appState,
-        \Magento\Core\Model\View\Design\Proxy $design,
-        \Magento\Core\Model\Theme\FlyweightFactory $themeFactory
+        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\Core\Model\Theme\FlyweightFactory $themeFactory,
+        \Magento\Core\Model\Dir $dir
     ) {
         $this->_appState = $appState;
         $this->_design = $design;
         $this->_themeFactory = $themeFactory;
+        $this->_dir = $dir;
     }
 
     /**
      * Identify file scope if it defined in file name and override 'module' parameter in $params array
      *
-     * It accepts $fileId e.g. Magento_Core::prototype/magento.css and splits it to module part and path part.
+     * It accepts $fileId e.g. \Magento\Core::prototype/magento.css and splits it to module part and path part.
      * Then sets module path to $params['module'] and returns path part.
      *
      * @param string $fileId
@@ -109,14 +117,14 @@ class Service
      */
     public function getPublicDir()
     {
-        return \Mage::getBaseDir(\Magento\Core\Model\Dir::STATIC_VIEW);
+        return $this->_dir->getDir(\Magento\Core\Model\Dir::STATIC_VIEW);
     }
 
     /**
      * Update required parameters with default values if custom not specified
      *
      * @param array $params
-     * @return \Magento\Core\Model\View\Design
+     * @return $this
      */
     public function updateDesignParams(array &$params)
     {

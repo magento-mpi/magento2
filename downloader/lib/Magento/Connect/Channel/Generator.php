@@ -31,7 +31,7 @@ class Generator extends \Magento\Xml\Generator
     public function getGenerator()
     {
         if (is_null($this->_generator)) {
-            $this->_generator = new Magento\Xml\Generator();
+            $this->_generator = new \Magento\Xml\Generator();
         }
         return $this->_generator;
     }

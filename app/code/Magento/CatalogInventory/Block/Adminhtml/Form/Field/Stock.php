@@ -68,7 +68,7 @@ class Stock extends \Magento\Data\Form\Element\Select
      */
     protected function _createQtyElement()
     {
-        /** @var \\Magento\Data\Form\Element\Text $element */
+        /** @var \Magento\Data\Form\Element\Text $element */
         $element = $this->_factoryText->create();
         $element->setId(self::QUANTITY_FIELD_HTML_ID)->setName('qty')->addClass('validate-number input-text');
         return $element;

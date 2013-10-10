@@ -140,15 +140,32 @@ abstract class AbstractEntity
     protected $_writer;
 
     /**
-     * Constructor.
-     *
-     * @return void
+     * @var \Magento\Core\Model\LocaleInterface
      */
-    public function __construct()
-    {
+    protected $_locale;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Eav\Model\Config $config
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     */
+    public function __construct(
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Eav\Model\Config $config,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
+    ) {
+        $this->_locale = $locale;
+        $this->_storeManager = $storeManager;
         $entityCode = $this->getEntityTypeCode();
-        $this->_entityTypeId = \Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType($entityCode)->getEntityTypeId();
-        $this->_connection   = \Mage::getSingleton('Magento\Core\Model\Resource')->getConnection('core_write');
+        $this->_entityTypeId = $config->getEntityType($entityCode)->getEntityTypeId();
+        $this->_connection   = $resource->getConnection('write');
     }
 
     /**
@@ -158,7 +175,7 @@ abstract class AbstractEntity
      */
     protected function _initStores()
     {
-        foreach (\Mage::app()->getStores(true) as $store) {
+        foreach ($this->_storeManager->getStores(true) as $store) {
             $this->_storeIdToCode[$store->getId()] = $store->getCode();
         }
         ksort($this->_storeIdToCode); // to ensure that 'admin' store (ID is zero) goes first
@@ -257,11 +274,11 @@ abstract class AbstractEntity
                         $to   = array_shift($exportFilter[$attrCode]);
 
                         if (is_scalar($from) && !empty($from)) {
-                            $date = \Mage::app()->getLocale()->date($from,null,null,false)->toString('MM/dd/YYYY');
+                            $date = $this->_locale->date($from,null,null,false)->toString('MM/dd/YYYY');
                             $collection->addAttributeToFilter($attrCode, array('from' => $date, 'date' => true));
                         }
                         if (is_scalar($to) && !empty($to)) {
-                            $date = \Mage::app()->getLocale()->date($to,null,null,false)->toString('MM/dd/YYYY');
+                            $date = $this->_locale->date($to,null,null,false)->toString('MM/dd/YYYY');
                             $collection->addAttributeToFilter($attrCode, array('to' => $date, 'date' => true));
                         }
                     }
@@ -291,7 +308,7 @@ abstract class AbstractEntity
      *
      * @param string $errorCode Error code or simply column name
      * @param int $errorRowNum Row number.
-     * @return \Magento\ImportExport\Model\Import\SourceAbstract
+     * @return \Magento\ImportExport\Model\Import\AbstractSource
      */
     public function addRowError($errorCode, $errorRowNum)
     {
@@ -465,7 +482,7 @@ abstract class AbstractEntity
     public function getWriter()
     {
         if (!$this->_writer) {
-            \Mage::throwException(__('Please specify writer.'));
+            throw new \Magento\Core\Exception(__('Please specify writer.'));
         }
         return $this->_writer;
     }

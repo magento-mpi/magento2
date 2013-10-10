@@ -43,11 +43,23 @@ class Enabled
     protected $_coreData = null;
 
     /**
+     * Entity attribute factory
+     *
+     * @var \Magento\Eav\Model\Resource\Entity\AttributeFactory
+     */
+    protected $_entityAttributeFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Eav\Model\Resource\Entity\AttributeFactory $entityAttributeFactory
      * @param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
+        \Magento\Eav\Model\Resource\Entity\AttributeFactory $entityAttributeFactory,
         \Magento\Core\Helper\Data $coreData
     ) {
+        $this->_entityAttributeFactory = $entityAttributeFactory;
         $this->_coreData = $coreData;
     }
 
@@ -112,7 +124,7 @@ class Enabled
      */
     public function getFlatUpdateSelect($store)
     {
-        return \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute')
+        return $this->_entityAttributeFactory->create()
             ->getFlatUpdateSelect($this->getAttribute(), $store);
     }
 }

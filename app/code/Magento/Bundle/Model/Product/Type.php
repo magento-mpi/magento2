@@ -125,6 +125,20 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
     protected $_bundleModelSelection;
 
     /**
+     * Construct
+     *
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Model\Product\Option $catalogProductOption
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Catalog\Model\Product\Type $catalogProductType
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDb
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Catalog\Helper\Product $catalogProduct
+     * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Bundle\Model\SelectionFactory $bundleModelSelection
      * @param \Magento\Bundle\Model\Resource\BundleFactory $bundleFactory
      * @param \Magento\Bundle\Model\Resource\Selection\CollectionFactory $bundleCollection
@@ -132,17 +146,23 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Bundle\Model\Resource\Selection $bundleSelection
      * @param \Magento\Bundle\Model\OptionFactory $bundleOption
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Catalog\Helper\Product $catalogProduct
-     * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDb
-     * @param \Magento\Filesystem $filesystem
-     * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Core\Model\Logger $logger
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Model\Product\Option $catalogProductOption,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Catalog\Model\Product\Type $catalogProductType,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\File\Storage\Database $fileStorageDb,
+        \Magento\Filesystem $filesystem,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Catalog\Helper\Product $catalogProduct,
+        \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Bundle\Model\SelectionFactory $bundleModelSelection,
         \Magento\Bundle\Model\Resource\BundleFactory $bundleFactory,
         \Magento\Bundle\Model\Resource\Selection\CollectionFactory $bundleCollection,
@@ -150,14 +170,6 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
         \Magento\Bundle\Model\Resource\Selection $bundleSelection,
         \Magento\Bundle\Model\OptionFactory $bundleOption,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Catalog\Helper\Product $catalogProduct,
-        \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Helper\File\Storage\Database $fileStorageDb,
-        \Magento\Filesystem $filesystem,
-        \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Core\Model\Logger $logger,
         array $data = array()
     ) {
         $this->_catalogProduct = $catalogProduct;
@@ -169,7 +181,8 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
         $this->_bundleCollection = $bundleCollection;
         $this->_bundleFactory = $bundleFactory;
         $this->_bundleModelSelection = $bundleModelSelection;
-        parent::__construct($eventManager, $coreData, $fileStorageDb, $filesystem, $coreRegistry, $logger, $data);
+        parent::__construct($productFactory, $catalogProductOption, $eavConfig, $catalogProductType,
+            $eventManager, $coreData, $fileStorageDb, $filesystem, $coreRegistry, $logger, $data);
     }
 
     /**

@@ -16,14 +16,14 @@ class BlockAbstractTest extends \PHPUnit_Framework_TestCase
     /**
      * VDE toolbar buttons block
      *
-     * @var \Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\BlockAbstract
+     * @var \Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\AbstractBlock
      */
     protected $_block;
 
     protected function setUp()
     {
         $this->_block = $this->getMockForAbstractClass(
-            'Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\BlockAbstract', array(), '', false
+            'Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\AbstractBlock', array(), '', false
         );
     }
 

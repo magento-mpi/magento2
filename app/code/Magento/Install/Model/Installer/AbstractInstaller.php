@@ -21,6 +21,21 @@ namespace Magento\Install\Model\Installer;
 class AbstractInstaller
 {
     /**
+     * Installer model
+     *
+     * @var \Magento\Install\Model\Installer
+     */
+    protected $installer;
+
+    /**
+     * @param \Magento\Install\Model\Installer $installer
+     */
+    public function __construct(\Magento\Install\Model\Installer $installer)
+    {
+        $this->_installer = $installer;
+    }
+
+    /**
      * Installer singleton
      *
      * @var \Magento\Install\Model\Installer
@@ -34,9 +49,6 @@ class AbstractInstaller
      */
     protected function _getInstaller()
     {
-        if (is_null($this->_installer)) {
-            $this->_installer = \Mage::getSingleton('Magento\Install\Model\Installer');
-        }
         return $this->_installer;
     }
 

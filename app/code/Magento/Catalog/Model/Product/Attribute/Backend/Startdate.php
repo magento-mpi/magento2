@@ -21,12 +21,35 @@ namespace Magento\Catalog\Model\Product\Attribute\Backend;
 
 class Startdate extends \Magento\Eav\Model\Entity\Attribute\Backend\Datetime
 {
-   /**
-    * Get attribute value for save.
-    *
-    * @param \Magento\Object $object
-    * @return string|bool
-    */
+    /**
+     * Date model
+     *
+     * @var \Magento\Core\Model\Date
+     */
+    protected $_date;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\Logger $logger
+     */
+    public function __construct(
+        \Magento\Core\Model\Date $date,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\Logger $logger
+    ) {
+        $this->_date = $date;
+        parent::__construct($logger, $locale);
+    }
+
+    /**
+     * Get attribute value for save.
+     *
+     * @param \Magento\Object $object
+     * @return string|bool
+     */
     protected function _getValueForSave($object)
     {
         $attributeName  = $this->getAttribute()->getName();
@@ -35,7 +58,7 @@ class Startdate extends \Magento\Eav\Model\Entity\Attribute\Backend\Datetime
             return false;
         }
         if ($startDate == '' && $object->getSpecialPrice()) {
-            $startDate = \Mage::app()->getLocale()->date();
+            $startDate = $this->_locale->date();
         }
 
         return $startDate;
@@ -78,7 +101,7 @@ class Startdate extends \Magento\Eav\Model\Entity\Attribute\Backend\Datetime
         }
 
         if ($maxDate) {
-            $date     = \Mage::getModel('Magento\Core\Model\Date');
+            $date     = $this->_date;
             $value    = $date->timestamp($startDate);
             $maxValue = $date->timestamp($maxDate);
 

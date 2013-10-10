@@ -1,0 +1,28 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * Downloadable product links
+ *
+ * @see \Magento\Downloadable\Block\Catalog\Product\Samples
+ */
+?>
+
+<?php if ($this->hasSamples()): ?>
+    <dl class="downloadable samples">
+        <dt><?php echo $this->getSamplesTitle() ?></dt>
+        <?php $_samples = $this->getSamples() ?>
+        <?php foreach ($_samples as $_sample): ?>
+            <dd>
+                <a href="<?php echo $this->getSampleUrl($_sample) ?>" <?php echo $this->getIsOpenInNewWindow()?'onclick="this.target=\'_blank\'"':''; ?>><?php echo  $this->escapeHtml($_sample->getTitle()) ?></a>
+            </dd>
+        <?php endforeach; ?>
+    </dl>
+<?php endif; ?>

@@ -11,7 +11,7 @@
  */
 namespace Magento\TestFramework\ImportExport\Fixture;
 
-class Generator extends \Magento\ImportExport\Model\Import\SourceAbstract
+class Generator extends \Magento\ImportExport\Model\Import\AbstractSource
 {
     /**
      * Data row pattern

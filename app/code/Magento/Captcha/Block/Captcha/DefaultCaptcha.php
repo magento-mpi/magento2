@@ -100,7 +100,7 @@ class DefaultCaptcha extends \Magento\Core\Block\Template
     /**
      * Returns captcha model
      *
-     * @return Magento_Captcha_Model_Abstract
+     * @return \Magento\Captcha\Model\ModelInterface
      */
     public function getCaptchaModel()
     {

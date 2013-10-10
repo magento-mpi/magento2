@@ -25,7 +25,7 @@ class CarrierFactory
     /**
      * Factory constructor
      *
-     * @param \Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(\Magento\ObjectManager $objectManager)
     {

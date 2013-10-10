@@ -248,7 +248,7 @@ class Returns extends \Magento\Core\Controller\Front\Action
             return false;
         }
 
-        $order = \Mage::getModel('Magento\Sales\Model\Order')->load($orderId);
+        $order = $this->_objectManager->create('Magento\Sales\Model\Order')->load($orderId);
 
         $availableStates = $this->_objectManager->get('Magento\Sales\Model\Order\Config')->getVisibleOnFrontStates();
         if ($order->getId() && $order->getCustomerId() && ($order->getCustomerId() == $customerId)

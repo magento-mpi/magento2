@@ -52,7 +52,11 @@ class Products extends \Magento\Checkout\Block\Cart
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Resource\Url $catalogUrlBuilder
+     * @param \Magento\Core\Model\UrlInterface $urlBuilder
      * @param array $data
      */
     public function __construct(
@@ -63,7 +67,11 @@ class Products extends \Magento\Checkout\Block\Cart
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Resource\Url $catalogUrlBuilder,
+        \Magento\Core\Model\UrlInterface $urlBuilder,
         array $data = array()
     ) {
         $this->_cart = $cart;
@@ -71,7 +79,8 @@ class Products extends \Magento\Checkout\Block\Cart
         $this->_coreUrl = $coreUrl;
         $this->_checkoutData = $checkoutData;
         $this->_storeManager = $storeManager;
-        parent::__construct($catalogData, $coreData, $context, $data);
+        parent::__construct($catalogData, $coreData, $context, $customerSession, $checkoutSession, $storeManager,
+            $catalogUrlBuilder, $urlBuilder, $data);
     }
 
     /**

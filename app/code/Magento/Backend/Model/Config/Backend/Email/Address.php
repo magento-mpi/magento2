@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * System config email field backend model
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backend\Model\Config\Backend\Email;
 
@@ -24,7 +19,7 @@ class Address extends \Magento\Core\Model\Config\Value
     {
         $value = $this->getValue();
         if (!\Zend_Validate::is($value, 'EmailAddress')) {
-            \Mage::throwException(
+            throw new \Magento\Core\Exception(
                 __('Please correct the email address: "%1".', $value)
             );
         }

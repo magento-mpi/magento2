@@ -11,10 +11,6 @@
 /**
  * Customer address model
  *
- * @category   Magento
- * @package    Magento_Customer
- * @author     Magento Core Team <core@magentocommerce.com>
- *
  * @method int getParentId() getParentId()
  * @method \Magento\Customer\Model\Address setParentId() setParentId(int $parentId)
  */
@@ -28,6 +24,48 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * @var \Magento\Customer\Model\Customer
      */
     protected $_customer;
+
+    /**
+     * @var \Magento\Customer\Model\CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Directory\Helper\Data $directoryData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Customer\Model\Address\Config $addressConfig
+     * @param \Magento\Directory\Model\RegionFactory $regionFactory
+     * @param \Magento\Directory\Model\CountryFactory $countryFactory
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Directory\Helper\Data $directoryData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Customer\Model\Address\Config $addressConfig,
+        \Magento\Directory\Model\RegionFactory $regionFactory,
+        \Magento\Directory\Model\CountryFactory $countryFactory,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_customerFactory = $customerFactory;
+        parent::__construct(
+            $eventManager, $directoryData, $context, $registry, $eavConfig, $addressConfig, $regionFactory,
+            $countryFactory, $resource, $resourceCollection, $data
+        );
+    }
 
     protected function _construct()
     {
@@ -68,7 +106,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
             return false;
         }
         if (empty($this->_customer)) {
-            $this->_customer = \Mage::getModel('Magento\Customer\Model\Customer')
+            $this->_customer = $this->_createCustomer()
                 ->load($this->getCustomerId());
         }
         return $this->_customer;
@@ -166,5 +204,13 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     {
         $this->setData('region_id', (int) $regionId);
         return $this;
+    }
+
+    /**
+     * @return \Magento\Customer\Model\Customer
+     */
+    protected function _createCustomer()
+    {
+        return $this->_customerFactory->create();
     }
 }

@@ -17,15 +17,37 @@ class Subcombine
     extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
 {
     /**
-     * Initialize model
+     * Wishlist Storeview Factory
      *
+     * @var \Magento\Reminder\Model\Rule\Condition\Wishlist\StoreviewFactory
+     */
+    protected $_storeviewFactory;
+
+    /**
+     * Wishlist Attributes Factory
+     *
+     * @var \Magento\Reminder\Model\Rule\Condition\Wishlist\AttributesFactory
+     */
+    protected $_attrFactory;
+
+    /**
      * @param \Magento\Rule\Model\Condition\Context $context
+     * @param \Magento\Reminder\Model\Resource\Rule $ruleResource
+     * @param \Magento\Reminder\Model\Rule\Condition\Wishlist\StoreviewFactory $storeviewFactory
+     * @param \Magento\Reminder\Model\Rule\Condition\Wishlist\AttributesFactory $attrFactory
      * @param array $data
      */
-    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
+    public function __construct(
+        \Magento\Rule\Model\Condition\Context $context,
+        \Magento\Reminder\Model\Resource\Rule $ruleResource,
+        \Magento\Reminder\Model\Rule\Condition\Wishlist\StoreviewFactory $storeviewFactory,
+        \Magento\Reminder\Model\Rule\Condition\Wishlist\AttributesFactory $attrFactory,
+        array $data = array()
+    ) {
+        parent::__construct($context, $ruleResource, $data);
         $this->setType('Magento\Reminder\Model\Rule\Condition\Wishlist\Subcombine');
+        $this->_storeviewFactory = $storeviewFactory;
+        $this->_attrFactory = $attrFactory;
     }
 
     /**
@@ -38,10 +60,8 @@ class Subcombine
         return array_merge_recursive(
             parent::getNewChildSelectOptions(), array(
                 $this->_getRecursiveChildSelectOption(),
-                \Mage::getModel("Magento\Reminder\Model\Rule\Condition\Wishlist\Storeview")
-                    ->getNewChildSelectOptions(),
-                \Mage::getModel("Magento\Reminder\Model\Rule\Condition\Wishlist\Attributes")
-                    ->getNewChildSelectOptions()
+                $this->_storeviewFactory->create()->getNewChildSelectOptions(),
+                $this->_attrFactory->create()->getNewChildSelectOptions()
             )
         );
     }

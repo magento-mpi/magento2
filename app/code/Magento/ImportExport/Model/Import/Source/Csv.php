@@ -13,7 +13,7 @@
  */
 namespace Magento\ImportExport\Model\Import\Source;
 
-class Csv extends \Magento\ImportExport\Model\Import\SourceAbstract
+class Csv extends \Magento\ImportExport\Model\Import\AbstractSource
 {
     /**
      * @var resource

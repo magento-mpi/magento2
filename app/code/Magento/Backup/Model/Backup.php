@@ -18,7 +18,7 @@
  */
 namespace Magento\Backup\Model;
 
-class Backup extends \Magento\Object
+class Backup extends \Magento\Object implements \Magento\Backup\Db\BackupInterface
 {
     /* internal constants */
     const COMPRESS_RATE     = 9;
@@ -94,6 +94,43 @@ class Backup extends \Magento\Object
         $this->_locale = $locale;
         $this->_backendAuthSession = $authSession;
     }
+
+    /**
+     * Set backup time
+     *
+     * @param int $time
+     * @return \Magento\Backup\Db\BackupInterface
+     */
+    public function setTime($time)
+    {
+        $this->setData('time', $time);
+        return $this;
+    }
+
+    /**
+     * Set backup path
+     *
+     * @param string $path
+     * @return \Magento\Backup\Db\BackupInterface
+     */
+    public function setPath($path)
+    {
+        $this->setData('path', $path);
+        return $this;
+    }
+
+    /**
+     * Set backup name
+     *
+     * @param string $name
+     * @return \Magento\Backup\Db\BackupInterface
+     */
+    public function setName($name)
+    {
+        $this->setData('name', $name);
+        return $this;
+    }
+
 
     /**
      * Load backup file info
@@ -255,7 +292,7 @@ class Backup extends \Magento\Object
             $this->_stream = $this->_filesystem->createAndOpenStream($compressStream . $this->_getFilePath(), $mode,
                 $compressStream . $workingDirectory);
         }
-        catch (\Magento\Filesystem\FilesystemException $e) {
+        catch (\Magento\Filesystem\Exception $e) {
             throw new \Magento\Backup\Exception\NotEnoughPermissions(
                 __('Sorry, but we cannot read from or write to backup file "%1".', $this->getFileName())
             );
@@ -311,7 +348,7 @@ class Backup extends \Magento\Object
         try {
             $this->_getStream()->write($string);
         }
-        catch (\Magento\Filesystem\FilesystemException $e) {
+        catch (\Magento\Filesystem\Exception $e) {
             throw new \Magento\Backup\Exception(__('Something went wrong writing to the backup file "%1".',
                 $this->getFileName()));
         }
@@ -386,10 +423,9 @@ class Backup extends \Magento\Object
      */
     public function loadByTimeAndType($timestamp, $type)
     {
-        $backupsCollection = \Mage::getSingleton('Magento\Backup\Model\Fs\Collection');
         $backupId = $timestamp . '_' . $type;
 
-        foreach ($backupsCollection as $backup) {
+        foreach ($this->_fsCollection as $backup) {
             if ($backup->getId() == $backupId) {
                 $this->setType($backup->getType())
                     ->setTime($backup->getTime())

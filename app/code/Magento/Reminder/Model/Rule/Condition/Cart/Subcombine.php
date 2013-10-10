@@ -17,15 +17,47 @@ class Subcombine
     extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
 {
     /**
-     * Initialize model
+     * Cart Storeview Factory
      *
+     * @var \Magento\Reminder\Model\Rule\Condition\Cart\StoreviewFactory
+     */
+    protected $_storeviewFactory;
+
+    /**
+     * Cart Sku Factory
+     *
+     * @var \Magento\Reminder\Model\Rule\Condition\Cart\SkuFactory
+     */
+    protected $_skuFactory;
+
+    /**
+     * Cart Attributes Factory
+     *
+     * @var \Magento\Reminder\Model\Rule\Condition\Cart\AttributesFactory
+     */
+    protected $_attrFactory;
+
+    /**
      * @param \Magento\Rule\Model\Condition\Context $context
+     * @param \Magento\Reminder\Model\Resource\Rule $ruleResource
+     * @param \Magento\Reminder\Model\Rule\Condition\Cart\StoreviewFactory $storeviewFactory
+     * @param \Magento\Reminder\Model\Rule\Condition\Cart\SkuFactory $skuFactory
+     * @param \Magento\Reminder\Model\Rule\Condition\Cart\AttributesFactory $attrFactory
      * @param array $data
      */
-    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
+    public function __construct(
+        \Magento\Rule\Model\Condition\Context $context,
+        \Magento\Reminder\Model\Resource\Rule $ruleResource,
+        \Magento\Reminder\Model\Rule\Condition\Cart\StoreviewFactory $storeviewFactory,
+        \Magento\Reminder\Model\Rule\Condition\Cart\SkuFactory $skuFactory,
+        \Magento\Reminder\Model\Rule\Condition\Cart\AttributesFactory $attrFactory,
+        array $data = array()
+    ) {
+        parent::__construct($context, $ruleResource, $data);
         $this->setType('Magento\Reminder\Model\Rule\Condition\Cart\Subcombine');
+        $this->_storeviewFactory = $storeviewFactory;
+        $this->_skuFactory = $skuFactory;
+        $this->_attrFactory = $attrFactory;
     }
 
     /**
@@ -38,9 +70,9 @@ class Subcombine
         return array_merge_recursive(
             parent::getNewChildSelectOptions(), array(
                 $this->_getRecursiveChildSelectOption(),
-                \Mage::getModel("Magento\Reminder\Model\Rule\Condition\Cart\Storeview")->getNewChildSelectOptions(),
-                \Mage::getModel("Magento\Reminder\Model\Rule\Condition\Cart\Sku")->getNewChildSelectOptions(),
-                \Mage::getModel("Magento\Reminder\Model\Rule\Condition\Cart\Attributes")->getNewChildSelectOptions()
+                $this->_storeviewFactory->create()->getNewChildSelectOptions(),
+                $this->_skuFactory->create()->getNewChildSelectOptions(),
+                $this->_attrFactory->create()->getNewChildSelectOptions()
             )
         );
     }

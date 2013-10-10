@@ -8,15 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model\Layer\Filter;
+
 /**
  * Layer attribute filter
  *
- * @category   Magento
- * @package    Magento_Catalog
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Model\Layer\Filter;
-
 class Attribute extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
 {
     const OPTIONS_ONLY_WITH_RESULTS = 1;
@@ -36,15 +34,26 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     protected $_coreString = null;
 
     /**
+     * Construct
+     *
+     * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Layer $catalogLayer
+     * @param \Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory $filterAttributeFactory
      * @param \Magento\Core\Helper\String $coreString
      * @param array $data
      */
     public function __construct(
+        \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Layer $catalogLayer,
+        \Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory $filterAttributeFactory,
         \Magento\Core\Helper\String $coreString,
         array $data = array()
     ) {
+        $this->_resource = $filterAttributeFactory->create();
         $this->_coreString = $coreString;
-        parent::__construct($data);
+        parent::__construct($filterItemFactory, $storeManager, $catalogLayer, $data);
         $this->_requestVar = 'attribute';
     }
 
@@ -55,9 +64,6 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      */
     protected function _getResource()
     {
-        if (is_null($this->_resource)) {
-            $this->_resource = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Layer\Filter\Attribute');
-        }
         return $this->_resource;
     }
 

@@ -23,25 +23,64 @@ abstract class AbstractOnepage extends \Magento\Core\Block\Template
     protected $_configCacheType;
 
     protected $_customer;
-    protected $_checkout;
     protected $_quote;
     protected $_countryCollection;
     protected $_regionCollection;
     protected $_addressesCollection;
 
     /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * @var \Magento\Directory\Model\Resource\Region\CollectionFactory
+     */
+    protected $_regionCollFactory;
+
+    /**
+     * @var \Magento\Directory\Model\Resource\Country\CollectionFactory
+     */
+    protected $_countryCollFactory;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Checkout\Model\Session $resourceSession
+     * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
+     * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Cache\Type\Config $configCacheType,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Checkout\Model\Session $resourceSession,
+        \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
+        \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_configCacheType = $configCacheType;
+        $this->_customerSession = $customerSession;
+        $this->_checkoutSession = $resourceSession;
+        $this->_countryCollFactory = $countryCollFactory;
+        $this->_regionCollFactory = $regionCollFactory;
+        $this->_storeManager = $storeManager;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -64,7 +103,7 @@ abstract class AbstractOnepage extends \Magento\Core\Block\Template
     public function getCustomer()
     {
         if (empty($this->_customer)) {
-            $this->_customer = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer();
+            $this->_customer = $this->_customerSession->getCustomer();
         }
         return $this->_customer;
     }
@@ -76,10 +115,7 @@ abstract class AbstractOnepage extends \Magento\Core\Block\Template
      */
     public function getCheckout()
     {
-        if (empty($this->_checkout)) {
-            $this->_checkout = \Mage::getSingleton('Magento\Checkout\Model\Session');
-        }
-        return $this->_checkout;
+        return $this->_checkoutSession;
     }
 
     /**
@@ -97,14 +133,13 @@ abstract class AbstractOnepage extends \Magento\Core\Block\Template
 
     public function isCustomerLoggedIn()
     {
-        return \Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn();
+        return $this->_customerSession->isLoggedIn();
     }
 
     public function getCountryCollection()
     {
         if (!$this->_countryCollection) {
-            $this->_countryCollection = \Mage::getSingleton('Magento\Directory\Model\Country')->getResourceCollection()
-                ->loadByStore();
+            $this->_countryCollection = $this->_countryCollFactory->create()->loadByStore();
         }
         return $this->_countryCollection;
     }
@@ -112,7 +147,7 @@ abstract class AbstractOnepage extends \Magento\Core\Block\Template
     public function getRegionCollection()
     {
         if (!$this->_regionCollection) {
-            $this->_regionCollection = \Mage::getModel('Magento\Directory\Model\Region')->getResourceCollection()
+            $this->_regionCollection = $this->_regionCollFactory->create()
                 ->addCountryFilter($this->getAddress()->getCountryId())
                 ->load();
         }
@@ -196,7 +231,7 @@ abstract class AbstractOnepage extends \Magento\Core\Block\Template
     public function getCountryOptions()
     {
         $options = false;
-        $cacheId = 'DIRECTORY_COUNTRY_SELECT_STORE_' . \Mage::app()->getStore()->getCode();
+        $cacheId = 'DIRECTORY_COUNTRY_SELECT_STORE_' . $this->_storeManager->getStore()->getCode();
         if ($optionsCache = $this->_configCacheType->load($cacheId)) {
             $options = unserialize($optionsCache);
         }

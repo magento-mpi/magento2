@@ -29,12 +29,30 @@ namespace Magento\Invitation\Model\Invitation;
 class History extends \Magento\Core\Model\AbstractModel
 {
     /**
-     * Initialize model
+     * Invitation Status
      *
-     * @return void
+     * @var \Magento\Invitation\Model\Source\Invitation\Status
      */
-    protected function _construct()
-    {
+    protected $_invitationStatus;
+
+    /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_invitationStatus = $invitationStatus;
         $this->_init('Magento\Invitation\Model\Resource\Invitation\History');
     }
 
@@ -45,9 +63,7 @@ class History extends \Magento\Core\Model\AbstractModel
      */
     public function getStatusText()
     {
-        return \Mage::getSingleton('Magento\Invitation\Model\Source\Invitation\Status')->getOptionText(
-            $this->getStatus()
-        );
+        return $this->_invitationStatus->getOptionText($this->getStatus());
     }
 
     /**

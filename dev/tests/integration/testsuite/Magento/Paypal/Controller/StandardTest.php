@@ -7,7 +7,7 @@
  */
 namespace Magento\Paypal\Controller;
 
-class StandardTest extends \Magento\TestFramework\TestCase\ControllerAbstract
+class StandardTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
      * @var \Magento\Checkout\Model\Session

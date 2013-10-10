@@ -11,9 +11,9 @@ class Generic extends \Magento\Core\Model\Session\AbstractSession
 {
     /**
      * @param \Magento\Core\Model\Session\Context $context
-     * @param array $sessionNamespace
+     * @param string $sessionNamespace
      * @param array $data
-     * @param string $sessionName
+     * @param null $sessionName
      */
     public function __construct(
         \Magento\Core\Model\Session\Context $context,

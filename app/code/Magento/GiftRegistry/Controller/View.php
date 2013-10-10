@@ -52,7 +52,7 @@ class View extends \Magento\Core\Controller\Front\Action
      */
     public function indexAction()
     {
-        $entity = \Mage::getModel('Magento\GiftRegistry\Model\Entity');
+        $entity = $this->_objectManager->create('Magento\GiftRegistry\Model\Entity');
         $entity->loadByUrlKey($this->getRequest()->getParam('id'));
         if (!$entity->getId() || !$entity->getCustomerId() || !$entity->getTypeId() || !$entity->getIsActive()) {
             $this->_forward('noroute');
@@ -60,7 +60,7 @@ class View extends \Magento\Core\Controller\Front\Action
         }
 
         /** @var \Magento\Customer\Model\Customer */
-        $customer = \Mage::getModel('Magento\Customer\Model\Customer');
+        $customer = $this->_objectManager->create('Magento\Customer\Model\Customer');
         $customer->load($entity->getCustomerId());
         $entity->setCustomer($customer);
         $this->_coreRegistry->register('current_entity', $entity);
@@ -85,16 +85,16 @@ class View extends \Magento\Core\Controller\Front\Action
             return;
         }
         /* @var \Magento\Checkout\Model\Cart */
-        $cart = \Mage::getSingleton('Magento\Checkout\Model\Cart');
+        $cart = $this->_objectManager->get('Magento\Checkout\Model\Cart');
         /* @var $session \Magento\Core\Model\Session\Generic */
-        $session    = \Mage::getSingleton('Magento\Customer\Model\Session');
+        $session    = $this->_objectManager->get('Magento\Customer\Model\Session');
         $success = false;
 
         try {
             $count = 0;
             foreach ($items as $itemId => $itemInfo) {
-                $item = \Mage::getModel('Magento\GiftRegistry\Model\Item')->load($itemId);
-                $optionCollection = \Mage::getModel('Magento\GiftRegistry\Model\Item\Option')->getCollection()
+                $item = $this->_objectManager->create('Magento\GiftRegistry\Model\Item')->load($itemId);
+                $optionCollection = $this->_objectManager->create('Magento\GiftRegistry\Model\Item\Option')->getCollection()
                     ->addItemFilter($itemId);
                 $item->setOptions($optionCollection->getOptionsByItem($item));
                 if (!$item->getId() || $itemInfo['qty'] < 1 || ($item->getQty() <= $item->getQtyFulfilled())) {

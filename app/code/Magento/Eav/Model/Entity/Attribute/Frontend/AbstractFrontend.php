@@ -30,6 +30,16 @@ abstract class AbstractFrontend
     protected $_attribute;
 
     /**
+     * @var \Magento\Eav\Model\Entity\Attribute\Source\BooleanFactory
+     */
+    protected $_attrBooleanFactory;
+
+    function __construct(\Magento\Eav\Model\Entity\Attribute\Source\BooleanFactory $attrBooleanFactory)
+    {
+        $this->_attrBooleanFactory = $attrBooleanFactory;
+    }
+
+    /**
      * Set attribute instance
      *
      * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
@@ -88,7 +98,7 @@ abstract class AbstractFrontend
         if (in_array($this->getConfigField('input'), array('select','boolean'))) {
             $valueOption = $this->getOption($value);
             if (!$valueOption) {
-                $opt     = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Source\Boolean');
+                $opt     = $this->_attrBooleanFactory->create();
                 $options = $opt->getAllOptions();
                 if ($options) {
                     foreach ($options as $option) {

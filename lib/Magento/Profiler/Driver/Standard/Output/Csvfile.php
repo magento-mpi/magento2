@@ -9,7 +9,7 @@
  */
 namespace Magento\Profiler\Driver\Standard\Output;
 
-class Csvfile extends \Magento\Profiler\Driver\Standard\OutputAbstract
+class Csvfile extends \Magento\Profiler\Driver\Standard\AbstractOutput
 {
     const DEFAULT_FILEPATH = '/var/log/profiler.csv';
 

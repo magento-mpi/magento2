@@ -27,17 +27,23 @@ class Begin extends \Magento\Install\Block\AbstractBlock
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Install\Model\Installer $installer
+     * @param \Magento\Install\Model\Wizard $installWizard
+     * @param \Magento\Core\Model\Session\Generic $session
      * @param array $data
      * @param string|null $eulaFile
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
-        array $data = array(),
-        $eulaFile = null
+        \Magento\Install\Model\Installer $installer,
+        \Magento\Install\Model\Wizard $installWizard,
+        \Magento\Core\Model\Session\Generic $session,
+        $eulaFile = null,
+        array $data = array()
     ) {
+        parent::__construct($coreData, $context, $installer, $installWizard, $session, $data);
         $this->_eulaFile = $eulaFile;
-        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -47,7 +53,7 @@ class Begin extends \Magento\Install\Block\AbstractBlock
      */
     public function getPostUrl()
     {
-        return \Mage::getUrl('install/wizard/beginPost');
+        return $this->getUrl('install/wizard/beginPost');
     }
 
     /**

@@ -34,17 +34,25 @@ class Checker extends \Magento\Backend\Block\Template
     protected $_licenseData = null;
 
     /**
+     * @var \Magento\Backend\Model\Auth\Session
+     */
+    protected $authSession;
+
+    /**
+     * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\License\Helper\Data $licenseData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
+        \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\License\Helper\Data $licenseData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
+        $this->authSession = $authSession;
         $this->_licenseData = $licenseData;
         parent::__construct($coreData, $context, $data);
     }
@@ -57,7 +65,7 @@ class Checker extends \Magento\Backend\Block\Template
     public function _construct()
     {
         parent::_construct();
-        $data = \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getDaysLeftBeforeExpired();
+        $data = $this->authSession->getDaysLeftBeforeExpired();
         $this->_daysLeftBeforeExpired = $data['daysLeftBeforeExpired'];
     }
 

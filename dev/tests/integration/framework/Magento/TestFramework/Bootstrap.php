@@ -193,7 +193,7 @@ class Bootstrap
         $sandboxUniqueId = $this->_calcConfigFilesHash($localConfigFiles);
         $installDir = "{$this->_tmpDir}/sandbox-{$this->_dbVendorName}-{$sandboxUniqueId}";
         $dbClass = 'Magento\TestFramework\Db\\' . ucfirst($this->_dbVendorName);
-        /** @var $dbInstance \Magento\TestFramework\Db\DbAbstract */
+        /** @var $dbInstance \Magento\TestFramework\Db\AbstractDb */
         $dbInstance = new $dbClass(
             (string)$dbConfig->host,
             (string)$dbConfig->username,

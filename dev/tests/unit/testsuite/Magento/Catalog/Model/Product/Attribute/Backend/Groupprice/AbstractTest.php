@@ -21,28 +21,32 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     /**
      * Catalog helper
      *
-     * @var \Magento\Catalog\Helper\Data|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Catalog\Helper\Data|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_helper;
 
-    /**
-     * @var \Magento\Core\Model\Logger|PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_logger;
-
     protected function setUp()
     {
-        $this->_logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
         $this->_helper = $this->getMock('Magento\Catalog\Helper\Data', array('isPriceGlobal'), array(), '', false);
         $this->_helper->expects($this->any())
             ->method('isPriceGlobal')
             ->will($this->returnValue(true));
 
+        $loggerMock = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $currencyFactoryMock = $this->getMock('Magento\Directory\Model\CurrencyFactory', array(), array(), '', false);
+        $storeManagerMock = $this->getMock('Magento\Core\Model\StoreManagerInterface', array(), array(), '', false);
+        $productTypeMock = $this->getMock('Magento\Catalog\Model\Product\Type', array(), array(), '', false);
+        $configMock = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
+
         $this->_model = $this->getMockForAbstractClass(
             'Magento\Catalog\Model\Product\Attribute\Backend\Groupprice\AbstractGroupprice',
             array(
-                'coreString' => $this->_helper,
-                'logger' => $this->_logger,
+                'logger' => $loggerMock,
+                'currencyFactory' => $currencyFactoryMock,
+                'storeManager' => $storeManagerMock,
+                'catalogProductType' => $productTypeMock,
+                'catalogData' => $this->_helper,
+                'config' => $configMock,
             )
         );
         $resource = $this->getMock('StdClass', array('getMainTable'));

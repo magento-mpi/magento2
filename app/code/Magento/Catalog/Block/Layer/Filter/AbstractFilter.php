@@ -54,18 +54,30 @@ abstract class AbstractFilter extends \Magento\Core\Block\Template
     protected $_catalogData = null;
 
     /**
+     * Layer filter factory
+     *
+     * @var \Magento\Catalog\Model\Layer\Filter\Factory
+     */
+    protected $_layerFilterFactory;
+
+    /**
+     * Construct
+     *
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Catalog\Model\Layer\Filter\Factory $layerFilterFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Catalog\Model\Layer\Filter\Factory $layerFilterFactory,
         array $data = array()
     ) {
         $this->_catalogData = $catalogData;
+        $this->_layerFilterFactory = $layerFilterFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -84,14 +96,15 @@ abstract class AbstractFilter extends \Magento\Core\Block\Template
      * Init filter model object
      *
      * @return \Magento\Catalog\Block\Layer\Filter\AbstractFilter
+     * @throws \Magento\Core\Exception
      */
     protected function _initFilter()
     {
         if (!$this->_filterModelName) {
-            \Mage::throwException(__('The filter model name must be declared.'));
+            throw new \Magento\Core\Exception(__('The filter model name must be declared.'));
         }
-        $this->_filter = \Mage::getModel($this->_filterModelName)
-            ->setLayer($this->getLayer());
+        $this->_filter = $this->_layerFilterFactory->create($this->_filterModelName);
+        $this->_filter->setLayer($this->getLayer());
         $this->_prepareFilter();
 
         $this->_filter->apply($this->getRequest(), $this);

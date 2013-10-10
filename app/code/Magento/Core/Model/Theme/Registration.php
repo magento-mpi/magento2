@@ -16,7 +16,7 @@ namespace Magento\Core\Model\Theme;
 class Registration
 {
     /**
-     * @var Magento\Core\Model\Resource\Theme\CollectionFactory
+     * @var \Magento\Core\Model\Resource\Theme\CollectionFactory
      */
     protected $_collectionFactory;
 
@@ -111,7 +111,7 @@ class Registration
 
         $tempId = $theme->getFullPath();
         if (in_array($tempId, $inheritanceChain)) {
-            \Mage::throwException(__('Circular-reference in theme inheritance detected for "%1"', $tempId));
+            throw new \Magento\Core\Exception(__('Circular-reference in theme inheritance detected for "%1"', $tempId));
         }
         array_push($inheritanceChain, $tempId);
         $parentTheme = $theme->getParentTheme();

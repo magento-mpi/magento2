@@ -144,28 +144,28 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      *
      * @var \Magento\Sales\Model\Quote
      */
-    protected $_items = null;
+    protected $_items;
 
     /**
      * Quote object
      *
      * @var \Magento\Sales\Model\Quote
      */
-    protected $_quote = null;
+    protected $_quote;
 
     /**
      * Sales Quote address rates
      *
      * @var \Magento\Sales\Model\Quote\Address\Rate
      */
-    protected $_rates = null;
+    protected $_rates;
 
     /**
      * Total models collector
      *
      * @var \Magento\Sales\Model\Quote\Address\Total\Collector
      */
-    protected $_totalCollector = null;
+    protected $_totalCollector;
 
     /**
      * Total data as array
@@ -196,12 +196,12 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      *
      * @var \Magento\Core\Helper\Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
 
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Core\Model\Store\ConfigInterface
      */
     protected $_coreStoreConfig;
 
@@ -246,7 +246,11 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Customer\Model\Address\Config $addressConfig
+     * @param \Magento\Directory\Model\RegionFactory $regionFactory
+     * @param \Magento\Directory\Model\CountryFactory $countryFactory
+     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param \Magento\Sales\Model\Quote\Address\ItemFactory $addressItemFactory
      * @param \Magento\Sales\Model\Resource\Quote\Address\Item\CollectionFactory $itemCollFactory
@@ -268,7 +272,11 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         \Magento\Directory\Helper\Data $directoryData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Customer\Model\Address\Config $addressConfig,
+        \Magento\Directory\Model\RegionFactory $regionFactory,
+        \Magento\Directory\Model\CountryFactory $countryFactory,
+        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Sales\Model\Quote\Address\ItemFactory $addressItemFactory,
         \Magento\Sales\Model\Resource\Quote\Address\Item\CollectionFactory $itemCollFactory,
@@ -293,7 +301,19 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         $this->_rateRequestFactory = $rateRequestFactory;
         $this->_totalCollectorFactory = $totalCollectorFactory;
         $this->_addressTotalFactory = $addressTotalFactory;
-        parent::__construct($eventManager, $directoryData, $context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $eventManager,
+            $directoryData,
+            $context,
+            $registry,
+            $eavConfig,
+            $addressConfig,
+            $regionFactory,
+            $countryFactory,
+            $resource,
+            $resourceCollection,
+            $data
+        );
     }
 
     /**

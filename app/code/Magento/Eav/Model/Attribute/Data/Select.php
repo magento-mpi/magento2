@@ -105,11 +105,11 @@ class Select extends \Magento\Eav\Model\Attribute\Data\AbstractData
      *
      * @return string|array
      */
-    public function outputValue($format = \Magento\Eav\Model\Attribute\Data::OUTPUT_FORMAT_TEXT)
+    public function outputValue($format = \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_TEXT)
     {
         $value = $this->getEntity()->getData($this->getAttribute()->getAttributeCode());
         switch ($format) {
-            case \Magento\Eav\Model\Attribute\Data::OUTPUT_FORMAT_JSON:
+            case \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON:
                 $output = $value;
                 break;
             default:

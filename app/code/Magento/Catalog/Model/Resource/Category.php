@@ -56,22 +56,69 @@ class Category extends \Magento\Catalog\Model\Resource\AbstractResource
     protected $_eventManager = null;
 
     /**
-     * Class constructor
+     * Category collection factory
      *
+     * @var \Magento\Catalog\Model\Resource\Category\CollectionFactory
+     */
+    protected $_categoryCollectionFactory;
+
+    /**
+     * Category tree factory
      *
+     * @var \Magento\Catalog\Model\Resource\Category\TreeFactory
+     */
+    protected $_categoryTreeFactory;
+
+    /**
+     * Construct
      *
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Factory $modelFactory
      * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Catalog\Model\Resource\Category\TreeFactory $categoryTreeFactory
+     * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Eav\Model\Resource\Helper $resourceHelper,
+        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Factory $modelFactory,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Catalog\Model\Resource\Category\TreeFactory $categoryTreeFactory,
+        \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory,
+        $data = array()
     ) {
+        parent::__construct(
+            $resource,
+            $eavConfig,
+            $attrSetEntity,
+            $locale,
+            $resourceHelper,
+            $universalFactory,
+            $storeManager,
+            $modelFactory,
+            $data
+        );
+        $this->_categoryTreeFactory = $categoryTreeFactory;
+        $this->_categoryCollectionFactory = $categoryCollectionFactory;
         $this->_eventManager = $eventManager;
-        /** @var \Magento\Core\Model\Resource $resource */
-        $resource = \Mage::getSingleton('Magento\Core\Model\Resource');
         $this->setType(\Magento\Catalog\Model\Category::ENTITY)
             ->setConnection(
-                $resource->getConnection('catalog_read'),
-                $resource->getConnection('catalog_write')
+                $this->_resource->getConnection('catalog_read'),
+                $this->_resource->getConnection('catalog_write')
             );
         $this->_categoryProductTable = $this->getTable('catalog_category_product');
     }
@@ -96,7 +143,7 @@ class Category extends \Magento\Catalog\Model\Resource\AbstractResource
     public function getStoreId()
     {
         if ($this->_storeId === null) {
-            return \Mage::app()->getStore()->getId();
+            return $this->_storeManager->getStore()->getId();
         }
         return $this->_storeId;
     }
@@ -109,7 +156,7 @@ class Category extends \Magento\Catalog\Model\Resource\AbstractResource
     protected function _getTree()
     {
         if (!$this->_tree) {
-            $this->_tree = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Category\Tree')
+            $this->_tree = $this->_categoryTreeFactory->create()
                 ->load();
         }
         return $this->_tree;
@@ -454,7 +501,7 @@ class Category extends \Magento\Catalog\Model\Resource\AbstractResource
      */
     public function getChildrenAmount($category, $isActiveFlag = true)
     {
-        $storeId = \Mage::app()->getStore()->getId();
+        $storeId = $this->_storeManager->getStore()->getId();
         $attributeId = $this->_getIsActiveAttributeId();
         $table   = $this->getTable(array($this->getEntityTablePrefix(), 'int'));
         $adapter = $this->_getReadAdapter();
@@ -539,7 +586,7 @@ class Category extends \Magento\Catalog\Model\Resource\AbstractResource
      */
     public function getProductCount($category)
     {
-        $productTable = \Mage::getSingleton('Magento\Core\Model\Resource')->getTableName('catalog_category_product');
+        $productTable = $this->_resource->getTableName('catalog_category_product');
 
         $select = $this->getReadConnection()->select()
             ->from(
@@ -566,7 +613,7 @@ class Category extends \Magento\Catalog\Model\Resource\AbstractResource
      */
     public function getCategories($parent, $recursionLevel = 0, $sorted = false, $asCollection = false, $toLoad = true)
     {
-        $tree = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Category\Tree');
+        $tree = $this->_categoryTreeFactory->create();
         /* @var $tree \Magento\Catalog\Model\Resource\Category\Tree */
         $nodes = $tree->loadNode($parent)
             ->loadChildren($recursionLevel)
@@ -589,15 +636,15 @@ class Category extends \Magento\Catalog\Model\Resource\AbstractResource
     public function getParentCategories($category)
     {
         $pathIds = array_reverse(explode(',', $category->getPathInStore()));
-        $categories = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Category\Collection')
-            ->setStore(\Mage::app()->getStore())
+        /** @var \Magento\Catalog\Model\Resource\Category\Collection $categories */
+        $categories = $this->_categoryCollectionFactory->create();
+        return $categories->setStore($this->_storeManager->getStore())
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('url_key')
             ->addFieldToFilter('entity_id', array('in' => $pathIds))
             ->addFieldToFilter('is_active', 1)
             ->load()
             ->getItems();
-        return $categories;
     }
 
     /**
@@ -610,7 +657,7 @@ class Category extends \Magento\Catalog\Model\Resource\AbstractResource
     {
         $pathIds = array_reverse($category->getPathIds());
         $collection = $category->getCollection()
-            ->setStore(\Mage::app()->getStore())
+            ->setStore($this->_storeManager->getStore())
             ->addAttributeToSelect('custom_design')
             ->addAttributeToSelect('custom_design_from')
             ->addAttributeToSelect('custom_design_to')
@@ -713,7 +760,7 @@ class Category extends \Magento\Catalog\Model\Resource\AbstractResource
      */
     public function isInRootCategoryList($category)
     {
-        $rootCategoryId = \Mage::app()->getStore()->getRootCategoryId();
+        $rootCategoryId = $this->_storeManager->getStore()->getRootCategoryId();
 
         return in_array($rootCategoryId, $category->getParentIds());
     }

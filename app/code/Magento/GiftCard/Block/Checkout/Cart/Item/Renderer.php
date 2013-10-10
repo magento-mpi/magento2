@@ -20,21 +20,23 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
     protected $_giftCardCtlgProdConfigur = null;
 
     /**
-     * @param \Magento\GiftCard\Helper\Catalog\Product\Configuration $giftCardCtlgProdConfigur
      * @param \Magento\Catalog\Helper\Product\Configuration $ctlgProdConfigur
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\GiftCard\Helper\Catalog\Product\Configuration $giftCardCtlgProdConfigur
+     * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $data
      */
     public function __construct(
-        \Magento\GiftCard\Helper\Catalog\Product\Configuration $giftCardCtlgProdConfigur,
         \Magento\Catalog\Helper\Product\Configuration $ctlgProdConfigur,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\GiftCard\Helper\Catalog\Product\Configuration $giftCardCtlgProdConfigur,
+        \Magento\Checkout\Model\Session $checkoutSession,
         array $data = array()
     ) {
         $this->_giftCardCtlgProdConfigur = $giftCardCtlgProdConfigur;
-        parent::__construct($ctlgProdConfigur, $coreData, $context, $data);
+        parent::__construct($ctlgProdConfigur, $coreData, $context, $checkoutSession, $data);
     }
 
     /**

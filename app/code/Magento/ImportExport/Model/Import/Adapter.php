@@ -25,23 +25,23 @@ class Adapter
      * @param string $type Adapter type ('csv', 'xml' etc.)
      * @param mixed $options OPTIONAL Adapter constructor options
      * @throws \Exception
-     * @return \Magento\ImportExport\Model\Import\SourceAbstract
+     * @return \Magento\ImportExport\Model\Import\AbstractSource
      */
     public static function factory($type, $options = null)
     {
         if (!is_string($type) || !$type) {
-            \Mage::throwException(__('The adapter type must be a non empty string.'));
+            throw new \Magento\Core\Exception(__('The adapter type must be a non empty string.'));
         }
         $adapterClass = 'Magento\ImportExport\Model\Import\Source\\' . ucfirst(strtolower($type));
 
         if (!class_exists($adapterClass)) {
-            \Mage::throwException("'{$type}' file extension is not supported");
+            throw new \Magento\Core\Exception("'{$type}' file extension is not supported");
         }
         $adapter = new $adapterClass($options);
 
-        if (! $adapter instanceof \Magento\ImportExport\Model\Import\SourceAbstract) {
-            \Mage::throwException(
-                __('Adapter must be an instance of \Magento\ImportExport\Model\Import\SourceAbstract')
+        if (! $adapter instanceof \Magento\ImportExport\Model\Import\AbstractSource) {
+            throw new \Magento\Core\Exception(
+                __('Adapter must be an instance of \Magento\ImportExport\Model\Import\AbstractSource')
             );
         }
         return $adapter;
@@ -51,7 +51,7 @@ class Adapter
      * Create adapter instance for specified source file.
      *
      * @param string $source Source file path.
-     * @return \Magento\ImportExport\Model\Import\SourceAbstract
+     * @return \Magento\ImportExport\Model\Import\AbstractSource
      */
     public static function findAdapterFor($source)
     {

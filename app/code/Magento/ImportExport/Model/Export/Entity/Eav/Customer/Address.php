@@ -21,7 +21,7 @@
 namespace Magento\ImportExport\Model\Export\Entity\Eav\Customer;
 
 class Address
-    extends \Magento\ImportExport\Model\Export\Entity\EavAbstract
+    extends \Magento\ImportExport\Model\Export\Entity\AbstractEav
 {
     /**#@+
      * Permanent column names
@@ -107,22 +107,39 @@ class Address
 
     /**
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
+     * @param \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Customer\Model\Resource\Customer\CollectionFactory $customerColFactory
+     * @param \Magento\ImportExport\Model\Export\Entity\Eav\CustomerFactory $eavCustomerFactory
+     * @param \Magento\Customer\Model\Resource\Address\CollectionFactory $addressColFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\App $app,
+        \Magento\ImportExport\Model\Export\Factory $collectionFactory,
+        \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Customer\Model\Resource\Customer\CollectionFactory $customerColFactory,
+        \Magento\ImportExport\Model\Export\Entity\Eav\CustomerFactory $eavCustomerFactory,
+        \Magento\Customer\Model\Resource\Address\CollectionFactory $addressColFactory,
         array $data = array()
     ) {
-        parent::__construct($coreStoreConfig, $data);
+        parent::__construct($coreStoreConfig, $app, $collectionFactory, $resourceColFactory, $locale, $eavConfig,
+            $data);
 
         $this->_customerCollection = isset($data['customer_collection']) ? $data['customer_collection']
-            : \Mage::getResourceModel('Magento\Customer\Model\Resource\Customer\Collection');
+            : $customerColFactory->create();
 
         $this->_customerEntity = isset($data['customer_entity']) ? $data['customer_entity']
-            : \Mage::getModel('Magento\ImportExport\Model\Export\Entity\Eav\Customer');
+            : $eavCustomerFactory->create();
 
         $this->_addressCollection = isset($data['address_collection']) ? $data['address_collection']
-            : \Mage::getResourceModel('Magento\Customer\Model\Resource\Address\Collection');
+            : $addressColFactory->create();
 
         $this->_initWebsites(true);
         $this->setFileName($this->getEntityTypeCode());

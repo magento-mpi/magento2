@@ -1,0 +1,29 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php if(!empty($collection) && $collection->getSize()): ?>
+    <table class="ratings-table data-table review-summary-table">
+    <col width="1" />
+    <col />
+        <tbody>
+            <?php foreach ($collection as $_rating): ?>
+                <?php if($_rating->getSummary()): ?>
+                    <tr>
+                        <th class="label"><?php echo __($this->escapeHtml($_rating->getRatingCode())) ?></th>
+                        <td class="value">
+                            <div class="rating-box">
+                                <div class="rating" style="width:<?php echo ceil($_rating->getSummary()) ?>%;"></div>
+                            </div>
+                        </td>
+                    </tr>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+<?php endif; ?>

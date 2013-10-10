@@ -8,8 +8,8 @@
  * @license     {license_link}
  */
 
-/** @var $installer \Magento\Core\Model\Resource\Setup\Migration */
-$installer = \Mage::getResourceModel('Magento\Core\Model\Resource\Setup\Migration', array('resourceName' => 'core_setup'));
+/** @var $this \Magento\Core\Model\Resource\Setup */
+$installer = $this->_migrationFactory->create(array('resourceName' => 'core_setup'));
 $installer->startSetup();
 
 $installer->appendClassAliasReplace('customer_eav_attribute', 'data_model',

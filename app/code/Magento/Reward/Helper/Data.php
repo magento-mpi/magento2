@@ -58,11 +58,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_locale;
 
     /**
-     * @var \Magento\Core\Model\UrlFactory
-     */
-    protected $_urlFactory;
-
-    /**
      * @var \Magento\Reward\Model\Resource\Reward\Rate\CollectionFactory
      */
     protected $_ratesFactory;
@@ -73,7 +68,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\Locale $locale
-     * @param \Magento\Core\Model\UrlFactory $urlFactory
      * @param \Magento\Reward\Model\Resource\Reward\Rate\CollectionFactory $ratesFactory
      */
     public function __construct(
@@ -82,14 +76,12 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\Core\Model\Config $config,
         \Magento\Core\Model\Locale $locale,
-        \Magento\Core\Model\UrlFactory $urlFactory,
         \Magento\Reward\Model\Resource\Reward\Rate\CollectionFactory $ratesFactory
     ) {
         $this->_storeManager = $storeManager;
         $this->_storeConfig = $storeConfig;
         $this->_config = $config;
         $this->_locale = $locale;
-        $this->_urlFactory = $urlFactory;
         $this->_ratesFactory = $ratesFactory;
         parent::__construct($context);
     }
@@ -252,7 +244,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getLandingPageUrl()
     {
         $pageIdentifier = $this->_storeConfig->getConfig(self::XML_PATH_LANDING_PAGE);
-        return $this->_urlFactory->create()->getUrl('', array('_direct' => $pageIdentifier));
+        return $this->_urlBuilder->getUrl('', array('_direct' => $pageIdentifier));
     }
 
     /**

@@ -13,6 +13,35 @@ namespace Magento\Backend\Block\System\Config;
 class Switcher extends \Magento\Backend\Block\Template
 {
     /**
+     * @var \Magento\Core\Model\System\Store
+     */
+    protected $_systemStore;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        array $data = array()
+    ) {
+        $this->_systemStore = $systemStore;
+        $this->_storeManager = $storeManager;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _prepareLayout()
@@ -32,9 +61,6 @@ class Switcher extends \Magento\Backend\Block\Template
         $curWebsite = $this->getRequest()->getParam('website');
         $curStore   = $this->getRequest()->getParam('store');
 
-        $storeModel = \Mage::getSingleton('Magento\Core\Model\System\Store');
-        /* @var $storeModel \Magento\Core\Model\System\Store */
-
         $options = array();
         $options['default'] = array(
             'label'    => __('Default Config'),
@@ -43,8 +69,10 @@ class Switcher extends \Magento\Backend\Block\Template
             'style'    => 'background:#ccc; font-weight:bold;',
         );
 
-        foreach ($storeModel->getWebsiteCollection() as $website) {
-            $options = $this->_processWebsite($storeModel, $website, $section, $curStore, $curWebsite, $options);
+        foreach ($this->_systemStore->getWebsiteCollection() as $website) {
+            $options = $this->_processWebsite(
+                $this->_systemStore, $website, $section, $curStore, $curWebsite, $options
+            );
         }
 
         return $options;
@@ -125,7 +153,9 @@ class Switcher extends \Magento\Backend\Block\Template
      */
     public function getHintHtml()
     {
-        return \Mage::getBlockSingleton('Magento\Backend\Block\Store\Switcher')->getHintHtml();
+        /** @var $storeSwitcher \Magento\Backend\Block\Store\Switcher */
+        $storeSwitcher = $this->_layout->getBlockSingleton('Magento\Backend\Block\Store\Switcher');
+        return $storeSwitcher->getHintHtml();
     }
 
     /**
@@ -135,7 +165,7 @@ class Switcher extends \Magento\Backend\Block\Template
      */
     protected function _toHtml()
     {
-        if (!\Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             return parent::_toHtml();
         }
         return '';

@@ -470,7 +470,7 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
 
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $config \Magento\Backend\Model\Config */
-        $config = \Mage::getModel('Magento\Backend\Model\Config');
+        $config = $objectManager->create('Magento\Backend\Model\Config');
         $data[$group]['fields'][$node]['value'] = $value;
         $config->setSection($section)
             ->setGroups($data)
@@ -485,7 +485,7 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
         if ($cleanAppCache) {
             if ($updateLocalConfig) {
                 $objectManager->get('Magento\Core\Model\Config')->reinit();
-                \Mage::app()->reinitStores();
+                $objectManager->get('Magento\Core\Model\StoreManagerInterface')->reinitStores();
             }
 
             if (!$this->_cleanAppConfigCache()) {

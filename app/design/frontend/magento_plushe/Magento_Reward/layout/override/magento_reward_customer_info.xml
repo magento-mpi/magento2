@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer Reward Info" type="page" parent="customer_account">
+    <update handle="customer_account"/>
+    <referenceBlock name="page.main.title">
+        <action method="setPageTitle">
+            <argument name="title" translate="true" xsi:type="string">Reward Points</argument>
+        </action>
+    </referenceBlock>
+    <referenceBlock name="my.account.wrapper">
+        <block class="Magento\Reward\Block\Customer\Reward" name="customer.reward" template="customer/reward.phtml">
+            <block class="Magento\Reward\Block\Customer\Reward\Info" name="customer.reward.info" template="customer/reward/info.phtml"/>
+            <block class="Magento\Reward\Block\Customer\Reward\History" name="customer.reward.history" template="customer/reward/history.phtml"/>
+            <block class="Magento\Reward\Block\Customer\Reward\Subscription" name="customer.reward.subscription" template="customer/reward/subscription.phtml"/>
+        </block>
+    </referenceBlock>
+</layout>

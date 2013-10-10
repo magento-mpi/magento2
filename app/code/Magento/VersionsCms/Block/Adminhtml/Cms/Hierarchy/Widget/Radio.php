@@ -8,12 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Cms Pages Hierarchy Widget Radio Block
- *
- * @category   Magento
- * @package    Magento_VersionsCms
  */
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget;
 
@@ -52,21 +48,45 @@ class Radio extends \Magento\Adminhtml\Block\Template
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\VersionsCms\Model\Hierarchy\Node
+     */
+    protected $_hierarchyNode;
+
+    /**
+     * @var \Magento\Core\Model\System\Store
+     */
+    protected $_systemStore;
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\VersionsCms\Model\Hierarchy\Node $hierarchyNode
+     * @param \Magento\Core\Model\System\Store $systemStore
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\VersionsCms\Model\Hierarchy\Node $hierarchyNode,
+        \Magento\Core\Model\System\Store $systemStore,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->_storeManager = $storeManager;
+        $this->_hierarchyNode = $hierarchyNode;
+        $this->_systemStore = $systemStore;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -78,7 +98,7 @@ class Radio extends \Magento\Adminhtml\Block\Template
     public function getAllStoreViews()
     {
         if (empty($this->_allStoreViews)) {
-            $storeValues = \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm(false, true);
+            $storeValues = $this->_systemStore->getStoreValuesForForm(false, true);
             foreach ($storeValues as $view) {
                 if (is_array($view['value']) && empty($view['value'])) {
                     continue;
@@ -107,7 +127,7 @@ class Radio extends \Magento\Adminhtml\Block\Template
         $storeViews[] = current($allStoreViews);
         unset($allStoreViews);
 
-        $storeValues = \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreCollection();
+        $storeValues = $this->_systemStore->getStoreCollection();
 
         foreach ($storeValues as $store) {
             $storeViews[] = array(
@@ -186,7 +206,7 @@ class Radio extends \Magento\Adminhtml\Block\Template
     public function getLabelByNodeId($nodeId)
     {
         if ($nodeId) {
-            $node = \Mage::getSingleton('Magento\VersionsCms\Model\Hierarchy\Node')->load($nodeId);
+            $node = $this->_hierarchyNode->load($nodeId);
             if ($node->getId()) {
                 return $node->getLabel();
             }
@@ -201,6 +221,6 @@ class Radio extends \Magento\Adminhtml\Block\Template
      */
     protected function _toHtml()
     {
-        return \Mage::app()->isSingleStoreMode() == false ? parent::_toHtml() : '';
+        return $this->_storeManager->isSingleStoreMode() == false ? parent::_toHtml() : '';
     }
 }

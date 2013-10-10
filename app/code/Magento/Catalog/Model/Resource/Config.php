@@ -35,6 +35,37 @@ class Config extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_storeId          = null;
 
     /**
+     * Eav config
+     *
+     * @var \Magento\Eav\Model\Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Class constructor
+     *
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Model\Resource $resource
+     */
+    public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Model\Resource $resource
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_eavConfig = $eavConfig;
+        parent::__construct($resource);
+    }
+
+    /**
      * Initialize connection
      *
      */
@@ -64,7 +95,7 @@ class Config extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function getStoreId()
     {
         if ($this->_storeId === null) {
-            return \Mage::app()->getStore()->getId();
+            return $this->_storeManager->getStore()->getId();
         }
         return $this->_storeId;
     }
@@ -77,7 +108,7 @@ class Config extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function getEntityTypeId()
     {
         if ($this->_entityTypeId === null) {
-            $this->_entityTypeId = \Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType(\Magento\Catalog\Model\Product::ENTITY)->getId();
+            $this->_entityTypeId = $this->_eavConfig->getEntityType(\Magento\Catalog\Model\Product::ENTITY)->getId();
         }
         return $this->_entityTypeId;
     }

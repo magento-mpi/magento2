@@ -73,18 +73,38 @@ class Banner extends \Magento\Core\Model\Resource\Db\AbstractDb
     private $_bannerConfig;
 
     /**
+     * Salesrule collection factory
+     *
+     * @var \Magento\Banner\Model\Resource\Salesrule\CollectionFactory
+     */
+    private $_salesruleColFactory = null;
+
+    /**
+     * Catalogrule collection factory
+     *
+     * @var \Magento\Banner\Model\Resource\Catalogrule\CollectionFactory
+     */
+    private $_catRuleColFactory = null;
+
+    /**
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Banner\Model\Config $bannerConfig
+     * @param \Magento\Banner\Model\Resource\Salesrule\CollectionFactory $salesruleColFactory
+     * @param \Magento\Banner\Model\Resource\Catalogrule\CollectionFactory $catRuleColFactory
      */
     public function __construct(
         \Magento\Core\Model\Resource $resource,
         \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Banner\Model\Config $bannerConfig
+        \Magento\Banner\Model\Config $bannerConfig,
+        \Magento\Banner\Model\Resource\Salesrule\CollectionFactory $salesruleColFactory,
+        \Magento\Banner\Model\Resource\Catalogrule\CollectionFactory $catRuleColFactory
     ) {
         parent::__construct($resource);
         $this->_eventManager = $eventManager;
         $this->_bannerConfig = $bannerConfig;
+        $this->_salesruleColFactory = $salesruleColFactory;
+        $this->_catRuleColFactory = $catRuleColFactory;
     }
 
     /**
@@ -435,10 +455,9 @@ class Banner extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getSalesRuleRelatedBannerIds(array $appliedRules)
     {
-        /** @var \Magento\Banner\Model\Resource\Salesrule\Collection $collection */
-        $collection = \Mage::getResourceModel('Magento\Banner\Model\Resource\Salesrule\Collection');
-        $collection->addRuleIdsFilter($appliedRules);
-        return $collection->getColumnValues('banner_id');
+        return $this->_salesruleColFactory->create()
+            ->addRuleIdsFilter($appliedRules)
+            ->getColumnValues('banner_id');
     }
 
     /**
@@ -450,10 +469,9 @@ class Banner extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getCatalogRuleRelatedBannerIds($websiteId, $customerGroupId)
     {
-        /** @var \Magento\Banner\Model\Resource\Catalogrule\Collection $collection */
-        $collection = \Mage::getResourceModel('Magento\Banner\Model\Resource\Catalogrule\Collection');
-        $collection->addWebsiteCustomerGroupFilter($websiteId, $customerGroupId);
-        return $collection->getColumnValues('banner_id');
+        return  $this->_catRuleColFactory->create()
+            ->addWebsiteCustomerGroupFilter($websiteId, $customerGroupId)
+            ->getColumnValues('banner_id');
     }
 
     /**

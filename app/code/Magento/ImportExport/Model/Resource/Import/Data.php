@@ -22,7 +22,7 @@ class Data
     implements \IteratorAggregate
 {
     /**
-     * @var \IteratorIterator
+     * @var IteratorIterator
      */
     protected $_iterator = null;
 
@@ -59,7 +59,7 @@ class Data
     /**
      * Retrieve an external iterator
      *
-     * @return \IteratorIterator
+     * @return IteratorIterator
      */
     public function getIterator()
     {
@@ -128,7 +128,7 @@ class Data
         ));
 
         if (count($values) != 1) {
-            \Mage::throwException(
+            throw new \Magento\Core\Exception(
                 __('Error in data structure: %1 values are mixed', $code)
             );
         }

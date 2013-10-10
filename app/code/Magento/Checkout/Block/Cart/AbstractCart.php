@@ -25,7 +25,6 @@ class AbstractCart extends \Magento\Core\Block\Template
     const DEFAULT_TYPE = 'default';
 
     protected $_customer = null;
-    protected $_checkout = null;
     protected $_quote    = null;
     protected $_totals;
     protected $_itemRenders = array();
@@ -38,17 +37,33 @@ class AbstractCart extends \Magento\Core\Block\Template
     protected $_catalogData = null;
 
     /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_checkoutSession;
+
+    /**
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $data
      */
     public function __construct(
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Checkout\Model\Session $checkoutSession,
         array $data = array()
     ) {
+        $this->_customerSession = $customerSession;
+        $this->_checkoutSession = $checkoutSession;
         $this->_catalogData = $catalogData;
         parent::__construct($coreData, $context, $data);
     }
@@ -94,22 +109,9 @@ class AbstractCart extends \Magento\Core\Block\Template
     public function getCustomer()
     {
         if (null === $this->_customer) {
-            $this->_customer = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer();
+            $this->_customer = $this->_customerSession->getCustomer();
         }
         return $this->_customer;
-    }
-
-    /**
-     * Get checkout session
-     *
-     * @return \Magento\Checkout\Model\Session
-     */
-    public function getCheckout()
-    {
-        if (null === $this->_checkout) {
-            $this->_checkout = \Mage::getSingleton('Magento\Checkout\Model\Session');
-        }
-        return $this->_checkout;
     }
 
     /**
@@ -120,7 +122,7 @@ class AbstractCart extends \Magento\Core\Block\Template
     public function getQuote()
     {
         if (null === $this->_quote) {
-            $this->_quote = $this->getCheckout()->getQuote();
+            $this->_quote = $this->_checkoutSession->getQuote();
         }
         return $this->_quote;
     }

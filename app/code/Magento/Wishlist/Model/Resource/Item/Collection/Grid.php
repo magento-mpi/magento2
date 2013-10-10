@@ -21,29 +21,47 @@ class Grid extends \Magento\Wishlist\Model\Resource\Item\Collection
     protected $_registryManager;
 
     /**
-     * @param \Magento\Adminhtml\Helper\Sales $adminhtmlSales
      * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
+     * @param \Magento\Adminhtml\Helper\Sales $adminhtmlSales
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Wishlist\Model\Config $wishlistConfig
+     * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
+     * @param \Magento\Core\Model\Resource $coreResource
+     * @param \Magento\Wishlist\Model\Resource\Item\Option\CollectionFactory $optionCollFactory
+     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollFactory
+     * @param \Magento\Catalog\Model\Resource\ConfigFactory $catalogConfFactory
+     * @param \Magento\Catalog\Model\Entity\AttributeFactory $catalogAttrFactory
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Wishlist\Model\Resource\Item $resource
      */
     public function __construct(
-        \Magento\Adminhtml\Helper\Sales $adminhtmlSales,
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
+        \Magento\Adminhtml\Helper\Sales $adminhtmlSales,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Date $date,
+        \Magento\Wishlist\Model\Config $wishlistConfig,
+        \Magento\Catalog\Model\Product\Visibility $productVisibility,
+        \Magento\Core\Model\Resource $coreResource,
+        \Magento\Wishlist\Model\Resource\Item\Option\CollectionFactory $optionCollFactory,
+        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollFactory,
+        \Magento\Catalog\Model\Resource\ConfigFactory $catalogConfFactory,
+        \Magento\Catalog\Model\Entity\AttributeFactory $catalogAttrFactory,
         \Magento\Core\Model\Registry $registry,
         \Magento\Wishlist\Model\Resource\Item $resource
     ) {
         $this->_registryManager = $registry;
-        parent::__construct(
-            $catalogInventoryData, $adminhtmlSales, $eventManager, $logger, $fetchStrategy, $entityFactory, $resource
-        );
+        parent::__construct($catalogInventoryData, $adminhtmlSales, $eventManager, $logger, $fetchStrategy,
+            $entityFactory, $storeManager, $date, $wishlistConfig, $productVisibility, $coreResource,
+            $optionCollFactory, $productCollFactory, $catalogConfFactory, $catalogAttrFactory, $resource);
     }
 
     /**

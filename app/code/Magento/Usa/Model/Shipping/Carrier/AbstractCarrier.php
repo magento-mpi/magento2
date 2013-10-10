@@ -52,10 +52,6 @@ abstract class AbstractCarrier extends \Magento\Shipping\Model\Carrier\AbstractC
      */
     protected $_rateMethodFactory;
 
-    /**
-     * @var \Magento\Shipping\Model\Rate\Result\ErrorFactory
-     */
-    protected $_rateErrorFactory;
 
     /**
      * @var \Magento\Shipping\Model\Tracking\ResultFactory
@@ -88,15 +84,12 @@ abstract class AbstractCarrier extends \Magento\Shipping\Model\Carrier\AbstractC
     protected $_currencyFactory;
 
     /**
-     * Constructor
-     *
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
      * @param \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory
      * @param \Magento\Shipping\Model\Rate\ResultFactory $rateFactory
      * @param \Magento\Shipping\Model\Rate\Result\MethodFactory $rateMethodFactory
-     * @param \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory
      * @param \Magento\Shipping\Model\Tracking\ResultFactory $trackFactory
      * @param \Magento\Shipping\Model\Tracking\Result\ErrorFactory $trackErrorFactory
      * @param \Magento\Shipping\Model\Tracking\Result\StatusFactory $trackStatusFactory
@@ -105,6 +98,8 @@ abstract class AbstractCarrier extends \Magento\Shipping\Model\Carrier\AbstractC
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
      * @param array $data
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -112,7 +107,6 @@ abstract class AbstractCarrier extends \Magento\Shipping\Model\Carrier\AbstractC
         \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory,
         \Magento\Shipping\Model\Rate\ResultFactory $rateFactory,
         \Magento\Shipping\Model\Rate\Result\MethodFactory $rateMethodFactory,
-        \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory,
         \Magento\Shipping\Model\Tracking\ResultFactory $trackFactory,
         \Magento\Shipping\Model\Tracking\Result\ErrorFactory $trackErrorFactory,
         \Magento\Shipping\Model\Tracking\Result\StatusFactory $trackStatusFactory,
@@ -121,12 +115,13 @@ abstract class AbstractCarrier extends \Magento\Shipping\Model\Carrier\AbstractC
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Directory\Helper\Data $directoryData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
         array $data = array()
     ) {
         $this->_xmlElFactory = $xmlElFactory;
         $this->_rateFactory = $rateFactory;
         $this->_rateMethodFactory = $rateMethodFactory;
-        $this->_rateErrorFactory = $rateErrorFactory;
         $this->_trackFactory = $trackFactory;
         $this->_trackErrorFactory = $trackErrorFactory;
         $this->_trackStatusFactory = $trackStatusFactory;
@@ -134,7 +129,7 @@ abstract class AbstractCarrier extends \Magento\Shipping\Model\Carrier\AbstractC
         $this->_countryFactory = $countryFactory;
         $this->_currencyFactory = $currencyFactory;
         $this->_directoryData = $directoryData;
-        parent::__construct($coreStoreConfig, $data);
+        parent::__construct($coreStoreConfig, $rateErrorFactory, $logAdapterFactory, $data);
     }
 
     /**
@@ -177,7 +172,7 @@ abstract class AbstractCarrier extends \Magento\Shipping\Model\Carrier\AbstractC
 
     /**
      * Check if carrier has shipping tracking option available
-     * All Magento_Usa carriers have shipping tracking option available
+     * All \Magento\Usa carriers have shipping tracking option available
      *
      * @return boolean
      */

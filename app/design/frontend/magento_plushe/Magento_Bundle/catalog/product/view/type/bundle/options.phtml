@@ -1,0 +1,39 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<?php 
+$_product = $this->getProduct();
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+?>
+<?php $_options = $this->helper('Magento\Core\Helper\Data')->decorateArray($this->getOptions()); ?>
+<?php if ($_product->isSaleable()):?>
+    <?php if (count($_options)): ?>
+    <script type="text/javascript">
+        (function ($) {
+            head.js("<?php echo $this->getViewFileUrl('Magento_Bundle::bundle.js') ?>", function () {
+                $('#product_addtocart_form').bundleOption({'optionConfig':<?php echo $this->getJsonConfig()?>}).trigger('changeSelection');
+            });
+        })(jQuery);
+    </script>
+        <fieldset class="fieldset bundle options">
+            <legend id="customizeTitle" class="legend">
+                <span><?php echo __('Customize %1', $_helper->productAttribute($_product, $_product->getName(), 'name')) ?></span>
+            </legend><br />
+        <?php foreach ($_options as $_option): ?>
+            <?php if (!$_option->getSelections()): ?>
+                <?php continue; ?>
+            <?php endif; ?>
+            <?php echo $this->getOptionHtml($_option) ?>
+        <?php endforeach; ?>
+        </fieldset>
+    <?php else: ?>
+        <p><?php echo __('No options of this product are available.') ?></p>
+    <?php endif; ?>
+<?php endif;?>

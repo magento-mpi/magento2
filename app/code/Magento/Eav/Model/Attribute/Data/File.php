@@ -34,12 +34,33 @@ class File extends \Magento\Eav\Model\Attribute\Data\AbstractData
     protected $_coreData = null;
 
     /**
+     * @var \Magento\Core\Model\File\Validator\NotProtectedExtension
+     */
+    protected $_fileValidator;
+
+    /**
+     * @var \Magento\Core\Model\Dir
+     */
+    protected $_coreDir;
+
+    /**
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\File\Validator\NotProtectedExtension $fileValidator
+     * @param \Magento\Core\Model\Dir $coreDir
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\File\Validator\NotProtectedExtension $fileValidator,
+        \Magento\Core\Model\Dir $coreDir
     ) {
+        parent::__construct($locale, $logger);
         $this->_coreData = $coreData;
+        $this->_fileValidator = $fileValidator;
+        $this->_coreDir = $coreDir;
     }
 
     /**
@@ -125,10 +146,8 @@ class File extends \Magento\Eav\Model\Attribute\Data\AbstractData
         /**
          * Check protected file extension
          */
-        /** @var $validator \Magento\Core\Model\File\Validator\NotProtectedExtension */
-        $validator = \Mage::getSingleton('Magento\Core\Model\File\Validator\NotProtectedExtension');
-        if (!$validator->isValid($extension)) {
-            return $validator->getMessages();
+        if (!$this->_fileValidator->isValid($extension)) {
+            return $this->_fileValidator->getMessages();
         }
 
         if (!is_uploaded_file($value['tmp_name'])) {
@@ -217,7 +236,7 @@ class File extends \Magento\Eav\Model\Attribute\Data\AbstractData
             }
         }
 
-        $path   = \Mage::getBaseDir('media') . DS . $attribute->getEntity()->getEntityTypeCode();
+        $path = $this->_coreDir->getDir('media') . DS . $attribute->getEntity()->getEntityTypeCode();
 
         // unlink entity file
         if ($toDelete) {
@@ -262,13 +281,13 @@ class File extends \Magento\Eav\Model\Attribute\Data\AbstractData
      *
      * @return string|array
      */
-    public function outputValue($format = \Magento\Eav\Model\Attribute\Data::OUTPUT_FORMAT_TEXT)
+    public function outputValue($format = \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_TEXT)
     {
         $output = '';
         $value  = $this->getEntity()->getData($this->getAttribute()->getAttributeCode());
         if ($value) {
             switch ($format) {
-                case \Magento\Eav\Model\Attribute\Data::OUTPUT_FORMAT_JSON:
+                case \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON:
                     $output = array(
                         'value'     => $value,
                         'url_key'   => $this->_coreData->urlEncode($value)

@@ -21,7 +21,7 @@
 namespace Magento\ImportExport\Model\Import\Entity\Eav;
 
 class Customer
-    extends \Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract
+    extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer
 {
     /**
      * Attribute collection name
@@ -111,27 +111,53 @@ class Customer
     protected $_attributeCollection;
 
     /**
+     * @var \Magento\ImportExport\Model\Resource\Helper
+     */
+    protected $_resourceHelper;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\ImportExport\Model\ImportFactory $importFactory
+     * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\ImportExport\Model\Resource\Customer\StorageFactory $storageFactory
+     * @param \Magento\Customer\Model\Resource\Attribute\CollectionFactory $attrCollectionFactory
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\String $coreString,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\ImportExport\Model\ImportFactory $importFactory,
+        \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\App $app,
+        \Magento\ImportExport\Model\Export\Factory $collectionFactory,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\ImportExport\Model\Resource\Customer\StorageFactory $storageFactory,
+        \Magento\Customer\Model\Resource\Attribute\CollectionFactory $attrCollectionFactory,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
         array $data = array()
     ) {
+        $this->_resourceHelper = $resourceHelper;
+
         if (isset($data['attribute_collection'])) {
             $this->_attributeCollection = $data['attribute_collection'];
             unset($data['attribute_collection']);
         } else {
-            $this->_attributeCollection = \Mage::getResourceModel(static::ATTRIBUTE_COLLECTION_NAME);
+            $this->_attributeCollection = $attrCollectionFactory->create();
             $this->_attributeCollection->addSystemHiddenFilterWithPasswordHash();
             $data['attribute_collection'] = $this->_attributeCollection;
         }
 
-        parent::__construct($coreData, $coreString, $coreStoreConfig, $data);
+        parent::__construct($coreData, $coreString, $coreStoreConfig, $importFactory, $resourceHelper, $resource,
+            $app, $collectionFactory, $eavConfig, $storageFactory, $data);
 
         $this->_specialAttributes[] = self::COLUMN_WEBSITE;
         $this->_specialAttributes[] = self::COLUMN_STORE;
@@ -158,7 +184,7 @@ class Customer
         $this->_initStores(true)
             ->_initAttributes();
 
-        $this->_customerModel = \Mage::getModel('Magento\Customer\Model\Customer');
+        $this->_customerModel = $customerFactory->create();
         /** @var $customerResource \Magento\Customer\Model\Resource\Customer */
         $customerResource = $this->_customerModel->getResource();
         $this->_entityTable = $customerResource->getEntityTable();
@@ -236,9 +262,7 @@ class Customer
     protected function _getNextEntityId()
     {
         if (!$this->_nextEntityId) {
-            /** @var $resourceHelper \Magento\ImportExport\Model\Resource\Helper */
-            $resourceHelper = \Mage::getResourceHelper('Magento_ImportExport');
-            $this->_nextEntityId = $resourceHelper->getNextAutoincrement($this->_entityTable);
+            $this->_nextEntityId = $this->_resourceHelper->getNextAutoincrement($this->_entityTable);
         }
         return $this->_nextEntityId++;
     }

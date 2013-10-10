@@ -49,16 +49,23 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
     protected $_dir;
 
     /**
+     * @var \Magento\Core\Model\File\UploaderFactory
+     */
+    protected $_uploaderFactory;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\System\Store $systemStore
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\System\Store $systemStore,
@@ -71,6 +78,7 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
         $this->_storeManager = $storeManager;
         $this->_systemStore = $systemStore;
         $this->_dir = $dir;
+        $this->_uploaderFactory = $uploaderFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -196,7 +204,8 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
     {
         $isUploaded = true;
         try {
-            $uploader = new \Magento\Core\Model\File\Uploader($imageFieldName);
+            /** @var $uploader \Magento\Core\Model\File\Uploader */
+            $uploader = $this->_uploaderFactory->create(array('fileId' => $imageFieldName));
             $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
             $uploader->setAllowRenameFiles(true);
             $uploader->setAllowCreateFolders(true);

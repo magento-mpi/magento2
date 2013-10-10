@@ -16,7 +16,7 @@ namespace Magento\Catalog\Controller;
  *
  * @magentoDataFixture Magento/Catalog/_files/categories.php
  */
-class CategoryTest extends \Magento\TestFramework\TestCase\ControllerAbstract
+class CategoryTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     public function assert404NotFound()
     {

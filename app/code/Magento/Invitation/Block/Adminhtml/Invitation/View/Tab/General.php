@@ -26,20 +26,52 @@ class General extends \Magento\Adminhtml\Block\Template
      *
      * @var \Magento\Invitation\Helper\Data
      */
-    protected $_invitationData = null;
+    protected $_invitationData;
     
     /**
      * Core registry
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * Application locale
+     *
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * Customer Factory
+     *
+     * @var \Magento\Customer\Model\CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * Customer Group Factory
+     *
+     * @var \Magento\Customer\Model\GroupFactory
+     */
+    protected $_groupFactory;
+
+    /**
+     * Store Manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
 
     /**
      * @param \Magento\Invitation\Helper\Data $invitationData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Customer\Model\GroupFactory $groupFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
@@ -47,11 +79,19 @@ class General extends \Magento\Adminhtml\Block\Template
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Customer\Model\GroupFactory $groupFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        $this->_invitationData = $invitationData;
         parent::__construct($coreData, $context, $data);
+        $this->_invitationData = $invitationData;
+        $this->_locale = $locale;
+        $this->_customerFactory = $customerFactory;
+        $this->_groupFactory = $groupFactory;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -135,7 +175,7 @@ class General extends \Magento\Adminhtml\Block\Template
     public function formatDate($date = null, $format = 'short', $showTime = false)
     {
         if (is_string($date)) {
-            $date = \Mage::app()->getLocale()->date($date, \Magento\Date::DATETIME_INTERNAL_FORMAT);
+            $date = $this->_locale->date($date, \Magento\Date::DATETIME_INTERNAL_FORMAT);
         }
 
         return parent::formatDate($date, $format, $showTime);
@@ -150,7 +190,7 @@ class General extends \Magento\Adminhtml\Block\Template
     {
         if (!$this->hasData('referral')) {
             if ($this->getInvitation()->getReferralId()) {
-                $referral = \Mage::getModel('Magento\Customer\Model\Customer')->load(
+                $referral = $this->_customerFactory->create()->load(
                     $this->getInvitation()->getReferralId()
                 );
             } else {
@@ -172,7 +212,7 @@ class General extends \Magento\Adminhtml\Block\Template
     {
         if (!$this->hasData('customer')) {
             if ($this->getInvitation()->getCustomerId()) {
-                $customer = \Mage::getModel('Magento\Customer\Model\Customer')->load(
+                $customer = $this->_customerFactory->create()->load(
                     $this->getInvitation()->getCustomerId()
                 );
             } else {
@@ -193,7 +233,7 @@ class General extends \Magento\Adminhtml\Block\Template
     public function getCustomerGroupCollection()
     {
         if (!$this->hasData('customer_groups_collection')) {
-            $groups = \Mage::getModel('Magento\Customer\Model\Group')->getCollection()
+            $groups = $this->_groupFactory->create()->getCollection()
                 ->addFieldToFilter('customer_group_id', array('gt'=> 0))
                 ->load();
             $this->setData('customer_groups_collection', $groups);
@@ -232,7 +272,7 @@ class General extends \Magento\Adminhtml\Block\Template
      */
     public function getWebsiteName()
     {
-        return \Mage::app()->getStore($this->getInvitation()->getStoreId())
+        return $this->_storeManager->getStore($this->getInvitation()->getStoreId())
             ->getWebsite()->getName();
     }
 
@@ -243,7 +283,7 @@ class General extends \Magento\Adminhtml\Block\Template
      */
     public function getStoreName()
     {
-        return \Mage::app()->getStore($this->getInvitation()->getStoreId())
+        return $this->_storeManager->getStore($this->getInvitation()->getStoreId())
             ->getName();
     }
 
@@ -255,8 +295,8 @@ class General extends \Magento\Adminhtml\Block\Template
     public function getInvitationUrl()
     {
         if (!$this->getInvitation()->canBeAccepted(
-            \Mage::app()->getStore($this->getInvitation()->getStoreId())->getWebsiteId())) {
-            return false;
+            $this->_storeManager->getStore($this->getInvitation()->getStoreId())->getWebsiteId())) {
+                return false;
         }
         return $this->_invitationData->getInvitationUrl($this->getInvitation());
     }

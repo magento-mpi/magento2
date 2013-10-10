@@ -12,6 +12,29 @@ namespace Magento\GiftCardAccount\Model;
 
 class Cron
 {
+
+    /**
+     * @var \Magento\GiftCardAccount\Model\GiftcardaccountFactory
+     */
+    protected $_giftCAFactory = null;
+
+    /**
+     * @var \Magento\Core\Model\Date
+     */
+    protected $_coreDate = null;
+
+    /**
+     * @param \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftCAFactory
+     * @param \Magento\Core\Model\Date $coreDate
+     */
+    public function __construct(
+        \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftCAFactory,
+        \Magento\Core\Model\Date $coreDate
+    ) {
+        $this->_giftCAFactory = $giftCAFactory;
+        $this->_coreDate = $coreDate;
+    }
+
     /**
      * Update Gift Card Account states by cron
      *
@@ -20,9 +43,9 @@ class Cron
     public function updateStates()
     {
         // update to expired
-        $model = \Mage::getModel('Magento\GiftCardAccount\Model\Giftcardaccount');
+        $model = $this->_giftCAFactory->create();
 
-        $now = \Mage::getModel('Magento\Core\Model\Date')->date('Y-m-d');
+        $now = $this->_coreDate->date('Y-m-d');
 
         $collection = $model->getCollection()
             ->addFieldToFilter('state', \Magento\GiftCardAccount\Model\Giftcardaccount::STATE_AVAILABLE)

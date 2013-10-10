@@ -8,12 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Cms Widget Pagination Block
- *
- * @category   Magento
- * @package    Magento_VersionsCms
  */
 namespace Magento\VersionsCms\Block\Hierarchy;
 
@@ -31,21 +27,29 @@ class Pagination extends \Magento\Core\Block\Template
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var \Magento\VersionsCms\Model\Hierarchy\NodeFactory
+     */
+    protected $_nodeFactory;
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->_nodeFactory = $nodeFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -58,8 +62,7 @@ class Pagination extends \Magento\Core\Block\Template
         parent::_construct();
 
         if ($this->getNodeId()) {
-            $this->_node = \Mage::getModel('Magento\VersionsCms\Model\Hierarchy\Node')
-                ->load($this->getNodeId());
+            $this->_node = $this->_nodeFactory->create()->load($this->getNodeId());
         } else {
             $this->_node = $this->_coreRegistry->registry('current_cms_hierarchy_node');
         }
@@ -86,8 +89,8 @@ class Pagination extends \Magento\Core\Block\Template
             $params = $this->_node->getMetadataPagerParams();
             if ($params !== null
                 && isset($params['pager_visibility'])
-                && $params['pager_visibility'] == \Magento\VersionsCms\Helper\Hierarchy::METADATA_VISIBILITY_YES)
-            {
+                && $params['pager_visibility'] == \Magento\VersionsCms\Helper\Hierarchy::METADATA_VISIBILITY_YES
+            ) {
                 $this->addData(array(
                     'jump' => isset($params['pager_jump']) ? $params['pager_jump'] : 0,
                     'frame' => isset($params['pager_frame']) ? $params['pager_frame'] : 0,
@@ -207,7 +210,7 @@ class Pagination extends \Magento\Core\Block\Template
         return $this->_getData('last_node');
     }
 
-/**
+    /**
      * Can show Previous  page link
      *
      * @return bool

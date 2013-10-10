@@ -136,11 +136,11 @@ class DataFixture
             if (is_callable($fixture)) {
                 call_user_func($fixture);
             } else {
-                    require($fixture);
+                require($fixture);
             }
-        } catch (Zend_Db_Statement_Exception $e) {
+        } catch (\Exception $e) {
             echo 'Error in fixture: ', json_encode($fixture), PHP_EOL, $e;
-            throw $e;
+            //throw $e;
         }
     }
 

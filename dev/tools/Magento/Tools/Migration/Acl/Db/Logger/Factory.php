@@ -29,7 +29,7 @@ class Factory
     /**
      * @param string $loggerType
      * @param string $filePath
-     * @return \Magento\Tools\Migration\Acl\Db\LoggerAbstract
+     * @return \Magento\Tools\Migration\Acl\Db\AbstractLogger
      * @throws \InvalidArgumentException
      */
     public function getLogger($loggerType, $filePath = null)

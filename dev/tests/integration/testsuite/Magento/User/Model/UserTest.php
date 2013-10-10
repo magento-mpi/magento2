@@ -153,7 +153,9 @@ class UserTest extends \PHPUnit_Framework_TestCase
         /** @var $storeConfig \Magento\Core\Model\Store\Config */
         $storeConfig = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\Store\Config');
-        $mailer = $this->getMock('Magento\Core\Model\Email\Template\Mailer');
+        $mailer = $this->getMock('Magento\Core\Model\Email\Template\Mailer', array(), array(
+            $this->getMock('Magento\Core\Model\Email\TemplateFactory', array(), array(), '', false)
+        ));
         $mailer->expects($this->once())
             ->method('setTemplateId')
             ->with($storeConfig->getConfig(\Magento\User\Model\User::XML_PATH_FORGOT_EMAIL_TEMPLATE));

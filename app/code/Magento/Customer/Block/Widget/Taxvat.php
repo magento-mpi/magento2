@@ -12,6 +12,29 @@ namespace Magento\Customer\Block\Widget;
 
 class Taxvat extends \Magento\Customer\Block\Widget\AbstractWidget
 {
+    /**
+     * @var \Magento\Customer\Model\Resource\Customer
+     */
+    protected $_customerResource;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Customer\Model\Session $customerSession,
+        array $data = array()
+    ) {
+        $this->_customerSession = $customerSession;
+        parent::__construct($coreData, $context, $eavConfig, $data);
+    }
+
     public function _construct()
     {
         parent::_construct();
@@ -30,6 +53,6 @@ class Taxvat extends \Magento\Customer\Block\Widget\AbstractWidget
 
     public function getCustomer()
     {
-        return \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer();
+        return $this->_customerSession->getCustomer();
     }
 }

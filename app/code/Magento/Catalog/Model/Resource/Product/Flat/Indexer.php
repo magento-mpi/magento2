@@ -119,29 +119,82 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
     protected $_flatAttributeGroups;
 
     /**
-     * @param \Magento\Core\Model\Logger $logger
+     * @var \Magento\Core\Model\Logger
+     */
+    protected $_logger;
+
+    /**
+     * @var \Magento\Catalog\Model\Product\Type
+     */
+    protected $_productType;
+
+    /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Eav attribute factory
+     *
+     * @var \Magento\Catalog\Model\Resource\Eav\AttributeFactory
+     */
+    protected $_eavAttributeFactory;
+
+    /**
+     * Config factory
+     *
+     * @var \Magento\Catalog\Model\Resource\ConfigFactory
+     */
+    protected $_configFactory;
+
+    /**
+     * Catalog resource helper
+     *
+     * @var \Magento\Catalog\Model\Resource\Helper
+     */
+    protected $_resourceHelper;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Catalog\Model\Resource\ConfigFactory $configFactory
+     * @param \Magento\Catalog\Model\Resource\Eav\AttributeFactory $eavAttributeFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Resource $resource
-     * @param \Magento\Catalog\Model\Product\Type $productType
+     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Catalog\Model\Attribute\Config $attributeConfig
      * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
-     * @param int $maxIndexCount
+     * @param \Magento\Catalog\Model\Product\Type $productType
+     * @param \Magento\Catalog\Model\Resource\Helper $resourceHelper
+     * @param $maxIndexCount
      * @param array $flatAttributeGroups
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Catalog\Model\Resource\ConfigFactory $configFactory,
+        \Magento\Catalog\Model\Resource\Eav\AttributeFactory $eavAttributeFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Resource $resource,
-        \Magento\Catalog\Model\Product\Type $productType,
+        \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Catalog\Model\Attribute\Config $attributeConfig,
         \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
+        \Magento\Catalog\Model\Product\Type $productType,
+        \Magento\Catalog\Model\Resource\Helper $resourceHelper,
         $maxIndexCount,
         array $flatAttributeGroups = array()
     ) {
+        $this->_configFactory = $configFactory;
+        $this->_eavAttributeFactory = $eavAttributeFactory;
+        $this->_storeManager = $storeManager;
         $this->_eventManager = $eventManager;
         $this->_coreData = $coreData;
         $this->_eavConfig = $eavConfig;
@@ -151,6 +204,7 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
         $this->_flatAttributeGroups = $flatAttributeGroups;
         $this->_logger = $logger;
         $this->_productType = $productType;
+        $this->_resourceHelper = $resourceHelper;
         parent::__construct($resource);
     }
 
@@ -172,13 +226,13 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
     public function rebuild($store = null)
     {
         if ($store === null) {
-            foreach (\Mage::app()->getStores() as $store) {
+            foreach ($this->_storeManager->getStores() as $store) {
                 $this->rebuild($store->getId());
             }
             return $this;
         }
 
-        $storeId = (int)\Mage::app()->getStore($store)->getId();
+        $storeId = (int)$this->_storeManager->getStore($store)->getId();
 
         $this->prepareFlatTable($storeId);
         $this->cleanNonWebsiteProducts($storeId);
@@ -273,7 +327,7 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
     public function getEntityTypeId()
     {
         if ($this->_entityTypeId === null) {
-            $this->_entityTypeId = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Config')
+            $this->_entityTypeId = $this->_configFactory->create()
                 ->getEntityTypeId();
         }
         return $this->_entityTypeId;
@@ -323,10 +377,10 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
     {
         $attributes = $this->getAttributes();
         if (!isset($attributes[$attributeCode])) {
-            $attribute = \Mage::getModel('Magento\Catalog\Model\Resource\Eav\Attribute')
+            $attribute = $this->_eavAttributeFactory->create()
                 ->loadByCode($this->getEntityTypeId(), $attributeCode);
             if (!$attribute->getId()) {
-                \Mage::throwException(__('Invalid attribute %1', $attributeCode));
+                throw new \Magento\Core\Exception(__('Invalid attribute %1', $attributeCode));
             }
             $entity = $this->_eavConfig
                 ->getEntityType($this->getEntityType())
@@ -561,7 +615,7 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
      */
     protected function _compareColumnProperties($column, $describe)
     {
-        return \Mage::getResourceHelper('Magento_Catalog')->compareIndexColumnProperties($column, $describe);
+        return $this->_resourceHelper->compareIndexColumnProperties($column, $describe);
     }
 
     /**
@@ -575,8 +629,7 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
      */
     public function getFkName($priTableName, $priColumnName, $refTableName, $refColumnName)
     {
-        return \Mage::getSingleton('Magento\Core\Model\Resource')
-            ->getFkName($priTableName, $priColumnName, $refTableName, $refColumnName);
+        return $this->_resources->getFkName($priTableName, $priColumnName, $refTableName, $refColumnName);
     }
 
     /**
@@ -599,7 +652,7 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
         if ($this->_coreData->useDbCompatibleMode()) {
              /* Convert old format of flat columns to new MMDB format that uses DDL types and definitions */
             foreach ($columns as $key => $column) {
-                $columns[$key] = \Mage::getResourceHelper('Magento_Core')->convertOldColumnDefinition($column);
+                $columns[$key] = $this->_resourceHelper->convertOldColumnDefinition($column);
             }
         }
 
@@ -607,7 +660,7 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
         $indexesNeed  = $this->getFlatIndexes();
 
         if (count($indexesNeed) > $this->_maxIndexCount) {
-            \Mage::throwException(__("Please make sure you don\'t have too many filterable and sortable attributes. You now have %1\$d. The Flat Catalog module allows only %2\$d.", count($indexesNeed), $this->_maxIndexCount));
+            throw new \Magento\Core\Exception(__("Please make sure you don\'t have too many filterable and sortable attributes. You now have %1\$d. The Flat Catalog module allows only %2\$d.", count($indexesNeed), $maxIndex));
         }
 
         // Process indexes to create names for them in MMDB-style and reformat to common index definition
@@ -807,7 +860,7 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
             return $this;
         }
         $adapter   = $this->_getWriteAdapter();
-        $websiteId = (int)\Mage::app()->getStore($storeId)->getWebsite()->getId();
+        $websiteId = (int)$this->_storeManager->getStore($storeId)->getWebsite()->getId();
         /* @var $status \Magento\Eav\Model\Entity\Attribute */
         $status    = $this->getAttribute('status');
 
@@ -883,7 +936,7 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
             return $this;
         }
 
-        $websiteId = (int)\Mage::app()->getStore($storeId)->getWebsite()->getId();
+        $websiteId = (int)$this->_storeManager->getStore($storeId)->getWebsite()->getId();
         $adapter   = $this->_getWriteAdapter();
 
         $joinCondition = array(
@@ -1027,7 +1080,7 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
 
             foreach (array_keys($this->_productType->getTypes()) as $typeId) {
                 $productEmulator->setTypeId($typeId);
-                $this->_productTypes[$typeId] = \Mage::getSingleton('Magento\Catalog\Model\Product\Type')
+                $this->_productTypes[$typeId] = $this->_productType
                     ->factory($productEmulator);
             }
         }
@@ -1358,7 +1411,7 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
      */
     public function reindexAll()
     {
-        foreach (\Mage::app()->getStores() as $storeId => $store) {
+        foreach ($this->_storeManager->getStores() as $storeId => $store) {
             $this->prepareFlatTable($storeId);
             $this->beginTransaction();
             try {

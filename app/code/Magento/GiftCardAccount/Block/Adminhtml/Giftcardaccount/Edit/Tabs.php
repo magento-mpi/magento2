@@ -10,7 +10,7 @@
 
 namespace Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit;
 
-class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
+class Tabs extends \Magento\Backend\Block\Widget\Tabs
 {
     /**
      * Core registry
@@ -22,17 +22,19 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($coreData, $context, $authSession, $data);
     }
 
     protected function _construct()

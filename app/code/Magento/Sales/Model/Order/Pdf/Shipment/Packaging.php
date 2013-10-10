@@ -149,7 +149,7 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         $packages = $packaging->getPackages();
 
         $packageNum = 1;
-        foreach ($packages as $packageId => $package) {
+        foreach ($packages as $package) {
             $page->setFillColor(new \Zend_Pdf_Color_Rgb(0.93, 0.92, 0.92));
             $page->drawRectangle(25, $this->y + 15, 190, $this->y - 35);
             $page->drawRectangle(190, $this->y + 15, 350, $this->y - 35);
@@ -208,9 +208,7 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
                 } else {
                     $contentsValue = $packaging->getContentTypeByCode($params->getContentType());
                 }
-                $contentsText = __('Contents')
-                    . ' : '
-                    . $contentsValue;
+                $contentsText = __('Contents') . ' : ' . $contentsValue;
                 $page->drawText($contentsText, 355, $this->y , 'UTF-8');
             }
 

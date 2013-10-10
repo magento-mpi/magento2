@@ -8,9 +8,8 @@
  * @license     {license_link}
  */
 
-/** @var $this \Magento\Core\Model\Resource\Setup\Generic */
 /** @var $installer \Magento\Core\Model\Resource\Setup\Migration */
-$installer = $this->createMigrationSetup(array('resourceName' => 'core_setup'));
+$installer = $this->_migrationFactory->create(array('resourceName' => 'core_setup'));
 $installer->startSetup();
 
 $installer->appendClassAliasReplace('widget_instance', 'instance_type',

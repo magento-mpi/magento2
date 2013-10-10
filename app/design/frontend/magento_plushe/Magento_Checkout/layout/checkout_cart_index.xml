@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <update handle="page_one_column" />
+    <referenceContainer name="checkout.cart.items">
+        <container name="checkout.cart.container" label="invisible" htmlTag="div" htmlClass="cart container" before="-">
+            <container name="cart.summary" label="Cart Summary Container" htmlTag="div" htmlClass="cart summary" after="-">
+                <block class="Magento\Core\Block\Template" name="checkout.cart.summary.title" before="-" template="Magento_Core::text.phtml">
+                    <arguments>
+                        <argument translate="true" name="text" xsi:type="string">Summary</argument>
+                        <argument name="tag" xsi:type="string">strong</argument>
+                        <argument name="attributes" xsi:type="array">
+                            <item name="title" translate="true" xsi:type="string">Summary</item>
+                        </argument>
+                        <argument name="css_class" xsi:type="string">summary title</argument>
+                    </arguments>
+                </block>
+            </container>
+        </container>
+    </referenceContainer>
+    <move element="checkout.cart.form" destination="checkout.cart.container"/>
+    <move element="checkout.cart.shipping" destination="cart.summary"/>
+    <move element="checkout.cart.coupon" destination="cart.summary" />
+    <move element="checkout.cart.totals" destination="cart.summary"/>
+    <move element="checkout.cart.methods.bottom" destination="cart.summary"/>
+    <move element="checkout.cart.giftcardaccount" destination="cart.summary" after="checkout.cart.coupon" before="checkout.cart.totals"/>
+</layout>

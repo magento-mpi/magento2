@@ -12,7 +12,7 @@
 namespace Magento\User\Controller\Adminhtml;
 
 /**
- * Test class for \Magento\User\Controller\Adminhtml\Auth.
+ * Test class for \Magento\User\Controller\Adminhtml\Auth
  *
  * @magentoAppArea adminhtml
  */

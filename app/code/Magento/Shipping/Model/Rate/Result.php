@@ -28,6 +28,20 @@ class Result
     protected $_error = null;
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     */
+    public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager
+    ) {
+        $this->_storeManager = $storeManager;
+    }
+
+    /**
      * Reset result
      *
      * @return \Magento\Shipping\Model\Rate\Result
@@ -127,7 +141,7 @@ class Result
      */
     public function asArray()
     {
-        $currencyFilter = \Mage::app()->getStore()->getPriceFilter();
+        $currencyFilter = $this->_storeManager->getStore()->getPriceFilter();
         $rates = array();
         $allRates = $this->getAllRates();
         foreach ($allRates as $rate) {

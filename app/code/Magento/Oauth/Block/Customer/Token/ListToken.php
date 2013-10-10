@@ -28,18 +28,40 @@ class ListToken extends \Magento\Customer\Block\Account\Dashboard
     protected $_collection;
 
     /**
+     * @var \Magento\Oauth\Model\TokenFactory
+     */
+    protected $tokenFactory;
+
+    /**
+     * @param \Magento\Oauth\Model\TokenFactory $tokenFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Oauth\Model\TokenFactory $tokenFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
+        array $data = array()
+    ) {
+        $this->tokenFactory = $tokenFactory;
+        parent::__construct($coreData, $context, $customerSession, $subscriberFactory, $data);
+    }
+
+    /**
      * Prepare collection
      */
     protected function _construct()
     {
-        /** @var $session \Magento\Customer\Model\Session */
-        $session = \Mage::getSingleton('Magento\Customer\Model\Session');
-
         /** @var $collection \Magento\Oauth\Model\Resource\Token\Collection */
-        $collection = \Mage::getModel('Magento\Oauth\Model\Token')->getCollection();
+        $collection = $this->tokenFactory->create()->getCollection();
         $collection->joinConsumerAsApplication()
                 ->addFilterByType(\Magento\Oauth\Model\Token::TYPE_ACCESS)
-                ->addFilterByCustomerId($session->getCustomerId());
+                ->addFilterByCustomerId($this->_customerSession->getCustomerId());
         $this->_collection = $collection;
     }
 
@@ -96,7 +118,7 @@ class ListToken extends \Magento\Customer\Block\Account\Dashboard
      */
     public function getUpdateRevokeLink(\Magento\Oauth\Model\Token $model)
     {
-        return \Mage::getUrl('oauth/customer_token/revoke/',
+        return $this->_urlBuilder->getUrl('oauth/customer_token/revoke/',
             array('id' => $model->getId(), 'status' => (int) !$model->getRevoked()));
     }
 
@@ -108,7 +130,7 @@ class ListToken extends \Magento\Customer\Block\Account\Dashboard
      */
     public function getDeleteLink(\Magento\Oauth\Model\Token $model)
     {
-        return \Mage::getUrl('oauth/customer_token/delete/', array('id' => $model->getId()));
+        return $this->_urlBuilder->getUrl('oauth/customer_token/delete/', array('id' => $model->getId()));
     }
 
     /**

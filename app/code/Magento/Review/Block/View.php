@@ -28,11 +28,6 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     protected $_voteFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Rating\Model\RatingFactory
      */
     protected $_ratingFactory;
@@ -43,6 +38,10 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     protected $_reviewFactory;
 
     /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
@@ -53,25 +52,28 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
      * @param \Magento\Rating\Model\RatingFactory $ratingFactory
      * @param \Magento\Review\Model\ReviewFactory $reviewFactory
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Rating\Model\Rating\Option\VoteFactory $voteFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Rating\Model\RatingFactory $ratingFactory,
         \Magento\Review\Model\ReviewFactory $reviewFactory,
         array $data = array()
     ) {
         $this->_voteFactory = $voteFactory;
         $this->_storeManager = $storeManager;
-        $this->_ratingFactory = $ratingFactory;
         $this->_reviewFactory = $reviewFactory;
 
-        parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $data);
+        parent::__construct($storeManager, $catalogConfig, $coreRegistry, $taxData, $catalogData, $coreData,
+            $context, $data);
     }
 
     /**

@@ -1,0 +1,21 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php if($this->customerLoggedIn()): ?>
+    <li class="customer welcome">
+        <strong class="customer name" data-toggle="dropdown">
+            <span><?php echo $this->getCustomerName(); ?></span>
+        </strong>
+        <?php if($this->getChildHtml()):?>
+        <menu class="menu" data-target="dropdown">
+            <?php echo $this->getChildHtml();?>
+        </menu>
+        <?php endif; ?>
+    </li>
+<?php endif; ?>

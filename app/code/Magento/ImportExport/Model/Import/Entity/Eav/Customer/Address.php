@@ -21,7 +21,7 @@
 namespace Magento\ImportExport\Model\Import\Entity\Eav\Customer;
 
 class Address
-    extends \Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract
+    extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer
 {
     /**#@+
      * Attribute collection name
@@ -189,33 +189,84 @@ class Address
     protected $_importedRowPks = array();
 
     /**
+     * @var \Magento\ImportExport\Model\Resource\Helper
+     */
+    protected $_resourceHelper;
+
+    /**
+     * @var \Magento\Customer\Model\CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * @var \Magento\Eav\Model\Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @var \Magento\Customer\Model\AddressFactory
+     */
+    protected $_addressFactory;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\ImportExport\Model\ImportFactory $importFactory
+     * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\ImportExport\Model\Resource\Customer\StorageFactory $storageFactory
+     * @param \Magento\Customer\Model\AddressFactory $addressFactory
+     * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionColFactory
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Customer\Model\Resource\Address\CollectionFactory $addressColFactory
+     * @param \Magento\Customer\Model\Resource\Address\Attribute\CollectionFactory $attributesFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\String $coreString,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\ImportExport\Model\ImportFactory $importFactory,
+        \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\App $app,
+        \Magento\ImportExport\Model\Export\Factory $collectionFactory,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\ImportExport\Model\Resource\Customer\StorageFactory $storageFactory,
+        \Magento\Customer\Model\AddressFactory $addressFactory,
+        \Magento\Directory\Model\Resource\Region\CollectionFactory $regionColFactory,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Customer\Model\Resource\Address\CollectionFactory $addressColFactory,
+        \Magento\Customer\Model\Resource\Address\Attribute\CollectionFactory $attributesFactory,
         array $data = array()
     ) {
+        $this->_customerFactory = $customerFactory;
+        $this->_addressFactory = $addressFactory;
+        $this->_eavConfig = $eavConfig;
+        $this->_resourceHelper = $resourceHelper;
+
         if (!isset($data['attribute_collection'])) {
             /** @var $attributeCollection \Magento\Customer\Model\Resource\Address\Attribute\Collection */
-            $attributeCollection = \Mage::getResourceModel(static::ATTRIBUTE_COLLECTION_NAME);
+            $attributeCollection = $attributesFactory->create();
             $attributeCollection->addSystemHiddenFilter()
                 ->addExcludeHiddenFrontendFilter();
             $data['attribute_collection'] = $attributeCollection;
         }
-
-        parent::__construct($coreData, $coreString, $coreStoreConfig, $data);
+        parent::__construct(
+            $coreData, $coreString, $coreStoreConfig, $importFactory, $resourceHelper, $resource, $app,
+            $collectionFactory, $eavConfig, $storageFactory, $data
+        );
 
         $this->_addressCollection = isset($data['address_collection']) ? $data['address_collection']
-            : \Mage::getResourceModel('Magento\Customer\Model\Resource\Address\Collection');
+            : $addressColFactory->create();
         $this->_entityTable = isset($data['entity_table']) ? $data['entity_table']
-            : \Mage::getModel('Magento\Customer\Model\Address')->getResource()->getEntityTable();
+            : $addressFactory->create()->getResource()->getEntityTable();
         $this->_regionCollection = isset($data['region_collection']) ? $data['region_collection']
-            : \Mage::getResourceModel('Magento\Directory\Model\Resource\Region\Collection');
+            : $regionColFactory->create();
 
         $this->addMessageTemplate(self::ERROR_ADDRESS_ID_IS_EMPTY,
             __('Customer address id column is not specified')
@@ -243,7 +294,7 @@ class Address
     protected function _getCustomerEntity()
     {
         if (!$this->_customerEntity) {
-            $this->_customerEntity = \Mage::getModel('Magento\Customer\Model\Customer');
+            $this->_customerEntity = $this->_customerFactory->create();
         }
         return $this->_customerEntity;
     }
@@ -257,10 +308,8 @@ class Address
     {
         if (!$this->_regionParameters) {
             $this->_regionParameters = array();
-            /** @var $regionConfig \Magento\Eav\Model\Config */
-            $regionConfig = \Mage::getSingleton('Magento\Eav\Model\Config');
             /** @var $regionIdAttribute \Magento\Customer\Model\Attribute */
-            $regionIdAttribute = $regionConfig->getAttribute($this->getEntityTypeCode(), 'region_id');
+            $regionIdAttribute = $this->_eavConfig->getAttribute($this->getEntityTypeCode(), 'region_id');
             $this->_regionParameters['table']        = $regionIdAttribute->getBackend()->getTable();
             $this->_regionParameters['attribute_id'] = $regionIdAttribute->getId();
         }
@@ -276,9 +325,9 @@ class Address
     {
         if (!$this->_nextEntityId) {
             /** @var $addressResource \Magento\Customer\Model\Resource\Address */
-            $addressResource     = \Mage::getModel('Magento\Customer\Model\Address')->getResource();
+            $addressResource     = $this->_addressFactory->create()->getResource();
             $addressTable        = $addressResource->getEntityTable();
-            $this->_nextEntityId = \Mage::getResourceHelper('Magento_ImportExport')->getNextAutoincrement($addressTable);
+            $this->_nextEntityId = $this->_resourceHelper->getNextAutoincrement($addressTable);
         }
         return $this->_nextEntityId++;
     }
@@ -518,7 +567,7 @@ class Address
     protected function _saveCustomerDefaults(array $defaults)
     {
         /** @var $entity \Magento\Customer\Model\Customer */
-        $entity = \Mage::getModel('Magento\Customer\Model\Customer');
+        $entity = $this->_customerFactory->create();
         $entityTypeId = $entity->getEntityTypeId();
 
         foreach ($defaults as $tableName => $data) {

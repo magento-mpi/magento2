@@ -8,9 +8,8 @@
  * @license     {license_link}
  */
 
-/** @var \Magento\Newsletter\Model\Resource\Setup $this */
-
-$installer = $this->getSetupMigration();
+/** @var $installer \Magento\Core\Model\Resource\Setup\Migration */
+$installer = $this->_migrationFactory->create(array('resourceName' => 'core_setup'));
 $installer->startSetup();
 
 $installer->appendClassAliasReplace('newsletter_template', 'template_text',

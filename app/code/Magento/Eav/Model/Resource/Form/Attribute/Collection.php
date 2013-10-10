@@ -49,6 +49,39 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected $_entityType;
 
     /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Eav\Model\Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_eavConfig = $eavConfig;
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+    }
+
+    /**
      * Resource initialization
      *
      * @throws \Magento\Core\Exception
@@ -56,10 +89,10 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected function _construct()
     {
         if (empty($this->_moduleName)) {
-            \Mage::throwException(__('Current module pathname is undefined'));
+            throw new \Magento\Core\Exception(__('Current module pathname is undefined'));
         }
         if (empty($this->_entityTypeCode)) {
-            \Mage::throwException(__('Current module EAV entity is undefined'));
+            throw new \Magento\Core\Exception(__('Current module EAV entity is undefined'));
         }
     }
 
@@ -84,7 +117,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function setStore($store)
     {
-        $this->_store = \Mage::app()->getStore($store);
+        $this->_store = $this->_storeManager->getStore($store);
         return $this;
     }
 
@@ -96,7 +129,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     public function getStore()
     {
         if ($this->_store === null) {
-            $this->_store = \Mage::app()->getStore();
+            $this->_store = $this->_storeManager->getStore();
         }
         return $this->_store;
     }
@@ -109,7 +142,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function setEntityType($entityType)
     {
-        $this->_entityType = \Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType($entityType);
+        $this->_entityType = $this->_eavConfig->getEntityType($entityType);
         return $this;
     }
 

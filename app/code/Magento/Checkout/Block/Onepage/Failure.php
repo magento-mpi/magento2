@@ -13,9 +13,30 @@ namespace Magento\Checkout\Block\Onepage;
 
 class Failure extends \Magento\Core\Block\Template
 {
+    /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        array $data = array()
+    ) {
+        $this->_checkoutSession = $checkoutSession;
+        parent::__construct($coreData, $context, $data);
+    }
+
     public function getRealOrderId()
     {
-        return \Mage::getSingleton('Magento\Checkout\Model\Session')->getLastRealOrderId();
+        return $this->_checkoutSession->getLastRealOrderId();
     }
 
     /**
@@ -25,8 +46,7 @@ class Failure extends \Magento\Core\Block\Template
      */
     public function getErrorMessage ()
     {
-        $error = \Mage::getSingleton('Magento\Checkout\Model\Session')->getErrorMessage();
-        // \Mage::getSingleton('Magento\Checkout\Model\Session')->unsErrorMessage();
+        $error = $this->_checkoutSession->getErrorMessage();
         return $error;
     }
 
@@ -37,6 +57,6 @@ class Failure extends \Magento\Core\Block\Template
      */
     public function getContinueShoppingUrl()
     {
-        return \Mage::getUrl('checkout/cart');
+        return $this->getUrl('checkout/cart');
     }
 }

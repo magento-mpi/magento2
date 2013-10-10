@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 namespace Magento\Checkout\Controller;
 
 class Onepage extends \Magento\Checkout\Controller\Action
@@ -36,14 +35,16 @@ class Onepage extends \Magento\Checkout\Controller\Action
 
     /**
      * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
         \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($context);
+        parent::__construct($context, $customerSession);
     }
 
     /**
@@ -54,7 +55,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
         parent::preDispatch();
         $this->_preDispatchValidateCustomer();
 
-        $checkoutSessionQuote = \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
+        $checkoutSessionQuote = $this->_objectManager->get('Magento\Checkout\Model\Session')->getQuote();
         if ($checkoutSessionQuote->getIsMultiShipping()) {
             $checkoutSessionQuote->setIsMultiShipping(false);
             $checkoutSessionQuote->removeAllAddresses();
@@ -96,7 +97,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
             return true;
         }
         $action = $this->getRequest()->getActionName();
-        if (\Mage::getSingleton('Magento\Checkout\Model\Session')->getCartWasUpdated(true)
+        if ($this->_objectManager->get('Magento\Checkout\Model\Session')->getCartWasUpdated(true)
             && !in_array($action, array('index', 'progress'))) {
             $this->_ajaxRedirectResponse();
             return true;
@@ -169,7 +170,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
      */
     public function getOnepage()
     {
-        return \Mage::getSingleton('Magento\Checkout\Model\Type\Onepage');
+        return $this->_objectManager->get('Magento\Checkout\Model\Type\Onepage');
     }
 
     /**
@@ -178,7 +179,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
     public function indexAction()
     {
         if (!$this->_objectManager->get('Magento\Checkout\Helper\Data')->canOnepageCheckout()) {
-            \Mage::getSingleton('Magento\Checkout\Model\Session')->addError(__('The onepage checkout is disabled.'));
+            $this->_objectManager->get('Magento\Checkout\Model\Session')->addError(__('The onepage checkout is disabled.'));
             $this->_redirect('checkout/cart');
             return;
         }
@@ -192,14 +193,14 @@ class Onepage extends \Magento\Checkout\Controller\Action
                 $this->_objectManager->get('Magento\Core\Model\Store\Config')->getConfig('sales/minimum_order/error_message') :
                 __('Subtotal must exceed minimum order amount');
 
-            \Mage::getSingleton('Magento\Checkout\Model\Session')->addError($error);
+            $this->_objectManager->get('Magento\Checkout\Model\Session')->addError($error);
             $this->_redirect('checkout/cart');
             return;
         }
-        \Mage::getSingleton('Magento\Checkout\Model\Session')->setCartWasUpdated(false);
-        \Mage::getSingleton('Magento\Customer\Model\Session')->setBeforeAuthUrl(
-            \Mage::getUrl('*/*/*', array('_secure'=>true))
-        );
+        $this->_objectManager->get('Magento\Checkout\Model\Session')->setCartWasUpdated(false);
+        $currentUrl = $this->_objectManager->create('Magento\Core\Model\UrlInterface')
+            ->getUrl('*/*/*', array('_secure'=>true));
+        $this->_objectManager->get('Magento\Customer\Model\Session')->setBeforeAuthUrl($currentUrl);
         $this->getOnepage()->initCheckout();
         $this->loadLayout();
         $this->_initLayoutMessages('Magento\Customer\Model\Session');
@@ -300,7 +301,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
         if ($addressId) {
             $address = $this->getOnepage()->getAddress($addressId);
 
-            $customerSession = \Mage::getSingleton('Magento\Customer\Model\Session');
+            $customerSession = $this->_objectManager->get('Magento\Customer\Model\Session');
             if ($customerSession->getCustomer()->getId() == $address->getCustomerId()) {
                 $this->getResponse()->setHeader('Content-type', 'application/x-json');
                 $this->getResponse()->setBody($address->toJson());
@@ -475,7 +476,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
     protected function _getOrder()
     {
         if (is_null($this->_order)) {
-            $this->_order = \Mage::getModel('Magento\Sales\Model\Order');
+            $this->_order = $this->_objectManager->create('Magento\Sales\Model\Order');
             $this->_order->load($this->getOnepage()->getQuote()->getId(), 'quote_id');
             if (!$this->_order->getId()) {
                 throw new \Magento\Payment\Model\Info\Exception(
@@ -498,7 +499,8 @@ class Onepage extends \Magento\Checkout\Controller\Action
             $items[$item->getId()] = $item->getQtyOrdered();
         }
         /* @var $invoice \Magento\Sales\Model\Service\Order */
-        $invoice = \Mage::getModel('Magento\Sales\Model\Service\Order', array('order' => $this->_getOrder()))
+        $invoice = $this->_objectManager
+            ->create('Magento\Sales\Model\Service\Order', array('order' => $this->_getOrder()))
             ->prepareInvoice($items);
         $invoice->setEmailSent(true)->register();
 
@@ -622,7 +624,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
      */
     protected function _canShowForUnregisteredUsers()
     {
-        return \Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()
+        return $this->_objectManager->get('Magento\Customer\Model\Session')->isLoggedIn()
             || $this->getRequest()->getActionName() == 'index'
             || $this->_objectManager->get('Magento\Checkout\Helper\Data')->isAllowedGuestCheckout($this->getOnepage()->getQuote())
             || !$this->_objectManager->get('Magento\Checkout\Helper\Data')->isCustomerMustBeLogged();

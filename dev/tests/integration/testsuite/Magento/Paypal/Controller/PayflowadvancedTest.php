@@ -11,7 +11,7 @@ namespace Magento\Paypal\Controller;
 /**
  * @magentoDataFixture Magento/Sales/_files/order.php
  */
-class PayflowadvancedTest extends \Magento\TestFramework\TestCase\ControllerAbstract
+class PayflowadvancedTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     protected function setUp()
     {

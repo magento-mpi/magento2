@@ -8,14 +8,12 @@
  * @license     {license_link}
  */
 
-/*
+/**
  * Paypal Settlement Report model
  *
  * Perform fetching reports from remote servers with following saving them to database
  * Prepare report rows for \Magento\Paypal\Model\Report\Settlement\Row model
  *
- */
-/**
  * @method \Magento\Paypal\Model\Resource\Report\Settlement _getResource()
  * @method \Magento\Paypal\Model\Resource\Report\Settlement getResource()
  * @method string getReportDate()
@@ -26,10 +24,6 @@
  * @method \Magento\Paypal\Model\Report\Settlement setFilename(string $value)
  * @method string getLastModified()
  * @method \Magento\Paypal\Model\Report\Settlement setLastModified(string $value)
- *
- * @category    Magento
- * @package     Magento_Paypal
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Paypal\Model\Report;
 
@@ -37,31 +31,26 @@ class Settlement extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Default PayPal SFTP host
-     * @var string
      */
     const REPORTS_HOSTNAME = "reports.paypal.com";
 
     /**
      * Default PayPal SFTP host for sandbox mode
-     * @var string
      */
     const SANDBOX_REPORTS_HOSTNAME = "reports.sandbox.paypal.com";
 
     /**
      * PayPal SFTP path
-     * @var string
      */
     const REPORTS_PATH = "/ppreports/outgoing";
 
     /**
      * Original charset of old report files
-     * @var string
      */
     const FILES_IN_CHARSET = "UTF-16";
 
     /**
      * Target charset of report files to be parsed
-     * @var string
      */
     const FILES_OUT_CHARSET = "UTF-8";
 
@@ -71,6 +60,9 @@ class Settlement extends \Magento\Core\Model\AbstractModel
      */
     protected $_rows = array();
 
+    /**
+     * @var array
+     */
     protected $_csvColumns = array(
         'old' => array(
             'section_columns' => array(
@@ -149,6 +141,42 @@ class Settlement extends \Magento\Core\Model\AbstractModel
             )
         )
     );
+
+    /**
+     * @var \Magento\Core\Model\Dir
+     */
+    protected $_coreDir;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Dir $coreDir
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Dir $coreDir,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_coreDir = $coreDir;
+        $this->_storeManager = $storeManager;
+        parent::__construct(
+            $context, $registry, $resource, $resourceCollection, $data
+        );
+    }
+
     /**
      * Initialize resource model
      */
@@ -180,22 +208,23 @@ class Settlement extends \Magento\Core\Model\AbstractModel
      *
      * @param \Magento\Io\Sftp $connection
      * @return int Number of report rows that were fetched and saved successfully
+     * @throws \Magento\Core\Exception
      */
     public function fetchAndSave(\Magento\Io\Sftp $connection)
     {
         $fetched = 0;
         $listing = $this->_filterReportsList($connection->rawls());
         foreach ($listing as $filename => $attributes) {
-            $localCsv = tempnam(\Mage::getBaseDir(\Magento\Core\Model\Dir::TMP), 'PayPal_STL');
+            $localCsv = tempnam($this->_coreDir->getDir(\Magento\Core\Model\Dir::TMP), 'PayPal_STL');
             if ($connection->read($filename, $localCsv)) {
                 if (!is_writable($localCsv)) {
-                    \Mage::throwException(__('We cannot create a target file for reading reports.'));
+                    throw new \Magento\Core\Exception(__('We cannot create a target file for reading reports.'));
                 }
 
                 $encoded = file_get_contents($localCsv);
                 $csvFormat = 'new';
                 if (self::FILES_OUT_CHARSET != mb_detect_encoding(($encoded))) {
-                    $decoded = @iconv(self::FILES_IN_CHARSET, self::FILES_OUT_CHARSET.'//IGNORE', $encoded);
+                    $decoded = @iconv(self::FILES_IN_CHARSET, self::FILES_OUT_CHARSET . '//IGNORE', $encoded);
                     file_put_contents($localCsv, $decoded);
                     $csvFormat = 'old';
                 }
@@ -265,7 +294,7 @@ class Settlement extends \Magento\Core\Model\AbstractModel
 
         $flippedSectionColumns = array_flip($sectionColumns);
         $fp = fopen($localCsv, 'r');
-        while($line = fgetcsv($fp)) {
+        while ($line = fgetcsv($fp)) {
             if (empty($line)) { // The line was empty, so skip it.
                 continue;
             }
@@ -304,6 +333,8 @@ class Settlement extends \Magento\Core\Model\AbstractModel
                 case 'FF': // File footer.
                 case 'RF': // Report footer.
                     // Nothing to see here, move along
+                    break;
+                default:
                     break;
             }
         }
@@ -386,7 +417,7 @@ class Settlement extends \Magento\Core\Model\AbstractModel
     {
         $configs = array();
         $uniques = array();
-        foreach(\Mage::app()->getStores() as $store) {
+        foreach ($this->_storeManager->getStores() as $store) {
             /*@var $store \Magento\Core\Model\Store */
             $active = (bool)$store->getConfig('paypal/fetch_reports/active');
             if (!$active && $automaticMode) {
@@ -428,7 +459,7 @@ class Settlement extends \Magento\Core\Model\AbstractModel
     {
         // Currently filenames look like STL-YYYYMMDD, so that is what we care about.
         $dateSnippet = substr(basename($filename), 4, 8);
-        $result = substr($dateSnippet, 0, 4).'-'.substr($dateSnippet, 4, 2).'-'.substr($dateSnippet, 6, 2);
+        $result = substr($dateSnippet, 0, 4) . '-' . substr($dateSnippet, 4, 2) . '-' . substr($dateSnippet, 6, 2);
         return $result;
     }
 

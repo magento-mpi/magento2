@@ -76,20 +76,36 @@ abstract class Template extends \Magento\Core\Model\AbstractModel
     protected $_design = null;
 
     /**
+     * @var \Magento\Core\Model\App\Emulation
+     */
+    protected $_appEmulation;
+
+    /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
      * @param \Magento\Core\Model\View\DesignInterface $design
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\App\Emulation $appEmulation
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\View\DesignInterface $design,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\App\Emulation $appEmulation,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_design = $design;
         $this->_area = isset($data['area']) ? $data['area'] : null;
         $this->_store = isset($data['store']) ? $data['store'] : null;
+        $this->_appEmulation = $appEmulation;
+        $this->_storeManager = $storeManager;
         parent::__construct($context, $registry, null, null, $data);
     }
 
@@ -105,9 +121,7 @@ abstract class Template extends \Magento\Core\Model\AbstractModel
         $storeId = is_object($store) ? $store->getId() : $store;
         $area = $designConfig->getArea();
         if (!is_null($storeId)) {
-            /** @var $appEmulation \Magento\Core\Model\App\Emulation */
-            $appEmulation = \Mage::getSingleton('Magento\Core\Model\App\Emulation');
-            $this->_initialEnvironmentInfo = $appEmulation->startEnvironmentEmulation($storeId, $area);
+            $this->_initialEnvironmentInfo = $this->_appEmulation->startEnvironmentEmulation($storeId, $area);
         }
         return $this;
     }
@@ -120,8 +134,7 @@ abstract class Template extends \Magento\Core\Model\AbstractModel
     protected function _cancelDesignConfig()
     {
         if (!empty($this->_initialEnvironmentInfo)) {
-            $appEmulation = \Mage::getSingleton('Magento\Core\Model\App\Emulation');
-            $appEmulation->stopEnvironmentEmulation($this->_initialEnvironmentInfo);
+            $this->_appEmulation->stopEnvironmentEmulation($this->_initialEnvironmentInfo);
             $this->_initialEnvironmentInfo = null;
         }
         return $this;
@@ -139,7 +152,7 @@ abstract class Template extends \Magento\Core\Model\AbstractModel
                 $this->_area = $this->_design->getArea();
             }
             if ($this->_store === null) {
-                $this->_store = \Mage::app()->getStore()->getId();
+                $this->_store = $this->_storeManager->getStore()->getId();
             }
             $this->_designConfig = new \Magento\Object(array(
                 'area' => $this->_area,

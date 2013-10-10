@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer Account Edit Form" type="page" parent="customer_account">
+    <update handle="customer_account"/>
+    <referenceBlock name="page.main.title">
+        <action method="setPageTitle">
+            <argument translate="true" name="title" xsi:type="string">Edit Account Info</argument>
+        </action>
+    </referenceBlock>
+    <referenceBlock name="my.account.wrapper">
+        <block class="Magento\Customer\Block\Form\Edit" name="customer_edit" template="form/edit.phtml"/>
+    </referenceBlock>
+</layout>

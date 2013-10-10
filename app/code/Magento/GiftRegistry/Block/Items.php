@@ -30,24 +30,65 @@ class Items extends \Magento\Checkout\Block\Cart
     protected $_taxData = null;
 
     /**
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Tax\Helper\Data $taxData
+     * @var \Magento\GiftRegistry\Model\ItemFactory
+     */
+    protected $itemFactory;
+
+    /**
+     * @var \Magento\Sales\Model\QuoteFactory
+     */
+    protected $quoteFactory;
+
+    /**
+     * @var \Magento\Sales\Model\Quote\ItemFactory
+     */
+    protected $quoteItemFactory;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Catalog\Model\Resource\Url $catalogUrlBuilder
+     * @param \Magento\Core\Model\UrlInterface $urlBuilder
+     * @param \Magento\GiftRegistry\Model\ItemFactory $itemFactory
+     * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
+     * @param \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Tax\Helper\Data $taxData
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Catalog\Model\Resource\Url $catalogUrlBuilder,
+        \Magento\Core\Model\UrlInterface $urlBuilder,
+        \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
+        \Magento\Sales\Model\QuoteFactory $quoteFactory,
+        \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Tax\Helper\Data $taxData,
         array $data = array()
     ) {
         $this->_taxData = $taxData;
         $this->_coreRegistry = $registry;
-        parent::__construct($catalogData, $coreData, $context, $data);
+        $this->itemFactory = $itemFactory;
+        $this->quoteFactory = $quoteFactory;
+        $this->quoteItemFactory = $quoteItemFactory;
+        $this->storeManager = $storeManager;
+        parent::__construct($catalogData, $coreData, $context, $customerSession, $checkoutSession, $storeManager,
+            $catalogUrlBuilder, $urlBuilder, $data);
     }
 
     /**
@@ -61,12 +102,12 @@ class Items extends \Magento\Checkout\Block\Cart
             if (!$this->getEntity()) {
                 return array();
             }
-            $collection = \Mage::getModel('Magento\GiftRegistry\Model\Item')->getCollection()
+            $collection = $this->itemFactory->create()->getCollection()
                 ->addRegistryFilter($this->getEntity()->getId());
 
             $quoteItemsCollection = array();
-            $quote = \Mage::getModel('Magento\Sales\Model\Quote')->setItemCount(true);
-            $emptyQuoteItem = \Mage::getModel('Magento\Sales\Model\Quote\Item');
+            $quote = $this->quoteFactory->create()->setItemCount(true);
+            $emptyQuoteItem = $this->quoteItemFactory->create();
             foreach ($collection as $item) {
                 $product = $item->getProduct();
                 $remainingQty = $item->getQty() - $item->getQtyFulfilled();
@@ -85,7 +126,7 @@ class Items extends \Magento\Checkout\Block\Cart
                 if ($this->_catalogData->canApplyMsrp($product)) {
                     $quoteItem->setCanApplyMsrp(true);
                     $product->setRealPriceHtml(
-                        \Mage::app()->getStore()->formatPrice(\Mage::app()->getStore()->convertPrice(
+                        $this->storeManager->getStore()->formatPrice($this->storeManager->getStore()->convertPrice(
                             $this->_taxData->getPrice($product, $product->getFinalPrice(), true)
                         ))
                     );

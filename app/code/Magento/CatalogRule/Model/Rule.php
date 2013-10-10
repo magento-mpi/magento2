@@ -145,11 +145,6 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
      * @var \Magento\Catalog\Model\Resource\Product\CollectionFactory
      */
     protected $_productCollFactory;
@@ -180,7 +175,6 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     public function __construct(
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\CatalogRule\Model\Rule\Condition\CombineFactory $combineFactory,
         \Magento\CatalogRule\Model\Rule\Action\CollectionFactory $actionCollFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -200,7 +194,6 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     ) {
         $this->_productCollFactory = $productCollFactory;
         $this->_storeManager = $storeManager;
-        $this->_locale = $locale;
         $this->_combineFactory = $combineFactory;
         $this->_actionCollFactory = $actionCollFactory;
         $this->_productFactory = $productFactory;

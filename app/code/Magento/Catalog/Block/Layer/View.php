@@ -55,23 +55,27 @@ class View extends \Magento\Core\Block\Template
     protected $_decimalFilterBlockName;
 
     /**
+     * Catalog layer
+     *
      * @var \Magento\Catalog\Model\Layer
      */
-    protected $_layer;
+    protected $_catalogLayer;
 
     /**
-     * @param \Magento\Catalog\Model\Layer $layer
+     * Construct
+     *
+     * @param \Magento\Catalog\Model\Layer $catalogLayer
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        \Magento\Catalog\Model\Layer $layer,
+        \Magento\Catalog\Model\Layer $catalogLayer,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
-        $this->_layer = $layer;
+        $this->_catalogLayer = $catalogLayer;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -143,7 +147,7 @@ class View extends \Magento\Core\Block\Template
      */
     public function getLayer()
     {
-        return $this->_layer;
+        return $this->_catalogLayer;
     }
 
     /**

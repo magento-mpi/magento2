@@ -15,15 +15,15 @@
  * @package    Magento_Oauth
  * @author     Magento Core Team <core@magentocommerce.com>
  * @method string getToken()
- * @method \Magento\Oauth\Block\AuthorizeBaseAbstract setToken() setToken(string $token)
+ * @method \Magento\Oauth\Block\AbstractAuthorizeBase setToken() setToken(string $token)
  * @method boolean getIsSimple()
  * @method \Magento\Oauth\Block\Authorize\Button setIsSimple() setIsSimple(boolean $flag)
  * @method boolean getHasException()
- * @method \Magento\Oauth\Block\AuthorizeBaseAbstract setIsException() setHasException(boolean $flag)
+ * @method \Magento\Oauth\Block\AbstractAuthorizeBase setIsException() setHasException(boolean $flag)
  * @method boolean getVerifier()
- * @method \Magento\Oauth\Block\AuthorizeBaseAbstract setVerifier() setVerifier(string $verifier)
+ * @method \Magento\Oauth\Block\AbstractAuthorizeBase setVerifier() setVerifier(string $verifier)
  * @method boolean getIsLogged()
- * @method \Magento\Oauth\Block\AuthorizeBaseAbstract setIsLogged() setIsLogged(boolean $flag)
+ * @method \Magento\Oauth\Block\AbstractAuthorizeBase setIsLogged() setIsLogged(boolean $flag)
  */
 namespace Magento\Oauth\Block\Authorize;
 
@@ -37,6 +37,27 @@ abstract class AbstractAuthorize extends \Magento\Core\Block\Template
     protected $_consumer;
 
     /**
+     * @var \Magento\Oauth\Model\TokenFactory
+     */
+    protected $tokenFactory;
+
+    /**
+     * @param \Magento\Oauth\Model\TokenFactory $tokenFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Oauth\Model\TokenFactory $tokenFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->tokenFactory = $tokenFactory;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Get consumer instance by token value
      *
      * @return \Magento\Oauth\Model\Consumer
@@ -45,7 +66,7 @@ abstract class AbstractAuthorize extends \Magento\Core\Block\Template
     {
         if (null === $this->_consumer) {
             /** @var $token \Magento\Oauth\Model\Token */
-            $token = \Mage::getModel('Magento\Oauth\Model\Token');
+            $token = $this->tokenFactory->create();
             $token->load($this->getToken(), 'token');
             $this->_consumer = $token->getConsumer();
         }

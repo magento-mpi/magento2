@@ -30,12 +30,23 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     protected $_resource;
 
     /**
-     * Initialize filter and define request variable
+     * Construct
      *
+     * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Layer $catalogLayer
+     * @param \Magento\Catalog\Model\Resource\Layer\Filter\DecimalFactory $filterDecimalFactory
+     * @param array $data
      */
-    public function __construct()
-    {
-        parent::__construct();
+    public function __construct(
+        \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Layer $catalogLayer,
+        \Magento\Catalog\Model\Resource\Layer\Filter\DecimalFactory $filterDecimalFactory,
+        array $data = array()
+    ) {
+        $this->_resource = $filterDecimalFactory->create();
+        parent::__construct($filterItemFactory, $storeManager, $catalogLayer, $data);
         $this->_requestVar = 'decimal';
     }
 
@@ -46,9 +57,6 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      */
     protected function _getResource()
     {
-        if (is_null($this->_resource)) {
-            $this->_resource = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Layer\Filter\Decimal');
-        }
         return $this->_resource;
     }
 
@@ -112,8 +120,8 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      */
     protected function _renderItemLabel($range, $value)
     {
-        $from   = \Mage::app()->getStore()->formatPrice(($value - 1) * $range, false);
-        $to     = \Mage::app()->getStore()->formatPrice($value * $range, false);
+        $from   = $this->_storeManager->getStore()->formatPrice(($value - 1) * $range, false);
+        $to     = $this->_storeManager->getStore()->formatPrice($value * $range, false);
         return __('%1 - %2', $from, $to);
     }
 

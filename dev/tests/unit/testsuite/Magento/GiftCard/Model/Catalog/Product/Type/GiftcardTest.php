@@ -49,7 +49,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
     protected $_storeManagerMock;
 
     /**
-     * @var \Magento\Sales\Model\Quote\Item_Option
+     * @var \Magento\Sales\Model\Quote\Item\Option
      */
     protected $_quoteItemOption;
 
@@ -88,10 +88,18 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
         $locale->expects($this->any())->method('getNumber')->will($this->returnArgument(0));
         $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
         $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $productFactory = $this->getMock('Magento\Catalog\Model\ProductFactory', array(), array(), '', false);
+        $productOption = $this->getMock('Magento\Catalog\Model\Product\Option', array(), array(), '', false);
+        $eavConfigMock = $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false);
+        $productTypeMock = $this->getMock('Magento\Catalog\Model\Product\Type', array(), array(), '', false);
         $this->_model = $this->getMock(
             'Magento\GiftCard\Model\Catalog\Product\Type\Giftcard',
             $mockedMethods,
             array(
+                $productFactory,
+                $productOption,
+                $eavConfigMock,
+                $productTypeMock,
                 $eventManager,
                 $coreData,
                 $catalogData,
@@ -117,32 +125,46 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
             false
         );
 
+        $itemFactoryMock =$this->getMock('Magento\Catalog\Model\Product\Configuration\Item\OptionFactory', array(),
+            array(), '', false);
+        $stockItemFactoryMock = $this->getMock('Magento\CatalogInventory\Model\Stock\ItemFactory',
+            array('create'), array(), '', false);
+        $productFactoryMock = $this->getMock('Magento\Catalog\Model\ProductFactory',
+            array('create'), array(), '', false);
+        $categoryFactoryMock = $this->getMock('Magento\Catalog\Model\CategoryFactory',
+            array('create'), array(), '', false);
+
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $arguments = $objectManagerHelper->getConstructArguments('Magento\Catalog\Model\Product',
-            array(
-                'resource' => $this->_productResource,
-                'resourceCollection' => $productCollection,
-                'collectionFactory' => $this->getMock('Magento\Data\CollectionFactory', array(), array(), '', false)
-            )
-        );
-        $this->_product = $this->getMock(
-            'Magento\Catalog\Model\Product',
+        $arguments = $objectManagerHelper->getConstructArguments('Magento\Catalog\Model\Product', array(
+            'itemOptionFactory' => $itemFactoryMock,
+            'stockItemFactory' => $stockItemFactoryMock,
+            'productFactory' => $productFactoryMock,
+            'categoryFactory' => $categoryFactoryMock,
+            'resource' => $this->_productResource,
+            'resourceCollection' => $productCollection,
+            'collectionFactory' => $this->getMock('Magento\Data\CollectionFactory', array(), array(), '', false),
+        ));
+        $this->_product = $this->getMock('Magento\Catalog\Model\Product',
             array('getGiftcardAmounts', 'getAllowOpenAmount', 'getOpenAmountMax', 'getOpenAmountMin'),
-            $arguments
+            $arguments, '', false
         );
 
         $this->_customOptions = array();
+        $valueFactoryMock = $this->getMock('Magento\Catalog\Model\Product\Option\ValueFactory', array(), array(),
+            '', false);
 
         for ($i = 1; $i <= 3; $i++) {
-            $option = $objectManagerHelper->getObject('Magento\Catalog\Model\Product\Option',
-                array('resource' => $this->_optionResource)
-            );
+            $option = $objectManagerHelper->getObject('Magento\Catalog\Model\Product\Option', array(
+                'resource' => $this->_optionResource,
+                'optionValueFactory' => $valueFactoryMock,
+            ));
             $option->setIdFieldName('id');
             $option->setId($i);
             $option->setIsRequire(true);
             $this->_customOptions[\Magento\Catalog\Model\Product\Type\AbstractType::OPTION_PREFIX . $i] =
-                new \Magento\Object(array('value' => 'value')
-            );
+                new \Magento\Object(
+                    array('value' => 'value')
+                );
             $this->_product->addOption($option);
         }
 

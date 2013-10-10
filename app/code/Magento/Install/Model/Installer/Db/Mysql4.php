@@ -46,17 +46,14 @@ class Mysql4 extends \Magento\Install\Model\Installer\Db\AbstractDb
     /**
      * Clean database
      *
-     * @return \Magento\Install\Model\Installer\Db\AbstractDb
+     * @return $this
      */
     public function cleanUpDatabase()
     {
-        /** @var $resourceModel \Magento\Core\Model\Resource */
-        $resourceModel = \Mage::getModel('Magento\Core\Model\Resource');
-        $connection = $resourceModel->getConnection(\Magento\Core\Model\Config\Resource::DEFAULT_SETUP_CONNECTION);
-        $connectionConfig = $connection->getConfig();
-        $connection->query('DROP DATABASE IF EXISTS ' . $connectionConfig['dbname']);
-        $connection->query('CREATE DATABASE ' . $connectionConfig['dbname']);
-
+        $connection = $this->_getConnection();
+        $connectionData = $this->getConnectionData();
+        $connection->query('DROP DATABASE IF EXISTS ' . $connectionData['dbName']);
+        $connection->query('CREATE DATABASE ' . $connectionData['dbName']);
         return $this;
     }
 }

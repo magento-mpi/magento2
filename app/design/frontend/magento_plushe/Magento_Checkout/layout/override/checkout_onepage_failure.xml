@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="One Page Checkout Failure" type="page" parent="default">
+    <update handle="page_one_column"/>
+    <referenceBlock name="page.main.title">
+        <action method="setPageTitle">
+            <argument translate="true" name="title" xsi:type="string">Your order has been received.</argument>
+        </action>
+    </referenceBlock>
+    <referenceContainer name="content">
+        <block class="Magento\Checkout\Block\Onepage\Failure" name="checkout.failure" template="onepage/failure.phtml"/>
+    </referenceContainer>
+</layout>

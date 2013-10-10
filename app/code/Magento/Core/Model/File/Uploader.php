@@ -42,19 +42,27 @@ class Uploader extends \Magento\File\Uploader
     protected $_coreFileStorageDb = null;
 
     /**
+     * @var \Magento\Core\Model\File\Validator\NotProtectedExtension
+     */
+    protected $_validator;
+
+    /**
      * Init upload
      *
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
      * @param \Magento\Core\Helper\File\Storage $coreFileStorage
+     * @param \Magento\Core\Model\File\Validator\NotProtectedExtension $validator
      * @param $fileId
      */
     public function __construct(
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
         \Magento\Core\Helper\File\Storage $coreFileStorage,
+        \Magento\Core\Model\File\Validator\NotProtectedExtension $validator,
         $fileId
     ) {
         $this->_coreFileStorageDb = $coreFileStorageDb;
         $this->_coreFileStorage = $coreFileStorage;
+        $this->_validator = $validator;
         parent::__construct($fileId);
     }
 
@@ -103,9 +111,7 @@ class Uploader extends \Magento\File\Uploader
     public function checkAllowedExtension($extension)
     {
         //validate with protected file types
-        /** @var $validator \Magento\Core\Model\File\Validator\NotProtectedExtension */
-        $validator = \Mage::getSingleton('Magento\Core\Model\File\Validator\NotProtectedExtension');
-        if (!$validator->isValid($extension)) {
+        if (!$this->_validator->isValid($extension)) {
             return false;
         }
 

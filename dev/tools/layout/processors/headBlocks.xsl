@@ -25,8 +25,8 @@
         <block>
             <xsl:attribute name="class">
                 <xsl:choose>
-                    <xsl:when test="@method = 'addJs' ">Magento_Page_Block_Html_Head_Script</xsl:when>
-                    <xsl:when test="@method = 'addCss'">Magento_Page_Block_Html_Head_Css</xsl:when>
+                    <xsl:when test="@method = 'addJs' ">Magento\Page\Block\Html\Head\Script</xsl:when>
+                    <xsl:when test="@method = 'addCss'">Magento\Page\Block\Html\Head\Css</xsl:when>
                 </xsl:choose>
             </xsl:attribute>
             <xsl:attribute name="name">

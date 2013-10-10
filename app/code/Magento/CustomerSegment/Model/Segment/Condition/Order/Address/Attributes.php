@@ -204,7 +204,7 @@ class Attributes
     /**
      * Get order address attribute
      *
-     * @return Eav_Model_Entity_Attribute_Abstract
+     * @return \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
      */
     public function getAttributeObject()
     {

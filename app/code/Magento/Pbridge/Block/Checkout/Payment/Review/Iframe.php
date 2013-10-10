@@ -27,6 +27,41 @@ class Iframe extends \Magento\Pbridge\Block\Iframe\AbstractIframe
     protected $_iframeHeight = '400';
 
     /**
+     * Pbridge session
+     *
+     * @var \Magento\Pbridge\Model\Session
+     */
+    protected $_pbridgeSession;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Pbridge\Model\Session $pbridgeSession
+     * @param \Magento\Directory\Model\RegionFactory $regionFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Pbridge\Helper\Data $pbridgeData
+     * @param \Magento\Pbridge\Model\Session $pbridgeSession
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Pbridge\Model\Session $pbridgeSession,
+        \Magento\Directory\Model\RegionFactory $regionFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Pbridge\Helper\Data $pbridgeData,
+        array $data = array()
+    ) {
+        $this->_pbridgeSession = $pbridgeSession;
+        parent::__construct($coreData, $context, $customerSession, $pbridgeSession, $regionFactory, $storeManager,
+            $pbridgeData, $data);
+    }
+
+    /**
      * Return redirect url for Payment Bridge application
      *
      * @return string
@@ -59,7 +94,7 @@ class Iframe extends \Magento\Pbridge\Block\Iframe\AbstractIframe
             'redirect_url_success' => $this->getRedirectUrlSuccess(),
             'redirect_url_error' => $this->getRedirectUrlError(),
             'request_gateway_code' => $this->getMethod()->getOriginalCode(),
-            'token' => \Mage::getSingleton('Magento\Pbridge\Model\Session')->getToken(),
+            'token' => $this->_pbridgeSession->getToken(),
             'already_entered' => '1',
             'magento_payment_action' => $this->getMethod()->getConfigPaymentAction(),
             'css_url' => $this->getCssUrl(),

@@ -16,11 +16,6 @@ namespace Magento\Payment\Model;
 class Observer
 {
     /**
-     * @var \Magento\ObjectManager
-     */
-    protected $_objectManager;
-
-    /**
      * Locale model
      *
      * @var \Magento\Core\Model\LocaleInterface
@@ -42,23 +37,44 @@ class Observer
     protected $_profileFactory;
 
     /**
+     * @var \Magento\Sales\Model\Order\Config
+     */
+    protected $_salesOrderConfig;
+
+    /**
+     * @var Config
+     */
+    protected $_paymentConfig;
+
+    /**
+     * @var \Magento\Core\Model\Resource\Config
+     */
+    protected $_resourceConfig;
+
+    /**
      * Construct
      *
-     * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Payment\Model\Recurring\ProfileFactory $profileFactory
+     * @param \Magento\Sales\Model\Order\Config $salesOrderConfig
+     * @param \Magento\Payment\Model\Config $paymentConfig
+     * @param \Magento\Core\Model\Resource\Config $resourceConfig
      */
     public function __construct(
-        \Magento\ObjectManager $objectManager,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Payment\Model\Recurring\ProfileFactory $profileFactory
+        \Magento\Payment\Model\Recurring\ProfileFactory $profileFactory,
+        \Magento\Sales\Model\Order\Config $salesOrderConfig,
+        \Magento\Payment\Model\Config $paymentConfig,
+        \Magento\Core\Model\Resource\Config $resourceConfig
     ) {
-        $this->_objectManager = $objectManager;
         $this->_locale = $locale;
         $this->_storeManager = $storeManager;
         $this->_profileFactory = $profileFactory;
+        $this->_salesOrderConfig = $salesOrderConfig;
+        $this->_paymentConfig = $paymentConfig;
+        $this->_resourceConfig = $resourceConfig;
     }
     /**
      * Set forced canCreditmemo flag
@@ -161,13 +177,13 @@ class Observer
             return;
         }
         $status = $observer->getEvent()->getStatus();
-        $defaultStatus = $this->_objectManager->get('Magento\Sales\Model\Order\Config')
-            ->getStateDefaultStatus(\Magento\Sales\Model\Order::STATE_NEW);
-        $methods = $this->_objectManager->get('Magento\Payment\Model\Config')->getActiveMethods();
+        $defaultStatus = $this->_salesOrderConfig->getStateDefaultStatus(\Magento\Sales\Model\Order::STATE_NEW);
+        $methods = $this->_paymentConfig->getActiveMethods();
         foreach ($methods as $method) {
             if ($method->getConfigData('order_status') == $status) {
-                $this->_objectManager->get('Magento\Core\Model\Resource\Config')
-                    ->saveConfig('payment/' . $method->getCode() . '/order_status', $defaultStatus, 'default', 0);
+                $this->_resourceConfig->saveConfig(
+                    'payment/' . $method->getCode() . '/order_status', $defaultStatus, 'default', 0
+                );
             }
         }
     }

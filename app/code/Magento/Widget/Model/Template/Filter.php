@@ -25,11 +25,6 @@ class Filter extends \Magento\Cms\Model\Template\Filter
     protected $_widgetResource;
 
     /**
-     * @var \Magento\Core\Model\Layout
-     */
-    protected $_layout;
-
-    /**
      * @var \Magento\Widget\Model\Widget
      */
     protected $_widget;
@@ -38,23 +33,39 @@ class Filter extends \Magento\Cms\Model\Template\Filter
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\VariableFactory $coreVariableFactory
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Layout $layout
      * @param \Magento\Widget\Model\Resource\Widget $widgetResource
      * @param \Magento\Widget\Model\Widget $widget
      * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\Core\Model\LayoutFactory $layoutFactory
      */
     public function __construct(
         \Magento\Core\Model\Logger $logger,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\View\Url $viewUrl,
-        \Magento\Widget\Model\Resource\Widget $widgetResource,
-        \Magento\Widget\Model\Widget $widget,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\VariableFactory $coreVariableFactory,
+        \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Layout $layout,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\LayoutFactory $layoutFactory,
+        \Magento\Widget\Model\Resource\Widget $widgetResource,
+        \Magento\Widget\Model\Widget $widget
     ) {
         $this->_widgetResource = $widgetResource;
         $this->_widget = $widget;
-        $this->_layout = $layout;
-        parent::__construct($logger, $coreData, $viewUrl, $coreStoreConfig);
+        parent::__construct(
+            $logger,
+            $coreData,
+            $viewUrl,
+            $coreStoreConfig,
+            $coreVariableFactory,
+            $storeManager,
+            $layout,
+            $layoutFactory
+        );
     }
 
     /**

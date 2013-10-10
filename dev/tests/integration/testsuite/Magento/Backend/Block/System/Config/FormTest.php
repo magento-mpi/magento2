@@ -195,6 +195,8 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
     public function testInitFormAddsFieldsets()
     {
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Controller\Response\Http')->headersSentThrowsException = false;
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Core\Controller\Front\Action',
             array(

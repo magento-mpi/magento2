@@ -22,7 +22,7 @@ class PhpUnitTest extends \PHPUnit_Framework_TestCase
     protected $_object;
 
     /**
-     * @var \Magento\TestFramework\EventManager|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\TestFramework\EventManager|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_eventManager;
 

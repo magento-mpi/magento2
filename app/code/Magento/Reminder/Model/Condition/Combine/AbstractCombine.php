@@ -16,6 +16,27 @@ namespace Magento\Reminder\Model\Condition\Combine;
 abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
 {
     /**
+     * Rule Resource
+     *
+     * @var \Magento\Reminder\Model\Resource\Rule
+     */
+    protected $_ruleResource;
+
+    /**
+     * @param \Magento\Rule\Model\Condition\Context $context
+     * @param \Magento\Reminder\Model\Resource\Rule $ruleResource
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Rule\Model\Condition\Context $context,
+        \Magento\Reminder\Model\Resource\Rule $ruleResource,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_ruleResource = $ruleResource;
+    }
+
+    /**
      * Customize default operator input by type mapper for some types
      *
      * @return array
@@ -57,7 +78,7 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
      */
     public function getResource()
     {
-        return \Mage::getResourceSingleton('Magento\Reminder\Model\Resource\Rule');
+        return $this->_ruleResource;
     }
 
     /**

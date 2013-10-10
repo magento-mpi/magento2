@@ -26,7 +26,7 @@ class RewriteTest extends \PHPUnit_Framework_TestCase
         $coreRegisterMock = $this->getMock('Magento\Core\Model\Registry');
         $coreRegisterMock->expects($this->any())
             ->method('registry')
-            ->with('_singleton/Magento\Core\Model\Source\Urlrewrite\Options')
+            ->with('_singleton/Magento_Core_Model_Source_Urlrewrite_Options')
             ->will($this->returnValue($optionsModel));
 
         $objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')->getMock();
@@ -45,8 +45,12 @@ class RewriteTest extends \PHPUnit_Framework_TestCase
      */
     public function testHasRedirectOptions($option, $expected)
     {
+        $optionsMock = $this->getMock('Magento\Core\Model\Source\Urlrewrite\Options', array('getRedirectOptions'),
+            array(), '', false, false);
+        $optionsMock->expects($this->any())->method('getRedirectOptions')->will($this->returnValue(array('R', 'RP')));
         $helper = new \Magento\Core\Helper\Url\Rewrite(
-            $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false, false)
+            $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false, false),
+            $optionsMock
         );
         $mockObject = new \Magento\Object();
         $mockObject->setOptions($option);

@@ -17,7 +17,7 @@ namespace Magento\ImportExport\Model\Export;
 class EntityAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\ImportExport\Model\Export\EntityAbstract
+     * @var \Magento\ImportExport\Model\Export\AbstractEntity
      */
     protected $_model;
 
@@ -27,10 +27,13 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\TestFramework\ObjectManager  $objectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-
-        $storeConfig = $objectManager->get('Magento\Core\Model\Store\Config');
         $this->_model = $this->getMockForAbstractClass(
-            'Magento\ImportExport\Model\Export\EntityAbstract', array($storeConfig)
+            'Magento\ImportExport\Model\Export\AbstractEntity', array(
+                $objectManager->get('Magento\Core\Model\Store\Config'),
+                $objectManager->get('Magento\Core\Model\App'),
+                $objectManager->get('Magento\ImportExport\Model\Export\Factory'),
+                $objectManager->get('Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory'),
+            )
         );
     }
 
@@ -75,11 +78,9 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testFilterAttributeCollection()
     {
-        /** @var $model \Magento\ImportExport\Model\Export\AbstractStubEntity */
-        $model = $this->getMockForAbstractClass('\Magento\ImportExport\Model\Export\AbstractStubEntity');
         $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Customer\Model\Resource\Attribute\Collection');
-        $collection = $model->filterAttributeCollection($collection);
+        $collection = $this->_model->filterAttributeCollection($collection);
         /**
          * Check that disabled attributes is not existed in attribute collection
          */
@@ -88,7 +89,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
         foreach ($collection as $attribute) {
             $existedAttributes[] = $attribute->getAttributeCode();
         }
-        $disabledAttributes = $model->getDisabledAttributes();
+        $disabledAttributes = $this->_model->getDisabledAttributes();
         foreach ($disabledAttributes as $attributeCode) {
             $this->assertNotContains(
                 $attributeCode,
@@ -96,5 +97,23 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
                 'Disabled attribute "' . $attributeCode . '" existed in collection'
             );
         }
+    }
+}
+
+/**
+ * Stub abstract class which provide to change protected property "$_disabledAttrs" and test methods depended on it
+ */
+abstract class Stub_Magento_ImportExport_Model_Export_AbstractEntity
+    extends \Magento\ImportExport\Model\Export\AbstractEntity
+{
+    public function __construct(
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\App $app,
+        \Magento\ImportExport\Model\Export\Factory $collectionFactory,
+        \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory,
+        array $data = array()
+    ) {
+        parent::__construct($coreStoreConfig, $app, $collectionFactory, $resourceColFactory, $data);
+        $this->_disabledAttrs = array('default_billing', 'default_shipping');
     }
 }

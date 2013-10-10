@@ -9,12 +9,10 @@
  */
 
 /** @var $themeDbCollection \Magento\Core\Model\Resource\Theme\Collection */
-$themeDbCollection = \Mage::getResourceModel('Magento\Core\Model\Resource\Theme\Collection');
+$themeDbCollection = $this->_themeResourceFactory->create();
 
-/** @var $themeFsCollection \Magento\Core\Model\Theme\Collection */
-$themeFsCollection = \Mage::getModel('Magento\Core\Model\Theme\Collection');
 /** @var $theme \Magento\Core\Model\Theme */
-foreach ($themeFsCollection->addDefaultPattern('*') as $theme) {
+foreach ($this->_themeFactory->create()->addDefaultPattern('*') as $theme) {
     $dbTheme = $themeDbCollection->getThemeByFullPath($theme->getFullPath());
     $dbTheme->setCode($theme->getCode());
     $dbTheme->save();

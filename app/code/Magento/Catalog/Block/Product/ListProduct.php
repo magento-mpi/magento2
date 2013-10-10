@@ -35,6 +35,52 @@ class ListProduct extends \Magento\Catalog\Block\Product\AbstractProduct
     protected $_productCollection;
 
     /**
+     * Catalog layer
+     *
+     * @var \Magento\Catalog\Model\Layer
+     */
+    protected $_catalogLayer;
+
+    /**
+     * Category factory
+     *
+     * @var \Magento\Catalog\Model\CategoryFactory
+     */
+    protected $_categoryFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Catalog\Model\Layer $catalogLayer
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\Catalog\Model\Layer $catalogLayer,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_categoryFactory = $categoryFactory;
+        $this->_catalogLayer = $catalogLayer;
+        parent::__construct($storeManager, $catalogConfig, $coreRegistry, $taxData, $catalogData, $coreData,
+            $context, $data);
+    }
+
+    /**
      * Retrieve loaded category collection
      *
      * @return \Magento\Eav\Model\Entity\Collection\AbstractCollection
@@ -45,7 +91,7 @@ class ListProduct extends \Magento\Catalog\Block\Product\AbstractProduct
             $layer = $this->getLayer();
             /* @var $layer \Magento\Catalog\Model\Layer */
             if ($this->getShowRootCategory()) {
-                $this->setCategoryId(\Mage::app()->getStore()->getRootCategoryId());
+                $this->setCategoryId($this->_storeManager->getStore()->getRootCategoryId());
             }
 
             // if this is a product view page
@@ -63,7 +109,8 @@ class ListProduct extends \Magento\Catalog\Block\Product\AbstractProduct
 
             $origCategory = null;
             if ($this->getCategoryId()) {
-                $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($this->getCategoryId());
+                /** @var \Magento\Catalog\Model\Category $category */
+                $category = $this->_categoryFactory->create()->load($this->getCategoryId());
                 if ($category->getId()) {
                     $origCategory = $layer->getCurrentCategory();
                     $layer->setCurrentCategory($category);
@@ -92,7 +139,7 @@ class ListProduct extends \Magento\Catalog\Block\Product\AbstractProduct
         if ($layer) {
             return $layer;
         }
-        return \Mage::getSingleton('Magento\Catalog\Model\Layer');
+        return $this->_catalogLayer;
     }
 
     /**
@@ -219,7 +266,7 @@ class ListProduct extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     protected function _getConfig()
     {
-        return \Mage::getSingleton('Magento\Catalog\Model\Config');
+        return $this->_catalogConfig;
     }
 
     /**

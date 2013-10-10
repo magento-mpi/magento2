@@ -14,7 +14,7 @@ namespace Magento\Test\TestCase;
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class ControllerAbstractTest extends \Magento\TestFramework\TestCase\ControllerAbstract
+class ControllerAbstractTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     protected $_bootstrap;
 
@@ -29,10 +29,10 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\ControllerA
             ->add(new \Magento\Core\Model\Message\Notice('some_notice'))
         ;
         $session = new \Magento\Object(array('messages' => $messagesCollection));
-        $helperMock = $this->getMockBuilder('Magento\Backend\Helper\DataProxy')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $request = new \Magento\TestFramework\Request($helperMock);
+        $request = new \Magento\TestFramework\Request(
+            $this->getMock('Magento\Core\Model\StoreManager', [], [], '', false),
+            $this->getMock('Magento\Backend\Helper\Data', [], [], '', false)
+        );
         $response = new \Magento\TestFramework\Response(
             $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false)
         );

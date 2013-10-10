@@ -17,6 +17,43 @@ class Templates
     extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
+     * Store Manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Email Template Factory
+     *
+     * @var \Magento\Backend\Model\Config\Source\Email\TemplateFactory
+     */
+    protected $_templateFactory;
+
+    /**
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateFactory
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateFactory,
+        array $data = array()
+    ) {
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+        $this->_storeManager = $storeManager;
+        $this->_templateFactory = $templateFactory;
+    }
+
+    /**
      * Prepare general properties form
      *
      * @return \Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\Templates
@@ -33,7 +70,7 @@ class Templates
             'comment' => __('Only customers who registered on a store view will receive emails related to that store view.'),
         ));
 
-        foreach (\Mage::app()->getWebsites() as $website) {
+        foreach ($this->_storeManager->getWebsites() as $website) {
             $fieldset->addField("website_template_{$website->getId()}", 'note', array(
                 'label'    => $website->getName(),
                 'fieldset_html_class' => 'website',
@@ -83,7 +120,7 @@ class Templates
             'class'  => 'tree-store-scope'
         ));
 
-        foreach (\Mage::app()->getWebsites() as $website) {
+        foreach ($this->_storeManager->getWebsites() as $website) {
             $fieldset->addField("website_label_{$website->getId()}", 'note', array(
                 'label'    => $website->getName(),
                 'fieldset_html_class' => 'website',
@@ -127,7 +164,7 @@ class Templates
      */
     public function getTemplatesOptionsArray()
     {
-        $template = \Mage::getModel('Magento\Backend\Model\Config\Source\Email\Template');
+        $template = $this->_templateFactory->create();
         $template->setPath(\Magento\Reminder\Model\Rule::XML_PATH_EMAIL_TEMPLATE);
 
         $options = $template->toOptionArray();

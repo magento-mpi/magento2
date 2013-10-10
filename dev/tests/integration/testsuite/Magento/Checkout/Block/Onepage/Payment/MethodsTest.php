@@ -28,6 +28,9 @@ class MethodsTest extends \PHPUnit_Framework_TestCase
             ->createBlock('Magento\Checkout\Block\Onepage\Payment\Methods');
     }
 
+    /**
+     * @magentoAppArea frontend
+     */
     public function testGetMethodTitleAndMethodLabelAfterHtml()
     {
         $expectedTitle = 'Free Method';

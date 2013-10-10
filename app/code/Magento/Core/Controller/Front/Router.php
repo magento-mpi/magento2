@@ -14,10 +14,16 @@ namespace Magento\Core\Controller\Front;
 class Router
 {
     protected $_config = null;
+
+    /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
     
-    public function __construct($config)
+    public function __construct($config, \Magento\Core\Model\StoreManager $storeManager)
     {
         $this->_config = $config;
+        $this->_storeManager = $storeManager;
     }
     
     public function getConfig()
@@ -46,7 +52,7 @@ class Router
             $params = array('controller'=>$paramsArr[0], 'action'=>$paramsArr[1]);
         }
         
-        $url = \Mage::getBaseUrl($params);
+        $url = $this->_storeManager->getStore()->getBaseUrl($params);
 
         if (!empty($params['frontName'])) {
             $url .= $params['frontName'].'/';

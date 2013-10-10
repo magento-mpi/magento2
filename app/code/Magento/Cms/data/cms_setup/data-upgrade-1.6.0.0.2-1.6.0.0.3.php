@@ -7,9 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var \Magento\Cms\Model\Resource\Setup $this */
+
 /** @var $installer \Magento\Core\Model\Resource\Setup\Migration */
-$installer = $this->createMigrationSetup(array('resourceName' => 'core_setup'));;
+$installer = $this->_migrationFactory->create(array('resourceName' =>'core_setup'));
 $installer->startSetup();
 
 $installer->appendClassAliasReplace('cms_block', 'content',

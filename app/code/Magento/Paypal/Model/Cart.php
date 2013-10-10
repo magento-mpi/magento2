@@ -18,8 +18,6 @@ class Cart
 {
     /**
      * Totals that PayPal suppports when passing shopping cart
-     *
-     * @var string
      */
     const TOTAL_SUBTOTAL = 'subtotal';
     const TOTAL_DISCOUNT = 'discount';
@@ -29,10 +27,9 @@ class Cart
     /**
      * Order or quote instance
      *
-     * @var \Magento\Sales\Model\Order
-     * @var \Magento\Sales\Model\Quote
+     * @var \Magento\Sales\Model\Quote|\Magento\Sales\Model\Order
      */
-    protected $_salesEntity = null;
+    protected $_salesEntity;
 
     /**
      * Rendered cart items
@@ -100,22 +97,31 @@ class Cart
      *
      * @var \Magento\Core\Model\Event\Manager
      */
-    protected $_eventManager = null;
+    protected $_eventManager;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
 
     /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $params
      * @throws \Exception
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         $params = array()
     ) {
         $this->_eventManager = $eventManager;
+        $this->_storeManager = $storeManager;
         $salesEntity = array_shift($params);
         if (is_object($salesEntity)
             && (($salesEntity instanceof \Magento\Sales\Model\Order)
-                || ($salesEntity instanceof \Magento\Sales\Model\Quote))) {
+                || ($salesEntity instanceof \Magento\Sales\Model\Quote))
+        ) {
             $this->_salesEntity = $salesEntity;
         } else {
             throw new \Exception('Invalid sales entity provided.');
@@ -287,7 +293,6 @@ class Cart
         $lastRegularItemKey = key($this->_items);
 
         // regular totals
-        $shippingDescription = '';
         if ($this->_salesEntity instanceof \Magento\Sales\Model\Order) {
             $shippingDescription = $this->_salesEntity->getShippingDescription();
             $this->_totals = array(
@@ -316,7 +321,8 @@ class Cart
 
         // distinguish original discount among the others
         if ($originalDiscount > 0.0001 && isset($this->_totalLineItemDescriptions[self::TOTAL_DISCOUNT])) {
-            $this->_totalLineItemDescriptions[self::TOTAL_DISCOUNT][] = __('Discount (%1)', \Mage::app()->getStore()->convertPrice($originalDiscount, true, false));
+            $discountToDisplay = $this->_storeManager->getStore()->convertPrice($originalDiscount, true, false);
+            $this->_totalLineItemDescriptions[self::TOTAL_DISCOUNT][] = __('Discount (%1)', $discountToDisplay);
         }
 
         // discount, shipping as items

@@ -43,6 +43,41 @@ class Link
     protected $_anchorText;
 
     /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Url rewrite
+     *
+     * @var \Magento\Core\Model\Resource\Url\Rewrite
+     */
+    protected $_urlRewrite;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\Resource\Url\Rewrite $urlRewrite
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Resource\Url\Rewrite $urlRewrite,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_urlRewrite = $urlRewrite;
+        $this->_storeManager = $storeManager;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Prepare url using passed id path and return it
      * or return false if path was not found in url rewrites.
      *
@@ -53,17 +88,15 @@ class Link
         if (!$this->_href) {
 
             if($this->hasStoreId()) {
-                $store = \Mage::app()->getStore($this->getStoreId());
+                $store = $this->_storeManager->getStore($this->getStoreId());
             } else {
-                $store = \Mage::app()->getStore();
+                $store = $this->_storeManager->getStore();
             }
 
             /* @var $store \Magento\Core\Model\Store */
             $href = "";
             if ($this->getData('id_path')) {
-                /* @var $urlRewriteResource \Magento\Core\Model\Resource\Url\Rewrite */
-                $urlRewriteResource = \Mage::getResourceSingleton('Magento\Core\Model\Resource\Url\Rewrite');
-                $href = $urlRewriteResource->getRequestPathByIdPath($this->getData('id_path'), $store);
+                $href = $this->_urlRewrite->getRequestPathByIdPath($this->getData('id_path'), $store);
                 if (!$href) {
                     return false;
                 }
@@ -94,7 +127,8 @@ class Link
                 if (isset($idPath[1])) {
                     $id = $idPath[1];
                     if ($id) {
-                        $this->_anchorText = $this->_entityResource->getAttributeRawValue($id, 'name', \Mage::app()->getStore());
+                        $this->_anchorText = $this->_entityResource->getAttributeRawValue($id, 'name',
+                            $this->_storeManager->getStore());
                     }
                 }
             } else {

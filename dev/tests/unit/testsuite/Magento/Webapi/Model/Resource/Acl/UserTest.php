@@ -9,7 +9,7 @@
  */
 namespace Magento\Webapi\Model\Resource\Acl;
 
-class UserTest extends \Magento\Webapi\Model\Resource\Acl\TestAbstract
+class UserTest extends \Magento\Webapi\Model\Resource\Acl\AbstractTest
 {
     /**
      * Create resource model.

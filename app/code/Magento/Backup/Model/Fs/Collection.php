@@ -40,16 +40,25 @@ class Collection extends \Magento\Data\Collection\Filesystem
     protected $_dir;
 
     /**
+     * Backup model
+     *
+     * @var \Magento\Backup\Model\Backup
+     */
+    protected $_backup = null;
+
+    /**
      * @param \Magento\Backup\Helper\Data $backupData
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\Backup\Model\Backup $backup
      */
     public function __construct(
         \Magento\Backup\Helper\Data $backupData,
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\EntityFactory $entityFactory,
-        \Magento\Core\Model\Dir $dir
+        \Magento\Core\Model\Dir $dir,
+        \Magento\Backup\Model\Backup $backup
     ) {
         $this->_backupData = $backupData;
         parent::__construct($entityFactory);
@@ -57,6 +66,7 @@ class Collection extends \Magento\Data\Collection\Filesystem
         $this->_backupData = $backupData;
         $this->_filesystem = $filesystem;
         $this->_dir = $dir;
+        $this->_backup = $backup;
         $this->_baseDir = $this->_dir->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DS . 'backups';
 
         $this->_filesystem->setIsAllowCreateDirectories(true);
@@ -99,7 +109,7 @@ class Collection extends \Magento\Data\Collection\Filesystem
     protected function _generateRow($filename)
     {
         $row = parent::_generateRow($filename);
-        foreach (\Mage::getSingleton('Magento\Backup\Model\Backup')->load($row['basename'], $this->_baseDir)
+        foreach ($this->_backup->load($row['basename'], $this->_baseDir)
             ->getData() as $key => $value) {
             $row[$key] = $value;
         }

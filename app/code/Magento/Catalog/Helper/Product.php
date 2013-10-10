@@ -8,11 +8,13 @@
  * @license     {license_link}
  */
 
-/**
- * Catalog category helper
- */
 namespace Magento\Catalog\Helper;
 
+/**
+ * Catalog category helper
+ *
+ * @SuppressWarnings(PHPMD.LongVariable)
+ */
 class Product extends \Magento\Core\Helper\Url
 {
     const XML_PATH_PRODUCT_URL_SUFFIX                = 'catalog/seo/product_url_suffix';
@@ -88,6 +90,33 @@ class Product extends \Magento\Core\Helper\Url
     protected $_logger;
 
     /**
+     * Catalog session
+     *
+     * @var \Magento\Catalog\Model\Session
+     */
+    protected $_catalogSession;
+
+    /**
+     * Product factory
+     *
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * Category factory
+     *
+     * @var \Magento\Catalog\Model\CategoryFactory
+     */
+    protected $_categoryFactory;
+
+    /**
+     * Construct
+     * 
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Session $catalogSession
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\View\Url $viewUrl
@@ -95,9 +124,15 @@ class Product extends \Magento\Core\Helper\Url
      * @param \Magento\Catalog\Model\Attribute\Config $attributeConfig
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Config $coreConfig
-     * @param $typeSwitcherLabel
+     * @param string $typeSwitcherLabel
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Session $catalogSession,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\View\Url $viewUrl,
@@ -107,15 +142,20 @@ class Product extends \Magento\Core\Helper\Url
         \Magento\Core\Model\Config $coreConfig,
         $typeSwitcherLabel
     ) {
+        $this->_categoryFactory = $categoryFactory;
+        $this->_productFactory = $productFactory;
+        $this->_catalogSession = $catalogSession;
         $this->_typeSwitcherLabel = $typeSwitcherLabel;
         $this->_attributeConfig = $attributeConfig;
         $this->_coreRegistry = $coreRegistry;
         $this->_eventManager = $eventManager;
+        $this->_coreRegistry = $coreRegistry;
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_viewUrl = $viewUrl;
         $this->_coreConfig = $coreConfig;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_logger = $context->getLogger();
-        parent::__construct($context);        
+        parent::__construct($context, $storeManager);        
     }
 
     /**
@@ -129,7 +169,7 @@ class Product extends \Magento\Core\Helper\Url
         if ($product instanceof \Magento\Catalog\Model\Product) {
             return $product->getProductUrl();
         } elseif (is_numeric($product)) {
-            return \Mage::getModel('Magento\Catalog\Model\Product')->load($product)->getProductUrl();
+            return $this->_productFactory->create()->load($product)->getProductUrl();
         }
         return false;
     }
@@ -227,7 +267,6 @@ class Product extends \Magento\Core\Helper\Url
     {
         if (null === $this->_statuses) {
             $this->_statuses = array();
-            // \Mage::getModel('Magento\Catalog\Model\Product\Status')->getResourceCollection()->load();
         }
 
         return $this->_statuses;
@@ -243,7 +282,7 @@ class Product extends \Magento\Core\Helper\Url
     public function canShow($product, $where = 'catalog')
     {
         if (is_int($product)) {
-            $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($product);
+            $product = $this->_productFactory->create()->load($product);
         }
 
         /* @var $product \Magento\Catalog\Model\Product */
@@ -264,7 +303,7 @@ class Product extends \Magento\Core\Helper\Url
     public function getProductUrlSuffix($storeId = null)
     {
         if (is_null($storeId)) {
-            $storeId = \Mage::app()->getStore()->getId();
+            $storeId = $this->_storeManager->getStore()->getId();
         }
 
         if (!isset($this->_productUrlSuffix[$storeId])) {
@@ -375,21 +414,21 @@ class Product extends \Magento\Core\Helper\Url
             return false;
         }
 
-        $product = \Mage::getModel('Magento\Catalog\Model\Product')
-            ->setStoreId(\Mage::app()->getStore()->getId())
+        $product = $this->_productFactory->create()
+            ->setStoreId($this->_storeManager->getStore()->getId())
             ->load($productId);
 
         if (!$this->canShow($product)) {
             return false;
         }
-        if (!in_array(\Mage::app()->getStore()->getWebsiteId(), $product->getWebsiteIds())) {
+        if (!in_array($this->_storeManager->getStore()->getWebsiteId(), $product->getWebsiteIds())) {
             return false;
         }
 
         // Load product current category
         $categoryId = $params->getCategoryId();
         if (!$categoryId && ($categoryId !== false)) {
-            $lastId = \Mage::getSingleton('Magento\Catalog\Model\Session')->getLastVisitedCategoryId();
+            $lastId = $this->_catalogSession->getLastVisitedCategoryId();
             if ($product->canBeShowInCategory($lastId)) {
                 $categoryId = $lastId;
             }
@@ -398,7 +437,7 @@ class Product extends \Magento\Core\Helper\Url
         }
 
         if ($categoryId) {
-            $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($categoryId);
+            $category = $this->_categoryFactory->create()->load($categoryId);
             $product->setCategory($category);
             $this->_coreRegistry->register('current_category', $category);
         }
@@ -496,7 +535,7 @@ class Product extends \Magento\Core\Helper\Url
     public function getProduct($productId, $store, $identifierType = null)
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = \Mage::getModel('Magento\Catalog\Model\Product')->setStoreId(\Mage::app()->getStore($store)->getId());
+        $product = $this->_productFactory->create()->setStoreId($this->_storeManager->getStore($store)->getId());
 
         $expectedIdType = false;
         if ($identifierType === null) {

@@ -284,6 +284,11 @@ class OptionTest extends \PHPUnit_Framework_TestCase
     protected $_iteratorPageSize = 100;
 
     /**
+     * @var \Magento\Catalog\Helper\Data
+     */
+    protected $_catalogDataMock;
+
+    /**
      * Init entity adapter model
      */
     protected function setUp()
@@ -306,8 +311,17 @@ class OptionTest extends \PHPUnit_Framework_TestCase
         );
 
         $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
-        
+
         $this->_model = new \Magento\ImportExport\Model\Import\Entity\Product\Option(
+            $this->getMock('Magento\ImportExport\Model\Resource\Import\Data', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\Resource', array(), array(), '', false),
+            $this->getMock('Magento\ImportExport\Model\Resource\Helper', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\StoreManagerInterface', array(), array(), '', false),
+            $this->getMock('Magento\Catalog\Model\ProductFactory', array(), array(), '', false),
+            $this->getMock('Magento\Catalog\Model\Resource\Product\Option\CollectionFactory',
+                array(), array(), '', false),
+            $this->getMock('Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory',
+                array(), array(), '', false),
             $this->_catalogDataMock,
             $coreStoreConfig,
             $this->_getModelDependencies($addExpectations, $deleteBehavior, $doubleOptions)
@@ -496,7 +510,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
     /**
      * Get new object mock for \Magento\Catalog\Model\Product\Option
      *
-     * @return \Magento\Catalog\Model\Product\Option|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Catalog\Model\Product\Option|\PHPUnit_Framework_MockObject_MockObject
      */
     public function getNewOptionMock()
     {

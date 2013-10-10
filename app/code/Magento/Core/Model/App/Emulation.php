@@ -30,11 +30,6 @@ class Emulation extends \Magento\Object
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\Design
-     */
-    protected $_design;
-
-    /**
      * @var \Magento\Core\Model\Translate
      */
     protected $_translate;
@@ -52,6 +47,16 @@ class Emulation extends \Magento\Object
     protected $_coreStoreConfig;
 
     /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var \Magento\Core\Model\Design
+     */
+    protected $_design;
+
+    /**
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\View\DesignInterface $viewDesign
@@ -59,6 +64,7 @@ class Emulation extends \Magento\Object
      * @param \Magento\Core\Model\Translate $translate
      * @param \Magento\Core\Helper\Translate $helperTranslate
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
@@ -69,12 +75,14 @@ class Emulation extends \Magento\Object
         \Magento\Core\Model\Translate $translate,
         \Magento\Core\Helper\Translate $helperTranslate,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\LocaleInterface $locale,
         array $data = array()
     ) {
+        $this->_locale = $locale;
         parent::__construct($data);
         $this->_app = $app;
         $this->_storeManager = $storeManager;
-        $this->_viesDesign = $viewDesign;
+        $this->_viewDesign = $viewDesign;
         $this->_design = $design;
         $this->_translate = $translate;
         $this->_helperTranslate = $helperTranslate;
@@ -172,18 +180,18 @@ class Emulation extends \Magento\Object
     {
         $store = $this->_storeManager->getStore();
         $initialDesign = array(
-            'area' => $this->_viesDesign->getArea(),
-            'theme' => $this->_viesDesign->getDesignTheme(),
+            'area' => $this->_viewDesign->getArea(),
+            'theme' => $this->_viewDesign->getDesignTheme(),
             'store' => $store
         );
 
-        $storeTheme = $this->_viesDesign->getConfigurationDesignTheme($area, array('store' => $storeId));
-        $this->_viesDesign->setDesignTheme($storeTheme, $area);
+        $storeTheme = $this->_viewDesign->getConfigurationDesignTheme($area, array('store' => $storeId));
+        $this->_viewDesign->setDesignTheme($storeTheme, $area);
 
         if ($area == \Magento\Core\Model\App\Area::AREA_FRONTEND) {
             $designChange = $this->_design->loadChange($storeId);
             if ($designChange->getData()) {
-                $this->_viesDesign->setDesignTheme($designChange->getDesign(), $area);
+                $this->_viewDesign->setDesignTheme($designChange->getDesign(), $area);
             }
         }
 
@@ -200,12 +208,12 @@ class Emulation extends \Magento\Object
      */
     protected function _emulateLocale($storeId, $area = \Magento\Core\Model\App\Area::AREA_FRONTEND)
     {
-        $initialLocaleCode = $this->_app->getLocale()->getLocaleCode();
+        $initialLocaleCode = $this->_locale->getLocaleCode();
         $newLocaleCode = $this->_coreStoreConfig->getConfig(
             \Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_LOCALE,
             $storeId
         );
-        $this->_app->getLocale()->setLocaleCode($newLocaleCode);
+        $this->_locale->setLocaleCode($newLocaleCode);
         $this->_helperTranslate->initTranslate($newLocaleCode, $area, true);
         return $initialLocaleCode;
     }
@@ -232,7 +240,7 @@ class Emulation extends \Magento\Object
      */
     protected function _restoreInitialDesign(array $initialDesign)
     {
-        $this->_viesDesign->setDesignTheme($initialDesign['theme'], $initialDesign['area']);
+        $this->_viewDesign->setDesignTheme($initialDesign['theme'], $initialDesign['area']);
         return $this;
     }
 

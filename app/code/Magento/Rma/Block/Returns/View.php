@@ -159,7 +159,7 @@ class View extends \Magento\Rma\Block\Form
         $itemModel = $this->_itemFactory->create();
 
         /* @var $itemForm \Magento\Rma\Model\Item\Form */
-        $itemForm = $this->_itemFormFactory->create();
+        $itemForm = $this->_itemFormFactory->create('Magento\Rma\Model\Item\Form');
         $itemForm->setFormCode('default')
             ->setStore($this->getStore())
             ->setEntity($itemModel);
@@ -324,7 +324,7 @@ class View extends \Magento\Rma\Block\Form
                 $name .= $billingAddress->getPrefix() . ' ';
             }
             $name .= $billingAddress->getFirstname();
-            if ($this->_eavConfig->getAttribute('customer', 'middlename')->getIsVisible() 
+            if ($this->_eavConfig->getAttribute('customer', 'middlename')->getIsVisible()
                 && $billingAddress->getMiddlename()
             ) {
                 $name .= ' ' . $billingAddress->getMiddlename();

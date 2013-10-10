@@ -25,17 +25,32 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
     protected $_resourceEngine;
 
     /**
+     * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Layer $catalogLayer
+     * @param \Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory $filterAttributeFactory
      * @param \Magento\Search\Model\Resource\Engine $resourceEngine
      * @param \Magento\Core\Helper\String $coreString
      * @param array $data
      */
     public function __construct(
+        \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Layer $catalogLayer,
+        \Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory $filterAttributeFactory,
         \Magento\Search\Model\Resource\Engine $resourceEngine,
         \Magento\Core\Helper\String $coreString,
         array $data = array()
     ) {
         $this->_resourceEngine = $resourceEngine;
-        parent::__construct($coreString, $data);
+        parent::__construct(
+            $filterItemFactory,
+            $storeManager,
+            $catalogLayer,
+            $filterAttributeFactory,
+            $coreString,
+            $data
+        );
     }
 
     /**

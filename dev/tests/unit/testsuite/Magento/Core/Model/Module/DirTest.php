@@ -26,19 +26,25 @@ class DirTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('getDir')
             ->with(\Magento\Core\Model\Dir::MODULES)
-            ->will($this->returnValue('app/code'))
+            ->will($this->returnValue('app' . DIRECTORY_SEPARATOR . 'code'))
         ;
         $this->_model = new \Magento\Core\Model\Module\Dir($this->_applicationDirs);
     }
 
     public function testGetDirModuleRoot()
     {
-        $this->assertEquals('app/code/Test/Module', $this->_model->getDir('Test_Module'));
+        $this->assertEquals(
+            str_replace('/', DIRECTORY_SEPARATOR, 'app/code/Test/Module'),
+            $this->_model->getDir('Test_Module')
+        );
     }
 
     public function testGetDirModuleSubDir()
     {
-        $this->assertEquals('app/code/Test/Module/etc', $this->_model->getDir('Test_Module', 'etc'));
+        $this->assertEquals(
+            str_replace('/', DIRECTORY_SEPARATOR, 'app/code/Test/Module/etc'),
+            $this->_model->getDir('Test_Module', 'etc')
+        );
     }
 
     /**

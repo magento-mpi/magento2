@@ -54,7 +54,7 @@ class Create extends \Magento\Adminhtml\Block\Widget\Form\Container
     /**
      * Retrieve invoice model instance
      *
-     * @return Magento_Sales_Model_Invoice
+     * @return \Magento\Sales\Model\Invoice
      */
     public function getInvoice()
     {

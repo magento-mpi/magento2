@@ -14,13 +14,6 @@ namespace Magento\Logging\Block\Adminhtml\Grid\Filter;
 class Ip extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Text
 {
     /**
-     * Core resource helper
-     *
-     * @var \Magento\Core\Model\Resource\Helper
-     */
-    protected $_resourceHelper;
-
-    /**
      * Construct
      *
      * @param \Magento\Backend\Block\Context $context
@@ -32,9 +25,7 @@ class Ip extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Text
         \Magento\Logging\Model\Resource\Helper $resourceHelper,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
-
-        $this->_resourceHelper = $resourceHelper;
+        parent::__construct($context, $resourceHelper, $data);
     }
 
     /**

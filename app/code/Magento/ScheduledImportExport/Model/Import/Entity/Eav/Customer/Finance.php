@@ -19,7 +19,7 @@
 namespace Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer;
 
 class Finance
-    extends \Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract
+    extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer
 {
     /**
      * Attribute collection name
@@ -115,31 +115,46 @@ class Finance
     protected $_rewardFactory;
 
     /**
-     * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\ImportExport\Model\ImportFactory $importFactory
+     * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\ImportExport\Model\Resource\Customer\StorageFactory $storageFactory
+     * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\ScheduledImportExport\Helper\Data $importExportData
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
      * @param \Magento\Reward\Model\RewardFactory $rewardFactory
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\String $coreString,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\ImportExport\Model\ImportFactory $importFactory,
+        \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\App $app,
+        \Magento\ImportExport\Model\Export\Factory $collectionFactory,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\ImportExport\Model\Resource\Customer\StorageFactory $storageFactory,
+        \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\ScheduledImportExport\Helper\Data $importExportData,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
         \Magento\Reward\Model\RewardFactory $rewardFactory,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
         array $data = array()
     ) {
         // entity type id has no meaning for finance import
         $data['entity_type_id'] = -1;
 
-        parent::__construct($coreData, $coreString, $coreStoreConfig, $data);
+        parent::__construct($coreData, $coreString, $coreStoreConfig, $importFactory, $resourceHelper, $resource,
+            $app, $collectionFactory, $eavConfig, $storageFactory, $data);
 
         $this->_rewardFactory = $rewardFactory;
         $this->_customerFactory = $customerFactory;

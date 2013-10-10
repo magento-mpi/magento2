@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <referenceContainer name="form.login.additional.info">
+        <block class="Magento\Captcha\Block\Captcha" name="captcha" after="-">
+            <action method="setFormId">
+                <argument name="formId" xsi:type="string">user_login</argument>
+            </action>
+            <action method="setImgWidth">
+                <argument name="width" xsi:type="string">230</argument>
+            </action>
+            <action method="setImgHeight">
+                <argument name="width" xsi:type="string">50</argument>
+            </action>
+        </block>
+    </referenceContainer>
+    <referenceContainer name="form.billing.additional.info">
+        <block class="Magento\Captcha\Block\Captcha" name="captcha.guest.checkout">
+            <referenceBlock name="head">
+                <block class="Magento\Page\Block\Html\Head\Script" name="magento-captcha-onepage-js">
+                    <arguments>
+                        <argument name="file" xsi:type="string">Magento_Captcha::onepage.js</argument>
+                    </arguments>
+                </block>
+            </referenceBlock>
+            <action method="setFormId">
+                <argument name="formId" xsi:type="string">guest_checkout</argument>
+            </action>
+            <action method="setImgWidth">
+                <argument name="width" xsi:type="string">230</argument>
+            </action>
+            <action method="setImgHeight">
+                <argument name="width" xsi:type="string">50</argument>
+            </action>
+        </block>
+    </referenceContainer>
+</layout>

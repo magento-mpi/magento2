@@ -101,7 +101,7 @@ class Book extends \Magento\Core\Block\Template
     {
         $customer = $this->getData('customer');
         if (is_null($customer)) {
-            $customer = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer();
+            $customer = $this->_customerSession->getCustomer();
             $this->setData('customer', $customer);
         }
         return $customer;

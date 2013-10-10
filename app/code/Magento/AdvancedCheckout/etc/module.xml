@@ -31,6 +31,7 @@
             <module name="Magento_GiftCard"/>
             <module name="Magento_Downloadable"/>
             <module name="Magento_Weee"/>
+            <module name="Magento_Bundle"/>
         </depends>
     </module>
 </config>

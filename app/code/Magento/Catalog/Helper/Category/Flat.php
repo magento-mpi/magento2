@@ -51,15 +51,29 @@ class Flat extends \Magento\Catalog\Helper\Flat\AbstractFlat
     protected $_coreStoreConfig;
 
     /**
+     * Catalog category flat
+     *
+     * @var \Magento\Catalog\Model\Resource\Category\Flat
+     */
+    protected $_catalogCategoryFlat;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Index\Model\ProcessFactory $processFactory
+     * @param \Magento\Catalog\Model\Resource\Category\Flat $catalogCategoryFlat
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
+        \Magento\Index\Model\ProcessFactory $processFactory,
+        \Magento\Catalog\Model\Resource\Category\Flat $catalogCategoryFlat,
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
+        $this->_catalogCategoryFlat = $catalogCategoryFlat;
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($context);
+        parent::__construct($processFactory, $context);
     }
 
     /**
@@ -81,7 +95,7 @@ class Flat extends \Magento\Catalog\Helper\Flat\AbstractFlat
      */
     public function isBuilt()
     {
-        return \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Category\Flat')->isBuilt();
+        return $this->_catalogCategoryFlat->isBuilt();
     }
 
     /**

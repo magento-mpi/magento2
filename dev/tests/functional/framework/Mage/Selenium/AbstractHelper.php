@@ -320,9 +320,9 @@ class Mage_Selenium_AbstractHelper
     public function __call($command, $arguments)
     {
         $className = get_class($this->_testInstance);
-        $reflectionClass = new ReflectionClass($className);
+        $reflectionClass = new \ReflectionClass($className);
         if ($reflectionClass->hasMethod($command)) {
-            $reflectionMethod = new ReflectionMethod($className, $command);
+            $reflectionMethod = new \ReflectionMethod($className, $command);
 
             return $reflectionMethod->invokeArgs($this->_testInstance, $arguments);
         }

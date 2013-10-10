@@ -1,0 +1,60 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * @see \Magento\GiftCardAccount\Block\Account\Redeem
+ */
+?>
+<div class="giftcardaccount">
+    <span id="gc-please-wait" class="load indicator" style="display:none;">
+        <span><?php echo __('Please wait, loading...') ?></span>
+    </span>
+    <form class="form giftcard redeem" id="giftcard-form" action="<?php echo $this->getUrl('*/*/*') ?>" method="post"<?php if (!$this->canRedeem()): ?> onsubmit="giftCardAccountLookupBalance(); return false;"<?php endif; ?>>
+        <div id="giftcard-balance-lookup" class="giftcard ballance"></div>
+        <fieldset class="fieldset">
+            <div class="field giftcard required">
+                <label class="label" for="giftcard-code"><span><?php echo __('Enter gift card code') ?></span></label>
+                <div class="control">
+                    <input class="input-text" id="giftcard-code" type="text" name="giftcard_code" data-validate="{required:true}" value="<?php echo $this->getCurrentGiftcard(); ?>" />
+                </div>
+            </div>
+        </fieldset>
+        <div class="actions">
+            <?php if ($this->canRedeem()): ?>
+            <div class="primary">
+                <button class="action submit" type="submit" value="<?php echo __('Redeem Gift Card') ?>"><span><?php echo __('Redeem Gift Card') ?></span></button>
+            </div>
+            <?php endif; ?>
+            <div class="secondary">
+                <button class="action check" id="gca_balance_button" type="button" value="<?php echo __('Check status and balance') ?>">
+                    <span><?php echo __('Check status and balance') ?></span>
+                </button>
+            </div>
+        </div>
+    </form>
+    <script type="text/javascript">
+        (function($) {
+            head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
+                "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
+                "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
+                "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
+                "<?php echo $this->getViewFileUrl('Magento_GiftCardAccount::js/gift-card.js')?>", function() {
+                    $('#giftcard-form').giftCard({
+                        giftCardCodeSelector: '#giftcard-code',
+                        checkStatus: 'button.action.check',
+                        giftCardStatusUrl: '<?php echo $this->getUrl('magento_giftcardaccount/cart/quickCheck',  array('_secure' => true)) ?>',
+                        giftCardStatusId: '#giftcard-balance-lookup',
+                        giftCardSpinnerId: '#gc-please-wait',
+                        messages: '.page.messages .messages'
+                    }).validation();
+                });
+        })(jQuery);
+    </script>
+</div>

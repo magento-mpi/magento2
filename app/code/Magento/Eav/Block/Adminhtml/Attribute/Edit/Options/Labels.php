@@ -44,9 +44,9 @@ class Labels extends \Magento\Backend\Block\Template
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
+        parent::__construct($coreData, $context, $data);
         $this->_storeManager = $storeManager;
         $this->_registry = $registry;
-        parent::__construct($coreData, $context, $data);
     }
 
     /**

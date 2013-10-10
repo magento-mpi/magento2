@@ -21,19 +21,29 @@ class Notice extends \Magento\Adminhtml\Block\Template
     protected $_coreRegistry = null;
 
     /**
+     * Rule Resource Model
+     *
+     * @var \Magento\Reminder\Model\Resource\Rule
+     */
+    protected $_resourceModel;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Reminder\Model\Resource\Rule $resourceModel
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Reminder\Model\Resource\Rule $resourceModel,
         array $data = array()
     ) {
-        $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
+        $this->_coreRegistry = $registry;
+        $this->_resourceModel = $resourceModel;
     }
 
     /**
@@ -44,12 +54,13 @@ class Notice extends \Magento\Adminhtml\Block\Template
     protected function _prepareLayout()
     {
         if ($salesRule = $this->_coreRegistry->registry('current_promo_quote_rule')) {
-            $resource = \Mage::getResourceModel('Magento\Reminder\Model\Resource\Rule');
-            if ($count = $resource->getAssignedRulesCount($salesRule->getId())) {
-                $confirm = __('This rule is assigned to %1 automated reminder rule(s). Deleting this rule will automatically unassign it.', $count);
+            if ($count = $this->_resourceModel->getAssignedRulesCount($salesRule->getId())) {
+                $confirm = __('This rule is assigned to %1 automated reminder rule(s). Deleting this rule will automatically unassign it.',
+                    $count);
                 $block = $this->getLayout()->getBlock('promo_quote_edit');
                 if ($block instanceof \Magento\Adminhtml\Block\Promo\Quote\Edit) {
-                    $block->updateButton('delete', 'onclick', 'deleteConfirm(\'' . $confirm . '\', \'' . $block->getDeleteUrl() . '\')');
+                    $block->updateButton(
+                        'delete', 'onclick', 'deleteConfirm(\'' . $confirm . '\', \'' . $block->getDeleteUrl() . '\')');
                 }
             }
         }

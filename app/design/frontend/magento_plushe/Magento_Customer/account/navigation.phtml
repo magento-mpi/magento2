@@ -1,0 +1,22 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /** @var $this \Magento\Customer\Block\Account\Navigation */ ?>
+<div class="block account nav">
+    <div class="title">
+        <strong><?php echo __('My Account'); ?></strong>
+    </div>
+    <div class="content">
+        <navigation class="account nav">
+        <ul class="nav items">
+            <?php echo $this->getChildHtml();?>
+        </ul>
+        </navigation>
+    </div>
+</div>

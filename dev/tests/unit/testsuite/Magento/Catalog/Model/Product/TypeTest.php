@@ -14,6 +14,11 @@ namespace Magento\Catalog\Model\Product;
 class TypeTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @var \Magento\TestFramework\Helper\ObjectManager
+     */
+    protected $_objectHelper;
+
+    /**
      * Product types config values
      *
      * @var array
@@ -32,13 +37,16 @@ class TypeTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->_objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $config = $this->getMock('Magento\Catalog\Model\ProductTypes\ConfigInterface');
 
         $config->expects($this->any())
             ->method('getAll')
             ->will($this->returnValue($this->_productTypes));
 
-        $this->_model = new \Magento\Catalog\Model\Product\Type($config);
+        $this->_model = $this->_objectHelper->getObject('Magento\Catalog\Model\Product\Type', array(
+            'config' => $config,
+        ));
     }
 
     public function testGetTypes()

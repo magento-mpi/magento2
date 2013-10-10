@@ -46,7 +46,7 @@ class CoreTest extends \PHPUnit_Framework_TestCase
         $core = new \Magento\Cache\Core();
         $core->setBackend($this->_mockBackend);
 
-        $this->assertNotInstanceOf('Magento\Cache\Backend\Decorator\DecoratorAbstract', $core->getBackend());
+        $this->assertNotInstanceOf('Magento\Cache\Backend\Decorator\AbstractDecorator', $core->getBackend());
         $this->assertEquals($this->_mockBackend, $core->getBackend());
     }
 

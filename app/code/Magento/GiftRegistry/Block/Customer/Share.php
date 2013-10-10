@@ -29,16 +29,21 @@ class Share
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param array $data
      */
     public function __construct(
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         array $data = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;
-        parent::__construct($coreData, $context, $data);
+
+        parent::__construct($coreData, $context, $customerSession, $subscriberFactory, $data);
     }
 
     /**
@@ -91,8 +96,7 @@ class Share
     public function getFormData($key)
     {
         if (is_null($this->_formData)) {
-            $this->_formData = \Mage::getSingleton('Magento\Customer\Model\Session')
-                ->getData('sharing_form', true);
+            $this->_formData = $this->_customerSession->getData('sharing_form', true);
         }
         if (!$this->_formData || !isset($this->_formData[$key])) {
             return null;

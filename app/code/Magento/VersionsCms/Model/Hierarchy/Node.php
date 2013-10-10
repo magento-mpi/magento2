@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Cms Hierarchy Pages Node Model
  *
@@ -27,15 +26,28 @@
  * @method \Magento\VersionsCms\Model\Hierarchy\Node setRequestUrl(string $value)
  * @method string getXpath()
  * @method \Magento\VersionsCms\Model\Hierarchy\Node setXpath(string $value)
- *
- * @category    Magento
- * @package     Magento_VersionsCms
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\VersionsCms\Model\Hierarchy;
 
 class Node extends \Magento\Core\Model\AbstractModel
 {
+    /**
+     * Meta node's types
+     */
+    const META_NODE_TYPE_CHAPTER = 'chapter';
+    const META_NODE_TYPE_SECTION = 'section';
+    const META_NODE_TYPE_FIRST = 'start';
+    const META_NODE_TYPE_NEXT = 'next';
+    const META_NODE_TYPE_PREVIOUS = 'prev';
+
+    /**
+     * Node's scope constants
+     */
+    const NODE_SCOPE_DEFAULT    = 'default';
+    const NODE_SCOPE_WEBSITE    = 'website';
+    const NODE_SCOPE_STORE      = 'store';
+    const NODE_SCOPE_DEFAULT_ID = 0;
+
     /**
      * Whether the hierarchy is inherited from parent scope
      *
@@ -51,18 +63,9 @@ class Node extends \Magento\Core\Model\AbstractModel
     protected $_copyCollection = null;
 
     /**
-     *
-     * @var unknown_type
+     * @var array
      */
     protected $_metaNodes = array();
-
-    /**
-     * Node's scope constants
-     */
-    const NODE_SCOPE_DEFAULT    = 'default';
-    const NODE_SCOPE_WEBSITE    = 'website';
-    const NODE_SCOPE_STORE      = 'store';
-    const NODE_SCOPE_DEFAULT_ID = 0;
 
     /**
      * The level of root node for appropriate scope
@@ -83,6 +86,13 @@ class Node extends \Magento\Core\Model\AbstractModel
     protected $_scopeId = self::NODE_SCOPE_DEFAULT_ID;
 
     /**
+     * Tree metadata
+     *
+     * @var array
+     */
+    protected $_treeMetaData;
+
+    /**
      * @var \Magento\VersionsCms\Model\Hierarchy\ConfigInterface
      */
     protected $_hierarchyConfig;
@@ -95,20 +105,26 @@ class Node extends \Magento\Core\Model\AbstractModel
     protected $_coreStoreConfig;
 
     /**
-     * Meta node's types
-     */
-    const META_NODE_TYPE_CHAPTER = 'chapter';
-    const META_NODE_TYPE_SECTION = 'section';
-    const META_NODE_TYPE_FIRST = 'start';
-    const META_NODE_TYPE_NEXT = 'next';
-    const META_NODE_TYPE_PREVIOUS = 'prev';
-
-    /**
      * Cms hierarchy
      *
      * @var \Magento\VersionsCms\Helper\Hierarchy
      */
-    protected $_cmsHierarchy = null;
+    protected $_cmsHierarchy;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Core\Model\System\Store
+     */
+    protected $_systemStore;
+
+    /**
+     * @var \Magento\VersionsCms\Model\Hierarchy\NodeFactory
+     */
+    protected $_nodeFactory;
 
     /**
      * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
@@ -117,8 +133,13 @@ class Node extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\VersionsCms\Model\Resource\Hierarchy\Node $resource
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
@@ -127,12 +148,18 @@ class Node extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\VersionsCms\Model\Resource\Hierarchy\Node $resource,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_cmsHierarchy = $cmsHierarchy;
         $this->_hierarchyConfig = $hierarchyConfig;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeManager = $storeManager;
+        $this->_systemStore = $systemStore;
+        $this->_nodeFactory = $nodeFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
 
         $scope = $scopeId = null;
@@ -170,13 +197,11 @@ class Node extends \Magento\Core\Model\AbstractModel
      */
     public function setScopeId($scopeId)
     {
-        /** @var $storeModel \Magento\Core\Model\System\Store */
-        $storeModel = \Mage::getSingleton('Magento\Core\Model\System\Store');
         $collection = array();
         if ($this->_scope == self::NODE_SCOPE_STORE) {
-            $collection = $storeModel->getStoreCollection();
+            $collection = $this->_systemStore->getStoreCollection();
         } elseif ($this->_scope == self::NODE_SCOPE_WEBSITE) {
-            $collection = $storeModel->getWebsiteCollection();
+            $collection = $this->_systemStore->getWebsiteCollection();
         }
 
         $isSet = false;
@@ -262,7 +287,7 @@ class Node extends \Magento\Core\Model\AbstractModel
      * @param array $data       modified nodes data array
      * @param array $remove     the removed node ids
      * @return \Magento\VersionsCms\Model\Hierarchy\Node
-     * @throws \Exception
+     * @throws \Magento\Core\Exception|Exception
      */
     public function collectTree($data, $remove)
     {
@@ -278,9 +303,7 @@ class Node extends \Magento\Core\Model\AbstractModel
             // validate required node data
             foreach ($required as $field) {
                 if (!array_key_exists($field, $v)) {
-                    \Mage::throwException(
-                        __('Please correct the node data.')
-                    );
+                    throw new \Magento\Core\Exception(__('Please correct the node data.'));
                 }
             }
             $parentNodeId = empty($v['parent_node_id']) ? 0 : $v['parent_node_id'];
@@ -353,8 +376,6 @@ class Node extends \Magento\Core\Model\AbstractModel
             $v['parent_node_id'] = $parentNodeId;
             if ($path != '') {
                 $v['request_url'] = $path . '/' . $v['request_url'];
-            } else {
-                $v['request_url'] = $v['request_url'];
             }
 
             if ($xpath != '') {
@@ -364,8 +385,7 @@ class Node extends \Magento\Core\Model\AbstractModel
             }
 
             $object = clone $this;
-            $object->setData($v)
-                ->save();
+            $object->setData($v)->save();
 
             if (isset($nodes[$k])) {
                 $this->_collectTree($nodes, $object->getId(), $object->getRequestUrl(), $object->getXpath(), $k);
@@ -507,7 +527,7 @@ class Node extends \Magento\Core\Model\AbstractModel
      */
     public function checkIdentifier($identifier, $storeId = null)
     {
-        $storeId = \Mage::app()->getStore($storeId)->getId();
+        $storeId = $this->_storeManager->getStore($storeId)->getId();
         return $this->_getResource()->checkIdentifier($identifier, $storeId);
     }
 
@@ -526,7 +546,7 @@ class Node extends \Magento\Core\Model\AbstractModel
     public function getMetaNodeByType($type)
     {
         if (!isset($this->_metaNodes[$type])) {
-            $model = \Mage::getModel('Magento\VersionsCms\Model\Hierarchy\Node')
+            $model = $this->_nodeFactory->create()
                 ->setData($this->_getResource()->getMetaNodeDataByType($this, $type));
 
             $this->_metaNodes[$type] = $model;
@@ -543,7 +563,7 @@ class Node extends \Magento\Core\Model\AbstractModel
      */
     public function getUrl($store = null)
     {
-        return \Mage::app()->getStore($store)->getUrl('', array(
+        return $this->_storeManager->getStore($store)->getUrl('', array(
             '_direct' => trim($this->getRequestUrl())
         ));
     }
@@ -588,7 +608,7 @@ class Node extends \Magento\Core\Model\AbstractModel
             ->setTreeIsBrief($this->_getData('tree_is_brief'))
             ->getTreeSlice($this, $up, $down);
 
-        $blankModel = \Mage::getModel('Magento\VersionsCms\Model\Hierarchy\Node');
+        $blankModel = $this->_nodeFactory->create();
         foreach ($data as $parentId => $children) {
             foreach ($children as $childId => $child) {
                 $newModel = clone $blankModel;
@@ -605,7 +625,7 @@ class Node extends \Magento\Core\Model\AbstractModel
     public function getParentNodeChildren()
     {
         $children = $this->_getResource()->getParentNodeChildren($this);
-        $blankModel = \Mage::getModel('Magento\VersionsCms\Model\Hierarchy\Node');
+        $blankModel = $this->_nodeFactory->create();
         foreach ($children as $childId => $child) {
             $newModel = clone $blankModel;
             $children[$childId] = $newModel->setData($child);
@@ -751,7 +771,7 @@ class Node extends \Magento\Core\Model\AbstractModel
             return null;
         }
         $layout = $this->_hierarchyConfig->getContextMenuLayout($layoutName);
-        return ($layout) ? $layout : null;
+        return $layout ? $layout : null;
     }
 
     /**
@@ -827,17 +847,15 @@ class Node extends \Magento\Core\Model\AbstractModel
         if ($this->getIsInherited()) {
             $helper = $this->_cmsHierarchy;
             $parentScope = $helper->getParentScope($this->_scope, $this->_scopeId);
-            $parentScopeNode = \Mage::getModel('Magento\VersionsCms\Model\Hierarchy\Node', array('data' =>
-                array(
-                    'scope' =>  $parentScope[0],
-                    'scope_id' => $parentScope[1],
+            $parentScopeNode = $this->_nodeFactory->create(array('data' => array(
+                'scope' =>  $parentScope[0],
+                'scope_id' => $parentScope[1],
             )));
             if ($parentScopeNode->getIsInherited()) {
                 $parentScope = $helper->getParentScope($parentScope[0], $parentScope[1]);
-                $parentScopeNode = \Mage::getModel('Magento\VersionsCms\Model\Hierarchy\Node', array('data' =>
-                    array(
-                        'scope' =>  $parentScope[0],
-                        'scope_id' => $parentScope[1],
+                $parentScopeNode = $this->_nodeFactory->create(array('data' => array(
+                    'scope' =>  $parentScope[0],
+                    'scope_id' => $parentScope[1],
                 )));
             }
             return $parentScopeNode;

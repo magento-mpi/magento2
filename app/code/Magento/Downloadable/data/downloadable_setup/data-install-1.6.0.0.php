@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var $installer Magento_Downloadable_Model_Resource_Setup */
+/** @var $installer \Magento\Downloadable\Model\Resource\Setup */
 $installer = $this;
 
 $fieldList = array(

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <referenceContainer name="header.panel">
+        <block class="Magento\Directory\Block\Currency" name="currency" before="store_language" template="currency.phtml"/>
+    </referenceContainer>
+    <referenceBlock name="head">
+        <block class="Magento\Core\Block\Template" name="optional_zip_countries" as="optional_zip_countries" template="Magento_Directory::js/optional_zip_countries.phtml"/>
+    </referenceBlock>
+</layout>

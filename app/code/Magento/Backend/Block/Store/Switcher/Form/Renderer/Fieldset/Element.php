@@ -10,10 +10,6 @@
 
 /**
  * Form fieldset renderer
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset;
 
@@ -59,6 +55,8 @@ class Element
      */
     public function getHintHtml()
     {
-        return \Mage::getBlockSingleton('Magento\Backend\Block\Store\Switcher')->getHintHtml();
+        /** @var $storeSwitcher \Magento\Backend\Block\Store\Switcher */
+        $storeSwitcher = $this->_layout->getBlockSingleton('Magento\Backend\Block\Store\Switcher');
+        return $storeSwitcher->getHintHtml();
     }
 }

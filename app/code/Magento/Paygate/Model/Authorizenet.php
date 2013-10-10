@@ -1218,7 +1218,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      * Prepare request to gateway
      *
      * @link http://www.authorize.net/support/AIM_guide.pdf
-     * @param \Magento_Object|\Magento_Payment_Model_Info $payment
+     * @param \Magento\Object|\Magento\Payment\Model\Info $payment
      * @return \Magento\Paygate\Model\Authorizenet\Request
      */
     protected function _buildRequest(\Magento\Object $payment)

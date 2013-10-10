@@ -16,7 +16,7 @@ namespace Magento\Checkout\Controller;
  *
  * @magentoAppArea frontend
  */
-class MultishippingTest extends \Magento\TestFramework\TestCase\ControllerAbstract
+class MultishippingTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
      * Covers app/code/Magento/Checkout/Block/Multishipping/Payment/Info.php

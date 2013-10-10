@@ -22,6 +22,31 @@ class State extends \Magento\Core\Block\Template
     protected $_template = 'layer/state.phtml';
 
     /**
+     * Catalog layer
+     *
+     * @var \Magento\Catalog\Model\Layer
+     */
+    protected $_catalogLayer;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Catalog\Model\Layer $catalogLayer
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Model\Layer $catalogLayer,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_catalogLayer = $catalogLayer;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Retrieve active filters
      *
      * @return array
@@ -50,7 +75,7 @@ class State extends \Magento\Core\Block\Template
         $params['_use_rewrite'] = true;
         $params['_query']       = $filterState;
         $params['_escape']      = true;
-        return \Mage::getUrl('*/*/*', $params);
+        return $this->_urlBuilder->getUrl('*/*/*', $params);
     }
 
     /**
@@ -61,7 +86,7 @@ class State extends \Magento\Core\Block\Template
     public function getLayer()
     {
         if (!$this->hasData('layer')) {
-            $this->setLayer(\Mage::getSingleton('Magento\Catalog\Model\Layer'));
+            $this->setLayer($this->_catalogLayer);
         }
         return $this->_getData('layer');
     }

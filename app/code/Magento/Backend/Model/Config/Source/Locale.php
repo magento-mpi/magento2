@@ -10,15 +10,29 @@
  
 /**
  * Locale source
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backend\Model\Config\Source;
 
 class Locale implements \Magento\Core\Model\Option\ArrayInterface
 {
+    /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     */
+    public function __construct(\Magento\Core\Model\LocaleInterface $locale)
+    {
+        $this->_locale = $locale;
+    }
+
+    /**
+     * @return array
+     */
     public function toOptionArray()
     {
-        return \Mage::app()->getLocale()->getOptionLocales();
+        return $this->_locale->getOptionLocales();
     }
 }

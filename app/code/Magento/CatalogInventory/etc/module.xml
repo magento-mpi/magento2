@@ -21,6 +21,7 @@
             <module name="Magento_Index"/>
             <module name="Magento_Sales"/>
             <module name="Magento_CatalogSearch"/>
+            <module name="Magento_Eav"/>
         </depends>
     </module>
 </config>

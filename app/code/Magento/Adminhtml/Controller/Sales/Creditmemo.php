@@ -15,7 +15,7 @@
  */
 namespace Magento\Adminhtml\Controller\Sales;
 
-class Creditmemo extends \Magento\Adminhtml\Controller\Sales\Creditmemo\CreditmemoAbstract
+class Creditmemo extends \Magento\Adminhtml\Controller\Sales\Creditmemo\AbstractCreditmemo
 {
     /**
      * Export credit memo grid to CSV format

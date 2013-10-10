@@ -118,14 +118,14 @@ class Date extends \Magento\Eav\Model\Attribute\Data\AbstractData
      * @param string $format
      * @return string|array
      */
-    public function outputValue($format = \Magento\Eav\Model\Attribute\Data::OUTPUT_FORMAT_TEXT)
+    public function outputValue($format = \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_TEXT)
     {
         $value = $this->getEntity()->getData($this->getAttribute()->getAttributeCode());
         if ($value) {
             switch ($format) {
-                case \Magento\Eav\Model\Attribute\Data::OUTPUT_FORMAT_TEXT:
-                case \Magento\Eav\Model\Attribute\Data::OUTPUT_FORMAT_HTML:
-                case \Magento\Eav\Model\Attribute\Data::OUTPUT_FORMAT_PDF:
+                case \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_TEXT:
+                case \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_HTML:
+                case \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_PDF:
                     $this->_dateFilterFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
                     break;
             }

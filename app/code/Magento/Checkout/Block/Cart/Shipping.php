@@ -40,6 +40,8 @@ class Shipping extends \Magento\Checkout\Block\Cart\AbstractCart
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Directory\Block\Data $directoryBlock
      * @param array $data
      */
@@ -47,11 +49,13 @@ class Shipping extends \Magento\Checkout\Block\Cart\AbstractCart
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Directory\Block\Data $directoryBlock,
         array $data = array()
     ) {
         $this->_directoryBlock = $directoryBlock;
-        parent::__construct($catalogData, $coreData, $context, $data);
+        parent::__construct($catalogData, $coreData, $context, $customerSession, $checkoutSession, $data);
     }
 
     /**

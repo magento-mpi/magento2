@@ -8,8 +8,13 @@
  * @license     {license_link}
  */
 
+
 /**
  * Pbridge payment method model
+ *
+ * @category    Magento
+ * @package     Magento_Pbridge
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Pbridge\Model\Payment\Method;
 
@@ -66,25 +71,74 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
     protected $_pbridgeData = null;
 
     /**
+     * Request http
+     *
+     * @var \Magento\Core\Controller\Request\Http
+     */
+    protected $_requestHttp;
+
+    /**
+     * Pbridge api factory
+     *
+     * @var \Magento\Pbridge\Model\Payment\Method\Pbridge\ApiFactory
+     */
+    protected $_pbridgeApiFactory;
+
+    /**
+     * Region factory
+     *
+     * @var \Magento\Directory\Model\RegionFactory
+     */
+    protected $_regionFactory;
+
+    /**
+     * Url
+     *
+     * @var \Magento\Core\Model\UrlInterface
+     */
+    protected $_url;
+
+    /**
+     * Pbridge session
+     *
+     * @var \Magento\Pbridge\Model\Session
+     */
+    protected $_pbridgeSession;
+
+    /**
      * Construct
      *
      * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Pbridge\Helper\Data $pbridgeData
-     * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Pbridge\Helper\Data $pbridgeData
+     * @param \Magento\Pbridge\Model\Session $pbridgeSession
+     * @param \Magento\Core\Model\UrlInterface $url
+     * @param \Magento\Directory\Model\RegionFactory $regionFactory
+     * @param \Magento\Pbridge\Model\Payment\Method\Pbridge\ApiFactory $pbridgeApiFactory
+     * @param \Magento\Core\Controller\Request\Http $requestHttp
      * @param array $data
      */
     public function __construct(
-        \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
-        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Pbridge\Helper\Data $pbridgeData,
+        \Magento\Pbridge\Model\Session $pbridgeSession,
+        \Magento\Core\Model\UrlInterface $url,
+        \Magento\Directory\Model\RegionFactory $regionFactory,
+        \Magento\Pbridge\Model\Payment\Method\Pbridge\ApiFactory $pbridgeApiFactory,
+        \Magento\Core\Controller\Request\Http $requestHttp,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
+        $this->_pbridgeSession = $pbridgeSession;
+        $this->_url = $url;
+        $this->_regionFactory = $regionFactory;
+        $this->_pbridgeApiFactory = $pbridgeApiFactory;
+        $this->_requestHttp = $requestHttp;
         parent::__construct($eventManager, $paymentData, $coreStoreConfig, $logAdapterFactory, $data);
     }
 
@@ -96,7 +150,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
     protected function _getApi()
     {
         if ($this->_api === null) {
-            $this->_api = \Mage::getModel('Magento\Pbridge\Model\Payment\Method\Pbridge\Api');
+            $this->_api = $this->_pbridgeApiFactory->create();
             $this->_api->setMethodInstance($this);
         }
         return $this->_api;
@@ -159,7 +213,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
 
         parent::assignData($data);
         $this->setPbridgeResponse($pbridgeData);
-        \Mage::getSingleton('Magento\Pbridge\Model\Session')->setToken($this->getPbridgeResponse('token'));
+        $this->_pbridgeSession->setToken($this->getPbridgeResponse('token'));
         return $this;
     }
 
@@ -224,7 +278,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
                 return null;
             }
             $this->_originalMethodInstance = $this->_paymentData
-                 ->getMethodInstance($this->_originalMethodCode);
+                ->getMethodInstance($this->_originalMethodCode);
         }
         return $this->_originalMethodInstance;
     }
@@ -250,11 +304,15 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
         return $this->getOriginalMethodInstance()->canUseForCountry($country);
     }
 
+    /**
+     * @return \Magento\Pbridge\Model\Payment\Method\Pbridge
+     * @throws \Magento\Core\Exception
+     */
     public function validate()
     {
         parent::validate();
         if (!$this->getPbridgeResponse('token')) {
-            \Mage::throwException(__("We can't find the Payment Bridge authentication data."));
+            throw new \Magento\Core\Exception(__("We can't find the Payment Bridge authentication data."));
         }
         return $this;
     }
@@ -274,15 +332,15 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
 
         $request
             ->setData('magento_payment_action' , $this->getOriginalMethodInstance()->getConfigPaymentAction())
-            ->setData('client_ip', \Mage::app()->getRequest()->getClientIp(false))
+            ->setData('client_ip', $this->_requestHttp->getClientIp(false))
             ->setData('amount', (string)$amount)
             ->setData('currency_code', $order->getBaseCurrencyCode())
             ->setData('order_id', $order->getIncrementId())
             ->setData('customer_email', $order->getCustomerEmail())
             ->setData('is_virtual', $order->getIsVirtual())
             ->setData('notify_url',
-                \Mage::getUrl('magento_pbridge/PbridgeIpn/', array('_store' =>  $order->getStore()->getStoreId())))
-        ;
+                $this->_url->getUrl('magento_pbridge/PbridgeIpn/', array('_store' =>  $order->getStore()->getStoreId()))
+            );
 
         $request->setData('billing_address', $this->_getAddressInfo($order->getBillingAddress()));
         if ($order->getCustomer() && $order->getCustomer()->getId()) {
@@ -307,9 +365,9 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
         if (isset($apiResponse['fraud']) && (bool)$apiResponse['fraud']) {
             $message = __('Merchant review is required for further processing.');
             $payment->getOrder()->setState(
-                  \Magento\Sales\Model\Order::STATE_PROCESSING,
-                  \Magento\Sales\Model\Order::STATUS_FRAUD,
-                  $message
+                \Magento\Sales\Model\Order::STATE_PROCESSING,
+                \Magento\Sales\Model\Order::STATUS_FRAUD,
+                $message
             );
         }
         return $apiResponse;
@@ -360,9 +418,9 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
         if (isset($apiResponse['fraud']) && (bool)$apiResponse['fraud']) {
             $message = __('Merchant review is required for further processing.');
             $payment->getOrder()->setState(
-                  \Magento\Sales\Model\Order::STATE_PROCESSING,
-                  \Magento\Sales\Model\Order::STATUS_FRAUD,
-                  $message
+                \Magento\Sales\Model\Order::STATE_PROCESSING,
+                \Magento\Sales\Model\Order::STATUS_FRAUD,
+                $message
             );
         }
         return $apiResponse;
@@ -374,6 +432,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
      * @param   \Magento\Object $payment
      * @param   float $amount
      * @return  \Magento\Payment\Model\AbstractModel
+     * @throws \Magento\Core\Exception
      */
     public function refund(\Magento\Object $payment, $amount)
     {
@@ -409,7 +468,8 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
             return $api->getResponse();
 
         } else {
-            \Mage::throwException(__("We can't issue a refund transaction because the capture transaction does not exist. "));
+            throw new \Magento\Core\Exception(
+                __("We can't issue a refund transaction because the capture transaction does not exist. "));
         }
     }
 
@@ -418,6 +478,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
      *
      * @param   \Magento\Object $payment
      * @return  \Magento\Payment\Model\AbstractModel
+     * @throws \Magento\Core\Exception
      */
     public function void(\Magento\Object $payment)
     {
@@ -431,7 +492,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
             $this->_getApi()->doVoid($request);
 
         } else {
-            \Mage::throwException(__('You need an authorization transaction to void.'));
+            throw new \Magento\Core\Exception(__('You need an authorization transaction to void.'));
         }
         return $this->_getApi()->getResponse();
     }
@@ -458,7 +519,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
             $result['street2'] = $street2;
         }
         //Region code lookup
-        $region = \Mage::getModel('Magento\Directory\Model\Region')->load($address->getData('region_id'));
+        $region = $this->_regionFactory->create()->load($address->getData('region_id'));
         if ($region && $region->getId()) {
             $result['region'] = $region->getCode();
         } else {

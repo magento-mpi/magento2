@@ -1,0 +1,26 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php if ($this->getTotal()->getValue()): ?>
+    <tr class="storecredit total">
+        <td colspan="<?php echo $this->getColspan(); ?>" style="<?php echo $this->getTotal()->getStyle() ?>" class="mark">
+            <?php if ($this->getRenderingArea() == $this->getTotal()->getArea()): ?><strong><?php endif; ?>
+                <?php $_title = __('Remove'); ?>
+                <?php $_url = $this->getUrl('magento_customerbalance/cart/remove'); ?>
+                <a href="<?php echo $_url; ?>" title="<?php echo $_title; ?>" class="action delete"><span><?php echo __('Remove')?></span></a>
+                <?php echo $this->getTotal()->getTitle(); ?>
+            <?php if ($this->getRenderingArea() == $this->getTotal()->getArea()): ?></strong><?php endif; ?>
+        </td>
+        <td style="<?php echo $this->getTotal()->getStyle() ?>" class="amount">
+            <?php if ($this->getRenderingArea() == $this->getTotal()->getArea()): ?><strong><?php endif; ?>
+                <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($this->getTotal()->getValue()) ?>
+            <?php if ($this->getRenderingArea() == $this->getTotal()->getArea()): ?></strong><?php endif; ?>
+        </td>
+    </tr>
+<?php endif; ?>

@@ -10,12 +10,7 @@
 
 /**
  * Cms page edit form revisions tab
- *
- * @category    Magento
- * @package     Magento_VersionsCms
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit\Tab;
 
 class Versions
@@ -24,6 +19,7 @@ class Versions
 {
     /**
      * Array of admin users in system
+     *
      * @var array
      */
     protected $_usersHash = null;
@@ -33,14 +29,29 @@ class Versions
      *
      * @var \Magento\VersionsCms\Helper\Data
      */
-    protected $_cmsData = null;
+    protected $_cmsData;
 
     /**
      * Core registry
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var \Magento\Backend\Model\Auth\Session
+     */
+    protected $_backendAuthSession;
+
+    /**
+     * @var \Magento\VersionsCms\Model\Config
+     */
+    protected $_cmsConfig;
+
+    /**
+     * @var \Magento\VersionsCms\Model\Resource\Page\Version\CollectionFactory
+     */
+    protected $_versionCollFactory;
 
     /**
      * @param \Magento\VersionsCms\Helper\Data $cmsData
@@ -49,7 +60,12 @@ class Versions
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
+     * @param \Magento\VersionsCms\Model\Config $cmsConfig
+     * @param \Magento\VersionsCms\Model\Resource\Page\Version\CollectionFactory $versionCollFactory
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\VersionsCms\Helper\Data $cmsData,
@@ -58,10 +74,16 @@ class Versions
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Backend\Model\Auth\Session $backendAuthSession,
+        \Magento\VersionsCms\Model\Config $cmsConfig,
+        \Magento\VersionsCms\Model\Resource\Page\Version\CollectionFactory $versionCollFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_cmsData = $cmsData;
+        $this->_backendAuthSession = $backendAuthSession;
+        $this->_cmsConfig = $cmsConfig;
+        $this->_versionCollFactory = $versionCollFactory;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
@@ -80,13 +102,12 @@ class Versions
      */
     protected function _prepareCollection()
     {
-        $userId = \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->getId();
+        $userId = $this->_backendAuthSession->getUser()->getId();
 
-        /* var $collection \Magento\VersionsCms\Model\Resource\Version\Collection */
-        $collection = \Mage::getModel('Magento\VersionsCms\Model\Page\Version')->getCollection()
+        /* var $collection \Magento\VersionsCms\Model\Resource\Page\Revision\Collection */
+        $collection = $this->_versionCollFactory->create()
             ->addPageFilter($this->getPage())
-            ->addVisibilityFilter($userId,
-                \Mage::getSingleton('Magento\VersionsCms\Model\Config')->getAllowedAccessLevel())
+            ->addVisibilityFilter($userId, $this->_cmsConfig->getAllowedAccessLevel())
             ->addUserColumn()
             ->addUserNameColumn();
 
@@ -167,7 +188,7 @@ class Versions
      */
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/versions', array('_current'=>true));
+        return $this->getUrl('*/*/versions', array('_current' => true));
     }
 
     /**
@@ -228,7 +249,7 @@ class Versions
      */
     protected function _prepareMassaction()
     {
-        if (\Mage::getSingleton('Magento\VersionsCms\Model\Config')->canCurrentUserDeleteVersion()) {
+        if ($this->_cmsConfig->canCurrentUserDeleteVersion()) {
             $this->setMassactionIdField('version_id');
             $this->getMassactionBlock()->setFormFieldName('version');
 
@@ -245,10 +266,14 @@ class Versions
     /**
      * Grid row event edit url
      *
+     * @param object $row
      * @return string
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/cms_page_version/edit', array('page_id' => $row->getPageId(), 'version_id' => $row->getVersionId()));
+        return $this->getUrl('*/cms_page_version/edit', array(
+            'page_id' => $row->getPageId(),
+            'version_id' => $row->getVersionId()
+        ));
     }
 }

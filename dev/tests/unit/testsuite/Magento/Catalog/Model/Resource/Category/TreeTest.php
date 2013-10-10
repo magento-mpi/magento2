@@ -31,6 +31,7 @@ class TreeTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $select = $this->getMock('Zend_Db_Select', array(), array(), '', false);
         $select->expects($this->once())->method('from')->with('catalog_category_entity');
         $connection = $this->getMock('Magento\DB\Adapter\AdapterInterface');
@@ -53,9 +54,12 @@ class TreeTest extends \PHPUnit_Framework_TestCase
         $this->_collectionFactory = $this->getMock(
             'Magento\Catalog\Model\Resource\Category\Collection\Factory', array(), array(), '', false
         );
-        $this->_model = new \Magento\Catalog\Model\Resource\Category\Tree(
-            $this->_resource, $eventManager, $this->_attributeConfig, $this->_collectionFactory
-        );
+        $this->_model = $objectHelper->getObject('Magento\Catalog\Model\Resource\Category\Tree', array(
+            'resource' => $this->_resource,
+            'eventManager' => $eventManager,
+            'attributeConfig' => $this->_attributeConfig,
+            'collectionFactory' => $this->_collectionFactory,
+        ));
     }
 
     public function testGetCollection()

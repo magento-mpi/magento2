@@ -54,7 +54,7 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
 
         $this->_writerMock = $this->getMock('Magento\Tools\Migration\Acl\Db\Writer', array(), array(), '', false);
         $this->_loggerMock = $this->getMockForAbstractClass(
-            'Magento\Tools\Migration\Acl\Db\LoggerAbstract', array(), '', false, false, false, array('add')
+            'Magento\Tools\Migration\Acl\Db\AbstractLogger', array(), '', false, false, false, array('add')
         );
     }
 

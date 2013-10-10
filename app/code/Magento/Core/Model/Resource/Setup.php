@@ -75,6 +75,26 @@ class Setup implements \Magento\Core\Model\Resource\SetupInterface
     protected $_logger;
 
     /**
+     * @var \Magento\Core\Model\Resource\Resource
+     */
+    protected $_resourceResource;
+
+    /**
+     * @var \Magento\Core\Model\Resource\Theme\CollectionFactory
+     */
+    protected $_themeResourceFactory;
+
+    /**
+     * @var \Magento\Core\Model\Theme\CollectionFactory
+     */
+    protected $_themeFactory;
+
+    /**
+     * @var \Magento\Core\Model\Resource\Setup\MigrationFactory
+     */
+    protected $_migrationFactory;
+
+    /**
      * Connection instance name
      *
      * @var string
@@ -83,8 +103,8 @@ class Setup implements \Magento\Core\Model\Resource\SetupInterface
 
     /**
      * @param \Magento\Core\Model\Resource\Setup\Context $context
-     * @param string $resourceName
-     * @param string $moduleName
+     * @param $resourceName
+     * @param $moduleName
      * @param string $connectionName
      */
     public function __construct(
@@ -98,6 +118,10 @@ class Setup implements \Magento\Core\Model\Resource\SetupInterface
         $this->_logger = $context->getLogger();
         $this->_modulesReader = $context->getModulesReader();
         $this->_resourceName = $resourceName;
+        $this->_resourceResource = $context->getResourceResource();
+        $this->_migrationFactory = $context->getMigrationFactory();
+        $this->_themeFactory = $context->getThemeFactory();
+        $this->_themeResourceFactory = $context->getThemeResourceFactory();
         $this->_moduleConfig = $context->getModuleList()->getModule($moduleName);
         $this->_connectionName = $connectionName ?: $this->_connectionName;
     }
@@ -159,23 +183,13 @@ class Setup implements \Magento\Core\Model\Resource\SetupInterface
     }
 
     /**
-     * Get core resource resource model
-     *
-     * @return \Magento\Core\Model\Resource\Resource
-     */
-    protected function _getResource()
-    {
-        return \Mage::getResourceSingleton('Magento\Core\Model\Resource\Resource');
-    }
-
-    /**
      * Apply data updates to the system after upgrading.
      *
      * @return \Magento\Core\Model\Resource\Setup
      */
     public function applyDataUpdates()
     {
-        $dataVer= $this->_getResource()->getDataVersion($this->_resourceName);
+        $dataVer= $this->_resourceResource->getDataVersion($this->_resourceName);
         $configVer = $this->_moduleConfig['version'];
         if ($dataVer !== false) {
             $status = version_compare($configVer, $dataVer);
@@ -195,7 +209,7 @@ class Setup implements \Magento\Core\Model\Resource\SetupInterface
      */
     public function applyUpdates()
     {
-        $dbVer = $this->_getResource()->getDbVersion($this->_resourceName);
+        $dbVer = $this->_resourceResource->getDbVersion($this->_resourceName);
         $configVer = $this->_moduleConfig['version'];
 
         // Module is installed
@@ -229,7 +243,7 @@ class Setup implements \Magento\Core\Model\Resource\SetupInterface
     {
         $oldVersion = $this->_modifyResourceDb(self::TYPE_DATA_INSTALL, '', $newVersion);
         $this->_modifyResourceDb(self::TYPE_DATA_UPGRADE, $oldVersion, $newVersion);
-        $this->_getResource()->setDataVersion($this->_resourceName, $newVersion);
+        $this->_resourceResource->setDataVersion($this->_resourceName, $newVersion);
 
         return $this;
     }
@@ -244,7 +258,7 @@ class Setup implements \Magento\Core\Model\Resource\SetupInterface
     protected function _upgradeData($oldVersion, $newVersion)
     {
         $this->_modifyResourceDb('data-upgrade', $oldVersion, $newVersion);
-        $this->_getResource()->setDataVersion($this->_resourceName, $newVersion);
+        $this->_resourceResource->setDataVersion($this->_resourceName, $newVersion);
 
         return $this;
     }
@@ -259,7 +273,7 @@ class Setup implements \Magento\Core\Model\Resource\SetupInterface
     {
         $oldVersion = $this->_modifyResourceDb(self::TYPE_DB_INSTALL, '', $newVersion);
         $this->_modifyResourceDb(self::TYPE_DB_UPGRADE, $oldVersion, $newVersion);
-        $this->_getResource()->setDbVersion($this->_resourceName, $newVersion);
+        $this->_resourceResource->setDbVersion($this->_resourceName, $newVersion);
 
         return $this;
     }
@@ -274,7 +288,7 @@ class Setup implements \Magento\Core\Model\Resource\SetupInterface
     protected function _upgradeResourceDb($oldVersion, $newVersion)
     {
         $this->_modifyResourceDb(self::TYPE_DB_UPGRADE, $oldVersion, $newVersion);
-        $this->_getResource()->setDbVersion($this->_resourceName, $newVersion);
+        $this->_resourceResource->setDbVersion($this->_resourceName, $newVersion);
 
         return $this;
     }
@@ -360,7 +374,7 @@ class Setup implements \Magento\Core\Model\Resource\SetupInterface
         $modName    = (string)$this->_moduleConfig['name'];
         $files      = array();
 
-        $filesDir   = \Mage::getModuleDir('data', $modName) . DS . $this->_resourceName;
+        $filesDir   = $this->_modulesReader->getModuleDir('data', $modName) . DS . $this->_resourceName;
         if (is_dir($filesDir) && is_readable($filesDir)) {
             $regExp     = sprintf('#^%s-(.*)\.php$#i', $actionType);
             $handlerDir = dir($filesDir);
@@ -392,11 +406,11 @@ class Setup implements \Magento\Core\Model\Resource\SetupInterface
         switch ($actionType) {
             case self::TYPE_DB_INSTALL:
             case self::TYPE_DB_UPGRADE:
-                $this->_getResource()->setDbVersion($this->_resourceName, $version);
+                $this->_resourceResource->setDbVersion($this->_resourceName, $version);
                 break;
             case self::TYPE_DATA_INSTALL:
             case self::TYPE_DATA_UPGRADE:
-                $this->_getResource()->setDataVersion($this->_resourceName, $version);
+                $this->_resourceResource->setDataVersion($this->_resourceName, $version);
                 break;
             default:
                 break;

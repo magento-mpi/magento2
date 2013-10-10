@@ -21,6 +21,27 @@ namespace Magento\Catalog\Model\Resource\Product\Type;
 class Configurable extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
+     * Catalog product relation
+     *
+     * @var \Magento\Catalog\Model\Resource\Product\Relation
+     */
+    protected $_catalogProductRelation;
+
+    /**
+     * Class constructor
+     *
+     * @param \Magento\Catalog\Model\Resource\Product\Relation $catalogProductRelation
+     * @param \Magento\Core\Model\Resource $resource
+     */
+    public function __construct(
+        \Magento\Catalog\Model\Resource\Product\Relation $catalogProductRelation,
+        \Magento\Core\Model\Resource $resource
+    ) {
+        $this->_catalogProductRelation = $catalogProductRelation;
+        parent::__construct($resource);
+    }
+
+    /**
      * Init resource
      *
      */
@@ -71,7 +92,7 @@ class Configurable extends \Magento\Core\Model\Resource\Db\AbstractDb
         }
 
         // configurable product relations should be added to relation table
-        \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product\Relation')
+        $this->_catalogProductRelation
             ->processRelations($mainProductId, $productIds);
 
         return $this;

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <referenceBlock name="header.links">
+        <block class="Magento\Customer\Block\Account\Customer" name="customer" template="account/customer.phtml" />
+        <block class="Magento\Customer\Block\Account\RegisterLink" after="authorization-link-login" name="register-link">
+            <arguments>
+                <argument name="label" xsi:type="string">register</argument>
+            </arguments>
+        </block>
+        <block class="Magento\Customer\Block\Account\AuthorizationLink" name="authorization-link-login"/>
+    </referenceBlock>
+    <move element="top.links" destination="customer"/>
+    <move element="authorization-link" destination="top.links" after="-"/>
+</layout>

@@ -14,7 +14,7 @@
  */
 namespace Magento\Cms\Controller;
 
-class PageTest extends \Magento\TestFramework\TestCase\ControllerAbstract
+class PageTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     public function testViewAction()
     {

@@ -17,12 +17,27 @@ class Attributes
     extends \Magento\Rule\Model\Condition\Product\AbstractProduct
 {
     /**
+     * Config
+     *
+     * @var \Magento\Eav\Model\Config
+     */
+    protected $_config;
+
+    /**
+     * Rule Resource
+     *
+     * @var \Magento\Reminder\Model\Resource\Rule
+     */
+    protected $_ruleResource;
+
+    /**
      * @param \Magento\Backend\Helper\Data $backendData
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param \Magento\Eav\Model\Config $config
      * @param \Magento\Catalog\Model\Product $product
      * @param \Magento\Catalog\Model\Resource\Product $productResource
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection
+     * @param \Magento\Reminder\Model\Resource\Rule $ruleResource
      * @param array $data
      */
     public function __construct(
@@ -32,6 +47,7 @@ class Attributes
         \Magento\Catalog\Model\Product $product,
         \Magento\Catalog\Model\Resource\Product $productResource,
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection,
+        \Magento\Reminder\Model\Resource\Rule $ruleResource,
         array $data = array()
     ) {
         parent::__construct(
@@ -39,6 +55,8 @@ class Attributes
         );
         $this->setType('Magento\Reminder\Model\Rule\Condition\Wishlist\Attributes');
         $this->setValue(null);
+        $this->_config = $config;
+        $this->_ruleResource = $ruleResource;
     }
 
     /**
@@ -116,7 +134,7 @@ class Attributes
      */
     public function getAttributeObject()
     {
-        return \Mage::getSingleton('Magento\Eav\Model\Config')->getAttribute('catalog_product', $this->getAttribute());
+        return $this->_config->getAttribute('catalog_product', $this->getAttribute());
     }
 
     /**
@@ -126,7 +144,7 @@ class Attributes
      */
     public function getResource()
     {
-        return \Mage::getResourceSingleton('Magento\Reminder\Model\Resource\Rule');
+        return $this->_ruleResource;
     }
 
     /**
@@ -172,9 +190,9 @@ class Attributes
         } else {
             $select->where('main.attribute_id = ?', $attribute->getId());
             $select->join(
-                    array('store' => $this->getResource()->getTable('core_store')),
-                    'main.store_id=store.store_id',
-                    array())
+                array('store' => $this->getResource()->getTable('core_store')),
+                'main.store_id=store.store_id',
+                array())
                 ->where('store.website_id IN(?)', array(0, $website));
             $condition = $this->getResource()->createConditionSql(
                 'main.value', $this->getOperator(), $this->getValue()

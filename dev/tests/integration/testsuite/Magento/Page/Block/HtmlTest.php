@@ -31,7 +31,15 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
         $urlBuilder = $this->getMock(
             'Magento\Core\Model\Url',
             array('getBaseUrl'),
-            array($securityInfoMock, $storeConfig, $urlHelperMock, array())
+            array(
+                $securityInfoMock,
+                $storeConfig,
+                $urlHelperMock,
+                $this->getMock('Magento\Core\Model\App', array(), array(), '', false),
+                $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false),
+                $this->getMock('Magento\Core\Model\Session', array(), array(), '', false),
+                array()
+            )
         );
         $urlBuilder->expects($this->any())
             ->method('getBaseUrl')

@@ -30,6 +30,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
     protected $_registryManager;
 
     /**
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Url $urlModel

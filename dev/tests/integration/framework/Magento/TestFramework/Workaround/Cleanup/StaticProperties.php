@@ -111,7 +111,7 @@ class StaticProperties
     {
         $clearStatics = false;
         foreach ($suite->tests() as $test) {
-            if ($test instanceof \Magento\TestFramework\TestCase\ControllerAbstract) {
+            if ($test instanceof \Magento\TestFramework\TestCase\AbstractController) {
                 $clearStatics = true;
                 break;
             }

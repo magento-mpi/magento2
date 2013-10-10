@@ -42,13 +42,25 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_catalogData = null;
 
     /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Model\Resource $resource
     ) {
+        $this->_storeManager = $storeManager;
         $this->_catalogData = $catalogData;
         parent::__construct($resource);
     }
@@ -129,7 +141,7 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
         if ($this->getCatalogHelper()->isPriceGlobal()) {
             $websiteId = 0;
         } else {
-            $websiteId = (int)\Mage::app()->getStore($attribute->getStoreId())->getWebsite()->getId();
+            $websiteId = (int)$this->_storeManager->getStore($attribute->getStoreId())->getWebsite()->getId();
         }
 
         $values     = $attribute->getValues();

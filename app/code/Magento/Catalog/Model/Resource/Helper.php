@@ -21,6 +21,17 @@ namespace Magento\Catalog\Model\Resource;
 class Helper extends \Magento\Eav\Model\Resource\Helper
 {
     /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\Resource $resource
+     * @param string $modulePrefix
+     */
+    public function __construct(\Magento\Core\Model\Resource $resource, $modulePrefix = 'Magento_Catalog')
+    {
+        parent::__construct($resource, $modulePrefix);
+    }
+
+    /**
      * Compare Flat style with Describe style columns
      * If column a different - return false
      *

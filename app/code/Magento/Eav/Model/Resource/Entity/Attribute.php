@@ -35,17 +35,35 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_application;
 
     /**
+     * @var \Magento\Core\Model\App
+     */
+    protected $_app;
+
+    /**
+     * @var \Magento\Eav\Model\Resource\Entity\Type
+     */
+    protected $_eavEntityType;
+
+    /**
      * Class constructor
      *
      * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Eav\Model\Resource\Entity\Type $eavEntityType
      * @param array $arguments
      */
-    public function __construct(\Magento\Core\Model\Resource $resource, array $arguments = array())
-    {
+    public function __construct(
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\App $app,
+        \Magento\Eav\Model\Resource\Entity\Type $eavEntityType,
+        array $arguments = array()
+    ) {
         if (isset($arguments['application']) && $arguments['application'] instanceof \Magento\Core\Model\App) {
             $this->_application = $arguments['application'];
             unset($arguments['application']);
         }
+        $this->_app = $app;
+        $this->_eavEntityType = $eavEntityType;
         parent::__construct($resource);
     }
 
@@ -65,7 +83,7 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _getApplication()
     {
-        return $this->_application ?: \Mage::app();
+        return $this->_application ?: $this->_app;
     }
 
     /**
@@ -184,7 +202,7 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
         $frontendLabel = $object->getFrontendLabel();
         if (is_array($frontendLabel)) {
             if (!isset($frontendLabel[0]) || is_null($frontendLabel[0]) || $frontendLabel[0] == '') {
-                \Mage::throwException(__('Frontend label is not defined'));
+                throw new \Magento\Core\Exception(__('Frontend label is not defined'));
             }
             $object->setFrontendLabel($frontendLabel[0])
                    ->setStoreLabels($frontendLabel);
@@ -369,7 +387,7 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _checkDefaultOptionValue($values)
     {
         if (!isset($values[0])) {
-            \Mage::throwException(__('Default option value is not defined'));
+            throw new \Magento\Core\Exception(__('Default option value is not defined'));
         }
     }
 
@@ -575,8 +593,7 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getAdditionalAttributeTable($entityTypeId)
     {
-        return \Mage::getResourceSingleton('Magento\Eav\Model\Resource\Entity\Type')
-            ->getAdditionalAttributeTable($entityTypeId);
+        return $this->_eavEntityType->getAdditionalAttributeTable($entityTypeId);
     }
 
     /**

@@ -7,7 +7,7 @@
  */
 
 /**
- * \Magento\Cache\Backend\Decorator\DecoratorAbstract test case
+ * \Magento\Cache\Backend\Decorator\AbstractDecorator test case
  */
 namespace Magento\Cache\Backend\Decorator;
 
@@ -33,15 +33,15 @@ class DecoratorAbstractTest extends \PHPUnit_Framework_TestCase
         $options = array('concrete_backend' => $this->_mockBackend, 'testOption' => 'testOption');
 
         $decorator = $this->getMockForAbstractClass(
-            'Magento\Cache\Backend\Decorator\DecoratorAbstract',
+            'Magento\Cache\Backend\Decorator\AbstractDecorator',
             array($options)
         );
 
-        $backendProperty = new \ReflectionProperty('Magento\Cache\Backend\Decorator\DecoratorAbstract', '_backend');
+        $backendProperty = new \ReflectionProperty('Magento\Cache\Backend\Decorator\AbstractDecorator', '_backend');
         $backendProperty->setAccessible(true);
 
         $optionsProperty =
-            new \ReflectionProperty('Magento\Cache\Backend\Decorator\DecoratorAbstract', '_decoratorOptions');
+            new \ReflectionProperty('Magento\Cache\Backend\Decorator\AbstractDecorator', '_decoratorOptions');
         $optionsProperty->setAccessible(true);
 
         $this->assertSame($backendProperty->getValue($decorator), $this->_mockBackend);
@@ -58,7 +58,7 @@ class DecoratorAbstractTest extends \PHPUnit_Framework_TestCase
     public function testConstructorException($options)
     {
         $this->getMockForAbstractClass(
-            'Magento\Cache\Backend\Decorator\DecoratorAbstract',
+            'Magento\Cache\Backend\Decorator\AbstractDecorator',
             array($options)
         );
     }
@@ -79,7 +79,7 @@ class DecoratorAbstractTest extends \PHPUnit_Framework_TestCase
         $this->_mockBackend->expects($this->once())->method($methodName);
 
         $decorator = $this->getMockForAbstractClass(
-            'Magento\Cache\Backend\Decorator\DecoratorAbstract',
+            'Magento\Cache\Backend\Decorator\AbstractDecorator',
             array(array('concrete_backend' => $this->_mockBackend))
         );
 

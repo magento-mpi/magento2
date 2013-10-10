@@ -93,13 +93,15 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
         $this->_storeConfigMock     = $this->_makeMock('Magento\Core\Model\Store\Config');
         $this->_storeManagerMock    = $this->_makeMock('Magento\Core\Model\StoreManager');
         $this->_helperFactoryMock   = $this->_makeMock('Magento\Core\Model\Factory\Helper');
-        $this->_localeMock          = $this->_makeMock('Magento\Core\Model\LocaleInterface');
         $viewUrlMock                = $this->_makeMock('Magento\Core\Model\View\Url');
         $viewConfigMock             = $this->_makeMock('Magento\Core\Model\View\Config');
         $viewFileSystemMock         = $this->_makeMock('Magento\Core\Model\View\FileSystem');
         $templateFactoryMock        = $this->_makeMock('Magento\Core\Model\TemplateEngine\Factory');
         $authorizationMock          = $this->_makeMock('Magento\AuthorizationInterface');
         $cacheStateMock             = $this->_makeMock('Magento\Core\Model\Cache\StateInterface');
+        $appMock                    = $this->_makeMock('Magento\Core\Model\App');
+        $backendSessionMock         = $this->_makeMock('Magento\Backend\Model\Session');
+        $this->_localeMock          = $this->_makeMock('Magento\Core\Model\LocaleInterface');
 
         $this->_translatorMock
             ->expects($this->any())
@@ -108,7 +110,6 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
 
         $this->_context = new \Magento\Backend\Block\Template\Context(
             $this->_storeManagerMock,
-            $this->_localeMock,
             $this->_requestMock,
             $this->_layoutMock,
             $this->_eventManagerMock,
@@ -128,7 +129,10 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
             $this->_filesystemMock,
             $viewFileSystemMock,
             $templateFactoryMock,
-            $authorizationMock
+            $authorizationMock,
+            $appMock,
+            $backendSessionMock,
+            $this->_localeMock
         );
     }
 

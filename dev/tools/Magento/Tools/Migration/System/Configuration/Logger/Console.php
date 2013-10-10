@@ -14,7 +14,7 @@
 namespace Magento\Tools\Migration\System\Configuration\Logger;
 
 class Console
-    extends \Magento\Tools\Migration\System\Configuration\LoggerAbstract
+    extends \Magento\Tools\Migration\System\Configuration\AbstractLogger
 {
     /**
      * Print logs to console

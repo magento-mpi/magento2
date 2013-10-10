@@ -12,7 +12,6 @@
 /**
  * Eav Form Element Model
  *
- * @method \Magento\Eav\Model\Resource\Form\Element _getResource()
  * @method \Magento\Eav\Model\Resource\Form\Element getResource()
  * @method int getTypeId()
  * @method \Magento\Eav\Model\Form\Element setTypeId(int $value)
@@ -37,6 +36,31 @@ class Element extends \Magento\Core\Model\AbstractModel
      * @var string
      */
     protected $_eventPrefix = 'eav_form_element';
+
+    /**
+     * @var \Magento\Eav\Model\Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_eavConfig = $eavConfig;
+    }
 
     /**
      * Initialize resource model
@@ -76,10 +100,10 @@ class Element extends \Magento\Core\Model\AbstractModel
     protected function _beforeSave()
     {
         if (!$this->getTypeId()) {
-            \Mage::throwException(__('Invalid form type.'));
+            throw new \Magento\Core\Exception(__('Invalid form type.'));
         }
         if (!$this->getAttributeId()) {
-            \Mage::throwException(__('Invalid EAV attribute'));
+            throw new \Magento\Core\Exception(__('Invalid EAV attribute'));
         }
 
         return parent::_beforeSave();
@@ -93,8 +117,7 @@ class Element extends \Magento\Core\Model\AbstractModel
     public function getAttribute()
     {
         if (!$this->hasData('attribute')) {
-            $attribute = \Mage::getSingleton('Magento\Eav\Model\Config')
-                ->getAttribute($this->getEntityTypeId(), $this->getAttributeId());
+            $attribute = $this->_eavConfig->getAttribute($this->getEntityTypeId(), $this->getAttributeId());
             $this->setData('attribute', $attribute);
         }
         return $this->_getData('attribute');

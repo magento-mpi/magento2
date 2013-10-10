@@ -11,7 +11,6 @@
 /**
  * Catalog product related items block
  */
-
 namespace Magento\Catalog\Block\Product\ProductList;
 
 class Crosssell extends \Magento\Catalog\Block\Product\AbstractProduct
@@ -41,7 +40,7 @@ class Crosssell extends \Magento\Catalog\Block\Product\AbstractProduct
         /* @var $product \Magento\Catalog\Model\Product */
 
         $this->_itemCollection = $product->getCrossSellProductCollection()
-            ->addAttributeToSelect(\Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes())
+            ->addAttributeToSelect($this->_catalogConfig->getProductAttributes())
             ->setPositionOrder()
             ->addStoreFilter();
 
@@ -75,5 +74,4 @@ class Crosssell extends \Magento\Catalog\Block\Product\AbstractProduct
     {
         return $this->_itemCollection;
     }
-
 }

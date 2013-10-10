@@ -504,7 +504,7 @@ class Processor
      * @example
      * Array
      *     (
-     *          [Magento_Sales_Model_Order] => Array
+     *          [Magento\Sales\Model\Order] => Array
      *             (
      *                 [68] => Array
      *                     (

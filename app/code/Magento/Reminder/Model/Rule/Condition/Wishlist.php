@@ -17,14 +17,48 @@ class Wishlist
     extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
 {
     /**
+     * Core Date
+     *
+     * @var \Magento\Core\Model\Date
+     */
+    protected $_coreDate;
+
+    /**
+     * Core resource helper
+     *
+     * @var \Magento\Reminder\Model\Resource\HelperFactory
+     */
+    protected $_resHelperFactory;
+
+    /**
+     * Wishlist Combine Factory
+     *
+     * @var \Magento\Reminder\Model\Rule\Condition\Wishlist\CombineFactory
+     */
+    protected $_combineFactory;
+
+    /**
      * @param \Magento\Rule\Model\Condition\Context $context
+     * @param \Magento\Reminder\Model\Resource\Rule $ruleResource
+     * @param \Magento\Core\Model\Date $coreDate
+     * @param \Magento\Reminder\Model\Resource\HelperFactory $resHelperFactory
+     * @param \Magento\Reminder\Model\Rule\Condition\Wishlist\CombineFactory $combineFactory
      * @param array $data
      */
-    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
+    public function __construct(
+        \Magento\Rule\Model\Condition\Context $context,
+        \Magento\Reminder\Model\Resource\Rule $ruleResource,
+        \Magento\Core\Model\Date $coreDate,
+        \Magento\Reminder\Model\Resource\HelperFactory $resHelperFactory,
+        \Magento\Reminder\Model\Rule\Condition\Wishlist\CombineFactory $combineFactory,
+        array $data = array()
+    ) {
+        parent::__construct($context, $ruleResource, $data);
         $this->setType('Magento\Reminder\Model\Rule\Condition\Wishlist');
         $this->setValue(null);
+        $this->_coreDate = $coreDate;
+        $this->_resHelperFactory = $resHelperFactory;
+        $this->_combineFactory = $combineFactory;
     }
 
     /**
@@ -34,7 +68,7 @@ class Wishlist
      */
     public function getNewChildSelectOptions()
     {
-        return \Mage::getModel('Magento\Reminder\Model\Rule\Condition\Wishlist\Combine')->getNewChildSelectOptions();
+        return $this->_combineFactory->create()->getNewChildSelectOptions();
     }
 
     /**
@@ -91,7 +125,8 @@ class Wishlist
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . __('The wish list is not empty and abandoned %1 %2 days and %3 of these conditions match:', $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
+            . __('The wish list is not empty and abandoned %1 %2 days and %3 of these conditions match:',
+                $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }
 
@@ -101,12 +136,15 @@ class Wishlist
      * @param $customer
      * @param $website
      * @return \Magento\DB\Select
+     * @throws \Magento\Core\Exception
      */
     protected function _prepareConditionsSql($customer, $website)
     {
         $conditionValue = (int)$this->getValue();
         if ($conditionValue < 1) {
-            \Mage::throwException(__('The root wish list condition should have a days value of 1 or greater.'));
+            throw new \Magento\Core\Exception(
+                __('The root wish list condition should have a days value of 1 or greater.')
+            );
         }
 
         $wishlistTable = $this->getResource()->getTable('wishlist');
@@ -124,11 +162,11 @@ class Wishlist
 
         $this->_limitByStoreWebsite($select, $website, 'item.store_id');
 
-        $currentTime = \Mage::getModel('Magento\Core\Model\Date')->gmtDate();
+        $currentTime = $this->_coreDate->gmtDate();
         /** @var \Magento\Core\Model\Resource\Helper $daysDiffSql */
-        $daysDiffSql = \Mage::getResourceHelper('Magento_Core');
+        $daysDiffSql = $this->_resHelperFactory->create();
         $daysDiffSql->getDateDiff('list.updated_at', $select->getAdapter()->formatDate($currentTime));
-        $select->where($daysDiffSql . " {$operator} ?", $conditionValue);
+        $select->where($this->_resHelperFactory . " {$operator} ?", $conditionValue);
         $select->where($this->_createCustomerFilter($customer, 'list.customer_id'));
         $select->limit(1);
         return $select;

@@ -55,8 +55,12 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
-    
+
     /**
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Model\Product\Option $catalogProductOption
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Catalog\Model\Product\Type $catalogProductType
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Helper\Data $catalogData
@@ -70,6 +74,10 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param array $data
      */
     public function __construct(
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Model\Product\Option $catalogProductOption,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Catalog\Model\Product\Type $catalogProductType,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Helper\Data $catalogData,
@@ -85,7 +93,8 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_store = $storeManager->getStore();
         $this->_locale = $locale;
-        parent::__construct($eventManager, $coreData, $fileStorageDb, $filesystem, $coreRegistry, $logger, $data);
+        parent::__construct($productFactory, $catalogProductOption, $eavConfig, $catalogProductType,
+            $eventManager, $coreData, $fileStorageDb, $filesystem, $coreRegistry, $logger, $data);
     }
 
     /**

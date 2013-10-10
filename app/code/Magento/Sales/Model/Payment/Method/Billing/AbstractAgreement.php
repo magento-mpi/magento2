@@ -40,7 +40,7 @@ abstract class AbstractAgreement
     /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
      * @param \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory
      * @param array $data
@@ -48,7 +48,7 @@ abstract class AbstractAgreement
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
         \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory,
         array $data = array()
@@ -109,7 +109,7 @@ abstract class AbstractAgreement
     }
 
     /**
-     * @param unknown_type $quote
+     * @param object $quote
      */
     abstract protected function _isAvailable($quote);
 }

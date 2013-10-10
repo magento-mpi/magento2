@@ -23,11 +23,16 @@ class Amount
 
     /**
      * @param \Magento\Rule\Model\Condition\Context $context
+     * @param \Magento\Reminder\Model\Resource\Rule $ruleResource
      * @param array $data
      */
-    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
+    public function __construct(
+        \Magento\Rule\Model\Condition\Context $context,
+        \Magento\Reminder\Model\Resource\Rule $ruleResource,
+        array $data = array()
+    )
     {
-        parent::__construct($context, $data);
+        parent::__construct($context, $ruleResource, $data);
         $this->setType('Magento\Reminder\Model\Rule\Condition\Cart\Amount');
         $this->setValue(null);
     }
@@ -75,6 +80,7 @@ class Amount
      * @param $customer
      * @param int | \Zend_Db_Expr $website
      * @return \Magento\DB\Select
+     * @throws \Magento\Core\Exception
      */
     public function getConditionsSql($customer, $website)
     {
@@ -92,7 +98,7 @@ class Amount
                 $field = 'quote.base_grand_total';
                 break;
             default:
-                \Mage::throwException(
+                throw new \Magento\Core\Exception(
                     __('Unknown quote total specified')
                 );
         }

@@ -14,7 +14,7 @@
 namespace Magento\Tools\Migration\System\Configuration\Logger;
 
 class File
-    extends \Magento\Tools\Migration\System\Configuration\LoggerAbstract
+    extends \Magento\Tools\Migration\System\Configuration\AbstractLogger
 {
     /**
      * Path to log file

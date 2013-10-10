@@ -63,14 +63,49 @@ class Invitation extends \Magento\Core\Model\AbstractModel
      *
      * @var \Magento\Core\Helper\Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
 
     /**
      * Invitation data
      *
      * @var \Magento\Invitation\Helper\Data
      */
-    protected $_invitationData = null;
+    protected $_invitationData;
+
+    /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Invitation Config
+     *
+     * @var \Magento\Invitation\Model\Config
+     */
+    protected $_config;
+
+    /**
+     * Invitation History Factory
+     *
+     * @var \Magento\Invitation\Model\Invitation\HistoryFactory
+     */
+    protected $_historyFactory;
+
+    /**
+     * Customer Factory
+     *
+     * @var \Magento\Customer\Model\CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * Email Template Factory
+     *
+     * @var \Magento\Core\Model\Email\TemplateFactory
+     */
+    protected $_templateFactory;
 
     /**
      * @param \Magento\Invitation\Helper\Data $invitationData
@@ -79,6 +114,11 @@ class Invitation extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Invitation\Model\Resource\Invitation $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Invitation\Model\Config $config
+     * @param \Magento\Invitation\Model\Invitation\HistoryFactory $historyFactory
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Core\Model\Email\TemplateFactory $templateFactory
      * @param array $data
      */
     public function __construct(
@@ -87,12 +127,22 @@ class Invitation extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Invitation\Model\Resource\Invitation $resource,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Invitation\Model\Config $config,
+        \Magento\Invitation\Model\Invitation\HistoryFactory $historyFactory,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Core\Model\Email\TemplateFactory $templateFactory,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_invitationData = $invitationData;
         $this->_coreData = $coreData;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_storeManager = $storeManager;
+        $this->_config = $config;
+        $this->_historyFactory = $historyFactory;
+        $this->_customerFactory = $customerFactory;
+        $this->_templateFactory = $templateFactory;
     }
 
     /**
@@ -113,7 +163,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
         if ($this->hasData('store_id')) {
             return $this->_getData('store_id');
         }
-        return \Mage::app()->getStore()->getId();
+        return $this->_storeManager->getStore()->getId();
     }
 
     /**
@@ -127,12 +177,12 @@ class Invitation extends \Magento\Core\Model\AbstractModel
     {
         $code = explode(':', $code, 2);
         if (count($code) != 2) {
-            \Mage::throwException(__('Please correct the invitation code.'));
+            throw new \Magento\Core\Exception(__('Please correct the invitation code.'));
         }
         list ($id, $protectionCode) = $code;
         $this->load($id);
         if (!$this->getId() || $this->getProtectionCode() != $protectionCode) {
-            \Mage::throwException(__('Please correct the invitation code.'));
+            throw new \Magento\Core\Exception(__('Please correct the invitation code.'));
         }
         return $this;
     }
@@ -157,7 +207,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
             if ($inviter) {
                 $this->setCustomerId($inviter->getId());
             }
-            if (\Mage::getSingleton('Magento\Invitation\Model\Config')->getUseInviterGroup()) {
+            if ($this->_config->getUseInviterGroup()) {
                 if ($inviter) {
                     $this->setGroupId($inviter->getGroupId());
                 }
@@ -188,7 +238,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
      */
     protected function _afterSave()
     {
-        \Mage::getModel('Magento\Invitation\Model\Invitation\History')
+        $this->_historyFactory->create()
             ->setInvitationId($this->getId())->setStatus($this->getStatus())
             ->save();
         $parent = parent::_afterSave();
@@ -206,8 +256,9 @@ class Invitation extends \Magento\Core\Model\AbstractModel
     public function sendInvitationEmail()
     {
         $this->makeSureCanBeSent();
-        $store = \Mage::app()->getStore($this->getStoreId());
-        $mail  = \Mage::getModel('Magento\Core\Model\Email\Template');
+        $store = $this->_storeManager->getStore($this->getStoreId());
+        /** @var $mail \Magento\Core\Model\Email\Template */
+        $mail  = $this->_templateFactory->create();
         $mail->setDesignConfig(array(
             'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
             'store' => $this->getStoreId()
@@ -215,8 +266,8 @@ class Invitation extends \Magento\Core\Model\AbstractModel
                 $store->getConfig(self::XML_PATH_EMAIL_TEMPLATE), $store->getConfig(self::XML_PATH_EMAIL_IDENTITY),
                 $this->getEmail(), null, array(
                     'url'           => $this->_invitationData->getInvitationUrl($this),
-                    'allow_message' => \Mage::app()->getStore()->isAdmin()
-                        || \Mage::getSingleton('Magento\Invitation\Model\Config')->isInvitationMessageAllowed(),
+                    'allow_message' => $this->_storeManager->getStore()->isAdmin()
+                        || $this->_config->isInvitationMessageAllowed(),
                     'message'       => $this->getMessage(),
                     'store'         => $store,
                     'store_name'    => $store->getGroup()->getName(),
@@ -233,11 +284,12 @@ class Invitation extends \Magento\Core\Model\AbstractModel
      * Get an encrypted invitation code
      *
      * @return string
+     * @throws \Magento\Core\Exception
      */
     public function getInvitationCode()
     {
         if (!$this->getId()) {
-            \Mage::throwException(__("We can't generate encrypted code."));
+            throw new \Magento\Core\Exception(__("We can't generate encrypted code."));
         }
         return $this->getId() . ':' . $this->getProtectionCode();
     }
@@ -289,7 +341,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
     public function makeSureCustomerNotExists($email = null, $websiteId = null)
     {
         if (null === $websiteId) {
-            $websiteId = \Mage::app()->getStore($this->getStoreId())->getWebsiteId();
+            $websiteId = $this->_storeManager->getStore($this->getStoreId())->getWebsiteId();
         }
         if (!$websiteId) {
             throw new \Magento\Core\Exception(__("We can't identify the proper website."), self::ERROR_INVALID_DATA);
@@ -303,7 +355,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
 
         // lookup customer by specified email/website id
         if (!isset(self::$_customerExistsLookup[$email]) || !isset(self::$_customerExistsLookup[$email][$websiteId])) {
-            $customer = \Mage::getModel('Magento\Customer\Model\Customer')
+            $customer = $this->_customerFactory->create()
                 ->setWebsiteId($websiteId)->loadByEmail($email);
             self::$_customerExistsLookup[$email][$websiteId] = ($customer->getId() ? $customer->getId() : false);
         }
@@ -331,9 +383,9 @@ class Invitation extends \Magento\Core\Model\AbstractModel
             throw new \Magento\Core\Exception($messageInvalid, self::ERROR_STATUS);
         }
         if (null === $websiteId) {
-            $websiteId = \Mage::app()->getWebsite()->getId();
+            $websiteId = $this->_storeManager->getWebsite()->getId();
         }
-        if ($websiteId != \Mage::app()->getStore($this->getStoreId())->getWebsiteId()) {
+        if ($websiteId != $this->_storeManager->getStore($this->getStoreId())->getWebsiteId()) {
             throw new \Magento\Core\Exception($messageInvalid, self::ERROR_STATUS);
         }
     }

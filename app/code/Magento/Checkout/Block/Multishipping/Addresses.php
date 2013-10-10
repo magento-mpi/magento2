@@ -25,18 +25,26 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
     protected $_filterGridFactory;
 
     /**
+     * @var \Magento\Checkout\Model\Type\Multishipping
+     */
+    protected $_multishipping;
+
+    /**
      * @param \Magento\Filter\Object\GridFactory $filterGridFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Checkout\Model\Type\Multishipping $multishipping
      * @param array $data
      */
     public function __construct(
         \Magento\Filter\Object\GridFactory $filterGridFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Checkout\Model\Type\Multishipping $multishipping,
         array $data = array()
     ) {
         $this->_filterGridFactory = $filterGridFactory;
+        $this->_multishipping = $multishipping;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -47,20 +55,28 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
      */
     public function getCheckout()
     {
-        return \Mage::getSingleton('Magento\Checkout\Model\Type\Multishipping');
+        return $this->_multishipping;
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareLayout()
     {
-        if ($headBlock = $this->getLayout()->getBlock('head')) {
+        $headBlock = $this->getLayout()->getBlock('head');
+        if ($headBlock) {
             $headBlock->setTitle(__('Ship to Multiple Addresses') . ' - ' . $headBlock->getDefaultTitle());
         }
         return parent::_prepareLayout();
     }
 
+    /**
+     * @return array
+     */
     public function getItems()
     {
         $items = $this->getCheckout()->getQuoteShippingAddressesItems();
+        /** @var \Magento\Filter\Object\Grid $itemsFilter */
         $itemsFilter = $this->_filterGridFactory->create();
         $itemsFilter->addFilter(new \Magento\Filter\Sprintf('%d'), 'qty');
         return $itemsFilter->filter($items);
@@ -69,7 +85,8 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
     /**
      * Retrieve HTML for addresses dropdown
      *
-     * @param  $item
+     * @param $item
+     * @param int $index
      * @return string
      */
     public function getAddressesHtmlSelect($item, $index)
@@ -105,36 +122,59 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
         return $options;
     }
 
+    /**
+     * @return \Magento\Customer\Model\Customer
+     */
     public function getCustomer()
     {
         return $this->getCheckout()->getCustomerSession()->getCustomer();
     }
 
+    /**
+     * @param $item
+     * @return string
+     */
     public function getItemUrl($item)
     {
-        return $this->getUrl('catalog/product/view/id/'.$item->getProductId());
+        return $this->getUrl('catalog/product/view/id/' . $item->getProductId());
     }
 
+    /**
+     * @param $item
+     * @return string
+     */
     public function getItemDeleteUrl($item)
     {
-        return $this->getUrl('*/*/removeItem', array('address'=>$item->getQuoteAddressId(), 'id'=>$item->getId()));
+        return $this->getUrl('*/*/removeItem', array('address' => $item->getQuoteAddressId(), 'id' => $item->getId()));
     }
 
+    /**
+     * @return string
+     */
     public function getPostActionUrl()
     {
         return $this->getUrl('*/*/addressesPost');
     }
 
+    /**
+     * @return string
+     */
     public function getNewAddressUrl()
     {
-        return \Mage::getUrl('*/multishipping_address/newShipping');
+        return $this->getUrl('*/multishipping_address/newShipping');
     }
 
+    /**
+     * @return string
+     */
     public function getBackUrl()
     {
-        return \Mage::getUrl('*/cart/');
+        return $this->getUrl('*/cart/');
     }
 
+    /**
+     * @return bool
+     */
     public function isContinueDisabled()
     {
         return !$this->getCheckout()->validateMinimumAmount();

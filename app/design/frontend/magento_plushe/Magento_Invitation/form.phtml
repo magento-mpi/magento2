@@ -1,0 +1,77 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     magento_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /** @var $this \Magento\Invitation\Block\Form */?>
+<?php echo $this->getChildHtml('form_before')?>
+<?php $maxPerSend = $this->getMaxInvitationsPerSend(); ?>
+<?php if ($maxPerSend): ?>
+    <form id="invitationForm" action="" method="post" class="form add invitations" data-hasrequired="<?php echo __('* Required Fields') ?>">
+        <fieldset class="fieldset">
+            <legend class="legend"><span><?php echo __('Invite your friends by entering their email addresses.'); ?></span></legend>
+            <br>
+                <?php $_perRow = ceil($maxPerSend/3); for($_index = 1; $_index <= $maxPerSend; $_index ++): ?>
+                <div class="field email<?php if ($_index == 1) echo ' required' ?>">
+                    <label for="email_<?php echo $_index ?>" class="label"><span><?php echo $_index; ?></span></label>
+                    <div class="control">
+                        <input tabindex="<?php echo $_index ?>" name="email[]" id="email_<?php echo $_index ?>" title="<?php echo __('Email') ?>" value="" class="input-text<?php if ($_index == 1) echo ' required-entry' ?>" type="text" data-validate="{'validate-email':true<?php if ($_index == 1): ?>, required:true<?php endif;?>}" />
+                    </div>
+                </div>
+                <?php endfor; ?>
+            <?php if ($this->isInvitationMessageAllowed()): ?>
+                <div class="field text">
+                    <label for="message" class="label"><span><?php echo __('Message');?></span></label>
+                    <div class="control">
+                        <textarea tabindex="<?php echo $_index+1 ?>" name="message" id="message" title="<?php echo __('Message') ?>"  class="input-text message" rows="5" cols="5"></textarea>
+                    </div>
+                </div>
+            <?php endif;?>
+        </fieldset>
+        <div class="actions">
+            <div class="secondary">
+                <a href="<?php echo $this->helper('Magento\Invitation\Helper\Data')->getCustomerInvitationUrl() ?>" class="action back"><span><?php  echo __('Back to Invitations') ?></span></a>
+            </div>
+            <div class="primary">
+                <button class="action submit" type="submit"><span><?php echo __('Send Invitations') ?></span></button>
+            </div>
+        </div>
+    </form>
+    <script type="text/javascript">
+        (function($) {
+            head.js(
+                "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js') ?>",
+                "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js') ?>",
+                "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
+                "<?php echo $this->getViewFileUrl('mage/validation/validation.js') ?>",
+                function() {
+                    /**
+                     * All input fields have the same name attribute 'email[]',
+                     * by default jQuery validate only validate the first input field.
+                     * We overwrite checkForm function to validate all the input fields.
+                     * This maybe a use case to have a beforeValidation event?
+                     */
+                    $.extend($.validator.prototype, {checkForm: function() {
+                        this.prepareForm();
+                        this.findByName(this.elements()[0].name).each($.proxy(function(i, e) {
+                            this.check(e);
+                        }, this));
+                        return this.valid();
+                    }});
+                    $('#invitationForm').validation({});
+                });
+        })(jQuery);
+    </script>
+<?php else:?>
+    <p class="empty"><?php echo __('You cannot send more invitations'); ?></p>
+    <div class="actions">
+        <div class="secondary">
+            <a href="<?php echo $this->helper('Magento\Invitation\Helper\Data')->getCustomerInvitationUrl() ?>" class="action back"><span><?php  echo __('Back to Invitations') ?></span></a>
+        </div>
+    </div>
+<?php endif; ?>

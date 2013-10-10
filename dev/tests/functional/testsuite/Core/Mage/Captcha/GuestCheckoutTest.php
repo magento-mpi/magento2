@@ -68,7 +68,6 @@ class Core_Mage_Captcha_GuestCheckoutTest extends Mage_Selenium_TestCase
      */
     public function enableCaptcha($productName)
     {
-        $this->markTestIncomplete('BUG: No captcha image on Billing Information page');
         //Data
         $method = array('checkout_method' => 'guest');
         //Steps
@@ -135,7 +134,7 @@ class Core_Mage_Captcha_GuestCheckoutTest extends Mage_Selenium_TestCase
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney_usa',
             array('general_name' => $productName));
-        $message = '"Please type the letters below": This is a required field.';
+        $message = '"Please enter the letters below": This is a required field.';
         $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);
         //Steps
         $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);

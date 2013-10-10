@@ -25,6 +25,12 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Logging\Model\Resource\Event\Changes\CollectionFactory
+     */
+    protected $collectionFactory;
+
+    /**
+     * @param \Magento\Logging\Model\Resource\Event\Changes\CollectionFactory $collectionFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -33,6 +39,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      * @param array $data
      */
     public function __construct(
+        \Magento\Logging\Model\Resource\Event\Changes\CollectionFactory $collectionFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -40,6 +47,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
         \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->collectionFactory = $collectionFactory;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
@@ -62,7 +70,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     protected function _prepareCollection()
     {
         $event = $this->_coreRegistry->registry('current_event');
-        $collection = \Mage::getResourceModel('Magento\Logging\Model\Resource\Event\Changes\Collection')
+        $collection = $this->collectionFactory->create()
             ->addFieldToFilter('event_id', $event->getId());
         $this->setCollection($collection);
         return parent::_prepareCollection();

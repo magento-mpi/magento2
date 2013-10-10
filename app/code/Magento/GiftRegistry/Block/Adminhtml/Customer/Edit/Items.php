@@ -17,6 +17,11 @@ class Items
     extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
+     * @var \Magento\GiftRegistry\Model\ItemFactory
+     */
+    protected $itemFactory;
+
+    /**
      * Core registry
      *
      * @var \Magento\Core\Model\Registry
@@ -29,6 +34,7 @@ class Items
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\GiftRegistry\Model\ItemFactory $itemFactory
      * @param array $data
      */
     public function __construct(
@@ -37,9 +43,11 @@ class Items
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->itemFactory = $itemFactory;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
@@ -54,7 +62,7 @@ class Items
 
     protected function _prepareCollection()
     {
-        $collection = \Mage::getModel('Magento\GiftRegistry\Model\Item')->getCollection()
+        $collection = $this->itemFactory->create()->getCollection()
             ->addRegistryFilter($this->getEntity()->getId());
 
         $collection->updateItemAttributes();

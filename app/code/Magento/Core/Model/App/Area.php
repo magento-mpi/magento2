@@ -92,12 +92,27 @@ class Area
 
     /**
      * @param \Magento\Core\Model\Logger $logger
+     * Core design
+     *
+     * @var \Magento\Core\Model\Design
+     */
+    protected $_design;
+
+    /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Translate $translator
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\ObjectManager $objectManager
      * @param \Magento\Core\Model\ObjectManager\ConfigLoader $diConfigLoader
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Design $design
+     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param string $areaCode
      */
     public function __construct(
@@ -108,6 +123,8 @@ class Area
         \Magento\Core\Model\ObjectManager $objectManager,
         \Magento\Core\Model\ObjectManager\ConfigLoader $diConfigLoader,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Design $design,
+        \Magento\Core\Model\StoreManager $storeManager,
         $areaCode
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -118,6 +135,8 @@ class Area
         $this->_eventManager = $eventManager;
         $this->_translator = $translator;
         $this->_logger = $logger;
+        $this->_design = $design;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -148,8 +167,8 @@ class Area
         if ($this->_code == self::AREA_FRONTEND) {
             $isDesignException = ($request && $this->_applyUserAgentDesignException($request));
             if (!$isDesignException) {
-                $this->_getDesignChange()
-                    ->loadChange(\Mage::app()->getStore()->getId())
+                $this->_design
+                    ->loadChange($this->_storeManager->getStore()->getId())
                     ->changeDesign($this->_getDesign());
             }
         }
@@ -191,14 +210,6 @@ class Area
     protected function _getDesign()
     {
         return $this->_objectManager->get('Magento\Core\Model\View\DesignInterface');
-    }
-
-    /**
-     * @return \Magento\Core\Model\Design
-     */
-    protected function _getDesignChange()
-    {
-        return \Mage::getSingleton('Magento\Core\Model\Design');
     }
 
     /**

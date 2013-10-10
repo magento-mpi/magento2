@@ -35,12 +35,35 @@ class Form extends \Magento\Eav\Model\Form
     protected $_collectionFactory;
 
     /**
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
+     * @param \Magento\Eav\Model\AttributeDataFactory $attrDataFactory
+     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Core\Controller\Request\Http $httpRequest
+     * @param \Magento\Validator\ConfigFactory $validatorConfigFactory
      * @param \Magento\Rma\Model\Resource\Item\Form\Attribute\CollectionFactory $collectionFactory
      */
-    public function __construct(\Magento\Rma\Model\Resource\Item\Form\Attribute\CollectionFactory $collectionFactory)
-    {
+    public function __construct(
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Model\Config\Modules\Reader $modulesReader,
+        \Magento\Eav\Model\AttributeDataFactory $attrDataFactory,
+        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Core\Controller\Request\Http $httpRequest,
+        \Magento\Validator\ConfigFactory $validatorConfigFactory,
+        \Magento\Rma\Model\Resource\Item\Form\Attribute\CollectionFactory $collectionFactory
+    ) {
         $this->_collectionFactory = $collectionFactory;
-        parent::__construct();
+        parent::__construct(
+            $storeManager,
+            $eavConfig,
+            $modulesReader,
+            $attrDataFactory,
+            $universalFactory,
+            $httpRequest,
+            $validatorConfigFactory
+        );
     }
 
     /**

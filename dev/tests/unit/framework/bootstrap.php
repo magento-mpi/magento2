@@ -40,3 +40,5 @@ function tool_autoloader($className)
     }
 }
 spl_autoload_register('tool_autoloader');
+error_reporting(E_ALL);
+ini_set('display_errors', 1);

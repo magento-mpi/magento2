@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-namespace Magento\TargetRule\Model;
 
 /**
  * TargetRule Rule Model
@@ -44,6 +43,8 @@ namespace Magento\TargetRule\Model;
  * @author      Magento Core Team <core@magentocommerce.com>
  * @SuppressWarnings(PHPMD.LongVariable)
  */
+namespace Magento\TargetRule\Model;
+
 class Rule extends \Magento\Rule\Model\AbstractModel
 {
     /**
@@ -125,13 +126,6 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $_locale;
 
     /**
-     * @var \Magento\Catalog\Model\Resource\Product\CollectionFactory
-     */
-    protected $_productCollectionFactory;
-
-    /**
-     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\Resource\Iterator $iterator
      * @param \Magento\TargetRule\Model\Rule\Condition\CombineFactory $ruleFactory
      * @param \Magento\TargetRule\Model\Actions\Condition\CombineFactory $actionFactory
@@ -139,6 +133,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -146,8 +141,6 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
-        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\Resource\Iterator $iterator,
         \Magento\TargetRule\Model\Rule\Condition\CombineFactory $ruleFactory,
         \Magento\TargetRule\Model\Actions\Condition\CombineFactory $actionFactory,
@@ -160,7 +153,6 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_productCollectionFactory = $productCollectionFactory;
         $this->_locale = $locale;
         $this->_iterator = $iterator;
         $this->_productFactory = $productFactory;
@@ -247,7 +239,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      */
     public function prepareMatchingProducts($onlyId = false)
     {
-        $productCollection = $this->_productCollectionFactory->create();
+        $productCollection = $this->_productFactory->create()->getCollection();
 
         if (!$onlyId && !is_null($this->_productIds)) {
             $productCollection->addIdFilter($this->_productIds);

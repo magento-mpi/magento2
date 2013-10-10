@@ -45,7 +45,7 @@ class Welcome extends \Magento\FullPageCache\Model\Container\Customer
      */
     protected function _renderBlock()
     {
-        $block = \Mage::app()->getLayout()->createBlock('Magento\Page\Block\Html\Header');
+        $block = $this->_layout->createBlock('Magento\Page\Block\Html\Header');
         $this->_eventManager->dispatch('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
         return $block->getWelcome();
     }

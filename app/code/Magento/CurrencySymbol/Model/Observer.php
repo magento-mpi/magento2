@@ -39,7 +39,7 @@ class Observer
      * Generate options for currency displaying with custom currency symbol
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_CurrencySymbol_Model__Observer
+     * @return \Magento\CurrencySymbol\Model\Observer
      */
     public function currencyDisplayOptions(\Magento\Event\Observer $observer)
     {

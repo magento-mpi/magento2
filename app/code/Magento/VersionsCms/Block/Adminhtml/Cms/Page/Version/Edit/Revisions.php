@@ -10,12 +10,7 @@
 
 /**
  * Grid with revisions on version page
- *
- * @category    Magento
- * @package     Magento_VersionsCms
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Version\Edit;
 
 class Revisions
@@ -26,13 +21,23 @@ class Revisions
      *
      * @var \Magento\VersionsCms\Helper\Data
      */
-    protected $_cmsData = null;
+    protected $_cmsData;
     /**
      * Core registry
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var \Magento\VersionsCms\Model\Resource\Page\Revision\CollectionFactory
+     */
+    protected $_revisionCollFactory;
+
+    /**
+     * @var \Magento\VersionsCms\Model\Config
+     */
+    protected $_cmsConfig;
 
     /**
      * @param \Magento\VersionsCms\Helper\Data $cmsData
@@ -41,6 +46,8 @@ class Revisions
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\VersionsCms\Model\Resource\Page\Revision\CollectionFactory $revisionCollFactory
+     * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param array $data
      */
     public function __construct(
@@ -50,10 +57,14 @@ class Revisions
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Core\Model\Registry $registry,
+        \Magento\VersionsCms\Model\Resource\Page\Revision\CollectionFactory $revisionCollFactory,
+        \Magento\VersionsCms\Model\Config $cmsConfig,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         $this->_cmsData = $cmsData;
+        $this->_revisionCollFactory = $revisionCollFactory;
+        $this->_cmsConfig = $cmsConfig;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
@@ -73,8 +84,8 @@ class Revisions
      */
     protected function _prepareCollection()
     {
-        /* var $collection Magento\VersionsCms\Model\Resource\Revision\Collection */
-        $collection = \Mage::getModel('Magento\VersionsCms\Model\Page\Revision')->getCollection()
+        /* var $collection \Magento\VersionsCms\Model\Resource\Page\Revision\Collection */
+        $collection = $this->_revisionCollFactory->create()
             ->addPageFilter($this->getPage())
             ->addVersionFilter($this->getVersion())
             ->addUserColumn()
@@ -83,8 +94,8 @@ class Revisions
             // Commented this bc now revision are shown in scope of version and not page.
             // So if user has permission to load this version he
             // has permission to see all its versions
-            //->addVisibilityFilter(\Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->getId(),
-            //    \Mage::getSingleton('Magento\VersionsCms\Model\Config')->getAllowedAccessLevel());
+            //->addVisibilityFilter($this->_objM->get('Magento\Backend\Model\Auth\Session')->getUser()->getId(),
+            //$this->_cmsConfig->getAllowedAccessLevel());
 
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -143,17 +154,21 @@ class Revisions
      */
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/revisions', array('_current'=>true));
+        return $this->getUrl('*/*/revisions', array('_current' => true));
     }
 
     /**
      * Grid row event edit url
      *
+     * @param object $row
      * @return string
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/cms_page_revision/edit', array('page_id' => $row->getPageId(), 'revision_id' => $row->getRevisionId()));
+        return $this->getUrl('*/cms_page_revision/edit', array(
+            'page_id' => $row->getPageId(),
+            'revision_id' => $row->getRevisionId()
+        ));
     }
 
     /**
@@ -184,7 +199,7 @@ class Revisions
      */
     protected function _prepareMassaction()
     {
-        if (\Mage::getSingleton('Magento\VersionsCms\Model\Config')->canCurrentUserDeleteRevision()) {
+        if ($this->_cmsConfig->canCurrentUserDeleteRevision()) {
             $this->setMassactionIdField('revision_id');
             $this->getMassactionBlock()->setFormFieldName('revision');
 

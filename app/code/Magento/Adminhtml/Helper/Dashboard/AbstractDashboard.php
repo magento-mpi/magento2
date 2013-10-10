@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Adminhtml abstract  dashboard helper.
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Adminhtml\Helper\Dashboard;
 
@@ -23,7 +18,7 @@ abstract class AbstractDashboard extends \Magento\Core\Helper\Data
     /**
      * Helper collection
      *
-     * @var Magento_Core_Model_Mysql_Collection_Abstract|\Magento\Eav\Model\Entity\Collection\Abstract|array
+     * @var \Magento\Core\Model\Resource\Db\Collection\AbstractCollection|\Magento\Eav\Model\Entity\Collection\Abstract|array
      */
     protected  $_collection;
 

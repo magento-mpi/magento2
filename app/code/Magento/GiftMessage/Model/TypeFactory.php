@@ -23,7 +23,7 @@ class TypeFactory
     protected $_allowedEntityTypes = array(
         'order'         => 'Magento\Sales\Model\Order',
         'order_item'    => 'Magento\Sales\Model\Order\Item',
-        'order_address' => 'Magento\Sales\Model\Order_Address',
+        'order_address' => 'Magento\Sales\Model\Order\Address',
         'quote'         => 'Magento\Sales\Model\Quote',
         'quote_item'    => 'Magento\Sales\Model\Quote\Item',
         'quote_address' => 'Magento\Sales\Model\Quote\Address',
@@ -50,7 +50,7 @@ class TypeFactory
      *
      * @param $eavType
      *
-     * @return Magento_Eav_Model_Entity_Abstract
+     * @return \Magento\Eav\Model\Entity\Abstract
      * @throws \Magento\Core\Exception
      */
     public function createType($eavType)

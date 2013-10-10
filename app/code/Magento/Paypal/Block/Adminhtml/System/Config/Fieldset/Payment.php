@@ -17,6 +17,27 @@ class Payment
     extends \Magento\Backend\Block\System\Config\Form\Fieldset
 {
     /**
+     * @var \Magento\Backend\Model\Config
+     */
+    protected $_backendConfig;
+
+    /**
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Backend\Model\Auth\Session $authSession
+     * @param \Magento\Backend\Model\Config $backendConfig
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Backend\Block\Context $context,
+        \Magento\Backend\Model\Auth\Session $authSession,
+        \Magento\Backend\Model\Config $backendConfig,
+        array $data = array()
+    ) {
+        $this->_backendConfig = $backendConfig;
+        parent::__construct($context, $authSession, $data);
+    }
+
+    /**
      * Add custom css class
      *
      * @param \Magento\Data\Form\Element\AbstractElement $element
@@ -43,7 +64,7 @@ class Payment
             return false;
         }
 
-        $isPaymentEnabled = (string)\Mage::getSingleton('Magento\Backend\Model\Config')->getConfigDataValue($activityPath);
+        $isPaymentEnabled = (string)$this->_backendConfig->getConfigDataValue($activityPath);
 
         return (bool)$isPaymentEnabled;
     }
@@ -88,7 +109,7 @@ class Payment
                 . __('View Demo') . '</a>';
         }
 
-            $html .='</div></div>';
+            $html .= '</div></div>';
 
         return $html;
     }

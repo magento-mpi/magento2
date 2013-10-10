@@ -8,16 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model\Product\Flat;
 
 /**
  * Catalog Product Flat observer
  *
- * @category   Magento
- * @package    Magento_Catalog
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Model\Product\Flat;
-
 class Observer
 {
     /**
@@ -28,11 +25,33 @@ class Observer
     protected $_catalogProductFlat = null;
 
     /**
+     * Catalog product flat indexer
+     *
+     * @var \Magento\Catalog\Model\Product\Flat\Indexer
+     */
+    protected $_catalogProductFlatIndexer;
+
+    /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Product\Flat\Indexer $catalogProductFlatIndexer
      * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
      */
     public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Product\Flat\Indexer $catalogProductFlatIndexer,
         \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
     ) {
+        $this->_storeManager = $storeManager;
+        $this->_catalogProductFlatIndexer = $catalogProductFlatIndexer;
         $this->_catalogProductFlat = $catalogProductFlat;
     }
 
@@ -52,7 +71,7 @@ class Observer
      * @return \Magento\Catalog\Model\Product\Flat\Indexer
      */
     protected function _getIndexer() {
-        return \Mage::getSingleton('Magento\Catalog\Model\Product\Flat\Indexer');
+        return $this->_catalogProductFlatIndexer;
     }
 
     /**
@@ -132,7 +151,7 @@ class Observer
         $productIds = $observer->getEvent()->getProductIds();
 
         foreach ($websiteIds as $websiteId) {
-            $website = \Mage::app()->getWebsite($websiteId);
+            $website = $this->_storeManager->getWebsite($websiteId);
             foreach ($website->getStores() as $store) {
                 if ($observer->getEvent()->getAction() == 'remove') {
                     $this->_getIndexer()->removeProduct($productIds, $store->getId());

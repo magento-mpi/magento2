@@ -22,24 +22,18 @@ class Combine
     protected $_inputType = 'numeric';
 
     /**
-     * @var \Magento\CustomerSegment\Model\ConditionFactory
-     */
-    protected $_conditionFactory;
-
-    /**
-     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
      * @param \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory
+     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
     public function __construct(
-        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
         \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
+        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
         \Magento\Rule\Model\Condition\Context $context,
         array $data = array()
     ) {
-        $this->_conditionFactory = $conditionFactory;
-        parent::__construct($resourceSegment, $context, $data);
+        parent::__construct($conditionFactory, $resourceSegment, $context, $data);
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Sales\Combine');
     }
 
@@ -51,7 +45,7 @@ class Combine
     public function getNewChildSelectOptions()
     {
         return array_merge_recursive(parent::getNewChildSelectOptions(), array(
-            $this->_conditionFactory->create('Order_Status')->getNewChildSelectOptions(),
+            $this->_conditionFactory->create('Order\Status')->getNewChildSelectOptions(),
             // date ranges
             array(
                 'value' => array(

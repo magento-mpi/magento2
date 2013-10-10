@@ -28,7 +28,7 @@ class Adapter extends \Magento\Core\Model\Config\Value
     /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\Image\AdapterFactory $imageFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -38,7 +38,7 @@ class Adapter extends \Magento\Core\Model\Config\Value
     public function __construct(
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Config $config,
         \Magento\Core\Model\Image\AdapterFactory $imageFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,

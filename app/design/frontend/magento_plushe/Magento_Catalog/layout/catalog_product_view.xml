@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <referenceBlock name="product.info.overview">
+        <arguments>
+            <argument name="at_label" xsi:type="string">none</argument>
+            <argument name="title" translate="true" xsi:type="string">Overview</argument>
+        </arguments>
+        <action method="addToParentGroup">
+            <argument name="group" xsi:type="string">detailed_info</argument>
+        </action>
+    </referenceBlock>
+    <move element="product.info" destination="product.info.main" after="product.tierprices"/>
+    <move element="page.main.title" destination="product.info.main" before="-"/>
+    <!-- <remove name="product.info.sku"/> -->
+    <move element="product.info.overview" destination="product.info.details" before="-" as="product_overview"/>
+</layout>

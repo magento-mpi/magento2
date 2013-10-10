@@ -3,16 +3,14 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
 <widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../../../../../../../../../../app/code/Magento/Widget/etc/widget.xsd">
-    <widget id="new_products" class="Mage_Catalog_Block_Product_Widget_New" module="Mage_Catalog" is_email_compatible="true"
-            placeholder_image="Mage_Catalog::images/product_widget_new.gif" translate="label description">
+    <widget id="new_products" class="Magento\Catalog\Block\Product\Widget\NewWidget" module="Magento_Catalog" is_email_compatible="true"
+            placeholder_image="Magento_Catalog::images/product_widget_new.gif" translate="label description">
         <label>Catalog New Products List</label>
         <description>List of Products that are set as New</description>
         <parameter name="display_type" type="select" required="true" visible="true" translate="label description">
@@ -25,7 +23,7 @@
                 <label>New products</label>
             </option>
         </parameter>
-        <parameter name="show_pager" type="select" visible="true" source_model="Mage_Backend_Model_Config_Source_Yesno"
+        <parameter name="show_pager" type="select" visible="true" source_model="Magento\Backend\Model\Config\Source\Yesno"
                    translate="label" >
             <label>Display Page Control</label>
         </parameter>
@@ -79,13 +77,13 @@
         </container>
     </widget>
 
-    <widget id="catalog_product_link" class="Mage_Catalog_Block_Product_Widget_Link" module="Mage_Catalog" is_email_compatible="true"
-            placeholder_image="Mage_Catalog::images/product_widget_link.gif" translate="label description">
+    <widget id="catalog_product_link" class="Magento\Catalog\Block\Product\Widget\Link" module="Magento_Catalog" is_email_compatible="true"
+            placeholder_image="Magento_Catalog::images/product_widget_link.gif" translate="label description">
         <label>Catalog Product Link</label>
         <description>Link to a Specified Product</description>
         <parameter name="id_path" type="block" visible="true" required="true" sort_order="10" translate="label">
             <label>Product</label>
-            <block class="Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser">
+            <block class="Magento\Adminhtml\Block\Catalog\Product\Widget\Chooser">
                 <data>
                     <item name="button" type="array">
                         <item name="open" type="string">Select Product...</item>
@@ -111,13 +109,13 @@
         </parameter>
     </widget>
 
-    <widget id="catalog_category_link" class="Mage_Catalog_Block_Category_Widget_Link" module="Mage_Catalog" is_email_compatible="true"
-            placeholder_image="Mage_Catalog::images/category_widget_link.gif" translate="label description">
+    <widget id="catalog_category_link" class="Magento\Catalog\Block\Category\Widget\Link" module="Magento_Catalog" is_email_compatible="true"
+            placeholder_image="Magento_Catalog::images/category_widget_link.gif" translate="label description">
         <label>Catalog Category Link</label>
         <description>Link to a Specified Category</description>
         <parameter name="id_path" type="block" visible="true" required="true" sort_order="10" translate="label">
             <label>Category</label>
-            <block class="Mage_Adminhtml_Block_Catalog_Category_Widget_Chooser">
+            <block class="Magento\Adminhtml\Block\Catalog\Category\Widget\Chooser">
                 <data>
                     <item name="button" type="array">
                         <item name="open" type="string">Select Category...</item>

@@ -430,13 +430,17 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
     /**
      * @param int $themeId
      * @param string $themeArea
-     * @return \Magento\Core\Model\Theme|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Core\Model\Theme|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getTheme($themeId, $themeArea)
     {
-        /** @var $theme \Magento\Core\Model\Theme|PHPUnit_Framework_MockObject_MockObject */
-        $theme = $this->getMock('Magento\Core\Model\Theme',
-            array('getThemeId', 'getArea', 'getThemeTitle'), array(), '', false
+        /** @var $theme \Magento\Core\Model\Theme|\PHPUnit_Framework_MockObject_MockObject */
+        $theme = $this->getMock(
+            'Magento\Core\Model\Theme',
+            array('getThemeId', 'getArea', 'getThemeTitle', '__wakeup'),
+            array(),
+            '',
+            false
         );
         $theme->expects($this->any())
             ->method('getThemeId')
@@ -453,11 +457,11 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param array $map
-     * @return \Magento\Core\Model\View\FileSystem|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Core\Model\View\FileSystem|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getFileSystem($map)
     {
-        /** @var $fileSystem \Magento\Core\Model\View\FileSystem|PHPUnit_Framework_MockObject_MockObject */
+        /** @var $fileSystem \Magento\Core\Model\View\FileSystem|\PHPUnit_Framework_MockObject_MockObject */
         $fileSystem = $this->getMockBuilder('Magento\Core\Model\View\FileSystem', array())
             ->disableOriginalConstructor()->getMock();
         $fileSystem->expects($this->any())
@@ -469,7 +473,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param string $layoutStr
-     * @return \Magento\Core\Model\Layout\MergeFactory|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Core\Model\Layout\MergeFactory|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getLayoutMergeFactory($layoutStr)
     {
@@ -495,7 +499,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \Magento\Core\Model\Dir|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Core\Model\Dir|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getDirs()
     {
@@ -515,7 +519,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \Magento\Core\Model\Resource\Theme\Collection|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Core\Model\Resource\Theme\Collection|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getThemeCollection()
     {
@@ -540,7 +544,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param array $files
-     * @return \Magento\Core\Helper\Theme|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Core\Helper\Theme|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getHelper($files)
     {
@@ -553,7 +557,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         $dirs = $this->_getDirs();
 
         // 5. Get layout merge model and factory
-        /** @var $layoutMergeFactory \Magento\Core\Model\Layout\MergeFactory|PHPUnit_Framework_MockObject_MockObject */
+        /** @var $layoutMergeFactory \Magento\Core\Model\Layout\MergeFactory|\PHPUnit_Framework_MockObject_MockObject */
         $layoutMergeFactory = $this->getMock('Magento\Core\Model\Layout\MergeFactory',
             array('create'), array(), '', false
         );
@@ -561,11 +565,11 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         /** @var $context \Magento\Core\Helper\Context */
         $context = $this->getMock('Magento\Core\Helper\Context', null, array(), '', false);
 
-        /** @var $fileSystem \Magento\Core\Model\View\FileSystem|PHPUnit_Framework_MockObject_MockObject */
+        /** @var $fileSystem \Magento\Core\Model\View\FileSystem|\PHPUnit_Framework_MockObject_MockObject */
         $fileSystem = $this->getMockBuilder('Magento\Core\Model\View\FileSystem', array())
             ->disableOriginalConstructor()->getMock();
 
-        /** @var $helper \Magento\Core\Helper\Theme|PHPUnit_Framework_MockObject_MockObject */
+        /** @var $helper \Magento\Core\Helper\Theme|\PHPUnit_Framework_MockObject_MockObject */
         $helper = $this->getMock('Magento\Core\Helper\Theme', array('getCssFiles'), array(
             $context, $dirs, $layoutMergeFactory, $themeCollection, $fileSystem
         ));

@@ -8,16 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute;
 
 /**
  * Catalog Configurable Product Attribute Collection
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute;
-
 class Collection
     extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
@@ -50,6 +47,24 @@ class Collection
     protected $_catalogData = null;
 
     /**
+     * Catalog product type configurable
+     *
+     * @var \Magento\Catalog\Model\Product\Type\Configurable
+     */
+    protected $_productTypeConfigurable;
+
+    /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Product\Type\Configurable $catalogProductTypeConfigurable
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Catalog\Helper\Data $catalogData
@@ -58,6 +73,8 @@ class Collection
      * @param \Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute $resource
      */
     public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Product\Type\Configurable $catalogProductTypeConfigurable,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Logger $logger,
         \Magento\Catalog\Helper\Data $catalogData,
@@ -65,6 +82,8 @@ class Collection
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute  $resource
     ) {
+        $this->_storeManager = $storeManager;
+        $this->_productTypeConfigurable = $catalogProductTypeConfigurable;
         $this->_catalogData = $catalogData;
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
     }
@@ -102,7 +121,7 @@ class Collection
      */
     private function getProductType()
     {
-        return \Mage::getSingleton('Magento\Catalog\Model\Product\Type\Configurable');
+        return $this->_productTypeConfigurable;
     }
 
     /**
@@ -237,7 +256,7 @@ class Collection
             if ($this->_catalogData->isPriceGlobal()) {
                 $websiteId = 0;
             } else {
-                $websiteId = (int)\Mage::app()->getStore($this->getStoreId())->getWebsiteId();
+                $websiteId = (int)$this->_storeManager->getStore($this->getStoreId())->getWebsiteId();
                 $pricing[$websiteId] = array();
             }
 

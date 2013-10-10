@@ -21,11 +21,14 @@ namespace Magento\SalesArchive\Model\Resource;
 class Helper extends \Magento\Core\Model\Resource\Helper
 {
     /**
+     * @param \Magento\Core\Model\Resource $resource
      * @param string $modulePrefix
      */
-    public function __construct($modulePrefix = 'SalesArchive')
-    {
-        parent::__construct($modulePrefix);
+    public function __construct(
+        \Magento\Core\Model\Resource $resource,
+        $modulePrefix = 'SalesArchive'
+    ) {
+        parent::__construct($resource, $modulePrefix);
     }
 
     /**

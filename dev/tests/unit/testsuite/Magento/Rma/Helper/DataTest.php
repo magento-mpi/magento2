@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Helper;
 
 class DataTest extends \PHPUnit_Framework_TestCase
@@ -28,23 +27,42 @@ class DataTest extends \PHPUnit_Framework_TestCase
             ->method('getConfig')
             ->will($this->returnValueMap($storeConfigData));
 
-        $storeManagerMock = $this->getMock('Magento\Core\Model\StoreManager', array('getStore'), array(), '', false);
-        $storeManagerMock->expects($this->once())
+        $context = $this->getMock('Magento\Core\Helper\Context', array('getApp'), array(), '', false, false);
+        $context->expects($this->any())->method('getApp')->will($this->returnValue($this->_getAppMock($mockConfig)));
+
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        /** @var \Magento\Rma\Helper\Data $model */
+        $model = $objectManager->getObject(
+            'Magento\Rma\Helper\Data',
+            array(
+                'context'        => $context,
+                'storeConfig'    => $storeConfigMock,
+                'countryFactory' => $this->_getCountryFactoryMock($mockConfig),
+                'regionFactory'  => $this->_getRegionFactoryMock($mockConfig),
+                'itemFactory'    => $this->getMock('Magento\Rma\Model\Resource\ItemFactory', array(), array(), '',
+                    false
+                ),
+                'addressFactory' => $this->getMock('Magento\Sales\Model\Quote\AddressFactory', array(), array(), '',
+                    false
+                ),
+            )
+        );
+        $this->assertEquals($model->getReturnAddressData($mockConfig['store_id']), $expectedResult);
+    }
+
+    /**
+     * Create application mock
+     *
+     * @param array $mockConfig
+     * @return \Magento\Core\Model\App|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function _getAppMock($mockConfig)
+    {
+        $appMock = $this->getMock('Magento\Core\Model\App', array(), array(), '', false);
+        $appMock->expects($this->any())
             ->method('getStore')
             ->will($this->returnValue($mockConfig['store_id']));
-        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $itemFactory = $this->getMock('Magento\Rma\Model\Resource\ItemFactory', array('create'), array(), '', false);
-        $addressFactory = $this->getMock('Magento\Sales\Model\Quote\AddressFactory',
-            array('create'), array(), '', false);
-        $model = $helper->getObject('Magento\Rma\Helper\Data', array(
-            'storeManager'   => $storeManagerMock,
-            'storeConfig'    => $storeConfigMock,
-            'countryFactory' => $this->_getCountryFactoryMock($mockConfig),
-            'regionFactory'  => $this->_getRegionFactoryMock($mockConfig),
-            'itemFactory'    => $itemFactory,
-            'addressFactory' => $addressFactory
-        ));
-        $this->assertEquals($model->getReturnAddressData(), $expectedResult);
+        return $appMock;
     }
 
     /**
@@ -80,7 +98,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     {
         $regionMock = $this->getMock(
             'Magento\Directory\Model\Region',
-            array('load', 'getCode', 'getName'),
+            array('load', 'getCode', 'getName', '__wakeup'),
             array(),
             '',
             false

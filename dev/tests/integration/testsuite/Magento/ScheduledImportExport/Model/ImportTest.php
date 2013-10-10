@@ -21,14 +21,22 @@ class ImportTest extends \PHPUnit_Framework_TestCase
         $product = $productModel->loadByAttribute('sku', 'product_100500'); // fixture
         $this->assertFalse($product);
 
-        $importExportData = $objectManager->get('Magento\ImportExport\Helper\Data');
-        $importConfig = $objectManager->get('Magento\ImportExport\Model\Import\ConfigInterface');
-        $logger = $objectManager->get('Magento\Core\Model\Logger');
-        $indexer = $objectManager->get('Magento\Index\Model\Indexer');
-
         // Mock the reindexAll() method, because it has DDL operations, thus breaks DB-isolating transaction
         $model = $this->getMock('Magento\ScheduledImportExport\Model\Import', array('reindexAll'), array(
-            $indexer, $logger, $importExportData, $importConfig, array(
+            $objectManager->get('Magento\Core\Model\Logger'),
+            $objectManager->get('Magento\Core\Model\Dir'),
+            $objectManager->get('Magento\Core\Model\Log\AdapterFactory'),
+            $objectManager->get('Magento\ImportExport\Helper\Data'),
+            $objectManager->get('Magento\Core\Model\Config'),
+            $objectManager->get('Magento\ImportExport\Model\Import\ConfigInterface'),
+            $objectManager->get('Magento\ImportExport\Model\Import\Entity\Factory'),
+            $objectManager->get('Magento\ImportExport\Model\Resource\Import\Data'),
+            $objectManager->get('Magento\ImportExport\Model\Export\Adapter\CsvFactory'),
+            $objectManager->get('Zend_File_Transfer_Adapter_HttpFactory'),
+            $objectManager->get('Magento\Core\Model\File\UploaderFactory'),
+            $objectManager->get('Magento\ImportExport\Model\Source\Import\Behavior\Factory'),
+            $objectManager->get('Magento\Index\Model\Indexer'),
+            array(
                 'entity'   => 'catalog_product',
                 'behavior' => 'append',
             )

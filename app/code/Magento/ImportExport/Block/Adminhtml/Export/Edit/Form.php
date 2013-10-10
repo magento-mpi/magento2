@@ -20,6 +20,39 @@ namespace Magento\ImportExport\Block\Adminhtml\Export\Edit;
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
+     * @var \Magento\ImportExport\Model\Source\Export\EntityFactory
+     */
+    protected $_entityFactory;
+
+    /**
+     * @var \Magento\ImportExport\Model\Source\Export\FormatFactory
+     */
+    protected $_formatFactory;
+
+    /**
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\ImportExport\Model\Source\Export\EntityFactory $entityFactory
+     * @param \Magento\ImportExport\Model\Source\Export\FormatFactory $formatFactory
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\ImportExport\Model\Source\Export\EntityFactory $entityFactory,
+        \Magento\ImportExport\Model\Source\Export\FormatFactory $formatFactory,
+        array $data = array()
+    ) {
+        $this->_entityFactory = $entityFactory;
+        $this->_formatFactory = $formatFactory;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Prepare form before rendering HTML.
      *
      * @return \Magento\ImportExport\Block\Adminhtml\Export\Edit\Form
@@ -36,24 +69,20 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         );
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('Export Settings')));
-        /** @var $entitySourceModel \Magento\ImportExport\Model\Source\Export\Entity */
-        $entitySourceModel = \Mage::getModel('Magento\ImportExport\Model\Source\Export\Entity');
         $fieldset->addField('entity', 'select', array(
             'name'     => 'entity',
             'title'    => __('Entity Type'),
             'label'    => __('Entity Type'),
             'required' => false,
             'onchange' => 'varienExport.getFilter();',
-            'values'   => $entitySourceModel->toOptionArray()
+            'values'   => $this->_entityFactory->create()->toOptionArray()
         ));
-        /** @var $formatSourceModel \Magento\ImportExport\Model\Source\Export\Format */
-        $formatSourceModel = \Mage::getModel('Magento\ImportExport\Model\Source\Export\Format');
         $fieldset->addField('file_format', 'select', array(
             'name'     => 'file_format',
             'title'    => __('Export File Format'),
             'label'    => __('Export File Format'),
             'required' => false,
-            'values'   => $formatSourceModel->toOptionArray()
+            'values'   => $this->_formatFactory->create()->toOptionArray()
         ));
 
         $form->setUseContainer(true);

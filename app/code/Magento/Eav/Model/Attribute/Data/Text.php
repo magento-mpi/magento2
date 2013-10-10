@@ -26,14 +26,17 @@ class Text extends \Magento\Eav\Model\Attribute\Data\AbstractData
     protected $_stringHelper;
 
     /**
-     * @param \Magento\Core\Helper\String $coreString
-     * @param array $arguments
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Helper\String $stringHelper
      */
     public function __construct(
-        \Magento\Core\Helper\String $coreString,
-        array $arguments = array()
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Helper\String $stringHelper
     ) {
-        $this->_stringHelper = $coreString;
+        parent::__construct($locale, $logger);
+        $this->_stringHelper = $stringHelper;
     }
 
     /**
@@ -129,7 +132,7 @@ class Text extends \Magento\Eav\Model\Attribute\Data\AbstractData
      * @param string $format
      * @return string|array
      */
-    public function outputValue($format = \Magento\Eav\Model\Attribute\Data::OUTPUT_FORMAT_TEXT)
+    public function outputValue($format = \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_TEXT)
     {
         $value = $this->getEntity()->getData($this->getAttribute()->getAttributeCode());
         $value = $this->_applyOutputFilter($value);

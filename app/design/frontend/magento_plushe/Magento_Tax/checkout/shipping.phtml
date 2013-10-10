@@ -1,0 +1,49 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/**
+ * @var $this \Magento\Tax\Block\Checkout\Shipping
+ * @see \Magento\Tax\Block\Checkout\Shipping
+ */
+?>
+<?php if ($this->displayBoth()):?>
+<tr class="total shipping excl">
+    <td style="<?php echo $this->getStyle() ?>" class="mark" colspan="<?php echo $this->getColspan(); ?>">
+        <?php echo $this->getExcludeTaxLabel() ?>
+    </td>
+    <td style="<?php echo $this->getStyle() ?>" class="amount">
+        <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($this->getShippingExcludeTax()) ?>
+    </td>
+</tr>
+<tr class="total shipping incl">
+    <td style="<?php echo $this->getStyle() ?>" class="mark" colspan="<?php echo $this->getColspan(); ?>">
+        <?php echo $this->getIncludeTaxLabel() ?>
+    </td>
+    <td style="<?php echo $this->getStyle() ?>" class="amount">
+        <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($this->getShippingIncludeTax()) ?>
+    </td>
+</tr>
+<?php elseif($this->displayIncludeTax()) : ?>
+<tr class="total shipping incl">
+    <td style="<?php echo $this->getStyle() ?>" class="mark" colspan="<?php echo $this->getColspan(); ?>">
+        <?php echo $this->getTotal()->getTitle() ?>
+    </td>
+    <td style="<?php echo $this->getStyle() ?>" class="amount">
+        <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($this->getShippingIncludeTax()) ?>
+    </td>
+</tr>
+<?php else:?>
+<tr class="total shipping excl">
+    <td style="<?php echo $this->getStyle() ?>" class="mark" colspan="<?php echo $this->getColspan(); ?>">
+        <?php echo $this->escapeHtml($this->getTotal()->getTitle()) ?>
+    </td>
+    <td style="<?php echo $this->getStyle() ?>" class="amount">
+        <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($this->getShippingExcludeTax()) ?>
+    </td>
+</tr>
+<?php endif;?>

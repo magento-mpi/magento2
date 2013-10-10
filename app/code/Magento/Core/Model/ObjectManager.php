@@ -27,7 +27,7 @@ class ObjectManager extends \Magento\ObjectManager\ObjectManager
     /**
      * Retrieve object manager
      *
-     * Temporary solution for removing Mage God Object, removed when Serialization problem has resolved
+     * TODO: Temporary solution for serialization, should be removed when Serialization problem is resolved
      *
      * @deprecated
      * @return \Magento\ObjectManager

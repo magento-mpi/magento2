@@ -10,8 +10,6 @@
 
 /**
  * Abstract class for Paypal API wrappers
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Paypal\Model\Api;
 
@@ -19,9 +17,10 @@ abstract class AbstractApi extends \Magento\Object
 {
     /**
      * Config instance
+     *
      * @var \Magento\Paypal\Model\Config
      */
-    protected $_config = null;
+    protected $_config;
 
     /**
      * Global private to public interface map
@@ -45,6 +44,7 @@ abstract class AbstractApi extends \Magento\Object
 
     /**
      * Line items export to request mapping settings
+     *
      * @var array
      */
     protected $_lineItemExportItemsFormat = array();
@@ -56,10 +56,11 @@ abstract class AbstractApi extends \Magento\Object
      *
      * @var \Magento\Paypal\Model\Cart
      */
-    protected $_cart = null;
+    protected $_cart;
 
     /**
      * Shipping options export to request mapping settings
+     *
      * @var array
      */
     protected $_shippingOptionsExportItemsFormat = array();
@@ -83,12 +84,27 @@ abstract class AbstractApi extends \Magento\Object
      *
      * @var \Magento\Customer\Helper\Address
      */
-    protected $_customerAddress = null;
+    protected $_customerAddress;
 
     /**
      * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
+
+    /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var \Magento\Directory\Model\RegionFactory
+     */
+    protected $_regionFactory;
+
+    /**
+     * @var \Magento\Core\Model\Log\AdapterFactory
+     */
+    protected $_logAdapterFactory;
 
     /**
      * Constructor
@@ -97,14 +113,25 @@ abstract class AbstractApi extends \Magento\Object
      * attributes This behavior may change in child classes
      *
      * @param \Magento\Customer\Helper\Address $customerAddress
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Directory\Model\RegionFactory $regionFactory
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param array $data
      */
     public function __construct(
         \Magento\Customer\Helper\Address $customerAddress,
         \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Directory\Model\RegionFactory $regionFactory,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
         array $data = array()
     ) {
         $this->_customerAddress = $customerAddress;
         $this->_logger = $logger;
+        $this->_locale = $locale;
+        $this->_regionFactory = $regionFactory;
+        $this->_logAdapterFactory = $logAdapterFactory;
         parent::__construct($data);
     }
 
@@ -295,6 +322,7 @@ abstract class AbstractApi extends \Magento\Object
 
     /**
      * Config instance setter
+     *
      * @param \Magento\Paypal\Model\Config $config
      * @return \Magento\Paypal\Model\Api\AbstractApi
      */
@@ -311,11 +339,11 @@ abstract class AbstractApi extends \Magento\Object
      */
     public function getLocaleCode()
     {
-        return \Mage::app()->getLocale()->getLocaleCode();
+        return $this->_locale->getLocaleCode();
     }
 
     /**
-     * Always take into accoun
+     * Always take into account
      */
     public function getFraudManagementFiltersEnabled()
     {
@@ -519,8 +547,9 @@ abstract class AbstractApi extends \Magento\Object
      */
     protected function _lookupRegionCodeFromAddress(\Magento\Object $address)
     {
-        if ($regionId = $address->getData('region_id')) {
-            $region = \Mage::getModel('Magento\Directory\Model\Region')->load($regionId);
+        $regionId = $address->getData('region_id');
+        if ($regionId) {
+            $region = $this->_regionFactory->create()->load($regionId);
             if ($region->getId()) {
                 return $region->getCode();
             }
@@ -584,10 +613,9 @@ abstract class AbstractApi extends \Magento\Object
     protected function _debug($debugData)
     {
         if ($this->getDebugFlag()) {
-            \Mage::getModel('Magento\Core\Model\Log\Adapter',
-                array('fileName' => 'payment_' . $this->_config->getMethodCode() . '.log'))
-               ->setFilterDataKeys($this->_debugReplacePrivateDataKeys)
-               ->log($debugData);
+            $this->_logAdapterFactory->create(
+                array('fileName' => 'payment_' . $this->_config->getMethodCode() . '.log')
+            )->setFilterDataKeys($this->_debugReplacePrivateDataKeys)->log($debugData);
         }
     }
 

@@ -32,7 +32,7 @@
  */
 namespace Magento\Sales\Model\Billing;
 
-class Agreement extends \Magento\Payment\Model\Billing\AgreementAbstract
+class Agreement extends \Magento\Payment\Model\Billing\AbstractAgreement
 {
     const STATUS_ACTIVE     = 'active';
     const STATUS_CANCELED   = 'canceled';

@@ -28,14 +28,46 @@ class Price extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     protected $_helper;
 
     /**
-     * @param \Magento\Catalog\Helper\Data $catalogData
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Currency factory
+     *
+     * @var \Magento\Directory\Model\CurrencyFactory
+     */
+    protected $_currencyFactory;
+
+    /**
+     * Core config model
+     *
+     * @var \Magento\Core\Model\ConfigInterface
+     */
+    protected $_config;
+
+    /**
+     * Construct
+     *
      * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Model\Config $config
      */
     public function __construct(
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Directory\Model\CurrencyFactory $currencyFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Model\Logger $logger
+        \Magento\Core\Model\Config $config
     ) {
+        $this->_currencyFactory = $currencyFactory;
+        $this->_storeManager = $storeManager;
         $this->_helper = $catalogData;
+        $this->_config = $config;
         parent::__construct($logger);
     }
 
@@ -89,16 +121,17 @@ class Price extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
         }
 
         if ($this->getAttribute()->getIsGlobal() == \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE) {
-            $baseCurrency = \Mage::app()->getBaseCurrencyCode();
+            $baseCurrency = $this->_config->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE,
+                'default');
 
             $storeIds = $object->getStoreIds();
             if (is_array($storeIds)) {
                 foreach ($storeIds as $storeId) {
-                    $storeCurrency = \Mage::app()->getStore($storeId)->getBaseCurrencyCode();
+                    $storeCurrency = $this->_storeManager->getStore($storeId)->getBaseCurrencyCode();
                     if ($storeCurrency == $baseCurrency) {
                         continue;
                     }
-                    $rate = \Mage::getModel('Magento\Directory\Model\Currency')->load($baseCurrency)->getRate($storeCurrency);
+                    $rate = $this->_currencyFactory->create()->load($baseCurrency)->getRate($storeCurrency);
                     if (!$rate) {
                         $rate = 1;
                     }
@@ -126,7 +159,7 @@ class Price extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
         }
 
         if (!preg_match('/^\d*(\.|,)?\d{0,4}$/i', $value) || $value < 0) {
-            \Mage::throwException(
+            throw new \Magento\Core\Exception(
                 __('Please enter a number 0 or greater in this field.')
             );
         }

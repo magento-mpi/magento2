@@ -18,13 +18,57 @@ namespace Magento\Install\Block;
 abstract class AbstractBlock extends \Magento\Core\Block\Template
 {
     /**
+     * Installer model
+     *
+     * @var \Magento\Install\Model\Installer
+     */
+    protected $_installer;
+
+    /**
+     * Wizard model
+     *
+     * @var \Magento\Install\Model\Wizard
+     */
+    protected $_installWizard;
+
+    /**
+     * Install session
+     *
+     * @var \Magento\Core\Model\Session\Generic
+     */
+    protected $_session;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Install\Model\Installer $installer
+     * @param \Magento\Install\Model\Wizard $installWizard
+     * @param \Magento\Core\Model\Session\Generic $session
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Install\Model\Installer $installer,
+        \Magento\Install\Model\Wizard $installWizard,
+        \Magento\Core\Model\Session\Generic $session,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $context, $data);
+        $this->_installer = $installer;
+        $this->_installWizard = $installWizard;
+        $this->_session = $session;
+    }
+
+
+    /**
      * Retrieve installer model
      *
      * @return \Magento\Install\Model\Installer
      */
     public function getInstaller()
     {
-        return \Mage::getSingleton('Magento\Install\Model\Installer');
+        return $this->_installer;
     }
     
     /**
@@ -34,7 +78,7 @@ abstract class AbstractBlock extends \Magento\Core\Block\Template
      */
     public function getWizard()
     {
-        return \Mage::getSingleton('Magento\Install\Model\Wizard');
+        return $this->_installWizard;
     }
     
     /**

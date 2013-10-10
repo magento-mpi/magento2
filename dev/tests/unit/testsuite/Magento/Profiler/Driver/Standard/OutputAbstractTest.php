@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class for \Magento\Profiler\Driver\Standard\OutputAbstract
+ * Test class for \Magento\Profiler\Driver\Standard\AbstractOutput
  *
  * {license_notice}
  *
@@ -12,13 +12,13 @@ namespace Magento\Profiler\Driver\Standard;
 class OutputAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Profiler\Driver\Standard\OutputAbstract|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Profiler\Driver\Standard\AbstractOutput|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_output;
 
     protected function setUp()
     {
-        $this->_output = $this->getMockForAbstractClass('Magento\Profiler\Driver\Standard\OutputAbstract');
+        $this->_output = $this->getMockForAbstractClass('Magento\Profiler\Driver\Standard\AbstractOutput');
     }
 
     /**
@@ -58,8 +58,8 @@ class OutputAbstractTest extends \PHPUnit_Framework_TestCase
                 'fetchKey' => 100
             )
         );
-        /** @var \Magento\Profiler\Driver\Standard\OutputAbstract|PHPUnit_Framework_MockObject_MockObject $output  */
-        $output = $this->getMockForAbstractClass('Magento\Profiler\Driver\Standard\OutputAbstract', array(
+        /** @var \Magento\Profiler\Driver\Standard\AbstractOutput|PHPUnit_Framework_MockObject_MockObject $output  */
+        $output = $this->getMockForAbstractClass('Magento\Profiler\Driver\Standard\AbstractOutput', array(
             $configuration
         ));
         $this->assertEquals('/filter pattern/', $output->getFilterPattern());

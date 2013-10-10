@@ -28,6 +28,49 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
     protected $_attributes   = array();
 
     /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Model factory
+     *
+     * @var \Magento\Catalog\Model\Factory
+     */
+    protected $_modelFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Factory $modelFactory
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Eav\Model\Resource\Helper $resourceHelper,
+        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Factory $modelFactory,
+        $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_modelFactory = $modelFactory;
+        parent::__construct($resource, $eavConfig, $attrSetEntity, $locale, $resourceHelper, $universalFactory);
+    }
+
+    /**
      * Redeclare attribute model
      *
      * @return string
@@ -100,8 +143,8 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
          * store mode, customize some value per specific store view and than back
          * to single store mode. We should load correct values
          */
-        if (\Mage::app()->hasSingleStore()) {
-            $storeId = (int)\Mage::app()->getStore(true)->getId();
+        if ($this->_storeManager->hasSingleStore()) {
+            $storeId = (int)$this->_storeManager->getStore(true)->getId();
         } else {
             $storeId = (int)$object->getStoreId();
         }
@@ -190,7 +233,7 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
     protected function _saveAttributeValue($object, $attribute, $value)
     {
         $write   = $this->_getWriteAdapter();
-        $storeId = (int)\Mage::app()->getStore($object->getStoreId())->getId();
+        $storeId = (int)$this->_storeManager->getStore($object->getStoreId())->getId();
         $table   = $attribute->getBackend()->getTable();
 
         /**
@@ -198,7 +241,7 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
          * for default store id
          * In this case we clear all not default values
          */
-        if (\Mage::app()->hasSingleStore()) {
+        if ($this->_storeManager->hasSingleStore()) {
             $storeId = $this->getDefaultStoreId();
             $write->delete($table, array(
                 'attribute_id = ?' => $attribute->getAttributeId(),
@@ -225,7 +268,7 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
             /**
              * Update attribute value for website
              */
-            $storeIds = \Mage::app()->getStore($storeId)->getWebsite()->getStoreIds(true);
+            $storeIds = $this->_storeManager->getStore($storeId)->getWebsite()->getStoreIds(true);
             foreach ($storeIds as $storeId) {
                 $bind['store_id'] = (int)$storeId;
                 $this->_attributeValuesToSave[$table][] = $bind;
@@ -254,7 +297,7 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
         /**
          * save required attributes in global scope every time if store id different from default
          */
-        $storeId = (int)\Mage::app()->getStore($object->getStoreId())->getId();
+        $storeId = (int)$this->_storeManager->getStore($object->getStoreId())->getId();
         if ($attribute->getIsRequired() && $this->getDefaultStoreId() != $storeId) {
             $table = $attribute->getBackend()->getTable();
 
@@ -425,7 +468,7 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
     protected function _getOrigObject($object)
     {
         $className  = get_class($object);
-        $origObject = \Mage::getModel($className);
+        $origObject = $this->_modelFactory->create($className);
         $origObject->setData(array());
         $origObject->setStoreId($object->getStoreId());
         $this->load($origObject, $object->getData($this->getEntityIdField()));

@@ -20,7 +20,7 @@ namespace Magento\Pbridge\Block\Adminhtml\Customer\Edit\Tab\Payment;
 
 class Profile
     extends \Magento\Pbridge\Block\Iframe\AbstractIframe
-    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Block template
@@ -48,21 +48,32 @@ class Profile
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Pbridge\Helper\Data $pbridgeData
+     * Construct
+     *
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Pbridge\Model\Session $pbridgeSession
+     * @param \Magento\Directory\Model\RegionFactory $regionFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Pbridge\Helper\Data $pbridgeData
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Pbridge\Model\Session $pbridgeSession,
+        \Magento\Directory\Model\RegionFactory $regionFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Pbridge\Helper\Data $pbridgeData,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        parent::__construct($pbridgeData, $coreData, $context, $data);
+        parent::__construct($coreData, $context, $customerSession, $pbridgeSession, $regionFactory, $storeManager,
+            $pbridgeData, $data);
     }
 
     /**

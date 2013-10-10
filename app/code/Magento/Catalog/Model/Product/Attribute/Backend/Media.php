@@ -70,40 +70,51 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     protected $_eventManager = null;
 
     /**
+     * Product factory
+     *
+     * @var \Magento\Catalog\Model\Resource\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Catalog\Model\Resource\ProductFactory $productFactory
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDb
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\Product\Media\Config $mediaConfig
      * @param \Magento\Core\Model\Dir $dirs
      * @param \Magento\Filesystem $filesystem
-     * @param \Magento\Core\Model\Logger $logger
-     * @param array $data
+     * @param \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media $resourceProductAttribute
      */
     public function __construct(
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Catalog\Model\Resource\ProductFactory $productFactory,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Helper\File\Storage\Database $fileStorageDb,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Model\Product\Media\Config $mediaConfig,
         \Magento\Core\Model\Dir $dirs,
         \Magento\Filesystem $filesystem,
-        \Magento\Core\Model\Logger $logger,
-        $data = array()
+        \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media $resourceProductAttribute
     ) {
+        $this->_productFactory = $productFactory;
         $this->_eventManager = $eventManager;
         $this->_fileStorageDb = $fileStorageDb;
         $this->_coreData = $coreData;
-        if (isset($data['resourceModel'])) {
-            $this->_resourceModel = $data['resourceModel'];
-        }
+        $this->_resourceModel = $resourceProductAttribute;
         $this->_mediaConfig = $mediaConfig;
         $this->_filesystem = $filesystem;
-        parent::__construct($logger);
         $this->_filesystem->setIsAllowCreateDirectories(true);
         $this->_filesystem->setWorkingDirectory($dirs->getDir(\Magento\Core\Model\Dir::MEDIA));
         $this->_baseMediaPath = $this->_mediaConfig->getBaseMediaPath();
         $this->_baseTmpMediaPath = $this->_mediaConfig->getBaseTmpMediaPath();
         $this->_filesystem->ensureDirectoryExists($this->_baseMediaPath);
         $this->_filesystem->ensureDirectoryExists($this->_baseTmpMediaPath);
+
+        parent::__construct($logger);
     }
 
     /**
@@ -162,7 +173,7 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
         if ($this->getAttribute()->getIsUnique()) {
             if (!$this->getAttribute()->getEntity()->checkAttributeUniqueValue($this->getAttribute(), $object)) {
                 $label = $this->getAttribute()->getFrontend()->getLabel();
-                \Mage::throwException(
+                throw new \Magento\Core\Exception(
                     __('The value of attribute "%1" must be unique.', $label)
                 );
             }
@@ -281,7 +292,7 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
         unset($storeIds[$storeId]);
         $storeIds = array_keys($storeIds);
 
-        $images = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product')
+        $images = $this->_productFactory->create()
             ->getAssignedImages($object, $storeIds);
 
         $picturesInOtherStores = array();
@@ -339,13 +350,13 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
         $mediaAttribute = null, $move = false, $exclude = true
     ) {
         if (!$this->_filesystem->isFile($file, $this->_baseTmpMediaPath)) {
-            \Mage::throwException(__('The image does not exist.'));
+            throw new \Magento\Core\Exception(__('The image does not exist.'));
         }
 
         $pathinfo = pathinfo($file);
         $imgExtensions = array('jpg','jpeg','gif','png');
         if (!isset($pathinfo['extension']) || !in_array(strtolower($pathinfo['extension']), $imgExtensions)) {
-            \Mage::throwException(__('Please correct the image file type.'));
+            throw new \Magento\Core\Exception(__('Please correct the image file type.'));
         }
 
         $fileName       = \Magento\Core\Model\File\Uploader::getCorrectFileName($pathinfo['basename']);
@@ -371,7 +382,7 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
                 $this->_filesystem->changePermissions($destinationFile, 0777, false, $this->_baseTmpMediaPath);
             }
         } catch (\Exception $e) {
-            \Mage::throwException(
+            throw new \Magento\Core\Exception(
                 __('We couldn\'t move this file: %1.', $e->getMessage())
             );
         }
@@ -593,11 +604,6 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
      */
     protected function _getResource()
     {
-        if (empty($this->_resourceModel)) {
-            $this->_resourceModel = \Mage::getResourceSingleton(
-                'Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media'
-            );
-        }
         return $this->_resourceModel;
     }
 
@@ -648,7 +654,7 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
         if ($this->_fileStorageDb->checkDbUsage()) {
             $destFile = $this->_fileStorageDb
                 ->getUniqueFilename(
-                    \Mage::getSingleton('Magento\Catalog\Model\Product\Media\Config')->getBaseMediaUrlAddition(),
+                    $this->_mediaConfig->getBaseMediaUrlAddition(),
                     $file
                 );
         } else {
@@ -691,7 +697,7 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
             return str_replace(DS, '/', $destinationFile);
         } catch (\Exception $e) {
             $file = $this->_mediaConfig->getMediaPath($file);
-            \Mage::throwException(
+            throw new \Magento\Core\Exception(
                 __('We couldn\'t copy file %1. Please delete media with non-existing images and try again.', $file)
             );
         }

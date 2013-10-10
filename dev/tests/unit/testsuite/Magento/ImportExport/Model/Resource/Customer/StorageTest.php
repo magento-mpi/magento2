@@ -30,7 +30,13 @@ class StorageTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = new \Magento\ImportExport\Model\Resource\Customer\Storage($this->_getModelDependencies());
+        $this->_model = new \Magento\ImportExport\Model\Resource\Customer\Storage(
+            $this->getMock('Magento\Customer\Model\Resource\Customer\CollectionFactory', array(), array(), '', false),
+            $this->getMock(
+                'Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory', array(), array(), '', false
+            ),
+            $this->_getModelDependencies()
+        );
         $this->_model->load();
     }
 

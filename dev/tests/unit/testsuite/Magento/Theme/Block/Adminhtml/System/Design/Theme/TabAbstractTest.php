@@ -14,14 +14,14 @@ namespace Magento\Theme\Block\Adminhtml\System\Design\Theme;
 class TabAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\TabAbstract
+     * @var \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\AbstractTab
      */
     protected $_model;
 
     protected function setUp()
     {
         $this->_model = $this->getMockForAbstractClass(
-            'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\TabAbstract',
+            'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\AbstractTab',
             array(
                 $this->getMock('Magento\Data\Form\Factory', array(), array(), '', false),
                 $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false),

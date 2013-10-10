@@ -13,17 +13,12 @@
  *
  * @method \Magento\Backend\Block\Menu setAdditionalCacheKeyInfo(array $cacheKeyInfo)
  * @method array getAdditionalCacheKeyInfo()
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backend\Block;
 
 class Menu extends \Magento\Backend\Block\Template
 {
     const CACHE_TAGS = 'BACKEND_MAINMENU';
-
 
     /**
      * @var string
@@ -50,13 +45,49 @@ class Menu extends \Magento\Backend\Block\Template
     protected $_activeItemModel = null;
 
     /**
+     * @var \Magento\Backend\Model\Menu\Filter\IteratorFactory
+     */
+    protected $_iteratorFactory;
+
+    /**
+     * @var \Magento\Backend\Model\Auth\Session
+     */
+    protected $_authSession;
+
+    /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var \Magento\Backend\Model\Menu\Config
+     */
+    protected $_menuConfig;
+
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Model\Url $url,
+        \Magento\Backend\Model\Menu\Filter\IteratorFactory $iteratorFactory,
+        \Magento\Backend\Model\Auth\Session $authSession,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Backend\Model\Menu\Config $menuConfig,
+        array $data = array()
+    ) {
+        $this->_url = $url;
+        $this->_iteratorFactory = $iteratorFactory;
+        $this->_authSession = $authSession;
+        $this->_locale = $locale;
+        $this->_menuConfig = $menuConfig;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Initialize template and cache settings
-     *
      */
     protected function _construct()
     {
         parent::_construct();
-        $this->_url = \Mage::getSingleton('Magento\Backend\Model\Url');
         $this->setCacheTags(array(self::CACHE_TAGS));
     }
 
@@ -179,7 +210,7 @@ class Menu extends \Magento\Backend\Block\Template
      */
     protected function _getMenuIterator($menu)
     {
-        return \Mage::getModel('Magento\Backend\Model\Menu\Filter\Iterator', array('iterator' => $menu->getIterator()));
+        return $this->_iteratorFactory->create(array('iterator' => $menu->getIterator()));
     }
 
     /**
@@ -231,8 +262,8 @@ class Menu extends \Magento\Backend\Block\Template
         $cacheKeyInfo = array(
             'admin_top_nav',
             $this->getActive(),
-            \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->getId(),
-            \Mage::app()->getLocale()->getLocaleCode()
+            $this->_authSession->getUser()->getId(),
+            $this->_locale->getLocaleCode()
         );
         // Add additional key parameters if needed
         $newCacheKeyInfo = $this->getAdditionalCacheKeyInfo();
@@ -249,7 +280,7 @@ class Menu extends \Magento\Backend\Block\Template
      */
     public function getMenuModel()
     {
-        return \Mage::getSingleton('Magento\Backend\Model\Menu\Config')->getMenu();
+        return $this->_menuConfig->getMenu();
     }
 
     /**

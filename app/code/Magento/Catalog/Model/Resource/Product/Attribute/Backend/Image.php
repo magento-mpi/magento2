@@ -22,6 +22,37 @@ class Image
     extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
+     * Dir model
+     *
+     * @var \Magento\Core\Model\Dir
+     */
+    protected $_dir;
+
+    /**
+     * File Uploader factory
+     *
+     * @var \Magento\Core\Model\File\UploaderFactory
+     */
+    protected $_fileUploaderFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\File\UploaderFactory $fileUploaderFactory
+     */
+    public function __construct(
+        \Magento\Core\Model\Dir $dir,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\File\UploaderFactory $fileUploaderFactory
+    ) {
+        $this->_dir = $dir;
+        $this->_fileUploaderFactory = $fileUploaderFactory;
+        parent::__construct($logger);
+    }
+
+    /**
      * After save
      *
      * @param \Magento\Object $object
@@ -39,14 +70,15 @@ class Image
         }
 
         try {
-            $uploader = new \Magento\Core\Model\File\Uploader($this->getAttribute()->getName());
+            /** @var $uploader \Magento\Core\Model\File\Uploader */
+            $uploader = $this->_fileUploaderFactory->create(array('fileId' => $this->getAttribute()->getName()));
             $uploader->setAllowedExtensions(array('jpg', 'jpeg', 'gif', 'png'));
             $uploader->setAllowRenameFiles(true);
             $uploader->setFilesDispersion(true);
         } catch (\Exception $e){
             return $this;
         }
-        $uploader->save(\Mage::getBaseDir('media') . '/catalog/product');
+        $uploader->save($this->_dir->getDir(\Magento\Core\Model\Dir::MEDIA) . '/catalog/product');
 
         $fileName = $uploader->getUploadedFileName();
         if ($fileName) {

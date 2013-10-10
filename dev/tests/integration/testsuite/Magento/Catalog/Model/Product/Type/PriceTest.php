@@ -111,20 +111,20 @@ class PriceTest extends \PHPUnit_Framework_TestCase
 
     public function testCalculatePrice()
     {
-        $this->assertEquals(10, \Magento\Catalog\Model\Product\Type\Price::calculatePrice(
+        $this->assertEquals(10, $this->_model->calculatePrice(
             10, 8, '1970-12-12 23:59:59', '1971-01-01 01:01:01'
         ));
-        $this->assertEquals(8, \Magento\Catalog\Model\Product\Type\Price::calculatePrice(
+        $this->assertEquals(8, $this->_model->calculatePrice(
             10, 8, '1970-12-12 23:59:59', '2034-01-01 01:01:01'
         ));
     }
 
     public function testCalculateSpecialPrice()
     {
-        $this->assertEquals(10, \Magento\Catalog\Model\Product\Type\Price::calculateSpecialPrice(
+        $this->assertEquals(10, $this->_model->calculateSpecialPrice(
             10, 8, '1970-12-12 23:59:59', '1971-01-01 01:01:01'
         ));
-        $this->assertEquals(8, \Magento\Catalog\Model\Product\Type\Price::calculateSpecialPrice(
+        $this->assertEquals(8, $this->_model->calculateSpecialPrice(
             10, 8, '1970-12-12 23:59:59', '2034-01-01 01:01:01'
         ));
     }

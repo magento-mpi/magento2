@@ -195,7 +195,6 @@ class International
      * @param \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory
      * @param \Magento\Shipping\Model\Rate\ResultFactory $rateFactory
      * @param \Magento\Shipping\Model\Rate\Result\MethodFactory $rateMethodFactory
-     * @param \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory
      * @param \Magento\Shipping\Model\Tracking\ResultFactory $trackFactory
      * @param \Magento\Shipping\Model\Tracking\Result\ErrorFactory $trackErrorFactory
      * @param \Magento\Shipping\Model\Tracking\Result\StatusFactory $trackStatusFactory
@@ -204,6 +203,8 @@ class International
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
      * @param array $data
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -218,7 +219,6 @@ class International
         \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory,
         \Magento\Shipping\Model\Rate\ResultFactory $rateFactory,
         \Magento\Shipping\Model\Rate\Result\MethodFactory $rateMethodFactory,
-        \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory,
         \Magento\Shipping\Model\Tracking\ResultFactory $trackFactory,
         \Magento\Shipping\Model\Tracking\Result\ErrorFactory $trackErrorFactory,
         \Magento\Shipping\Model\Tracking\Result\StatusFactory $trackStatusFactory,
@@ -227,6 +227,8 @@ class International
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Directory\Helper\Data $directoryData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -237,9 +239,9 @@ class International
         $this->_storeManager = $storeManager;
         $this->_configReader = $configReader;
         parent::__construct(
-            $xmlElFactory, $rateFactory, $rateMethodFactory, $rateErrorFactory,
-            $trackFactory, $trackErrorFactory, $trackStatusFactory, $regionFactory,
-            $countryFactory, $currencyFactory, $directoryData, $coreStoreConfig, $data
+            $xmlElFactory, $rateFactory, $rateMethodFactory, $trackFactory, $trackErrorFactory, $trackStatusFactory,
+            $regionFactory, $countryFactory, $currencyFactory, $directoryData, $coreStoreConfig, $rateErrorFactory,
+            $logAdapterFactory, $data
         );
         if ($this->getConfigData('content_type') == self::DHL_CONTENT_TYPE_DOC) {
             $this->_freeMethod = 'free_method_doc';
@@ -871,7 +873,7 @@ class International
                 . 'xmlns:p2="http://www.dhl.com/DCTRequestdatatypes" '
                 . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
                 . 'xsi:schemaLocation="http://www.dhl.com DCT-req.xsd "/>';
-        $xml = $this->_xmlElFactory->create(array($xmlStr));
+        $xml = $this->_xmlElFactory->create(array('data' => $xmlStr));
         $nodeGetQuote = $xml->addChild('GetQuote', '', '');
         $nodeRequest = $nodeGetQuote->addChild('Request');
 
@@ -1314,7 +1316,7 @@ class International
             . ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"'
             . ' xsi:schemaLocation="http://www.dhl.com ship-val-req'
             . ($originRegion ? '_' . $originRegion : '') . '.xsd" />';
-        $xml = $this->_xmlElFactory->create(array($xmlStr));
+        $xml = $this->_xmlElFactory->create(array('data' => $xmlStr));
 
         $nodeRequest = $xml->addChild('Request', '', '');
         $nodeServiceHeader = $nodeRequest->addChild('ServiceHeader');
@@ -1597,7 +1599,7 @@ class International
             . ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"'
             . ' xsi:schemaLocation="http://www.dhl.com TrackingRequestKnown.xsd" />';
 
-        $xml = $this->_xmlElFactory->create(array($xmlStr));
+        $xml = $this->_xmlElFactory->create(array('data' => $xmlStr));
 
         $requestNode = $xml->addChild('Request', '', '');
         $serviceHeaderNode = $requestNode->addChild('ServiceHeader', '', '');

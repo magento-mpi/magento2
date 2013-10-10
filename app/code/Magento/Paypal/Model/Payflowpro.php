@@ -37,8 +37,8 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
     const TRANSACTION_URL           = 'https://payflowpro.paypal.com/transaction';
     const TRANSACTION_URL_TEST_MODE = 'https://pilot-payflowpro.paypal.com/transaction';
 
-    /**
-     * Response codes
+    /**#@+
+     * Response code
      */
     const RESPONSE_CODE_APPROVED                = 0;
     const RESPONSE_CODE_INVALID_AMOUNT          = 4;
@@ -48,14 +48,15 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
     const RESPONSE_CODE_DECLINED_BY_MERCHANT    = 128;
     const RESPONSE_CODE_CAPTURE_ERROR           = 111;
     const RESPONSE_CODE_VOID_ERROR              = 108;
+    /**#@-*/
 
     /**
      * Payment method code
      */
     protected $_code = \Magento\Paypal\Model\Config::METHOD_PAYFLOWPRO;
 
-    /**
-     * Availability options
+    /**#@+
+     * Availability option
      */
     protected $_isGateway               = true;
     protected $_canAuthorize            = true;
@@ -69,6 +70,7 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
     protected $_canSaveCc = false;
     protected $_isProxy = false;
     protected $_canFetchTransactionInfo = true;
+    /**#@-*/
 
     /**
      * Gateway request timeout
@@ -100,37 +102,62 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
      *
      * @var \Magento\Core\Helper\Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
 
     /**
-     * Construct
-     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Paypal\Model\ConfigFactory
+     */
+    protected $_configFactory;
+
+    /**
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\ModuleListInterface $moduleList
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Centinel\Model\Service $centinelService
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Paypal\Model\ConfigFactory $configFactory
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\ModuleListInterface $moduleList,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Centinel\Model\Service $centinelService,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Paypal\Model\ConfigFactory $configFactory,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
-        parent::__construct($logger, $eventManager, $coreStoreConfig, $moduleList, $paymentData, $logAdapterFactory,
-            $locale, $centinelService, $data);
+        $this->_storeManager = $storeManager;
+        $this->_configFactory = $configFactory;
+        parent::__construct(
+            $logger,
+            $eventManager,
+            $coreStoreConfig,
+            $moduleList,
+            $paymentData,
+            $logAdapterFactory,
+            $locale,
+            $centinelService,
+            $data
+        );
     }
 
     /**
@@ -141,8 +168,9 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
      */
     public function isAvailable($quote = null)
     {
-        $storeId = \Mage::app()->getStore($this->getStore())->getId();
-        $config = \Mage::getModel('Magento\Paypal\Model\Config')->setStoreId($storeId);
+        $storeId = $this->_storeManager->getStore($this->getStore())->getId();
+        /** @var \Magento\Paypal\Model\Config $config */
+        $config = $this->_configFactory->create()->setStoreId($storeId);
         if (parent::isAvailable($quote) && $config->isMethodAvailable($this->getCode())) {
             return true;
         }
@@ -162,13 +190,16 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
                 return \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE;
             case \Magento\Paypal\Model\Config::PAYMENT_ACTION_SALE:
                 return \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE_CAPTURE;
+            default:
+                break;
         }
     }
 
     /**
      * Authorize payment
      *
-     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @param \\Magento\Object|\\Magento\Sales\Model\Order\Payment $payment
+     * @param float $amount
      * @return \Magento\Paypal\Model\Payflowpro
      */
     public function authorize(\Magento\Object $payment, $amount)
@@ -188,6 +219,8 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
                 $payment->setIsTransactionPending(true);
                 $payment->setIsFraudDetected(true);
                 break;
+            default:
+                break;
         }
         return $this;
     }
@@ -195,7 +228,8 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
     /**
      * Capture payment
      *
-     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @param \\Magento\Object|\\Magento\Sales\Model\Order\Payment $payment
+     * @param float $amount
      * @return \Magento\Paypal\Model\Payflowpro
      */
     public function capture(\Magento\Object $payment, $amount)
@@ -216,7 +250,7 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
         $response = $this->_postRequest($request);
         $this->_processErrors($response);
 
-        switch ($response->getResultCode()){
+        switch ($response->getResultCode()) {
             case self::RESPONSE_CODE_APPROVED:
                 $payment->setTransactionId($response->getPnref())->setIsTransactionClosed(0);
                 break;
@@ -225,6 +259,8 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
                 $payment->setIsTransactionPending(true);
                 $payment->setIsFraudDetected(true);
                 break;
+            default:
+                break;
         }
         return $this;
     }
@@ -232,7 +268,7 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
     /**
      * Void payment
      *
-     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @param \\Magento\Object|\\Magento\Sales\Model\Order\Payment $payment
      * @return \Magento\Paypal\Model\Payflowpro
      */
     public function void(\Magento\Object $payment)
@@ -266,7 +302,8 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
     /**
      * Refund capture
      *
-     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @param \\Magento\Object|\\Magento\Sales\Model\Order\Payment $payment
+     * @param float $amount
      * @return \Magento\Paypal\Model\Payflowpro
      */
     public function refund(\Magento\Object $payment, $amount)
@@ -274,7 +311,7 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
         $request = $this->_buildBasicRequest($payment);
         $request->setTrxtype(self::TRXTYPE_CREDIT);
         $request->setOrigid($payment->getParentTransactionId());
-        $request->setAmt(round($amount,2));
+        $request->setAmt(round($amount, 2));
         $response = $this->_postRequest($request);
         $this->_processErrors($response);
 
@@ -318,7 +355,7 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
     /**
      * Check whether the transaction is in payment review status
      *
-     * @param string $statusCode
+     * @param string $status
      * @return bool
      */
     protected static function _isTransactionUnderReview($status)
@@ -349,6 +386,7 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
      *
      * @param \Magento\Object $request
      * @return \Magento\Object
+     * @throws \Exception
      */
     protected function _postRequest(\Magento\Object $request)
     {
@@ -381,13 +419,12 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
             ->setHeaders('X-VPS-CLIENT-TIMEOUT: ' . $this->_clientTimeout);
 
         try {
-           /**
-            * we are sending request to payflow pro without url encoding
-            * so we set up _urlEncodeBody flag to false
-            */
+            /**
+             * we are sending request to payflow pro without url encoding
+             * so we set up _urlEncodeBody flag to false
+             */
             $response = $client->setUrlEncodeBody(false)->request();
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             $result->setResponseCode(-1)
                 ->setResponseReasonCode($e->getCode())
                 ->setResponseReasonText($e->getMessage());
@@ -402,13 +439,13 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
         $response = strstr($response->getBody(), 'RESULT');
         $valArray = explode('&', $response);
 
-        foreach($valArray as $val) {
-                $valArray2 = explode('=', $val);
-                $result->setData(strtolower($valArray2[0]), $valArray2[1]);
+        foreach ($valArray as $val) {
+            $valArray2 = explode('=', $val);
+            $result->setData(strtolower($valArray2[0]), $valArray2[1]);
         }
 
         $result->setResultCode($result->getResult())
-                ->setRespmsg($result->getRespmsg());
+            ->setRespmsg($result->getRespmsg());
 
         $debugData['result'] = $result->getData();
         $this->_debug($debugData);
@@ -416,19 +453,19 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
         return $result;
     }
 
-     /**
-      * Return request object with information for 'authorization' or 'sale' action
-      *
-      * @param \Magento\Sales\Model\Order\Payment $payment
-      * @param float $amount
-      * @return \Magento\Object
-      */
+    /**
+     * Return request object with information for 'authorization' or 'sale' action
+     *
+     * @param \\Magento\Object|\\Magento\Sales\Model\Order\Payment $payment
+     * @param float $amount
+     * @return \Magento\Object
+     */
     protected function _buildPlaceRequest(\Magento\Object $payment, $amount)
     {
         $request = $this->_buildBasicRequest($payment);
-        $request->setAmt(round($amount,2));
+        $request->setAmt(round($amount, 2));
         $request->setAcct($payment->getCcNumber());
-        $request->setExpdate(sprintf('%02d',$payment->getCcExpMonth()) . substr($payment->getCcExpYear(),-2,2));
+        $request->setExpdate(sprintf('%02d', $payment->getCcExpMonth()) . substr($payment->getCcExpYear(), -2, 2));
         $request->setCvv2($payment->getCcCid());
 
         if ($this->getIsCentinelValidationEnabled()){
@@ -438,7 +475,7 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
         }
 
         $order = $payment->getOrder();
-        if(!empty($order)){
+        if (!empty($order)) {
             $request->setCurrency($order->getBaseCurrencyCode());
 
             $orderIncrementId = $order->getIncrementId();
@@ -471,12 +508,12 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
         return $request;
     }
 
-     /**
-      * Return request object with basic information for gateway request
-      *
-      * @param \Magento\Sales\Model\Order\Payment $payment
-      * @return \Magento\Object
-      */
+    /**
+     * Return request object with basic information for gateway request
+     *
+     * @param \\Magento\Object|\\Magento\Sales\Model\Order\Payment $payment
+     * @return \Magento\Object
+     */
     protected function _buildBasicRequest(\Magento\Object $payment)
     {
         $request = new \Magento\Object();
@@ -491,28 +528,29 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
         return $request;
     }
 
-     /**
-      * Return unique value for request
-      *
-      * @return string
-      */
+    /**
+     * Return unique value for request
+     *
+     * @return string
+     */
     protected function _generateRequestId()
     {
         return $this->_coreData->uniqHash();
     }
 
-     /**
-      * If response is failed throw exception
-      *
-      * @throws \Magento\Core\Exception
-      */
+    /**
+     * If response is failed throw exception
+     *
+     * @throws \Magento\Core\Exception
+     */
     protected function _processErrors(\Magento\Object $response)
     {
         if ($response->getResultCode() == self::RESPONSE_CODE_VOID_ERROR) {
             throw new \Magento\Paypal\Exception(__('You cannot void a verification transaction.'));
         } elseif ($response->getResultCode() != self::RESPONSE_CODE_APPROVED
-            && $response->getResultCode() != self::RESPONSE_CODE_FRAUDSERVICE_FILTER) {
-            \Mage::throwException($response->getRespmsg());
+            && $response->getResultCode() != self::RESPONSE_CODE_FRAUDSERVICE_FILTER
+        ) {
+            throw new \Magento\Core\Exception($response->getRespmsg());
         }
     }
 

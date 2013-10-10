@@ -55,7 +55,7 @@ class Encrypted
     public function __wakeup()
     {
         parent::__wakeup();
-        $this->_coreData = \Mage::getSingleton('Magento\Core\Helper\Data');
+        $this->_coreData = \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Core\Helper\Data');
     }
 
     /**
@@ -84,16 +84,6 @@ class Encrypted
         if (!empty($value) && ($encrypted = $this->_coreData->encrypt($value))) {
             $this->setValue($encrypted);
         }
-    }
-
-    /**
-     * Get & decrypt old value from configuration
-     *
-     * @return string
-     */
-    public function getOldValue()
-    {
-        return $this->_coreData->decrypt(parent::getOldValue());
     }
 
     /**

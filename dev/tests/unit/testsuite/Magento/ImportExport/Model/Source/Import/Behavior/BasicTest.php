@@ -15,7 +15,7 @@
 namespace Magento\ImportExport\Model\Source\Import\Behavior;
 
 class BasicTest
-    extends \Magento\ImportExport\Model\Source\Import\BehaviorTestCaseAbstract
+    extends \Magento\ImportExport\Model\Source\Import\AbstractBehaviorTestCase
 {
     /**
      * Expected behavior group code

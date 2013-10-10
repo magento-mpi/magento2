@@ -32,11 +32,19 @@ class Observer
     protected $_licenseData = null;
 
     /**
+     * @var \Magento\Backend\Model\Auth\Session
+     */
+    protected $authSession;
+
+    /**
+     * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\License\Helper\Data $licenseData
      */
     public function __construct(
+        \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\License\Helper\Data $licenseData
     ) {
+        $this->authSession = $authSession;
         $this->_licenseData = $licenseData;
     }
 
@@ -62,7 +70,7 @@ class Observer
     public function preDispatch()
     {
         if ($this->_licenseData->isIoncubeLoaded() && $this->_licenseData->isIoncubeEncoded()) {
-            $lastCalculation = \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getDaysLeftBeforeExpired();
+            $lastCalculation = $this->authSession->getDaysLeftBeforeExpired();
 
             $dayOfLastCalculation = date('d', $lastCalculation['updatedAt']);
 
@@ -70,7 +78,7 @@ class Observer
 
             $isComeNewDay = ($currentDay != $dayOfLastCalculation);
 
-            if (!\Mage::getSingleton('Magento\Backend\Model\Auth\Session')->hasDaysLeftBeforeExpired()
+            if (!$this->authSession->hasDaysLeftBeforeExpired()
                 || $isComeNewDay) {
                 $this->_calculateDaysLeftToExpired();
             }
@@ -97,7 +105,7 @@ class Observer
 
             $daysLeftBeforeExpired = floor(($expiredTimestamp - time()) / 86400);
 
-            \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->setDaysLeftBeforeExpired(
+            $this->authSession->setDaysLeftBeforeExpired(
                 array(
                     'daysLeftBeforeExpired' => $daysLeftBeforeExpired,
                     'updatedAt' => time()

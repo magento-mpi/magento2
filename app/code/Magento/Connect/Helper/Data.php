@@ -32,38 +32,41 @@ class Data extends \Magento\Core\Helper\Data
     protected $_dirs;
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData = null;
-
-    /**
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Helper\Http $coreHttp
      * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Http $coreHttp
      * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Locale $locale
+     * @param \Magento\Core\Model\Date $dateModel
+     * @param \Magento\Core\Model\App\State $appState
      * @param \Magento\Core\Model\Encryption $encryptor
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\Dir $dirs
+     * @param bool $dbCompatibleMode
      */
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Helper\Http $coreHttp,
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Http $coreHttp,
         \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Locale $locale,
+        \Magento\Core\Model\Date $dateModel,
+        \Magento\Core\Model\App\State $appState,
         \Magento\Core\Model\Encryption $encryptor,
         \Magento\Filesystem $filesystem,
-        \Magento\Core\Model\Dir $dirs
-    ) {
-        $this->_coreData = $coreData;
-        $this->_dirs = $dirs;
-        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig, $encryptor);
+        \Magento\Core\Model\Dir $dirs,
+        $dbCompatibleMode = true
+    )
+    {
         $this->_filesystem = $filesystem;
+        $this->_dirs = $dirs;
+        parent::__construct($context, $eventManager, $coreHttp, $config, $coreStoreConfig, $storeManager,
+            $locale, $dateModel, $appState, $encryptor, $dbCompatibleMode
+        );
     }
 
     /**
@@ -162,7 +165,7 @@ class Data extends \Magento\Core\Helper\Data
 
         if ($this->_filesystem->isFile($xmlFile) && $this->_filesystem->isReadable($xmlFile)) {
             $xml  = simplexml_load_string($this->_filesystem->read($xmlFile));
-            $data = $this->_coreData->xmlToAssoc($xml);
+            $data = $this->xmlToAssoc($xml);
             if (!empty($data)) {
                 return $data;
             }

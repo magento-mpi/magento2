@@ -20,6 +20,39 @@ namespace Magento\Checkout\Model\Type;
 abstract class AbstractType extends \Magento\Object
 {
     /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\Sales\Model\OrderFactory
+     */
+    protected $_orderFactory;
+
+    /**
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Sales\Model\OrderFactory $orderFactory,
+        array $data = array()
+    ) {
+        parent::__construct();
+        $this->_checkoutSession = $checkoutSession;
+        $this->_customerSession = $customerSession;
+        $this->_orderFactory = $orderFactory;
+    }
+
+    /**
      * Retrieve checkout session model
      *
      * @return \Magento\Checkout\Model\Session
@@ -28,7 +61,7 @@ abstract class AbstractType extends \Magento\Object
     {
         $checkout = $this->getData('checkout_session');
         if (is_null($checkout)) {
-            $checkout = \Mage::getSingleton('Magento\Checkout\Model\Session');
+            $checkout = $this->_checkoutSession;
             $this->setData('checkout_session', $checkout);
         }
         return $checkout;
@@ -61,12 +94,7 @@ abstract class AbstractType extends \Magento\Object
      */
     public function getCustomerSession()
     {
-        $customer = $this->getData('customer_session');
-        if (is_null($customer)) {
-            $customer = \Mage::getSingleton('Magento\Customer\Model\Session');
-            $this->setData('customer_session', $customer);
-        }
-        return $customer;
+        return $this->_customerSession;
     }
 
     /**
@@ -76,7 +104,7 @@ abstract class AbstractType extends \Magento\Object
      */
     public function getCustomer()
     {
-        return $this->getCustomerSession()->getCustomer();
+        return $this->_customerSession->getCustomer();
     }
 
     /**
@@ -125,7 +153,8 @@ abstract class AbstractType extends \Magento\Object
 
     protected function _createOrderFromAddress($address)
     {
-        $order = \Mage::getModel('Magento\Sales\Model\Order')->createFromQuoteAddress($address)
+        $order = $this->_orderFactory->create()
+            ->createFromQuoteAddress($address)
             ->setCustomerId($this->getCustomer()->getId())
             ->setGlobalCurrencyCode('USD')
             ->setBaseCurrencyCode('USD')

@@ -21,39 +21,33 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
     protected $_coreData;
 
     /**
-     * @var \Magento\Core\Model\Resource\Setup\MigrationFactory
-     */
-    protected $_migrationFactory;
-
-    /**
      * @var \Magento\Core\Model\Config
      */
     protected $_config;
 
     /**
      * @param \Magento\Core\Model\Resource\Setup\Context $context
-     * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\CacheInterface $cache
-     * @param \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory
+     * @param \Magento\Core\Helper\Data $coreHelper
+     * @param \Magento\Core\Model\Config $config
      * @param string $resourceName
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
         \Magento\Core\Model\Resource\Setup\Context $context,
-        \Magento\Core\Model\Config $config,
         \Magento\Core\Model\CacheInterface $cache,
-        \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory,
+        \Magento\Core\Helper\Data $coreHelper,
+        \Magento\Core\Model\Config $config,
         $resourceName,
         $moduleName = 'Magento_Sales',
         $connectionName = ''
     ) {
-        $this->_migrationFactory = $migrationFactory;
-        $this->_coreData = $coreData;
         $this->_config = $config;
-        parent::__construct($context, $cache, $resourceName, $moduleName, $connectionName);
+        $this->_coreData = $coreHelper;
+        parent::__construct($context, $cache, $attrGrCollFactory, $resourceName, $moduleName, $connectionName);
     }
 
     /**
@@ -267,16 +261,5 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
     public function getConfigModel()
     {
         return $this->_config;
-    }
-
-    /**
-     * Get migration instance
-     *
-     * @param array $data
-     * @return \Magento\Core\Model\Resource\Setup\Migration
-     */
-    public function getMigrationSetup(array $data = array())
-    {
-        return $this->_migrationFactory->create($data);
     }
 }

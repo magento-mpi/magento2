@@ -1,0 +1,17 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<div class="widget banners inline">
+    <?php $bannersContent =  $this->getBannersContent() ?>
+    <ul class="inner">
+        <?php foreach ($bannersContent as $bannerId => $content): ?>
+            <li class="banner"><?php echo $content?></li>
+        <?php endforeach; ?>
+    </ul>
+</div>

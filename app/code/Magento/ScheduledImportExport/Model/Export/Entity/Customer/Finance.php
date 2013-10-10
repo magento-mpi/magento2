@@ -21,7 +21,7 @@
 namespace Magento\ScheduledImportExport\Model\Export\Entity\Customer;
 
 class Finance
-    extends \Magento\ImportExport\Model\Export\EntityAbstract
+    extends \Magento\ImportExport\Model\Export\AbstractEntity
 {
     /**#@+
      * Permanent column names
@@ -98,20 +98,26 @@ class Finance
     protected $_eavCustomerFactory;
 
     /**
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
+     * @param \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory
      * @param \Magento\ScheduledImportExport\Model\Resource\Customer\CollectionFactory $customerCollFactory
      * @param \Magento\ImportExport\Model\Export\Entity\Eav\CustomerFactory $eavCustomerFactory
      * @param \Magento\ScheduledImportExport\Helper\Data $importExportData
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\App $app,
+        \Magento\ImportExport\Model\Export\Factory $collectionFactory,
+        \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory,
         \Magento\ScheduledImportExport\Model\Resource\Customer\CollectionFactory $customerCollFactory,
         \Magento\ImportExport\Model\Export\Entity\Eav\CustomerFactory $eavCustomerFactory,
         \Magento\ScheduledImportExport\Helper\Data $importExportData,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
         array $data = array()
     ) {
-        parent::__construct($coreStoreConfig, $data);
+        parent::__construct($coreStoreConfig, $app, $collectionFactory, $resourceColFactory, $data);
 
         $this->_customerCollFactory = $customerCollFactory;
         $this->_eavCustomerFactory = $eavCustomerFactory;

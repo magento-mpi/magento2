@@ -94,7 +94,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento_Core_Controller_Varien_Front
+     * @return \Magento\Core\Controller\Varien\Front
      */
     public function getFrontController()
     {
@@ -110,7 +110,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento_ObjectManager
+     * @return \Magento\ObjectManager
      */
     public function getObjectManager()
     {
@@ -118,7 +118,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento_Core_Controller_Request_Http
+     * @return \Magento\Core\Controller\Request\Http
      */
     public function getRequest()
     {
@@ -126,7 +126,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento_Core_Controller_Response_Http
+     * @return \Magento\Core\Controller\Response\Http
      */
     public function getResponse()
     {
@@ -134,7 +134,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento_Core_Model_Event_Manager
+     * @return \Magento\Core\Model\Event\Manager
      */
     public function getEventManager()
     {

@@ -28,6 +28,31 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected $_storeId;
 
     /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+    ) {
+        $this->_storeManager = $storeManager;
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+    }
+
+    /**
      * Initialize collection model
      *
      */
@@ -70,7 +95,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     public function getStoreId()
     {
         if (is_null($this->_storeId)) {
-            return \Mage::app()->getStore()->getId();
+            return $this->_storeManager->getStore()->getId();
         }
         return $this->_storeId;
     }

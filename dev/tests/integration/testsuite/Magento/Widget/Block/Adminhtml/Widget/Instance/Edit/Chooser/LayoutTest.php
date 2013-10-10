@@ -26,12 +26,13 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $layoutUtility = new \Magento\Core\Utility\Layout($this);
         $args = array(
-            'context' => \Mage::getSingleton('Magento\Core\Block\Template\Context'),
+            'context' => $objectManager->get('Magento\Core\Block\Template\Context'),
             'layoutMergeFactory' => $this->getMock('Magento\Core\Model\Layout\MergeFactory',
                 array(), array(), '', false),
-            'themesFactory' => \Mage::getSingleton('Magento\Core\Model\Resource\Theme\CollectionFactory'),
+            'themesFactory' => $objectManager->get('Magento\Core\Model\Resource\Theme\CollectionFactory'),
             'data' => array(
                 'name'  => 'page_type',
                 'id'    => 'page_types_select',

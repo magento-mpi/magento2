@@ -14,7 +14,7 @@
  */
 namespace Magento\Validator\Test;
 
-class True extends \Magento\Validator\ValidatorAbstract
+class True extends \Magento\Validator\AbstractValidator
 {
     /**
      * Validate value

@@ -11,7 +11,7 @@
 
 namespace Magento\Rss\Controller;
 
-class CatalogTest extends \Magento\TestFramework\TestCase\ControllerAbstract
+class CatalogTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
      * @param string $action

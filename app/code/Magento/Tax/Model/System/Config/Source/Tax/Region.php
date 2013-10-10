@@ -8,19 +8,30 @@
  * @license     {license_link}
  */
 
-
 namespace Magento\Tax\Model\System\Config\Source\Tax;
 
 class Region implements \Magento\Core\Model\Option\ArrayInterface
 {
     protected $_options;
 
-    public function toOptionArray($noEmpty=false, $country = null)
+    /**
+     * @var \Magento\Directory\Model\Resource\Region\Collection\Factory
+     */
+    protected $_regionsFactory;
+
+    /**
+     * @param \Magento\Directory\Model\Resource\Region\Collection\Factory $regionsFactory
+     */
+    public function __construct(\Magento\Directory\Model\Resource\Region\Collection\Factory $regionsFactory)
     {
-        $options = \Mage::getModel('Magento\Directory\Model\Region')
-            ->getCollection()
-            ->addCountryFilter($country)
-            ->toOptionArray();
+        $this->_regionsFactory = $regionsFactory;
+    }
+
+    public function toOptionArray($noEmpty = false, $country = null)
+    {
+        /** @var $region \Magento\Directory\Model\Resource\Region\Collection */
+        $regionCollection = $this->_regionsFactory->create();
+        $options = $regionCollection->addCountryFilter($country)->toOptionArray();
 
         if ($noEmpty) {
             unset($options[0]);
@@ -28,7 +39,7 @@ class Region implements \Magento\Core\Model\Option\ArrayInterface
             if ($options) {
                 $options[0]['label'] = '*';
             } else {
-                $options = array(array('value'=>'', 'label'=>'*'));
+                $options = array(array('value' => '', 'label' => '*'));
             }
         }
 

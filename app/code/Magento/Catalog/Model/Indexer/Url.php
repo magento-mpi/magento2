@@ -57,6 +57,45 @@ class Url extends \Magento\Index\Model\Indexer\AbstractIndexer
     );
 
     /**
+     * Catalog url
+     *
+     * @var \Magento\Catalog\Model\Url
+     */
+    protected $_catalogUrl;
+
+    /**
+     * Catalog url1
+     *
+     * @var \Magento\Catalog\Model\Resource\Url
+     */
+    protected $_catalogResourceUrl;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Catalog\Model\Resource\Url $catalogResourceUrl
+     * @param \Magento\Catalog\Model\Url $catalogUrl
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Model\Resource\Url $catalogResourceUrl,
+        \Magento\Catalog\Model\Url $catalogUrl,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_catalogResourceUrl = $catalogResourceUrl;
+        $this->_catalogUrl = $catalogUrl;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Get Indexer name
      *
      * @return string
@@ -201,25 +240,22 @@ class Url extends \Magento\Index\Model\Indexer\AbstractIndexer
             $this->reindexAll();
         }
 
-        /* @var $urlModel \Magento\Catalog\Model\Url */
-        $urlModel = \Mage::getSingleton('Magento\Catalog\Model\Url');
-
         // Force rewrites history saving
         $dataObject = $event->getDataObject();
         if ($dataObject instanceof \Magento\Object && $dataObject->hasData('save_rewrites_history')) {
-            $urlModel->setShouldSaveRewritesHistory($dataObject->getData('save_rewrites_history'));
+            $this->_catalogUrl->setShouldSaveRewritesHistory($dataObject->getData('save_rewrites_history'));
         }
 
         if(isset($data['rewrite_product_ids'])) {
-            $urlModel->clearStoreInvalidRewrites(); // Maybe some products were moved or removed from website
+            $this->_catalogUrl->clearStoreInvalidRewrites(); // Maybe some products were moved or removed from website
             foreach ($data['rewrite_product_ids'] as $productId) {
-                 $urlModel->refreshProductRewrite($productId);
+                $this->_catalogUrl->refreshProductRewrite($productId);
             }
         }
         if (isset($data['rewrite_category_ids'])) {
-            $urlModel->clearStoreInvalidRewrites(); // Maybe some categories were moved
+            $this->_catalogUrl->clearStoreInvalidRewrites(); // Maybe some categories were moved
             foreach ($data['rewrite_category_ids'] as $categoryId) {
-                $urlModel->refreshCategoryRewrite($categoryId);
+                $this->_catalogUrl->refreshCategoryRewrite($categoryId);
             }
         }
     }
@@ -229,14 +265,12 @@ class Url extends \Magento\Index\Model\Indexer\AbstractIndexer
      */
     public function reindexAll()
     {
-        /** @var $resourceModel \Magento\Catalog\Model\Resource\Url */
-        $resourceModel = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Url');
-        $resourceModel->beginTransaction();
+        $this->_catalogResourceUrl->beginTransaction();
         try {
-            \Mage::getSingleton('Magento\Catalog\Model\Url')->refreshRewrites();
-            $resourceModel->commit();
+            $this->_catalogUrl->refreshRewrites();
+            $this->_catalogResourceUrl->commit();
         } catch (\Exception $e) {
-            $resourceModel->rollBack();
+            $this->_catalogResourceUrl->rollBack();
             throw $e;
         }
     }

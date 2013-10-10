@@ -16,6 +16,33 @@ namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab;
 class Customers extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
+     * Customer Resource Collection
+     *
+     * @var \Magento\Reminder\Model\Resource\Customer\Collection
+     */
+    protected $_customerCollection;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Reminder\Model\Resource\Customer\Collection $customerCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Reminder\Model\Resource\Customer\Collection $customerCollection,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+        $this->_customerCollection = $customerCollection;
+    }
+
+    /**
      * Intialize grid
      */
     protected function _construct()
@@ -34,9 +61,7 @@ class Customers extends \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        /* @var $collection \Magento\Reminder\Model\Resource\Customer\Collection */
-        $collection = \Mage::getResourceModel('Magento\Reminder\Model\Resource\Customer\Collection');
-        $this->setCollection($collection);
+        $this->setCollection($this->_customerCollection);
 
         return parent::_prepareCollection();
     }

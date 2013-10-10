@@ -41,6 +41,39 @@ abstract class Collection
     protected $_entityType;
 
     /**
+     * @var \Magento\Eav\Model\Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_eavConfig = $eavConfig;
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+    }
+
+    /**
      * Default attribute entity type code
      *
      * @return string
@@ -75,8 +108,7 @@ abstract class Collection
     public function getEntityType()
     {
         if ($this->_entityType === null) {
-            $this->_entityType = \Mage::getSingleton('Magento\Eav\Model\Config')
-                ->getEntityType($this->_getEntityTypeCode());
+            $this->_entityType = $this->_eavConfig->getEntityType($this->_getEntityTypeCode());
         }
         return $this->_entityType;
     }
@@ -89,7 +121,7 @@ abstract class Collection
      */
     public function setWebsite($website)
     {
-        $this->_website = \Mage::app()->getWebsite($website);
+        $this->_website = $this->_storeManager->getWebsite($website);
         $this->addBindParam('scope_website_id', $this->_website->getId());
         return $this;
     }
@@ -102,7 +134,7 @@ abstract class Collection
     public function getWebsite()
     {
         if ($this->_website === null) {
-            $this->_website = \Mage::app()->getStore()->getWebsite();
+            $this->_website = $this->_storeManager->getStore()->getWebsite();
         }
         return $this->_website;
     }

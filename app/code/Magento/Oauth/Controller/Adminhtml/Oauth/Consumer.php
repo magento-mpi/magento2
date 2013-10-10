@@ -13,7 +13,7 @@
  */
 namespace Magento\Oauth\Controller\Adminhtml\Oauth;
 
-class Consumer extends \Magento\Backend\Controller\ActionAbstract
+class Consumer extends \Magento\Backend\Controller\AbstractAction
 {
     /** Param Key for extracting consumer id from Request */
     const PARAM_CONSUMER_ID = 'id';

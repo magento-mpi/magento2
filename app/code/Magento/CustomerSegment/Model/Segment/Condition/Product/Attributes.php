@@ -29,28 +29,33 @@ class Attributes
     protected $_resourceSegment;
 
     /**
-     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
      * @param \Magento\Backend\Helper\Data $backendData
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param \Magento\Eav\Model\Config $config
      * @param \Magento\Catalog\Model\Product $product
      * @param \Magento\Catalog\Model\Resource\Product $productResource
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection
+     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
      * @param array $data
      */
     public function __construct(
-        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
         \Magento\Backend\Helper\Data $backendData,
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\Eav\Model\Config $config,
         \Magento\Catalog\Model\Product $product,
         \Magento\Catalog\Model\Resource\Product $productResource,
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection,
+        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
         array $data = array()
     ) {
         $this->_resourceSegment = $resourceSegment;
         parent::__construct(
-            $backendData, $context, $config, $product, $productResource, $attrSetCollection, $data
+            $backendData,
+            $context,
+            $config,
+            $product,
+            $productResource,
+            $attrSetCollection
         );
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Product\Attributes');
         $this->setValue(null);
@@ -130,7 +135,7 @@ class Attributes
      */
     public function getAttributeObject()
     {
-        return $this->_eavConfig->getAttribute('catalog_product', $this->getAttribute());
+        return $this->_config->getAttribute('catalog_product', $this->getAttribute());
     }
 
     /**

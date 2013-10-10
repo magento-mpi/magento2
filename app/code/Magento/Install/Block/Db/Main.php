@@ -23,6 +23,39 @@ class Main extends \Magento\Core\Block\Template
     protected $_databases = array();
 
     /**
+     * Install installer config
+     *
+     * @var \Magento\Install\Model\Installer\Config
+     */
+    protected $_installerConfig = null;
+
+    /**
+     * Install installer config
+     *
+     * @var \Magento\Core\Model\Session\Generic
+     */
+    protected $_session;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Install\Model\Installer\Config $installerConfig
+     * @param \Magento\Core\Model\Session\Generic $session
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Install\Model\Installer\Config $installerConfig,
+        \Magento\Core\Model\Session\Generic $session,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $context, $data);
+        $this->_installerConfig = $installerConfig;
+        $this->_session = $session;
+    }
+
+    /**
      * Adding customized database block template for database model type
      *
      * @param  string $type database type
@@ -86,9 +119,9 @@ class Main extends \Magento\Core\Block\Template
     {
         $data = $this->getData('form_data');
         if (is_null($data)) {
-            $data = \Mage::getSingleton('Magento\Install\Model\Session')->getConfigData(true);
+            $data = $this->_session->getConfigData(true);
             if (empty($data)) {
-                $data = \Mage::getModel('Magento\Install\Model\Installer\Config')->getFormData();
+                $data = $this->_installerConfig->getFormData();
             } else {
                 $data = new \Magento\Object($data);
             }

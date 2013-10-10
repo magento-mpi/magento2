@@ -8,10 +8,10 @@
  * @license     {license_link}
  */
 
-
 namespace Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab;
 
-class History extends \Magento\Adminhtml\Block\Widget\Grid
+class History
+    extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     protected $_collection;
 
@@ -23,11 +23,19 @@ class History extends \Magento\Adminhtml\Block\Widget\Grid
     protected $_coreRegistry = null;
 
     /**
+     * History factory
+     *
+     * @var \Magento\GiftCardAccount\Model\HistoryFactory
+     */
+    protected $_historyFactory = null;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\GiftCardAccount\Model\HistoryFactory $historyFactory
      * @param array $data
      */
     public function __construct(
@@ -36,10 +44,12 @@ class History extends \Magento\Adminhtml\Block\Widget\Grid
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\GiftCardAccount\Model\HistoryFactory $historyFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+        $this->_historyFactory = $historyFactory;
     }
 
     protected function _construct()
@@ -52,7 +62,7 @@ class History extends \Magento\Adminhtml\Block\Widget\Grid
 
     protected function _prepareCollection()
     {
-        $collection = \Mage::getModel('Magento\GiftCardAccount\Model\History')
+        $collection = $this->_historyFactory->create()
             ->getCollection()
             ->addFieldToFilter(
                 'giftcardaccount_id',
@@ -86,11 +96,11 @@ class History extends \Magento\Adminhtml\Block\Widget\Grid
             'index'     => 'action',
             'sortable'  => false,
             'type'      => 'options',
-            'options'   => \Mage::getSingleton('Magento\GiftCardAccount\Model\History')->getActionNamesArray(),
+            'options'   => $this->_historyFactory->create()->getActionNamesArray(),
         ));
 
         $giftCardAccount = $this->_coreRegistry->registry('current_giftcardaccount');
-        $currency = \Mage::app()->getWebsite($giftCardAccount->getWebsiteId())->getBaseCurrencyCode();
+        $currency = $this->_storeManager->getWebsite($giftCardAccount->getWebsiteId())->getBaseCurrencyCode();
         $this->addColumn('balance_delta', array(
             'header'        => __('Balance Change'),
             'width'         => 50,

@@ -24,6 +24,7 @@ abstract class AbstractPool extends \Magento\Core\Model\AbstractModel
      * Return first free code
      *
      * @return string
+     * @throws \Magento\Core\Exception
      */
     public function shift()
     {
@@ -36,7 +37,7 @@ abstract class AbstractPool extends \Magento\Core\Model\AbstractModel
         }
         $collection->load();
         if (!$items = $collection->getItems()) {
-            \Mage::throwException(__('No codes left in the pool.'));
+            throw new \Magento\Core\Exception(__('No codes left in the pool.'));
         }
 
         $item = array_shift($items);

@@ -32,17 +32,22 @@ class Store
     protected $_coreConfig;
 
     /**
-     * Constructor
-     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Config $coreConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         parent::__construct(
@@ -51,6 +56,7 @@ class Store
             $data
         );
         $this->_coreConfig = $coreConfig;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -61,7 +67,7 @@ class Store
      */
     public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
-        $html = \Mage::getModel('Magento\Core\Model\StoreManagerInterface')->isSingleStoreMode() ? '' : $this->toHtml();
+        $html = $this->_storeManager->isSingleStoreMode() ? '' : $this->toHtml();
         return $html;
     }
 
@@ -85,7 +91,7 @@ class Store
         $website = $this->getRequest()->getParam('website');
         $disabledMethods = array();
         foreach ($methods as $methodId => $methodPath) {
-            $isEnabled = (int)  $this->_coreConfig->getValue($methodPath, 'website', $website);
+            $isEnabled = (int)$this->_coreConfig->getValue($methodPath, 'website', $website);
             if ($isEnabled === 0) {
                 $disabledMethods[$methodId] = $isEnabled;
             }

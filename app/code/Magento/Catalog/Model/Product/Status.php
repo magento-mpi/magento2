@@ -46,6 +46,24 @@ class Status extends \Magento\Core\Model\AbstractModel
     protected $_eventManager = null;
 
     /**
+     * Catalog product action
+     *
+     * @var \Magento\Catalog\Model\Product\Action
+     */
+    protected $_catalogProductAction;
+
+    /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Product\Action $catalogProductAction
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
@@ -54,6 +72,8 @@ class Status extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Product\Action $catalogProductAction,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
@@ -61,6 +81,8 @@ class Status extends \Magento\Core\Model\AbstractModel
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_storeManager = $storeManager;
+        $this->_catalogProductAction = $catalogProductAction;
         $this->_eventManager = $eventManager;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -180,18 +202,18 @@ class Status extends \Magento\Core\Model\AbstractModel
      */
     public function updateProductStatus($productId, $storeId, $value)
     {
-        \Mage::getSingleton('Magento\Catalog\Model\Product\Action')
+        $this->_catalogProductAction
             ->updateAttributes(array($productId), array('status' => $value), $storeId);
 
         // add back compatibility event
         $status = $this->_getResource()->getProductAttribute('status');
         if ($status->isScopeWebsite()) {
-            $website = \Mage::app()->getStore($storeId)->getWebsite();
+            $website = $this->_storeManager->getStore($storeId)->getWebsite();
             $stores  = $website->getStoreIds();
         } else if ($status->isScopeStore()) {
             $stores = array($storeId);
         } else {
-            $stores = array_keys(\Mage::app()->getStores());
+            $stores = array_keys($this->_storeManager->getStores());
         }
 
         foreach ($stores as $storeId) {

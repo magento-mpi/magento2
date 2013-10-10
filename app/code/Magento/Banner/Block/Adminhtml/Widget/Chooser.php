@@ -25,23 +25,27 @@ class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
     protected $_elementFactory;
 
     /**
-     * @param \Magento\Data\Form\Element\Factory $elementFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Banner\Model\Resource\Banner\CollectionFactory $bannerColFactory
+     * @param \Magento\Banner\Model\Config $bannerConfig
+     * @param \Magento\Data\Form\Element\Factory $elementFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\Form\Element\Factory $elementFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\Banner\Model\Resource\Banner\CollectionFactory $bannerColFactory,
+        \Magento\Banner\Model\Config $bannerConfig,
+        \Magento\Data\Form\Element\Factory $elementFactory,
         array $data = array()
     ) {
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $bannerColFactory, $bannerConfig, $data);
         $this->_elementFactory = $elementFactory;
-        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
     /**
@@ -263,7 +267,7 @@ class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
     /**
      * Create grid columns
      *
-     * @return Magento_Banner_Block_Widget_Chooser
+     * @return \Magento\Banner\Block\Widget\Chooser
      */
     protected function _prepareColumns()
     {
@@ -295,7 +299,7 @@ class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
     /* Set custom filter for in banner flag
      *
      * @param string $column
-     * @return Magento_Banner_Block_Widget_Chooser
+     * @return \Magento\Banner\Block\Widget\Chooser
      */
     protected function _addColumnFilterToCollection($column)
     {
@@ -320,7 +324,7 @@ class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
     /**
      * Disable massaction functioanality
      *
-     * @return Magento_Banner_Block_Widget_Chooser
+     * @return \Magento\Banner\Block\Widget\Chooser
      */
     protected function _prepareMassaction()
     {
@@ -346,7 +350,7 @@ class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
      * Setter
      *
      * @param array $selectedBanners
-     * @return Magento_Banner_Block_Widget_Chooser
+     * @return \Magento\Banner\Block\Widget\Chooser
      */
     public function setSelectedBanners($selectedBanners)
     {

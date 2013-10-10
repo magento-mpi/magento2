@@ -63,7 +63,8 @@ class OauthV1Test extends \PHPUnit_Framework_TestCase
                 'getSecret',
                 'getCallbackUrl',
                 'save',
-                'getData'
+                'getData',
+                '__wakeup'
             ])->getMock();
         $this->_consumerFactory->expects($this->any())
             ->method('create')
@@ -92,6 +93,7 @@ class OauthV1Test extends \PHPUnit_Framework_TestCase
                     'getConsumerId',
                     'convertToAccess',
                     'getRevoked',
+                    '__wakeup'
                 ]
             )->getMock();
 
@@ -339,7 +341,8 @@ class OauthV1Test extends \PHPUnit_Framework_TestCase
                 'setNonce',
                 'setConsumerId',
                 'setTimestamp',
-                'save'
+                'save',
+                '__wakeup'
             ])->getMock();
 
         $nonceMock->expects($this->any())->method('getConsumerId')->will($this->returnValue((int)$isUsed));

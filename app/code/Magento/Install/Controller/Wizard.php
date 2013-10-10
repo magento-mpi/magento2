@@ -16,27 +16,74 @@ namespace Magento\Install\Controller;
 class Wizard extends \Magento\Install\Controller\Action
 {
     /**
-     * @var string
+     * Installer Model
+     *
+     * @var \Magento\Install\Model\Installer
      */
-    protected $_installDate;
+    protected $_installer;
+
+    /**
+     * Install Wizard
+     *
+     * @var \Magento\Install\Model\Wizard
+     */
+    protected $_wizard;
+
+    /**
+     * Install Session
+     *
+     * @var \Magento\Core\Model\Session\Generic
+     */
+    protected $_session;
+
+    /**
+     * DB Updater
+     *
+     * @var \Magento\Core\Model\Db\UpdaterInterface
+     */
+    protected $_dbUpdater;
+
+    /**
+     * Store Manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
 
     /**
      * @param \Magento\Core\Controller\Varien\Action\Context $context
      * @param \Magento\Core\Model\Config\Scope $configScope
      * @param \Magento\Core\Model\View\DesignInterface $viewDesign
      * @param \Magento\Core\Model\Theme\CollectionFactory $collectionFactory
-     * @param string $installDate
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\Install\Model\Installer $installer
+     * @param \Magento\Install\Model\Wizard $wizard
+     * @param \Magento\Core\Model\Session\Generic $session
+     * @param \Magento\Core\Model\Db\UpdaterInterface $dbUpdater
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Core\Controller\Varien\Action\Context $context,
         \Magento\Core\Model\Config\Scope $configScope,
         \Magento\Core\Model\View\DesignInterface $viewDesign,
         \Magento\Core\Model\Theme\CollectionFactory $collectionFactory,
-        $installDate = ''
+        \Magento\Core\Model\App $app,
+        \Magento\Core\Model\App\State $appState,
+        \Magento\Install\Model\Installer $installer,
+        \Magento\Install\Model\Wizard $wizard,
+        \Magento\Core\Model\Session\Generic $session,
+        \Magento\Core\Model\Db\UpdaterInterface $dbUpdater,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
-        $this->_installDate = $installDate;
-        parent::__construct($context, $configScope, $viewDesign, $collectionFactory);
+        parent::__construct($context, $configScope, $viewDesign, $collectionFactory, $app, $appState);
+        $this->_installer = $installer;
+        $this->_wizard = $wizard;
+        $this->_session = $session;
+        $this->_dbUpdater = $dbUpdater;
+        $this->_storeManager = $storeManager;
     }
+
 
     /**
      * Perform necessary checks for all actions
@@ -48,7 +95,7 @@ class Wizard extends \Magento\Install\Controller\Action
      */
     public function preDispatch()
     {
-        if (\Mage::isInstalled()) {
+        if ($this->_appState->isInstalled()) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             $this->_redirect('/');
             return;
@@ -65,7 +112,7 @@ class Wizard extends \Magento\Install\Controller\Action
      */
     protected function _getInstaller()
     {
-        return \Mage::getSingleton('Magento\Install\Model\Installer');
+        return $this->_installer;
     }
 
     /**
@@ -75,13 +122,13 @@ class Wizard extends \Magento\Install\Controller\Action
      */
     protected function _getWizard()
     {
-        return \Mage::getSingleton('Magento\Install\Model\Wizard');
+        return $this->_wizard;
     }
 
     /**
      * Prepare layout
      *
-     * @return \Magento\Install\WizardController
+     * @return \Magento\Install\Controller\Wizard
      */
     protected function _prepareLayout()
     {
@@ -104,7 +151,9 @@ class Wizard extends \Magento\Install\Controller\Action
     protected function _checkIfInstalled()
     {
         if ($this->_getInstaller()->isApplicationInstalled()) {
-            $this->getResponse()->setRedirect(\Mage::getBaseUrl())->sendResponse();
+            $this->getResponse()
+                ->setRedirect($this->_storeManager->getStore()->getBaseUrl())
+                ->sendResponse();
             exit;
         }
         return true;
@@ -178,9 +227,9 @@ class Wizard extends \Magento\Install\Controller\Action
         $timezone = $this->getRequest()->getParam('timezone');
         $currency = $this->getRequest()->getParam('currency');
         if ($locale) {
-            \Mage::getSingleton('Magento\Install\Model\Session')->setLocale($locale);
-            \Mage::getSingleton('Magento\Install\Model\Session')->setTimezone($timezone);
-            \Mage::getSingleton('Magento\Install\Model\Session')->setCurrency($currency);
+            $this->_session->setLocale($locale)
+                ->setTimezone($timezone)
+                ->setCurrency($currency);
         }
 
         $this->_redirect('*/*/locale');
@@ -196,7 +245,7 @@ class Wizard extends \Magento\Install\Controller\Action
 
         $data = $this->getRequest()->getPost('config');
         if ($data) {
-            \Mage::getSingleton('Magento\Install\Model\Session')->setLocaleData($data);
+            $this->_session->setLocaleData($data);
         }
 
         $this->getResponse()->setRedirect($step->getNextUrl());
@@ -278,12 +327,12 @@ class Wizard extends \Magento\Install\Controller\Action
             }
             $params['command'] = 'install';
             $params['options'] = array('onlyreqdeps' => 1);
-            $params['params'] = \Mage::getModel('Magento\Install\Model\Installer\Pear')->getPackages();
+            $params['params'] = $this->_objectManager->get('Magento\Install\Model\Installer\Pear')->getPackages();
             $params['success_callback'] = array($this, 'installSuccessCallback');
             $params['failure_callback'] = array($this, 'installFailureCallback');
         }
         $pear->runHtmlConsole($params);
-        \Mage::app()->getFrontController()->getResponse()->clearAllHeaders();
+        $this->_frontController->getResponse()->clearAllHeaders();
     }
 
     /**
@@ -324,7 +373,7 @@ class Wizard extends \Magento\Install\Controller\Action
 
         $data = $this->getRequest()->getQuery('config');
         if ($data) {
-            \Mage::getSingleton('Magento\Install\Model\Session')->setLocaleData($data);
+            $this->_session->setLocaleData($data);
         }
 
         $this->_prepareLayout();
@@ -349,7 +398,7 @@ class Wizard extends \Magento\Install\Controller\Action
 
             $data = array_merge($config, $connectionConfig[$config['db_model']]);
 
-            \Mage::getSingleton('Magento\Install\Model\Session')
+            $this->_session
                 ->setConfigData($data)
                 ->setSkipUrlValidation($this->getRequest()->getPost('skip_url_validation'))
                 ->setSkipBaseUrlValidation($this->getRequest()->getPost('skip_base_url_validation'));
@@ -358,7 +407,7 @@ class Wizard extends \Magento\Install\Controller\Action
                 $this->_redirect('*/*/installDb');
                 return $this;
             } catch (\Exception $e) {
-                \Mage::getSingleton('Magento\Install\Model\Session')->addError($e->getMessage());
+                $this->_session->addError($e->getMessage());
                 $this->getResponse()->setRedirect($step->getUrl());
             }
         }
@@ -377,14 +426,14 @@ class Wizard extends \Magento\Install\Controller\Action
             /**
              * Clear session config data
              */
-            \Mage::getSingleton('Magento\Install\Model\Session')->getConfigData(true);
+            $this->_session->getConfigData(true);
 
-            \Mage::app()->getStore()->resetConfig();
-            \Mage::getSingleton('Magento\Core\Model\Db\UpdaterInterface')->updateData();
+            $this->_storeManager->getStore()->resetConfig();
+            $this->_dbUpdater->updateData();
 
-            $this->getResponse()->setRedirect(\Mage::getUrl($step->getNextUrlPath()));
+            $this->getResponse()->setRedirect($step->getNextUrl());
         } catch (\Exception $e) {
-            \Mage::getSingleton('Magento\Install\Model\Session')->addError($e->getMessage());
+            $this->_session->addError($e->getMessage());
             $this->getResponse()->setRedirect($step->getUrl());
         }
     }
@@ -410,7 +459,7 @@ class Wizard extends \Magento\Install\Controller\Action
     {
         $this->_checkIfInstalled();
 
-        $step = \Mage::getSingleton('Magento\Install\Model\Wizard')->getStepByName('administrator');
+        $step = $this->_wizard->getStepByName('administrator');
         $adminData      = $this->getRequest()->getPost('admin');
         $encryptionKey  = $this->getRequest()->getPost('encryption_key');
 
@@ -420,13 +469,11 @@ class Wizard extends \Magento\Install\Controller\Action
             $this->_getInstaller()->installEncryptionKey($encryptionKey);
             $this->getResponse()->setRedirect($step->getNextUrl());
         } catch (\Exception $e) {
-            /** @var $session \Magento\Core\Model\Session\Generic */
-            $session = \Mage::getSingleton('Magento\Install\Model\Session');
-            $session->setAdminData($adminData);
+            $this->_session->setAdminData($adminData);
             if ($e instanceof \Magento\Core\Exception) {
-                $session->addMessages($e->getMessages());
+                $this->_session->addMessages($e->getMessages());
             } else {
-                $session->addError($e->getMessage());
+                $this->_session->addError($e->getMessage());
             }
             $this->getResponse()->setRedirect($step->getUrl());
         }
@@ -439,16 +486,12 @@ class Wizard extends \Magento\Install\Controller\Action
     {
         $this->_checkIfInstalled();
 
-        if ($this->_installDate !== \Magento\Install\Model\Installer\Config::TMP_INSTALL_DATE_VALUE) {
+        if ($this->_appState->isInstalled()) {
             $this->_redirect('*/*');
             return;
         }
 
         $this->_getInstaller()->finish();
-
-        /** @var \Magento\Core\Model\App\State $appState */
-        $appState = $this->_objectManager->get('Magento\Core\Model\App\State');
-        $appState->setInstallDate($this->_installDate);
 
         $this->_objectManager->get('Magento\AdminNotification\Model\Survey')->saveSurveyViewed(true);
 
@@ -457,6 +500,6 @@ class Wizard extends \Magento\Install\Controller\Action
 
         $this->getLayout()->addBlock('Magento\Install\Block\End', 'install.end', 'content');
         $this->renderLayout();
-        \Mage::getSingleton('Magento\Install\Model\Session')->clear();
+        $this->_session->clear();
     }
 }

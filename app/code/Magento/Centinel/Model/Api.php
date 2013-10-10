@@ -88,7 +88,7 @@ class Api extends \Magento\Object
     protected function _getClientInstance()
     {
         if (empty($this->_clientInstance)) {
-            $this->_clientInstance = new CentinelClient();
+            $this->_clientInstance = new \CentinelClient();
         }
         return $this->_clientInstance;
     }

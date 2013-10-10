@@ -80,7 +80,7 @@ class OauthHelper
     public static function getAccessToken()
     {
         $consumerCredentials = self::getConsumerCredentials();
-        $credentials = new OAuth\Common\Consumer\Credentials(
+        $credentials = new \OAuth\Common\Consumer\Credentials(
             $consumerCredentials['key'], $consumerCredentials['secret'], TESTS_BASE_URL);
         /** @var $oAuthClient \Magento\TestFramework\Authentication\Rest\OauthClient */
         $oAuthClient = new \Magento\TestFramework\Authentication\Rest\OauthClient($credentials);

@@ -13,7 +13,7 @@
  */
 namespace Magento\TestFramework\Inspection\JsHint;
 
-class Command extends \Magento\TestFramework\Inspection\CommandAbstract
+class Command extends \Magento\TestFramework\Inspection\AbstractCommand
 {
 
     /**

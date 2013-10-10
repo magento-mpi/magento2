@@ -37,17 +37,25 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_coreStoreConfig;
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_coreData = $coreData;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeManager = $storeManager;
         parent::__construct($context);
     }
 
@@ -79,7 +87,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $urlPart = "{$key}:{$model->$method()}:{$model->getProtectCode()}";
         $param = array('hash' => $this->_coreData->urlEncode($urlPart));
 
-        $storeModel = \Mage::app()->getStore($model->getStoreId());
+        $storeModel = $this->_storeManager->getStore($model->getStoreId());
         return $storeModel->getUrl('shipping/tracking/popup', $param);
     }
 
@@ -112,8 +120,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     }
 
     /**
-     * @param $method
-     * @param null $storeId
+     * @param string $method
+     * @param mixed $storeId
      * @return bool
      */
     public function isFreeMethod($method, $storeId = null)

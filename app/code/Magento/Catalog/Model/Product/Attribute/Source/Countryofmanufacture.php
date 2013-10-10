@@ -26,10 +26,33 @@ class Countryofmanufacture
     protected $_configCacheType;
 
     /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Country factory
+     *
+     * @var \Magento\Directory\Model\CountryFactory
+     */
+    protected $_countryFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Directory\Model\CountryFactory $countryFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
      */
-    public function __construct(\Magento\Core\Model\Cache\Type\Config $configCacheType)
-    {
+    public function __construct(
+        \Magento\Directory\Model\CountryFactory $countryFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType
+    ) {
+        $this->_countryFactory = $countryFactory;
+        $this->_storeManager = $storeManager;
         $this->_configCacheType = $configCacheType;
     }
 
@@ -40,11 +63,11 @@ class Countryofmanufacture
      */
     public function getAllOptions()
     {
-        $cacheKey = 'DIRECTORY_COUNTRY_SELECT_STORE_' . \Mage::app()->getStore()->getCode();
+        $cacheKey = 'DIRECTORY_COUNTRY_SELECT_STORE_' . $this->_storeManager->getStore()->getCode();
         if ($cache = $this->_configCacheType->load($cacheKey)) {
             $options = unserialize($cache);
         } else {
-            $collection = \Mage::getModel('Magento\Directory\Model\Country')->getResourceCollection()
+            $collection = $this->_countryFactory->create()->getResourceCollection()
                 ->loadByStore();
             $options = $collection->toOptionArray();
             $this->_configCacheType->save(serialize($options), $cacheKey);

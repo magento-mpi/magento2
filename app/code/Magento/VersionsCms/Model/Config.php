@@ -10,10 +10,6 @@
 
 /**
  * Enterprise cms page config model
- *
- * @category    Magento
- * @package     Magento_VersionsCms
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\VersionsCms\Model;
 
@@ -21,6 +17,9 @@ class Config
 {
     const XML_PATH_CONTENT_VERSIONING = 'cms/content/versioning';
 
+    /**
+     * @var array
+     */
     protected $_revisionControlledAttributes = array(
         'page' => array(
             'root_template',
@@ -49,21 +48,30 @@ class Config
     protected $_coreStoreConfig;
 
     /**
+     * @var \Magento\Backend\Model\Auth\Session
+     */
+    protected $_backendAuthSession;
+
+    /**
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      */
     public function __construct(
         \Magento\AuthorizationInterface $authorization,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Backend\Model\Auth\Session $backendAuthSession
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_authorization = $authorization;
+        $this->_backendAuthSession = $backendAuthSession;
     }
 
     /**
      * Retrieves attributes for passed cms
      * type excluded from revision control.
      *
+     * @param string $type
      * @return array
      */
     protected function _getRevisionControledAttributes($type)
@@ -95,7 +103,7 @@ class Config
             return array(
                 \Magento\VersionsCms\Model\Page\Version::ACCESS_LEVEL_PROTECTED,
                 \Magento\VersionsCms\Model\Page\Version::ACCESS_LEVEL_PUBLIC
-                );
+            );
         } else {
             return array(\Magento\VersionsCms\Model\Page\Version::ACCESS_LEVEL_PUBLIC);
         }
@@ -179,7 +187,7 @@ class Config
      */
     public function isCurrentUserOwner($userId)
     {
-        return \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->getId() == $userId;
+        return $this->_backendAuthSession->getUser()->getId() == $userId;
     }
 
     /**

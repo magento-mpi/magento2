@@ -70,12 +70,12 @@ class Export
         if ($this->hasData('exportTypes')) {
             foreach ($this->getData('exportTypes') as $type) {
                 if (!isset($type['urlPath']) || !isset($type['label'])) {
-                    \Mage::throwException('Invalid export type supplied for grid export block');
+                    throw new \Magento\Core\Exception('Invalid export type supplied for grid export block');
                 }
                 $this->addExportType($type['urlPath'], $type['label']);
             }
         }
-        $this->_exportPath = \Mage::getBaseDir('var') . DS . 'export';
+        $this->_exportPath = $this->_dirs->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DS . 'export';
     }
 
     /**

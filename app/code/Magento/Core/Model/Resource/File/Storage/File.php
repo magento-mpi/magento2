@@ -18,7 +18,7 @@
  */
 namespace Magento\Core\Model\Resource\File\Storage;
 
-class File
+class File extends \Magento\Core\Model\Resource\AbstractResource
 {
     /**
      * Prefix of model events names
@@ -134,6 +134,7 @@ class File
      * Save directory to storage
      *
      * @param array $dir
+     * @throws \Magento\Core\Exception
      * @return bool
      */
     public function saveDir($dir)
@@ -151,7 +152,7 @@ class File
             $this->_filesystem->ensureDirectoryExists($path);
         } catch (\Exception $e) {
             $this->_logger->log($e->getMessage());
-            \Mage::throwException(__('Unable to create directory: %1', $path));
+            throw new \Magento\Core\Exception(__('Unable to create directory: %1', $path));
         }
 
         return true;
@@ -163,6 +164,7 @@ class File
      * @param string $filePath
      * @param string $content
      * @param bool $overwrite
+     * @throws \Magento\Core\Exception
      * @return bool
      */
     public function saveFile($filePath, $content, $overwrite = false)
@@ -176,11 +178,35 @@ class File
                 $this->_filesystem->write($filePath, $content);
                 return true;
             }
-        } catch (\Magento\Filesystem\FilesystemException $e) {
+        } catch (\Magento\Filesystem\Exception $e) {
             $this->_logger->log($e->getMessage());
-            \Mage::throwException(__('Unable to save file: %1', $filePath));
+            throw new \Magento\Core\Exception(__('Unable to save file: %1', $filePath));
         }
 
+        return false;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function _construct()
+    {
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function _getReadAdapter()
+    {
+        return false;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function _getWriteAdapter()
+    {
         return false;
     }
 

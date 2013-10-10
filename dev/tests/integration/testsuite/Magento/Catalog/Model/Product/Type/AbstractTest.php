@@ -20,6 +20,11 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $productFactory = $this->getMock('Magento\Catalog\Model\ProductFactory', array(), array(), '', false);
+        $catalogProductOption = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Catalog\Model\Product\Option');
+        $eavConfig = $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false);
+        $catalogProductType = $this->getMock('Magento\Catalog\Model\Product\Type', array(), array(), '', false);
         $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array('dispatch'), array(), '', false);
         $coreData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
         $fileStorageDb = $this->getMock('Magento\Core\Helper\File\Storage\Database', array(), array(), '', false);
@@ -27,7 +32,8 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $registry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
         $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
         $this->_model = $this->getMockForAbstractClass('Magento\Catalog\Model\Product\Type\AbstractType',
-            array($eventManager, $coreData, $fileStorageDb, $filesystem, $registry, $logger), ''
+            array($productFactory, $catalogProductOption, $eavConfig, $catalogProductType, $eventManager, $coreData,
+                $fileStorageDb, $filesystem, $registry, $logger)
         );
     }
 

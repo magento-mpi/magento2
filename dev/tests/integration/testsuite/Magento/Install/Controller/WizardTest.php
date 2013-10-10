@@ -11,7 +11,7 @@
 
 namespace Magento\Install\Controller;
 
-class WizardTest extends \Magento\TestFramework\TestCase\ControllerAbstract
+class WizardTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
      * @var string

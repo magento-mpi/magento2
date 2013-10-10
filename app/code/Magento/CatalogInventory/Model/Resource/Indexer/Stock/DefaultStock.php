@@ -47,14 +47,16 @@ class DefaultStock
      * Class constructor
      *
      * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
         \Magento\Core\Model\Resource $resource,
+        \Magento\Eav\Model\Config $eavConfig,
         \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($resource);
+        parent::__construct($resource, $eavConfig);
     }
 
     /**
@@ -111,8 +113,6 @@ class DefaultStock
 
     /**
      * Retrieve active Product Type Id
-     *
-     * @throws \Magento\Core\Exception
      *
      * @return string
      * @throws \Magento\Core\Exception

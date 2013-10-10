@@ -27,13 +27,55 @@ class Category extends \Magento\Core\Controller\Front\Action
     protected $_coreRegistry = null;
 
     /**
+     * Catalog session
+     *
+     * @var \Magento\Catalog\Model\Session
+     */
+    protected $_catalogSession;
+
+    /**
+     * Catalog design
+     *
+     * @var \Magento\Catalog\Model\Design
+     */
+    protected $_catalogDesign;
+
+    /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Category factory
+     *
+     * @var \Magento\Catalog\Model\CategoryFactory
+     */
+    protected $_categoryFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Design $catalogDesign
+     * @param \Magento\Catalog\Model\Session $catalogSession
      * @param \Magento\Core\Controller\Varien\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Design $catalogDesign,
+        \Magento\Catalog\Model\Session $catalogSession,
         \Magento\Core\Controller\Varien\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
+        $this->_categoryFactory = $categoryFactory;
+        $this->_storeManager = $storeManager;
+        $this->_catalogDesign = $catalogDesign;
+        $this->_catalogSession = $catalogSession;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -50,14 +92,15 @@ class Category extends \Magento\Core\Controller\Front\Action
             return false;
         }
 
-        $category = \Mage::getModel('Magento\Catalog\Model\Category')
-            ->setStoreId(\Mage::app()->getStore()->getId())
+        /** @var \Magento\Catalog\Model\Category $category */
+        $category = $this->_categoryFactory->create()
+            ->setStoreId($this->_storeManager->getStore()->getId())
             ->load($categoryId);
 
         if (!$this->_objectManager->get('Magento\Catalog\Helper\Category')->canShow($category)) {
             return false;
         }
-        \Mage::getSingleton('Magento\Catalog\Model\Session')->setLastVisitedCategoryId($category->getId());
+        $this->_catalogSession->setLastVisitedCategoryId($category->getId());
         $this->_coreRegistry->register('current_category', $category);
         try {
             $this->_eventManager->dispatch(
@@ -82,15 +125,14 @@ class Category extends \Magento\Core\Controller\Front\Action
     {
         $category = $this->_initCategory();
         if ($category) {
-            $design = \Mage::getSingleton('Magento\Catalog\Model\Design');
-            $settings = $design->getDesignSettings($category);
+            $settings = $this->_catalogDesign->getDesignSettings($category);
 
             // apply custom design
             if ($settings->getCustomDesign()) {
-                $design->applyCustomDesign($settings->getCustomDesign());
+                $this->_catalogDesign->applyCustomDesign($settings->getCustomDesign());
             }
 
-            \Mage::getSingleton('Magento\Catalog\Model\Session')->setLastViewedCategoryId($category->getId());
+            $this->_catalogSession->setLastViewedCategoryId($category->getId());
 
             $update = $this->getLayout()->getUpdate();
             if ($category->getIsAnchor()) {

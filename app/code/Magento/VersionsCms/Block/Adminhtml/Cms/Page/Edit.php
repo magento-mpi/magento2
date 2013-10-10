@@ -10,12 +10,7 @@
 
 /**
  * Cms page edit form revisions tab
- *
- * @category    Magento
- * @package     Magento_VersionsCms
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page;
 
 class Edit
@@ -26,21 +21,29 @@ class Edit
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var \Magento\VersionsCms\Model\Config
+     */
+    protected $_cmsConfig;
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\VersionsCms\Model\Config $cmsConfig,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->_cmsConfig = $cmsConfig;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -93,7 +96,7 @@ class Edit
                     // If user non-publisher he can save page only if it has disabled status
                     if ($page->getUnderVersionControl()) {
                         if ($page->getId() && $page->getIsActive() == \Magento\Cms\Model\Page::STATUS_ENABLED) {
-                            if (!\Mage::getSingleton('Magento\VersionsCms\Model\Config')->canCurrentUserPublishRevision()) {
+                            if (!$this->_cmsConfig->canCurrentUserPublishRevision()) {
                                 $editBlock->removeButton('delete');
                                 $editBlock->removeButton('save');
                                 $editBlock->removeButton('saveandcontinue');

@@ -142,7 +142,7 @@ class Visitor extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Perform actions after object load
      *
-     * @param \Magento_Core_Model_AbstractModel|\Magento_Object $object
+     * @param \Magento\Core\Model\AbstractModel|\Magento\Object $object
      * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)

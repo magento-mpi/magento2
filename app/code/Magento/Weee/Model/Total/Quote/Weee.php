@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 namespace Magento\Weee\Model\Total\Quote;
 
 class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
@@ -26,13 +25,6 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
     protected $_store;
 
     /**
-     * Tax configuration object
-     *
-     * @var \Magento\Tax\Model\Config
-     */
-    protected $_config;
-
-    /**
      * Flag which notify what tax amount can be affected by fixed porduct tax
      *
      * @var bool
@@ -40,18 +32,21 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
     protected $_isTaxAffected;
 
     /**
-     * @param \Magento\Tax\Model\Config $config
+     * Initialize Weee totals collector
+     *
      * @param \Magento\Weee\Helper\Data $weeeData
      * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Tax\Model\Calculation $calculation
+     * @param \Magento\Tax\Model\Config $taxConfig
      */
     public function __construct(
-        \Magento\Tax\Model\Config $config,
         \Magento\Weee\Helper\Data $weeeData,
-        \Magento\Tax\Helper\Data $taxData
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Tax\Model\Calculation $calculation,
+        \Magento\Tax\Model\Config $taxConfig
     ) {
         $this->_weeeData = $weeeData;
-        $this->_config = $config;
-        parent::__construct($taxData);
+        parent::__construct($taxData, $calculation, $taxConfig);
         $this->setCode('weee');
     }
 

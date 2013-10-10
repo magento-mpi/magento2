@@ -48,9 +48,9 @@ class Shoppingcart
     {
         return array(
             'value' => array(
-                $this->_conditionFactory->create('Shoppingcart_Amount')->getNewChildSelectOptions(),
-                $this->_conditionFactory->create('Shoppingcart_Itemsquantity')->getNewChildSelectOptions(),
-                $this->_conditionFactory->create('Shoppingcart_Productsquantity')->getNewChildSelectOptions(),
+                $this->_conditionFactory->create('Shoppingcart\Amount')->getNewChildSelectOptions(),
+                $this->_conditionFactory->create('Shoppingcart\Itemsquantity')->getNewChildSelectOptions(),
+                $this->_conditionFactory->create('Shoppingcart\Productsquantity')->getNewChildSelectOptions(),
             ),
             'label' => __('Shopping Cart'),
             'available_in_guest_mode' => true,

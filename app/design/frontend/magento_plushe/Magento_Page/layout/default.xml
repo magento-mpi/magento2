@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <referenceBlock name="logo">
+        <arguments>
+            <argument name="theme_name" xsi:type="string">plushe</argument>
+        </arguments>
+    </referenceBlock>
+    <referenceBlock name="head">
+        <block class="Magento\Page\Block\Html\Head\Css" name="css-styles-css">
+            <arguments>
+                <argument name="file" xsi:type="string">css/styles.css</argument>
+            </arguments>
+        </block>
+        <block class="Magento\Page\Block\Html\Head\Script" name="js-matchmedia-js">
+            <arguments>
+                <argument name="file" xsi:type="string">js/matchMedia.js</argument>
+            </arguments>
+        </block>
+        <block class="Magento\Page\Block\Html\Head\Script" name="js-head-js">
+            <arguments>
+                <argument name="file" xsi:type="string">js/head.js</argument>
+            </arguments>
+        </block>
+        <block class="Magento\Page\Block\Html\Head\Script" name="js-jquery-dropdowns-js">
+            <arguments>
+                <argument name="file" xsi:type="string">js/jquery.dropdowns.js</argument>
+            </arguments>
+        </block>
+        <block class="Magento\Page\Block\Html\Head\Script" name="js-tabs-js">
+            <arguments>
+                <argument name="file" xsi:type="string">js/tabs.js</argument>
+            </arguments>
+        </block>
+        <block class="Magento\Page\Block\Html\Head\Script" name="js-navigation-menu-js">
+            <arguments>
+                <argument name="file" xsi:type="string">js/navigation-menu.js</argument>
+            </arguments>
+        </block>
+        <block class="Magento\Page\Block\Html\Head\Script" name="js-theme-js">
+            <arguments>
+                <argument name="file" xsi:type="string">js/theme.js</argument>
+            </arguments>
+        </block>
+        <block class="Magento\Page\Block\Html\Head\Script" name="js-selectivizr-js">
+            <arguments>
+                <argument name="file" xsi:type="string">js/selectivizr.js</argument>
+                <argument name="properties" xsi:type="array">
+                    <item name="ie_condition" xsi:type="string">lt IE 9</item>
+                </argument>
+            </arguments>
+        </block>
+    </referenceBlock>
+    <referenceContainer name="header">
+        <block class="Magento\Page\Block\Links" name="header.links" after="minicart">
+            <arguments>
+                <argument name="css_class" xsi:type="string">links</argument>
+            </arguments>
+        </block>
+    </referenceContainer>
+
+    <referenceBlock name="top.links">
+        <arguments>
+            <argument name="css_class" xsi:type="string">links</argument>
+        </arguments>
+    </referenceBlock>
+    <referenceBlock name="footer_links">
+        <arguments>
+            <argument name="css_class" xsi:type="string">links</argument>
+        </arguments>
+    </referenceBlock>
+    <referenceBlock name="catalog.topnav">
+        <arguments>
+            <argument name="columns_limit" xsi:type="string">1</argument>
+        </arguments>
+    </referenceBlock>
+</layout>

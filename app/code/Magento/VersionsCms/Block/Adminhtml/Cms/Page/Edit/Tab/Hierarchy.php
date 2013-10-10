@@ -8,12 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Cms Page Edit Hierarchy Tab Block
- *
- * @category   Magento
- * @package    Magento_VersionsCms
  */
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit\Tab;
 
@@ -23,29 +19,36 @@ class Hierarchy
 {
     /**
      * Array of nodes for tree
+     *
      * @var array|null
      */
     protected $_nodes = null;
-    
+
     /**
      * Cms hierarchy
      *
      * @var \Magento\VersionsCms\Helper\Hierarchy
      */
-    protected $_cmsHierarchy = null;
+    protected $_cmsHierarchy;
 
     /**
      * Core registry
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var \Magento\VersionsCms\Model\Resource\Hierarchy\Node\CollectionFactory
+     */
+    protected $_nodeCollFactory;
 
     /**
      * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\VersionsCms\Model\Resource\Hierarchy\Node\CollectionFactory $nodeCollFactory
      * @param array $data
      */
     public function __construct(
@@ -53,10 +56,12 @@ class Hierarchy
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\VersionsCms\Model\Resource\Hierarchy\Node\CollectionFactory $nodeCollFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         $this->_cmsHierarchy = $cmsHierarchy;
+        $this->_nodeCollFactory = $nodeCollFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -94,7 +99,8 @@ class Hierarchy
                 $data = null;
             }
 
-            $collection = \Mage::getModel('Magento\VersionsCms\Model\Hierarchy\Node')->getCollection()
+            /** @var \Magento\VersionsCms\Model\Resource\Hierarchy\Node\Collection $collection */
+            $collection = $this->_nodeCollFactory->create()
                 ->joinCmsPage()
                 ->setOrderByLevel()
                 ->joinPageExistsNodeInfo($this->getPage());
@@ -114,7 +120,8 @@ class Hierarchy
                         'page_id'               => $v['page_id'],
                         'current_page'          => (bool)$v['current_page']
                     );
-                    if ($item = $collection->getItemById($v['node_id'])) {
+                    $item = $collection->getItemById($v['node_id']);
+                    if ($item) {
                         $node['assigned_to_stores'] = $this->getPageStoreIds($item);
                     } else {
                         $node['assigned_to_stores'] = array();
@@ -123,7 +130,6 @@ class Hierarchy
                     $this->_nodes[] = $node;
                 }
             } else {
-
                 foreach ($collection as $item) {
                     if ($item->getLevel() == \Magento\VersionsCms\Model\Hierarchy\Node::NODE_LEVEL_FAKE) {
                         continue;
@@ -146,6 +152,10 @@ class Hierarchy
         return $this->_nodes;
     }
 
+    /**
+     * @param object $node
+     * @return array
+     */
     public function getPageStoreIds($node)
     {
         if (!$node->getPageId() || !$node->getPageInStores()) {
@@ -236,8 +246,8 @@ class Hierarchy
     {
         if (!$this->getPage()->getId()
             || !$this->_cmsHierarchy->isEnabled()
-            || !$this->_authorization->isAllowed('Magento_VersionsCms::hierarchy'))
-        {
+            || !$this->_authorization->isAllowed('Magento_VersionsCms::hierarchy')
+        ) {
             return false;
         }
         return true;

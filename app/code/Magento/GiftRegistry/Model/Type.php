@@ -27,7 +27,28 @@ namespace Magento\GiftRegistry\Model;
 class Type extends \Magento\Core\Model\AbstractModel
 {
     protected $_store = null;
+
     protected $_storeData = null;
+
+    /**
+     * @var \Magento\GiftRegistry\Model\Attribute\Config
+     */
+    protected $attributeConfig;
+
+    /**
+     * @var \Magento\GiftRegistry\Model\Attribute\ProcessorFactory
+     */
+    protected $processorFactory;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
+     * @var \Magento\Core\Controller\Request\Http
+     */
+    protected $request;
 
     /**
      * Intialize model
@@ -38,13 +59,43 @@ class Type extends \Magento\Core\Model\AbstractModel
     }
 
     /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
+     * @param \Magento\GiftRegistry\Model\Attribute\ProcessorFactory $processorFactory
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
+        \Magento\GiftRegistry\Model\Attribute\ProcessorFactory $processorFactory,
+        \Magento\Core\Controller\Request\Http $request,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    )
+    {
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->attributeConfig = $attributeConfig;
+        $this->processorFactory = $processorFactory;
+        $this->request = $request;
+        $this->storeManager = $storeManager;
+    }
+
+    /**
      * Perform actions before object save.
      */
     protected function _beforeSave()
     {
         if (!$this->hasStoreId() && !$this->getStoreId()) {
             $this->_cleanupData();
-            $xmlModel = \Mage::getModel('Magento\GiftRegistry\Model\Attribute\Processor');
+            $xmlModel = $this->processorFactory->create();
             $this->setMetaXml($xmlModel->processData($this));
         }
 
@@ -96,7 +147,7 @@ class Type extends \Magento\Core\Model\AbstractModel
      */
     public function setStoreId($storeId = null)
     {
-        $this->_store = \Mage::app()->getStore($storeId);
+        $this->_store = $this->storeManager->getStore($storeId);
         return $this;
     }
 
@@ -159,7 +210,7 @@ class Type extends \Magento\Core\Model\AbstractModel
         $groups = $this->getAttributes();
         if ($groups) {
             $attributesToSave = array();
-            $config = \Mage::getSingleton('Magento\GiftRegistry\Model\Attribute\Config');
+            $config = $this->attributeConfig;
             foreach ((array)$groups as $group => $attributes) {
                 foreach ((array)$attributes as $attribute) {
                     if ($attribute['is_deleted']) {
@@ -201,7 +252,7 @@ class Type extends \Magento\Core\Model\AbstractModel
      */
     public function assignAttributesStoreData()
     {
-        $xmlModel = \Mage::getModel('Magento\GiftRegistry\Model\Attribute\Processor');
+        $xmlModel = $this->processorFactory->create();
         $groups = $xmlModel->processXml($this->getMetaXml());
         $storeData = array();
 
@@ -338,8 +389,7 @@ class Type extends \Magento\Core\Model\AbstractModel
     {
         $listedAttributes = array();
         if ($this->getAttributes()) {
-            $staticCodes = \Mage::getSingleton('Magento\GiftRegistry\Model\Attribute\Config')
-                ->getStaticTypesCodes();
+            $staticCodes = $this->attributeConfig->getStaticTypesCodes();
             foreach ($this->getAttributes() as $group) {
                 foreach ($group as $code => $attribute) {
                     if (in_array($code, $staticCodes) && !empty($attribute['frontend']['is_listed'])) {
@@ -361,7 +411,7 @@ class Type extends \Magento\Core\Model\AbstractModel
      */
     public function postDispatchTypeSave($config, $eventModel, $processor)
     {
-        $typeData = \Mage::app()->getRequest()->getParam('type');
+        $typeData = $this->request->getParam('type');
         $typeId = isset($typeData['type_id']) ? $typeData['type_id'] : __('New');
         return $eventModel->setInfo($typeId);
     }

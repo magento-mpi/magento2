@@ -11,15 +11,36 @@
 
 /**
  * Tax rate collection
- *
- * @category    Magento
- * @package     Magento_Tax
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Tax\Model\Resource\Calculation\Rate;
 
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+    ) {
+        $this->_storeManager = $storeManager;
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+    }
+
     /**
      * Resource initialization
      */
@@ -67,7 +88,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function joinTitle($store = null)
     {
-        $storeId = (int)\Mage::app()->getStore($store)->getId();
+        $storeId = (int)$this->_storeManager->getStore($store)->getId();
         $this->_select->joinLeft(
             array('title_table' => $this->getTable('tax_calculation_rate_title')),
             $this->getConnection()->quoteInto('main_table.tax_calculation_rate_id = title_table.tax_calculation_rate_id AND title_table.store_id = ?', $storeId),
@@ -84,7 +105,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function joinStoreTitles()
     {
-        $storeCollection =  \Mage::app()->getStores(true);
+        $storeCollection =  $this->_storeManager->getStores(true);
         foreach ($storeCollection as $store) {
             $tableAlias    = sprintf('title_table_%s', $store->getId());
             $joinCondition = implode(' AND ', array(

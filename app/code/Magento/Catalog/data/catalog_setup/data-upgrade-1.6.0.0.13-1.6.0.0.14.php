@@ -44,8 +44,9 @@ if ($attributeTableOld != $attributeTableNew) {
     $connection->enableTableKeys($attributeTableOld)
         ->enableTableKeys($attributeTableNew);
 }
- \Mage::getModel('Magento\Index\Model\Indexer')
-    ->getProcessByCode(\Magento\Catalog\Helper\Category\Flat::CATALOG_CATEGORY_FLAT_PROCESS_CODE)
-    ->changeStatus(\Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX);
+
+$process = $installer->createIndexer()
+    ->getProcessByCode(\Magento\Catalog\Helper\Category\Flat::CATALOG_CATEGORY_FLAT_PROCESS_CODE);
+$process->changeStatus(\Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX);
 
 $installer->endSetup();

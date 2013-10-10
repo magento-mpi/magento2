@@ -9,8 +9,7 @@
  */
 
 /** @var $installer \Magento\Core\Model\Resource\Setup\Migration */
-$installer = \Mage::getResourceModel('Magento\Core\Model\Resource\Setup\Migration',
-    array('resourceName' => 'core_setup'));
+$installer = $this->_migrationFactory->create(array('resourceName' => 'core_setup'));
 $installer->startSetup();
 
 $installer->appendClassAliasReplace('magento_banner_content', 'banner_content',

@@ -45,7 +45,7 @@ class Results extends \Magento\Core\Block\Template
     /**
      * Retrieve wishlist search results
      *
-     * @return Magento_Wishlist_Model_Resource_Collection
+     * @return \Magento\Wishlist\Model\Resource\Collection
      */
     public function getSearchResults()
     {

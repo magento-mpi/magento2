@@ -33,24 +33,8 @@ class Pro extends \Magento\Paypal\Model\Pro
 
     /**
      * Payflow trx_id key in transaction info
-     *
-     * @var string
      */
     const TRANSPORT_PAYFLOW_TXN_ID = 'payflow_trxid';
-
-    /**
-     * @var \Magento\Paypal\Model\InfoFactory
-     */
-    protected $_paypalInfoFactory;
-
-    /**
-     * @param \Magento\Paypal\Model\InfoFactory $paypalInfoFactory
-     */
-    public function __construct(
-        \Magento\Paypal\Model\InfoFactory $paypalInfoFactory
-    ) {
-        $this->_paypalInfoFactory = $paypalInfoFactory;
-    }
 
     /**
      * Refund a capture transaction
@@ -60,7 +44,8 @@ class Pro extends \Magento\Paypal\Model\Pro
      */
     public function refund(\Magento\Object $payment, $amount)
     {
-        if ($captureTxnId = $this->_getParentTransactionId($payment)) {
+        $captureTxnId = $this->_getParentTransactionId($payment);
+        if ($captureTxnId) {
             $api = $this->getApi();
             $api->setAuthorizationId($captureTxnId);
         }
@@ -106,10 +91,8 @@ class Pro extends \Magento\Paypal\Model\Pro
                 \Magento\PaypalUk\Model\Pro::TRANSPORT_PAYFLOW_TXN_ID,
                 $api->getTransactionId()
         );
-        $payment->setPreparedMessage(
-            __('Payflow PNREF: #%1.', $api->getTransactionId())
-        );
-        $this->_paypalInfoFactory->create()->importToPayment($api, $payment);
+        $payment->setPreparedMessage(__('Payflow PNREF: #%1.', $api->getTransactionId()));
+        $this->_infoFactory->create()->importToPayment($api, $payment);
     }
 
     /**
@@ -141,9 +124,7 @@ class Pro extends \Magento\Paypal\Model\Pro
                 \Magento\PaypalUk\Model\Pro::TRANSPORT_PAYFLOW_TXN_ID,
                 $api->getTransactionId()
         );
-        $payment->setPreparedMessage(
-            __('Payflow PNREF: #%1.', $api->getTransactionId())
-        );
-        $this->_paypalInfoFactory->create()->importToPayment($api, $payment);
+        $payment->setPreparedMessage(__('Payflow PNREF: #%1.', $api->getTransactionId()));
+        $this->_infoFactory->create()->importToPayment($api, $payment);
     }
 }

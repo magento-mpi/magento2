@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer My Account Newsletter Subscriptions" type="page" parent="customer_account_index">
+    <update handle="customer_account"/>
+    <referenceBlock name="my.account.wrapper">
+        <block class="Magento\Customer\Block\Newsletter" name="customer_newsletter">
+            <container name="customer.newsletter.form.before" as="form_before" label="Newsletter Subscription Form Before" htmlTag="div" htmlClass="rewards"/>
+        </block>
+    </referenceBlock>
+</layout>

@@ -144,9 +144,12 @@ function mageCoreErrorHandler($errorNo, $errorStr, $errorFile, $errorLine)
             break;
     }
 
-    $errorMessage .= ": {$errorStr}  in {$errorFile} on line {$errorLine}";
-    if (\Mage::getIsDeveloperMode()) {
-        throw new \Exception($errorMessage);
+    $errorMessage .= ": {$errorStr} in {$errorFile} on line {$errorLine}";
+    $exception = new \Exception($errorMessage);
+    $errorMessage .= $exception->getTraceAsString();
+    $appState = \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Core\Model\App\State');
+    if ($appState == \Magento\Core\Model\App\State::MODE_DEVELOPER) {
+        throw $exception;
     } else {
         $dirs = new \Magento\Core\Model\Dir('.');
         $fileSystem = new \Magento\Io\File();

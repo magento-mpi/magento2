@@ -22,11 +22,24 @@ class Link
     extends \Magento\Catalog\Block\Widget\Link
 {
     /**
-     * Initialize entity model
+     * Construct
+     *
+     * @param \Magento\Catalog\Model\Resource\Product $catalogProduct
+     * @param \Magento\Core\Model\Resource\Url\Rewrite $urlRewrite
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
      */
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->_entityResource = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product');
+    public function __construct(
+        \Magento\Catalog\Model\Resource\Product $catalogProduct,
+        \Magento\Core\Model\Resource\Url\Rewrite $urlRewrite,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        parent::__construct($urlRewrite, $storeManager, $coreData, $context, $data);
+        $this->_entityResource = $catalogProduct;
     }
 }

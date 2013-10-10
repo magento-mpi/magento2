@@ -40,17 +40,19 @@ class ExportTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_exportConfigMock = $this->getMock('Magento\ImportExport\Model\Export\ConfigInterface');
-
         $dateModelMock = $this->getMock('Magento\Core\Model\Date', array('date'), array(), '', false);
         $dateModelMock->expects($this->any())
             ->method('date')
             ->will($this->returnCallback(array($this, 'getDateCallback')));
 
         $this->_model = new \Magento\ScheduledImportExport\Model\Export(
-            $dateModelMock,
             $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false),
-            $this->_exportConfigMock,
+            $this->getMock('Magento\Core\Model\Dir', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\Log\AdapterFactory', array(), array(), '', false),
+            $this->getMock('Magento\ImportExport\Model\Export\ConfigInterface', array(), array(), '', false),
+            $this->getMock('Magento\ImportExport\Model\Export\Entity\Factory', array(), array(), '', false),
+            $this->getMock('Magento\ImportExport\Model\Export\Adapter\Factory', array(), array(), '', false),
+            $dateModelMock,
             array()
         );
     }
@@ -189,7 +191,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase
      * Retrieve operation mock
      *
      * @param array $operationData
-     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getOperationMock(array $operationData)
     {

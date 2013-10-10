@@ -92,16 +92,15 @@ class Template extends \Magento\Core\Model\Template
     protected $_templateFactory;
 
     /**
-     * Construct
-     *
      * @param \Magento\Core\Model\View\DesignInterface $design
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Controller\Request\Http $request
      * @param \Magento\Newsletter\Model\Template\Filter $filter
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Newsletter\Model\TemplateFactory $templateFactory
+     * @param \Magento\Core\Model\App\Emulation $appEmulation
      * @param array $data
      */
     public function __construct(
@@ -111,11 +110,12 @@ class Template extends \Magento\Core\Model\Template
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Controller\Request\Http $request,
         \Magento\Newsletter\Model\Template\Filter $filter,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Newsletter\Model\TemplateFactory $templateFactory,
+        \Magento\Core\Model\App\Emulation $appEmulation,
         array $data = array()
     ) {
-        parent::__construct($design, $context, $registry, $data);
+        parent::__construct($design, $context, $registry, $appEmulation, $storeManager, $data);
         $this->_storeManager = $storeManager;
         $this->_request = $request;
         $this->_filter = $filter;

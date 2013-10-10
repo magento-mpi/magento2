@@ -55,23 +55,33 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
     protected $_productFactory;
 
     /**
-     * Main constructor
-     *
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Validator\UniversalFactory $universalFactory
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $ordersFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Eav\Model\Resource\Helper $resourceHelper,
+        \Magento\Validator\UniversalFactory $universalFactory,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $ordersFactory,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,        
         $data = array()
     ) {
         $this->_rmaData = $rmaData;
         $this->_ordersFactory = $ordersFactory;
-        $this->_productFactory = $productFactory;
-        parent::__construct($data);
+        $this->_productFactory = $productFactory;        
+        parent::__construct($resource, $eavConfig, $attrSetEntity, $locale, $resourceHelper, $universalFactory, $data);
     }
 
     /**

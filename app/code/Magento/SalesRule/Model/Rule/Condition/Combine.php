@@ -52,7 +52,7 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
         $attributes = array();
         foreach ($addressAttributes as $code=>$label) {
             $attributes[] = array(
-                'value' => 'Magento_SalesRule_Model_Rule_Condition_Address|' . $code, 'label' => $label
+                'value' => 'Magento\SalesRule\Model\Rule\Condition\Address|' . $code, 'label' => $label
             );
         }
 

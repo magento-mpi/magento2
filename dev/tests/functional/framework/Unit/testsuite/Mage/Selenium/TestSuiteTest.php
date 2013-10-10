@@ -34,10 +34,10 @@ class Mage_Selenium_TestSuiteTest extends Unit_PHPUnit_TestCase
     public function testAddTestMethod()
     {
         $className = 'Simple1Test';
-        $suite = new Mage_Selenium_TestSuite(new ReflectionClass($className), $className,
+        $suite = new Mage_Selenium_TestSuite(new \ReflectionClass($className), $className,
             new Mage_Test_SkipFilter_Regexp(array('/Not math/')));
         $this->assertCount(2, $suite);
-        $suite = new Mage_Selenium_TestSuite(new ReflectionClass($className), $className,
+        $suite = new Mage_Selenium_TestSuite(new \ReflectionClass($className), $className,
             new Mage_Test_SkipFilter_Regexp(array('/One/')));
         $this->assertCount(1, $suite);
     }

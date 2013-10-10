@@ -10,12 +10,7 @@
 
 /**
  * Data helper for dashboard
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\Adminhtml\Helper\Dashboard;
 
 class Data extends \Magento\Core\Helper\Data
@@ -24,42 +19,43 @@ class Data extends \Magento\Core\Helper\Data
     protected $_stores = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
-     */
-    protected $_storeManager;
-
-    /**
      * @var string
      */
     protected $_installDate;
 
     /**
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Http $coreHttp
-     * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Locale $locale
+     * @param \Magento\Core\Model\Date $dateModel
+     * @param \Magento\Core\Model\App\State $appState
      * @param \Magento\Core\Model\Encryption $encryptor
+     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param string $installDate
-     * @param bool $dbCompatibleMode      
+     * @param bool $dbCompatibleMode
      */
     public function __construct(
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Helper\Http $coreHttp,
-        \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Config $config,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Locale $locale,
+        \Magento\Core\Model\Date $dateModel,
+        \Magento\Core\Model\App\State $appState,
         \Magento\Core\Model\Encryption $encryptor,
         $installDate,
         $dbCompatibleMode = true
     ) {
-        $this->_storeManager = $storeManager;
-        $this->_installDate = $installDate;
-        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig, 
-            $encryptor, $dbCompatibleMode
+        parent::__construct($context, $eventManager, $coreHttp, $config, $coreStoreConfig, $storeManager,
+            $locale, $dateModel, $appState, $encryptor, $dbCompatibleMode
         );
+        $this->_installDate = $installDate;
     }
 
     /**

@@ -79,16 +79,26 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Customer\Model\Address\Config $addressConfig
+     * @param \Magento\Directory\Model\RegionFactory $regionFactory
+     * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Directory\Helper\Data $directoryData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Customer\Model\Address\Config $addressConfig,
+        \Magento\Directory\Model\RegionFactory $regionFactory,
+        \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
@@ -99,6 +109,10 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
             $directoryData,
             $context,
             $registry,
+            $eavConfig,
+            $addressConfig,
+            $regionFactory,
+            $countryFactory,
             $resource,
             $resourceCollection,
             $data

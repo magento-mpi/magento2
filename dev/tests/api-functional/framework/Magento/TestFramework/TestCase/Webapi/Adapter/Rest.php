@@ -103,7 +103,7 @@ class Rest
             if (isset($services[$serviceInterface]['methods'][$method])) {
                 $serviceData = $services[$serviceInterface];
                 $methodData = $serviceData['methods'][$method];
-                $routePattern = $serviceData[Magento_Webapi_Model_Config::ATTR_SERVICE_PATH] . $methodData['route'];
+                $routePattern = $serviceData[\Magento\Webapi\Model\Config::ATTR_SERVICE_PATH] . $methodData['route'];
                 $numberOfPlaceholders = substr_count($routePattern, ':');
                 if ($numberOfPlaceholders == 1) {
                     if (!isset($serviceInfo['entityId'])) {
@@ -140,7 +140,7 @@ class Rest
             $method = $serviceInfo['method'];
             if (isset($services[$serviceInterface]['methods'][$method])) {
                 $httpMethod
-                    = $services[$serviceInterface]['methods'][$method][Magento_Webapi_Model_Config::ATTR_HTTP_METHOD];
+                    = $services[$serviceInterface]['methods'][$method][\Magento\Webapi\Model\Config::ATTR_HTTP_METHOD];
             }
         }
         if (!isset($httpMethod)) {

@@ -112,7 +112,7 @@ class Config
             $this->_soapServices = array();
             foreach ($this->_config->getServices() as $serviceData) {
                 $serviceClass = $serviceData[\Magento\Webapi\Model\Config::ATTR_SERVICE_CLASS];
-                $reflection = new ReflectionClass($serviceClass);
+                $reflection = new \ReflectionClass($serviceClass);
                 foreach ($reflection->getMethods() as $method) {
                     // find if method is secure, assume operation is not secure by default
                     $isSecure = false;
@@ -223,7 +223,7 @@ class Config
     /**
      * Generate SOAP operation name.
      *
-     * @param string $interfaceName e.g. Magento_Catalog_Service_ProductInterfaceV1
+     * @param string $interfaceName e.g. \Magento\Catalog\Service\ProductInterfaceV1
      * @param string $methodName e.g. create
      * @return string e.g. catalogProductCreate
      */

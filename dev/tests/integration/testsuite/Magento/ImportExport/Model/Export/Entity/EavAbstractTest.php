@@ -24,7 +24,7 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
     protected static $_skippedAttributes = array('confirmation', 'lastname');
 
     /**
-     * @var \Magento\ImportExport\Model\Export\Entity\EavAbstract
+     * @var \Magento\ImportExport\Model\Export\Entity\AbstractEav
      */
     protected $_model;
 
@@ -43,16 +43,22 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
         $customerAttributes = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Customer\Model\Resource\Attribute\Collection');
 
-        $storeConfig = $objectManager->get('Magento\Core\Model\Store\Config');
-        $this->_model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Export\Entity\EavAbstract',
-            array($storeConfig), '', false);
+        $this->_model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Export\Entity\AbstractEav', array(),
+            '', false);
         $this->_model->expects($this->any())
             ->method('getEntityTypeCode')
             ->will($this->returnValue($this->_entityCode));
         $this->_model->expects($this->any())
             ->method('getAttributeCollection')
             ->will($this->returnValue($customerAttributes));
-        $this->_model->__construct($storeConfig);
+        $this->_model->__construct(
+            $objectManager->get('Magento\Core\Model\Store\Config'),
+            $objectManager->get('Magento\Core\Model\App'),
+            $objectManager->get('Magento\ImportExport\Model\Export\Factory'),
+            $objectManager->get('Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory'),
+            $objectManager->get('Magento\Core\Model\LocaleInterface'),
+            $objectManager->get('Magento\Eav\Model\Config')
+        );
     }
 
     /**
@@ -71,7 +77,7 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
     /**
      * Test for method _getExportAttrCodes()
      *
-     * @covers \Magento\ImportExport\Model\Export\Entity\EavAbstract::_getExportAttrCodes
+     * @covers \Magento\ImportExport\Model\Export\Entity\AbstractEav::_getExportAttrCodes
      */
     public function testGetExportAttrCodes()
     {

@@ -14,6 +14,31 @@ class General
     extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
+     * @var \Magento\Backend\Model\Config\Source\Yesno
+     */
+    protected $sourceYesNo;
+
+    /**
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Model\Config\Source\Yesno $sourceYesNo
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Model\Config\Source\Yesno $sourceYesNo,
+        array $data = array()
+    ) {
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+        $this->sourceYesNo = $sourceYesNo;
+    }
+
+    /**
      * Return current gift registry type instance
      *
      * @return \Magento\GiftRegistry\Model\Type
@@ -87,7 +112,7 @@ class General
         $fieldset->addField('is_listed', 'select', array(
             'label'    => __('Is Listed'),
             'name'     => 'is_listed',
-            'values'   => \Mage::getSingleton('Magento\Backend\Model\Config\Source\Yesno')->toOptionArray(),
+            'values'   => $this->sourceYesNo->toOptionArray(),
             'scope'    => 'store'
         ));
 

@@ -10,12 +10,7 @@
 
 /**
  * Payflow Link payment gateway model
- *
- * @category    Magento
- * @package     Magento_Paypal
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\Paypal\Model;
 
 class Payflowlink extends \Magento\Paypal\Model\Payflowpro
@@ -66,31 +61,38 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      */
     protected $_code = \Magento\Paypal\Model\Config::METHOD_PAYFLOWLINK;
 
+    /**
+     * @var string
+     */
     protected $_formBlockType = 'Magento\Paypal\Block\Payflow\Link\Form';
-    protected $_infoBlockType = 'Magento\Paypal\Block\Payflow\Link\Info';
 
     /**
+     * @var string
+     */
+    protected $_infoBlockType = 'Magento\Paypal\Block\Payflow\Link\Info';
+
+    /**#@+
      * Availability options
      */
     protected $_canUseInternal          = false;
     protected $_canUseForMultishipping  = false;
     protected $_isInitializeNeeded      = true;
+    /**#@-*/
 
     /**
      * Request & response model
+     *
      * @var \Magento\Paypal\Model\Payflow\Request
      */
     protected $_response;
 
     /**
      * Gateway request URL
-     * @var string
      */
     const TRANSACTION_PAYFLOW_URL = 'https://payflowlink.paypal.com/';
 
     /**
      * Error message
-     * @var string
      */
     const RESPONSE_ERROR_MSG = 'Payment error. %s was not found.';
 
@@ -101,6 +103,86 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      */
     protected $_secureSilentPostHashKey = 'secure_silent_post_hash';
 
+    /**
+     * @var \Magento\Paypal\Model\Payflow\RequestFactory
+     */
+    protected $_requestFactory;
+
+    /**
+     * @var \Magento\Sales\Model\QuoteFactory
+     */
+    protected $_quoteFactory;
+
+    /**
+     * @var \Magento\Sales\Model\OrderFactory
+     */
+    protected $_orderFactory;
+
+    /**
+     * @var \Magento\Core\Model\WebsiteFactory
+     */
+    protected $_websiteFactory;
+
+    /**
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\ModuleListInterface $moduleList
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Centinel\Model\Service $centinelService
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Paypal\Model\ConfigFactory $configFactory
+     * @param \Magento\Paypal\Model\Payflow\RequestFactory $requestFactory
+     * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param \Magento\Core\Controller\Request\Http $requestHttp
+     * @param \Magento\Core\Model\WebsiteFactory $websiteFactory
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\ModuleListInterface $moduleList,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Centinel\Model\Service $centinelService,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Paypal\Model\ConfigFactory $configFactory,
+        \Magento\Paypal\Model\Payflow\RequestFactory $requestFactory,
+        \Magento\Sales\Model\QuoteFactory $quoteFactory,
+        \Magento\Sales\Model\OrderFactory $orderFactory,
+        \Magento\Core\Controller\Request\Http $requestHttp,
+        \Magento\Core\Model\WebsiteFactory $websiteFactory,
+        array $data = array()
+    ) {
+        $this->_requestFactory = $requestFactory;
+        $this->_quoteFactory = $quoteFactory;
+        $this->_orderFactory = $orderFactory;
+        $this->_requestHttp = $requestHttp;
+        $this->_websiteFactory = $websiteFactory;
+        parent::__construct(
+            $logger,
+            $eventManager,
+            $coreStoreConfig,
+            $moduleList,
+            $paymentData,
+            $logAdapterFactory,
+            $locale,
+            $centinelService,
+            $coreData,
+            $storeManager,
+            $configFactory,
+            $data
+        );
+    }
 
     /**
      * Do not validate payment form using server methods
@@ -120,9 +202,12 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      */
     public function isAvailable($quote = null)
     {
-        $storeId = \Mage::app()->getStore($this->getStore())->getId();
-        $config = \Mage::getModel('Magento\Paypal\Model\Config')->setStoreId($storeId);
-        if (\Magento\Payment\Model\Method\AbstractMethod::isAvailable($quote) && $config->isMethodAvailable($this->getCode())) {
+        $storeId = $this->_storeManager->getStore($this->getStore())->getId();
+        /** @var \Magento\Paypal\Model\Config $config */
+        $config = $this->_configFactory->create()->setStoreId($storeId);
+        if (\Magento\Payment\Model\Method\AbstractMethod::isAvailable($quote)
+            && $config->isMethodAvailable($this->getCode())
+        ) {
             return true;
         }
         return false;
@@ -133,7 +218,6 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      *
      * @param string $paymentAction
      * @param \Magento\Object $stateObject
-     * @return \Magento_Payment_Model_Abstract|void
      */
     public function initialize($paymentAction, $stateObject)
     {
@@ -170,7 +254,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
     public function getResponse()
     {
         if (!$this->_response) {
-            $this->_response = \Mage::getModel('Magento\Paypal\Model\Payflow\Request');
+            $this->_response = $this->_requestFactory->create();
         }
 
         return $this->_response;
@@ -222,8 +306,8 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
         $this->_debug($debugData);
 
         $this->setResponseData($responseData);
-
-        if ($order = $this->_getOrderFromResponse()) {
+        $order = $this->_getOrderFromResponse();
+        if ($order) {
             $this->_processOrder($order);
         }
     }
@@ -232,6 +316,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      * Operate with order using information from silent post
      *
      * @param \Magento\Sales\Model\Order $order
+     * @throws \Magento\Core\Exception
      */
     protected function _processOrder(\Magento\Sales\Model\Order $order)
     {
@@ -266,6 +351,8 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
             case self::TRXTYPE_SALE:
                 $payment->registerCaptureNotification($payment->getBaseAmountAuthorized());
                 break;
+            default:
+                break;
         }
         $order->save();
 
@@ -273,12 +360,12 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
             if ($canSendNewOrderEmail) {
                 $order->sendNewOrderEmail();
             }
-            \Mage::getModel('Magento\Sales\Model\Quote')
+            $this->_quoteFactory->create()
                 ->load($order->getQuoteId())
                 ->setIsActive(false)
                 ->save();
         } catch (\Exception $e) {
-            \Mage::throwException(__('We cannot send the new order email.'));
+            throw new \Magento\Core\Exception(__('We cannot send the new order email.'));
         }
     }
 
@@ -307,9 +394,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
     protected function _getOrderFromResponse()
     {
         $response = $this->getResponse();
-
-        $order = \Mage::getModel('Magento\Sales\Model\Order')
-                ->loadByIncrementId($response->getInvnum());
+        $order = $this->_orderFactory->create()->loadByIncrementId($response->getInvnum());
 
         if ($this->_getSecureSilentPostHash($order->getPayment()) != $response->getUser2()
             || $this->_code != $order->getPayment()->getMethodInstance()->getCode()
@@ -324,7 +409,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
             if ($order->getState() != \Magento\Sales\Model\Order::STATE_CANCELED) {
                 $order->registerCancellation($response->getRespmsg())->save();
             }
-            \Mage::throwException($response->getRespmsg());
+            throw new \Magento\Core\Exception($response->getRespmsg());
         }
 
         $amountCompared = ($response->getAmt() == $order->getPayment()->getBaseAmountAuthorized()) ? true : false;
@@ -332,12 +417,12 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
             || $order->getState() != \Magento\Sales\Model\Order::STATE_PENDING_PAYMENT
             || !$amountCompared
         ) {
-            \Mage::throwException($this->_formatStr(self::RESPONSE_ERROR_MSG, 'Order'));
+            throw new \Magento\Core\Exception($this->_formatStr(self::RESPONSE_ERROR_MSG, 'Order'));
         }
 
         $fetchData = $this->fetchTransactionInfo($order->getPayment(), $response->getPnref());
         if (!isset($fetchData['custref']) || $fetchData['custref'] != $order->getIncrementId()) {
-            \Mage::throwException($this->_formatStr(self::RESPONSE_ERROR_MSG, 'Transaction'));
+            throw new \Magento\Core\Exception($this->_formatStr(self::RESPONSE_ERROR_MSG, 'Transaction'));
         }
 
         return $order;
@@ -410,21 +495,21 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
     {
         $response = $this->getResponse();
         if ($response->getUser1()) {
-            return (int) $response->getUser1();
+            return (int)$response->getUser1();
         }
-
-        return \Mage::app()->getStore($this->getStore())->getId();
+        return $this->_storeManager->getStore($this->getStore())->getId();
     }
 
     /**
-      * Return request object with basic information for gateway request
-      *
-      * @param \Magento\Object $payment
-      * @return \Magento\Paypal\Model\Payflow\Request
-      */
+     * Return request object with basic information for gateway request
+     *
+     * @param \Magento\Object $payment
+     * @return \Magento\Paypal\Model\Payflow\Request
+     */
     protected function _buildBasicRequest(\Magento\Object $payment)
     {
-        $request = \Mage::getModel('Magento\Paypal\Model\Payflow\Request');
+        /** @var \Magento\Paypal\Model\Payflow\Request $request */
+        $request = $this->_requestFactory->create();
         $cscEditable = $this->getConfigData('csc_editable');
         $request
             ->setUser($this->getConfigData('user', $this->_getStoreId()))
@@ -449,10 +534,10 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
     }
 
     /**
-      * Get payment action code
-      *
-      * @return string
-      */
+     * Get payment action code
+     *
+     * @return string
+     */
     protected function _getTrxTokenType()
     {
         switch ($this->getConfigData('payment_action')) {
@@ -460,14 +545,16 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
                 return self::TRXTYPE_AUTH_ONLY;
             case \Magento\Paypal\Model\Config::PAYMENT_ACTION_SALE:
                 return self::TRXTYPE_SALE;
+            default:
+                break;
         }
     }
 
-     /**
-      * Return unique value for secure token id
-      *
-      * @return string
-      */
+    /**
+     * Return unique value for secure token id
+     *
+     * @return string
+     */
     protected function _generateSecureTokenId()
     {
         return $this->_coreData->uniqHash();
@@ -485,20 +572,21 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
         return sprintf($format, $string);
     }
 
-     /**
-      * If response is failed throw exception
-      * Set token data in payment object
-      *
-      * @param \Magento\Object $response
-      * @param \Magento\Sales\Model\Order\Payment $payment
-      * @throws \Magento\Core\Exception
-      */
+    /**
+     * If response is failed throw exception
+     * Set token data in payment object
+     *
+     * @param \Magento\Object $response
+     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @throws \Magento\Core\Exception
+     */
     protected function _processTokenErrors($response, $payment)
     {
-        if (!$response->getSecuretoken() &&
-            $response->getResult() != self::RESPONSE_CODE_APPROVED
-            && $response->getResult() != self::RESPONSE_CODE_FRAUDSERVICE_FILTER) {
-            \Mage::throwException($response->getRespmsg());
+        if (!$response->getSecuretoken()
+            && $response->getResult() != self::RESPONSE_CODE_APPROVED
+            && $response->getResult() != self::RESPONSE_CODE_FRAUDSERVICE_FILTER
+        ) {
+            throw new \Magento\Core\Exception($response->getRespmsg());
         } else {
             $payment->setAdditionalInformation('secure_token_id', $response->getSecuretokenid())
                 ->setAdditionalInformation('secure_token', $response->getSecuretoken());
@@ -535,7 +623,6 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      * @deprecated since 1.6.2.0
      * @param \Magento\Object $payment
      * @param string $txnId
-     * @return void
      */
     protected function _addTransaction($payment, $txnId)
     {
@@ -634,10 +721,9 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      */
     protected function _getCallbackUrl($actionName)
     {
-        $request = \Mage::app()->getRequest();
-        if ($request->getParam('website')) {
+        if ($this->_requestHttp->getParam('website')) {
             /** @var $website \Magento\Core\Model\Website */
-            $website = \Mage::getModel('Magento\Core\Model\Website')->load($request->getParam('website'));
+            $website = $this->_websiteFactory->create()->load($this->_requestHttp->getParam('website'));
             $secure = $this->_coreStoreConfig->getConfigFlag(
                 \Magento\Core\Model\Url::XML_PATH_SECURE_IN_FRONT,
                 $website->getDefaultStore()
@@ -648,7 +734,8 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
             $websiteUrl = $this->_coreStoreConfig->getConfig($path, $website->getDefaultStore());
         } else {
             $secure = $this->_coreStoreConfig->getConfigFlag(\Magento\Core\Model\Url::XML_PATH_SECURE_IN_FRONT);
-            $websiteUrl = \Mage::getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_LINK, $secure);
+            $websiteUrl = $this->_storeManager->getStore()
+                ->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_LINK, $secure);
         }
 
         return $websiteUrl . 'paypal/' . $this->getCallbackController() . '/' . $actionName;

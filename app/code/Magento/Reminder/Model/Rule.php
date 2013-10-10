@@ -57,6 +57,60 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $_reminderData = null;
 
     /**
+     * @var Rule\Condition\Combine\RootFactory
+     */
+    protected $rootFactory;
+
+    /**
+     * @var \Magento\Rule\Model\Action\CollectionFactory
+     */
+    protected $collectionFactory;
+
+    /**
+     * @var \Magento\Core\Model\Email\Template
+     */
+    protected $emailTemplateFactory;
+
+    /**
+     * @var \Magento\Core\Model\Translate
+     */
+    protected $translate;
+
+    /**
+     * @var \Magento\Customer\Model\CustomerFactory
+     */
+    protected $customerFactory;
+
+    /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $storeManger;
+
+    /**
+     * @var \Magento\SalesRule\Model\CouponFactory
+     */
+    protected $couponFactory;
+
+    /**
+     * @var \Magento\Core\Model\DateFactory
+     */
+    protected $dateFactory;
+
+    /**
+     * @var \Magento\SalesRule\Model\Rule
+     */
+    protected $salesRule;
+
+    /**
+     * @param \Magento\Reminder\Model\Rule\Condition\Combine\RootFactory $rootFactory
+     * @param \Magento\Rule\Model\Action\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Model\Email\Template $emailTemplateFactory
+     * @param \Magento\Core\Model\Translate $translate
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Core\Model\StoreManager $storeManger
+     * @param \Magento\SalesRule\Model\CouponFactory $couponFactory
+     * @param \Magento\Core\Model\DateFactory $dateFactory
+     * @param \Magento\SalesRule\Model\Rule $salesRule
      * @param \Magento\Reminder\Helper\Data $reminderData
      * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Core\Model\Context $context
@@ -67,6 +121,15 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
+        \Magento\Reminder\Model\Rule\Condition\Combine\RootFactory $rootFactory,
+        \Magento\Rule\Model\Action\CollectionFactory $collectionFactory,
+        \Magento\Core\Model\Email\Template $emailTemplateFactory,
+        \Magento\Core\Model\Translate $translate,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Core\Model\StoreManager $storeManger,
+        \Magento\SalesRule\Model\CouponFactory $couponFactory,
+        \Magento\Core\Model\DateFactory $dateFactory,
+        \Magento\SalesRule\Model\Rule $salesRule,
         \Magento\Reminder\Helper\Data $reminderData,
         \Magento\Data\Form\Factory $formFactory,
         \Magento\Core\Model\Context $context,
@@ -76,6 +139,15 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->rootFactory = $rootFactory;
+        $this->collectionFactory = $collectionFactory;
+        $this->emailTemplateFactory = $emailTemplateFactory;
+        $this->translate = $translate;
+        $this->customerFactory = $customerFactory;
+        $this->storeManger = $storeManger;
+        $this->couponFactory = $couponFactory;
+        $this->dateFactory = $dateFactory;
+        $this->salesRule = $salesRule;
         $this->_reminderData = $reminderData;
         parent::__construct($formFactory, $context, $registry, $locale, $resource, $resourceCollection, $data);
     }
@@ -139,7 +211,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      */
     public function getConditionsInstance()
     {
-        return \Mage::getModel('Magento\Reminder\Model\Rule\Condition\Combine\Root');
+        return $this->rootFactory->create();
     }
 
     /**
@@ -149,7 +221,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      */
     public function getActionsInstance()
     {
-        return \Mage::getModel('Magento\Rule\Model\Action\Collection');
+        return $this->collectionFactory->create();
     }
 
     /**
@@ -160,11 +232,9 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     public function sendReminderEmails()
     {
         /** @var $mail \Magento\Core\Model\Email\Template */
-        $mail = \Mage::getModel('Magento\Core\Model\Email\Template');
+        $mail = $this->emailTemplateFactory->create();
 
-        /* @var $translate \Magento\Core\Model\Translate */
-        $translate = \Mage::getSingleton('Magento\Core\Model\Translate');
-        $translate->setTranslateInline(false);
+        $this->translate->setTranslateInline(false);
 
         $identity = $this->_reminderData->getEmailIdentity();
 
@@ -175,7 +245,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
 
         foreach ($recipients as $recipient) {
             /* @var $customer \Magento\Customer\Model\Customer */
-            $customer = \Mage::getModel('Magento\Customer\Model\Customer')->load($recipient['customer_id']);
+            $customer = $this->customerFactory->create()->load($recipient['customer_id']);
             if (!$customer || !$customer->getId()) {
                 continue;
             }
@@ -183,7 +253,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
             if ($customer->getStoreId()) {
                 $store = $customer->getStore();
             } else {
-                $store = \Mage::app()->getWebsite($customer->getWebsiteId())->getDefaultStore();
+                $store = $this->storeManger->getWebsite($customer->getWebsiteId())->getDefaultStore();
             }
 
             $storeData = $this->getStoreData($recipient['rule_id'], $store->getId());
@@ -192,7 +262,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
             }
 
             /* @var $coupon \Magento\SalesRule\Model\Coupon */
-            $coupon = \Mage::getModel('Magento\SalesRule\Model\Coupon')->load($recipient['coupon_id']);
+            $coupon = $this->couponFactory->create()->load($recipient['coupon_id']);
 
             $templateVars = array(
                 'store'          => $store,
@@ -216,7 +286,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
                 $this->_getResource()->updateFailedEmailsCounter($recipient['rule_id'], $customer->getId());
             }
         }
-        $translate->setTranslateInline(true);
+        $this->translate->setTranslateInline(true);
 
         return $this;
     }
@@ -229,7 +299,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected function _matchCustomers()
     {
         $threshold   = $this->_reminderData->getSendFailureThreshold();
-        $currentDate = \Mage::getModel('Magento\Core\Model\Date')->date('Y-m-d');
+        $currentDate = $this->dateFactory->create()->date('Y-m-d');
         $rules       = $this->getCollection()->addDateFilter($currentDate)->addIsActiveFilter(1);
 
         if ($this->getRuleId()) {
@@ -241,7 +311,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
 
             if ($rule->getSalesruleId()) {
                 /* @var $salesRule \Magento\SalesRule\Model\Rule */
-                $salesRule = \Mage::getSingleton('Magento\SalesRule\Model\Rule')->load($rule->getSalesruleId());
+                $salesRule = $this->salesRule->load($rule->getSalesruleId());
                 $websiteIds = array_intersect($rule->getWebsiteIds(), $salesRule->getWebsiteIds());
             } else {
                 $salesRule = null;

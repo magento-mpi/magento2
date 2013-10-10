@@ -37,6 +37,44 @@ class Grouped
     protected $_behavior;
 
     /**
+     * @var \Magento\ImportExport\Model\ImportFactory
+     */
+    protected $_importFactory;
+
+    /**
+     * @var \Magento\Core\Model\Resource
+     */
+    protected $_resource;
+
+    /**
+     * @var \Magento\Catalog\Model\Resource\Product\LinkFactory
+     */
+    protected $_productLinkFactory;
+
+    /**
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $attrSetColFac
+     * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $prodAttrColFac
+     * @param \Magento\ImportExport\Model\ImportFactory $importFactory
+     * @param \Magento\Catalog\Model\Resource\Product\LinkFactory $productLinkFactory
+     * @param \Magento\Core\Model\Resource $resource
+     * @param array $params
+     */
+    public function __construct(
+        \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $attrSetColFac,
+        \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $prodAttrColFac,
+        \Magento\ImportExport\Model\ImportFactory $importFactory,
+        \Magento\Catalog\Model\Resource\Product\LinkFactory $productLinkFactory,
+        \Magento\Core\Model\Resource $resource,
+        array $params
+    )
+    {
+        $this->_importFactory = $importFactory;
+        $this->_resource = $resource;
+        $this->_productLinkFactory = $productLinkFactory;
+        parent::__construct($attrSetColFac, $prodAttrColFac, $params);
+    }
+
+    /**
      * Retrive model behavior
      *
      * @return string
@@ -44,7 +82,7 @@ class Grouped
     public function getBehavior()
     {
         if (is_null($this->_behavior)) {
-            $this->_behavior = \Magento\ImportExport\Model\Import::getDataSourceModel()->getBehavior();
+            $this->_behavior = $this->_importFactory->create()->getDataSourceModel()->getBehavior();
         }
         return $this->_behavior;
     }
@@ -57,8 +95,8 @@ class Grouped
     public function saveData()
     {
         $groupedLinkId = \Magento\Catalog\Model\Product\Link::LINK_TYPE_GROUPED;
-        $connection    = \Mage::getSingleton('Magento\Core\Model\Resource')->getConnection('core_write');
-        $resource      = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Link');
+        $connection    = $this->_resource->getConnection('write');
+        $resource      = $this->_productLinkFactory->create();
         $mainTable     = $resource->getMainTable();
         $relationTable = $resource->getTable('catalog_product_relation');
         $newSku        = $this->_entityModel->getNewSku();

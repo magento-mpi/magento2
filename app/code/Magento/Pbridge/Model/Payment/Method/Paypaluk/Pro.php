@@ -16,34 +16,50 @@ namespace Magento\Pbridge\Model\Payment\Method\Paypaluk;
 
 class Pro extends \Magento\PaypalUk\Model\Pro
 {
-
     /**
      * Payment Bridge Payment Method Instance
      *
      * @var \Magento\Pbridge\Model\Payment\Method\Pbridge
      */
-    protected $_pbridgeMethodInstance = null;
+    protected $_pbridgeMethodInstance;
 
     /**
      * Paypal pbridge payment method
+     *
      * @var \Magento\Pbridge\Model\Payment\Method\Paypal
      */
-    protected $_pbridgePaymentMethod = null;
+    protected $_pbridgePaymentMethod;
 
     /**
      * Payment data
      *
      * @var \Magento\Payment\Helper\Data
      */
-    protected $_paymentData = null;
+    protected $_paymentData;
 
     /**
+     * Info factory
+     *
+     * @var \Magento\Paypal\Model\InfoFactory
+     */
+    protected $_infoFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Paypal\Model\Config\Factory $configFactory
+     * @param \Magento\Paypal\Model\Api\Type\Factory $apiFactory
+     * @param \Magento\Paypal\Model\InfoFactory $infoFactory
      * @param \Magento\Payment\Helper\Data $paymentData
      */
     public function __construct(
+        \Magento\Paypal\Model\Config\Factory $configFactory,
+        \Magento\Paypal\Model\Api\Type\Factory $apiFactory,
+        \Magento\Paypal\Model\InfoFactory $infoFactory,
         \Magento\Payment\Helper\Data $paymentData
     ) {
         $this->_paymentData = $paymentData;
+        parent::__construct($configFactory, $apiFactory, $infoFactory);
     }
 
     /**
@@ -95,6 +111,7 @@ class Pro extends \Magento\PaypalUk\Model\Pro
      *
      * @param \Magento\Object $payment
      * @param float $amount
+     * @return \\Magento\Object|\\Magento\Payment\Model\AbstractModel|null
      */
     public function refund(\Magento\Object $payment, $amount)
     {
@@ -113,11 +130,12 @@ class Pro extends \Magento\PaypalUk\Model\Pro
      * Refund a capture transaction
      *
      * @param \Magento\Object $payment
+     * @return \\Magento\Payment\Model\AbstractModel|null
      */
     public function void(\Magento\Object $payment)
     {
         $result = $this->getPbridgeMethodInstance()->void($payment);
-        \Mage::getModel('Magento\Paypal\Model\Info')->importToPayment(new \Magento\Object($result), $payment);
+        $this->_infoFactory->create()->importToPayment(new \Magento\Object($result), $payment);
         return $result;
     }
 
@@ -130,7 +148,7 @@ class Pro extends \Magento\PaypalUk\Model\Pro
     {
         if (!$payment->getOrder()->getInvoiceCollection()->count()) {
             $result = $this->getPbridgeMethodInstance()->void($payment);
-            \Mage::getModel('Magento\Paypal\Model\Info')->importToPayment(new \Magento\Object($result), $payment);
+            $this->_infoFactory->create()->importToPayment(new \Magento\Object($result), $payment);
         }
     }
 
@@ -159,7 +177,7 @@ class Pro extends \Magento\PaypalUk\Model\Pro
         $payment->setPreparedMessage(
             __('Payflow PNREF: #%1.', $api->getData(self::TRANSPORT_PAYFLOW_TXN_ID))
         );
-        \Mage::getModel('Magento\Paypal\Model\Info')->importToPayment($api, $payment);
+        $this->_infoFactory->create()->importToPayment($api, $payment);
     }
 
     /**
@@ -176,9 +194,7 @@ class Pro extends \Magento\PaypalUk\Model\Pro
                 ->setShouldCloseParentTransaction(!$canRefundMore)
                 ->setTransactionAdditionalInfo(self::TRANSPORT_PAYFLOW_TXN_ID, $api->getPayflowTrxid());
 
-        $payment->setPreparedMessage(
-            __('Payflow PNREF: #%1.', $api->getData(self::TRANSPORT_PAYFLOW_TXN_ID))
-        );
-        \Mage::getModel('Magento\Paypal\Model\Info')->importToPayment($api, $payment);
+        $payment->setPreparedMessage(__('Payflow PNREF: #%1.', $api->getData(self::TRANSPORT_PAYFLOW_TXN_ID)));
+        $this->_infoFactory->create()->importToPayment($api, $payment);
     }
 }

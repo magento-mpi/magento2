@@ -8,21 +8,38 @@
  * @license     {license_link}
  */
 
-
 /**
  * Synchronize button renderer
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backend\Block\System\Config\System\Storage\Media;
 
 class Synchronize
     extends \Magento\Backend\Block\System\Config\Form\Field
 {
-
     protected $_template = 'system/config/system/storage/media/synchronize.phtml';
+
+    /**
+     * @var \Magento\Core\Model\File\Storage
+     */
+    protected $_fileStorage;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\App $application
+     * @param \Magento\Core\Model\File\Storage $fileStorage
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\App $application,
+        \Magento\Core\Model\File\Storage $fileStorage,
+        array $data = array()
+    ) {
+        $this->_fileStorage = $fileStorage;
+        parent::__construct($coreData, $context, $application, $data);
+    }
 
     /**
      * Remove scope label
@@ -97,7 +114,7 @@ class Synchronize
      */
     public function getSyncStorageParams()
     {
-        $flag = \Mage::getSingleton('Magento\Core\Model\File\Storage')->getSyncFlag();
+        $flag = $this->_fileStorage->getSyncFlag();
         $flagData = $flag->getFlagData();
 
         if ($flag->getState() == \Magento\Core\Model\File\Storage\Flag::STATE_NOTIFIED

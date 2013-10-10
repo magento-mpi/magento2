@@ -209,12 +209,14 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             ->method('getConnection')
             ->with()
             ->will($this->returnValue($adapter));
-
+        $eavEntityType = $this->getMock('Magento\Eav\Model\Resource\Entity\Type', array(), array(), '', false, false);
         $arguments = array(
-            'resource'  => $resource,
+            'resource' => $resource,
+            'app' => $this->getMock('Magento\Core\Model\App', array(), array(), '', false, false),
+            'eavEntityType' => $eavEntityType,
             'arguments' => array(
                 'application' => $application,
-                'helper'      => $this->getMock('Magento\Eav\Helper\Data', array(), array(), '', false, false),
+                'helper' => $this->getMock('Magento\Eav\Helper\Data', array(), array(), '', false, false),
             )
         );
         $resourceModel = $this->getMock(

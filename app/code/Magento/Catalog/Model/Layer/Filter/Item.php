@@ -20,15 +20,47 @@ namespace Magento\Catalog\Model\Layer\Filter;
 class Item extends \Magento\Object
 {
     /**
+     * Url
+     *
+     * @var \Magento\Core\Model\UrlInterface
+     */
+    protected $_url;
+
+    /**
+     * Html pager block
+     *
+     * @var \Magento\Page\Block\Html\Pager
+     */
+    protected $_htmlPagerBlock;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\UrlInterface $url
+     * @param \Magento\Page\Block\Html\Pager $htmlPagerBlock
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\UrlInterface $url,
+        \Magento\Page\Block\Html\Pager $htmlPagerBlock,
+        array $data = array()
+    ) {
+        $this->_url = $url;
+        $this->_htmlPagerBlock = $htmlPagerBlock;
+        parent::__construct($data);
+    }
+
+    /**
      * Get filter instance
      *
      * @return \Magento\Catalog\Model\Layer\Filter\AbstractFilter
+     * @throws \Magento\Core\Exception
      */
     public function getFilter()
     {
         $filter = $this->getData('filter');
         if (!is_object($filter)) {
-            \Mage::throwException(
+            throw new \Magento\Core\Exception(
                 __('The filter must be an object. Please set correct filter.')
             );
         }
@@ -44,9 +76,9 @@ class Item extends \Magento\Object
     {
         $query = array(
             $this->getFilter()->getRequestVar()=>$this->getValue(),
-            \Mage::getBlockSingleton('Magento\Page\Block\Html\Pager')->getPageVarName() => null // exclude current page from urls
+            $this->_htmlPagerBlock->getPageVarName() => null // exclude current page from urls
         );
-        return \Mage::getUrl('*/*/*', array('_current'=>true, '_use_rewrite'=>true, '_query'=>$query));
+        return $this->_url->getUrl('*/*/*', array('_current'=>true, '_use_rewrite'=>true, '_query'=>$query));
     }
 
     /**
@@ -61,7 +93,7 @@ class Item extends \Magento\Object
         $params['_use_rewrite'] = true;
         $params['_query']       = $query;
         $params['_escape']      = true;
-        return \Mage::getUrl('*/*/*', $params);
+        return $this->_url->getUrl('*/*/*', $params);
     }
 
     /**
@@ -82,7 +114,7 @@ class Item extends \Magento\Object
             '_query' => array($this->getFilter()->getRequestVar() => null),
             '_escape' => true,
         );
-        return \Mage::getUrl('*/*/*', $urlParams);
+        return $this->_url->getUrl('*/*/*', $urlParams);
     }
 
     /**

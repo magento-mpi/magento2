@@ -69,10 +69,16 @@ class Crawler extends \Magento\Core\Model\AbstractModel
     protected $_cacheState;
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param \Magento\WebsiteRestriction\Helper\Data $websiteRestricData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Cache\StateInterface $cacheState
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -82,13 +88,15 @@ class Crawler extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Cache\StateInterface $cacheState,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_cacheState = $cacheState;
         $this->_websiteRestricData = $websiteRestricData;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -115,13 +123,13 @@ class Crawler extends \Magento\Core\Model\AbstractModel
     public function getStoresInfo()
     {
         $baseUrls = array();
-        foreach (\Mage::app()->getStores() as $store) {
-            $website               = \Mage::app()->getWebsite($store->getWebsiteId());
+        foreach ($this->_storeManager->getStores() as $store) {
+            $website               = $this->_storeManager->getWebsite($store->getWebsiteId());
             if ($this->_websiteRestricData->getIsRestrictionEnabled($store)) {
                 continue;
             }
-            $baseUrl               = \Mage::app()->getStore($store)->getBaseUrl();
-            $defaultCurrency       = \Mage::app()->getStore($store)->getDefaultCurrencyCode();
+            $baseUrl               = $this->_storeManager->getStore($store)->getBaseUrl();
+            $defaultCurrency       = $this->_storeManager->getStore($store)->getDefaultCurrencyCode();
             $defaultWebsiteStore   = $website->getDefaultStore();
             $defaultWebsiteBaseUrl = $defaultWebsiteStore->getBaseUrl();
 
@@ -170,11 +178,11 @@ class Crawler extends \Magento\Core\Model\AbstractModel
             $storeId = $info['store_id'];
             $this->_visitedUrls = array();
 
-            if (!\Mage::app()->getStore($storeId)->getConfig(self::XML_PATH_CRAWLER_ENABLED)) {
+            if (!$this->_storeManager->getStore($storeId)->getConfig(self::XML_PATH_CRAWLER_ENABLED)) {
                 continue;
             }
 
-            $threads = (int)\Mage::app()->getStore($storeId)->getConfig(self::XML_PATH_CRAWLER_THREADS);
+            $threads = (int)$this->_storeManager->getStore($storeId)->getConfig(self::XML_PATH_CRAWLER_THREADS);
             if (!$threads) {
                 $threads = 1;
             }

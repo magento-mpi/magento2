@@ -28,7 +28,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
     protected $_eventPrefix = 'core_file_storage_database';
 
     /**
-     * \Directory singleton
+     * Directory singleton
      *
      * @var \Magento\Core\Model\File\Storage\Directory\Database
      */
@@ -48,10 +48,19 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
 
     /**
      * @param \Magento\Core\Model\Logger $logger
+     * @var \Magento\Core\Model\File\Storage\Directory\DatabaseFactory
+     */
+    protected $_directoryFactory;
+
+    /**
+     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Date $dateModel
+     * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\Resource\File\Storage\Database $resource
+     * @param \Magento\Core\Model\File\Storage\Directory\DatabaseFactory $directoryFactory
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      * @param string $connectionName
@@ -61,14 +70,26 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Date $dateModel,
+        \Magento\Core\Model\App $app,
         \Magento\Core\Model\Resource\File\Storage\Database $resource,
+        \Magento\Core\Model\File\Storage\Directory\DatabaseFactory $directoryFactory,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array(),
         $connectionName = null
     ) {
         $this->_init('Magento\Core\Model\Resource\File\Storage\Database');
+        $this->_directoryFactory = $directoryFactory;
         $this->_logger = $logger;
-        parent::__construct($coreFileStorageDb, $context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $coreFileStorageDb,
+            $context,
+            $registry,
+            $dateModel,
+            $app,
+            $resource,
+            $resourceCollection,
+            $data);
     }
 
     /**
@@ -80,9 +101,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
     {
         if (is_null($this->_directoryModel)) {
             $arguments = array('connection' => $this->getConnectionName());
-            $this->_directoryModel = \Mage::getModel(
-                'Magento\Core\Model\File\Storage\Directory\Database',
-                array('connectionName' => $arguments));
+            $this->_directoryModel = $this->_directoryFactory->create(array('connectionName' => $arguments));
         }
 
         return $this->_directoryModel;
@@ -200,7 +219,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
             return $this;
         }
 
-        $dateSingleton = \Mage::getSingleton('Magento\Core\Model\Date');
+        $dateSingleton = $this->_date;
         foreach ($files as $file) {
             if (!isset($file['filename']) || !strlen($file['filename']) || !isset($file['content'])) {
                 continue;
@@ -210,10 +229,8 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
                 $file['update_time'] = $dateSingleton->date();
                 $arguments = array('connection' => $this->getConnectionName());
                 $file['directory_id'] = (isset($file['directory']) && strlen($file['directory']))
-                    ? \Mage::getModel(
-                        'Magento\Core\Model\File\Storage\Directory\Database',
-                        array('connectionName' => $arguments))
-                            ->loadByPath($file['directory'])->getId()
+                    ? $this->_directoryFactory->create(array('connectionName' => $arguments))
+                        ->loadByPath($file['directory'])->getId()
                     : null;
 
                 $this->_getResource()->saveFile($file);
@@ -237,7 +254,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
         $fileInfo = $this->collectFileInfo($filename);
         $filePath = $fileInfo['directory'];
 
-        $directory = \Mage::getModel('Magento\Core\Model\File\Storage\Directory\Database')->loadByPath($filePath);
+        $directory = $this->_directoryFactory->create()->loadByPath($filePath);
 
         if (!$directory->getId()) {
             $directory = $this->getDirectoryModel()->createRecursive($filePath);
@@ -296,7 +313,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
         );
 
         $newPath = dirname($newFilePath);
-        $directory = \Mage::getModel('Magento\Core\Model\File\Storage\Directory\Database')->loadByPath($newPath);
+        $directory = $this->_directoryFactory->create()->loadByPath($newPath);
 
         if (!$directory->getId()) {
             $directory = $this->getDirectoryModel()->createRecursive($newPath);

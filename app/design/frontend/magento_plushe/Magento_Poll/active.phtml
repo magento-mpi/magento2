@@ -1,0 +1,48 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php if (isset($poll)) : ?>
+<div class="block poll">
+    <div class="title">
+        <strong><?php echo __('Community Poll') ?></strong>
+    </div>
+    <div class="content">
+        <form id="pollForm" action="<?php echo $action ?>" method="post">
+            <fieldset class="fieldset" id="poll-answers">
+                <legend class="legend"><span><?php echo $this->escapeHtml($poll->getPollTitle()); ?></span></legend><br />
+                <?php if ($poll_answers): ?>
+                    <?php foreach ($poll_answers as $answer): ?>
+                    <div class="field choice">
+                        <input type="radio" name="vote" class="radio poll_vote" id="vote_<?php echo $answer->getId() ?>"
+                               value="<?php echo $answer->getAnswerId() ?>"/>
+                        <label class="label" for="vote_<?php echo $answer->getId() ?>">
+                            <span><?php echo $this->escapeHtml($answer->getAnswerTitle()) ?></span>
+                        </label>
+                    </div>
+                    <?php endforeach; ?>
+                <script type="text/javascript">
+                    //<![CDATA[
+                    (function($) {
+                        head.js("<?php echo $this->getViewFileUrl('Magento_Poll::poll.js')?>", function() {
+                            $('#pollForm').poll({pollAnswersSelector: '#poll-answers', pollCheckedOption: 'input.poll_vote:checked'});
+                        });
+                    })(jQuery);
+                    //]]>
+                </script>
+                <?php endif; ?>
+            </fieldset>
+                <div class="actions">
+                    <button type="submit" title="<?php echo __('Vote') ?>" class="action submit">
+                        <span><?php echo __('Vote') ?></span>
+                    </button>
+                </div>
+        </form>
+    </div>
+</div>
+<?php endif; ?>

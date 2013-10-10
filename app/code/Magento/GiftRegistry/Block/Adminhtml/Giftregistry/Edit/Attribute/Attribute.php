@@ -18,6 +18,26 @@ class Attribute
      */
     protected $_typeInstance;
 
+    /**
+     * @var \Magento\GiftRegistry\Model\Type
+     */
+    protected $defaultTypeInstance;
+
+    /**
+     * @var \Magento\GiftRegistry\Model\Attribute\Config
+     */
+    protected $attributeConfig;
+
+    /**
+     * @var \Magento\Backend\Model\Config\Source\Yesno
+     */
+    protected $sourceYesNo;
+
+    /**
+     * Block template
+     *
+     * @var string
+     */
     protected $_template = 'edit/attributes.phtml';
 
     /**
@@ -31,15 +51,25 @@ class Attribute
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Backend\Model\Config\Source\Yesno $sourceYesNo
+     * @param \Magento\GiftRegistry\Model\Type $defaultTypeInstance
+     * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Backend\Model\Config\Source\Yesno $sourceYesNo,
+        \Magento\GiftRegistry\Model\Type $defaultTypeInstance,
+        \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->sourceYesNo = $sourceYesNo;
+        $this->defaultTypeInstance = $defaultTypeInstance;
+        $this->attributeConfig = $attributeConfig;
+
         parent::__construct($coreData, $context, $data);
     }
 
@@ -104,7 +134,7 @@ class Attribute
      */
     public function getConfig()
     {
-        return \Mage::getSingleton('Magento\GiftRegistry\Model\Attribute\Config');
+        return $this->attributeConfig;
     }
 
     /**
@@ -119,7 +149,7 @@ class Attribute
             if ($type) {
                 $this->_typeInstance = $type;
             } else {
-                $this->_typeInstance = \Mage::getSingleton('Magento\GiftRegistry\Model\Type');
+                $this->_typeInstance = $this->defaultTypeInstance;
             }
         }
         return $this->_typeInstance;
@@ -184,7 +214,7 @@ class Attribute
                  'class' => 'select required-entry global-scope'
             ))
             ->setName('attributes[' . $this->getFieldPrefix() . '][{{id}}][frontend][is_searcheable]')
-            ->setOptions(\Mage::getSingleton('Magento\Backend\Model\Config\Source\Yesno')->toOptionArray());
+            ->setOptions($this->sourceYesNo->toOptionArray());
 
         return $select->getHtml();
     }
@@ -202,7 +232,7 @@ class Attribute
                  'class' => 'select required-entry global-scope'
             ))
             ->setName('attributes[' . $this->getFieldPrefix() . '][{{id}}][frontend][is_listed]')
-            ->setOptions(\Mage::getSingleton('Magento\Backend\Model\Config\Source\Yesno')->toOptionArray());
+            ->setOptions($this->sourceYesNo->toOptionArray());
 
         return $select->getHtml();
     }
@@ -220,7 +250,7 @@ class Attribute
                  'class' => 'select required-entry global-scope'
             ))
             ->setName('attributes[' . $this->getFieldPrefix() . '][{{id}}][frontend][is_required]')
-            ->setOptions(\Mage::getSingleton('Magento\Backend\Model\Config\Source\Yesno')->toOptionArray());
+            ->setOptions($this->sourceYesNo->toOptionArray());
 
         return $select->getHtml();
     }
@@ -236,7 +266,7 @@ class Attribute
         $types = array('Select', 'Date', 'Country');
 
         foreach ($types as $type) {
-            $renderer = 'Magento\\GiftRegistry\\Block\\Adminhtml\\Giftregistry\\Edit\\Attribute\\Type\\' . $type;
+            $renderer = 'Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Attribute\Type\\' . $type;
             $block = $this->getLayout()->createBlock($renderer)->setFieldPrefix($this->getFieldPrefix());
             $templates[] = $block->toHtml();
         }

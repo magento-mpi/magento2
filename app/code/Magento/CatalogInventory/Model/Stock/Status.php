@@ -275,7 +275,7 @@ class Status extends \Magento\Core\Model\AbstractModel
             $productType = $this->getProductType($productId);
         }
 
-        /** @var \Magento_CatalogInventory_Model_Stock_Item $item */
+        /** @var \Magento\CatalogInventory\Model\Stock\Item $item */
         $item = $this->_stockItemFactory->create()->loadByProduct($productId);
 
         $status  = self::STATUS_IN_STOCK;
@@ -387,7 +387,7 @@ class Status extends \Magento\Core\Model\AbstractModel
         }
 
         $productTypes = $this->getProductsType($parentIds);
-        /** @var \Magento_CatalogInventory_Model_Stock_Item $item */
+        /** @var \Magento\CatalogInventory\Model\Stock\Item $item */
         $item = $this->_stockItemFactory->create();
 
         foreach ($parentIds as $parentId) {

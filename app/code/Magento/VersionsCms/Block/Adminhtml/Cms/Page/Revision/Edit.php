@@ -8,18 +8,35 @@
  * @license     {license_link}
  */
 
-
 /**
  * Edit revision page
- *
- * @category    Magento
- * @package     Magento_VersionsCms
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision;
 
 class Edit extends \Magento\Adminhtml\Block\Cms\Page\Edit
 {
+    /**
+     * @var \Magento\VersionsCms\Model\Config
+     */
+    protected $_cmsConfig;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\VersionsCms\Model\Config $cmsConfig
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\VersionsCms\Model\Config $cmsConfig,
+        array $data = array()
+    ) {
+        $this->_cmsConfig = $cmsConfig;
+        parent::__construct($coreData, $context, $registry, $data);
+    }
 
     /**
      * Constructor. Modifying default CE buttons.
@@ -37,19 +54,16 @@ class Edit extends \Magento\Adminhtml\Block\Cms\Page\Edit
         $this->_controller = 'adminhtml_cms_page_revision';
         $this->_blockGroup = 'Magento_VersionsCms';
 
-        /* @var $config \Magento\VersionsCms\Model\Config */
-        $config = \Mage::getSingleton('Magento\VersionsCms\Model\Config');
-
         $this->setFormActionUrl($this->getUrl('*/cms_page_revision/save'));
 
         $objId = $this->getRequest()->getParam($this->_objectId);
 
-        if (!empty($objId) && $config->canCurrentUserDeleteRevision()) {
+        if (!empty($objId) && $this->_cmsConfig->canCurrentUserDeleteRevision()) {
             $this->_addButton('delete_revision', array(
                 'label'     => __('Delete'),
                 'class'     => 'delete',
-                'onclick'   => 'deleteConfirm(\''. __('Are you sure you want to delete this revision?')
-                                .'\', \'' . $this->getDeleteUrl() . '\')',
+                'onclick'   => 'deleteConfirm(\'' . __('Are you sure you want to delete this revision?')
+                                . '\', \'' . $this->getDeleteUrl() . '\')',
             ));
         }
 
@@ -69,7 +83,7 @@ class Edit extends \Magento\Adminhtml\Block\Cms\Page\Edit
             ),
         ));
 
-        if ($config->canCurrentUserPublishRevision()) {
+        if ($this->_cmsConfig->canCurrentUserPublishRevision()) {
             $this->_addButton('publish', array(
                 'id'        => 'publish_button',
                 'label'     => __('Publish'),
@@ -77,7 +91,7 @@ class Edit extends \Magento\Adminhtml\Block\Cms\Page\Edit
                 'class'     => 'publish' . ($this->_coreRegistry->registry('cms_page')->getId()? '' : ' no-display'),
             ), 1);
 
-            if ($config->canCurrentUserSaveRevision()) {
+            if ($this->_cmsConfig->canCurrentUserSaveRevision()) {
                 $this->_addButton('save_publish', array(
                     'id'        => 'save_publish_button',
                     'label'     => __('Save and publish.'),
@@ -93,22 +107,18 @@ class Edit extends \Magento\Adminhtml\Block\Cms\Page\Edit
             $this->_updateButton('saveandcontinue', 'level', 2);
         }
 
-        if ($config->canCurrentUserSaveRevision()) {
+        if ($this->_cmsConfig->canCurrentUserSaveRevision()) {
             $this->_updateButton('save', 'label', __('Save'));
             $this->_updateButton('save', 'data_attribute', array(
                 'mage-init' => array(
                     'button' => array('event' => 'save', 'target' => '#edit_form')
                 ),
             ));
-            $this->_updateButton(
-                'saveandcontinue',
-                'data_attribute',
-                array(
-                    'mage-init' => array(
-                        'button' => array('event' => 'preview', 'target' => '#edit_form')
-                    ),
-                )
-            );
+            $this->_updateButton('saveandcontinue', 'data_attribute', array(
+                'mage-init' => array(
+                    'button' => array('event' => 'preview', 'target' => '#edit_form')
+                ),
+            ));
 
             $page = $this->_coreRegistry->registry('cms_page');
             // Adding button to create new version
@@ -196,11 +206,10 @@ class Edit extends \Magento\Adminhtml\Block\Cms\Page\Edit
     public function getBackUrl()
     {
         $page = $this->_coreRegistry->registry('cms_page');
-        return $this->getUrl('*/cms_page_version/edit',
-             array(
-                'page_id' => $page ? $page->getPageId() : null,
-                'version_id' => $page ? $page->getVersionId() : null
-             ));
+        return $this->getUrl('*/cms_page_version/edit', array(
+            'page_id' => $page ? $page->getPageId() : null,
+            'version_id' => $page ? $page->getVersionId() : null
+        ));
     }
 
     /**

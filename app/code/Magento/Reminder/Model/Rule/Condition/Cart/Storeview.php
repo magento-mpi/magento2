@@ -17,12 +17,26 @@ class Storeview
     extends \Magento\Reminder\Model\Condition\AbstractCondition
 {
     /**
+     * Store
+     *
+     * @var \Magento\Core\Model\System\Store
+     */
+    protected $_store;
+
+    /**
      * @param \Magento\Rule\Model\Condition\Context $context
+     * @param \Magento\Reminder\Model\Resource\Rule $ruleResource
+     * @param \Magento\Core\Model\System\Store $store
      * @param array $data
      */
-    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
+    public function __construct(
+        \Magento\Rule\Model\Condition\Context $context,
+        \Magento\Reminder\Model\Resource\Rule $ruleResource,
+        \Magento\Core\Model\System\Store $store,
+        array $data = array()
+    ) {
+        $this->_store = $store;
+        parent::__construct($context, $ruleResource, $data);
         $this->setType('Magento\Reminder\Model\Rule\Condition\Cart\Storeview');
         $this->setValue(null);
     }
@@ -57,7 +71,7 @@ class Storeview
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(\Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm());
+        $this->setValueOption($this->_store->getStoreValuesForForm());
         return $this;
     }
 

@@ -11,6 +11,9 @@
 
 namespace Magento\Paypal\Model;
 
+/**
+ * @magentoAppArea frontend
+ */
 class IpnTest extends \PHPUnit_Framework_TestCase
 {
     /**

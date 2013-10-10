@@ -22,7 +22,7 @@ class Pbridge extends \Magento\Adminhtml\Controller\Action
     /**
      * Load only action layout handles
      *
-     * @return Magento_Pbridge_Adminhtml_IndexController
+     * @return \Magento\Pbridge\Adminhtml\IndexController
      */
     protected function _initActionLayout()
     {
@@ -50,6 +50,7 @@ class Pbridge extends \Magento\Adminhtml\Controller\Action
      * Iframe Ajax Action
      *
      *  @return void
+     * @throws \Magento\Core\Exception
      */
     public function iframeAction()
     {
@@ -67,7 +68,7 @@ class Pbridge extends \Magento\Adminhtml\Controller\Action
                 }
             }
         } else {
-            \Mage::throwException(__('Payment Method Code is not passed.'));
+            throw new \Magento\Core\Exception(__('Payment Method Code is not passed.'));
         }
     }
 

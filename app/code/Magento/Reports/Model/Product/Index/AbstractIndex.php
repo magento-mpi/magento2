@@ -28,6 +28,64 @@ abstract class AbstractIndex extends \Magento\Core\Model\AbstractModel
     protected $_countCacheKey;
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Log\Model\Visitor
+     */
+    protected $_logVisitor;
+
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\Core\Model\Session\Generic
+     */
+    protected $_reportSession;
+
+    /**
+     * @var \Magento\Catalog\Model\Product\Visibility
+     */
+    protected $_productVisibility;
+
+    /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Log\Model\Visitor $logVisitor
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\Session\Generic $reportSession
+     * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Log\Model\Visitor $logVisitor,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\Session\Generic $reportSession,
+        \Magento\Catalog\Model\Product\Visibility $productVisibility,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_storeManager = $storeManager;
+
+        $this->_logVisitor = $logVisitor;
+        $this->_customerSession = $customerSession;
+        $this->_reportSession = $reportSession;
+        $this->_productVisibility = $productVisibility;
+    }
+
+    /**
      * Prepare customer/visitor, store data before save
      *
      * @return \Magento\Reports\Model\Product\Index\AbstractIndex
@@ -64,7 +122,7 @@ abstract class AbstractIndex extends \Magento\Core\Model\AbstractModel
         if ($this->hasData('visitor_id')) {
             return $this->getData('visitor_id');
         }
-        return \Mage::getSingleton('Magento\Log\Model\Visitor')->getId();
+        return $this->_logVisitor->getId();
     }
 
     /**
@@ -79,7 +137,7 @@ abstract class AbstractIndex extends \Magento\Core\Model\AbstractModel
         if ($this->hasData('customer_id')) {
             return $this->getData('customer_id');
         }
-        return \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId();
+        return $this->_customerSession->getCustomerId();
     }
 
     /**
@@ -94,7 +152,7 @@ abstract class AbstractIndex extends \Magento\Core\Model\AbstractModel
         if ($this->hasData('store_id')) {
             return $this->getData('store_id');
         }
-        return \Mage::app()->getStore()->getId();
+        return $this->_storeManager->getStore()->getId();
     }
 
     /**
@@ -136,7 +194,7 @@ abstract class AbstractIndex extends \Magento\Core\Model\AbstractModel
      */
     protected function _getSession()
     {
-        return \Mage::getSingleton('Magento\Reports\Model\Session');
+        return $this->_reportSession;
     }
 
     /**
@@ -149,7 +207,7 @@ abstract class AbstractIndex extends \Magento\Core\Model\AbstractModel
         $collection = $this->getCollection()
             ->setCustomerId($this->getCustomerId())
             ->addIndexFilter()
-            ->setVisibility(\Mage::getSingleton('Magento\Catalog\Model\Product\Visibility')->getVisibleInSiteIds());
+            ->setVisibility($this->_productVisibility->getVisibleInSiteIds());
 
         $count = $collection->getSize();
         $this->_getSession()->setData($this->_countCacheKey, $count);

@@ -21,28 +21,35 @@ class Total extends \Magento\Checkout\Block\Total\DefaultTotal
     protected $_giftCardAccountData = null;
 
     /**
-     * @param \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Sales\Model\Config $salesConfig
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
      * @param array $data
      */
     public function __construct(
-        \Magento\GiftCardAccount\Helper\Data $giftCardAccountData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Sales\Model\Config $salesConfig,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\GiftCardAccount\Helper\Data $giftCardAccountData,
         array $data = array()
     ) {
         $this->_giftCardAccountData = $giftCardAccountData;
-        parent::__construct($catalogData, $coreData, $context, $salesConfig, $data);
+        parent::__construct($catalogData, $coreData, $context, $salesConfig, $customerSession, $checkoutSession,
+            $storeManager, $data);
     }
 
     public function getQuote()
     {
-        return \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
+        return $this->_checkoutSession->getQuote();
     }
 
     public function getQuoteGiftCards()

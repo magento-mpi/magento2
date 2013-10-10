@@ -182,7 +182,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
      * Alias for setSubscriberId()
      *
      * @param int $value
-     * @return \Magento_Object
+     * @return \Magento\Object
      */
     public function setId($value)
     {

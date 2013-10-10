@@ -40,13 +40,25 @@ class Visibility extends \Magento\Object
     protected $_coreData = null;
 
     /**
+     * Eav entity attribute
+     *
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute
+     */
+    protected $_eavEntityAttribute;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute $eavEntityAttribute
      * @param \Magento\Core\Helper\Data $coreData
      * @param array $data
      */
     public function __construct(
+        \Magento\Eav\Model\Resource\Entity\Attribute $eavEntityAttribute,
         \Magento\Core\Helper\Data $coreData,
         array $data = array()
     ) {
+        $this->_eavEntityAttribute = $eavEntityAttribute;
         $this->_coreData = $coreData;
         parent::__construct($data);
         $this->setIdFieldName('visibility_id');
@@ -183,7 +195,7 @@ class Visibility extends \Magento\Object
      */
     public function getFlatUpdateSelect($store)
     {
-        return \Mage::getResourceSingleton('Magento\Eav\Model\Resource\Entity\Attribute')
+        return $this->_eavEntityAttribute
             ->getFlatUpdateSelect($this->getAttribute(), $store);
     }
 

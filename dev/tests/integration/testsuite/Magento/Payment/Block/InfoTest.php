@@ -23,7 +23,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
         $block = $layout->createBlock('Magento\Payment\Block\Info', 'block');
 
-        /** @var $paymentInfoBankMagento_Payment_Model_Info  */
+        /** @var $paymentInfoBank \Magento\Payment\Model\Info  */
         $paymentInfoBank = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Payment\Model\Info');
         $paymentInfoBank->setMethodInstance(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()

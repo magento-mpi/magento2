@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Multishipping Checkout Customer Address Edit Form" type="page" parent="customer_address_form">
+    <referenceContainer name="content">
+        <block class="Magento\Customer\Block\Address\Edit" name="customer_address_edit" template="address/edit.phtml">
+            <block class="Magento\CustomerCustomAttributes\Block\Form" template="form/userattributes.phtml" name="customer_form_user_attributes">
+                <action method="setFormCode">
+                    <argument name="code" xsi:type="string">customer_address_edit</argument>
+                </action>
+            </block>
+        </block>
+    </referenceContainer>
+    <update handle="customer_form_template_handle"/>
+</layout>

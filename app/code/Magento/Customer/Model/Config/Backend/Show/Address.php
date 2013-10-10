@@ -28,7 +28,7 @@ class Address
     protected function _getAttributeObjects()
     {
         $result = parent::_getAttributeObjects();
-        $result[] = \Mage::getSingleton('Magento\Eav\Model\Config')->getAttribute('customer_address', $this->_getAttributeCode());
+        $result[] = $this->_eavConfig->getAttribute('customer_address', $this->_getAttributeCode());
         return $result;
     }
 }

@@ -212,7 +212,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     {
         $anchor     = array();
         $regular    = array();
-        $websiteId  = \Mage::app()->getStore($this->getProductStoreId())->getWebsiteId();
+        $websiteId  = $this->_storeManager->getStore($this->getProductStoreId())->getWebsiteId();
 
         foreach ($items as $item) {
             if ($item->getIsAnchor()) {
@@ -306,7 +306,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      */
     public function joinUrlRewrite()
     {
-        $storeId = \Mage::app()->getStore()->getId();
+        $storeId = $this->_storeManager->getStore()->getId();
         $this->joinTable(
             'core_url_rewrite',
             'category_id=entity_id',

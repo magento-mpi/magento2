@@ -12,6 +12,27 @@ namespace Magento\Customer\Block\Widget;
 
 class AbstractWidget extends \Magento\Core\Block\Template
 {
+    /**
+     * @var \Magento\Eav\Model\Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Eav\Model\Config $eavConfig,
+        array $data = array()
+    ) {
+        $this->_eavConfig = $eavConfig;
+        parent::__construct($coreData, $context, $data);
+    }
+
     public function getConfig($key)
     {
         return $this->helper('Magento\Customer\Helper\Address')->getConfig($key);
@@ -51,6 +72,6 @@ class AbstractWidget extends \Magento\Core\Block\Template
      */
     protected function _getAttribute($attributeCode)
     {
-        return \Mage::getSingleton('Magento\Eav\Model\Config')->getAttribute('customer', $attributeCode);
+        return $this->_eavConfig->getAttribute('customer', $attributeCode);
     }
 }

@@ -212,7 +212,7 @@ class JobTest extends \PHPUnit_Framework_TestCase
     public function testGetSubscWithSubscrInData()
     {
         $subscriptionId = 'some subscription id';
-        $mockSubscription = $this->getMockBuilder('Magento_PubSub_Subscription')
+        $mockSubscription = $this->getMockBuilder('Magento\PubSub\Subscription')
             ->disableOriginalConstructor()
             ->setMethods(
                 array('getId')

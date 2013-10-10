@@ -11,7 +11,7 @@
 
 namespace Magento\Authorizenet\Controller\Directpost;
 
-class PaymentTest extends \Magento\TestFramework\TestCase\ControllerAbstract
+class PaymentTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     public function testResponseActionValidationFiled()
     {

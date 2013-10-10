@@ -28,6 +28,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
     /**
      * @param \Magento\Core\Model\Resource\Setup\Context $context
      * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory
      * @param \Magento\Customer\Helper\Address $customerAddress
      * @param string $resourceName
      * @param string $moduleName
@@ -36,15 +37,15 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
     public function __construct(
         \Magento\Core\Model\Resource\Setup\Context $context,
         \Magento\Core\Model\CacheInterface $cache,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory,
         \Magento\Customer\Helper\Address $customerAddress,
         $resourceName,
         $moduleName = 'Magento_Checkout',
         $connectionName = ''
     ) {
         $this->_customerAddress = $customerAddress;
-        parent::__construct($context, $cache, $resourceName, $moduleName, $connectionName);
+        parent::__construct($context, $cache, $attrGrCollFactory, $resourceName, $moduleName, $connectionName);
     }
-
 
     /**
      * @return \Magento\Customer\Helper\Address

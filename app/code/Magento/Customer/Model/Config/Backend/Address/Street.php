@@ -11,14 +11,41 @@
 /**
  * Customer Address Street Model
  *
- * @category   Magento
- * @package    Magento_Customer
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @method string getWebsiteCode
  */
 namespace Magento\Customer\Model\Config\Backend\Address;
 
 class Street extends \Magento\Core\Model\Config\Value
 {
+    /**
+     * @var \Magento\Eav\Model\Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Config $config,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_eavConfig = $eavConfig;
+        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+    }
+
     /**
      * Actions after save
      *
@@ -26,11 +53,11 @@ class Street extends \Magento\Core\Model\Config\Value
      */
     protected function _afterSave()
     {
-        $attribute = \Mage::getSingleton('Magento\Eav\Model\Config')->getAttribute('customer_address', 'street');
+        $attribute = $this->_eavConfig->getAttribute('customer_address', 'street');
         $value  = $this->getValue();
         switch ($this->getScope()) {
             case 'websites':
-                $website = \Mage::app()->getWebsite($this->getWebsiteCode());
+                $website = $this->_storeManager->getWebsite($this->getWebsiteCode());
                 $attribute->setWebsite($website);
                 $attribute->load($attribute->getId());
                 if ($attribute->getData('multiline_count') != $value) {
@@ -56,8 +83,8 @@ class Street extends \Magento\Core\Model\Config\Value
         $result = parent::_afterDelete();
 
         if ($this->getScope() == 'websites') {
-            $attribute = \Mage::getSingleton('Magento\Eav\Model\Config')->getAttribute('customer_address', 'street');
-            $website = \Mage::app()->getWebsite($this->getWebsiteCode());
+            $attribute = $this->_eavConfig->getAttribute('customer_address', 'street');
+            $website = $this->_storeManager->getWebsite($this->getWebsiteCode());
             $attribute->setWebsite($website);
             $attribute->load($attribute->getId());
             $attribute->setData('scope_multiline_count', null);

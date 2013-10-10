@@ -12,7 +12,6 @@
 /**
  * Eav Form Type Model
  *
- * @method \Magento\Eav\Model\Resource\Form\Type _getResource()
  * @method \Magento\Eav\Model\Resource\Form\Type getResource()
  * @method string getCode()
  * @method \Magento\Eav\Model\Form\Type setCode(string $value)
@@ -41,8 +40,40 @@ class Type extends \Magento\Core\Model\AbstractModel
     protected $_eventPrefix = 'eav_form_type';
 
     /**
+     * @var \Magento\Eav\Model\Form\FieldsetFactory
+     */
+    protected $_fieldsetFactory;
+
+    /**
+     * @var \Magento\Eav\Model\Form\ElementFactory
+     */
+    protected $_elementFactory;
+
+    /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Eav\Model\Form\FieldsetFactory $fieldsetFactory
+     * @param \Magento\Eav\Model\Form\ElementFactory $elementFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Eav\Model\Form\FieldsetFactory $fieldsetFactory,
+        \Magento\Eav\Model\Form\ElementFactory $elementFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_fieldsetFactory = $fieldsetFactory;
+        $this->_elementFactory = $elementFactory;
+    }
+
+    /**
      * Initialize resource model
-     *
      */
     protected function _construct()
     {
@@ -118,35 +149,35 @@ class Type extends \Magento\Core\Model\AbstractModel
      */
     public function createFromSkeleton(\Magento\Eav\Model\Form\Type $skeleton)
     {
-        $fieldsetCollection = \Mage::getModel('Magento\Eav\Model\Form\Fieldset')->getCollection()
+        $fieldsetCollection = $this->_fieldsetFactory->create()
+            ->getCollection()
             ->addTypeFilter($skeleton)
             ->setSortOrder();
-        $elementCollection = \Mage::getModel('Magento\Eav\Model\Form\Element')->getCollection()
+        $elementCollection = $this->_elementFactory->create()
+            ->getCollection()
             ->addTypeFilter($skeleton)
             ->setSortOrder();
 
         // copy fieldsets
         $fieldsetMap = array();
         foreach ($fieldsetCollection as $skeletonFieldset) {
-            /* @var $skeletonFieldset \Magento\Eav\Model\Form\Fieldset */
-            $fieldset = \Mage::getModel('Magento\Eav\Model\Form\Fieldset');
-            $fieldset->setTypeId($this->getId())
+            $this->_fieldsetFactory->create()
+                ->setTypeId($this->getId())
                 ->setCode($skeletonFieldset->getCode())
                 ->setLabels($skeletonFieldset->getLabels())
                 ->setSortOrder($skeletonFieldset->getSortOrder())
                 ->save();
-            $fieldsetMap[$skeletonFieldset->getId()] = $fieldset->getId();
+            $fieldsetMap[$skeletonFieldset->getId()] = $this->_fieldsetFactory->create()->getId();
         }
 
         // copy elements
         foreach ($elementCollection as $skeletonElement) {
-            /* @var $skeletonElement \Magento\Eav\Model\Form\Element */
-            $element = \Mage::getModel('Magento\Eav\Model\Form\Element');
             $fieldsetId = null;
             if ($skeletonElement->getFieldsetId()) {
                 $fieldsetId = $fieldsetMap[$skeletonElement->getFieldsetId()];
             }
-            $element->setTypeId($this->getId())
+            $this->_elementFactory->create()
+                ->setTypeId($this->getId())
                 ->setFieldsetId($fieldsetId)
                 ->setAttributeId($skeletonElement->getAttributeId())
                 ->setSortOrder($skeletonElement->getSortOrder());

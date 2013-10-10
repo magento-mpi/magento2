@@ -30,14 +30,38 @@ class Collection extends \Magento\Sales\Model\Resource\Quote\Collection
      *
      * @var array
      */
-    protected $_joinedFields     = array();
+    protected $_joinedFields = array();
 
     /**
      * Map
      *
      * @var array
      */
-    protected $_map              = array('fields' => array('store_id' => 'main_table.store_id'));
+    protected $_map = array('fields' => array('store_id' => 'main_table.store_id'));
+
+    /**
+     * @var \Magento\Catalog\Model\Resource\Product\Collection
+     */
+    protected $_productResource;
+
+    /**
+     * @var \Magento\Customer\Model\Resource\Customer
+     */
+    protected $_customerResource;
+
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Catalog\Model\Resource\Product\Collection $productResource,
+        \Magento\Customer\Model\Resource\Customer $customerResource,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+    ) {
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+        $this->_productResource = $productResource;
+        $this->_customerResource = $customerResource;
+    }
 
     /**
      * Set type for COUNT SQL select
@@ -80,11 +104,10 @@ class Collection extends \Magento\Sales\Model\Resource\Quote\Collection
      */
     public function prepareForProductsInCarts()
     {
-        $productEntity          = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product\Collection');
-        $productAttrName        = $productEntity->getAttribute('name');
+        $productAttrName        = $this->_productResource->getAttribute('name');
         $productAttrNameId      = (int) $productAttrName->getAttributeId();
         $productAttrNameTable   = $productAttrName->getBackend()->getTable();
-        $productAttrPrice       = $productEntity->getAttribute('price');
+        $productAttrPrice       = $this->_productResource->getAttribute('price');
         $productAttrPriceId     = (int) $productAttrPrice->getAttributeId();
         $productAttrPriceTable  = $productAttrPrice->getBackend()->getTable();
 
@@ -152,16 +175,15 @@ class Collection extends \Magento\Sales\Model\Resource\Quote\Collection
      */
     public function addCustomerData($filter = null)
     {
-        $customerEntity         = \Mage::getResourceSingleton('Magento\Customer\Model\Resource\Customer');
-        $attrFirstname          = $customerEntity->getAttribute('firstname');
+        $attrFirstname          = $this->_customerResource->getAttribute('firstname');
         $attrFirstnameId        = (int) $attrFirstname->getAttributeId();
         $attrFirstnameTableName = $attrFirstname->getBackend()->getTable();
 
-        $attrLastname           = $customerEntity->getAttribute('lastname');
+        $attrLastname           = $this->_customerResource->getAttribute('lastname');
         $attrLastnameId         = (int) $attrLastname->getAttributeId();
         $attrLastnameTableName  = $attrLastname->getBackend()->getTable();
 
-        $attrEmail       = $customerEntity->getAttribute('email');
+        $attrEmail       = $this->_customerResource->getAttribute('email');
         $attrEmailTableName = $attrEmail->getBackend()->getTable();
 
         $adapter = $this->getSelect()->getAdapter();

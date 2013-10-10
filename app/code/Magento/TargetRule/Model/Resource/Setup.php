@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * TargetRule Setup Resource Model
  *
@@ -26,25 +25,39 @@ class Setup extends \Magento\Catalog\Model\Resource\Setup
     protected $_migrationFactory;
 
     /**
-     * @param \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $migrationFactory
-     * @param \Magento\Core\Model\CacheInterface $cache
+     * Construct
+     *
      * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory
      * @param string $resourceName
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Index\Model\IndexerFactory $indexerFactory
+     * @param \Magento\Core\Model\Resource\Setup\MigrationFactory $resourceMigrationFactory
+     * @param \Magento\Catalog\Model\Resource\Eav\AttributeFactory $eavAttributeResourceFactory
+     * @param \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $migrationFactory
      * @param string $moduleName
      * @param string $connectionName
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Model\Resource\Setup\Context $context,
         \Magento\Core\Model\CacheInterface $cache,
-        \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $migrationFactory,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory,
         $resourceName,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Index\Model\IndexerFactory $indexerFactory,
+        \Magento\Core\Model\Resource\Setup\MigrationFactory $resourceMigrationFactory,
+        \Magento\Catalog\Model\Resource\Eav\AttributeFactory $eavAttributeResourceFactory,
+        \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $migrationFactory,
         $moduleName = 'Magento_TargetRule',
         $connectionName = ''
     ) {
         $this->_migrationFactory = $migrationFactory;
-        parent::__construct($context, $cache, $resourceName, $moduleName, $connectionName);
+        parent::__construct($context, $cache, $attrGrCollFactory, $resourceName, $categoryFactory, $indexerFactory,
+            $resourceMigrationFactory, $eavAttributeResourceFactory, $moduleName, $connectionName);
     }
-
 
     /**
      * Create migration setup

@@ -8,9 +8,9 @@
  * @license     {license_link}
  */
 ?>
-<?php /* @var $this \Magento\Core\Block_Captcha_Default */ ?>
+<?php /* @var $this \Magento\Captcha\Block\Captcha\DefaultCaptcha */ ?>
 
-<?php /* @var $captcha Magento_Core_Model_Captcha_Default */ ?>
+<?php /* @var $captcha \Magento\Captcha\Model\ModelInterface */ ?>
 <?php $captcha = $this->getCaptchaModel() ?>
 <li role="<?php echo $this->getFormId()?>">
     <label for="captcha_<?php echo $this->getFormId() ?>" class="required"><em>*</em><?php echo __('Please enter the letters below')?></label>

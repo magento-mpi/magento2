@@ -16,6 +16,46 @@ namespace Magento\FullPageCache\Model\Container;
 class Messages extends \Magento\FullPageCache\Model\Container\AbstractContainer
 {
     /**
+     * @var \Magento\Core\Model\Cookie
+     */
+    protected $_coreCookie;
+
+    /**
+     * @var \Magento\FullPageCache\Model\Container\MessagesStorageFactory
+     */
+    protected $_storageFactory;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\FullPageCache\Model\Cache $fpcCache
+     * @param \Magento\FullPageCache\Model\Container\Placeholder $placeholder
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\FullPageCache\Helper\Url $urlHelper
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\Core\Model\Cookie $coreCookie
+     * @param \Magento\FullPageCache\Model\Container\MessagesStorageFactory $storageFactory
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\FullPageCache\Model\Cache $fpcCache,
+        \Magento\FullPageCache\Model\Container\Placeholder $placeholder,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\FullPageCache\Helper\Url $urlHelper,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Layout $layout,
+        \Magento\Core\Model\Cookie $coreCookie,
+        \Magento\FullPageCache\Model\Container\MessagesStorageFactory $storageFactory
+    ) {
+        parent::__construct(
+            $eventManager, $fpcCache, $placeholder, $coreRegistry, $urlHelper, $coreStoreConfig, $layout
+        );
+
+        $this->_coreCookie = $coreCookie;
+        $this->_storageFactory = $storageFactory;
+    }
+
+    /**
      * Check for new messages. New message flag will be reseted if needed.
      *
      * @return bool
@@ -47,10 +87,11 @@ class Messages extends \Magento\FullPageCache\Model\Container\AbstractContainer
      */
     protected function _renderBlock()
     {
-        \Mage::getSingleton('Magento\Core\Model\Cookie')->delete(\Magento\FullPageCache\Model\Cookie::COOKIE_MESSAGE);
+        $this->_coreCookie->delete(\Magento\FullPageCache\Model\Cookie::COOKIE_MESSAGE);
 
         $block = $this->_getPlaceHolderBlock();
 
+        // TODO: Getting of storage class name needs to be located in messages storage factory
         $types = unserialize($this->_placeholder->getAttribute('storage_types'));
         foreach ($types as $type) {
             $this->_addMessagesToBlock($type, $block);
@@ -68,7 +109,7 @@ class Messages extends \Magento\FullPageCache\Model\Container\AbstractContainer
      */
     protected function _addMessagesToBlock($messagesStorage, \Magento\Core\Block\Messages $block)
     {
-        if ($storage = \Mage::getSingleton($messagesStorage)) {
+        if ($storage = $this->_storageFactory->get($messagesStorage)) {
             $block->addMessages($storage->getMessages(true));
             $block->setEscapeMessageFlag($storage->getEscapeMessages(true));
         }

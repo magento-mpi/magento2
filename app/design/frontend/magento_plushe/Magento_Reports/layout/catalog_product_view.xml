@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <referenceContainer name="content.bottom">
+        <block class="Magento\Reports\Block\Product\Widget\Viewed" name="product.viewed.products" template="Magento_Catalog::product/list/items.phtml">
+            <arguments>
+                <argument name="type" xsi:type="string">widget-viewed</argument>
+                <argument name="view_mode" xsi:type="string">grid</argument>
+                <argument name="image_type" xsi:type="string">recently_viewed_products_grid_content_widget</argument>
+            </arguments>
+        </block>
+    </referenceContainer>
+</layout>

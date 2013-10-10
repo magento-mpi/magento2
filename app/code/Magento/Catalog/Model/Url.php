@@ -119,15 +119,37 @@ class Url
     protected $_catalogCategory = null;
 
     /**
+     * Category factory
+     *
+     * @var \Magento\Catalog\Model\CategoryFactory
+     */
+    protected $_categoryFactory;
+
+    /**
+     * Url factory
+     *
+     * @var \Magento\Catalog\Model\Resource\UrlFactory
+     */
+    protected $_urlFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Catalog\Model\Resource\UrlFactory $urlFactory
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Helper\Category $catalogCategory
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Catalog\Helper\Data $catalogData
      */
     public function __construct(
+        \Magento\Catalog\Model\Resource\UrlFactory $urlFactory,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Helper\Category $catalogCategory,
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Catalog\Helper\Data $catalogData
     ) {
+        $this->_urlFactory = $urlFactory;
+        $this->_categoryFactory = $categoryFactory;
         $this->_catalogCategory = $catalogCategory;
         $this->_catalogProduct = $catalogProduct;
         $this->_catalogData = $catalogData;
@@ -156,7 +178,7 @@ class Url
         }
 
         if (self::$_categoryForUrlPath === null) {
-            self::$_categoryForUrlPath = \Mage::getModel('Magento\Catalog\Model\Category');
+            self::$_categoryForUrlPath = $this->_categoryFactory->create();
         }
 
         // Generate url_path
@@ -185,7 +207,7 @@ class Url
     public function getResource()
     {
         if (is_null($this->_resourceModel)) {
-            $this->_resourceModel = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Url');
+            $this->_resourceModel = $this->_urlFactory->create();
         }
         return $this->_resourceModel;
     }
@@ -878,7 +900,7 @@ class Url
     public function generatePath($type = 'target', $product = null, $category = null, $parentPath = null)
     {
         if (!$product && !$category) {
-            \Mage::throwException(__('Please specify either a category or a product, or both.'));
+            throw new \Magento\Core\Exception(__('Please specify either a category or a product, or both.'));
         }
 
         // generate id_path
@@ -920,7 +942,9 @@ class Url
 
             // for product & category
             if (!$category) {
-                \Mage::throwException(__('A category object is required for determining the product request path.')); // why?
+                throw new \Magento\Core\Exception(
+                    __('A category object is required for determining the product request path.')
+                );
             }
 
             if ($product->getUrlKey() == '') {

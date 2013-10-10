@@ -27,4 +27,5 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     {
         return $this->_productLimitationPrice(true);
     }
+
 }

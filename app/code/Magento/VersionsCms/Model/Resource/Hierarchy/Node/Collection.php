@@ -8,21 +8,41 @@
  * @license     {license_link}
  */
 
-
 /**
  * Cms Page Hierarchy Tree Nodes Collection
- *
- * @category    Magento
- * @package     Magento_VersionsCms
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\VersionsCms\Model\Resource\Hierarchy\Node;
 
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection
+    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
+     * @var \Magento\Core\Model\Resource\Helper
+     */
+    protected $_resourceHelper;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\Resource\Helper $resourceHelper,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+    ) {
+        $this->_resourceHelper = $resourceHelper;
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+    }
+
+    /**
      * Define resource model for collection
-     *
      */
     protected function _construct()
     {
@@ -88,7 +108,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
             $subSelect = $this->getConnection()->select();
             $subSelect->from(array('store' => $this->getTable('cms_page_store')), array())
                 ->where('store.page_id = main_table.page_id');
-            $subSelect = \Mage::getResourceHelper('Magento_Core')->addGroupConcatColumn($subSelect, 'store_id', 'store_id');
+            $subSelect = $this->_resourceHelper->addGroupConcatColumn($subSelect, 'store_id', 'store_id');
             $this->getSelect()->columns(array('page_in_stores' => new \Zend_Db_Expr('(' . $subSelect . ')')));
 
             // save subSelect to use later
@@ -155,7 +175,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
                         'menu_list_type',
                         'top_menu_visibility',
                         'top_menu_excluded'
-                    ));
+            ));
         }
         $this->setFlag('meta_data_joined', true);
         return $this;
@@ -181,12 +201,13 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
             $ifPageExistExpr = $connection->getCheckSql('clone.node_id IS NULL', '0', '1');
             $ifCurrentPageExpr = $connection->quoteInto(
                 $connection->getCheckSql('main_table.page_id = ?', '1', '0'),
-                $page);
+                $page
+            );
             $this->getSelect()->joinLeft(
-                    array('clone' => $this->getResource()->getMainTable()),
-                    $connection->quoteInto($onClause, $page),
-                    array('page_exists' => $ifPageExistExpr, 'current_page' => $ifCurrentPageExpr)
-                );
+                array('clone' => $this->getResource()->getMainTable()),
+                $connection->quoteInto($onClause, $page),
+                array('page_exists' => $ifPageExistExpr, 'current_page' => $ifCurrentPageExpr)
+            );
 
             $this->setFlag('page_exists_joined', true);
         }
@@ -253,6 +274,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Apply filter to retrieve only proper scope nodes.
      *
      * @param string $scope Scope name: default|store|website
+     * @return $this
      */
     public function applyScope($scope)
     {
@@ -264,6 +286,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Apply filter to retrieve only proper scope ID nodes.
      *
      * @param int $codeId
+     * @return $this
      */
     public function applyScopeId($codeId)
     {

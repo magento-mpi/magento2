@@ -104,7 +104,7 @@ class Service extends \Magento\Object
     /**
      * Validation state model
      *
-     * @var \Magento\Centinel\Model\StateAbstract
+     * @var \Magento\Centinel\Model\AbstractState
      */
     protected $_validationState;
 
@@ -216,7 +216,7 @@ class Service extends \Magento\Object
      * Return validation state model
      *
      * @param string $cardType
-     * @return \Magento\Centinel\Model\StateAbstract
+     * @return \Magento\Centinel\Model\AbstractState
      */
     protected function _getValidationState($cardType = null)
     {
@@ -247,7 +247,7 @@ class Service extends \Magento\Object
      *
      * @param string $cardType
      * @param string $dataChecksum
-     * @return \Magento\Centinel\Model\StateAbstract
+     * @return \Magento\Centinel\Model\AbstractState
      */
     protected function _initValidationState($cardType, $dataChecksum)
     {

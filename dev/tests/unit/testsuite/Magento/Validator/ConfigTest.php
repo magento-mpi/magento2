@@ -14,7 +14,17 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Validator\Config
      */
-    protected $_config = null;
+    protected $_config;
+
+    /**
+     * @var \Magento\TestFramework\Helper\ObjectManager
+     */
+    protected $_objectManager;
+
+    protected function setUp()
+    {
+        $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+    }
 
     /**
      * @expectedException \InvalidArgumentException
@@ -35,7 +45,13 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         if (null === $files) {
             $files = glob(__DIR__ . '/_files/validation/positive/*/validation.xml');
         }
-        $this->_config = new \Magento\Validator\Config($files);
+        $this->_config = $this->_objectManager->getObject(
+            'Magento\Validator\Config',
+            array(
+                'configFiles' => $files,
+                'builderFactory' => new \Magento\Validator\UniversalFactory(new \Magento\ObjectManager\ObjectManager()),
+            )
+        );
     }
 
     /**
@@ -185,13 +201,12 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function testBuilderConfiguration()
     {
         $this->getMockBuilder('Magento\Validator\Builder')
-            ->setMockClassName('Magento_Validator_Test_Builder')
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->_initConfig(array(__DIR__ . '/_files/validation/positive/builder/validation.xml'));
         $builder = $this->_config->createValidatorBuilder('test_entity_a', 'check_builder');
-        $this->assertInstanceOf('Magento_Validator_Test_Builder', $builder);
+        $this->assertInstanceOf('Magento\Validator\Builder', $builder);
 
         $expected = array(
             array(

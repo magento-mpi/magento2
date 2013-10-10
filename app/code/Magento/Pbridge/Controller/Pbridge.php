@@ -49,7 +49,8 @@ class Pbridge extends \Magento\Core\Controller\Front\Action
     /**
      * Iframe Ajax Action
      *
-     *  @return void
+     * @return void
+     * @throws \Magento\Core\Exception
      */
     public function iframeAction()
     {
@@ -67,14 +68,15 @@ class Pbridge extends \Magento\Core\Controller\Front\Action
                 }
             }
         } else {
-            \Mage::throwException(__('Payment Method Code is not passed.'));
+            throw new \Magento\Core\Exception(__('Payment Method Code is not passed.'));
         }
     }
 
     /**
      * Iframe Ajax Action for review page
      *
-     *  @return void
+     * @return void
+     * @throws \Magento\Core\Exception
      */
     public function reviewAction()
     {
@@ -89,7 +91,7 @@ class Pbridge extends \Magento\Core\Controller\Front\Action
                 }
             }
         } else {
-            \Mage::throwException(__('Payment Method Code is not passed.'));
+            throw new \Magento\Core\Exception(__('Payment Method Code is not passed.'));
         }
     }
 

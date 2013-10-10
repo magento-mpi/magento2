@@ -10,15 +10,30 @@
 
 /**
  * System Configuration controller
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backend\Controller\Adminhtml\System;
 
 class Config extends \Magento\Backend\Controller\System\AbstractConfig
 {
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\Model\Config\Structure $configStructure
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     */
+    public function __construct(
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\Model\Config\Structure $configStructure,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
+    ) {
+        $this->_storeManager = $storeManager;
+        parent::__construct($context, $configStructure);
+    }
+
     /**
      * Index action
      *
@@ -40,10 +55,8 @@ class Config extends \Magento\Backend\Controller\System\AbstractConfig
         $website = $this->getRequest()->getParam('website');
         $store   = $this->getRequest()->getParam('store');
 
-        /** @var $configStructure \Magento\Backend\Model\Config\Structure */
-        $configStructure = \Mage::getSingleton('Magento\Backend\Model\Config\Structure');
         /** @var $section \Magento\Backend\Model\Config\Structure\Element\Section */
-        $section = $configStructure->getElement($current);
+        $section = $this->_configStructure->getElement($current);
         if ($current && !$section->isVisible($website, $store)) {
             return $this->_redirect('*/*/', array('website' => $website, 'store' => $store));
         }
@@ -83,17 +96,17 @@ class Config extends \Magento\Backend\Controller\System\AbstractConfig
      */
     public function exportTableratesAction()
     {
-        $fileName   = 'tablerates.csv';
+        $fileName = 'tablerates.csv';
         /** @var $gridBlock \Magento\Adminhtml\Block\Shipping\Carrier\Tablerate\Grid */
-        $gridBlock  = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Shipping\Carrier\Tablerate\Grid');
-        $website    = \Mage::app()->getWebsite($this->getRequest()->getParam('website'));
+        $gridBlock = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Shipping\Carrier\Tablerate\Grid');
+        $website = $this->_storeManager->getWebsite($this->getRequest()->getParam('website'));
         if ($this->getRequest()->getParam('conditionName')) {
             $conditionName = $this->getRequest()->getParam('conditionName');
         } else {
             $conditionName = $website->getConfig('carriers/tablerate/condition_name');
         }
         $gridBlock->setWebsiteId($website->getId())->setConditionName($conditionName);
-        $content    = $gridBlock->getCsvFile();
+        $content = $gridBlock->getCsvFile();
         $this->_prepareDownloadResponse($fileName, $content);
     }
 }

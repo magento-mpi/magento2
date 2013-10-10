@@ -8,16 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Block;
 
 /**
  * Catalog navigation
  *
- * @category   Magento
- * @package    Magento_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Block;
-
 class Navigation extends \Magento\Core\Block\Template
 {
     protected $_categoryInstance = null;
@@ -56,6 +53,41 @@ class Navigation extends \Magento\Core\Block\Template
     protected $_registry;
 
     /**
+     * Customer session
+     *
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * Catalog layer
+     *
+     * @var \Magento\Catalog\Model\Layer
+     */
+    protected $_catalogLayer;
+
+    /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Product collection factory
+     *
+     * @var \Magento\Catalog\Model\Resource\Product\CollectionFactory
+     */
+    protected $_productCollectionFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Layer $catalogLayer
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Catalog\Helper\Category\Flat $catalogCategoryFlat
      * @param \Magento\Catalog\Helper\Category $catalogCategory
      * @param \Magento\Core\Model\Registry $registry
@@ -64,6 +96,11 @@ class Navigation extends \Magento\Core\Block\Template
      * @param array $data
      */
     public function __construct(
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Layer $catalogLayer,
+        \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Helper\Category\Flat $catalogCategoryFlat,
         \Magento\Catalog\Helper\Category $catalogCategory,
         \Magento\Core\Model\Registry $registry,
@@ -71,9 +108,14 @@ class Navigation extends \Magento\Core\Block\Template
         \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
+        $this->_productCollectionFactory = $productCollectionFactory;
+        $this->_storeManager = $storeManager;
+        $this->_catalogLayer = $catalogLayer;
+        $this->_customerSession = $customerSession;
         $this->_catalogCategoryFlat = $catalogCategoryFlat;
         $this->_catalogCategory = $catalogCategory;
         $this->_registry = $registry;
+        $this->_categoryInstance = $categoryFactory->create();
         parent::__construct($coreData, $context, $data);
     }
 
@@ -107,9 +149,9 @@ class Navigation extends \Magento\Core\Block\Template
     {
         $shortCacheId = array(
             'CATALOG_NAVIGATION',
-            \Mage::app()->getStore()->getId(),
+            $this->_storeManager->getStore()->getId(),
             $this->_design->getDesignTheme()->getId(),
-            \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerGroupId(),
+            $this->_customerSession->getCustomerGroupId(),
             'template' => $this->getTemplate(),
             'name' => $this->getNameInLayout(),
             $this->getCurrenCategoryKey()
@@ -138,7 +180,7 @@ class Navigation extends \Magento\Core\Block\Template
             if ($category) {
                 $this->_currentCategoryKey = $category->getPath();
             } else {
-                $this->_currentCategoryKey = \Mage::app()->getStore()->getRootCategoryId();
+                $this->_currentCategoryKey = $this->_storeManager->getStore()->getRootCategoryId();
             }
         }
 
@@ -163,12 +205,10 @@ class Navigation extends \Magento\Core\Block\Template
      */
     public function getCurrentChildCategories()
     {
-        $layer = \Mage::getSingleton('Magento\Catalog\Model\Layer');
-        $category   = $layer->getCurrentCategory();
-        /* @var $category \Magento\Catalog\Model\Category */
-        $categories = $category->getChildrenCategories();
-        $productCollection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Collection');
-        $layer->prepareProductCollection($productCollection);
+        $categories = $this->_catalogLayer->getCurrentCategory()->getChildrenCategories();
+        /** @var \Magento\Catalog\Model\Resource\Product\Collection $productCollection */
+        $productCollection = $this->_productCollectionFactory->create();
+        $this->_catalogLayer->prepareProductCollection($productCollection);
         $productCollection->addCountToCategories($categories);
         return $categories;
     }
@@ -187,14 +227,6 @@ class Navigation extends \Magento\Core\Block\Template
         return false;
     }
 
-    protected function _getCategoryInstance()
-    {
-        if (is_null($this->_categoryInstance)) {
-            $this->_categoryInstance = \Mage::getModel('Magento\Catalog\Model\Category');
-        }
-        return $this->_categoryInstance;
-    }
-
     /**
      * Get url for category data
      *
@@ -206,7 +238,7 @@ class Navigation extends \Magento\Core\Block\Template
         if ($category instanceof \Magento\Catalog\Model\Category) {
             $url = $category->getUrl();
         } else {
-            $url = $this->_getCategoryInstance()
+            $url = $this->_categoryInstance
                 ->setData($category->getData())
                 ->getUrl();
         }
@@ -264,7 +296,7 @@ class Navigation extends \Magento\Core\Block\Template
 
         // get all children
         // If Flat Data enabled then use it but only on frontend
-        if ($this->_catalogCategoryFlat->isAvailable() && !\Mage::app()->getStore()->isAdmin()) {
+        if ($this->_catalogCategoryFlat->isAvailable() && !$this->_storeManager->getStore()->isAdmin()) {
             $children = (array)$category->getChildrenNodes();
             $childrenCount = count($children);
         } else {
@@ -368,10 +400,7 @@ class Navigation extends \Magento\Core\Block\Template
      */
     public function getCurrentCategory()
     {
-        if (\Mage::getSingleton('Magento\Catalog\Model\Layer')) {
-            return \Mage::getSingleton('Magento\Catalog\Model\Layer')->getCurrentCategory();
-        }
-        return false;
+        return $this->_catalogLayer->getCurrentCategory();
     }
 
     /**

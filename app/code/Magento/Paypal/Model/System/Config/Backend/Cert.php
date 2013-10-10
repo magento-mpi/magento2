@@ -20,7 +20,12 @@ class Cert extends \Magento\Core\Model\Config\Value
      *
      * @var \Magento\Core\Helper\Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
+
+    /**
+     * @var \Magento\Paypal\Model\CertFactory
+     */
+    protected $_certFactory;
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
@@ -28,6 +33,7 @@ class Cert extends \Magento\Core\Model\Config\Value
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Paypal\Model\CertFactory $certFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -38,11 +44,13 @@ class Cert extends \Magento\Core\Model\Config\Value
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Config $config,
+        \Magento\Paypal\Model\CertFactory $certFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
+        $this->_certFactory = $certFactory;
         parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
     }
 
@@ -50,13 +58,14 @@ class Cert extends \Magento\Core\Model\Config\Value
      * Process additional data before save config
      *
      * @return \Magento\Paypal\Model\System\Config\Backend\Cert
+     * @throws \Magento\Core\Exception
      */
     protected function _beforeSave()
     {
         $value = $this->getValue();
         if (is_array($value) && !empty($value['delete'])) {
             $this->setValue('');
-            \Mage::getModel('Magento\Paypal\Model\Cert')->loadByWebsite($this->getScopeId())->delete();
+            $this->_certFactory->create()->loadByWebsite($this->getScopeId())->delete();
         }
 
         if (!isset($_FILES['groups']['tmp_name'][$this->getGroupId()]['fields'][$this->getField()]['value'])) {
@@ -65,11 +74,11 @@ class Cert extends \Magento\Core\Model\Config\Value
         $tmpPath = $_FILES['groups']['tmp_name'][$this->getGroupId()]['fields'][$this->getField()]['value'];
         if ($tmpPath && file_exists($tmpPath)) {
             if (!filesize($tmpPath)) {
-                \Mage::throwException(__('The PayPal certificate file is empty.'));
+                throw new \Magento\Core\Exception(__('The PayPal certificate file is empty.'));
             }
             $this->setValue($_FILES['groups']['name'][$this->getGroupId()]['fields'][$this->getField()]['value']);
             $content = $this->_coreData->encrypt(file_get_contents($tmpPath));
-            \Mage::getModel('Magento\Paypal\Model\Cert')->loadByWebsite($this->getScopeId())
+            $this->_certFactory->create()->loadByWebsite($this->getScopeId())
                 ->setContent($content)
                 ->save();
         }
@@ -83,7 +92,7 @@ class Cert extends \Magento\Core\Model\Config\Value
      */
     protected function _afterDelete()
     {
-        \Mage::getModel('Magento\Paypal\Model\Cert')->loadByWebsite($this->getScopeId())->delete();
+        $this->_certFactory->create()->loadByWebsite($this->getScopeId())->delete();
         return $this;
     }
 }

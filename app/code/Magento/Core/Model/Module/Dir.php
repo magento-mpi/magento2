@@ -43,7 +43,7 @@ class Dir
             if (!in_array($type, array('etc', 'sql', 'data', 'i18n', 'view'))) {
                 throw new \InvalidArgumentException("Directory type '$type' is not recognized.");
             }
-            $result .= '/' . $type;
+            $result .= DIRECTORY_SEPARATOR . $type;
         }
         return $result;
     }

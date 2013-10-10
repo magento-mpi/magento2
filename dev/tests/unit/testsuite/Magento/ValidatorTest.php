@@ -125,10 +125,10 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $classConstraint = new \Magento\Validator\Constraint($fooValidator, 'id');
         $propertyValidator = new \Magento\Validator\Constraint\Property($classConstraint, 'name', 'id');
 
-        /** @var \Magento\Translate\AdapterAbstract $translator */
-        $translator= $this->getMockBuilder('Magento\Translate\AdapterAbstract')
+        /** @var \Magento\Translate\AbstractAdapter $translator */
+        $translator= $this->getMockBuilder('Magento\Translate\AbstractAdapter')
             ->getMockForAbstractClass();
-        \Magento\Validator\ValidatorAbstract::setDefaultTranslator($translator);
+        \Magento\Validator\AbstractValidator::setDefaultTranslator($translator);
 
         $this->_validator->addValidator($classConstraint);
         $this->_validator->addValidator($propertyValidator);
@@ -153,8 +153,8 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
     {
         $fooValidator = new \Magento\Validator\Test\True();
         $this->_validator->addValidator($fooValidator);
-        /** @var \Magento\Translate\AdapterAbstract $translator */
-        $translator= $this->getMockBuilder('Magento\Translate\AdapterAbstract')
+        /** @var \Magento\Translate\AbstractAdapter $translator */
+        $translator= $this->getMockBuilder('Magento\Translate\AbstractAdapter')
             ->getMockForAbstractClass();
         $this->_validator->setTranslator($translator);
         $this->assertEquals($translator, $fooValidator->getTranslator());

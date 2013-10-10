@@ -21,9 +21,16 @@ namespace Magento\Core\Model\File\Storage\Database;
 abstract class AbstractDatabase extends \Magento\Core\Model\File\Storage\AbstractStorage
 {
     /**
+     * @var \Magento\Core\Model\App
+     */
+    protected $_app;
+
+    /**
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Date $dateModel
+     * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -32,11 +39,14 @@ abstract class AbstractDatabase extends \Magento\Core\Model\File\Storage\Abstrac
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Date $dateModel,
+        \Magento\Core\Model\App $app,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct($coreFileStorageDb, $context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct($coreFileStorageDb, $context, $registry, $dateModel, $resource, $resourceCollection, $data);
+        $this->_app = $app;
         $connectionName = (isset($data['connection'])) ? $data['connection'] : null;
         if (empty($connectionName)) {
             $connectionName = $this->getConfigConnectionName();
@@ -52,7 +62,7 @@ abstract class AbstractDatabase extends \Magento\Core\Model\File\Storage\Abstrac
      */
     public function getConfigConnectionName()
     {
-        $connectionName = \Mage::app()->getConfig()
+        $connectionName = $this->_app->getConfig()
             ->getValue(\Magento\Core\Model\File\Storage::XML_PATH_STORAGE_MEDIA_DATABASE, 'default');
         if (empty($connectionName)) {
             $connectionName = 'default_setup';

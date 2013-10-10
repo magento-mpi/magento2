@@ -11,7 +11,6 @@
 /**
  * Invitation adminhtml controller
  */
-
 namespace Magento\Invitation\Controller\Adminhtml;
 
 class Invitation extends \Magento\Adminhtml\Controller\Action
@@ -21,18 +20,48 @@ class Invitation extends \Magento\Adminhtml\Controller\Action
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * Invitation Factory
+     *
+     * @var \Magento\Invitation\Model\InvitationFactory
+     */
+    protected $_invitationFactory;
+
+    /**
+     * Store Manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Invitation Config
+     *
+     * @var \Magento\Invitation\Model\Config
+     */
+    protected $_config;
 
     /**
      * @param \Magento\Backend\Controller\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Invitation\Model\Config $config
      */
     public function __construct(
         \Magento\Backend\Controller\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Invitation\Model\InvitationFactory $invitationFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Invitation\Model\Config $config
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
+        $this->_invitationFactory = $invitationFactory;
+        $this->_storeManager = $storeManager;
+        $this->_config = $config;
     }
 
     /**
@@ -49,14 +78,15 @@ class Invitation extends \Magento\Adminhtml\Controller\Action
      * Init invitation model by request
      *
      * @return \Magento\Invitation\Model\Invitation
+     * @throws \Magento\Core\Exception
      */
     protected function _initInvitation()
     {
         $this->_title(__('Invitations'));
 
-        $invitation = \Mage::getModel('Magento\Invitation\Model\Invitation')->load($this->getRequest()->getParam('id'));
+        $invitation =  $this->_invitationFactory->create()->load($this->getRequest()->getParam('id'));
         if (!$invitation->getId()) {
-            \Mage::throwException(__("We couldn't find this invitation."));
+            throw new \Magento\Core\Exception(__("We couldn't find this invitation."));
         }
         $this->_coreRegistry->register('current_invitation', $invitation);
 
@@ -109,10 +139,10 @@ class Invitation extends \Magento\Adminhtml\Controller\Action
                 }
             }
             if (empty($emails)) {
-                \Mage::throwException(__('Please specify at least one email address.'));
+                throw new \Magento\Core\Exception(__('Please specify at least one email address.'));
             }
-            if (\Mage::app()->hasSingleStore()) {
-                $storeId = \Mage::app()->getStore(true)->getId();
+            if ($this->_storeManager->hasSingleStore()) {
+                $storeId = $this->_storeManager->getStore(true)->getId();
             } else {
                 $storeId = $this->getRequest()->getParam('store_id');
             }
@@ -123,7 +153,7 @@ class Invitation extends \Magento\Adminhtml\Controller\Action
             $customerExistsCount = 0;
             foreach ($emails as $key => $email) {
                 try {
-                    $invitation = \Mage::getModel('Magento\Invitation\Model\Invitation')->setData(array(
+                    $invitation =  $this->_invitationFactory->create()->setData(array(
                         'email'    => $email,
                         'store_id' => $storeId,
                         'message'  => $this->getRequest()->getParam('message'),
@@ -200,15 +230,17 @@ class Invitation extends \Magento\Adminhtml\Controller\Action
 
     /**
      * Action for mass-resending invitations
+     *
+     * @throws \Magento\Core\Exception
      */
     public function massResendAction()
     {
         try {
             $invitationsPost = $this->getRequest()->getParam('invitations', array());
             if (empty($invitationsPost) || !is_array($invitationsPost)) {
-                \Mage::throwException(__('Please select invitations.'));
+                throw new \Magento\Core\Exception(__('Please select invitations.'));
             }
-            $collection = \Mage::getModel('Magento\Invitation\Model\Invitation')->getCollection()
+            $collection =  $this->_invitationFactory->create()->getCollection()
                 ->addFieldToFilter('invitation_id', array('in' => $invitationsPost))
                 ->addCanBeSentFilter();
             $found = 0;
@@ -256,15 +288,17 @@ class Invitation extends \Magento\Adminhtml\Controller\Action
 
     /**
      * Action for mass-cancelling invitations
+     *
+     * @throws \Magento\Core\Exception
      */
     public function massCancelAction()
     {
         try {
             $invitationsPost = $this->getRequest()->getParam('invitations', array());
             if (empty($invitationsPost) || !is_array($invitationsPost)) {
-                \Mage::throwException(__('Please select invitations.'));
+                throw new \Magento\Core\Exception(__('Please select invitations.'));
             }
-            $collection = \Mage::getModel('Magento\Invitation\Model\Invitation')->getCollection()
+            $collection =  $this->_invitationFactory->create()->getCollection()
                 ->addFieldToFilter('invitation_id', array('in' => $invitationsPost))
                 ->addCanBeCanceledFilter();
             $found     = 0;
@@ -303,7 +337,7 @@ class Invitation extends \Magento\Adminhtml\Controller\Action
      */
     protected function _isAllowed()
     {
-        return \Mage::getSingleton('Magento\Invitation\Model\Config')->isEnabled()
+        return $this->_config->isEnabled()
             && $this->_authorization->isAllowed('Magento_Invitation::magento_invitation');
     }
 }

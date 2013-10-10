@@ -25,6 +25,31 @@ class Hss extends \Magento\Core\Helper\AbstractHelper
     );
 
     /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * @var \Magento\Core\Model\Layout
+     */
+    protected $_layout;
+
+    /**
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Core\Model\Layout $layout
+     */
+    public function __construct(
+        \Magento\Core\Helper\Context $context,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Core\Model\Layout $layout
+    ) {
+        $this->_checkoutSession = $checkoutSession;
+        $this->_layout = $layout;
+        parent::__construct($context);
+    }
+
+    /**
      * Get template for button in order review page if HSS method was selected
      *
      * @param string $name template name
@@ -33,7 +58,7 @@ class Hss extends \Magento\Core\Helper\AbstractHelper
      */
     public function getReviewButtonTemplate($name, $block)
     {
-        $quote = \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
+        $quote = $this->_checkoutSession->getQuote();
         if ($quote) {
             $payment = $quote->getPayment();
             if ($payment && in_array($payment->getMethod(), $this->_hssMethods)) {
@@ -41,7 +66,8 @@ class Hss extends \Magento\Core\Helper\AbstractHelper
             }
         }
 
-        if ($blockObject = \Mage::app()->getLayout()->getBlock($block)) {
+        $blockObject = $this->_layout->getBlock($block);
+        if ($blockObject) {
             return $blockObject->getTemplate();
         }
 

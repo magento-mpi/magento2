@@ -15,6 +15,35 @@ class Group extends \Magento\Eav\Model\Entity\Attribute\Group
 {
 
     /**
+     * Attribute collection factory
+     *
+     * @var \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory
+     */
+    protected $_attributeCollectionFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_attributeCollectionFactory = $attributeCollectionFactory;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Check if group contains system attributes
      *
      * @return bool
@@ -23,7 +52,7 @@ class Group extends \Magento\Eav\Model\Entity\Attribute\Group
     {
         $result = false;
         /** @var $attributesCollection \Magento\Catalog\Model\Resource\Product\Attribute\Collection */
-        $attributesCollection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Attribute\Collection');
+        $attributesCollection = $this->_attributeCollectionFactory->create();
         $attributesCollection->setAttributeGroupFilter($this->getId());
         foreach ($attributesCollection as $attribute) {
             if (!$attribute->getIsUserDefined()) {
@@ -43,7 +72,7 @@ class Group extends \Magento\Eav\Model\Entity\Attribute\Group
     {
         $result = false;
         /** @var $attributesCollection \Magento\Catalog\Model\Resource\Product\Attribute\Collection */
-        $attributesCollection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Attribute\Collection');
+        $attributesCollection = $this->_attributeCollectionFactory->create();
         $attributesCollection->setAttributeGroupFilter($this->getId());
         foreach ($attributesCollection as $attribute) {
             if ($attribute->getIsConfigurable()) {

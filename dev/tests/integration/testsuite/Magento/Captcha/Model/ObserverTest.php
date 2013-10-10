@@ -16,7 +16,7 @@ namespace Magento\Captcha\Model;
  *
  * @magentoAppArea adminhtml
  */
-class ObserverTest extends \Magento\TestFramework\TestCase\ControllerAbstract
+class ObserverTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
      * @magentoConfigFixture admin_store admin/captcha/forms backend_login

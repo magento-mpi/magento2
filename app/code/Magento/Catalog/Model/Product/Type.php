@@ -74,11 +74,34 @@ class Type
     protected $_typesPriority;
 
     /**
-     * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $config
+     * Product type factory
+     *
+     * @var \Magento\Catalog\Model\Product\Type\Pool
      */
-    public function __construct(\Magento\Catalog\Model\ProductTypes\ConfigInterface $config)
-    {
+    protected $_productTypePool;
+
+    /**
+     * Price model factory
+     *
+     * @var \Magento\Catalog\Model\Product\Type\Price\Factory
+     */
+    protected $_priceFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $config
+     * @param \Magento\Catalog\Model\Product\Type\Pool $productTypePool
+     * @param \Magento\Catalog\Model\Product\Type\Price\Factory $priceFactory
+     */
+    public function __construct(
+        \Magento\Catalog\Model\ProductTypes\ConfigInterface $config,
+        \Magento\Catalog\Model\Product\Type\Pool $productTypePool,
+        \Magento\Catalog\Model\Product\Type\Price\Factory $priceFactory
+    ) {
         $this->_config = $config;
+        $this->_productTypePool = $productTypePool;
+        $this->_priceFactory = $priceFactory;
     }
 
     /**
@@ -99,8 +122,7 @@ class Type
             $typeId = self::DEFAULT_TYPE;
         }
 
-        /** @var $typeModel \Magento\Catalog\Model\Product\Type\AbstractType */
-        $typeModel = \Mage::getSingleton($typeModelName);
+        $typeModel = $this->_productTypePool->get($typeModelName);
         $typeModel->setConfig($types[$typeId]);
         return $typeModel;
     }
@@ -125,7 +147,7 @@ class Type
             $priceModelName = self::DEFAULT_PRICE_MODEL;
         }
 
-        $this->_priceModels[$productType] = \Mage::getModel($priceModelName);
+        $this->_priceModels[$productType] = $this->_priceFactory->create($priceModelName);
         return $this->_priceModels[$productType];
     }
 

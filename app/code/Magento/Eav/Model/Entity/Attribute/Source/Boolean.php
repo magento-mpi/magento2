@@ -28,12 +28,20 @@ class Boolean extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
     protected $_coreData = null;
 
     /**
+     * @var \Magento\Eav\Model\Resource\Entity\AttributeFactory
+     */
+    protected $_eavAttrEntity;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Eav\Model\Resource\Entity\AttributeFactory $eavAttrEntity
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Eav\Model\Resource\Entity\AttributeFactory $eavAttrEntity
     ) {
         $this->_coreData = $coreData;
+        $this->_eavAttrEntity = $eavAttrEntity;
     }
 
     /**
@@ -142,8 +150,7 @@ class Boolean extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
      */
     public function getFlatUpdateSelect($store)
     {
-        return \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute')
-            ->getFlatUpdateSelect($this->getAttribute(), $store);
+        return $this->_eavAttrEntity->create()->getFlatUpdateSelect($this->getAttribute(), $store);
     }
 
     /**

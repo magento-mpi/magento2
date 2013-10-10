@@ -42,15 +42,15 @@ abstract class AbstractAdapter
             $destination = tempnam(sys_get_temp_dir(), 'importexport_');
         }
         if (!is_string($destination)) {
-            \Mage::throwException(__('Destination file path must be a string'));
+            throw new \Magento\Core\Exception(__('Destination file path must be a string'));
         }
 
         $pathinfo = pathinfo($destination);
         if (empty($pathinfo['dirname']) || !is_writable($pathinfo['dirname'])) {
-            \Mage::throwException(__('Destination directory is not writable'));
+            throw new \Magento\Core\Exception(__('Destination directory is not writable'));
         }
         if (is_file($destination) && !is_writable($destination)) {
-            \Mage::throwException(__('Destination file is not writable'));
+            throw new \Magento\Core\Exception(__('Destination file is not writable'));
         }
 
         $this->_destination = $destination;

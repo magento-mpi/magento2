@@ -15,7 +15,7 @@ namespace Magento\Backend\Controller\Adminhtml;
  * Test class for \Magento\Backend\Controller\Adminhtml\Auth
  * @magentoAppArea adminhtml
  */
-class AuthTest extends \Magento\TestFramework\TestCase\ControllerAbstract
+class AuthTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
      * @var \Magento\Backend\Model\Auth\Session
@@ -160,9 +160,9 @@ class AuthTest extends \Magento\TestFramework\TestCase\ControllerAbstract
     public function testDeniedIframeAction()
     {
         $this->_login();
+        $this->dispatch('backend/admin/auth/deniedIframe');
         $homeUrl = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Helper\Data')
             ->getHomePageUrl();
-        $this->dispatch('backend/admin/auth/deniedIframe');
         $expected = '<script type="text/javascript">parent.window.location =';
         $this->assertStringStartsWith($expected, $this->getResponse()->getBody());
         $this->assertContains($homeUrl, $this->getResponse()->getBody());

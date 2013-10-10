@@ -16,7 +16,7 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
     /**
      * Abstract eav export model
      *
-     * @var \Magento\ImportExport\Model\Export\Entity\EavAbstract|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\ImportExport\Model\Export\Entity\AbstractEav|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
@@ -29,7 +29,7 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Export\Entity\EavAbstract', array(),
+        $this->_model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Export\Entity\AbstractEav', array(),
             '', false, true, true, array('_getExportAttributeCodes', 'getAttributeCollection', 'getAttributeOptions'));
 
         $this->_model->expects($this->once())
@@ -45,7 +45,7 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
     /**
      * Test for method _addAttributesToCollection()
      *
-     * @covers \Magento\ImportExport\Model\Export\Entity\EavAbstract::_addAttributesToCollection
+     * @covers \Magento\ImportExport\Model\Export\Entity\AbstractEav::_addAttributesToCollection
      */
     public function testAddAttributesToCollection()
     {
@@ -61,8 +61,8 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
     /**
      * Test for methods _addAttributeValuesToRow()
      *
-     * @covers \Magento\ImportExport\Model\Export\Entity\EavAbstract::_initAttrValues
-     * @covers \Magento\ImportExport\Model\Export\Entity\EavAbstract::_addAttributeValuesToRow
+     * @covers \Magento\ImportExport\Model\Export\Entity\AbstractEav::_initAttrValues
+     * @covers \Magento\ImportExport\Model\Export\Entity\AbstractEav::_addAttributeValuesToRow
      */
     public function testAddAttributeValuesToRow()
     {

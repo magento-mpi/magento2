@@ -1,0 +1,15 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<div class="account balance">
+<h2 class="subtitle"><?php echo __('Balance'); ?></h2>
+<?php echo __('Your current balance is:'); ?>
+
+<?php echo $this->helper('Magento\Core\Helper\Data')->currency($this->getBalance()); ?>
+</div>

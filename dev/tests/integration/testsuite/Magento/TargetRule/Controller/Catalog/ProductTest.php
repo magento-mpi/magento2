@@ -11,7 +11,7 @@
 
 namespace Magento\TargetRule\Controller\Catalog;
 
-class ProductTest extends \Magento\TestFramework\TestCase\ControllerAbstract
+class ProductTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
      * Covers Magento/TargetRule/view/frontend/catalog/product/list/related.html

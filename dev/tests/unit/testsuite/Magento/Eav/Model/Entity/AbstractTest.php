@@ -15,13 +15,23 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Entity model to be tested
-     * @var \Magento\Eav\Model\Entity\AbstractEntity|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Eav\Model\Entity\AbstractEntity|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = $this->getMockForAbstractClass('Magento\Eav\Model\Entity\AbstractEntity');
+        $this->_model = $this->getMockForAbstractClass(
+            'Magento\Eav\Model\Entity\AbstractEntity',
+            array(
+                $this->getMock('Magento\Core\Model\Resource', array(), array(), '', false),
+                $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
+                $this->getMock('Magento\Eav\Model\Entity\Attribute\Set', array(), array(), '', false),
+                $this->getMock('Magento\Core\Model\LocaleInterface'),
+                $this->getMock('Magento\Eav\Model\Resource\Helper', array(), array(), '', false),
+                $this->getMock('Magento\Validator\UniversalFactory', array(), array(), '', false),
+            )
+        );
     }
 
     protected function tearDown()
@@ -119,7 +129,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
             $mock->expects($this->any())
                 ->method('getBackendTable')
-                ->will($this->returnValue($code.'_table'));
+                ->will($this->returnValue($code . '_table'));
 
             $attributes[$code] = $mock;
         }
@@ -263,7 +273,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $backendModel->expects($this->never())
             ->method('getEntityValueId');
 
-        $backendModel->expects((isset($productData['entity_id'])?$this->never():$this->once()))
+        $backendModel->expects((isset($productData['entity_id']) ? $this->never() : $this->once()))
             ->method('getEntityIdField')
             ->will($this->returnValue('entity_id'));
 
@@ -276,14 +286,22 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $attributes[$attributeCode] = $attribute;
 
         $data = array(
-            'type' => $entityType,
-            'entityTable' => 'entityTable',
-            'attributesByCode' => $attributes,
+            $this->getMock('Magento\Core\Model\Resource', array(), array(), '', false),
+            $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
+            $this->getMock('Magento\Eav\Model\Entity\Attribute\Set', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\LocaleInterface'),
+            $this->getMock('Magento\Eav\Model\Resource\Helper', array(), array(), '', false),
+            $this->getMock('Magento\Validator\UniversalFactory', array(), array(), '', false),
+            array(
+                'type' => $entityType,
+                'entityTable' => 'entityTable',
+                'attributesByCode' => $attributes
+            )
         );
         /** @var $model \PHPUnit_Framework_MockObject_MockObject */
         $model = $this->getMockForAbstractClass(
             'Magento\Eav\Model\Entity\AbstractEntity',
-            array($data),
+            $data,
             '',
             true,
             true,

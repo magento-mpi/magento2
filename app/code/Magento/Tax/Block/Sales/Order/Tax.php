@@ -25,11 +25,10 @@ class Tax extends \Magento\Core\Block\Template
     protected $_source;
 
     /**
-     * @param array $data
      * @param \Magento\Core\Helper\Data $coreData
-     * @param  $context
-     * @param  $taxConfig
-     * @param  $data
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Tax\Model\Config $taxConfig
+     * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,

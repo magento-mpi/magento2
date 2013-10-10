@@ -17,7 +17,7 @@
  */
 namespace Magento\Eav\Model\Validator\Attribute;
 
-class Data extends \Magento\Validator\ValidatorAbstract
+class Data extends \Magento\Validator\AbstractValidator
 {
     /**
      * @var array
@@ -40,9 +40,17 @@ class Data extends \Magento\Validator\ValidatorAbstract
     protected $_data = array();
 
     /**
-     * @var \Magento\Eav\Model\Attribute\Data
+     * @var \Magento\Eav\Model\AttributeDataFactory
      */
-    protected $_dataModelFactory;
+    protected $_attrDataFactory;
+
+    /**
+     * @param \Magento\Eav\Model\AttributeDataFactory $attrDataFactory
+     */
+    public function __construct(\Magento\Eav\Model\AttributeDataFactory $attrDataFactory)
+    {
+        $this->_attrDataFactory = $attrDataFactory;
+    }
 
     /**
      * Set list of attributes for validation in isValid method.
@@ -119,7 +127,7 @@ class Data extends \Magento\Validator\ValidatorAbstract
             if (!$attribute->getDataModel() && !$attribute->getFrontendInput()) {
                 continue;
             }
-            $dataModel = $this->getAttributeDataModelFactory()->factory($attribute, $entity);
+            $dataModel = $this->_attrDataFactory->create($attribute, $entity);
             $dataModel->setExtractedData($data);
             if (!isset($data[$attributeCode])) {
                 $data[$attributeCode] = null;
@@ -175,31 +183,6 @@ class Data extends \Magento\Validator\ValidatorAbstract
         }
 
         return $attributesByCode;
-    }
-
-    /**
-     * Get factory object for creating Attribute Data Model
-     *
-     * @return \Magento\Eav\Model\Attribute\Data
-     */
-    public function getAttributeDataModelFactory()
-    {
-        if (!$this->_dataModelFactory) {
-            $this->_dataModelFactory = new \Magento\Eav\Model\Attribute\Data;
-        }
-        return $this->_dataModelFactory;
-    }
-
-    /**
-     * Set factory object for creating Attribute Data Model
-     *
-     * @param \Magento\Eav\Model\Attribute\Data $factory
-     * @return \Magento\Eav\Model\Validator\Attribute\Data
-     */
-    public function setAttributeDataModelFactory($factory)
-    {
-        $this->_dataModelFactory = $factory;
-        return $this;
     }
 
     /**

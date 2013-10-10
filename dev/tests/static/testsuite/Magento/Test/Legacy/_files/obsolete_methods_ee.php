@@ -99,4 +99,9 @@ return array(
     array('_getIndexModel', 'Magento\CatalogPermissions\Model\Observer'),
     array('_getConfig', 'Magento\SalesArchive\Model\Resource\Archive'),
     array('_getCart', 'Magento\AdvancedCheckout\Model\Cart'),
+    array('getMaxInvitationsPerSend', '\Magento\Invitation\Helper\Data'),
+    array('getInvitationRequired', '\Magento\Invitation\Helper\Data'),
+    array('getUseInviterGroup', '\Magento\Invitation\Helper\Data'),
+    array('isInvitationMessageAllowed', '\Magento\Invitation\Helper\Data'),
+    array('isEnabled', '\Magento\Invitation\Helper\Data'),
 );

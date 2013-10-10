@@ -14,7 +14,7 @@
  */
 namespace Magento\Bundle\Controller;
 
-class ProductTest extends \Magento\TestFramework\TestCase\ControllerAbstract
+class ProductTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
      * @magentoDataFixture Magento/Bundle/_files/product.php

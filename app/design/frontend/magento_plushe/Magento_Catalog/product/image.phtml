@@ -1,0 +1,15 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /** @var $this \Magento\Catalog\Block\Product\Image */ ?>
+
+<img class="photo image" style="width:<?php echo $this->getProductImageView()->getWidth()?>px;
+     height:<?php echo $this->getProductImageView()->getHeight()?>px;"
+     src="<?php echo $this->getProductImageView()->getUrl() ?>"
+     alt="<?php echo $this->stripTags($this->getProductImageView()->getLabel(), null, true) ?>"/>

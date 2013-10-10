@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <referenceContainer name="checkout.cart.items">
+        <block class="Magento\GiftCardAccount\Block\Checkout\Cart\Giftcardaccount" template="cart/block.phtml" name="checkout.cart.giftcardaccount" as="giftcards" after="checkout.cart.coupon"/>
+    </referenceContainer>
+</layout>

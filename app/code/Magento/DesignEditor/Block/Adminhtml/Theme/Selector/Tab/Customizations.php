@@ -14,7 +14,7 @@
 namespace Magento\DesignEditor\Block\Adminhtml\Theme\Selector\Tab;
 
 class Customizations
-    extends \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\Tab\TabAbstract
+    extends \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\Tab\AbstractTab
 {
     /**
      * Initialize tab block

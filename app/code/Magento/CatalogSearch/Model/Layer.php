@@ -52,20 +52,30 @@ class Layer extends \Magento\Catalog\Model\Layer
     /**
      * Construct
      *
-     * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\CatalogSearch\Model\Resource\Fulltext\CollectionFactory $fulltextCollectionFactory
+     * @param \Magento\Catalog\Model\Layer\StateFactory $layerStateFactory
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
+     * @param \Magento\Catalog\Model\Resource\Product $catalogProduct
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
      * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\CatalogSearch\Model\Resource\Fulltext\CollectionFactory $fulltextCollectionFactory
      * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\CatalogSearch\Model\Resource\Fulltext\CollectionFactory $fulltextCollectionFactory,
+        \Magento\Catalog\Model\Layer\StateFactory $layerStateFactory,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
+        \Magento\Catalog\Model\Resource\Product $catalogProduct,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
         \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\CatalogSearch\Model\Resource\Fulltext\CollectionFactory $fulltextCollectionFactory,
         \Magento\CatalogSearch\Helper\Data $catalogSearchData,
         array $data = array()
     ) {
@@ -74,7 +84,8 @@ class Layer extends \Magento\Catalog\Model\Layer
         $this->_catalogConfig = $catalogConfig;
         $this->_storeManager = $storeManager;
         $this->_catalogSearchData = $catalogSearchData;
-        parent::__construct($coreRegistry, $data);
+        parent::__construct($layerStateFactory, $categoryFactory, $attributeCollectionFactory, $catalogProduct,
+            $storeManager, $catalogProductVisibility, $catalogConfig, $customerSession, $coreRegistry);
     }
 
     /**

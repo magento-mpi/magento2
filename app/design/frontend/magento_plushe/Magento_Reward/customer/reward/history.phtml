@@ -1,0 +1,63 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * @see \Magento\Reward\Block\Customer\Reward\History
+ */
+?>
+<div class="block reward history">
+    <div class="title">
+        <strong><?php echo __('Balance History'); ?></strong>
+    </div>
+    <div class="content">
+        <?php if ($history = $this->getHistory()):?>
+
+        <?php echo $this->getChildHtml('pager') ?>
+
+        <table class="data table reward history">
+            <thead>
+                <tr>
+                    <th class="col balance"><?php echo __('Balance'); ?></th>
+                    <th class="col amount"><?php echo __('Amount'); ?></th>
+                    <th class="col points"><?php echo __('Points'); ?></th>
+                    <th class="col reason"><?php echo __('Reason'); ?></th>
+                    <th class="col date"><?php echo __('Date'); ?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($history as $item): ?>
+                <tr>
+                    <td classs="col balance"><?php echo $this->getPointsBalance($item)?></td>
+                    <td classs="col amount"><?php echo $this->getCurrencyBalance($item)?></td>
+                    <td classs="col points"><?php echo $this->getPointsDelta($item)?></td>
+                    <td classs="col reason">
+                        <?php echo $this->escapeHtml($this->getMessage($item))?>
+                        <?php if ($explanation = $this->getExplanation($item)):?><br /><small><?php echo $this->escapeHtml($explanation);?></small><?php endif;?>
+                    </td>
+                    <td classs="col date">
+                        <span class="datetime"><?php echo $this->getDate($item)?></span>
+                        <?php if ($expirationDate = $this->getExpirationDate($item)):?>
+                        <small><?php echo __('Expires on %1', $expirationDate);?></small>
+                        <?php endif;?>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+
+        <?php echo $this->getChildHtml('pager') ?>
+
+        <?php else:?>
+
+            <p class="empty"><?php echo __('There is no balance history.')?></p>
+
+        <?php endif;?>
+    </div>
+</div>

@@ -33,6 +33,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
     /**
      * @param \Magento\Core\Model\Resource\Setup\Context $context
      * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory
      * @param \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $migrationFactory
      * @param \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory $collectionFactory
      * @param string $resourceName
@@ -42,17 +43,17 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
     public function __construct(
         \Magento\Core\Model\Resource\Setup\Context $context,
         \Magento\Core\Model\CacheInterface $cache,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory,
         \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $migrationFactory,
         \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory $collectionFactory,
         $resourceName,
         $moduleName = 'Magento_CustomerSegment',
         $connectionName = ''
     ) {
+        parent::__construct($context, $cache, $attrGrCollFactory, $resourceName, $moduleName, $connectionName);
         $this->_migrationFactory = $migrationFactory;
         $this->_collectionFactory = $collectionFactory;
-        parent::__construct($context, $cache, $resourceName, $moduleName, $connectionName);
     }
-
 
     /**
      * @param array $data

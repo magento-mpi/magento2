@@ -17,7 +17,7 @@ namespace Magento\Test\Annotation;
 class ConfigFixtureTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\TestFramework\Annotation\ConfigFixture|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\TestFramework\Annotation\ConfigFixture|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_object;
 
