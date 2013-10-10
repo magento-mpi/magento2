@@ -28,9 +28,6 @@ class OauthV1 implements \Magento\Oauth\Service\OauthV1Interface
     /** @var  \Magento\Oauth\Model\Token\Factory */
     private $_tokenFactory;
 
-    /** @var  \Magento\Oauth\Helper\Service */
-    protected $_serviceHelper;
-
     /** @var  \Magento\Core\Model\StoreManagerInterface */
     protected $_storeManager;
 
@@ -40,31 +37,34 @@ class OauthV1 implements \Magento\Oauth\Service\OauthV1Interface
     /** @var  \Zend_Oauth_Http_Utility */
     protected $_httpUtility;
 
+    /** @var \Magento\Core\Model\Date */
+    protected $_date;
+
     /**
      * @param \Magento\Oauth\Model\Consumer\Factory $consumerFactory
      * @param \Magento\Oauth\Model\Nonce\Factory $nonceFactory
      * @param \Magento\Oauth\Model\Token\Factory $tokenFactory
-     * @param \Magento\Oauth\Helper\Service $serviceHelper
      * @param \Magento\Core\Model\StoreManagerInterface
      * @param \Magento\HTTP\ZendClient
      * @param \Zend_Oauth_Http_Utility $httpUtility
+     * @param \Magento\Core\Model\Date $date
      */
     public function __construct(
         \Magento\Oauth\Model\Consumer\Factory $consumerFactory,
         \Magento\Oauth\Model\Nonce\Factory $nonceFactory,
         \Magento\Oauth\Model\Token\Factory $tokenFactory,
-        \Magento\Oauth\Helper\Service $serviceHelper,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\HTTP\ZendClient $httpClient,
-        \Zend_Oauth_Http_Utility $httpUtility
+        \Zend_Oauth_Http_Utility $httpUtility,
+        \Magento\Core\Model\Date $date
     ) {
         $this->_consumerFactory = $consumerFactory;
         $this->_nonceFactory = $nonceFactory;
         $this->_tokenFactory = $tokenFactory;
         $this->_storeManager = $storeManager;
-        $this->_serviceHelper = $serviceHelper;
         $this->_httpClient = $httpClient;
         $this->_httpUtility = $httpUtility;
+        $this->_date = $date;
     }
 
     /**
@@ -101,23 +101,35 @@ class OauthV1 implements \Magento\Oauth\Service\OauthV1Interface
         try {
             $consumerData = $this->_getConsumer($request['consumer_id'])->getData();
             $storeBaseUrl = $this->_storeManager->getStore()->getBaseUrl();
-
-            $this->_httpClient->setUri($consumerData['http_post_url']);
-            $this->_httpClient->setParameterPost(array(
-                'oauth_consumer_key' => $consumerData['key'],
-                'oauth_consumer_secret' => $consumerData['secret'],
-                'store_base_url' => $storeBaseUrl
-            ));
-            // TODO: Uncomment this when there is a live http_post_url that we can actually post to.
-            //$this->_httpClient->request(\Magento\HTTP\ZendClient::POST);
-
             $verifier = $this->_tokenFactory->create()->createVerifierToken($request['consumer_id']);
+            $this->_httpPoster($consumerData, $storeBaseUrl, $verifier);
             return array('oauth_verifier' => $verifier->getVerifier());
         } catch (\Magento\Core\Exception $exception) {
             throw $exception;
         } catch (\Exception $exception) {
             throw new \Magento\Oauth\Exception(__('Unexpected error. Unable to post data to consumer.'));
         }
+    }
+
+    /**
+     *
+     * @param $consumerData
+     * @param $storeBaseUrl
+     * @param $verifier
+     */
+    public function _httpPoster($consumerData, $storeBaseUrl, $verifier)
+    {
+        $this->_httpClient->setUri($consumerData['http_post_url']);
+        $this->_httpClient->setParameterPost(
+            array(
+                'oauth_consumer_key' => $consumerData['key'],
+                'oauth_consumer_secret' => $consumerData['secret'],
+                'store_base_url' => $storeBaseUrl,
+                'oauth_verifier' => $verifier->getVerifier()
+            )
+        );
+        $this->_httpClient->setConfig(array('maxredirects' => 0, 'timeout' => 5));
+        $this->_httpClient->request(\Magento\HTTP\ZendClient::POST);
     }
 
     /**
@@ -132,7 +144,7 @@ class OauthV1 implements \Magento\Oauth\Service\OauthV1Interface
         // must use consumer within expiration period
 
         $consumerTS = strtotime($consumer->getCreatedAt());
-        if (time() - $consumerTS > $this->_serviceHelper->getConsumerExpirationPeriod()) {
+        if ($this->_date->timestamp() - $consumerTS > $this->getConsumerExpirationPeriod()) {
             throw new \Magento\Oauth\Exception('', self::ERR_CONSUMER_KEY_INVALID);
         }
 
@@ -563,5 +575,17 @@ class OauthV1 implements \Magento\Oauth\Service\OauthV1Interface
                 throw new \Magento\Oauth\Exception($param, self::ERR_PARAMETER_ABSENT);
             }
         }
+    }
+
+
+    /**
+     * Get consumer expiration period value from system configuration in seconds
+     *
+     * @return int
+     */
+    private function getConsumerExpirationPeriod()
+    {
+        $seconds = (int)$this->_storeManager->getStore()->getConfig(self::XML_PATH_CONSUMER_EXPIRATION_PERIOD);
+        return $seconds > 0 ? $seconds : self::CONSUMER_EXPIRATION_PERIOD_DEFAULT;
     }
 }
