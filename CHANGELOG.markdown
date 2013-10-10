@@ -1,5 +1,9 @@
 * Fixed bugs:
-  * Fixed incorrect arguments for shipping xml elements fatory
+  * Fixed Fatal error after saving customer address with VAT number
+  * Fixed USPS shipping method with debug caused fatal error
+  * Fixed url to Tax Class controller was corrected
+  * Fixed incorrect subtotal displayed on the Order page
+  * Fixed incorrect arguments for shipping xml elements factory
   * Fixed theme editing in developer mode (PHP 5.4)
   * Fixed fatal error while try to edit created configurable product while Dev Mode enabled (PHP 5.4)
   * Fixed frontend error when persistent shopping cart functionality is enabled
@@ -12,6 +16,10 @@
   * Fixed Impossible to set configuration for Google API
   * Fixed backend issue when Stores>Configuration>System>Advanced page was not displayed and did not allow to save changes
   * Fixed not executable button "Continue shopping" on Multi-shipping process
+  * Fixed Can't add product to shopping cart from cross sells block
+  * Fixed Fatal error on Recurring Billing Profiles page
+  * Fixed Impossible to set configuration for Catalog
+  * Fixed It's impossible to place order with Configurable product
   * Fixed issue with downloadable product creation
 
 2.0.0.0-dev46
