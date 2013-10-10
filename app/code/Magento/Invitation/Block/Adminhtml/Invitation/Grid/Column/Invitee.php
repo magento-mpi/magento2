@@ -18,6 +18,27 @@ class Invitee
     extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
+     * Backend Url
+     *
+     * @var \Magento\Backend\Model\Url
+     */
+    protected $_url;
+
+    /**
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Backend\Model\Url $url
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Backend\Block\Context $context,
+        \Magento\Backend\Model\Url $url,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_url = $url;
+    }
+
+    /**
      * Render invitee email linked to its account edit page
      *
      * @param   \Magento\Object $row
@@ -29,8 +50,7 @@ class Invitee
             if (!$row->getReferralId()) {
                 return '';
             }
-            return '<a href="' . \Mage::getSingleton('Magento\Backend\Model\Url')
-                ->getUrl('*/customer/edit', array('id' => $row->getReferralId())) . '">'
+            return '<a href="' . $this->_url->getUrl('*/customer/edit', array('id' => $row->getReferralId())) . '">'
                    . $this->escapeHtml($row->getData($this->getColumn()->getIndex())) . '</a>';
         } else {
             return parent::_getValue($row);

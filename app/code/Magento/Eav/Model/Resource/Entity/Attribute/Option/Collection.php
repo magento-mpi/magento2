@@ -28,12 +28,45 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected $_optionValueTable;
 
     /**
+     * @var \Magento\Core\Model\Resource
+     */
+    protected $_coreResource;
+
+    /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Resource $coreResource
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\Resource $coreResource,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_coreResource = $coreResource;
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+    }
+
+    /**
      * Resource initialization
      */
     protected function _construct()
     {
         $this->_init('Magento\Eav\Model\Entity\Attribute\Option', 'Magento\Eav\Model\Resource\Entity\Attribute\Option');
-        $this->_optionValueTable = \Mage::getSingleton('Magento\Core\Model\Resource')->getTableName('eav_attribute_option_value');
+        $this->_optionValueTable = $this->_coreResource->getTableName('eav_attribute_option_value');
     }
 
     /**
@@ -52,13 +85,13 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add store filter to collection
      *
      * @param int $storeId
-     * @param bolean $useDefaultValue
+     * @param boolean $useDefaultValue
      * @return \Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection
      */
     public function setStoreFilter($storeId = null, $useDefaultValue = true)
     {
         if (is_null($storeId)) {
-            $storeId = \Mage::app()->getStore()->getId();
+            $storeId = $this->_storeManager->getStore()->getId();
         }
         $adapter = $this->getConnection();
 

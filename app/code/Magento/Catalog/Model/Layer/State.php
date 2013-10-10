@@ -38,11 +38,12 @@ class State extends \Magento\Object
      *
      * @param   array $filters
      * @return  \Magento\Catalog\Model\Layer\State
+     * @throws \Magento\Core\Exception
      */
     public function setFilters($filters)
     {
         if (!is_array($filters)) {
-            \Mage::throwException(__('The filters must be an array.'));
+            throw new \Magento\Core\Exception(__('The filters must be an array.'));
         }
         $this->setData('filters', $filters);
         return $this;

@@ -14,7 +14,7 @@
  */
 namespace Magento\Catalog\Controller;
 
-class ProductTest extends \Magento\TestFramework\TestCase\ControllerAbstract
+class ProductTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     public function assert404NotFound()
     {

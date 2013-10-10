@@ -8,15 +8,9 @@
  * @license     {license_link}
  */
 
-
 /**
  * Sales Archive Grid row url generator
- *
- * @category    Magento
- * @package     Magento_SalesArchive
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\SalesArchive\Model\Order\Archive\Grid\Row;
 
 class UrlGenerator
@@ -28,13 +22,17 @@ class UrlGenerator
     protected $_authorizationModel;
 
     /**
+     * @param \Magento\Backend\Model\UrlProxy $backendUrl
      * @param \Magento\AuthorizationInterface $authorization
      * @param array $args
      */
-    public function __construct(\Magento\AuthorizationInterface $authorization, array $args = array())
-    {
+    public function __construct(
+        \Magento\Backend\Model\UrlProxy $backendUrl,
+        \Magento\AuthorizationInterface $authorization,
+        array $args = array()
+    ) {
         $this->_authorizationModel = $authorization;
-        parent::__construct($args);
+        parent::__construct($backendUrl, $args);
     }
 
     /**

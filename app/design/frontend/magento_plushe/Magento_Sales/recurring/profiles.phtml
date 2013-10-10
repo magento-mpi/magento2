@@ -1,0 +1,22 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /* @var $this \Magento\Sales\Block\Recurring\Profiles */ ?>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+
+<div class="block recurring profiles">
+    <?php echo $this->getChildHtml('grid')?>
+
+    <div class="actions">
+        <div class="secondary">
+            <a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>" class="action back"><span><?php echo __('Back') ?></span></a>
+        </div>
+    </div>
+</div>

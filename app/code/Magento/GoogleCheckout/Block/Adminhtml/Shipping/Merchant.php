@@ -16,6 +16,45 @@ class Merchant
     protected $_addRowButtonHtml = array();
     protected $_removeRowButtonHtml = array();
 
+    /**
+     * @var \Magento\Core\Model\Website\Factory
+     */
+    protected $websiteFactory;
+
+    /**
+     * @var \Magento\Core\Model\StoreFactory
+     */
+    protected $storeFactory;
+
+    /**
+     * @var \Magento\Shipping\Model\Config
+     */
+    protected $shippingConfig;
+
+    /**
+     * @param \Magento\Core\Model\Website\Factory $websiteFactory
+     * @param \Magento\Core\Model\StoreFactory $storeFactory
+     * @param \Magento\Shipping\Model\Config $shippingConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\App $application
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Website\Factory $websiteFactory,
+        \Magento\Core\Model\StoreFactory $storeFactory,
+        \Magento\Shipping\Model\Config $shippingConfig,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\App $application,
+        array $data = array()
+    ) {
+        $this->websiteFactory = $websiteFactory;
+        $this->storeFactory = $storeFactory;
+        $this->shippingConfig = $shippingConfig;
+        parent::__construct($coreData, $context, $application, $data);
+    }
+
     protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $this->setElement($element);
@@ -86,18 +125,18 @@ class Merchant
 
             $storeId = null;
             if (!is_null($website)) {
-                $storeId = \Mage::getModel('Magento\Core\Model\Website')
+                $storeId = $this->websiteFactory->create()
                     ->load($website, 'code')
                     ->getDefaultGroup()
                     ->getDefaultStoreId();
             } elseif (!is_null($store)) {
-                $storeId = \Mage::getModel('Magento\Core\Model\Store')
+                $storeId = $this->storeFactory->create()
                     ->load($store, 'code')
                     ->getId();
             }
 
             $methods = array();
-            $carriers = \Mage::getSingleton('Magento\Shipping\Model\Config')->getActiveCarriers($storeId);
+            $carriers = $this->shippingConfig->getActiveCarriers($storeId);
             foreach ($carriers as $carrierCode=>$carrierModel) {
                 if (!$carrierModel->isActive()) {
                     continue;

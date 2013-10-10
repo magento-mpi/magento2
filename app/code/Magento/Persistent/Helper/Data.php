@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Persistent Shopping Cart Data Helper
- *
- * @category   Magento
- * @package    Magento_Persistent
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Persistent\Helper;
 
@@ -39,48 +34,61 @@ class Data extends \Magento\Core\Helper\Data
      *
      * @var \Magento\Persistent\Helper\Session
      */
-    protected $_persistentSession = null;
+    protected $_persistentSession;
 
     /**
      * Checkout data
      *
      * @var \Magento\Checkout\Helper\Data
      */
-    protected $_checkoutData = null;
+    protected $_checkoutData;
 
     /**
      * Core url
      *
      * @var \Magento\Core\Helper\Url
      */
-    protected $_coreUrl = null;
+    protected $_coreUrl;
 
     /**
+     * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Http $coreHttp
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Locale $locale
+     * @param \Magento\Core\Model\Date $dateModel
+     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\Core\Model\Encryption $encryptor
      * @param \Magento\Core\Helper\Url $coreUrl
      * @param \Magento\Checkout\Helper\Data $checkoutData
      * @param \Magento\Persistent\Helper\Session $persistentSession
-     * @param \Magento\Core\Helper\Http $coreHttp
-     * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Model\Config $config
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Encryption $encryptor
+     * @param bool $dbCompatibleMode
      */
     public function __construct(
+        \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Http $coreHttp,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Locale $locale,
+        \Magento\Core\Model\Date $dateModel,
+        \Magento\Core\Model\App\State $appState,
+        \Magento\Core\Model\Encryption $encryptor,
         \Magento\Core\Helper\Url $coreUrl,
         \Magento\Checkout\Helper\Data $checkoutData,
         \Magento\Persistent\Helper\Session $persistentSession,
-        \Magento\Core\Helper\Http $coreHttp,
-        \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Config $config,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Encryption $encryptor
-    ) {
+        $dbCompatibleMode = true
+    )
+    {
         $this->_coreUrl = $coreUrl;
         $this->_checkoutData = $checkoutData;
         $this->_persistentSession = $persistentSession;
-        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig, $encryptor);
+        parent::__construct($context, $eventManager, $coreHttp, $config, $coreStoreConfig, $storeManager,
+            $locale, $dateModel, $appState, $encryptor, $dbCompatibleMode
+        );
     }
 
     /**
@@ -176,7 +184,7 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function getPersistentConfigFilePath()
     {
-        return $this->_coreConfig->getModuleDir('etc', $this->_getModuleName()) . DS . $this->_configFileName;
+        return $this->_config->getModuleDir('etc', $this->_getModuleName()) . DS . $this->_configFileName;
     }
 
     /**

@@ -45,7 +45,8 @@ class Config
     /**
      * Constructor
      *
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Sales\Model\Order\StatusFactory $orderStatusFactory
+     * @param \Magento\Sales\Model\Resource\Order\Status\CollectionFactory $orderStatusCollFactory
      */
     public function __construct(
         \Magento\Sales\Model\Order\StatusFactory $orderStatusFactory,

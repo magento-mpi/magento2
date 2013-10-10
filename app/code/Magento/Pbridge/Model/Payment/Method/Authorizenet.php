@@ -8,8 +8,13 @@
  * @license     {license_link}
  */
 
+
 /**
  * Authoreze.Net dummy payment method model
+ *
+ * @category    Magento
+ * @package     Magento_Pbridge
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Pbridge\Model\Payment\Method;
 
@@ -63,32 +68,42 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
     protected $_pbridgeData = null;
 
     /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * Construct
      *
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Pbridge\Helper\Data $pbridgeData
-     * @param \Magento\Core\Model\ModuleListInterface $moduleList
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\ModuleListInterface $moduleList
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Centinel\Model\Service $centinelService
+     * @param \Magento\Pbridge\Helper\Data $pbridgeData
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Pbridge\Helper\Data $pbridgeData,
-        \Magento\Core\Model\ModuleListInterface $moduleList,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\ModuleListInterface $moduleList,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Centinel\Model\Service $centinelService,
+        \Magento\Pbridge\Helper\Data $pbridgeData,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
+        $this->_storeManager = $storeManager;
         parent::__construct($logger, $eventManager, $coreStoreConfig, $moduleList, $paymentData, $logAdapterFactory,
             $locale, $centinelService, $data);
     }
@@ -201,7 +216,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      */
     public function getFormBlockType()
     {
-        return \Mage::app()->getStore()->isAdmin() ?
+        return $this->_storeManager->getStore()->isAdmin() ?
             $this->_backendFormBlockType :
             $this->_formBlockType;
     }

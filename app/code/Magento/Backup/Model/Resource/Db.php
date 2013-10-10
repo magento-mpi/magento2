@@ -38,12 +38,15 @@ class Db
     /**
      * Initialize Backup DB resource model
      *
-     * @param \Magento\Backup\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Backup\Model\Resource\HelperFactory $resHelperFactory
+     * @param \Magento\Core\Model\Resource $resource
      */
-    public function __construct(\Magento\Backup\Model\Resource\Helper $resourceHelper)
-    {
-        $this->_resourceHelper = $resourceHelper;
-        $this->_write = \Mage::getSingleton('Magento\Core\Model\Resource')->getConnection('backup_write');
+    public function __construct(
+        \Magento\Backup\Model\Resource\HelperFactory $resHelperFactory,
+        \Magento\Core\Model\Resource $resource
+    ) {
+        $this->_resourceHelper = $resHelperFactory->create();
+        $this->_write = $resource->getConnection('backup_write');
     }
 
     /**
@@ -238,7 +241,7 @@ class Db
      */
     public function beginTransaction()
     {
-        $this->_resourceHelper->turnOnSerializableMode();
+        $this->_resourceHelper->prepareTransactionIsolationLevel();
         $this->_write->beginTransaction();
         return $this;
     }
@@ -251,7 +254,7 @@ class Db
     public function commitTransaction()
     {
         $this->_write->commit();
-        $this->_resourceHelper->turnOnReadCommittedMode();
+        $this->_resourceHelper->restoreTransactionIsolationLevel();
         return $this;
     }
 
@@ -263,6 +266,7 @@ class Db
     public function rollBackTransaction()
     {
         $this->_write->rollBack();
+        $this->_resourceHelper->restoreTransactionIsolationLevel();
         return $this;
     }
 

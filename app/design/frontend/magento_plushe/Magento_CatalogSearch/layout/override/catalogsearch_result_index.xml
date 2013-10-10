@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Quick Search Form" type="page" parent="default">
+    <update handle="page_two_columns_left"/>
+    <referenceContainer name="left">
+        <block class="Magento\CatalogSearch\Block\Layer" name="catalogsearch.leftnav" before="-" template="Magento_Catalog::layer/view.phtml"/>
+    </referenceContainer>
+    <referenceContainer name="content">
+        <block class="Magento\CatalogSearch\Block\Result" name="search.result" template="result.phtml">
+            <block class="Magento\Catalog\Block\Product\ListProduct" name="search_result_list" template="product/list.phtml">
+                <block class="Magento\Catalog\Block\Product\ProductList\Toolbar" name="product_list_toolbar" template="product/list/toolbar.phtml">
+                    <block class="Magento\Page\Block\Html\Pager" name="product_list_toolbar_pager"/>
+                </block>
+                <action method="setToolbarBlockName">
+                    <argument name="name" xsi:type="string">product_list_toolbar</argument>
+                </action>
+            </block>
+            <action method="setListOrders"/>
+            <action method="setListModes"/>
+            <action method="setListCollection"/>
+        </block>
+    </referenceContainer>
+</layout>

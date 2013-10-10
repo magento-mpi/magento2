@@ -39,7 +39,6 @@ lib/Magento/Archive/Helper/File/Gz.php
 lib/Magento/Archive/ArchiveInterface.php
 lib/Magento/Archive/Tar.php
 lib/Magento/Autoload/Simple.php
-lib/Magento/Backup.php
 lib/Magento/Backup/AbstractBackup.php
 lib/Magento/Backup/Archive/Tar.php
 lib/Magento/Backup/Db.php
@@ -242,4 +241,5 @@ lib/Magento/Validator/Constraint/Property.php
 lib/Magento/Validator/Entity/Properties.php
 lib/Magento/Xml/Generator.php
 lib/Magento/Xml/Parser.php
+dev/tests/unit/testsuite/Magento/Code/Plugin/GeneratorTest/SimpleObjectManager.php
 dev/tools/Magento/Tools/I18n/Zend

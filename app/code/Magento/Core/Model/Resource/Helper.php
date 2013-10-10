@@ -10,21 +10,20 @@
 
 /**
  * Resource helper class for MySql Magento DB Adapter
- *
- * @category    Magento
- * @package     Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Core\Model\Resource;
 
 class Helper extends \Magento\Core\Model\Resource\Helper\AbstractHelper
 {
     /**
+     * @param \Magento\Core\Model\Resource $resource
      * @param string $modulePrefix
      */
-    public function __construct($modulePrefix = 'core')
-    {
-        parent::__construct($modulePrefix);
+    public function __construct(
+        \Magento\Core\Model\Resource $resource,
+        $modulePrefix = 'core'
+    ) {
+        parent::__construct($resource, $modulePrefix);
     }
 
     /**

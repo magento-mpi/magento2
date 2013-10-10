@@ -29,6 +29,7 @@
             <module name="Magento_CatalogInventory"/>
             <module name="Magento_Reports" type="soft"/>
             <module name="Magento_Persistent" type="soft"/>
+            <module name="Magento_Page"/>
         </depends>
     </module>
 </config>

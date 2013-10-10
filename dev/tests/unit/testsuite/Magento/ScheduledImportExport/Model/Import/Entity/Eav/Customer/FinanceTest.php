@@ -96,7 +96,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_WEBSITE => 'website1',
             \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_FINANCE_WEBSITE
                 => 'website1',
-            \Magento\ImportExport\Model\Import\EntityAbstract::COLUMN_ACTION => null,
+            \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION => null,
             \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID => 1,
             \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_CUSTOMER_BALANCE
                 => 100,
@@ -108,8 +108,8 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_WEBSITE => 'website2',
             \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_FINANCE_WEBSITE
                 => 'website1',
-            \Magento\ImportExport\Model\Import\EntityAbstract::COLUMN_ACTION
-                => \Magento\ImportExport\Model\Import\EntityAbstract::COLUMN_ACTION_VALUE_DELETE,
+            \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION
+                => \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION_VALUE_DELETE,
             \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID => 2,
         ),
         array(
@@ -117,7 +117,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_WEBSITE => 'website2',
             \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_FINANCE_WEBSITE
                 => 'website1',
-            \Magento\ImportExport\Model\Import\EntityAbstract::COLUMN_ACTION => 'update',
+            \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION => 'update',
             \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID => 2,
             \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_CUSTOMER_BALANCE
                 => 100,
@@ -177,14 +177,21 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($adminUser));
 
         $this->_model = new \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance(
-            $authSession,
             $coreData,
             $coreString,
+            $coreStoreConfig,
+            $this->getMock('Magento\ImportExport\Model\ImportFactory', array(), array(), '', false),
+            $this->getMock('Magento\ImportExport\Model\Resource\Helper', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\Resource', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\App', array(), array(), '', false),
+            $this->getMock('Magento\ImportExport\Model\Export\Factory', array(), array(), '', false),
+            $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
+            $this->getMock('Magento\ImportExport\Model\Resource\Customer\StorageFactory', array(), array(), '', false),
+            $authSession,
             $moduleHelper,
             $customerFactory,
             $balanceFactory,
             $rewardFactory,
-            $coreStoreConfig,
             $dependencies
         );
     }
@@ -249,8 +256,10 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         );
         foreach ($this->_attributes as $attributeData) {
             /** @var $attribute \Magento\Eav\Model\Entity\Attribute\AbstractAttribute */
-            $arguments = $objectManagerHelper
-                ->getConstructArguments('Magento\Eav\Model\Entity\Attribute\AbstractAttribute');
+            $arguments = $objectManagerHelper->getConstructArguments(
+                'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
+                array('eavTypeFactory' => $this->getMock('Magento\Eav\Model\Entity\TypeFactory'))
+            );
             $arguments['data'] = $attributeData;
             $attribute = $this->getMockForAbstractClass('Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
                 $arguments, '', true, true, true, array('_construct')
@@ -765,8 +774,8 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::validateRow() with different values
-     * in case when add/update behavior is performed
+     * Test \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::validateRow()
+     * with different values in case when add/update behavior is performed
      *
      * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_validateRowForUpdate
      * @dataProvider validateRowDataProvider
@@ -827,8 +836,8 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::validateRow() with different values
-     * in case when delete behavior is performed
+     * Test \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::validateRow()
+     * with different values in case when delete behavior is performed
      *
      * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_validateRowForDelete
      * @dataProvider validateRowDataProvider

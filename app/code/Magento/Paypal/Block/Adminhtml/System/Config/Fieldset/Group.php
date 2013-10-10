@@ -17,6 +17,19 @@ class Group
     extends \Magento\Backend\Block\System\Config\Form\Fieldset
 {
     /**
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Backend\Model\Auth\Session $authSession
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Backend\Block\Context $context,
+        \Magento\Backend\Model\Auth\Session $authSession,
+        array $data = array()
+    ) {
+        parent::__construct($context, $authSession, $data);
+    }
+
+    /**
      * Return header comment part of html for fieldset
      *
      * @param \Magento\Data\Form\Element\AbstractElement $element
@@ -45,7 +58,7 @@ class Group
      */
     protected function _isCollapseState($element)
     {
-        $extra = \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->getExtra();
+        $extra = $this->_authSession->getUser()->getExtra();
         if (isset($extra['configState'][$element->getId()])) {
             return $extra['configState'][$element->getId()];
         }

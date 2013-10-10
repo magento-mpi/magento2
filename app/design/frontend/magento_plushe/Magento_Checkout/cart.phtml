@@ -1,0 +1,21 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * Shopping cart template
+ *
+ * @see \Magento\Checkout\Block\Cart
+ */
+?>
+<?php if ($this->getItemsCount()) {
+    echo $this->getChildHtml('with-items');
+} else {
+    echo $this->getChildHtml('no-items');
+}

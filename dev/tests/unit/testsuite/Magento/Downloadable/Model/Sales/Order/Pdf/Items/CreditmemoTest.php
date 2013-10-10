@@ -19,12 +19,12 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\Sales\Model\Order|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Sales\Model\Order|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_order;
 
     /**
-     * @var \Magento\Sales\Model\Order\Pdf\AbstractPdf|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Sales\Model\Order\Pdf\AbstractPdf|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_pdf;
 
@@ -69,9 +69,10 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
         );
 
         $context = $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false, false);
+        $locale = $this->getMock('Magento\Core\Model\Locale', array(), array(), '', false, false);
         $modelConstructorArgs = $objectManager
             ->getConstructArguments('Magento\Downloadable\Model\Sales\Order\Pdf\Items\Creditmemo', array(
-                'helper' => new \Magento\Core\Helper\String($context)
+                'helper' => new \Magento\Core\Helper\String($context, $locale)
         ));
 
         $this->_model = $this->getMock(
@@ -81,7 +82,7 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
         );
 
         $context = $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false, false);
-        $this->_model->setStringHelper(new \Magento\Core\Helper\String($context));
+        $this->_model->setStringHelper(new \Magento\Core\Helper\String($context, $locale));
         $this->_model->setOrder($this->_order);
         $this->_model->setPdf($this->_pdf);
         $this->_model->setPage(new \Zend_Pdf_Page('a4'));

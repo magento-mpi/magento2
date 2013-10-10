@@ -20,6 +20,41 @@ namespace Magento\Catalog\Model\Category\Attribute\Backend;
 
 class Image extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
+    /**
+     * @var \Magento\Core\Model\File\UploaderFactory
+     */
+    protected $_uploaderFactory;
+
+    /**
+     * Dir model
+     *
+     * @var \Magento\Core\Model\Dir
+     */
+    protected $_dir;
+
+    /**
+     * File Uploader factory
+     *
+     * @var \Magento\Core\Model\File\UploaderFactory
+     */
+    protected $_fileUploaderFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\Core\Model\File\UploaderFactory $fileUploaderFactory
+     */
+    public function __construct(
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Dir $dir,
+        \Magento\Core\Model\File\UploaderFactory $fileUploaderFactory
+    ) {
+        $this->_dir = $dir;
+        $this->_fileUploaderFactory = $fileUploaderFactory;
+        parent::__construct($logger);
+    }
 
     /**
      * Save uploaded file and set its name to category
@@ -43,10 +78,11 @@ class Image extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
             return $this;
         }
 
-        $path = \Mage::getBaseDir('media') . DS . 'catalog' . DS . 'category' . DS;
+        $path = $this->_dir->getDir(\Magento\Core\Model\Dir::MEDIA) . DS . 'catalog' . DS . 'category' . DS;
 
         try {
-            $uploader = new \Magento\Core\Model\File\Uploader($this->getAttribute()->getName());
+            /** @var $uploader \Magento\Core\Model\File\Uploader */
+            $uploader = $this->_fileUploaderFactory->create(array('fileId' => $this->getAttribute()->getName()));
             $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
             $uploader->setAllowRenameFiles(true);
             $result = $uploader->save($path);

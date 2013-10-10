@@ -28,7 +28,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
     /**
      * @param \Magento\Core\Model\Resource\Setup\Context $context
      * @param \Magento\Index\Model\Indexer\ConfigInterface $indexerConfig
-     * @param string $resourceName
+     * @param $resourceName
      * @param string $moduleName
      * @param string $connectionName
      */
@@ -42,7 +42,6 @@ class Setup extends \Magento\Core\Model\Resource\Setup
         $this->_indexerConfig = $indexerConfig;
         parent::__construct($context, $resourceName, $moduleName, $connectionName);
     }
-
 
     /**
      * Apply Index module DB updates and sync indexes declaration

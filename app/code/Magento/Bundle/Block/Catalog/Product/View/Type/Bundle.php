@@ -48,31 +48,40 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
     protected $_locale;
 
     /**
-     * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Bundle\Model\Product\PriceFactory $productPrice
+     * Construct
+     *
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Catalog\Helper\Product $catalogProduct
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Bundle\Model\Product\PriceFactory $productPrice
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Bundle\Model\Product\PriceFactory $productPrice,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Catalog\Helper\Product $catalogProduct,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Bundle\Model\Product\PriceFactory $productPrice,
         array $data = array()
     ) {
         $this->_catalogProduct = $catalogProduct;
         $this->_productPrice = $productPrice;
         $this->_locale = $locale;
-        parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $data);
+        parent::__construct($storeManager, $catalogConfig, $coreRegistry, $taxData, $catalogData, $coreData, $context,
+            $data);
     }
 
     public function getOptions()

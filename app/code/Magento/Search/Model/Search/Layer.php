@@ -29,49 +29,46 @@ class Layer extends \Magento\CatalogSearch\Model\Layer
     protected $_searchData;
 
     /**
-     * @var \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory
-     */
-    protected $_collectionFactory;
-
-    /**
-     * Store manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * Constructor
      *
-     * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\CatalogSearch\Model\Resource\Fulltext\CollectionFactory $fulltextCollectionFactory
+     * @param \Magento\Catalog\Model\Layer\StateFactory $layerStateFactory
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
+     * @param \Magento\Catalog\Model\Resource\Product $catalogProduct
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
      * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\CatalogSearch\Model\Resource\Fulltext\CollectionFactory $fulltextCollectionFactory
      * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
+     * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param \Magento\Search\Helper\Data $searchData
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $collectionFactory,
-        \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
-        \Magento\Search\Helper\Data $searchData,
-        \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\CatalogSearch\Model\Resource\Fulltext\CollectionFactory $fulltextCollectionFactory,
+        \Magento\Catalog\Model\Layer\StateFactory $layerStateFactory,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
+        \Magento\Catalog\Model\Resource\Product $catalogProduct,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
         \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\CatalogSearch\Model\Resource\Fulltext\CollectionFactory $fulltextCollectionFactory,
         \Magento\CatalogSearch\Helper\Data $catalogSearchData,
+        \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         \Magento\Search\Helper\Data $searchData,
         array $data = array()
     ) {
-        $this->_collectionFactory = $collectionFactory;
         $this->_engineProvider = $engineProvider;
         $this->_searchData = $searchData;
-        $this->_storeManager = $storeManager;
-        $this->_searchData = $searchData;
-        parent::__construct($coreRegistry, $fulltextCollectionFactory, $catalogProductVisibility, $catalogConfig,
-            $storeManager, $catalogSearchData, $data);
+        parent::__construct($layerStateFactory, $categoryFactory, $attributeCollectionFactory, $catalogProduct,
+            $storeManager, $catalogProductVisibility, $catalogConfig, $customerSession, $coreRegistry,
+            $fulltextCollectionFactory, $catalogSearchData);
     }
 
     /**
@@ -120,7 +117,7 @@ class Layer extends \Magento\CatalogSearch\Model\Layer
             return array();
         }
         /* @var $collection \Magento\Catalog\Model\Resource\Product\Attribute\Collection */
-        $collection = $this->_collectionFactory->create()
+        $collection = $this->_attributeCollectionFactory->create()
             ->setItemObjectClass('Magento\Catalog\Model\Resource\Eav\Attribute');
 
         if ($this->_searchData->getTaxInfluence()) {

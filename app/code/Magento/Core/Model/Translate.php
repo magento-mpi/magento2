@@ -55,11 +55,11 @@ class Translate
     const DEFAULT_STRING = 'Translate String';
 
     /**
-     * Locale name
+     * Locale code
      *
      * @var string
      */
-    protected $_locale;
+    protected $_localeCode;
 
     /**
      * Translation object
@@ -158,8 +158,21 @@ class Translate
     protected $_modulesReader;
 
     /**
-     * Initialize translate model
-     *
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Core\Model\Resource\Translate
+     */
+    protected $_translateResource;
+
+    /**
+     * @var \Magento\Core\Model\App
+     */
+    protected $_app;
+
+    /**
      * @param \Magento\Core\Model\View\DesignInterface $viewDesign
      * @param \Magento\Core\Model\Locale\Hierarchy\Config $config
      * @param \Magento\Core\Model\Translate\Factory $translateFactory
@@ -169,6 +182,11 @@ class Translate
      * @param \Magento\Core\Model\ModuleList $moduleList
      * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
      * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Resource\Translate $translate
+     * @param \Magento\Core\Model\App $app
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Model\View\DesignInterface $viewDesign,
@@ -179,7 +197,10 @@ class Translate
         \Magento\Phrase\Renderer\Placeholder $placeholderRender,
         \Magento\Core\Model\ModuleList $moduleList,
         \Magento\Core\Model\Config\Modules\Reader $modulesReader,
-        \Magento\Core\Model\Config $coreConfig
+        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Resource\Translate $translate,
+        \Magento\Core\Model\App $app
     ) {
         $this->_viewDesign = $viewDesign;
         $this->_localeHierarchy = $config->getHierarchy();
@@ -190,6 +211,9 @@ class Translate
         $this->_moduleList = $moduleList;
         $this->_modulesReader = $modulesReader;
         $this->_coreConfig = $coreConfig;
+        $this->_storeManager = $storeManager;
+        $this->_translateResource = $translate;
+        $this->_app = $app;
     }
 
     /**
@@ -243,7 +267,7 @@ class Translate
             $this->_config[self::CONFIG_KEY_LOCALE] = $this->getLocale();
         }
         if (!isset($this->_config[self::CONFIG_KEY_STORE])) {
-            $this->_config[self::CONFIG_KEY_STORE] = \Mage::app()->getStore()->getId();
+            $this->_config[self::CONFIG_KEY_STORE] = $this->_storeManager->getStore()->getId();
         }
         if (!isset($this->_config[self::CONFIG_KEY_DESIGN_THEME])) {
             $this->_config[self::CONFIG_KEY_DESIGN_THEME] = $this->_viewDesign->getDesignTheme()->getId();
@@ -487,10 +511,10 @@ class Translate
      */
     public function getLocale()
     {
-        if (null === $this->_locale) {
-            $this->_locale = \Mage::app()->getLocale()->getLocaleCode();
+        if (null === $this->_localeCode) {
+            $this->_localeCode = $this->_app->getLocale()->getLocaleCode();
         }
-        return $this->_locale;
+        return $this->_localeCode;
     }
 
     /**
@@ -501,7 +525,7 @@ class Translate
      */
     public function setLocale($locale)
     {
-        $this->_locale = $locale;
+        $this->_localeCode = $locale;
         return $this;
     }
 
@@ -512,7 +536,7 @@ class Translate
      */
     public function getResource()
     {
-        return \Mage::getResourceSingleton('Magento\Core\Model\Resource\Translate');
+        return $this->_translateResource;
     }
 
     /**
@@ -535,7 +559,6 @@ class Translate
      * @return string
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
-     * @SuppressWarnings(PHPMD.ConstructorWithNameAsEnclosingClass)
      */
     public function translate($args)
     {
@@ -546,7 +569,7 @@ class Translate
         }
 
         if (!empty($_REQUEST['theme'])) {
-            $module = self::CONFIG_KEY_DESIGN_THEME . $_REQUEST['theme'];
+            $module = self::CONFIG_KEY_DESIGN_THEME . $_REQUEST['theme']['theme_title'];
         } else {
             $module = self::CONFIG_KEY_DESIGN_THEME . $this->_config[self::CONFIG_KEY_DESIGN_THEME];
         }

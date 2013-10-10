@@ -37,13 +37,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_allowedHashKeys = array('rma_id', 'track_id');
 
     /**
-     * Application model
-     *
-     * @var \Magento\Core\Model\App
-     */
-    protected $_app;
-
-    /**
      * Store config model
      *
      * @var \Magento\Core\Model\Store\ConfigInterface

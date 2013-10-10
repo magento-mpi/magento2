@@ -147,21 +147,21 @@ class Quote extends \Magento\Core\Model\AbstractModel
      *
      * @var \Magento\Eav\Model\Entity\Collection\AbstractCollection
      */
-    protected $_addresses = null;
+    protected $_addresses;
 
     /**
      * Quote items collection
      *
      * @var \Magento\Eav\Model\Entity\Collection\AbstractCollection
      */
-    protected $_items = null;
+    protected $_items;
 
     /**
      * Quote payments
      *
      * @var \Magento\Eav\Model\Entity\Collection\AbstractCollection
      */
-    protected $_payments = null;
+    protected $_payments;
 
     /**
      * Different groups of error infos
@@ -182,33 +182,33 @@ class Quote extends \Magento\Core\Model\AbstractModel
      *
      * @var \Magento\Core\Helper\Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
 
     /**
      * Catalog product
      *
      * @var \Magento\Catalog\Helper\Product
      */
-    protected $_catalogProduct = null;
+    protected $_catalogProduct;
 
     /**
      * Sales data
      *
      * @var \Magento\Sales\Helper\Data
      */
-    protected $_salesData = null;
+    protected $_salesData;
 
     /**
      * Core event manager proxy
      *
      * @var \Magento\Core\Model\Event\Manager
      */
-    protected $_eventManager = null;
+    protected $_eventManager;
 
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Core\Model\Store\ConfigInterface
      */
     protected $_coreStoreConfig;
 
@@ -284,7 +284,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Sales\Model\Quote\AddressFactory $quoteAddressFactory
@@ -311,7 +311,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Config $config,
         \Magento\Sales\Model\Quote\AddressFactory $quoteAddressFactory,

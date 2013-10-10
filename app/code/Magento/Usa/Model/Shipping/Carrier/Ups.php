@@ -117,7 +117,7 @@ class Ups
      * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
-    
+
     /**
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Usa\Model\Simplexml\ElementFactory $simpleXmlElementFactory
@@ -125,7 +125,6 @@ class Ups
      * @param \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory
      * @param \Magento\Shipping\Model\Rate\ResultFactory $rateFactory
      * @param \Magento\Shipping\Model\Rate\Result\MethodFactory $rateMethodFactory
-     * @param \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory
      * @param \Magento\Shipping\Model\Tracking\ResultFactory $trackFactory
      * @param \Magento\Shipping\Model\Tracking\Result\ErrorFactory $trackErrorFactory
      * @param \Magento\Shipping\Model\Tracking\Result\StatusFactory $trackStatusFactory
@@ -134,8 +133,10 @@ class Ups
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -145,7 +146,6 @@ class Ups
         \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory,
         \Magento\Shipping\Model\Rate\ResultFactory $rateFactory,
         \Magento\Shipping\Model\Rate\Result\MethodFactory $rateMethodFactory,
-        \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory,
         \Magento\Shipping\Model\Tracking\ResultFactory $trackFactory,
         \Magento\Shipping\Model\Tracking\Result\ErrorFactory $trackErrorFactory,
         \Magento\Shipping\Model\Tracking\Result\StatusFactory $trackStatusFactory,
@@ -154,15 +154,17 @@ class Ups
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Directory\Helper\Data $directoryData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
         array $data = array()
     ) {
         $this->_logger = $logger;
         $this->_locale = $locale;
         $this->_simpleXmlElementFactory = $simpleXmlElementFactory;
         parent::__construct(
-            $xmlElFactory, $rateFactory, $rateMethodFactory, $rateErrorFactory,
-            $trackFactory, $trackErrorFactory, $trackStatusFactory, $regionFactory,
-            $countryFactory, $currencyFactory, $directoryData, $coreStoreConfig, $data
+            $xmlElFactory, $rateFactory, $rateMethodFactory, $trackFactory, $trackErrorFactory, $trackStatusFactory,
+            $regionFactory, $countryFactory, $currencyFactory, $directoryData, $coreStoreConfig, $rateErrorFactory,
+            $logAdapterFactory, $data
         );
     }
 
@@ -1422,7 +1424,7 @@ XMLAuth;
         }
 
         $xmlRequest = $this->_xmlElFactory->create(
-            array('<?xml version = "1.0" ?><ShipmentConfirmRequest xml:lang="en-US"/>')
+            array('data' => '<?xml version = "1.0" ?><ShipmentConfirmRequest xml:lang="en-US"/>')
         );
         $requestPart = $xmlRequest->addChild('Request');
         $requestPart->addChild('RequestAction', 'ShipConfirm');
@@ -1609,7 +1611,7 @@ XMLAuth;
     protected function _sendShipmentAcceptRequest(\Magento\Usa\Model\Simplexml\Element $shipmentConfirmResponse)
     {
         $xmlRequest = $this->_xmlElFactory->create(
-            array('<?xml version = "1.0" ?><ShipmentAcceptRequest/>')
+            array('data' => '<?xml version = "1.0" ?><ShipmentAcceptRequest/>')
         );
         $request = $xmlRequest->addChild('Request');
             $request->addChild('RequestAction', 'ShipAccept');
@@ -1634,7 +1636,7 @@ XMLAuth;
         }
 
         try {
-            $response = $this->_xmlElFactory->create(array($xmlResponse));
+            $response = $this->_xmlElFactory->create(array('data' => $xmlResponse));
         } catch (\Exception $e) {
             $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
         }
@@ -1705,7 +1707,7 @@ XMLAuth;
         }
 
         try {
-            $response = $this->_xmlElFactory->create(array($xmlResponse));
+            $response = $this->_xmlElFactory->create(array('data' => $xmlResponse));
         } catch (\Exception $e) {
             $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
             $result->setErrors($e->getMessage());

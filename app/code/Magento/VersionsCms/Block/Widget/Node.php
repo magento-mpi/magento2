@@ -8,12 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Cms Hierarchy Node Widget Block
- *
- * @category   Magento
- * @package    Magento_VersionsCms
  */
 namespace Magento\VersionsCms\Block\Widget;
 
@@ -43,18 +39,34 @@ class Node
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\VersionsCms\Model\Hierarchy\NodeFactory
+     */
+    protected $_hierarchyNodeFactory;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $hierarchyNodeFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\VersionsCms\Model\Hierarchy\NodeFactory $hierarchyNodeFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->_storeManager = $storeManager;
+        $this->_hierarchyNodeFactory = $hierarchyNodeFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -110,8 +122,7 @@ class Node
     protected function _toHtml()
     {
         if ($this->getNodeId()) {
-            $this->_node = \Mage::getModel('Magento\VersionsCms\Model\Hierarchy\Node')
-                ->load($this->getNodeId());
+            $this->_node = $this->_hierarchyNodeFactory->create()->load($this->getNodeId());
         } else {
             $this->_node = $this->_coreRegistry->registry('current_cms_hierarchy_node');
         }
@@ -131,7 +142,7 @@ class Node
     protected function _getStoreId()
     {
         if (null === $this->_storeId) {
-            $this->_storeId = \Mage::app()->getStore()->getId();
+            $this->_storeId = $this->_storeManager->getStore()->getId();
         }
         return $this->_storeId;
     }

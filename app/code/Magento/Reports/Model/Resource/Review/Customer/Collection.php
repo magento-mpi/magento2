@@ -21,6 +21,40 @@ namespace Magento\Reports\Model\Resource\Review\Customer;
 class Collection extends \Magento\Review\Model\Resource\Review\Collection
 {
     /**
+     * @var \Magento\Customer\Model\Resource\Customer
+     */
+    protected $_customerResource;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Review\Helper\Data $reviewData
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Rating\Model\Rating\Option\VoteFactory $voteFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Customer\Model\Resource\Customer $customerResource
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Review\Helper\Data $reviewData,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Rating\Model\Rating\Option\VoteFactory $voteFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Customer\Model\Resource\Customer $customerResource,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+    ) {
+        $this->_customerResource = $customerResource;
+        parent::__construct(
+            $eventManager, $logger, $reviewData, $fetchStrategy,
+            $entityFactory, $voteFactory, $storeManager, $resource
+        );
+    }
+
+    /**
      * Init Select
      *
      * @return \Magento\Reports\Model\Resource\Review\Customer\Collection
@@ -41,12 +75,10 @@ class Collection extends \Magento\Review\Model\Resource\Review\Collection
     {
         /** @var $adapter \Magento\DB\Adapter\AdapterInterface */
         $adapter            = $this->getConnection();
-        /** @var $customer \Magento\Customer\Model\Resource\Customer */
-        $customer           = \Mage::getResourceSingleton('Magento\Customer\Model\Resource\Customer');
         /** @var $firstnameAttr \Magento\Eav\Model\Entity\Attribute */
-        $firstnameAttr      = $customer->getAttribute('firstname');
+        $firstnameAttr      = $this->_customerResource->getAttribute('firstname');
         /** @var $lastnameAttr \Magento\Eav\Model\Entity\Attribute */
-        $lastnameAttr       = $customer->getAttribute('lastname');
+        $lastnameAttr       = $this->_customerResource->getAttribute('lastname');
 
         $firstnameCondition = array('table_customer_firstname.entity_id = detail.customer_id');
 

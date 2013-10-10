@@ -53,7 +53,9 @@ class File extends \Magento\Core\Model\File\Storage\AbstractStorage
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Resource_File_Storage_File $resource
+     * @param \Magento\Core\Model\Date $dateModel
+     * @param \Magento\Core\Model\Resource\AbstractResource|\Magento\Core\Model\Resource\File\Storage\File $resource
+     * @param \Magento\Core\Model\Resource\File\Storage\File $fileResource
      * @param \Magento\Data\Collection\Db|null $resourceCollection
      * @param array $data
      */
@@ -62,11 +64,14 @@ class File extends \Magento\Core\Model\File\Storage\AbstractStorage
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\Resource\File\Storage\File $resource,
+        \Magento\Core\Model\Date $dateModel,
+        \Magento\Core\Model\Resource\AbstractResource $resource,
+        \Magento\Core\Model\Resource\File\Storage\File $fileResource,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct($coreFileStorageDb, $context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct($coreFileStorageDb, $context, $registry, $dateModel, $resource,
+            $fileResource, $resourceCollection, $data);
         $this->_setResourceModel('Magento\Core\Model\Resource\File\Storage\File');
         $this->_logger = $logger;
     }
@@ -256,6 +261,7 @@ class File extends \Magento\Core\Model\File\Storage\AbstractStorage
      *
      * @param  array|\Magento\Core\Model\File\Storage\Database $file
      * @param  bool $overwrite
+     * @throws \Magento\Core\Exception
      * @return bool|int
      */
     public function saveFile($file, $overwrite = true)
@@ -272,10 +278,12 @@ class File extends \Magento\Core\Model\File\Storage\AbstractStorage
                     ->saveFile($filename, $file['content'], $overwrite);
             } catch (\Exception $e) {
                 $this->_logger->logException($e);
-                \Mage::throwException(__('Unable to save file "%1" at "%2"', $file['filename'], $file['directory']));
+                throw new \Magento\Core\Exception(
+                    __('Unable to save file "%1" at "%2"', $file['filename'], $file['directory'])
+                );
             }
         } else {
-            \Mage::throwException(__('Wrong file info format'));
+            throw new \Magento\Core\Exception(__('Wrong file info format'));
         }
 
         return false;

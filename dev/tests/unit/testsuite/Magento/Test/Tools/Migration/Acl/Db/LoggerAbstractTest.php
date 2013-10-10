@@ -11,18 +11,18 @@
 namespace Magento\Test\Tools\Migration\Acl\Db;
 
 require_once realpath(__DIR__ . '/../../../../../../../../../')
-    . '/tools/Magento/Tools/Migration/Acl/Db/LoggerAbstract.php';
+    . '/tools/Magento/Tools/Migration/Acl/Db/AbstractLogger.php';
 
 class LoggerAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Tools\Migration\Acl\Db\LoggerAbstract
+     * @var \Magento\Tools\Migration\Acl\Db\AbstractLogger
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = $this->getMockForAbstractClass('Magento\Tools\Migration\Acl\Db\LoggerAbstract');
+        $this->_model = $this->getMockForAbstractClass('Magento\Tools\Migration\Acl\Db\AbstractLogger');
     }
 
     protected function tearDown()
@@ -31,8 +31,8 @@ class LoggerAbstractTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Tools\Migration\Acl\Db\LoggerAbstract::add()
-     * @covers \Magento\Tools\Migration\Acl\Db\LoggerAbstract::__toString()
+     * @covers \Magento\Tools\Migration\Acl\Db\AbstractLogger::add()
+     * @covers \Magento\Tools\Migration\Acl\Db\AbstractLogger::__toString()
      */
     public function testToString()
     {

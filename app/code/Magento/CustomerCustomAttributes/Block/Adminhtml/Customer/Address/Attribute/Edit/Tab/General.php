@@ -25,35 +25,44 @@ class General
     protected $_customerData;
 
     /**
-     * @var \Magento\Backend\Model\Config\Source\Yesno
-     */
-    protected $_sourceFactory;
-
-    /**
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\Form\Factory $formFactory
-     * @param \Magento\CustomerCustomAttributes\Helper\Data $customerData
-     * @param \Magento\Eav\Helper\Data $eavData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Eav\Helper\Data $eavData
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Backend\Model\Config\Source\YesnoFactory $yesnoFactory
+     * @param \Magento\Eav\Model\Adminhtml\System\Config\Source\InputtypeFactory $inputTypeFactory
      * @param \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig
-     * @param \Magento\Backend\Model\Config\Source\YesnoFactory $sourceFactory
+     * @param \Magento\CustomerCustomAttributes\Helper\Data $customerData
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\Registry $registry,
         \Magento\Data\Form\Factory $formFactory,
-        \Magento\CustomerCustomAttributes\Helper\Data $customerData,
-        \Magento\Eav\Helper\Data $eavData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Eav\Helper\Data $eavData,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Backend\Model\Config\Source\YesnoFactory $yesnoFactory,
+        \Magento\Eav\Model\Adminhtml\System\Config\Source\InputtypeFactory $inputTypeFactory,
         \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig,
-        \Magento\Backend\Model\Config\Source\YesnoFactory $sourceFactory,
+        \Magento\CustomerCustomAttributes\Helper\Data $customerData,
         array $data = array()
     ) {
         $this->_customerData = $customerData;
-        $this->_sourceFactory = $sourceFactory;
-        parent::__construct($formFactory, $eavData, $coreData, $context, $registry, $attributeConfig, $data);
+        parent::__construct(
+            $registry,
+            $formFactory,
+            $coreData,
+            $context,
+            $eavData,
+            $locale,
+            $yesnoFactory,
+            $inputTypeFactory,
+            $attributeConfig,
+            $data
+        );
     }
 
     /**
@@ -176,7 +185,7 @@ class General
         ), 'date_range_min');
 
         /** @var $source \Magento\Backend\Model\Config\Source\Yesno */
-        $source = $this->_sourceFactory->create();
+        $source = $this->_yesnoFactory->create();
         $yesnoSource = $source->toOptionArray();
 
         $fieldset = $form->addFieldset('front_fieldset', array(

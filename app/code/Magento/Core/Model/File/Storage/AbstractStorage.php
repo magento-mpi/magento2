@@ -35,9 +35,17 @@ abstract class AbstractStorage extends \Magento\Core\Model\AbstractModel
     protected $_coreFileStorageDb = null;
 
     /**
+     * Date model
+     *
+     * @var \Magento\Core\Model\Date
+     */
+    protected $_date;
+
+    /**
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Date $date
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -46,11 +54,13 @@ abstract class AbstractStorage extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Date $date,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreFileStorageDb = $coreFileStorageDb;
+        $this->_date = $date;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -81,6 +91,7 @@ abstract class AbstractStorage extends \Magento\Core\Model\AbstractModel
      * )
      *
      * @param  string $path
+     * @throws \Magento\Core\Exception
      * @return array
      */
     public function collectFileInfo($path)
@@ -89,10 +100,10 @@ abstract class AbstractStorage extends \Magento\Core\Model\AbstractModel
         $fullPath = $this->getMediaBaseDirectory() . DS . $path;
 
         if (!file_exists($fullPath) || !is_file($fullPath)) {
-            \Mage::throwException(__('File %1 does not exist', $fullPath));
+            throw new \Magento\Core\Exception(__('File %1 does not exist', $fullPath));
         }
         if (!is_readable($fullPath)) {
-            \Mage::throwException(__('File %1 is not readable', $fullPath));
+            throw new \Magento\Core\Exception(__('File %1 is not readable', $fullPath));
         }
 
         $path = str_replace(array('/', '\\'), '/', $path);
@@ -104,7 +115,7 @@ abstract class AbstractStorage extends \Magento\Core\Model\AbstractModel
         return array(
             'filename'      => basename($path),
             'content'       => @file_get_contents($fullPath),
-            'update_time'   => \Mage::getSingleton('Magento\Core\Model\Date')->date(),
+            'update_time'   => $this->_date->date(),
             'directory'     => $directory
         );
     }

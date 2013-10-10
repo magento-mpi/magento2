@@ -16,6 +16,53 @@ namespace Magento\FullPageCache\Model\Container;
 class Breadcrumbs extends \Magento\FullPageCache\Model\Container\AbstractContainer
 {
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var \Magento\Catalog\Model\CategoryFactory
+     */
+    protected $_categoryFactory;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\FullPageCache\Model\Cache $fpcCache
+     * @param \Magento\FullPageCache\Model\Container\Placeholder $placeholder
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\FullPageCache\Helper\Url $urlHelper
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\FullPageCache\Model\Cache $fpcCache,
+        \Magento\FullPageCache\Model\Container\Placeholder $placeholder,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\FullPageCache\Helper\Url $urlHelper,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Layout $layout,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory
+    ) {
+        parent::__construct(
+            $eventManager, $fpcCache, $placeholder, $coreRegistry, $urlHelper, $coreStoreConfig, $layout
+        );
+        $this->_storeManager = $storeManager;
+        $this->_productFactory = $productFactory;
+        $this->_categoryFactory = $categoryFactory;
+    }
+
+    /**
      * Get cache identifier
      *
      * @return string
@@ -44,8 +91,8 @@ class Breadcrumbs extends \Magento\FullPageCache\Model\Container\AbstractContain
         $product = null;
 
         if ($productId) {
-            $product = \Mage::getModel('Magento\Catalog\Model\Product')
-                ->setStoreId(\Mage::app()->getStore()->getId())
+            $product = $this->_productFactory->create()
+                ->setStoreId($this->_storeManager->getStore()->getId())
                 ->load($productId);
             if ($product) {
                 $this->_coreRegistry->register('current_product', $product);
@@ -59,7 +106,7 @@ class Breadcrumbs extends \Magento\FullPageCache\Model\Container\AbstractContain
         }
 
         if ($categoryId && !$this->_coreRegistry->registry('current_category')) {
-            $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($categoryId);
+            $category = $this->_categoryFactory->create()->load($categoryId);
             if ($category) {
                 $this->_coreRegistry->register('current_category', $category);
             }

@@ -40,49 +40,74 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
      *
      * @var \Magento\Wishlist\Model\Resource\Item\Collection
      */
-    protected $_itemCollection = null;
+    protected $_itemCollection;
 
     /**
      * Store filter for wishlist
      *
      * @var \Magento\Core\Model\Store
      */
-    protected $_store = null;
+    protected $_store;
 
     /**
      * Shared store ids (website stores)
      *
      * @var array
      */
-    protected $_storeIds = null;
+    protected $_storeIds;
 
     /**
      * Wishlist data
      *
      * @var \Magento\Wishlist\Helper\Data
      */
-    protected $_wishlistData = null;
+    protected $_wishlistData;
 
     /**
      * Core data
      *
      * @var \Magento\Core\Helper\Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
 
     /**
      * Catalog product
      *
      * @var \Magento\Catalog\Helper\Product
      */
-    protected $_catalogProduct = null;
+    protected $_catalogProduct;
 
     /**
      * Core event manager proxy
      *
      * @var \Magento\Core\Model\Event\Manager
      */
-    protected $_eventManager = null;
+    protected $_eventManager;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Core\Model\Date
+     */
+    protected $_date;
+
+    /**
+     * @var \Magento\Wishlist\Model\ItemFactory
+     */
+    protected $_wishlistItemFactory;
+
+    /**
+     * @var \Magento\Wishlist\Model\Resource\Item\CollectionFactory
+     */
+    protected $_wishlistCollFactory;
+
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
 
     /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
@@ -93,6 +118,11 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Wishlist\Model\Resource\Wishlist $resource
      * @param \Magento\Wishlist\Model\Resource\Wishlist\Collection $resourceCollection
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Wishlist\Model\ItemFactory $wishlistItemFactory
+     * @param \Magento\Wishlist\Model\Resource\Item\CollectionFactory $wishlistCollFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param array $data
      */
     public function __construct(
@@ -104,12 +134,22 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Registry $registry,
         \Magento\Wishlist\Model\Resource\Wishlist $resource,
         \Magento\Wishlist\Model\Resource\Wishlist\Collection $resourceCollection,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Date $date,
+        \Magento\Wishlist\Model\ItemFactory $wishlistItemFactory,
+        \Magento\Wishlist\Model\Resource\Item\CollectionFactory $wishlistCollFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
         $this->_catalogProduct = $catalogProduct;
         $this->_coreData = $coreData;
         $this->_wishlistData = $wishlistData;
+        $this->_storeManager = $storeManager;
+        $this->_date = $date;
+        $this->_wishlistItemFactory = $wishlistItemFactory;
+        $this->_wishlistCollFactory = $wishlistCollFactory;
+        $this->_productFactory = $productFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -197,7 +237,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
     protected function _beforeSave()
     {
         parent::_beforeSave();
-        $this->setUpdatedAt(\Mage::getSingleton('Magento\Core\Model\Date')->gmtDate());
+        $this->setUpdatedAt($this->_date->gmtDate());
         return $this;
     }
 
@@ -237,7 +277,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
 
         if ($item === null) {
             $storeId = $product->hasWishlistStoreId() ? $product->getWishlistStoreId() : $this->getStore()->getId();
-            $item = \Mage::getModel('Magento\Wishlist\Model\Item');
+            $item = $this->_wishlistItemFactory->create();
             $item->setProductId($product->getId())
                 ->setWishlistId($this->getId())
                 ->setAddedAt(now())
@@ -269,8 +309,8 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
     {
         if (is_null($this->_itemCollection)) {
             /** @var $currentWebsiteOnly boolean */
-            $currentWebsiteOnly = !\Mage::app()->getStore()->isAdmin();
-            $this->_itemCollection =  \Mage::getResourceModel('Magento\Wishlist\Model\Resource\Item\Collection')
+            $currentWebsiteOnly = !$this->_storeManager->getStore()->isAdmin();
+            $this->_itemCollection = $this->_wishlistCollFactory->create()
                 ->addWishlistFilter($this)
                 ->addStoreFilter($this->getSharedStoreIds($currentWebsiteOnly))
                 ->setVisibilityFilter();
@@ -334,12 +374,12 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
             if ($buyRequest->getStoreId()) {
                 $storeId = $buyRequest->getStoreId();
             } else {
-                $storeId = \Mage::app()->getStore()->getId();
+                $storeId = $this->_storeManager->getStore()->getId();
             }
         }
 
         /* @var $product \Magento\Catalog\Model\Product */
-        $product = \Mage::getModel('Magento\Catalog\Model\Product')
+        $product = $this->_productFactory->create()
             ->setStoreId($storeId)
             ->load($productId);
 
@@ -442,7 +482,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
                 $this->_storeIds = $this->getStore()->getWebsite()->getStoreIds();
             } else {
                 $_storeIds = array();
-                $stores = \Mage::app()->getStores();
+                $stores = $this->_storeManager->getStores();
                 foreach ($stores as $store) {
                     $_storeIds[] = $store->getId();
                 }
@@ -472,7 +512,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
     public function getStore()
     {
         if (is_null($this->_store)) {
-            $this->setStore(\Mage::app()->getStore());
+            $this->setStore($this->_storeManager->getStore());
         }
         return $this->_store;
     }
@@ -556,7 +596,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
             $item = $this->getItem((int)$itemId);
         }
         if (!$item) {
-            \Mage::throwException(__('We can\'t specify a wish list item.'));
+            throw new \Magento\Core\Exception(__('We can\'t specify a wish list item.'));
         }
 
         $product = $item->getProduct();
@@ -587,7 +627,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
              * Error message
              */
             if (is_string($resultItem)) {
-                \Mage::throwException(__($resultItem));
+                throw new \Magento\Core\Exception(__($resultItem));
             }
 
             if ($resultItem->getId() != $itemId) {
@@ -601,7 +641,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
                 $resultItem->setOrigData('qty', 0);
             }
         } else {
-            \Mage::throwException(__('The product does not exist.'));
+            throw new \Magento\Core\Exception(__('The product does not exist.'));
         }
         return $this;
     }

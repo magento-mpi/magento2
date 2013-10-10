@@ -1,0 +1,166 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /* @var $this \Magento\GiftCard\Block\Catalog\Product\View\Type\Giftcard */?>
+<?php $_product = $this->getProduct(); ?>
+<?php $_id = $_product->getId(); ?>
+<div class="giftcard form">
+<?php if ($this->displayProductStockStatus()): ?>
+    <?php if ($_product->isAvailable()): ?>
+        <p class="stock available" title="<?php echo __('Availability:') ?>">
+            <span><?php echo __('In stock') ?></span>
+        </p>
+    <?php else: ?>
+        <p class="stock unavailable" title="<?php echo __('Availability:') ?>">
+            <span><?php echo __('Out of stock') ?></span>
+        </p>
+    <?php endif; ?>
+<?php endif; ?>
+
+<?php echo $this->getChildHtml('product_type_data_extra') ?>
+
+<?php if ($_product->isSaleable() && $this->isConfigured($_product)): ?>
+    <?php if (!$this->isOpenAmountAvailable($_product) && (count($this->getAmounts($_product)) == 1)): ?>
+        <?php $_amount = $this->getAmounts($_product); $_amount = array_shift($_amount); ?>
+        <div class="price-box">
+            <span class="regular-price">
+                <span class="price" id="product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
+                    <?php echo $this->helper('Magento\Core\Helper\Data')->currency($_amount, true, false); ?>
+                </span>
+            </span>
+        </div>
+
+    <?php else: ?>
+        <fieldset class="fieldset giftcard amount">
+            <div class="field required amount">
+                    <?php if ($this->isAmountAvailable($_product)): ?>
+                        <label for="giftcard-amount" id="amount-label-select" class="label">
+                            <span><?php echo __('Amount'); ?></span>
+                        </label>
+                    <?php endif; ?>
+                    <?php if ($this->isOpenAmountAvailable($_product)): ?>
+                        <label for="giftcard-amount-input" id="amount-label-input" class="label">
+                            <span><?php echo __('Amount in %1', $this->getCurrentCurrency()); ?></span>
+                        </label>
+                    <?php endif; ?>
+
+                    <div class="control">
+                        <div class="fields group group-2">
+                            <?php if ($this->isOpenAmountAvailable($_product)): ?>
+                            <div id="giftcard-amount-box" class="field no-label input">
+                                <div class="control">
+                                    <input type="text" id="giftcard-amount-input" name="custom_giftcard_amount" class="input-text"
+                                    data-validate="{number: true,required: true
+                                        <?php if ($_product->getOpenAmountMin()) {
+                                            echo ',min: ';
+                                            echo $this->helper('Magento\Core\Helper\Data')->currency($_product->getOpenAmountMin(), false, false);
+                                        }
+                                        if ($_product->getOpenAmountMax()) {
+                                            echo ',max: ';
+                                            echo $this->helper('Magento\Core\Helper\Data')->currency($_product->getOpenAmountMax(), false, false);
+                                        }
+                                        ?>
+                                        }" value="<?php echo $this->escapeHtml($this->getDefaultValue('custom_giftcard_amount')) ?>" />
+
+                                        <?php if ($_product->getOpenAmountMin() || $_product->getOpenAmountMax()): ?>
+                                            <?php $_min = $this->helper('Magento\Core\Helper\Data')->currency($_product->getOpenAmountMin(), true, false); ?>
+                                            <?php $_max = $this->helper('Magento\Core\Helper\Data')->currency($_product->getOpenAmountMax(), true, false); ?>
+                                            <p class="note">
+                                                <?php if ($_product->getOpenAmountMax() && $_product->getOpenAmountMin()): ?>
+                                                    <span><?php echo __('Minimum: %1', $_min); ?></span>
+                                                    <span><?php echo __('Maximum: %1', $_max); ?></span>
+                                                <?php elseif ($_product->getOpenAmountMin()): ?>
+                                                    <span><?php echo __('Minimum: %1', $_min); ?></span>
+                                                <?php elseif ($_product->getOpenAmountMax()): ?>
+                                                    <span><?php echo __('Maximum: %1', $_max); ?></span>
+                                                <?php endif; ?>
+                                            </p>
+                                        <?php endif; ?>
+                                </div>
+                            </div>
+                            <?php endif; ?>
+
+                            <?php if ($this->isAmountAvailable($_product)): ?>
+                                <?php $configValue = $this->getDefaultValue('giftcard_amount'); ?>
+                                <div class="field amounts no-label">
+                                    <div class="control">
+                                        <select name="giftcard_amount" id="giftcard-amount" class="required-entry giftcard-amount-entry">
+                                            <option value=""><?php echo __('Choose an Amount...') ?></option>
+                                            <?php foreach ($this->getAmounts($_product) as $value): ?>
+                                                <option value="<?php echo $value; ?>" <?php echo (($configValue == $value) ? 'selected' : '')?>><?php echo $this->helper('Magento\Core\Helper\Data')->currency($value, true, false); ?></option>
+                                            <?php endforeach; ?>
+
+                                            <?php if ($this->isOpenAmountAvailable($_product)): ?>
+                                                <option value="custom" <?php echo (($configValue == 'custom') ? 'selected' : '')?>><?php echo __('Other Amount...') ?></option>
+                                            <?php endif; ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+            </div>
+        </fieldset>
+        <script type="text/javascript">
+        (function($) {
+            head.js("<?php echo $this->getViewFileUrl('Magento_GiftCard::toggle-gift-card.js')?>", function() {
+                $('#giftcard-amount').toggleGiftCard();
+            });
+        })(jQuery);
+        </script>
+    <?php endif; ?>
+    <fieldset class="fieldset giftcard send">
+        <div class="field required">
+            <label for="giftcard_sender_name" class="label"><span><?php echo __('Sender Name'); ?></span></label>
+            <div class="control">
+                <input type="text" id="giftcard_sender_name" name="giftcard_sender_name" class="required-entry input-text" value="<?php echo $this->escapeHtml($this->getDefaultSenderName()) ?>" />
+            </div>
+        </div>
+        <?php if ($this->isEmailAvailable($_product)): ?>
+        <div class="field required">
+            <label for="giftcard_sender_email" class="label"><span><?php echo __('Sender Email'); ?></span></label>
+            <div class="control">
+                <input type="text" id="giftcard_sender_email" name="giftcard_sender_email" class="validate-email required-entry input-text" value="<?php echo $this->escapeHtml($this->getDefaultSenderEmail()) ?>"/>
+            </div>
+        </div>
+        <?php endif; ?>
+
+        <div class="field required">
+            <label for="giftcard_recipient_name" class="label"><span><?php echo __('Recipient Name'); ?></span></label>
+            <div class="control">
+                <input type="text" id="giftcard_recipient_name" name="giftcard_recipient_name" class="required-entry input-text" value="<?php echo $this->escapeHtml($this->getDefaultValue('giftcard_recipient_name')) ?>" />
+            </div>
+        </div>
+        <?php if ($this->isEmailAvailable($_product)): ?>
+        <div class="field required">
+            <label for="giftcard_recipient_email" class="label"><span><?php echo __('Recipient Email'); ?></span></label>
+            <div class="control">
+                <input type="text" id="giftcard_recipient_email" name="giftcard_recipient_email" class="validate-email required-entry input-text" value="<?php echo $this->escapeHtml($this->getDefaultValue('giftcard_recipient_email')) ?>" />
+            </div>
+        </div>
+        <?php endif; ?>
+
+        <?php if ($this->isMessageAvailable($_product)): ?>
+        <div class="field text">
+            <label for="giftcard-message" class="label"><span><?php echo __('Message'); ?></span></label>
+            <div class="control">
+                <textarea name="giftcard_message" id="giftcard-message" class="input-text giftcard-message-max-length"
+                    <?php if ($this->getMessageMaxLength()) {
+                    $errorMessage="'". __('Maximum length of the message is %1 characters.', $this->getMessageMaxLength())."'";
+                    echo 'data-validate="{maxlength:' . $this->getMessageMaxLength() . ',messages:{maxlength:'.$errorMessage.'}}"';
+                } ?>
+                cols="5" rows="3"><?php echo $this->escapeHtml($this->getDefaultValue('giftcard_message')) ?></textarea>
+            </div>
+        </div>
+        <?php endif; ?>
+    </fieldset>
+<?php elseif ($_product->isAvailable() && $this->isConfigured($_product)): ?>
+    <?php echo $this->getPriceHtml($_product); ?>
+<?php endif; ?>
+</div>

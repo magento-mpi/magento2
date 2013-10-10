@@ -16,6 +16,42 @@ namespace Magento\GiftRegistry\Block\Customer;
 class Items extends \Magento\Catalog\Block\Product\AbstractProduct
 {
     /**
+     * Gift registry item factory
+     *
+     * @var \Magento\GiftRegistry\Model\ItemFactory
+     */
+    protected $itemFactory = null;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\GiftRegistry\Model\ItemFactory $itemFactory
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
+        array $data = array()
+    ) {
+        $this->itemFactory = $itemFactory;
+        parent::__construct($storeManager, $catalogConfig, $coreRegistry, $taxData, $catalogData, $coreData, $context,
+            $data);
+    }
+
+    /**
      * Return gift registry form header
      */
     public function getFormHeader()
@@ -31,8 +67,7 @@ class Items extends \Magento\Catalog\Block\Product\AbstractProduct
     public function getItemCollection()
     {
         if (!$this->hasItemCollection()) {
-            $attributes = \Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes();
-            $collection = \Mage::getModel('Magento\GiftRegistry\Model\Item')->getCollection()
+            $collection = $this->itemFactory->create()->getCollection()
                 ->addRegistryFilter($this->getEntity()->getId());
             $this->setData('item_collection', $collection);
         }

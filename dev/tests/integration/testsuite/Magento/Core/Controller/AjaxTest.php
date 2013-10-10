@@ -11,7 +11,7 @@
 
 namespace Magento\Core\Controller;
 
-class AjaxTest extends \Magento\TestFramework\TestCase\ControllerAbstract
+class AjaxTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
      * @dataProvider translateActionDataProvider

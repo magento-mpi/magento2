@@ -38,9 +38,9 @@ class EntityFactory
     public function create($className, array $data = array())
     {
         $model = $this->_objectManager->create($className, $data);
-        //TODO: fix that when this factory used only for Magento_Core_Model_Abstract
-        //if (!$model instanceof Magento_Core_Model_Abstract) {
-        //    throw new LogicException($className . ' doesn\'t implement Magento_Core_Model_Abstract');
+        //TODO: fix that when this factory used only for \Magento\Core\Model\Abstract
+        //if (!$model instanceof \Magento\Core\Model\Abstract) {
+        //    throw new LogicException($className . ' doesn\'t implement \Magento\Core\Model\Abstract');
         //}
         return $model;
     }

@@ -16,7 +16,7 @@ namespace Magento\Logging\Model;
  *
  * @magentoAppArea adminhtml
  */
-class ProcessorTest extends \Magento\TestFramework\TestCase\ControllerAbstract
+class ProcessorTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
      * Test that configured admin actions are properly logged

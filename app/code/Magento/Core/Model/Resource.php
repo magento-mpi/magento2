@@ -18,8 +18,6 @@ class Resource
 
     const PARAM_TABLE_PREFIX = 'db.table_prefix';
 
-
-
     /**
      * Instances of actual connections
      *
@@ -61,20 +59,28 @@ class Resource
     protected $_tablePrefix;
 
     /**
+     * @var \Magento\Core\Model\AppInterface
+     */
+    protected $_app;
+
+    /**
      * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\Core\Model\AppInterface $app
      * @param \Magento\Core\Model\Config\ResourceInterface $resourceConfig
      * @param \Magento\Core\Model\Resource\ConnectionFactory $adapterFactory
      * @param string $tablePrefix
      */
     public function __construct(
         \Magento\Core\Model\CacheInterface $cache,
+        \Magento\Core\Model\AppInterface $app,
         \Magento\Core\Model\Config\ResourceInterface $resourceConfig,
         \Magento\Core\Model\Resource\ConnectionFactory $adapterFactory,
         $tablePrefix = ''
     ) {
+        $this->_cache = $cache;
+        $this->_app = $app;
         $this->_resourceConfig = $resourceConfig;
         $this->_connectionFactory = $adapterFactory;
-        $this->_cache = $cache;
         $this->_tablePrefix = $tablePrefix;
     }
 
@@ -89,6 +95,8 @@ class Resource
     }
 
     /**
+     * Retrieve connection adapter class name by connection type
+     *
      * @param \Magento\Core\Model\Config\ResourceInterface $resourceConfig
      */
     public function setConfig(\Magento\Core\Model\Config\ResourceInterface $resourceConfig)
@@ -157,7 +165,7 @@ class Resource
         if ($tableSuffix) {
             $tableName .= '_' . $tableSuffix;
         }
-        return $this->getConnection(\Magento\Core\Model\Config\Resource::DEFAULT_READ_CONNECTION)
+        return $this->getConnection('core_read')
             ->getTableName($tableName);
     }
 
@@ -213,7 +221,7 @@ class Resource
      */
     public function getIdxName($tableName, $fields, $indexType = \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX)
     {
-        return $this->getConnection(\Magento\Core\Model\Config\Resource::DEFAULT_READ_CONNECTION)
+        return $this->getConnection('core_read')
             ->getIndexName($this->getTableName($tableName), $fields, $indexType);
     }
 
@@ -228,7 +236,7 @@ class Resource
      */
     public function getFkName($priTableName, $priColumnName, $refTableName, $refColumnName)
     {
-        return $this->getConnection(\Magento\Core\Model\Config\Resource::DEFAULT_READ_CONNECTION)
+        return $this->getConnection('core_read')
             ->getForeignKeyName($this->getTableName($priTableName), $priColumnName,
                 $this->getTableName($refTableName), $refColumnName);
     }

@@ -53,15 +53,18 @@ class Renderer extends \Magento\Core\Block\Template
      * @param \Magento\Catalog\Helper\Product\Configuration $productConfigur
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $data
      */
     public function __construct(
         \Magento\Catalog\Helper\Product\Configuration $productConfigur,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Checkout\Model\Session $checkoutSession,
         array $data = array()
     ) {
         $this->_productConfigur = $productConfigur;
+        $this->_checkoutSession = $checkoutSession;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -322,9 +325,6 @@ class Renderer extends \Magento\Core\Block\Template
      */
     public function getCheckoutSession()
     {
-        if (null === $this->_checkoutSession) {
-            $this->_checkoutSession = \Mage::getSingleton('Magento\Checkout\Model\Session');
-        }
         return $this->_checkoutSession;
     }
 

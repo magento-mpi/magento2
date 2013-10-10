@@ -9,7 +9,7 @@
  */
 namespace Magento\GoogleOptimizer\Model\Observer\Category;
 
-class Save extends \Magento\GoogleOptimizer\Model\Observer\SaveAbstract
+class Save extends \Magento\GoogleOptimizer\Model\Observer\AbstractSave
 {
     /**
      * @var \Magento\Catalog\Model\Category

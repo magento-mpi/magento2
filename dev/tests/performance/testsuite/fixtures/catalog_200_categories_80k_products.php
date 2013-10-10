@@ -6,6 +6,8 @@
  * @license     {license_link}
  */
 
+/** @var \Magento\TestFramework\Application $this */
+
 /**
  * Create categories
  */
@@ -14,14 +16,15 @@ $maxNestingLevel = 3;
 $anchorStep = 2;
 
 $nestingLevel = 1;
-$parentCategoryId = $defaultParentCategoryId = \Mage::app()->getStore()->getRootCategoryId();
+$parentCategoryId = $defaultParentCategoryId = $this->getObjectManager()
+    ->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getRootCategoryId();
 $nestingPath = "1/$parentCategoryId";
 $categoryPath = '';
 $categoryIndex = 1;
 
 $categories = array();
 
-$category = \Mage::getModel('Magento\Catalog\Model\Category');
+$category = $this->getObjectManager()->create('Magento\Catalog\Model\Category');
 while ($categoryIndex <= $categoriesNumber) {
     $category->setId(null)
         ->setName("Category $categoryIndex")
@@ -84,7 +87,7 @@ $pattern = array(
 );
 $generator = new \Magento\TestFramework\ImportExport\Fixture\Generator($pattern, $productsNumber);
 /** @var \Magento\ImportExport\Model\Import $import */
-$import = \Mage::getModel(
+$import = $this->getObjectManager()->create(
     'Magento\ImportExport\Model\Import',
     array('data' => array('entity' => 'catalog_product', 'behavior' => 'append'))
 );

@@ -7,7 +7,7 @@
  */
 namespace Magento\MultipleWishlist;
 
-class RssTest extends \Magento\TestFramework\TestCase\ControllerAbstract
+class RssTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
      * @magentoConfigFixture current_store rss/wishlist/active 1

@@ -14,7 +14,7 @@
  */
 namespace Magento\AdvancedCheckout\Controller;
 
-class CartTest extends \Magento\TestFramework\TestCase\ControllerAbstract
+class CartTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
      * Test for \Magento\AdvancedCheckout\Controller\Cart::configureAction() with gift card product
@@ -38,7 +38,7 @@ class CartTest extends \Magento\TestFramework\TestCase\ControllerAbstract
             'Magento\Checkout\Model\Session'
         );
 
-        $this->assertSelectCount('button.button.btn-cart[type="button"][title="Update Cart"]', 1, $response->getBody(),
+        $this->assertSelectCount('button[type="button"][title="Update Cart"]', 1, $response->getBody(),
             'Response for gift card product doesn\'t contain "Update Cart" button');
 
         $this->assertSelectCount('input#giftcard-amount-input[type="text"]', 1, $response->getBody(),
@@ -61,7 +61,7 @@ class CartTest extends \Magento\TestFramework\TestCase\ControllerAbstract
             'Magento\Checkout\Model\Session'
         );
 
-        $this->assertSelectCount('button.button.btn-cart[type="button"][title="Update Cart"]', 1, $response->getBody(),
+        $this->assertSelectCount('button[type="button"][title="Update Cart"]', 1, $response->getBody(),
             'Response for simple product doesn\'t contain "Update Cart" button');
     }
 
@@ -81,7 +81,7 @@ class CartTest extends \Magento\TestFramework\TestCase\ControllerAbstract
             'Magento\Checkout\Model\Session'
         );
 
-        $this->assertSelectCount('button.button.btn-cart[type="button"][title="Update Cart"]', 1, $response->getBody(),
+        $this->assertSelectCount('button[type="button"][title="Update Cart"]', 1, $response->getBody(),
             'Response for bundle product doesn\'t contain "Update Cart" button');
     }
 
@@ -101,10 +101,10 @@ class CartTest extends \Magento\TestFramework\TestCase\ControllerAbstract
             'Magento\Checkout\Model\Session'
         );
 
-        $this->assertSelectCount('button.button.btn-cart[type="button"][title="Update Cart"]', 1, $response->getBody(),
+        $this->assertSelectCount('button[type="button"][title="Update Cart"]', 1, $response->getBody(),
             'Response for downloadable product doesn\'t contain "Update Cart" button');
 
-        $this->assertSelectCount('ul#downloadable-links-list.options-list', 1, $response->getBody(),
+        $this->assertSelectCount('#downloadable-links-list', 1, $response->getBody(),
             'Response for downloadable product doesn\'t contain links for download');
     }
 
@@ -124,7 +124,7 @@ class CartTest extends \Magento\TestFramework\TestCase\ControllerAbstract
             'Magento\Checkout\Model\Session'
         );
 
-        $this->assertSelectCount('button.button.btn-cart[type="button"][title="Update Cart"]', 1, $response->getBody(),
+        $this->assertSelectCount('button[type="button"][title="Update Cart"]', 1, $response->getBody(),
             'Response for configurable product doesn\'t contain "Update Cart" button');
 
         $this->assertSelectCount('select.super-attribute-select', 1, $response->getBody(),
@@ -147,7 +147,7 @@ class CartTest extends \Magento\TestFramework\TestCase\ControllerAbstract
             'Magento\Checkout\Model\Session'
         );
 
-        $this->assertSelectCount('button.button.btn-cart[type="button"][title="Update Cart"]', 1, $response->getBody(),
+        $this->assertSelectCount('button[type="button"][title="Update Cart"]', 1, $response->getBody(),
             'Response for gift card product doesn\'t contain "Update Cart" button');
 
         $this->assertSelectCount('input#giftcard-amount-input[type="text"]', 1, $response->getBody(),

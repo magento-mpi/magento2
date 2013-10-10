@@ -23,7 +23,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
     /**
      * @param \Magento\Core\Model\Resource\Setup\Context $context
      * @param \Magento\Cms\Model\BlockFactory $modelBlockFactory
-     * @param string $resourceName
+     * @param $resourceName
      * @param string $moduleName
      * @param string $connectionName
      */
@@ -39,7 +39,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
     }
 
     /**
-     * @return \Magento_Cms_Model_Block
+     * @return \\Magento\Cms\Model\Block
      */
     public function getModelBlock()
     {

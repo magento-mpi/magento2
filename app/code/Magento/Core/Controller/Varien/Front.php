@@ -42,12 +42,48 @@ class Front extends \Magento\Object implements \Magento\Core\Controller\FrontInt
     protected $_backendData;
 
     /**
+     * @var \Magento\Core\Model\Url
+     */
+    protected $_url;
+
+    /**
+     * @var \Magento\Core\Model\App\State
+     */
+    protected $_appState;
+
+    /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Core\Controller\Request\Http
+     */
+    protected $_request;
+
+    /**
+     * @var \Magento\Core\Controller\Response\Http
+     */
+    protected $_response;
+
+    /**
+     * @var \Magento\Core\Model\App
+     */
+    protected $_app;
+
+    /**
      * @param \Magento\Backend\Helper\Data $backendData
      * @param \Magento\Core\Model\Url\RewriteFactory $rewriteFactory
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\RouterList $routerList
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Core\Model\Url $url
+     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\Core\Controller\Response\Http $response
      * @param array $data
      */
     public function __construct(
@@ -57,6 +93,12 @@ class Front extends \Magento\Object implements \Magento\Core\Controller\FrontInt
         \Magento\Core\Model\RouterList $routerList,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Config $coreConfig,
+        \Magento\Core\Model\Url $url,
+        \Magento\Core\Model\App\State $appState,
+        \Magento\Core\Model\App $app,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Controller\Request\Http $request,
+        \Magento\Core\Controller\Response\Http $response,
         array $data = array()
     ) {
         parent::__construct($data);
@@ -67,6 +109,12 @@ class Front extends \Magento\Object implements \Magento\Core\Controller\FrontInt
         $this->_routerList = $routerList;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreConfig = $coreConfig;
+        $this->_url = $url;
+        $this->_appState = $appState;
+        $this->_app = $app;
+        $this->_storeManager = $storeManager;
+        $this->_request = $request;
+        $this->_response = $response;
     }
 
     public function setDefault($key, $value=null)
@@ -96,7 +144,7 @@ class Front extends \Magento\Object implements \Magento\Core\Controller\FrontInt
      */
     public function getRequest()
     {
-        return \Mage::app()->getRequest();
+        return $this->_request;
     }
 
     /**
@@ -106,7 +154,7 @@ class Front extends \Magento\Object implements \Magento\Core\Controller\FrontInt
      */
     public function getResponse()
     {
-        return \Mage::app()->getResponse();
+        return $this->_response;
     }
 
     /**
@@ -147,6 +195,7 @@ class Front extends \Magento\Object implements \Magento\Core\Controller\FrontInt
     /**
      * Dispatch user request
      *
+     * @throws \Magento\Core\Exception
      * @return \Magento\Core\Controller\Varien\Front
      */
     public function dispatch()
@@ -180,7 +229,7 @@ class Front extends \Magento\Object implements \Magento\Core\Controller\FrontInt
         }
         \Magento\Profiler::stop('routers_match');
         if ($routingCycleCounter > 100) {
-            \Mage::throwException('Front controller reached 100 router match iterations');
+            throw new \Magento\Core\Exception('Front controller reached 100 router match iterations');
         }
         // This event gives possibility to launch something before sending output (allow cookie setting)
         $this->_eventManager->dispatch('controller_front_send_response_before', array('front' => $this));
@@ -277,7 +326,7 @@ class Front extends \Magento\Object implements \Magento\Core\Controller\FrontInt
      */
     protected function _checkBaseUrl($request)
     {
-        if (!\Mage::isInstalled() || $request->getPost() || strtolower($request->getMethod()) == 'post') {
+        if (!$this->_appState->isInstalled() || $request->getPost() || strtolower($request->getMethod()) == 'post') {
             return;
         }
 
@@ -292,9 +341,9 @@ class Front extends \Magento\Object implements \Magento\Core\Controller\FrontInt
             return;
         }
 
-        $baseUrl = \Mage::getBaseUrl(
+        $baseUrl = $this->_storeManager->getStore()->getBaseUrl(
             \Magento\Core\Model\Store::URL_TYPE_WEB,
-            \Mage::app()->getStore()->isCurrentlySecure()
+            $this->_storeManager->getStore()->isCurrentlySecure()
         );
         if (!$baseUrl) {
             return;
@@ -306,11 +355,11 @@ class Front extends \Magento\Object implements \Magento\Core\Controller\FrontInt
             || isset($uri['host']) && $uri['host'] != $request->getHttpHost()
             || isset($uri['path']) && strpos($requestUri, $uri['path']) === false
         ) {
-            $redirectUrl = \Mage::getSingleton('Magento\Core\Model\Url')->getRedirectUrl(
-                \Mage::getUrl(ltrim($request->getPathInfo(), '/'), array('_nosid' => true))
+            $redirectUrl = $this->_url->getRedirectUrl(
+                $this->_url->getUrl(ltrim($request->getPathInfo(), '/'), array('_nosid' => true))
             );
 
-            \Mage::app()->getFrontController()->getResponse()
+            $this->_app->getFrontController()->getResponse()
                 ->setRedirect($redirectUrl, $redirectCode)
                 ->sendResponse();
             exit;

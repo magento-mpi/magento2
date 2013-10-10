@@ -28,15 +28,23 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_coreStoreConfig;
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Core\Model\Resource $resource,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($resource);
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -128,24 +136,24 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
     {
         $stores = array();
         // get all or specified stores
-        if (\Mage::app()->getStore()->getId() == 0) {
+        if ($this->_storeManager->getStore()->getId() == 0) {
             if (null !== $predefinedStoreIds) {
                 $stores = $predefinedStoreIds;
             } else {
-                foreach (\Mage::app()->getStores() as $store) {
+                foreach ($this->_storeManager->getStores() as $store) {
                     $stores[] = $store->getId();
                 }
             }
         } else { // get all stores, required by configuration in current store scope
             switch ($this->_coreStoreConfig->getConfig('catalog/recently_products/scope')) {
                 case 'website':
-                    $resourceStore = \Mage::app()->getStore()->getWebsite()->getStores();
+                    $resourceStore = $this->_storeManager->getStore()->getWebsite()->getStores();
                     break;
                 case 'group':
-                    $resourceStore = \Mage::app()->getStore()->getGroup()->getStores();
+                    $resourceStore = $this->_storeManager->getStore()->getGroup()->getStores();
                     break;
                 default:
-                    $resourceStore = array(\Mage::app()->getStore());
+                    $resourceStore = array($this->_storeManager->getStore());
                     break;
             }
 

@@ -24,7 +24,7 @@ class Multishipping extends \Magento\Checkout\Controller\Action
      */
     protected function _getCheckout()
     {
-        return \Mage::getSingleton('Magento\Checkout\Model\Type\Multishipping');
+        return $this->_objectManager->get('Magento\Checkout\Model\Type\Multishipping');
     }
 
     /**
@@ -34,7 +34,7 @@ class Multishipping extends \Magento\Checkout\Controller\Action
      */
     protected function _getState()
     {
-        return \Mage::getSingleton('Magento\Checkout\Model\Type\Multishipping\State');
+        return $this->_objectManager->get('Magento\Checkout\Model\Type\Multishipping\State');
     }
 
     /**
@@ -54,7 +54,7 @@ class Multishipping extends \Magento\Checkout\Controller\Action
      */
     protected function _getCheckoutSession()
     {
-        return \Mage::getSingleton('Magento\Checkout\Model\Session');
+        return $this->_objectManager->get('Magento\Checkout\Model\Session');
     }
 
     /**
@@ -92,7 +92,7 @@ class Multishipping extends \Magento\Checkout\Controller\Action
         }
 
         if (!in_array($action, array('login', 'register'))) {
-            $customerSession = \Mage::getSingleton('Magento\Customer\Model\Session');
+            $customerSession = $this->_objectManager->get('Magento\Customer\Model\Session');
             if (!$customerSession->authenticate($this, $this->_getHelper()->getMSLoginUrl())) {
                 $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             }
@@ -145,7 +145,7 @@ class Multishipping extends \Magento\Checkout\Controller\Action
      */
     public function loginAction()
     {
-        if (\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
+        if ($this->_objectManager->get('Magento\Customer\Model\Session')->isLoggedIn()) {
             $this->_redirect('*/*/');
             return;
         }
@@ -166,7 +166,7 @@ class Multishipping extends \Magento\Checkout\Controller\Action
      */
     public function registerAction()
     {
-        if (\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
+        if ($this->_objectManager->get('Magento\Customer\Model\Session')->isLoggedIn()) {
             $this->_redirectUrl($this->_getHelper()->getMSCheckoutUrl());
             return;
         }
@@ -534,8 +534,9 @@ class Multishipping extends \Magento\Checkout\Controller\Action
     public function redirectLogin()
     {
         $this->setFlag('', 'no-dispatch', true);
-        \Mage::getSingleton('Magento\Customer\Model\Session')
-            ->setBeforeAuthUrl(\Mage::getUrl('*/*', array('_secure' => true)));
+        $url = $this->_objectManager->create('Magento\Core\Model\UrlInterface')
+            ->getUrl('*/*', array('_secure' => true));
+        $this->_objectManager->get('Magento\Customer\Model\Session')->setBeforeAuthUrl($url);
 
         $this->getResponse()->setRedirect(
             $this->_objectManager->get('Magento\Core\Helper\Url')->addRequestParam(

@@ -21,6 +21,27 @@ namespace Magento\Catalog\Model\Resource\Product\Indexer;
 abstract class AbstractIndexer extends \Magento\Index\Model\Resource\AbstractResource
 {
     /**
+     * Eav config
+     *
+     * @var \Magento\Eav\Model\Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * Class constructor
+     *
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Eav\Model\Config $eavConfig
+     */
+    public function __construct(
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Eav\Model\Config $eavConfig
+    ) {
+        $this->_eavConfig = $eavConfig;
+        parent::__construct($resource);
+    }
+
+    /**
      * Retrieve catalog_product attribute instance by attribute code
      *
      * @param string $attributeCode
@@ -28,7 +49,7 @@ abstract class AbstractIndexer extends \Magento\Index\Model\Resource\AbstractRes
      */
     protected function _getAttribute($attributeCode)
     {
-        return \Mage::getSingleton('Magento\Eav\Model\Config')->getAttribute(\Magento\Catalog\Model\Product::ENTITY, $attributeCode);
+        return $this->_eavConfig->getAttribute(\Magento\Catalog\Model\Product::ENTITY, $attributeCode);
     }
 
     /**

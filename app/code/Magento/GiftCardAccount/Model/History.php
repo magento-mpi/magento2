@@ -176,10 +176,16 @@ class History extends \Magento\Core\Model\AbstractModel
         return '';
     }
 
+    /**
+     * Processing object before save data
+     *
+     * @return \Magento\Core\Model\AbstractModel
+     * @throws \Magento\Core\Exception
+     */
     protected function _beforeSave()
     {
         if (!$this->hasGiftcardaccount()) {
-            \Mage::throwException(__('Please assign a gift card account.'));
+            throw new \Magento\Core\Exception(__('Please assign a gift card account.'));
         }
 
         $this->setAction($this->getGiftcardaccount()->getHistoryAction());
@@ -192,25 +198,25 @@ class History extends \Magento\Core\Model\AbstractModel
                 $this->setAdditionalInfo($this->_getCreatedAdditionalInfo());
 
                 $this->setBalanceDelta($this->getBalanceAmount());
-            break;
+                break;
             case self::ACTION_USED:
                 $this->setAdditionalInfo($this->_getUsedAdditionalInfo());
-            break;
+                break;
             case self::ACTION_SENT:
                 $this->setAdditionalInfo($this->_getSentAdditionalInfo());
-            break;
+                break;
             case self::ACTION_REDEEMED:
                 $this->setAdditionalInfo($this->_getRedeemedAdditionalInfo());
-            break;
+                break;
             case self::ACTION_UPDATED:
                 $this->setAdditionalInfo($this->_getUpdatedAdditionalInfo());
-            break;
+                break;
             case self::ACTION_EXPIRED:
                 $this->setAdditionalInfo($this->_getExpiredAdditionalInfo());
-            break;
+                break;
             default:
-                \Mage::throwException(__('Unknown history action.'));
-            break;
+                throw new \Magento\Core\Exception(__('Unknown history action.'));
+                break;
         }
 
         return parent::_beforeSave();

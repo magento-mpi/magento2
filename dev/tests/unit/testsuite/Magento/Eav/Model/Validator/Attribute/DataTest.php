@@ -31,14 +31,21 @@ class DataTest extends \PHPUnit_Framework_TestCase
     {
         $entity = $this->_getEntityMock();
         $attribute = $this->_getAttributeMock($attributeData);
+        $attrDataFactory = $this->getMock(
+            'Magento\Eav\Model\AttributeDataFactory',
+            array('create'),
+            array('objectManager' => $this->getMock('Magento\ObjectManager'))
+        );
 
-        $validator = new \Magento\Eav\Model\Validator\Attribute\Data;
+        $validator = new \Magento\Eav\Model\Validator\Attribute\Data($attrDataFactory);
         $validator->setAttributes(array($attribute))
             ->setData($data);
         if ($attribute->getDataModel() || $attribute->getFrontendInput()) {
             $dataModel = $this->_getDataModelMock($result);
-            $factory = $this->_getFactoryMock($dataModel);
-            $validator->setAttributeDataModelFactory($factory);
+            $attrDataFactory->expects($this->once())
+                ->method('create')
+                ->with($attribute, $entity)
+                ->will($this->returnValue($dataModel));
         }
         $this->assertEquals($expected, $validator->isValid($entity));
         $this->assertEquals($messages, $validator->getMessages());
@@ -122,7 +129,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function testIsValidAttributesFromCollection()
     {
         /** @var \Magento\Eav\Model\Entity\AbstractEntity $resource */
-        $resource = $this->getMockForAbstractClass('Magento\Eav\Model\Entity\AbstractEntity');
+        $resource = $this->getMockForAbstractClass('Magento\Eav\Model\Entity\AbstractEntity', array(), '', false);
         $attribute = $this->_getAttributeMock(array(
             'attribute_code' => 'attribute',
             'data_model' => $this->_getDataModelMock(null),
@@ -140,11 +147,18 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $entity->expects($this->once())->method('getResource')->will($this->returnValue($resource));
         $entity->expects($this->once())->method('getEntityType')->will($this->returnValue($entityType));
         $dataModel = $this->_getDataModelMock(true);
-        $factory = $this->_getFactoryMock($dataModel);
+        $attrDataFactory = $this->getMock(
+            'Magento\Eav\Model\AttributeDataFactory',
+            array('create'),
+            array('objectManager' => $this->getMock('Magento\ObjectManager'))
+        );
+        $attrDataFactory->expects($this->once())
+            ->method('create')
+            ->with($attribute, $entity)
+            ->will($this->returnValue($dataModel));
+        $validator = new \Magento\Eav\Model\Validator\Attribute\Data($attrDataFactory);
 
-        $validator = new \Magento\Eav\Model\Validator\Attribute\Data;
-        $validator->setData(array('attribute' => 'new_test_data'))
-            ->setAttributeDataModelFactory($factory);
+        $validator->setData(array('attribute' => 'new_test_data'));
         $this->assertTrue($validator->isValid($entity));
     }
 
@@ -170,11 +184,17 @@ class DataTest extends \PHPUnit_Framework_TestCase
         );
         $entity = $this->_getEntityMock();
         $dataModel = $this->_getDataModelMock(true, $data['attribute']);
-        $factory = $this->_getFactoryMock($dataModel);
-
-        $validator = new \Magento\Eav\Model\Validator\Attribute\Data;
-        $validator->setAttributeDataModelFactory($factory)
-            ->setAttributes(array($attribute, $secondAttribute))
+        $attrDataFactory = $this->getMock(
+            'Magento\Eav\Model\AttributeDataFactory',
+            array('create'),
+            array('objectManager' => $this->getMock('Magento\ObjectManager'))
+        );
+        $attrDataFactory->expects($this->once())
+            ->method('create')
+            ->with($attribute, $entity)
+            ->will($this->returnValue($dataModel));
+        $validator = new \Magento\Eav\Model\Validator\Attribute\Data($attrDataFactory);
+        $validator->setAttributes(array($attribute, $secondAttribute))
             ->setData($data);
         $callback($validator);
         $this->assertTrue($validator->isValid($entity));
@@ -201,7 +221,12 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function testSetAttributesWhiteList()
     {
         $attributes = array('attr1', 'attr2', 'attr3');
-        $validator = new \Magento\Eav\Model\Validator\Attribute\Data;
+        $attrDataFactory = $this->getMock(
+            'Magento\Eav\Model\AttributeDataFactory',
+            array(),
+            array('objectManager' => $this->getMock('Magento\ObjectManager'))
+        );
+        $validator = new \Magento\Eav\Model\Validator\Attribute\Data($attrDataFactory);
         $result = $validator->setAttributesWhiteList($attributes);
         $this->assertAttributeEquals($attributes, '_attributesWhiteList', $validator);
         $this->assertEquals($validator, $result);
@@ -210,27 +235,15 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function testSetAttributesBlackList()
     {
         $attributes = array('attr1', 'attr2', 'attr3');
-        $validator = new \Magento\Eav\Model\Validator\Attribute\Data;
+        $attrDataFactory = $this->getMock(
+            'Magento\Eav\Model\AttributeDataFactory',
+            array(),
+            array('objectManager' => $this->getMock('Magento\ObjectManager'))
+        );
+        $validator = new \Magento\Eav\Model\Validator\Attribute\Data($attrDataFactory);
         $result = $validator->setAttributesBlackList($attributes);
         $this->assertAttributeEquals($attributes, '_attributesBlackList', $validator);
         $this->assertEquals($validator, $result);
-    }
-
-    public function testSetAttributeDataModelFactory()
-    {
-        $factory = $this->getMockBuilder('Magento\Eav\Model\Attribute\Data')->getMock();
-        $validator = new \Magento\Eav\Model\Validator\Attribute\Data;
-        $result = $validator->setAttributeDataModelFactory($factory);
-        $this->assertAttributeEquals($factory, '_dataModelFactory', $validator);
-        $this->assertEquals($validator, $result);
-    }
-
-    public function testGetAttributeDataModelFactory()
-    {
-        $validator = new \Magento\Eav\Model\Validator\Attribute\Data;
-        $factory = $validator->getAttributeDataModelFactory();
-        $this->assertInstanceOf('Magento\Eav\Model\Attribute\Data', $factory);
-        $this->assertAttributeEquals($factory, '_dataModelFactory', $validator);
     }
 
     public function testAddErrorMessages()
@@ -258,32 +271,31 @@ class DataTest extends \PHPUnit_Framework_TestCase
             'attribute1' => array('Error1', 'Error1'),
             'attribute2' => array('Error2', 'Error2'),
         );
-
-        $validator = new \Magento\Eav\Model\Validator\Attribute\Data;
+        $factory = $this->getMock(
+            'Magento\Eav\Model\AttributeDataFactory',
+            array('create'),
+            array('objectManager' => $this->getMock('Magento\ObjectManager'))
+        );;
+        $validator = new \Magento\Eav\Model\Validator\Attribute\Data($factory);
         $validator->setAttributes(array($firstAttribute, $secondAttribute))
             ->setData($data);
 
-        $factory = $this->getMockBuilder('Magento\Eav\Model\Attribute\Data')
-            ->setMethods(array('factory'))
-            ->getMock();
-        $factory::staticExpects($this->at(0))
-            ->method('factory')
+        $factory->expects($this->at(0))
+            ->method('create')
             ->with($firstAttribute, $entity)
             ->will($this->returnValue($firstDataModel));
-        $factory::staticExpects($this->at(1))
-            ->method('factory')
+        $factory->expects($this->at(1))
+            ->method('create')
             ->with($secondAttribute, $entity)
             ->will($this->returnValue($secondDataModel));
-        $factory::staticExpects($this->at(2))
-            ->method('factory')
+        $factory->expects($this->at(2))
+            ->method('create')
             ->with($firstAttribute, $entity)
             ->will($this->returnValue($firstDataModel));
-        $factory::staticExpects($this->at(3))
-            ->method('factory')
+        $factory->expects($this->at(3))
+            ->method('create')
             ->with($secondAttribute, $entity)
             ->will($this->returnValue($secondDataModel));
-
-        $validator->setAttributeDataModelFactory($factory);
 
         $this->assertFalse($validator->isValid($entity));
         $this->assertEquals($expectedMessages, $validator->getMessages());

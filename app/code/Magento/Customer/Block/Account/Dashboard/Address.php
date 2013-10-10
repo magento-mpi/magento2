@@ -20,9 +20,30 @@ namespace Magento\Customer\Block\Account\Dashboard;
 
 class Address extends \Magento\Core\Block\Template
 {
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        array $data = array()
+    ) {
+        $this->_customerSession = $customerSession;
+        parent::__construct($coreData, $context, $data);
+    }
+
     public function getCustomer()
     {
-        return \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer();
+        return $this->_customerSession->getCustomer();
     }
 
     public function getPrimaryShippingAddressHtml()
@@ -49,12 +70,12 @@ class Address extends \Magento\Core\Block\Template
 
     public function getPrimaryShippingAddressEditUrl()
     {
-        return \Mage::getUrl('customer/address/edit', array('id'=>$this->getCustomer()->getDefaultShipping()));
+        return $this->_urlBuilder->getUrl('customer/address/edit', array('id'=>$this->getCustomer()->getDefaultShipping()));
     }
 
     public function getPrimaryBillingAddressEditUrl()
     {
-        return \Mage::getUrl('customer/address/edit', array('id'=>$this->getCustomer()->getDefaultBilling()));
+        return $this->_urlBuilder->getUrl('customer/address/edit', array('id'=>$this->getCustomer()->getDefaultBilling()));
     }
 
     public function getAddressBookUrl()

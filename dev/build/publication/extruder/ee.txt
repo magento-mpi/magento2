@@ -6,6 +6,7 @@ LICENSE_EE.txt
 app/design/adminhtml/magento_enterprise
 app/design/frontend/magento_fixed_width
 app/design/frontend/magento_iphone_html5
+app/design/frontend/magento_plushe
 app/design/install/magento_enterprise
 app/etc/enterprise
 dev/tests/integration/testsuite/Magento/Test/Integrity/Theme/RenderersTest.php
@@ -72,7 +73,6 @@ dev/tests/integration/testsuite/Magento/GiftWrapping
 app/code/Magento/Invitation
 dev/tests/unit/testsuite/Magento/Invitation
 dev/tests/integration/testsuite/Magento/Invitation
-dev/tests/static/testsuite/Magento/Test/Legacy/Magento/Invitation
 dev/tests/unit/testsuite/Magento/Invitation
 app/code/Magento/License
 app/code/Magento/Logging

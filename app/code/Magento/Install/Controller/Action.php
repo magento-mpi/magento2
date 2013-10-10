@@ -29,21 +29,41 @@ class Action extends \Magento\Core\Controller\Varien\Action
     protected $_collectionFactory;
 
     /**
+     * Application
+     *
+     * @var \Magento\Core\Model\App
+     */
+    protected $_app;
+
+    /**
+     * Application state
+     *
+     * @var \Magento\Core\Model\App\State
+     */
+    protected $_appState;
+
+    /**
      * @param \Magento\Core\Controller\Varien\Action\Context $context
      * @param \Magento\Core\Model\Config\Scope $configScope
      * @param \Magento\Core\Model\View\DesignInterface $viewDesign
      * @param \Magento\Core\Model\Theme\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Core\Model\App\State $appState
      */
     public function __construct(
         \Magento\Core\Controller\Varien\Action\Context $context,
         \Magento\Core\Model\Config\Scope $configScope,
         \Magento\Core\Model\View\DesignInterface $viewDesign,
-        \Magento\Core\Model\Theme\CollectionFactory $collectionFactory
+        \Magento\Core\Model\Theme\CollectionFactory $collectionFactory,
+        \Magento\Core\Model\App $app,
+        \Magento\Core\Model\App\State $appState
     ) {
         $this->_configScope = $configScope;
         $this->_viewDesign = $viewDesign;
         $this->_collectionFactory = $collectionFactory;
         parent::__construct($context);
+        $this->_app = $app;
+        $this->_appState = $appState;
     }
 
     protected function _construct()
@@ -62,7 +82,7 @@ class Action extends \Magento\Core\Controller\Varien\Action
     protected function _initDesign()
     {
         $areaCode = $this->getLayout()->getArea();
-        $area = \Mage::app()->getArea($areaCode);
+        $area = $this->_app->getArea($areaCode);
         $area->load(\Magento\Core\Model\App\Area::PART_CONFIG);
         $this->_initDefaultTheme($areaCode);
         $area->detectDesign($this->getRequest());
@@ -80,7 +100,6 @@ class Action extends \Magento\Core\Controller\Varien\Action
     {
         /** @var $themesCollection \Magento\Core\Model\Theme\Collection */
         $themesCollection = $this->_collectionFactory->create();
-        /** @var $themesCollection \Magento\Core\Model\Theme\Collection */
         $themeModel = $themesCollection->addDefaultPattern($areaCode)
             ->addFilter('theme_path', $this->_viewDesign->getConfigurationDesignTheme($areaCode))
             ->getFirstItem();
