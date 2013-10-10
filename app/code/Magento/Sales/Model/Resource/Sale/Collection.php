@@ -80,7 +80,6 @@ class Collection extends \Magento\Data\Collection\Db
      * @param \Magento\Sales\Model\Resource\Order $resource
      * @param \Magento\Core\Model\Resource\Store\CollectionFactory $storeCollFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @todo: incorrect constructor
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,

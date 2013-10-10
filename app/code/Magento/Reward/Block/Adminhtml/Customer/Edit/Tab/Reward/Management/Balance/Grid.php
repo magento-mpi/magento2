@@ -18,8 +18,7 @@
  */
 namespace Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance;
 
-class Grid
-    extends \Magento\Backend\Block\Widget\Grid\Extended
+class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Flag to store if customer has orphan points
