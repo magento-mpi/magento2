@@ -24,6 +24,7 @@
   * Fixed Fatal error on Recurring Billing Profiles page
   * Fixed Impossible to set configuration for Catalog
   * Fixed It's impossible to place order with Configurable product
+  * Fixed issue with downloadable product creation
 
 2.0.0.0-dev46
 =============
