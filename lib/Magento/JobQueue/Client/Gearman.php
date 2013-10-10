@@ -22,8 +22,12 @@ class Gearman implements \Magento\JobQueue\ClientInterface
      * @param \Magento\JobQueue\Client\ConfigInterface $config
      * @param \GearmanClient $adaptedClient
      */
-    public function __construct(\Magento\JobQueue\Client\ConfigInterface $config, \GearmanClient $adaptedClient = null)
+    public function __construct(\Magento\JobQueue\Client\ConfigInterface $config, $adaptedClient = null)
     {
+        if ($adaptedClient && !($adaptedClient instanceof \GearmanClient)) {
+            throw new \InvalidArgumentException('adaptedClient must be instance of GearmanClient');
+        }
+
         $this->_adaptedClient = $adaptedClient ?: new \GearmanClient();
         $this->_adaptedClient->addServers($config->getServers());
     }
