@@ -50,7 +50,7 @@ class Agreement extends \Magento\Payment\Model\Billing\AbstractAgreement
     protected $_billingAgreementFactory;
 
     /**
-     * @var \Magento\Core\Model\Date
+     * @var \Magento\Core\Model\DateFactory
      */
     protected $_dateFactory;
 
