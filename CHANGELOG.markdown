@@ -1,5 +1,8 @@
 * Fixed bugs:
-  * Fixed incorrect arguments for shipping xml elements fatory
+  * Fixed compilation of DI definitions
+  * Fixed direct injection of auto-generated proxy classes
+  * Fixed usages of auto-generated factories on the library level
+  * Fixed incorrect arguments for shipping xml elements factory
   * Fixed theme editing in developer mode (PHP 5.4)
   * Fixed fatal error while try to edit created configurable product while Dev Mode enabled (PHP 5.4)
   * Fixed frontend error when persistent shopping cart functionality is enabled
