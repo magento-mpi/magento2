@@ -7,7 +7,7 @@
  */
 namespace Magento\Backup\Db;
 
-class BackupFactory 
+class BackupFactory
 {
     /**
      * Object manager

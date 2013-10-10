@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backup\Db;
 
-interface BackupInterface 
+interface BackupInterface
 {
     /**
      * Set backup time
