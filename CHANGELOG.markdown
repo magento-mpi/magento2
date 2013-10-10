@@ -15,6 +15,7 @@
   * Fixed error when product attribute template is being edited
   * Fixed Impossible to set configuration for Google API
   * Fixed backend issue when Stores>Configuration>System>Advanced page was not displayed and did not allow to save changes
+  * Fixed not executable button "Continue shopping" on Multi-shipping process
 
 2.0.0.0-dev46
 =============
