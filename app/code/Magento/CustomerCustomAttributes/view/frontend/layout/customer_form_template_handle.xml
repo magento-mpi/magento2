@@ -27,7 +27,7 @@
             </action>
             <action method="addRenderer">
                 <argument name="type" xsi:type="string">date</argument>
-                <argument name="renderer_block" xsi:type="string">Magento\CustomAttribute\Block\Form\Renderer\Date</argument>
+                <argument name="renderer_block" xsi:type="string">Magento\CustomerCustomAttributes\Block\Form\Renderer\Date</argument>
                 <argument name="template" xsi:type="string">form/renderer/date.phtml</argument>
             </action>
             <action method="addRenderer">

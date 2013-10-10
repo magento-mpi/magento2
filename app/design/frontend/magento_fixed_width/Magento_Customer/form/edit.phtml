@@ -98,7 +98,7 @@
             <?php if ($userDefinedAttributes->hasUserDefinedAttributes()): ?>
                 "<?php echo $this->getViewFileUrl('Magento_CustomerCustomAttributes::file-element.js')?>",
             <?php endif ?>
-            <?php if ($_dob->isEnabled()): ?>
+            <?php if ($_dob->isEnabled() || $userDefinedAttributes->hasUserDefinedAttributes()): ?>
                 "<?php echo $this->getViewFileUrl('mage/validation/dob-rule.js') ?>",
             <?php endif ?>
             function() {
@@ -110,18 +110,18 @@
                     showOnDefault: <?php echo $this->getCustomer()->getChangePassword() ? 'true' : 'false' ?>
                 });
                 var dataForm = $('#form-validate'), ignore;
-                <?php if ($_dob->isEnabled()): ?>
-                    ignore = '#full';
+                <?php if ($_dob->isEnabled() || $userDefinedAttributes->hasUserDefinedAttributes()): ?>
+                    ignore = 'input[id$="full"]';
                 <?php endif ?>
                 <?php if ($userDefinedAttributes->hasUserDefinedAttributes()): ?>
                     dataForm = dataForm.fileElement();
                     ignore = ignore ? ignore + ', ' + 'input[id$="_value"]' : 'input[id$="_value"]';
                 <?php endif ?>
                 dataForm.validation({
-                <?php if ($_dob->isEnabled()): ?>
+                <?php if ($_dob->isEnabled() || $userDefinedAttributes->hasUserDefinedAttributes()): ?>
                     errorPlacement: function(error, element) {
-                        if (element.prop('id') === 'full') {
-                            var dobElement = $('.customer-dob'),
+                        if (element.prop('id').search('full') !== -1) {
+                            var dobElement = $(element).parents('.customer-dob'),
                                 errorClass = error.prop('class');
                             error.insertAfter(element.parent());
                             dobElement.find('.validate-custom').addClass(errorClass)
