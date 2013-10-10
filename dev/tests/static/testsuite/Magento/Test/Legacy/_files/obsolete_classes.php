@@ -991,11 +991,9 @@ return array(
     array('Magento\Poll\Model\Resource\Poll\Vote'),
     array('Mage:'),
     array('Magento\Backup', 'Magento\Backup\Factory'),
-    array('Magento\Customer\Model\Attribute\Data'),
     array('Magento\Sales\Model\Resource\Order\Attribute\Backend\Parent'),
     array('Magento\Sales\Model\Resource\Order\Creditmemo\Attribute\Backend\Parent'),
     array('Magento\Sales\Model\Resource\Order\Invoice\Attribute\Backend\Parent'),
     array('Magento\Sales\Model\Resource\Order\Shipment\Attribute\Backend\Parent'),
     array('Magento\Sales\Model\Resource\Quote\Address\Attribute\Backend\Parent'),
-
 );
