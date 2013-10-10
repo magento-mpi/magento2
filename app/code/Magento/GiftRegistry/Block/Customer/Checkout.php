@@ -33,16 +33,16 @@ class Checkout extends \Magento\Core\Block\Template
     protected $customerSession;
 
     /**
-     * @var \Magento\Checkout\Model\Type\Multishipping
+     * @var \Magento\Checkout\Model\Type\MultishippingFactory
      */
-    protected $typeMultiShipping;
+    protected $typeMultiShippingFactory;
 
     /**
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Checkout\Model\Session $customerSession
-     * @param \Magento\Checkout\Model\Type\Multishipping $typeMultiShipping
+     * @param \Magento\Checkout\Model\Type\MultishippingFactory $typeMultiShippingFactory
      * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
      * @param array $data
      */
@@ -51,13 +51,13 @@ class Checkout extends \Magento\Core\Block\Template
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Checkout\Model\Session $customerSession,
-        \Magento\Checkout\Model\Type\Multishipping $typeMultiShipping,
+        \Magento\Checkout\Model\Type\MultishippingFactory $typeMultiShippingFactory,
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
         array $data = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;
         $this->customerSession = $customerSession;
-        $this->typeMultiShipping = $typeMultiShipping;
+        $this->typeMultiShippingFactory = $typeMultiShippingFactory;
         $this->entityFactory = $entityFactory;
 
         parent::__construct($coreData, $context, $data);
@@ -163,7 +163,7 @@ class Checkout extends \Magento\Core\Block\Template
     {
         $result = array();
         $registryQuoteItemIds = array_keys($this->getItems());
-        $quoteAddressItems = $this->typeMultiShipping->getQuoteShippingAddressesItems();
+        $quoteAddressItems = $this->typeMultiShippingFactory->create()->getQuoteShippingAddressesItems();
         foreach ($quoteAddressItems as $index => $quoteAddressItem) {
             $quoteItemId = $quoteAddressItem->getQuoteItem()->getId();
             if (!$quoteAddressItem->getCustomerAddressId() && in_array($quoteItemId, $registryQuoteItemIds)) {
