@@ -20,13 +20,14 @@ class Main
     /**
      * Rma eav
      *
-     * @var \Magento\Rma\Helper\Eav
+     * @var \Magento\CustomAttribute\Helper\Data
      */
-    protected $_rmaEav;
+    protected $_attributeHelper = null;
 
     /**
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\CustomAttribute\Helper\Data $attributeHelper
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Eav\Helper\Data $eavData
@@ -40,6 +41,7 @@ class Main
     public function __construct(
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\Form\Factory $formFactory,
+        \Magento\CustomAttribute\Helper\Data $attributeHelper,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Eav\Helper\Data $eavData,
@@ -50,6 +52,7 @@ class Main
         \Magento\Rma\Helper\Eav $rmaEav,
         array $data = array()
     ) {
+        $this->_attributeHelper = $attributeHelper;
         $this->_rmaEav = $rmaEav;
         parent::__construct(
             $registry,
@@ -77,6 +80,7 @@ class Main
         if ($renderer instanceof \Magento\Data\Form\Element\Renderer\RendererInterface) {
             \Magento\Data\Form::setFieldsetElementRenderer($renderer);
         }
+
         return $result;
     }
 
@@ -92,15 +96,13 @@ class Main
         $attribute  = $this->getAttributeObject();
         $form       = $this->getForm();
         $fieldset   = $form->getElement('base_fieldset');
-        /* @var $helper \Magento\Rma\Helper\Eav */
-        $helper     = $this->_rmaEav;
 
         $fieldset->removeField('frontend_class');
         $fieldset->removeField('is_unique');
 
         // update Input Types
         $element    = $form->getElement('frontend_input');
-        $element->setValues($helper->getFrontendInputOptions());
+        $element->setValues($this->_attributeHelper->getFrontendInputOptions());
         $element->setLabel(__('Input Type'));
         $element->setRequired(true);
 
@@ -203,7 +205,7 @@ class Main
             'name'         => 'used_in_forms',
             'label'        => __('Forms to Use In'),
             'title'        => __('Forms to Use In'),
-            'values'       => $helper->getAttributeFormOptions(),
+            'values'       => $this->_attributeHelper->getAttributeFormOptions(),
             'value'        => $attribute->getUsedInForms(),
             'can_be_empty' => true,
         ))->setSize(5);
@@ -220,11 +222,11 @@ class Main
                 $form->getElement($elementId)->setDisabled(true);
             }
 
-            $inputTypeProp = $helper->getAttributeInputTypes($attribute->getFrontendInput());
+            $inputTypeProp = $this->_attributeHelper->getAttributeInputTypes($attribute->getFrontendInput());
 
             // input_filter
             if ($inputTypeProp['filter_types']) {
-                $filterTypes = $helper->getAttributeFilterTypes();
+                $filterTypes = $this->_attributeHelper->getAttributeFilterTypes();
                 $values = $form->getElement('input_filter')->getValues();
                 foreach ($inputTypeProp['filter_types'] as $filterTypeCode) {
                     $values[$filterTypeCode] = $filterTypes[$filterTypeCode];
@@ -234,7 +236,7 @@ class Main
 
             // input_validation getAttributeValidateFilters
             if ($inputTypeProp['validate_filters']) {
-                $filterTypes = $helper->getAttributeValidateFilters();
+                $filterTypes = $this->_attributeHelper->getAttributeValidateFilters();
                 $values = $form->getElement('input_validation')->getValues();
                 foreach ($inputTypeProp['validate_filters'] as $filterTypeCode) {
                     $values[$filterTypeCode] = $filterTypes[$filterTypeCode];
@@ -244,7 +246,7 @@ class Main
         }
 
         // apply scopes
-        foreach ($helper->getAttributeElementScopes() as $elementId => $scope) {
+        foreach ($this->_attributeHelper->getAttributeElementScopes() as $elementId => $scope) {
             $element = $form->getElement($elementId);
             if ($element) {
                 $element->setScope($scope);
