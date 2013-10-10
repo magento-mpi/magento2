@@ -1,4 +1,7 @@
 * Fixed bugs:
+  * Fixed compilation of DI definitions
+  * Fixed direct injection of auto-generated proxy classes
+  * Fixed usages of auto-generated factories on the library level
   * Fixed Fatal error after saving customer address with VAT number
   * Fixed USPS shipping method with debug caused fatal error
   * Fixed url to Tax Class controller was corrected
