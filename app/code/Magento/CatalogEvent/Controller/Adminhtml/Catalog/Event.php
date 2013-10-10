@@ -74,7 +74,7 @@ class Event extends \Magento\Adminhtml\Controller\Action
     /**
      * Init action breadcrumbs and active menu
      *
-     * @return \Magento\CatalogEvent\IndexController
+     * @return \Magento\CatalogEvent\Controller\Adminhtml\Catalog\Event
      */
     public function _initAction()
     {

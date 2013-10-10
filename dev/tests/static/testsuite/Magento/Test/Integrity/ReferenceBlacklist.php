@@ -12,43 +12,39 @@
  */
 
 return array(
-    '\Magento\AdvancedCheckout\IndexController',
-    '\Magento\Captcha\Model\Zend',
-    '\Magento\CatalogEvent\IndexController',
-    '\Magento\CatalogSearch\Model\Indexer\Search',
-    '\Magento\Adminhtml\Block\Sales\Order\Edit\Items\Grid\Renderer\Name\Giftmessage',
-    '\Magento\Eav\Model\Entity\AbstractModel',
-    '\Magento\Eav\Model\Entity\Abstract',
+    // found in /app/code/Magento/GoogleShopping/Model/MassOperations.php
     '\Magento\Adminhtml\Model\Inbox',
+
     'PEAR_PackageFile',
-    '\Magento\Wishlist\Model\Resource\Collection',
     'Simple_Xml',
-    '\Magento\Paygate\Model\Authorizenet\Cart',
-    '\Magento\Payment\Model\AbstractModel',
-    '\Magento\Pbridge\Adminhtml\IndexController',
-    '\Magento\Pbridge\Model\Payment\Method\Cybersource',
-    '\Magento\Persistent\Model\Observer\Cron',
     'PersistentCustomerSegmentation',
-    '\Magento\Reminder\Model\Rule\Condition\Wishlist\Sku',
     'SolrClient',
     'SolrQuery',
-    '\Magento\Search\Model\Resource\Query',
     'RegionUpdater', // JavaScript usage
     'Fixture_Module', // JavaScript usage
     'TheCompoundNamespace_TheCompoundModule',
     'Some_Module',
     'Not_Existed_Class',
     'CustomSelect',
+
+    // found in /dev/tests/unit/testsuite/Magento/Test/Tools/Di/_files/app/code/Magento/SomeModule/Model/Test.php
     '\Magento\SomeModule\Model\Element\Proxy',
+
     'Map_Module',
     'Module_One',
     'Module_Two',
     'Module_Name',
     'Test',
     'Local_Module',
+
+    // found in /dev/tests/unit/testsuite/Magento/Webapi/Controller/Soap/HandlerTest.php
     '\Magento\Webapi\Controller\Soap\Security',
+
     'Mage',
+
+    // found in /downloader/lib/Magento/Archive.php
     '\Magento\Archiver_Tar',
+
     'Pear_Package_Parser_v2',
     'PEAR_Config',
     'PEAR_DependencyDB',

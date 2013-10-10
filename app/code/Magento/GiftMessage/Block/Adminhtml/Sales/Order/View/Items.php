@@ -117,7 +117,7 @@ class Items extends \Magento\Adminhtml\Block\Template
     /**
      * Initialize gift message for entity
      *
-     * @return \Magento\Adminhtml\Block\Sales\Order\Edit\Items\Grid\Renderer\Name\Giftmessage
+     * @return \Magento\GiftMessage\Block\Adminhtml\Sales\Order\View\Items
      */
     protected function _initMessage()
     {
