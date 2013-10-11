@@ -65,12 +65,12 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\System\Store $systemStore,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Dir $dir,
-        \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -78,8 +78,8 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
         $this->_storeManager = $storeManager;
         $this->_systemStore = $systemStore;
         $this->_dir = $dir;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_uploaderFactory = $uploaderFactory;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**

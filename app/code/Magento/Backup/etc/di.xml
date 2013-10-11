@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento\Backup\Db\BackupFactory">
+        <param name="backupInstanceName">
+            <value>\Magento\Backup\Model\Backup</value>
+        </param>
+        <param name="backupDbInstanceName">
+            <value>\Magento\Backup\Model\Db</value>
+        </param>
+    </type>
+</config>

@@ -16,7 +16,7 @@
  */
 namespace Magento\Backup;
 
-abstract class AbstractBackup implements  \Magento\Backup\BackupInterface
+abstract class AbstractBackup implements \Magento\Backup\BackupInterface
 {
     /**
      * Backup name

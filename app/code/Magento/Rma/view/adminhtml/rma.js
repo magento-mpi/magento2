@@ -26,7 +26,6 @@ AdminRma.prototype = {
         this.shippingMethod         = false;
         this.gridProducts           = $H({});
         this.grid                   = false;
-        this.reloadResponder        = new Object({onComplete: this.doAddSelectedProduct.bind(this)});
     },
 
     getRowIdByClick : function(event) {
@@ -309,7 +308,6 @@ AdminRma.prototype = {
     },
 
     addProduct : function(event){
-        Ajax.Responders.unregister(this.reloadResponder);
         this.gridProducts = $H({});
         this.grid.reloadParams = {'products[]':this.gridProducts.keys()};
         Element.hide('rma-items-block');
@@ -317,8 +315,7 @@ AdminRma.prototype = {
     },
 
     addSelectedProduct : function(event) {
-        Ajax.Responders.register(this.reloadResponder);
-        this.grid.resetFilter();
+        this.grid.resetFilter(this.doAddSelectedProduct.bind(this));
     },
 
     doAddSelectedProduct : function(event) {
