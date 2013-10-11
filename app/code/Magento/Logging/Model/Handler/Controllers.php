@@ -80,7 +80,7 @@ class Controllers
      * @param \Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute $actionAttribute
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Core\Controller\Request\Http $request
-     * @param \Zend_Controller_Response_Http $response
+     * @param \Magento\Core\Controller\Response\Http $response
      * @param \Magento\Logging\Model\Event\ChangesFactory $eventChangesFactory
      */
     public function __construct(
@@ -91,7 +91,7 @@ class Controllers
         \Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute $actionAttribute,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Core\Controller\Request\Http $request,
-        \Zend_Controller_Response_Http $response,
+        \Magento\Core\Controller\Response\Http $response,
         \Magento\Logging\Model\Event\ChangesFactory $eventChangesFactory
     ) {
         $this->_structureConfig = $structureConfig;
