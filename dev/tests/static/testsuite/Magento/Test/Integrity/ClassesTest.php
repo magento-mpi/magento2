@@ -445,7 +445,6 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
      */
     public function classReferencesDataProvider()
     {
-        return \Magento\TestFramework\Utility\Files::init()
-            ->getClassFiles();
+        return \Magento\TestFramework\Utility\Files::init()->getClassFiles();
     }
 }
