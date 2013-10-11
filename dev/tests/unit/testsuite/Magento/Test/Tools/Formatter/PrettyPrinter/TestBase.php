@@ -1,10 +1,9 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: jrutten
- * Date: 10/7/13
- * Time: 3:28 PM
- * To change this template use File | Settings | File Templates.
+ * {license_notice}
+ *
+ * @copyright {copyright}
+ * @license   {license_link}
  */
 
 namespace Magento\Test\Tools\Formatter\PrettyPrinter;
