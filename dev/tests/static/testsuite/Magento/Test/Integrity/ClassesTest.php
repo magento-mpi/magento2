@@ -287,11 +287,14 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
         }
         $contents = file_get_contents($file);
         $formalPattern = '/^namespace\s[a-zA-Z]+(\\\\[a-zA-Z0-9]+)*/m';
+        $formalNamespaceArray = array();
 
         // Skip the file if the class is not defined using formal namespace
-        if (preg_match($formalPattern, $contents) == 0) {
+        if (preg_match($formalPattern, $contents, $formalNamespaceArray) == 0) {
             return;
         }
+        $namespacePath = str_replace('\\', '/', substr($formalNamespaceArray[0], 10));
+
         // Instantiation of new object, for example: "return new Foo();"
         $newObjectPattern = '/^'
             . '.*new\s(?<venderClass>\\\\Magento(?:\\\\[a-zA-Z0-9_]+)+)\(.*\)'
@@ -340,7 +343,7 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
             return;
         }
         $badClasses = $this->referenceBlacklistFilter($badClasses);
-        $badClasses = $this->removeSpecialCases($badClasses, $file, $contents);
+        $badClasses = $this->removeSpecialCases($badClasses, $file, $contents, $namespacePath);
         $this->_assertClassReferences($badClasses, $file);
     }
 
@@ -368,7 +371,7 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
      * @param string $contents
      * @return array
      */
-    protected function removeSpecialCases($badClasses, $file, $contents)
+    protected function removeSpecialCases($badClasses, $file, $contents, $namespacePath)
     {
         foreach ($badClasses as $badClass) {
             // Remove valid usages of Magento modules from the list
@@ -390,6 +393,22 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
             }
 
             // Remove usage of classes that do NOT using fully-qualified class names (possibly under same namespace)
+            $directories = array(
+                '/app/code/', '/lib/', '/downloader/app/', '/downloader/lib/', '/dev/tools/',
+                '/dev/tests/api-functional/framework/', '/dev/tests/integration/framework/',
+                '/dev/tests/integration/framework/tests/unit/testsuite/', '/dev/tests/integration/testsuite/',
+                '/dev/tests/integration/testsuite/Magento/Test/Integrity/', '/dev/tests/performance/framework/',
+                '/dev/tests/static/framework/', '/dev/tests/static/testsuite/',
+                '/dev/tests/unit/framework/', '/dev/tests/unit/testsuite/',
+            ); // Full list of directories where there may be namespace classes
+            foreach ($directories as $directory) {
+                $fullPath = \Magento\TestFramework\Utility\Files::init()->getPathToSource()
+                    . $directory . $namespacePath. '/' . str_replace('\\', '/', $badClass) . '.php';
+                if (file_exists($fullPath)) {
+                    unset($badClasses[array_search($badClass, $badClasses)]);
+                    break;
+                }
+            }
             $referenceFile = implode('/', $classParts) . '/' . str_replace('\\', '/', $badClass) . '.php';
             if (file_exists($referenceFile)) {
                 unset($badClasses[array_search($badClass, $badClasses)]);
