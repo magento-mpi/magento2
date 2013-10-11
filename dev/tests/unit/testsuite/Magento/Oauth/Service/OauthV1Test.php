@@ -148,9 +148,9 @@ class OauthV1Test extends \PHPUnit_Framework_TestCase
         unset($this->_nonceFactory);
         unset($this->_tokenFactory);
         unset($this->_storeManagerMock);
+        unset($this->_storeMock);
         unset($this->_httpClientMock);
         unset($this->_dateMock);
-        unset($this->_service);
         unset($this->_service);
     }
 
