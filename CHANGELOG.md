@@ -1,3 +1,8 @@
+* Various improvements:
+  * Added static legacy test for compilation of di definitions
+* Fixed bugs:
+  * Fixed plugins configuration inheritance for proxy classes
+
 2.0.0.0-dev47
 =============
 * Fixed bugs:
