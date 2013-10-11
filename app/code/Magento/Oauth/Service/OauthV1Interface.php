@@ -43,16 +43,6 @@ interface OauthV1Interface
     /**#@-*/
 
     /**
-     * Consumer xpath settings
-     */
-    const XML_PATH_CONSUMER_EXPIRATION_PERIOD = 'oauth/consumer/expiration_period';
-
-    /**
-     * Consumer expiration period in seconds
-     */
-    const CONSUMER_EXPIRATION_PERIOD_DEFAULT = 300;
-
-    /**
      * Create a new consumer account when an Add-On is installed.
      *
      * @param array $consumerData - Information provided by an Add-On when the Add-On is installed.
