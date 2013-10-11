@@ -18,7 +18,7 @@
  */
 namespace Magento\Core\Model\Resource\File\Storage;
 
-class File
+class File extends \Magento\Core\Model\Resource\AbstractResource
 {
     /**
      * Prefix of model events names
@@ -183,6 +183,30 @@ class File
             throw new \Magento\Core\Exception(__('Unable to save file: %1', $filePath));
         }
 
+        return false;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function _construct()
+    {
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function _getReadAdapter()
+    {
+        return false;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function _getWriteAdapter()
+    {
         return false;
     }
 
