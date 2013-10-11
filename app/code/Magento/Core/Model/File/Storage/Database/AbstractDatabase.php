@@ -26,6 +26,8 @@ abstract class AbstractDatabase extends \Magento\Core\Model\File\Storage\Abstrac
     protected $_app;
 
     /**
+     * Class constructor
+     *
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
@@ -33,7 +35,7 @@ abstract class AbstractDatabase extends \Magento\Core\Model\File\Storage\Abstrac
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
-     * @param string $connectionName
+     * @param null|string $connectionName
      */
     public function __construct(
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
@@ -43,14 +45,13 @@ abstract class AbstractDatabase extends \Magento\Core\Model\File\Storage\Abstrac
         \Magento\Core\Model\App $app,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
-        $connectionName
+        $connectionName = null
     ) {
         parent::__construct($coreFileStorageDb, $context, $registry, $dateModel, $resource, $resourceCollection);
         $this->_app = $app;
-        if ($connectionName == null) {
+        if (!$connectionName) {
             $connectionName = $this->getConfigConnectionName();
         }
-
         $this->setConnectionName($connectionName);
     }
 
@@ -66,6 +67,7 @@ abstract class AbstractDatabase extends \Magento\Core\Model\File\Storage\Abstrac
         if (empty($connectionName)) {
             $connectionName = 'default_setup';
         }
+
 
         return $connectionName;
     }

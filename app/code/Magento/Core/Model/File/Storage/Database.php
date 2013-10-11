@@ -62,7 +62,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
      * @param \Magento\Core\Model\Resource\File\Storage\Database $resource
      * @param \Magento\Core\Model\File\Storage\Directory\DatabaseFactory $directoryFactory
      * @param \Magento\Data\Collection\Db $resourceCollection
-     * @param string $connectionName
+     * @param string|null $connectionName
      */
     public function __construct(
         \Magento\Core\Model\Logger $logger,

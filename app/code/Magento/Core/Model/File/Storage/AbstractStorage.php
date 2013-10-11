@@ -59,8 +59,11 @@ abstract class AbstractStorage extends \Magento\Core\Model\AbstractModel
     ) {
         $this->_coreFileStorageDb = $coreFileStorageDb;
         $this->_date = $date;
-        parent::__construct($context, $registry,  $resource, null);
+
+        parent::__construct($context, $registry,  $resource, $resourceCollection);
+        $this->_init(get_class($this->_resource));
     }
+
 
     /**
      * Retrieve media base directory path

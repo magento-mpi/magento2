@@ -50,7 +50,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
      * @param \Magento\Core\Model\File\Storage\Directory\DatabaseFactory $directoryFactory
      * @param \Magento\Core\Model\Resource\File\Storage\Directory\Database $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
-     * @param null $connectionName
+     * @param string|null $connectionName
      */
     public function __construct(
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
