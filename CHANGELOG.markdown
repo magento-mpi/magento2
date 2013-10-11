@@ -1,4 +1,7 @@
+* Various improvements:
+  * Added static legacy test for compilation of di definitions
 * Fixed bugs:
+  * Fixed plugins configuration inheritance for proxy classes
   * Fixed compilation of DI definitions
   * Fixed direct injection of auto-generated proxy classes
   * Fixed usages of auto-generated factories on the library level
