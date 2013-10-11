@@ -12,9 +12,6 @@
  */
 
 return array(
-    // found in /app/code/Magento/GoogleShopping/Model/MassOperations.php
-    '\Magento\Adminhtml\Model\Inbox',
-
     'PEAR_PackageFile',
     'Simple_Xml',
     'PersistentCustomerSegmentation',
@@ -41,10 +38,6 @@ return array(
     '\Magento\Webapi\Controller\Soap\Security',
 
     'Mage',
-
-    // found in /downloader/lib/Magento/Archive.php
-    '\Magento\Archiver_Tar',
-
     'Pear_Package_Parser_v2',
     'PEAR_Config',
     'PEAR_DependencyDB',
