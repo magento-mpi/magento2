@@ -19,6 +19,36 @@ class OauthV1 implements \Magento\Oauth\Service\OauthV1Interface
      */
     const TIME_DEVIATION = 600;
 
+    /**
+     * Consumer xpath settings
+     */
+    const XML_PATH_CONSUMER_EXPIRATION_PERIOD = 'oauth/consumer/expiration_period';
+
+    /**
+     * Consumer expiration period in seconds
+     */
+    const CONSUMER_EXPIRATION_PERIOD_DEFAULT = 300;
+
+    /**
+     * Consumer HTTP POST maxredirects xpath
+     */
+    const XML_PATH_CONSUMER_POST_MAXREDIRECTS = 'oauth/consumer/post_maxredirects';
+
+    /**
+     * Consumer HTTPS POST maxredirects default
+     */
+    const CONSUMER_POST_MAXREDIRECTS = 0;
+
+    /**
+     * Consumer HTTP TIMEOUT xpath
+     */
+    const XML_PATH_CONSUMER_POST_TIMEOUT = 'oauth/consumer/post_timeout';
+
+    /**
+     * Consumer HTTP TIMEOUT default
+     */
+    const CONSUMER_POST_TIMEOUT = 5;
+
     /** @var  \Magento\Oauth\Model\Consumer\Factory */
     private $_consumerFactory;
 
@@ -102,35 +132,27 @@ class OauthV1 implements \Magento\Oauth\Service\OauthV1Interface
             $consumerData = $this->_getConsumer($request['consumer_id'])->getData();
             $storeBaseUrl = $this->_storeManager->getStore()->getBaseUrl();
             $verifier = $this->_tokenFactory->create()->createVerifierToken($request['consumer_id']);
-            $this->_httpPoster($consumerData, $storeBaseUrl, $verifier);
+            $this->_httpClient->setUri($consumerData['http_post_url']);
+            $this->_httpClient->setParameterPost(
+                array(
+                    'oauth_consumer_key' => $consumerData['key'],
+                    'oauth_consumer_secret' => $consumerData['secret'],
+                    'store_base_url' => $storeBaseUrl,
+                    'oauth_verifier' => $verifier->getVerifier()
+                )
+            );
+            $maxredirects = $this->_getConfigValue(self::XML_PATH_CONSUMER_POST_MAXREDIRECTS,
+                                                  self::CONSUMER_POST_MAXREDIRECTS);
+            $timeout = $this->_getConfigValue(self::XML_PATH_CONSUMER_POST_TIMEOUT,
+                                            self::CONSUMER_POST_TIMEOUT);
+            $this->_httpClient->setConfig(array('maxredirects' => $maxredirects, 'timeout' => $timeout));
+            $this->_httpClient->request(\Magento\HTTP\ZendClient::POST);
             return array('oauth_verifier' => $verifier->getVerifier());
         } catch (\Magento\Core\Exception $exception) {
             throw $exception;
         } catch (\Exception $exception) {
             throw new \Magento\Oauth\Exception(__('Unexpected error. Unable to post data to consumer.'));
         }
-    }
-
-    /**
-     * Post consumer credentials to the provided consumer endpoint url
-     *
-     * @param array $consumerData
-     * @param string $storeBaseUrl
-     * @param string $verifier
-     */
-    public function _httpPoster($consumerData, $storeBaseUrl, $verifier)
-    {
-        $this->_httpClient->setUri($consumerData['http_post_url']);
-        $this->_httpClient->setParameterPost(
-            array(
-                'oauth_consumer_key' => $consumerData['key'],
-                'oauth_consumer_secret' => $consumerData['secret'],
-                'store_base_url' => $storeBaseUrl,
-                'oauth_verifier' => $verifier->getVerifier()
-            )
-        );
-        $this->_httpClient->setConfig(array('maxredirects' => 0, 'timeout' => 5));
-        $this->_httpClient->request(\Magento\HTTP\ZendClient::POST);
     }
 
     /**
@@ -145,7 +167,9 @@ class OauthV1 implements \Magento\Oauth\Service\OauthV1Interface
         // must use consumer within expiration period
 
         $consumerTS = strtotime($consumer->getCreatedAt());
-        if ($this->_date->timestamp() - $consumerTS > $this->getConsumerExpirationPeriod()) {
+        if ($this->_date->timestamp() - $consumerTS > $this->_getConfigValue(self::XML_PATH_CONSUMER_EXPIRATION_PERIOD,
+                                                                            self::CONSUMER_EXPIRATION_PERIOD_DEFAULT)
+        ) {
             throw new \Magento\Oauth\Exception('', self::ERR_CONSUMER_KEY_INVALID);
         }
 
@@ -580,13 +604,13 @@ class OauthV1 implements \Magento\Oauth\Service\OauthV1Interface
 
 
     /**
-     * Get consumer expiration period value from system configuration in seconds
+     * Get value from store configuration
      *
      * @return int
      */
-    private function getConsumerExpirationPeriod()
+    protected function _getConfigValue($xpath, $default)
     {
-        $seconds = (int)$this->_storeManager->getStore()->getConfig(self::XML_PATH_CONSUMER_EXPIRATION_PERIOD);
-        return $seconds > 0 ? $seconds : self::CONSUMER_EXPIRATION_PERIOD_DEFAULT;
+        $value = (int)$this->_storeManager->getStore()->getConfig($xpath);
+        return $value > 0 ? $value : $default;
     }
 }
