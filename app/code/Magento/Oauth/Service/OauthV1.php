@@ -141,10 +141,14 @@ class OauthV1 implements \Magento\Oauth\Service\OauthV1Interface
                     'oauth_verifier' => $verifier->getVerifier()
                 )
             );
-            $maxredirects = $this->_getConfigValue(self::XML_PATH_CONSUMER_POST_MAXREDIRECTS,
-                                                  self::CONSUMER_POST_MAXREDIRECTS);
-            $timeout = $this->_getConfigValue(self::XML_PATH_CONSUMER_POST_TIMEOUT,
-                                            self::CONSUMER_POST_TIMEOUT);
+            $maxredirects = $this->_getConfigValue(
+                self::XML_PATH_CONSUMER_POST_MAXREDIRECTS,
+                self::CONSUMER_POST_MAXREDIRECTS
+            );
+            $timeout = $this->_getConfigValue(
+                self::XML_PATH_CONSUMER_POST_TIMEOUT,
+                self::CONSUMER_POST_TIMEOUT
+            );
             $this->_httpClient->setConfig(array('maxredirects' => $maxredirects, 'timeout' => $timeout));
             $this->_httpClient->request(\Magento\HTTP\ZendClient::POST);
             return array('oauth_verifier' => $verifier->getVerifier());
@@ -161,36 +165,27 @@ class OauthV1 implements \Magento\Oauth\Service\OauthV1Interface
     public function getRequestToken($signedRequest)
     {
         $this->_validateVersionParam($signedRequest['oauth_version']);
-
         $consumer = $this->_getConsumerByKey($signedRequest['oauth_consumer_key']);
-
         // must use consumer within expiration period
-
         $consumerTS = strtotime($consumer->getCreatedAt());
-        if ($this->_date->timestamp() - $consumerTS > $this->_getConfigValue(self::XML_PATH_CONSUMER_EXPIRATION_PERIOD,
-                                                                            self::CONSUMER_EXPIRATION_PERIOD_DEFAULT)
-        ) {
+        $expiry = $this->_getConfigValue(
+            self::XML_PATH_CONSUMER_EXPIRATION_PERIOD,
+            self::CONSUMER_EXPIRATION_PERIOD_DEFAULT
+        );
+        if ($this->_date->timestamp() - $consumerTS > $expiry) {
             throw new \Magento\Oauth\Exception('', self::ERR_CONSUMER_KEY_INVALID);
         }
-
         $this->_validateNonce($signedRequest['oauth_nonce'], $consumer->getId(), $signedRequest['oauth_timestamp']);
-
         $token = $this->_getTokenByConsumer($consumer->getId());
-
         if ($token->getType() != \Magento\Oauth\Model\Token::TYPE_VERIFIER) {
             throw new \Magento\Oauth\Exception('', self::ERR_TOKEN_REJECTED);
         }
-
-        //OAuth clients are not sending the verifier param for requestToken requests
-        //$this->_validateVerifierParam($signedRequest['oauth_verifier'], $token->getVerifier());
-
         $this->_validateSignature(
             $signedRequest,
             $consumer->getSecret(),
             $signedRequest['http_method'],
             $signedRequest['request_url']
         );
-
         $requestToken = $token->createRequestToken($token->getId(), $consumer->getCallBackUrl());
         return array('oauth_token' => $requestToken->getToken(), 'oauth_token_secret' => $requestToken->getSecret());
     }
@@ -601,7 +596,6 @@ class OauthV1 implements \Magento\Oauth\Service\OauthV1Interface
             }
         }
     }
-
 
     /**
      * Get value from store configuration
