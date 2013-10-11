@@ -112,10 +112,11 @@ class OauthV1 implements \Magento\Oauth\Service\OauthV1Interface
     }
 
     /**
+     * Post consumer credentials to the provided consumer endpoint url
      *
-     * @param $consumerData
-     * @param $storeBaseUrl
-     * @param $verifier
+     * @param array $consumerData
+     * @param string $storeBaseUrl
+     * @param string $verifier
      */
     public function _httpPoster($consumerData, $storeBaseUrl, $verifier)
     {
