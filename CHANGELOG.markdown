@@ -28,6 +28,7 @@
   * Fixed FedEx: Blank page on shopping cart if method is enabled
   * Fixed Fatal error when SID presents in URL
   * Fixed absence of selection of a role assigned to an admin user
+  * Fixed Impossible to create Invoice/Shipment/Credit Memo if 'orders Archiving' functionality is enabled
 
 2.0.0.0-dev46
 =============
