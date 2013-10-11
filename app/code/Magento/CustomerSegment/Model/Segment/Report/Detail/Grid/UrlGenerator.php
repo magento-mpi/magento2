@@ -18,13 +18,11 @@ class UrlGenerator
     protected $_registryManager;
 
     /**
-     * @param \Magento\Backend\Model\UrlProxy $backendUrl
+     * @param \Magento\Backend\Model\Url $backendUrl
      * @param \Magento\Core\Model\Registry $registry
      */
-    public function __construct(
-        \Magento\Backend\Model\UrlProxy $backendUrl,
-        \Magento\Core\Model\Registry $registry
-    ) {
+    public function __construct(\Magento\Backend\Model\Url $backendUrl, \Magento\Core\Model\Registry $registry)
+    {
         $this->_registryManager = $registry;
         parent::__construct($backendUrl);
     }

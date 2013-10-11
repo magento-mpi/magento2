@@ -1,6 +1,17 @@
+* Various improvements:
+  * Added static legacy test for compilation of di definitions
 * Fixed bugs:
-  * Fixed incorrect arguments for shipping xml elements fatory
+  * Fixed plugins configuration inheritance for proxy classes
+  * Fixed compilation of DI definitions
+  * Fixed direct injection of auto-generated proxy classes
+  * Fixed usages of auto-generated factories on the library level
+  * Fixed Fatal error after saving customer address with VAT number
+  * Fixed USPS shipping method with debug caused fatal error
+  * Fixed url to Tax Class controller was corrected
+  * Fixed incorrect subtotal displayed on the Order page
+  * Fixed incorrect arguments for shipping xml elements factory
   * Fixed theme editing in developer mode (PHP 5.4)
+  * Fixed absent conditions during New Shopping Cart Price Rule creation
   * Fixed fatal error while try to edit created configurable product while Dev Mode enabled (PHP 5.4)
   * Fixed frontend error when persistent shopping cart functionality is enabled
   * Fixed Tax tab
@@ -11,6 +22,17 @@
   * Fixed error when product attribute template is being edited
   * Fixed Impossible to set configuration for Google API
   * Fixed backend issue when Stores>Configuration>System>Advanced page was not displayed and did not allow to save changes
+  * Fixed not executable button "Continue shopping" on Multi-shipping process
+  * Fixed Can't add product to shopping cart from cross sells block
+  * Fixed Fatal error on Recurring Billing Profiles page
+  * Fixed Impossible to set configuration for Catalog
+  * Fixed It's impossible to place order with Configurable product
+  * Fixed issue with downloadable product creation
+  * Fixed Unable to update configuration for payment methods
+  * Fixed FedEx: Blank page on shopping cart if method is enabled
+  * Fixed Fatal error when SID presents in URL
+  * Fixed absence of selection of a role assigned to an admin user
+  * Fixed Oauth consumer credentials expiry not being correctly calculated and added credentials HTTP post to the consumer endpoint
 
 2.0.0.0-dev46
 =============

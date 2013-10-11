@@ -35,5 +35,8 @@
         <param name="coreStoreConfig">
             <instance type="Magento\Core\Model\Store\Config\Proxy" />
         </param>
+        <param name="checkoutData">
+            <instance type="Magento\AdvancedCheckout\Helper\Data\Proxy" />
+        </param>
     </type>
 </config>

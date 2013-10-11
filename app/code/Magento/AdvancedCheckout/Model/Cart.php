@@ -104,7 +104,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     protected $_customerData = null;
 
     /**
-     * @var \Magento\AdvancedCheckout\Helper\DataProxy
+     * @var \Magento\AdvancedCheckout\Helper\Data
      */
     protected $_checkoutData = null;
 
@@ -175,7 +175,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
      * @param \Magento\Core\Model\Message $coreMessage
      * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\AdvancedCheckout\Helper\DataProxy $checkoutData
+     * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Catalog\Model\Product\OptionFactory $optionFactory
      * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
@@ -191,7 +191,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
         \Magento\Core\Model\Message $coreMessage,
         \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\AdvancedCheckout\Helper\DataProxy $checkoutData,
+        \Magento\AdvancedCheckout\Helper\Data $checkoutData,
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Catalog\Model\Product\OptionFactory $optionFactory,
         \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
