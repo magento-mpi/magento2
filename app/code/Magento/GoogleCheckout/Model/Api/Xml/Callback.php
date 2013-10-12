@@ -196,7 +196,7 @@ class Callback extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
      */
     protected function _responseMerchantCalculationCallback()
     {
-        $merchantCalculations = new GoogleMerchantCalculations($this->getCurrency());
+        $merchantCalculations = new \GoogleMerchantCalculations($this->getCurrency());
 
         $quote = $this->_loadQuote();
 
@@ -266,7 +266,7 @@ class Callback extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
                 }
 
                 foreach ($gRequestMethods as $method) {
-                    $result = new GoogleResult($addressId);
+                    $result = new \GoogleResult($addressId);
                     $methodName = $method['name'];
 
                     if (isset($rates[$methodName])) {
@@ -329,7 +329,7 @@ class Callback extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
                 $taxAmount = $address->getBaseTaxAmount();
                 $taxAmount += $billingAddress->getBaseTaxAmount();
 
-                $result = new GoogleResult($addressId);
+                $result = new \GoogleResult($addressId);
                 $result->setTaxDetails($taxAmount);
                 $merchantCalculations->addResult($result);
             }
@@ -511,7 +511,7 @@ class Callback extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
      * apply Google tax and recollect quote
      *
      * @param \Magento\Object $qAddress
-     * @return string | false
+     * @return string | boolean false
      */
     protected function _applyCustomTax($qAddress)
     {
@@ -663,7 +663,7 @@ class Callback extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
      *
      * @param string $name
      * @param int|string|\Magento\Core\Model\Store $storeId
-     * @return string|false
+     * @return string| boolean false
      */
     protected function _getShippingMethodByName($name, $storeId = null)
     {

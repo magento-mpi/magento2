@@ -37,8 +37,8 @@ class IndexPool
      *
      * @param string $type
      * @param array $arguments
-     * @throws LogicException
-     * @return \Magento\TargetRule\Model\Resource\Index_Abstract
+     * @throws \LogicException
+     * @return \Magento\TargetRule\Model\Resource\Index\AbstractIndex
      */
     public function get($type, array $arguments = array())
     {

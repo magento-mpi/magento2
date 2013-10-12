@@ -50,7 +50,7 @@ class TypeFactory
      *
      * @param $eavType
      *
-     * @return \Magento\Eav\Model\Entity\Abstract
+     * @return mixed
      * @throws \Magento\Core\Exception
      */
     public function createType($eavType)

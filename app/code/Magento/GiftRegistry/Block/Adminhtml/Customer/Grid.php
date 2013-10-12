@@ -61,7 +61,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     /**
      * Instantiate and prepare collection
      *
-     * @return \Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Customer\Grid
+     * @return \Magento\GiftRegistry\Block\Adminhtml\Customer\Grid
      */
     protected function _prepareCollection()
     {
@@ -77,7 +77,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     /**
      * Prepare columns for grid
      *
-     * @return \Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Customer\Grid
+     * @return \Magento\GiftRegistry\Block\Adminhtml\Customer\Grid
      */
     protected function _prepareColumns()
     {

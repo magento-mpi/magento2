@@ -60,7 +60,7 @@ class Grid
     /**
      * Prepare customer attributes grid collection object
      *
-     * @return \Magento\Customer\Block\Adminhtml\Customer\Attribute\Grid
+     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute\Grid
      */
     protected function _prepareCollection()
     {
@@ -74,7 +74,7 @@ class Grid
     /**
      * Prepare customer attributes grid columns
      *
-     * @return \Magento\Customer\Block\Adminhtml\Customer\Attribute\Grid
+     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute\Grid
      */
     protected function _prepareColumns()
     {

@@ -55,7 +55,7 @@ class Giftwrapping extends \Magento\Adminhtml\Controller\Action
      * Init model
      *
      * @param string $requestParam
-     * @return \Magento\Giftwrapping\Model\Wrapping
+     * @return \Magento\GiftWrapping\Model\Wrapping
      * @throws \Magento\Core\Exception
      */
     protected function _initModel($requestParam = 'id')
