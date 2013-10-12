@@ -2,6 +2,8 @@
   * Added static legacy test for compilation of di definitions
 * Fixed bugs:
   * Fixed plugins configuration inheritance for proxy classes
+  * Fixed Oauth consumer credentials expiry not being correctly calculated and added credentials HTTP post to the consumer endpoint
+  * Fixed Namespace class references
 
 2.0.0.0-dev47
 =============
