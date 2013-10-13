@@ -78,7 +78,8 @@ abstract class AbstractContainer
             if (count($data)==0) {
                 return true;
             }
-            $this->addException("Invalid data type, expecting 2D grid array.", \Magento\Convert\ConvertException::FATAL);
+            $this->addException(
+                "Invalid data type, expecting 2D grid array.", \Magento\Convert\ConvertException::FATAL);
         }
         return true;
     }

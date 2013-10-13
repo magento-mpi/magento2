@@ -102,7 +102,6 @@ lib/Magento/Connect/Singleconfig.php
 lib/Magento/Connect/Structures/Graph.php
 lib/Magento/Connect/Structures/Node.php
 lib/Magento/Connect/Validator.php
-lib/Magento/Convert/Container/AbstractContainer.php
 lib/Magento/Convert/ConvertException.php
 lib/Magento/Convert/Mapper/Column.php
 lib/Magento/Convert/Mapper/MapperInterface.php
