@@ -3,8 +3,6 @@
 /**
  * {license_notice}
  *
- * @category   build
- * @package    sanity
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -15,98 +13,128 @@
         <word>{license_link}</word>
         <word>{license_notice}</word>
         <word>biz@magento.com</word>
-        <word>enterprise</word>
         <word>petervarien</word>
         <word>ukpromerchant</word>
         <word>pinba</word>
         <word>saas</word>
+        <!-- Library classes belonging to Enterprise Edition -->
+        <word>Magento/JobQueue</word>
+        <word>Magento\JobQueue</word>
         <word>Magento_JobQueue</word>
+        <!-- Names of modules belonging to Enterprise Edition -->
+        <word>AdminGws</word>
+        <word>AdvancedCheckout</word>
+        <word>Magento/Banner</word>
+        <word>Magento\Banner</word>
+        <word>Magento_Banner</word>
+        <word>BannerCustomerSegment</word>
+        <word>CatalogEvent</word>
+        <word>CatalogPermissions</word>
+        <word>CustomAttribute</word>
+        <word>CustomerCustomAttributes</word>
+        <word>CustomerSegment</word>
+        <word>CustomerBalance</word>
+        <word>Enterprise</word>
+        <word>FullPageCache</word>
+        <!-- GiftCard and GiftCardAccount modules -->
+        <word>GiftCard</word>
+        <word>GiftRegistry</word>
+        <word>GiftWrapping</word>
+        <word>Invitation</word>
+        <word>Magento/License</word>
+        <word>Magento\License</word>
+        <word>Magento_License</word>
+        <word>Magento/Logging</word>
+        <word>Magento\Logging</word>
+        <word>Magento_Logging</word>
+        <word>MultipleWishlist</word>
+        <word>Pbridge</word>
+        <word>Magento/Pci</word>
+        <word>Magento\Pci</word>
+        <word>Magento_Pci</word>
+        <word>PersistentHistory</word>
+        <word>PricePermissions</word>
+        <word>PromotionPermissions</word>
+        <word>Magento/Reminder</word>
+        <word>Magento\Reminder</word>
+        <word>Magento_Reminder</word>
+        <word>Magento/Reward</word>
+        <word>Magento\Reward</word>
+        <word>Magento_Reward</word>
+        <word>Magento/Rma</word>
+        <word>Magento\Rma</word>
+        <word>Magento_Rma</word>
+        <word>SalesArchive</word>
+        <word>ScheduledImportExport</word>
+        <word>Magento/Search</word>
+        <word>Magento\Search</word>
+        <word>Magento_Search</word>
+        <word>TargetRule</word>
+        <word>VersionsCms</word>
+        <word>WebsiteRestriction</word>
     </words>
     <whitelist>
         <item>
-            <!-- MUST be refactored -->
-            <word>enterprise</word>
-            <path>dev/tests/functional/fixture/_testFiles/Enterprise_Cms__widgets.css</path>
-        </item>
-        <item>
-            <!-- MUST be refactored -->
-            <word>enterprise</word>
-            <path>dev/tests/functional/fixture/_testFiles/Enterprise_Default_Reports__widgets.css</path>
-        </item>
-        <item>
-            <!-- MUST be refactored -->
-            <word>enterprise</word>
-            <path>dev/tests/functional/fixture/_testFiles/Enterprise_Default_Widget__widgets.css</path>
-        </item>
-        <item>
-            <!-- MUST be refactored -->
-            <word>enterprise</word>
-            <path>dev/tests/functional/fixture/_testFiles/Enterprise_css_print.css</path>
-        </item>
-        <item>
-            <!-- MUST be refactored -->
-            <word>enterprise</word>
-            <path>dev/tests/functional/fixture/_testFiles/Enterprise_css_styles-ie.css</path>
-        </item>
-        <item>
-            <!-- MUST be refactored -->
-            <word>enterprise</word>
-            <path>dev/tests/functional/fixture/_testFiles/Enterprise_css_styles.css</path>
-        </item>
-        <item>
-            <word>enterprise</word>
-            <path>dev/tests/functional/fixture/_testFiles/Enterprise_Banner__widgets.css</path>
-        </item>
-        <item>
-            <word>enterprise</word>
-            <path>dev/tests/functional/fixture/_testFiles/Enterprise_CatalogEvent__widgets.css</path>
-        </item>
-        <item>
-            <word>enterprise</word>
-            <path>dev/tests/functional/fixture/_testFiles/Enterprise_Default_Cms__widgets.css</path>
-        </item>
-        <item>
-            <word>enterprise</word>
-            <path>dev/tests/functional/fixture/_testFiles/Enterprise_Default_Page__css_tabs.css</path>
-        </item>
-        <item>
-            <word>enterprise</word>
+            <!-- Not an issue until we decide to publish dev/tests/functional, product editions are combined there currently -->
+            <word>CustomerSegment</word>
+            <word>GiftRegistry</word>
+            <word>GiftWrapping</word>
+            <word>Enterprise</word>
+            <word>Invitation</word>
+            <word>WebsiteRestriction</word>
             <path>dev/tests/functional/framework/Mage/Selenium/AbstractHelper.php</path>
         </item>
         <item>
-            <word>enterprise</word>
+            <!-- Not an issue until we decide to publish dev/tests/functional, product editions are combined there currently -->
+            <word>Enterprise</word>
             <path>dev/tests/functional/framework/Unit/testsuite/Mage/Selenium/Helper/ConfigTest.php</path>
         </item>
         <item>
-            <word>enterprise</word>
+            <!-- Not an issue until we decide to publish dev/tests/functional, product editions are combined there currently -->
+            <word>GiftRegistry</word>
+            <word>Invitation</word>
+            <path>dev/tests/functional/testsuite/Core/Mage/Grid/Reports/GridTest.php</path>
+        </item>
+        <item>
+            <!-- Not an issue until we decide to publish dev/tests/functional, product editions are combined there currently -->
+            <word>CustomerSegment</word>
+            <word>GiftRegistry</word>
+            <word>GiftWrapping</word>
+            <word>Enterprise</word>
+            <word>Invitation</word>
+            <word>WebsiteRestriction</word>
             <path>dev/tests/functional/framework/Mage/Selenium/TestCase.php</path>
         </item>
         <item>
+            <!-- Not an issue until we decide to publish dev/tests/functional, product editions are combined there currently -->
             <word>{copyright}</word>
             <word>{license_link}</word>
             <word>{license_notice}</word>
-            <word>enterprise</word>
+            <word>Enterprise</word>
             <path>dev/tests/functional/config/config.yml.dist</path>
         </item>
         <item>
+            <!-- License replacement tool does not process *.bat files currently -->
             <word>{copyright}</word>
             <word>{license_link}</word>
             <word>{license_notice}</word>
-            <word>enterprise</word>
+            <word>Enterprise</word>
             <path>dev/tests/functional/runtests.bat</path>
         </item>
         <item>
+            <!-- License replacement tool does not process *.sh files currently -->
             <word>{copyright}</word>
             <word>{license_link}</word>
             <word>{license_notice}</word>
-            <word>enterprise</word>
+            <word>Enterprise</word>
             <path>dev/tests/functional/runtests.sh</path>
         </item>
         <item>
+            <word>Enterprise</word>
             <path>app/code/Magento/Core/Model/App.php</path>
         </item>
         <item>
-            <word>enterprise</word>
+            <word>Enterprise</word>
             <path>lib/Magento/DB/Helper.php</path>
         </item>
         <item>
@@ -119,46 +147,236 @@
             <path>dev/tools/Magento/Tools/license_placeholder</path>
         </item>
         <item>
-            <word>enterprise</word>
+            <!-- Names of modules belonging to Enterprise Edition -->
+            <word>AdminGws</word>
+            <word>AdvancedCheckout</word>
+            <word>Magento/Banner</word>
+            <word>Magento\Banner</word>
+            <word>Magento_Banner</word>
+            <word>BannerCustomerSegment</word>
+            <word>CatalogEvent</word>
+            <word>CatalogPermissions</word>
+            <word>CustomAttribute</word>
+            <word>CustomerCustomAttributes</word>
+            <word>CustomerSegment</word>
+            <word>CustomerBalance</word>
+            <word>Enterprise</word>
+            <word>FullPageCache</word>
+            <!-- GiftCard and GiftCardAccount modules -->
+            <word>GiftCard</word>
+            <word>GiftRegistry</word>
+            <word>GiftWrapping</word>
+            <word>Invitation</word>
+            <word>Magento/License</word>
+            <word>Magento\License</word>
+            <word>Magento_License</word>
+            <word>Magento/Logging</word>
+            <word>Magento\Logging</word>
+            <word>Magento_Logging</word>
+            <word>MultipleWishlist</word>
+            <word>Pbridge</word>
+            <word>Magento/Pci</word>
+            <word>Magento\Pci</word>
+            <word>Magento_Pci</word>
+            <word>PersistentHistory</word>
+            <word>PricePermissions</word>
+            <word>PromotionPermissions</word>
+            <word>Magento/Reminder</word>
+            <word>Magento\Reminder</word>
+            <word>Magento_Reminder</word>
+            <word>Magento/Reward</word>
+            <word>Magento\Reward</word>
+            <word>Magento_Reward</word>
+            <word>Magento/Rma</word>
+            <word>Magento\Rma</word>
+            <word>Magento_Rma</word>
+            <word>SalesArchive</word>
+            <word>ScheduledImportExport</word>
+            <word>Magento/Search</word>
+            <word>Magento\Search</word>
+            <word>Magento_Search</word>
+            <word>TargetRule</word>
+            <word>VersionsCms</word>
+            <word>WebsiteRestriction</word>
             <path>dev/tools/Magento/Tools/Migration/Acl/log</path>
         </item>
         <item>
-            <word>enterprise</word>
+            <word>Invitation</word>
+            <path>dev/tools/Magento/Tools/Migration/factory_table_names/blacklist_ce.php</path>
+        </item>
+        <item>
+            <word>Enterprise</word>
             <path>dev/tools/Magento/Tools/Translate/config.inc.php</path>
         </item>
         <item>
-            <word>enterprise</word>
+            <word>Enterprise</word>
             <path>dev/tools/Magento/Tools/Translate/ModuleTranslations.php</path>
         </item>
         <item>
-            <word>enterprise</word>
+            <word>Enterprise</word>
             <path>dev/tools/Magento/Tools/Translate/generate_emailtemplates.php</path>
         </item>
         <item>
-            <word>enterprise</word>
-            <path>dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/BlockInstantiationTest.php</path>
-        </item>
-        <item>
-            <word>enterprise</word>
-            <path>dev/tests/static/framework/Magento/TestFramework/Dependency/_files/tables_ee.php</path>
-        </item>
-        <item>
-            <word>enterprise</word>
-            <path>dev/tests/static/testsuite/Magento/Test/Integrity/ClassesTest.php</path>
-        </item>
-        <item>
-            <word>enterprise</word>
-            <path>dev/tests/static/testsuite/Magento/Test/Legacy/ClassesTest.php</path>
-        </item>
-        <item>
-            <word>enterprise</word>
-            <path>static_tests_no_js.xml</path>
-        </item>
-        <item>
+            <!-- License replacement tool does not process *.txt files currently -->
             <word>{copyright}</word>
             <word>{license_link}</word>
             <word>{license_notice}</word>
             <path>dev/tests/unit/testsuite/Magento/Cache/Backend/_files/MongoBinData.txt</path>
+        </item>
+        <item>
+            <!-- Incorrect dependency: EE functionality mentioned in CE -->
+            <word>CustomerBalance</word>
+            <path>app/code/Magento/Adminhtml/Controller/Sales/Order/Creditmemo.php</path>
+        </item>
+        <item>
+            <!-- Incorrect dependency: EE functionality mentioned in CE -->
+            <word>CustomerBalance</word>
+            <path>dev/tests/unit/testsuite/Magento/Adminhtml/Controller/Sales/Order/CreditmemoTest.php</path>
+        </item>
+        <item>
+            <!-- Incorrect dependency: EE functionality mentioned in CE -->
+            <word>GiftCard</word>
+            <path>app/code/Magento/GiftMessage/view/adminhtml/giftoptionsform.phtml</path>
+        </item>
+        <item>
+            <!-- Incorrect dependency: EE functionality mentioned in CE -->
+            <word>GiftCard</word>
+            <path>app/code/Magento/GoogleShopping/Helper/Price.php</path>
+        </item>
+        <item>
+            <!-- Incorrect dependency: EE functionality mentioned in CE -->
+            <word>GiftCard</word>
+            <path>app/code/Magento/GoogleShopping/Model/Attribute.php</path>
+        </item>
+        <item>
+            <!-- Incorrect dependency: EE functionality mentioned in CE -->
+            <word>Reward</word>
+            <path>app/code/Magento/ImportExport/Model/Export/Entity/Eav/Customer.php</path>
+        </item>
+        <item>
+            <!-- Incorrect dependency: EE functionality mentioned in CE -->
+            <word>Reward</word>
+            <path>dev/tests/integration/testsuite/Magento/ImportExport/_files/import_data.php</path>
+        </item>
+        <item>
+            <!-- Incorrect dependency: EE functionality mentioned in CE -->
+            <word>Reward</word>
+            <path>dev/tests/unit/testsuite/Magento/ImportExport/Model/Import/Entity/_files/customer_composite_prepare_row_for_db.csv</path>
+        </item>
+        <item>
+            <!-- Incorrect dependency: EE functionality mentioned in CE -->
+            <word>Reward</word>
+            <path>dev/tests/functional/testsuite/Core/Mage/ImportExport/Customer/CustomActionsTest.php</path>
+        </item>
+        <item>
+            <!-- Incorrect dependency: EE functionality mentioned in CE -->
+            <word>Reward</word>
+            <path>dev/tests/functional/testsuite/Core/Mage/ImportExport/Customer/ImportTest.php</path>
+        </item>
+        <item>
+            <!-- Incorrect dependency: EE functionality mentioned in CE theme -->
+            <word>GiftCard</word>
+            <path>app/code/Magento/Webhook/view/adminhtml/css/boxes.css</path>
+        </item>
+        <item>
+            <!-- Incorrect dependency: EE functionality mentioned in CE -->
+            <word>GiftRegistry</word>
+            <path>app/code/Magento/Wishlist/view/frontend/wishlist.js</path>
+        </item>
+        <item>
+            <!-- Incorrect dependency: EE functionality mentioned in CE theme -->
+            <word>Invitation</word>
+            <path>app/design/adminhtml/magento_backend/css/admin.css</path>
+        </item>
+        <item>
+            <!-- Incorrect dependency: EE functionality mentioned in CE theme -->
+            <word>CustomerSegment</word>
+            <word>GiftCard</word>
+            <word>GiftRegistry</word>
+            <word>GiftWrapping</word>
+            <word>Invitation</word>
+            <word>Reward</word>
+            <word>TargetRule</word>
+            <path>app/design/adminhtml/magento_backend/css/debug.css</path>
+        </item>
+        <item>
+            <!-- Incorrect dependency: EE functionality mentioned in CE theme -->
+            <word>GiftCard</word>
+            <path>app/design/adminhtml/magento_basic/boxes.css</path>
+        </item>
+        <item>
+            <!-- Incorrect dependency: EE functionality mentioned in CE theme -->
+            <word>CustomerSegment</word>
+            <word>GiftRegistry</word>
+            <word>GiftWrapping</word>
+            <word>Invitation</word>
+            <path>app/design/adminhtml/magento_backend/css/pages.css</path>
+        </item>
+        <item>
+            <!-- Incorrect dependency: EE functionality mentioned in CE test -->
+            <word>PersistentHistory</word>
+            <path>dev/tests/integration/testsuite/Magento/Persistent/Model/Persistent/_files/persistent.xml</path>
+        </item>
+        <item>
+            <!-- Incorrect dependency: EE functionality mentioned in CE test -->
+            <word>PersistentHistory</word>
+            <path>dev/tests/integration/testsuite/Magento/Persistent/Model/Persistent/_files/expectedArray.php</path>
+        </item>
+        <item>
+            <!-- Incorrect dependency: EE functionality mentioned in CE test -->
+            <word>PersistentHistory</word>
+            <path>dev/tests/integration/testsuite/Magento/Persistent/Model/Persistent/_files/expectedBlocksArray.php</path>
+        </item>
+        <item>
+            <!-- Incorrect dependency: EE functionality mentioned in CE test -->
+            <word>GiftCard</word>
+            <path>dev/tests/unit/testsuite/Magento/Core/Model/Route/Config/_files/routes.php</path>
+        </item>
+        <item>
+            <!-- Incorrect dependency: EE functionality mentioned in CE test -->
+            <word>GiftCard</word>
+            <path>dev/tests/unit/testsuite/Magento/Core/Model/Route/Config/_files/routes.xml</path>
+        </item>
+        <item>
+            <!-- Incorrect dependency: EE functionality mentioned in CE test -->
+            <word>GiftRegistry</word>
+            <path>dev/tests/unit/testsuite/Magento/Widget/Model/_files/mappedConfigArray2.php</path>
+        </item>
+        <item>
+            <!-- Incorrect dependency: EE functionality mentioned in CE test -->
+            <word>GiftRegistry</word>
+            <path>dev/tests/unit/testsuite/Magento/Widget/Model/_files/mappedConfigArrayAll.php</path>
+        </item>
+        <item>
+            <!-- Incorrect dependency: EE functionality mentioned in CE test -->
+            <word>CustomerSegment</word>
+            <word>Magento\Logging</word>
+            <word>Pbridge</word>
+            <word>Magento\Search</word>
+            <path>dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/LayoutFilesTest.php</path>
+        </item>
+        <item>
+            <!-- Incorrect dependency: EE functionality mentioned in CE test -->
+            <word>GiftCard</word>
+            <word>GiftRegistry</word>
+            <word>Reward</word>
+            <path>dev/tests/static/testsuite/Magento/Test/Legacy/LayoutTest.php</path>
+        </item>
+        <item>
+            <!-- Incorrect dependency: EE functionality mentioned in CE test -->
+            <word>Magento\Reminder</word>
+            <path>dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/_files/skip_blocks_ce.php</path>
+        </item>
+        <item>
+            <!-- Incorrect dependency: EE functionality mentioned in CE test -->
+            <word>Magento\Reminder</word>
+            <path>dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/_files/skip_template_blocks_ce.php</path>
+        </item>
+        <item>
+            <!-- EE functionality mentioned in CE test by accident - logical error in test
+                (class from JavaScript is collected due to regexp usage) -->
+            <word>CustomerSegment</word>
+            <path>dev/tests/static/testsuite/Magento/Test/Integrity/ReferenceBlacklist.php</path>
         </item>
     </whitelist>
 </config>

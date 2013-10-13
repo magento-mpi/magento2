@@ -126,3 +126,8 @@ app/code/Magento/PersistentHistory
 app/code/Magento/MultipleWishlist
 dev/tests/integration/testsuite/Magento/MultipleWishlist
 dev/tests/unit/testsuite/Magento/WebsiteRestriction
+dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/LoggingConfigFilesTest.php
+dev/tests/static/framework/Magento/TestFramework/Dependency/_files/tables_ee.php
+dev/tests/static/testsuite/Magento/Test/Integrity/Magento/Reward/LayoutTest.php
+dev/tools/xml/logging.xslt
+dev/tools/xml/transform_logging.php
