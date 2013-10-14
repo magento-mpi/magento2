@@ -248,8 +248,8 @@ class LayoutDirectivesTest extends \PHPUnit_Framework_TestCase
     {
         $layout = $this->_getLayoutModel('ifconfig.xml');
         $this->assertFalse($layout->getBlock('block1'));
-        $this->assertInstanceOf('Magento\Core\Block', $layout->getBlock('block2'));
-        $this->assertInstanceOf('Magento\Core\Block', $layout->getBlock('block3'));
+        $this->assertInstanceOf('Magento\View\Element\Block', $layout->getBlock('block2'));
+        $this->assertInstanceOf('Magento\View\Element\Block', $layout->getBlock('block3'));
         $this->assertFalse($layout->getBlock('block4'));
     }
 }

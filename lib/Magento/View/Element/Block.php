@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,11 @@
 /**
  * Magento Block interface
  */
-namespace Magento\Core;
+namespace Magento\View\Element;
 
+/**
+ * @package Magento\View
+ */
 interface Block
 {
     /**
