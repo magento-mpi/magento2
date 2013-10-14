@@ -109,4 +109,15 @@ class Date
         $format = $includeTime ? self::DATETIME_PHP_FORMAT : self::DATE_PHP_FORMAT;
         return date($format, $date);
     }
+
+    /**
+     * Check whether sql date is empty
+     *
+     * @param string $date
+     * @return boolean
+     */
+    public static function isEmptyDate($date)
+    {
+        return preg_replace('#[ 0:-]#', '', $date) === '';
+    }
 }

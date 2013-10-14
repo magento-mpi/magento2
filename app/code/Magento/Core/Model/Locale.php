@@ -794,8 +794,8 @@ class Locale implements \Magento\Core\Model\LocaleInterface
         }
 
         $result = false;
-        if (!is_empty_date($dateFrom) && $storeTimeStamp < $fromTimeStamp) {
-        } elseif (!is_empty_date($dateTo) && $storeTimeStamp > $toTimeStamp) {
+        if (!\Magento\Date::isEmptyDate($dateFrom) && $storeTimeStamp < $fromTimeStamp) {
+        } elseif (!\Magento\Date::isEmptyDate($dateTo) && $storeTimeStamp > $toTimeStamp) {
         } else {
             $result = true;
         }
