@@ -235,7 +235,7 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
     {
         if(!isset(self::$_namespaceBlacklist)) {
             $blackList = array();
-            foreach (glob(__DIR__ . '/_files/blacklist/*.txt') as $list) {
+            foreach (glob(__DIR__ . '/_files/blacklist/namespace.txt') as $list) {
                 $fileList = file($list, FILE_IGNORE_NEW_LINES);
                 foreach ($fileList as $currentFile) {
                     $absolutePath =
