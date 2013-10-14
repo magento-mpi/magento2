@@ -8,16 +8,11 @@
  * @license     {license_link}
  */
 
-
-/**
- * File storage database model class
- *
- * @category    Magento
- * @package     Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Core\Model\File\Storage;
 
+/**
+ * Class Database
+ */
 class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabase
 {
     /**
@@ -47,13 +42,12 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
     protected $_logger;
 
     /**
-     * @param \Magento\Core\Model\Logger $logger
      * @var \Magento\Core\Model\File\Storage\Directory\DatabaseFactory
      */
     protected $_directoryFactory;
 
     /**
-     * @var \Magento\Core\Helper\File\MediaHelper
+     * @var \Magento\Core\Helper\File\Media
      */
     protected $_mediaHelper;
 
@@ -62,7 +56,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
      *
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
-     * @param \Magento\Core\Helper\File\MediaHelper $mediaHelper
+     * @param \Magento\Core\Helper\File\Media $mediaHelper
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Date $dateModel
@@ -76,7 +70,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
     public function __construct(
         \Magento\Core\Model\Logger $logger,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
-        \Magento\Core\Helper\File\MediaHelper $mediaHelper,
+        \Magento\Core\Helper\File\Media $mediaHelper,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Date $dateModel,
@@ -99,7 +93,9 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
             $resource,
             $resourceCollection,
             $connectionName,
-            $data);
+            $data
+        );
+        $this->_init(get_class($this->_resource));
     }
 
     /**

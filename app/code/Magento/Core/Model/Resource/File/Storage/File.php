@@ -8,16 +8,11 @@
  * @license     {license_link}
  */
 
-
-/**
- * Model for synchronization from DB to filesystem
- *
- * @category    Magento
- * @package     Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Core\Model\Resource\File\Storage;
 
+/**
+ * Class File
+ */
 class File
 {
     /**

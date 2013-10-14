@@ -8,16 +8,12 @@
  * @license     {license_link}
  */
 
-/**
- * Database saving file helper
- *
- * @category    Magento
- * @package     Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Core\Helper\File;
 
-class MediaHelper extends \Magento\Core\Helper\AbstractHelper
+/**
+ * Class Media
+ */
+class Media extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * @var \Magento\Core\Model\Date
@@ -38,14 +34,6 @@ class MediaHelper extends \Magento\Core\Helper\AbstractHelper
         $this->_date = $date;
     }
 
-    /**
-
-     * )
-     *
-     * @param  string $path
-     * @throws \Magento\Core\Exception
-     * @return array
-     */
     /**
      * Collect file info
      *

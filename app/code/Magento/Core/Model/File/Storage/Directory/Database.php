@@ -8,16 +8,11 @@
  * @license     {license_link}
  */
 
-
-/**
- * Directory database storage model class
- *
- * @category    Magento
- * @package     Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Core\Model\File\Storage\Directory;
 
+/**
+ * Class Database
+ */
 class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabase
 {
     /**
@@ -74,8 +69,10 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
             $app,
             $resource,
             $resourceCollection,
-            $connectionName
+            $connectionName,
+            $data
         );
+        $this->_init(get_class($this->_resource));
     }
 
     /**
@@ -173,8 +170,8 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
      */
     public function exportDirectories($offset = 0, $count = 100)
     {
-        $offset = ((int) $offset >= 0) ? (int) $offset : 0;
-        $count  = ((int) $count >= 1) ? (int) $count : 1;
+        $offset = ((int)$offset >= 0) ? (int)$offset : 0;
+        $count  = ((int)$count >= 1) ? (int)$count : 1;
 
         $result = $this->_getResource()->exportDirectories($offset, $count);
 

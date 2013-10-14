@@ -8,16 +8,11 @@
  * @license     {license_link}
  */
 
-
-/**
- * File storage model class
- *
- * @category    Magento
- * @package     Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Core\Model\File;
 
+/**
+ * Class Storage
+ */
 class Storage extends \Magento\Core\Model\AbstractModel
 {
     /**

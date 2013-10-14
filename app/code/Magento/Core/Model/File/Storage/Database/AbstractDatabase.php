@@ -8,16 +8,11 @@
  * @license     {license_link}
  */
 
-
-/**
- * Abstract database storage model class
- *
- * @category    Magento
- * @package     Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Core\Model\File\Storage\Database;
 
+/**
+ * Class AbstractDatabase
+ */
 abstract class AbstractDatabase extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -40,6 +35,7 @@ abstract class AbstractDatabase extends \Magento\Core\Model\AbstractModel
      * @var \Magento\Core\Model\Date
      */
     protected $_date;
+
     /**
      * @var \Magento\Core\Model\App
      */
@@ -70,7 +66,6 @@ abstract class AbstractDatabase extends \Magento\Core\Model\AbstractModel
         array $data = array()
     ) {
         parent::__construct($context, $registry,  $resource, $resourceCollection, $data);
-        $this->_init(get_class($this->_resource));
         $this->_app = $app;
         $this->_coreFileStorageDb = $coreFileStorageDb;
         $this->_date = $dateModel;

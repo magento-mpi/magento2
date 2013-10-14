@@ -8,16 +8,11 @@
  * @license     {license_link}
  */
 
-
-/**
- * Abstract model class
- *
- * @category    Magento
- * @package     Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Core\Model\File\Storage;
 
+/**
+ * Class File
+ */
 class File
 {
     /**
@@ -42,9 +37,10 @@ class File
     protected $_storageHelper = null;
 
     /**
-     * @var null
+     * @var \Magento\Core\Helper\File\Media
      */
     protected $_mediaHelper = null;
+
     /**
      * Data at storage
      *
@@ -70,35 +66,23 @@ class File
     protected $_fileUtility;
 
     /**
-     *
-     */
-    /**
      * Class construct
      *
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Helper\File\Storage\Database $storageHelper
-     * @param \Magento\Core\Helper\File\MediaHelper $mediaHelper
+     * @param \Magento\Core\Helper\File\Media $mediaHelper
      * @param \Magento\Core\Model\Resource\File\Storage\File $fileUtility
      */
     public function __construct(
         \Magento\Core\Model\Logger $logger,
         \Magento\Core\Helper\File\Storage\Database $storageHelper,
-        \Magento\Core\Helper\File\MediaHelper $mediaHelper,
+        \Magento\Core\Helper\File\Media $mediaHelper,
         \Magento\Core\Model\Resource\File\Storage\File $fileUtility
     ) {
         $this->_fileUtility     = $fileUtility;
         $this->_storageHelper   = $storageHelper;
         $this->_logger          = $logger;
-    }
-
-    /**
-     * Initialization
-     *
-     * @return \Magento\Core\Model\File\Storage\File
-     */
-    public function init()
-    {
-        return $this;
+        $this->_mediaHelper     = $mediaHelper;
     }
 
     /**
@@ -163,18 +147,17 @@ class File
             $this->_data = $this->getStorageData();
         }
 
-        $slice = array_slice($this->_data[$type], $offset, $count);
-        if (empty($slice)) {
+        if (!array_key_exists($type, $this->_data)) {
             return false;
         }
-
-        return $slice;
+        $slice = array_slice($this->_data[$type], $offset, $count);
+        return $slice ?: false;
     }
 
     /**
      * Retrieve connection name saved at config
      *
-     * @return string
+     * @return null
      */
     public function getConfigConnectionName()
     {
