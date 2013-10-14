@@ -43,6 +43,7 @@ class SimpleObjectManager implements \Magento\ObjectManager
      * Configure object manager
      *
      * @param array $configuration
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function configure(array $configuration)
     {

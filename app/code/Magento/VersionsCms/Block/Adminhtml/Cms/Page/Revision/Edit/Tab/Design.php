@@ -56,7 +56,7 @@ class Design
     /**
      * Adding onchange js call
      *
-     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab_Design
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab\Design
      */
     protected function _prepareForm()
     {

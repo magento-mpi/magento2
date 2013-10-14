@@ -524,7 +524,8 @@ class ObsoleteCodeTest extends \PHPUnit_Framework_TestCase
         foreach ($blackList as $file) {
             $ignored[] = realpath($appPath . DIRECTORY_SEPARATOR . $file);
         }
-        $files = \Magento\TestFramework\Utility\Files::init()->getClassFiles(false);
+        $files = \Magento\TestFramework\Utility\Files::init()->
+            getClassFiles(true, true, true, true, true, true, false);
         $files = array_map('realpath', $files);
         $files = array_diff($files, $ignored);
         return \Magento\TestFramework\Utility\Files::composeDataSets($files);
