@@ -13,7 +13,8 @@ namespace Magento\Tools\Formatter\PrettyPrinter;
  * Class Line
  * @package Magento\Tools\Formatter\PrettyPrinter
  */
-class Line {
+class Line
+{
     /**
      * This member holds the actual tokens in the line
      * @var array
@@ -24,7 +25,8 @@ class Line {
      * This method constructs the new line, adding the first token, if specified.
      * @param mixed $token Optional token to be added.
      */
-    public function __construct($token = null) {
+    public function __construct($token = null)
+    {
         // optionally add the token if one was specified
         if (null !== $token) {
             $this->add($token);
@@ -35,7 +37,8 @@ class Line {
      * This method adds the token to the list of tokens.
      * @param mixed $token The token to be added.
      */
-    public function add($token) {
+    public function add($token)
+    {
         // just add the token to the end of the list
         $this->tokens[] = $token;
         // return this instance so that chaining can be accomplished
@@ -46,7 +49,8 @@ class Line {
      * This method returns the line as a string. Note that line breaks are dealt with.
      * @param string $prefix String containing the start of every new line
      */
-    public function getLine($prefix) {
+    public function getLine($prefix)
+    {
         $line = $prefix;
         // add each token to the string
         foreach ($this->tokens as $index=>$token) {
@@ -67,12 +71,8 @@ class Line {
      * This method translates this instance to a string.
      * @return string
      */
-    public function __toString() {
-        $line = '';
-        // add each token to the string
-        foreach ($this->tokens as $token) {
-            $line .= $token;
-        }
-        return $line;
+    public function __toString()
+    {
+        return implode('', $this->tokens);
     }
 }

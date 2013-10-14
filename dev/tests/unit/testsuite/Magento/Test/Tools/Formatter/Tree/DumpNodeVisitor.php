@@ -15,7 +15,8 @@ use Magento\Tools\Formatter\Tree\TreeNode;
  * Class DumpNodeVisitor
  * @package Magento\Test\Tools\Formatter\Tree
  */
-class DumpNodeVisitor extends NodeVisitorAbstract {
+class DumpNodeVisitor extends NodeVisitorAbstract
+{
     public $prefix;
     public $result = '';
 

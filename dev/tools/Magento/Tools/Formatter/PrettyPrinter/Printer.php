@@ -17,7 +17,8 @@ use Magento\Tools\Formatter\Tree\TreeNode;
  * Class Printer
  * @package Magento\Tools\Formatter\PrettyPrinter
  */
-class Printer {
+class Printer
+{
     /**
      * @var string
      */
@@ -31,7 +32,8 @@ class Printer {
     /**
      * This method is used to construct the printer for the given code block.
      */
-    public function __construct($code) {
+    public function __construct($code)
+    {
         // save the original code
         $this->originalCode = $code;
         // allocate the parser--should probably be done statically
@@ -40,7 +42,7 @@ class Printer {
         $statements = $parser->parse($this->originalCode);
         // resolve the code into its final version
         $tree = new Tree();
-        $tree->addChild(new TreeNode((new Line('<?php'))->add(new HardLineBreak())), false);
+        $tree->addRoot(new TreeNode((new Line('<?php'))->add(new HardLineBreak())), false);
         $this->processStatements($statements, $tree);
         // print out the nodes
         $visitor = new NodePrinter();
@@ -49,9 +51,10 @@ class Printer {
     }
 
     /**
-     * This method returns the code as a fomatted block.
+     * This method returns the code as a formatted block.
      */
-    public function getFormattedCode() {
+    public function getFormattedCode()
+    {
         return $this->formattedCode;
     }
 
@@ -60,7 +63,8 @@ class Printer {
      * @param $statements
      * @param Tree $tree Tree representation of the resulting code
      */
-    protected function processStatements($statements, Tree $tree) {
+    protected function processStatements($statements, Tree $tree)
+    {
         // if it is an array, process each element in the array
         if (is_array($statements)) {
             foreach($statements as $node) {
@@ -78,7 +82,8 @@ class Printer {
      * @param \PHPParser_NodeAbstract $node
      * @param Tree $tree Tree representation of the resulting code
      */
-    protected function processStatement(\PHPParser_NodeAbstract $node, Tree $tree) {
+    public static function processStatement(\PHPParser_NodeAbstract $node, Tree $tree)
+    {
         $statement = StatementFactory::getInstance()->getStatement($node);
         $statement->process($tree);
     }

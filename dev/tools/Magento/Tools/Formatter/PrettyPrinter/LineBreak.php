@@ -5,11 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
-
 namespace Magento\Tools\Formatter\PrettyPrinter;
 
-
-class LineBreak {
+class LineBreak
+{
 
 }

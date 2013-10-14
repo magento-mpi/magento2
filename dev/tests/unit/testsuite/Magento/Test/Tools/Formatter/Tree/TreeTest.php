@@ -19,7 +19,8 @@ class TreeTest extends \PHPUnit_Framework_TestCase {
     /**
      * This method tests the basic workings of the tree functionality.
      */
-    public function testNewTree() {
+    public function testNewTree()
+    {
         $tree = new Tree();
         // add some nodes to our tree in a grandparent, parent, child relationship
         $tree->addChild($this->getNode('A'));
@@ -28,17 +29,63 @@ class TreeTest extends \PHPUnit_Framework_TestCase {
         // dump the tree
         $visitor = new DumpNodeVisitor();
         $tree->traverse($visitor);
-        $this->assertEquals("A" . PHP_EOL . ".B" . PHP_EOL . "..C" . PHP_EOL, $visitor->result, "Tree dump does not look right.");
+        $this->assertEquals(
+            "A" . PHP_EOL . ".B" . PHP_EOL . "..C" . PHP_EOL,
+            $visitor->result,
+            "Tree dump does not look right."
+        );
         // next test
         $tree->clear();
         // add some nodes to our tree in a parent, child, child relationship
-        $tree->addChild($this->getNode('X'));
+        $tree->addRoot($this->getNode('X'));
         $tree->addChild($this->getNode('Y1'), false);
         $tree->addChild($this->getNode('Y2'), false);
         // dump the tree
         $visitor = new DumpNodeVisitor();
         $tree->traverse($visitor);
-        $this->assertEquals("X" . PHP_EOL . ".Y1" . PHP_EOL . ".Y2" . PHP_EOL, $visitor->result, "Tree dump does not look right.");
+        $this->assertEquals(
+            "X" . PHP_EOL . ".Y1" . PHP_EOL . ".Y2" . PHP_EOL,
+            $visitor->result,
+            "Tree dump does not look right."
+        );
+        // next test
+        $tree->clear();
+        // add some nodes to our tree in a parent, child, child relationship
+        $tree->addRoot($this->getNode('X'));
+        $tree->addChild($this->getNode('Y1'));
+        $tree->addSibling($this->getNode('Y2'));
+        $tree->addChild($this->getNode('Z1'));
+        $tree->addSibling($this->getNode('Z2'));
+        // dump the tree
+        $visitor = new DumpNodeVisitor();
+        $tree->traverse($visitor);
+        $this->assertEquals(
+            "X" . PHP_EOL . ".Y1" . PHP_EOL . ".Y2" . PHP_EOL . "..Z1" . PHP_EOL . "..Z2" . PHP_EOL,
+            $visitor->result,
+            "Tree dump does not look right."
+        );
+    }
+
+    /**
+     * This method tests the basic workings of the tree functionality.
+     */
+    public function testMultipleRoots()
+    {
+        $tree = new Tree();
+        // add some nodes to our tree in a grandparent, parent, child relationship
+        $tree->addRoot($this->getNode('A'));
+        $tree->addChild($this->getNode('B'));
+        $tree->addSibling($this->getNode('C'));
+        $tree->addRoot($this->getNode('L1'));
+        $tree->addChild($this->getNode('L2.1'));
+        $tree->addSibling($this->getNode('L2.2'));
+        // dump the tree
+        $visitor = new DumpNodeVisitor();
+        $tree->traverse($visitor);
+        $this->assertEquals(
+            "A" . PHP_EOL . ".B" . PHP_EOL . ".C" . PHP_EOL . "L1" . PHP_EOL . ".L2.1" . PHP_EOL . ".L2.2" . PHP_EOL,
+            $visitor->result,
+            "Tree dump does not look right.");
     }
 
     /**

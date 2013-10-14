@@ -7,12 +7,16 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter;
 
-class HardLineBreak extends LineBreak {
+class HardLineBreak extends LineBreak
+{
+    const EOL = "\n";
+
     /**
      * This method translates this instance to a string.
      * @return string
      */
-    public function __toString() {
-        return "\n";
+    public function __toString()
+    {
+        return self::EOL;
     }
 }

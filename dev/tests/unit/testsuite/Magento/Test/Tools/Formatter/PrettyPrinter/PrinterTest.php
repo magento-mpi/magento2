@@ -9,31 +9,83 @@ namespace Magento\Test\Tools\Formatter\PrettyPrinter;
 
 use Magento\Tools\Formatter\PrettyPrinter\Printer;
 
-class PrinterTest extends TestBase {
+class PrinterTest extends TestBase
+{
     /**
      * This method tests some of the basics of the pretty printer.
      *
      * @dataProvider dataProviderBasics
      */
-    public function testBasics($originalCode, $formattedCode) {
+    public function testBasics($originalCode, $formattedCode)
+    {
         $printer = new Printer($originalCode);
         $this->assertEquals($formattedCode, $printer->getFormattedCode());
     }
 
-    public function dataProviderBasics() {
+    public function dataProviderBasics()
+    {
         return array(
             array(<<<ORIGINALCODESNIPPET
 <?php
-class Foo {
+/**
+ * Class Foo
+ */
+class Foo extends Bar implements Zulu {
+    public function alpha() {
+        return \$this;
+    }
+
+    public function beta() {
+        return \$this->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha();
+    }
 }
 ORIGINALCODESNIPPET
                 , <<<FORMATTEDCODESNIPPET
 <?php
-class Foo
+/**
+ * Class Foo
+ */
+class Foo extends Bar implements Zulu
 {
 }
+
 FORMATTEDCODESNIPPET
                 )
+        );
+    }
+
+    /**
+     * This method tests the printing around classes.
+     *
+     * @dataProvider dataProviderClassDeclaration
+     */
+    public function testClassDeclaration($originalCode, $formattedCode)
+    {
+        $printer = new Printer($originalCode);
+        $this->assertEquals($formattedCode, $printer->getFormattedCode());
+    }
+
+    public function dataProviderClassDeclaration()
+    {
+        return array(
+            array("<?php class NoChildren {}", "<?php\nclass NoChildren\n{\n}\n"),
+            array("<?php class JustParent extends Parent {}", "<?php\nclass JustParent extends Parent\n{\n}\n"),
+            array(
+                "<?php class JustInterface implements Interface1 {}",
+                "<?php\nclass JustInterface implements Interface1\n{\n}\n"
+            ),
+            array(
+                "<?php class JustInterfaces implements Interface1, Interface2, Interface3 {}",
+                "<?php\nclass JustInterfaces implements Interface1, Interface2, Interface3\n{\n}\n"
+            ),
+            array(
+                "<?php class ParentPlus extends Parent implements Interface1 {}",
+                "<?php\nclass ParentPlus extends Parent implements Interface1\n{\n}\n"
+            ),
+            array(
+                "<?php class ParentPluses extends Parent implements Interface1, Interface2, Interface3 {}",
+                "<?php\nclass ParentPluses extends Parent implements Interface1, Interface2, Interface3\n{\n}\n"
+            ),
         );
     }
 }

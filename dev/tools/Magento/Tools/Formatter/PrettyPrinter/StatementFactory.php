@@ -11,7 +11,8 @@ namespace Magento\Tools\Formatter\PrettyPrinter;
 /**
  * This class controls the mapping of the parser nodes to printer nodes.
  */
-class StatementFactory {
+class StatementFactory
+{
     /**
      * This member holds the singleton instance of this class.
      *
@@ -30,7 +31,8 @@ class StatementFactory {
      *
      * @param \PHPParser_Node $parserNode
      */
-    public function getStatement(\PHPParser_Node $parserNode) {
+    public function getStatement(\PHPParser_Node $parserNode)
+    {
         // assume the type is not recognized
         $statementName = UnknownStatement::getType();
         // if the the type is a registered type, return that class instead
@@ -44,9 +46,11 @@ class StatementFactory {
     /**
      * This method constructs the new factory. By default, it registers the known statement types.
      */
-    protected function __construct() {
+    protected function __construct()
+    {
         $this->register('Stmt_Class', ClassStatement::getType());
         $this->register('Stmt_InlineHTML', InlineHtmlStatement::getType());
+        $this->register('Name', ClassReference::getType());
     }
 
     /**
@@ -55,7 +59,8 @@ class StatementFactory {
      * @param string $parserNodeName Contains the name corresponding to the type of parser node
      * @param string $statement Contains the name of the class used to process the parser node
      */
-    protected function register($parserNodeName, $statement) {
+    protected function register($parserNodeName, $statement)
+    {
         $this->nodeMap[$parserNodeName] = $statement;
     }
 
@@ -64,7 +69,8 @@ class StatementFactory {
      *
      * @return StatementFactory
      */
-    static public function getInstance() {
+    static public function getInstance()
+    {
         if (null === self::$instance) {
             self::$instance = new StatementFactory();
         }

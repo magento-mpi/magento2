@@ -13,7 +13,8 @@ namespace Magento\Tools\Formatter\Tree;
  * Class NodeVisitor
  * @package Magento\Tools\Formatter\Tree
  */
-interface NodeVisitor {
+interface NodeVisitor
+{
     /**
      * This method is called when first visiting a node.
      * @param TreeNode $treeNode

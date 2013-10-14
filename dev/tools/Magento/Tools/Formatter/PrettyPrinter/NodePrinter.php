@@ -11,12 +11,8 @@ namespace Magento\Tools\Formatter\PrettyPrinter;
 use Magento\Tools\Formatter\Tree\NodeVisitorAbstract;
 use Magento\Tools\Formatter\Tree\TreeNode;
 
-class NodePrinter extends NodeVisitorAbstract {
-    /**
-     * This member holds the end of line marker that should be used for code.
-     */
-    const EOL = "\n";
-
+class NodePrinter extends NodeVisitorAbstract
+{
     /**
      * This member holds what is being used as a prefix to the line (i.e. 4 spaces).
      */
