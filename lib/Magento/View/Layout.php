@@ -1,0 +1,367 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Core
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+namespace Magento\View;
+
+use Magento\View\Layout\Processor;
+
+interface Layout
+{
+    public function __destruct();
+
+    /**
+     * Retrieve the layout processor
+     *
+     * @return Processor
+     */
+    public function getUpdate();
+
+    /**
+     * TODO MERGE with generateElements()
+     * Layout xml generation
+     *
+     * @return Layout
+     */
+    public function generateXml();
+
+    /**
+     * TODO MERGE with generateXml()
+     * Create structure of elements from the loaded XML configuration
+     */
+    public function generateElements();
+
+    /**
+     * Find an element in layout, render it and return string with its output
+     *
+     * @param string $name
+     * @param bool $useCache
+     * @return string
+     */
+    public function renderElement($name, $useCache = true);
+
+    /**
+     * Add an element to output
+     *
+     * @param string $name
+     * @return \Magento\Core\Model\Layout
+     */
+    public function addOutputElement($name);
+
+    /**
+     * Get all blocks marked for output
+     *
+     * @return string
+     */
+    public function getOutput();
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * TODO DELETE (only two-three calls from outside)
+     * Check if element exists in layout structure
+     *
+     * @param string $name
+     * @return bool
+     */
+    public function hasElement($name);
+
+    /**
+     * TODO DELETE (only two-three calls from outside)
+     * Remove block from registry
+     *
+     * @param string $name
+     * @return Layout
+     */
+    public function unsetElement($name);
+
+    /**
+     * Retrieve all blocks from registry as array
+     *
+     * @return array
+     */
+    public function getAllBlocks();
+
+    /**
+     * Get block object by name
+     *
+     * @param string $name
+     * @return \Magento\Core\Block\AbstractBlock|bool
+     */
+    public function getBlock($name);
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Get child block if exists
+     *
+     * @param string $parentName
+     * @param string $alias
+     * @return null
+     */
+    public function getChildBlock($parentName, $alias);
+
+    /**
+     * Set child element into layout structure
+     *
+     * @param string $parentName
+     * @param string $elementName
+     * @param string $alias
+     * @return Layout
+     */
+    public function setChild($parentName, $elementName, $alias);
+
+    /**
+     * Reorder a child of a specified element
+     *
+     * If $offsetOrSibling is null, it will put the element to the end
+     * If $offsetOrSibling is numeric (integer) value, it will put the element after/before specified position
+     * Otherwise -- after/before specified sibling
+     *
+     * @param string $parentName
+     * @param string $childName
+     * @param string|int|null $offsetOrSibling
+     * @param bool $after
+     */
+    public function reorderChild($parentName, $childName, $offsetOrSibling, $after = true);
+
+    /**
+     * Remove child element from parent
+     *
+     * @param string $parentName
+     * @param string $alias
+     * @return Layout
+     */
+    public function unsetChild($parentName, $alias);
+
+    /**
+     * Get list of child names
+     *
+     * @param string $parentName
+     * @return array
+     */
+    public function getChildNames($parentName);
+
+    /**
+     * Get list of child blocks
+     *
+     * Returns associative array of <alias> => <block instance>
+     *
+     * @param string $parentName
+     * @return array
+     */
+    public function getChildBlocks($parentName);
+
+    /**
+     * Get child name by alias
+     *
+     * @param string $parentName
+     * @param string $alias
+     * @return bool|string
+     */
+    public function getChildName($parentName, $alias);
+
+    /**
+     * Add element to parent group
+     *
+     * @param string $blockName
+     * @param string $parentGroupName
+     * @return bool
+     */
+    public function addToParentGroup($blockName, $parentGroupName);
+
+    /**
+     * Get element names for specified group
+     *
+     * @param string $blockName
+     * @param string $groupName
+     * @return array
+     */
+    public function getGroupChildNames($blockName, $groupName);
+
+    /**
+     * Gets parent name of an element with specified name
+     *
+     * @param string $childName
+     * @return bool|string
+     */
+    public function getParentName($childName);
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * TODO DELETE (use viewFactory)
+     * Block Factory
+     *
+     * @param  string $type
+     * @param  string $name
+     * @param  array $attributes
+     * @return \Magento\Core\Block\AbstractBlock
+     */
+    public function createBlock($type, $name = '', array $attributes = array());
+
+    /**
+     * TODO DELETE (use viewFactory and addElement instead)
+     * Add a block to registry, create new object if needed
+     *
+     * @param string|\Magento\Core\Block\AbstractBlock $block
+     * @param string $name
+     * @param string $parent
+     * @param string $alias
+     * @return \Magento\Core\Block\AbstractBlock
+     */
+    public function addBlock($block, $name = '', $parent = '', $alias = '');
+
+    /**
+     * TODO DELETE (use viewFactory and addElement instead)
+     * Insert container into layout structure
+     *
+     * @param string $name
+     * @param string $label
+     * @param array $options
+     * @param string $parent
+     * @param string $alias
+     */
+    public function addContainer($name, $label, array $options = array(), $parent = '', $alias = '');
+
+    /**
+     * // TODO DELETE (used mostly in setNameInLayout)
+     * Rename element in layout and layout structure
+     *
+     * @param string $oldName
+     * @param string $newName
+     * @return bool
+     */
+    public function renameElement($oldName, $newName);
+
+    /**
+     * TODO DELETE
+     * Get element alias by name
+     *
+     * @param string $name
+     * @return bool|string
+     */
+    public function getElementAlias($name);
+
+    /**
+     * TODO DELETE
+     * Remove an element from output
+     *
+     * @param string $name
+     * @return \Magento\Core\Model\Layout
+     */
+    public function removeOutputElement($name);
+
+    /**
+     * TODO DELETE use whatever instead
+     * Retrieve messages block
+     *
+     * @return \Magento\Core\Block\Messages
+     */
+    public function getMessagesBlock();
+
+    /**
+     * // TODO DELETE use object manager or view factory
+     * Get block singleton
+     *
+     * @param string $type
+     * @throws \Magento\Core\Exception
+     * @return \Magento\Core\Helper\AbstractHelper
+     */
+    public function getBlockSingleton($type);
+
+    /**
+     * TODO DELETE
+     * Retrieve block factory
+     *
+     * @return \Magento\Core\Model\BlockFactory
+     */
+    public function getBlockFactory();
+
+    /**
+     * TODO DELETE
+     * Retrieve layout area
+     *
+     * @return string
+     */
+    public function getArea();
+
+    /**
+     * TODO DELETE
+     * Set layout area
+     *
+     * @param $area
+     * @return Layout
+     */
+    public function setArea($area);
+
+    /**
+     * TODO DELETE
+     * Declaring layout direct output flag
+     *
+     * @param   bool $flag
+     * @return  Layout
+     */
+    public function setDirectOutput($flag);
+
+    /**
+     * TODO DELETE
+     * Retrieve direct output flag
+     *
+     * @return bool
+     */
+    public function isDirectOutput();
+
+    /**
+     * TODO DELETE
+     * Get property value of an element
+     *
+     * @param string $name
+     * @param string $attribute
+     * @return mixed
+     */
+    public function getElementProperty($name, $attribute);
+
+    /**
+     * TODO DELETE
+     * Whether specified element is a block
+     *
+     * @param string $name
+     * @return bool
+     */
+    public function isBlock($name);
+
+    /**
+     * TODO DELETE
+     * Checks if element with specified name is container
+     *
+     * @param string $name
+     * @return bool
+     */
+    public function isContainer($name);
+
+    /**
+     * TODO DELETE
+     * Whether the specified element may be manipulated externally
+     *
+     * @param string $name
+     * @return bool
+     */
+    public function isManipulationAllowed($name);
+
+    /**
+     * TODO DELETE
+     * Save block in blocks registry
+     *
+     * @param string $name
+     * @param \Magento\Core\Block\AbstractBlock $block
+     * @return Layout
+     */
+    public function setBlock($name, $block);
+}
