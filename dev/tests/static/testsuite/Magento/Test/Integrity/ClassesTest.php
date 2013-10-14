@@ -23,6 +23,8 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
 
     protected static $_keywordsBlacklist = array("String", "Array", "Boolean", "Element");
 
+    protected static $_namespaceBlacklist = null;
+
     /**
      * @param string $file
      * @dataProvider phpFileDataProvider
@@ -207,29 +209,8 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
                 $file
             );
         // exceptions made for the files from the blacklist
-
-        $fileList = array();
-        $blackList = array();
-        foreach (glob(__DIR__ . '/_files/blacklist/*.txt') as $list) {
-            $fileList = file($list, FILE_IGNORE_NEW_LINES);
-            foreach ($fileList as $currentFile) {
-                $absolutePath =
-                    \Magento\TestFramework\Utility\Files::init()->getPathToSource() .
-                    DIRECTORY_SEPARATOR .
-                    $currentFile;
-                if(is_dir($absolutePath)) {
-                    $recursiveFiles =
-                        \Magento\TestFramework\Utility\Files::getFiles(array($absolutePath), '*.php', true);
-                    $blackList = array_merge($blackList, $recursiveFiles);
-                }
-                else {
-                    array_push($blackList, $currentFile);
-                }
-            }
-
-        }
-
-        if (in_array($relativePath, $blackList)) {
+        self::_setNamespaceBlackList();
+        if (in_array($relativePath, self::$_namespaceBlacklist)) {
             return;
         }
 
@@ -250,6 +231,31 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
         $this->_assertClassNamespace($file, $relativePath, $contents, $className);
     }
 
+    protected function _setNamespaceBlackList()
+    {
+        if(!isset(self::$_namespaceBlacklist)) {
+            $blackList = array();
+            foreach (glob(__DIR__ . '/_files/blacklist/*.txt') as $list) {
+                $fileList = file($list, FILE_IGNORE_NEW_LINES);
+                foreach ($fileList as $currentFile) {
+                    $absolutePath =
+                        \Magento\TestFramework\Utility\Files::init()->getPathToSource() .
+                        DIRECTORY_SEPARATOR .
+                        $currentFile;
+                    if(is_dir($absolutePath)) {
+                        $recursiveFiles =
+                            \Magento\TestFramework\Utility\Files::getFiles(array($absolutePath), '*.php', true);
+                        $blackList = array_merge($blackList, $recursiveFiles);
+                    }
+                    else {
+                        array_push($blackList, $currentFile);
+                    }
+                }
+
+            }
+            self::$_namespaceBlacklist = $blackList;
+        }
+    }
     /**
      * Assert PHP classes have valid formal namespaces according to file locations
      *
