@@ -40,7 +40,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
     protected $_directoryFactory;
 
     /**
-     * Class construct
+     * Class constructor
      *
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
      * @param \Magento\Core\Model\Context $context
@@ -51,6 +51,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
      * @param \Magento\Core\Model\Resource\File\Storage\Directory\Database $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param string|null $connectionName
+     * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
@@ -61,7 +62,8 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
         \Magento\Core\Model\File\Storage\Directory\DatabaseFactory $directoryFactory,
         \Magento\Core\Model\Resource\File\Storage\Directory\Database $resource,
         \Magento\Data\Collection\Db $resourceCollection = null,
-        $connectionName = null
+        $connectionName = null,
+        array $data = array()
     ) {
         $this->_directoryFactory = $directoryFactory;
         parent::__construct(
@@ -249,7 +251,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
     /**
      * Delete directory from database
      *
-     * @param string $path
+     * @param string $dirPath
      * @return \Magento\Core\Model\File\Storage\Directory\Database
      */
     public function deleteDirectory($dirPath)

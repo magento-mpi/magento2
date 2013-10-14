@@ -18,7 +18,7 @@
  */
 namespace Magento\Core\Model\File\Storage;
 
-class File extends \Magento\Core\Model\File\Storage\AbstractStorage
+class File
 {
     /**
      * Prefix of model events names
@@ -27,6 +27,24 @@ class File extends \Magento\Core\Model\File\Storage\AbstractStorage
      */
     protected $_eventPrefix = 'core_file_storage_file';
 
+    /**
+     * Store media base directory path
+     *
+     * @var string
+     */
+    protected $_mediaBaseDirectory = null;
+
+    /**
+     * Core file storage database
+     *
+     * @var \Magento\Core\Helper\File\Storage\Database
+     */
+    protected $_storageHelper = null;
+
+    /**
+     * @var null
+     */
+    protected $_mediaHelper = null;
     /**
      * Data at storage
      *
@@ -52,31 +70,25 @@ class File extends \Magento\Core\Model\File\Storage\AbstractStorage
     protected $_fileUtility;
 
     /**
+     *
+     */
+    /**
      * Class construct
      *
      * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Date $dateModel
-     * @param \Magento\Core\Model\Resource\File\Storage\Database $resource
+     * @param \Magento\Core\Helper\File\Storage\Database $storageHelper
+     * @param \Magento\Core\Helper\File\MediaHelper $mediaHelper
      * @param \Magento\Core\Model\Resource\File\Storage\File $fileUtility
-     * @param \Magento\Data\Collection\Db $resourceCollection
      */
     public function __construct(
         \Magento\Core\Model\Logger $logger,
-        \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\Date $dateModel,
-        \Magento\Core\Model\Resource\File\Storage\Database $resource,
-        \Magento\Core\Model\Resource\File\Storage\File $fileUtility,
-        \Magento\Data\Collection\Db $resourceCollection = null
+        \Magento\Core\Helper\File\Storage\Database $storageHelper,
+        \Magento\Core\Helper\File\MediaHelper $mediaHelper,
+        \Magento\Core\Model\Resource\File\Storage\File $fileUtility
     ) {
-        $this->_fileUtility = $fileUtility;
-        $this->_logger = $logger;
-        parent::__construct($coreFileStorageDb, $context, $registry, $dateModel, null,
-             $resourceCollection, null);
+        $this->_fileUtility     = $fileUtility;
+        $this->_storageHelper   = $storageHelper;
+        $this->_logger          = $logger;
     }
 
     /**
@@ -160,6 +172,16 @@ class File extends \Magento\Core\Model\File\Storage\AbstractStorage
     }
 
     /**
+     * Retrieve connection name saved at config
+     *
+     * @return string
+     */
+    public function getConfigConnectionName()
+    {
+        return null;
+    }
+
+    /**
      * Export directories list from storage
      *
      * @param  int $offset
@@ -189,7 +211,7 @@ class File extends \Magento\Core\Model\File\Storage\AbstractStorage
         $result = array();
         foreach ($slice as $fileName) {
             try {
-                $fileInfo = $this->collectFileInfo($fileName);
+                $fileInfo = $this->_mediaHelper->collectFileInfo($this->getMediaBaseDirectory(), $fileName);
             } catch (\Exception $e) {
                 $this->_logger->logException($e);
                 continue;
@@ -290,5 +312,18 @@ class File extends \Magento\Core\Model\File\Storage\AbstractStorage
         }
 
         return false;
+    }
+
+    /**
+     * Retrieve media base directory path
+     *
+     * @return string
+     */
+    public function getMediaBaseDirectory()
+    {
+        if (is_null($this->_mediaBaseDirectory)) {
+            $this->_mediaBaseDirectory = $this->_storageHelper->getMediaBaseDir();
+        }
+        return $this->_mediaBaseDirectory;
     }
 }

@@ -53,20 +53,30 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
     protected $_directoryFactory;
 
     /**
+     * @var \Magento\Core\Helper\File\MediaHelper
+     */
+    protected $_mediaHelper;
+
+    /**
+     * Class constructor
+     *
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
+     * @param \Magento\Core\Helper\File\MediaHelper $mediaHelper
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Date $dateModel
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\Resource\File\Storage\Database $resource
-     * @param \Magento\Core\Model\File\Storage\Directory\DatabaseFactory $directoryFactory
+     * @param Directory\DatabaseFactory $directoryFactory
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param string|null $connectionName
+     * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Logger $logger,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
+        \Magento\Core\Helper\File\MediaHelper $mediaHelper,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Date $dateModel,
@@ -74,10 +84,12 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
         \Magento\Core\Model\Resource\File\Storage\Database $resource,
         \Magento\Core\Model\File\Storage\Directory\DatabaseFactory $directoryFactory,
         \Magento\Data\Collection\Db $resourceCollection = null,
-        $connectionName = null
+        $connectionName = null,
+        array $data = array()
     ) {
         $this->_directoryFactory = $directoryFactory;
         $this->_logger = $logger;
+        $this->_mediaHelper = $mediaHelper;
         parent::__construct(
             $coreFileStorageDb,
             $context,
@@ -86,7 +98,8 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
             $app,
             $resource,
             $resourceCollection,
-            $connectionName);
+            $connectionName,
+            $data);
     }
 
     /**
@@ -246,7 +259,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
      */
     public function saveFile($filename)
     {
-        $fileInfo = $this->collectFileInfo($filename);
+        $fileInfo = $this->_mediaHelper->collectFileInfo($this->getMediaBaseDirectory(), $filename);
         $filePath = $fileInfo['directory'];
 
         $directory = $this->_directoryFactory->create()->loadByPath($filePath);
