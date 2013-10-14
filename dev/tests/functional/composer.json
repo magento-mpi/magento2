@@ -1,0 +1,19 @@
+{
+    "name":         "magento/mtf",
+    "type":         "library",
+    "description":  "Magento Testing Framework",
+    "keywords":     ["automation", "magento", "testing"],
+    "homepage":     "http://www.magentocommerce.com/",
+    "license":      "proprietary",
+    "require": {
+        "php":                                  ">=5.3.3",
+        "phpunit/phpunit":                      ">=3.7.18",
+        "phpunit/phpunit-selenium":             ">=1.2.12",
+        "claylo/selenium-server-standalone":    ">=2.32.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "": ["testsuites", "generated", "lib/", "framework/", "tests/app", "tests/design"]
+        }
+    }
+}
