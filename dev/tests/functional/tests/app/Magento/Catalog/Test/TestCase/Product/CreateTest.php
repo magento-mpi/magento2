@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\TestCase;
+namespace Magento\Catalog\Test\TestCase\Product;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
@@ -17,12 +17,12 @@ use Mtf\Util\FixtureIterator;
 use Magento\Catalog\Test\Fixture\Product;
 
 /**
- * Class ProductTest
+ * Class CreateTest
  * Test product creation
  *
- * @package Magento\Catalog\Test\TestCase
+ * @package Magento\Catalog\Test\TestCase\Product
  */
-class ProductTest extends Functional
+class CreateTest extends Functional
 {
     /**
      * Login into backend area before test

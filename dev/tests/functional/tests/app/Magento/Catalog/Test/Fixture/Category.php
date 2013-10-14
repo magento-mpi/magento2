@@ -54,15 +54,12 @@ class Category extends DataFixture
     protected function _initData()
     {
         $this->_repository = array(
-            'category' => array(
+            'subcategory' => array(
                 'config' => array(
                     'constraint' => 'Success'
                 ),
                 'data' => array(
                     'fields' => array(
-                        'path' => array(
-                            'value' => '1/2'//'Default Category'
-                        ),
                         'name' => array(
                             'value' => 'Subcategory %isolation%',
                             'group' => static::GROUP_GENERAL_INFORMATION
@@ -70,12 +67,12 @@ class Category extends DataFixture
                         'is_active' => array(
                             'value' => 'Yes',
                             'group' => static::GROUP_GENERAL_INFORMATION,
-                            'type' => 'select'
+                            'input' => 'select'
                         ),
                         'include_in_menu' => array(
                             'value' => 'Yes',
                             'group' => static::GROUP_GENERAL_INFORMATION,
-                            'type' => 'select'
+                            'input' => 'select'
                         ),
                     )
                 )
@@ -83,6 +80,6 @@ class Category extends DataFixture
         );
 
         //Default data set
-        $this->switchData('category');
+        $this->switchData('subcategory');
     }
 }

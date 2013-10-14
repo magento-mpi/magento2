@@ -14,7 +14,7 @@ namespace Magento\Customer\Test\Block\Form;
 use Mtf\Block\Form;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
-use Magento\Paypal\Test\Fixture\Customer;
+use Magento\Customer\Test\Fixture\Customer;
 
 /**
  * Class Login

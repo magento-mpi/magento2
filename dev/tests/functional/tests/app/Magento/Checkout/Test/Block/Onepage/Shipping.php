@@ -12,6 +12,7 @@
 namespace Magento\Checkout\Test\Block\Onepage;
 
 use Mtf\Block\Form;
+use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 use Magento\Checkout\Test\Fixture\Checkout;
 
@@ -47,6 +48,18 @@ class Shipping extends Form
             'country' => '[id="shipping:country_id"]',
         );
         $this->continue = '#shipping-buttons-container button';
+    }
+
+    /**
+     * Fill form data. Unset 'email' field as it absent in current form
+     *
+     * @param array $fields
+     * @param Element $element
+     */
+    protected function _fill(array $fields, Element $element = null)
+    {
+        unset($fields['email']);
+        parent::_fill($fields, $element);
     }
 
     /**

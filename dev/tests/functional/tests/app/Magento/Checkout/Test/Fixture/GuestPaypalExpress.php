@@ -62,7 +62,6 @@ class GuestPaypalExpress extends Checkout
         );
         //Checkout data
         $this->billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress()->switchData('address_US_1');
-        $this->shippingAddresses = $this->billingAddress;
         $this->shippingMethods = Factory::getFixtureFactory()->getMagentoShippingMethod()->switchData('flat_rate');
         $this->paymentMethod = Factory::getFixtureFactory()->getMagentoPaymentMethod()->switchData('paypal_express');
         $this->creditCard = Factory::getFixtureFactory()->getMagentoPaymentCc()->switchData('visa_direct');

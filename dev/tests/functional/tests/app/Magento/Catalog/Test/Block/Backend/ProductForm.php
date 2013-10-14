@@ -12,6 +12,7 @@
 namespace Magento\Catalog\Test\Block\Backend;
 
 use Mtf\Fixture;
+use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 
@@ -42,9 +43,12 @@ class ProductForm extends FormTabs
     }
 
     /**
-     * {inheritdoc}
+     * Fill the product form
+     *
+     * @param Fixture $fixture
+     * @param Element $element
      */
-    public function fill(Fixture $fixture)
+    public function fill(Fixture $fixture, Element $element = null)
     {
         /**
          * Open tab "Advanced Settings" to make all nested tabs visible and available to interact

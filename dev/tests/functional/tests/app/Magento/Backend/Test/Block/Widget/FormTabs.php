@@ -12,8 +12,9 @@
 
 namespace Magento\Backend\Test\Block\Widget;
 
-use Mtf\Client\Element\Locator;
 use Mtf\Fixture;
+use Mtf\Client\Element;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class FormTabs
@@ -32,8 +33,9 @@ class FormTabs extends Form
      * Fill form with tabs
      *
      * @param Fixture $fixture
+     * @param Element $element
      */
-    public function fill(Fixture $fixture)
+    public function fill(Fixture $fixture, Element $element = null)
     {
         $tabs = $this->getFieldsByTabs($fixture);
         foreach ($tabs as $tab => $tabFields) {

@@ -13,8 +13,8 @@
 namespace Magento\Backend\Test\Block\Widget;
 
 use Mtf\Fixture;
-use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
+use Mtf\Block\Form as FormInstance;
 
 /**
  * Class Form
@@ -22,7 +22,7 @@ use Mtf\Client\Element\Locator;
  *
  * @package Magento\Backend\Test\Block\Widget
  */
-class Form extends Block
+class Form extends FormInstance
 {
     /**
      * Save button
@@ -46,20 +46,6 @@ class Form extends Block
         //Elements
         $this->saveButton = '#save';
         $this->deleteButton = 'delete-button-button';
-    }
-
-    /**
-     * Fill the root form
-     *
-     * @param Fixture $fixture
-     */
-    public function fill(Fixture $fixture)
-    {
-        $dataSet = $fixture->getData();
-        $fields = isset($dataSet['fields']) ? $dataSet['fields'] : array();
-        foreach ($fields as $field => $value) {
-            $this->_rootElement->find($field, Locator::SELECTOR_ID)->setValue($value);
-        }
     }
 
     /**
