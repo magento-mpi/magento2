@@ -20,11 +20,17 @@ class ThemeFactory
 {
     protected $objectManager;
 
+    /**
+     * @param ObjectManager $objectManager
+     */
     public function __construct(ObjectManager $objectManager)
     {
         $this->objectManager = $objectManager;
     }
 
+    /**
+     * @param $themeId
+     */
     public function getTheme($themeId)
     {
         die(__METHOD__);

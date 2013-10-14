@@ -1,13 +1,20 @@
 <?php
 
-class Magento_View_DataProviderFactory
+namespace Magento\View;
+
+use Magento\ObjectManager;
+
+class DataProviderFactory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var ObjectManager
      */
     protected $objectManager;
 
-    public function __construct(Magento_ObjectManager $objectManager)
+    /**
+     * @param ObjectManager $objectManager
+     */
+    public function __construct(ObjectManager $objectManager)
     {
         $this->objectManager = $objectManager;
     }
@@ -15,7 +22,7 @@ class Magento_View_DataProviderFactory
     /**
      * @param string $className
      * @param array $arguments
-     * @return Magento_View_DataProvider
+     * @return DataProvider
      */
     public function create($className, array $arguments = array())
     {

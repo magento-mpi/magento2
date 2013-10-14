@@ -22,6 +22,11 @@ class Html implements Render
         $this->templateEngineFactory = $templateEngineFactory;
     }
 
+    /**
+     * @param string $template
+     * @param array $data
+     * @return string
+     */
     public function renderTemplate($template, array $data)
     {
         $result = $this->fetchView($template, $data);
@@ -31,6 +36,11 @@ class Html implements Render
         return $result;
     }
 
+    /**
+     * @param string $content
+     * @param array $containerInfo
+     * @return string
+     */
     public function renderContainer($content, array $containerInfo = array())
     {
         if (isset($containerInfo['tag'])) {
