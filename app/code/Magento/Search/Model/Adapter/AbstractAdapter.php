@@ -643,7 +643,7 @@ abstract class AbstractAdapter
      * Add prepared Solr Input documents to Solr index
      *
      * @param array $docs
-     * @return \Magento\Search\Model\Adapter\Solr
+     * @return \Magento\Search\Model\Client\Solr
      */
     public function addDocs($docs)
     {

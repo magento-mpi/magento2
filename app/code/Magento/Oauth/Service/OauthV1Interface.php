@@ -42,7 +42,6 @@ interface OauthV1Interface
     const SIGNATURE_SHA256 = 'HMAC-SHA256';
     /**#@-*/
 
-
     /**
      * Create a new consumer account when an Add-On is installed.
      *

@@ -358,7 +358,7 @@ class MassOperations
     /**
      * Retrieve admin notifier
      *
-     * @return \Magento\Adminhtml\Model\Inbox
+     * @return \Magento\AdminNotification\Model\Inbox
      */
     protected function _getNotifier()
     {

@@ -526,7 +526,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
      * Get and initialize file system driver by operation file section configuration
      *
      * @throws \Magento\Core\Exception
-     * @return \Magento\Io\Abstract
+     * @return \Magento\Io\AbstractIo
      */
     public function getServerIoDriver()
     {
