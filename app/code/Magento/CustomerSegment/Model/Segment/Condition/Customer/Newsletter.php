@@ -120,7 +120,7 @@ class Newsletter
      *
      * @param $customer
      * @param int|Zend_Db_Expr $website
-     * @return \Magento\Db\Select
+     * @return \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)
     {

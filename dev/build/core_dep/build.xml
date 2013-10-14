@@ -36,7 +36,7 @@
                 --source=${env.bamboo_source_repository} --source-point=${env.bamboo_source_point}
                 --target=${env.bamboo_target_repository} --target-branch=${env.bamboo_target_branch}
                 --target-dir=${publication_target_dir}
-                --changelog-file=CHANGELOG.markdown
+                --changelog-file=CHANGELOG.md
                 --no-push
                 "/>
         </exec>

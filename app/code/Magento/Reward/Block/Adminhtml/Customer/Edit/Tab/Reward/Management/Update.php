@@ -67,7 +67,7 @@ class Update
     /**
      * Prepare form before rendering HTML
      *
-     * @return \Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management_Update
+     * @return \Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Update
      */
     protected function _prepareForm()
     {

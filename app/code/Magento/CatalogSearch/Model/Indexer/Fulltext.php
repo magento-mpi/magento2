@@ -274,7 +274,7 @@ class Fulltext extends \Magento\Index\Model\Indexer\AbstractIndexer
      * Get data required for category'es products reindex
      *
      * @param \Magento\Index\Model\Event $event
-     * @return \Magento\CatalogSearch\Model\Indexer\Search
+     * @return \Magento\CatalogSearch\Model\Indexer\Fulltext
      */
     protected function _registerCatalogCategoryEvent(\Magento\Index\Model\Event $event)
     {
@@ -305,7 +305,7 @@ class Fulltext extends \Magento\Index\Model\Indexer\AbstractIndexer
      * Register data required by catatalog product process in event object
      *
      * @param \Magento\Index\Model\Event $event
-     * @return \Magento\CatalogSearch\Model\Indexer\Search
+     * @return \Magento\CatalogSearch\Model\Indexer\Fulltext
      */
     protected function _registerCatalogProductEvent(\Magento\Index\Model\Event $event)
     {
