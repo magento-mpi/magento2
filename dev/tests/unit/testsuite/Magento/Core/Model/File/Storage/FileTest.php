@@ -13,30 +13,45 @@ namespace Magento\Core\Model\File\Storage;
 class MediaTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @var \Magento\Core\Model\File\Storage\File
+     */
+    protected $_model;
+    /**
      * @var \Magento\Core\Helper\File\Media
      */
-    protected $_helper;
+    protected $_loggerMock;
 
     /**
      * @var \Magento\Core\Helper\Context
      */
-    protected $_contextMock;
+    protected $_storageHelperMock;
 
     /**
      * @var \Magento\Core\Model\Date
      */
-    protected $_dateMock;
+    protected $_mediaHelperMock;
+
+    /**
+     * @var \Magento\Core\Model\Resource\File\Storage\File
+     */
+    protected $_fileUtilityMock;
 
     protected function setUp()
     {
-        $this->_contextMock =
-            $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false);
-        $this->_dateMock =
-            $this->getMock('Magento\Core\Model\Date', array(), array(), '', false);
+        $this->_loggerMock =
+            $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $this->_storageHelperMock =
+            $this->getMock('Magento\Core\Helper\File\Storage\Database', array(), array(), '', false);
+        $this->_mediaHelperMock =
+            $this->getMock('Magento\Core\Helper\File\Media', array(), array(), '', false);
+        $this->_fileUtilityMock =
+            $this->getMock('Magento\Core\Model\Resource\File\Storage\File', array(), array(), '', false);
 
-        $this->_model = new \Magento\Core\Helper\File\Media(
-            $this->_contextMock,
-            $this->_dateMock
+        $this->_model = new \Magento\Core\Model\File\Storage\File(
+            $this->_loggerMock,
+            $this->_storageHelperMock,
+            $this->_mediaHelperMock,
+            $this->_fileUtilityMock
         );
     }
 
