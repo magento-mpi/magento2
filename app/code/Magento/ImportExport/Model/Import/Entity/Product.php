@@ -1081,7 +1081,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                     // 1. Entity phase
                     if (isset($this->_oldSku[$rowSku])) { // existing row
                         $entityRowsUp[] = array(
-                            'updated_at' => now(),
+                            'updated_at' => \Magento\Date::now(),
                             'entity_id'  => $this->_oldSku[$rowSku]['entity_id']
                         );
                     } else { // new row
@@ -1091,8 +1091,8 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                                 'attribute_set_id' => $this->_newSku[$rowSku]['attr_set_id'],
                                 'type_id'          => $this->_newSku[$rowSku]['type_id'],
                                 'sku'              => $rowSku,
-                                'created_at'       => now(),
-                                'updated_at'       => now()
+                                'created_at'       => \Magento\Date::now(),
+                                'updated_at'       => \Magento\Date::now()
                             );
                             $productsQty++;
                         } else {

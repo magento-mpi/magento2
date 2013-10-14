@@ -475,8 +475,8 @@ class Address
             'entity_id'      => $addressId,
             'entity_type_id' => $this->getEntityTypeId(),
             'parent_id'      => $customerId,
-            'created_at'     => now(),
-            'updated_at'     => now()
+            'created_at'     => \Magento\Date::now(),
+            'updated_at'     => \Magento\Date::now()
         );
 
         // attribute values

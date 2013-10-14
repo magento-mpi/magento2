@@ -239,7 +239,7 @@ class User
             'firstname' => $this->getFirstname(),
             'lastname'  => $this->getLastname(),
             'email'     => $this->getEmail(),
-            'modified'  => now(),
+            'modified'  => \Magento\Date::now(),
             'extra'     => serialize($this->getExtra())
         );
 

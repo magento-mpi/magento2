@@ -258,7 +258,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     public function getNow()
     {
         if (!$this->_now) {
-            return now();
+            return \Magento\Date::now();
         }
         return $this->_now;
     }

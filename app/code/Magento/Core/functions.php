@@ -39,17 +39,6 @@ function uc_words($str, $destSep = '_', $srcSep = '_')
 }
 
 /**
- * Simple sql format date
- *
- * @param bool $dayOnly
- * @return string
- */
-function now($dayOnly = false)
-{
-    return date($dayOnly ? 'Y-m-d' : 'Y-m-d H:i:s');
-}
-
-/**
  * Check whether sql date is empty
  *
  * @param string $date
