@@ -19,7 +19,7 @@
 namespace Magento\View\Element;
 
 use Magento\View\Element;
-use Magento\App\Context;
+use Magento\View\Context;
 use Magento\View\Render\Html;
 use Magento\View\Render\RenderFactory;
 use Magento\View\ViewFactory;
@@ -76,7 +76,7 @@ abstract class Base implements Element
      */
     protected $elements = array();
 
-    protected static $allElements = array();
+    public static $allElements = array();
 
     /**
      * @var array
@@ -190,14 +190,47 @@ abstract class Base implements Element
         return $this->elements;
     }
 
+    public function getChildBlocks()
+    {
+        $blocks = array();
+        foreach ($this->getChildrenElements() as $element) {
+            if ($this->isBlock($element)) {
+                $blocks[] = $element->getWrappedElement();
+            }
+        }
+        return $blocks;
+    }
+
+    /**
+     * Whether element is a block
+     *
+     * @param Element $element
+     * @return bool
+     */
+    public function isBlock(Element $element)
+    {
+        return $result = $element->getType() === \Magento\View\Element\Block::TYPE;
+    }
+
+    /**
+     * Whether element is a container
+     *
+     * @param Element $element
+     * @return bool
+     */
+    public function isContainer(Element $element)
+    {
+        return $result = $element->getType() === \Magento\View\Element\Container::TYPE;
+    }
+
     /**
      * @param string $name
      * @return Element
      */
     public function getElement($name)
     {
-        return isset(self::$allElements[$name]) ? self::$allElements[$name] : null;
-        return isset($this->elements[$name]) ? $this->elements[$name] : null;
+        return isset(Base::$allElements[$name]) ? Base::$allElements[$name] : null;
+        //return isset($this->elements[$name]) ? $this->elements[$name] : null;
     }
 
     public function renderElement($name, $type = Html::TYPE_HTML)
@@ -209,11 +242,6 @@ abstract class Base implements Element
             $result = '';
         }
         return $result;
-    }
-
-    public function getChildBlocks()
-    {
-        return $this->getChildrenElements();
     }
 
     public function getChildHtml($name, $type = Html::TYPE_HTML)
@@ -272,6 +300,11 @@ abstract class Base implements Element
         }
 
         $this->registerRelation($this->getName(), $name);
+    }
+
+    public function getChild($alias)
+    {
+        return isset($this->elements[$alias]) ? $this->elements[$alias] : null;
     }
 
     public function detach(Element $child, $alias = null)

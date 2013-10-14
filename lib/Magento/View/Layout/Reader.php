@@ -31,6 +31,7 @@ class Reader
 
     public function generateFromXml($xml, & $meta)
     {
+        $this->meta = & $meta;
         $this->xmlAsArray($xml, $meta);
     }
 

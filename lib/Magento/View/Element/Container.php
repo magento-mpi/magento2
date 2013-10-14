@@ -6,7 +6,7 @@ use Magento\ObjectManager;
 use Magento\View\Element;
 use Magento\View\Render\Html;
 use Magento\View\ViewFactory;
-use Magento\App\Context;
+use Magento\View\Context;
 use Magento\View\Render\RenderFactory;
 
 class Container extends Base implements Element

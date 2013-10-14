@@ -11,13 +11,13 @@
  */
 namespace Magento\View\Layout\File\Source\Override;
 
-use Magento\View\Layout\File\SourceInterface;
-use Magento\Core\Model\ThemeInterface;
+use Magento\View\Layout\File\Source;
+use Magento\View\Design\Theme;
 use Magento\Core\Model\Dir;
 use Magento\Filesystem;
 use Magento\View\Layout\File\Factory;
 
-class Base implements SourceInterface
+class Base implements Source
 {
     /**
      * @var Filesystem
@@ -52,7 +52,7 @@ class Base implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function getFiles(ThemeInterface $theme, $filePath = '*')
+    public function getFiles(Theme $theme, $filePath = '*')
     {
         $namespace = $module = '*';
         $themePath = $theme->getFullPath();

@@ -3,8 +3,7 @@
 namespace Magento\View\Element;
 
 use Magento\View\Element;
-use Magento\App\Context;
-use Magento\View\Render\Html;
+use Magento\View\Context;
 use Magento\View\Render\RenderFactory;
 use Magento\View\ViewFactory;
 use Magento\ObjectManager;
@@ -58,8 +57,14 @@ class Action extends Base implements Element
      */
     public function register(Element $parent = null)
     {
+        $children = isset($this->meta['children']) ? $this->meta['children'] : array();
+        $arguments = array();
+        foreach ($children as $child) {
+            $arguments[$child['name']] = $child['value'];
+        }
+
         if (method_exists($parent, 'call')) {
-            $parent->call($this->method, $this->arguments);
+            $parent->call($this->method, $arguments);
         }
     }
 }

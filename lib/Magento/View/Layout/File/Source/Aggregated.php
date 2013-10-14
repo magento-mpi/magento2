@@ -11,13 +11,13 @@
  */
 namespace Magento\View\Layout\File\Source;
 
-use Magento\View\Layout\File\SourceInterface;
-use Magento\Core\Model\ThemeInterface;
+use Magento\View\Layout\File\Source;
+use Magento\View\Design\Theme;
 use Magento\Core\Model\Dir;
 use Magento\Filesystem;
 use Magento\View\Layout\File\FileList\Factory;
 
-class Aggregated implements SourceInterface
+class Aggregated implements Source
 {
     /**
      * @var Factory
@@ -25,38 +25,38 @@ class Aggregated implements SourceInterface
     private $_fileListFactory;
 
     /**
-     * @var SourceInterface
+     * @var Source
      */
     private $_baseFiles;
 
     /**
-     * @var SourceInterface
+     * @var Source
      */
     private $_themeFiles;
 
     /**
-     * @var SourceInterface
+     * @var Source
      */
     private $_overridingBaseFiles;
 
     /**
-     * @var SourceInterface
+     * @var Source
      */
     private $_overridingThemeFiles;
 
     /**
      * @param Factory $fileListFactory
-     * @param SourceInterface $baseFiles
-     * @param SourceInterface $themeFiles
-     * @param SourceInterface $overridingBaseFiles
-     * @param SourceInterface $overridingThemeFiles
+     * @param Source $baseFiles
+     * @param Source $themeFiles
+     * @param Source $overridingBaseFiles
+     * @param Source $overridingThemeFiles
      */
     public function __construct(
         Factory $fileListFactory,
-        SourceInterface $baseFiles,
-        SourceInterface $themeFiles,
-        SourceInterface $overridingBaseFiles,
-        SourceInterface $overridingThemeFiles
+        Source $baseFiles,
+        Source $themeFiles,
+        Source $overridingBaseFiles,
+        Source $overridingThemeFiles
     ) {
         $this->_fileListFactory = $fileListFactory;
         $this->_baseFiles = $baseFiles;
@@ -70,7 +70,7 @@ class Aggregated implements SourceInterface
      *
      * {@inheritdoc}
      */
-    public function getFiles(ThemeInterface $theme, $filePath = '*')
+    public function getFiles(Theme $theme, $filePath = '*')
     {
         $list = $this->_fileListFactory->create();
         $list->add($this->_baseFiles->getFiles($theme, $filePath));
@@ -86,10 +86,10 @@ class Aggregated implements SourceInterface
     /**
      * Return the full theme inheritance sequence, from the root theme till a specified one
      *
-     * @param ThemeInterface $theme
-     * @return ThemeInterface[] Format: array([<root_theme>, ..., <parent_theme>,] <current_theme>)
+     * @param Theme $theme
+     * @return Theme[] Format: array([<root_theme>, ..., <parent_theme>,] <current_theme>)
      */
-    protected function _getInheritedThemes(ThemeInterface $theme)
+    protected function _getInheritedThemes(Theme $theme)
     {
         $result = array();
         while ($theme) {

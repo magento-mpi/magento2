@@ -35,8 +35,17 @@ interface Element
     public function renderElement($name, $type = Html::TYPE_HTML);
 
 
+    /**
+     * @param $alias
+     * @return Element
+     */
+    public function getChild($alias);
 
     public function getChildrenElements();
+
+    public function isBlock(Element $element);
+
+    public function isContainer(Element $element);
 
     public function removeChildrenElements();
 

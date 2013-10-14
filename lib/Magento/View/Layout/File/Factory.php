@@ -12,7 +12,7 @@
 namespace Magento\View\Layout\File;
 
 use Magento\ObjectManager;
-use Magento\Core\Model\ThemeInterface;
+use Magento\View\Design\Theme;
 
 class Factory
 {
@@ -34,10 +34,10 @@ class Factory
      *
      * @param string $filename
      * @param string $module
-     * @param ThemeInterface $theme
+     * @param Theme $theme
      * @return \Magento\View\Layout\File
      */
-    public function create($filename, $module, ThemeInterface $theme = null)
+    public function create($filename, $module, Theme $theme = null)
     {
         return $this->_objectManager->create(
             'Magento\View\Layout\File',

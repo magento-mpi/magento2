@@ -11,15 +11,15 @@
  */
 namespace Magento\View\Layout\File\Source\Decorator;
 
-use Magento\View\Layout\File\SourceInterface;
+use Magento\View\Layout\File\Source;
 use Magento\View\Layout\File;
 use Magento\Core\Model\ModuleListInterface;
-use Magento\Core\Model\ThemeInterface;
+use Magento\View\Design\Theme;
 
-class ModuleDependency implements SourceInterface
+class ModuleDependency implements Source
 {
     /**
-     * @var SourceInterface
+     * @var Source
      */
     private $_subject;
 
@@ -36,11 +36,11 @@ class ModuleDependency implements SourceInterface
     private $_orderedModules = null;
 
     /**
-     * @param SourceInterface $subject
+     * @param Source $subject
      * @param ModuleListInterface $listInterface
      */
     public function __construct(
-        SourceInterface $subject,
+        Source $subject,
         ModuleListInterface $listInterface
     ) {
         $this->_subject = $subject;
@@ -52,7 +52,7 @@ class ModuleDependency implements SourceInterface
      *
      * {@inheritdoc}
      */
-    public function getFiles(ThemeInterface $theme, $filePath = '*')
+    public function getFiles(Theme $theme, $filePath = '*')
     {
         $result = $this->_subject->getFiles($theme, $filePath);
         usort($result, array($this, 'compareFiles'));

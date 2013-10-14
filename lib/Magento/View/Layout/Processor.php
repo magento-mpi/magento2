@@ -54,34 +54,9 @@ interface Processor
      * Return whether any page handles have been added or not.
      *
      * @param array $handlesToTry
-     * @return bool
+     * @return Processor
      */
     public function addPageHandles(array $handlesToTry);
-
-    /**
-     * Retrieve the all parent handles ordered from parent to child. The $isPageTypeOnly parameters controls,
-     * whether only page type parent relation is processed.
-     *
-     * @param string $handleName
-     * @param bool $isPageTypeOnly
-     * @return array
-     */
-    public function getPageHandleParents($handleName, $isPageTypeOnly = true);
-
-    /**
-     * Whether a page handle is declared in the system or not
-     *
-     * @param string $handleName
-     * @return bool
-     */
-    public function pageHandleExists($handleName);
-
-    /**
-     * Retrieve used page handle names sorted from parent to child
-     *
-     * @return array
-     */
-    public function getPageHandles();
 
     /**
      * Retrieve full hierarchy of types and fragment types in the system
@@ -111,18 +86,11 @@ interface Processor
     public function getPageHandlesHierarchy();
 
     /**
-     * Retrieve the type of a page handle
-     *
-     * @param string $handleName
-     * @return string|null
-     */
-    public function getPageHandleType($handleName);
-    /**
      * Load layout updates by handles
      *
      * @param array|string $handles
      * @throws \Magento\Exception
-     * @return \Magento\View\Layout\Merge
+     * @return Processor
      */
     public function load($handles = array());
 

@@ -3,7 +3,7 @@
 namespace Magento\View\Element;
 
 use Magento\View\Element;
-use Magento\App\Context;
+use Magento\View\Context;
 
 class Data extends Base implements Element
 {

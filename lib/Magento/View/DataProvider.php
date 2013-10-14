@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 
+
 /**
  * Data Provider Interface.
  *
@@ -15,13 +16,9 @@
  * @package    Magento_View
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\View;
-
-use Magento\View;
-
-interface DataProvider
+interface Magento_View_DataProvider
 {
-    public function setContainer(Element $container);
+    public function setContainer(Magento_View_Element $container);
 
     public function getData();
 }

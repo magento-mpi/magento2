@@ -4,7 +4,7 @@ namespace Magento\View\Element;
 
 use Magento\ObjectManager;
 use Magento\View\Element;
-use Magento\App\Context;
+use Magento\View\Context;
 use Magento\View\Render\RenderFactory;
 use Magento\View\ViewFactory;
 use Magento\View\Render\Html;
@@ -58,6 +58,14 @@ class Block extends Base implements Element
             $parent->attach($this, $this->alias);
         }
 
+        $this->wrappedElement = $this->objectManager->create($this->meta['class'],
+            array('container' => $this, 'data' => $this->arguments));
+        $this->wrappedElement->setNameInLayout($this->name);
+
+        if (isset($this->meta['template'])) {
+            $this->wrappedElement->setTemplate($this->meta['template']);
+        }
+
         if ($this->getChildren()) {
             foreach ($this->getChildren() as $child) {
                 $metaElement = $this->viewFactory->create($child['type'],
@@ -71,17 +79,11 @@ class Block extends Base implements Element
             }
         }
 
-        $this->wrappedElement = $this->objectManager->create($this->meta['class'],
-            array('container' => $this, 'data' => $this->arguments));
         $this->addDataProvider($this->getName(), $this->wrappedElement);
     }
 
     public function render($type = Html::TYPE_HTML)
     {
-        if (isset($this->meta['template'])) {
-            $this->wrappedElement->setTemplate($this->meta['template']);
-        }
-
         return $this->wrappedElement->toHtml();
     }
 

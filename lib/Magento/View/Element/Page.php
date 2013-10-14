@@ -23,7 +23,7 @@ use Magento\View\Element\Container;
 use Magento\View\Render\Html;
 use Magento\View\Render\RenderFactory;
 use Magento\View\ViewFactory;
-use Magento\App\Context ;
+use Magento\View\Context ;
 use Magento\ObjectManager;
 
 class Page extends Base implements Element

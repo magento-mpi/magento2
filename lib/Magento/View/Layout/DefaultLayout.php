@@ -19,10 +19,13 @@
 namespace Magento\View\Layout;
 
 use Magento\View\Layout;
-use Magento\App\Context;
+use Magento\View\Context;
 use Magento\View\Element;
 use Magento\View\ViewFactory;
 use Magento\ObjectManager;
+use Magento\View\Element\Base;
+use Magento\Core\Model\View\DesignInterface;
+use Magento\View\Design\ThemeFactory;
 
 class DefaultLayout implements Layout
 {
@@ -36,6 +39,11 @@ class DefaultLayout implements Layout
      * @var Element
      */
     protected $root;
+
+    /**
+     * @var Context
+     */
+    protected $context;
 
     /**
      * @var ViewFactory
@@ -52,8 +60,23 @@ class DefaultLayout implements Layout
      */
     protected $layoutReader;
 
-    public function __construct(ViewFactory $viewFactory, ObjectManager $objectManager, Reader $layoutReader)
+    /**
+     * @var DesignInterface
+     */
+    protected $design;
+
+    protected $themeFactory;
+
+    public function __construct(
+        DesignInterface $design,
+        ThemeFactory $themeFactory,
+        Context $context,
+        ViewFactory $viewFactory,
+        ObjectManager $objectManager,
+        Reader $layoutReader)
     {
+        $this->design = $design;
+        $this->context = $context;
         $this->viewFactory = $viewFactory;
         $this->objectManager = $objectManager;
         $this->layoutReader = $layoutReader;
@@ -71,7 +94,29 @@ class DefaultLayout implements Layout
      */
     public function getUpdate()
     {
-        return $this->objectManager->get('Magento\\View\\Layout\\Processor');
+        $theme = $this->_getThemeInstance($this->getArea());
+        return $this->objectManager->get('Magento\\View\\Layout\\Processor', array(
+            'layout' => $this,
+            'theme' => $theme
+        ));
+    }
+
+    /**
+     * Retrieve instance of a theme currently used in an area
+     *
+     * @param string $area
+     * @return \Magento\View\Design\Theme
+     */
+    protected function _getThemeInstance($area)
+    {
+        if ($this->design->getDesignTheme()->getArea() == $area || $this->design->getArea() == $area) {
+            return $this->design->getDesignTheme();
+        }
+        $themeIdentifier = $this->design->getConfigurationDesignTheme($area);
+
+        $theme = $this->themeFactory->getTheme($themeIdentifier);
+
+        return $theme;
     }
 
     /**
@@ -93,12 +138,15 @@ class DefaultLayout implements Layout
     public function generateElements()
     {
         $this->layoutReader->generateFromXml($this->xml, $this->meta);
-
+        //echo('<xmp>'.$this->xml->asniceXml());
+        //var_dump($this->meta['children']['root']['children']['head']);
         $this->root = $this->viewFactory->create($this->meta['type'],
             array(
                 'context' => $this->context,
                 'meta' => $this->meta
             ));
+
+        Base::$allElements['root'] = $this->root;
 
         $this->root->register();
 
@@ -111,7 +159,8 @@ class DefaultLayout implements Layout
      */
     public function getElement($name)
     {
-        return isset($this->elements[$name]) ? $this->elements[$name] : null;
+        return isset(Base::$allElements[$name]) ? Base::$allElements[$name] : null;
+        //return isset($this->elements[$name]) ? $this->elements[$name] : null;
     }
 
     /**
@@ -207,7 +256,13 @@ class DefaultLayout implements Layout
      */
     public function getBlock($name)
     {
-        return $this->getElement($name);
+        $result = false;
+        $element = $this->getElement($name);
+        if ($element) {
+            $result = $element->getWrappedElement();
+        }
+
+        return $result;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -221,11 +276,14 @@ class DefaultLayout implements Layout
      */
     public function getChildBlock($parentName, $alias)
     {
+        $result = null;
+
         $parent = $this->getElement($parentName);
         if ($parent) {
-            $result = $parent->getElement($alias);
-        } else {
-            $result = null;
+            $child = $parent->getElement($alias);
+            if ($child) {
+                $result = $child->getWrappedElement();
+            }
         }
 
         return $result;
@@ -319,7 +377,7 @@ class DefaultLayout implements Layout
     {
         $parent = $this->getElement($parentName);
         if ($parent) {
-            $result = $parent->getChildrenElements();
+            $result = $parent->getChildBlocks();
         } else {
             $result = array();
         }
@@ -340,7 +398,7 @@ class DefaultLayout implements Layout
 
         $parent = $this->getElement($parentName);
         if ($parent) {
-            $child = $this->getElement($alias);
+            $child = $parent->getChild($alias);
             if ($child) {
                 $result = $child->getName();
             }
@@ -521,7 +579,7 @@ class DefaultLayout implements Layout
     public function getMessagesBlock()
     {
         if (!isset($this->messages)) {
-            $messages = $this->createBlock('Magento\Core\Block\Messages');
+            $this->messages = $this->createBlock('Magento\Core\Block\Messages');
         }
 
         return $this->messages;

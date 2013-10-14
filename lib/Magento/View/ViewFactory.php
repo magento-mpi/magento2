@@ -3,7 +3,7 @@
 namespace Magento\View;
 
 use Magento\ObjectManager;
-use Magento\App\Context;
+use Magento\View\Context;
 
 use Magento\View\Element;
 use Magento\View\Element\Page;
