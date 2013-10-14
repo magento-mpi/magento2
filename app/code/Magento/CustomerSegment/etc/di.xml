@@ -33,8 +33,8 @@
             <instance type="Magento\CustomerSegment\Model\Resource\Segment\Collection" />
         </param>
     </type>
-    <type name="Magento\Core\Model\Db\Updater">
-        <param name="resourceList">
+    <type name="Magento\App\Updater\SetupFactory">
+        <param name="resourceTypes">
             <value>
                 <customersegment_setup>Magento\CustomerSegment\Model\Resource\Setup</customersegment_setup>
             </value>

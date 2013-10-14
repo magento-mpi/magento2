@@ -213,20 +213,6 @@ class Config implements \Magento\Core\Model\ConfigInterface
     }
 
     /**
-     * Set path to the corresponding module directory
-     *
-     * @param string $moduleName
-     * @param string $type directory type (etc, controllers, locale etc)
-     * @param string $path
-     * @return \Magento\Core\Model\Config
-     */
-    public function setModuleDir($moduleName, $type, $path)
-    {
-        $this->_moduleReader->setModuleDir($moduleName, $type, $path);
-        return $this;
-    }
-
-    /**
      * Retrieve store Ids for $path with checking
      *
      * if empty $allowValues then retrieve all stores values

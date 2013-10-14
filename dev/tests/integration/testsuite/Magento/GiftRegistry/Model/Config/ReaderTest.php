@@ -26,7 +26,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $moduleDirs = $objectManager->create('Magento\Core\Model\Module\Dir',
+        $moduleDirs = $objectManager->create('Magento\App\Module\Dir',
             array('applicationDirs' => $dirs));
 
         /** @var \Magento\Core\Model\Config\Modules\Reader $moduleReader */

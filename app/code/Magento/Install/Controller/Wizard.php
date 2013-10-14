@@ -39,7 +39,7 @@ class Wizard extends \Magento\Install\Controller\Action
     /**
      * DB Updater
      *
-     * @var \Magento\Core\Model\Db\UpdaterInterface
+     * @var \Magento\App\UpdaterInterface
      */
     protected $_dbUpdater;
 
@@ -60,7 +60,7 @@ class Wizard extends \Magento\Install\Controller\Action
      * @param \Magento\Install\Model\Installer $installer
      * @param \Magento\Install\Model\Wizard $wizard
      * @param \Magento\Core\Model\Session\Generic $session
-     * @param \Magento\Core\Model\Db\UpdaterInterface $dbUpdater
+     * @param \Magento\App\UpdaterInterface $dbUpdater
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
@@ -73,7 +73,7 @@ class Wizard extends \Magento\Install\Controller\Action
         \Magento\Install\Model\Installer $installer,
         \Magento\Install\Model\Wizard $wizard,
         \Magento\Core\Model\Session\Generic $session,
-        \Magento\Core\Model\Db\UpdaterInterface $dbUpdater,
+        \Magento\App\UpdaterInterface $dbUpdater,
         \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         parent::__construct($context, $configScope, $viewDesign, $collectionFactory, $app, $appState);

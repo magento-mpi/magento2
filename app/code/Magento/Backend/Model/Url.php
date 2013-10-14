@@ -10,6 +10,9 @@
 
 namespace Magento\Backend\Model;
 
+use Magento\Backend\Model\Auth;
+use Magento\Backend\Model\Menu;
+
 /**
  * Class \Magento\Backend\Model\Url
  *

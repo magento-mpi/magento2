@@ -168,7 +168,7 @@ class App implements \Magento\Core\Model\AppInterface
     /**
      * Data base updater object
      *
-     * @var \Magento\Core\Model\Db\UpdaterInterface
+     * @var \Magento\App\UpdaterInterface
      */
     protected $_dbUpdater;
 

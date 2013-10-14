@@ -51,7 +51,7 @@ class Router extends \Magento\App\Router\AbstractRouter
     /**
      * Url
      *
-     * @var \Magento\Core\Model\UrlInterface
+     * @var \Magento\UrlInterface
      */
     protected $_url;
 
@@ -67,7 +67,7 @@ class Router extends \Magento\App\Router\AbstractRouter
      *
      * @param \Magento\App\ActionFactory $controllerFactory
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\UrlInterface $url
+     * @param \Magento\UrlInterface $url
      * @param \Magento\App\State $appState
      * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -76,7 +76,7 @@ class Router extends \Magento\App\Router\AbstractRouter
     public function __construct(
         \Magento\App\ActionFactory $controllerFactory,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\UrlInterface $url,
+        \Magento\UrlInterface $url,
         \Magento\App\State $appState,
         \Magento\Cms\Model\PageFactory $pageFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,

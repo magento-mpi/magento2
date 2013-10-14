@@ -47,9 +47,9 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     private $_storeManager = null;
 
     /**
-     * @var \Magento\Core\Model\App
+     * @var \Magento\App\ResponseInterface
      */
-    protected $_app = null;
+    protected $_response = null;
 
     /**
      * @var \Magento\Backend\Model\Url
@@ -81,7 +81,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Core\Model\StoreManager $storeManager
-     * @param \Magento\Core\Model\App $app
+     * @param \Magento\App\ResponseInterface $response
      */
     public function __construct(
         \Magento\Backend\Model\Url $backendUrl,
@@ -93,7 +93,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
         \Magento\App\RequestInterface $request,
         \Magento\ObjectManager $objectManager,
         \Magento\Core\Model\StoreManager $storeManager,
-        \Magento\Core\Model\App $app
+        \Magento\App\ResponseInterface $response
     ) {
         $this->_registry = $registry;
         $this->_backendUrl = $backendUrl;
@@ -104,7 +104,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
         $this->_objectManager = $objectManager;
         $this->_request = $request;
         $this->_storeManager = $storeManager;
-        $this->_app = $app;
+        $this->_response = $response;
     }
 
     /**
@@ -512,7 +512,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
         elseif (false === strpos($url, 'http', 0)) {
             $url = $this->_backendUrl->getUrl($url);
         }
-        $this->_app->getResponse()->setRedirect($url);
+        $this->_response->setRedirect($url);
     }
 
     /**

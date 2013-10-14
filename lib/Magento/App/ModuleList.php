@@ -24,12 +24,12 @@ class ModuleList implements \Magento\App\ModuleListInterface
     protected $_scope = 'global';
 
     /**
-     * @param \Magento\Core\Model\Module\Declaration\Reader\Filesystem $reader
+     * @param \Magento\App\Module\Declaration\Reader\Filesystem $reader
      * @param \Magento\Config\CacheInterface $cache
      * @param string $cacheId
      */
     public function __construct(
-        \Magento\Core\Model\Module\Declaration\Reader\Filesystem $reader,
+        Module\Declaration\Reader\Filesystem $reader,
         \Magento\Config\CacheInterface $cache,
         $cacheId = 'modules_declaration_cache'
     ) {

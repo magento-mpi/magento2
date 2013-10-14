@@ -466,7 +466,7 @@ class Cart
                 $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             }
         }
-        $this->_redirectReferer($this->_objectManager->create('Magento\Core\Model\UrlInterface')->getUrl('*/*'));
+        $this->_redirectReferer($this->_objectManager->create('Magento\UrlInterface')->getUrl('*/*'));
     }
 
     /**

@@ -10,7 +10,7 @@ namespace Magento\Core\App\FrontController\Plugin;
 class RequestPreprocessor
 {
     /**
-     * @var \Magento\Core\Model\Request\RewriteService RewriteService
+     * @var \Magento\Core\App\Request\RewriteService RewriteService
      */
     protected $_rewriteService;
 
@@ -20,7 +20,7 @@ class RequestPreprocessor
     protected $_storeConfig;
 
     /**
-     * @param \Magento\Core\Model\Request\RewriteService $rewriteService
+     * @param \Magento\Core\App\Request\RewriteService $rewriteService
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\App\State $appState
      * @param \Magento\Core\Model\Url $url
@@ -28,7 +28,7 @@ class RequestPreprocessor
      * @param \Magento\Core\Model\Store\Config $storeConfig
      */
     public function __construct(
-        \Magento\Core\Model\Request\RewriteService $rewriteService,
+        \Magento\Core\App\Request\RewriteService $rewriteService,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\App\State $appState,
         \Magento\Core\Model\Url $url,

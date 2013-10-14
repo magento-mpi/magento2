@@ -9,7 +9,7 @@
  */
 namespace Magento\Core\Model\Resource;
 
-class Setup implements \Magento\Core\Model\Resource\SetupInterface
+class Setup implements \Magento\App\Updater\SetupInterface
 {
     /**
      * Setup resource name

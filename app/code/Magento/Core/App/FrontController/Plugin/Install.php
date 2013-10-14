@@ -20,19 +20,19 @@ class Install
     protected $_cache;
 
     /**
-     * @var \Magento\Core\Model\Db\UpdaterInterface
+     * @var \Magento\App\UpdaterInterface
      */
     protected $_updater;
 
     /**
      * @param \Magento\App\State $appState
      * @param \Magento\Cache\FrontendInterface $cache
-     * @param \Magento\Core\Model\Db\UpdaterInterface $dbUpdater
+     * @param \Magento\App\UpdaterInterface $dbUpdater
      */
     public function __construct(
         \Magento\App\State $appState,
         \Magento\Cache\FrontendInterface $cache,
-        \Magento\Core\Model\Db\UpdaterInterface $dbUpdater
+        \Magento\App\UpdaterInterface $dbUpdater
     ) {
         $this->_appState = $appState;
         $this->_cache = $cache;

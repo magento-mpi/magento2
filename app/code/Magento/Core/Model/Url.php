@@ -62,7 +62,12 @@
  */
 namespace Magento\Core\Model;
 
-class Url extends \Magento\Object implements \Magento\Core\Model\UrlInterface
+use Magento\Core\Model\App;
+use Magento\Core\Model\Session;
+use Magento\Core\Model\Store;
+use Magento\Core\Model\StoreManager;
+
+class Url extends \Magento\Object implements \Magento\UrlInterface
 {
     /**
      * Configuration data cache
@@ -138,7 +143,7 @@ class Url extends \Magento\Object implements \Magento\Core\Model\UrlInterface
     public function __construct(
         \Magento\App\RouterListInterface $routerList,
         \Magento\App\RequestInterface $request,
-        \Magento\Core\Model\Url\SecurityInfoInterface $urlSecurityInfo,
+        Url\SecurityInfoInterface $urlSecurityInfo,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\App $app,
@@ -506,7 +511,7 @@ class Url extends \Magento\Object implements \Magento\Core\Model\UrlInterface
     public function getRoutePath($routeParams = array())
     {
         if (!$this->hasData('route_path')) {
-            $routePath = $this->getRequest()->getAlias(\Magento\Core\Model\Url\Rewrite::REWRITE_REQUEST_PATH_ALIAS);
+            $routePath = $this->getRequest()->getAlias(Url\Rewrite::REWRITE_REQUEST_PATH_ALIAS);
             if (!empty($routeParams['_use_rewrite']) && ($routePath !== null)) {
                 $this->setData('route_path', $routePath);
                 return $routePath;

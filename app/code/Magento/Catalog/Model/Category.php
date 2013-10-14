@@ -173,7 +173,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Core\Model\Url\RewriteFactory $urlRewriteFactory
      * @param \Magento\Core\Model\Resource\Store\CollectionFactory $storeCollectionFactory
-     * @param \Magento\Core\Model\UrlInterface $url
+     * @param \Magento\UrlInterface $url
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Config $catalogConfig
@@ -195,7 +195,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Core\Model\Url\RewriteFactory $urlRewriteFactory,
         \Magento\Core\Model\Resource\Store\CollectionFactory $storeCollectionFactory,
-        \Magento\Core\Model\UrlInterface $url,
+        \Magento\UrlInterface $url,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Config $catalogConfig,

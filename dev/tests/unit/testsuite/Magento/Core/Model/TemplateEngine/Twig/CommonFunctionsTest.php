@@ -41,7 +41,7 @@ class CommonFunctionsTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_urlBuilderMock = $this->getMock('Magento\Core\Model\UrlInterface');
+        $this->_urlBuilderMock = $this->getMock('Magento\UrlInterface');
         $this->_urlHelperMock = $this->getMockBuilder('Magento\Core\Helper\Url')
             ->disableOriginalConstructor()
             ->getMock();

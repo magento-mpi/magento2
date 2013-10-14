@@ -87,7 +87,7 @@ class Template extends \Magento\Core\Block\AbstractBlock
     /**
      * @var \Magento\Core\Model\App
      */
-    protected $_app;
+    protected $_storeManager;
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
@@ -105,7 +105,7 @@ class Template extends \Magento\Core\Block\AbstractBlock
         $this->_filesystem = $context->getFilesystem();
         $this->_viewFileSystem = $context->getViewFileSystem();
         $this->_tmplEngineFactory = $context->getEngineFactory();
-        $this->_app = $context->getApp();
+        $this->_storeManager = $context->getApp();
         parent::__construct($context, $data);
     }
 
@@ -335,7 +335,7 @@ HTML;
     {
         return array(
             'BLOCK_TPL',
-            $this->_app->getStore()->getCode(),
+            $this->_storeManager->getStore()->getCode(),
             $this->getTemplateFile(),
             'template' => $this->getTemplate()
         );

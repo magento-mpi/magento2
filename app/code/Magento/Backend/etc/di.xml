@@ -9,7 +9,7 @@
 -->
 <config>
     <preference for="Magento\Core\Model\Config\Storage\WriterInterface" type="Magento\Core\Model\Config\Storage\Writer\Db" />
-    <preference for="Magento\App\Request\PathInfoProcessorInterface" type="Magento\Backend\Model\Request\PathInfoProcessor" />
+    <preference for="Magento\App\Request\PathInfoProcessorInterface" type="Magento\Backend\App\Request\PathInfoProcessor" />
     <type name="Magento\App\AreaList">
         <param name="areas">
             <value>
@@ -69,7 +69,7 @@
         <param name="handlerClassesList">
             <value>
                 <backend>
-                    <instance>Magento\Backend\Model\Router\NoRouteHandler</instance>
+                    <instance>Magento\Backend\App\Router\NoRouteHandler</instance>
                     <sortOrder>10</sortOrder>
                 </backend>
             </value>

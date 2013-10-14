@@ -59,7 +59,7 @@ class AppTest extends \PHPUnit_Framework_TestCase
         $this->_configMock = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false, false);
         $this->_cacheMock = $this->getMock('Magento\Core\Model\CacheInterface', array(), array(), '', false, false);
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager', array(), array(), '', false, false);
-        $this->_dbUpdaterMock = $this->getMock('Magento\Core\Model\Db\UpdaterInterface',
+        $this->_dbUpdaterMock = $this->getMock('Magento\App\UpdaterInterface',
             array(), array(), '', false, false);
         $this->_storeManagerMock = $this->getMock('Magento\Core\Model\StoreManagerInterface');
         $this->_eventManagerMock = $this->getMock('Magento\Event\ManagerInterface',

@@ -48,7 +48,7 @@ class VerificationTest extends \PHPUnit_Framework_TestCase
      * @param bool $isExist
      * @param array $actualCreatedDirs
      * @param array $actualVerifiedDirs
-     * @return \Magento\Core\Model\Dir\Verification
+     * @return \Magento\App\Dir\Verification
      */
     protected function _createModelForVerification($mode, $isExist, &$actualCreatedDirs, &$actualVerifiedDirs)
     {
@@ -77,7 +77,7 @@ class VerificationTest extends \PHPUnit_Framework_TestCase
             ->method('isWritable')
             ->will($this->returnCallback($callbackVerify));
 
-        return new \Magento\Core\Model\Dir\Verification(
+        return new \Magento\App\Dir\Verification(
             $filesystem,
             $dirs,
             $appState
@@ -148,7 +148,7 @@ class VerificationTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnCallback($callback));
 
         // Do
-        $model = new \Magento\Core\Model\Dir\Verification(
+        $model = new \Magento\App\Dir\Verification(
             $filesystem,
             $dirs,
             $appState
@@ -184,7 +184,7 @@ class VerificationTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValueMap($dirWritableMap));
 
         // Do
-        $model = new \Magento\Core\Model\Dir\Verification(
+        $model = new \Magento\App\Dir\Verification(
             $filesystem,
             $dirs,
             $appState

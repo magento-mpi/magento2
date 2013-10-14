@@ -126,7 +126,7 @@ class ObjectManager extends \Magento\ObjectManager\ObjectManager
         }
 
         \Magento\Profiler::stop('global_primary');
-        $verification = $this->get('Magento\Core\Model\Dir\Verification');
+        $verification = $this->get('Magento\App\Dir\Verification');
         $verification->createAndVerifyDirectories();
 
         $this->_config->setCache($this->get('Magento\Core\Model\ObjectManager\ConfigCache'));

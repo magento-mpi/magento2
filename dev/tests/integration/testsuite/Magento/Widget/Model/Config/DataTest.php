@@ -36,7 +36,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        /** @var \Magento\Core\Model\Module\Declaration\FileResolver $modulesDeclarations */
+        /** @var \Magento\App\Module\Declaration\FileResolver $modulesDeclarations */
         $modulesDeclarations = $objectManager->create(
             'Magento\Core\Model\Module\Declaration\FileResolver', array(
                 'applicationDirs' => $dirs,
@@ -44,7 +44,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         );
 
 
-        /** @var \Magento\Core\Model\Module\Declaration\Reader\Filesystem $filesystemReader */
+        /** @var \Magento\App\Module\Declaration\Reader\Filesystem $filesystemReader */
         $filesystemReader = $objectManager->create(
             'Magento\Core\Model\Module\Declaration\Reader\Filesystem', array(
                 'fileResolver' => $modulesDeclarations,

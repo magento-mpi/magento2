@@ -43,7 +43,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     {
         $this->_protFactoryMock = $this->getMock('Magento\Core\Model\Config\BaseFactory',
             array(), array(), '', false, false);
-        $this->_dirsMock = $this->getMock('Magento\Core\Model\Module\Dir', array(), array(), '', false, false);
+        $this->_dirsMock = $this->getMock('Magento\App\Module\Dir', array(), array(), '', false, false);
         $this->_baseConfigMock = $this->getMock('Magento\Core\Model\Config\Base', array(), array(), '', false, false);
         $this->_moduleListMock = $this->getMock('Magento\App\ModuleListInterface');
 

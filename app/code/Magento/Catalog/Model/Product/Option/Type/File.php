@@ -64,7 +64,7 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     /**
      * Url
      *
-     * @var \Magento\Core\Model\UrlInterface
+     * @var \Magento\UrlInterface
      */
     protected $_url;
 
@@ -79,7 +79,7 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
      * Construct
      *
      * @param \Magento\Sales\Model\Quote\Item\OptionFactory $itemOptionFactory
-     * @param \Magento\Core\Model\UrlInterface $url
+     * @param \Magento\UrlInterface $url
      * @param \Magento\App\Dir $dir
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Core\Helper\Data $coreData
@@ -91,7 +91,7 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
      */
     public function __construct(
         \Magento\Sales\Model\Quote\Item\OptionFactory $itemOptionFactory,
-        \Magento\Core\Model\UrlInterface $url,
+        \Magento\UrlInterface $url,
         \Magento\App\Dir $dir,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Core\Helper\Data $coreData,

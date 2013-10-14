@@ -10,6 +10,8 @@
 
 namespace Magento\App;
 
+use Zend\Soap\Exception\InvalidArgumentException;
+
 class State
 {
     /**
@@ -53,7 +55,7 @@ class State
     /**
      * @param string $installDate
      * @param string $mode
-     * @throws \Magento\Core\Exception
+     * @throws \LogicException
      */
     public function __construct($installDate, $mode = self::MODE_DEFAULT)
     {
@@ -65,7 +67,7 @@ class State
                 $this->_appMode = $mode;
                 break;
             default:
-                throw new \Magento\Core\Exception("Unknown application mode: {$mode}");
+                throw new \InvalidArgumentException("Unknown application mode: {$mode}");
         }
     }
 

@@ -54,7 +54,7 @@ abstract class AbstractHelper
     protected $_app;
 
     /**
-     * @var \Magento\Core\Model\UrlInterface
+     * @var \Magento\UrlInterface
      */
     protected $_urlBuilder;
 

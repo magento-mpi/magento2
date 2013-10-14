@@ -10,7 +10,7 @@ namespace Magento\Core\Model\Module\Declaration;
 class FileResolverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Module\Declaration\FileResolver
+     * @var \Magento\App\Module\Declaration\FileResolver
      */
     protected $_model;
 
@@ -31,7 +31,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
                     $baseDir . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR .'code',
                 ),
             )));
-        $this->_model = new \Magento\Core\Model\Module\Declaration\FileResolver($applicationDirs);
+        $this->_model = new \Magento\App\Module\Declaration\FileResolver($applicationDirs);
     }
 
     public function testGet()

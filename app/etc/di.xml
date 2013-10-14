@@ -9,11 +9,11 @@
 -->
 <config>
     <preference for="Magento\App\RequestInterface" type="Magento\App\Request\Http" />
-    <preference for="Magento\App\Request\PathInfoProcessorInterface" type="Magento\Core\Model\Request\PathInfoProcessor" />
+    <preference for="Magento\App\Request\PathInfoProcessorInterface" type="Magento\Core\App\Request\PathInfoProcessor" />
     <preference for="Magento\App\ResponseInterface" type="Magento\App\Response\Http" />
     <preference for="Magento\App\RouterListInterface" type="Magento\App\RouterList" />
     <preference for="Magento\App\FrontControllerInterface" type="Magento\App\FrontController" />
-    <preference for="Magento\Core\Model\Db\UpdaterInterface" type="Magento\Core\Model\Db\Updater" />
+    <preference for="Magento\App\UpdaterInterface" type="Magento\App\Updater" />
     <preference for="Magento\Core\Model\AppInterface" type="Magento\Core\Model\App\Proxy" />
     <preference for="Magento\Core\Model\CacheInterface" type="Magento\Core\Model\Cache\Proxy" />
     <preference for="Magento\Core\Model\Cache\StateInterface" type="Magento\Core\Model\Cache\State" />
@@ -22,7 +22,7 @@
     <preference for="Magento\Core\Model\StoreManagerInterface" type="Magento\Core\Model\StoreManager" />
     <preference for="Magento\Core\Model\View\DesignInterface" type="Magento\Core\Model\View\Design" />
     <preference for="Magento\Core\Model\LocaleInterface" type="Magento\Core\Model\Locale" />
-    <preference for="Magento\Core\Model\UrlInterface" type="Magento\Core\Model\Url" />
+    <preference for="Magento\UrlInterface" type="Magento\Core\Model\Url" />
     <preference for="Magento\Event\InvokerInterface" type="Magento\Event\Invoker\InvokerDefault" />
     <preference for="Magento\Data\Collection\Db\FetchStrategyInterface" type="Magento\Data\Collection\Db\FetchStrategy\Query" />
     <preference for="Magento\Config\ScopeInterface" type="Magento\Config\Scope" />

@@ -57,7 +57,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_app;
 
     /**
-     * @var \Magento\Core\Model\UrlInterface
+     * @var \Magento\UrlInterface
      */
     protected $_urlBuilder;
 
@@ -71,7 +71,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Core\Model\Fieldset\Config $fieldsetConfig
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\App $app
-     * @param \Magento\Core\Model\UrlInterface $urlBuilder
+     * @param \Magento\UrlInterface $urlBuilder
      */
     public function __construct(
         \Magento\Core\Model\Logger $logger,
@@ -83,7 +83,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Core\Model\Fieldset\Config $fieldsetConfig,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\App $app,
-        \Magento\Core\Model\UrlInterface $urlBuilder
+        \Magento\UrlInterface $urlBuilder
     ) {
         $this->_translator = $translator;
         $this->_moduleManager = $moduleManager;
@@ -122,7 +122,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\UrlInterface
+     * @return \Magento\UrlInterface
      */
     public function getUrlBuilder()
     {

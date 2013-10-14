@@ -10,7 +10,7 @@ namespace Magento\Core\Model\Module\Dir;
 class ReverseResolverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Module\Dir\ReverseResolver
+     * @var \Magento\App\Module\Dir\ReverseResolver
      */
     protected $_model;
 
@@ -20,15 +20,15 @@ class ReverseResolverTest extends \PHPUnit_Framework_TestCase
     protected $_moduleList;
 
     /**
-     * @var \Magento\Core\Model\Module\Dir|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\Module\Dir|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_moduleDirs;
 
     protected function setUp()
     {
         $this->_moduleList = $this->getMock('Magento\App\ModuleListInterface');
-        $this->_moduleDirs = $this->getMock('Magento\Core\Model\Module\Dir', array(), array(), '', false, false);
-        $this->_model = new \Magento\Core\Model\Module\Dir\ReverseResolver($this->_moduleList, $this->_moduleDirs);
+        $this->_moduleDirs = $this->getMock('Magento\App\Module\Dir', array(), array(), '', false, false);
+        $this->_model = new \Magento\App\Module\Dir\ReverseResolver($this->_moduleList, $this->_moduleDirs);
     }
 
     /**

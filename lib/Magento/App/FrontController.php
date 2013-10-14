@@ -9,6 +9,8 @@
  */
 namespace Magento\App;
 
+use Zend\Stdlib\Exception\LogicException;
+
 class FrontController implements FrontControllerInterface
 {
     /**
@@ -131,7 +133,7 @@ class FrontController implements FrontControllerInterface
 
     /**
      * @param RequestInterface $request
-     * @throws \Magento\Core\Exception
+     * @throws \LogicException
      */
     public function dispatch(RequestInterface $request)
     {
@@ -153,7 +155,7 @@ class FrontController implements FrontControllerInterface
         }
         \Magento\Profiler::stop('routers_match');
         if ($routingCycleCounter > 100) {
-            throw new \Magento\Core\Exception('Front controller reached 100 router match iterations');
+            throw new \LogicException('Front controller reached 100 router match iterations');
         }
         // This event gives possibility to launch something before sending output (allow cookie setting)
         $this->_eventManager->dispatch('controller_front_send_response_before', array('front' => $this));

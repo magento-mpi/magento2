@@ -31,7 +31,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
                 $this->getMock('Magento\Event\ObserverFactory', array(), array(), '', false)
             ),
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->get('Magento\Core\Model\UrlInterface'),
+                ->get('Magento\UrlInterface'),
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
                 ->get('Magento\Core\Model\Config\Primary'),
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()

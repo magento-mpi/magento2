@@ -46,7 +46,7 @@ class Context extends \Magento\Core\Block\Context
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Core\Model\Layout $layout
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\UrlInterface $urlBuilder
+     * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\Core\Model\Translate $translator
      * @param \Magento\Core\Model\CacheInterface $cache
      * @param \Magento\Core\Model\View\DesignInterface $design
@@ -68,7 +68,7 @@ class Context extends \Magento\Core\Block\Context
         \Magento\App\RequestInterface $request,
         \Magento\Core\Model\Layout $layout,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\UrlInterface $urlBuilder,
+        \Magento\UrlInterface $urlBuilder,
         \Magento\Core\Model\Translate $translator,
         \Magento\Core\Model\CacheInterface $cache,
         \Magento\Core\Model\View\DesignInterface $design,

@@ -25,16 +25,16 @@ class Config extends \Magento\Payment\Model\Config
     protected $_coreData = null;
 
     /**
-     * @var \Magento\Core\Model\UrlInterface
+     * @var \Magento\UrlInterface
      */
     protected $_urlBuilder;
 
     /**
-     * @param \Magento\Core\Model\UrlInterface $urlBuilder
+     * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
-        \Magento\Core\Model\UrlInterface $urlBuilder,
+        \Magento\UrlInterface $urlBuilder,
         \Magento\Core\Helper\Data $coreData
     ) {
         $this->_urlBuilder = $urlBuilder;

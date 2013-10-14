@@ -12,7 +12,7 @@ namespace Magento\Core\Model\TemplateEngine\Twig;
 class CommonFunctions
 {
     /**
-     * @var \Magento\Core\Model\UrlInterface
+     * @var \Magento\UrlInterface
      */
     private $_urlBuilder;
 
@@ -57,7 +57,7 @@ class CommonFunctions
     private $_locale;
 
     public function __construct(
-        \Magento\Core\Model\UrlInterface $urlBuilder,
+        \Magento\UrlInterface $urlBuilder,
         \Magento\Core\Helper\Url $urlHelper,
         \Magento\Core\Helper\Data $dataHelper,
         \Magento\Core\Model\StoreManager $storeManager,

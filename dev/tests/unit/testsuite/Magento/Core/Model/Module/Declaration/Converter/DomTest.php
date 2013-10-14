@@ -10,13 +10,13 @@ namespace Magento\Core\Model\Module\Declaration\Converter;
 class DomTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Module\Declaration\Converter\Dom
+     * @var \Magento\App\Module\Declaration\Converter\Dom
      */
     protected $_converter;
 
     protected function setUp()
     {
-        $this->_converter = new \Magento\Core\Model\Module\Declaration\Converter\Dom();
+        $this->_converter = new \Magento\App\Module\Declaration\Converter\Dom();
     }
 
     public function testConvertWithValidDom()

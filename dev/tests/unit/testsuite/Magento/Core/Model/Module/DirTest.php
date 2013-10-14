@@ -10,7 +10,7 @@ namespace Magento\Core\Model\Module;
 class DirTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Module\Dir
+     * @var \Magento\App\Module\Dir
      */
     protected $_model;
 
@@ -28,7 +28,7 @@ class DirTest extends \PHPUnit_Framework_TestCase
             ->with(\Magento\App\Dir::MODULES)
             ->will($this->returnValue('app' . DIRECTORY_SEPARATOR . 'code'))
         ;
-        $this->_model = new \Magento\Core\Model\Module\Dir($this->_applicationDirs);
+        $this->_model = new \Magento\App\Module\Dir($this->_applicationDirs);
     }
 
     public function testGetDirModuleRoot()

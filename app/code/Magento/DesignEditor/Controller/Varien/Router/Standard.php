@@ -33,7 +33,7 @@ class Standard extends \Magento\Core\Controller\Varien\Router\Base
     protected $_routerList;
 
     /**
-     * @var \Magento\Core\Model\Request\RewriteService
+     * @var \Magento\Core\App\Request\RewriteService
      */
     protected $_urlRewriteService;
 
@@ -50,7 +50,7 @@ class Standard extends \Magento\Core\Controller\Varien\Router\Base
      * @param \Magento\Core\Model\Url $url
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\App\State $appState
-     * @param \Magento\Core\Model\Request\RewriteService $urlRewriteService
+     * @param \Magento\Core\App\Request\RewriteService $urlRewriteService
      * @param string $areaCode
      * @param string $baseController
      * @param string $routerId
@@ -68,7 +68,7 @@ class Standard extends \Magento\Core\Controller\Varien\Router\Base
         \Magento\Core\Model\Url $url,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\App\State $appState,
-        \Magento\Core\Model\Request\RewriteService $urlRewriteService,
+        \Magento\Core\App\Request\RewriteService $urlRewriteService,
         $areaCode,
         $baseController,
         $routerId

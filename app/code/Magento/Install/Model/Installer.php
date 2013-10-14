@@ -26,7 +26,7 @@ class Installer extends \Magento\Object
     /**
      * DB updated model
      *
-     * @var \Magento\Core\Model\Db\UpdaterInterface
+     * @var \Magento\App\UpdaterInterface
      */
     protected $_dbUpdater;
 
@@ -62,7 +62,7 @@ class Installer extends \Magento\Object
     protected $_coreData = null;
 
     /**
-     * @var \Magento\Core\Model\Resource\SetupFactory
+     * @var \Magento\App\Updater\SetupFactory
      */
     protected $_setupFactory;
 
@@ -139,11 +139,11 @@ class Installer extends \Magento\Object
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\ConfigInterface $config
-     * @param \Magento\Core\Model\Db\UpdaterInterface $dbUpdater
+     * @param \Magento\App\UpdaterInterface $dbUpdater
      * @param \Magento\Core\Model\CacheInterface $cache
      * @param \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList
      * @param \Magento\Core\Model\Cache\StateInterface $cacheState
-     * @param \Magento\Core\Model\Resource\SetupFactory $setupFactory
+     * @param \Magento\App\Updater\SetupFactory $setupFactory
      * @param \Magento\Core\Model\Config\Primary $primaryConfig
      * @param \Magento\Core\Model\Config\Local $localConfig
      * @param \Magento\Core\Model\App $app
@@ -160,11 +160,11 @@ class Installer extends \Magento\Object
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\ConfigInterface $config,
-        \Magento\Core\Model\Db\UpdaterInterface $dbUpdater,
+        \Magento\App\UpdaterInterface $dbUpdater,
         \Magento\Core\Model\CacheInterface $cache,
         \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList,
         \Magento\Core\Model\Cache\StateInterface $cacheState,
-        \Magento\Core\Model\Resource\SetupFactory $setupFactory,
+        \Magento\App\Updater\SetupFactory $setupFactory,
         \Magento\Core\Model\Config\Primary $primaryConfig,
         \Magento\Core\Model\Config\Local $localConfig,
         \Magento\Core\Model\App $app,
@@ -320,9 +320,7 @@ class Installer extends \Magento\Object
          * Saving host information into DB
          */
         /** @var $setupModel \Magento\Core\Model\Resource\Setup */
-        $setupModel = $this->_setupFactory->create(
-            'Magento\Core\Model\Resource\Setup', array('resourceName' => 'core_setup', 'moduleName' => 'Magento_Core')
-        );
+        $setupModel = $this->_setupFactory->create('core_setup', 'Magento_Core');
 
         if (!empty($data['use_rewrites'])) {
             $setupModel->setConfigData(\Magento\Core\Model\Store::XML_PATH_USE_REWRITES, 1);

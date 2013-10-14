@@ -128,9 +128,6 @@ class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
         $this->_url = $url;
         $this->_areaFrontName = $this->_backendData->getAreaFrontName();
         $this->_defaultRouteId = $defaultRouteId;
-        if (empty($this->_areaFrontName)) {
-            throw new \InvalidArgumentException('Area Front Name should be defined');
-        }
     }
 
     /**

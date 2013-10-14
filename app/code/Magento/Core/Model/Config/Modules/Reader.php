@@ -21,7 +21,7 @@ class Reader
     /**
      * Directory registry
      *
-     * @var \Magento\Core\Model\Module\Dir
+     * @var \Magento\App\Module\Dir
      */
     protected $_moduleDirs;
 
@@ -40,12 +40,12 @@ class Reader
     protected $_prototypeFactory;
 
     /**
-     * @param \Magento\Core\Model\Module\Dir $moduleDirs
+     * @param \Magento\App\Module\Dir $moduleDirs
      * @param \Magento\Core\Model\Config\BaseFactory $prototypeFactory
      * @param \Magento\App\ModuleListInterface $moduleList
      */
     public function __construct(
-        \Magento\Core\Model\Module\Dir $moduleDirs,
+        \Magento\App\Module\Dir $moduleDirs,
         \Magento\Core\Model\Config\BaseFactory $prototypeFactory,
         \Magento\App\ModuleListInterface $moduleList
     ) {
@@ -128,17 +128,5 @@ class Reader
             return $this->_customModuleDirs[$moduleName][$type];
         }
         return $this->_moduleDirs->getDir($moduleName, $type);
-    }
-
-    /**
-     * Set path to the corresponding module directory
-     *
-     * @param string $moduleName
-     * @param string $type directory type (etc, controllers, locale etc)
-     * @param string $path
-     */
-    public function setModuleDir($moduleName, $type, $path)
-    {
-        $this->_customModuleDirs[$moduleName][$type] = $path;
     }
 }

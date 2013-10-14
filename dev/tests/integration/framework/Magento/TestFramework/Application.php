@@ -203,7 +203,7 @@ class Application
                 )
             ));
             $objectManager->loadPrimaryConfig($this->_primaryConfig);
-            $verification = $objectManager->get('Magento\Core\Model\Dir\Verification');
+            $verification = $objectManager->get('Magento\App\Dir\Verification');
             $verification->createAndVerifyDirectories();
             $objectManager->configure(
                 $objectManager->get('Magento\Core\Model\ObjectManager\ConfigLoader')->load('global')
@@ -238,8 +238,8 @@ class Application
                 )
             )
         );
-        /** @var \Magento\Core\Model\Dir\Verification $verification */
-        $verification = $objectManager->get('Magento\Core\Model\Dir\Verification');
+        /** @var \Magento\App\Dir\Verification $verification */
+        $verification = $objectManager->get('Magento\App\Dir\Verification');
         $verification->createAndVerifyDirectories();
 
         $this->loadArea(\Magento\TestFramework\Application::DEFAULT_APP_AREA);
@@ -325,8 +325,8 @@ class Application
         $this->initialize();
 
         /* Run all install and data-install scripts */
-        /** @var $updater \Magento\Core\Model\Db\Updater */
-        $updater = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Db\Updater');
+        /** @var $updater \Magento\App\Updater */
+        $updater = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Updater');
         $updater->updateScheme();
         $updater->updateData();
 
