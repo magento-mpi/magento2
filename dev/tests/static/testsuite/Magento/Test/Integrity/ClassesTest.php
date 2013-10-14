@@ -200,13 +200,33 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
      */
     public function testClassNamespace($file)
     {
-        $relativePath = str_replace(\Magento\TestFramework\Utility\Files::init()->getPathToSource() .'/', "", $file);
+        $relativePath =
+            str_replace(\Magento\TestFramework\Utility\Files::init()->getPathToSource() .
+                DIRECTORY_SEPARATOR,
+                "",
+                $file
+            );
         // exceptions made for the files from the blacklist
-       // $blacklist = require __DIR__ . '/NamespaceBlacklist.php';
 
+        $fileList = array();
         $blackList = array();
         foreach (glob(__DIR__ . '/_files/blacklist/*.txt') as $list) {
-            $blackList = array_merge($blackList, file($list, FILE_IGNORE_NEW_LINES));
+            $fileList = file($list, FILE_IGNORE_NEW_LINES);
+            foreach ($fileList as $currentFile) {
+                $absolutePath =
+                    \Magento\TestFramework\Utility\Files::init()->getPathToSource() .
+                    DIRECTORY_SEPARATOR .
+                    $currentFile;
+                if(is_dir($absolutePath)) {
+                    $recursiveFiles =
+                        \Magento\TestFramework\Utility\Files::getFiles(array($absolutePath), '*.php', true);
+                    $blackList = array_merge($blackList, $recursiveFiles);
+                }
+                else {
+                    array_push($blackList, $currentFile);
+                }
+            }
+
         }
 
         if (in_array($relativePath, $blackList)) {
