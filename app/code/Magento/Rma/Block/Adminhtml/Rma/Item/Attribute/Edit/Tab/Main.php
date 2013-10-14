@@ -87,7 +87,7 @@ class Main
     /**
      * Adding customer form elements for edit form
      *
-     * @return \Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit\Tab_Main
+     * @return \Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit\Tab\Main
      */
     protected function _prepareForm()
     {

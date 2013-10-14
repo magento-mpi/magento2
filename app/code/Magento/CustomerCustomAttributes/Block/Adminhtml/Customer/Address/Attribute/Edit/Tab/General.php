@@ -83,7 +83,7 @@ class General
     /**
      * Adding customer address attribute form elements for edit form
      *
-     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Edit\Tab_General
+     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Edit\Tab\General
      */
     protected function _prepareForm()
     {

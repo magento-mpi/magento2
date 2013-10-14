@@ -9,6 +9,10 @@
  * @license     {license_link}
  */
 
+// User for Git, which will be the author of the commit
+define('GIT_USERNAME', 'mage2-team');
+define('GIT_EMAIL', 'mage2-team@magento.com');
+
 // get CLI options, define variables
 define('SYNOPSIS', <<<SYNOPSIS
 php -f publish.php --
@@ -96,7 +100,10 @@ try {
     // commit and push
     execVerbose("$gitCmd add --update");
     execVerbose("$gitCmd status");
+    execVerbose("$gitCmd config user.name " . GIT_USERNAME);
+    execVerbose("$gitCmd config user.email " . GIT_EMAIL);
     execVerbose("$gitCmd commit --message=%s", $commitMsg);
+
     if ($canPush) {
         execVerbose("$gitCmd push origin $targetBranch");
     }

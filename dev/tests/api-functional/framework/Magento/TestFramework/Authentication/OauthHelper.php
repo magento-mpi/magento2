@@ -39,7 +39,6 @@ class OauthHelper
 
         $url = TESTS_BASE_URL;
         $data = array(
-            'created_at' => is_null($date) ? date('Y-m-d H:i:s') : $date,
             'key' => $consumerKey,
             'secret' => $consumerSecret,
             'name' => 'consumerName',
@@ -47,6 +46,10 @@ class OauthHelper
             'rejected_callback_url' => $url,
             'http_post_url' => $url
         );
+
+        if (!is_null($date)) {
+            $data['created_at'] = $date;
+        }
 
         /** @var array $consumerData */
         $consumerData = $oauthService->createConsumer($data);
