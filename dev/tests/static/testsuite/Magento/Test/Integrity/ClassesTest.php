@@ -25,6 +25,8 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
 
     protected static $_namespaceBlacklist = null;
 
+    protected static $_referenceBlackList = null;
+
     /**
      * @param string $file
      * @dataProvider phpFileDataProvider
@@ -380,20 +382,28 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * This function is to remove legacy code usages according to ReferenceBlacklist.php
+     * This function is to remove legacy code usages according to _files/blacklist/reference.txt
      * @param $classes
      * @return array
      */
     protected function referenceBlacklistFilter($classes)
     {
         // exceptions made for the files from the blacklist
-        $blacklist = require __DIR__ . '/ReferenceBlacklist.php';
+        self::_setReferenceBlacklist();
         foreach ($classes as $class) {
-            if (in_array($class, $blacklist)) {
+            if (in_array($class, self::$_referenceBlackList)) {
                 unset($classes[array_search($class, $classes)]);
             }
         }
         return $classes;
+    }
+
+    protected function _setReferenceBlacklist()
+    {
+        if(!isset(self::$_referenceBlackList)) {
+            $blackList = file(__DIR__ . DIRECTORY_SEPARATOR . '_files/blacklist/reference.txt', FILE_IGNORE_NEW_LINES);
+            self::$_referenceBlackList = $blackList;
+        }
     }
 
     /**
