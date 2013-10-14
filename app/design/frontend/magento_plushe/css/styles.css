@@ -12037,6 +12037,9 @@ img[align="right"] {
   display: inline-block;
   margin: 3px 3px 0 0;
 }
+.popup .form.wishlist .fieldset {
+  margin: 0;
+}
 .form.shared.wishlist .table.data {
   width: 100%;
 }

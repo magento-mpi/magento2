@@ -28,26 +28,28 @@
         <span class="close ${btnCloseClass}" title="${$.mage.__('Close')}"><span>${$.mage.__('Close')}</span></span>
         <div class="content">
             <form id="${popupWishlistFormId}" method="post" action="${url}" class="form wishlist">
-                <div class="field name">
-                    <label for="wishlist-name" class="label"><span>${$.mage.__('Wish List Name')}</span></label>
-                    <div class="control">
-                        <input id="wishlist-name" class="input-text" data-validate="{required:true}" type="text" name="name" maxlength="255" value="${name}">
+                <fieldset class="fieldset">
+                    <div class="field name">
+                        <label for="wishlist-name" class="label"><span>${$.mage.__('Wish List Name')}</span></label>
+                        <div class="control">
+                            <input id="wishlist-name" class="input-text" data-validate="{required:true}" type="text" name="name" maxlength="255" value="${name}">
+                        </div>
                     </div>
-                </div>
-                <div class="field choice">
-                    <div class="control">
-                        <input id="wishlist-public" type="checkbox" name="visibility"{{if isPublic}} checked=true{{/if}}">
+                    <div class="field choice">
+                        <div class="control">
+                            <input id="wishlist-public" type="checkbox" name="visibility"{{if isPublic}} checked=true{{/if}}">
+                        </div>
+                        <label for="wishlist-public" class="label"><span>${$.mage.__('Make This Wish List Public')}</span></label>
                     </div>
-                    <label for="wishlist-public" class="label"><span>${$.mage.__('Make This Wish List Public')}</span></label>
-                </div>
-                <div class="actions">
-                    <button class="action submit" type="submit" title="${$.mage.__('Save')}">
-                        <span>${$.mage.__('Save')}</span>
-                    </button>
-                    <button class="action cancel ${btnCloseClass}" type="button" title="${$.mage.__('Cancel')}">
-                        <span>${$.mage.__('Cancel')}</span>
-                    </button>
-                </div>
+                    <div class="actions">
+                        <button class="action submit" type="submit" title="${$.mage.__('Save')}">
+                            <span>${$.mage.__('Save')}</span>
+                        </button>
+                        <button class="action cancel ${btnCloseClass}" type="button" title="${$.mage.__('Cancel')}">
+                            <span>${$.mage.__('Cancel')}</span>
+                        </button>
+                    </div>
+                </fieldset>
             </form>
         </div>
     </div>
