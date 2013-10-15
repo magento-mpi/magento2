@@ -25,7 +25,7 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrit
      */
     public function testAllTemplates($module, $template, $class, $area)
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Design')
             ->setDefaultDesignTheme();
         // intentionally to make sure the module files will be requested
         $params = array(

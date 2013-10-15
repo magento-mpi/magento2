@@ -30,7 +30,7 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Design')
             ->setDefaultDesignTheme();
         $this->_block = $this->getMockForAbstractClass('Magento\Core\Block\AbstractBlock', array(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Block\Context'),

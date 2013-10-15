@@ -21,7 +21,7 @@ class Customization
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\View\DesignInterface
+     * @var \Magento\View\Design
      */
     protected $_design;
 
@@ -48,12 +48,12 @@ class Customization
 
     /**
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager,
-     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\View\Design $design
      * @param \Magento\Core\Model\Resource\Theme\CollectionFactory $collectionFactory
      */
     public function __construct(
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\View\Design $design,
         \Magento\Core\Model\Resource\Theme\CollectionFactory $collectionFactory
     ) {
         $this->_storeManager    = $storeManager;

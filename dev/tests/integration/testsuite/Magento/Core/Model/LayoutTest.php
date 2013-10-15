@@ -45,7 +45,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     public function constructorDataProvider()
     {
         return array(
-            'default area'  => array(array(), \Magento\Core\Model\View\DesignInterface::DEFAULT_AREA),
+            'default area'  => array(array(), \Magento\View\Design::DEFAULT_AREA),
             'frontend area' => array(array('area' => 'frontend'), 'frontend'),
             'backend area'  => array(array('area' => 'adminhtml'), 'adminhtml'),
         );

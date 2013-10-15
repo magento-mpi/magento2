@@ -205,11 +205,11 @@ class Area
     }
 
     /**
-     * @return \Magento\Core\Model\View\DesignInterface
+     * @return \Magento\View\Design
      */
     protected function _getDesign()
     {
-        return $this->_objectManager->get('Magento\Core\Model\View\DesignInterface');
+        return $this->_objectManager->get('Magento\View\Design');
     }
 
     /**

@@ -13,7 +13,7 @@
  */
 namespace Magento\Core\Model\View;
 
-class Config
+class Config implements \Magento\View\Config
 {
     /**
      * List of view configuration objects per theme

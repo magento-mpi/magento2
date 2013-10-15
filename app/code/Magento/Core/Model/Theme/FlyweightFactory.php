@@ -48,7 +48,7 @@ class FlyweightFactory
      * @return \Magento\Core\Model\Theme|null
      * @throws \InvalidArgumentException
      */
-    public function create($themeKey, $area = \Magento\Core\Model\View\DesignInterface::DEFAULT_AREA)
+    public function create($themeKey, $area = \Magento\View\Design::DEFAULT_AREA)
     {
         if (is_numeric($themeKey)) {
             $themeModel = $this->_loadById($themeKey);

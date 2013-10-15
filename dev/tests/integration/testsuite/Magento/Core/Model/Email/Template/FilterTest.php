@@ -118,7 +118,7 @@ class FilterTest extends \PHPUnit_Framework_TestCase
             $area,
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')->getArea()
         );
-        $objectManager->get('Magento\Core\Model\View\DesignInterface')->setDesignTheme('test_default');
+        $objectManager->get('Magento\View\Design')->setDesignTheme('test_default');
 
         $actualOutput = $this->_model->layoutDirective(array(
             '{{layout ' . $directiveParams . '}}',

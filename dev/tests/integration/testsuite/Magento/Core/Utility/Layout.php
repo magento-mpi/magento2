@@ -84,7 +84,7 @@ class Layout
             'eventManager'       => $objectManager->get('Magento\Core\Model\Event\Manager'),
             'factoryHelper'      => $objectManager->get('Magento\Core\Model\Factory\Helper'),
             'coreData'           => $objectManager->get('Magento\Core\Helper\Data'),
-            'design'             => $objectManager->get('Magento\Core\Model\View\DesignInterface'),
+            'design'             => $objectManager->get('Magento\View\Design'),
             'blockFactory'       => $objectManager->create('Magento\Core\Model\BlockFactory', array()),
             'structure'          => $objectManager->create('Magento\Data\Structure', array()),
             'argumentProcessor'  => $objectManager->create('Magento\Core\Model\Layout\Argument\Processor', array()),

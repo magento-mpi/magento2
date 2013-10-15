@@ -51,7 +51,7 @@ class NewTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(2, array_shift($keys));
 
         $themeModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\View\DesignInterface')
+            ->get('Magento\View\Design')
             ->getDesignTheme();
 
         $this->assertEquals($themeModel->getId() ?: null, $info[2]);

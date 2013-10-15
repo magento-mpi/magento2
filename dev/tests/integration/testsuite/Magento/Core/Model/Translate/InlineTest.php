@@ -25,7 +25,7 @@ class InlineTest extends \PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Design')
             ->setDesignTheme('magento_demo');
     }
 
@@ -83,7 +83,7 @@ class InlineTest extends \PHPUnit_Framework_TestCase
         $expectedText = file_get_contents(__DIR__ . '/_files/_inline_page_expected.html');
 
         $package = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\View\DesignInterface')
+            ->get('Magento\View\Design')
             ->getDesignTheme()
             ->getPackageCode();
         $expectedText = str_replace(

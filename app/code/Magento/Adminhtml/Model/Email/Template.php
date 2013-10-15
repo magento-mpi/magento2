@@ -37,7 +37,7 @@ class Template extends \Magento\Core\Model\Email\Template
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\View\Url $viewUrl
      * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
-     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\View\Design $design
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Config $coreConfig
      * @param \Magento\Core\Model\Email\Template\FilterFactory $emailFilterFactory
@@ -56,7 +56,7 @@ class Template extends \Magento\Core\Model\Email\Template
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\View\Url $viewUrl,
         \Magento\Core\Model\View\FileSystem $viewFileSystem,
-        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\View\Design $design,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Config $coreConfig,
         \Magento\Core\Model\Email\Template\FilterFactory $emailFilterFactory,

@@ -21,7 +21,7 @@ class FooterTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\View\DesignInterface');
+            ->get('Magento\View\Design');
         $this->_theme = $design->setDefaultDesignTheme()->getDesignTheme();
     }
 

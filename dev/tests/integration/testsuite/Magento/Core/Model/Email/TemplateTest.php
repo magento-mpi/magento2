@@ -38,7 +38,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
                 $objectManager->create('Magento\Filesystem'),
                 $objectManager->create('Magento\Core\Model\View\Url'),
                 $objectManager->create('Magento\Core\Model\View\FileSystem'),
-                $objectManager->get('Magento\Core\Model\View\DesignInterface'),
+                $objectManager->get('Magento\View\Design'),
                 $objectManager->create('Magento\Core\Model\Store\Config'),
                 $objectManager->create('Magento\Core\Model\Config'),
                 $objectManager->get('Magento\Core\Model\Email\Template\FilterFactory'),

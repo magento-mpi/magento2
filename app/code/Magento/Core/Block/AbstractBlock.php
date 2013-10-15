@@ -32,7 +32,7 @@ use Magento\View\Element\Block;
 abstract class AbstractBlock extends \Magento\Object implements Block
 {
     /**
-     * @var \Magento\Core\Model\View\DesignInterface
+     * @var \Magento\View\Design
      */
     protected $_design;
 
@@ -123,7 +123,7 @@ abstract class AbstractBlock extends \Magento\Object implements Block
     /**
      * View config model
      *
-     * @var \Magento\Core\Model\View\Config
+     * @var \Magento\View\Config
      */
     protected $_viewConfig;
 

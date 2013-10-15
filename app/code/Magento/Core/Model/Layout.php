@@ -81,7 +81,7 @@ class Layout extends \Magento\Simplexml\Config
     const SCHEDULED_STRUCTURE_INDEX_LAYOUT_ELEMENT = 5;
 
     /**
-     * @var \Magento\Core\Model\View\DesignInterface
+     * @var \Magento\View\Design
      */
     protected $_design;
 
@@ -234,7 +234,7 @@ class Layout extends \Magento\Simplexml\Config
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Factory\Helper $factoryHelper
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\View\Design $design
      * @param \Magento\Core\Model\BlockFactory $blockFactory
      * @param \Magento\Data\Structure $structure
      * @param \Magento\Core\Model\Layout\Argument\Processor $argumentProcessor
@@ -250,14 +250,14 @@ class Layout extends \Magento\Simplexml\Config
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Factory\Helper $factoryHelper,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\View\Design $design,
         \Magento\Core\Model\BlockFactory $blockFactory,
         \Magento\Data\Structure $structure,
         \Magento\Core\Model\Layout\Argument\Processor $argumentProcessor,
         \Magento\Core\Model\Layout\ScheduledStructure $scheduledStructure,
         \Magento\Core\Model\DataService\Graph $dataServiceGraph,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        $area = \Magento\Core\Model\View\DesignInterface::DEFAULT_AREA
+        $area = \Magento\View\Design::DEFAULT_AREA
     ) {
         $this->_eventManager = $eventManager;
         $this->_factoryHelper = $factoryHelper;

@@ -105,7 +105,7 @@ class Merge
     /**
      * Init merge model
      *
-     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\View\Design $design
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Layout\File\SourceInterface $fileSource,
      * @param \Magento\Core\Model\Resource\Layout\Update $resource
@@ -116,7 +116,7 @@ class Merge
      * @param \Magento\Core\Model\Theme $theme Non-injectable theme instance
      */
     public function __construct(
-        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\View\Design $design,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Layout\File\SourceInterface $fileSource,
         \Magento\Core\Model\Resource\Layout\Update $resource,

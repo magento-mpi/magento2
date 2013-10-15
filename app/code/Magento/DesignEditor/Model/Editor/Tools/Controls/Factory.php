@@ -68,7 +68,7 @@ class Factory
             throw new \Magento\Exception("Unknown control configuration type: \"{$type}\"");
         }
         return $this->_viewFileSystem->getFilename($this->_fileNames[$type], array(
-            'area'       => \Magento\Core\Model\View\DesignInterface::DEFAULT_AREA,
+            'area'       => \Magento\View\Design::DEFAULT_AREA,
             'themeModel' => $theme
         ));
     }
