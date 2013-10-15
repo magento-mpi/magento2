@@ -18,6 +18,9 @@ use Magento\View\Design\Theme;
 
 class ThemeFactory
 {
+    /**
+     * @var ObjectManager
+     */
     protected $objectManager;
 
     /**
