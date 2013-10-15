@@ -40,7 +40,7 @@ namespace Magento\Core\Model;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\Core\Model\ThemeInterface
+class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\Design\Theme
 {
     /**#@+
      * Theme types group

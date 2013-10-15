@@ -91,7 +91,7 @@ class FlyweightFactory
      */
     protected function _loadByPath($themePath, $area)
     {
-        $fullPath = $area . \Magento\Core\Model\ThemeInterface::PATH_SEPARATOR . $themePath;
+        $fullPath = $area . \Magento\View\Design\Theme::PATH_SEPARATOR . $themePath;
         if (isset($this->_themesByPath[$fullPath])) {
             return $this->_themesByPath[$fullPath];
         }

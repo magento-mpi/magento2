@@ -2,18 +2,18 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Minimal required interface a theme has to implement
- */
-namespace Magento\Core\Model;
+namespace Magento\View\Design;
 
-interface ThemeInterface
+/**
+ * Theme Interface
+ *
+ * @package Magento\View\Design
+ */
+interface Theme
 {
     /**
      * Separator between theme_path elements
@@ -49,7 +49,7 @@ interface ThemeInterface
     /**
      * Retrieve parent theme instance
      *
-     * @return \Magento\Core\Model\ThemeInterface|null
+     * @return Theme|null
      */
     public function getParentTheme();
 
@@ -59,4 +59,11 @@ interface ThemeInterface
      * @return string
      */
     public function getCode();
+
+    /**
+     * Check if theme is physical
+     *
+     * @return bool
+     */
+    public function isPhysical();
 }
