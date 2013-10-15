@@ -2,20 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_View
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
-/**
- * Abstract View Container.
- *
- * @category    Magento
- * @package     Magento_View
- */
-
 namespace Magento\View\Element;
 
 use Magento\View\Element;
@@ -23,33 +12,55 @@ use Magento\View\Context;
 use Magento\View\Render\Html;
 use Magento\View\Render\RenderFactory;
 use Magento\View\ViewFactory;
-use Magento\View\Layout\Argument;
 use Magento\ObjectManager;
 
 abstract class Base implements Element
 {
+    /**
+     * Element type
+     */
     const TYPE = '';
 
     /**
+     * Element configuration data
+     *
      * @var array
      */
     protected $meta = array();
 
     /**
+     * Element name
+     *
      * @var string
      */
     protected $name;
 
     /**
+     * Element alias
+     *
      * @var string
      */
     protected $alias;
 
+    /**#@+
+     * Element order directives
+     *
+     * @var string
+     */
     protected $before;
-
     protected $after;
+    /**#@-*/
 
     /**
+     * Path to configuration flag
+     *
+     * @var string
+     */
+    protected $ifConfig;
+
+    /**
+     * Parent of element
+     *
      * @var Element
      */
     protected $parent;
@@ -72,17 +83,24 @@ abstract class Base implements Element
     protected $objectManager;
 
     /**
+     * List of attached elements
+     *
      * @var array
      */
     protected $elements = array();
 
+    /**
+     * Common list of elements
+     *
+     * @var array
+     */
     public static $allElements = array();
 
     /**
+     * List of data providers
+     *
      * @var array
      */
-    protected $relations = array();
-
     protected $dataProviders = array();
 
     /**
@@ -101,8 +119,7 @@ abstract class Base implements Element
         ObjectManager $objectManager,
         Element $parent = null,
         array $meta = array()
-    )
-    {
+    ) {
         $this->context = $context;
         $this->renderFactory = $renderFactory;
         $this->viewFactory = $viewFactory;
@@ -110,33 +127,67 @@ abstract class Base implements Element
         $this->objectManager = $objectManager;
 
         $this->parent = $parent;
-
         $this->meta = $meta;
-        $this->name = isset($meta['name']) ? $meta['name'] : null;
-        $this->alias = isset($meta['as']) ? $meta['as'] : $this->name;
+
+
         $this->before = isset($meta['before']) ? $meta['before'] : null;
         $this->after = isset($meta['after']) ? $meta['after'] : null;
 
+        $this->ifConfig = isset($meta['ifconfig']) ? $meta['ifconfig'] : null;
         $this->arguments = isset($meta['arguments']) ? $meta['arguments'] : array();
 
-        self::$allElements[$this->name] = $this;
+        self::$allElements[$this->getName()] = $this;
     }
 
+    /**
+     * Retrieve element configuration data
+     *
+     * @return array
+     */
     public function & getMeta()
     {
         return $this->meta;
     }
 
+    /**
+     * Retrieve element name
+     *
+     * @return string
+     */
     public function getName()
     {
+        if (!$this->name) {
+            $this->name = isset($this->meta['name']) ? $this->meta['name'] : null;
+        }
         return $this->name;
     }
 
+    /**
+     * Retrieve element alias
+     *
+     * @return string
+     */
+    public function getAlias()
+    {
+        if (!$this->alias) {
+            $this->alias = isset($this->meta['as']) ? $this->meta['as'] : $this->getName();
+        }
+        return $this->alias;
+    }
+
+    /**
+     * Retrieve element type
+     *
+     * @return string
+     */
     public function getType()
     {
         return static::TYPE;
     }
 
+    /**
+     * @param string $handleName
+     */
     public function addHandle($handleName)
     {
         $handle = $this->viewFactory->createHandle($this->context,
@@ -145,35 +196,59 @@ abstract class Base implements Element
     }
 
     /**
-     * @return Element
+     * Retrieve parent element
+     *
+     * @return \Magento\View\Element
      */
     public function getParentElement()
     {
         return $this->parent;
     }
 
+    /**
+     * Retrieve all data providers
+     *
+     * @return array
+     */
     public function & getDataProviders()
     {
         return $this->dataProviders;
     }
 
+    /**
+     * Add data provider
+     *
+     * @param string $name
+     * @param \Magento\Core\Block\AbstractBlock $dataProvider
+     * @return void
+     */
     public function addDataProvider($name, $dataProvider)
     {
         $this->dataProviders[$name] = $dataProvider;
     }
 
+    /**
+     * @return array
+     */
     public function getChildren()
     {
         return isset($this->meta['children']) ? $this->meta['children'] : array();
     }
 
+    /**
+     * Remove child element
+     *
+     * @param string $name
+     */
     public function removeElement($name)
     {
         unset($this->elements[$name]);
-        unset($this->relations[$name]);
         unset(self::$allElements[$name]);
     }
 
+    /**
+     * Remove all children elements
+     */
     public function removeChildrenElements()
     {
         $children = $this->getChildrenElements();
@@ -183,13 +258,20 @@ abstract class Base implements Element
     }
 
     /**
-     * @return Element[]
+     * Return array of children
+     *
+     * @return array
      */
     public function getChildrenElements()
     {
         return $this->elements;
     }
 
+    /**
+     * Retrieve child blocks (alias for getChildrenElements)
+     *
+     * @return array
+     */
     public function getChildBlocks()
     {
         $blocks = array();
@@ -209,7 +291,7 @@ abstract class Base implements Element
      */
     public function isBlock(Element $element)
     {
-        return $result = $element->getType() === \Magento\View\Element\Block::TYPE;
+        return ($element->getType() === Block::TYPE);
     }
 
     /**
@@ -220,19 +302,25 @@ abstract class Base implements Element
      */
     public function isContainer(Element $element)
     {
-        return $result = $element->getType() === \Magento\View\Element\Container::TYPE;
+        return ($element->getType() === Container::TYPE);
     }
 
     /**
+     * Retrieve element by name
+     *
      * @param string $name
-     * @return Element
+     * @return Element|null
      */
     public function getElement($name)
     {
         return isset(Base::$allElements[$name]) ? Base::$allElements[$name] : null;
-        //return isset($this->elements[$name]) ? $this->elements[$name] : null;
     }
 
+    /**
+     * @param string $name
+     * @param string $type
+     * @return string
+     */
     public function renderElement($name, $type = Html::TYPE_HTML)
     {
         $element = $this->getElement($name);
@@ -244,11 +332,31 @@ abstract class Base implements Element
         return $result;
     }
 
+    /**
+     * @param string $alias
+     * @return Element|null
+     */
+    public function getChild($alias)
+    {
+        return isset($this->elements[$alias]) ? $this->elements[$alias] : null;
+    }
+
+    /**
+     * Retrieve child element output (alias for renderElement)
+     *
+     * @param string $name
+     * @param string $type
+     * @return string
+     */
     public function getChildHtml($name, $type = Html::TYPE_HTML)
     {
         return $this->renderElement($name, $type);
     }
 
+    /**
+     * @param string $type
+     * @return string
+     */
     public function renderChildren($type = Html::TYPE_HTML)
     {
         $out = '';
@@ -258,11 +366,25 @@ abstract class Base implements Element
         return $out;
     }
 
+    /**
+     * Retrieve design theme
+     *
+     * @return \Magento\Core\Model\Theme
+     */
     public function getDesignTheme()
     {
         return $this->context->getDesignTheme();
     }
 
+    /**
+     * Attach element
+     *
+     * @param Element $child
+     * @param string $alias
+     * @param string $before
+     * @param string $after
+     * @throws \LogicException
+     */
     public function attach(Element $child, $alias = null, $before = null, $after = null)
     {
         $name = isset($alias) ? $alias : $child->getName();
@@ -302,11 +424,13 @@ abstract class Base implements Element
         $this->registerRelation($this->getName(), $name);
     }
 
-    public function getChild($alias)
-    {
-        return isset($this->elements[$alias]) ? $this->elements[$alias] : null;
-    }
-
+    /**
+     * Detach element
+     *
+     * @param Element $child
+     * @param string $alias
+     * @return void
+     */
     public function detach(Element $child, $alias = null)
     {
         $name = isset($alias) ? $alias : $child->getName();
@@ -314,34 +438,29 @@ abstract class Base implements Element
         if (isset($this->elements[$name])) {
             unset($this->elements[$name]);
         }
-
-        if (isset($this->elements[$name])) {
-            unset($this->relations[$this->getName()]['children'][$name]);
-        }
     }
 
-    public function registerRelation($parentName, $childName)
-    {
-        $this->relations[$parentName]['children'][$childName] = & $this->elements[$childName];
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+    /**
+     * @param string $type
+     * @return string
+     */
     public function render($type = Html::TYPE_HTML)
     {
         return '';
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
-        // TODO there is no chance to enforce other render type this way
+        // TODO: there is no chance to enforce other render type this way
         try {
             $this->register();
             $result = $this->render();
         } catch (\Exception $e) {
             $result = "$e";
         }
-
         return $result;
     }
 }

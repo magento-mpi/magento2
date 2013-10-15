@@ -1,4 +1,10 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
 namespace Magento\View\Element;
 
@@ -11,6 +17,9 @@ use Magento\View\Layout\Reader;
 
 class Handle extends Base implements Element
 {
+    /**
+     * Element type
+     */
     const TYPE = 'handle';
 
     /**
@@ -35,13 +44,15 @@ class Handle extends Base implements Element
         Reader $layoutReader,
         Element $parent = null,
         array $meta = array()
-    )
-    {
+    ) {
         parent::__construct($context, $renderFactory, $viewFactory, $objectManager, $parent, $meta);
 
         $this->layoutReader = $layoutReader;
     }
 
+    /**
+     * @param Element $parent
+     */
     public function register(Element $parent = null)
     {
         if (isset($parent)) {

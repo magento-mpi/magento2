@@ -1,4 +1,10 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
 namespace Magento\View;
 
@@ -6,14 +12,23 @@ use Magento\View\Render\Html;
 
 interface Element
 {
+    /**
+     * Retrieve element configuration data
+     *
+     * @return array
+     */
     public function & getMeta();
 
     /**
+     * Retrieve element name
+     *
      * @return string
      */
     public function getName();
 
     /**
+     * Retrieve element type
+     *
      * @return string
      */
     public function getType();
@@ -132,9 +147,6 @@ interface Element
      * @param \Magento\View\DataProvider $dataProvider
      */
     public function addDataProvider($name, $dataProvider);
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // ALIASES for backward compatibility
 
     /**
      * alias for getChildrenElements

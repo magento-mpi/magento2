@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 namespace Magento\View\Element;
 
 use Magento\View\Element;
@@ -7,18 +12,13 @@ use Magento\View\Context;
 use Magento\View\Render\RenderFactory;
 use Magento\View\ViewFactory;
 use Magento\ObjectManager;
-use Magento\View\Layout\Reader;
 
 class Action extends Base implements Element
 {
-    const TYPE = 'action';
-
     /**
-     * Configuration path to check.
-     *
-     * @var string
+     * Element type
      */
-    protected $ifConfig;
+    const TYPE = 'action';
 
     /**
      * Target element's methods to call.
@@ -32,7 +32,6 @@ class Action extends Base implements Element
      * @param RenderFactory $renderFactory
      * @param ViewFactory $viewFactory
      * @param ObjectManager $objectManager
-     * @param Reader $layoutReader
      * @param Element $parent
      * @param array $meta
      */
@@ -41,25 +40,21 @@ class Action extends Base implements Element
         RenderFactory $renderFactory,
         ViewFactory $viewFactory,
         ObjectManager $objectManager,
-        Reader $layoutReader,
         Element $parent = null,
         array $meta = array()
-    )
-    {
+    ) {
         parent::__construct($context, $renderFactory, $viewFactory, $objectManager, $parent, $meta);
 
-        $this->ifConfig = isset($meta['ifconfig']) ? $meta['ifconfig'] : null;
-        $this->method = isset($meta['method']) ? $meta['method'] : null;
+        $this->method = isset($this->meta['method']) ? $this->meta['method'] : null;
     }
 
     /**
-     *
+     * @param Element $parent
      */
     public function register(Element $parent = null)
     {
-        $children = isset($this->meta['children']) ? $this->meta['children'] : array();
         $arguments = array();
-        foreach ($children as $child) {
+        foreach ($this->getChildren() as $child) {
             $arguments[$child['name']] = $child['value'];
         }
 

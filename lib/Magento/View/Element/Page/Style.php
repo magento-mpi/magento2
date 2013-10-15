@@ -2,20 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_View
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
-/**
- * Page Style.
- *
- * @category    Magento
- * @package     Magento_View
- */
-
 namespace Magento\View\Element\Page;
 
 use Magento\View\Element;
@@ -24,8 +13,14 @@ use Magento\View\Render\Html;
 
 class Style extends Container implements Element
 {
+    /**
+     * @param string $type
+     * @return string
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
     public function render($type = Html::TYPE_HTML)
     {
-        //
+        return '';
     }
 }

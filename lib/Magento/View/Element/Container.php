@@ -1,4 +1,10 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
 namespace Magento\View\Element;
 
@@ -11,6 +17,9 @@ use Magento\View\Render\RenderFactory;
 
 class Container extends Base implements Element
 {
+    /**
+     * Element type
+     */
     const TYPE = 'container';
 
     /**#@+
@@ -23,6 +32,8 @@ class Container extends Base implements Element
     /**#@-*/
 
     /**
+     * Container configuration data
+     *
      * @var array
      */
     protected $containerInfo = array();
@@ -32,8 +43,8 @@ class Container extends Base implements Element
      * @param RenderFactory $renderFactory
      * @param ViewFactory $viewFactory
      * @param ObjectManager $objectManager
-     * @param Element $parent [optional]
-     * @param array $meta [optional]
+     * @param Element $parent
+     * @param array $meta
      * @throws \InvalidArgumentException
      */
     public function __construct(
@@ -43,8 +54,7 @@ class Container extends Base implements Element
         ObjectManager $objectManager,
         Element $parent = null,
         array $meta = array()
-    )
-    {
+    ) {
         parent::__construct($context, $renderFactory, $viewFactory, $objectManager, $parent, $meta);
 
         $this->containerInfo['label'] = isset($meta['label']) ? $meta['label'] : null;
@@ -52,7 +62,8 @@ class Container extends Base implements Element
         $this->containerInfo['class'] = isset($meta['htmlClass']) ? $meta['htmlClass'] : null;
         $this->containerInfo['id'] = isset($meta['htmlId']) ? $meta['htmlId'] : null;
 
-        if (empty($this->containerInfo['tag']) && (!empty($this->containerInfo['class']) || !empty($this->containerInfo['id']))) {
+        if (empty($this->containerInfo['tag'])
+            && (!empty($this->containerInfo['class']) || !empty($this->containerInfo['id']))) {
             throw new \InvalidArgumentException('HTML ID or class will not have effect, if HTML tag is not specified.');
         }
 
@@ -62,33 +73,35 @@ class Container extends Base implements Element
         }
     }
 
+    /**
+     * @param Element $parent
+     */
     public function register(Element $parent = null)
     {
         if (isset($parent)) {
             $parent->attach($this, $this->alias, $this->before, $this->after);
         }
 
-        if ($this->getChildren()) {
-            foreach ($this->getChildren() as $child) {
-
-                $metaElement = $this->viewFactory->create($child['type'],
-                    array(
-                        'context' => $this->context,
-                        'parent' => $this,
-                        'meta' => $child
-                    )
-                );
-                $metaElement->register($this);
-            }
+        foreach ($this->getChildren() as $child) {
+            $metaElement = $this->viewFactory->create($child['type'],
+                array(
+                    'context' => $this->context,
+                    'parent' => $this,
+                    'meta' => $child
+                )
+            );
+            $metaElement->register($this);
         }
     }
 
+    /**
+     * @param string $type
+     * @return string
+     */
     public function render($type = Html::TYPE_HTML)
     {
         $result = '';
         foreach ($this->getChildrenElements() as $child) {
-            //var_dump(get_class($child) . ' -- ' . $child->getName());
-            /** @var $element Element */
             $result .= $child->render($type);
         }
 

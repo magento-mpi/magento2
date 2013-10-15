@@ -1,4 +1,10 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
 namespace Magento\View\Element;
 
@@ -6,8 +12,14 @@ use Magento\View\Element;
 
 class Move extends Base implements Element
 {
+    /**
+     * Element type
+     */
     const TYPE = 'move';
 
+    /**
+     * @param Element $parent
+     */
     public function register(Element $parent = null)
     {
         $element = $this->getElement($this->meta['element']);
@@ -19,10 +31,7 @@ class Move extends Base implements Element
 
             $destination = $this->getElement($this->meta['destination']);
             if ($destination) {
-                $alias = isset($this->meta['alias']) ? $this->meta['alias'] : null;
-                $before = isset($this->meta['before']) ? $this->meta['before'] : null;
-                $after = isset($this->meta['after']) ? $this->meta['after'] : null;
-                $destination->attach($element, $alias, $before, $after);
+                $destination->attach($element, $this->getAlias(), $this->before, $this->after);
             }
         }
     }
