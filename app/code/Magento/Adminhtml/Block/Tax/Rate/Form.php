@@ -24,7 +24,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
     protected $_titles = null;
 
-    protected $_template = 'tax/rate/form.phtml';
+    protected $_template = 'Magento_Tax::rate/form.phtml';
 
     /**
      * Tax data
@@ -228,7 +228,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $this->setChild(
             'form_after',
             $this->getLayout()->createBlock('Magento\Core\Block\Template')
-                ->setTemplate('Magento_Adminhtml::tax/rate/js.phtml')
+                ->setTemplate('Magento_Tax::rate/js.phtml')
         );
 
         return parent::_prepareForm();

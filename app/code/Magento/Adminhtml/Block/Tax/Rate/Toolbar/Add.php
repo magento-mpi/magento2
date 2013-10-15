@@ -21,7 +21,7 @@ namespace Magento\Adminhtml\Block\Tax\Rate\Toolbar;
 class Add extends \Magento\Adminhtml\Block\Template
 {
 
-    protected $_template = 'tax/toolbar/rate/add.phtml';
+    protected $_template = 'Magento_Tax::toolbar/rate/add.phtml';
 
     protected function _prepareLayout()
     {
