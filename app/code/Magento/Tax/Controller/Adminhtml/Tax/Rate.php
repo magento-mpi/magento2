@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Tax
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +12,11 @@
  * Adminhtml tax rate controller
  *
  * @category   Magento
- * @package    Magento_Adminhtml
+ * @package    Magento_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-namespace Magento\Adminhtml\Controller\Tax;
+namespace Magento\Tax\Controller\Adminhtml\Tax;
 
 class Rate extends \Magento\Backend\Controller\Adminhtml\Action
 {
