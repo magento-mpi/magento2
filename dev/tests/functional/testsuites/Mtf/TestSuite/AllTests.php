@@ -17,7 +17,7 @@ class AllTests
     {
         $suite = new \PHPUnit_Framework_TestSuite('Tests');
 
-        $suite->addTestSuite('Magento\Catalog\Test\TestCase\ProductTest');
+        $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\CreateTest');
         return $suite;
     }
 }
