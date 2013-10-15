@@ -509,7 +509,7 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
             return $_FILES;
         }
 
-        return (isset($_FILES[$key])) ? $_FILES[$key] : $default;
+        return isset($_FILES[$key]) ? $_FILES[$key] : $default;
     }
 
     /**

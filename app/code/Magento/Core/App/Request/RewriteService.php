@@ -96,13 +96,13 @@ class RewriteService
     protected function _processRewriteUrl($url)
     {
         $startPos = strpos($url, '{');
-        if ($startPos!==false) {
+        if ($startPos !== false) {
             $endPos = strpos($url, '}');
-            $routeId = substr($url, $startPos+1, $endPos-$startPos-1);
+            $routeId = substr($url, $startPos + 1, $endPos - $startPos - 1);
             $router = $this->_routerList->getRouterByRoute($routeId);
             if ($router) {
                 $frontName = $router->getFrontNameByRoute($routeId);
-                $url = str_replace('{'.$routeId.'}', $frontName, $url);
+                $url = str_replace('{' . $routeId . '}', $frontName, $url);
             }
         }
         return $url;

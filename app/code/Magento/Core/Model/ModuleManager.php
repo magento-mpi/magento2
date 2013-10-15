@@ -56,7 +56,7 @@ class ModuleManager
      */
     public function isEnabled($moduleName)
     {
-        return !!$this->_moduleList->getModule($moduleName);
+        return !$this->_moduleList->getModule($moduleName);
     }
 
     /**
