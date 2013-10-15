@@ -64,7 +64,7 @@
                 <block class="Magento\Page\Block\Switcher" name="store_switcher" as="store_switcher" template="switch/stores.phtml"/>
                 <block class="Magento\Page\Block\Links" name="footer_links"/>
                 <block class="Magento\Page\Block\Html\Footer" name="copyright" template="html/copyright.phtml"/>
-                <!--<block class="Magento\Page\Block\Html\Footer" name="report.bugs" template="html/reportbugs.phtml" />-->
+                <block class="Magento\Page\Block\Html\Footer" name="report.bugs" template="html/bugreport.phtml" />
             </container>
         </container>
         <container name="before_body_end" as="before_body_end" label="Page Bottom">
