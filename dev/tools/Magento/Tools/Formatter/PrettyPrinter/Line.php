@@ -34,45 +34,69 @@ class Line
     }
 
     /**
+     * This method translates this instance to a string.
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getLine();
+    }
+
+    /**
      * This method adds the token to the list of tokens.
      * @param mixed $token The token to be added.
      */
     public function add($token)
     {
         // just add the token to the end of the list
-        $this->tokens[] = $token;
+        if (is_array($token)) {
+            $this->tokens = array_merge($this->tokens, $token);
+        } else {
+            $this->tokens[] = $token;
+        }
         // return this instance so that chaining can be accomplished
         return $this;
     }
 
     /**
-     * This method returns the line as a string. Note that line breaks are dealt with.
-     * @param string $prefix String containing the start of every new line
+     * This method returns the line as a string.
      */
-    public function getLine($prefix)
+    public function getLine()
     {
-        $line = $prefix;
-        // add each token to the string
-        foreach ($this->tokens as $index=>$token) {
-            if ($token instanceof LineBreak) {
-                $line .= $token;
-                // if there are more tokens, indent the next line
-                if ($index < sizeof($this->tokens) - 1) {
-                    $line .= $prefix;
-                }
-            } else {
-                $line .= $token;
-            }
-        }
-        return $line;
+        return implode('', $this->tokens);
     }
 
     /**
-     * This method translates this instance to a string.
-     * @return string
+     * This member sets the tokens for this line to the passed in values.
      */
-    public function __toString()
+    public function setTokens(array $tokens)
     {
-        return implode('', $this->tokens);
+        $this->tokens = $tokens;
+    }
+
+    /**
+     * This member returns a tree
+     * @param $prefix
+     * @param $level
+     */
+    public function splitLines($level = 0)
+    {
+        // stores the array of arrays
+        $currentLines = array();
+        $index = 0;
+        // loop through the elements to determine ending lines
+        foreach ($this->tokens as $token) {
+            // if no current line, create one and put it in the array
+            if ($index >= sizeof($currentLines)) {
+                $currentLines[$index] = array();
+            }
+            // add the current token to the end of the current line
+            array_push($currentLines[$index], $token);
+            // if this is a terminating token, flag that a new line needs to be generated
+            if ($token instanceof LineBreak && $level >= $token->getLevel()) {
+                $index++;
+            }
+        }
+        return $currentLines;
     }
 }

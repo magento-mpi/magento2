@@ -36,7 +36,7 @@ class Foo extends Bar implements Zulu {
     }
 
     public function beta() {
-        return \$this->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha();
+        return \$this->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha();
     }
 }
 ORIGINALCODESNIPPET
@@ -85,6 +85,12 @@ FORMATTEDCODESNIPPET
             array(
                 "<?php class ParentPluses extends Parent implements Interface1, Interface2, Interface3 {}",
                 "<?php\nclass ParentPluses extends Parent implements Interface1, Interface2, Interface3\n{\n}\n"
+            ),
+            array(
+                "<?php class BigParentPluses extends Parent implements Interface1, Interface2, Interface3, " .
+                "Interface4 {}",
+                "<?php\nclass BigParentPluses extends Parent implements\n    Interface1,\n    Interface2,\n" .
+                "    Interface3,\n    Interface4\n{\n}\n"
             ),
         );
     }

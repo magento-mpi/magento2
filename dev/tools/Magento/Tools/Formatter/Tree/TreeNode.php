@@ -38,10 +38,26 @@ class TreeNode
     /**
      * This method adds the named child to the end of the children nodes
      * @param TreeNode $treeNode Child node to be added
+     * @param TreeNode $adjacentNode Optional child node to place new node next to
      */
-    public function addChild(TreeNode $treeNode)
+    public function addChild(TreeNode $treeNode, TreeNode $adjacentNode = null)
     {
-        $this->children[] = $treeNode;
+        // if adding a child next to an existing child
+        if (null !== $adjacentNode) {
+            // find the existing child
+            $index = array_search($adjacentNode, $this->children, true);
+            // if it could not be found and the existing child is not the last one in the list
+            if (false !== $index && $index < sizeof($this->children) - 1) {
+                // found it, so splice in the new child
+                array_splice($this->children, $index + 1, 0, array($treeNode));
+            } else {
+                // shouldn't really get here, but could; just add it to the end of the list
+                $this->children[] = $treeNode;
+            }
+        } else {
+            // otherwise, just add it to the end of the list
+            $this->children[] = $treeNode;
+        }
     }
 
     /**

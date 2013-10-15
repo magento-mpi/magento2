@@ -26,7 +26,8 @@ class ClassReference extends StatementAbstract
      *
      * @param Tree $tree
      */
-    public function process(Tree $tree) {
+    public function process(Tree $tree)
+    {
         $line = $tree->getCurrentNode()->getData();
         $line->add((string)$this->node);
     }

@@ -42,8 +42,11 @@ class Printer
         $statements = $parser->parse($this->originalCode);
         // resolve the code into its final version
         $tree = new Tree();
-        $tree->addRoot(new TreeNode((new Line('<?php'))->add(new HardLineBreak())), false);
+        $tree->addChild(new TreeNode((new Line('<?php'))->add(new HardLineBreak())), false);
         $this->processStatements($statements, $tree);
+        // level the nodes to even out the lines
+        $visitor = new NodeLeveler($tree);
+        $tree->traverse($visitor);
         // print out the nodes
         $visitor = new NodePrinter();
         $tree->traverse($visitor);
@@ -67,11 +70,10 @@ class Printer
     {
         // if it is an array, process each element in the array
         if (is_array($statements)) {
-            foreach($statements as $node) {
+            foreach ($statements as $node) {
                 $this->processStatement($node, $tree);
             }
-        }
-        else {
+        } else {
             // otherwise, it just a single statement
             $this->processStatement($statements, $tree);
         }

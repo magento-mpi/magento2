@@ -37,7 +37,9 @@ class ParserLexer extends PHPParser_Lexer
     {
         $tokenId = parent::getNextToken($value, $startAttributes, $endAttributes);
         // if a string or number is encountered, save off the original so that it can be used in the generated code.
-        if (PHPParser_Parser::T_CONSTANT_ENCAPSED_STRING === $tokenId || PHPParser_Parser::T_ENCAPSED_AND_WHITESPACE === $tokenId || PHPParser_Parser::T_LNUMBER === $tokenId || PHPParser_Parser::T_DNUMBER === $tokenId) {
+        if (PHPParser_Parser::T_CONSTANT_ENCAPSED_STRING === $tokenId ||
+            PHPParser_Parser::T_ENCAPSED_AND_WHITESPACE === $tokenId ||
+            PHPParser_Parser::T_LNUMBER === $tokenId || PHPParser_Parser::T_DNUMBER === $tokenId) {
             $endAttributes[self::ORIGINAL_VALUE] = $value;
         } elseif ($tokenId == PHPParser_Parser::T_END_HEREDOC) {
             // only need to save the close tag and recreate the open take

@@ -45,6 +45,8 @@ class Tree
         if ($setCurrent) {
             $this->currentNode = $treeNode;
         }
+        // as a convenience, return the newly added node
+        return $treeNode;
     }
 
     /**
@@ -60,13 +62,14 @@ class Tree
         } elseif (is_array($this->rootNode)) {
             // if an array, then just add the node to the end of the roots
             $this->rootNode[] = $treeNode;
-        }
-        else {
+        } else {
             // only a single root, so make it an array
             $this->rootNode = array($this->rootNode, $treeNode);
         }
         // make the new node the current node
         $this->currentNode = $treeNode;
+        // as a convenience, return the newly added node
+        return $treeNode;
     }
 
     /**
@@ -82,12 +85,15 @@ class Tree
         } else {
             $parent = $this->findCurrentParent();
             if (null !== $parent) {
-                $this->currentNode = $parent;
-                $this->addChild($treeNode);
+                // found the parent of the current node, so insert a new child next to the existing child
+                $parent->addChild($treeNode, $this->currentNode);
+                $this->currentNode = $treeNode;
             } else {
                 $this->addRoot($treeNode);
             }
         }
+        // as a convenience, return the newly added node
+        return $treeNode;
     }
 
     /**
@@ -127,6 +133,15 @@ class Tree
     public function getCurrentNode()
     {
         return $this->currentNode;
+    }
+
+    /**
+     * This member sets the current node of the tree to the passed in node.
+     * @param TreeNode $currentNode Node in this tree which should be made current.
+     */
+    public function setCurrentNode(TreeNode $currentNode)
+    {
+        $this->currentNode = $currentNode;
     }
 
     /**

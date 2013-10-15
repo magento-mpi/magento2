@@ -61,7 +61,8 @@ abstract class StatementAbstract implements Node
      * @param mixed $modifiers Bit map containing the markers for the various modifiers.
      * @param Line $line Instance of line to add modifier.
      */
-    protected function addModifier($modifiers, Line $line) {
+    protected function addModifier($modifiers, Line $line)
+    {
         if ($modifiers & \PHPParser_Node_Stmt_Class::MODIFIER_ABSTRACT) {
             $line->add('abstract ');
         }
