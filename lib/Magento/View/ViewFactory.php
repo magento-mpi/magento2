@@ -25,6 +25,9 @@ class ViewFactory
      */
     protected $objectManager;
 
+    /**
+     * @param ObjectManager $objectManager
+     */
     public function __construct(ObjectManager $objectManager)
     {
         $this->objectManager = $objectManager;
@@ -176,12 +179,19 @@ class ViewFactory
     /**
      * @param string $type
      * @param array $arguments
+     * @throws \InvalidArgumentException
      * @return Element
      */
     public function create($type, array $arguments)
     {
         $className = 'Magento\\View\\Element\\' . ucfirst(str_replace('_', '\\', $type));
 
-        return $this->objectManager->create($className, $arguments);
+        $element = $this->objectManager->create($className, $arguments);
+
+        if (($element instanceof Element) === false) {
+            throw new \InvalidArgumentException(sprintf('Type "%s" is not instance on Magento\View\Element', $type));
+        }
+
+        return $element;
     }
 }

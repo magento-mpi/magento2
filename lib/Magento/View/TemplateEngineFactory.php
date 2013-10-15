@@ -17,6 +17,9 @@ use Magento\View\TemplateEngine;
 
 class TemplateEngineFactory
 {
+    /**
+     * @var ObjectManager
+     */
     protected $_objectManager;
 
     /**
