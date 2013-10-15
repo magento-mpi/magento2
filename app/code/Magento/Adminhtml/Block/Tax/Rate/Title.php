@@ -20,7 +20,7 @@ class Title extends \Magento\Core\Block\Template
 {
     protected $_titles;
 
-    protected $_template = 'tax/rate/title.phtml';
+    protected $_template = 'Magento_Tax::rate/title.phtml';
 
     /**
      * @var \Magento\Tax\Model\Calculation\Rate
