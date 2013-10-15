@@ -18,7 +18,7 @@ class SchemaLocator implements \Magento\Config\SchemaLocatorInterface
      */
     public function getSchema()
     {
-        return realpath(__DIR__ . '/../../../etc/module.xsd');
+        return realpath(__DIR__ . '/../../etc/module.xsd');
     }
 
     /**

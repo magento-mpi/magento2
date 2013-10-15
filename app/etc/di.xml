@@ -23,7 +23,6 @@
     <preference for="Magento\Core\Model\View\DesignInterface" type="Magento\Core\Model\View\Design" />
     <preference for="Magento\Core\Model\LocaleInterface" type="Magento\Core\Model\Locale" />
     <preference for="Magento\UrlInterface" type="Magento\Core\Model\Url" />
-    <preference for="Magento\Event\InvokerInterface" type="Magento\Event\Invoker\InvokerDefault" />
     <preference for="Magento\Data\Collection\Db\FetchStrategyInterface" type="Magento\Data\Collection\Db\FetchStrategy\Query" />
     <preference for="Magento\Config\ScopeInterface" type="Magento\Config\Scope" />
     <preference for="Magento\Config\FileResolverInterface" type="Magento\Core\Model\Config\FileResolver" />
