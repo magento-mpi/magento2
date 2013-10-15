@@ -43,6 +43,42 @@ class TreeElement extends Element
     }
 
     /**
+     * setValue method is not accessible in this class.
+     * Throws exception if used.
+     *
+     * @param string|array $value
+     * @throws \BadMethodCallException
+     */
+    public function setValue($value)
+    {
+        throw new \BadMethodCallException('Not applicable for this class of elements (TreeElement)');
+    }
+
+    /**
+     * getValue method is not accessible in this class.
+     * Throws exception if used.
+     *
+     * @throws \BadMethodCallException
+     */
+    public function getValue()
+    {
+        throw new \BadMethodCallException('Not applicable for this class of elements (TreeElement)');
+
+    }
+
+    /**
+     * keys method is not accessible in this class.
+     * Throws exception if used.
+     *
+     * @param array $keys
+     * @throws \BadMethodCallException
+     */
+    public function keys(array $keys)
+    {
+        throw new \BadMethodCallException('Not applicable for this class of elements (TreeElement)');
+    }
+
+    /**
      * Click a tree element by its path in tree
      * (format numeric as 0/2/etc)
      *
