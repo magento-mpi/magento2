@@ -35,10 +35,10 @@ class SoapTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Core\Model\App */
     protected $_applicationMock;
 
-    /** @var \Magento\Oauth\Service\OauthV1 */
+    /** @var \Magento\Oauth\Oauth */
     protected $_oauthServiceMock;
 
-    /** @var \Magento\Oauth\Helper\Service */
+    /** @var \Magento\Oauth\Helper\Oauth */
     protected $_oauthHelperMock;
 
     /**
@@ -85,11 +85,11 @@ class SoapTest extends \PHPUnit_Framework_TestCase
         $this->_applicationMock->expects($this->any())->method('getLocale')->will($this->returnValue($localeMock));
         $this->_applicationMock->expects($this->any())->method('isDeveloperMode')->will($this->returnValue(false));
 
-        $this->_oauthServiceMock = $this->getMockBuilder('Magento\Oauth\Service\OauthV1')
+        $this->_oauthServiceMock = $this->getMockBuilder('Magento\Oauth\Oauth')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_oauthHelperMock = $this->getMockBuilder('Magento\Oauth\Helper\Service')
+        $this->_oauthHelperMock = $this->getMockBuilder('Magento\Oauth\Helper\Oauth')
             ->disableOriginalConstructor()
             ->getMock();
 

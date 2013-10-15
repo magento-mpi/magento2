@@ -1,17 +1,16 @@
 <?php
 /**
- * Web API Oauth Service.
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Oauth\Service;
 
-interface OauthV1Interface
+namespace Magento\Oauth;
+
+
+interface OauthInterface
 {
-
     /**#@+
      * OAuth result statuses
      */

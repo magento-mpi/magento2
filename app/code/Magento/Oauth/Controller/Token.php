@@ -13,21 +13,21 @@ namespace Magento\Oauth\Controller;
 
 class Token extends \Magento\Core\Controller\Front\Action
 {
-    /** @var  \Magento\Oauth\Service\OauthV1Interface */
+    /** @var  \Magento\Oauth\OauthInterface */
     protected $_oauthService;
 
-    /** @var  \Magento\Oauth\Helper\Data */
+    /** @var  \Magento\Oauth\Helper\Request */
     protected $_helper;
 
     /**
-     * @param \Magento\Oauth\Service\OauthV1Interface $oauthService
+     * @param \Magento\Oauth\OauthInterface $oauthService
      * @param \Magento\Core\Controller\Varien\Action\Context $context
-     * @param \Magento\Oauth\Helper\Data $helper
+     * @param \Magento\Oauth\Helper\Request $helper
      */
     public function __construct(
         \Magento\Core\Controller\Varien\Action\Context $context,
-        \Magento\Oauth\Service\OauthV1Interface $oauthService,
-        \Magento\Oauth\Helper\Data $helper
+        \Magento\Oauth\OauthInterface $oauthService,
+        \Magento\Oauth\Helper\Request $helper
     ) {
         parent::__construct($context);
         $this->_oauthService = $oauthService;
@@ -40,7 +40,7 @@ class Token extends \Magento\Core\Controller\Front\Action
     public function requestAction()
     {
         try {
-            $request = $this->_helper->prepareServiceRequest($this->getRequest());
+            $request = $this->_helper->prepareRequest($this->getRequest());
 
             //Request request token
             $response = $this->_oauthService->getRequestToken($request);
@@ -60,7 +60,7 @@ class Token extends \Magento\Core\Controller\Front\Action
     public function accessAction()
     {
         try {
-            $request = $this->_helper->prepareServiceRequest($this->getRequest());
+            $request = $this->_helper->prepareRequest($this->getRequest());
 
             //Request access token in exchange of a pre-authorized token
             $response = $this->_oauthService->getAccessToken($request);
@@ -73,5 +73,4 @@ class Token extends \Magento\Core\Controller\Front\Action
         }
         $this->getResponse()->setBody(http_build_query($response));
     }
-
 }

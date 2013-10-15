@@ -7,5 +7,5 @@
  */
 -->
 <config>
-    <preference for="Magento\Oauth\Service\OauthV1Interface" type="Magento\Oauth\Service\OauthV1" />
+    <preference for="Magento\Oauth\OauthInterface" type="Magento\Oauth\Oauth"/>
 </config>

@@ -1,7 +1,5 @@
 <?php
 /**
- * Test WebAPI authentication helper.
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,7 +7,7 @@
  */
 namespace Magento\Oauth\Helper;
 
-class ServiceTest extends \PHPUnit_Framework_TestCase
+class OauthTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Core\Helper\Data */
     protected $_coreHelper;
@@ -20,7 +18,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Core\Model\Store\Config */
     protected $_storeConfigMock;
 
-    /** @var \Magento\Oauth\Helper\Service */
+    /** @var \Magento\Oauth\Helper\Oauth */
     protected $_oauthHelper;
 
     protected function setUp()
@@ -48,9 +46,8 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
             $this->_encryptorMock
         );
 
-        $this->_oauthHelper = new \Magento\Oauth\Helper\Service(
+        $this->_oauthHelper = new \Magento\Oauth\Helper\Oauth(
             $this->_coreHelper,
-            $this->_coreContextMock,
             $this->_storeConfigMock
         );
     }
@@ -112,7 +109,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
         $this->_storeConfigMock->expects($this->once())->method('getConfig')
             ->will($this->returnValue(0));
         $this->assertEquals(
-            \Magento\Oauth\Helper\Service::CLEANUP_EXPIRATION_PERIOD_DEFAULT,
+            \Magento\Oauth\Helper\Oauth::CLEANUP_EXPIRATION_PERIOD_DEFAULT,
             $this->_oauthHelper->getCleanupExpirationPeriod()
         );
     }

@@ -29,10 +29,10 @@ class OauthHelper
     {
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        /** @var $oauthService \Magento\Oauth\Service\OauthV1 */
-        $oauthService = $objectManager->get('Magento\Oauth\Service\OauthV1');
-        /** @var $oauthHelper \Magento\Oauth\Helper\Service */
-        $oauthHelper = $objectManager->get('Magento\Oauth\Helper\Service');
+        /** @var $oauthService \Magento\Oauth\Oauth */
+        $oauthService = $objectManager->get('Magento\Oauth\Oauth');
+        /** @var $oauthHelper \Magento\Oauth\Helper\Oauth */
+        $oauthHelper = $objectManager->get('Magento\Oauth\Helper\Oauth');
 
         $consumerKey = $oauthHelper->generateConsumerKey();
         $consumerSecret = $oauthHelper->generateConsumerSecret();

@@ -26,10 +26,10 @@ class Rest implements \Magento\Core\Controller\FrontInterface
     /** @var \Magento\Core\Model\App\State */
     protected $_appState;
 
-    /** @var \Magento\Oauth\Service\OauthV1Interface */
+    /** @var \Magento\Oauth\OauthInterface */
     protected $_oauthService;
 
-    /** @var  \Magento\Oauth\Helper\Data */
+    /** @var  \Magento\Oauth\Helper\Request */
     protected $_oauthHelper;
 
     /**
@@ -40,8 +40,8 @@ class Rest implements \Magento\Core\Controller\FrontInterface
      * @param \Magento\Webapi\Controller\Rest\Router $router
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Core\Model\App\State $appState
-     * @param \Magento\Oauth\Service\OauthV1Interface $oauthService
-     * @param \Magento\Oauth\Helper\Data $oauthHelper
+     * @param \Magento\Oauth\OauthInterface $oauthService
+     * @param \Magento\Oauth\Helper\Request $oauthHelper
      */
     public function __construct(
         \Magento\Webapi\Controller\Rest\Request $request,
@@ -49,8 +49,8 @@ class Rest implements \Magento\Core\Controller\FrontInterface
         \Magento\Webapi\Controller\Rest\Router $router,
         \Magento\ObjectManager $objectManager,
         \Magento\Core\Model\App\State $appState,
-        \Magento\Oauth\Service\OauthV1Interface $oauthService,
-        \Magento\Oauth\Helper\Data $oauthHelper
+        \Magento\Oauth\OauthInterface $oauthService,
+        \Magento\Oauth\Helper\Request $oauthHelper
     ) {
         $this->_router = $router;
         $this->_request = $request;
@@ -82,7 +82,7 @@ class Rest implements \Magento\Core\Controller\FrontInterface
             if (!$this->_appState->isInstalled()) {
                 throw new \Magento\Webapi\Exception(__('Magento is not yet installed'));
             }
-            $oauthReq = $this->_oauthHelper->prepareServiceRequest($this->_request, $this->_request->getRequestData());
+            $oauthReq = $this->_oauthHelper->prepareRequest($this->_request, $this->_request->getRequestData());
             $this->_oauthService->validateAccessTokenRequest($oauthReq);
             $route = $this->_router->match($this->_request);
 

@@ -1,18 +1,15 @@
 <?php
 /**
- * Web API Oauth Service.
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/**
- * Class \Magento\Oauth\Service\OauthV1
- */
-namespace Magento\Oauth\Service;
 
-class OauthV1 implements \Magento\Oauth\Service\OauthV1Interface
+namespace Magento\Oauth;
+
+
+class Oauth implements \Magento\Oauth\OauthInterface
 {
     /**
      * Possible time deviation for timestamp validation in sec.
@@ -142,13 +139,8 @@ class OauthV1 implements \Magento\Oauth\Service\OauthV1Interface
                 )
             );
             $maxredirects = $this->_getConfigValue(
-                self::XML_PATH_CONSUMER_POST_MAXREDIRECTS,
-                self::CONSUMER_POST_MAXREDIRECTS
-            );
-            $timeout = $this->_getConfigValue(
-                self::XML_PATH_CONSUMER_POST_TIMEOUT,
-                self::CONSUMER_POST_TIMEOUT
-            );
+                self::XML_PATH_CONSUMER_POST_MAXREDIRECTS, self::CONSUMER_POST_MAXREDIRECTS);
+            $timeout = $this->_getConfigValue(self::XML_PATH_CONSUMER_POST_TIMEOUT, self::CONSUMER_POST_TIMEOUT);
             $this->_httpClient->setConfig(array('maxredirects' => $maxredirects, 'timeout' => $timeout));
             $this->_httpClient->request(\Magento\HTTP\ZendClient::POST);
             return array('oauth_verifier' => $verifier->getVerifier());
@@ -169,9 +161,7 @@ class OauthV1 implements \Magento\Oauth\Service\OauthV1Interface
         // must use consumer within expiration period
         $consumerTS = strtotime($consumer->getCreatedAt());
         $expiry = $this->_getConfigValue(
-            self::XML_PATH_CONSUMER_EXPIRATION_PERIOD,
-            self::CONSUMER_EXPIRATION_PERIOD_DEFAULT
-        );
+            self::XML_PATH_CONSUMER_EXPIRATION_PERIOD, self::CONSUMER_EXPIRATION_PERIOD_DEFAULT);
         if ($this->_date->timestamp() - $consumerTS > $expiry) {
             throw new \Magento\Oauth\Exception('', self::ERR_CONSUMER_KEY_INVALID);
         }
@@ -301,7 +291,7 @@ class OauthV1 implements \Magento\Oauth\Service\OauthV1Interface
     {
         $token = $this->_getToken($request['token']);
 
-        //Make sure a consumer is associated with the token
+        // Make sure a consumer is associated with the token
         $this->_getConsumer($token->getConsumerId());
 
         if (\Magento\Oauth\Model\Token::TYPE_ACCESS != $token->getType()) {
@@ -399,7 +389,7 @@ class OauthV1 implements \Magento\Oauth\Service\OauthV1Interface
         }
 
         $allowedSignParams = $params;
-        //unset unused signature parameters
+        // unset unused signature parameters
         unset($allowedSignParams['oauth_signature']);
         unset($allowedSignParams['http_method']);
         unset($allowedSignParams['request_url']);
@@ -414,8 +404,7 @@ class OauthV1 implements \Magento\Oauth\Service\OauthV1Interface
         );
 
         if ($calculatedSign != $params['oauth_signature']) {
-            throw new \Magento\Oauth\Exception(
-                'Invalid signature.', self::ERR_SIGNATURE_INVALID);
+            throw new \Magento\Oauth\Exception('Invalid signature.', self::ERR_SIGNATURE_INVALID);
         }
     }
 
@@ -598,8 +587,10 @@ class OauthV1 implements \Magento\Oauth\Service\OauthV1Interface
     }
 
     /**
-     * Get value from store configuration
+     * Get value from store configuration.
      *
+     * @param string $xpath
+     * @param int $default
      * @return int
      */
     protected function _getConfigValue($xpath, $default)

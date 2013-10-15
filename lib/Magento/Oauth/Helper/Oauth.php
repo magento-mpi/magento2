@@ -11,7 +11,7 @@
  */
 namespace Magento\Oauth\Helper;
 
-class Service extends \Magento\Core\Helper\AbstractHelper
+class Oauth extends \Magento\Core\Helper\AbstractHelper
 {
     /**#@+
      * Cleanup xpath config settings
@@ -49,15 +49,12 @@ class Service extends \Magento\Core\Helper\AbstractHelper
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $storeConfig
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Store\Config $storeConfig
     ) {
-        parent::__construct($context);
         $this->_coreData = $coreData;
         $this->_storeConfig = $storeConfig;
     }

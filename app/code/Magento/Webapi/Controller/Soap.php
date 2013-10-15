@@ -39,10 +39,10 @@ class Soap implements \Magento\Core\Controller\FrontInterface
     /** @var \Magento\Core\Model\App */
     protected $_application;
 
-    /** @var \Magento\Oauth\Service\OauthV1Interface */
+    /** @var \Magento\Oauth\OauthInterface */
     protected $_oauthService;
 
-    /** @var  \Magento\Oauth\Helper\Service */
+    /** @var  \Magento\Oauth\Helper\Oauth */
     protected $_oauthHelper;
 
     /**
@@ -55,8 +55,8 @@ class Soap implements \Magento\Core\Controller\FrontInterface
      * @param \Magento\Webapi\Controller\ErrorProcessor $errorProcessor
      * @param \Magento\Core\Model\App\State $appState
      * @param \Magento\Core\Model\App $application
-     * @param \Magento\Oauth\Service\OauthV1Interface $oauthService
-     * @param \Magento\Oauth\Helper\Service $oauthHelper
+     * @param \Magento\Oauth\OauthInterface $oauthService
+     * @param \Magento\Oauth\Helper\Oauth $oauthHelper
      */
     public function __construct(
         \Magento\Webapi\Controller\Soap\Request $request,
@@ -66,8 +66,8 @@ class Soap implements \Magento\Core\Controller\FrontInterface
         \Magento\Webapi\Controller\ErrorProcessor $errorProcessor,
         \Magento\Core\Model\App\State $appState,
         \Magento\Core\Model\App $application,
-        \Magento\Oauth\Service\OauthV1Interface $oauthService,
-        \Magento\Oauth\Helper\Service $oauthHelper
+        \Magento\Oauth\OauthInterface $oauthService,
+        \Magento\Oauth\Helper\Oauth $oauthHelper
     ) {
         $this->_request = $request;
         $this->_response = $response;

@@ -35,10 +35,10 @@ class RestTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Core\Model\App\State */
     protected $_appStateMock;
 
-    /** @var \Magento\Oauth\Service\OauthV1 */
+    /** @var \Magento\Oauth\Oauth */
     protected $_oauthServiceMock;
 
-    /** @var \Magento\Oauth\Helper\Data */
+    /** @var \Magento\Oauth\Helper\Request */
     protected $_oauthHelperMock;
 
     const SERVICE_METHOD = \Magento\Webapi\Model\Rest\Config::KEY_METHOD;
@@ -79,11 +79,11 @@ class RestTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_oauthServiceMock = $this->getMockBuilder('Magento\Oauth\Service\OauthV1')
+        $this->_oauthServiceMock = $this->getMockBuilder('Magento\Oauth\Oauth')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_oauthHelperMock = $this->getMockBuilder('Magento\Oauth\Helper\Data')
+        $this->_oauthHelperMock = $this->getMockBuilder('Magento\Oauth\Helper\Request')
             ->disableOriginalConstructor()
             ->getMock();
 

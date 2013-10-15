@@ -37,10 +37,10 @@ class Consumer extends \Magento\Backend\Controller\AbstractAction
     /** @var \Magento\Oauth\Model\Consumer\Factory */
     private $_consumerFactory;
 
-    /** @var \Magento\Oauth\Service\OauthV1Interface */
+    /** @var \Magento\Oauth\OauthInterface */
     private $_oauthService;
 
-    /** @var \Magento\Oauth\Helper\Service */
+    /** @var \Magento\Oauth\Helper\Oauth */
     protected $_oauthHelper;
 
     /** @var \Magento\Core\Model\Logger */
@@ -50,18 +50,18 @@ class Consumer extends \Magento\Backend\Controller\AbstractAction
      * Class constructor
      *
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Oauth\Helper\Service $oauthHelper
+     * @param \Magento\Oauth\Helper\Oauth $oauthHelper
      * @param \Magento\Oauth\Model\Consumer\Factory $consumerFactory
-     * @param \Magento\Oauth\Service\OauthV1Interface $oauthService
+     * @param \Magento\Oauth\OauthInterface $oauthService
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Backend\Controller\Context $context
      * @param string $areaCode
      */
     public function __construct(
         \Magento\Core\Model\Registry $registry,
-        \Magento\Oauth\Helper\Service $oauthHelper,
+        \Magento\Oauth\Helper\Oauth $oauthHelper,
         \Magento\Oauth\Model\Consumer\Factory $consumerFactory,
-        \Magento\Oauth\Service\OauthV1Interface $oauthService,
+        \Magento\Oauth\OauthInterface $oauthService,
         \Magento\Core\Model\Logger $logger,
         \Magento\Backend\Controller\Context $context,
         $areaCode = null

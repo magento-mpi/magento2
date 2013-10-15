@@ -23,12 +23,12 @@ class Nonce extends \Magento\Core\Model\AbstractModel
     /**
      * Oauth data
      *
-     * @var \Magento\Oauth\Helper\Service
+     * @var \Magento\Oauth\Helper\Oauth
      */
     protected $_oauthData = null;
 
     /**
-     * @param \Magento\Oauth\Helper\Service $oauthData
+     * @param \Magento\Oauth\Helper\Oauth $oauthData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -36,7 +36,7 @@ class Nonce extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Oauth\Helper\Service $oauthData,
+        \Magento\Oauth\Helper\Oauth $oauthData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,

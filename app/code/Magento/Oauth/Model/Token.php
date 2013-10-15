@@ -64,7 +64,7 @@ class Token extends \Magento\Core\Model\AbstractModel
     const USER_TYPE_ADMIN = 'admin';
     const USER_TYPE_CUSTOMER = 'customer';
 
-    /** @var \Magento\Oauth\Helper\Service */
+    /** @var \Magento\Oauth\Helper\Oauth */
     protected $_oauthData;
 
     /** @var \Magento\Oauth\Model\Consumer\Factory */
@@ -84,7 +84,7 @@ class Token extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Oauth\Model\Consumer\Validator\KeyLengthFactory $keyLengthFactory
      * @param \Magento\Core\Model\Url\Validator $urlValidator
      * @param \Magento\Oauth\Model\Consumer\Factory $consumerFactory
-     * @param \Magento\Oauth\Helper\Service $oauthData
+     * @param \Magento\Oauth\Helper\Oauth $oauthData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -95,7 +95,7 @@ class Token extends \Magento\Core\Model\AbstractModel
         \Magento\Oauth\Model\Consumer\Validator\KeyLengthFactory $keyLengthFactory,
         \Magento\Core\Model\Url\Validator $urlValidator,
         \Magento\Oauth\Model\Consumer\Factory $consumerFactory,
-        \Magento\Oauth\Helper\Service $oauthData,
+        \Magento\Oauth\Helper\Oauth $oauthData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
@@ -153,7 +153,7 @@ class Token extends \Magento\Core\Model\AbstractModel
                 'token' => $this->_oauthData->generateToken(),
                 'secret' => $this->_oauthData->generateTokenSecret(),
                 'verifier' => $this->_oauthData->generateVerifier(),
-                'callback_url' => \Magento\Oauth\Helper\Service::CALLBACK_ESTABLISHED
+                'callback_url' => \Magento\Oauth\Helper\Oauth::CALLBACK_ESTABLISHED
             ));
             $this->save();
         }
@@ -287,7 +287,7 @@ class Token extends \Magento\Core\Model\AbstractModel
      */
     public function validate()
     {
-        if (\Magento\Oauth\Helper\Service::CALLBACK_ESTABLISHED != $this->getCallbackUrl()
+        if (\Magento\Oauth\Helper\Oauth::CALLBACK_ESTABLISHED != $this->getCallbackUrl()
             && !$this->urlValidator->isValid($this->getCallbackUrl())
         ) {
             $messages = $this->urlValidator->getMessages();
