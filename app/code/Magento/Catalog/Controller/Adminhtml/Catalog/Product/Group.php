@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Controller\Catalog\Product;
+namespace Magento\Catalog\Controller\Adminhtml\Catalog\Product;
 
 class Group extends \Magento\Backend\Controller\Adminhtml\Action
 {

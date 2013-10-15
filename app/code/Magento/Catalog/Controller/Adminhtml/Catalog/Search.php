@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Controller\Catalog;
+namespace Magento\Catalog\Controller\Adminhtml\Catalog;
 
 class Search extends \Magento\Backend\Controller\Adminhtml\Action
 {

@@ -11,7 +11,7 @@
 /**
  * Reviews admin controller
  */
-namespace Magento\Adminhtml\Controller\Catalog\Product;
+namespace Magento\Catalog\Controller\Adminhtml\Catalog\Product;
 
 class Review extends \Magento\Backend\Controller\Adminhtml\Action
 {

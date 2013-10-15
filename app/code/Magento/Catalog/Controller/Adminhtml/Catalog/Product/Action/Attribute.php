@@ -16,7 +16,7 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Adminhtml\Controller\Catalog\Product\Action;
+namespace Magento\Catalog\Controller\Adminhtml\Catalog\Product\Action;
 
 class Attribute extends \Magento\Backend\Controller\Adminhtml\Action
 {

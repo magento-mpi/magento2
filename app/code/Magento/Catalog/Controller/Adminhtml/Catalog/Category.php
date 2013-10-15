@@ -11,7 +11,7 @@
 /**
  * Catalog category controller
  */
-namespace Magento\Adminhtml\Controller\Catalog;
+namespace Magento\Catalog\Controller\Adminhtml\Catalog;
 
 class Category extends \Magento\Backend\Controller\Adminhtml\Action
 {

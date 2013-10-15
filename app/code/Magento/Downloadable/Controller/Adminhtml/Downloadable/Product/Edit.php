@@ -18,7 +18,7 @@
 namespace Magento\Downloadable\Controller\Adminhtml\Downloadable\Product;
 
 class Edit
-    extends \Magento\Adminhtml\Controller\Catalog\Product
+    extends \Magento\Catalog\Controller\Adminhtml\Catalog\Product
 {
     /**
      * Load downloadable tab fieldsets

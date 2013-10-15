@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Controller\Catalog;
+namespace Magento\Catalog\Controller\Adminhtml\Catalog;
 
 /**
  * @magentoAppArea adminhtml
@@ -93,7 +93,7 @@ class ProductTest extends \Magento\Backend\Utility\Controller
             $this->stringStartsWith('http://localhost/index.php/backend/admin/catalog_product/edit/')
         );
         $this->assertRedirect($this->logicalNot(
-            $this->stringStartsWith('http://localhost/index.php/backend/admin/catalog_product/edit/id/1')
+            $this->stringStartsWith('http://localhost/index.php/backend/admin/catalog_product/edit/id/1/')
         ));
         $this->assertSessionMessages(
             $this->contains('You saved the product.'), \Magento\Core\Model\Message::SUCCESS

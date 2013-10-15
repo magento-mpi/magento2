@@ -9,7 +9,7 @@
  */
 
 
-namespace Magento\Adminhtml\Controller\Catalog\Product;
+namespace Magento\Catalog\Controller\Adminhtml\Catalog\Product;
 
 class Datafeeds extends \Magento\Backend\Controller\Adminhtml\Action
 {

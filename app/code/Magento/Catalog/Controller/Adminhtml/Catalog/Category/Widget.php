@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Adminhtml\Controller\Catalog\Category;
+namespace Magento\Catalog\Controller\Adminhtml\Catalog\Category;
 
 class Widget extends \Magento\Backend\Controller\Adminhtml\Action
 {

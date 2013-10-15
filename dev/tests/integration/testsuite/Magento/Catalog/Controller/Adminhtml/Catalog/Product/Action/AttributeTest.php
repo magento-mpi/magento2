@@ -10,7 +10,7 @@
  */
 
 
-namespace Magento\Adminhtml\Controller\Catalog\Product\Action;
+namespace Magento\Catalog\Controller\Adminhtml\Catalog\Product\Action;
 
 /**
  * @magentoAppArea adminhtml
@@ -18,7 +18,7 @@ namespace Magento\Adminhtml\Controller\Catalog\Product\Action;
 class AttributeTest extends \Magento\Backend\Utility\Controller
 {
     /**
-     * @covers \Magento\Adminhtml\Controller\Catalog\Product\Action\Attribute::saveAction
+     * @covers \Magento\Catalog\Controller\Adminhtml\Catalog\Product\Action\Attribute::saveAction
      *
      * @magentoDataFixture Magento/Catalog/_files/product_simple.php
      */

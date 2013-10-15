@@ -10,7 +10,7 @@
  */
 
 
-namespace Magento\Adminhtml\Controller\Catalog\Product;
+namespace Magento\Catalog\Controller\Adminhtml\Catalog\Product;
 
 /**
  * @magentoAppArea adminhtml
