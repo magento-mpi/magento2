@@ -202,7 +202,11 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
     {
         $relativePath = str_replace(\Magento\TestFramework\Utility\Files::init()->getPathToSource(), "", $file);
         // exceptions made for the files from the blacklist
-        $blacklist = require __DIR__ . '/NamespaceBlacklist.php';
+        $blacklist = require __DIR__ . DIRECTORY_SEPARATOR
+            . '_files' . DIRECTORY_SEPARATOR
+            . 'blacklist' . DIRECTORY_SEPARATOR
+            . 'namespace.php'
+        ;
         if (in_array($relativePath, $blacklist)) {
             return;
         }
@@ -355,7 +359,11 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
     protected function referenceBlacklistFilter($classes)
     {
         // exceptions made for the files from the blacklist
-        $blacklist = require __DIR__ . '/ReferenceBlacklist.php';
+        $blacklist = require __DIR__ . DIRECTORY_SEPARATOR
+            . '_files' . DIRECTORY_SEPARATOR
+            . 'blacklist' . DIRECTORY_SEPARATOR
+            . 'reference.php'
+        ;
         foreach ($classes as $class) {
             if (in_array($class, $blacklist)) {
                 unset($classes[array_search($class, $classes)]);
