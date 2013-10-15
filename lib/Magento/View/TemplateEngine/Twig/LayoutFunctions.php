@@ -7,33 +7,34 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace \Magento\View\TemplateEngine\Twig;
+namespace Magento\View\TemplateEngine\Twig;
 
-class Magento_View_TemplateEngine_Twig_LayoutFunctions
+use Magento\View\TemplateEngine as Engine;
+
+class LayoutFunctions
 {
 
     /**
-     * @var Magento_View_Layout
+     * @var Layout
      */
     private $_layout;
 
     /**
-     * @var Magento_View_TemplateEngine_BlockTrackerInterface
+     * @var Engine\BlockTrackerInterface
      */
     private $_blockTracker;
 
-    public function __construct(
-        Magento_View_Layout $layout
-    ) {
+    public function __construct(Layout $layout)
+    {
         $this->_layout = $layout;
     }
 
     /**
      * Sets the block tracker that is needed for dynamically determining the child html at runtime
      *
-     * @param Magento_View_TemplateEngine_BlockTrackerInterface $blockTracker
+     * @param Engine\BlockTrackerInterface $blockTracker
      */
-    public function setBlockTracker(Magento_View_TemplateEngine_BlockTrackerInterface $blockTracker)
+    public function setBlockTracker(Engine\BlockTrackerInterface $blockTracker)
     {
         $this->_blockTracker = $blockTracker;
     }

@@ -9,34 +9,34 @@
  */
 namespace Magento\View\TemplateEngine;
 
-use Magento\View\TemplateEngine;
+use Magento\View\TemplateEngine\Twig as EngineTwig;
 
-class Twig implements TemplateEngine
+class Twig implements \Magento\View\TemplateEngine
 {
     /**
-     * @var Magento_View_TemplateEngine_Twig_EnvironmentFactory
+     * @var EngineTwig\EnvironmentFactory
      */
     protected $factory;
 
     /**
-     * @var Magento_View_TemplateEngine_Twig_Extension
+     * @var EngineTwig\Extension
      */
     protected $extension;
 
     /**
-     * @var Twig_Environment
+     * @var EngineTwig\Environment
      */
     protected $environment;
 
     /**
      *  Populates the environment based on the environment builder provided.
      *
-     * @param Magento_View_TemplateEngine_Twig_EnvironmentFactory $factory
-     * @param Magento_View_TemplateEngine_Twig_Extension $extension
+     * @param EngineTwig\EnvironmentFactory $factory
+     * @param EngineTwig\Extension $extension
      */
     public function __construct(
-        Magento_View_TemplateEngine_Twig_EnvironmentFactory $factory,
-        Magento_View_TemplateEngine_Twig_Extension $extension
+        EngineTwig\EnvironmentFactory $factory,
+        EngineTwig\Extension $extension
     ) {
         $this->factory = $factory;
         $this->extension = $extension;

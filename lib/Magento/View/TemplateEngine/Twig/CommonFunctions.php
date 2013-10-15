@@ -7,74 +7,73 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace \Magento\View\TemplateEngine\Twig;
+namespace Magento\View\TemplateEngine\Twig;
 
-class Magento_View_TemplateEngine_Twig_CommonFunctions
+class CommonFunctions
 {
     /**
-     * @var Magento_View_UrlInterface
+     * @var \Magento\View\UrlInterface
      */
     private $_urlBuilder;
 
     /**
-     * @var Magento_Core_Helper_Url
+     * @var \Magento\Core\Helper\Url
      */
     private $_urlHelper;
 
     /**
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     private $_dataHelper;
 
     /**
-     * @var Magento_View_StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     private $_storeManager;
 
     /**
-     * @var Magento_View_View_Url
+     * @var \Magento\Core\Model\View\Url
      */
     private $_viewUrl;
 
     /**
-     * @var Magento_View_View_Config
+     * @var \Magento\Core\Model\View\Config
      */
     private $_viewConfig;
 
     /**
-     * @var Magento_Catalog_Helper_Image
+     * @var \Magento\Catalog\Helper\Image
      */
     private $_helperImage;
 
     /**
-     * @var Magento_View_Logger
+     * @var \Magento\View\Logger
      */
     private $_logger;
 
     /**
-     * @var Magento_View_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     private $_locale;
 
+    /**
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\View\Context $context
+     */
     public function __construct(
-        Magento_View_UrlInterface $urlBuilder,
-        Magento_Core_Helper_Url $urlHelper,
-        Magento_Core_Helper_Data $dataHelper,
-        Magento_View_StoreManager $storeManager,
-        Magento_View_View_Url $viewUrl,
-        Magento_View_View_Config $viewConfig,
-        Magento_Catalog_Helper_Image $helperImage,
-        Magento_View_Logger $logger,
-        Magento_View_LocaleInterface $locale
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\View\Context $context
     ) {
-        $this->_urlBuilder = $urlBuilder;
-        $this->_urlHelper = $urlHelper;
-        $this->_dataHelper = $dataHelper;
+        $this->_urlBuilder = $context->getUrlBuilder();
+        $this->_urlHelper = $context->getHelperFactory()->get('\Magento\Core\Helper\Url');
+        $this->_dataHelper = $context->getHelperFactory()->get('\Magento\Core\Helper\Data');
         $this->_storeManager = $storeManager;
-        $this->_viewUrl = $viewUrl;
-        $this->_viewConfig = $viewConfig;
-        $this->_helperImage = $helperImage;
-        $this->_logger = $logger;
+        $this->_viewUrl = $context->getViewUrl();
+        $this->_viewConfig = $context->getViewConfig();
+        $this->_helperImage = $context->getHelperFactory()->get('\Magento\Catalog\Helper\Image');
+        $this->_logger = $context->getLogger();
         $this->_locale = $locale;
     }
 
@@ -115,7 +114,7 @@ class Magento_View_TemplateEngine_Twig_CommonFunctions
     {
         try {
             return $this->_viewUrl->getViewFileUrl($file, $params);
-        } catch (Magento_Exception $e) {
+        } catch (\Magento\Exception $e) {
             $this->_logger->logException($e);
             return $this->_urlBuilder->getUrl('', array('_direct' => 'core/index/notfound'));
         }

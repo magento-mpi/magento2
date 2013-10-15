@@ -7,9 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace \Magento\View\TemplateEngine\Twig;
+namespace Magento\View\TemplateEngine\Twig;
 
-class Magento_View_TemplateEngine_Twig_FullFileName implements Twig_LoaderInterface, Twig_ExistsLoaderInterface
+use Magento\View;
+
+class FullFileName implements Twig_LoaderInterface, Twig_ExistsLoaderInterface
 {
     /**
      * Caches the exists of a template so that we don't have to check the disk every time.
@@ -19,20 +21,19 @@ class Magento_View_TemplateEngine_Twig_FullFileName implements Twig_LoaderInterf
     private $_existsCache = array();
     
     /**
-     * @var Magento_View_App_State
+     * @var \Magento\Core\Model\App\State
      */
     private $_appState;
-    
+
     /**
      * Create new instance of FullFileName loader
      *
-     * @param Magento_View_App_State
+     * @param Context $context
      */
-    public function __construct(Magento_View_App_State $appState)
+    public function __construct(Context $context)
     {
-        $this->_appState = $appState;
+        $this->_appState = $context->getAppState();
     }
-    
     
     /**
      * Gets the source code of a template, given its name.
@@ -73,7 +74,7 @@ class Magento_View_TemplateEngine_Twig_FullFileName implements Twig_LoaderInterf
      */
     public function isFresh($name, $time) 
     {
-        if ($this->_appState->getMode() === Magento_View_App_State::MODE_DEVELOPER) {
+        if ($this->_appState->getMode() === \Magento\Core\Model\App\State::MODE_DEVELOPER) {
             $lastModifiedTime = filemtime($name);
             if ($lastModifiedTime === false) {
                 throw new Twig_Error_Loader(sprintf('Could not get last-modified time for "%s".', $name));

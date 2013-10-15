@@ -90,6 +90,11 @@ class Context
     protected $_app;
 
     /**
+     * @var \Magento\Core\Model\App\State
+     */
+    protected $_appState;
+
+    /**
      * @param \Magento\Core\Controller\Request\Http $request
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\UrlInterface $urlBuilder
@@ -105,6 +110,7 @@ class Context
      * @param \Magento\Core\Model\Cache\StateInterface $cacheState
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\App $app
+     * @param \Magento\Core\Model\App\State $appState
      * @param array $data
      */
     public function __construct(
@@ -123,6 +129,7 @@ class Context
         \Magento\Core\Model\Cache\StateInterface $cacheState,
         \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\App $app,
+        \Magento\Core\Model\App\State $appState,
         array $data = array()
     ) {
         $this->_request         = $request;
@@ -140,6 +147,7 @@ class Context
         $this->_cacheState      = $cacheState;
         $this->_logger          = $logger;
         $this->_app             = $app;
+        $this->_appState        = $appState;
     }
 
     /**
@@ -308,7 +316,7 @@ class Context
         $type = $this->getHeader('Accept', 'html');
         if (strpos($type, 'json') !== false) {
             return 'json';
-        }  elseif (strpos($type, 'soap') !== false) {
+        } elseif (strpos($type, 'soap') !== false) {
             return 'soap';
         } elseif (strpos($type, 'text/html') !== false) {
             return 'html';
@@ -345,6 +353,14 @@ class Context
     public function getRawBody()
     {
         return $this->getRequest()->getRawBody();
+    }
+
+    /**
+     * @return \Magento\Core\Model\App\State
+     */
+    public function getAppState()
+    {
+        return $this->_appState;
     }
     
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

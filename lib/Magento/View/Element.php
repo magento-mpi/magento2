@@ -14,15 +14,12 @@ interface Element
 
     public function getChildren();
 
-
     public function addHandle($handleName);
-
 
     /**
      * @return Element
      */
     public function getParentElement();
-
 
     /**
      * @param $name
@@ -33,7 +30,6 @@ interface Element
     public function removeElement($name);
 
     public function renderElement($name, $type = Html::TYPE_HTML);
-
 
     /**
      * @param $alias
@@ -51,8 +47,6 @@ interface Element
 
     public function renderChildren($type = Html::TYPE_HTML);
 
-
-
     public function register(Element $parent = null);
 
     public function attach(Element $child, $alias = null, $before = null, $after = null);
@@ -61,12 +55,9 @@ interface Element
 
     public function render($type = Html::TYPE_HTML);
 
-
-
     public function & getDataProviders();
 
     public function addDataProvider($name, $dataProvider);
-
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // ALIASES for backward compatibility

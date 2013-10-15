@@ -7,36 +7,38 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace \Magento\View\TemplateEngine\Twig;
+namespace Magento\View\TemplateEngine\Twig;
 
-class Magento_View_TemplateEngine_Twig_Extension extends Twig_Extension
+use Magento\View\TemplateEngine as Engine;
+
+class Extension extends Twig_Extension
 {
     const MAGENTO = 'Magento';
 
     /**
-     * @var Magento_View_TemplateEngine_Twig_LayoutFunctions
+     * @var LayoutFunctions
      */
     protected $_layoutFunctions;
 
     /**
-     * @var Magento_View_TemplateEngine_Twig_CommonFunctions
+     * @var CommonFunctions
      */
     protected $_commonFunctions;
 
     /**
-     * @var Magento_View_TemplateEngine_BlockTrackerInterface
+     * @var Engine\BlockTrackerInterface
      */
-    private $_blockTracker;
+    protected $_blockTracker;
 
     /**
      * Create new Extension
      *
-     * @param Magento_View_TemplateEngine_Twig_CommonFunctions $commonFunctions
-     * @param Magento_View_TemplateEngine_Twig_LayoutFunctions $layoutFunctions
+     * @param CommonFunctions $commonFunctions
+     * @param LayoutFunctions $layoutFunctions
      */
     public function __construct(
-        Magento_View_TemplateEngine_Twig_CommonFunctions $commonFunctions,
-        Magento_View_TemplateEngine_Twig_LayoutFunctions $layoutFunctions
+        CommonFunctions $commonFunctions,
+        LayoutFunctions $layoutFunctions
     ) {
         $this->_commonFunctions = $commonFunctions;
         $this->_layoutFunctions = $layoutFunctions;
@@ -91,9 +93,9 @@ class Magento_View_TemplateEngine_Twig_Extension extends Twig_Extension
     /**
      * Sets the block tracker
      *
-     * @param Magento_View_TemplateEngine_BlockTrackerInterface $blockTracker
+     * @param Engine\BlockTrackerInterface $blockTracker
      */
-    public function setBlockTracker(Magento_View_TemplateEngine_BlockTrackerInterface $blockTracker)
+    public function setBlockTracker(Engine\BlockTrackerInterface $blockTracker)
     {
         $this->_blockTracker = $blockTracker;
         // Need to inject this dependency at runtime to avoid cyclical dependency
