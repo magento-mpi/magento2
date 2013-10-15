@@ -27,6 +27,71 @@ class PrinterTest extends TestBase
         return array(
             array(<<<ORIGINALCODESNIPPET
 <?php
+  namespace Magento\\Test;
+class Foo {
+    function x() {
+        echo 'y';
+
+        echo 'z';
+    }
+};
+ORIGINALCODESNIPPET
+            , <<<FORMATTEDCODESNIPPET
+<?php
+namespace Magento\\Test;
+
+class Foo
+{
+}
+
+FORMATTEDCODESNIPPET
+            ),
+            array(<<<ORIGINALCODESNIPPET
+<?php
+  namespace Magento\\Test;
+class Foo {
+    function x() {
+        echo 'y';
+
+        echo 'z';
+
+    }
+};
+ORIGINALCODESNIPPET
+            , <<<FORMATTEDCODESNIPPET
+<?php
+namespace Magento\\Test;
+
+class Foo
+{
+}
+
+FORMATTEDCODESNIPPET
+            ),
+            array(<<<ORIGINALCODESNIPPET
+<?php
+  namespace Magento\\Test;
+class Foo {
+    function x() {
+        // Comment at start of block
+        echo 'y';
+        echo 'z';
+        // Comment at end of block
+    }
+};
+ORIGINALCODESNIPPET
+            , <<<FORMATTEDCODESNIPPET
+<?php
+namespace Magento\\Test;
+
+class Foo
+{
+}
+
+FORMATTEDCODESNIPPET
+            ),
+            array(<<<ORIGINALCODESNIPPET
+<?php
 /**
  * Class Foo
  */
