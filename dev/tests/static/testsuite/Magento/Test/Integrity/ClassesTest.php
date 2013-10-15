@@ -235,7 +235,7 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
 
     protected function _setNamespaceBlackList()
     {
-        if(!isset(self::$_namespaceBlacklist)) {
+        if (!isset(self::$_namespaceBlacklist)) {
             $blackList = array();
             foreach (glob(__DIR__ . '/_files/blacklist/namespace.txt') as $list) {
                 $fileList = file($list, FILE_IGNORE_NEW_LINES);
@@ -244,12 +244,11 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
                         \Magento\TestFramework\Utility\Files::init()->getPathToSource() .
                         DIRECTORY_SEPARATOR .
                         $currentFile;
-                    if(is_dir($absolutePath)) {
+                    if (is_dir($absolutePath)) {
                         $recursiveFiles =
                             \Magento\TestFramework\Utility\Files::getFiles(array($absolutePath), '*.php', true);
                         $blackList = array_merge($blackList, $recursiveFiles);
-                    }
-                    else {
+                    } else {
                         array_push($blackList, $currentFile);
                     }
                 }
@@ -400,7 +399,7 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
 
     protected function _setReferenceBlacklist()
     {
-        if(!isset(self::$_referenceBlackList)) {
+        if (!isset(self::$_referenceBlackList)) {
             $blackList = file(__DIR__ . DIRECTORY_SEPARATOR . '_files/blacklist/reference.txt', FILE_IGNORE_NEW_LINES);
             self::$_referenceBlackList = $blackList;
         }
