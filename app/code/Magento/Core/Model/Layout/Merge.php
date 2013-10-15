@@ -113,7 +113,7 @@ class Merge
      * @param \Magento\Cache\FrontendInterface $cache
      * @param \Magento\Adminhtml\Model\LayoutUpdate\Validator $validator
      * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Core\Model\Theme $theme Non-injectable theme instance
+     * @param \Magento\View\Design\Theme $theme Non-injectable theme instance
      */
     public function __construct(
         \Magento\View\Design $design,
@@ -124,7 +124,7 @@ class Merge
         \Magento\Cache\FrontendInterface $cache,
         \Magento\Adminhtml\Model\LayoutUpdate\Validator $validator,
         \Magento\Core\Model\Logger $logger,
-        \Magento\Core\Model\Theme $theme = null
+        \Magento\View\Design\Theme $theme = null
     ) {
         $this->_theme = $theme ?: $design->getDesignTheme();
         $this->_store = $storeManager->getStore();
@@ -654,11 +654,11 @@ class Merge
     /**
      * Find the closest physical theme among ancestors and a theme itself
      *
-     * @param \Magento\Core\Model\Theme $theme
+     * @param \Magento\View\Design\Theme $theme
      * @return \Magento\Core\Model\Theme
      * @throws \Magento\Exception
      */
-    protected function _getPhysicalTheme(\Magento\Core\Model\Theme $theme)
+    protected function _getPhysicalTheme(\Magento\View\Design\Theme $theme)
     {
         $result = $theme;
         while ($result->getId() && !$result->isPhysical()) {

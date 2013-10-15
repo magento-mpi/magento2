@@ -11,7 +11,7 @@
 /**
  * Editor toolbar
  *
- * @method \Magento\DesignEditor\Block\Adminhtml\Editor\Container setTheme(\Magento\Core\Model\Theme $theme)
+ * @method \Magento\DesignEditor\Block\Adminhtml\Editor\Container setTheme(\Magento\View\Design\Theme $theme)
  */
 namespace Magento\DesignEditor\Block\Adminhtml\Editor;
 

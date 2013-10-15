@@ -70,7 +70,7 @@ class Theme extends \Magento\Core\Helper\AbstractHelper
      *   'Magento_Catalog::widgets.css' => 'http://mage2.com/pub/static/frontend/_theme15/en_US/Magento_Cms/widgets.css'
      * )
      *
-     * @param \Magento\Core\Model\Theme $theme
+     * @param \Magento\View\Design\Theme $theme
      * @return array
      */
     public function getCssFiles($theme)
@@ -123,7 +123,7 @@ class Theme extends \Magento\Core\Helper\AbstractHelper
     /**
      * Get CSS files by group
      *
-     * @param \Magento\Core\Model\Theme $theme
+     * @param \Magento\View\Design\Theme $theme
      * @return array
      * @throws \LogicException
      */
@@ -161,7 +161,7 @@ class Theme extends \Magento\Core\Helper\AbstractHelper
         }
 
         $order = array_merge(array($codeDir, $jsDir), array_map(function ($fileTheme) {
-            /** @var $fileTheme \Magento\Core\Model\Theme */
+            /** @var $fileTheme \Magento\View\Design\Theme */
             return $fileTheme->getThemeId();
         }, $themes));
         $groups = $this->_sortArrayByArray($groups, $order);
@@ -303,7 +303,7 @@ class Theme extends \Magento\Core\Helper\AbstractHelper
             $codeDir => (string)__('Framework files')
         );
         foreach ($themes as $theme) {
-            /** @var $theme \Magento\Core\Model\Theme */
+            /** @var $theme \Magento\View\Design\Theme */
             $labels[$theme->getThemeId()] = (string)__('"%1" Theme files', $theme->getThemeTitle());
         }
         return $labels;
@@ -340,8 +340,8 @@ class Theme extends \Magento\Core\Helper\AbstractHelper
     /**
      * Sort themes by hierarchy callback
      *
-     * @param \Magento\Core\Model\Theme $firstTheme
-     * @param \Magento\Core\Model\Theme $secondTheme
+     * @param \Magento\View\Design\Theme $firstTheme
+     * @param \Magento\View\Design\Theme $secondTheme
      * @return int
      */
     protected function _sortThemesByHierarchyCallback($firstTheme, $secondTheme)

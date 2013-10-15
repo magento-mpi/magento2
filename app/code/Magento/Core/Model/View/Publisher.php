@@ -280,7 +280,7 @@ class Publisher implements \Magento\Core\Model\View\PublicFilesManagerInterface
      */
     protected function _buildPublicViewRedundantFilename($file, array $params)
     {
-        /** @var $theme \Magento\Core\Model\Theme */
+        /** @var $theme \Magento\View\Design\Theme */
         $theme = $params['themeModel'];
         if ($theme->getThemePath()) {
             $designPath = str_replace('/', DS, $theme->getThemePath());

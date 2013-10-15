@@ -92,7 +92,7 @@ class Configuration
      * @param \Magento\View\Config $viewConfig
      * @param \Magento\DesignEditor\Model\Config\Control\AbstractControl|null $configuration
      * @param \Magento\Core\Model\Theme|null $theme
-     * @param \Magento\Core\Model\Theme $parentTheme
+     * @param \Magento\View\Design\Theme $parentTheme
      */
     public function __construct(
         \Magento\View\Design $design,
@@ -100,8 +100,8 @@ class Configuration
         \Magento\Core\Model\Event\Manager $eventDispatcher,
         \Magento\View\Config $viewConfig,
         \Magento\DesignEditor\Model\Config\Control\AbstractControl $configuration = null,
-        \Magento\Core\Model\Theme $theme = null,
-        \Magento\Core\Model\Theme $parentTheme = null
+        \Magento\View\Design\Theme $theme = null,
+        \Magento\View\Design\Theme $parentTheme = null
     ) {
         $this->_configuration = $configuration;
         $this->_theme = $theme;

@@ -31,7 +31,7 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrit
         $params = array(
             'area'       => $area,
             'themeModel' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Theme'),
+            ->create('Magento\View\Design\Theme'),
             'module'     => $module
         );
         $file = \Magento\TestFramework\Helper\Bootstrap::getObjectmanager()

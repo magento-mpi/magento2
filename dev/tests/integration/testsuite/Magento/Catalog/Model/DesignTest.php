@@ -45,7 +45,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
     public function getThemeModel()
     {
         $theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Theme');
+            ->create('Magento\View\Design\Theme');
         $theme->setData($this->_getThemeData());
         return array(array($theme));
     }

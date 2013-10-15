@@ -261,7 +261,7 @@ class Collection extends \Magento\Data\Collection
     protected function _renderFilters()
     {
         $filters = $this->getFilter(array());
-        /** @var $theme \Magento\Core\Model\Theme */
+        /** @var $theme \Magento\View\Design\Theme */
         foreach ($this->getItems() as $itemKey => $theme) {
             $removeItem = false;
             foreach ($filters as $filter) {

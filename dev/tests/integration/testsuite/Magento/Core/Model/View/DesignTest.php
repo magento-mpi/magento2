@@ -114,7 +114,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
 
     public function testGetDesignTheme()
     {
-        $this->assertInstanceOf('Magento\Core\Model\Theme', $this->_model->getDesignTheme());
+        $this->assertInstanceOf('Magento\View\Design\Theme', $this->_model->getDesignTheme());
     }
 
     /**
@@ -219,7 +219,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
     public function testGetConfigCustomized()
     {
         $this->_emulateFixtureTheme();
-        /** @var $theme \Magento\Core\Model\Theme */
+        /** @var $theme \Magento\View\Design\Theme */
         $theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\View\Design')
             ->getDesignTheme();

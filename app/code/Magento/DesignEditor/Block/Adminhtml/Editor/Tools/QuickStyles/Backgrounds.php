@@ -13,7 +13,7 @@ namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\QuickStyles;
 /**
  * Block that renders Quick Styles > Backgrounds tab
  *
- * @method \Magento\Core\Model\Theme getTheme()
+ * @method \Magento\View\Design\Theme getTheme()
  * @method setTheme($theme)
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)

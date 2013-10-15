@@ -75,7 +75,7 @@ class Config implements \Magento\View\Config
     public function getViewConfig(array $params = array())
     {
         $this->_viewService->updateDesignParams($params);
-        /** @var $currentTheme \Magento\Core\Model\Theme */
+        /** @var $currentTheme \Magento\View\Design\Theme */
         $currentTheme = $params['themeModel'];
         $key = $currentTheme->getId();
         if (isset($this->_viewConfigs[$key])) {

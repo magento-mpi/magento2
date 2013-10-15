@@ -76,8 +76,8 @@ class FlyweightFactory
             return $this->_themes[$themeId];
         }
 
-        /** @var $themeModel \Magento\Core\Model\Theme */
-        $themeModel = $this->_objectManager->create('Magento\Core\Model\Theme');
+        /** @var $themeModel \Magento\View\Design\Theme */
+        $themeModel = $this->_objectManager->create('Magento\View\Design\Theme');
         $themeModel->load($themeId);
         return $themeModel;
     }
@@ -105,10 +105,10 @@ class FlyweightFactory
     /**
      * Add theme to shared collection
      *
-     * @param \Magento\Core\Model\Theme $themeModel
+     * @param \Magento\View\Design\Theme $themeModel
      * @return $this
      */
-    protected function _addTheme(\Magento\Core\Model\Theme $themeModel)
+    protected function _addTheme(\Magento\View\Design\Theme $themeModel)
     {
         if ($themeModel->getId()) {
             $this->_themes[$themeModel->getId()] = $themeModel;

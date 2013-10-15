@@ -112,7 +112,7 @@ class Customization
     /**
      * Check if current theme has assigned to any store
      *
-     * @param \Magento\Core\Model\Theme $theme
+     * @param \Magento\View\Design\Theme $theme
      * @param null|\Magento\Core\Model\Store $store
      * @return bool
      */
@@ -138,7 +138,7 @@ class Customization
     /**
      * Is theme assigned to specific store
      *
-     * @param \Magento\Core\Model\Theme $theme
+     * @param \Magento\View\Design\Theme $theme
      * @param \Magento\Core\Model\Store $store
      * @return bool
      */
@@ -181,7 +181,7 @@ class Customization
         $this->_assignedTheme = array();
         $this->_unassignedTheme = array();
 
-        /** @var $theme \Magento\Core\Model\Theme */
+        /** @var $theme \Magento\View\Design\Theme */
         foreach ($themeCollection as $theme) {
             if (isset($assignedThemes[$theme->getId()])) {
                 $theme->setAssignedStores($assignedThemes[$theme->getId()]);

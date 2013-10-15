@@ -32,8 +32,8 @@ class FileTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_model = $objectManager->create('Magento\Core\Model\Theme\File');
-        /** @var $themeModel \Magento\Core\Model\Theme */
-        $themeModel = $objectManager->create('Magento\Core\Model\Theme');
+        /** @var $themeModel \Magento\View\Design\Theme */
+        $themeModel = $objectManager->create('Magento\View\Design\Theme');
         $this->_theme = $themeModel->getCollection()->getFirstItem();
         $this->_data = array(
             'file_path' => 'main.css',

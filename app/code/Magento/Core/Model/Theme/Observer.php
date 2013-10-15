@@ -65,7 +65,7 @@ class Observer
         if ($theme instanceof \Magento\Core\Model\Theme) {
             return;
         }
-        /** @var $theme \Magento\Core\Model\Theme */
+        /** @var $theme \Magento\View\Design\Theme */
         if ($this->_themeConfig->isThemeAssignedToStore($theme)) {
             throw new \Magento\Core\Exception(__('Theme isn\'t deletable.'));
         }
@@ -82,7 +82,7 @@ class Observer
     {
         $theme = $observer->getEvent()->getData('theme');
         if ($theme instanceof \Magento\Core\Model\Theme) {
-            /** @var $theme \Magento\Core\Model\Theme */
+            /** @var $theme \Magento\View\Design\Theme */
             if ($this->_themeConfig->isThemeAssignedToStore($theme)) {
                 $this->_eventDispatcher->dispatch('assigned_theme_changed', array('theme' => $this));
             }

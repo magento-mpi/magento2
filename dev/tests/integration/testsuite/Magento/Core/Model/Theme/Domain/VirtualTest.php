@@ -60,22 +60,22 @@ class VirtualTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         //1. set up fixture
-        /** @var $physicalTheme \Magento\Core\Model\Theme */
-        $physicalTheme = $objectManager->create('Magento\Core\Model\Theme');
+        /** @var $physicalTheme \Magento\View\Design\Theme */
+        $physicalTheme = $objectManager->create('Magento\View\Design\Theme');
         $physicalTheme->setData($this->_themes['physical']);
         $physicalTheme->save();
 
         $this->_themes['virtual']['parent_id'] = $physicalTheme->getId();
 
-        /** @var $virtualTheme \Magento\Core\Model\Theme */
-        $virtualTheme = $objectManager->create('Magento\Core\Model\Theme');
+        /** @var $virtualTheme \Magento\View\Design\Theme */
+        $virtualTheme = $objectManager->create('Magento\View\Design\Theme');
         $virtualTheme->setData($this->_themes['virtual']);
         $virtualTheme->save();
 
         $this->_themes['staging']['parent_id'] = $virtualTheme->getId();
 
-        /** @var $stagingTheme \Magento\Core\Model\Theme */
-        $stagingTheme = $objectManager->create('Magento\Core\Model\Theme');
+        /** @var $stagingTheme \Magento\View\Design\Theme */
+        $stagingTheme = $objectManager->create('Magento\View\Design\Theme');
         $stagingTheme->setData($this->_themes['staging']);
         $stagingTheme->save();
 
@@ -83,8 +83,8 @@ class VirtualTest extends \PHPUnit_Framework_TestCase
         $this->_virtualThemeId = $virtualTheme->getId();
 
         //2. run test
-        /** @var $virtualTheme \Magento\Core\Model\Theme */
-        $virtualTheme = $objectManager->create('Magento\Core\Model\Theme');
+        /** @var $virtualTheme \Magento\View\Design\Theme */
+        $virtualTheme = $objectManager->create('Magento\View\Design\Theme');
         $virtualTheme->load($this->_virtualThemeId);
 
         $this->assertEquals(
