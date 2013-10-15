@@ -411,14 +411,15 @@ body {
     }
     .bugs {
         margin-top: 25px;
-        font-size: 11px;
-        a {
-            font-weight: bold;
-            &:before {
-                content: ' - ';
+        font-size: 12px;
+        span {
+            &:after {
+                content: '\00a0\2014\00a0';
                 display: inline-block;
             }
-
+        }
+        a {
+            font-weight: bold;
         }
     }
 }
@@ -1402,13 +1403,6 @@ body {
         margin-bottom: 0;
     }
     .items.data {
-        td.col.address {
-            padding-top: 10px;
-        }
-        td.col.delete,
-        td.col.product {
-            padding-top: 18px;
-        }
         .col {
             &.item {
                 padding-left: 0;
@@ -1485,8 +1479,11 @@ body {
     }
 
     &.form.address {
-        .col.address select {
-            max-width: 450px;
+        .control.address {
+            margin-top: -6px;
+            select {
+                max-width: 450px;
+            }
         }
     }
 }
@@ -1714,10 +1711,9 @@ body {
     }
     td.col.qty {
         width: 40px;
-        padding-top: 20px;
         text-align: center;
-        .review & {
-            padding-top: @baseFontSizeBigger;
+        .control {
+            margin-top: -6px;
         }
     }
     th.col.qty {
@@ -2667,9 +2663,10 @@ body {
     }
     .actions {
         margin: 15px 0 0;
+        text-align: left;
         .primary,
         .secondary {
-            margin-right: 5px;
+            margin: 0 10px 10px 0;
             display: inline-block;
             vertical-align: middle;
         }

@@ -4592,14 +4592,14 @@ body {
 }
 .footer .bugs {
   margin-top: 25px;
-  font-size: 11px;
+  font-size: 12px;
+}
+.footer .bugs span:after {
+  content: '\00a0\2014\00a0';
+  display: inline-block;
 }
 .footer .bugs a {
   font-weight: bold;
-}
-.footer .bugs a:before {
-  content: ' - ';
-  display: inline-block;
 }
 /*
     Switchers
@@ -5833,13 +5833,6 @@ body {
 .multicheckout .product.name {
   margin-bottom: 0;
 }
-.multicheckout .items.data td.col.address {
-  padding-top: 10px;
-}
-.multicheckout .items.data td.col.delete,
-.multicheckout .items.data td.col.product {
-  padding-top: 18px;
-}
 .multicheckout .items.data .col.item {
   padding-left: 0;
   text-align: left;
@@ -5901,7 +5894,10 @@ body {
   margin: 0 0 15px;
   padding: 10px;
 }
-.multicheckout.form.address .col.address select {
+.multicheckout.form.address .control.address {
+  margin-top: -6px;
+}
+.multicheckout.form.address .control.address select {
   max-width: 450px;
 }
 .checkout-multishipping-address-newshipping .form.address.edit,
@@ -6136,11 +6132,10 @@ body {
 }
 .items.data td.col.qty {
   width: 40px;
-  padding-top: 20px;
   text-align: center;
 }
-.review .items.data td.col.qty {
-  padding-top: 16px;
+.items.data td.col.qty .control {
+  margin-top: -6px;
 }
 .items.data th.col.qty {
   text-transform: uppercase;
@@ -7221,10 +7216,11 @@ body {
 }
 .block.reorder .actions {
   margin: 15px 0 0;
+  text-align: left;
 }
 .block.reorder .actions .primary,
 .block.reorder .actions .secondary {
-  margin-right: 5px;
+  margin: 0 10px 10px 0;
   display: inline-block;
   vertical-align: middle;
 }
