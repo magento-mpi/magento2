@@ -47,7 +47,7 @@
         </block>
         <block class="Magento\Page\Block\Html\Head\Css" name="magento-adminhtml-catalog-category-selector-css">
             <arguments>
-                <argument name="file" xsi:type="string">Magento_Adminhtml::catalog/category-selector.css</argument>
+                <argument name="file" xsi:type="string">Magento_Catalog::catalog/category-selector.css</argument>
             </arguments>
         </block>
         <block class="Magento\Page\Block\Html\Head\Script" name="jquery-jstree-jquery-hotkeys-js">
@@ -62,17 +62,17 @@
         </block>
         <block class="Magento\Page\Block\Html\Head\Script" name="magento-adminhtml-catalog-type-switcher-js">
             <arguments>
-                <argument name="file" xsi:type="string">Magento_Adminhtml::catalog/type-switcher.js</argument>
+                <argument name="file" xsi:type="string">Magento_Catalog::catalog/type-switcher.js</argument>
             </arguments>
         </block>
         <block class="Magento\Page\Block\Html\Head\Script" name="magento-adminhtml-catalog-product-variation-js">
             <arguments>
-                <argument name="file" xsi:type="string">Magento_Adminhtml::catalog/product-variation.js</argument>
+                <argument name="file" xsi:type="string">Magento_Catalog::catalog/product-variation.js</argument>
             </arguments>
         </block>
         <block class="Magento\Page\Block\Html\Head\Script" name="magento-adminhtml-catalog-base-image-uploader-js">
             <arguments>
-                <argument name="file" xsi:type="string">Magento_Adminhtml::catalog/base-image-uploader.js</argument>
+                <argument name="file" xsi:type="string">Magento_Catalog::catalog/base-image-uploader.js</argument>
             </arguments>
         </block>
         <block class="Magento\Page\Block\Html\Head\Script" name="magento-catalog-js-product-gallery-js">
@@ -101,8 +101,8 @@
             <container name="product-type-tabs" label="Tabs">
             </container>
         </block>
-        <block class="Magento\Adminhtml\Block\Catalog\Product\Edit\AttributeSet" name="attribute-set-info" template="Magento_Adminhtml::catalog/product/edit/attribute_set.phtml"/>
-        <block class="Magento\Adminhtml\Block\Catalog\Product\Edit\NewCategory" name="new-category" template="Magento_Adminhtml::catalog/product/edit/category/new/form.phtml"/>
+        <block class="Magento\Adminhtml\Block\Catalog\Product\Edit\AttributeSet" name="attribute-set-info" template="Magento_Catalog::catalog/product/edit/attribute_set.phtml"/>
+        <block class="Magento\Adminhtml\Block\Catalog\Product\Edit\NewCategory" name="new-category" template="Magento_Catalog::catalog/product/edit/category/new/form.phtml"/>
         <block class="Magento\Core\Block\Template" name="affected-attribute-set-form" template="Magento_Catalog::product/configurable/affected-attribute-set-selector/form.phtml"/>
     </referenceContainer>
     <referenceContainer name="left">
@@ -110,7 +110,7 @@
     </referenceContainer>
     <referenceContainer name="js">
         <block class="Magento\Adminhtml\Block\Catalog\Product\Edit\Js" name="catalog_product_js" template="catalog/product/js.phtml"/>
-        <block class="Magento\Core\Block\Template" template="Magento_Adminhtml::catalog/wysiwyg/js.phtml"/>
+        <block class="Magento\Core\Block\Template" template="Magento_Catalog::catalog/wysiwyg/js.phtml"/>
         <block class="Magento\Catalog\Block\Product\Configurable\AttributeSelector" template="Magento_Catalog::product/configurable/attribute-selector/js.phtml"/>
         <block class="Magento\Catalog\Block\Product\Configurable\AttributeSelector" template="Magento_Catalog::product/configurable/affected-attribute-set-selector/js.phtml"/>
     </referenceContainer>

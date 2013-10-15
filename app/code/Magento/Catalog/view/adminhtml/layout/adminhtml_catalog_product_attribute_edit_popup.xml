@@ -11,7 +11,7 @@
     <remove name="left"/>
     <referenceBlock name="attribute_edit_content">
         <arguments>
-            <argument name="template" xsi:type="string">Magento_Adminhtml::catalog/product/attribute/form.phtml</argument>
+            <argument name="template" xsi:type="string">Magento_Catalog::catalog/product/attribute/form.phtml</argument>
         </arguments>
         <container name="form" label="Form">
             <block class="Magento\Adminhtml\Block\Catalog\Product\Attribute\Edit\Tab\Main" as="main"/>
