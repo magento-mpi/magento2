@@ -14,10 +14,9 @@ namespace Magento\Backend\Block\Page;
 class Copyright extends \Magento\Backend\Block\Template
 {
     /**
-     * {@inheritdoc}
+     * Path to template file in theme
+     *
+     * @var string
      */
-    protected function _toHtml()
-    {
-        echo __('Magento is an eBay Inc. company. Copyright&copy; %1 Magento, Inc. All rights reserved.', date('Y'));
-    }
+    protected $_template = 'page/copyright.phtml';
 }
