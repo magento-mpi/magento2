@@ -31,13 +31,10 @@ class CreateCategory extends Direct
      */
     public function execute(Fixture $fixture = null)
     {
-        $objectManager = \Mage::getObjectManager();
-        if ($objectManager == null) {
-            $objectManager = new \Mage_Core_Model_ObjectManager(new \Mage_Core_Model_Config_Primary(BP, $_SERVER));
-        }
+        $objectManager = new \Magento\Core\Model\ObjectManager(new \Magento\Core\Model\Config\Primary(BP, $_SERVER));
 
-        /** @var $product \Mage_Catalog_Model_Category */
-        $category = $objectManager->create('Mage_Catalog_Model_Category');
+        /** @var $product \Magento\Catalog\Model\Category */
+        $category = $objectManager->create('Magento\Catalog\Model\Category');
 
         $dataSet = $fixture->getData();
         $data = $this->_convertData($dataSet);
