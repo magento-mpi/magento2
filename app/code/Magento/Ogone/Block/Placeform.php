@@ -61,7 +61,7 @@ class Placeform extends \Magento\Core\Block\Template
     }
 
     /**
-     * Return order instance with loaded onformation by increment id
+     * Return order instance with loaded information by increment id
      *
      * @return \Magento\Sales\Model\Order
      */
