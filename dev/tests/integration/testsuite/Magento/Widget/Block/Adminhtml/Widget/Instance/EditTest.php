@@ -23,6 +23,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
     public function testConstruct()
     {
         $type = 'Magento\Catalog\Block\Product\Widget\NewWidget';
+        $code = 'catalog_product_newwidget';
         $theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\View\DesignInterface')
             ->setDefaultDesignTheme()
@@ -33,6 +34,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
             ->create('Magento\Widget\Model\Widget\Instance');
         $widgetInstance
             ->setType($type)
+            ->setCode($code)
             ->setThemeId($theme->getId())
             ->save();
         /** @var $objectManager \Magento\TestFramework\ObjectManager */

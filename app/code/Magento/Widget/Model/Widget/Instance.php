@@ -232,6 +232,35 @@ class Instance extends \Magento\Core\Model\AbstractModel
     }
 
     /**
+     * Return widget instance code.  If not set, derive value from type (namespace\class).
+     *
+     * @return string
+     */
+    public function getCode()
+    {
+        $code = $this->_getData('instance_code');
+        if ($code == null) {
+            $code = $this->getWidgetReference('type', $this->getType(), 'code');
+            $this->setData('instance_code', $code);
+        }
+        return $code;
+    }
+
+    /**
+     * Sets the value this widget instance code.
+     * The widget code is the 'id' attribute in the widget node.
+     * 'code' is used in Magento\Widget\Model\Widget->getWidgetsArray when the array of widgets is created.
+     *
+     * @param string $code
+     * @return \Magento\Widget\Model\Widget\Instance
+     */
+    public function setCode($code)
+    {
+        $this->setData('instance_code', $code);
+        return $this;
+    }
+
+    /**
      * Setter
      * Prepare widget type
      *
@@ -305,17 +334,38 @@ class Instance extends \Magento\Core\Model\AbstractModel
      *
      * @return array
      */
-    public function getWidgetsOptionArray()
+    public function getWidgetsOptionArray($value = 'code')
     {
         $widgets = array();
         $widgetsArr = $this->_widgetModel->getWidgetsArray();
         foreach ($widgetsArr as $widget) {
             $widgets[] = array(
-                'value' => $widget['type'],
+                'value' => $widget[$value],
                 'label' => $widget['name']
             );
         }
         return $widgets;
+    }
+
+    /**
+     * Get the widget reference (code or namespace\class name) for the passed in type or code.
+     *
+     * @param $matchParam
+     * @param $value
+     * @param $requestedParam
+     * @return null
+     */
+    public function getWidgetReference($matchParam, $value, $requestedParam)
+    {
+        $reference = null;
+        $widgetsArr = $this->_widgetModel->getWidgetsArray();
+        foreach ($widgetsArr as $widget) {
+            if ($widget[$matchParam] === $value) {
+                $reference = $widget[$requestedParam];
+                break;
+            }
+        }
+        return $reference;
     }
 
     /**
