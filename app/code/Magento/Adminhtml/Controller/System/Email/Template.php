@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Controller\System\Email;
 
-class Template extends \Magento\Adminhtml\Controller\Action
+class Template extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry

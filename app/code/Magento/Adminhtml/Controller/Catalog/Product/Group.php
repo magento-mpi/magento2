@@ -10,7 +10,7 @@
 
 namespace Magento\Adminhtml\Controller\Catalog\Product;
 
-class Group extends \Magento\Adminhtml\Controller\Action
+class Group extends \Magento\Backend\Controller\Adminhtml\Action
 {
     public function saveAction()
     {

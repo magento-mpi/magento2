@@ -18,7 +18,7 @@
 namespace Magento\Adminhtml\Controller\Customer\Wishlist\Product\Composite;
 
 class Wishlist
-    extends \Magento\Adminhtml\Controller\Action
+    extends \Magento\Backend\Controller\Adminhtml\Action
 {
      /**
      * Wishlist we're working with

@@ -17,7 +17,7 @@
  */
 namespace Magento\Centinel\Controller\Adminhtml\Centinel;
 
-class Index extends \Magento\Adminhtml\Controller\Action
+class Index extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry

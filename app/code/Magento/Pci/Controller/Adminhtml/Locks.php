@@ -14,7 +14,7 @@
  */
 namespace Magento\Pci\Controller\Adminhtml;
 
-class Locks extends \Magento\Adminhtml\Controller\Action
+class Locks extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Render page with grid

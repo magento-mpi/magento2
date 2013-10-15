@@ -18,7 +18,7 @@
  */
 namespace Magento\Adminhtml\Controller\Cms;
 
-class Block extends \Magento\Adminhtml\Controller\Action
+class Block extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry

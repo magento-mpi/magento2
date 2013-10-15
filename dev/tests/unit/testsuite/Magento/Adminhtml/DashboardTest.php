@@ -107,7 +107,7 @@ class DashboardTest extends \PHPUnit_Framework_TestCase
      * @param \Magento\Core\Controller\Request\Http $request
      * @param \Magento\Core\Controller\Response\Http|null $response
      * @param \Magento\ObjectManager|null $objectManager
-     * @return \Magento\Adminhtml\Controller\Dashboard|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Backend\Controller\Adminhtml\Dashboard|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _factory($request, $response = null, $objectManager = null)
     {
@@ -133,7 +133,7 @@ class DashboardTest extends \PHPUnit_Framework_TestCase
             'frontController' => $varienFront,
         );
         $context = $helper->getObject('Magento\Backend\Controller\Context', $arguments);
-        return new \Magento\Adminhtml\Controller\Dashboard($context);
+        return new \Magento\Backend\Controller\Adminhtml\Dashboard($context);
     }
 }
 

@@ -15,9 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Adminhtml\Controller;
+namespace Magento\Backend\Controller\Adminhtml;
 
-class Dashboard extends \Magento\Adminhtml\Controller\Action
+class Dashboard extends \Magento\Backend\Controller\Adminhtml\Action
 {
     public function indexAction()
     {

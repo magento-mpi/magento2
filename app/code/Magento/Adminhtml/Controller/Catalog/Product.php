@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Controller\Catalog;
 
-class Product extends \Magento\Adminhtml\Controller\Action
+class Product extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * The greatest value which could be stored in CatalogInventory Qty field

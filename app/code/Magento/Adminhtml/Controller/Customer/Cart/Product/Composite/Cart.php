@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Controller\Customer\Cart\Product\Composite;
 
-class Cart extends \Magento\Adminhtml\Controller\Action
+class Cart extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Customer we're working with

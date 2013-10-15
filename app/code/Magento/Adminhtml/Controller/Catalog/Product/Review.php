@@ -13,7 +13,7 @@
  */
 namespace Magento\Adminhtml\Controller\Catalog\Product;
 
-class Review extends \Magento\Adminhtml\Controller\Action
+class Review extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Array of actions which can be processed without secret key validation

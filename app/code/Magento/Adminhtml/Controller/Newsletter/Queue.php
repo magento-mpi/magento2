@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Controller\Newsletter;
 
-class Queue extends \Magento\Adminhtml\Controller\Action
+class Queue extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry

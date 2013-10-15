@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Controller\Checkout;
 
-class Agreement extends \Magento\Adminhtml\Controller\Action
+class Agreement extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry
@@ -146,7 +146,7 @@ class Agreement extends \Magento\Adminhtml\Controller\Action
     /**
      * Initialize action
      *
-     * @return \Magento\Adminhtml\Controller\Action
+     * @return \Magento\Backend\Controller\Adminhtml\Action
      */
     protected function _initAction()
     {

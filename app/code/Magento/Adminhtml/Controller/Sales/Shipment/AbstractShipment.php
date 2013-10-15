@@ -15,7 +15,7 @@
  */
 namespace Magento\Adminhtml\Controller\Sales\Shipment;
 
-class AbstractShipment extends \Magento\Adminhtml\Controller\Action
+class AbstractShipment extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Init layout, menu and breadcrumb

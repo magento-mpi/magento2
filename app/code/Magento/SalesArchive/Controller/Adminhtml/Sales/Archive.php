@@ -14,7 +14,7 @@
  */
 namespace Magento\SalesArchive\Controller\Adminhtml\Sales;
 
-class Archive extends \Magento\Adminhtml\Controller\Action
+class Archive extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * @var \Magento\SalesArchive\Model\Archive

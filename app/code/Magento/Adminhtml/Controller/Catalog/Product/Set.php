@@ -18,7 +18,7 @@
 
 namespace Magento\Adminhtml\Controller\Catalog\Product;
 
-class Set extends \Magento\Adminhtml\Controller\Action
+class Set extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry

@@ -15,9 +15,9 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Adminhtml\Controller;
+namespace Magento\Directory\Controller\Adminhtml;
 
-class Json extends \Magento\Adminhtml\Controller\Action
+class Json extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Return JSON-encoded array of country regions

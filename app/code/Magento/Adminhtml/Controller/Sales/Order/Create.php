@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Controller\Sales\Order;
 
-class Create extends \Magento\Adminhtml\Controller\Action
+class Create extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Additional initialization

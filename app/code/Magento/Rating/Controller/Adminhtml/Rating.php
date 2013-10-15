@@ -11,9 +11,9 @@
 /**
  * Admin ratings controller
  */
-namespace Magento\Adminhtml\Controller;
+namespace Magento\Rating\Controller\Adminhtml;
 
-class Rating extends \Magento\Adminhtml\Controller\Action
+class Rating extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry

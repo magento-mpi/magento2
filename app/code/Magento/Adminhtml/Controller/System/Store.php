@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Controller\System;
 
-class Store extends \Magento\Adminhtml\Controller\Action
+class Store extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry

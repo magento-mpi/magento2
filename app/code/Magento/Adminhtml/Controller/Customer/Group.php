@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Controller\Customer;
 
-class Group extends \Magento\Adminhtml\Controller\Action
+class Group extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry

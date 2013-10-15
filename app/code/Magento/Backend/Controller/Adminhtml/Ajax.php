@@ -5,9 +5,9 @@
  * @category    Magento
  * @package     Magento_Adminhtml
  */
-namespace Magento\Adminhtml\Controller;
+namespace Magento\Backend\Controller\Adminhtml;
 
-class Ajax extends \Magento\Adminhtml\Controller\Action
+class Ajax extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Ajax action for inline translation

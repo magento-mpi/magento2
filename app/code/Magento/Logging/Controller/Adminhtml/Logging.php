@@ -11,7 +11,7 @@
  */
 namespace Magento\Logging\Controller\Adminhtml;
 
-class Logging extends \Magento\Adminhtml\Controller\Action
+class Logging extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry

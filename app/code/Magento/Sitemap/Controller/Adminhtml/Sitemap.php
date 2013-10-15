@@ -12,9 +12,9 @@
 /**
  * XML sitemap controller
  */
-namespace Magento\Adminhtml\Controller;
+namespace Magento\Sitemap\Controller\Adminhtml;
 
-class Sitemap extends  \Magento\Adminhtml\Controller\Action
+class Sitemap extends  \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry

@@ -16,7 +16,7 @@
  */
 namespace Magento\Adminhtml\Controller\Newsletter;
 
-class Template extends \Magento\Adminhtml\Controller\Action
+class Template extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry

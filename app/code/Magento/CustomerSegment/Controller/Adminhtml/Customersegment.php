@@ -13,7 +13,7 @@
  */
 namespace Magento\CustomerSegment\Controller\Adminhtml;
 
-class Customersegment extends \Magento\Adminhtml\Controller\Action
+class Customersegment extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry

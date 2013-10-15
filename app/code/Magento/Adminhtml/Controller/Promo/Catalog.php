@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Controller\Promo;
 
-class Catalog extends \Magento\Adminhtml\Controller\Action
+class Catalog extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Dirty rules notice message

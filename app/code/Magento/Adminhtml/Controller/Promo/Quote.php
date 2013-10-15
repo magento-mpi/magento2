@@ -10,7 +10,7 @@
 
 namespace Magento\Adminhtml\Controller\Promo;
 
-class Quote extends \Magento\Adminhtml\Controller\Action
+class Quote extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry

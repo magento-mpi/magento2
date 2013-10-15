@@ -17,7 +17,7 @@
  */
 namespace Magento\GiftRegistry\Controller\Adminhtml\Giftregistry;
 
-class Customer extends \Magento\Adminhtml\Controller\Action
+class Customer extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry

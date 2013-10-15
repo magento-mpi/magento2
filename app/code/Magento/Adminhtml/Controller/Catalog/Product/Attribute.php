@@ -13,7 +13,7 @@
  */
 namespace Magento\Adminhtml\Controller\Catalog\Product;
 
-class Attribute extends \Magento\Adminhtml\Controller\Action
+class Attribute extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * @var \Magento\Cache\FrontendInterface

@@ -10,7 +10,7 @@
 
 namespace Magento\Banner\Controller\Adminhtml;
 
-class Banner extends \Magento\Adminhtml\Controller\Action
+class Banner extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry

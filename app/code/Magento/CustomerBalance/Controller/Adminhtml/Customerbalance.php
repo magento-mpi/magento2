@@ -14,7 +14,7 @@
  */
 namespace Magento\CustomerBalance\Controller\Adminhtml;
 
-class Customerbalance extends \Magento\Adminhtml\Controller\Action
+class Customerbalance extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry

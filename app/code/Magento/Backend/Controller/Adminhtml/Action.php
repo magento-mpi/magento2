@@ -11,7 +11,7 @@
 /**
  * Generic backend controller
  */
-namespace Magento\Adminhtml\Controller;
+namespace Magento\Backend\Controller\Adminhtml;
 
 class Action extends \Magento\Backend\Controller\AbstractAction
 {

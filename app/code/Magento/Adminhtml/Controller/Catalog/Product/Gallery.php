@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Controller\Catalog\Product;
 
-class Gallery extends \Magento\Adminhtml\Controller\Action
+class Gallery extends \Magento\Backend\Controller\Adminhtml\Action
 {
     public function uploadAction()
     {

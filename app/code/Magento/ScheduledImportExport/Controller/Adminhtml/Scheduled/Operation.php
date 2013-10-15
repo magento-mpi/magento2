@@ -17,7 +17,7 @@
  */
 namespace Magento\ScheduledImportExport\Controller\Adminhtml\Scheduled;
 
-class Operation extends \Magento\Adminhtml\Controller\Action
+class Operation extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry

@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Controller\Tax;
 
-class Rule extends \Magento\Adminhtml\Controller\Action
+class Rule extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry
@@ -145,7 +145,7 @@ class Rule extends \Magento\Adminhtml\Controller\Action
     /**
      * Initialize action
      *
-     * @return \Magento\Adminhtml\Controller\Action
+     * @return \Magento\Backend\Controller\Adminhtml\Action
      */
     protected function _initAction()
     {

@@ -17,7 +17,7 @@
  */
 namespace Magento\GiftWrapping\Controller\Adminhtml;
 
-class Giftwrapping extends \Magento\Adminhtml\Controller\Action
+class Giftwrapping extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry

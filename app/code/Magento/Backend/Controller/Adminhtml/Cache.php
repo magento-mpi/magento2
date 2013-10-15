@@ -8,9 +8,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Controller;
+namespace Magento\Backend\Controller\Adminhtml;
 
-class Cache extends \Magento\Adminhtml\Controller\Action
+class Cache extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * @var \Magento\Core\Model\Cache\TypeListInterface

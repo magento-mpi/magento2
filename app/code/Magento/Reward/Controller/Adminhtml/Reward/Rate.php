@@ -18,7 +18,7 @@
  */
 namespace Magento\Reward\Controller\Adminhtml\Reward;
 
-class Rate extends \Magento\Adminhtml\Controller\Action
+class Rate extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry

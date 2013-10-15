@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Controller\Sales;
 
-class Order extends \Magento\Adminhtml\Controller\Action
+class Order extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Array of actions which can be processed without secret key validation

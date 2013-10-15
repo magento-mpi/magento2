@@ -15,7 +15,7 @@
  */
 namespace Magento\Adminhtml\Controller\Sales;
 
-class Transactions extends \Magento\Adminhtml\Controller\Action
+class Transactions extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry

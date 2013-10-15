@@ -17,7 +17,7 @@
  */
 namespace Magento\AdvancedCheckout\Controller\Adminhtml;
 
-class Checkout extends \Magento\Adminhtml\Controller\Action
+class Checkout extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Flag that indicates whether page must be reloaded with correct params or not
@@ -155,7 +155,7 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
     /**
      * Renderer for page title
      *
-     * @return \Magento\Adminhtml\Controller\Action
+     * @return \Magento\Backend\Controller\Adminhtml\Action
      */
     protected function _initTitle()
     {

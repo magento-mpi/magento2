@@ -197,7 +197,7 @@ class Observer
     public function replaceSalesOrderRedirect(\Magento\Event\Observer $observer)
     {
         /**
-         * @var \Magento\Adminhtml\Controller\Action $controller
+         * @var \Magento\Backend\Controller\Adminhtml\Action $controller
          */
         $controller = $observer->getControllerAction();
         /**

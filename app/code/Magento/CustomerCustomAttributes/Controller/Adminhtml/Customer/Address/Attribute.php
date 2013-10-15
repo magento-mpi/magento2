@@ -15,7 +15,7 @@
 namespace Magento\CustomerCustomAttributes\Controller\Adminhtml\Customer\Address;
 
 class Attribute
-    extends \Magento\Adminhtml\Controller\Action
+    extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Customer Address Entity Type instance

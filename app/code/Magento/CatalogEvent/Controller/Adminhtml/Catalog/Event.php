@@ -11,7 +11,7 @@
  */
 namespace Magento\CatalogEvent\Controller\Adminhtml\Catalog;
 
-class Event extends \Magento\Adminhtml\Controller\Action
+class Event extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry

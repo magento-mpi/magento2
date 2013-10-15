@@ -13,7 +13,7 @@
  */
 namespace Magento\Adminhtml\Controller\Sales\Billing;
 
-class Agreement extends \Magento\Adminhtml\Controller\Action
+class Agreement extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry

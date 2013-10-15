@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Controller\Sales\Order;
 
-class Status extends \Magento\Adminhtml\Controller\Action
+class Status extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry

@@ -16,9 +16,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Adminhtml\Controller;
+namespace Magento\AdminNotification\Controller\Adminhtml;
 
-class Survey extends \Magento\Adminhtml\Controller\Action
+class Survey extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Index Action

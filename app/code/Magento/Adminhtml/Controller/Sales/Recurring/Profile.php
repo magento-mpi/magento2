@@ -15,7 +15,7 @@
  */
 namespace Magento\Adminhtml\Controller\Sales\Recurring;
 
-class Profile extends \Magento\Adminhtml\Controller\Action
+class Profile extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry

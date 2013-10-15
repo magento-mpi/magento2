@@ -10,7 +10,7 @@
 
 namespace Magento\Rma\Controller\Adminhtml\Rma\Item;
 
-class Attribute extends \Magento\Adminhtml\Controller\Action
+class Attribute extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * RMA Item Entity Type instance

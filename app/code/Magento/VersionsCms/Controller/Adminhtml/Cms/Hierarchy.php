@@ -13,7 +13,7 @@
  */
 namespace Magento\VersionsCms\Controller\Adminhtml\Cms;
 
-class Hierarchy extends \Magento\Adminhtml\Controller\Action
+class Hierarchy extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Current Scope
