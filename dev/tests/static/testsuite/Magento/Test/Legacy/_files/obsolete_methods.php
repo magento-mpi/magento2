@@ -859,4 +859,7 @@ return array(
     array('turnOnSerializableMode', 'Magento\Backup\Model\Resource\Db', 'prepareTransactionIsolationLevel'),
     array('_getResourceModel', '\Magento\Webapi\Model\Source\Acl\Role', '$this->_resource'),
     array('_getSession', '\Magento\Adminhtml\Model\Giftmessage\Save', '$this->_session'),
+    array('uc_words'),
+    array('is_empty_date'),
+    array('now'),
 );
