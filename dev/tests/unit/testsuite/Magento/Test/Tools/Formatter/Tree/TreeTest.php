@@ -96,6 +96,15 @@ class TreeTest extends \PHPUnit_Framework_TestCase
             $tree,
             "A" . PHP_EOL . ".B" . PHP_EOL . ".B'" . PHP_EOL . ".C" . PHP_EOL . ".C'" . PHP_EOL . "A'" . PHP_EOL
         );
+        // add root sibling to original node
+        $tree->setCurrentNode($nodeA);
+        $tree->addSibling($this->getNode("A''"));
+        // check results
+        $this->compareTree(
+            $tree,
+            "A" . PHP_EOL . ".B" . PHP_EOL . ".B'" . PHP_EOL . ".C" . PHP_EOL . ".C'" . PHP_EOL . "A''" . PHP_EOL .
+            "A'" . PHP_EOL
+        );
     }
 
     /**

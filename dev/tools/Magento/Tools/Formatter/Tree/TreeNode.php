@@ -44,16 +44,7 @@ class TreeNode
     {
         // if adding a child next to an existing child
         if (null !== $adjacentNode) {
-            // find the existing child
-            $index = array_search($adjacentNode, $this->children, true);
-            // if it could not be found and the existing child is not the last one in the list
-            if (false !== $index && $index < sizeof($this->children) - 1) {
-                // found it, so splice in the new child
-                array_splice($this->children, $index + 1, 0, array($treeNode));
-            } else {
-                // shouldn't really get here, but could; just add it to the end of the list
-                $this->children[] = $treeNode;
-            }
+            $this->setNodeWithinArray($this->children, $treeNode, $adjacentNode);
         } else {
             // otherwise, just add it to the end of the list
             $this->children[] = $treeNode;
@@ -85,5 +76,23 @@ class TreeNode
     public function hasChildren()
     {
         return count($this->children) > 0;
+    }
+
+    /**
+     * @param $nodes
+     * @param $treeNode
+     * @param null $adjacentNode
+     */
+    public static function setNodeWithinArray(&$nodes, $treeNode, $adjacentNode = null) {
+        // find the existing child
+        $index = array_search($adjacentNode, $nodes, true);
+        // if it could not be found and the existing child is not the last one in the list
+        if (false !== $index && $index < sizeof($nodes) - 1) {
+            // found it, so splice in the new child
+            array_splice($nodes, $index + 1, 0, array($treeNode));
+        } else {
+            // shouldn't really get here, but could; just add it to the end of the list
+            $nodes[] = $treeNode;
+        }
     }
 }

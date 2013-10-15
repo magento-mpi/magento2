@@ -28,6 +28,7 @@ class ClassReference extends StatementAbstract
      */
     public function process(Tree $tree)
     {
+        // add the name to the end of the current line
         $line = $tree->getCurrentNode()->getData();
         $line->add((string)$this->node);
     }

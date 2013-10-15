@@ -66,16 +66,16 @@ class Printer
      * @param $statements
      * @param Tree $tree Tree representation of the resulting code
      */
-    protected function processStatements($statements, Tree $tree)
+    public static function processStatements($statements, Tree $tree)
     {
         // if it is an array, process each element in the array
         if (is_array($statements)) {
             foreach ($statements as $node) {
-                $this->processStatement($node, $tree);
+                self::processStatement($node, $tree);
             }
         } else {
             // otherwise, it just a single statement
-            $this->processStatement($statements, $tree);
+            self::processStatement($statements, $tree);
         }
     }
 

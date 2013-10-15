@@ -48,6 +48,9 @@ class StatementFactory
      */
     protected function __construct()
     {
+        $this->register('Stmt_Namespace', NamespaceStatement::getType());
+        $this->register('Stmt_Use', UseStatement::getType());
+        $this->register('Stmt_UseUse', UseStatement::getType());
         $this->register('Stmt_Class', ClassStatement::getType());
         $this->register('Stmt_InlineHTML', InlineHtmlStatement::getType());
         $this->register('Name', ClassReference::getType());

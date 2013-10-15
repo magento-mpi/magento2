@@ -94,4 +94,37 @@ FORMATTEDCODESNIPPET
             ),
         );
     }
+
+    /**
+     * This method tests the printing around namespace and use statements.
+     *
+     * @dataProvider dataProviderNamespace
+     */
+    public function testNamespace($originalCode, $formattedCode)
+    {
+        $printer = new Printer($originalCode);
+        $this->assertEquals($formattedCode, $printer->getFormattedCode());
+    }
+
+    public function dataProviderNamespace()
+    {
+        return array(
+            array(
+                "<?php /** filedoco */namespace LocalNamespace; class LocalClass {}",
+                "<?php\n/** filedoco */\nnamespace LocalNamespace;\n\nclass LocalClass\n{\n}\n"
+            ),
+            array(
+                "<?php /** filedoco */namespace LocalNs; use SomethingElse; class LocalC2 {}",
+                "<?php\n/** filedoco */\nnamespace LocalNs;\n\nuse SomethingElse;\n\nclass LocalC2\n{\n}\n"
+            ),
+            array(
+                "<?php /** filedoco */namespace LocalNs2; use WantingAlias as WAlias; class LocalC3 {}",
+                "<?php\n/** filedoco */\nnamespace LocalNs2;\n\nuse WantingAlias as WAlias;\n\nclass LocalC3\n{\n}\n"
+            ),
+            array(
+                "<?php /** filedoco */namespace LocalNs2; use SE1, SE2, SE3; class LocalC4 {}",
+                "<?php\n/** filedoco */\nnamespace LocalNs2;\n\nuse SE1;\nuse SE2;\nuse SE3;\n\nclass LocalC4\n{\n}\n"
+            ),
+        );
+    }
 }

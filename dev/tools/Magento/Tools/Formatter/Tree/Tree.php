@@ -53,15 +53,16 @@ class Tree
      * This method makes the passed in node a root node. If there is no root node, the new node will be the root. If
      * there are existing roots, an array of roots will be generated.
      * @param TreeNode $treeNode Node to be added as a root.
+     * @param TreeNode $adjacentNode Optional root node to place new node next to
      */
-    public function addRoot(TreeNode $treeNode)
+    public function addRoot(TreeNode $treeNode, TreeNode $adjacentNode = null)
     {
         // if no root, make the new node the root
         if (null === $this->rootNode) {
             $this->rootNode = $treeNode;
         } elseif (is_array($this->rootNode)) {
-            // if an array, then just add the node to the end of the roots
-            $this->rootNode[] = $treeNode;
+            // if an array, then just splice the new node into the array
+            TreeNode::setNodeWithinArray($this->rootNode, $treeNode, $adjacentNode);
         } else {
             // only a single root, so make it an array
             $this->rootNode = array($this->rootNode, $treeNode);
@@ -89,7 +90,7 @@ class Tree
                 $parent->addChild($treeNode, $this->currentNode);
                 $this->currentNode = $treeNode;
             } else {
-                $this->addRoot($treeNode);
+                $this->addRoot($treeNode, $this->currentNode);
             }
         }
         // as a convenience, return the newly added node
