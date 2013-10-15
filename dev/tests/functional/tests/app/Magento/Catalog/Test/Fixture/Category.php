@@ -33,7 +33,7 @@ class Category extends DataFixture
      */
     public function getCategoryName()
     {
-        return $this->_data['name']['value'];
+        return $this->_data['fields']['name']['value'];
     }
 
     /**
