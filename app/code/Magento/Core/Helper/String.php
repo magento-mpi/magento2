@@ -307,4 +307,36 @@ class String extends \Magento\Core\Helper\AbstractHelper
         return $sort;
     }
 
+    /**
+     * Capitalize first letters and convert separators if needed
+     *
+     * @param string $str
+     * @param string $sourceSeparator
+     * @param string $destinationSeparator
+     * @return string
+     */
+    public static function upperCaseWords($str, $sourceSeparator = '_', $destinationSeparator = '_')
+    {
+        return str_replace(' ', $destinationSeparator, ucwords(str_replace($sourceSeparator, ' ', $str)));
+    }
+
+    /**
+     * Builds namespace + classname out of the parts array
+     *
+     * Split every part into pieces by _ and \ and uppercase every piece
+     * Then join them back using \
+     *
+     * @param $parts
+     * @return string
+     */
+    public static function buildClassName($parts)
+    {
+        $separator = \Magento\Autoload\IncludePath::NS_SEPARATOR;
+
+        $string = join($separator, $parts);
+        $string = str_replace('_', $separator, $string);
+        $className = \Magento\Core\Helper\String::upperCaseWords($string, $separator, $separator);
+
+        return $className;
+    }
 }

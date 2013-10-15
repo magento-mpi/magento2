@@ -1650,7 +1650,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
             $options['precision'] = $columnData['PRECISION'];
         }
 
-        $comment = uc_words($columnData['COLUMN_NAME'], ' ');
+        $comment = \Magento\Core\Helper\String::upperCaseWords($columnData['COLUMN_NAME'], '_', ' ');
 
         $result = array(
             'name'      => $columnData['COLUMN_NAME'],
@@ -1674,7 +1674,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
     {
         $describe = $this->describeTable($tableName);
         $table = $this->newTable($newTableName)
-            ->setComment(uc_words($newTableName, ' '));
+            ->setComment(\Magento\Core\Helper\String::upperCaseWords($newTableName, '_', ' '));
 
         foreach ($describe as $columnData) {
             $columnInfo = $this->getColumnCreateByDescribe($columnData);

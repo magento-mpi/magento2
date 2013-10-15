@@ -263,7 +263,9 @@ class Option extends \Magento\Core\Model\AbstractModel
     {
         $group = $this->getGroupByType($type);
         if (!empty($group)) {
-            return $this->_optionFactory->create('Magento\Catalog\Model\Product\Option\Type\\' . uc_words($group));
+            return $this->_optionFactory->create(
+                'Magento\Catalog\Model\Product\Option\Type\\' . \Magento\Core\Helper\String::upperCaseWords($group)
+            );
         }
         throw new \Magento\Core\Exception(__('The option type to get group instance is incorrect.'));
     }

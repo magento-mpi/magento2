@@ -161,7 +161,9 @@ class Save extends \Magento\Backend\Controller\System\AbstractConfig
      */
     protected function _saveSection()
     {
-        $method = '_save' . uc_words($this->getRequest()->getParam('section'), '');
+        $method = '_save' . \Magento\Core\Helper\String::upperCaseWords(
+            $this->getRequest()->getParam('section'), '_', ''
+        );
         if (method_exists($this, $method)) {
             $this->$method();
         }

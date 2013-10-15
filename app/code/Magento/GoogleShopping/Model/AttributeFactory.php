@@ -51,7 +51,8 @@ class AttributeFactory
      */
     public function createAttribute($name)
     {
-        $modelName = 'Magento\GoogleShopping\Model\Attribute\\' . uc_words($this->_gsData->normalizeName($name));
+        $modelName = 'Magento\GoogleShopping\Model\Attribute\\'
+            . \Magento\Core\Helper\String::upperCaseWords($this->_gsData->normalizeName($name));
         try {
             /** @var \Magento\GoogleShopping\Model\Attribute\DefaultAttribute $attributeModel */
             $attributeModel = $this->_objectManager->create($modelName);
