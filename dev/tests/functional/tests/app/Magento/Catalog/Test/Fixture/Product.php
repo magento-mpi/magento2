@@ -125,7 +125,52 @@ class Product extends DataFixture
                         ),
                         'weight' => array(
                             'value' => '1',
+                            'group' => static::GROUP_PRODUCT_DETAILS
+                        )
+                    )
+                )
+            ),
+            'simple_default_category'          => array(
+                'config' => array(
+                    'test_case' => array('Smart\\Crud', 'Smart\\E2e', 'CheckoutSuite\\Onepage'),
+                    'constraint'        => 'Success',
+
+                    'create_url_params' => array(
+                        'set'  => 4,
+                        'type' => 'simple',
+                    )
+                ),
+
+                'data' => array(
+                    'fields' => array(
+                        'name'   => array(
+                            'value' => 'Simple Product %isolation%',
                             'group' => static::GROUP_PRODUCT_DETAILS,
+                        ),
+                        'sku'    => array(
+                            'value' => 'simple_sku_%isolation%',
+                            'group' => static::GROUP_PRODUCT_DETAILS
+                        ),
+                        'price'  => array(
+                            'value' => '10',
+                            'group' => static::GROUP_PRODUCT_DETAILS,
+                        ),
+                        'tax_class_id' => array(
+                            'value' => 'Taxable Goods',
+                            'group' => static::GROUP_PRODUCT_DETAILS,
+                            'input' => 'select'
+                        ),
+                        'qty'    => array(
+                            'value' => '1000.00',
+                            'group' => static::GROUP_PRODUCT_DETAILS
+                        ),
+                        'weight' => array(
+                            'value' => '1',
+                            'group' => static::GROUP_PRODUCT_DETAILS
+                        ),
+                        'category_ids' => array(
+                            'value' => array('2'),
+                            'group' => static::GROUP_PRODUCT_DETAILS
                         )
                     )
                 )
