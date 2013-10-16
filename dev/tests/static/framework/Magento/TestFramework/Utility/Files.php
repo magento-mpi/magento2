@@ -97,7 +97,7 @@ class Files
     {
         $key = __METHOD__ . "/{$this->_path}/{$appCode}/{$otherCode}/{$templates}";
         if (!isset(self::$_cache[$key])) {
-            $namespace = $module = $area = $package = $theme = '*';
+            $namespace = $module = $area = $theme = '*';
 
             $files = array();
             if ($appCode) {
@@ -120,7 +120,7 @@ class Files
                     $files,
                     self::getFiles(array("{$this->_path}/app/code/{$namespace}/{$module}"), '*.phtml'),
                     self::getFiles(
-                        array("{$this->_path}/app/design/{$area}/{$package}/{$theme}/{$namespace}_{$module}"),
+                        array("{$this->_path}/app/design/{$area}/{$theme}/{$namespace}_{$module}"),
                         '*.phtml'
                     )
                 );
@@ -374,11 +374,11 @@ class Files
         if (isset(self::$_cache[$key])) {
             return self::$_cache[$key];
         }
-        $namespace = $module = $area = $package = $theme = $skin = '*';
+        $namespace = $module = $area = $theme = $skin = '*';
         $files = self::getFiles(
             array(
                 "{$this->_path}/app/code/{$namespace}/{$module}/view/{$area}",
-                "{$this->_path}/app/design/{$area}/{$package}/{$theme}/skin/{$skin}",
+                "{$this->_path}/app/design/{$area}/{$theme}/skin/{$skin}",
                 "{$this->_path}/pub/lib/{mage,varien}"
             ),
             '*.js'
@@ -399,10 +399,10 @@ class Files
         if (isset(self::$_cache[$key])) {
             return self::$_cache[$key];
         }
-        $namespace = $module = $package = $theme = '*';
+        $namespace = $module = $theme = '*';
         $paths = array(
             "{$this->_path}/app/code/{$namespace}/{$module}/view/{$area}",
-            "{$this->_path}/app/design/{$area}/{$package}/{$theme}",
+            "{$this->_path}/app/design/{$area}/{$theme}",
             "{$this->_path}/pub/lib/varien",
         );
         $files = self::getFiles(
