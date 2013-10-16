@@ -130,7 +130,7 @@ class Create extends \Magento\Adminhtml\Block\Widget\Form\Container
     public function getCancelUrl()
     {
         if ($this->_sessionQuote->getOrder()->getId()) {
-            $url = $this->getUrl('*/sales_order/view', array(
+            $url = $this->getUrl('*/order/view', array(
                 'order_id' => $this->_sessionQuote->getOrder()->getId()
             ));
         } else {

@@ -82,7 +82,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 
     public function getCreateOrderUrl()
     {
-        return $this->getUrl('*/sales_order_create/start', array('customer_id' => $this->getCustomerId()));
+        return $this->getUrl('*/order_create/start', array('customer_id' => $this->getCustomerId()));
     }
 
     public function getCustomerId()

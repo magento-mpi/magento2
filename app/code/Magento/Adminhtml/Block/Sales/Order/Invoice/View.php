@@ -171,7 +171,7 @@ class View extends \Magento\Adminhtml\Block\Widget\Form\Container
     public function getBackUrl()
     {
         return $this->getUrl(
-            '*/sales_order/view',
+            '*/order/view',
             array(
                 'order_id'  => $this->getInvoice() ? $this->getInvoice()->getOrderId() : null,
                 'active_tab'=> 'order_invoices'
@@ -203,7 +203,7 @@ class View extends \Magento\Adminhtml\Block\Widget\Form\Container
 
     public function getCreditMemoUrl()
     {
-        return $this->getUrl('*/sales_order_creditmemo/start', array(
+        return $this->getUrl('*/order_creditmemo/start', array(
             'order_id'  => $this->getInvoice()->getOrder()->getId(),
             'invoice_id'=> $this->getInvoice()->getId(),
         ));
@@ -222,7 +222,7 @@ class View extends \Magento\Adminhtml\Block\Widget\Form\Container
             if ($this->getInvoice()->getBackUrl()) {
                 return $this->_updateButton('back', 'onclick', 'setLocation(\'' . $this->getInvoice()->getBackUrl() . '\')');
             }
-            return $this->_updateButton('back', 'onclick', 'setLocation(\'' . $this->getUrl('*/sales_invoice/') . '\')');
+            return $this->_updateButton('back', 'onclick', 'setLocation(\'' . $this->getUrl('*/invoice/') . '\')');
         }
         return $this;
     }

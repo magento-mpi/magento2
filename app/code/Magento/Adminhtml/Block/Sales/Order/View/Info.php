@@ -123,7 +123,7 @@ class Info extends \Magento\Adminhtml\Block\Sales\Order\AbstractOrder
 
     public function getViewUrl($orderId)
     {
-        return $this->getUrl('*/sales_order/view', array('order_id'=>$orderId));
+        return $this->getUrl('*/order/view', array('order_id'=>$orderId));
     }
 
     /**
@@ -192,7 +192,7 @@ class Info extends \Magento\Adminhtml\Block\Sales\Order\AbstractOrder
         if (empty($label)) {
             $label = __('Edit');
         }
-        $url = $this->getUrl('*/sales_order/address', array('address_id'=>$address->getId()));
+        $url = $this->getUrl('*/order/address', array('address_id'=>$address->getId()));
         return '<a href="'.$url.'">' . $label . '</a>';
     }
 

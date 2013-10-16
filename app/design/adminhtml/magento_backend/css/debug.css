@@ -667,16 +667,16 @@ th.required:after {
     1 column grid pages with actions
 -------------------------------------- */
 /* slaes */
-.adminhtml-sales-order-index .col-1-layout,
-.adminhtml-sales-shipment-index .col-1-layout,
+.sales-order-index .col-1-layout,
+.sales-shipment-index .col-1-layout,
 .adminhtml-rma-index .col-1-layout,
-.adminhtml-sales-invoice-index .col-1-layout,
+.sales-invoice-index .col-1-layout,
 .adminhtml-rma-item-attribute-index .col-1-layout,
-.adminhtml-sales-transactions-index .col-1-layout,
-.adminhtml-sales-creditmemo-index .col-1-layout,
-.adminhtml-sales-recurring-profile-index .col-1-layout,
+.sales-transactions-index .col-1-layout,
+.sales-creditmemo-index .col-1-layout,
+.sales-recurring-profile-index .col-1-layout,
 .adminhtml-giftwrapping-index .col-1-layout,
-.adminhtml-sales-billing-agreement-index .col-1-layout,
+.sales-billing-agreement-index .col-1-layout,
 .adminhtml-checkout-agreement-index .col-1-layout,
 /* catalog */
 .catalog-product-index .col-1-layout,
@@ -762,7 +762,7 @@ th.required:after {
 .adminhtml-tax-rate-index .col-1-layout,
 .adminhtml-system-currency-index .col-1-layout,
 .adminhtml-cache-index .col-1-layout,
-.adminhtml-sales-order-status-index .col-1-layout {
+.sales-order-status-index .col-1-layout {
     padding: 0;
     background: transparent;
     border: 0;
@@ -774,7 +774,7 @@ th.required:after {
 /*
     Round "+" button for grid tables
 -------------------------------------- */
-.adminhtml-sales-order-index .page-actions,
+.sales-order-index .page-actions,
 .adminhtml-rma-index .page-actions,
 .adminhtml-giftwrapping-index .page-actions,
 .adminhtml-rma-item-attribute-index .page-actions,
@@ -832,7 +832,7 @@ th.required:after {
     padding: 0;
 }
 
-.adminhtml-sales-order-index .page-actions.fixed,
+.sales-order-index .page-actions.fixed,
 .adminhtml-rma-index .page-actions.fixed,
 .adminhtml-giftwrapping-index .page-actions.fixed,
 .adminhtml-rma-item-attribute-index .page-actions.fixed,
@@ -889,7 +889,7 @@ th.required:after {
     position: fixed;
 }
 
-.adminhtml-sales-order-index .page-actions .add,
+.sales-order-index .page-actions .add,
 .adminhtml-rma-index .page-actions .add,
 .adminhtml-giftwrapping-index .page-actions .add,
 .adminhtml-rma-item-attribute-index .page-actions .add,
@@ -959,7 +959,7 @@ th.required:after {
     background: linear-gradient(to bottom, #f58228 0%,#f3731c 100%);
 }
 
-.eq-ie8 .adminhtml-sales-order-index .page-actions .add,
+.eq-ie8 .sales-order-index .page-actions .add,
 .eq-ie8 .adminhtml-rma-index .page-actions .add,
 .eq-ie8 .adminhtml-giftwrapping-index .page-actions .add,
 .eq-ie8 .adminhtml-rma-item-attribute-index .page-actions .add,
@@ -1013,7 +1013,7 @@ th.required:after {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f58228', endColorstr='#f3731c',GradientType=0 );
 }
 
-.adminhtml-sales-order-index .page-actions .add:hover,
+.sales-order-index .page-actions .add:hover,
 .adminhtml-rma-index .page-actions .add:hover,
 .adminhtml-giftwrapping-index .page-actions .add:hover,
 .adminhtml-rma-item-attribute-index .page-actions .add:hover,
@@ -1075,7 +1075,7 @@ th.required:after {
     background: linear-gradient(to bottom, #e47821 0%,#df6817 100%);
 }
 
-.eq-ie8 .adminhtml-sales-order-index .page-actions .add:hover,
+.eq-ie8 .sales-order-index .page-actions .add:hover,
 .eq-ie8 .adminhtml-rma-index .page-actions .add:hover,
 .eq-ie8 .adminhtml-giftwrapping-index .page-actions .add:hover,
 .eq-ie8 .adminhtml-rma-item-attribute-index .page-actions .add:hover,
@@ -1129,7 +1129,7 @@ th.required:after {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e47821', endColorstr='#df6817',GradientType=0 );
 }
 
-.adminhtml-sales-order-index .page-actions .add:active,
+.sales-order-index .page-actions .add:active,
 .adminhtml-rma-index .page-actions .add:active,
 .adminhtml-giftwrapping-index .page-actions .add:active,
 .adminhtml-rma-item-attribute-index .page-actions .add:active,
@@ -1187,7 +1187,7 @@ th.required:after {
     filter: none;
 }
 
-.adminhtml-sales-order-index .page-actions .add > span,
+.sales-order-index .page-actions .add > span,
 .adminhtml-rma-index .page-actions .add > span,
 .adminhtml-rma-item-attribute-index .page-actions .add > span,
 .adminhtml-giftwrapping-index .page-actions .add > span,
@@ -1244,7 +1244,7 @@ th.required:after {
     height: 32px;
 }
 
-.adminhtml-sales-order-index .page-actions .add > span:before,
+.sales-order-index .page-actions .add > span:before,
 .adminhtml-rma-index .page-actions .add > span:before,
 .adminhtml-giftwrapping-index .page-actions .add > span:before,
 .adminhtml-rma-item-attribute-index .page-actions .add > span:before,
@@ -1410,7 +1410,7 @@ th.required:after {
     padding: 9px 10px 10px;
 }
 
-.adminhtml-sales-order-index .grid-actions,
+.sales-order-index .grid-actions,
 .adminhtml-rma-index .grid-actions,
 .adminhtml-giftwrapping-index .grid-actions,
 .adminhtml-rma-item-attribute-index .grid-actions,
@@ -1474,7 +1474,7 @@ th.required:after {
 .adminhtml-system-currencysymbol-index .page-actions,
 .adminhtml-cache-index .page-actions,
 .adminhtml-system-store-index .page-actions,
-.adminhtml-sales-order-status-index .page-actions {
+.sales-order-status-index .page-actions {
     border: 1px solid #c0bbaf;
     border-bottom: 0;
     background: rgb(246, 243, 236);
@@ -1510,7 +1510,7 @@ th.required:after {
 .adminhtml-system-currencysymbol-index .page-actions.fixed,
 .adminhtml-cache-index .page-actions.fixed,
 .adminhtml-system-store-index .page-actions.fixed,
-.adminhtml-sales-order-status-index .page-actions.fixed {
+.sales-order-status-index .page-actions.fixed {
     background-image: none;
     padding: 0 21px;
     position: fixed;
@@ -1541,7 +1541,7 @@ th.required:after {
     margin: 0 0 5px;
 }
 
-.adminhtml-sales-order-create-index .grid table .action-configure {
+.sales-order-create-index .grid table .action-configure {
     float: right;
 }
 

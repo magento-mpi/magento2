@@ -108,7 +108,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         );
 
 
-        $form->setAction($this->getUrl('*/sales_order_status/assignPost'));
+        $form->setAction($this->getUrl('*/order_status/assignPost'));
         $form->setUseContainer(true);
         $this->setForm($form);
 

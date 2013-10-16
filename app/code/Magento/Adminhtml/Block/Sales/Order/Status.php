@@ -42,7 +42,7 @@ class Status extends \Magento\Backend\Block\Widget\Grid\Container
      */
     public function getCreateUrl()
     {
-        return $this->getUrl('*/sales_order_status/new');
+        return $this->getUrl('*/order_status/new');
     }
 
     /**
@@ -52,6 +52,6 @@ class Status extends \Magento\Backend\Block\Widget\Grid\Container
      */
     public function getAssignUrl()
     {
-        return $this->getUrl('*/sales_order_status/assign');
+        return $this->getUrl('*/order_status/assign');
     }
 }

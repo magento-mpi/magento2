@@ -131,7 +131,7 @@ class Shipments
     public function getRowUrl($row)
     {
         return $this->getUrl(
-            '*/sales_order_shipment/view',
+            '*/order_shipment/view',
             array(
                 'shipment_id'=> $row->getId(),
                 'order_id'  => $row->getOrderId()

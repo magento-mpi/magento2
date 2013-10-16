@@ -54,7 +54,7 @@ class Form extends \Magento\Adminhtml\Block\Sales\Order\AbstractOrder
      */
     public function getOrderUrl()
     {
-        return $this->getUrl('*/sales_order/view', array('order_id' => $this->getInvoice()->getOrderId()));
+        return $this->getUrl('*/order/view', array('order_id' => $this->getInvoice()->getOrderId()));
     }
 
     /**

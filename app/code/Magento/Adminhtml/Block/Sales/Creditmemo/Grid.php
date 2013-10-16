@@ -133,7 +133,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
                 'actions'   => array(
                     array(
                         'caption' => __('View'),
-                        'url'     => array('base'=>'*/sales_creditmemo/view'),
+                        'url'     => array('base'=>'*/creditmemo/view'),
                         'field'   => 'creditmemo_id'
                     )
                 ),
@@ -158,7 +158,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 
         $this->getMassactionBlock()->addItem('pdfcreditmemos_order', array(
              'label'=> __('PDF Credit Memos'),
-             'url'  => $this->getUrl('*/sales_creditmemo/pdfcreditmemos'),
+             'url'  => $this->getUrl('*/creditmemo/pdfcreditmemos'),
         ));
 
         return $this;
@@ -170,7 +170,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
             return false;
         }
 
-        return $this->getUrl('*/sales_creditmemo/view',
+        return $this->getUrl('*/creditmemo/view',
             array(
                 'creditmemo_id'=> $row->getId(),
             )

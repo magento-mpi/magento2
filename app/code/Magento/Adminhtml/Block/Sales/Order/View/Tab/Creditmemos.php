@@ -159,7 +159,7 @@ class Creditmemos
     public function getRowUrl($row)
     {
         return $this->getUrl(
-            '*/sales_order_creditmemo/view',
+            '*/order_creditmemo/view',
             array(
                 'creditmemo_id' => $row->getId(),
                 'order_id' => $row->getOrderId()

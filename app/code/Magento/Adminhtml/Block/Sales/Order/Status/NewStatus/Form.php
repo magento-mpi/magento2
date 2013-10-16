@@ -68,7 +68,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         if ($model) {
             $form->addValues($model->getData());
         }
-        $form->setAction($this->getUrl('*/sales_order_status/save'));
+        $form->setAction($this->getUrl('*/order_status/save'));
         $form->setUseContainer(true);
         $this->setForm($form);
 

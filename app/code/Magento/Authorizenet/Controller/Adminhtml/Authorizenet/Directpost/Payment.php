@@ -18,7 +18,7 @@
 namespace Magento\Authorizenet\Controller\Adminhtml\Authorizenet\Directpost;
 
 class Payment
-    extends \Magento\Adminhtml\Controller\Sales\Order\Create
+    extends \Magento\Sales\Controller\Adminhtml\Order\Create
 {
     /**
      * Core registry

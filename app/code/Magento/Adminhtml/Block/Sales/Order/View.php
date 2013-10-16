@@ -239,7 +239,7 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
 
     public function getEditUrl()
     {
-        return $this->getUrl('*/sales_order_edit/start');
+        return $this->getUrl('*/order_edit/start');
     }
 
     public function getEmailUrl()
@@ -254,12 +254,12 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
 
     public function getInvoiceUrl()
     {
-        return $this->getUrl('*/sales_order_invoice/start');
+        return $this->getUrl('*/order_invoice/start');
     }
 
     public function getCreditmemoUrl()
     {
-        return $this->getUrl('*/sales_order_creditmemo/start');
+        return $this->getUrl('*/order_creditmemo/start');
     }
 
     public function getHoldUrl()
@@ -274,7 +274,7 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
 
     public function getShipUrl()
     {
-        return $this->getUrl('*/sales_order_shipment/start');
+        return $this->getUrl('*/order_shipment/start');
     }
 
     public function getCommentUrl()
@@ -284,7 +284,7 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
 
     public function getReorderUrl()
     {
-        return $this->getUrl('*/sales_order_create/reorder');
+        return $this->getUrl('*/order_create/reorder');
     }
 
     /**

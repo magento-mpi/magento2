@@ -146,7 +146,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
                 'actions'   => array(
                     array(
                         'caption' => __('View'),
-                        'url'     => array('base'=>'*/sales_invoice/view'),
+                        'url'     => array('base'=>'*/invoice/view'),
                         'field'   => 'invoice_id'
                     )
                 ),
@@ -171,7 +171,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 
         $this->getMassactionBlock()->addItem('pdfinvoices_order', array(
              'label'=> __('PDF Invoices'),
-             'url'  => $this->getUrl('*/sales_invoice/pdfinvoices'),
+             'url'  => $this->getUrl('*/invoice/pdfinvoices'),
         ));
 
         return $this;
@@ -183,7 +183,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
             return false;
         }
 
-        return $this->getUrl('*/sales_invoice/view',
+        return $this->getUrl('*/invoice/view',
             array(
                 'invoice_id'=> $row->getId(),
             )

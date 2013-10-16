@@ -158,7 +158,7 @@ class Invoices
 
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/sales_order_invoice/view',
+        return $this->getUrl('*/order_invoice/view',
             array(
                 'invoice_id'=> $row->getId(),
                 'order_id'  => $row->getOrderId()

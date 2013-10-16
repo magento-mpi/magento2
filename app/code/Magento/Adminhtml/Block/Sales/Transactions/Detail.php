@@ -95,7 +95,7 @@ class Detail extends \Magento\Adminhtml\Block\Widget\Container
         $this->setTxnIdHtml($this->escapeHtml($this->_txn->getTxnId()));
 
         $this->setParentTxnIdUrlHtml(
-            $this->escapeHtml($this->getUrl('*/sales_transactions/view', array('txn_id' => $this->_txn->getParentId())))
+            $this->escapeHtml($this->getUrl('*/transactions/view', array('txn_id' => $this->_txn->getParentId())))
         );
 
         $this->setParentTxnIdHtml(
@@ -107,7 +107,7 @@ class Detail extends \Magento\Adminhtml\Block\Widget\Container
         $this->setTxnTypeHtml($this->escapeHtml($this->_txn->getTxnType()));
 
         $this->setOrderIdUrlHtml(
-            $this->escapeHtml($this->getUrl('*/sales_order/view', array('order_id' => $this->_txn->getOrderId())))
+            $this->escapeHtml($this->getUrl('*/order/view', array('order_id' => $this->_txn->getOrderId())))
         );
 
         $this->setIsClosedHtml(

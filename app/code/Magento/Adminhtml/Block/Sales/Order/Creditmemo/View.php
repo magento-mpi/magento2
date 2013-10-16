@@ -140,7 +140,7 @@ class View extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     public function getBackUrl()
     {
-        return $this->getUrl('*/sales_order/view', array(
+        return $this->getUrl('*/order/view', array(
             'order_id'  => $this->getCreditmemo() ? $this->getCreditmemo()->getOrderId() : null,
             'active_tab'=> 'order_creditmemos'
         ));
@@ -220,7 +220,7 @@ class View extends \Magento\Adminhtml\Block\Widget\Form\Container
             return $this->_updateButton(
                 'back',
                 'onclick',
-                'setLocation(\'' . $this->getUrl('*/sales_creditmemo/') . '\')'
+                'setLocation(\'' . $this->getUrl('*/creditmemo/') . '\')'
             );
         }
         return $this;
