@@ -216,7 +216,9 @@ class Application
                     'type' => 'Magento\TestFramework\Db\ConnectionAdapter'
                 ),
                 'preferences' => array(
-                    'Magento\Core\Model\Cookie' => 'Magento\TestFramework\Cookie'
+                    'Magento\Core\Model\Cookie' => 'Magento\TestFramework\Cookie',
+                    'Magento\App\RequestInterface' => 'Magento\TestFramework\Request',
+                    'Magento\App\ResponseInterface' => 'Magento\TestFramework\Response',
                 ),
             ));
         }
@@ -260,15 +262,13 @@ class Application
 
     /**
      * Run application normally, but with encapsulated initialization options
-     *
-     * @param \Magento\TestFramework\Request $request
-     * @param \Magento\TestFramework\Response $response
      */
-    public function run(\Magento\TestFramework\Request $request, \Magento\TestFramework\Response $response)
+    public function run()
     {
-        $composer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $handler = $composer->get('Magento\HTTP\Handler\Composite');
-        $handler->handle($request, $response);
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $config = new \Magento\Core\Model\Config\Primary(BP, array());
+        $entryPoint = new \Magento\Core\Model\EntryPoint\Http($config, $objectManager);
+        $entryPoint->processRequest();
     }
 
     /**

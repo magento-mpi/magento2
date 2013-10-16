@@ -38,7 +38,7 @@ class Http extends \Magento\Core\Model\AbstractEntryPoint
      */
     protected function _processRequest()
     {
-        $request = $this->_objectManager->get('Magento\App\Request\Http');
+        $request = $this->_objectManager->get('Magento\App\RequestInterface');
         $areas = $this->_objectManager->get('Magento\App\AreaList');
         $areaCode = $areas->getCodeByFrontName($request->getFrontName());
         $this->_objectManager->get('Magento\Config\Scope')->setCurrentScope($areaCode);

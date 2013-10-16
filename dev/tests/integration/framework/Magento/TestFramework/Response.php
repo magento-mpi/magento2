@@ -42,6 +42,5 @@ class Response extends \Magento\App\Response\Http
 
     public function sendResponse()
     {
-        $this->_eventManager->dispatch('http_response_send_before', array('response' => $this));
     }
 }
