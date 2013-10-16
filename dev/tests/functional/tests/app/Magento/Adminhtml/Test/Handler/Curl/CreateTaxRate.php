@@ -17,15 +17,15 @@ use Mtf\Handler\Curl;
 use Mtf\Util\Protocol\CurlTransport;
 
 /**
- * Class Create Tax Rule.
- * Curl handler for creating Tax Rule.
+ * Class Create Tax Rate.
+ * Curl handler for creating Tax Rate
  *
  * @package Magento\Adminhtml\Test\Handler\Curl
  */
-class CreateTaxRule extends Curl
+class CreateTaxRate extends Curl
 {
     /**
-     * Post request for creating tax rule
+     * Post request for creating tax rate
      *
      * @param Fixture $fixture [optional]
      * @return mixed|string
@@ -35,14 +35,9 @@ class CreateTaxRule extends Curl
         $data = $fixture->getData('fields');
         $fields = array();
         foreach ($data as $key => $field) {
-            $is_array_params = in_array($key, array('tax_customer_class', 'tax_product_class', 'tax_rate'));
-            if ($is_array_params) {
-                $fields[$key] = array($field['value']);
-            } else {
-                $fields[$key] = $field['value'];
-            }
+            $fields[$key] = $field['value'];
         }
-        $url = $_ENV['app_backend_url'] . 'admin/tax_rule/save/';
+        $url = $_ENV['app_backend_url'] . 'admin/tax_rate/save/';
         $curl = new CurlTransport();
         $curl->write(CurlTransport::POST, $url, '1.0', array(), $fields);
         $response = $curl->read();

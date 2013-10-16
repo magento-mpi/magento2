@@ -15,28 +15,28 @@ use Mtf\Factory\Factory;
 use Mtf\Fixture\DataFixture;
 
 /**
- * Class TaxRule
+ * Class TaxRate
  *
  * @package Magento\Adminhtml\Test\Fixture
  */
-class TaxRule extends DataFixture
+class TaxRate extends DataFixture
 {
     /**
-     * Get tax rule name
+     * Get tax rate name
      *
      * @return string
      */
-    public function getTaxRuleName()
+    public function getTaxRateName()
     {
         return $this->getData('fields/code/value');
     }
 
     /**
-     * Create tax rule
+     * Create tax rate
      */
     public function persist()
     {
-        Factory::getApp()->magentoAdminhtmlCreateTaxRule($this);
+        Factory::getApp()->magentoAdminhtmlCreateTaxRate($this);
 
         return $this;
     }
@@ -49,28 +49,25 @@ class TaxRule extends DataFixture
     protected function _initData()
     {
         $this->_repository = array(
-            'tax_rule'          => array(
+            'tax_rate'          => array(
                 'config' => array(
                     'constraint' => 'Success'
                 ),
                 'data' => array(
                     'fields' => array(
                         'code'   => array(
-                            'value' => 'Tax Rule %isolation%'
+                            'value' => 'Tax Rate %isolation%'
                         ),
-                        'tax_rate'    => array(
-                            'value' => '1'
+                        'rate'    => array(
+                            'value' => '10'
                         ),
-                        'tax_product_class'  => array(
-                            'value' => '2',
+                        'v'  => array(
+                            'value' => 'US',
                         ),
-                        'tax_customer_class' => array(
-                            'value' => '3'
+                        'tax_postcode' => array(
+                            'value' => '*'
                         ),
-                        'priority'    => array(
-                            'value' => '0'
-                        ),
-                        'position' => array(
+                        'tax_region_id'    => array(
                             'value' => '0'
                         )
                     )
@@ -79,6 +76,6 @@ class TaxRule extends DataFixture
         );
 
         //Default data set
-        $this->switchData('tax_rule');
+        $this->switchData('tax_rate');
     }
 }
