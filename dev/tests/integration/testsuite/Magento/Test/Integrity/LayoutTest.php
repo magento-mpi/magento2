@@ -74,7 +74,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     {
         /** @var \Magento\View\Layout\Processor $layoutUpdate */
         $layoutUpdate = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('\Magento\View\Layout\Processor', array('theme' => $theme));
+            ->create('Magento\View\Layout\Processor', array('theme' => $theme));
         return $layoutUpdate->getFileLayoutUpdatesXml();
     }
 

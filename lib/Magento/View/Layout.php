@@ -8,16 +8,14 @@
 
 namespace Magento\View;
 
-use Magento\View\Layout\Processor;
+use Magento\Backend\Block\Widget\Form\Element;
 
 interface Layout
 {
-    public function __destruct();
-
     /**
      * Retrieve the layout processor
      *
-     * @return Processor
+     * @return Layout\Processor
      */
     public function getUpdate();
 
@@ -46,7 +44,7 @@ interface Layout
      * Add an element to output
      *
      * @param string $name
-     * @return \Magento\View\Layout
+     * @return Layout
      */
     public function addOutputElement($name);
 
@@ -84,7 +82,7 @@ interface Layout
      * Get block object by name
      *
      * @param string $name
-     * @return \Magento\Core\Block\AbstractBlock|bool
+     * @return Element\Block|bool
      */
     public function getBlock($name);
 
@@ -189,7 +187,7 @@ interface Layout
      * @param  string $type
      * @param  string $name
      * @param  array $attributes
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return Element\Block
      */
     public function createBlock($type, $name = '', array $attributes = array());
 
@@ -200,7 +198,7 @@ interface Layout
      * @param string $name
      * @param string $parent
      * @param string $alias
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return Element\Block
      */
     public function addBlock($block, $name = '', $parent = '', $alias = '');
 
@@ -236,7 +234,7 @@ interface Layout
      * Remove an element from output
      *
      * @param string $name
-     * @return \Magento\View\Layout
+     * @return Layout
      */
     public function removeOutputElement($name);
 
@@ -251,8 +249,7 @@ interface Layout
      * Get block singleton
      *
      * @param string $type
-     * @throws \Magento\Core\Exception
-     * @return \Magento\Core\Helper\AbstractHelper
+     * @return Element\Block
      */
     public function getBlockSingleton($type);
 
@@ -330,7 +327,7 @@ interface Layout
      * Save block in blocks registry
      *
      * @param string $name
-     * @param \Magento\Core\Block\AbstractBlock $block
+     * @param  Element\Block $block
      * @return Layout
      */
     public function setBlock($name, $block);
