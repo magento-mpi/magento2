@@ -13,7 +13,7 @@
  */
 namespace Magento\Core\Model\Layout;
 
-class Merge
+class Merge implements  \Magento\View\Layout\Processor
 {
     /**#@+
      * Available item type names

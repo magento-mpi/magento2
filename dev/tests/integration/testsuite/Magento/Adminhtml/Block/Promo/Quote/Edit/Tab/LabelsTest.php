@@ -17,7 +17,7 @@ class LabelsTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf(
             'Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Labels',
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Layout')
                 ->createBlock('Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Labels')
         );
     }

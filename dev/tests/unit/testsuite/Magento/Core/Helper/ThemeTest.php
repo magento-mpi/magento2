@@ -30,8 +30,8 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         /** @var $dirs \Magento\Core\Model\Dir */
         $dirs = $this->getMock('Magento\Core\Model\Dir', null, array(), '', false);
 
-        /** @var $layoutMergeFactory \Magento\Core\Model\Layout\MergeFactory */
-        $layoutMergeFactory = $this->getMock('Magento\Core\Model\Layout\MergeFactory', array('create'),
+        /** @var $layoutProcessorFactory \Magento\View\Layout\ProcessorFactory */
+        $layoutProcessorFactory = $this->getMock('Magento\View\Layout\ProcessorFactory', array('create'),
             array(), '', false
         );
 
@@ -47,7 +47,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         $helper = new \Magento\Core\Helper\Theme(
             $context,
             $dirs,
-            $layoutMergeFactory,
+            $layoutProcessorFactory,
             $themeCollection,
             $fileSystem
         );
@@ -473,29 +473,27 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param string $layoutStr
-     * @return \Magento\Core\Model\Layout\MergeFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\View\Layout\ProcessorFactory|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getLayoutMergeFactory($layoutStr)
     {
-        /** @var $layoutMerge \Magento\Core\Model\Layout\Merge */
-        $layoutMerge = $this->getMock('Magento\Core\Model\Layout\Merge',
-            array('getFileLayoutUpdatesXml'), array(), '', false
-        );
+        /** @var $layoutProcessor \Magento\View\Layout\Processor */
+        $layoutProcessor = $this->getMockBuilder('Magento\View\Layout\Processor')->getMockForAbstractClass();
         $xml = '<layouts xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' . $layoutStr . '</layouts>';
         $layoutElement = simplexml_load_string($xml);
-        $layoutMerge->expects($this->any())
+        $layoutProcessor->expects($this->any())
             ->method('getFileLayoutUpdatesXml')
             ->will($this->returnValue($layoutElement));
 
-        /** @var $layoutMergeFactory \Magento\Core\Model\Layout\MergeFactory */
-        $layoutMergeFactory = $this->getMock('Magento\Core\Model\Layout\MergeFactory',
+        /** @var $layoutProcessorFactory \Magento\View\Layout\ProcessorFactory */
+        $layoutProcessorFactory = $this->getMock('Magento\View\Layout\ProcessorFactory',
             array('create'), array(), '', false
         );
-        $layoutMergeFactory->expects($this->any())
+        $layoutProcessorFactory->expects($this->any())
             ->method('create')
-            ->will($this->returnValue($layoutMerge));
+            ->will($this->returnValue($layoutProcessor));
 
-        return $layoutMergeFactory;
+        return $layoutProcessorFactory;
     }
 
     /**
@@ -557,8 +555,8 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         $dirs = $this->_getDirs();
 
         // 5. Get layout merge model and factory
-        /** @var $layoutMergeFactory \Magento\Core\Model\Layout\MergeFactory|\PHPUnit_Framework_MockObject_MockObject */
-        $layoutMergeFactory = $this->getMock('Magento\Core\Model\Layout\MergeFactory',
+        /** @var $layoutProcessorFactory \Magento\View\Layout\ProcessorFactory|\PHPUnit_Framework_MockObject_MockObject */
+        $layoutProcessorFactory = $this->getMock('Magento\View\Layout\ProcessorFactory',
             array('create'), array(), '', false
         );
 
@@ -571,7 +569,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
 
         /** @var $helper \Magento\Core\Helper\Theme|\PHPUnit_Framework_MockObject_MockObject */
         $helper = $this->getMock('Magento\Core\Helper\Theme', array('getCssFiles'), array(
-            $context, $dirs, $layoutMergeFactory, $themeCollection, $fileSystem
+            $context, $dirs, $layoutProcessorFactory, $themeCollection, $fileSystem
         ));
         $helper->expects($this->once())
             ->method('getCssFiles')

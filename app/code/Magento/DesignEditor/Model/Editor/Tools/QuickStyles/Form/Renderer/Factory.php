@@ -25,7 +25,7 @@ class Factory
     /**
      * Layout model
      *
-     * @var \Magento\Core\Model\Layout
+     * @var \Magento\View\Layout
      */
     protected $_layout;
 
@@ -75,9 +75,9 @@ class Factory
     protected $_sharedRenderers = array();
 
     /**
-     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\View\Layout $layout
      */
-    public function __construct(\Magento\Core\Model\Layout $layout)
+    public function __construct(\Magento\View\Layout $layout)
     {
         $this->_layout = $layout;
     }

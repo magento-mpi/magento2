@@ -25,9 +25,9 @@ class Theme extends \Magento\Core\Helper\AbstractHelper
     /**
      * Layout merge factory
      *
-     * @var \Magento\Core\Model\Layout\MergeFactory
+     * @var \Magento\View\Layout\ProcessorFactory
      */
-    protected $_layoutMergeFactory;
+    protected $_layoutProcessorFactory;
 
     /**
      * Theme collection model
@@ -42,21 +42,21 @@ class Theme extends \Magento\Core\Helper\AbstractHelper
     protected $_viewFileSystem;
 
     /**
-     * @param \Magento\Core\Helper\Context $context
+     * @param Context $context
      * @param \Magento\Core\Model\Dir $dirs
-     * @param \Magento\Core\Model\Layout\MergeFactory $layoutMergeFactory
+     * @param \Magento\View\Layout\ProcessorFactory $layoutProcessorFactory
      * @param \Magento\Core\Model\Resource\Theme\Collection $themeCollection
      * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Dir $dirs,
-        \Magento\Core\Model\Layout\MergeFactory $layoutMergeFactory,
+        \Magento\View\Layout\ProcessorFactory $layoutProcessorFactory,
         \Magento\Core\Model\Resource\Theme\Collection $themeCollection,
         \Magento\Core\Model\View\FileSystem $viewFileSystem
     ) {
         $this->_dirs = $dirs;
-        $this->_layoutMergeFactory = $layoutMergeFactory;
+        $this->_layoutProcessorFactory = $layoutProcessorFactory;
         $this->_themeCollection = $themeCollection;
         $this->_viewFileSystem = $viewFileSystem;
         parent::__construct($context);
@@ -75,9 +75,9 @@ class Theme extends \Magento\Core\Helper\AbstractHelper
      */
     public function getCssFiles($theme)
     {
-        /** @var $layoutMerge \Magento\Core\Model\Layout\Merge */
-        $layoutMerge = $this->_layoutMergeFactory->create(array('theme' => $theme));
-        $layoutElement = $layoutMerge->getFileLayoutUpdatesXml();
+        /** @var $layoutProcessor \Magento\View\Layout\Processor */
+        $layoutProcessor = $this->_layoutProcessorFactory->create(array('theme' => $theme));
+        $layoutElement = $layoutProcessor->getFileLayoutUpdatesXml();
 
         /**
          * XPath selector to get CSS files from layout added for HEAD block directly

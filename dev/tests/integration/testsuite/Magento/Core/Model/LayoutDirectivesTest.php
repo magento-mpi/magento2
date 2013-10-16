@@ -225,12 +225,12 @@ class LayoutDirectivesTest extends \PHPUnit_Framework_TestCase
      * Prepare a layout model with pre-loaded fixture of an update XML
      *
      * @param string $fixtureFile
-     * @return \Magento\Core\Model\Layout
+     * @return \Magento\View\Layout
      */
     protected function _getLayoutModel($fixtureFile)
     {
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Layout');
         /** @var $xml \Magento\Core\Model\Layout\Element */
         $xml = simplexml_load_file(
             __DIR__ . "/_files/layout_directives_test/{$fixtureFile}",

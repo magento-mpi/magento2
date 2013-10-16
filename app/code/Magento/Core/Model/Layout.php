@@ -25,7 +25,7 @@ namespace Magento\Core\Model;
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  */
-class Layout extends \Magento\Simplexml\Config
+class Layout extends \Magento\Simplexml\Config implements \Magento\View\Layout
 {
     /**#@+
      * Supported layout directives
@@ -88,7 +88,7 @@ class Layout extends \Magento\Simplexml\Config
     /**
      * Layout Update module
      *
-     * @var \Magento\Core\Model\Layout\Merge
+     * @var \Magento\View\Layout\Processor
      */
     protected $_update;
 
@@ -218,9 +218,9 @@ class Layout extends \Magento\Simplexml\Config
     protected $_logger;
 
     /**
-     * @var \Magento\Core\Model\Layout\MergeFactory
+     * @var \Magento\View\Layout\ProcessorFactory
      */
-    protected $_mergeFactory;
+    protected $_processorFactory;
 
     /**
      * @var \Magento\Core\Model\Resource\Theme\CollectionFactory
@@ -228,23 +228,23 @@ class Layout extends \Magento\Simplexml\Config
     protected $_themeFactory;
 
     /**
-     * @param \Magento\Core\Model\Layout\MergeFactory $mergeFactory
-     * @param \Magento\Core\Model\Resource\Theme\CollectionFactory $themeFactory
-     * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Model\Factory\Helper $factoryHelper
+     * @param \Magento\View\Layout\ProcessorFactory $processorFactory
+     * @param Resource\Theme\CollectionFactory $themeFactory
+     * @param Logger $logger
+     * @param Event\Manager $eventManager
+     * @param Factory\Helper $factoryHelper
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\View\Design $design
-     * @param \Magento\Core\Model\BlockFactory $blockFactory
+     * @param BlockFactory $blockFactory
      * @param \Magento\Data\Structure $structure
-     * @param \Magento\Core\Model\Layout\Argument\Processor $argumentProcessor
-     * @param \Magento\Core\Model\Layout\ScheduledStructure $scheduledStructure
-     * @param \Magento\Core\Model\DataService\Graph $dataServiceGraph
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param Layout\Argument\Processor $argumentProcessor
+     * @param Layout\ScheduledStructure $scheduledStructure
+     * @param DataService\Graph $dataServiceGraph
+     * @param Store\Config $coreStoreConfig
      * @param $area
      */
     public function __construct(
-        \Magento\Core\Model\Layout\MergeFactory $mergeFactory,
+        \Magento\View\Layout\ProcessorFactory $processorFactory,
         \Magento\Core\Model\Resource\Theme\CollectionFactory $themeFactory,
         \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\Event\Manager $eventManager,
@@ -273,7 +273,7 @@ class Layout extends \Magento\Simplexml\Config
         $this->_renderingOutput = new \Magento\Object;
         $this->_scheduledStructure = $scheduledStructure;
         $this->_dataServiceGraph = $dataServiceGraph;
-        $this->_mergeFactory = $mergeFactory;
+        $this->_processorFactory = $processorFactory;
         $this->_themeFactory = $themeFactory;
         $this->_logger = $logger;
     }
@@ -297,13 +297,13 @@ class Layout extends \Magento\Simplexml\Config
     /**
      * Retrieve the layout update instance
      *
-     * @return \Magento\Core\Model\Layout\Merge
+     * @return \Magento\View\Layout\Processor
      */
     public function getUpdate()
     {
         if (!$this->_update) {
             $theme = $this->_getThemeInstance($this->getArea());
-            $this->_update = $this->_mergeFactory->create(array('theme' => $theme));
+            $this->_update = $this->_processorFactory->create(array('theme' => $theme));
         }
         return $this->_update;
     }

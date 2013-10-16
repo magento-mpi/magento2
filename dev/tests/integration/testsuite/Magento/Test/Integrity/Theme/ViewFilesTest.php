@@ -157,9 +157,9 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
         }
 
         // Collect "addCss" and "addJs" from theme layout
-        /** @var \Magento\Core\Model\Layout\Merge $layoutUpdate */
+        /** @var \Magento\View\Layout\Processor $layoutUpdate */
         $layoutUpdate = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Layout\Merge', array('theme' => $theme));
+            ->create('Magento\View\Layout\Processor', array('theme' => $theme));
         $fileLayoutUpdates = $layoutUpdate->getFileLayoutUpdatesXml();
         $elements = $fileLayoutUpdates->xpath(
             '//block[@class="Magento\Page\Block\Html\Head\Css" or @class="Magento\Page\Block\Html\Head\Script"]'

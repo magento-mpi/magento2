@@ -20,7 +20,7 @@ namespace Magento\Adminhtml\Block\Catalog\Product\Helper\Form;
 class Category extends \Magento\Data\Form\Element\Multiselect
 {
     /**
-     * @var \Magento\Core\Model\Layout
+     * @var \Magento\View\Layout
      */
     protected $_layout;
 
@@ -42,7 +42,7 @@ class Category extends \Magento\Data\Form\Element\Multiselect
      * @param \Magento\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
      * @param \Magento\Backend\Helper\Data $backendData
-     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\View\Layout $layout
      * @param array $attributes
      */
     public function __construct(
@@ -51,7 +51,7 @@ class Category extends \Magento\Data\Form\Element\Multiselect
         \Magento\Data\Form\Element\Factory $factoryElement,
         \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Backend\Helper\Data $backendData,
-        \Magento\Core\Model\Layout $layout,
+        \Magento\View\Layout $layout,
         array $attributes = array()
     ) {
         $this->_collectionFactory = $collectionFactory;

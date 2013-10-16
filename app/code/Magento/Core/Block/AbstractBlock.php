@@ -60,7 +60,7 @@ abstract class AbstractBlock extends \Magento\Object implements Block
     /**
      * Parent layout of the block
      *
-     * @var \Magento\Core\Model\Layout
+     * @var \Magento\View\Layout
      */
     protected $_layout;
 
@@ -210,10 +210,10 @@ abstract class AbstractBlock extends \Magento\Object implements Block
     /**
      * Set layout object
      *
-     * @param   \Magento\Core\Model\Layout $layout
+     * @param   \Magento\View\Layout $layout
      * @return  \Magento\Core\Block\AbstractBlock
      */
-    public function setLayout(\Magento\Core\Model\Layout $layout)
+    public function setLayout(\Magento\View\Layout $layout)
     {
         $this->_layout = $layout;
         $this->_eventManager->dispatch('core_block_abstract_prepare_layout_before', array('block' => $this));
@@ -237,7 +237,7 @@ abstract class AbstractBlock extends \Magento\Object implements Block
     /**
      * Retrieve layout object
      *
-     * @return \Magento\Core\Model\Layout
+     * @return \Magento\View\Layout
      */
     public function getLayout()
     {

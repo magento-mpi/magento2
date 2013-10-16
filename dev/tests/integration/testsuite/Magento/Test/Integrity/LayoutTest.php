@@ -72,9 +72,9 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
      */
     protected function _composeXml(\Magento\View\Design\Theme $theme)
     {
-        /** @var \Magento\Core\Model\Layout\Merge $layoutUpdate */
+        /** @var \Magento\View\Layout\Processor $layoutUpdate */
         $layoutUpdate = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Layout\Merge', array('theme' => $theme));
+            ->create('\Magento\View\Layout\Processor', array('theme' => $theme));
         return $layoutUpdate->getFileLayoutUpdatesXml();
     }
 

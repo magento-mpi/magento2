@@ -51,7 +51,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Design')
             ->setDefaultDesignTheme();
-        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Layout')
             ->createBlock(self::STUB_CLASS);
         $this->_product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Catalog\Model\Product');
@@ -104,7 +104,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     {
         $this->_block->setLayout(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->get('Magento\Core\Model\Layout')
+                ->get('Magento\View\Layout')
         );
         $this->assertContains('10', $this->_block->getPriceHtml($this->_product));
     }
@@ -113,7 +113,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     {
         $this->_block->setLayout(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->get('Magento\Core\Model\Layout')
+                ->get('Magento\View\Layout')
         );
         $html = $this->_block->getReviewsSummaryHtml($this->_product, false, true);
         $this->assertNotEmpty($html);
@@ -135,7 +135,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     public function testGetTierPriceHtml()
     {
         $this->_block->setLayout(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\Layout'));
+            ->get('Magento\View\Layout'));
         $html = $this->_block->getTierPriceHtml();
         $this->assertNotEmpty($html);
         $this->assertContains('2', $html); /* Buy 2 */
@@ -177,7 +177,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     public function testLayoutDependColumnCount()
     {
         $this->_block->setLayout(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\Layout'));
+            ->get('Magento\View\Layout'));
         $this->assertEquals(3, $this->_block->getColumnCount()); /* default column count */
 
         $this->_block->addColumnCountLayoutDepend('test', 10);
