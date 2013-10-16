@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Adminhtml\Block\Tax\Rate;
+namespace Magento\Tax\Block\Adminhtml\Tax\Rate;
 
 class ImportExportHeader extends \Magento\Adminhtml\Block\Widget
 {
@@ -24,5 +24,5 @@ class ImportExportHeader extends \Magento\Adminhtml\Block\Widget
      *
      * @var string
      */
-    protected $_template = 'Magento_Tax::importExportHeader.phtml';
+    protected $_template = 'importExportHeader.phtml';
 }

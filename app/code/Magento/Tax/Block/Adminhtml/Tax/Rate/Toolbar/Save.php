@@ -16,12 +16,12 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-namespace Magento\Adminhtml\Block\Tax\Rate\Toolbar;
+namespace Magento\Tax\Block\Adminhtml\Tax\Rate\Toolbar;
 
 class Save extends \Magento\Adminhtml\Block\Template
 {
 
-    protected $_template = 'Magento_Tax::toolbar/rate/save.phtml';
+    protected $_template = 'toolbar/rate/save.phtml';
 
     protected function _construct()
     {

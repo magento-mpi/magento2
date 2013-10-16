@@ -9,11 +9,11 @@
  */
 
 
-namespace Magento\Adminhtml\Block\Tax\Rate;
+namespace Magento\Tax\Block\Adminhtml\Tax\Rate;
 
 class ImportExport extends \Magento\Adminhtml\Block\Widget
 {
-    protected $_template = 'Magento_Tax::importExport.phtml';
+    protected $_template = 'importExport.phtml';
 
     /**
      * @param \Magento\Core\Helper\Data $coreData

@@ -14,13 +14,13 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Adminhtml\Block\Tax\Rate;
+namespace Magento\Tax\Block\Adminhtml\Tax\Rate;
 
 class Title extends \Magento\Core\Block\Template
 {
     protected $_titles;
 
-    protected $_template = 'Magento_Tax::rate/title.phtml';
+    protected $_template = 'rate/title.phtml';
 
     /**
      * @var \Magento\Tax\Model\Calculation\Rate

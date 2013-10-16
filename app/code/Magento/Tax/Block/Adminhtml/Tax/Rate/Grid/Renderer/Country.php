@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Adminhtml\Block\Tax\Rate\Grid\Renderer;
+namespace Magento\Tax\Block\Adminhtml\Tax\Rate\Grid\Renderer;
 
 class Country extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Country
 {

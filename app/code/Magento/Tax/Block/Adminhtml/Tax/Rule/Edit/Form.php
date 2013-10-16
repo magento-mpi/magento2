@@ -11,7 +11,7 @@
 /**
  * Adminhtml Tax Rule Edit Form
  */
-namespace Magento\Adminhtml\Block\Tax\Rule\Edit;
+namespace Magento\Tax\Block\Adminhtml\Tax\Rule\Edit;
 
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {

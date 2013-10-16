@@ -16,12 +16,12 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-namespace Magento\Adminhtml\Block\Tax\Rate\Toolbar;
+namespace Magento\Tax\Block\Adminhtml\Tax\Rate\Toolbar;
 
 class Add extends \Magento\Adminhtml\Block\Template
 {
 
-    protected $_template = 'Magento_Tax::toolbar/rate/add.phtml';
+    protected $_template = 'toolbar/rate/add.phtml';
 
     protected function _prepareLayout()
     {

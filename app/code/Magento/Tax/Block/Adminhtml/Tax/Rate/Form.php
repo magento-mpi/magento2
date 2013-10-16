@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-namespace Magento\Adminhtml\Block\Tax\Rate;
+namespace Magento\Tax\Block\Adminhtml\Tax\Rate;
 
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
@@ -24,7 +24,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
     protected $_titles = null;
 
-    protected $_template = 'Magento_Tax::rate/form.phtml';
+    protected $_template = 'rate/form.phtml';
 
     /**
      * Tax data
@@ -34,7 +34,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_taxData = null;
 
     /**
-     * @var \Magento\Adminhtml\Block\Tax\Rate\Title\Fieldset
+     * @var \Magento\Tax\Block\Adminhtml\Tax\Rate\Title\Fieldset
      */
     protected $_fieldset;
 
@@ -61,7 +61,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Directory\Model\Config\Source\Country $country
-     * @param \Magento\Adminhtml\Block\Tax\Rate\Title\Fieldset $fieldset
+     * @param \Magento\Tax\Block\Adminhtml\Tax\Rate\Title\Fieldset $fieldset
      * @param \Magento\Tax\Model\Calculation\RateFactory $rateFactory
      * @param \Magento\Tax\Model\Calculation\Rate $rate
      * @param \Magento\Tax\Helper\Data $taxData
@@ -74,7 +74,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     public function __construct(
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Directory\Model\Config\Source\Country $country,
-        \Magento\Adminhtml\Block\Tax\Rate\Title\Fieldset $fieldset,
+        \Magento\Tax\Block\Adminhtml\Tax\Rate\Title\Fieldset $fieldset,
         \Magento\Tax\Model\Calculation\RateFactory $rateFactory,
         \Magento\Tax\Model\Calculation\Rate $rate,
         \Magento\Tax\Helper\Data $taxData,

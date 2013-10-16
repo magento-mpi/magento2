@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-namespace Magento\Adminhtml\Block\Tax;
+namespace Magento\Tax\Block\Adminhtml\Tax;
 
 class Rule extends \Magento\Adminhtml\Block\Widget\Grid\Container
 {

@@ -56,10 +56,10 @@ class Rate extends \Magento\Backend\Controller\Adminhtml\Action
             ->_addBreadcrumb(__('Manage Tax Rates'), __('Manage Tax Rates'), $this->getUrl('*/tax_rate'))
             ->_addBreadcrumb(__('New Tax Rate'), __('New Tax Rate'))
             ->_addContent(
-                $this->getLayout()->createBlock('Magento\Adminhtml\Block\Tax\Rate\Toolbar\Save')
+                $this->getLayout()->createBlock('Magento\Tax\Block\Adminhtml\Tax\Rate\Toolbar\Save')
                 ->assign('header', __('Add New Tax Rate'))
                 ->assign('form',
-                    $this->getLayout()->createBlock('Magento\Adminhtml\Block\Tax\Rate\Form', 'tax_rate_form')
+                    $this->getLayout()->createBlock('Magento\Tax\Block\Adminhtml\Tax\Rate\Form', 'tax_rate_form')
                 )
             )
             ->renderLayout();
@@ -182,10 +182,10 @@ class Rate extends \Magento\Backend\Controller\Adminhtml\Action
             ->_addBreadcrumb(__('Manage Tax Rates'), __('Manage Tax Rates'), $this->getUrl('*/tax_rate'))
             ->_addBreadcrumb(__('Edit Tax Rate'), __('Edit Tax Rate'))
             ->_addContent(
-                $this->getLayout()->createBlock('Magento\Adminhtml\Block\Tax\Rate\Toolbar\Save')
+                $this->getLayout()->createBlock('Magento\Tax\Block\Adminhtml\Tax\Rate\Toolbar\Save')
                 ->assign('header', __('Edit Tax Rate'))
                 ->assign('form',
-                    $this->getLayout()->createBlock('Magento\Adminhtml\Block\Tax\Rate\Form', 'tax_rate_form')
+                    $this->getLayout()->createBlock('Magento\Tax\Block\Adminhtml\Tax\Rate\Form', 'tax_rate_form')
                         ->setShowLegend(true)
                 )
             )
@@ -308,8 +308,8 @@ class Rate extends \Magento\Backend\Controller\Adminhtml\Action
 
         $this->loadLayout()
             ->_setActiveMenu('Magento_Tax::system_convert_tax')
-            ->_addContent($this->getLayout()->createBlock('Magento\Adminhtml\Block\Tax\Rate\ImportExportHeader'))
-            ->_addContent($this->getLayout()->createBlock('Magento\Adminhtml\Block\Tax\Rate\ImportExport'))
+            ->_addContent($this->getLayout()->createBlock('Magento\Tax\Block\Adminhtml\Tax\Rate\ImportExportHeader'))
+            ->_addContent($this->getLayout()->createBlock('Magento\Tax\Block\Adminhtml\Tax\Rate\ImportExport'))
             ->renderLayout();
     }
 
