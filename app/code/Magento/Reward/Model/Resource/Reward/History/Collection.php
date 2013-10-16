@@ -288,8 +288,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
             )
             ->where('points_delta-points_used > 0')
             ->where('is_expired=0')
-            ->where("{$field} IS NOT NULL") // expire_at - BEFORE_DAYS < NOW ()
-            ->where("{$field} < ?", $expireAtLimit) // eq. expire_at - BEFORE_DAYS < NOW ()
+            ->where("{$field} IS NOT NULL") // expire_at - BEFORE_DAYS < NOW
+            ->where("{$field} < ?", $expireAtLimit) // eq. expire_at - BEFORE_DAYS < NOW
             ->group(array('reward_table.customer_id', 'main_table.store_id'));
 
         if ($subscribedOnly) {
