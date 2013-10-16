@@ -46,7 +46,7 @@ class AreaList
      */
     public function getCodeByFrontName($frontName)
     {
-        foreach($this->_areas as $areaCode => &$areaInfo) {
+        foreach ($this->_areas as $areaCode => &$areaInfo) {
             if (!isset($areaInfo['frontName']) && isset($areaInfo['frontNameResolver'])) {
                 $areaInfo['frontName'] = $this->_resolverFactory->create($areaInfo['frontNameResolver'])
                     ->getFrontName();

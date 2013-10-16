@@ -205,9 +205,6 @@ lib/Magento/HTTP/Adapter/Curl.php
 lib/Magento/HTTP/Client.php
 lib/Magento/HTTP/Client/Curl.php
 lib/Magento/HTTP/Client/Socket.php
-lib/Magento/HTTP/Handler/Composite.php
-lib/Magento/HTTP/HandlerFactory.php
-lib/Magento/HTTP/HandlerInterface.php
 lib/Magento/HTTP/IClient.php
 lib/Magento/Image.php
 lib/Magento/Image/Adapter/AbstractAdapter.php
