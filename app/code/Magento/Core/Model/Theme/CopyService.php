@@ -88,8 +88,10 @@ class CopyService
      * @param \Magento\View\Design\Theme $source
      * @param \Magento\View\Design\Theme $target
      */
-    protected function _copyDatabaseCustomization(\Magento\View\Design\Theme $source, \Magento\View\Design\Theme $target)
-    {
+    protected function _copyDatabaseCustomization(
+        \Magento\View\Design\Theme $source,
+        \Magento\View\Design\Theme $target
+    ) {
         /** @var $themeFile \Magento\Core\Model\Theme\File */
         foreach ($target->getCustomization()->getFiles() as $themeFile) {
             $themeFile->delete();

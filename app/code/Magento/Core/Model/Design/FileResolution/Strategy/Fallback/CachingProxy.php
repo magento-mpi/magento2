@@ -200,8 +200,9 @@ class CachingProxy implements
      * @param string $filePath
      * @throws \Magento\Exception
      */
-    protected function _setToMap($fileType, $area, \Magento\View\Design\Theme $theme, $locale, $module, $file, $filePath)
-    {
+    protected function _setToMap(
+        $fileType, $area, \Magento\View\Design\Theme $theme, $locale, $module, $file, $filePath
+    ) {
         $pattern = $this->_baseDir . DIRECTORY_SEPARATOR;
         if (0 !== strpos($filePath, $pattern)) {
             throw new \Magento\Exception(
