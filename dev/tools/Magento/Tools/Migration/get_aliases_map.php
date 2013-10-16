@@ -27,8 +27,10 @@ if (isset($options['h'])) {
     exit(0);
 }
 
-require_once realpath(dirname(dirname(dirname(dirname(dirname(__DIR__)))))) . '/dev/tests/static/framework/bootstrap.php';
-require_once realpath(dirname(dirname(dirname(dirname(dirname(__DIR__)))))) . '/dev/tests/static/framework/Magento/TestFramework/Utility/Classes.php';
+require_once realpath(dirname(dirname(dirname(dirname(dirname(__DIR__)))))) .
+    '/dev/tests/static/framework/bootstrap.php';
+require_once realpath(dirname(dirname(dirname(dirname(dirname(__DIR__)))))) .
+    '/dev/tests/static/framework/Magento/TestFramework/Utility/Classes.php';
 require_once realpath(dirname(dirname(dirname(dirname(dirname(__DIR__)))))) . '/lib/Zend/Json.php';
 
 $magentoBaseDir = dirname(__DIR__) . '/../../../../';
