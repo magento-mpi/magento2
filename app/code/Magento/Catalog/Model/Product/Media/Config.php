@@ -18,7 +18,7 @@
  */
 namespace Magento\Catalog\Model\Product\Media;
 
-class Config implements \Magento\Media\Model\Image\Config\ConfigInterface
+class Config implements ConfigInterface
 {
     /**
      * Dir
