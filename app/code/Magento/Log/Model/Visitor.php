@@ -186,7 +186,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
             'http_secure'           => $this->_storeManager->getStore()->isCurrentlySecure(),
             'http_host'             => $this->_httpHeader->getHttpHost(true),
             'http_user_agent'       => $this->_httpHeader->getHttpUserAgent(true),
-            'http_accept_language'  => $this->_coreHttp->getHttpAcceptLanguage(true),
+            'http_accept_language'  => $this->_httpHeader->getHttpAcceptLanguage(true),
             'http_accept_charset'   => $this->_coreHttp->getHttpAcceptCharset(true),
             'request_uri'           => $this->_coreHttp->getRequestUri(true),
             'session_id'            => $this->_getSession()->getSessionId(),

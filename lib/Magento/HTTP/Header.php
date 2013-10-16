@@ -51,6 +51,17 @@ class Header
     }
 
     /**
+     * Retrieve HTTP ACCEPT LANGUAGE
+     *
+     * @param boolean $clean clean non UTF-8 characters
+     * @return string
+     */
+    public function getHttpAcceptLanguage($clean = true)
+    {
+        return $this->_getHttpCleanValue('HTTP_ACCEPT_LANGUAGE', $clean);
+    }
+
+    /**
      * Retrieve HTTP "clean" value
      *
      * @param string $var
