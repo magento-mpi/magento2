@@ -1,7 +1,5 @@
 <?php
 /**
- * Webapi Config Model for Soap.
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,6 +7,11 @@
  */
 namespace Magento\Webapi\Model\Soap;
 
+use \Magento\Webapi\Model\Config\Converter;
+
+/**
+ * Webapi Config Model for Soap.
+ */
 class Config
 {
     /**#@+
@@ -84,13 +87,14 @@ class Config
         if (null == $this->_soapOperations) {
             $this->_soapOperations = array();
             foreach ($this->getRequestedSoapServices($requestedService) as $serviceData) {
-                foreach ($serviceData['methods'] as $method => $methodData) {
-                    $class = $serviceData[\Magento\Webapi\Model\Config::ATTR_SERVICE_CLASS];
+                foreach ($serviceData[Converter::KEY_SERVICE_METHODS] as $methodData) {
+                    $method = $methodData[Converter::KEY_SERVICE_METHOD];
+                    $class = $serviceData[Converter::KEY_SERVICE_CLASS];
                     $operationName = $this->getSoapOperation($class, $method);
                     $this->_soapOperations[$operationName] = array(
                         self::KEY_CLASS => $class,
                         self::KEY_METHOD => $method,
-                        self::KEY_IS_SECURE => $methodData[\Magento\Webapi\Model\Config::ATTR_IS_SECURE]
+                        self::KEY_IS_SECURE => $methodData[Converter::KEY_IS_SECURE]
                     );
                 }
             }
@@ -111,17 +115,12 @@ class Config
         if (is_null($this->_soapServices)) {
             $this->_soapServices = array();
             foreach ($this->_config->getServices() as $serviceData) {
-                $serviceClass = $serviceData[\Magento\Webapi\Model\Config::ATTR_SERVICE_CLASS];
+                $serviceClass = $serviceData[Converter::KEY_SERVICE_CLASS];
                 $reflection = new \ReflectionClass($serviceClass);
                 foreach ($reflection->getMethods() as $method) {
                     // find if method is secure, assume operation is not secure by default
-                    $isSecure = false;
                     $methodName = $method->getName();
-                    if (isset($serviceData['methods'][$methodName][\Magento\Webapi\Model\Config::ATTR_IS_SECURE])) {
-                        $methodData = $serviceData['methods'][$methodName];
-                        $isSecure = strtolower($methodData[\Magento\Webapi\Model\Config::ATTR_IS_SECURE]) === 'true';
-                    }
-
+                    $isSecure = $serviceData[Converter::KEY_SERVICE_METHODS][$methodName][Converter::KEY_IS_SECURE];
                     // TODO: Simplify the structure in SOAP. Currently it is unified in SOAP and REST
                     $this->_soapServices[$serviceClass]['methods'][$methodName] = array(
                         self::KEY_METHOD => $methodName,
