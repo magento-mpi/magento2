@@ -45,9 +45,7 @@ class TemplateEngineFactory
      */
     public function get($name)
     {
-        if (self::ENGINE_TWIG == $name) {
-            return $this->_objectManager->get('Magento\\View\\TemplateEngine\\Twig');
-        } else if (self::ENGINE_PHTML == $name) {
+        if (self::ENGINE_PHTML == $name) {
             return $this->_objectManager->get('Magento\\View\\TemplateEngine\\Php');
         }
         // unknown type, throw exception
