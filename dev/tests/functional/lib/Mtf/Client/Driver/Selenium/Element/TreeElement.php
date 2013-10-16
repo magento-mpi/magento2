@@ -87,11 +87,9 @@ class TreeElement extends Element
      */
     public function clickByPath($path)
     {
-        $structure = $this->getStructure();
         $pathArray = explode('/', $path);
-        $structureChunk = $structure; //Set the root of a structure as a first structure chunk
-        foreach ($pathArray as $pathChunk)
-        {
+        $structureChunk = $this->getStructure(); //Set the root of a structure as a first structure chunk
+        foreach ($pathArray as $pathChunk) {
             $structureChunk = $this->deep($pathChunk, $structureChunk);
         }
         if ($structureChunk) {
@@ -130,7 +128,7 @@ class TreeElement extends Element
      */
     public function getStructure()
     {
-        return $this->getNodeContent($this);
+        return $this->_getNodeContent($this);
     }
 
     /**
@@ -139,18 +137,18 @@ class TreeElement extends Element
      * @param Element $node
      * @return array
      */
-    protected function getNodeContent($node)
+    protected function _getNodeContent($node)
     {
         $nodeArray = array();
         $nodeList = array();
         $counter = 1;
-        //        $this->waitUntil(function() use ($node) {return $node->isVisible();});
+
         $newNode = $node->find('.x-tree-node:nth-of-type(' . $counter . ')' );
 
         //Get list of all children nodes to work with
         while($newNode->isVisible()) {
             $nodeList[] = $newNode;
-            $counter++;
+            ++$counter;
             $newNode = $node->find('.x-tree-node:nth-of-type(' . $counter . ')' );
         }
 
@@ -164,7 +162,7 @@ class TreeElement extends Element
             $nodeArray[] = array(
                 'name' => $text,
                 'element' => $currentNode,
-                'subnodes' => ($nodePresent)? $this->getNodeContent($nodesContents) : null
+                'subnodes' => ($nodePresent)? $this->_getNodeContent($nodesContents) : null
             );
         }
 
