@@ -43,7 +43,6 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(false, $this->_helper->getHttpAcceptCharset());
         $this->assertEquals(false, $this->_helper->getHttpReferer());
         $this->assertEquals(false, $this->_helper->getHttpAcceptLanguage());
-        $this->assertEquals(false, $this->_helper->getHttpUserAgent());
     }
 
     public function testGetRequestUri()

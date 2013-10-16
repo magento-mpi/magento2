@@ -192,17 +192,6 @@ class Http extends \Magento\Core\Helper\AbstractHelper
     }
 
     /**
-     * Retrieve HTTP USER AGENT
-     *
-     * @param boolean $clean clean non UTF-8 characters
-     * @return string
-     */
-    public function getHttpUserAgent($clean = true)
-    {
-        return $this->_getHttpCleanValue('HTTP_USER_AGENT', $clean);
-    }
-
-    /**
      * Retrieve HTTP ACCEPT LANGUAGE
      *
      * @param boolean $clean clean non UTF-8 characters

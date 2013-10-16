@@ -155,7 +155,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     protected function _construct()
     {
         $this->_init('Magento\Log\Model\Resource\Visitor');
-        $userAgent = $this->_coreHttp->getHttpUserAgent();
+        $userAgent = $this->_httpHeader->getHttpUserAgent();
         if ($this->_ignoredUserAgents) {
             if (in_array($userAgent, $this->_ignoredUserAgents)) {
                 $this->_skipRequestLogging = true;
@@ -185,7 +185,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
             'remote_addr'           => $this->_coreHttp->getRemoteAddr(true),
             'http_secure'           => $this->_storeManager->getStore()->isCurrentlySecure(),
             'http_host'             => $this->_httpHeader->getHttpHost(true),
-            'http_user_agent'       => $this->_coreHttp->getHttpUserAgent(true),
+            'http_user_agent'       => $this->_httpHeader->getHttpUserAgent(true),
             'http_accept_language'  => $this->_coreHttp->getHttpAcceptLanguage(true),
             'http_accept_charset'   => $this->_coreHttp->getHttpAcceptCharset(true),
             'request_uri'           => $this->_coreHttp->getRequestUri(true),
