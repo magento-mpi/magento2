@@ -31,9 +31,11 @@ class Form extends \Magento\Data\Form\AbstractForm
     protected $_allElements;
 
     /**
-     * @var \Magento\Core\Model\Session
+     * Session instance
+     *
+     * @var \Magento\Core\Model\Session\AbstractSession|null
      */
-    protected $_session;
+    protected $_session = null;
 
     /**
      * form elements index
@@ -47,20 +49,43 @@ class Form extends \Magento\Data\Form\AbstractForm
     static protected $_defaultFieldsetElementRenderer;
 
     /**
-     * @param \Magento\Core\Model\Session $session
      * @param \Magento\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
      * @param array $attributes
      */
     public function __construct(
-        \Magento\Core\Model\Session $session,
         \Magento\Data\Form\Element\Factory $factoryElement,
         \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
         $attributes = array()
     ) {
         parent::__construct($factoryElement, $factoryCollection, $attributes);
         $this->_allElements = $this->_factoryCollection->create(array('container' => $this));
+    }
+
+    /**
+     * Set session instance
+     *
+     * @param \Magento\Core\Model\Session\AbstractSession $session
+     * @return Form
+     */
+    public function setSession(\Magento\Core\Model\Session\AbstractSession $session)
+    {
         $this->_session = $session;
+        return $this;
+    }
+
+    /**
+     * Get session instance
+     *
+     * @return \Magento\Core\Model\Session\AbstractSession|null
+     * @throws \Magento\Exception
+     */
+    protected function _getSession()
+    {
+        if (null == $this->_session) {
+            throw new \Magento\Exception('Session is not set');
+        }
+        return $this->_session;
     }
 
     public static function setElementRenderer(\Magento\Data\Form\Element\Renderer\RendererInterface $renderer = null)
@@ -247,7 +272,7 @@ class Form extends \Magento\Data\Form\AbstractForm
             $html .= '<div>';
             if (strtolower($this->getData('method')) == 'post') {
                 $html .= '<input name="form_key" type="hidden" value="'
-                    . $this->_session->getFormKey()
+                    . $this->_getSession()->getFormKey()
                     . '" />';
             }
             $html .= '</div>';

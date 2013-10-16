@@ -61,8 +61,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $factoryElement = $this->getMock('Magento\Data\Form\Element\Factory', array(), array(), '', false);
         $collectionFactory = $this->getMock('Magento\Data\Form\Element\CollectionFactory', array('create'),
             array(), '', false);
-        $session = $this->getMock('Magento\Core\Model\Session', array(), array(), '', false);
-        $form = new \Magento\Data\Form($session, $factoryElement, $collectionFactory);
+        $form = new \Magento\Data\Form($factoryElement, $collectionFactory);
         $model = new \Magento\Object();
         $block = new \Magento\Object(array('layout' => $layout));
 
@@ -84,8 +83,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $factoryElement = $this->getMock('Magento\Data\Form\Element\Factory', array(), array(), '', false);
         $collectionFactory = $this->getMock('Magento\Data\Form\Element\CollectionFactory', array('create'),
             array(), '', false);
-        $session = $this->getMock('Magento\Core\Model\Session', array(), array(), '', false);
-        $form = new \Magento\Data\Form($session, $factoryElement, $collectionFactory);
+        $form = new \Magento\Data\Form($factoryElement, $collectionFactory);
         $model = new \Magento\Object();
         $block = new \Magento\Object(array('layout' => $layout));
 
