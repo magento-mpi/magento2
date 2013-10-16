@@ -121,11 +121,11 @@ class Config extends DataFixture
                                                         )
                                                     ),
                                                 ),
-                                            ),
-                                            'settings_ec' => array( //Basic Settings - PayPal Payments Pro
-                                                'fields' => array(
-                                                    'payment_action' => array( //Payment Action
-                                                        'value' => 'Authorization' //Authorization
+                                                'settings_ec' => array( //Basic Settings - PayPal Payments Pro
+                                                    'fields' => array(
+                                                        'payment_action' => array( //Payment Action
+                                                            'value' => 'Authorization' //Authorization
+                                                        )
                                                     )
                                                 )
                                             )
