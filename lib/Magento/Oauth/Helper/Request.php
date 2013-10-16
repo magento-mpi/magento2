@@ -221,7 +221,6 @@ class Request
         }
     }
 
-
     /**
      * Create response string for problem during request and set HTTP error code
      *

@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Oauth;
+namespace Magento\Oauth\Oauth;
 
 class OauthTest extends \PHPUnit_Framework_TestCase
 {

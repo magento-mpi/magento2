@@ -128,7 +128,6 @@ class SoapTest extends \PHPUnit_Framework_TestCase
         parent::tearDown();
     }
 
-
     /**
      * Test redirected to install page
      */
@@ -249,6 +248,7 @@ EXPECTED_MESSAGE;
     /**
      * Mock getParam() of request object to return given value.
      *
+     * @param $param
      * @param $value
      */
     protected function _mockGetParam($param, $value)
@@ -258,5 +258,4 @@ EXPECTED_MESSAGE;
             ->with($param)
             ->will($this->returnValue($value));
     }
-
 }

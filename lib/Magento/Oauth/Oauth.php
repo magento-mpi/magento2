@@ -8,7 +8,6 @@
 
 namespace Magento\Oauth;
 
-
 class Oauth implements \Magento\Oauth\OauthInterface
 {
     /**
@@ -303,7 +302,6 @@ class Oauth implements \Magento\Oauth\OauthInterface
 
         return array('isValid' => true);
     }
-
 
     /**
      * Validate (oauth_nonce) Nonce string.
