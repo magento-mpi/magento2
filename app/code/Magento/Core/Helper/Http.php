@@ -192,17 +192,6 @@ class Http extends \Magento\Core\Helper\AbstractHelper
     }
 
     /**
-     * Retrieve HTTP HOST
-     *
-     * @param boolean $clean clean non UTF-8 characters
-     * @return string
-     */
-    public function getHttpHost($clean = true)
-    {
-        return $this->_getHttpCleanValue('HTTP_HOST', $clean);
-    }
-
-    /**
      * Retrieve HTTP USER AGENT
      *
      * @param boolean $clean clean non UTF-8 characters

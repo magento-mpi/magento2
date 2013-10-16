@@ -450,7 +450,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         if (!empty($allowedIps) && !empty($remoteAddr)) {
             $allowedIps = preg_split('#\s*,\s*#', $allowedIps, null, PREG_SPLIT_NO_EMPTY);
             if (array_search($remoteAddr, $allowedIps) === false
-                && array_search($this->_coreHttp->getHttpHost(), $allowedIps) === false) {
+                && array_search($this->_httpHeader->getHttpHost(), $allowedIps) === false) {
                 $allow = false;
             }
         }

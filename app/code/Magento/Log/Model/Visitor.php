@@ -97,21 +97,22 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     protected $_customerFactory;
 
     /**
-     * @param \Magento\Core\Model\Context               $context
-     * @param \Magento\Core\Model\Registry              $registry
-     * @param \Magento\Core\Model\Store\Config          $coreStoreConfig
-     * @param \Magento\Core\Model\Event\Manager         $eventManager
-     * @param \Magento\Customer\Model\CustomerFactory   $customerFactory
-     * @param \Magento\Sales\Model\QuoteFactory         $quoteFactory
-     * @param \Magento\Core\Model\Session               $session
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
+     * @param \Magento\Core\Model\Session $session
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Helper\Http                 $coreHttp
-     * @param \Magento\Core\Model\Config                $coreConfig
-     * @param array                                    $data
-     * @param array                                    $ignoredUserAgents
-     * @param array                                    $ignores
-     * @param \Magento\Core\Model\Resource\AbstractResource     $resource
-     * @param \Magento\Data\Collection\Db               $resourceCollection
+     * @param \Magento\Core\Helper\Http $coreHttp
+     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\HTTP\Header $httpHeader
+     * @param array $data
+     * @param array $ignoredUserAgents
+     * @param array $ignores
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -126,6 +127,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Helper\Http $coreHttp,
         \Magento\Core\Model\Config $coreConfig,
+        \Magento\HTTP\Header $httpHeader,
         array $data = array(),
         array $ignoredUserAgents = array(),
         array $ignores = array(),
@@ -141,6 +143,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
         $this->_coreHttp = $coreHttp;
         $this->_coreConfig = $coreConfig;
         $this->_ignoredUserAgents = $ignoredUserAgents;
+        $this->_httpHeader = $httpHeader;
 
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_ignores = $ignores;
@@ -181,7 +184,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
             'server_addr'           => $this->_coreHttp->getServerAddr(true),
             'remote_addr'           => $this->_coreHttp->getRemoteAddr(true),
             'http_secure'           => $this->_storeManager->getStore()->isCurrentlySecure(),
-            'http_host'             => $this->_coreHttp->getHttpHost(true),
+            'http_host'             => $this->_httpHeader->getHttpHost(true),
             'http_user_agent'       => $this->_coreHttp->getHttpUserAgent(true),
             'http_accept_language'  => $this->_coreHttp->getHttpAcceptLanguage(true),
             'http_accept_charset'   => $this->_coreHttp->getHttpAcceptCharset(true),

@@ -62,6 +62,11 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_urlBuilder;
 
     /**
+     * @var \Magento\HTTP\Header
+     */
+    protected $_httpHeader;
+
+    /**
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Translate $translator
      * @param \Magento\Core\Model\ModuleManager $moduleManager
@@ -72,6 +77,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\UrlInterface $urlBuilder
+     * @param \Magento\HTTP\Header $httpHeader
      */
     public function __construct(
         \Magento\Core\Model\Logger $logger,
@@ -83,7 +89,8 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Core\Model\Fieldset\Config $fieldsetConfig,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\App $app,
-        \Magento\Core\Model\UrlInterface $urlBuilder
+        \Magento\Core\Model\UrlInterface $urlBuilder,
+        \Magento\HTTP\Header $httpHeader
     ) {
         $this->_translator = $translator;
         $this->_moduleManager = $moduleManager;
@@ -95,6 +102,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_logger = $logger;
         $this->_app = $app;
         $this->_urlBuilder = $urlBuilder;
+        $this->_httpHeader = $httpHeader;
     }
 
     /**
@@ -175,5 +183,13 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function getLogger()
     {
         return $this->_logger;
+    }
+
+    /**
+     * @return \Magento\HTTP\Header
+     */
+    public function getHttpHeader()
+    {
+        return $this->_httpHeader;
     }
 }

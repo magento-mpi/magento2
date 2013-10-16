@@ -59,6 +59,11 @@ abstract class AbstractHelper
     protected $_urlBuilder;
 
     /**
+     * @var \Magento\HTTP\Header
+     */
+    protected $_httpHeader;
+
+    /**
      * @param \Magento\Core\Helper\Context $context
      */
     public function __construct(\Magento\Core\Helper\Context $context)
@@ -69,6 +74,7 @@ abstract class AbstractHelper
         $this->_request = $context->getRequest();
         $this->_app = $context->getApp();
         $this->_urlBuilder = $context->getUrlBuilder();
+        $this->_httpHeader = $context->getHttpHeader();
     }
 
     /**
