@@ -9,8 +9,8 @@
 -->
 <config>
     <router id="admin">
-        <route id="directory" frontName="directory">
-            <module name="Magento_Directory" before="Magento_Adminhtml" />
+        <route id="rating" frontName="rating">
+            <module name="Magento_Rating" before="Magento_Adminhtml" />
         </route>
     </router>
 </config>

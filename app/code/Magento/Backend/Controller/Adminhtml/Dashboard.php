@@ -86,8 +86,8 @@ class Dashboard extends \Magento\Backend\Controller\Adminhtml\Action
         $gaData = $this->_request->getParam('ga');
         $gaHash = $this->_request->getParam('h');
         if ($gaData && $gaHash) {
-            /** @var $helper \Magento\Adminhtml\Helper\Dashboard\Data */
-            $helper = $this->_objectManager->get('Magento\Adminhtml\Helper\Dashboard\Data');
+            /** @var $helper \Magento\Backend\Helper\Dashboard\Data */
+            $helper = $this->_objectManager->get('Magento\Backend\Helper\Dashboard\Data');
             $newHash = $helper->getChartDataHash($gaData);
             if ($newHash == $gaHash) {
                 $params = json_decode(base64_decode(urldecode($gaData)), true);
@@ -95,7 +95,7 @@ class Dashboard extends \Magento\Backend\Controller\Adminhtml\Action
                     try {
                         /** @var $httpClient \Magento\HTTP\ZendClient */
                         $httpClient = $this->_objectManager->create('Magento\HTTP\ZendClient');
-                        $response = $httpClient->setUri(\Magento\Adminhtml\Block\Dashboard\Graph::API_URL)
+                        $response = $httpClient->setUri(\Magento\Backend\Block\Dashboard\Graph::API_URL)
                             ->setParameterGet($params)
                             ->setConfig(array('timeout' => 5))
                             ->request('GET');
