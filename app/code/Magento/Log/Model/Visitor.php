@@ -190,7 +190,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
             'http_accept_charset'   => $this->_httpHeader->getHttpAcceptCharset(true),
             'request_uri'           => $this->_coreHttp->getRequestUri(true),
             'session_id'            => $this->_getSession()->getSessionId(),
-            'http_referer'          => $this->_coreHttp->getHttpReferer(true),
+            'http_referer'          => $this->_httpHeader->getHttpReferer(true),
         ));
 
         return $this;

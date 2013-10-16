@@ -73,6 +73,17 @@ class Header
     }
 
     /**
+     * Retrieve HTTP REFERER
+     *
+     * @param boolean $clean clean non UTF-8 characters
+     * @return string
+     */
+    public function getHttpReferer($clean = true)
+    {
+        return $this->_getHttpCleanValue('HTTP_REFERER', $clean);
+    }
+
+    /**
      * Retrieve HTTP "clean" value
      *
      * @param string $var

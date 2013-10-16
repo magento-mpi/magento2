@@ -38,11 +38,6 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(false, $this->_helper->getServerAddr());
     }
 
-    public function testGetHttpMethods()
-    {
-        $this->assertEquals(false, $this->_helper->getHttpReferer());
-    }
-
     public function testGetRequestUri()
     {
         $this->assertNull($this->_helper->getRequestUri());

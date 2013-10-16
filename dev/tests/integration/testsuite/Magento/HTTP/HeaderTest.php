@@ -23,12 +23,13 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\\HTTP\Header');
     }
 
-    public function testGetHttpMethods()
+    public function testGetHttpHeaderMethods()
     {
         $host = 'localhost';
         $this->assertEquals($host, $this->_helper->getHttpHost());
         $this->assertEquals(false, $this->_helper->getHttpUserAgent());
         $this->assertEquals(false, $this->_helper->getHttpAcceptLanguage());
         $this->assertEquals(false, $this->_helper->getHttpAcceptCharset());
+        $this->assertEquals(false, $this->_helper->getHttpReferer());
     }
 }

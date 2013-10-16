@@ -192,17 +192,6 @@ class Http extends \Magento\Core\Helper\AbstractHelper
     }
 
     /**
-     * Retrieve HTTP REFERER
-     *
-     * @param boolean $clean clean non UTF-8 characters
-     * @return string
-     */
-    public function getHttpReferer($clean = true)
-    {
-        return $this->_getHttpCleanValue('HTTP_REFERER', $clean);
-    }
-
-    /**
      * Returns the REQUEST_URI taking into account
      * platform differences between Apache and IIS
      *
