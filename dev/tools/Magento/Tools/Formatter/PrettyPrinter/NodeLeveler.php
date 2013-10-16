@@ -6,9 +6,7 @@
  * @license   {license_link}
  */
 
-
 namespace Magento\Tools\Formatter\PrettyPrinter;
-
 
 use Magento\Tools\Formatter\Tree\Tree;
 use Magento\Tools\Formatter\Tree\TreeNode;
@@ -55,34 +53,36 @@ class NodeLeveler extends LevelNodeVisitor
      */
     protected function processLine($lineData, $level, $treeNode)
     {
-        // split the line info in case is spans multiple lines
-        $lines = $lineData->splitLines($level);
-        // if the line represents more than one line, then split it up
-        if (sizeof($lines) > 1) {
-            $lastLineBreak = null;
-            foreach ($lines as $index => $line) {
-                $lineBreak = $line[sizeof($line) - 1];
-                if ($index == 0) {
-                    $lineData->setTokens($line);
-                } else {
-                    // reset the current node to avoid the additions changing it
-                    $this->tree->setCurrentNode($treeNode);
-                    // determine the indentation based on the type of terminator on the previous line
-                    if ($lastLineBreak->isNextLineIndented()) {
-                        $this->tree->addChild(new TreeNode(new Line($line)), false);
+        if (null !== $lineData) {
+            // split the line info in case is spans multiple lines
+            $lines = $lineData->splitLines($level);
+            // if the line represents more than one line, then split it up
+            if (sizeof($lines) > 1) {
+                $lastLineBreak = null;
+                foreach ($lines as $index => $line) {
+                    $lineBreak = $line[sizeof($line) - 1];
+                    if ($index == 0) {
+                        $lineData->setTokens($line);
                     } else {
-                        $this->tree->addSibling(new TreeNode(new Line($line)));
+                        // reset the current node to avoid the additions changing it
+                        $this->tree->setCurrentNode($treeNode);
+                        // determine the indentation based on the type of terminator on the previous line
+                        if ($lastLineBreak->isNextLineIndented()) {
+                            $this->tree->addChild(new TreeNode(new Line($line)), false);
+                        } else {
+                            $this->tree->addSibling(new TreeNode(new Line($line)));
+                        }
                     }
+                    $lineBreak->setAlternate(false);
+                    $lastLineBreak = $lineBreak;
                 }
-                $lineBreak->setAlternate(false);
-                $lastLineBreak = $lineBreak;
-            }
-        } else {
-            $line = $lines[0];
-            $result = implode('', $line);
-            if (self::MAX_LINE_LENGTH < strlen($result) + $this->level * strlen(self::PREFIX)) {
-                // split the line info in case is spans multiple lines
-                $this->processLine($lineData, $level + 1, $treeNode); // TODO protect against infinite loop
+            } else {
+                $line = $lines[0];
+                $result = implode('', $line);
+                if (self::MAX_LINE_LENGTH < strlen($result) + $this->level * strlen(self::PREFIX)) {
+                    // split the line info in case is spans multiple lines
+                    $this->processLine($lineData, $level + 1, $treeNode); // TODO protect against infinite loop
+                }
             }
         }
     }

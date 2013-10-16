@@ -62,6 +62,17 @@ class Printer
     }
 
     /**
+     * This method parses the given statement.
+     * @param \PHPParser_NodeAbstract $node
+     * @param Tree $tree Tree representation of the resulting code
+     */
+    public static function processStatement(\PHPParser_NodeAbstract $node, Tree $tree)
+    {
+        $statement = StatementFactory::getInstance()->getStatement($node);
+        $statement->process($tree);
+    }
+
+    /**
      * This method looks at the group of statements and process them as an array or as an individual statement.
      * @param $statements
      * @param Tree $tree Tree representation of the resulting code
@@ -77,16 +88,5 @@ class Printer
             // otherwise, it just a single statement
             self::processStatement($statements, $tree);
         }
-    }
-
-    /**
-     * This method parses the given statement.
-     * @param \PHPParser_NodeAbstract $node
-     * @param Tree $tree Tree representation of the resulting code
-     */
-    public static function processStatement(\PHPParser_NodeAbstract $node, Tree $tree)
-    {
-        $statement = StatementFactory::getInstance()->getStatement($node);
-        $statement->process($tree);
     }
 }

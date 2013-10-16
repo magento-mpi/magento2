@@ -32,6 +32,8 @@ class UnknownStatement extends StatementAbstract
      */
     public function process(Tree $tree)
     {
-        $tree->addRoot(new TreeNode('Unknown node: ' . $this->node->getType()));
+        $tree->addRoot(
+            new TreeNode((new Line('Unknown node: '))->add($this->node->getType())->add(new HardLineBreak()))
+        );
     }
 }

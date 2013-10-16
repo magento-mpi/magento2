@@ -83,7 +83,8 @@ class TreeNode
      * @param $treeNode
      * @param null $adjacentNode
      */
-    public static function setNodeWithinArray(&$nodes, $treeNode, $adjacentNode = null) {
+    public static function setNodeWithinArray(&$nodes, $treeNode, $adjacentNode = null)
+    {
         // find the existing child
         $index = array_search($adjacentNode, $nodes, true);
         // if it could not be found and the existing child is not the last one in the list

@@ -59,6 +59,8 @@ class ClassStatement extends StatementAbstract
         $line->add(new HardLineBreak());
         // add the opening brace on a new line
         $tree->addSibling(new TreeNode((new Line('{'))->add(new HardLineBreak())));
+        // processing the child nodes
+        Printer::processStatements($this->node->stmts, $tree);
         // add the closing brace on a new line
         $tree->addSibling(new TreeNode((new Line('}'))->add(new HardLineBreak())));
     }

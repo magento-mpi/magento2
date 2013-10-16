@@ -96,10 +96,12 @@ FORMATTEDCODESNIPPET
  * Class Foo
  */
 class Foo extends Bar implements Zulu {
+    /** alpha method */
     public function alpha() {
         return \$this;
     }
 
+    /** beta method */
     public function beta() {
         return \$this->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha();
     }
@@ -112,6 +114,8 @@ ORIGINALCODESNIPPET
  */
 class Foo extends Bar implements Zulu
 {
+Unknown node: Stmt_ClassMethod
+Unknown node: Stmt_ClassMethod
 }
 
 FORMATTEDCODESNIPPET
