@@ -61,7 +61,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             $currentColor);
 
         $this->_vbFactoryMock->expects($this->once())->method('create')
-            ->with(array(
+            ->with('Magento\Validator\Builder', array(
                 'constraints' => array(
                     array(
                         'alias' => 'Regex',
@@ -98,7 +98,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $message = sprintf('Conversion Id value is not valid "%s". Conversion Id should be an integer.', $conversionId);
 
         $this->_vbFactoryMock->expects($this->once())->method('create')
-            ->with(array(
+            ->with('Magento\Validator\Builder', array(
                 'constraints' => array(
                     array(
                         'alias' => 'Int',

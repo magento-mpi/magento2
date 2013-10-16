@@ -37,7 +37,7 @@ class Factory
         $message = __('Conversion Color value is not valid "%1". Please set hexadecimal 6-digit value.',
             $currentColor);
         /** @var \Magento\Validator\Builder $builder */
-        $builder = $this->_validatorBuilderFactory->create(array(
+        $builder = $this->_validatorBuilderFactory->create('Magento\Validator\Builder', array(
             'constraints' => array(
                 array(
                     'alias' => 'Regex',
@@ -74,7 +74,7 @@ class Factory
         $message = __('Conversion Id value is not valid "%1". Conversion Id should be an integer.',
             $currentId);
         /** @var \Magento\Validator\Builder $builder */
-        $builder = $this->_validatorBuilderFactory->create(array(
+        $builder = $this->_validatorBuilderFactory->create('Magento\Validator\Builder', array(
             'constraints' => array(
                 array(
                     'alias' => 'Int',
