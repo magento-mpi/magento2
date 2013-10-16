@@ -229,12 +229,12 @@ class LayoutDirectivesTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getLayoutModel($fixtureFile)
     {
-        /** @var $layout \Magento\Core\Model\Layout */
+        /** @var $layout \Magento\View\Layout */
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Layout');
-        /** @var $xml \Magento\Core\Model\Layout\Element */
+        /** @var $xml \Magento\View\Layout\Element */
         $xml = simplexml_load_file(
             __DIR__ . "/_files/layout_directives_test/{$fixtureFile}",
-            'Magento\Core\Model\Layout\Element'
+            'Magento\View\Layout\Element'
         );
         $layout->loadString($xml->asXml());
         $layout->generateElements();

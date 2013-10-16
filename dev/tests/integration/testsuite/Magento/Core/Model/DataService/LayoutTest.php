@@ -92,7 +92,7 @@ class LayoutTest extends \Magento\TestFramework\TestCase\AbstractController
             'Magento\View\Layout',
             array('dataServiceGraph' => $this->_dataServiceGraph)
         );
-        $xml = simplexml_load_file(__DIR__ . "/LayoutTest/{$fixtureFile}", 'Magento\Core\Model\Layout\Element');
+        $xml = simplexml_load_file(__DIR__ . "/LayoutTest/{$fixtureFile}", 'Magento\View\Layout\Element');
         $layout->setXml($xml);
         $layout->generateElements();
         return $layout;

@@ -32,7 +32,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Magento\View\Layout\Processor', $actualUpdate);
 
         $layoutUpdateXml = $actualUpdate->getFileLayoutUpdatesXml();
-        $this->assertInstanceOf('Magento\Core\Model\Layout\Element', $layoutUpdateXml);
+        $this->assertInstanceOf('Magento\View\Layout\Element', $layoutUpdateXml);
         $this->assertXmlStringEqualsXmlFile($expectedUpdateFile, $layoutUpdateXml->asNiceXml());
     }
 

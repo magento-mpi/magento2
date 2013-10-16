@@ -51,7 +51,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
             }
         }
 
-        /** @var \Magento\Core\Model\Layout\Element $node */
+        /** @var \Magento\View\Layout\Element $node */
         $errors = array();
         foreach ($handles as $node) {
             $this->_collectHierarchyErrors($node, $xml, $errors);
@@ -68,7 +68,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
      * Composes full layout xml for designated parameters
      *
      * @param \Magento\View\Design\Theme $theme
-     * @return \Magento\Core\Model\Layout\Element
+     * @return \Magento\View\Layout\Element
      */
     protected function _composeXml(\Magento\View\Design\Theme $theme)
     {
@@ -82,7 +82,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
      * Validate node's declared position in hierarchy and add errors to the specified array if found
      *
      * @param \SimpleXMLElement $node
-     * @param \Magento\Core\Model\Layout\Element $xml
+     * @param \Magento\View\Layout\Element $xml
      * @param array &$errors
      */
     protected function _collectHierarchyErrors($node, $xml, &$errors)
@@ -143,7 +143,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
             . ' or @type="' . \Magento\Core\Model\Layout\Merge::TYPE_FRAGMENT . '"]';
         $handles = $xml->xpath($xpath) ?: array();
 
-        /** @var \Magento\Core\Model\Layout\Element $node */
+        /** @var \Magento\View\Layout\Element $node */
         $errors = array();
         foreach ($handles as $node) {
             if (!$node->xpath('@label')) {

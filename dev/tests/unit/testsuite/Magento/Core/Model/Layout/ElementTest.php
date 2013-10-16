@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for \Magento\Core\Model\Layout\Element
+ * Test class for \Magento\View\Layout\Element
  */
 namespace Magento\Core\Model\Layout;
 
@@ -21,7 +21,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetElementName($xml, $name)
     {
-        $model = new \Magento\Core\Model\Layout\Element($xml);
+        $model = new \Magento\View\Layout\Element($xml);
         $this->assertEquals($name, $model->getElementName());
     }
 

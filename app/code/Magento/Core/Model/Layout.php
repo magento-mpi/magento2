@@ -268,7 +268,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\Layout
         $this->_area = $area;
         $this->_structure = $structure;
         $this->_argumentProcessor = $argumentProcessor;
-        $this->_elementClass = 'Magento\Core\Model\Layout\Element';
+        $this->_elementClass = 'Magento\View\Layout\Element';
         $this->setXml(simplexml_load_string('<layout/>', $this->_elementClass));
         $this->_renderingOutput = new \Magento\Object;
         $this->_scheduledStructure = $scheduledStructure;
@@ -480,13 +480,13 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\Layout
     /**
      * Traverse through all elements of specified XML-node and schedule structural elements of it
      *
-     * @param \Magento\Core\Model\Layout\Element $parent
+     * @param \Magento\View\Layout\Element $parent
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function _readStructure($parent)
     {
         foreach ($parent as $node) {
-            /** @var $node \Magento\Core\Model\Layout\Element */
+            /** @var $node \Magento\View\Layout\Element */
             switch ($node->getName()) {
                 case self::TYPE_CONTAINER:
                     $this->_scheduleStructure($node, $parent);
@@ -542,7 +542,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\Layout
     /**
      * Grab information about data service from the node
      *
-     * @param \Magento\Core\Model\Layout\Element $node
+     * @param \Magento\View\Layout\Element $node
      * @return \Magento\Core\Model\Layout
      */
     protected function _initServiceCalls($node)
@@ -568,9 +568,9 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\Layout
     /**
      * Merge Container attributes
      *
-     * @param \Magento\Core\Model\Layout\Element $node
+     * @param \Magento\View\Layout\Element $node
      */
-    protected function _mergeContainerAttributes(\Magento\Core\Model\Layout\Element $node)
+    protected function _mergeContainerAttributes(\Magento\View\Layout\Element $node)
     {
         $containerName = $node->getAttribute('name');
         $element = $this->_scheduledStructure->getStructureElement($containerName, array());
@@ -612,14 +612,14 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\Layout
     /**
      * Parse argument nodes and create prepared array of items
      *
-     * @param \Magento\Core\Model\Layout\Element $node
+     * @param \Magento\View\Layout\Element $node
      * @return array
      */
-    protected function _parseArguments(\Magento\Core\Model\Layout\Element $node)
+    protected function _parseArguments(\Magento\View\Layout\Element $node)
     {
         $arguments = array();
         foreach ($node->xpath('argument') as $argument) {
-            /** @var $argument \Magento\Core\Model\Layout\Element */
+            /** @var $argument \Magento\View\Layout\Element */
             $argumentName = (string)$argument['name'];
             $arguments[$argumentName] = $this->_argumentProcessor->parse($argument);
         }
@@ -644,7 +644,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\Layout
     /**
      * Schedule structural changes for move directive
      *
-     * @param \Magento\Core\Model\Layout\Element $node
+     * @param \Magento\View\Layout\Element $node
      * @throws \Magento\Exception
      * @return \Magento\Core\Model\Layout
      */
@@ -668,8 +668,8 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\Layout
     /**
      * Populate queue for generating structural elements
      *
-     * @param \Magento\Core\Model\Layout\Element $node
-     * @param \Magento\Core\Model\Layout\Element $parent
+     * @param \Magento\View\Layout\Element $node
+     * @param \Magento\View\Layout\Element $parent
      * @see _scheduleElement() where the _scheduledStructure is used
      */
     protected function _scheduleStructure($node, $parent)
@@ -724,7 +724,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\Layout
     /**
      * Analyze "before" and "after" information in the node and return sibling name and whether "after" or "before"
      *
-     * @param \Magento\Core\Model\Layout\Element $node
+     * @param \Magento\View\Layout\Element $node
      * @return array
      */
     protected function _beforeAfterToSibling($node)
@@ -955,8 +955,8 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\Layout
     /**
      * Run action defined in layout update
      *
-     * @param \Magento\Core\Model\Layout\Element $node
-     * @param \Magento\Core\Model\Layout\Element $parent
+     * @param \Magento\View\Layout\Element $node
+     * @param \Magento\View\Layout\Element $parent
      */
     protected function _generateAction($node, $parent)
     {

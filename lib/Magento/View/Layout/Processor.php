@@ -110,7 +110,7 @@ interface Processor
     /**
      * Retrieve already merged layout updates from files for specified area/theme/package/store
      *
-     * @return \Magento\Core\Model\Layout\Element
+     * @return \Magento\View\Layout\Element
      */
     public function getFileLayoutUpdatesXml();
 
