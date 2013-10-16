@@ -9,6 +9,9 @@
  */
 namespace Magento\Webapi\Controller;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Soap implements \Magento\App\FrontControllerInterface
 {
     /**#@+

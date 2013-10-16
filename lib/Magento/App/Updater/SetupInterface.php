@@ -32,6 +32,7 @@ interface SetupInterface
      * Check call afterApplyAllUpdates method for setup class
      *
      * @return boolean
+     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     public function getCallAfterApplyAllUpdates();
 

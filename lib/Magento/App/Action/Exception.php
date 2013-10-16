@@ -9,6 +9,9 @@
  */
 namespace Magento\App\Action;
 
+/**
+ * @SuppressWarnings(PHPMD.LongVariable)
+ */
 class Exception extends \Exception
 {
     const RESULT_FORWARD  = '_forward';
@@ -28,8 +31,9 @@ class Exception extends \Exception
      * @param array $params
      * @return \Magento\App\Action\Exception
      */
-    public function prepareForward($actionName = null, $controllerName = null, $moduleName = null, array $params = array())
-    {
+    public function prepareForward(
+        $actionName = null, $controllerName = null, $moduleName = null, array $params = array()
+    ) {
         $this->_resultCallback = self::RESULT_FORWARD;
         if (null === $actionName) {
             $actionName = $this->_defaultActionName;

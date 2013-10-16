@@ -11,6 +11,9 @@
 
 namespace Magento\Core\Controller\Varien;
 
+/**
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ */
 class FrontTest extends \PHPUnit_Framework_TestCase
 {
     /**

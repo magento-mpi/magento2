@@ -175,7 +175,7 @@ class Filesystem extends \Magento\Config\Reader\Filesystem
          * (in order not to add extra information about dependencies to module config)
          */
         $moduleDependencyMap = array();
-        foreach ($modules as $moduleName => $moduleConfig) {
+        foreach (array_keys($modules) as $moduleName) {
             $moduleDependencyMap[] = array(
                 'moduleName' => $moduleName,
                 'dependencies' => $this->_getExtendedModuleDependencies($moduleName, $modules),

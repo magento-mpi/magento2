@@ -105,6 +105,7 @@ class State
      * Get update mode flag
      *
      * @return bool
+     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     public function getUpdateMode()
     {

@@ -17,5 +17,5 @@ interface ResourceResolverInterface
      * @param string $moduleName
      * @return array
      */
-    function getResourceList($moduleName);
+    public function getResourceList($moduleName);
 }
