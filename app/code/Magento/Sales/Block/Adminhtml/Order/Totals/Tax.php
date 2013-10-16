@@ -95,7 +95,7 @@ class Tax extends \Magento\Tax\Block\Sales\Order\Tax
      */
     public function displayAmount($amount, $baseAmount)
     {
-        return $this->_helperFactory->get('Magento\Adminhtml\Helper\Sales')->displayPrices(
+        return $this->_helperFactory->get('Magento\Sales\Helper\Admin')->displayPrices(
             $this->getSource(), $baseAmount, $amount, false, '<br />'
         );
     }

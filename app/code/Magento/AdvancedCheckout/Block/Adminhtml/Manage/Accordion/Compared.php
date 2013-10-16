@@ -26,7 +26,7 @@ class Compared
     protected $_listType = 'compared';
 
     /**
-     * @var \Magento\Adminhtml\Helper\Sales
+     * @var \Magento\Sales\Helper\Admin
      */
     protected $_adminhtmlSales;
 
@@ -48,7 +48,7 @@ class Compared
     /**
      * @param \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus
      * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Adminhtml\Helper\Sales $adminhtmlSales
+     * @param \Magento\Sales\Helper\Admin $adminhtmlSales
      * @param \Magento\Data\CollectionFactory $collectionFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
@@ -61,7 +61,7 @@ class Compared
     public function __construct(
         \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus,
         \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Adminhtml\Helper\Sales $adminhtmlSales,
+        \Magento\Sales\Helper\Admin $adminhtmlSales,
         \Magento\Data\CollectionFactory $collectionFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
