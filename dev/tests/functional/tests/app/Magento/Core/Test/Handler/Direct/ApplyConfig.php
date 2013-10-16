@@ -32,25 +32,26 @@ class ApplyConfig extends Direct
      */
     public function execute(Fixture $fixture = null)
     {
-        $objectManager = \Mage::getObjectManager();
-        if ($objectManager == null) {
-            $objectManager = new \Mage_Core_Model_ObjectManager(new \Mage_Core_Model_Config_Primary(BP, $_SERVER));
-        }
+        $objectManager = new \Magento\Core\Model\ObjectManager(new \Magento\Core\Model\Config\Primary(BP, $_SERVER));
 
-        $objectManager->configure($objectManager->get('Mage_Core_Model_ObjectManager_ConfigLoader')->load('adminhtml'));
+        $objectManager->get('Magento\Core\Model\Config\Scope')->setCurrentScope('adminhtml');
+
+        $objectManager->configure(
+            $objectManager->get('Magento\Core\Model\ObjectManager\ConfigLoader')->load('adminhtml')
+        );
 
         $objectManager->configure(
             array(
                 'preferences' => array(
-                    'Magento_Authorization_Policy' => 'Magento_Authorization_Policy_Default',
-                    'Magento_Authorization_RoleLocator' => 'Magento_Authorization_RoleLocator_Default'
+                    'Magento\Authorization\Policy' => 'Magento\Authorization\Policy\DefaultPolicy',
+                    'Magento\Authorization\RoleLocator' => 'Magento\Authorization\RoleLocator\DefaultRoleLocator'
                 )));
 
-        $configFactory = $objectManager->get('Mage_Backend_Model_Config_Factory');
+        $configFactory = $objectManager->get('Magento\Backend\Model\Config\Factory');
 
         $sections = $fixture->getData()['sections'];
         foreach ($sections as $section) {
-            /** @var \Mage_Backend_Model_Config $configModel */
+            /** @var \Magento\Backend\Model\Config $configModel */
             $configModel = $configFactory->create(array('data' => $section));
             $configModel->save();
         }
