@@ -20,6 +20,7 @@
  * @method \Magento\Backend\Block\Widget\Form setUseContainer($flag)
  */
 namespace Magento\Data;
+use \Magento\Core\Model\Session\AbstractSession;
 
 class Form extends \Magento\Data\Form\AbstractForm
 {
@@ -33,9 +34,9 @@ class Form extends \Magento\Data\Form\AbstractForm
     /**
      * Session instance
      *
-     * @var \Magento\Core\Model\Session\AbstractSession|null
+     * @var \Magento\Core\Model\Session\AbstractSession
      */
-    protected $_session = null;
+    protected $_session;
 
     /**
      * form elements index
@@ -66,9 +67,9 @@ class Form extends \Magento\Data\Form\AbstractForm
      * Set session instance
      *
      * @param \Magento\Core\Model\Session\AbstractSession $session
-     * @return Form
+     * @return \Magento\Data\Form
      */
-    public function setSession(\Magento\Core\Model\Session\AbstractSession $session)
+    public function setSession(AbstractSession $session)
     {
         $this->_session = $session;
         return $this;
@@ -77,7 +78,7 @@ class Form extends \Magento\Data\Form\AbstractForm
     /**
      * Get session instance
      *
-     * @return \Magento\Core\Model\Session\AbstractSession|null
+     * @return \Magento\Core\Model\Session\AbstractSession
      * @throws \Magento\Exception
      */
     protected function _getSession()

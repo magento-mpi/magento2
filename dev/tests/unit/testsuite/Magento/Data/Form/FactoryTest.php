@@ -23,23 +23,25 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     protected $_sessionMock;
 
-    /**
-     * @var \Magento\Data\Form\Factory
-     */
-    protected $_factory;
-
     protected function setUp()
     {
-        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager\ObjectManager',
-            array('create'), array(), '', false);
+        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager\ObjectManager', array(), array(), '', false);
         $this->_sessionMock = $this->getMock('Magento\Core\Model\Session', array(), array(), '', false);
-        $this->_factory = new Factory($this->_objectManagerMock, $this->_sessionMock);
     }
 
-    public function testConstruct()
+    /**
+     * @expectedException \Magento\Exception
+     * @expectedExceptionMessage WrongClass doesn't extends \Magento\Data\Form
+     */
+    public function testWrongTypeException()
     {
-        $this->assertAttributeInstanceOf('Magento\ObjectManager\ObjectManager', '_objectManager', $this->_factory);
-        $this->assertAttributeInstanceOf('Magento\Core\Model\Session\AbstractSession', '_session', $this->_factory);
+        $className = 'WrongClass';
+
+        $formMock = $this->getMock($className, array(), array(), '', false);
+        $this->_objectManagerMock->expects($this->once())->method('create')->will($this->returnValue($formMock));
+
+        $formFactory = new Factory($this->_objectManagerMock, $this->_sessionMock, $className);
+        $formFactory->create();
     }
 
     public function testCreate()
@@ -48,13 +50,13 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $formMock = $this->getMock($className, array(), array(), '', false);
         $this->_objectManagerMock->expects($this->once())
             ->method('create')
-            ->with($className, array())
+            ->with($className)
             ->will($this->returnValue($formMock));
         $formMock->expects($this->once())
             ->method('setSession')
-            ->with($this->_sessionMock)
-            ->will($this->returnSelf());
+            ->with($this->_sessionMock);
 
-        $this->assertSame($formMock, $this->_factory->create());
+        $formFactory = new Factory($this->_objectManagerMock, $this->_sessionMock, $className);
+        $this->assertSame($formMock, $formFactory->create());
     }
 }

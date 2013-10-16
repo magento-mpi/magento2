@@ -19,14 +19,14 @@ class Factory
      *
      * @var \Magento\ObjectManager
      */
-    protected $_objectManager = null;
+    protected $_objectManager;
 
     /**
      * Instance name to create
      *
      * @var string
      */
-    protected $_instanceName = null;
+    protected $_instanceName;
 
     /**
      * Session instance
@@ -57,11 +57,15 @@ class Factory
      *
      * @param array $data
      * @return \Magento\Data\Form
+     * @throws \Magento\Exception
      */
     public function create(array $data = array())
     {
         /** @var $form \Magento\Data\Form */
         $form = $this->_objectManager->create($this->_instanceName, $data);
+        if (!$form instanceof \Magento\Data\Form) {
+            throw new \Magento\Exception($this->_instanceName . ' doesn\'t extends \Magento\Data\Form');
+        }
         $form->setSession($this->_session);
         return $form;
     }
