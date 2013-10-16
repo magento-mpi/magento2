@@ -62,7 +62,7 @@ return array(
                     'type' => 'complex',
                 ),
                 'helper_block' => array(
-                    'type' => 'Magento\Adminhtml\Block\Catalog\Product\Widget\Chooser',
+                    'type' => 'Magento\Catalog\Block\Adminhtml\Catalog\Product\Widget\Chooser',
                     'data' => array(
                         'button' => array(
                             'open' => 'Select Product...'

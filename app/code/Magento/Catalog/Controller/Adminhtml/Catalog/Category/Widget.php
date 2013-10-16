@@ -69,7 +69,7 @@ class Widget extends \Magento\Backend\Controller\Adminhtml\Action
 
     protected function _getCategoryTreeBlock()
     {
-        return $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Category\Widget\Chooser', '', array(
+        return $this->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Catalog\Category\Widget\Chooser', '', array(
             'data' => array(
                 'id' => $this->getRequest()->getParam('uniq_id'),
                 'use_massaction' => $this->getRequest()->getParam('use_massaction', false)

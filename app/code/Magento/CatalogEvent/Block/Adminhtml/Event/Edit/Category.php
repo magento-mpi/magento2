@@ -11,7 +11,7 @@
  */
 namespace Magento\CatalogEvent\Block\Adminhtml\Event\Edit;
 
-class Category extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
+class Category extends \Magento\Catalog\Block\Adminhtml\Catalog\Category\AbstractCategory
 {
     /**
      * Template

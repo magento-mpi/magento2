@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Block\Urlrewrite\Catalog\Category;
 
-class Tree extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
+class Tree extends \Magento\Catalog\Block\Adminhtml\Catalog\Category\AbstractCategory
 {
     /**
      * List of allowed category ids

@@ -12,7 +12,7 @@
     <referenceBlock name="head">
         <block class="Magento\Page\Block\Html\Head\Script" name="magento-adminhtml-catalog-product-composite-configure-js">
             <arguments>
-                <argument name="file" xsi:type="string">Magento_Adminhtml::catalog/product/composite/configure.js</argument>
+                <argument name="file" xsi:type="string">Magento_Catalog::catalog/product/composite/configure.js</argument>
             </arguments>
         </block>
     </referenceBlock>

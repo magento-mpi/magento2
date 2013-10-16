@@ -41,7 +41,7 @@
 <script type="text/javascript">
     (function($) {
         $.mage.extend('categoryForm', 'form',
-                '<?php echo $this->getViewFileUrl('Magento_Adminhtml::catalog/category/form.js') ?>');
+                '<?php echo $this->getViewFileUrl('Magento_Catalog::catalog/category/form.js') ?>');
         $('#category_edit_form')
                 .mage('categoryForm', {refreshUrl: '<?php echo $this->getRefreshPathUrl() ?>'})
                 .mage('validation', {submitHandler: function(form){

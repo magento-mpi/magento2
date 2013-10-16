@@ -237,7 +237,7 @@ class Instance extends \Magento\Backend\Controller\Adminhtml\Action
         $selected = $this->getRequest()->getParam('selected', '');
         $isAnchorOnly = $this->getRequest()->getParam('is_anchor_only', 0);
         $chooser = $this->getLayout()
-            ->createBlock('Magento\Adminhtml\Block\Catalog\Category\Widget\Chooser')
+            ->createBlock('Magento\Catalog\Block\Adminhtml\Catalog\Category\Widget\Chooser')
             ->setUseMassaction(true)
             ->setId($this->_objectManager->get('Magento\Core\Helper\Data')->uniqHash('categories'))
             ->setIsAnchorOnly($isAnchorOnly)
@@ -254,7 +254,7 @@ class Instance extends \Magento\Backend\Controller\Adminhtml\Action
         $selected = $this->getRequest()->getParam('selected', '');
         $productTypeId = $this->getRequest()->getParam('product_type_id', '');
         $chooser = $this->getLayout()
-            ->createBlock('Magento\Adminhtml\Block\Catalog\Product\Widget\Chooser')
+            ->createBlock('Magento\Catalog\Block\Adminhtml\Catalog\Product\Widget\Chooser')
             ->setName($this->_objectManager->get('Magento\Core\Helper\Data')->uniqHash('products_grid_'))
             ->setUseMassaction(true)
             ->setProductTypeId($productTypeId)

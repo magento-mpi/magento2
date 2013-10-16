@@ -119,7 +119,7 @@ class Downloadable
      */
     public function getGroupCode()
     {
-        return \Magento\Adminhtml\Block\Catalog\Product\Edit\Tabs::ADVANCED_TAB_GROUP_CODE;
+        return \Magento\Catalog\Block\Adminhtml\Catalog\Product\Edit\Tabs::ADVANCED_TAB_GROUP_CODE;
     }
 
     /**

@@ -142,7 +142,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             )
         ));
 
-        $fieldset->addType('price', 'Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Price');
+        $fieldset->addType('price', 'Magento\Catalog\Block\Adminhtml\Catalog\Product\Helper\Form\Price');
         $fieldset->addField('base_price', 'price', array(
             'label'    => __('Price'),
             'name'     => 'base_price',

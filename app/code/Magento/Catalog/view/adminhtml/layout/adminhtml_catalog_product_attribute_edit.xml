@@ -9,20 +9,20 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceContainer name="left">
-        <block class="Magento\Adminhtml\Block\Catalog\Product\Attribute\Edit\Tabs" name="attribute_edit_tabs">
+        <block class="Magento\Catalog\Block\Adminhtml\Catalog\Product\Attribute\Edit\Tabs" name="attribute_edit_tabs">
             <container label="Main" name="main">
-                <block class="Magento\Adminhtml\Block\Catalog\Product\Attribute\Edit\Tab\Main" as="base"/>
+                <block class="Magento\Catalog\Block\Adminhtml\Catalog\Product\Attribute\Edit\Tab\Main" as="base"/>
                 <block class="Magento\Eav\Block\Adminhtml\Attribute\Edit\Options\Options" as="advanced"/>
-                <block class="Magento\Adminhtml\Block\Catalog\Product\Attribute\Edit\Tab\Advanced" as="options"/>
+                <block class="Magento\Catalog\Block\Adminhtml\Catalog\Product\Attribute\Edit\Tab\Advanced" as="options"/>
             </container>
             <block class="Magento\Eav\Block\Adminhtml\Attribute\Edit\Options\Labels" as="labels"/>
-            <block class="Magento\Adminhtml\Block\Catalog\Product\Attribute\Edit\Tab\Front" as="front"/>
+            <block class="Magento\Catalog\Block\Adminhtml\Catalog\Product\Attribute\Edit\Tab\Front" as="front"/>
         </block>
     </referenceContainer>
     <referenceContainer name="content">
-        <block class="Magento\Adminhtml\Block\Catalog\Product\Attribute\Edit" name="attribute_edit_content"/>
+        <block class="Magento\Catalog\Block\Adminhtml\Catalog\Product\Attribute\Edit" name="attribute_edit_content"/>
     </referenceContainer>
     <referenceContainer name="js">
-        <block class="Magento\Adminhtml\Block\Template" name="attribute_edit_js" template="catalog/product/attribute/js.phtml"/>
+        <block class="Magento\Adminhtml\Block\Template" name="attribute_edit_js" template="Magento_Catalog::catalog/product/attribute/js.phtml"/>
     </referenceContainer>
 </layout>

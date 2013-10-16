@@ -2,12 +2,6 @@
 # Glob patterns are supported
 #
 app/bootstrap.php
-app/code/Magento/Adminhtml/Block/Catalog/Product/Edit/NewCategory.php
-app/code/Magento/Adminhtml/Block/Catalog/Product/Edit/Tab/Attributes/Search.php
-app/code/Magento/Adminhtml/Block/Catalog/Product/Edit/Tab/Options/Popup/Grid.php
-app/code/Magento/Adminhtml/Block/Catalog/Product/Helper/Form/Category.php
-app/code/Magento/Adminhtml/Block/Catalog/Product/Helper/Form/Weight.php
-app/code/Magento/Adminhtml/Block/Catalog/Product/Options/Ajax.php
 app/code/Magento/Adminhtml/Block/Cms/Page/Edit/Tab/Design.php
 app/code/Magento/Adminhtml/Block/Customer/Edit/Tab/Account.php
 app/code/Magento/Adminhtml/Model/Observer.php
@@ -20,6 +14,12 @@ app/code/Magento/Adminhtml/Controller/Report/Product.php
 app/code/Magento/Adminhtml/Controller/Report/Product.php
 app/code/Magento/Adminhtml/Controller/Urlrewrite.php
 app/code/Magento/Bundle/Model/Plugin
+app/code/Magento/Catalog/Block/Adminhtml/Catalog/Product/Edit/NewCategory.php
+app/code/Magento/Catalog/Block/Adminhtml/Catalog/Product/Edit/Tab/Attributes/Search.php
+app/code/Magento/Catalog/Block/Adminhtml/Catalog/Product/Edit/Tab/Options/Popup/Grid.php
+app/code/Magento/Catalog/Block/Adminhtml/Catalog/Product/Helper/Form/Category.php
+app/code/Magento/Catalog/Block/Adminhtml/Catalog/Product/Helper/Form/Weight.php
+app/code/Magento/Catalog/Block/Adminhtml/Catalog/Product/Options/Ajax.php
 app/code/Magento/Catalog/Block/Product/Configurable
 app/code/Magento/Catalog/Block/Product/Grouped
 app/code/Magento/Catalog/Block/Product/TemplateSelector.php
