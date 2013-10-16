@@ -11,17 +11,13 @@
  */
 namespace Mtf\Util\Protocol;
 
+use Mtf\Util\Protocol\CurlInterface;
+
 /**
  * HTTP CURL Adapter
  */
-class CurlTransport
+class CurlTransport implements CurlInterface
 {
-    /**
-     * HTTP request methods
-     */
-    const GET = 'GET';
-    const POST = 'POST';
-
     /**
      * Parameters array
      *
@@ -57,7 +53,7 @@ class CurlTransport
     protected $_options = array();
 
     /**
-     * Apply current configuration array to transport resource
+     * Apply current configuration array to curl resource
      *
      * @return $this
      */
@@ -125,14 +121,13 @@ class CurlTransport
     /**
      * Send request to the remote server
      *
-     * @param string $method
-     * @param string $url
+     * @param $method
+     * @param $url
      * @param string $http_ver
      * @param array $headers
-     * @param string $body
-     * @return string Request as text
+     * @param array $params
      */
-    public function write($method, $url, $http_ver = '1.1', $headers = array(), $body = '')
+    public function write($method, $url, $http_ver = '1.1', $headers = array(), $params = array())
     {
         $this->_applyConfig();
         $options = array(
@@ -143,14 +138,13 @@ class CurlTransport
             CURLOPT_COOKIEFILE          => ''
         );
 
-        if ($method == self::POST) {
+        if ($method == CurlInterface::POST) {
             $options[CURLOPT_POST]          = true;
-            $options[CURLOPT_POSTFIELDS]    = $body;
-        } elseif ($method == self::GET) {
+            $options[CURLOPT_POSTFIELDS]    = $params;
+        } elseif ($method == CurlInterface::GET) {
             $options[CURLOPT_HTTPGET]       = true;
         }
         curl_setopt_array($this->_getResource(), $options);
-        return $body;
     }
 
     /**
@@ -166,14 +160,11 @@ class CurlTransport
 
     /**
      * Close the connection to the server
-     *
-     * @return $this
      */
     public function close()
     {
         curl_close($this->_getResource());
         $this->_resource = null;
-        return $this;
     }
 
     /**

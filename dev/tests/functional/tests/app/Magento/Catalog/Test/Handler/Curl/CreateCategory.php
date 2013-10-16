@@ -14,7 +14,10 @@ namespace Magento\Catalog\Test\Handler\Curl;
 
 use Mtf\Fixture;
 use Mtf\Handler\Curl;
+use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
+use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
+use Mtf\System\Config;
 
 /**
  * Class CreateCategory.
@@ -48,8 +51,8 @@ class CreateCategory extends Curl
 
         $url = $_ENV['app_backend_url'] . 'admin/catalog_category/save/' . $params;
 
-        $curl = new CurlTransport();
-        $curl->write(CurlTransport::POST, $url, '1.0', array(), $fields);
+        $curl = new BackendDecorator(new CurlTransport(), new Config);
+        $curl->write(CurlInterface::POST, $url, '1.0', array(), $fields);
         $response = $curl->read();
         $curl->close();
 

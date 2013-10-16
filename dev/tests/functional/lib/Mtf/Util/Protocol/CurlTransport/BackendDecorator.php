@@ -10,15 +10,16 @@
  * @license     {license_link}
  */
 
-namespace Mtf\Util\Protocol;
+namespace Mtf\Util\Protocol\CurlTransport;
 
 use Mtf\Util\Protocol\CurlTransport;
+use Mtf\Util\Protocol\CurlInterface;
 use Mtf\System\Config;
 
 /**
- * Class BackendTransportDecorator
+ * Class BackendDecorator
  */
-class CurlBackendTransport
+class BackendDecorator implements CurlInterface
 {
     /**
      * @var \Mtf\Util\Protocol\CurlTransport
@@ -34,11 +35,6 @@ class CurlBackendTransport
      * @var string
      */
     protected $_formKey = null;
-
-    /**
-     * @var array
-     */
-    protected $_data;
 
     /**
      * @var string
@@ -69,7 +65,7 @@ class CurlBackendTransport
             'login[username]' => $credentials['login'],
             'login[password]' => $credentials['password']
         );
-        $this->_transport->write(CurlTransport::POST, $backendLoginUrl, '1.0', array(), $data);
+        $this->_transport->write(CurlInterface::POST, $backendLoginUrl, '1.0', array(), $data);
         $this->read();
     }
 
@@ -85,30 +81,20 @@ class CurlBackendTransport
     }
 
     /**
-     * Prepare Curl Data
-     */
-    protected function _prepareData()
-    {
-        if ($this->_formKey) {
-            $this->_data['form_key'] = $this->_formKey;
-        }
-    }
-
-    /**
      * Send request to the remote server
      *
      * @param string $method
      * @param string $url
      * @param string $http_ver
-     * @param array $headers
-     * @param array $body
-     * @return string Request as text
+     * @param array  $headers
+     * @param array  $params
      */
-    public function write($method, $url, $http_ver = '1.1', $headers = array(), $body = array())
+    public function write($method, $url, $http_ver = '1.1', $headers = array(), $params = array())
     {
-        $this->_data = $body;
-        $this->_prepareData();
-        return $this->_transport->write($method, $url, $http_ver, $headers, $body);
+        if ($this->_formKey) {
+            $params['form_key'] = $this->_formKey;
+        }
+        $this->_transport->write($method, $url, $http_ver, $headers, $params);
     }
 
     /**
@@ -121,5 +107,24 @@ class CurlBackendTransport
         $this->_response = $this->_transport->read();
         $this->_initFormKey();
         return $this->_response;
+    }
+
+    /**
+     * Add additional option to cURL
+     *
+     * @param  int $option      the CURLOPT_* constants
+     * @param  mixed $value
+     */
+    public function addOption($option, $value)
+    {
+        $this->_transport->addOption($option, $value);
+    }
+
+    /**
+     * Close the connection to the server
+     */
+    public function close()
+    {
+        $this->_transport->close();
     }
 }
