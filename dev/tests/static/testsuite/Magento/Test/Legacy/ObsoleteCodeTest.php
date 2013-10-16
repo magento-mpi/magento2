@@ -251,7 +251,7 @@ class ObsoleteCodeTest extends \PHPUnit_Framework_TestCase
                     $replacement
                 );
                 $this->_assertNotRegExp('/(?<!public|protected|private|static)\s+function\s*' . $quotedMethod . '\s*\(/iS', $content, $message);
-                $this->_assertNotRegExp('/(?<![a-z\d_:]|->' . $quotedMethod . '\s*\(/iS', $content, $message);
+                $this->_assertNotRegExp('/(?<![a-z\d_:]|->|function\s)' . $quotedMethod . '\s*\(/iS', $content, $message);
             }
         }
     }
