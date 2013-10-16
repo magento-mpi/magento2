@@ -44,7 +44,7 @@ class CustomerGrid extends Grid
             ->find('//*[@id="customerGrid_massaction"]//a[text()="Select All"]', Locator::SELECTOR_XPATH)
             ->click();
         $rootElement
-            ->find('customerGrid_massaction-select', Locator::SELECTOR_ID, $rootElement::TYPIFIED_ELEMENT_SELECT)
+            ->find('customerGrid_massaction-select', Locator::SELECTOR_ID, 'select')
             ->setValue('Delete');
         $this->_rootElement
             ->find('customerGrid_massaction-form', Locator::SELECTOR_ID)

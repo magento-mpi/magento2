@@ -193,9 +193,9 @@ class Option extends Block
     {
         $rootElement = $this->_rootElement;
         $rootElement->find($this->title)->setValue($fields['title']);
-        $rootElement->find($this->type, Locator::SELECTOR_CSS, $rootElement::TYPIFIED_ELEMENT_SELECT)
+        $rootElement->find($this->type, Locator::SELECTOR_CSS, 'select')
             ->setValue($fields['type']);
-        $rootElement->find($this->required, Locator::SELECTOR_CSS, $rootElement::TYPIFIED_ELEMENT_CHECKBOX)
+        $rootElement->find($this->required, Locator::SELECTOR_CSS, 'checkbox')
             ->setValue($fields['required']);
     }
 }

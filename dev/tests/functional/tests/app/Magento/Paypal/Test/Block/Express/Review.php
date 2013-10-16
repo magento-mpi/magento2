@@ -119,7 +119,7 @@ class Review extends Block
     {
         $shippingMethod = $fixture->getShippingMethods()->getData('fields');
         $rootElement = $this->_rootElement;
-        $rootElement->find($this->shippingMethod, Locator::SELECTOR_CSS, $rootElement::TYPIFIED_ELEMENT_SELECT)
+        $rootElement->find($this->shippingMethod, Locator::SELECTOR_CSS, 'select')
             ->setOptionGroupValue($shippingMethod['shipping_service'], $shippingMethod['shipping_method']);
     }
 

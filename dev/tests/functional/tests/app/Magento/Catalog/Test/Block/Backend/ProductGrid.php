@@ -46,7 +46,7 @@ class ProductGrid extends Grid
             ->click();
 
         $rootElement
-            ->find('productGrid_massaction-select', Locator::SELECTOR_ID, $rootElement::TYPIFIED_ELEMENT_SELECT)
+            ->find('productGrid_massaction-select', Locator::SELECTOR_ID, 'select')
             ->setValue('Delete');
         $this->_rootElement
             ->find('productGrid_massaction-form', Locator::SELECTOR_ID)
