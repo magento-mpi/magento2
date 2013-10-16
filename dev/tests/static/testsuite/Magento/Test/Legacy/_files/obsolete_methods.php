@@ -859,4 +859,9 @@ return array(
     array('turnOnSerializableMode', 'Magento\Backup\Model\Resource\Db', 'prepareTransactionIsolationLevel'),
     array('_getResourceModel', '\Magento\Webapi\Model\Source\Acl\Role', '$this->_resource'),
     array('_getSession', '\Magento\Adminhtml\Model\Giftmessage\Save', '$this->_session'),
+    array('is_dir_writeable'), //Core/functions.php
+    array('destruct'), //Core/functions.php
+    array('mageDebugBacktrace'), //Core/functions.php
+    array('mageDelTree'), //Core/functions.php
+    array('mageParseCsv'), //Core/functions.php
 );

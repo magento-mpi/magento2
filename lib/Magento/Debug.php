@@ -80,7 +80,7 @@ class Debug
                 continue;
             }
 
-            // prepare method argments
+            // prepare method arguments
             $args = array();
             if (isset($data['args']) && $withArgs) {
                 foreach ($data['args'] as $arg) {
@@ -186,5 +186,40 @@ class Debug
         }
 
         return $out;
+    }
+
+    /**
+     * Pretty debug backtrace
+     *
+     * @param bool $return
+     * @param bool $html
+     * @param bool $showFirst
+     * @return string
+     */
+    public static function prettyBacktrace($return = false, $html = true, $showFirst = false)
+    {
+        $backTrace = debug_backtrace();
+        $out = '';
+        if ($html) {
+            $out .= "<pre>";
+        }
+
+        foreach ($backTrace as $index => $trace) {
+            if (!$showFirst && $index == 0) {
+                continue;
+            }
+            // sometimes there is undefined index 'file'
+            @$out .= "[$index] {$trace['file']}:{$trace['line']}\n";
+        }
+
+        if ($html) {
+            $out .= "</pre>";
+        }
+
+        if ($return) {
+            return $out;
+        } else {
+            echo $out;
+        }
     }
 }
