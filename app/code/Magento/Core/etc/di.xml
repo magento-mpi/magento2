@@ -277,7 +277,7 @@
     <type name="Magento\Core\Model\View\Design">
         <param name="themes">
             <value>
-                <frontend>magento_demo</frontend>
+                <frontend>magento_plushe</frontend>
                 <adminhtml>magento_backend</adminhtml>
                 <install>magento_basic</install>
             </value>
