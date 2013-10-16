@@ -1,14 +1,13 @@
 <?php
 /**
+ * Unordered list of layout file instances with awareness of layout file identity
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Unordered list of layout file instances with awareness of layout file identity
- */
 namespace Magento\View\Layout\File;
 
 class FileList

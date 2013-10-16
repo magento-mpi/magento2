@@ -1,4 +1,10 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
 namespace Magento\View\Layout\Processor;
 
@@ -8,7 +14,7 @@ class DefaultProcessor implements Processor
 {
     public function generateXml()
     {
-        //
+        // TODO:
     }
 
     /**
@@ -16,6 +22,8 @@ class DefaultProcessor implements Processor
      *
      * @param string $update
      * @return Processor
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function addUpdate($update)
     {
@@ -47,6 +55,8 @@ class DefaultProcessor implements Processor
      *
      * @param array|string $handleName
      * @return Processor
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function addHandle($handleName)
     {
@@ -58,6 +68,8 @@ class DefaultProcessor implements Processor
      *
      * @param string $handleName
      * @return Processor
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function removeHandle($handleName)
     {
@@ -80,6 +92,8 @@ class DefaultProcessor implements Processor
      *
      * @param array $handlesToTry
      * @return bool
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function addPageHandles(array $handlesToTry)
     {
@@ -93,6 +107,8 @@ class DefaultProcessor implements Processor
      * @param string $handleName
      * @param bool $isPageTypeOnly
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getPageHandleParents($handleName, $isPageTypeOnly = true)
     {
@@ -104,6 +120,8 @@ class DefaultProcessor implements Processor
      *
      * @param string $handleName
      * @return bool
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function pageHandleExists($handleName)
     {
@@ -155,6 +173,8 @@ class DefaultProcessor implements Processor
      *
      * @param string $handleName
      * @return string|null
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getPageHandleType($handleName)
     {
@@ -167,6 +187,8 @@ class DefaultProcessor implements Processor
      * @param array|string $handles
      * @throws \Magento\Exception
      * @return \Magento\View\Layout\Merge
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function load($handles = array())
     {

@@ -1,14 +1,13 @@
 <?php
 /**
+ * Source of non-overriding layout files introduced by a theme
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Source of non-overriding layout files introduced by a theme
- */
 namespace Magento\View\Layout\File\Source;
 
 use Magento\View\Layout\File\Source;

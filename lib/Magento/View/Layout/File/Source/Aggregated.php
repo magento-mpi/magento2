@@ -1,14 +1,13 @@
 <?php
 /**
+ * Source of layout files aggregated from a theme and its parents according to merging and overriding conventions
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Source of layout files aggregated from a theme and its parents according to merging and overriding conventions
- */
 namespace Magento\View\Layout\File\Source;
 
 use Magento\View\Layout\File\Source;

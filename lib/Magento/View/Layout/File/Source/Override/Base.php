@@ -1,14 +1,13 @@
 <?php
 /**
+ * Source of layout files that explicitly override base files introduced by modules
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Source of layout files that explicitly override base files introduced by modules
- */
 namespace Magento\View\Layout\File\Source\Override;
 
 use Magento\View\Layout\File\Source;

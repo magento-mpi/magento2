@@ -1,14 +1,13 @@
 <?php
 /**
+ * Source of base layout files introduced by modules
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Source of base layout files introduced by modules
- */
 namespace Magento\View\Layout\File\Source;
 
 use Magento\View\Layout\File\Source;

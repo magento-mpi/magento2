@@ -1,14 +1,13 @@
 <?php
 /**
+ * Factory that produces layout file instances
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Factory that produces layout file instances
- */
 namespace Magento\View\Layout\File;
 
 use Magento\ObjectManager;
@@ -39,9 +38,12 @@ class Factory
      */
     public function create($filename, $module, Theme $theme = null)
     {
-        return $this->_objectManager->create(
-            'Magento\View\Layout\File',
-            array('filename' => $filename, 'module' => $module, 'theme' => $theme)
+        return $this->_objectManager->create('Magento\View\Layout\File',
+            array(
+                'filename' => $filename,
+                'module' => $module,
+                'theme' => $theme,
+            )
         );
     }
 }

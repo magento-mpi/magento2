@@ -4,8 +4,6 @@
  *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_View
  * @copyright   {copyright}
  * @license     {license_link}
  */

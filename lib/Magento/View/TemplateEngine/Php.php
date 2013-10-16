@@ -4,8 +4,6 @@
  *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_View
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -35,8 +33,6 @@ class Php implements TemplateEngine
             ob_end_clean();
             throw $exception;
         }
-        /** Get output buffer. */
-        $output = ob_get_clean();
-        return $output;
+        return ob_get_clean();
     }
 }

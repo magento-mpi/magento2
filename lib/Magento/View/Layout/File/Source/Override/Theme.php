@@ -1,14 +1,13 @@
 <?php
 /**
+ * Source of layout files that explicitly override files of ancestor themes
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Source of layout files that explicitly override files of ancestor themes
- */
 namespace Magento\View\Layout\File\Source\Override;
 
 use Magento\View\Layout\File\Source;

@@ -1,15 +1,16 @@
 <?php
 /**
+ * Layout file in the file system with context of its identity
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Layout file in the file system with context of its identity
- */
 namespace Magento\View\Layout;
+
+use Magento\Core\Model\ThemeInterface;
 
 class File
 {
@@ -33,7 +34,7 @@ class File
      * @param string $module
      * @param \Magento\Core\Model\ThemeInterface $theme
      */
-    public function __construct($filename, $module, \Magento\Core\Model\ThemeInterface $theme = null)
+    public function __construct($filename, $module, ThemeInterface $theme = null)
     {
         $this->_filename = $filename;
         $this->_module = $module;

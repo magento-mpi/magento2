@@ -30,15 +30,35 @@ class Reader
      */
     protected $argumentProcessor;
 
-    public function __construct(Aggregated $fileSource, Processor $argumentProcessor)
-    {
+    /**
+     * @var array
+     */
+    protected $xmlElements = array();
+
+    /**
+     * @var int
+     */
+    protected $cnt = 0;
+
+    /**
+     * @param Aggregated $fileSource
+     * @param Processor $argumentProcessor
+     */
+    public function __construct(
+        Aggregated $fileSource,
+        Processor $argumentProcessor
+    ) {
         $this->fileSource = $fileSource;
         $this->argumentProcessor = $argumentProcessor;
     }
 
-    public function generateFromXml($xml, & $meta)
+    /**
+     * @param LayoutElement $xml
+     * @param array $meta
+     */
+    public function generateFromXml($xml, &$meta)
     {
-        $this->meta = & $meta;
+        $this->meta = &$meta;
         $this->xmlAsArray($xml, $meta);
     }
 
@@ -48,31 +68,34 @@ class Reader
      */
     public function loadHandle($handle, ContainerInterface $container)
     {
-        // TODO find a better way of assembling elements declarations
+        // TODO: find a better way of assembling elements declarations
         $this->meta = & $container->getMeta();
 
-        // TODO try cache first
+        // TODO: try cache first
 
         $updateFiles = $this->fileSource->getFiles($container->getDesignTheme(), $handle);
-
         foreach ($updateFiles as $file) {
             /** @var $file \Magento\Core\Model\Layout\File */
-            //var_dump($file->getFilename());
             $fileStr = file_get_contents($file->getFilename());
             /** @var $fileXml \Magento\Core\Model\Layout\Element */
             $fileXml = $this->loadXmlString($fileStr);
-
             $this->xmlAsArray($fileXml, $this->meta);
         }
-
-        //var_dump($this->meta['children']['root']['children']['head']);dd();
     }
 
+    /**
+     * @param $xmlString
+     * @return \SimpleXMLElement
+     */
     protected function loadXmlString($xmlString)
     {
         return simplexml_load_string($xmlString, 'Magento\\View\\Layout\\Element');
     }
 
+    /**
+     * @param array $raw
+     * @return array
+     */
     protected function parseRawHandle(array $raw)
     {
         $result = array();
@@ -90,15 +113,17 @@ class Reader
                 }
             }
         }
-
         return $result;
     }
 
-    protected $xmlElements = array();
-
-    protected $cnt = 0;
-
-    protected function xmlAsArray(LayoutElement $xml, & $container, $parentName = null)
+    /**
+     * @param LayoutElement $xml
+     * @param array $container
+     * @param string $parentName
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     */
+    protected function xmlAsArray(LayoutElement $xml, &$container, $parentName = null)
     {
         foreach ($xml->attributes() as $attributeName => $attribute) {
             if ($attribute) {
@@ -129,10 +154,10 @@ class Reader
                 } else {
                     $childName = 'arguments-' . $this->cnt++;
                 }
+
                 if (in_array($name, array('reference', 'referenceBlock', 'referenceContainer'))) {
                     $targetContainer = & $this->seek($this->meta, $childName);
                     $this->xmlAsArray($childXml, $targetContainer, $name);
-                    //if ('head' === $childName)var_dump($targetContainer);
                 } elseif ($name === 'arguments') {
                     $arguments = $this->parseArguments($childXml);
                     $container['arguments'] = $this->processArguments($arguments);
@@ -165,7 +190,6 @@ class Reader
             return $original['children'][$elementName];
         }
 
-        $result = null;
         if (isset($original['children'])) {
             foreach (array_keys($original['children']) as $key) {
                 $result = & $this->seek($original['children'][$key], $elementName);
@@ -174,8 +198,7 @@ class Reader
                 }
             }
         }
-
-        return $result;
+        return null;
     }
 
     /**

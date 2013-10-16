@@ -2,17 +2,19 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 
 namespace Magento\View\Layout;
 
 class Element extends \Magento\Simplexml\Element
 {
+    /**
+     * Retrive the name of block
+     *
+     * @return bool|string
+     */
     public function getBlockName()
     {
         $tagName = (string)$this->getName();
@@ -34,8 +36,7 @@ class Element extends \Magento\Simplexml\Element
      */
     public function getElementName()
     {
-        $tagName = $this->getName();
-        return $tagName;
+        return $this->getName();
     }
 
     /**
@@ -51,25 +52,34 @@ class Element extends \Magento\Simplexml\Element
         } elseif ($this->getAttribute('after')) {
             $sibling = $this->getAttribute('after');
         }
-
         return $sibling;
     }
 
+    /**
+     * @param array $args
+     * @return $this
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
     public function prepareBlock($args)
     {
         $parent = $this->getParent();
         if (isset($parent['name']) && !isset($this['parent'])) {
             $this->addAttribute('parent', (string)$parent['name']);
         }
-
         return $this;
     }
 
+    /**
+     * @param array $args
+     * @return $this
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
     public function prepareAction($args)
     {
         $parent = $this->getParent();
         $this->addAttribute('block', (string)$parent['name']);
-
         return $this;
     }
 }

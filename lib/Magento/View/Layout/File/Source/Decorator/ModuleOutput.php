@@ -1,14 +1,13 @@
 <?php
 /**
+ * Decorator that filters out layout files that belong to modules, output of which is prohibited
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Decorator that filters out layout files that belong to modules, output of which is prohibited
- */
 namespace Magento\View\Layout\File\Source\Decorator;
 
 use Magento\View\Layout\File\Source;

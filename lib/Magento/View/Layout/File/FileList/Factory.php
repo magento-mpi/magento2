@@ -1,14 +1,13 @@
 <?php
 /**
+ * Factory that produces layout file list instances
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Factory that produces layout file list instances
- */
 namespace Magento\View\Layout\File\FileList;
 
 use Magento\ObjectManager;

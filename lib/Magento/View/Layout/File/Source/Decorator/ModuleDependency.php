@@ -1,14 +1,13 @@
 <?php
 /**
+ * Decorator that sorts layout files according to dependencies between modules they belong to
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Decorator that sorts layout files according to dependencies between modules they belong to
- */
 namespace Magento\View\Layout\File\Source\Decorator;
 
 use Magento\View\Layout\File\Source;
