@@ -1,4 +1,10 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
 namespace Magento\View\Container;
 
@@ -11,6 +17,9 @@ use Magento\View\Render\RenderFactory;
 
 class Container extends Base implements ContainerInterface
 {
+    /**
+     * Container type
+     */
     const TYPE = 'container';
 
     /**#@+
@@ -35,6 +44,8 @@ class Container extends Base implements ContainerInterface
      * @param ContainerInterface $parent [optional]
      * @param array $meta [optional]
      * @throws \InvalidArgumentException
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function __construct(
         Context $context,
@@ -43,16 +54,16 @@ class Container extends Base implements ContainerInterface
         ObjectManager $objectManager,
         ContainerInterface $parent = null,
         array $meta = array()
-    )
-    {
+    ) {
         parent::__construct($context, $renderFactory, $viewFactory, $objectManager, $parent, $meta);
 
-        $this->containerInfo['label'] = isset($meta['label']) ? $meta['label'] : null;
-        $this->containerInfo['tag'] = isset($meta['htmlTag']) ? $meta['htmlTag'] : null;
-        $this->containerInfo['class'] = isset($meta['htmlClass']) ? $meta['htmlClass'] : null;
-        $this->containerInfo['id'] = isset($meta['htmlId']) ? $meta['htmlId'] : null;
+        $this->containerInfo['label'] = isset($this->meta['label']) ? $this->meta['label'] : null;
+        $this->containerInfo['tag'] = isset($this->meta['htmlTag']) ? $this->meta['htmlTag'] : null;
+        $this->containerInfo['class'] = isset($this->meta['htmlClass']) ? $this->meta['htmlClass'] : null;
+        $this->containerInfo['id'] = isset($this->meta['htmlId']) ? $this->meta['htmlId'] : null;
 
-        if (empty($this->containerInfo['tag']) && (!empty($this->containerInfo['class']) || !empty($this->containerInfo['id']))) {
+        if (empty($this->containerInfo['tag'])
+            && (!empty($this->containerInfo['class']) || !empty($this->containerInfo['id']))) {
             throw new \InvalidArgumentException('HTML ID or class will not have effect, if HTML tag is not specified.');
         }
 
@@ -62,39 +73,40 @@ class Container extends Base implements ContainerInterface
         }
     }
 
+    /**
+     * @param ContainerInterface $parent
+     */
     public function register(ContainerInterface $parent = null)
     {
         if (isset($parent)) {
             $parent->attach($this, $this->alias, $this->before, $this->after);
         }
 
-        if ($this->getChildren()) {
-            foreach ($this->getChildren() as $child) {
-
-                $metaElement = $this->viewFactory->create($child['type'],
-                    array(
-                        'context' => $this->context,
-                        'parent' => $this,
-                        'meta' => $child
-                    )
-                );
-                $metaElement->register($this);
-            }
+        foreach ($this->getChildren() as $child) {
+            $metaElement = $this->viewFactory->create($child['type'],
+                array(
+                    'context' => $this->context,
+                    'parent' => $this,
+                    'meta' => $child,
+                )
+            );
+            $metaElement->register($this);
         }
     }
 
+    /**
+     * @param string $type
+     * @return string
+     */
     public function render($type = Html::TYPE_HTML)
     {
         $result = '';
         foreach ($this->getChildrenElements() as $child) {
-            //var_dump(get_class($child) . ' -- ' . $child->getName());
             /** @var $child ContainerInterface */
             $result .= $child->render($type);
         }
 
         $render = $this->renderFactory->get($type);
-        $result = $render->renderContainer($result, $this->containerInfo);
-
-        return $result;
+        return $render->renderContainer($result, $this->containerInfo);
     }
 }

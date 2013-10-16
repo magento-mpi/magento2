@@ -1,4 +1,10 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
 namespace Magento\View\Container;
 
@@ -11,6 +17,9 @@ use Magento\View\Layout\Reader;
 
 class Handle extends Base implements ContainerInterface
 {
+    /**
+     * Container type
+     */
     const TYPE = 'handle';
 
     /**
@@ -35,13 +44,15 @@ class Handle extends Base implements ContainerInterface
         Reader $layoutReader,
         ContainerInterface $parent = null,
         array $meta = array()
-    )
-    {
+    ) {
         parent::__construct($context, $renderFactory, $viewFactory, $objectManager, $parent, $meta);
 
         $this->layoutReader = $layoutReader;
     }
 
+    /**
+     * @param ContainerInterface $parent
+     */
     public function register(ContainerInterface $parent = null)
     {
         if (isset($parent)) {

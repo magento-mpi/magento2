@@ -1,4 +1,10 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
 namespace Magento\View\Container;
 
@@ -6,8 +12,14 @@ use Magento\View\Container as ContainerInterface;
 
 class Move extends Base implements ContainerInterface
 {
+    /**
+     * Container type
+     */
     const TYPE = 'move';
 
+    /**
+     * @param ContainerInterface $parent
+     */
     public function register(ContainerInterface $parent = null)
     {
         $element = $this->getElement($this->meta['element']);
@@ -19,10 +31,7 @@ class Move extends Base implements ContainerInterface
 
             $destination = $this->getElement($this->meta['destination']);
             if ($destination) {
-                $alias = isset($this->meta['alias']) ? $this->meta['alias'] : null;
-                $before = isset($this->meta['before']) ? $this->meta['before'] : null;
-                $after = isset($this->meta['after']) ? $this->meta['after'] : null;
-                $destination->attach($element, $alias, $before, $after);
+                $destination->attach($element, $this->alias, $this->before, $this->after);
             }
         }
     }

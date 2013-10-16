@@ -1,4 +1,10 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
 namespace Magento\View\Container;
 
@@ -12,6 +18,9 @@ use Magento\Core\Model\View\FileSystem;
 
 class Template extends Base implements ContainerInterface
 {
+    /**
+     * Container type
+     */
     const TYPE = 'template';
 
     /**
@@ -36,31 +45,30 @@ class Template extends Base implements ContainerInterface
         FileSystem $filesystem,
         ContainerInterface $parent = null,
         array $meta = array()
-        )
-    {
+    ) {
         parent::__construct($context, $renderFactory, $viewFactory, $objectManager, $parent, $meta);
 
         $this->filesystem = $filesystem;
     }
 
+    /**
+     * @param ContainerInterface $parent
+     */
     public function register(ContainerInterface $parent = null)
     {
         if (isset($parent)) {
             $parent->attach($this, $this->alias, $this->before, $this->after);
         }
 
-        if ($this->getChildren()) {
-            foreach ($this->getChildren() as $child) {
-
-                $metaElement = $this->viewFactory->create($child['type'],
-                    array(
-                        'context' => $this->context,
-                        'parent' => $this,
-                        'meta' => $child
-                    )
-                );
-                $metaElement->register($this);
-            }
+        foreach ($this->getChildren() as $child) {
+            $metaElement = $this->viewFactory->create($child['type'],
+                array(
+                    'context' => $this->context,
+                    'parent' => $this,
+                    'meta' => $child
+                )
+            );
+            $metaElement->register($this);
         }
     }
 
@@ -70,15 +78,12 @@ class Template extends Base implements ContainerInterface
      */
     public function render($type = Html::TYPE_HTML)
     {
-        $render = $this->renderFactory->get($type);
-
         $dataProviders = $this->getDataProviders();
-        // TODO probably prepare limited proxy to avoid violations
+        // TODO: probably prepare limited proxy to avoid violations
         $dataProviders['view'] = $this;
 
-        $result = $render->renderTemplate($this->getTemplateFile(), $dataProviders);
-
-        return $result;
+        $render = $this->renderFactory->get($type);
+        return $render->renderTemplate($this->getTemplateFile(), $dataProviders);
     }
 
     /**
@@ -88,10 +93,8 @@ class Template extends Base implements ContainerInterface
      */
     protected function getTemplateFile()
     {
-        // TODO rid of using area
+        // TODO: rid of using area
         $this->meta['area'] = $this->context->getArea();
-        $templateName = $this->filesystem->getFilename($this->meta['path'], $this->meta);
-
-        return $templateName;
+        return $this->filesystem->getFilename($this->meta['path'], $this->meta);
     }
 }

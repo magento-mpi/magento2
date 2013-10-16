@@ -2,18 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_View
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-
-/**
- * Abstract View Container.
- *
- * @category    Magento
- * @package     Magento_View
  */
 
 namespace Magento\View\Container;
@@ -27,9 +17,14 @@ use Magento\ObjectManager;
 
 abstract class Base implements ContainerInterface
 {
+    /**
+     * Container type
+     */
     const TYPE = '';
 
     /**
+     * Container configuration data
+     *
      * @var array
      */
     protected $meta = array();
@@ -44,9 +39,21 @@ abstract class Base implements ContainerInterface
      */
     protected $alias;
 
+    /**#@+
+     * Container sorting directives
+     *
+     * @var string
+     */
     protected $before;
-
     protected $after;
+    /**#@-*/
+
+    /**
+     * Path to configuration flag
+     *
+     * @var string
+     */
+    protected $ifConfig;
 
     /**
      * @var ContainerInterface
@@ -54,8 +61,6 @@ abstract class Base implements ContainerInterface
     protected $parent;
 
     /**
-     * Context.
-     *
      * @var Context
      */
     protected $context;
@@ -71,17 +76,22 @@ abstract class Base implements ContainerInterface
     protected $objectManager;
 
     /**
+     * List of attached containers
+     *
      * @var array
      */
     protected $elements = array();
 
-    public static $allElements = array();
-
     /**
      * @var array
      */
-    protected $relations = array();
+    public static $allElements = array();
 
+    /**
+     * List of data providers
+     *
+     * @var array
+     */
     protected $dataProviders = array();
 
     /**
@@ -92,6 +102,8 @@ abstract class Base implements ContainerInterface
      * @param ContainerInterface $parent [optional]
      * @param array $meta [optional]
      * @throws \InvalidArgumentException
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function __construct(
         Context $context,
@@ -100,79 +112,123 @@ abstract class Base implements ContainerInterface
         ObjectManager $objectManager,
         ContainerInterface $parent = null,
         array $meta = array()
-    )
-    {
+    ) {
         $this->context = $context;
         $this->renderFactory = $renderFactory;
         $this->viewFactory = $viewFactory;
-
         $this->objectManager = $objectManager;
 
         $this->parent = $parent;
-
         $this->meta = $meta;
+
+        // TODO: reduce NPathComplexity value
+
         $this->name = isset($meta['name']) ? $meta['name'] : null;
         $this->alias = isset($meta['as']) ? $meta['as'] : $this->name;
+
         $this->before = isset($meta['before']) ? $meta['before'] : null;
         $this->after = isset($meta['after']) ? $meta['after'] : null;
 
+        $this->ifConfig = isset($meta['ifconfig']) ? $meta['ifconfig'] : null;
         $this->arguments = isset($meta['arguments']) ? $meta['arguments'] : array();
 
-        self::$allElements[$this->name] = $this;
+        self::$allElements[$this->getName()] = $this;
     }
 
-    public function & getMeta()
+    /**
+     * Retrieve container configuration data
+     *
+     * @return array
+     */
+    public function &getMeta()
     {
         return $this->meta;
     }
 
+    /**
+     * Retrieve container name
+     *
+     * @return null|string
+     */
     public function getName()
     {
         return $this->name;
     }
 
+    /**
+     * Retrieve container type
+     *
+     * @return string
+     */
     public function getType()
     {
         return static::TYPE;
     }
 
+    /**
+     * @param string $handleName
+     */
     public function addHandle($handleName)
     {
-        $handle = $this->viewFactory->createHandle($this->context,
-            array('handle' => $handleName));
+        $handle = $this->viewFactory->createHandle($this->context, array(
+            'handle' => $handleName,
+        ));
         $handle->register($this);
     }
 
     /**
-     * @return Element
+     * Return parent container
+     *
+     * @return ContainerInterface
      */
     public function getParentElement()
     {
         return $this->parent;
     }
 
-    public function & getDataProviders()
+    /**
+     * Retrieve assigned data providers
+     *
+     * @return array
+     */
+    public function &getDataProviders()
     {
         return $this->dataProviders;
     }
 
+    /**
+     * Add data provider
+     *
+     * @param string $name
+     * @param \Magento\View\DataProvider $dataProvider
+     */
     public function addDataProvider($name, $dataProvider)
     {
         $this->dataProviders[$name] = $dataProvider;
     }
 
+    /**
+     * @return array
+     */
     public function getChildren()
     {
         return isset($this->meta['children']) ? $this->meta['children'] : array();
     }
 
+    /**
+     * Remove container by name
+     *
+     * @param string $name
+     */
     public function removeElement($name)
     {
         unset($this->elements[$name]);
-        unset($this->relations[$name]);
         unset(self::$allElements[$name]);
     }
 
+    /**
+     * Remove children
+     */
     public function removeChildrenElements()
     {
         $children = $this->getChildrenElements();
@@ -182,6 +238,8 @@ abstract class Base implements ContainerInterface
     }
 
     /**
+     * Retrieve children
+     *
      * @return ContainerInterface[]
      */
     public function getChildrenElements()
@@ -189,6 +247,11 @@ abstract class Base implements ContainerInterface
         return $this->elements;
     }
 
+    /**
+     * Alias for getChildrenElements
+     *
+     * @return array
+     */
     public function getChildBlocks()
     {
         $blocks = array();
@@ -208,7 +271,7 @@ abstract class Base implements ContainerInterface
      */
     public function isBlock(ContainerInterface $container)
     {
-        return $result = $container->getType() === \Magento\View\Container\Block::TYPE;
+        return $container->getType() === Block::TYPE;
     }
 
     /**
@@ -219,35 +282,50 @@ abstract class Base implements ContainerInterface
      */
     public function isContainer(ContainerInterface $container)
     {
-        return $result = $container->getType() === \Magento\View\Container\Container::TYPE;
+        return $container->getType() === Container::TYPE;
     }
 
     /**
+     * Retrieve container by name
+     *
      * @param string $name
      * @return ContainerInterface
      */
     public function getElement($name)
     {
         return isset(Base::$allElements[$name]) ? Base::$allElements[$name] : null;
-        //return isset($this->elements[$name]) ? $this->elements[$name] : null;
     }
 
+    /**
+     * @param string $name
+     * @param string $type
+     * @return string
+     */
     public function renderElement($name, $type = Html::TYPE_HTML)
     {
         $element = $this->getElement($name);
         if ($element) {
-            $result = $element->render($type);
-        } else {
-            $result = '';
+            return $element->render($type);
         }
-        return $result;
+        return '';
     }
 
+    /**
+     * Alias for renderElement
+     *
+     * @param string $name
+     * @param string $type
+     * @return string
+     */
     public function getChildHtml($name, $type = Html::TYPE_HTML)
     {
         return $this->renderElement($name, $type);
     }
 
+    /**
+     * @param string $type
+     * @return string
+     */
     public function renderChildren($type = Html::TYPE_HTML)
     {
         $out = '';
@@ -257,13 +335,31 @@ abstract class Base implements ContainerInterface
         return $out;
     }
 
+    /**
+     * Retrieve design theme
+     *
+     * @return \Magento\Core\Model\Theme
+     */
     public function getDesignTheme()
     {
         return $this->context->getDesignTheme();
     }
 
+    /**
+     * Attach container
+     *
+     * @param ContainerInterface $child
+     * @param string $alias
+     * @param string $before
+     * @param string $after
+     * @throws \LogicException
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     */
     public function attach(ContainerInterface $child, $alias = null, $before = null, $after = null)
     {
+        // TODO: reduce CyclomaticComplexity
+
         $name = isset($alias) ? $alias : $child->getName();
 
         if (isset($this->elements[$name])) {
@@ -297,50 +393,53 @@ abstract class Base implements ContainerInterface
         } else {
             $this->elements[$name] = $child;
         }
-
-        $this->registerRelation($this->getName(), $name);
     }
 
+    /**
+     * @param string $alias
+     * @return ContainerInterface|null
+     */
     public function getChild($alias)
     {
         return isset($this->elements[$alias]) ? $this->elements[$alias] : null;
     }
 
+    /**
+     * Detach container
+     *
+     * @param ContainerInterface $child
+     * @param null $alias
+     */
     public function detach(ContainerInterface $child, $alias = null)
     {
         $name = isset($alias) ? $alias : $child->getName();
-
         if (isset($this->elements[$name])) {
             unset($this->elements[$name]);
         }
-
-        if (isset($this->elements[$name])) {
-            unset($this->relations[$this->getName()]['children'][$name]);
-        }
     }
 
-    public function registerRelation($parentName, $childName)
-    {
-        $this->relations[$parentName]['children'][$childName] = & $this->elements[$childName];
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+    /**
+     * @param string $type
+     * @return string
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
     public function render($type = Html::TYPE_HTML)
     {
         return '';
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
-        // TODO there is no chance to enforce other render type this way
+        // TODO: there is no chance to enforce other render type this way
         try {
             $this->register();
-            $result = $this->render();
+            return $this->render();
         } catch (\Exception $e) {
-            $result = "$e";
+            return (string)$e;
         }
-
-        return $result;
     }
 }

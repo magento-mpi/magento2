@@ -13,21 +13,21 @@ use Magento\View\Render\Html;
 interface Container
 {
     /**
-     * Retrieve element configuration data
+     * Retrieve container configuration data
      *
      * @return array
      */
-    public function & getMeta();
+    public function &getMeta();
 
     /**
-     * Retrieve element name
+     * Retrieve container name
      *
      * @return string
      */
     public function getName();
 
     /**
-     * Retrieve element type
+     * Retrieve container type
      *
      * @return string
      */
@@ -51,15 +51,15 @@ interface Container
     public function getParentElement();
 
     /**
-     * Return child element
+     * Retrieve container by name
      *
-     * @param $name
+     * @param string $name
      * @return Container
      */
     public function getElement($name);
 
     /**
-     * Remove child element
+     * Remove container by name
      *
      * @param string $name
      */
@@ -73,13 +73,13 @@ interface Container
     public function renderElement($name, $type = Html::TYPE_HTML);
 
     /**
-     * @param $alias
+     * @param string $alias
      * @return Container
      */
     public function getChild($alias);
 
     /**
-     * Return array of children
+     * Retrieve children
      *
      * @return array
      */
@@ -102,7 +102,7 @@ interface Container
     public function isContainer(Container $element);
 
     /**
-     * Remove all children elements
+     * Remove children
      */
     public function removeChildrenElements();
 
@@ -118,6 +118,8 @@ interface Container
     public function register(Container $parent = null);
 
     /**
+     * Attach container
+     *
      * @param Container $child
      * @param string|null $alias
      * @param string|null $before
@@ -126,6 +128,8 @@ interface Container
     public function attach(Container $child, $alias = null, $before = null, $after = null);
 
     /**
+     * Detach container
+     *
      * @param Container $child
      * @param null|string $alias
      */
@@ -138,29 +142,29 @@ interface Container
     public function render($type = Html::TYPE_HTML);
 
     /**
+     * Retrieve assigned data providers
+     *
      * @return array
      */
-    public function & getDataProviders();
+    public function &getDataProviders();
 
     /**
+     * Add data provider
+     *
      * @param string $name
      * @param \Magento\View\DataProvider $dataProvider
      */
     public function addDataProvider($name, $dataProvider);
 
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // ALIASES for backward compatibility
-
     /**
-     * alias for getChildrenElements
+     * Alias for getChildrenElements
      *
      * @return array
      */
     public function getChildBlocks();
 
     /**
-     * alias for renderElement($name, $type = Html::TYPE_HTML);
+     * Alias for renderElement
      *
      * @param string $name
      * @param string $type

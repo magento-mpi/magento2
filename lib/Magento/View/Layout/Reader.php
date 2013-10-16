@@ -1,7 +1,14 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
 namespace Magento\View\Layout;
-use Magento\View\Element;
+
+use Magento\View\Container as ContainerInterface;
 use Magento\View\Layout\File\Source\Aggregated;
 use Magento\Core\Model\Layout\Argument\Processor;
 use Magento\Core\Model\Layout\Element as LayoutElement;
@@ -37,9 +44,9 @@ class Reader
 
     /**
      * @param $handle
-     * @param Element $container
+     * @param ContainerInterface $container
      */
-    public function loadHandle($handle, Element $container)
+    public function loadHandle($handle, ContainerInterface $container)
     {
         // TODO find a better way of assembling elements declarations
         $this->meta = & $container->getMeta();
@@ -147,14 +154,20 @@ class Reader
         }
     }
 
+    /**
+     * @param $original
+     * @param $elementName
+     * @return null
+     */
     protected function & seek(& $original, $elementName)
     {
         if (isset($original['children'][$elementName])) {
             return $original['children'][$elementName];
         }
+
         $result = null;
         if (isset($original['children'])) {
-            foreach ($original['children'] as $key => $child) {
+            foreach (array_keys($original['children']) as $key) {
                 $result = & $this->seek($original['children'][$key], $elementName);
                 if ($result) {
                     return $result;

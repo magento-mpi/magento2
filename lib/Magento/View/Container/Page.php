@@ -2,18 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_View
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-
-/**
- * Page View.
- *
- * @category    Magento
- * @package     Magento_View
  */
 
 namespace Magento\View\Container;
@@ -27,6 +17,9 @@ use Magento\ObjectManager;
 
 class Page extends Base implements ContainerInterface
 {
+    /**
+     * Container type
+     */
     const TYPE = 'page';
 
     /**
@@ -45,47 +38,47 @@ class Page extends Base implements ContainerInterface
         ObjectManager $objectManager,
         ContainerInterface $parent = null,
         array $meta = array()
-    )
-    {
+    ) {
         parent::__construct($context, $renderFactory, $viewFactory, $objectManager, $parent, $meta);
 
         $this->addHandle('default');
         $this->addHandle($context->getFullActionName());
     }
 
+    /**
+     * @param ContainerInterface $parent
+     */
     public function register(ContainerInterface $parent = null)
     {
         if (isset($parent)) {
             $parent->attach($this, $this->alias, $this->before, $this->after);
         }
 
-        if ($this->getChildren()) {
-            foreach ($this->getChildren() as $child) {
-
-                $metaElement = $this->viewFactory->create($child['type'],
-                    array(
-                        'context' => $this->context,
-                        'parent' => $this,
-                        'meta' => $child
-                    )
-                );
-                $metaElement->register($this);
-            }
+        foreach ($this->getChildren() as $child) {
+            $metaElement = $this->viewFactory->create($child['type'],
+                array(
+                    'context' => $this->context,
+                    'parent' => $this,
+                    'meta' => $child
+                )
+            );
+            $metaElement->register($this);
         }
     }
 
+    /**
+     * @param string $type
+     * @return string
+     */
     public function render($type = Html::TYPE_HTML)
     {
         $result = '';
         foreach ($this->getChildrenElements() as $child) {
-            //var_dump(get_class($child) . ' -- ' . $child->getName());
             /** @var $child ContainerInterface */
             $result .= $child->render($type);
         }
 
         $render = $this->renderFactory->get($type);
-        $result = $render->renderContainer($result);
-
-        return $result;
+        return $render->renderContainer($result);
     }
 }

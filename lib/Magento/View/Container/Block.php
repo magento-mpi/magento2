@@ -1,4 +1,10 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
 namespace Magento\View\Container;
 
@@ -11,6 +17,9 @@ use Magento\View\Render\Html;
 
 class Block extends Base implements ContainerInterface
 {
+    /**
+     * Container type
+     */
     const TYPE = 'block';
 
     /**
@@ -43,8 +52,7 @@ class Block extends Base implements ContainerInterface
         ObjectManager $objectManager,
         ContainerInterface $parent = null,
         array $meta = array()
-    )
-    {
+    ) {
         parent::__construct($context, $renderFactory, $viewFactory, $objectManager, $parent, $meta);
 
         if (!class_exists($this->meta['class'])) {
@@ -52,6 +60,9 @@ class Block extends Base implements ContainerInterface
         }
     }
 
+    /**
+     * @param ContainerInterface $parent
+     */
     public function register(ContainerInterface $parent = null)
     {
         if (isset($parent)) {
@@ -59,37 +70,45 @@ class Block extends Base implements ContainerInterface
         }
 
         $this->wrappedElement = $this->objectManager->create($this->meta['class'],
-            array('container' => $this, 'data' => $this->arguments));
+            array(
+                'container' => $this,
+                'data' => $this->arguments,
+            )
+        );
         $this->wrappedElement->setNameInLayout($this->name);
 
         if (isset($this->meta['template'])) {
             $this->wrappedElement->setTemplate($this->meta['template']);
         }
 
-        if ($this->getChildren()) {
-            foreach ($this->getChildren() as $child) {
-                $metaElement = $this->viewFactory->create($child['type'],
-                    array(
-                        'context' => $this->context,
-                        'parent' => $this,
-                        'meta' => $child
-                    )
-                );
-                $metaElement->register($this);
-            }
+        foreach ($this->getChildren() as $child) {
+            $metaElement = $this->viewFactory->create($child['type'],
+                array(
+                    'context' => $this->context,
+                    'parent' => $this,
+                    'meta' => $child,
+                )
+            );
+            $metaElement->register($this);
         }
 
         $this->addDataProvider($this->getName(), $this->wrappedElement);
     }
 
+    /**
+     * @param string $type
+     * @return string
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
     public function render($type = Html::TYPE_HTML)
     {
         return $this->wrappedElement->toHtml();
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     /**
+     * Call to wrapped element method
+     *
      * @param $method
      * @param array $arguments
      */
@@ -100,6 +119,11 @@ class Block extends Base implements ContainerInterface
         }
     }
 
+    /**
+     * Retrieve wrapped element instance
+     *
+     * @return \Magento\Core\Block\AbstractBlock
+     */
     public function getWrappedElement()
     {
         return $this->wrappedElement;
