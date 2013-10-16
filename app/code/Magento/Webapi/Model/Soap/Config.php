@@ -112,6 +112,7 @@ class Config
             $this->_soapServices = array();
             foreach ($this->_config->getServices() as $serviceData) {
                 $serviceClass = $serviceData[\Magento\Webapi\Model\Config::ATTR_SERVICE_CLASS];
+                $this->_checkForNameCollisions($serviceClass);
                 $reflection = new \ReflectionClass($serviceClass);
                 foreach ($reflection->getMethods() as $method) {
                     // find if method is secure, assume operation is not secure by default
@@ -133,6 +134,31 @@ class Config
             };
         }
         return $this->_soapServices;
+    }
+
+    /**
+     * Check for service name collisions. Collision example:
+     * Foo_Module_My_Service and Foo_Module_MyService will both be translated to FooModuleMyServiceV*
+     *
+     * @param string $newServiceClass Class name for the service to be added
+     * @throws \Magento\Webapi\Exception
+     */
+    protected function _checkForNameCollisions($newServiceClass)
+    {
+        if (is_array($this->_soapServices)) {
+            foreach ($this->_soapServices as $serviceClass => $serviceData) {
+                $serviceName = $this->getServiceName($serviceClass);
+
+                if ($serviceName === $this->getServiceName($newServiceClass)) {
+                    throw new \Magento\Webapi\Exception(
+                        __('Service class %1 collides with %2 by service name %3',
+                            $newServiceClass, $serviceClass, $serviceName),
+                        0,
+                        \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR
+                    );
+                }
+            }
+        }
     }
 
     /**
@@ -163,14 +189,10 @@ class Config
     /**
      * Retrieve the list of services corresponding to specified services and their versions.
      *
-     * @param array $requestedServices <pre>
-     * array(
-     *     'catalogProduct' => 'V1'
-     *     'customer' => 'V2
-     * )<pre/>
+     * @param array $requestedServices <pre>array('moduleServiceV1', 'anotherModuleAnotherServiceV1')<pre/>
      * @return array Filtered list of services
      */
-    public function getRequestedSoapServices($requestedServices)
+    public function getRequestedSoapServices(array $requestedServices)
     {
         $services = array();
         foreach ($requestedServices as $serviceName) {
