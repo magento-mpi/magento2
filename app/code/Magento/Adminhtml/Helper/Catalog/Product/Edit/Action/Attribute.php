@@ -18,7 +18,7 @@ class Attribute extends \Magento\Backend\Helper\Data
     /**
      * Selected products for mass-update
      *
-     * @var \Magento\Catalog\Model\Entity\Product\Collection
+     * @var \Magento\Catalog\Model\Resource\Product\Collection
      */
     protected $_products;
 

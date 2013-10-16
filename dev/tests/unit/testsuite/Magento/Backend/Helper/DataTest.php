@@ -61,12 +61,23 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('custom_backend', $this->_helper->getAreaFrontName());
     }
 
-    public function testClearAreaFrontName()
+    public function testGetAreaFrontNameAdminConfigCustomFrontName()
     {
-        $this->_frontResolverMock
-            ->expects($this->at(0))->method('getFrontName')->will($this->returnValue('custom_backend'));
+        $this->_configMock->expects($this->at(0))->method('getValue')
+            ->with(\Magento\Backend\Helper\Data::XML_PATH_USE_CUSTOM_ADMIN_PATH, 'default')
+            ->will($this->returnValue(true));
+
+        $this->_configMock->expects($this->at(1))->method('getValue')
+            ->with(\Magento\Backend\Helper\Data::XML_PATH_CUSTOM_ADMIN_PATH, 'default')
+            ->will($this->returnValue('control'));
+
+        $this->assertEquals('control', $this->_helper->getAreaFrontName());
+    }
+
+    public function testGetAreaFrontNameReturnsValueFromCache()
+    {
+        $this->_configMock->expects($this->once())->method('getValue');
         $this->_helper->getAreaFrontName();
-        $this->_helper->clearAreaFrontName();
-        $this->assertEquals(null, $this->_helper->getAreaFrontName());
+        $this->_helper->getAreaFrontName();
     }
 }

@@ -207,15 +207,4 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     {
         return $this->_frontNameResolver->getFrontName();
     }
-
-    /**
-     * Invalidate cache of area front name
-     *
-     * @return \Magento\Backend\Helper\Data
-     */
-    public function clearAreaFrontName()
-    {
-        $this->_areaFrontName = null;
-        return $this;
-    }
 }

@@ -201,7 +201,10 @@ return array(
         'Magento\Backend\Model\Config\Backend\Admin\Usecustom'
     ),
     array('Mage_Adminhtml_Model_System_Config_Backend_Admin_Usecustompath',
-        'Magento\Backend\Model\Config\Backend\Admin\Usecustompath'
+        'Magento\Backend\Model\Config\Backend\Admin\Custompath'
+    ),
+    array('Magento\Backend\Model\Config\Backend\Admin\Usecustompath',
+        'Magento\Backend\Model\Config\Backend\Admin\Custompath'
     ),
     array('Mage_Adminhtml_Model_System_Config_Backend_Admin_Usesecretkey',
         'Magento\Backend\Model\Config\Backend\Admin\Usesecretkey'
