@@ -20,10 +20,10 @@ namespace Magento\View\Layout;
 
 use Magento\View\Layout;
 use Magento\View\Context;
-use Magento\View\Element;
+use Magento\View\Container;
 use Magento\View\ViewFactory;
 use Magento\ObjectManager;
-use Magento\View\Element\Base;
+use Magento\View\Container\Base;
 use Magento\Core\Model\View\DesignInterface;
 use Magento\View\Design\ThemeFactory;
 
@@ -73,8 +73,8 @@ class DefaultLayout implements Layout
         Context $context,
         ViewFactory $viewFactory,
         ObjectManager $objectManager,
-        Reader $layoutReader)
-    {
+        Reader $layoutReader
+    ) {
         $this->design = $design;
         $this->context = $context;
         $this->viewFactory = $viewFactory;
@@ -155,7 +155,7 @@ class DefaultLayout implements Layout
 
     /**
      * @param $name
-     * @return \Magento\View\Element
+     * @return \Magento\View\Container
      */
     public function getElement($name)
     {
@@ -479,7 +479,7 @@ class DefaultLayout implements Layout
      * @param string $name
      * @param string $parentName
      * @param string $alias
-     * @return \Magento\View\Element\Block
+     * @return \Magento\View\Container\Block
      */
     public function addBlock($class, $name = '', $parentName = '', $alias = '')
     {
@@ -509,7 +509,7 @@ class DefaultLayout implements Layout
      * @param array $meta
      * @param string $parentName
      * @param string $alias
-     * @return \Magento\View\Element\Container
+     * @return \Magento\View\Container\Container
      */
     public function addContainer($name, $label, array $meta = array(), $parentName = '', $alias = '')
     {
@@ -704,7 +704,7 @@ class DefaultLayout implements Layout
         $result = false;
         $element = $this->getElement($name);
         if ($element) {
-            $result = $element->getType() === \Magento\View\Element\Block::TYPE;
+            $result = $element->getType() === \Magento\View\Container\Block::TYPE;
         }
 
         return $result;
@@ -722,7 +722,7 @@ class DefaultLayout implements Layout
         $result = false;
         $element = $this->getElement($name);
         if ($element) {
-            $result = $element->getType() === \Magento\View\Element\Container::TYPE;
+            $result = $element->getType() === \Magento\View\Container\Container::TYPE;
         }
 
         return $result;

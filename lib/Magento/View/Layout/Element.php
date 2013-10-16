@@ -17,8 +17,8 @@ class Element extends \Magento\Simplexml\Element
     {
         $tagName = (string)$this->getName();
         if (empty($this['name']) || !in_array($tagName, array(
-                \Magento\View\Element\Block::TYPE,
-                \Magento\View\Element\ReferenceBlock::TYPE,
+                \Magento\View\Container\Block::TYPE,
+                \Magento\View\Container\ReferenceBlock::TYPE,
         ))) {
             return false;
         }
