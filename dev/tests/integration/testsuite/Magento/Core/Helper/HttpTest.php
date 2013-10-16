@@ -40,7 +40,6 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     public function testGetHttpMethods()
     {
-        $this->assertEquals(false, $this->_helper->getHttpAcceptCharset());
         $this->assertEquals(false, $this->_helper->getHttpReferer());
     }
 

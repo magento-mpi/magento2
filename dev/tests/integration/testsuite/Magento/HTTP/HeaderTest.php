@@ -29,5 +29,6 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($host, $this->_helper->getHttpHost());
         $this->assertEquals(false, $this->_helper->getHttpUserAgent());
         $this->assertEquals(false, $this->_helper->getHttpAcceptLanguage());
+        $this->assertEquals(false, $this->_helper->getHttpAcceptCharset());
     }
 }

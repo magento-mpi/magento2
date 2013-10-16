@@ -62,6 +62,17 @@ class Header
     }
 
     /**
+     * Retrieve HTTP ACCEPT CHARSET
+     *
+     * @param boolean $clean clean non UTF-8 characters
+     * @return string
+     */
+    public function getHttpAcceptCharset($clean = true)
+    {
+        return $this->_getHttpCleanValue('HTTP_ACCEPT_CHARSET', $clean);
+    }
+
+    /**
      * Retrieve HTTP "clean" value
      *
      * @param string $var
