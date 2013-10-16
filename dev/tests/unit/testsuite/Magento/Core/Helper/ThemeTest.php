@@ -30,9 +30,13 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         /** @var $dirs \Magento\Core\Model\Dir */
         $dirs = $this->getMock('Magento\Core\Model\Dir', null, array(), '', false);
 
-        /** @var $layoutProcessorFactory \Magento\View\Layout\ProcessorFactory */
-        $layoutProcessorFactory = $this->getMock('Magento\View\Layout\ProcessorFactory', array('create'),
-            array(), '', false
+        /** @var $processorFactory \Magento\View\Layout\ProcessorFactory */
+        $processorFactory = $this->getMock(
+            'Magento\View\Layout\ProcessorFactory',
+            array('create'),
+            array(),
+            '',
+            false
         );
 
         /** @var $themeCollection \Magento\Core\Model\Resource\Theme\Collection */
@@ -47,7 +51,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         $helper = new \Magento\Core\Helper\Theme(
             $context,
             $dirs,
-            $layoutProcessorFactory,
+            $processorFactory,
             $themeCollection,
             $fileSystem
         );
@@ -485,15 +489,13 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
             ->method('getFileLayoutUpdatesXml')
             ->will($this->returnValue($layoutElement));
 
-        /** @var $layoutProcessorFactory \Magento\View\Layout\ProcessorFactory */
-        $layoutProcessorFactory = $this->getMock('Magento\View\Layout\ProcessorFactory',
-            array('create'), array(), '', false
-        );
-        $layoutProcessorFactory->expects($this->any())
+        /** @var $processorFactory \Magento\View\Layout\ProcessorFactory */
+        $processorFactory = $this->getMock('Magento\View\Layout\ProcessorFactory', array('create'), array(), '', false);
+        $processorFactory->expects($this->any())
             ->method('create')
             ->will($this->returnValue($layoutProcessor));
 
-        return $layoutProcessorFactory;
+        return $processorFactory;
     }
 
     /**
@@ -555,10 +557,8 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         $dirs = $this->_getDirs();
 
         // 5. Get layout merge model and factory
-        /** @var $layoutProcessorFactory \Magento\View\Layout\ProcessorFactory|\PHPUnit_Framework_MockObject_MockObject */
-        $layoutProcessorFactory = $this->getMock('Magento\View\Layout\ProcessorFactory',
-            array('create'), array(), '', false
-        );
+        /** @var $processorFactory \Magento\View\Layout\ProcessorFactory|\PHPUnit_Framework_MockObject_MockObject */
+        $processorFactory = $this->getMock('Magento\View\Layout\ProcessorFactory', array('create'), array(), '', false);
 
         /** @var $context \Magento\Core\Helper\Context */
         $context = $this->getMock('Magento\Core\Helper\Context', null, array(), '', false);
@@ -568,9 +568,11 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()->getMock();
 
         /** @var $helper \Magento\Core\Helper\Theme|\PHPUnit_Framework_MockObject_MockObject */
-        $helper = $this->getMock('Magento\Core\Helper\Theme', array('getCssFiles'), array(
-            $context, $dirs, $layoutProcessorFactory, $themeCollection, $fileSystem
-        ));
+        $helper = $this->getMock(
+            'Magento\Core\Helper\Theme',
+            array('getCssFiles'),
+            array($context, $dirs, $processorFactory, $themeCollection, $fileSystem)
+        );
         $helper->expects($this->once())
             ->method('getCssFiles')
             ->will($this->returnValue($files));
