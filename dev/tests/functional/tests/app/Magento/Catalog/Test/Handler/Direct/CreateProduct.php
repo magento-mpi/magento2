@@ -31,10 +31,10 @@ class CreateProduct extends Direct
      */
     protected $_mappingData = array(
         'visibility' => array(
-            Product::VISIBILITY_NOT_VISIBLE => \Mage_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE,
-            Product::VISIBILITY_IN_CATALOG  => \Mage_Catalog_Model_Product_Visibility::VISIBILITY_IN_CATALOG,
-            Product::VISIBILITY_IN_SEARCH   => \Mage_Catalog_Model_Product_Visibility::VISIBILITY_IN_SEARCH,
-            Product::VISIBILITY_BOTH        => \Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
+            Product::VISIBILITY_NOT_VISIBLE => \Magento\Catalog\Model\Product\Visibility::VISIBILITY_NOT_VISIBLE,
+            Product::VISIBILITY_IN_CATALOG  => \Magento\Catalog\Model\Product\Visibility::VISIBILITY_IN_CATALOG,
+            Product::VISIBILITY_IN_SEARCH   => \Magento\Catalog\Model\Product\Visibility::VISIBILITY_IN_SEARCH,
+            Product::VISIBILITY_BOTH        => \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH,
         )
     );
 
@@ -45,7 +45,7 @@ class CreateProduct extends Direct
      */
     protected $requiredData = array(
         'attribute_set_id' => 4,
-        'type_id'          => \Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
+        'type_id'          => \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
         'website_ids'      => array(1),
     );
 
@@ -57,13 +57,10 @@ class CreateProduct extends Direct
      */
     public function execute(Fixture $fixture = null)
     {
-        $objectManager = \Mage::getObjectManager();
-        if ($objectManager == null) {
-            $objectManager = new \Mage_Core_Model_ObjectManager(new \Mage_Core_Model_Config_Primary(BP, $_SERVER));
-        }
-
-        /** @var $product \Mage_Catalog_Model_Product */
-        $product = $objectManager->create('Mage_Catalog_Model_Product');
+        $config = new \Magento\Core\Model\Config\Primary(BP, array());
+        $objectManager = new \Magento\Core\Model\ObjectManager($config);
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = $objectManager->create('Magento\Catalog\Model\Product');
 
         $dataSet = $fixture->getData();
         $data = $this->_convertData($dataSet);
