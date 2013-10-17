@@ -23,11 +23,6 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Http');
     }
 
-    public function testGetServerAddr()
-    {
-        $this->assertEquals(false, $this->_helper->getServerAddr());
-    }
-
     public function testGetRequestUri()
     {
         $this->assertNull($this->_helper->getRequestUri());

@@ -28,8 +28,18 @@ class ServerAddress
         $this->_request = $httpRequest;
     }
 
-    public function getServerAddress()
+    /**
+     * Retrieve Server IP address
+     *
+     * @param bool $ipToLong converting IP to long format
+     * @return string IPv4|long
+     */
+    public function getServerAddress($ipToLong = false)
     {
-
+        $address = $this->_request->getServer('SERVER_ADDR');
+        if (!$address) {
+            return false;
+        }
+        return $ipToLong ? ip2long($address) : $address;
     }
 }

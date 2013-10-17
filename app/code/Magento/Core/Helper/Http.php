@@ -96,21 +96,6 @@ class Http extends \Magento\Core\Helper\AbstractHelper
     }
 
     /**
-     * Retrieve Server IP address
-     *
-     * @param bool $ipToLong converting IP to long format
-     * @return string IPv4|long
-     */
-    public function getServerAddr($ipToLong = false)
-    {
-        $address = $this->_getRequest()->getServer('SERVER_ADDR');
-        if (!$address) {
-            return false;
-        }
-        return $ipToLong ? ip2long($address) : $address;
-    }
-
-    /**
      * Returns the REQUEST_URI taking into account
      * platform differences between Apache and IIS
      *

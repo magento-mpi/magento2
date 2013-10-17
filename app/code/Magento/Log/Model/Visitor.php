@@ -107,6 +107,11 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     protected $_remoteAddress;
 
     /**
+     * @var \Magento\HTTP\PhpEnvironment\ServerAddress
+     */
+    protected $_serverAddress;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
@@ -119,6 +124,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Config $coreConfig
      * @param \Magento\HTTP\Header $httpHeader
      * @param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
+     * @param \Magento\HTTP\PhpEnvironment\ServerAddress $serverAddress
      * @param array $data
      * @param array $ignoredUserAgents
      * @param array $ignores
@@ -140,6 +146,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Config $coreConfig,
         \Magento\HTTP\Header $httpHeader,
         \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress,
+        \Magento\HTTP\PhpEnvironment\ServerAddress $serverAddress,
         array $data = array(),
         array $ignoredUserAgents = array(),
         array $ignores = array(),
@@ -157,6 +164,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
         $this->_ignoredUserAgents = $ignoredUserAgents;
         $this->_httpHeader = $httpHeader;
         $this->_remoteAddress = $remoteAddress;
+        $this->_serverAddress = $serverAddress;
 
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_ignores = $ignores;
@@ -194,7 +202,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     public function initServerData()
     {
         $this->addData(array(
-            'server_addr'           => $this->_coreHttp->getServerAddr(true),
+            'server_addr'           => $this->_serverAddress->getServerAddress(true),
             'remote_addr'           => $this->_remoteAddress->getRemoteAddress(true),
             'http_secure'           => $this->_storeManager->getStore()->isCurrentlySecure(),
             'http_host'             => $this->_httpHeader->getHttpHost(true),
