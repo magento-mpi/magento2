@@ -12,7 +12,7 @@
 /**
  * Test class for \Magento\View\Layout\Element
  */
-namespace Magento\Core\Model\Layout;
+namespace Magento\View\Layout;
 
 class ElementTest extends \PHPUnit_Framework_TestCase
 {
