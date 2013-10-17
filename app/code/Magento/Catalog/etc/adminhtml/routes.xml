@@ -9,7 +9,7 @@
 -->
 <config>
     <router id="admin">
-        <route id="adminhtml">
+        <route id="catalog" frontName="catalog">
             <module name="Magento_Catalog_Adminhtml" before="Magento_Adminhtml" />
         </route>
     </router>

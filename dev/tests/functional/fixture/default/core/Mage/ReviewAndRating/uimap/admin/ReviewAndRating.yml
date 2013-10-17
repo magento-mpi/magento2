@@ -88,7 +88,7 @@ edit_rating:
         messages: *ratingMessages
 
 manage_all_reviews:
-    mca: catalog_product_review/
+    mca: catalog/product_review/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'catalog_product_review/index/')]
     title: Reviews / Customer Reviews / User Content / Marketing / Magento Admin
     uimap:
@@ -136,7 +136,7 @@ manage_all_reviews:
             not_available_rating: //*[@id='rating_detail'][normalize-space(text())="Rating isn't Available"]
 
 add_new_review:
-    mca: catalog_product_review/new/
+    mca: catalog/product_review/new/
     title: New Review / Customer Reviews / User Content / Marketing / Magento Admin
     uimap:
         form:
@@ -184,7 +184,7 @@ add_new_review:
         messages: *reviewMessages
 
 edit_review:
-    mca: catalog_product_review/edit/id/%id%/
+    mca: catalog/product_review/edit/id/%id%/
     title: Edit Review / Customer Reviews / User Content / Marketing / Magento Admin
     uimap: &editReview
         form:
@@ -216,6 +216,6 @@ edit_review:
         messages: *reviewMessages
 
 edit_pending_review:
-    mca: catalog_product_review/edit/id/%id%/ret/pending/
+    mca: catalog/product_review/edit/id/%id%/ret/pending/
     title: Edit Review / Customer Reviews / User Content / Marketing / Magento Admin
     uimap: *editReview

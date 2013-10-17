@@ -116,7 +116,7 @@ class Grid extends \Magento\Adminhtml\Block\Report\Grid\Shopcart
 
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/catalog_product/edit', array('id'=>$row->getEntityId()));
+        return $this->getUrl('*/product/edit', array('id'=>$row->getEntityId()));
     }
 }
 

@@ -111,6 +111,6 @@ class Viewed extends \Magento\Adminhtml\Block\Dashboard\Grid
         if ($this->getRequest()->getParam('store')) {
             $params['store'] = $this->getRequest()->getParam('store');
         }
-        return $this->getUrl('*/catalog_product/edit', $params);
+        return $this->getUrl('*/product/edit', $params);
     }
 }

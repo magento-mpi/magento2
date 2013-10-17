@@ -81,7 +81,7 @@ class Composite extends \Magento\Core\Helper\AbstractHelper
     protected function _initUpdateResultLayout($controller)
     {
         $controller->getLayout()->getUpdate()
-            ->addHandle('ADMINHTML_CATALOG_PRODUCT_COMPOSITE_UPDATE_RESULT');
+            ->addHandle('CATALOG_PRODUCT_COMPOSITE_UPDATE_RESULT');
         $controller->loadLayoutUpdates()->generateLayoutXml()->generateLayoutBlocks();
         return $this;
     }
@@ -117,10 +117,10 @@ class Composite extends \Magento\Core\Helper\AbstractHelper
     {
         $update = $controller->getLayout()->getUpdate();
         if ($isOk) {
-            $update->addHandle('ADMINHTML_CATALOG_PRODUCT_COMPOSITE_CONFIGURE')
+            $update->addHandle('CATALOG_PRODUCT_COMPOSITE_CONFIGURE')
                 ->addHandle('catalog_product_view_type_' . $productType);
         } else {
-            $update->addHandle('ADMINHTML_CATALOG_PRODUCT_COMPOSITE_CONFIGURE_ERROR');
+            $update->addHandle('CATALOG_PRODUCT_COMPOSITE_CONFIGURE_ERROR');
         }
         $controller->loadLayoutUpdates()->generateLayoutXml()->generateLayoutBlocks();
         return $this;

@@ -17,7 +17,7 @@
  */
 namespace Magento\Bundle\Controller\Adminhtml\Bundle\Product;
 
-class Edit extends \Magento\Catalog\Controller\Adminhtml\Catalog\Product
+class Edit extends \Magento\Catalog\Controller\Adminhtml\Product
 {
     public function formAction()
     {

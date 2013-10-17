@@ -220,13 +220,13 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Catalog\Category\AbstractCat
 
     public function getNodesUrl()
     {
-        return $this->getUrl('*/catalog_category/jsonTree');
+        return $this->getUrl('*/category/jsonTree');
     }
 
     public function getSwitchTreeUrl()
     {
         return $this->getUrl(
-            "*/catalog_category/tree",
+            "*/category/tree",
             array('_current'=>true, 'store'=>null, '_query'=>false, 'id'=>null, 'parent'=>null)
         );
     }
@@ -238,7 +238,7 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Catalog\Category\AbstractCat
 
     public function getMoveUrl()
     {
-        return $this->getUrl('*/catalog_category/move', array('store'=>$this->getRequest()->getParam('store')));
+        return $this->getUrl('*/category/move', array('store'=>$this->getRequest()->getParam('store')));
     }
 
     public function getTree($parenNodeCategory=null)

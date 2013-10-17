@@ -132,7 +132,7 @@ HTML;
     {
         return array(
             'source' => $this->_backendData
-                ->getUrl('adminhtml/catalog_category/suggestCategories'),
+                ->getUrl('catalog/category/suggestCategories'),
             'valueField' => '#' . $this->getHtmlId(),
             'className' => 'category-select',
             'multiselect' => true,

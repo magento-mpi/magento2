@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <update handle="formkey"/>
+    <update handle="catalog_product_set_block"/>
+    <referenceContainer name="content">
+        <block class="Magento\Catalog\Block\Adminhtml\Catalog\Product\Attribute\Set\Toolbar\Main" name="adminhtml.catalog.product.set.container"/>
+    </referenceContainer>
+</layout>

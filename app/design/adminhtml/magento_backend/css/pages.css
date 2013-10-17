@@ -10,9 +10,9 @@
 -------------------------------------- */
 
 /* Action "Back" as cross  */
-[class^=" adminhtml-catalog-product-"] .page-actions .action-back,
-[class^=" adminhtml-catalog-product-"] .page-actions .action-back:hover,
-[class^=" adminhtml-catalog-product-"] .page-actions .action-back:active,
+[class^=" catalog-product-"] .page-actions .action-back,
+[class^=" catalog-product-"] .page-actions .action-back:hover,
+[class^=" catalog-product-"] .page-actions .action-back:active,
 [class^=" adminhtml-newsletter-"] .page-actions .action-back,
 [class^=" adminhtml-newsletter-"] .page-actions .action-back:hover,
 [class^=" adminhtml-newsletter-"] .page-actions .action-back:active {
@@ -22,9 +22,9 @@
     color: #7a7976;
 }
 
-.eq-ie8 [class^=" adminhtml-catalog-product-"] .page-actions .action-back,
-.eq-ie8 [class^=" adminhtml-catalog-product-"] .page-actions .action-back:hover,
-.eq-ie8 [class^=" adminhtml-catalog-product-"] .page-actions .action-back:active,
+.eq-ie8 [class^=" catalog-product-"] .page-actions .action-back,
+.eq-ie8 [class^=" catalog-product-"] .page-actions .action-back:hover,
+.eq-ie8 [class^=" catalog-product-"] .page-actions .action-back:active,
 .eq-ie8 [class^=" adminhtml-newsletter-"] .page-actions .action-back,
 .eq-ie8 [class^=" adminhtml-newsletter-"] .page-actions .action-back:hover,
 .eq-ie8 [class^=" adminhtml-newsletter-"] .page-actions .action-back:active,
@@ -35,18 +35,18 @@
     border: 0;
 }
 
-[class^=" adminhtml-catalog-product-"] .page-actions .action-back:hover,
+[class^=" catalog-product-"] .page-actions .action-back:hover,
 [class^=" adminhtml-newsletter-"] .page-actions .action-back:hover,
 .adminhtml-sales-order-create-index .page-actions-inner .cancel:hover {
     color: #000;
 }
 
-[class^=" adminhtml-catalog-product-"] .page-actions .action-back.mage-error,
+[class^=" catalog-product-"] .page-actions .action-back.mage-error,
 [class^=" adminhtml-newsletter-"] .page-actions .action-back.mage-error {
     color: #b57c72;
 }
 
-[class^=" adminhtml-catalog-product-"] .page-actions .action-back:before,
+[class^=" catalog-product-"] .page-actions .action-back:before,
 [class^=" adminhtml-newsletter-"] .page-actions .action-back:before,
 .adminhtml-sales-order-create-index .page-actions-inner .cancel:before {
     display: inline-block;
@@ -59,7 +59,7 @@
     font-size: 16px;
 }
 
-[class^=" adminhtml-catalog-product-"] .page-actions .action-back span,
+[class^=" catalog-product-"] .page-actions .action-back span,
 [class^=" adminhtml-newsletter-"] .page-actions .action-back span,
 .adminhtml-sales-order-create-index .page-actions-inner .cancel span {
     display: inline-block;

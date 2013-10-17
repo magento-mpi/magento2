@@ -511,11 +511,11 @@ button.primary.disabled:hover,
 .image .action-delete[disabled],
 .fieldset-wrapper-title .actions .action-delete[disabled],
 .address-list-item-actions .action-delete[disabled],
-[class^=" adminhtml-catalog-product-"] .page-actions .action-back,
-[class^=" adminhtml-catalog-product-"] .page-actions .action-back:hover,
-[class^=" adminhtml-catalog-product-"] .page-actions .action-back:active,
-[class^=" adminhtml-catalog-product-"] .page-actions .action-back.active,
-[class^=" adminhtml-catalog-product-"] .page-actions .action-back[disabled],
+[class^=" catalog-product-"] .page-actions .action-back,
+[class^=" catalog-product-"] .page-actions .action-back:hover,
+[class^=" catalog-product-"] .page-actions .action-back:active,
+[class^=" catalog-product-"] .page-actions .action-back.active,
+[class^=" catalog-product-"] .page-actions .action-back[disabled],
 [class^=" adminhtml-newsletter-"] .page-actions .action-back,
 [class^=" adminhtml-newsletter-"] .page-actions .action-back:hover,
 [class^=" adminhtml-newsletter-"] .page-actions .action-back:active,
@@ -4114,7 +4114,7 @@ table tbody tr:nth-child(odd):hover th {
     float: left;
 }
 
-.adminhtml-catalog-product-index .page-actions {
+.catalog-product-index .page-actions {
     padding-top: 0;
 }
 

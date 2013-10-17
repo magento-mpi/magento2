@@ -50,7 +50,7 @@ class AttributeSet extends \Magento\Backend\Block\Widget\Form
     public function getSelectorOptions()
     {
         return array(
-            'source' => $this->getUrl('*/catalog_product/suggestProductTemplates'),
+            'source' => $this->getUrl('*/product/suggestProductTemplates'),
             'className' => 'category-select',
             'showRecent' => true,
             'storageKey' => 'product-template-key',

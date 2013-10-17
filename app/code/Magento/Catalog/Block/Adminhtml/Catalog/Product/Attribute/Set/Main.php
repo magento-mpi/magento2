@@ -179,7 +179,7 @@ class Main extends \Magento\Backend\Block\Template
      */
     public function getMoveUrl()
     {
-        return $this->getUrl('*/catalog_product_set/save', array('id' => $this->_getSetId()));
+        return $this->getUrl('*/product_set/save', array('id' => $this->_getSetId()));
     }
 
     /**
@@ -189,7 +189,7 @@ class Main extends \Magento\Backend\Block\Template
      */
     public function getGroupUrl()
     {
-        return $this->getUrl('*/catalog_product_group/save', array('id' => $this->_getSetId()));
+        return $this->getUrl('*/product_group/save', array('id' => $this->_getSetId()));
     }
 
     /**

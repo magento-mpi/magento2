@@ -193,7 +193,7 @@ class Config
                     'mage-init' => array(
                         'configurableAttribute' => array(
                             'url' => $this->getUrl(
-                                '*/catalog_product_attribute/new',
+                                '*/product_attribute/new',
                                 array(
                                     'store' => $this->getProduct()->getStoreId(),
                                     'product_tab' => 'variations',

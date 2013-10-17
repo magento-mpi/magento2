@@ -52,7 +52,7 @@ class Content extends \Magento\Backend\Block\Widget
         $this->getUploader()->getConfig()
             ->setUrl(
                 $this->_urlBuilder->addSessionParam()
-                    ->getUrl('adminhtml/catalog_product_gallery/upload')
+                    ->getUrl('catalog/product_gallery/upload')
             )
             ->setFileField('image')
             ->setFilters(array(

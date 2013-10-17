@@ -86,7 +86,7 @@ class Wysiwyg extends \Magento\Data\Form\Element\Textarea
                     'disabled' => $disabled,
                     'class' => ($disabled) ? 'disabled action-wysiwyg' : 'action-wysiwyg',
                     'onclick' => 'catalogWysiwygEditor.open(\''
-                        . $this->_backendData->getUrl('adminhtml/catalog_product/wysiwyg')
+                        . $this->_backendData->getUrl('catalog/product/wysiwyg')
                         . '\', \'' . $this->getHtmlId().'\')'
                 )))->toHtml();
             $html .= <<<HTML

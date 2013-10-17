@@ -107,6 +107,6 @@ class Last extends \Magento\Adminhtml\Block\Dashboard\Grid
 
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/catalog_search/edit', array('id'=>$row->getId()));
+        return $this->getUrl('*/search/edit', array('id'=>$row->getId()));
     }
 }

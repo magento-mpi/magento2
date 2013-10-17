@@ -48,7 +48,7 @@ class Attribute extends \Magento\Adminhtml\Block\Widget
     {
         $this->addChild('back_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Back'),
-            'onclick'   => 'setLocation(\''.$this->getUrl('*/catalog_product/', array('store'=>$this->getRequest()->getParam('store', 0))).'\')',
+            'onclick'   => 'setLocation(\''.$this->getUrl('*/product/', array('store'=>$this->getRequest()->getParam('store', 0))).'\')',
             'class' => 'back'
         ));
 

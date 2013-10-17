@@ -430,7 +430,7 @@ class Create extends \Magento\Backend\Controller\Adminhtml\Action
 
         $updateResult->setJsVarName($this->getRequest()->getParam('as_js_varname'));
         $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setCompositeProductResult($updateResult);
-        $this->_redirect('*/catalog_product/showUpdateResult');
+        $this->_redirect('*/product/showUpdateResult');
     }
 
     /**

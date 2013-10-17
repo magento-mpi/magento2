@@ -246,7 +246,7 @@ class Event extends \Magento\Backend\Controller\Adminhtml\Action
                     __('You deleted the event.')
                 );
                 if ($this->getRequest()->getParam('category')) {
-                    $this->_redirect('*/catalog_category/edit', array('id' => $event->getCategoryId(), 'clear' => 1));
+                    $this->_redirect('*/category/edit', array('id' => $event->getCategoryId(), 'clear' => 1));
                 } else {
                     $this->_redirect('*/*/');
                 }

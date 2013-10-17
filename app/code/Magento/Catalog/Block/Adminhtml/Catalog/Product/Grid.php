@@ -392,7 +392,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         if ($this->_authorization->isAllowed('Magento_Catalog::update_attributes')){
             $this->getMassactionBlock()->addItem('attributes', array(
                 'label' => __('Update Attributes'),
-                'url'   => $this->getUrl('*/catalog_product_action_attribute/edit', array('_current'=>true))
+                'url'   => $this->getUrl('*/product_action_attribute/edit', array('_current'=>true))
             ));
         }
 

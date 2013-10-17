@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <update handle="catalog_search_grid_block"/>
+    <referenceContainer name="content">
+        <block class="Magento\Catalog\Block\Adminhtml\Catalog\Search" name="adminhtml.catalog.search.grid.container"/>
+    </referenceContainer>
+</layout>

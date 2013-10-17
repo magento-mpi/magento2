@@ -127,7 +127,7 @@ class Stock extends \Magento\Adminhtml\Block\Widget\Grid
         if ($storeId) {
             $storeId = $this->_storeManager->getStore($storeId)->getId();
         }
-        return $this->getUrl('*/catalog_product/alertsStockGrid', array(
+        return $this->getUrl('*/product/alertsStockGrid', array(
             'id'    => $productId,
             'store' => $storeId
         ));

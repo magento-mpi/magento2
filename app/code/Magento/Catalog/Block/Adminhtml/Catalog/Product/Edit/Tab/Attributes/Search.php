@@ -74,7 +74,7 @@ class Search extends \Magento\Backend\Block\Widget
     {
         $templateId = $this->_coreRegistry->registry('product')->getAttributeSetId();
         return array(
-            'source' => $this->getUrl('*/catalog_product/suggestAttributes'),
+            'source' => $this->getUrl('*/product/suggestAttributes'),
             'minLength' => 0,
             'ajaxOptions' => array('data' => array('template_id' => $templateId)),
             'template' => '[data-template-for="product-attribute-search"]',
@@ -116,6 +116,6 @@ class Search extends \Magento\Backend\Block\Widget
      */
     public function getAddAttributeUrl()
     {
-        return $this->getUrl('*/catalog_product/addAttributeToTemplate');
+        return $this->getUrl('*/product/addAttributeToTemplate');
     }
 }

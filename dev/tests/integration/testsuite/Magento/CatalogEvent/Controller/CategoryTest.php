@@ -20,7 +20,7 @@ class CategoryTest extends \Magento\Backend\Utility\Controller
      */
     public function testEditCategoryAction()
     {
-        $this->dispatch('backend/admin/catalog_category/edit/id/3');
+        $this->dispatch('backend/catalog/category/edit/id/3');
         $this->assertContains(
             'onclick="setLocation(\'http://localhost/index.php/backend/admin/catalog_event/new/category_id/',
             $this->getResponse()->getBody()
@@ -35,7 +35,7 @@ class CategoryTest extends \Magento\Backend\Utility\Controller
      */
     public function testEditCategoryActionEditEvent()
     {
-        $this->dispatch('backend/admin/catalog_category/edit/id/3');
+        $this->dispatch('backend/catalog/category/edit/id/3');
         $this->assertContains(
             'onclick="setLocation(\'http://localhost/index.php/backend/admin/catalog_event/edit/id/',
             $this->getResponse()->getBody()

@@ -162,7 +162,7 @@ class Cart
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/catalog_product/edit', array('id' => $row->getProductId()));
+        return $this->getUrl('*/product/edit', array('id' => $row->getProductId()));
     }
 
     /**

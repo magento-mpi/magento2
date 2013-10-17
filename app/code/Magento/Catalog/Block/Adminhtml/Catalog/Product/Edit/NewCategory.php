@@ -109,7 +109,7 @@ class NewCategory extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function getSaveCategoryUrl()
     {
-        return $this->getUrl('adminhtml/catalog_category/save');
+        return $this->getUrl('catalog/category/save');
     }
 
     /**
@@ -121,13 +121,13 @@ class NewCategory extends \Magento\Backend\Block\Widget\Form\Generic
     {
         $widgetOptions = $this->_coreData->jsonEncode(array(
             'suggestOptions' => array(
-                'source' => $this->getUrl('adminhtml/catalog_category/suggestCategories'),
+                'source' => $this->getUrl('catalog/category/suggestCategories'),
                 'valueField' => '#new_category_parent',
                 'className' => 'category-select',
                 'multiselect' => true,
                 'showAll' => true,
             ),
-            'saveCategoryUrl' => $this->getUrl('adminhtml/catalog_category/save'),
+            'saveCategoryUrl' => $this->getUrl('catalog/category/save'),
         ));
         return <<<HTML
 <script>

@@ -278,6 +278,6 @@ class Matrix
      */
     public function getImageUploadUrl()
     {
-        return $this->getUrl('*/catalog_product_gallery/upload');
+        return $this->getUrl('*/product_gallery/upload');
     }
 }
