@@ -89,4 +89,8 @@ return array(
     array('_app', 'Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Content'),
     array('_app', 'Magento\Core\Block\AbstractBlock'),
     array('_app', 'Magento\Core\Block\Template'),
+    array('_config', 'Magento\Backend\Helper\Data'),
+    array('_defaultAreaFrontName', 'Magento\Backend\Helper\Data'),
+    array('_areaFrontName', 'Magento\Backend\Helper\Data'),
+    array('_backendFrontName', 'Magento\Backend\Helper\Data'),
 );

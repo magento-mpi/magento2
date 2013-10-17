@@ -278,7 +278,8 @@ class UrlTest extends \PHPUnit_Framework_TestCase
 
         $this->_requestMock->expects($this->exactly(3))->method('getBeforeForwardInfo')->will($this->returnValue(null));
         $this->_requestMock->expects($this->once())->method('getRouteName')->will($this->returnValue($routeName));
-        $this->_requestMock->expects($this->once())->method('getControllerName')->will($this->returnValue($controllerName));
+        $this->_requestMock
+            ->expects($this->once())->method('getControllerName')->will($this->returnValue($controllerName));
         $this->_requestMock->expects($this->once())->method('getActionName')->will($this->returnValue($actionName));
         $this->_model->setRequest($this->_requestMock);
 

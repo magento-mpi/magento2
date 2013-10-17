@@ -226,4 +226,9 @@ return array(
     array('XML_NODE_SESSION_SAVE_PATH', 'Magento\Core\Model\Session\AbstractSession',
         'Magento_Core_Model_Session_AbstractSession::PARAM_SESSION_SAVE_PATH'
     ),
+    array('XML_PATH_USE_CUSTOM_ADMIN_PATH', 'Magento\Backend\Helper\Data'),
+    array('XML_PATH_CUSTOM_ADMIN_PATH', 'Magento\Backend\Helper\Data'),
+    array('XML_PATH_BACKEND_AREA_FRONTNAME', 'Magento\Backend\Helper\Data'),
+    array('PARAM_BACKEND_FRONT_NAME', 'Magento\Backend\Helper\Data'),
+
 );
