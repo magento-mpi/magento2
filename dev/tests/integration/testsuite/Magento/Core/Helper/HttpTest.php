@@ -23,16 +23,6 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Http');
     }
 
-    public function testGetRemoteAddrHeaders()
-    {
-        $this->assertEquals(array(), $this->_helper->getRemoteAddrHeaders());
-    }
-
-    public function testGetRemoteAddr()
-    {
-        $this->assertEquals(false, $this->_helper->getRemoteAddr());
-    }
-
     public function testGetServerAddr()
     {
         $this->assertEquals(false, $this->_helper->getServerAddr());

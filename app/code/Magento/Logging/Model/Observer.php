@@ -24,13 +24,6 @@ class Observer
     protected $_processor;
 
     /**
-     * Core http
-     *
-     * @var \Magento\Core\Helper\Http
-     */
-    protected $_coreHttp = null;
-
-    /**
      * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
@@ -70,36 +63,41 @@ class Observer
     protected $eventFactory;
 
     /**
+     * @var \Magento\HTTP\PhpEnvironment\RemoteAddress
+     */
+    protected $_remoteAddress;
+
+    /**
      * @param \Magento\Logging\Model\Resource\EventFactory $eventFactory
      * @param \Magento\Logging\Model\Config $config
      * @param \Magento\User\Model\User $user
      * @param \Magento\Logging\Model\Event $event
-     * @param \Magento\Core\Helper\Http $coreHttp
      * @param \Magento\Logging\Model\Processor $processor
      * @param \Magento\Core\Model\Config $coreConfig
      * @param \Magento\Core\Controller\Request\Http $request
      * @param \Magento\Logging\Model\FlagFactory $flagFactory
+     * @param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
      */
     public function __construct(
         \Magento\Logging\Model\Resource\EventFactory $eventFactory,
         \Magento\Logging\Model\Config $config,
         \Magento\User\Model\User $user,
         \Magento\Logging\Model\Event $event,
-        \Magento\Core\Helper\Http $coreHttp,
         \Magento\Logging\Model\Processor $processor,
         \Magento\Core\Model\Config $coreConfig,
         \Magento\Core\Controller\Request\Http $request,
-        \Magento\Logging\Model\FlagFactory $flagFactory
+        \Magento\Logging\Model\FlagFactory $flagFactory,
+        \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
     ) {
         $this->eventFactory = $eventFactory;
         $this->_config = $config;
         $this->_user = $user;
         $this->_event = $event;
-        $this->_coreHttp = $coreHttp;
         $this->_processor = $processor;
         $this->_coreConfig = $coreConfig;
         $this->_request = $request;
         $this->_flagFactory = $flagFactory;
+        $this->_remoteAddress = $remoteAddress;
     }
 
     /**
@@ -230,7 +228,7 @@ class Observer
             $userId = $this->_user->loadByUsername($username)->getId();
         }
         $this->_event->setData(array(
-            'ip'         => $this->_coreHttp->getRemoteAddr(),
+            'ip'         => $this->_remoteAddress->getRemoteAddress(),
             'user'       => $username,
             'user_id'    => $userId,
             'is_success' => $success,

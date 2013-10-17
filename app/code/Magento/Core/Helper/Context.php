@@ -67,6 +67,11 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_httpHeader;
 
     /**
+     * @var \Magento\HTTP\PhpEnvironment\RemoteAddress
+     */
+    protected $_remoteAddress;
+
+    /**
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Translate $translator
      * @param \Magento\Core\Model\ModuleManager $moduleManager
@@ -78,6 +83,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\UrlInterface $urlBuilder
      * @param \Magento\HTTP\Header $httpHeader
+     * @param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
      */
     public function __construct(
         \Magento\Core\Model\Logger $logger,
@@ -90,7 +96,8 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\App $app,
         \Magento\Core\Model\UrlInterface $urlBuilder,
-        \Magento\HTTP\Header $httpHeader
+        \Magento\HTTP\Header $httpHeader,
+        \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
     ) {
         $this->_translator = $translator;
         $this->_moduleManager = $moduleManager;
@@ -103,6 +110,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_app = $app;
         $this->_urlBuilder = $urlBuilder;
         $this->_httpHeader = $httpHeader;
+        $this->_remoteAddress = $remoteAddress;
     }
 
     /**
@@ -191,5 +199,13 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function getHttpHeader()
     {
         return $this->_httpHeader;
+    }
+
+    /**
+     * @return \Magento\HTTP\PhpEnvironment\RemoteAddress
+     */
+    public function getRemoteAddress()
+    {
+        return $this->_remoteAddress;
     }
 }

@@ -129,11 +129,9 @@ class Processor
     protected $_request;
 
     /**
-     * Core http
-     *
-     * @var \Magento\Core\Helper\Http
+     * @var \Magento\HTTP\PhpEnvironment\RemoteAddress
      */
-    protected $_httpHelper;
+    protected $_remoteAddress;
 
     /**
      * Constructor: initialize configuration model, controller and model handler
@@ -147,7 +145,7 @@ class Processor
      * @param \Magento\Logging\Model\Handler\ControllersFactory $handlerControllersFactory
      * @param \Magento\Logging\Model\EventFactory $eventFactory
      * @param \Magento\Core\Controller\Request\Http $request
-     * @param \Magento\Core\Helper\Http $httpHelper
+     * @param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
      */
     public function __construct(
         \Magento\Logging\Model\Config $config,
@@ -159,7 +157,7 @@ class Processor
         \Magento\Logging\Model\Handler\ControllersFactory $handlerControllersFactory,
         \Magento\Logging\Model\EventFactory $eventFactory,
         \Magento\Core\Controller\Request\Http $request,
-        \Magento\Core\Helper\Http $httpHelper
+        \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
     ) {
         $this->_config = $config;
         $this->_modelsHandler = $modelsHandler;
@@ -170,7 +168,7 @@ class Processor
         $this->_logger = $logger;
         $this->_eventFactory = $eventFactory;
         $this->_request = $request;
-        $this->_httpHelper = $httpHelper;
+        $this->_remoteAddress = $remoteAddress;
     }
 
     /**
@@ -385,7 +383,7 @@ class Processor
         $errors = $this->_backendSession->getMessages()->getErrors();
         /** @var \Magento\Logging\Model\Event $loggingEvent */
         $loggingEvent = $this->_eventFactory->create()->setData(array(
-            'ip'            => $this->_httpHelper->getRemoteAddr(),
+            'ip'            => $this->_remoteAddress->getRemoteAddress(),
             'x_forwarded_ip'=> $this->_request->getServer('HTTP_X_FORWARDED_FOR'),
             'user'          => $username,
             'user_id'       => $userId,

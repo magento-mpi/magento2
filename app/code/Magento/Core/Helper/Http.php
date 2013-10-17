@@ -19,15 +19,6 @@ namespace Magento\Core\Helper;
 
 class Http extends \Magento\Core\Helper\AbstractHelper
 {
-    const XML_NODE_REMOTE_ADDR_HEADERS  = 'global/remote_addr_headers';
-
-    /**
-     * Remote address cache
-     *
-     * @var string
-     */
-    protected $_remoteAddr;
-
     /**
      * Core string
      *
@@ -36,22 +27,14 @@ class Http extends \Magento\Core\Helper\AbstractHelper
     protected $_coreString = null;
 
     /**
-     * @var \Magento\Core\Model\Config
-     */
-    protected $_coreConfig;
-
-    /**
      * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Model\Config $coreConfig
      */
     public function __construct(
         \Magento\Core\Helper\String $coreString,
-        \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Config $coreConfig
+        \Magento\Core\Helper\Context $context
     ) {
         $this->_coreString = $coreString;
-        $this->_coreConfig = $coreConfig;
         parent::__construct($context);
     }
 
@@ -113,53 +96,6 @@ class Http extends \Magento\Core\Helper\AbstractHelper
     }
 
     /**
-     * Retrieve Remote Addresses Additional check Headers
-     *
-     * @return array
-     */
-    public function getRemoteAddrHeaders()
-    {
-        $headers = array();
-        $element = $this->_coreConfig->getNode(self::XML_NODE_REMOTE_ADDR_HEADERS);
-        if ($element instanceof \Magento\Core\Model\Config\Element) {
-            foreach ($element->children() as $node) {
-                $headers[] = (string)$node;
-            }
-        }
-
-        return $headers;
-    }
-
-    /**
-     * Retrieve Client Remote Address
-     *
-     * @param bool $ipToLong converting IP to long format
-     * @return string IPv4|long
-     */
-    public function getRemoteAddr($ipToLong = false)
-    {
-        if (is_null($this->_remoteAddr)) {
-            $headers = $this->getRemoteAddrHeaders();
-            foreach ($headers as $var) {
-                if ($this->_getRequest()->getServer($var, false)) {
-                    $this->_remoteAddr = $_SERVER[$var];
-                    break;
-                }
-            }
-
-            if (!$this->_remoteAddr) {
-                $this->_remoteAddr = $this->_getRequest()->getServer('REMOTE_ADDR');
-            }
-        }
-
-        if (!$this->_remoteAddr) {
-            return false;
-        }
-
-        return $ipToLong ? ip2long($this->_remoteAddr) : $this->_remoteAddr;
-    }
-
-    /**
      * Retrieve Server IP address
      *
      * @param bool $ipToLong converting IP to long format
@@ -172,23 +108,6 @@ class Http extends \Magento\Core\Helper\AbstractHelper
             return false;
         }
         return $ipToLong ? ip2long($address) : $address;
-    }
-
-    /**
-     * Retrieve HTTP "clean" value
-     *
-     * @param string $var
-     * @param boolean $clean clean non UTF-8 characters
-     * @return string
-     */
-    protected function _getHttpCleanValue($var, $clean = true)
-    {
-        $value = $this->_getRequest()->getServer($var, '');
-        if ($clean) {
-            $value = $this->_coreString->cleanString($value);
-        }
-
-        return $value;
     }
 
     /**

@@ -10,7 +10,7 @@
 namespace Magento\HTTP;
 
 /**
- * Factory for HTTP client classes
+ * Helper for working with HTTP headers
  *
  */
 class Header

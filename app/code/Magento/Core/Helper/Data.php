@@ -130,6 +130,11 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_dbCompatibleMode;
 
     /**
+     * @var \Magento\HTTP\PhpEnvironment\RemoteAddress
+     */
+    protected $_remoteAddress;
+
+    /**
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Http $coreHttp
@@ -141,6 +146,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Core\Model\App\State $appState
      * @param \Magento\Core\Model\Encryption $encryptor
      * @param bool $dbCompatibleMode
+     * @internal param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
@@ -156,8 +162,9 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $dbCompatibleMode = true
     ) {
         $this->_eventManager = $eventManager;
-        $this->_coreHttp = $coreHttp;
+        $this->_coreHttp = $coreHttp;   //TODO: seems not used
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_remoteAddress = $context->getRemoteAddress();
         parent::__construct($context);
         $this->_config = $config;
         $this->_cacheConfig = $context->getCacheConfig();
@@ -446,7 +453,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $allow = true;
 
         $allowedIps = $this->_coreStoreConfig->getConfig(self::XML_PATH_DEV_ALLOW_IPS, $storeId);
-        $remoteAddr = $this->_coreHttp->getRemoteAddr();
+        $remoteAddr = $this->_remoteAddress->getRemoteAddress();
         if (!empty($allowedIps) && !empty($remoteAddr)) {
             $allowedIps = preg_split('#\s*,\s*#', $allowedIps, null, PREG_SPLIT_NO_EMPTY);
             if (array_search($remoteAddr, $allowedIps) === false
