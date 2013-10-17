@@ -38,6 +38,7 @@ interface OauthInterface
      */
     const SIGNATURE_SHA1 = 'HMAC-SHA1';
     const SIGNATURE_SHA256 = 'HMAC-SHA256';
+
     /**#@-*/
 
     /**
@@ -150,4 +151,31 @@ interface OauthInterface
      * @throws \Magento\Oauth\Exception
      */
     public function validateAccessToken($request);
+
+    /**
+     * Builds the authorization header for an authenticated API request
+     *
+     * @param array $request containing parameters to build the Oauth HTTP Authorization header
+     * <pre>
+     *  array (
+     *      'oauth_consumer_key' => 'edf957ef88492f0a32eb7e1731e85d',
+     *      'oauth_consumer_secret' => 'asdawwewefrtyh2f0a32eb7e1731e85d',
+     *      'oauth_token' => '7c0709f789e1f38a17aa4b9a28e1b06c',
+     *      'oauth_secret' => 'a6agsfrsfgsrjjjjyy487939244ssggg',
+     *      'request_url' => 'http://www.example.com/endpoint'
+     *      'http_method' => 'POST' [OPTIONAL - defaulted to POST]
+     *      'oauth_signature_method' => 'HMAC-SHA1', [OPTIONAL - defaulted to HMAC-SHA1]
+     *      'custom_param1' => 'foo',
+     *      'custom_param2' => 'bar'
+     *   );
+     * </pre>
+     * @return string
+     * <pre>
+     * OAuth oauth_version="1.0", oauth_signature_method="HMAC-SHA1", oauth_nonce="5X1aWR2qzf2uFm1",
+     * oauth_timestamp="1381930661", oauth_consumer_key="34edf957ef88492f0a32eb7e1731e85d",
+     * oauth_token="7c0709f789e1f38a17aa4b9a28e1b06c", oauth_signature="agVxK0epXOOeQK4%2Bc7UAqUXoAok%3D"
+     * <pre>
+     * @throws \Magento\Oauth\Exception
+     */
+    public function buildAuthorizationHeader($request);
 }

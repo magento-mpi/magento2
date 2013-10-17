@@ -54,6 +54,9 @@ class Oauth implements \Magento\Oauth\OauthInterface
     /** @var  \Magento\Oauth\Model\Token\Factory */
     private $_tokenFactory;
 
+    /** @var  \Magento\Oauth\Helper\Oauth */
+    protected $_oauthHelper;
+
     /** @var  \Magento\Core\Model\StoreManagerInterface */
     protected $_storeManager;
 
@@ -70,6 +73,7 @@ class Oauth implements \Magento\Oauth\OauthInterface
      * @param \Magento\Oauth\Model\Consumer\Factory $consumerFactory
      * @param \Magento\Oauth\Model\Nonce\Factory $nonceFactory
      * @param \Magento\Oauth\Model\Token\Factory $tokenFactory
+     * @param \Magento\Oauth\Helper\Oauth $oauthHelper
      * @param \Magento\Core\Model\StoreManagerInterface
      * @param \Magento\HTTP\ZendClient
      * @param \Zend_Oauth_Http_Utility $httpUtility
@@ -79,6 +83,7 @@ class Oauth implements \Magento\Oauth\OauthInterface
         \Magento\Oauth\Model\Consumer\Factory $consumerFactory,
         \Magento\Oauth\Model\Nonce\Factory $nonceFactory,
         \Magento\Oauth\Model\Token\Factory $tokenFactory,
+        \Magento\Oauth\Helper\Oauth $oauthHelper,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\HTTP\ZendClient $httpClient,
         \Zend_Oauth_Http_Utility $httpUtility,
@@ -88,6 +93,7 @@ class Oauth implements \Magento\Oauth\OauthInterface
         $this->_nonceFactory = $nonceFactory;
         $this->_tokenFactory = $tokenFactory;
         $this->_storeManager = $storeManager;
+        $this->_oauthHelper = $oauthHelper;
         $this->_httpClient = $httpClient;
         $this->_httpUtility = $httpUtility;
         $this->_date = $date;
@@ -137,9 +143,14 @@ class Oauth implements \Magento\Oauth\OauthInterface
                     'oauth_verifier' => $verifier->getVerifier()
                 )
             );
-            $maxredirects = $this->_getConfigValue(
-                self::XML_PATH_CONSUMER_POST_MAXREDIRECTS, self::CONSUMER_POST_MAXREDIRECTS);
-            $timeout = $this->_getConfigValue(self::XML_PATH_CONSUMER_POST_TIMEOUT, self::CONSUMER_POST_TIMEOUT);
+            $maxredirects = $this->_oauthHelper->getConfigValue(
+                self::XML_PATH_CONSUMER_POST_MAXREDIRECTS,
+                self::CONSUMER_POST_MAXREDIRECTS
+            );
+            $timeout = $this->_oauthHelper->getConfigValue(
+                self::XML_PATH_CONSUMER_POST_TIMEOUT,
+                self::CONSUMER_POST_TIMEOUT
+            );
             $this->_httpClient->setConfig(array('maxredirects' => $maxredirects, 'timeout' => $timeout));
             $this->_httpClient->request(\Magento\HTTP\ZendClient::POST);
             return array('oauth_verifier' => $verifier->getVerifier());
@@ -159,8 +170,10 @@ class Oauth implements \Magento\Oauth\OauthInterface
         $consumer = $this->_getConsumerByKey($signedRequest['oauth_consumer_key']);
         // must use consumer within expiration period
         $consumerTS = strtotime($consumer->getCreatedAt());
-        $expiry = $this->_getConfigValue(
-            self::XML_PATH_CONSUMER_EXPIRATION_PERIOD, self::CONSUMER_EXPIRATION_PERIOD_DEFAULT);
+        $expiry = $this->_oauthHelper->getConfigValue(
+            self::XML_PATH_CONSUMER_EXPIRATION_PERIOD,
+            self::CONSUMER_EXPIRATION_PERIOD_DEFAULT
+        );
         if ($this->_date->timestamp() - $consumerTS > $expiry) {
             throw new \Magento\Oauth\Exception('', self::ERR_CONSUMER_KEY_INVALID);
         }
@@ -301,6 +314,35 @@ class Oauth implements \Magento\Oauth\OauthInterface
         }
 
         return array('isValid' => true);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function buildAuthorizationHeader($request)
+    {
+        $headerParameters = array(
+            'oauth_nonce' => $this->_oauthHelper->generateNonce(),
+            'oauth_timestamp' => $this->_date->timestamp(),
+            'oauth_version' => '1.0',
+        );
+        $headerParameters = array_merge($headerParameters, $request);
+        //unset unused signature parameters
+        unset($request['http_method']);
+        unset($request['request_url']);
+        $headerParameters['oauth_signature'] = $this->_httpUtility->sign(
+            $request,
+            isset($headerParameters['oauth_signature_method']) ? $headerParameters['oauth_signature_method']
+                : 'HMAC-SHA1',
+            $headerParameters['oauth_consumer_secret'],
+            $headerParameters['oauth_token_secret'],
+            isset($headerParameters['http_method']) ? $headerParameters['http_method'] : 'POST',
+            $headerParameters['request_url']
+        );
+        $authorizationHeader = $this->_httpUtility->toAuthorizationHeader($headerParameters);
+        //toAuthorizationHeader adds an optional realm="" which is not required for now.
+        //http://tools.ietf.org/html/rfc2617#section-1.2
+        return str_replace('realm="",', '', $authorizationHeader);
     }
 
     /**
@@ -582,18 +624,5 @@ class Oauth implements \Magento\Oauth\OauthInterface
                 throw new \Magento\Oauth\Exception($param, self::ERR_PARAMETER_ABSENT);
             }
         }
-    }
-
-    /**
-     * Get value from store configuration.
-     *
-     * @param string $xpath
-     * @param int $default
-     * @return int
-     */
-    protected function _getConfigValue($xpath, $default)
-    {
-        $value = (int)$this->_storeManager->getStore()->getConfig($xpath);
-        return $value > 0 ? $value : $default;
     }
 }

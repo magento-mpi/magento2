@@ -134,6 +134,17 @@ class Oauth extends \Magento\Core\Helper\AbstractHelper
     }
 
     /**
+     * Generate random string for nonce
+     *
+     * @param int $length
+     * @return string
+     */
+    public function generateNonce($length = 32)
+    {
+        return $this->_generateRandomString($length);
+    }
+
+    /**
      * Calculate cleanup possibility for data with lifetime property
      *
      * @return bool
@@ -154,5 +165,18 @@ class Oauth extends \Magento\Core\Helper\AbstractHelper
     {
         $minutes = (int) $this->_storeConfig->getConfig(self::XML_PATH_CLEANUP_EXPIRATION_PERIOD);
         return $minutes > 0 ? $minutes : self::CLEANUP_EXPIRATION_PERIOD_DEFAULT;
+    }
+
+    /**
+     * Get value from store configuration.
+     *
+     * @param string $xpath
+     * @param int $default
+     * @return int
+     */
+    public function getConfigValue($xpath, $default)
+    {
+        $value = (int)$this->_storeConfig->getConfig($xpath);
+        return $value > 0 ? $value : $default;
     }
 }
