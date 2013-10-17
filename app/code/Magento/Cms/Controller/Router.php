@@ -123,7 +123,7 @@ class Router extends \Magento\App\Router\AbstractRouter
             $this->_response->setRedirect($condition->getRedirectUrl())
                 ->sendResponse();
             $request->setDispatched(true);
-            return $this->_controllerFactory->createController('Magento\Core\Controller\Varien\Action\Redirect',
+            return $this->_controllerFactory->createController('Magento\App\Action\Redirect',
                 array('request' => $request)
             );
         }

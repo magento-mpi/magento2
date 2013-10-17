@@ -104,4 +104,5 @@ return array(
     array('getUseInviterGroup', '\Magento\Invitation\Helper\Data'),
     array('isInvitationMessageAllowed', '\Magento\Invitation\Helper\Data'),
     array('isEnabled', '\Magento\Invitation\Helper\Data'),
+    array('checkMessages', '\Magento\FullPageCache\Model\Observer'),
 );

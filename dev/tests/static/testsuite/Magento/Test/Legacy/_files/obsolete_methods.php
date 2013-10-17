@@ -858,4 +858,12 @@ return array(
     array('turnOnSerializableMode', 'Magento\Backup\Model\Resource\Db', 'prepareTransactionIsolationLevel'),
     array('_getResourceModel', '\Magento\Webapi\Model\Source\Acl\Role', '$this->_resource'),
     array('_getSession', '\Magento\Adminhtml\Model\Giftmessage\Save', '$this->_session'),
+    array('_initRequest', '\Magento\Core\Model\App'),
+    array('run', '\Magento\Core\Model\App'),
+    array('_initFrontController', '\Magento\Core\Model\App'),
+    array('_getFrontControllerByCurrentArea', '\Magento\Core\Model\App'),
+    array('run', '\Magento\Core\Model\AppInterface'),
+    array('setModuleDir', 'Magento\Core\Model\Config\Modules\Reader'),
+    array('setModuleDir', 'Magento\Core\Model\Config'),
+    array('getAreaConfig', 'Magento\Core\Model\Config'),
 );

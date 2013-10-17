@@ -11,9 +11,6 @@ namespace Magento\App;
 
 use Zend\Stdlib\Exception\LogicException;
 
-/**
- * @SuppressWarnings(PHPMD.UnusedFormalParameter)
- */
 class FrontController implements FrontControllerInterface
 {
     /**
@@ -51,6 +48,7 @@ class FrontController implements FrontControllerInterface
      * @param \Magento\App\ResponseInterface $response
      * @param RouterList $routerList
      * @param array $data
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
