@@ -105,6 +105,7 @@ abstract class Grid extends Block
         $this->resetFilter();
         $this->_prepareForSearch($filter);
         $this->_rootElement->find($this->searchButton, Locator::SELECTOR_CSS)->click();
+        sleep(2); // @TODO This sleep should be resolved in MAGETWO-16069
         $this->waitForElementNotVisible($this->loadingMask);
     }
 
