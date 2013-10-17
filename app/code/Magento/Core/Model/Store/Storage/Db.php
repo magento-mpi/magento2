@@ -9,7 +9,20 @@
  */
 namespace Magento\Core\Model\Store\Storage;
 
-class Db implements \Magento\Core\Model\Store\StorageInterface
+use Magento\Backend\Model\Url\Proxy;
+use Magento\Core\Exception;
+use Magento\App\State;
+use Magento\Core\Model\AppInterface;
+use Magento\Core\Model\Config;
+use Magento\Core\Model\Cookie;
+use Magento\Core\Model\Store\StorageInterface;
+use Magento\Core\Model\Store;
+use Magento\Core\Model\StoreFactory;
+use Magento\Core\Model\StoreManagerInterface;
+use Magento\Core\Model\Website;
+use Magento\Profiler;
+
+class Db implements StorageInterface
 {
     /**
      * Requested scope code
@@ -42,42 +55,42 @@ class Db implements \Magento\Core\Model\Store\StorageInterface
     /**
      * Application store object
      *
-     * @var \Magento\Core\Model\Store
+     * @var Store
      */
     protected $_store;
 
     /**
      * Stores cache
      *
-     * @var \Magento\Core\Model\Store[]
+     * @var Store[]
      */
     protected $_stores = array();
 
     /**
      * Application website object
      *
-     * @var \Magento\Core\Model\Website
+     * @var Website
      */
     protected $_website;
 
     /**
      * Websites cache
      *
-     * @var \Magento\Core\Model\Website[]
+     * @var Website[]
      */
     protected $_websites = array();
 
     /**
      * Groups cache
      *
-     * @var \Magento\Core\Model\Store\Group[]
+     * @var Store\Group
      */
     protected $_groups = array();
 
     /**
      * Config model
      *
-     * @var \Magento\Core\Model\Config
+     * @var Config
      */
     protected $_config;
 
@@ -91,64 +104,64 @@ class Db implements \Magento\Core\Model\Store\StorageInterface
     /**
      * Store factory
      *
-     * @var \Magento\Core\Model\StoreFactory
+     * @var StoreFactory
      */
     protected $_storeFactory;
 
     /**
      * Website factory
      *
-     * @var \Magento\Core\Model\Website\Factory
+     * @var Website\Factory
      */
     protected $_websiteFactory;
 
     /**
      * Group factory
      *
-     * @var \Magento\Core\Model\Store\Group\Factory
+     * @var Store\Group\Factory
      */
     protected $_groupFactory;
 
     /**
      * Cookie model
      *
-     * @var \Magento\Core\Model\Cookie
+     * @var Cookie
      */
     protected $_cookie;
 
     /**
      * Application state model
      *
-     * @var \Magento\App\State
+     * @var State
      */
     protected $_appState;
 
     /**
-     * @var \Magento\Backend\Model\Url\Proxy
+     * @var Proxy
      */
     protected $_proxy;
 
     /**
-     * @param \Magento\Core\Model\StoreFactory $storeFactory
-     * @param \Magento\Core\Model\Website\Factory $websiteFactory
-     * @param \Magento\Core\Model\Store\Group\Factory $groupFactory
-     * @param \Magento\Core\Model\Config $config
-     * @param \Magento\Core\Model\Cookie $cookie
-     * @param \Magento\App\State $appState
-     * @param \Magento\Backend\Model\Url\Proxy $proxy
+     * @param StoreFactory $storeFactory
+     * @param Website\Factory $websiteFactory
+     * @param Store\Group\Factory $groupFactory
+     * @param Config $config
+     * @param Cookie $cookie
+     * @param State $appState
+     * @param Proxy $proxy
      * @param bool $isSingleStoreAllowed
      * @param string $scopeCode
      * @param string $scopeType
      * @param string $currentStore
      */
     public function __construct(
-        \Magento\Core\Model\StoreFactory $storeFactory,
-        \Magento\Core\Model\Website\Factory $websiteFactory,
-        \Magento\Core\Model\Store\Group\Factory $groupFactory,
-        \Magento\Core\Model\Config $config,
-        \Magento\Core\Model\Cookie $cookie,
-        \Magento\App\State $appState,
-        \Magento\Backend\Model\Url\Proxy $proxy,
+        StoreFactory $storeFactory,
+        Website\Factory $websiteFactory,
+        Store\Group\Factory $groupFactory,
+        Config $config,
+        Cookie $cookie,
+        State $appState,
+        Proxy $proxy,
         $isSingleStoreAllowed,
         $scopeCode,
         $scopeType,
@@ -158,7 +171,7 @@ class Db implements \Magento\Core\Model\Store\StorageInterface
         $this->_websiteFactory = $websiteFactory;
         $this->_groupFactory = $groupFactory;
         $this->_scopeCode = $scopeCode;
-        $this->_scopeType = $scopeType ?: \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE;
+        $this->_scopeType = $scopeType ?: StoreManagerInterface::SCOPE_TYPE_STORE;
         $this->_config = $config;
         $this->_isSingleStoreAllowed = $isSingleStoreAllowed;
         $this->_appState = $appState;
@@ -172,14 +185,14 @@ class Db implements \Magento\Core\Model\Store\StorageInterface
     /**
      * Get default store
      *
-     * @return \Magento\Core\Model\Store
+     * @return Store
      */
     protected function _getDefaultStore()
     {
         if (empty($this->_store)) {
             $this->_store = $this->_storeFactory->create()
-                ->setId(\Magento\Core\Model\AppInterface::DISTRO_STORE_ID)
-                ->setCode(\Magento\Core\Model\AppInterface::DISTRO_STORE_CODE);
+                ->setId(AppInterface::DISTRO_STORE_ID)
+                ->setCode(AppInterface::DISTRO_STORE_CODE);
         }
         return $this->_store;
     }
@@ -187,26 +200,26 @@ class Db implements \Magento\Core\Model\Store\StorageInterface
     /**
      * Initialize currently ran store
      *
-     * @throws \Magento\Core\Model\Store\Exception
+     * @throws Store\Exception
      */
     public function initCurrentStore()
     {
-        \Magento\Profiler::start('init_stores');
+        Profiler::start('init_stores');
         $this->_initStores();
-        \Magento\Profiler::stop('init_stores');
+        Profiler::stop('init_stores');
 
         if (empty($this->_scopeCode) && false == is_null($this->_website)) {
             $this->_scopeCode = $this->_website->getCode();
-            $this->_scopeType = \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_WEBSITE;
+            $this->_scopeType = StoreManagerInterface::SCOPE_TYPE_WEBSITE;
         }
         switch ($this->_scopeType) {
-            case \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE:
+            case StoreManagerInterface::SCOPE_TYPE_STORE:
                 $this->_currentStore = $this->_scopeCode;
                 break;
-            case \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_GROUP:
+            case StoreManagerInterface::SCOPE_TYPE_GROUP:
                 $this->_currentStore = $this->_getStoreByGroup($this->_scopeCode);
                 break;
-            case \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_WEBSITE:
+            case StoreManagerInterface::SCOPE_TYPE_WEBSITE:
                 $this->_currentStore = $this->_getStoreByWebsite($this->_scopeCode);
                 break;
             default:
@@ -260,9 +273,9 @@ class Db implements \Magento\Core\Model\Store\StorageInterface
         if ($this->_currentStore == $store) {
             $store = $this->getStore($store);
             if ($store->getWebsite()->getDefaultStore()->getId() == $store->getId()) {
-                $this->_cookie->delete(\Magento\Core\Model\Store::COOKIE_NAME);
+                $this->_cookie->delete(Store::COOKIE_NAME);
             } else {
-                $this->_cookie->set(\Magento\Core\Model\Store::COOKIE_NAME, $this->_currentStore, true);
+                $this->_cookie->set(Store::COOKIE_NAME, $this->_currentStore, true);
             }
         }
         return;
@@ -279,7 +292,7 @@ class Db implements \Magento\Core\Model\Store\StorageInterface
             return;
         }
 
-        $store = $this->_cookie->get(\Magento\Core\Model\Store::COOKIE_NAME);
+        $store = $this->_cookie->get(Store::COOKIE_NAME);
         if ($store && isset($this->_stores[$store])
             && $this->_stores[$store]->getId()
             && $this->_stores[$store]->getIsActive()
@@ -368,7 +381,7 @@ class Db implements \Magento\Core\Model\Store\StorageInterface
         $groupStores   = array();
 
         foreach ($storeCollection as $store) {
-            /** @var $store \Magento\Core\Model\Store */
+            /** @var $store Store */
             $store->setWebsite($websiteCollection->getItemById($store->getWebsiteId()));
             $store->setGroup($groupCollection->getItemById($store->getGroupId()));
 
@@ -388,7 +401,7 @@ class Db implements \Magento\Core\Model\Store\StorageInterface
         }
 
         foreach ($groupCollection as $group) {
-            /* @var $group \Magento\Core\Model\Store\Group */
+            /* @var $group Store\Group */
             if (!isset($groupStores[$group->getId()])) {
                 $groupStores[$group->getId()] = array();
             }
@@ -401,7 +414,7 @@ class Db implements \Magento\Core\Model\Store\StorageInterface
         }
 
         foreach ($websiteCollection as $website) {
-            /* @var $website \Magento\Core\Model\Website */
+            /* @var $website Website */
             if (!isset($websiteGroups[$website->getId()])) {
                 $websiteGroups[$website->getId()] = array();
             }
@@ -442,9 +455,9 @@ class Db implements \Magento\Core\Model\Store\StorageInterface
     /**
      * Retrieve application store object
      *
-     * @param null|string|bool|int|\Magento\Core\Model\Store $storeId
-     * @return \Magento\Core\Model\Store
-     * @throws \Magento\Core\Model\Store\Exception
+     * @param null|string|bool|int|Store $storeId
+     * @return Store
+     * @throws Store\Exception
      */
     public function getStore($storeId = null)
     {
@@ -459,7 +472,7 @@ class Db implements \Magento\Core\Model\Store\StorageInterface
         if (!isset($storeId) || '' === $storeId || $storeId === true) {
             $storeId = $this->_currentStore;
         }
-        if ($storeId instanceof \Magento\Core\Model\Store) {
+        if ($storeId instanceof Store) {
             return $storeId;
         }
         if (!isset($storeId)) {
@@ -488,7 +501,7 @@ class Db implements \Magento\Core\Model\Store\StorageInterface
      *
      * @param bool $withDefault
      * @param bool $codeKey
-     * @return \Magento\Core\Model\Store[]
+     * @return Store[]
      */
     public function getStores($withDefault = false, $codeKey = false)
     {
@@ -510,15 +523,15 @@ class Db implements \Magento\Core\Model\Store\StorageInterface
     /**
      * Retrieve application website object
      *
-     * @param null|bool|int|string|\Magento\Core\Model\Website $websiteId
-     * @return \Magento\Core\Model\Website
-     * @throws \Magento\Core\Exception
+     * @param null|bool|int|string|Website $websiteId
+     * @return Website
+     * @throws Exception
      */
     public function getWebsite($websiteId = null)
     {
         if ($websiteId === null || $websiteId === '') {
             $websiteId = $this->getStore()->getWebsiteId();
-        } elseif ($websiteId instanceof \Magento\Core\Model\Website) {
+        } elseif ($websiteId instanceof Website) {
             return $websiteId;
         } elseif ($websiteId === true) {
             return $this->_website;
@@ -529,7 +542,7 @@ class Db implements \Magento\Core\Model\Store\StorageInterface
             // load method will load website by code if given ID is not a numeric value
             $website->load($websiteId);
             if (!$website->hasWebsiteId()) {
-                throw new \Magento\Core\Exception('Invalid website id/code requested.');
+                throw new Exception('Invalid website id/code requested.');
             }
             $this->_websites[$website->getWebsiteId()] = $website;
             $this->_websites[$website->getCode()] = $website;
@@ -542,7 +555,7 @@ class Db implements \Magento\Core\Model\Store\StorageInterface
      *
      * @param bool $withDefault
      * @param bool|string $codeKey
-     * @return \Magento\Core\Model\Website[]
+     * @return Website[]
      */
     public function getWebsites($withDefault = false, $codeKey = false)
     {
@@ -565,15 +578,15 @@ class Db implements \Magento\Core\Model\Store\StorageInterface
     /**
      * Retrieve application store group object
      *
-     * @param null|\Magento\Core\Model\Store\Group|string $groupId
-     * @return \Magento\Core\Model\Store\Group
-     * @throws \Magento\Core\Exception
+     * @param null|Store\Group|string $groupId
+     * @return Store\Group
+     * @throws Exception
      */
     public function getGroup($groupId = null)
     {
         if (is_null($groupId)) {
             $groupId = $this->getStore()->getGroupId();
-        } elseif ($groupId instanceof \Magento\Core\Model\Store\Group) {
+        } elseif ($groupId instanceof Store\Group) {
             return $groupId;
         }
         if (empty($this->_groups[$groupId])) {
@@ -581,7 +594,7 @@ class Db implements \Magento\Core\Model\Store\StorageInterface
             if (is_numeric($groupId)) {
                 $group->load($groupId);
                 if (!$group->hasGroupId()) {
-                    throw new \Magento\Core\Exception('Invalid store group id requested.');
+                    throw new Exception('Invalid store group id requested.');
                 }
             }
             $this->_groups[$group->getGroupId()] = $group;
@@ -596,14 +609,14 @@ class Db implements \Magento\Core\Model\Store\StorageInterface
      *
      * @param bool $withDefault
      * @param bool $codeKey
-     * @return \Magento\Core\Model\Store\Group[]
+     * @return Store\Group
      */
     public function getGroups($withDefault = false, $codeKey = false)
     {
         $groups = array();
         if (is_array($this->_groups)) {
             foreach ($this->_groups as $group) {
-                /** @var $group \Magento\Core\Model\Store\Group */
+                /** @var $group Store\Group */
                 if (!$withDefault && $group->getId() == 0) {
                     continue;
                 }
@@ -628,12 +641,12 @@ class Db implements \Magento\Core\Model\Store\StorageInterface
     /**
      * Retrieve default store for default group and website
      *
-     * @return \Magento\Core\Model\Store
+     * @return Store
      */
     public function getDefaultStoreView()
     {
         foreach ($this->getWebsites() as $_website) {
-            /** @var $_website \Magento\Core\Model\Website */
+            /** @var $_website Website */
             if ($_website->getIsDefault()) {
                 $_defaultStore = $this->getGroup($_website->getDefaultGroupId())->getDefaultStore();
                 if ($_defaultStore) {
@@ -647,13 +660,13 @@ class Db implements \Magento\Core\Model\Store\StorageInterface
     /**
      *  Unset website by id from app cache
      *
-     * @param null|bool|int|string|\Magento\Core\Model\Website $websiteId
+     * @param null|bool|int|string|Website $websiteId
      */
     public function clearWebsiteCache($websiteId = null)
     {
         if (is_null($websiteId)) {
             $websiteId = $this->getStore()->getWebsiteId();
-        } elseif ($websiteId instanceof \Magento\Core\Model\Website) {
+        } elseif ($websiteId instanceof Website) {
             $websiteId = $websiteId->getId();
         } elseif ($websiteId === true) {
             $websiteId = $this->_website->getId();
@@ -670,7 +683,7 @@ class Db implements \Magento\Core\Model\Store\StorageInterface
     /**
      * Get either default or any store view
      *
-     * @return \Magento\Core\Model\Store|null
+     * @return Store|null
      */
     public function getAnyStoreView()
     {
@@ -696,11 +709,11 @@ class Db implements \Magento\Core\Model\Store\StorageInterface
     }
 
     /**
-     * @throws \Magento\Core\Model\Store\Exception
+     * @throws Store\Exception
      */
     public function throwStoreException()
     {
-        throw new \Magento\Core\Model\Store\Exception('');
+        throw new Store\Exception('');
     }
 
     /**

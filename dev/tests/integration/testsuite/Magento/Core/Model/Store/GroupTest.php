@@ -8,8 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Store;
+
+use Magento\TestFramework\Helper\Bootstrap;
 
 class GroupTest extends \PHPUnit_Framework_TestCase
 {
@@ -20,14 +21,14 @@ class GroupTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+        $this->_model = Bootstrap::getObjectManager()
             ->create('Magento\Core\Model\Store\Group');
     }
 
     public function testSetGetWebsite()
     {
         $this->assertFalse($this->_model->getWebsite());
-        $website = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+        $website = Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\StoreManagerInterface')->getWebsite();
         $this->_model->setWebsite($website);
         $actualResult = $this->_model->getWebsite();
@@ -39,7 +40,7 @@ class GroupTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetWebsiteDefault() {
         $this->assertFalse($this->_model->getWebsite());
-        $website = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+        $website = Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\StoreManagerInterface')->getWebsite();
         $this->_model->setWebsite($website);
         // Empty string should get treated like no parameter
