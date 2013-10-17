@@ -5,8 +5,12 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
+
 namespace Magento\Core\Model\File\Storage;
 
+/**
+ * Class Synchronization
+ */
 class Synchronization
 {
     /**
