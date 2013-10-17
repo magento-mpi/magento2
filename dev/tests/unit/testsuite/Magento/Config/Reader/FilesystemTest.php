@@ -40,7 +40,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
         $this->_fileResolverMock = $this->getMock('Magento\Config\FileResolverInterface');
         $this->_converterMock = $this->getMock('Magento\Config\ConverterInterface', array(), array(), '', false);
         $this->_schemaLocatorMock = $this->getMock(
-            'Magento\Core\Model\Module\Declaration\SchemaLocator', array(), array(), '', false
+            '\Magento\Webapi\Model\Acl\Resource\Config\SchemaLocator', array(), array(), '', false
         );
         $this->_validationStateMock = $this->getMock('Magento\Config\ValidationStateInterface');
     }

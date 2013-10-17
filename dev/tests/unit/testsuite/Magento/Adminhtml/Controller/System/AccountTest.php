@@ -50,8 +50,9 @@ class AccountTest extends \PHPUnit_Framework_TestCase
     {
         $this->_requestMock = $this->getMockBuilder('Magento\App\Request\Http')
             ->disableOriginalConstructor()
+            ->setMethods(array('getOriginalPathInfo'))
             ->getMock();
-        $this->_responseMock = $this->getMockBuilder('Magento\App\ResponseInterface')
+        $this->_responseMock = $this->getMockBuilder('Magento\App\Response\Http')
             ->disableOriginalConstructor()
             ->setMethods(array())
             ->getMock();

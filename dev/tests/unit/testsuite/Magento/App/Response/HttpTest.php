@@ -17,7 +17,13 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_model = new \Magento\App\Response\Http();
+        $this->_model->headersSentThrowsException = false;
         $this->_model->setHeader('name', 'value');
+    }
+
+    protected function tearDown()
+    {
+        unset($this->_model);
     }
 
     public function testGetHeaderWhenHeaderNameIsEqualsName()
