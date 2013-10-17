@@ -21,21 +21,21 @@ class SchemaLocatorTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_moduleReaderMock = $this->getMock(
-            'Magento\Core\Model\Config\Modules\Reader', array(), array(), '', false
-        );
-        $this->_moduleReaderMock->expects($this->once())
-            ->method('getModuleDir')->with('etc', 'Magento_Core')->will($this->returnValue('schema_dir'));
-        $this->_model = new \Magento\Event\Config\SchemaLocator($this->_moduleReaderMock);
+        $this->_model = new \Magento\Event\Config\SchemaLocator();
     }
 
     public function testGetSchema()
     {
-        $this->assertEquals('schema_dir' . DIRECTORY_SEPARATOR . 'events.xsd', $this->_model->getSchema());
+        $expected = BP . str_replace('\\', DIRECTORY_SEPARATOR, '\lib\Magento\Event\etc\events.xsd');
+        $actual = $this->_model->getSchema();
+        $this->assertEquals($expected, $actual);
+
     }
 
     public function testGetPerFileSchema()
     {
-        $this->assertEquals(null, $this->_model->getPerFileSchema());
+        $actual = $this->_model->getPerFileSchema();
+        $expected = BP . str_replace('\\', DIRECTORY_SEPARATOR, '\lib\Magento\Event\etc\events.xsd');
+        $this->assertEquals($expected, $actual);
     }
 }
