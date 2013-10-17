@@ -9,6 +9,8 @@
   * Shipment for bundle product was not possible
   * Uninstallation was not possible via console installer
   * Many features did not work in IE8/9 due to JavaScript error in bootstrap
+  * Unable to place order within PayPal Payments Advanced and Payflow link
+  * Fatal error on placing order with Billing Agreement
 
 2.0.0.0-dev47
 =============
