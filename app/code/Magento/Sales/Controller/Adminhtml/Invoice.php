@@ -23,7 +23,7 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
     public function exportCsvAction()
     {
         $fileName   = 'invoices.csv';
-        $grid       = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Sales\Invoice\Grid');
+        $grid       = $this->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Invoice\Grid');
         $this->_prepareDownloadResponse($fileName, $grid->getCsvFile());
     }
 
@@ -33,7 +33,7 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
     public function exportExcelAction()
     {
         $fileName   = 'invoices.xml';
-        $grid       = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Sales\Invoice\Grid');
+        $grid       = $this->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Invoice\Grid');
         $this->_prepareDownloadResponse($fileName, $grid->getExcelFile($fileName));
     }
 }

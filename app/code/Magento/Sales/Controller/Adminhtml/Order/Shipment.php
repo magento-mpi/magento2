@@ -719,7 +719,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
         $this->_initShipment();
         return $this->getResponse()->setBody(
             $this->getLayout()
-                ->createBlock('Magento\Adminhtml\Block\Sales\Order\Shipment\Packaging\Grid')
+                ->createBlock('Magento\Sales\Block\Adminhtml\Order\Shipment\Packaging\Grid')
                 ->setIndex($this->getRequest()->getParam('index'))
                 ->toHtml()
        );

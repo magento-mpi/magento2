@@ -16,7 +16,7 @@
 namespace Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Shipment;
 
 class Grid
-    extends \Magento\Adminhtml\Block\Sales\Shipment\Grid
+    extends \Magento\Sales\Block\Adminhtml\Shipment\Grid
 {
     /**
      * Core url

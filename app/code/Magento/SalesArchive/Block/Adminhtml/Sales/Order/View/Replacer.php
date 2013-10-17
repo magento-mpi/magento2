@@ -15,7 +15,7 @@
 namespace Magento\SalesArchive\Block\Adminhtml\Sales\Order\View;
 
 class Replacer
-    extends \Magento\Adminhtml\Block\Sales\Order\AbstractOrder
+    extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
 {
     /**
      * @var \Magento\SalesArchive\Model\Config

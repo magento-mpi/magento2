@@ -16,7 +16,7 @@ namespace Magento\MultipleWishlist\Block\Adminhtml\Sales\Order\Create\Sidebar;
  * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Wishlist
-    extends \Magento\Adminhtml\Block\Sales\Order\Create\Sidebar\Wishlist
+    extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\Wishlist
 {
     /**
      * Item collection factory

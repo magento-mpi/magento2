@@ -17,7 +17,7 @@
  */
 namespace Magento\Sales\Block\Adminhtml\Recurring\Profile\View;
 
-class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
+class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
 {
     /**
      * @var \Magento\Core\Model\StoreManagerInterface

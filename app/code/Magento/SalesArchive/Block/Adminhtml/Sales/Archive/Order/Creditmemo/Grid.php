@@ -16,7 +16,7 @@
 namespace Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Creditmemo;
 
 class Grid
-    extends \Magento\Adminhtml\Block\Sales\Creditmemo\Grid
+    extends \Magento\Sales\Block\Adminhtml\Creditmemo\Grid
 {
     /**
      * Core url

@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceBlock name="sales_order.grid.container">
-        <block class="Magento\Adminhtml\Block\Sales\Order\Grid" name="sales.order.grid" as="grid">
+        <block class="Magento\Sales\Block\Adminhtml\Order\Grid" name="sales.order.grid" as="grid">
             <arguments>
                 <argument name="id" xsi:type="string">sales_order_grid</argument>
                 <argument name="dataSource" xsi:type="object">Magento\Sales\Model\Resource\Order\Grid\Collection</argument>

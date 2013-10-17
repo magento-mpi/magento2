@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceContainer name="content">
-        <block class="Magento\Adminhtml\Block\Sales\Order\Status" name="sales_order_status.grid.container">
+        <block class="Magento\Sales\Block\Adminhtml\Order\Status" name="sales_order_status.grid.container">
             <block class="Magento\Backend\Block\Widget\Grid" name="sales_order_status.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">sales_order_status_grid</argument>

@@ -17,7 +17,7 @@
  */
 namespace Magento\Rma\Block\Adminhtml\Order\View;
 
-class Buttons extends \Magento\Adminhtml\Block\Sales\Order\View
+class Buttons extends \Magento\Sales\Block\Adminhtml\Order\View
 {
     const CREATE_RMA_BUTTON_DEFAULT_SORT_ORDER = 35;
 

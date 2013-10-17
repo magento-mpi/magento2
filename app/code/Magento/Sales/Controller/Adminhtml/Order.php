@@ -301,7 +301,7 @@ class Order extends \Magento\Backend\Controller\Adminhtml\Action
     {
         $this->_initOrder();
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Sales\Order\View\Tab\Invoices')->toHtml()
+            $this->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Order\View\Tab\Invoices')->toHtml()
         );
     }
 
@@ -312,7 +312,7 @@ class Order extends \Magento\Backend\Controller\Adminhtml\Action
     {
         $this->_initOrder();
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Sales\Order\View\Tab\Shipments')->toHtml()
+            $this->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Order\View\Tab\Shipments')->toHtml()
         );
     }
 
@@ -323,7 +323,7 @@ class Order extends \Magento\Backend\Controller\Adminhtml\Action
     {
         $this->_initOrder();
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Sales\Order\View\Tab\Creditmemos')->toHtml()
+            $this->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Order\View\Tab\Creditmemos')->toHtml()
         );
     }
 
@@ -333,7 +333,7 @@ class Order extends \Magento\Backend\Controller\Adminhtml\Action
     public function commentsHistoryAction()
     {
         $this->_initOrder();
-        $html = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Sales\Order\View\Tab\History')->toHtml();
+        $html = $this->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Order\View\Tab\History')->toHtml();
         if ($this->_translator->isAllowed()) {
             $this->_translator->processResponseBody($html);
         }

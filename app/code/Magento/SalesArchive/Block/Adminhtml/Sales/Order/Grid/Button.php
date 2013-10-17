@@ -14,7 +14,7 @@
  */
 namespace Magento\SalesArchive\Block\Adminhtml\Sales\Order\Grid;
 
-class Button extends \Magento\Adminhtml\Block\Sales\Order\AbstractOrder
+class Button extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
 {
     /**
      * @var \Magento\SalesArchive\Model\Resource\Order\Collection

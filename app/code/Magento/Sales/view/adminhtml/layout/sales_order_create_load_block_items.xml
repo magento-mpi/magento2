@@ -9,10 +9,10 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceContainer name="content">
-        <block class="Magento\Adminhtml\Block\Sales\Order\Create\Items" template="sales/order/create/items.phtml" name="items">
-            <block class="Magento\Adminhtml\Block\Sales\Order\Create\Items\Grid" template="sales/order/create/items/grid.phtml" name="items_grid">
-                <block class="Magento\Adminhtml\Block\Sales\Order\Create\Coupons" template="sales/order/create/coupons/form.phtml" name="coupons">
-                    <block class="Magento\Adminhtml\Block\Sales\Order\Create\Coupons\Form" template="sales/order/create/coupons/form.phtml" name="order.create.coupons.form" as="form"/>
+        <block class="Magento\Sales\Block\Adminhtml\Order\Create\Items" template="sales/order/create/items.phtml" name="items">
+            <block class="Magento\Sales\Block\Adminhtml\Order\Create\Items\Grid" template="sales/order/create/items/grid.phtml" name="items_grid">
+                <block class="Magento\Sales\Block\Adminhtml\Order\Create\Coupons" template="sales/order/create/coupons/form.phtml" name="coupons">
+                    <block class="Magento\Sales\Block\Adminhtml\Order\Create\Coupons\Form" template="sales/order/create/coupons/form.phtml" name="order.create.coupons.form" as="form"/>
                 </block>
             </block>
         </block>

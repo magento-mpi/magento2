@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceContainer name="content">
-        <block class="Magento\Adminhtml\Block\Sales\Order\Status\NewStatus" name="sales_order_status.new.container"/>
+        <block class="Magento\Sales\Block\Adminhtml\Order\Status\NewStatus" name="sales_order_status.new.container"/>
     </referenceContainer>
 </layout>

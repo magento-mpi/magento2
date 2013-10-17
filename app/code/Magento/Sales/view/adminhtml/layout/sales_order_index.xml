@@ -10,6 +10,6 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="sales_order_grid_block"/>
     <referenceContainer name="content">
-        <block class="Magento\Adminhtml\Block\Sales\Order" name="sales_order.grid.container"/>
+        <block class="Magento\Sales\Block\Adminhtml\Order" name="sales_order.grid.container"/>
     </referenceContainer>
 </layout>

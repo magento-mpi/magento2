@@ -16,7 +16,7 @@
 namespace Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Invoice;
 
 class Grid
-    extends \Magento\Adminhtml\Block\Sales\Invoice\Grid
+    extends \Magento\Sales\Block\Adminhtml\Invoice\Grid
 {
     /**
      * Core url
