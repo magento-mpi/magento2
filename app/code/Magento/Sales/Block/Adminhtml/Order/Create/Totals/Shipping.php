@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -30,7 +30,7 @@ class Shipping
      * @param \Magento\Tax\Model\Config $taxConfig
      * @param \Magento\Sales\Helper\Data $salesData
      * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
-     * @param \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate
+     * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Sales\Model\Config $salesConfig
@@ -40,7 +40,7 @@ class Shipping
         \Magento\Tax\Model\Config $taxConfig,
         \Magento\Sales\Helper\Data $salesData,
         \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
-        \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate,
+        \Magento\Sales\Model\AdminOrder\Create $orderCreate,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Sales\Model\Config $salesConfig,

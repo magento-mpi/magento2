@@ -29,7 +29,7 @@ class AbstractTest
         $arguments = array(
             $objectManager->get('Magento\Data\Form\Factory'),
             $objectManager->get('Magento\Adminhtml\Model\Session\Quote'),
-            $objectManager->get('Magento\Adminhtml\Model\Sales\Order\Create'),
+            $objectManager->get('Magento\Sales\Model\AdminOrder\Create'),
             $objectManager->get('Magento\Core\Helper\Data'),
             $objectManager->get('Magento\Backend\Block\Template\Context'),
         );

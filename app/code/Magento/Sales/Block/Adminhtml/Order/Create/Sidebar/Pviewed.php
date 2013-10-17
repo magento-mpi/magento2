@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * Adminhtml sales order create sidebar recently view block
  *
  * @category   Magento
- * @package    Magento_Adminhtml
+ * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
@@ -34,7 +34,7 @@ class Pviewed extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\Abstra
      * @param \Magento\Reports\Model\EventFactory $eventFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
-     * @param \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate
+     * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Sales\Model\Config $salesConfig
@@ -44,7 +44,7 @@ class Pviewed extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\Abstra
         \Magento\Reports\Model\EventFactory $eventFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
-        \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate,
+        \Magento\Sales\Model\AdminOrder\Create $orderCreate,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Sales\Model\Config $salesConfig,

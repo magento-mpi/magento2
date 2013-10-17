@@ -415,7 +415,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      * @param   mixed $product
      * @param   array|float|int|\Magento\Object $config
      * @throws  \Magento\Core\Exception
-     * @return  \Magento\Adminhtml\Model\Sales\Order\Create
+     * @return  \Magento\Sales\Model\AdminOrder\Create
      */
     public function addProduct($product, $config = 1)
     {

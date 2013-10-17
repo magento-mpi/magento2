@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * Order create model
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Adminhtml\Model\Sales\Order;
+namespace Magento\Sales\Model\AdminOrder;
 
 class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartInterface
 {
@@ -174,7 +174,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * Set validate data in import data flag
      *
      * @param boolean $flag
-     * @return \Magento\Adminhtml\Model\Sales\Order\Create
+     * @return \Magento\Sales\Model\AdminOrder\Create
      */
     public function setIsValidate($flag)
     {
@@ -211,7 +211,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     /**
      * Initialize data for price rules
      *
-     * @return \Magento\Adminhtml\Model\Sales\Order\Create
+     * @return \Magento\Sales\Model\AdminOrder\Create
      */
     public function initRuleData()
     {
@@ -227,7 +227,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * Set collect totals flag for quote
      *
      * @param   bool $flag
-     * @return  \Magento\Adminhtml\Model\Sales\Order\Create
+     * @return  \Magento\Sales\Model\AdminOrder\Create
      */
     public function setRecollect($flag)
     {
@@ -239,7 +239,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * Recollect totals for customer cart.
      * Set recollect totals flag for quote
      *
-     * @return  \Magento\Adminhtml\Model\Sales\Order\Create
+     * @return  \Magento\Sales\Model\AdminOrder\Create
      */
     public function recollectCart()
     {
@@ -255,7 +255,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     /**
      * Quote saving
      *
-     * @return \Magento\Adminhtml\Model\Sales\Order\Create
+     * @return \Magento\Sales\Model\AdminOrder\Create
      */
     public function saveQuote()
     {
@@ -298,7 +298,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * Set quote object
      *
      * @param \Magento\Sales\Model\Quote $quote
-     * @return \Magento\Adminhtml\Model\Sales\Order\Create
+     * @return \Magento\Sales\Model\AdminOrder\Create
      */
     public function setQuote(\Magento\Sales\Model\Quote $quote)
     {
@@ -310,7 +310,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * Initialize creation data from existing order
      *
      * @param \Magento\Sales\Model\Order $order
-     * @return \Magento\Adminhtml\Model\Sales\Order\Create
+     * @return \Magento\Sales\Model\AdminOrder\Create
      */
     public function initFromOrder(\Magento\Sales\Model\Order $order)
     {
@@ -560,7 +560,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * @param   int|\Magento\Sales\Model\Quote\Item $item
      * @param   string $moveTo
      * @param   int $qty
-     * @return  \Magento\Adminhtml\Model\Sales\Order\Create
+     * @return  \Magento\Sales\Model\AdminOrder\Create
      */
     public function moveQuoteItem($item, $moveTo, $qty)
     {
@@ -668,7 +668,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * Handle data sent from sidebar
      *
      * @param array $data
-     * @return \Magento\Adminhtml\Model\Sales\Order\Create
+     * @return \Magento\Sales\Model\AdminOrder\Create
      */
     public function applySidebarData($data)
     {
@@ -721,7 +721,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      *
      * @param   int $itemId
      * @param   string $from
-     * @return  \Magento\Adminhtml\Model\Sales\Order\Create
+     * @return  \Magento\Sales\Model\AdminOrder\Create
      */
     public function removeItem($itemId, $from)
     {
@@ -757,7 +757,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * Remove quote item
      *
      * @param   int $item
-     * @return  \Magento\Adminhtml\Model\Sales\Order\Create
+     * @return  \Magento\Sales\Model\AdminOrder\Create
      */
     public function removeQuoteItem($item)
     {
@@ -773,7 +773,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      *
      * @param   int|\Magento\Catalog\Model\Product $product
      * @param array|float|int|\Magento\Object $config
-     * @return  \Magento\Adminhtml\Model\Sales\Order\Create
+     * @return  \Magento\Sales\Model\AdminOrder\Create
      */
     public function addProduct($product, $config = 1)
     {
@@ -830,7 +830,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * Add multiple products to current order quote
      *
      * @param   array $products
-     * @return  \Magento\Adminhtml\Model\Sales\Order\Create|Exception
+     * @return  \Magento\Sales\Model\AdminOrder\Create|Exception
      */
     public function addProducts(array $products)
     {
@@ -852,7 +852,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      *
      * @param   array $data
      * @throws \Exception|\Magento\Core\Exception
-     * @return  \Magento\Adminhtml\Model\Sales\Order\Create
+     * @return  \Magento\Sales\Model\AdminOrder\Create
      */
     public function updateQuoteItems($data)
     {
@@ -1107,7 +1107,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      *
      * @param \Magento\Sales\Model\Quote\Address $address
      * @param array $data
-     * @return \Magento\Adminhtml\Model\Sales\Order\Create
+     * @return \Magento\Sales\Model\AdminOrder\Create
      */
     protected function _setQuoteAddress(\Magento\Sales\Model\Quote\Address $address, array $data)
     {
@@ -1300,7 +1300,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * Parse data retrieved from request
      *
      * @param   array $data
-     * @return  \Magento\Adminhtml\Model\Sales\Order\Create
+     * @return  \Magento\Sales\Model\AdminOrder\Create
      */
     public function importPostData($data)
     {
@@ -1364,7 +1364,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * Set and validate Customer data
      *
      * @param \Magento\Customer\Model\Customer $customer
-     * @return \Magento\Adminhtml\Model\Sales\Order\Create
+     * @return \Magento\Sales\Model\AdminOrder\Create
      */
     protected function _setCustomerData(\Magento\Customer\Model\Customer $customer)
     {
@@ -1394,7 +1394,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     /**
      * Prepare quote customer
      *
-     * @return \Magento\Adminhtml\Model\Sales\Order\Create
+     * @return \Magento\Sales\Model\AdminOrder\Create
      */
     public function _prepareCustomer()
     {
@@ -1599,7 +1599,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     /**
      * Validate quote data before order creation
      *
-     * @return \Magento\Adminhtml\Model\Sales\Order\Create
+     * @return \Magento\Sales\Model\AdminOrder\Create
      */
     protected function _validate()
     {

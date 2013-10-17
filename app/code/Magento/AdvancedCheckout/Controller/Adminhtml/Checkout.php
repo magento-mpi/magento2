@@ -386,7 +386,7 @@ class Checkout extends \Magento\Backend\Controller\Adminhtml\Action
             $activeQuote = $this->getCartModel()->getQuote();
             $quote = $this->getCartModel()->copyQuote($activeQuote);
             if ($quote->getId()) {
-                $session = $this->_objectManager->get('Magento\Adminhtml\Model\Sales\Order\Create')->getSession();
+                $session = $this->_objectManager->get('Magento\Sales\Model\AdminOrder\Create')->getSession();
                 $session->setQuoteId($quote->getId())
                    ->setStoreId($quote->getStoreId())
                    ->setCustomerId($quote->getCustomerId());

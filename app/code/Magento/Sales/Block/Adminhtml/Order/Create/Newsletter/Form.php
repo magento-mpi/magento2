@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * Adminhtml sales order create newsletter form block
  *
  * @category   Magento
- * @package    Magento_Adminhtml
+ * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 

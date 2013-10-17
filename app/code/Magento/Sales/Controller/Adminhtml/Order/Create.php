@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -52,11 +52,11 @@ class Create extends \Magento\Backend\Controller\Adminhtml\Action
     /**
      * Retrieve order create model
      *
-     * @return \Magento\Adminhtml\Model\Sales\Order\Create
+     * @return \Magento\Sales\Model\AdminOrder\Create
      */
     protected function _getOrderCreateModel()
     {
-        return $this->_objectManager->get('Magento\Adminhtml\Model\Sales\Order\Create');
+        return $this->_objectManager->get('Magento\Sales\Model\AdminOrder\Create');
     }
 
     /**

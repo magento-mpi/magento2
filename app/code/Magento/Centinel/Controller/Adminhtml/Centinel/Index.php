@@ -107,7 +107,7 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
      */
     private function _getPayment()
     {
-        return $this->_objectManager->get('Magento\Adminhtml\Model\Sales\Order\Create')->getQuote()->getPayment();
+        return $this->_objectManager->get('Magento\Sales\Model\AdminOrder\Create')->getQuote()->getPayment();
     }
 
     /**

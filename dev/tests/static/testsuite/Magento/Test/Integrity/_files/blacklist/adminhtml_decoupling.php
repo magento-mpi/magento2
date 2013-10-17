@@ -58,7 +58,6 @@ return array(
     'Helper/Media',
     'Helper/Data',
     'Helper/Js',
-    'Helper/Sales',
 
     // Models
     'Model/Customer',
@@ -68,7 +67,6 @@ return array(
     'Model/Newsletter',
     'Model/Observer',
     'Model/Report',
-    'Model/Sales',
     'Model/Search',
     'Model/Session',
 

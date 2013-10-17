@@ -3,14 +3,14 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Sales
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 
-namespace Magento\Adminhtml\Controller\Sales\Order;
+namespace Magento\Sales\Controller\Adminhtml\Order;
 
 /**
  * @magentoAppArea adminhtml
@@ -19,7 +19,7 @@ class CreditmemoTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * @magentoConfigFixture current_store cataloginventory/item_options/auto_return 1
-     * @magentoDataFixture Magento/Adminhtml/controllers/Sales/_files/order_info.php
+     * @magentoDataFixture Magento/Sales/_files/order_info.php
      */
     public function testAddCommentAction()
     {
@@ -42,7 +42,7 @@ class CreditmemoTest extends \Magento\Backend\Utility\Controller
         $this->getRequest()->setParam('creditmemo_id', $creditmemo->getId());
         $this->getRequest()->setPost('comment', array(
             'comment' => $comment));
-        $this->dispatch('backend/admin/sales_order_creditmemo/addComment/id/' . $creditmemo->getId());
+        $this->dispatch('backend/sales/order_creditmemo/addComment/id/' . $creditmemo->getId());
 
         $html = $this->getResponse()->getBody();
 

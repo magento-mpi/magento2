@@ -3,13 +3,13 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Sales
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Model\Sales\Order;
+namespace Magento\Sales\Model\AdminOrder;
 
 /**
  * @magentoAppArea adminhtml
@@ -19,7 +19,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
     /**
      * Model instance
      *
-     * @var \Magento\Adminhtml\Model\Sales\Order\Create
+     * @var \Magento\Sales\Model\AdminOrder\Create
      */
     protected $_model;
 
@@ -28,7 +28,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         parent::setUp();
 
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Adminhtml\Model\Sales\Order\Create');
+            ->create('Magento\Sales\Model\AdminOrder\Create');
     }
 
     /**
@@ -54,7 +54,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Downloadable/_files/product.php
      * @magentoDataFixture Magento/Downloadable/_files/order_with_downloadable_product.php
-     * @magentoDataFixture Magento/Adminhtml/_files/order_shipping_address_same_as_billing.php
+     * @magentoDataFixture Magento/Sales/_files/order_shipping_address_same_as_billing.php
      */
     public function testInitFromOrderShippingAddressSameAsBillingWhenSame()
     {
@@ -76,7 +76,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Downloadable/_files/product.php
      * @magentoDataFixture Magento/Downloadable/_files/order_with_downloadable_product.php
-     * @magentoDataFixture Magento/Adminhtml/_files/order_shipping_address_different_to_billing.php
+     * @magentoDataFixture Magento/Sales/_files/order_shipping_address_different_to_billing.php
      */
     public function testInitFromOrderShippingAddressSameAsBillingWhenDifferent()
     {

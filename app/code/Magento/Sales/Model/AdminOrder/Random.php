@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,7 +14,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  *
  */
-namespace Magento\Adminhtml\Model\Sales\Order;
+namespace Magento\Sales\Model\AdminOrder;
 
 /**
  * @SuppressWarnings(PHPMD.LongVariable)

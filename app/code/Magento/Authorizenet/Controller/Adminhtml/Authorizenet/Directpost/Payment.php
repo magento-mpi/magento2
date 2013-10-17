@@ -62,11 +62,11 @@ class Payment
     /**
      * Retrieve order create model
      *
-     * @return \Magento\Adminhtml\Model\Sales\Order\Create
+     * @return \Magento\Sales\Model\AdminOrder\Create
      */
     protected function _getOrderCreateModel()
     {
-        return $this->_objectManager->get('Magento\Adminhtml\Model\Sales\Order\Create');
+        return $this->_objectManager->get('Magento\Sales\Model\AdminOrder\Create');
     }
 
     /**

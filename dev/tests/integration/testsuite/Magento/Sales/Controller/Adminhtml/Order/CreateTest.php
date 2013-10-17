@@ -3,14 +3,14 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Sales
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 
-namespace Magento\Adminhtml\Controller\Sales\Order;
+namespace Magento\Sales\Controller\Adminhtml\Order;
 
 /**
  * @magentoAppArea adminhtml
@@ -21,7 +21,7 @@ class CreateTest extends \Magento\Backend\Utility\Controller
     {
         $this->getRequest()->setParam('block', ',');
         $this->getRequest()->setParam('json', 1);
-        $this->dispatch('backend/admin/sales_order_create/loadBlock');
+        $this->dispatch('backend/sales/order_create/loadBlock');
         $this->assertEquals('{"message":""}', $this->getResponse()->getBody());
     }
 
@@ -30,11 +30,11 @@ class CreateTest extends \Magento\Backend\Utility\Controller
      */
     public function testLoadBlockActionData()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Adminhtml\Model\Sales\Order\Create')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Sales\Model\AdminOrder\Create')
             ->addProducts(array(1 => array('qty' => 1)));
         $this->getRequest()->setParam('block', 'data');
         $this->getRequest()->setParam('json', 1);
-        $this->dispatch('backend/admin/sales_order_create/loadBlock');
+        $this->dispatch('backend/sales/order_create/loadBlock');
         $html = $this->getResponse()->getBody();
         $this->assertContains('<div id=\"sales_order_create_search_grid\">', $html);
         $this->assertContains('<div id=\"order-billing_method_form\">', $html);
@@ -49,7 +49,7 @@ class CreateTest extends \Magento\Backend\Utility\Controller
     {
         $this->getRequest()->setParam('block', $block);
         $this->getRequest()->setParam('json', 1);
-        $this->dispatch('backend/admin/sales_order_create/loadBlock');
+        $this->dispatch('backend/sales/order_create/loadBlock');
         $html = $this->getResponse()->getBody();
         $this->assertContains($expected, $html);
     }
@@ -70,11 +70,11 @@ class CreateTest extends \Magento\Backend\Utility\Controller
      */
     public function testLoadBlockActionItems()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Adminhtml\Model\Sales\Order\Create')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Sales\Model\AdminOrder\Create')
             ->addProducts(array(1 => array('qty' => 1)));
         $this->getRequest()->setParam('block', 'items');
         $this->getRequest()->setParam('json', 1);
-        $this->dispatch('backend/admin/sales_order_create/loadBlock');
+        $this->dispatch('backend/sales/order_create/loadBlock');
         $html = $this->getResponse()->getBody();
         $this->assertContains('id=\"coupons:code\"', $html);
     }
@@ -84,11 +84,11 @@ class CreateTest extends \Magento\Backend\Utility\Controller
      */
     public function testIndexAction()
     {
-        /** @var $order \Magento\Adminhtml\Model\Sales\Order\Create */
+        /** @var $order \Magento\Sales\Model\AdminOrder\Create */
         $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Adminhtml\Model\Sales\Order\Create');
+            ->get('Magento\Sales\Model\AdminOrder\Create');
         $order->addProducts(array(1 => array('qty' => 1)));
-        $this->dispatch('backend/admin/sales_order_create/index');
+        $this->dispatch('backend/sales/order_create/index');
         $html = $this->getResponse()->getBody();
         $this->assertContains('<div id="order-customer-selector"', $html);
         $this->assertContains('<div id="sales_order_create_customer_grid">', $html);

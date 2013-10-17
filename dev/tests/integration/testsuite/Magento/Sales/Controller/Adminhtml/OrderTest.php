@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Sales
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -19,7 +19,7 @@ class OrderTest extends \Magento\Backend\Utility\Controller
 {
     public function testIndexAction()
     {
-        $this->dispatch('backend/admin/sales_order/index');
+        $this->dispatch('backend/sales/order/index');
         $this->assertContains('Total 0 records found', $this->getResponse()->getBody());
     }
 
@@ -28,7 +28,7 @@ class OrderTest extends \Magento\Backend\Utility\Controller
      */
     public function testIndexActionWithOrder()
     {
-        $this->dispatch('backend/admin/sales_order/index');
+        $this->dispatch('backend/sales/order/index');
         $this->assertContains('Total 1 records found', $this->getResponse()->getBody());
     }
 
@@ -41,19 +41,19 @@ class OrderTest extends \Magento\Backend\Utility\Controller
         $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Sales\Model\Order');
         $order->load('100000001', 'increment_id');
-        $this->dispatch('backend/admin/sales_order/view/order_id/' . $order->getId());
+        $this->dispatch('backend/sales/order/view/order_id/' . $order->getId());
         $this->assertContains('Los Angeles', $this->getResponse()->getBody());
     }
 
     public function testAddressActionNonExistingAddress()
     {
         $this->getRequest()->setParam('address_id', -1);
-        $this->dispatch('backend/admin/sales_order/address');
+        $this->dispatch('backend/sales/order/address');
         $this->assertRedirect();
     }
 
     /**
-     * @magentoDataFixture Magento/Adminhtml/controllers/Sales/_files/address.php
+     * @magentoDataFixture Magento/Sales/_files/address.php
      */
     public function testAddressActionNoVAT()
     {
@@ -62,7 +62,7 @@ class OrderTest extends \Magento\Backend\Utility\Controller
             ->create('Magento\Sales\Model\Order\Address');
         $address->load('a_unique_firstname', 'firstname');
         $this->getRequest()->setParam('address_id', $address->getId());
-        $this->dispatch('backend/admin/sales_order/address');
+        $this->dispatch('backend/sales/order/address');
         $html = $this->getResponse()->getBody();
         $prohibitedStrings = array('validate-vat', 'validateVat', 'Validate VAT');
         foreach ($prohibitedStrings as $string) {
@@ -87,7 +87,7 @@ class OrderTest extends \Magento\Backend\Utility\Controller
         $order->load('100000001', 'increment_id');
 
         $this->getRequest()->setPost(array('history' => array('status' => $status, 'comment' => $comment)));
-        $this->dispatch('backend/admin/sales_order/addComment/order_id/' . $order->getId());
+        $this->dispatch('backend/sales/order/addComment/order_id/' . $order->getId());
         $html = $this->getResponse()->getBody();
 
         $this->assertContains($response, $html);

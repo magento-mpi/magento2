@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Adminhtml\Controller\Sales\Order;
+namespace Magento\Sales\Controller\Adminhtml\Order;
 
 class CreditmemoTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Adminhtml\Controller\Sales\Order\Creditmemo
+     * @var \Magento\Sales\Controller\Adminhtml\Order\Creditmemo
      */
     protected $_controller;
 
@@ -63,7 +63,7 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
 
         $context = $helper->getObject('Magento\Backend\Controller\Context', $arguments);
 
-        $this->_controller = $helper->getObject('Magento\Adminhtml\Controller\Sales\Order\Creditmemo',
+        $this->_controller = $helper->getObject('Magento\Sales\Controller\Adminhtml\Order\Creditmemo',
             array('context' => $context));
     }
 

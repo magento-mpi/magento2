@@ -27,7 +27,7 @@ class Wishlist
 
     /**
      * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
-     * @param \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate
+     * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Sales\Model\Config $salesConfig
@@ -36,7 +36,7 @@ class Wishlist
      */
     public function __construct(
         \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
-        \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate,
+        \Magento\Sales\Model\AdminOrder\Create $orderCreate,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Sales\Model\Config $salesConfig,

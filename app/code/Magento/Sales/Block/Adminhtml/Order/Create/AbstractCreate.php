@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * Adminhtml sales order create abstract block
  *
  * @category   Magento
- * @package    Magento_Adminhtml
+ * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Create;
@@ -25,13 +25,13 @@ abstract class AbstractCreate extends \Magento\Backend\Block\Widget
     protected $_sessionQuote;
 
     /**
-     * @var \Magento\Adminhtml\Model\Sales\Order\Create
+     * @var \Magento\Sales\Model\AdminOrder\Create
      */
     protected $_orderCreate;
 
     public function __construct(
         \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
-        \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate,
+        \Magento\Sales\Model\AdminOrder\Create $orderCreate,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         array $data = array()
@@ -44,7 +44,7 @@ abstract class AbstractCreate extends \Magento\Backend\Block\Widget
     /**
      * Retrieve create order model object
      *
-     * @return \Magento\Adminhtml\Model\Sales\Order\Create
+     * @return \Magento\Sales\Model\AdminOrder\Create
      */
     public function getCreateOrderModel()
     {
