@@ -161,7 +161,7 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
                 $layout->xpath('//argument[@name="testArrayWithUpdater"]'),
                 array(
                     'type' => 'array',
-                    'updaters' => array('Magento\SalesArchive\Model\Order\Grid\Massaction\ItemsUpdater'),
+                    'updaters' => array('Magento\Sales\Model\Order\Grid\Massaction\ItemsUpdater'),
                     'value' => array(
                         'add' => 'array',
                     ),

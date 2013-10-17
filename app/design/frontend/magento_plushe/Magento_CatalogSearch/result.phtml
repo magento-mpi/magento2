@@ -9,22 +9,22 @@
 ?>
 <?php if($this->getResultCount()): ?>
 <?php echo $this->getChildHtml('tagged_product_list_rss_link'); ?>
-<div class="results-view">
+<div class="search results">
     <?php if ($messages = $this->getNoteMessages()):?>
-    <p class="note-msg">
-        <span>
+    <div class="note-msg">
+        <div>
             <?php foreach ($messages as $message):?>
                 <?php echo $message?><br />
             <?php endforeach;?>
-        </span>
-    </p>
+        </div>
+    </div>
     <?php endif; ?>
     <?php echo $this->getProductListHtml() ?>
 </div>
 <?php else: ?>
 
-<p class="note-msg">
-    <span>
+<div class="note-msg">
+    <div>
         <?php echo ($this->getNoResultText()) ? $this->getNoResultText() : __('Your search returns no results.') ?>
         <?php echo $this->getAdditionalHtml() ?>
         <?php if ($messages = $this->getNoteMessages()):?>
@@ -32,6 +32,6 @@
                 <br /><?php echo $message?>
             <?php endforeach;?>
         <?php endif; ?>
-    </span>
-</p>
+    </div>
+</div>
 <?php endif; ?>
