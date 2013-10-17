@@ -100,9 +100,7 @@ class RewriteTest extends \PHPUnit_Framework_TestCase
     public function testRewrite()
     {
         $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\App\RequestInterface')->setPathInfo('fancy/url.html');
-        $response = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\TestFramework\Response');
+            ->create('Magento\App\RequestInterface')->setPathInfo('fancy/url.html');
         $_SERVER['QUERY_STRING'] = 'foo=bar&___fooo=bar';
 
         $this->_model->setRequestPath('fancy/url.html')
@@ -111,7 +109,7 @@ class RewriteTest extends \PHPUnit_Framework_TestCase
             ->save();
 
         try {
-            $this->assertTrue($this->_model->rewrite(null, $response));
+            $this->assertTrue($this->_model->rewrite($request));
             $this->assertEquals('/another/fancy/url.html?foo=bar', $request->getRequestUri());
             $this->assertEquals('another/fancy/url.html', $request->getPathInfo());
             $this->_model->delete();
@@ -123,26 +121,26 @@ class RewriteTest extends \PHPUnit_Framework_TestCase
 
     public function testRewriteNonExistingRecord()
     {
-        $response = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\TestFramework\Response');
-        $this->assertFalse($this->_model->rewrite(null, $response));
+        $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\App\RequestInterface');
+        $this->assertFalse($this->_model->rewrite($request));
     }
 
     public function testRewriteWrongStore()
     {
-        $response = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\TestFramework\Response');
+        $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\App\RequestInterface');
         $_GET['___from_store'] = uniqid('store');
-        $this->assertFalse($this->_model->rewrite(null, $response));
+        $this->assertFalse($this->_model->rewrite($request));
     }
 
     public function testRewriteNonExistingRecordCorrectStore()
     {
-        $response = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\TestFramework\Response');
+        $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\App\RequestInterface');
         $_GET['___from_store'] = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\StoreManagerInterface')->getDefaultStoreView()->getCode();
-        $this->assertFalse($this->_model->rewrite(null, $response));
+        $this->assertFalse($this->_model->rewrite($request));
     }
 
     public function testGetStoreId()

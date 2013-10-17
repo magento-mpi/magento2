@@ -32,7 +32,7 @@ class ActionTest extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $request \Magento\TestFramework\Request */
-        $request = $objectManager->get('Magento\TestFramework\Request');
+        $request = $objectManager->get('Magento\App\RequestInterface');
         $arguments = array(
             'request'  => $request,
             'response' => $this->_objectManager->get('Magento\TestFramework\Response'),

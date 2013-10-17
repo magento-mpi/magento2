@@ -65,8 +65,11 @@ class AreaTest extends \PHPUnit_Framework_TestCase
     // @codingStandardsIgnoreEnd
     public function testDetectDesignUserAgent()
     {
-        $_SERVER['HTTP_USER_AGENT'] = 'Mozilla Firefox';
-        $this->_model->detectDesign(new \Magento\App\RequestInterface);
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var $request \Magento\TestFramework\Request */
+        $request = $objectManager->create('Magento\TestFramework\Request');
+        $request->setServer(array('HTTP_USER_AGENT' => 'Mozilla Firefox'));
+        $this->_model->detectDesign($request);
         $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\View\DesignInterface');
         $this->assertEquals('magento_blank', $design->getDesignTheme()->getThemePath());
@@ -95,12 +98,13 @@ class AreaTest extends \PHPUnit_Framework_TestCase
     // @codingStandardsIgnoreEnd
     public function testDetectDesignNonFrontend()
     {
-        $_SERVER['HTTP_USER_AGENT'] = 'Mozilla Firefox';
-        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\App\Area', array('areaCode' => 'install'));
-        $model->detectDesign(new \Magento\App\RequestInterface);
-        $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\View\DesignInterface');
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $model = $objectManager->create('Magento\Core\Model\App\Area', array('areaCode' => 'install'));
+        /** @var $request \Magento\TestFramework\Request */
+        $request = $objectManager->create('Magento\TestFramework\Request');
+        $request->setServer(array('HTTP_USER_AGENT' => 'Mozilla Firefox'));
+        $model->detectDesign($request);
+        $design = $objectManager->get('Magento\Core\Model\View\DesignInterface');
         $this->assertNotEquals('magento_blank', $design->getDesignTheme()->getThemePath());
     }
 }

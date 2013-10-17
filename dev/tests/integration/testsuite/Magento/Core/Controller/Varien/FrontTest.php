@@ -44,7 +44,7 @@ class FrontTest extends \PHPUnit_Framework_TestCase
 
     public function testGetRequest()
     {
-        $this->assertInstanceOf('Magento\App\RequestInterface', $this->_model->getRequest());
+        $this->assertNull($this->_model->getRequest());
     }
 
     public function testGetResponse()
@@ -59,16 +59,6 @@ class FrontTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Magento\App\ResponseInterface', $this->_model->getResponse());
     }
 
-    public function testGetRouters()
-    {
-        $routers = $this->_model->getRouters();
-        $routerIds = array_keys($routers);
-        foreach (array('admin', 'standard', 'default', 'cms', 'vde') as $routerId) {
-            $this->assertContains($routerId, $routerIds);
-            $this->assertInstanceOf('Magento\Core\Controller\Varien\Router\AbstractRouter', $routers[$routerId]);
-        }
-    }
-
     public function testDispatch()
     {
         if (!\Magento\TestFramework\Helper\Bootstrap::canTestHeaders()) {
@@ -79,26 +69,6 @@ class FrontTest extends \PHPUnit_Framework_TestCase
         $this->_model->getRequest()->setRequestUri('core/index/index');
         $this->_model->dispatch($request);
         $this->assertEmpty($this->_model->getResponse()->getBody());
-    }
-
-    /**
-     * @param string $sourcePath
-     * @param string $resultPath
-     *
-     * @dataProvider applyRewritesDataProvider
-     * @magentoConfigFixture global/rewrite/test_url/from /test\/(\w*)/
-     * @magentoConfigFixture global/rewrite/test_url/to   new_test/$1/subdirectory
-     * @magentoDataFixture Magento/Core/_files/url_rewrite.php
-     * @magentoDbIsolation enabled
-     */
-    public function testApplyRewrites($sourcePath, $resultPath)
-    {
-        /** @var $request \Magento\App\RequestInterface */
-        $request = $this->_objectManager->create('Magento\App\RequestInterface');
-        $request->setPathInfo($sourcePath);
-
-        $this->_model->applyRewrites($request);
-        $this->assertEquals($resultPath, $request->getPathInfo());
     }
 
     /**
