@@ -88,10 +88,11 @@ class TreeElement extends Element
     public function clickByPath($path)
     {
         $pathArray = explode('/', $path);
+        $pathArrayLength = count($pathArray);
         $structureChunk = $this->getStructure(); //Set the root of a structure as a first structure chunk
-        for($i = 0; $i < count($pathArray); $i++) {
+        for ($i = 0; $i < $pathArrayLength; $i++) {
             $structureChunk = $this->deep($pathArray[$i], $structureChunk);
-            $structureChunk = ($i == count($pathArray) - 1) ? $structureChunk['element'] : $structureChunk['subnodes'];
+            $structureChunk = ($i == $pathArrayLength - 1) ? $structureChunk['element'] : $structureChunk['subnodes'];
         }
         if ($structureChunk) {
             $needleElement = $structureChunk->find('div > a');
