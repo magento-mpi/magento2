@@ -198,7 +198,10 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
              * @param array $file
              */
             function ($file) {
-                $relativePath = str_replace(\Magento\TestFramework\Utility\Files::init()->getPathToSource(), "", $file);
+                $relativePath = str_replace(\Magento\TestFramework\Utility\Files::init()->getPathToSource() . "/",
+                    "",
+                    $file
+                );
                 // exceptions made for the files from the blacklist
                 self::_setNamespaceBlackList();
                 if (in_array($relativePath, self::$_namespaceBlacklist)) {
