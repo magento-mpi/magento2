@@ -29,7 +29,9 @@ class Http extends \Magento\Core\Model\AbstractEntryPoint
             header('Content-Type: text/plain', true, 503);
             echo $e->getMessage();
         } catch (\Exception $e) {
-            $this->processException($e);
+            /** @var $store \Magento\Core\Model\Store */
+            $store = $this->_objectManager->get('Magento\Core\Model\StoreManager')->getStore();
+            $this->_errorHandler->processException($e, $store->getCode());
         }
     }
 

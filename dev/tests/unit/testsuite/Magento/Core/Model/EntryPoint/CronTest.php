@@ -24,7 +24,8 @@ class CronTest extends \PHPUnit_Framework_TestCase
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
         $config = $this->getMock('Magento\Core\Model\Config\Primary', array(), array(), '', false);
 
-        $this->_model = new \Magento\Core\Model\EntryPoint\Cron($config, $this->_objectManagerMock);
+        $this->_model = $this->getMock('\Magento\Core\Model\EntryPoint\Cron', array('_initErrorHandler'),
+            array($config, $this->_objectManagerMock));
     }
 
     public function testProcessRequest()

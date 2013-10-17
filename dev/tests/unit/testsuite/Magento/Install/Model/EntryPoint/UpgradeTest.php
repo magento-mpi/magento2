@@ -72,7 +72,8 @@ class UpgradeTest extends \PHPUnit_Framework_TestCase
         $this->_config->expects($this->once())
             ->method('getParam')->with(\Magento\Install\Model\EntryPoint\Upgrade::REINDEX)
             ->will($this->returnValue($reindexMode));
-        $upgrade = new \Magento\Install\Model\EntryPoint\Upgrade($this->_config, $this->_objectManager);
+        $upgrade = $this->getMock('\Magento\Install\Model\EntryPoint\Upgrade', array('_initErrorHandler'),
+            array($this->_config, $this->_objectManager));
         $upgrade->processRequest();
     }
 

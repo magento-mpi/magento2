@@ -55,9 +55,8 @@ class ConsoleTest extends \PHPUnit_Framework_TestCase
 
     protected function _createModel($params = array())
     {
-        return new \Magento\Install\Model\EntryPoint\Console('', $params, $this->_configMock,
-            $this->_objectManagerMock, $this->_outputMock
-        );
+        return $this->getMock('\Magento\Install\Model\EntryPoint\Console', array('_initErrorHandler'),
+            array('', $params, $this->_configMock, $this->_objectManagerMock, $this->_outputMock));
     }
 
     protected function tearDown()

@@ -27,6 +27,7 @@
     <preference for="Magento\Phrase\RendererInterface" type="Magento\Phrase\Renderer\Composite" />
     <preference for="Magento\Core\Model\Url\SecurityInfoInterface" type="Magento\Core\Model\Url\SecurityInfo\Proxy" />
     <preference for="Magento\Core\Model\Module\ResourceResolverInterface" type="Magento\Core\Model\Module\ResourceResolver" />
+    <preference for="Magento\Error\HandlerInterface" type="Magento\Error\Handler" />
     <type name="Magento\Data\Structure" shared="false" />
     <type name="Magento\Data\Collection\Db\FetchStrategy\Cache">
         <param name="cache">
