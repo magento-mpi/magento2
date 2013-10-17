@@ -10,6 +10,7 @@ namespace Magento\Tools\Formatter\PrettyPrinter;
 use PHPParser_Node;
 use PHPParser_Parser;
 use Magento\Tools\Formatter\ParserLexer;
+use Magento\Tools\Formatter\PrettyPrinter\Statement\StatementFactory;
 use Magento\Tools\Formatter\Tree\Tree;
 use Magento\Tools\Formatter\Tree\TreeNode;
 
@@ -92,7 +93,12 @@ class Printer
         $this->formatTree($tree);
     }
 
-    protected function formatTree($tree) {
+    /**
+     * This method takes the statement tree and levels it (i.e. makes sure lines are at the correct
+     * level) and prints the tree.
+     * @param Tree $tree Tree to operate upon.
+     */
+    protected function formatTree(Tree $tree) {
         // level the nodes to even out the lines
         $visitor = new NodeLeveler();
         $tree->traverse($visitor);

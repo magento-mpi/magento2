@@ -6,8 +6,10 @@
  * @license   {license_link}
  */
 
-namespace Magento\Tools\Formatter\PrettyPrinter;
+namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
+use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
+use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 
 /**

@@ -6,7 +6,7 @@
  * @license   {license_link}
  */
 
-namespace Magento\Tools\Formatter\PrettyPrinter;
+namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
 /**
  * This class controls the mapping of the parser nodes to printer nodes.

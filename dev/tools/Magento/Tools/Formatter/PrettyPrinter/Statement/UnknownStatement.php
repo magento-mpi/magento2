@@ -5,18 +5,23 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Tools\Formatter\PrettyPrinter;
 
-use Magento\Tools\Formatter\Tree\Tree;
+namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
+
+use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
+use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 
-class InlineHtmlStatement extends StatementAbstract
+/**
+ * This class generically represents the passed in node.
+ */
+class UnknownStatement extends StatementAbstract
 {
     /**
      * This method constructs a new statement based on the specify class node
-     * @param \PHPParser_Node_Stmt_InlineHTML $node
+     * @param \PHPParser_NodeAbstract $node
      */
-    public function __construct(\PHPParser_Node_Stmt_InlineHTML $node)
+    public function __construct(\PHPParser_NodeAbstract $node)
     {
         parent::__construct($node);
     }
@@ -27,10 +32,7 @@ class InlineHtmlStatement extends StatementAbstract
      */
     public function resolve(TreeNode $treeNode)
     {
-        /* Reference
-        return '?>' . $this->pNoIndent("\n" . $node->value) . '<?php ';
-         */
         // replace the statement with the line since it is resolved or at least in the process of being resolved
-        $treeNode->setData(new Line($this->node->value));
+        $treeNode->setData((new Line('Unknown node: '))->add($this->node->getType())->add(new HardLineBreak()));
     }
 }

@@ -5,10 +5,12 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Tools\Formatter\PrettyPrinter;
+namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
+use Magento\Tools\Formatter\PrettyPrinter\ConditionalLineBreak;
+use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
+use Magento\Tools\Formatter\PrettyPrinter\Line;
 use PHPParser_Node;
-use Magento\Tools\Formatter\Tree\Tree;
 use Magento\Tools\Formatter\Tree\TreeNode;
 
 /**
@@ -40,34 +42,10 @@ abstract class StatementAbstract
     public abstract function resolve(TreeNode $treeNode);
 
     /**
-     * This method adds any comments in the current node to the passed in tree.
-     * @param Tree $tree
-     */
-    protected function addComments(Tree $tree)
-    {
-        /* Reference
-           $comments = $this->pComments($node->getAttribute('comments', array()));
-        */
-        // only attempt to add comments if they are present
-        if ($this->node->hasAttribute(self::ATTRIBUTE_COMMENTS)) {
-            // add individual lines of the comments to the tree
-            $comments = $this->node->getAttribute(self::ATTRIBUTE_COMMENTS);
-            foreach ($comments as $comment) {
-                // split the lines so that they can be indented correctly
-                $commentLines = explode(HardLineBreak::EOL, $comment->getReformattedText());
-                foreach ($commentLines as $commentLine) {
-                    // add the line individually to the tree so that they can be indented correctly
-                    $tree->addSibling(new TreeNode((new Line($commentLine))->add(new HardLineBreak())));
-                }
-            }
-        }
-    }
-
-    /**
      * This method adds any comments in the current node as prior siblings to the current node.
      * @param TreeNode $treeNode Node representing the current node.
      */
-    protected function addCommentsBefore($treeNode) {
+    protected function addCommentsBefore(TreeNode $treeNode) {
         // only attempt to add comments if they are present
         if ($this->node->hasAttribute(self::ATTRIBUTE_COMMENTS)) {
             // add individual lines of the comments to the tree
@@ -172,7 +150,7 @@ abstract class StatementAbstract
     /**
      * This method resolves the node immediately.
      * @param PHPParser_Node $node
-     * @param Tree $tree Tree representation of the resulting code
+     * @param TreeNode $treeNode TreeNode representing the current node.
      */
     protected function resolveNode(PHPParser_Node $node, TreeNode $treeNode)
     {

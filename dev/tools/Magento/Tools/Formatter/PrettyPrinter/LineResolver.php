@@ -8,6 +8,7 @@
 
 namespace Magento\Tools\Formatter\PrettyPrinter;
 
+use Magento\Tools\Formatter\PrettyPrinter\Statement\StatementAbstract;
 use Magento\Tools\Formatter\Tree\NodeVisitorAbstract;
 use Magento\Tools\Formatter\Tree\TreeNode;
 
