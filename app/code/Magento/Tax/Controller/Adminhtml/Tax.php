@@ -15,7 +15,7 @@
  * @package     Magento_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Tax\Controller\Adminhtml\Tax;
+namespace Magento\Tax\Controller\Adminhtml;
 
 class Tax extends \Magento\Backend\Controller\Adminhtml\Action
 {

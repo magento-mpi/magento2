@@ -14,24 +14,24 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Tax\Block\Adminhtml\Tax\Rate\Title;
+namespace Magento\Tax\Block\Adminhtml\Rate\Title;
 
 class Fieldset extends \Magento\Data\Form\Element\Fieldset
 {
     /**
-     * @var \Magento\Tax\Block\Adminhtml\Tax\Rate\Title
+     * @var \Magento\Tax\Block\Adminhtml\Rate\Title
      */
     protected $_title;
 
     /**
-     * @param \Magento\Tax\Block\Adminhtml\Tax\Rate\Title $title
+     * @param \Magento\Tax\Block\Adminhtml\Rate\Title $title
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
      * @param array $attributes
      */
     public function __construct(
-        \Magento\Tax\Block\Adminhtml\Tax\Rate\Title $title,
+        \Magento\Tax\Block\Adminhtml\Rate\Title $title,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Data\Form\Element\Factory $factoryElement,
         \Magento\Data\Form\Element\CollectionFactory $factoryCollection,

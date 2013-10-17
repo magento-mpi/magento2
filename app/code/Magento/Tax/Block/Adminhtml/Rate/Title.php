@@ -14,7 +14,7 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Tax\Block\Adminhtml\Tax\Rate;
+namespace Magento\Tax\Block\Adminhtml\Rate;
 
 class Title extends \Magento\Core\Block\Template
 {

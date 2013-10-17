@@ -57,7 +57,7 @@
                         <argument name="align" xsi:type="string">left</argument>
                         <argument name="filter_index" xsi:type="string">main_table.tax_country_id</argument>
                         <argument name="index" xsi:type="string">tax_country_id</argument>
-                        <argument name="renderer" xsi:type="string">Magento\Tax\Block\Adminhtml\Tax\Rate\Grid\Renderer\Country</argument>
+                        <argument name="renderer" xsi:type="string">Magento\Tax\Block\Adminhtml\Rate\Grid\Renderer\Country</argument>
                         <argument name="sortable" xsi:type="string">0</argument>
                     </arguments>
                 </block>
@@ -86,7 +86,7 @@
                         <argument name="index" xsi:type="string">rate</argument>
                         <argument name="type" xsi:type="string">number</argument>
                         <argument name="default" xsi:type="string">0.00</argument>
-                        <argument name="renderer" xsi:type="string">Magento\Tax\Block\Adminhtml\Tax\Rate\Grid\Renderer\Data</argument>
+                        <argument name="renderer" xsi:type="string">Magento\Tax\Block\Adminhtml\Rate\Grid\Renderer\Data</argument>
                     </arguments>
                 </block>
             </block>

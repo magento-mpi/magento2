@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $this \Magento\Tax\Block\Adminhtml\Tax\Rule\Edit\Form */
+/** @var $this \Magento\Tax\Block\Adminhtml\Rule\Edit\Form */
 ?>
 <script type="text/javascript">
 (function ($) {
@@ -108,7 +108,7 @@
             var taxRate = $('#tax_rate'),
                 taxRateField = taxRate.parent(),
                 taxRateForm = $('#tax-rate-form'),
-                taxRateFormElement = $('#<?php echo \Magento\Tax\Block\Adminhtml\Tax\Rate\Form::FORM_ELEMENT_ID ?>');
+                taxRateFormElement = $('#<?php echo \Magento\Tax\Block\Adminhtml\Rate\Form::FORM_ELEMENT_ID ?>');
 
             if (!this.isEntityEditable) {
                 // Override default layout of editable multiselect

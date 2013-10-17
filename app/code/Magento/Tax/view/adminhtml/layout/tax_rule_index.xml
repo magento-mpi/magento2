@@ -8,8 +8,8 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <update handle="adminhtml_tax_rule_block"/>
+    <update handle="tax_rule_block"/>
     <referenceContainer name="content">
-        <block class="Magento\Tax\Block\Adminhtml\Tax\Rule" name="adminhtml.block.tax.rule.container"/>
+        <block class="Magento\Tax\Block\Adminhtml\Rule" name="adminhtml.block.tax.rule.container"/>
     </referenceContainer>
 </layout>

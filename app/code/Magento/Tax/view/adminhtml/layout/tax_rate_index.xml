@@ -9,8 +9,8 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="formkey"/>
-    <update handle="adminhtml_tax_rate_block"/>
+    <update handle="tax_rate_block"/>
     <referenceContainer name="content">
-        <block class="Magento\Tax\Block\Adminhtml\Tax\Rate\Toolbar\Add" name="adminhtml.tax.rate.container"/>
+        <block class="Magento\Tax\Block\Adminhtml\Rate\Toolbar\Add" name="adminhtml.tax.rate.container"/>
     </referenceContainer>
 </layout>

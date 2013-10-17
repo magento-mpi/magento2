@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-namespace Magento\Tax\Block\Adminhtml\Tax\Rate\Grid\Renderer;
+namespace Magento\Tax\Block\Adminhtml\Rate\Grid\Renderer;
 
 class Data extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {

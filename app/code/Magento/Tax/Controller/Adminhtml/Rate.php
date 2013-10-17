@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-namespace Magento\Tax\Controller\Adminhtml\Tax;
+namespace Magento\Tax\Controller\Adminhtml;
 
 class Rate extends \Magento\Backend\Controller\Adminhtml\Action
 {
@@ -53,13 +53,13 @@ class Rate extends \Magento\Backend\Controller\Adminhtml\Action
         }
 
         $this->_initAction()
-            ->_addBreadcrumb(__('Manage Tax Rates'), __('Manage Tax Rates'), $this->getUrl('*/tax_rate'))
+            ->_addBreadcrumb(__('Manage Tax Rates'), __('Manage Tax Rates'), $this->getUrl('*/rate'))
             ->_addBreadcrumb(__('New Tax Rate'), __('New Tax Rate'))
             ->_addContent(
-                $this->getLayout()->createBlock('Magento\Tax\Block\Adminhtml\Tax\Rate\Toolbar\Save')
+                $this->getLayout()->createBlock('Magento\Tax\Block\Adminhtml\Rate\Toolbar\Save')
                 ->assign('header', __('Add New Tax Rate'))
                 ->assign('form',
-                    $this->getLayout()->createBlock('Magento\Tax\Block\Adminhtml\Tax\Rate\Form', 'tax_rate_form')
+                    $this->getLayout()->createBlock('Magento\Tax\Block\Adminhtml\Rate\Form', 'tax_rate_form')
                 )
             )
             ->renderLayout();
@@ -100,7 +100,7 @@ class Rate extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_redirectReferer();
             return;
         }
-        $this->getResponse()->setRedirect($this->getUrl('*/tax_rate'));
+        $this->getResponse()->setRedirect($this->getUrl('*/rate'));
     }
 
     /**
@@ -179,13 +179,13 @@ class Rate extends \Magento\Backend\Controller\Adminhtml\Action
         $this->_title(sprintf("%s", $rateModel->getCode()));
 
         $this->_initAction()
-            ->_addBreadcrumb(__('Manage Tax Rates'), __('Manage Tax Rates'), $this->getUrl('*/tax_rate'))
+            ->_addBreadcrumb(__('Manage Tax Rates'), __('Manage Tax Rates'), $this->getUrl('*/rate'))
             ->_addBreadcrumb(__('Edit Tax Rate'), __('Edit Tax Rate'))
             ->_addContent(
-                $this->getLayout()->createBlock('Magento\Tax\Block\Adminhtml\Tax\Rate\Toolbar\Save')
+                $this->getLayout()->createBlock('Magento\Tax\Block\Adminhtml\Rate\Toolbar\Save')
                 ->assign('header', __('Edit Tax Rate'))
                 ->assign('form',
-                    $this->getLayout()->createBlock('Magento\Tax\Block\Adminhtml\Tax\Rate\Form', 'tax_rate_form')
+                    $this->getLayout()->createBlock('Magento\Tax\Block\Adminhtml\Rate\Form', 'tax_rate_form')
                         ->setShowLegend(true)
                 )
             )
@@ -308,8 +308,8 @@ class Rate extends \Magento\Backend\Controller\Adminhtml\Action
 
         $this->loadLayout()
             ->_setActiveMenu('Magento_Tax::system_convert_tax')
-            ->_addContent($this->getLayout()->createBlock('Magento\Tax\Block\Adminhtml\Tax\Rate\ImportExportHeader'))
-            ->_addContent($this->getLayout()->createBlock('Magento\Tax\Block\Adminhtml\Tax\Rate\ImportExport'))
+            ->_addContent($this->getLayout()->createBlock('Magento\Tax\Block\Adminhtml\Rate\ImportExportHeader'))
+            ->_addContent($this->getLayout()->createBlock('Magento\Tax\Block\Adminhtml\Rate\ImportExport'))
             ->renderLayout();
     }
 

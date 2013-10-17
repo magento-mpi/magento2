@@ -11,7 +11,7 @@
 /**
  * Adminhtml Tax Rule Edit Form
  */
-namespace Magento\Tax\Block\Adminhtml\Tax\Rule\Edit;
+namespace Magento\Tax\Block\Adminhtml\Rule\Edit;
 
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
@@ -173,7 +173,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         }
 
         $form->addValues($model->getData());
-        $form->setAction($this->getUrl('*/tax_rule/save'));
+        $form->setAction($this->getUrl('*/rule/save'));
         $form->setUseContainer($this->getUseContainer());
         $this->setForm($form);
 
@@ -201,9 +201,9 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     public function getTaxClassSelectConfig($classType)
     {
         $config = array(
-            'new_url' => $this->getUrl('adminhtml/tax_tax/ajaxSave/'),
-            'save_url' => $this->getUrl('adminhtml/tax_tax/ajaxSave/'),
-            'delete_url' => $this->getUrl('adminhtml/tax_tax/ajaxDelete/'),
+            'new_url' => $this->getUrl('*/tax/ajaxSave/'),
+            'save_url' => $this->getUrl('*/tax/ajaxSave/'),
+            'delete_url' => $this->getUrl('*/tax/ajaxDelete/'),
             'delete_confirm_message' => __('Do you really want to delete this tax class?'),
             'target_select_id' => $this->getTaxClassSelectHtmlId($classType),
             'add_button_caption' => __('Add New Tax Class'),
@@ -225,7 +225,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function getTaxRateDeleteUrl()
     {
-        return $this->getUrl('adminhtml/tax_rate/ajaxDelete/');
+        return $this->getUrl('tax/rate/ajaxDelete/');
     }
 
     /**
@@ -235,6 +235,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function getTaxRateSaveUrl()
     {
-        return $this->getUrl('adminhtml/tax_rate/ajaxSave/');
+        return $this->getUrl('tax/rate/ajaxSave/');
     }
 }

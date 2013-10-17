@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-namespace Magento\Tax\Block\Adminhtml\Tax\Rate\Toolbar;
+namespace Magento\Tax\Block\Adminhtml\Rate\Toolbar;
 
 class Save extends \Magento\Adminhtml\Block\Template
 {
@@ -26,7 +26,7 @@ class Save extends \Magento\Adminhtml\Block\Template
     protected function _construct()
     {
         parent::_construct();
-        $this->assign('createUrl', $this->getUrl('*/tax_rate/save'));
+        $this->assign('createUrl', $this->getUrl('*/rate/save'));
 
     }
 

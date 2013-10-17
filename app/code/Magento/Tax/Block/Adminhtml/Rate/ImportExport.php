@@ -9,7 +9,7 @@
  */
 
 
-namespace Magento\Tax\Block\Adminhtml\Tax\Rate;
+namespace Magento\Tax\Block\Adminhtml\Rate;
 
 class ImportExport extends \Magento\Adminhtml\Block\Widget
 {

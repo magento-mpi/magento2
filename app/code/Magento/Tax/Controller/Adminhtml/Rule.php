@@ -15,7 +15,7 @@
  * @package    Magento_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Tax\Controller\Adminhtml\Tax;
+namespace Magento\Tax\Controller\Adminhtml;
 
 class Rule extends \Magento\Backend\Controller\Adminhtml\Action
 {
@@ -112,7 +112,7 @@ class Rule extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_redirectReferer();
             return;
         }
-        $this->getResponse()->setRedirect($this->getUrl('*/tax_rule'));
+        $this->getResponse()->setRedirect($this->getUrl('*/rule'));
     }
 
     public function deleteAction()

@@ -12,7 +12,7 @@
  * Adminhtml tax rule Edit Container
  */
 
-namespace Magento\Tax\Block\Adminhtml\Tax\Rule;
+namespace Magento\Tax\Block\Adminhtml\Rule;
 
 class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
@@ -46,7 +46,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
     protected function _construct()
     {
         $this->_objectId = 'rule';
-        $this->_controller = 'adminhtml_tax_rule';
+        $this->_controller = 'adminhtml_rule';
         $this->_blockGroup = 'Magento_Tax';
 
         parent::_construct();

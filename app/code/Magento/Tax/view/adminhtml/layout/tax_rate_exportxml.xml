@@ -8,6 +8,6 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <update handle="adminhtml_tax_rate_block"/>
+    <update handle="tax_rate_block"/>
     <block class="Magento\Backend\Block\Widget\Grid\Container" name="adminhtml.tax.rate.container" template="Magento_Backend::widget/grid/container/empty.phtml"/>
 </layout>

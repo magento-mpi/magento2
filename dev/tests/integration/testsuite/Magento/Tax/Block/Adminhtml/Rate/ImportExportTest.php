@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Tax\Block\Adminhtml\Tax\Rate;
+namespace Magento\Tax\Block\Adminhtml\Rate;
 
 class ImportExportTest extends \PHPUnit_Framework_TestCase
 {
@@ -20,7 +20,7 @@ class ImportExportTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
-            ->createBlock('Magento\Tax\Block\Adminhtml\Tax\Rate\ImportExport')
+            ->createBlock('Magento\Tax\Block\Adminhtml\Rate\ImportExport')
             ->setArea('adminhtml');
     }
 
@@ -31,7 +31,7 @@ class ImportExportTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateBlock()
     {
-        $this->assertInstanceOf('Magento\Tax\Block\Adminhtml\Tax\Rate\ImportExport', $this->_block);
+        $this->assertInstanceOf('Magento\Tax\Block\Adminhtml\Rate\ImportExport', $this->_block);
     }
 
     public function testFormExists()
